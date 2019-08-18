@@ -1,8 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Terrestrial Reference Frame (TRF) classes L{RefFrame}, registry
-L{RefFrames} and L{TRFError}.
+u'''Terrestrial Reference Frame (TRF) classes L{RefFrame}, registry L{RefFrames} and L{TRFError}.
 
 Transcribed from I{Chris Veness'} (C) 2006-2019 JavaScript originals
 U{latlon-ellipsoidal-referenceframe.js<https://GitHub.com/chrisveness/geodesy/blob/master/
@@ -15,16 +14,16 @@ Reference Meridian<https://WikiPedia.org/wiki/IERS_Reference_Meridian>} (IRM) an
 the ellipsoid within a given I{Terrestrial Reference Frame} at a given I{epoch}.
 
 This is scratching the surface of complexities involved in high precision geodesy, but may
-be of interest and/or value to those with less demanding requirements.  More information
-U{here<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} and U{here
+be of interest and/or value to those with less demanding requirements.  More information U{here
+<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} and U{here
 <https://www.Movable-Type.co.UK/scripts/geodesy-library.html#latlon-ellipsoidal-referenceframe>}.
 
 Note that I{ITRF solutions} do not directly use an ellipsoid, but are specified by Cartesian
 coordinates.  The GRS80 ellipsoid is recommended for transformations to geographical coordinates.
 
 Note WGS84(G730/G873/G1150) are coincident with ITRF at 10-centimetre level, see also U{here
-<ftp://ITRF.ENSG.IGN.FR/pub/itrf/WGS84.TXT>}.  WGS84(G1674) and ITRF20014 / ITRF2008 ‘are
-likely to agree at the centimeter level’, see also U{QPS/QINSy<https://Confluence.QPS.NL/qinsy/
+<ftp://ITRF.ENSG.IGN.FR/pub/itrf/WGS84.TXT>}.  WGS84(G1674) and ITRF20014 / ITRF2008 ‘are likely
+to agree at the centimeter level’, see also U{QPS/QINSy<https://Confluence.QPS.NL/qinsy/
 en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45353274.html>}.
 
 @var RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005.0, ellipsoid=Ellipsoid(name='GRS80')
@@ -49,7 +48,7 @@ from pygeodesy.named import classname, _NamedDict as _X, \
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_LAZY.trf
-__version__ = '19.08.14'
+__version__ = '19.08.17'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value

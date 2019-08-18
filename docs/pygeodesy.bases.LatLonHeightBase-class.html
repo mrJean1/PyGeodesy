@@ -1,0 +1,1595 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.bases.LatLonHeightBase</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.bases-module.html" onclick="show_private();">Module&nbsp;bases</a> ::
+        Class&nbsp;LatLonHeightBase
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.bases.LatLonHeightBase-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class LatLonHeightBase</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+  object --+        
+           |        
+named._Named --+    
+               |    
+named._NamedBase --+
+                   |
+                  <strong class="uidshort">LatLonHeightBase</strong>
+</pre>
+
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a></li><li>, <a href="pygeodesy.nvector.LatLonNvectorBase-class.html">nvector.LatLonNvectorBase</a></li><li>, <a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a></li>  </ul>
+</dd></dl>
+
+<hr />
+<p>(INTERNAL) Base class for <code>LatLon</code> points on spherical or 
+  ellipsiodal earth models.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__eq__"></a><span class="summary-sig-name">__eq__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      New <code>LatLon</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__ne__"></a><span class="summary-sig-name">__ne__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      str(x)</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#antipode" class="summary-sig-name">antipode</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the antipode, the point diametrically opposite to this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="bounds"></a><span class="summary-sig-name">bounds</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">wide</span>,
+        <span class="summary-sig-arg">high</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      DEPRECATED, use method <code>boundsOf</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#boundsOf" class="summary-sig-name">boundsOf</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">wide</span>,
+        <span class="summary-sig-arg">high</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
+      Return the SE and NW lat-/longitude of a great circle bounding box 
+      centered at this location.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="compassAngle"></a><span class="summary-sig-name">compassAngle</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span><br />
+      DEPRECATED, use method <code>compassAngleTo</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngleTo" class="summary-sig-name">compassAngleTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return the angle from North for the direction vector between this and
+      an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Copy this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="equals"></a><span class="summary-sig-name">equals</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
+      DEPRECATED, use method <code>isequalTo</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="equals3"></a><span class="summary-sig-name">equals3</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
+      DEPRECATED, use method <code>isequalTo3</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo" class="summary-sig-name">equirectangularTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      Compute the distance between this and an other point using the <a 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
+      target="_top">Equirectangular Approximation / Projection</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#euclideanTo" class="summary-sig-name">euclideanTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**options</span>)</span><br />
+      Approximate the <code>Euclidian</code> distance between this and an 
+      other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo" class="summary-sig-name">haversineTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance between this and an other point using the <a 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
+      target="_top">Haversine</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isantipode"></a><span class="summary-sig-name">isantipode</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
+      DEPRECATED, use method <code>isantipodeTo</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo" class="summary-sig-name">isantipodeTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
+      Check whether this and an other point are antipodal, on diametrically
+      opposite sides of the earth.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo" class="summary-sig-name">isequalTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compare this point with an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo3" class="summary-sig-name">isequalTo3</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compare this point with an other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon2" class="summary-sig-name">latlon2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Return this point's lat- and longitude, rounded.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="latlon2round"></a><span class="summary-sig-name">latlon2round</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
+      DEPRECATED, use method <code>latlon2</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="latlon_"></a><span class="summary-sig-name">latlon_</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
+      DEPRECATED, use method <code>latlon2</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="points"></a><span class="summary-sig-name">points</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>)</span><br />
+      DEPRECATED, use method <code>points2</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Check a polygon represented by points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Return this point's lat- and longitude in <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh" class="summary-sig-name">to3llh</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return this point's lat-, longitude and height.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Convert this (geodetic) point to (n-)vector (normal to the earth's 
+      surface) x/y/z components, ignoring the height.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
+      Convert this point to a &quot;lat, lon [+/-height]&quot; string, 
+      formatted in the given form.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#vincentysTo" class="summary-sig-name">vincentysTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance between this and an other point using <a 
+      href="https://WikiPedia.org/wiki/Great-circle_distance" 
+      target="_top">Vincenty's</a> spherical formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
+      <code>__repr__</code>,
+      <code>others</code>,
+      <code>toStr2</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>__copy__</code>,
+      <code>classof</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.bases.LatLonHeightBase-class.html#height" class="summary-name">height</a><br />
+      Get the height (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.bases.LatLonHeightBase-class.html#lat" class="summary-name">lat</a><br />
+      Get the latitude (<code>degrees90</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon" class="summary-name">latlon</a><br />
+      Get the lat- and longitude (<a 
+      href="pygeodesy.named.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.bases.LatLonHeightBase-class.html#lon" class="summary-name">lon</a><br />
+      Get the longitude (<code>degrees180</code>).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
+      <code>classname</code>,
+      <code>classnaming</code>,
+      <code>name</code>,
+      <code>named</code>,
+      <code>named2</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New <code>LatLon</code>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code> or DMS <code>str</code> with N or 
+          S suffix).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code> or DMS <code>str</code> with E or
+          W suffix).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height (<code>meter</code> above or below the earth 
+          surface).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New instance (<code>LatLon</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Value of <b><code>lat</code></b> or <b><code>lon</code></b> outside
+        the valid range and <code>rangerrors</code> set to 
+        <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b> or <b><code>lon</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(50.06632, -5.71475)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(<span class="py-string">'50&#176;03&#8242;59&#8243;N'</span>, <span class="py-string">&quot;&quot;&quot;005&#176;42'53&quot;W&quot;&quot;&quot;</span>)</pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="__str__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__str__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Informal representation operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>str(x)</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__str__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="antipode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the antipode, the point diametrically opposite to this 
+  point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>height</code></strong> - Optional height of the antipode, height of this point otherwise 
+          (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The antipodal point (<code>LatLon</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="boundsOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">boundsOf</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">wide</span>,
+        <span class="sig-arg">high</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the SE and NW lat-/longitude of a great circle bounding box 
+  centered at this location.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>wide</code></strong> - Longitudinal box width (<code>meter</code>, same units as 
+          <b><code>radius</code></b> or <code>degrees</code> if 
+          <b><code>radius</code></b> is <code>None</code>).</li>
+        <li><strong class="pname"><code>high</code></strong> - Latitudinal box height (<code>meter</code>, same units as 
+          <b><code>radius</code></b> or <code>degrees</code> if 
+          <b><code>radius</code></b> is <code>None</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.Bounds2Tuple-class.html" 
+          class="link">Bounds2Tuple</a><code>(latlonSW, latlonNE)</code>, 
+          the lower-left and upper-right corner (<code>LatLon</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://www.Movable-Type.co.UK/scripts/latlong-db.html" 
+        target="_top">https://www.Movable-Type.co.UK/scripts/latlong-db.html</a>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="compassAngleTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">compassAngleTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the angle from North for the direction vector between this and 
+  an other point.</p>
+  <p>Suitable only for short, non-near-polar vectors up to a few hundred Km
+  or Miles.  Use method <code>initialBearingTo</code> for larger 
+  distances.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes and longitudinal delta 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Compass angle from North (<code>degrees360</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Courtesy Martin Schultz.
+      </p>
+      <p><strong>See Also:</strong>
+        <a href="https://www.EdWilliams.org/avform.htm#flat" 
+        target="_top">Local, flat earth approximation</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="copy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Copy this point.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The copy (<code>LatLon</code> or subclass thereof).</dd>
+    <dt>Overrides:
+        named._Named.copy
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="equirectangularTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equirectangularTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between this and an other point using the <a 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
+  target="_top">Equirectangular Approximation / Projection</a>.</p>
+  <p>Suitable only for short, non-near-polar distances up to a few hundred 
+  Km or Miles.  Use method <code>haversineTo</code> or 
+  <code>distanceTo*</code> for more accurate and/or larger distances.</p>
+  <p>See function <a href="pygeodesy.formy-module.html#equirectangular_" 
+  class="link">equirectangular_</a> for more details, the available 
+  <b><code>options</code></b> and errors raised.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>) or 
+          <code>None</code> for the mean radius of this point's datum 
+          ellipsoid.</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#equirectangular" 
+          class="link">equirectangular</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">equirectangular</a>, methods <code>euclideanTo</code>,
+        <code>distanceTo*</code>, <code>haversineTo</code> and 
+        <code>vincentysTo</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="euclideanTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclideanTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**options</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approximate the <code>Euclidian</code> distance between this and an 
+  other point.</p>
+  <p>See function <a href="pygeodesy.formy-module.html#euclidean" 
+  class="link">euclidean</a> for the available 
+  <b><code>options</code></b>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>) or 
+          <code>None</code> for the mean radius of this point's datum 
+          ellipsoid.</li>
+        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.formy-module.html#euclidean" 
+          class="link">euclidean</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a>, methods <code>equirectangularTo</code>,
+        <code>distanceTo*</code>, <code>haversineTo</code> and 
+        <code>vincentysTo</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="haversineTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">haversineTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between this and an other point using the <a 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
+  target="_top">Haversine</a> formula.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>) or 
+          <code>None</code> for the mean radius of this point's datum 
+          ellipsoid.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#haversine" 
+        class="link">haversine</a>, methods <code>equirectangularTo</code>,
+        <code>euclideanTo</code>, <code>distanceTo*</code> and 
+        <code>vincentysTo</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isantipodeTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isantipodeTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether this and an other point are antipodal, on diametrically 
+  opposite sides of the earth.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (<code>degrees</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if points are antipodal within the given 
+          tolerance, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isequalTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isequalTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compare this point with an other point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (<code>degrees</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if both points are identical, <i>ignoring</i> 
+          height, <code>False</code> otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo3" 
+        class="link">isequalTo3</a>.
+      </p>
+      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>e = p.isequalTo(q)  <span class="py-comment"># True</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isequalTo3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isequalTo3</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compare this point with an other point.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (<code>degrees</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if both points are identical <i>including</i> 
+          height, <code>False</code> otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo" 
+        class="link">isequalTo</a>.
+      </p>
+      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(52.205, 0.119, 42)
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(52.205, 0.119)
+<span class="py-prompt">&gt;&gt;&gt; </span>e = p.isequalTo3(q)  <span class="py-comment"># False</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="latlon2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">latlon2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">ndigits</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return this point's lat- and longitude, rounded.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ndigits</code></strong> - Number of decimal digits (<code>int</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code>, both 
+          rounded away from zero.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Built-in function <code>round</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="points2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">points2</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check a polygon represented by points.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[])</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, consider the polygon closed, ignoring any duplicate 
+          or closing final <b><code>points</code></b> (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (number, ...) of points (<code>int</code>, 
+          <code>list</code> or <code>tuple</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="to2ab"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to2ab</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return this point's lat- and longitude in <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+          class="link">PhiLam2Tuple</a><code>(phi, lambda)</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="to3llh"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3llh</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return this point's lat-, longitude and height.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>height</code></strong> - Optional height, overriding this point's height 
+          (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="to3xyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3xyz</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this (geodetic) point to (n-)vector (normal to the earth's 
+  surface) x/y/z components, ignoring the height.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code> in 
+          <code>units</code>, NOT <code>meter</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">m</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to a &quot;lat, lon [+/-height]&quot; string, 
+  formatted in the given form.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>form</code></strong> - Optional format, F_D, F_DM, F_DMS for deg&#176;, deg&#176;min&#8242;, 
+          deg&#176;min&#8242;sec&#8243; (<code>str</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..8 or <code>None</code>).</li>
+        <li><strong class="pname"><code>m</code></strong> - Optional unit of the height (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Point in the specified form (<code>str</code>).</dd>
+    <dt>Overrides:
+        named._NamedBase.toStr
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>LatLon(51.4778, -0.0016).toStr()  <span class="py-comment"># 51&#176;28&#8242;40&#8243;N, 000&#176;00&#8242;06&#8243;W</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>LatLon(51.4778, -0.0016).toStr(F_D)  <span class="py-comment"># 51.4778&#176;N, 000.0016&#176;W</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>LatLon(51.4778, -0.0016, 42).toStr()  <span class="py-comment"># 51&#176;28&#8242;40&#8243;N, 000&#176;00&#8242;06&#8243;W, +42.00m</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="vincentysTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">vincentysTo</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between this and an other point using <a 
+  href="https://WikiPedia.org/wiki/Great-circle_distance" 
+  target="_top">Vincenty's</a> spherical formula.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Optional, mean earth radius (<code>meter</code>) or 
+          <code>None</code> for the mean radius of this point's datum 
+          ellipsoid.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a>, methods <code>equirectangularTo</code>,
+        <code>euclideanTo</code>, <code>distanceTo*</code> and 
+        <code>haversineTo</code>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="height"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">height</h3>
+  <p>Get the height (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>)</span>
+        - Get the height (<code>meter</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">height</span>)</span>
+        - Set the height.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lat"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lat</h3>
+  <p>Get the latitude (<code>degrees90</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">lat(<span class="summary-sig-arg">self</span>)</span>
+        - Get the latitude (<code>degrees90</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">lat(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>)</span>
+        - Set the latitude.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlon</h3>
+  <p>Get the lat- and longitude (<a 
+  href="pygeodesy.named.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat- and longitude (<a 
+href="pygeodesy.named.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlonh</span>)</span>
+        - Set the lat- and longitude and optionally the height.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lon</h3>
+  <p>Get the longitude (<code>degrees180</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">lon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitude (<code>degrees180</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">lon(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lon</span>)</span>
+        - Set the longitude.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Aug 17 22:08:16 2019
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

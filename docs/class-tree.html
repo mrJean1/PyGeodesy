@@ -1,0 +1,1439 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class Hierarchy</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Trees&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">&nbsp;</td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="class-tree.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<center><b>
+ [ <a href="module-tree.html">Module Hierarchy</a>
+ | <a href="class-tree.html">Class Hierarchy</a> ]
+</b></center><br />
+<h1 class="epydoc">Class Hierarchy</h1>
+<ul class="nomargin-top">
+    <li> <strong class="uidlink">object</strong>:
+      <em class="summary">The most base type</em>
+    <ul>
+    <li> <strong class="uidlink">exceptions.BaseException</strong>:
+      <em class="summary">Common base class for all exceptions</em>
+    <ul>
+    <li> <strong class="uidlink">exceptions.Exception</strong>:
+      <em class="summary">Common base class for all non-exit exceptions.</em>
+    <ul>
+    <li> <strong class="uidlink">exceptions.StandardError</strong>:
+      <em class="summary">Base class for all standard Python exceptions that do not represent
+        interpreter exiting.</em>
+    <ul>
+    <li> <strong class="uidlink">exceptions.ImportError</strong>:
+      <em class="summary">Import can't find module, or can't find name in module.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.lazily.LazyImportError-class.html">pygeodesy.lazily.LazyImportError</a></strong>:
+      <em class="summary">Lazy import is not supported, disabled or failed some other way.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">exceptions.ValueError</strong>:
+      <em class="summary">Inappropriate argument value (of correct type).</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.css.CSSError-class.html">pygeodesy.css.CSSError</a></strong>:
+      <em class="summary">Cassini-Soldner (CSS) conversion or other <a 
+        href="pygeodesy.css.Css-class.html" class="link">Css</a> issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.CrossError-class.html">pygeodesy.vector3d.CrossError</a></strong>:
+      <em class="summary">Error raised for zero or near-zero vectorial cross products, 
+        occurring for coincident or colinear points, paths or bearings.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.epsg.EPSGError-class.html">pygeodesy.epsg.EPSGError</a></strong>:
+      <em class="summary">European Petroleum Survey Group (EPSG) encode, decode or other <a 
+        href="pygeodesy.epsg.Epsg-class.html" class="link">Epsg</a> issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.elliptic.EllipticError-class.html">pygeodesy.elliptic.EllipticError</a></strong>:
+      <em class="summary">Elliptic integral, function, convergence or other <a 
+        href="pygeodesy.elliptic.Elliptic-class.html" 
+        class="link">Elliptic</a> issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.gars.GARSError-class.html">pygeodesy.gars.GARSError</a></strong>:
+      <em class="summary">Global Area Reference System (GARS) encode, decode or other <a 
+        href="pygeodesy.gars.Garef-class.html" class="link">Garef</a> 
+        issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geohash.GeohashError-class.html">pygeodesy.geohash.GeohashError</a></strong>:
+      <em class="summary">Geohash encode, decode or other <a 
+        href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a> issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffError-class.html">pygeodesy.hausdorff.HausdorffError</a></strong>:
+      <em class="summary">Hausdorff issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightError-class.html">pygeodesy.heights.HeightError</a></strong>:
+      <em class="summary">Height interpolator <code>Height...</code> or interpolation issue.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.geoids.GeoidError-class.html">pygeodesy.geoids.GeoidError</a></strong>:
+      <em class="summary">Geoid interpolator <code>Geoid...</code> or interpolation issue.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.geoids.PGMError-class.html">pygeodesy.geoids.PGMError</a></strong>:
+      <em class="summary">Issue parsing or cropping an <code>egm*.pgm</code> geoid dataset.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.SciPyError-class.html">pygeodesy.heights.SciPyError</a></strong>:
+      <em class="summary">Error raised for <code>SciPy</code> errors.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.SciPyWarning-class.html">pygeodesy.heights.SciPyWarning</a></strong>:
+      <em class="summary">Exception thrown for <code>SciPy</code> warnings.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lcc.LCCError-class.html">pygeodesy.lcc.LCCError</a></strong>:
+      <em class="summary">Lambert Conformal Conic <code>LCC</code> or other <a 
+        href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.utily.LimitError-class.html">pygeodesy.utily.LimitError</a></strong>:
+      <em class="summary">Error raised for lat- or longitudinal deltas exceeding the 
+        <b><code>limit</code></b> in functions <a 
+        href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">equirectangular</a> and <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.mgrs.MGRSError-class.html">pygeodesy.mgrs.MGRSError</a></strong>:
+      <em class="summary">Military Grid Reference System (MGRS) parse or other <a 
+        href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a> issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.osgr.OSGRError-class.html">pygeodesy.osgr.OSGRError</a></strong>:
+      <em class="summary">Ordinance Survey Grid References (OSGR) parse or other <a 
+        href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.dms.RangeError-class.html">pygeodesy.dms.RangeError</a></strong>:
+      <em class="summary">Error raised for lat- or longitude values outside the 
+        <b><code>clip</code></b>, <b><code>clipLat</code></b>, 
+        <b><code>clipLon</code></b> or <b><code>limit</code></b> range in 
+        function <a href="pygeodesy.dms-module.html#clipDMS" 
+        class="link">clipDMS</a>, <a 
+        href="pygeodesy.dms-module.html#parse3llh" 
+        class="link">parse3llh</a>, <a 
+        href="pygeodesy.dms-module.html#parseDMS" class="link">parseDMS</a>
+        or <a href="pygeodesy.dms-module.html#parseDMS2" 
+        class="link">parseDMS2</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.trf.TRFError-class.html">pygeodesy.trf.TRFError</a></strong>:
+      <em class="summary">Terrestrial Reference Frame (TRF) or <a 
+        href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a> 
+        conversion issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ups.UPSError-class.html">pygeodesy.ups.UPSError</a></strong>:
+      <em class="summary">Universal Polar Stereographic (UPS) parse or other <a 
+        href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.utm.UTMError-class.html">pygeodesy.utm.UTMError</a></strong>:
+      <em class="summary">Universal Transverse Mercator (UTM parse or other <a 
+        href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> issue.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.etm.ETMError-class.html">pygeodesy.etm.ETMError</a></strong>:
+      <em class="summary">Exact Transverse Mercator (ETM) parse, projection or other <a 
+        href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> error.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.utmups.UTMUPSError-class.html">pygeodesy.utmups.UTMUPSError</a></strong>:
+      <em class="summary">Universal Transverse Mercator/Universal Polar Stereographic 
+        (UTM/UPS) parse, validate or other issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.VectorError-class.html">pygeodesy.vector3d.VectorError</a></strong>:
+      <em class="summary"><a href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a> or <code>*Nvector</code> issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">pygeodesy.ellipsoidalVincenty.VincentyError</a></strong>:
+      <em class="summary">Error raised from Vincenty's direct and inverse methods for 
+        coincident points or lack of convergence.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.wgrs.WGRSError-class.html">pygeodesy.wgrs.WGRSError</a></strong>:
+      <em class="summary">World Geographic Reference System (WGRS) encode, decode or other <a
+        href="pygeodesy.wgrs.Georef-class.html" class="link">Georef</a> 
+        issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.webmercator.WebMercatorError-class.html">pygeodesy.webmercator.WebMercatorError</a></strong>:
+      <em class="summary">Web Mercator (WM) parse or <a 
+        href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a> 
+        issue.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">_abcoll.Container</strong>
+    <ul>
+    <li> <strong class="uidlink">_abcoll.Sequence</strong>:
+      <em class="summary">All the operations on a read-only sequence.</em>
+    <ul>
+    <li> <strong class="uidlink">pygeodesy.points._Basequence</strong>:
+      <em class="summary">(INTERNAL) Base class.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.LatLon2psxy-class.html">pygeodesy.points.LatLon2psxy</a></strong>:
+      <em class="summary">Wrapper for <code>LatLon</code> points as &quot;on-the-fly&quot; 
+        pseudo-xy coordinates.</em>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.points._Array2LatLon</strong>:
+      <em class="summary">Base class for Numpy2LatLon or Tuple2LatLon.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.Numpy2LatLon-class.html">pygeodesy.points.Numpy2LatLon</a></strong>:
+      <em class="summary">Wrapper for <code>NumPy</code> arrays as &quot;on-the-fly&quot; 
+        <code>LatLon</code> points.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.Tuple2LatLon-class.html">pygeodesy.points.Tuple2LatLon</a></strong>:
+      <em class="summary">Wrapper for tuple sequences as &quot;on-the-fly&quot; 
+        <code>LatLon</code> points.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.fmath.Fsum-class.html">pygeodesy.fmath.Fsum</a></strong>:
+      <em class="summary">Precision summation similar to standard Python function 
+        <code>math.fsum</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.fmath.Fdot-class.html">pygeodesy.fmath.Fdot</a></strong>:
+      <em class="summary">Precision dot product.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.fmath.Fhorner-class.html">pygeodesy.fmath.Fhorner</a></strong>:
+      <em class="summary">Precision polynomial evaluation using the Horner form.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.fmath.Fpolynomial-class.html">pygeodesy.fmath.Fpolynomial</a></strong>:
+      <em class="summary">Precision polynomial evaluation.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">_abcoll.Iterable</strong>
+    <ul>
+    <li> <strong class="uidlink">_abcoll.Sequence</strong>:
+      <em class="summary">All the operations on a read-only sequence.</em>
+    <ul>
+    <li> <strong class="uidlink">pygeodesy.points._Basequence</strong>:
+      <em class="summary">(INTERNAL) Base class.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.LatLon2psxy-class.html">pygeodesy.points.LatLon2psxy</a></strong>:
+      <em class="summary">Wrapper for <code>LatLon</code> points as &quot;on-the-fly&quot; 
+        pseudo-xy coordinates.</em>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.points._Array2LatLon</strong>:
+      <em class="summary">Base class for Numpy2LatLon or Tuple2LatLon.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.Numpy2LatLon-class.html">pygeodesy.points.Numpy2LatLon</a></strong>:
+      <em class="summary">Wrapper for <code>NumPy</code> arrays as &quot;on-the-fly&quot; 
+        <code>LatLon</code> points.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.Tuple2LatLon-class.html">pygeodesy.points.Tuple2LatLon</a></strong>:
+      <em class="summary">Wrapper for tuple sequences as &quot;on-the-fly&quot; 
+        <code>LatLon</code> points.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.LatLon_-class.html">pygeodesy.points.LatLon_</a></strong>:
+      <em class="summary">Low-overhead <code>LatLon</code> class for <a 
+        href="pygeodesy.points.Numpy2LatLon-class.html" 
+        class="link">Numpy2LatLon</a> and <a 
+        href="pygeodesy.points.Tuple2LatLon-class.html" 
+        class="link">Tuple2LatLon</a>.</em>
+    <ul>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">_abcoll.Sized</strong>
+    <ul>
+    <li> <strong class="uidlink">_abcoll.Sequence</strong>:
+      <em class="summary">All the operations on a read-only sequence.</em>
+    <ul>
+    <li> <strong class="uidlink">pygeodesy.points._Basequence</strong>:
+      <em class="summary">(INTERNAL) Base class.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.LatLon2psxy-class.html">pygeodesy.points.LatLon2psxy</a></strong>:
+      <em class="summary">Wrapper for <code>LatLon</code> points as &quot;on-the-fly&quot; 
+        pseudo-xy coordinates.</em>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.points._Array2LatLon</strong>:
+      <em class="summary">Base class for Numpy2LatLon or Tuple2LatLon.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.Numpy2LatLon-class.html">pygeodesy.points.Numpy2LatLon</a></strong>:
+      <em class="summary">Wrapper for <code>NumPy</code> arrays as &quot;on-the-fly&quot; 
+        <code>LatLon</code> points.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.Tuple2LatLon-class.html">pygeodesy.points.Tuple2LatLon</a></strong>:
+      <em class="summary">Wrapper for tuple sequences as &quot;on-the-fly&quot; 
+        <code>LatLon</code> points.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.points._Basequence</strong>:
+      <em class="summary">(INTERNAL) Base class.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.LatLon2psxy-class.html">pygeodesy.points.LatLon2psxy</a></strong>:
+      <em class="summary">Wrapper for <code>LatLon</code> points as &quot;on-the-fly&quot; 
+        pseudo-xy coordinates.</em>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.points._Array2LatLon</strong>:
+      <em class="summary">Base class for Numpy2LatLon or Tuple2LatLon.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.Numpy2LatLon-class.html">pygeodesy.points.Numpy2LatLon</a></strong>:
+      <em class="summary">Wrapper for <code>NumPy</code> arrays as &quot;on-the-fly&quot; 
+        <code>LatLon</code> points.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.points.Tuple2LatLon-class.html">pygeodesy.points.Tuple2LatLon</a></strong>:
+      <em class="summary">Wrapper for tuple sequences as &quot;on-the-fly&quot; 
+        <code>LatLon</code> points.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.named._Named</strong>:
+      <em class="summary">(INTERNAL) Root class for named objects.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.elliptic.Elliptic-class.html">pygeodesy.elliptic.Elliptic</a></strong>:
+      <em class="summary">Elliptic integrals and functions.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.Hausdorff-class.html">pygeodesy.hausdorff.Hausdorff</a></strong>:
+      <em class="summary">Hausdorff base class, requires method <a 
+        href="pygeodesy.hausdorff.Hausdorff-class.html#distance" 
+        class="link">Hausdorff.distance</a> to be overloaded.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffDegrees-class.html">pygeodesy.hausdorff.HausdorffDegrees</a></strong>:
+      <em class="summary"><a href="pygeodesy.hausdorff.Hausdorff-class.html" 
+        class="link">Hausdorff</a> base class for distances in 
+        <code>degrees</code> from <code>LatLon</code> points in 
+        <code>degrees</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffKarney-class.html">pygeodesy.hausdorff.HausdorffKarney</a></strong>:
+      <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance (in degrees) from <i>Charles Karney's</i> 
+        <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">GeographicLib</a> <a 
+        href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
+        target="_top">Geodesic</a> Inverse method.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffRadians-class.html">pygeodesy.hausdorff.HausdorffRadians</a></strong>:
+      <em class="summary"><a href="pygeodesy.hausdorff.Hausdorff-class.html" 
+        class="link">Hausdorff</a> base class for distances in 
+        <code>radians</code> from <code>LatLon</code> points converted from
+        <code>degrees</code> to <code>radians</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffEquirectangular-class.html">pygeodesy.hausdorff.HausdorffEquirectangular</a></strong>:
+      <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
+        <code>equirectangular</code> distance (in radians squared) like 
+        function <a href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffEuclidean-class.html">pygeodesy.hausdorff.HausdorffEuclidean</a></strong>:
+      <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
+        <code>Euclidean</code> distance (in radians) from function <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffHaversine-class.html">pygeodesy.hausdorff.HausdorffHaversine</a></strong>:
+      <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> <code>Haversine</code> distance (in radians) from 
+        function <a href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffVincentys-class.html">pygeodesy.hausdorff.HausdorffVincentys</a></strong>:
+      <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> <code>Vincenty</code> distance (in radians) from 
+        function <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html">pygeodesy.ellipsoidalNvector.Ned</a></strong>:
+      <em class="summary">North-Eeast-Down (NED), also known as Local Tangent Plane (LTP), is
+        a vector in the local coordinate frame of a body.</em>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.heights._HeightBase</strong>:
+      <em class="summary">Interpolator base class.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightCubic-class.html">pygeodesy.heights.HeightCubic</a></strong>:
+      <em class="summary">Height interpolator based on <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> <code>kind='cubic'</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightLinear-class.html">pygeodesy.heights.HeightLinear</a></strong>:
+      <em class="summary">Height interpolator based on <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> <code>kind='linear</code>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightLSQBiSpline-class.html">pygeodesy.heights.HeightLSQBiSpline</a></strong>:
+      <em class="summary">Height interpolator using <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.LSQSphereBivariateSpline.html"
+        target="_top">LSQSphereBivariateSpline</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightSmoothBiSpline-class.html">pygeodesy.heights.HeightSmoothBiSpline</a></strong>:
+      <em class="summary">Height interpolator using <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.SmoothSphereBivariateSpline.html"
+        target="_top">SmoothSphereBivariateSpline</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geoids._GeoidBase-class.html">pygeodesy.geoids._GeoidBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for <code>Geoid...</code>s.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.geoids.GeoidG2012B-class.html">pygeodesy.geoids.GeoidG2012B</a></strong>:
+      <em class="summary">Geoid height interpolator for <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/" 
+        target="_top">GEOID12B Model</a> grids <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_CONUS.shtml"
+        target="_top">CONUS</a>, <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AK.shtml" 
+        target="_top">Alaska</a>, <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_HI.shtml" 
+        target="_top">Hawaii</a>, <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_GMNI.shtml" 
+        target="_top">Guam and Northern Mariana Islands</a>, <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_PRVI.shtml" 
+        target="_top">Puerto Rico and U.S. Virgin Islands</a> and <a 
+        href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml" 
+        target="_top">American Samoa</a> based on <code>SciPy</code> <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+        target="_top">RectBivariateSpline</a> or <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> interpolation.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geoids.GeoidKarney-class.html">pygeodesy.geoids.GeoidKarney</a></strong>:
+      <em class="summary">Geoid height interpolator for Charles Karney's <a 
+        href="https://GeographicLib.SourceForge.io/html/geoid.html" 
+        target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
+        geoid <a 
+        href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+        target="_top">egm*.pgm</a> datasets using bilinear or <a 
+        href="https://dl.ACM.org/citation.cfm?id=368443" 
+        target="_top">cubic</a> interpolation and <a 
+        href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidcache"
+        target="_top">caching</a> in pure Python transcribed from Karney's 
+        <a 
+        href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinterp"
+        target="_top">C++ class Geoid</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geoids.GeoidPGM-class.html">pygeodesy.geoids.GeoidPGM</a></strong>:
+      <em class="summary">Geoid height interpolator for Charles Karney's <a 
+        href="https://GeographicLib.SourceForge.io/html/geoid.html" 
+        target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
+        geoid <a 
+        href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
+        target="_top">egm*.pgm</a> datasets but based on <code>SciPy</code>
+        <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+        target="_top">RectBivariateSpline</a> or <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> interpolation.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.heights._HeightIDW</strong>:
+      <em class="summary">Base class for <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) height 
+        interpolators.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWequirectangular-class.html">pygeodesy.heights.HeightIDWequirectangular</a></strong>:
+      <em class="summary">Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <code>equirectangular</code> distance (in radians squared) like 
+        function <a href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWeuclidean-class.html">pygeodesy.heights.HeightIDWeuclidean</a></strong>:
+      <em class="summary">Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <code>Euclidean</code> distance from function <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWhaversine-class.html">pygeodesy.heights.HeightIDWhaversine</a></strong>:
+      <em class="summary">Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> <code>Haversine</code> distance from function <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWkarney-class.html">pygeodesy.heights.HeightIDWkarney</a></strong>:
+      <em class="summary">Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance from <i>Charles F. F. Karney's</i> <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">GeographicLib</a> <a 
+        href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
+        target="_top">Geodesic</a> Inverse method.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWvincentys-class.html">pygeodesy.heights.HeightIDWvincentys</a></strong>:
+      <em class="summary">Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> <code>Vincenty</code> distance from function <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.named._NamedBase</strong>:
+      <em class="summary">(INTERNAL) Base class with name.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.css.CassiniSoldner-class.html">pygeodesy.css.CassiniSoldner</a></strong>:
+      <em class="summary">A Python version of Karney's C++ class <a 
+        href="https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1CassiniSoldner.html"
+        target="_top">CassiniSoldner</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.css.Css-class.html">pygeodesy.css.Css</a></strong>:
+      <em class="summary">Cassini-Soldner East-/Northing location.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.etm.ExactTransverseMercator-class.html">pygeodesy.etm.ExactTransverseMercator</a></strong>:
+      <em class="summary">A Python version of Karney's <a 
+        href="https://GeographicLib.SourceForge.io/html/TransverseMercatorExact_8cpp_source.html"
+        target="_top">TransverseMercatorExact</a> C++ class, a numerically 
+        exact transverse mercator projection, referred to as 
+        <code>TMExact</code> here.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.bases.LatLonHeightBase-class.html">pygeodesy.bases.LatLonHeightBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for <code>LatLon</code> points on spherical 
+        or ellipsiodal earth models.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for ellipsoidal <code>LatLon</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
+      <em class="summary">An ellipsoidal <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> similar to <a 
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">ellipsoidalVincenty.LatLon</a> but using <i>Charles F.
+        F. Karney's</i> Python <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">GeographicLib</a> to compute the geodesic distance, 
+        initial and final bearing (azimuths) between two given points or 
+        the destination point given a start point and an initial bearing.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.LatLon-class.html">pygeodesy.ellipsoidalNvector.LatLon</a></strong>:
+      <em class="summary">An n-vector-based ellipsoidal <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        class="link">LatLon</a> point.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">Using the formulae devised by Thaddeus Vincenty (1975) with an 
+        ellipsoidal model of the earth to compute the geodesic distance and
+        bearings between two given points or the destination point given an
+        start point and initial bearing.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.nvector.LatLonNvectorBase-class.html">pygeodesy.nvector.LatLonNvectorBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for n-vector-based ellipsoidal and spherical 
+        <code>LatLon</code> classes.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.LatLon-class.html">pygeodesy.ellipsoidalNvector.LatLon</a></strong>:
+      <em class="summary">An n-vector-based ellipsoidal <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        class="link">LatLon</a> point.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.LatLon-class.html">pygeodesy.sphericalNvector.LatLon</a></strong>:
+      <em class="summary">New n-vector based point on spherical earth model.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html">pygeodesy.sphericalBase.LatLonSphericalBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for spherical <code>LatLon</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.LatLon-class.html">pygeodesy.sphericalNvector.LatLon</a></strong>:
+      <em class="summary">New n-vector based point on spherical earth model.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html">pygeodesy.sphericalTrigonometry.LatLon</a></strong>:
+      <em class="summary">New point on spherical model earth model.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lcc.Lcc-class.html">pygeodesy.lcc.Lcc</a></strong>:
+      <em class="summary">Lambert conformal conic East-/Northing location.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.mgrs.Mgrs-class.html">pygeodesy.mgrs.Mgrs</a></strong>:
+      <em class="summary">Military Grid Reference System (MGRS/NATO) references, with method 
+        to convert to UTM coordinates.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.osgr.Osgr-class.html">pygeodesy.osgr.Osgr</a></strong>:
+      <em class="summary">Ordinance Survey Grid References (OSGR) coordinate.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html">pygeodesy.utmupsBase.UtmUpsBase</a></strong>:
+      <em class="summary">Base class for <a href="pygeodesy.utm.Utm-class.html" 
+        class="link">Utm</a> and <a href="pygeodesy.ups.Ups-class.html" 
+        class="link">Ups</a> coordinates.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ups.Ups-class.html">pygeodesy.ups.Ups</a></strong>:
+      <em class="summary">Universal Polar Stereographic (UPS) coordinate.</em>
+    <ul>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.utm.Utm-class.html">pygeodesy.utm.Utm</a></strong>:
+      <em class="summary">Universal Transverse Mercator (UTM) coordinate.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.etm.Etm-class.html">pygeodesy.etm.Etm</a></strong>:
+      <em class="summary">Exact Transverse Mercator (ETM) coordinate, a sub-class of <a 
+        href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>, a 
+        Universal Transverse Mercator (UTM) coordinate using the <a 
+        href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+        class="link">ExactTransverseMercator</a> projection for highest 
+        accuracy.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.webmercator.Wm-class.html">pygeodesy.webmercator.Wm</a></strong>:
+      <em class="summary">Web Mercator (WM) coordinate.</em>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.named._NamedEnumItem</strong>:
+      <em class="summary">(INTERNAL) Base class for items in a <code>_NamedEnum</code> 
+        registery.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.lcc.Conic-class.html">pygeodesy.lcc.Conic</a></strong>:
+      <em class="summary">Lambert conformal conic projection (1- or 2-SP).</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.datum.Datum-class.html">pygeodesy.datum.Datum</a></strong>:
+      <em class="summary">Ellipsoid and transform parameters for an earth model.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.datum.Ellipsoid-class.html">pygeodesy.datum.Ellipsoid</a></strong>:
+      <em class="summary">Ellipsoid with major and minor radius, semi-axis, (inverse) 
+        flattening and other pre-computed, frequently used attributes.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.trf.RefFrame-class.html">pygeodesy.trf.RefFrame</a></strong>:
+      <em class="summary">Terrestrial Reference Frame (TRF) parameters.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.datum.Transform-class.html">pygeodesy.datum.Transform</a></strong>:
+      <em class="summary">Helmert transformation.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.bases._VectorBase-class.html">pygeodesy.bases._VectorBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for <a 
+        href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Vector3d-class.html">pygeodesy.vector3d.Vector3d</a></strong>:
+      <em class="summary">Generic 3-D vector manipulation.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase.CartesianBase-class.html">pygeodesy.ellipsoidalBase.CartesianBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for ellipsoidal <code>Cartesian</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert (geocentric) <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Karney-based (ellipsoidal) 
+        geodetic <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+      <em class="summary">Extended to convert (geocentric) <a 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to (ellipsoidal) <a 
+        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and n-vector-based geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert (geocentric) <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based (ellipsoidal) 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.nvector.Nvector-class.html">pygeodesy.nvector.Nvector</a></strong>:
+      <em class="summary">Base class for ellipsoidal and spherical <a 
+        href="pygeodesy.nvector.Nvector-class.html" 
+        class="link">Nvector</a>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html">pygeodesy.ellipsoidalNvector.Nvector</a></strong>:
+      <em class="summary">An n-vector is a position representation using a (unit) vector 
+        normal to the earth ellipsoid.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
+      <em class="summary">An n-vector is a position representation using a (unit) vector 
+        normal to the earth's surface.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.named._NamedDict</strong>:
+      <em class="summary">(INTERNAL) Named <code>dict</code> with key <i>and</i> attribute 
+        access to the items.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Neighbors8Dict-class.html">pygeodesy.named.Neighbors8Dict</a></strong>:
+      <em class="summary">8-Dict <code>(N, NE, E, SE, S, SW, W, NW)</code> of <a 
+        href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>es, providing key <i>and</i> attribute 
+        access to the items.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.named._NamedInt</strong>:
+      <em class="summary">(INTERNAL) Named <code>int</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.epsg.Epsg-class.html">pygeodesy.epsg.Epsg</a></strong>:
+      <em class="summary"><a href="https://www.EPSG-Registry.org" target="_top">EPSG</a> 
+        class, a <code>_NamedInt</code>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.named._NamedStr</strong>:
+      <em class="summary">(INTERNAL) Named <code>str</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.gars.Garef-class.html">pygeodesy.gars.Garef</a></strong>:
+      <em class="summary">Garef class, a <code>_NamedStr</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geohash.Geohash-class.html">pygeodesy.geohash.Geohash</a></strong>:
+      <em class="summary">Geohash class, a _NamedStr.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.wgrs.Georef-class.html">pygeodesy.wgrs.Georef</a></strong>:
+      <em class="summary">Georef class, a <code>_NamedStr</code>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.named._NamedTuple</strong>:
+      <em class="summary">(INTERNAL) Named <code>tuple</code> with index <i>and</i> attribute
+        access to the items.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Bearing2Tuple-class.html">pygeodesy.named.Bearing2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(initial, final)</code> bearings, both in compass 
+        <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Bounds2Tuple-class.html">pygeodesy.named.Bounds2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(latlonSW, latlonNE)</code> with the bounds' 
+        lower-left and upper-right corner as <code>LatLon</code> instance.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Bounds4Tuple-class.html">pygeodesy.named.Bounds4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(latS, lonW, latN, lonE)</code> with the bounds' 
+        lower-left <code>(LatS, LowW)</code> and upper-right <code>(latN, 
+        lonE)</code> corner lat- and longitudes.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.ClipCS3Tuple-class.html">pygeodesy.named.ClipCS3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(start, end, index)</code> for each edge of a 
+        <i>clipped</i> path with the <code>start</code> and 
+        <code>end</code> points (<code>LatLon</code>) of the portion of the
+        edge inside or on the clip box and the <code>index</code> 
+        (<code>int</code>) of the edge in the original path.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.ClipSH3Tuple-class.html">pygeodesy.named.ClipSH3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(start, end, original)</code> for each edge of a 
+        <i>clipped</i> polygon, the <code>start</code> and <code>end</code>
+        points (<code>LatLon</code>) of the portion of the edge inside or 
+        on the clip region and the <code>original</code> indicates whether 
+        the edge is part of the original polygon or part of the clip region
+        (<code>bool</code>).</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Curvature2Tuple-class.html">pygeodesy.named.Curvature2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(meridional, prime_vertical)</code> of radii of 
+        curvature, both in <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Destination2Tuple-class.html">pygeodesy.named.Destination2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(destination, final)</code>, <code>destination</code>
+        in <code>LatLon</code> and <code>final</code> bearing in compass 
+        <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Distance2Tuple-class.html">pygeodesy.named.Distance2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(distance, initial)</code>, <code>distance</code> in 
+        <code>meter</code> and <code>initial</code> bearing in compass 
+        <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Distance3Tuple-class.html">pygeodesy.named.Distance3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(distance, initial, final)</code>, 
+        <code>distance</code> in <code>meter</code> and 
+        <code>initial</code> and <code>final</code> bearing, both in 
+        compass <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Distance4Tuple-class.html">pygeodesy.named.Distance4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(distance2, delta_lat, delta_lon, unroll_lon2)</code>
+        with the distance in <code>degrees squared</code>, the latitudinal 
+        <code>delta_lat</code> = 
+        <b><code>lat2</code></b>-<b><code>lat1</code></b>, the wrapped, 
+        unrolled and adjusted longitudinal <code>delta_lon</code> = 
+        <b><code>lon2</code></b>-<b><code>lon1</code></b> and the 
+        <code>unroll_lon2</code> unrollment for <b><code>lon2</code></b>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.EasNor2Tuple-class.html">pygeodesy.named.EasNor2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(easting, northing)</code>, both in 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.EasNor3Tuple-class.html">pygeodesy.named.EasNor3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(easting, northing, height)</code>, all in 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.EasNorAziRk4Tuple-class.html">pygeodesy.named.EasNorAziRk4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(easting, northing, azimuth, reciprocal)</code> for 
+        the Cassini-Soldner location with <code>easting</code> and 
+        <code>northing</code> in <code>meters</code>, the 
+        <code>azimuth</code> of easting direction azimuth and 
+        <code>reciprocal</code> the reciprocal of azimuthal northing scale 
+        reciprocal, both in <code>degrees</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.EasNorExact4Tuple-class.html">pygeodesy.named.EasNorExact4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(easting, northing, convergence, scale)</code> in 
+        <code>meter</code>, <code>meter</code>, {degrees} and 
+        <code>scalar</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.EasNorRadius3Tuple-class.html">pygeodesy.named.EasNorRadius3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(easting, northing, radius)</code>, all in 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Elevation2Tuple-class.html">pygeodesy.named.Elevation2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(elevation, data_source)</code> in <code>meter</code>
+        and <code>str</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.GeoidHeight2Tuple-class.html">pygeodesy.named.GeoidHeight2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(height, model_name)</code>, geoid 
+        <code>height</code> in <code>meter</code> and 
+        <code>model_name</code> as <code>str</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.GeoidHeight5Tuple-class.html">pygeodesy.named.GeoidHeight5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(lat, lon, egm84, egm96, egm2008)</code> for <a 
+        href="https://SourceForge.net/projects/geographiclib/files/testdata/"
+        target="_top">GeoidHeights.dat</a> tests with the heights for 3 
+        different EGM grids with <code>-90.0 &lt;= lat &lt;= 90.0</code> 
+        and <code>-180.0 &lt;= lon &lt;= 180.0</code> degrees (and 
+        <code>lon</code> converted from the original <code>0.0 &lt;= 
+        EasterLon &lt;= 360.0</code>).</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.Hausdorff6Tuple-class.html">pygeodesy.hausdorff.Hausdorff6Tuple</a></strong>:
+      <em class="summary">6-Tuple <code>(hd, i, j, mn, md, units)</code> with the <a 
+        href="https://WikiPedia.org/wiki/Hausdorff_distance" 
+        target="_top">Hausdorff</a> distance <code>hd</code>, indices 
+        <code>i</code> and <code>j</code>, the total count <code>mn</code>,
+        the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
+        the name of the distance <code>units</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon2Tuple-class.html">pygeodesy.named.LatLon2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees[90]</code> and 
+        <code>degrees[180]</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon3Tuple-class.html">pygeodesy.named.LatLon3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(lat, lon, height)</code> in 
+        <code>degrees[90]</code>, <code>degrees[180]</code> and 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon4Tuple-class.html">pygeodesy.named.LatLon4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(lat, lon, height, datum)</code> in 
+        <code>degrees90</code>, <code>degrees180</code>, <code>meter</code>
+        and <a href="pygeodesy.datum.Datum-class.html" 
+        class="link">Datum</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonAziRk4Tuple-class.html">pygeodesy.named.LatLonAziRk4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(lat, lon, azimuth, reciprocal)</code>, all in 
+        <code>degrees</code> where <code>azimuth</code> is the azimuth of 
+        easting direction and <code>reciprocal</code> the reciprocal of 
+        azimuthal northing scale.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonDatum3Tuple-class.html">pygeodesy.named.LatLonDatum3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(lat, lon, datum)</code> in <code>degrees[90]</code>,
+        <code>degrees[180]</code> and <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonDatum5Tuple-class.html">pygeodesy.named.LatLonDatum5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
+        <code>degrees[90]</code>, <code>degrees[180]</code>, <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>, 
+        {degrees} and <code>float</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonExact4Tuple-class.html">pygeodesy.named.LatLonExact4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(lat, lon, convergence, scale)</code> in 
+        <code>degrees</code>, <code>degrees180</code>, <code>degrees</code>
+        and <code>sclar</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonPrec3Tuple-class.html">pygeodesy.named.LatLonPrec3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(lat, lon, precision)</code> in <code>degrees</code>,
+        <code>degrees</code> and <code>int</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonPrec5Tuple-class.html">pygeodesy.named.LatLonPrec5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(lat, lon, precision, height, radius)</code> in 
+        <code>degrees</code>, <code>degrees</code>, <code>int</code> and 
+        <code>height</code> or <code>radius</code> in <code>meter</code> 
+        (or <code>None</code> if missing).</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Mgrs4Tuple-class.html">pygeodesy.named.Mgrs4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(zone, digraph, easting, northing)</code>, 
+        <code>zone</code> and <code>digraph</code> as <code>str</code>, 
+        <code>easting</code> and <code>northing</code> in 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Mgrs6Tuple-class.html">pygeodesy.named.Mgrs6Tuple</a></strong>:
+      <em class="summary">6-Tuple <code>(zone, digraph, easting, northing, band, 
+        datum)</code>, <code>zone</code>, <code>digraph</code> and 
+        <code>band</code> as <code>str</code>, <code>easting</code> and 
+        <code>northing</code> in <code>meter</code> and <code>datum</code> 
+        a <a href="pygeodesy.datum.Datum-class.html" 
+        class="link">Datum</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.NearestOn3Tuple-class.html">pygeodesy.named.NearestOn3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(closest, distance, angle)</code> of the 
+        <code>closest</code> point on the polygon, either a 
+        <code>LatLon</code> instance or a <a 
+        href="pygeodesy.named.LatLon3Tuple-class.html" 
+        class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> and 
+        the <code>distance</code> and <code>angle</code> to the 
+        <code>closest</code> point are in <code>meter</code> respectively 
+        compass <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.NearestOn5Tuple-class.html">pygeodesy.named.NearestOn5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(lat, lon, distance, angle, height)</code> all in 
+        <code>degrees</code>, except <code>height</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Ned3Tuple-class.html">pygeodesy.named.Ned3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(north, east, down)</code>, all in 
+        <code>degrees</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.PhiLam2Tuple-class.html">pygeodesy.named.PhiLam2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(phi, lambda)</code> with latitude <code>phi</code> 
+        in <code>radians[PI_2]</code> and longitude <code>lambda</code> in 
+        <code>radians[PI]</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.PhiLam3Tuple-class.html">pygeodesy.named.PhiLam3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(phi, lambda, height)</code> with latitude 
+        <code>phi</code> in <code>radians[PI_2]</code>, longitude 
+        <code>lambda</code> in <code>radians[PI]</code> and 
+        <code>height</code> in <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Point3Tuple-class.html">pygeodesy.named.Point3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(x, y, ll)</code> in <code>meter</code>, 
+        <code>meter</code> and <code>LatLon</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Shape2Tuple-class.html">pygeodesy.named.Shape2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(nrows, ncols)</code>, the number of rows and 
+        columns, both <code>int</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.UtmUps2Tuple-class.html">pygeodesy.named.UtmUps2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(zone, hemipole)</code> as <code>int</code> and 
+        <code>str</code>, where <code>zone</code> is <code>1..60</code> for
+        UTM or <code>0</code> for UPS and <code>hemipole</code> 
+        <code>'N'|'S'</code> is the UTM hemisphere or the UPS pole.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.UtmUps4Tuple-class.html">pygeodesy.named.UtmUps4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(zone, hemipole, easting, northing)</code> as 
+        <code>str</code>, <code>str</code>, <code>meter</code> and 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.UtmUps5Tuple-class.html">pygeodesy.named.UtmUps5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(zone, hemipole, easting, northing, band)</code> as 
+        <code>int</code>, <code>str</code>, <code>meter</code>, 
+        <code>meter</code> and <code>band</code> letter, where 
+        <code>zone</code> is <code>1..60</code> for UTM or <code>0</code> 
+        for UPS, <code>hemipole</code> <code>'N'|'S'</code> is the UTM 
+        hemisphere or the UPS pole and {band} is <code>&quot;&quot;</code> 
+        or the (longitudinal) UTM band <code>'C'|'D'..'W'|'X'</code> or the
+        (polar) UPS band <code>'A'|'B'|'Y'|'Z'</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.UtmUps8Tuple-class.html">pygeodesy.named.UtmUps8Tuple</a></strong>:
+      <em class="summary">8-Tuple <code>(zone, hemipole, easting, northing, band, datum, 
+        convergence, scale)</code> as <code>int</code>, <code>str</code>, 
+        <code>meter</code>, <code>meter</code>, <code>band</code> letter, 
+        <code>Datum</code>, <code>degrees</code> and <code>float</code>, 
+        where <code>zone</code> is <code>1..60</code> for UTM or 
+        <code>0</code> for UPS, <code>hemipole</code> <code>'N'|'S'</code> 
+        is the UTM hemisphere or the UPS pole and {band} is 
+        <code>&quot;&quot;</code> or the (longitudinal) UTM band 
+        <code>'C'|'D'..'W'|'X'</code> or the (polar) UPS band 
+        <code>'A'|'B'|'Y'|'Z'</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.UtmUpsLatLon5Tuple-class.html">pygeodesy.named.UtmUpsLatLon5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(zone, band, hemipole, lat, lon)</code> as 
+        <code>int</code>, <code>str</code>, <code>str</code>, 
+        <code>degrees90</code> and <code>degrees180</code>, where 
+        <code>zone</code> is <code>1..60</code> for UTM or <code>0</code> 
+        for UPS, {band} is <code>&quot;&quot;</code> or the (longitudinal) 
+        UTM band <code>'C'|'D'..'W'|'X'</code> or (polar) UPS band 
+        <code>'A'|'B'|'Y'|'Z'</code> and <code>hemipole</code> 
+        <code>'N'|'S'</code> is the UTM hemisphere or the UPS pole.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Vector3Tuple-class.html">pygeodesy.named.Vector3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(x, y, z)</code> of (geocentric) components, all in 
+        <code>meter</code> or <code>units</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Vector4Tuple-class.html">pygeodesy.named.Vector4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(x, y, z, h)</code> of (geocentric) components, all 
+        in <code>meter</code> or <code>units</code>.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">basestring</strong>:
+      <em class="summary">Type basestring cannot be instantiated; it is the base for str and 
+        unicode.</em>
+    <ul>
+    <li> <strong class="uidlink">str</strong>:
+      <em class="summary">str(object='') -&gt; string</em>
+    <ul>
+    <li> <strong class="uidlink">pygeodesy.named._NamedStr</strong>:
+      <em class="summary">(INTERNAL) Named <code>str</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.gars.Garef-class.html">pygeodesy.gars.Garef</a></strong>:
+      <em class="summary">Garef class, a <code>_NamedStr</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geohash.Geohash-class.html">pygeodesy.geohash.Geohash</a></strong>:
+      <em class="summary">Geohash class, a _NamedStr.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.wgrs.Georef-class.html">pygeodesy.wgrs.Georef</a></strong>:
+      <em class="summary">Georef class, a <code>_NamedStr</code>.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">dict</strong>:
+      <em class="summary">dict() -&gt; new empty dictionary
+dict(mapping) -&gt; new dictionary initialized from a mapping object's
+    (key, value) pairs
+dict(iterable) -&gt; new dictionary initialized as if via:
+    d = {}
+    for k, v in iterable:
+        d[k] = v
+dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
+    in the keyword argument list.</em>
+    <ul>
+    <li> <strong class="uidlink">pygeodesy.named._NamedDict</strong>:
+      <em class="summary">(INTERNAL) Named <code>dict</code> with key <i>and</i> attribute 
+        access to the items.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Neighbors8Dict-class.html">pygeodesy.named.Neighbors8Dict</a></strong>:
+      <em class="summary">8-Dict <code>(N, NE, E, SE, S, SW, W, NW)</code> of <a 
+        href="pygeodesy.geohash.Geohash-class.html" 
+        class="link">Geohash</a>es, providing key <i>and</i> attribute 
+        access to the items.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">int</strong>:
+      <em class="summary">int(x=0) -&gt; int or long int(x, base=10) -&gt; int or long</em>
+    <ul>
+    <li> <strong class="uidlink">pygeodesy.named._NamedInt</strong>:
+      <em class="summary">(INTERNAL) Named <code>int</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.epsg.Epsg-class.html">pygeodesy.epsg.Epsg</a></strong>:
+      <em class="summary"><a href="https://www.EPSG-Registry.org" target="_top">EPSG</a> 
+        class, a <code>_NamedInt</code>.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">tuple</strong>:
+      <em class="summary">tuple() -&gt; empty tuple tuple(iterable) -&gt; tuple initialized 
+        from iterable's items</em>
+    <ul>
+    <li> <strong class="uidlink">pygeodesy.named._NamedTuple</strong>:
+      <em class="summary">(INTERNAL) Named <code>tuple</code> with index <i>and</i> attribute
+        access to the items.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Bearing2Tuple-class.html">pygeodesy.named.Bearing2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(initial, final)</code> bearings, both in compass 
+        <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Bounds2Tuple-class.html">pygeodesy.named.Bounds2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(latlonSW, latlonNE)</code> with the bounds' 
+        lower-left and upper-right corner as <code>LatLon</code> instance.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Bounds4Tuple-class.html">pygeodesy.named.Bounds4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(latS, lonW, latN, lonE)</code> with the bounds' 
+        lower-left <code>(LatS, LowW)</code> and upper-right <code>(latN, 
+        lonE)</code> corner lat- and longitudes.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.ClipCS3Tuple-class.html">pygeodesy.named.ClipCS3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(start, end, index)</code> for each edge of a 
+        <i>clipped</i> path with the <code>start</code> and 
+        <code>end</code> points (<code>LatLon</code>) of the portion of the
+        edge inside or on the clip box and the <code>index</code> 
+        (<code>int</code>) of the edge in the original path.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.ClipSH3Tuple-class.html">pygeodesy.named.ClipSH3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(start, end, original)</code> for each edge of a 
+        <i>clipped</i> polygon, the <code>start</code> and <code>end</code>
+        points (<code>LatLon</code>) of the portion of the edge inside or 
+        on the clip region and the <code>original</code> indicates whether 
+        the edge is part of the original polygon or part of the clip region
+        (<code>bool</code>).</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Curvature2Tuple-class.html">pygeodesy.named.Curvature2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(meridional, prime_vertical)</code> of radii of 
+        curvature, both in <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Destination2Tuple-class.html">pygeodesy.named.Destination2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(destination, final)</code>, <code>destination</code>
+        in <code>LatLon</code> and <code>final</code> bearing in compass 
+        <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Distance2Tuple-class.html">pygeodesy.named.Distance2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(distance, initial)</code>, <code>distance</code> in 
+        <code>meter</code> and <code>initial</code> bearing in compass 
+        <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Distance3Tuple-class.html">pygeodesy.named.Distance3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(distance, initial, final)</code>, 
+        <code>distance</code> in <code>meter</code> and 
+        <code>initial</code> and <code>final</code> bearing, both in 
+        compass <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Distance4Tuple-class.html">pygeodesy.named.Distance4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(distance2, delta_lat, delta_lon, unroll_lon2)</code>
+        with the distance in <code>degrees squared</code>, the latitudinal 
+        <code>delta_lat</code> = 
+        <b><code>lat2</code></b>-<b><code>lat1</code></b>, the wrapped, 
+        unrolled and adjusted longitudinal <code>delta_lon</code> = 
+        <b><code>lon2</code></b>-<b><code>lon1</code></b> and the 
+        <code>unroll_lon2</code> unrollment for <b><code>lon2</code></b>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.EasNor2Tuple-class.html">pygeodesy.named.EasNor2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(easting, northing)</code>, both in 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.EasNor3Tuple-class.html">pygeodesy.named.EasNor3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(easting, northing, height)</code>, all in 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.EasNorAziRk4Tuple-class.html">pygeodesy.named.EasNorAziRk4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(easting, northing, azimuth, reciprocal)</code> for 
+        the Cassini-Soldner location with <code>easting</code> and 
+        <code>northing</code> in <code>meters</code>, the 
+        <code>azimuth</code> of easting direction azimuth and 
+        <code>reciprocal</code> the reciprocal of azimuthal northing scale 
+        reciprocal, both in <code>degrees</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.EasNorExact4Tuple-class.html">pygeodesy.named.EasNorExact4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(easting, northing, convergence, scale)</code> in 
+        <code>meter</code>, <code>meter</code>, {degrees} and 
+        <code>scalar</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.EasNorRadius3Tuple-class.html">pygeodesy.named.EasNorRadius3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(easting, northing, radius)</code>, all in 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Elevation2Tuple-class.html">pygeodesy.named.Elevation2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(elevation, data_source)</code> in <code>meter</code>
+        and <code>str</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.GeoidHeight2Tuple-class.html">pygeodesy.named.GeoidHeight2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(height, model_name)</code>, geoid 
+        <code>height</code> in <code>meter</code> and 
+        <code>model_name</code> as <code>str</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.GeoidHeight5Tuple-class.html">pygeodesy.named.GeoidHeight5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(lat, lon, egm84, egm96, egm2008)</code> for <a 
+        href="https://SourceForge.net/projects/geographiclib/files/testdata/"
+        target="_top">GeoidHeights.dat</a> tests with the heights for 3 
+        different EGM grids with <code>-90.0 &lt;= lat &lt;= 90.0</code> 
+        and <code>-180.0 &lt;= lon &lt;= 180.0</code> degrees (and 
+        <code>lon</code> converted from the original <code>0.0 &lt;= 
+        EasterLon &lt;= 360.0</code>).</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.Hausdorff6Tuple-class.html">pygeodesy.hausdorff.Hausdorff6Tuple</a></strong>:
+      <em class="summary">6-Tuple <code>(hd, i, j, mn, md, units)</code> with the <a 
+        href="https://WikiPedia.org/wiki/Hausdorff_distance" 
+        target="_top">Hausdorff</a> distance <code>hd</code>, indices 
+        <code>i</code> and <code>j</code>, the total count <code>mn</code>,
+        the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
+        the name of the distance <code>units</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon2Tuple-class.html">pygeodesy.named.LatLon2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees[90]</code> and 
+        <code>degrees[180]</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon3Tuple-class.html">pygeodesy.named.LatLon3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(lat, lon, height)</code> in 
+        <code>degrees[90]</code>, <code>degrees[180]</code> and 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon4Tuple-class.html">pygeodesy.named.LatLon4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(lat, lon, height, datum)</code> in 
+        <code>degrees90</code>, <code>degrees180</code>, <code>meter</code>
+        and <a href="pygeodesy.datum.Datum-class.html" 
+        class="link">Datum</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonAziRk4Tuple-class.html">pygeodesy.named.LatLonAziRk4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(lat, lon, azimuth, reciprocal)</code>, all in 
+        <code>degrees</code> where <code>azimuth</code> is the azimuth of 
+        easting direction and <code>reciprocal</code> the reciprocal of 
+        azimuthal northing scale.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonDatum3Tuple-class.html">pygeodesy.named.LatLonDatum3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(lat, lon, datum)</code> in <code>degrees[90]</code>,
+        <code>degrees[180]</code> and <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonDatum5Tuple-class.html">pygeodesy.named.LatLonDatum5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
+        <code>degrees[90]</code>, <code>degrees[180]</code>, <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>, 
+        {degrees} and <code>float</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonExact4Tuple-class.html">pygeodesy.named.LatLonExact4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(lat, lon, convergence, scale)</code> in 
+        <code>degrees</code>, <code>degrees180</code>, <code>degrees</code>
+        and <code>sclar</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonPrec3Tuple-class.html">pygeodesy.named.LatLonPrec3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(lat, lon, precision)</code> in <code>degrees</code>,
+        <code>degrees</code> and <code>int</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonPrec5Tuple-class.html">pygeodesy.named.LatLonPrec5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(lat, lon, precision, height, radius)</code> in 
+        <code>degrees</code>, <code>degrees</code>, <code>int</code> and 
+        <code>height</code> or <code>radius</code> in <code>meter</code> 
+        (or <code>None</code> if missing).</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Mgrs4Tuple-class.html">pygeodesy.named.Mgrs4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(zone, digraph, easting, northing)</code>, 
+        <code>zone</code> and <code>digraph</code> as <code>str</code>, 
+        <code>easting</code> and <code>northing</code> in 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Mgrs6Tuple-class.html">pygeodesy.named.Mgrs6Tuple</a></strong>:
+      <em class="summary">6-Tuple <code>(zone, digraph, easting, northing, band, 
+        datum)</code>, <code>zone</code>, <code>digraph</code> and 
+        <code>band</code> as <code>str</code>, <code>easting</code> and 
+        <code>northing</code> in <code>meter</code> and <code>datum</code> 
+        a <a href="pygeodesy.datum.Datum-class.html" 
+        class="link">Datum</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.NearestOn3Tuple-class.html">pygeodesy.named.NearestOn3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(closest, distance, angle)</code> of the 
+        <code>closest</code> point on the polygon, either a 
+        <code>LatLon</code> instance or a <a 
+        href="pygeodesy.named.LatLon3Tuple-class.html" 
+        class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> and 
+        the <code>distance</code> and <code>angle</code> to the 
+        <code>closest</code> point are in <code>meter</code> respectively 
+        compass <code>degrees360</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.NearestOn5Tuple-class.html">pygeodesy.named.NearestOn5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(lat, lon, distance, angle, height)</code> all in 
+        <code>degrees</code>, except <code>height</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Ned3Tuple-class.html">pygeodesy.named.Ned3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(north, east, down)</code>, all in 
+        <code>degrees</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.PhiLam2Tuple-class.html">pygeodesy.named.PhiLam2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(phi, lambda)</code> with latitude <code>phi</code> 
+        in <code>radians[PI_2]</code> and longitude <code>lambda</code> in 
+        <code>radians[PI]</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.PhiLam3Tuple-class.html">pygeodesy.named.PhiLam3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(phi, lambda, height)</code> with latitude 
+        <code>phi</code> in <code>radians[PI_2]</code>, longitude 
+        <code>lambda</code> in <code>radians[PI]</code> and 
+        <code>height</code> in <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Point3Tuple-class.html">pygeodesy.named.Point3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(x, y, ll)</code> in <code>meter</code>, 
+        <code>meter</code> and <code>LatLon</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Shape2Tuple-class.html">pygeodesy.named.Shape2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(nrows, ncols)</code>, the number of rows and 
+        columns, both <code>int</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.UtmUps2Tuple-class.html">pygeodesy.named.UtmUps2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(zone, hemipole)</code> as <code>int</code> and 
+        <code>str</code>, where <code>zone</code> is <code>1..60</code> for
+        UTM or <code>0</code> for UPS and <code>hemipole</code> 
+        <code>'N'|'S'</code> is the UTM hemisphere or the UPS pole.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.UtmUps4Tuple-class.html">pygeodesy.named.UtmUps4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(zone, hemipole, easting, northing)</code> as 
+        <code>str</code>, <code>str</code>, <code>meter</code> and 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.UtmUps5Tuple-class.html">pygeodesy.named.UtmUps5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(zone, hemipole, easting, northing, band)</code> as 
+        <code>int</code>, <code>str</code>, <code>meter</code>, 
+        <code>meter</code> and <code>band</code> letter, where 
+        <code>zone</code> is <code>1..60</code> for UTM or <code>0</code> 
+        for UPS, <code>hemipole</code> <code>'N'|'S'</code> is the UTM 
+        hemisphere or the UPS pole and {band} is <code>&quot;&quot;</code> 
+        or the (longitudinal) UTM band <code>'C'|'D'..'W'|'X'</code> or the
+        (polar) UPS band <code>'A'|'B'|'Y'|'Z'</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.UtmUps8Tuple-class.html">pygeodesy.named.UtmUps8Tuple</a></strong>:
+      <em class="summary">8-Tuple <code>(zone, hemipole, easting, northing, band, datum, 
+        convergence, scale)</code> as <code>int</code>, <code>str</code>, 
+        <code>meter</code>, <code>meter</code>, <code>band</code> letter, 
+        <code>Datum</code>, <code>degrees</code> and <code>float</code>, 
+        where <code>zone</code> is <code>1..60</code> for UTM or 
+        <code>0</code> for UPS, <code>hemipole</code> <code>'N'|'S'</code> 
+        is the UTM hemisphere or the UPS pole and {band} is 
+        <code>&quot;&quot;</code> or the (longitudinal) UTM band 
+        <code>'C'|'D'..'W'|'X'</code> or the (polar) UPS band 
+        <code>'A'|'B'|'Y'|'Z'</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.UtmUpsLatLon5Tuple-class.html">pygeodesy.named.UtmUpsLatLon5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(zone, band, hemipole, lat, lon)</code> as 
+        <code>int</code>, <code>str</code>, <code>str</code>, 
+        <code>degrees90</code> and <code>degrees180</code>, where 
+        <code>zone</code> is <code>1..60</code> for UTM or <code>0</code> 
+        for UPS, {band} is <code>&quot;&quot;</code> or the (longitudinal) 
+        UTM band <code>'C'|'D'..'W'|'X'</code> or (polar) UPS band 
+        <code>'A'|'B'|'Y'|'Z'</code> and <code>hemipole</code> 
+        <code>'N'|'S'</code> is the UTM hemisphere or the UPS pole.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Vector3Tuple-class.html">pygeodesy.named.Vector3Tuple</a></strong>:
+      <em class="summary">3-Tuple <code>(x, y, z)</code> of (geocentric) components, all in 
+        <code>meter</code> or <code>units</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.Vector4Tuple-class.html">pygeodesy.named.Vector4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(x, y, z, h)</code> of (geocentric) components, all 
+        in <code>meter</code> or <code>units</code>.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">type</strong>:
+      <em class="summary">type(object) -&gt; the object's type type(name, bases, dict) -&gt; 
+        a new type</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="abc.ABCMeta-class.html">abc.ABCMeta</a></strong>:
+      <em class="summary">Metaclass for defining Abstract Base Classes (ABCs).</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+</ul>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Trees&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Aug 17 22:08:14 2019
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

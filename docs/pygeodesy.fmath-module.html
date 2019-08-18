@@ -1,0 +1,1771 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.fmath</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;fmath
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.fmath-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module fmath</h1><p class="nomargin-top"></p>
+<p>Precision floating point functions, utilities and constants.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        19.08.14
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fsum-class.html" class="summary-name">Fsum</a><br />
+      Precision summation similar to standard Python function 
+        <code>math.fsum</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fdot-class.html" class="summary-name">Fdot</a><br />
+      Precision dot product.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fhorner-class.html" class="summary-name">Fhorner</a><br />
+      Precision polynomial evaluation using the Horner form.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.fmath.Fpolynomial-class.html" class="summary-name">Fpolynomial</a><br />
+      Precision polynomial evaluation.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="hypot"></a><span class="summary-sig-name">hypot</span>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Return the Euclidean distance, sqrt(x*x + y*y).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">bool</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isinf"></a><span class="summary-sig-name">isinf</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      Check if float x is infinite (positive or negative).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">bool</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isnan"></a><span class="summary-sig-name">isnan</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      Check if float x is not a number (NaN).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="acos1"></a><span class="summary-sig-name">acos1</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      Return <i class="math">math.acos(max(-1, min(1, x)))</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#cbrt" class="summary-sig-name">cbrt</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the cubic root <i class="math">x**(1/3)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#cbrt2" class="summary-sig-name">cbrt2</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the cubic root squared <i class="math">x**(2/3)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#favg" class="summary-sig-name">favg</a>(<span class="summary-sig-arg">v1</span>,
+        <span class="summary-sig-arg">v2</span>,
+        <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">0.5</span>)</span><br />
+      Return the weighted average of two values.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">*b</span>)</span><br />
+      Return the precision dot product <i class="math">sum(a[i] * b[i] for 
+      i=0..len(a))</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fdot3" class="summary-sig-name">fdot3</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>,
+        <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Return the precision dot product <i class="math">start + sum(a[i] * 
+      b[i] * c[i] for i=0..len(a))</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fhorner" class="summary-sig-name">fhorner</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">*cs</span>)</span><br />
+      Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
+      i=0..len(cs))</i> using the Horner form.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fidw" class="summary-sig-name">fidw</a>(<span class="summary-sig-arg">xs</span>,
+        <span class="summary-sig-arg">ds</span>,
+        <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">2</span>)</span><br />
+      Interpolate using using <a 
+      href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+      target="_top">Inverse Distance Weighting</a> (IDW).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fmean" class="summary-sig-name">fmean</a>(<span class="summary-sig-arg">xs</span>)</span><br />
+      Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs))
+      / len(xs)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fpolynomial" class="summary-sig-name">fpolynomial</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">*cs</span>)</span><br />
+      Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
+      i=0..len(cs))</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fpowers" class="summary-sig-name">fpowers</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">n</span>,
+        <span class="summary-sig-arg">alts</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Return a series of powers <i class="math">[x**i for i=1..n]</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fprod" class="summary-sig-name">fprod</a>(<span class="summary-sig-arg">iterable</span>,
+        <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">1.0</span>)</span><br />
+      Iterable product, like <code>numpy.prod</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#frange" class="summary-sig-name">frange</a>(<span class="summary-sig-arg">start</span>,
+        <span class="summary-sig-arg">number</span>,
+        <span class="summary-sig-arg">step</span>=<span class="summary-sig-default">1</span>)</span><br />
+      Generate a range of <code>float</code>s.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">value</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#freduce" class="summary-sig-name">freduce</a>(<span class="summary-sig-arg">function</span>,
+        <span class="summary-sig-arg">sequence</span>,
+        <span class="summary-sig-arg">initial</span>=<span class="summary-sig-default">...</span>)</span><br />
+      Apply a function of two arguments cumulatively to the items of a 
+      sequence, from left to right, so as to reduce the sequence to a 
+      single value.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fStr" class="summary-sig-name">fStr</a>(<span class="summary-sig-arg">floats</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">%.*f</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert floats to string, optionally with trailing zero decimals 
+      stripped.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fStrzs" class="summary-sig-name">fStrzs</a>(<span class="summary-sig-arg">fstr</span>)</span><br />
+      Strip trailing zero decimals from a float string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum_" class="summary-sig-name">fsum_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Precision summation of the positional argument vulues.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
+      Return an accurate floating point sum of values in the iterable.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#hypot1" class="summary-sig-name">hypot1</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the norm <i class="math">sqrt(1 + x**2)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#hypot_" class="summary-sig-name">hypot_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Compute the norm <i class="math">sqrt(sum(xs[i]**2)) for 
+      i=0..len(xs)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#isfinite" class="summary-sig-name">isfinite</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check for <code>Inf</code> and <code>NaN</code> values.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Check for integer type or integer value.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#isneg0" class="summary-sig-name">isneg0</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check for NEG0, negative 0.0.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#isscalar" class="summary-sig-name">isscalar</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check for scalar types.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#len2" class="summary-sig-name">len2</a>(<span class="summary-sig-arg">seq</span>)</span><br />
+      Make built-in function <code class="link">len</code> work for 
+      generators, iterators, etc.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">func</span>,
+        <span class="summary-sig-arg">*xs</span>)</span><br />
+      Apply each argument to a single-argument function and return a tuple 
+      of results.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">func</span>,
+        <span class="summary-sig-arg">*xs</span>)</span><br />
+      Apply arguments to a function and return a tuple of results.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#scalar" class="summary-sig-name">scalar</a>(<span class="summary-sig-arg">value</span>,
+        <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">1.0</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span><br />
+      Validate a scalar.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#sqrt3" class="summary-sig-name">sqrt3</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Compute the square root cubed <i class="math">sqrt(x)**3</i> or <i 
+      class="math">sqrt(x**3)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.fmath">_ALL_LAZY.fmath</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.22044604925e-16">2.22044604925e-16</code><br />
+      Epsilon (<code>float</code>) 2**-52?
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="MANTIS"></a><span class="summary-name">MANTIS</span> = <code title="53">53</code><br />
+      Mantissa bits &#8776;53 (<code>int</code>)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="MAX"></a><span class="summary-name">MAX</span> = <code title="1.79769313486e+308">1.79769313486e+308</code><br />
+      Float max (<code>float</code>) &#8776;10**308, 2**1024?
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="MIN"></a><span class="summary-name">MIN</span> = <code title="2.22507385851e-308">2.22507385851e-308</code><br />
+      System's float min (<code>float</code>)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS_2"></a><span class="summary-name">EPS_2</span> = <code title="1.11022302463e-16">1.11022302463e-16</code><br />
+      <i class="math">EPS / 2</i>   &#8776;1.110223024625e-16 
+      (<code>float</code>)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="1.0">1.0</code><br />
+      <i class="math">1 - EPS</i>   &#8776;0.9999999999999998 
+      (<code>float</code>)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS1_2"></a><span class="summary-name">EPS1_2</span> = <code title="1.0">1.0</code><br />
+      <i class="math">1 - EPS_2</i> &#8776;0.9999999999999999 
+      (<code>float</code>)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="INF"></a><span class="summary-name">INF</span> = <code title="inf">inf</code><br />
+      Infinity (<code>float</code>), see <code>isinf</code>, 
+      <code>isfinite</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="NAN"></a><span class="summary-name">NAN</span> = <code title="nan">nan</code><br />
+      Not-A-Number (<code>float</code>), see <code>isnan</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="NEG0"></a><span class="summary-name">NEG0</span> = <code title="-0.0">-0.0</code><br />
+      Negative 0.0 (<code>float</code>), see <code>isneg0</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="cbrt"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the cubic root <i class="math">x**(1/3)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Cubic root (<code>float</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.fmath-module.html#cbrt2" 
+        class="link">cbrt2</a> and <a 
+        href="pygeodesy.fmath-module.html#sqrt3" class="link">sqrt3</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="cbrt2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cbrt2</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the cubic root squared <i class="math">x**(2/3)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Cubic root squared (<code>float</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.fmath-module.html#cbrt" 
+        class="link">cbrt</a> and <a 
+        href="pygeodesy.fmath-module.html#sqrt3" class="link">sqrt3</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="favg"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">favg</span>(<span class="sig-arg">v1</span>,
+        <span class="sig-arg">v2</span>,
+        <span class="sig-arg">f</span>=<span class="sig-default">0.5</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the weighted average of two values.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>v1</code></strong> - One value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>v2</code></strong> - Other value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>f</code></strong> - Optional fraction (<code>float</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><i class="math">v1 + f * (v2 - v1)</i> (<code>float</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fdot"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot</span>(<span class="sig-arg">a</span>,
+        <span class="sig-arg">*b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the precision dot product <i class="math">sum(a[i] * b[i] for 
+  i=0..len(a))</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>b</code></strong> - All positional arguments (<code>scalar</code>s).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Dot product (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len(<b>a</b>)</code> and <code>len(<b>b</b>)</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Class <a href="pygeodesy.fmath.Fdot-class.html" 
+        class="link">Fdot</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fdot3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot3</span>(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>,
+        <span class="sig-arg">start</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the precision dot product <i class="math">start + sum(a[i] * 
+  b[i] * c[i] for i=0..len(a))</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>b</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>c</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>start</code></strong> - Optional bias (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Dot product (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len(<b>a</b>)</code>, <code>len(<b>b</b>)</code> 
+        and/or <code>len(<b>c</b>)</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fhorner"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fhorner</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">*cs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
+  i=0..len(cs))</i> using the Horner form.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Polynomial argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Horner value (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <b><code>cs</code></b> coefficients or <b><code>x</code></b> is 
+        not finite.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#fpolynomial" 
+        class="link">fpolynomial</a> and class <a 
+        href="pygeodesy.fmath.Fhorner-class.html" class="link">Fhorner</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fidw"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fidw</span>(<span class="sig-arg">xs</span>,
+        <span class="sig-arg">ds</span>,
+        <span class="sig-arg">beta</span>=<span class="sig-default">2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Interpolate using using <a 
+  href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+  target="_top">Inverse Distance Weighting</a> (IDW).</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xs</code></strong> - Known values (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>ds</code></strong> - Non-negative distances (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>beta</code></strong> - Inverse distance power (<code>int</code>, 0, 1, 2, or 3).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Interpolated value <code>x</code> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>beta</code></b>, negative <b><code>ds</code></b> 
+        value, weighted <b><code>ds</code></b> below <a 
+        href="pygeodesy.fmath-module.html#EPS" class="link">EPS</a> or 
+        unequal <code>len(<b>ds</b>)</code> and 
+        <code>len(<b>xs</b>)</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Using <code><b>beta</b>=0</code> returns the mean of 
+        <b><code>xs</code></b>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fmean"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fmean</span>(<span class="sig-arg">xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the accurate mean <i class="math">sum(xs[i] for i=0..len(xs)) 
+  / len(xs)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xs</code></strong> - Values (<code>scalar</code>s).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Mean value (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <b><code>xs</code></b> values.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fpolynomial"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fpolynomial</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">*cs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Evaluate the polynomial <i class="math">sum(cs[i] * x**i for 
+  i=0..len(cs))</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Polynomial argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Polynomial coeffients (<code>scalar</code>[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Polynomial value (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No <b><code>cs</code></b> coefficients or <b><code>x</code></b> is 
+        not finite.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#fhorner" 
+        class="link">fhorner</a> and class <a 
+        href="pygeodesy.fmath.Fpolynomial-class.html" 
+        class="link">Fpolynomial</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fpowers"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fpowers</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">n</span>,
+        <span class="sig-arg">alts</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a series of powers <i class="math">[x**i for i=1..n]</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>n</code></strong> - Highest exponent (<code>int</code>).</li>
+        <li><strong class="pname"><code>alts</code></strong> - Only alternating powers, starting with this exponent 
+          (<code>int</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Powers of <b><code>x</code></b> (<code>float</code>[]).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x</code></b> or <b><code>n</code></b> not 
+        <code>int</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Non-finite <b><code>x</code></b> or non-positive 
+        <b><code>n</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fprod"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fprod</span>(<span class="sig-arg">iterable</span>,
+        <span class="sig-arg">start</span>=<span class="sig-default">1.0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Iterable product, like <code>numpy.prod</code>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>iterable</code></strong> - Values to be multiplied (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>start</code></strong> - Initial product, also the value returned for an empty iterable 
+          (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The product (<code>float</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.prod.html"
+        target="_top">NumPy.prod</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="frange"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">frange</span>(<span class="sig-arg">start</span>,
+        <span class="sig-arg">number</span>,
+        <span class="sig-arg">step</span>=<span class="sig-default">1</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Generate a range of <code>float</code>s.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>start</code></strong> - First value (<code>float</code>).</li>
+        <li><strong class="pname"><code>number</code></strong> - The number of <code>float</code>s to generate (<code>int</code>).</li>
+        <li><strong class="pname"><code>step</code></strong> - Increment value (<code>float</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A generator (<code>float</code>s).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.arange.html"
+        target="_top">NumPy.prod</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="freduce"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">freduce</span>(<span class="sig-arg">function</span>,
+        <span class="sig-arg">sequence</span>,
+        <span class="sig-arg">initial</span>=<span class="sig-default">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply a function of two arguments cumulatively to the items of a 
+  sequence, from left to right, so as to reduce the sequence to a single 
+  value. For example, reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates 
+  ((((1+2)+3)+4)+5).  If initial is present, it is placed before the items 
+  of the sequence in the calculation, and serves as a default when the 
+  sequence is empty.</p>
+  <dl class="fields">
+    <dt>Returns: value</dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fStr</span>(<span class="sig-arg">floats</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">%.*f</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">ints</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert floats to string, optionally with trailing zero decimals 
+  stripped.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional precision, number of decimal digits (0..9). Trailing 
+          zero decimals are stripped for <b><code>prec</code></b> values of
+          1 and above, but kept for negative <b><code>prec</code></b> 
+          values.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional, separator to join (string).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (string).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The floats as 'f, f, ... f' (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fStrzs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fStrzs</span>(<span class="sig-arg">fstr</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Strip trailing zero decimals from a float string.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fstr</code></strong> - Float (string).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Float (string).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fsum_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum_</span>(<span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Precision summation of the positional argument vulues.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xs</code></strong> - Values to be added (<code>scalar</code>[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Accurate <a href="pygeodesy.fmath-module.html#fsum" 
+          class="link">fsum</a> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>xs</code></b> value.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or non-finite <b><code>xs</code></b> value.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fsum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fsum</span>(<span class="sig-arg">iterable</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return an accurate floating point sum of values in the iterable. 
+  Assumes IEEE-754 floating point arithmetic.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="hypot1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot1</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the norm <i class="math">sqrt(1 + x**2)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Argument (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Norm (<code>float</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="hypot_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot_</span>(<span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the norm <i class="math">sqrt(sum(xs[i]**2)) for 
+  i=0..len(xs)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Norm (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or no <b><code>xs</code></b> value.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Similar to Python 3.8+ <a 
+        href="https://docs.Python.org/3.8/library/math.html#math.hypot" 
+        target="_top">math.hypot</a>, but handling of exceptions, 
+        <code>nan</code> and <code>infinite</code> values is different.
+      </p>
+      <p><strong>Note:</strong>
+        The Python 3.8+ <a 
+        href="https://docs.Python.org/3.8/library/math.html#math.dist" 
+        target="_top">math.dist</a> Euclidian distance between 2 
+        <i>n</i>-dimensional points <i>p1</i> and <i>p2</i> can be computed
+        as <i class="math">hypot_(*((c1 - c2) for c1, c2 in zip(p1, 
+        p2)))</i>, provided <i>p1</i> and <i>p2</i> have the same, non-zero
+        length <i>n</i>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isfinite"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isfinite</span>(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for <code>Inf</code> and <code>NaN</code> values.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>False</code> if <b><code>obj</code></b> is <code>INF</code>
+          or <code>NAN</code>, <code>True</code> otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>obj</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isint"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isint</span>(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">both</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for integer type or integer value.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>both</code></strong> - Optionally, check both type and value (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>obj</code></b> is <code>int</code>,
+          <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isneg0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isneg0</span>(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for NEG0, negative 0.0.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>obj</code></b> is <code>NEG0</code>
+          or -0.0, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isscalar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isscalar</span>(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for scalar types.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>obj</code></b> is 
+          <code>scalar</code>, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="len2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">len2</span>(<span class="sig-arg">seq</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Make built-in function <code class="link">len</code> work for 
+  generators, iterators, etc. since those can only be started exactly 
+  once.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>seq</code></strong> - Generator, iterator, list, range, tuple, etc.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple (number, ...) of items (<code>int</code>, 
+          <code>list</code> or <code>range</code> or <code>tuple</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="map1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">map1</span>(<span class="sig-arg">func</span>,
+        <span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply each argument to a single-argument function and return a tuple 
+  of results.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>func</code></strong> - Function to apply (<code>callable</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (<code>any positional</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Function results (<code>tuple</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="map2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">map2</span>(<span class="sig-arg">func</span>,
+        <span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply arguments to a function and return a tuple of results.</p>
+  <p>Unlike Python 2's built-in <code class="link">map</code>, Python 3+ 
+  <code class="link">map</code> returns a <code class="link">map</code> 
+  object, an iterator-like object which generates the results only once.  
+  Converting the <code class="link">map</code> object to a tuple maintains 
+  Python 2 behavior.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>func</code></strong> - Function to apply (<code>callable</code>).</li>
+        <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (<code>list, tuple, ...</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Function results (<code>tuple</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="scalar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">scalar</span>(<span class="sig-arg">value</span>,
+        <span class="sig-arg">low</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">high</span>=<span class="sig-default">1.0</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Validate a scalar.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>value</code></strong> - The value (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>low</code></strong> - Optional lower bound (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>high</code></strong> - Optional upper bound (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name of value (<code>str</code>).</li>
+        <li><strong class="pname"><code>Error</code></strong> - Exception to raise (<code>ValueError</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New value (<code>type</code> of <b><code>low</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>value</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Out-of-bounds <b><code>value</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="sqrt3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sqrt3</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the square root cubed <i class="math">sqrt(x)**3</i> or <i 
+  class="math">sqrt(x**3)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Cubed square root (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Negative <b><code>x</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.fmath-module.html#cbrt" 
+        class="link">cbrt</a> and <a 
+        href="pygeodesy.fmath-module.html#cbrt2" class="link">cbrt2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Aug 17 22:08:15 2019
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
