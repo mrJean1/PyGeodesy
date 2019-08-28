@@ -65,7 +65,7 @@ from pygeodesy.datum import Datum
 from pygeodesy.fmath import INF
 from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
-from pygeodesy.named import _Named, _NamedTuple
+from pygeodesy.named import _LLab2Tuple, _Named, _NamedTuple
 from pygeodesy.utily import points2, property_RO, unroll180, unrollPI
 
 from math import radians
@@ -73,12 +73,6 @@ from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
 __version__ = '19.08.17'
-
-
-class _LLab2Tuple(_NamedTuple):
-    '''2-Tuple C{(a, b)} with C{lat} and C{lon} in C{radians}.
-    '''
-    _Names_ = ('a', 'b')
 
 
 class HausdorffError(ValueError):

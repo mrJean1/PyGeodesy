@@ -38,8 +38,8 @@ to simplify_ or linearize a path of *LatLon* points (or a `NumPy array`_),
 including implementations of the `Ramer-Douglas-Peucker`_, the
 `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
 versions of the former.  Other classes interpolate_ the height of
-*LatLon* points and several *Geoid* models or calculate various
-Hausdorff_ distances.
+*LatLon* points and several *Geoid* models or compute various `Fréchet`_
+or Hausdorff_ distances.
 
 Installation
 ============
@@ -111,7 +111,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 17, 2019.*
+*Last updated: Aug 26, 2019.*
 
 License
 =======
@@ -162,6 +162,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Epydoc: https://PyPI.org/project/epydoc
 .. _Exact: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html
 .. _Flake8: https://PyPI.org/project/flake8
+.. _Fréchet: https://WikiPedia.org/wiki/Frechet_distance
 .. _Garefs (GARS): https://WikiPedia.org/wiki/Global_Area_Reference_System
 .. _geographiclib: https://PyPI.org/project/geographiclib
 .. _Geohashes: https://www.Movable-Type.co.UK/scripts/geohash.html

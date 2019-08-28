@@ -99,6 +99,9 @@
         href="pygeodesy.elliptic.Elliptic-class.html" 
         class="link">Elliptic</a> issue.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetError-class.html">pygeodesy.frechet.FrechetError</a></strong>:
+      <em class="summary">Fr&#233;chet issue.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars.GARSError-class.html">pygeodesy.gars.GARSError</a></strong>:
       <em class="summary">Global Area Reference System (GARS) encode, decode or other <a 
         href="pygeodesy.gars.Garef-class.html" class="link">Garef</a> 
@@ -356,6 +359,51 @@
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic.Elliptic-class.html">pygeodesy.elliptic.Elliptic</a></strong>:
       <em class="summary">Elliptic integrals and functions.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.Frechet-class.html">pygeodesy.frechet.Frechet</a></strong>:
+      <em class="summary">Frechet base class, requires method <a 
+        href="pygeodesy.frechet.Frechet-class.html#distance" 
+        class="link">Frechet.distance</a> to be overloaded.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetDegrees-class.html">pygeodesy.frechet.FrechetDegrees</a></strong>:
+      <em class="summary"><a href="pygeodesy.frechet.Frechet-class.html" 
+        class="link">Frechet</a> base class for distances in 
+        <code>degrees</code> from <code>LatLon</code> points in 
+        <code>degrees</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetRadians-class.html">pygeodesy.frechet.FrechetRadians</a></strong>:
+      <em class="summary"><a href="pygeodesy.frechet.Frechet-class.html" 
+        class="link">Frechet</a> base class for distances in 
+        <code>radians</code> from <code>LatLon</code> points converted from
+        <code>degrees</code> to <code>radians</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetEquirectangular-class.html">pygeodesy.frechet.FrechetEquirectangular</a></strong>:
+      <em class="summary">Compute the <code>Frechet</code> distance based on the 
+        <code>equirectangular</code> distance (in radians squared) like 
+        function <a href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetEuclidean-class.html">pygeodesy.frechet.FrechetEuclidean</a></strong>:
+      <em class="summary">Compute the <code>Frechet</code> distance based on the 
+        <code>Euclidean</code> distance (in radians) from function <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetHaversine-class.html">pygeodesy.frechet.FrechetHaversine</a></strong>:
+      <em class="summary">Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> <code>Haversine</code> distance (in radians) from 
+        function <a href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetVincentys-class.html">pygeodesy.frechet.FrechetVincentys</a></strong>:
+      <em class="summary">Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> <code>Vincenty</code> distance (in radians) from 
+        function <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a>.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.Hausdorff-class.html">pygeodesy.hausdorff.Hausdorff</a></strong>:
       <em class="summary">Hausdorff base class, requires method <a 
@@ -866,6 +914,15 @@
       <em class="summary">2-Tuple <code>(elevation, data_source)</code> in <code>meter</code>
         and <code>str</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.Frechet6Tuple-class.html">pygeodesy.frechet.Frechet6Tuple</a></strong>:
+      <em class="summary">6-Tuple <code>(fd, fi, fj, r, n, units)</code> with the 
+        <i>discrete</i> <a 
+        href="https://WikiPedia.org/wiki/Frechet_distance" 
+        target="_top">Frechet distance</a> <code>fd</code>, 
+        <i>fractional</i> indices <code>fi</code> and <code>fj</code>, the 
+        recursion depth <code>r</code>, the number of distances computed 
+        <code>n</code> and the name of the distance <code>units</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.GeoidHeight2Tuple-class.html">pygeodesy.named.GeoidHeight2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(height, model_name)</code>, geoid 
         <code>height</code> in <code>meter</code> and 
@@ -1199,6 +1256,15 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">2-Tuple <code>(elevation, data_source)</code> in <code>meter</code>
         and <code>str</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.Frechet6Tuple-class.html">pygeodesy.frechet.Frechet6Tuple</a></strong>:
+      <em class="summary">6-Tuple <code>(fd, fi, fj, r, n, units)</code> with the 
+        <i>discrete</i> <a 
+        href="https://WikiPedia.org/wiki/Frechet_distance" 
+        target="_top">Frechet distance</a> <code>fd</code>, 
+        <i>fractional</i> indices <code>fi</code> and <code>fj</code>, the 
+        recursion depth <code>r</code>, the number of distances computed 
+        <code>n</code> and the name of the distance <code>units</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.GeoidHeight2Tuple-class.html">pygeodesy.named.GeoidHeight2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(height, model_name)</code>, geoid 
         <code>height</code> in <code>meter</code> and 
@@ -1417,7 +1483,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 17 22:08:14 2019
+    Generated by Epydoc 3.0.1 on Wed Aug 28 14:12:47 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

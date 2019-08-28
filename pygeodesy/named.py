@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '19.07.14'
+__version__ = '19.08.19'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -731,6 +731,12 @@ class GeoidHeight5Tuple(_NamedTuple):  # .geoids.py
        converted from the original C{0.0 <= EasterLon <= 360.0}).
     '''
     _Names_ = ('lat', 'lon', 'egm84', 'egm96', 'egm2008')
+
+
+class _LLab2Tuple(_NamedTuple):  # frechet, hausdorff
+    '''2-Tuple C{(a, b)} with C{lat} and C{lon} in C{radians}.
+    '''
+    _Names_ = ('a', 'b')
 
 
 class LatLon2Tuple(_NamedTuple):

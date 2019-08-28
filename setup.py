@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.08.14'
+__version__ = '19.08.19'
 
 
 def _c2(*names):
@@ -52,6 +52,7 @@ _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
            'datum', 'development', 'distance', 'Douglas',
            'earth', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
            'equirectangular', 'ETRF', 'Euclidean', 'exact',
+           'fmath', 'Fréchet',
            'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
            'geographiclib', 'geohash', 'geoid', 'geoidHeight',
            'GeoidHeights', 'georef',

@@ -59,9 +59,9 @@ U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/resources/hull:8338>} and
 U{Reumann-Witkam<https://psimpl.SourceForge.net/reumann-witkam.html>}
 the algorithms and modified versions of the former.  Other classes
 U{interpolate<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
-the height of C{LatLon} points and several C{Geoid} models or calculate
-various U{Hausdorff<https://WikiPedia.org/wiki/Hausdorff_distance>}
-distances.
+the height of C{LatLon} points and several C{Geoid} models or compute
+various U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} or
+U{Hausdorff<https://WikiPedia.org/wiki/Hausdorff_distance>} distances.
 
 Installation
 ============
@@ -236,7 +236,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.08.17'
+__version__ = '19.08.26'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -279,6 +279,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.etm                   as etm                    # PYCHOK exported
     import pygeodesy.fmath                 as fmath                  # PYCHOK exported
     import pygeodesy.formy                 as formy                  # PYCHOK exported
+    import pygeodesy.frechet               as frechet                # PYCHOK exported
     import pygeodesy.gars                  as gars                   # PYCHOK exported
     import pygeodesy.geohash               as geohash                # PYCHOK exported
     import pygeodesy.geoids                as geoids                 # PYCHOK exported
@@ -323,6 +324,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.etm                   import *  # PYCHOK __all__
     from pygeodesy.fmath                 import *  # PYCHOK __all__
     from pygeodesy.formy                 import *  # PYCHOK __all__
+    from pygeodesy.frechet               import *  # PYCHOK __all__
     from pygeodesy.gars                  import Garef, GARSError  # PYCHOK exported
     from pygeodesy.geohash               import Geohash, GeohashError  # PYCHOK exported
     from pygeodesy.geoids                import *  # PYCHOK __all__

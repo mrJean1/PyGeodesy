@@ -101,6 +101,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'len2', 'map1', 'map2', 'scalar', 'sqrt3'),
                           formy=('antipode', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
                                  'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode', 'vincentys', 'vincentys_'),
+                        frechet=('Frechet', 'FrechetDegrees', 'FrechetRadians', 'FrechetError',
+                                 'FrechetEquirectangular', 'FrechetEuclidean', 'FrechetHaversine', 'FrechetVincentys',
+                                 'fractional', 'frechet_'),
                            gars=('Garef', 'GARSError'),
                         geohash=('Geohash', 'GeohashError'),
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
@@ -153,7 +156,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                 utily=('points2 as polygon',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.08.14'
+__version__ = '19.08.26'
 
 
 def _all_imports(**more):
