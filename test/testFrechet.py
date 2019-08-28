@@ -4,7 +4,7 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '19.08.19'
+__version__ = '19.08.26'
 
 from base import isPython3, isWindows, TestsBase
 
@@ -80,23 +80,23 @@ if __name__ == '__main__':
                                   (2.63867, 0, 0.0, 208, 10710))
 
     elif isWindows:  # Python 2
-        t.test2(FrechetDegrees_, (288.0, 1, 1,   147,  5400),
-                                 (288.0, 1, 1.0, 205, 10710))
+        t.test2(FrechetDegrees_, (182.5,  83, 45,   21,  5400),
+                                 (175.75, 83, 56.5, 12, 10710))
 
-        t.test2(FrechetRadians_, (5.02655, 1, 1,   147,  5400),
-                                 (5.02655, 1, 1.0, 205, 10710))
+        t.test2(FrechetRadians_, (3.18523, 83, 45,   21,  5400),
+                                 (3.06742, 83, 56.5, 12, 10710))
 
-        t.test2(FrechetEquirectangular, ( 7.53702, 1, 3,   145,  5400),
-                                        (12.58507, 0, 2.5, 203, 10710))
+        t.test2(FrechetEquirectangular, (5.88254, 41, 18,    90,  5400),
+                                        (5.90078, 40, 15.5, 137, 10710))
 
-        t.test2(FrechetEuclidean, (2.81941, 1, 3,   145,  5400),
-                                  (3.95734, 0, 2.5, 203, 10710))
+        t.test2(FrechetEuclidean, (2.6207,  49, 26,   74,  5400),
+                                  (2.53749, 67, 34.0, 73, 10710))
 
-        t.test2(FrechetHaversine, (1.81341, 18, 14,   117,  5400),
-                                  (1.83289,  3,  4.5, 196, 10710))
+        t.test2(FrechetHaversine, (1.75068, 49, 27,    73,  5400),
+                                  (1.75068, 49, 27.0, 105, 10710))
 
-        t.test2(FrechetVincentys, (1.81341, 18, 14,   117,  5400),
-                                  (1.83289,  3,  4.5, 196, 10710))
+        t.test2(FrechetVincentys, (1.75068, 49, 27,    73,  5400),
+                                  (1.75068, 49, 27.0, 105, 10710))
 
     else:  # Python 2, elsewhere
         t.test2(FrechetDegrees_, (288.0, 1, 1,   147,  5400),
