@@ -39,7 +39,7 @@ import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs
-__version__ = '19.07.12'
+__version__ = '19.09.04'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -104,7 +104,7 @@ class Mgrs(_NamedBase):
             self._en100k = en
             self._en100k2m()
         except IndexError:
-            raise MGRSError('%s invalid: %r' ('en100k', en100k))
+            raise MGRSError('%s invalid: %r' % ('en100k', en100k))
 
         self._easting, self._northing = float(easting), float(northing)
 

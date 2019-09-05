@@ -1,10 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{ETMError} and L{Etm}, a pure Python implementation of I{Charles
-Karney's} C++ class U{TransverseMercatorExact
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
-(abbreviated as C{TMExact} below).
+u'''Classes L{ETMError} and L{Etm}, a pure Python implementation of
+I{Charles Karney's} C++ class U{TransverseMercatorExact
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>},
+abbreviated as C{TMExact} below.
 
 Python class L{ExactTransverseMercator} implements the C{Exact Transverse
 Mercator} (ETM) projection.  Instances of class L{Etm} represent ETM
@@ -74,7 +74,7 @@ from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '19.07.12'
+__version__ = '19.08.30'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -156,7 +156,7 @@ except ImportError:  # no geographiclib
 
 
 class ETMError(UTMError):
-    '''Exact Transverse Mercator (ETM) parse, projection or other L{Etm} error.
+    '''Exact Transverse Mercator (ETM) parse, projection or other L{Etm} issue.
     '''
     pass
 

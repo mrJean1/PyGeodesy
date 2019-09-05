@@ -451,6 +451,7 @@ pygeodesy.ellipsoidalVincenty._ds	pygeodesy.ellipsoidalVincenty-module.html#_ds
 pygeodesy.ellipsoidalVincenty.degrees360	pygeodesy.utily-module.html#degrees360
 pygeodesy.ellipsoidalVincenty.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.ellipsoidalVincenty.degrees180	pygeodesy.utily-module.html#degrees180
+pygeodesy.ellipsoidalVincenty.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.ellipsoidalVincenty.areaOf	pygeodesy.ellipsoidalVincenty-module.html#areaOf
 pygeodesy.ellipsoidalVincenty.fpolynomial	pygeodesy.fmath-module.html#fpolynomial
 pygeodesy.ellipsoidalVincenty.__package__	pygeodesy.ellipsoidalVincenty-module.html#__package__

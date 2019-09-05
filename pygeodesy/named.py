@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '19.08.19'
+__version__ = '19.09.04'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -179,7 +179,7 @@ class _Named(object):
            @return: The B{C{inst}}, named if not named before.
         '''
         if not isinstance(inst, _Named):
-            raise TypeError('%s invalid: %r' ('inst', inst))
+            raise TypeError('%s invalid: %r' % ('inst', inst))
 
         if inst.name != self.name:
             inst.name = self.name

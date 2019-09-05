@@ -38,7 +38,7 @@ U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (NATO
 Military Grid Reference System) and U{OSGR
 <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>}
 (British Ordinance Survery Grid Reference) grid references, U{TRF
-<http://ITRF.ENSG.IGN.FR>} (Terrestrial Reference Frames), and modules
+<http://ITRF.ENSG.IGN.FR>} (Terrestrial Reference Frames) and modules
 to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
 <https://www.Movable-Type.co.UK/scripts/geohash.html>}, U{Georefs (WGRS)
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>} and
@@ -113,7 +113,7 @@ only} and with Python 2.7.15, 3.6.8 and 3.7.2 (all with U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.49) on U{Windows Server 2012R2
 <https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} I{in both 32- and 64-bit}.
 
-On Python 3.7+, the tests run with and without C{lazy import}.
+with Python 3.7+, the tests run with and without C{lazy import}.
 
 A single-File and single-Directory application with C{pygeodesy} has
 been bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4
@@ -236,7 +236,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.08.26'
+__version__ = '19.09.04'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

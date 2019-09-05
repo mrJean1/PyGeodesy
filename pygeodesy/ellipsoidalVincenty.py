@@ -61,7 +61,7 @@ del division
 
 from pygeodesy.datum import Datums
 from pygeodesy.ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
-from pygeodesy.fmath import EPS, fpolynomial, hypot, scalar
+from pygeodesy.fmath import EPS, fpolynomial, hypot, hypot1, scalar
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
@@ -73,7 +73,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '19.07.09'
+__version__ = '19.08.30'
 
 
 class VincentyError(ValueError):
@@ -510,9 +510,9 @@ class LatLon(LatLonEllipsoidalBase):
 
             if abs(ll - ll_) < self._epsilon:
                 break
-            # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js>
-            # omitted and applied only after failure to converge, see footnote under
-            # Inverse at <https://WikiPedia.org/wiki/Vincenty's_formulae>
+#           # omitted and applied only after failure to converge below, see footnote
+#           # under Inverse at <https://WikiPedia.org/wiki/Vincenty's_formulae>
+#           # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js>
 #           elif abs(ll) > PI and self.isantipodeTo(other, eps=self._epsilon):
 #              raise VincentyError('%s, %r %sto %r' % ('ambiguous', self,
 #                                  'antipodal ', other))
@@ -566,7 +566,7 @@ def _r3(a, f):
     '''(INTERNAL) Reduced cos, sin, tan.
     '''
     t = (1 - f) * tan(radians(a))
-    c = 1 / hypot(1, t)
+    c = 1 / hypot1(t)
     s = t * c
     return c, s, t
 

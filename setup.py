@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.08.19'
+__version__ = '19.08.28'
 
 
 def _c2(*names):
@@ -46,18 +46,18 @@ def _version():
                 return '.'.join(map(str, map(int, v.split('.'))))
 
 
-_KeyWords=('antipode', 'area', 'azimuth', 'bearing',
+_KeyWords=('altitude', 'antipode', 'area', 'azimuth', 'bearing',
            'cartesian', 'Cassini', 'Cassini-Soldner', 'clip',
            'Cohen', 'Cohen-Sutherland', 'conic', 'curvature',
-           'datum', 'development', 'distance', 'Douglas',
+           'datum', 'development', 'discrete', 'distance', 'Douglas',
            'earth', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
-           'equirectangular', 'ETRF', 'Euclidean', 'exact',
-           'fmath', 'Fréchet',
+           'equirectangular', 'ETM', 'ETRF', 'Euclidean', 'ExactTM',
+           'fmath', 'fractional', 'Fréchet',
            'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
            'geographiclib', 'geohash', 'geoid', 'geoidHeight',
            'GeoidHeights', 'georef',
            'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon',
-           'IDW', 'interpolate', 'Inverse Distance Weighting', 'ITRF',
+           'IDW', 'interpolate', 'Inverse-Distance-Weighting', 'ITRF',
            'Karney', 'Krueger', 'Krüger',
            'Lambert', 'latitude', 'Lesh', 'linearize', 'longitude',
            'Mercator', 'MGRS',
@@ -69,7 +69,7 @@ _KeyWords=('antipode', 'area', 'azimuth', 'bearing',
            'Reumann', 'Reumann-Witkam', 'rhumb',
            'scipy', 'simplify', 'Soldner', 'sphere', 'stereographic',
            'Sutherland', 'Sutherland-Hodgman',
-           'Terrestrial Reference Frame', 'TMcoords',
+           'Terrestrial-Reference-Frame', 'TMcoords', 'TMExact',
            'TransverseMercatorExact', 'TRF', 'trigonometry',
            'unroll', 'UPS', 'UTM', 'UTM/UPS',
            'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',

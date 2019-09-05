@@ -4,7 +4,7 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '19.08.26'
+__version__ = '19.08.30'
 
 from base import isPython3, isWindows, TestsBase
 
@@ -67,17 +67,17 @@ if __name__ == '__main__':
         t.test2(FrechetRadians_, (3.11541, 74, 56,   19,  5400),
                                  (3.06305, 74, 52.5, 29, 10710))
 
-        t.test2(FrechetEquirectangular, (7.1331,  8, 3,   138,  5400),
-                                        (7.01295, 0, 0.0, 208, 10710))
+        t.test2(FrechetEquirectangular, (7.1331,  8, 3, 138,  5400),
+                                        (7.01295, 0, 0, 208, 10710))
 
-        t.test2(FrechetEuclidean, (2.84717, 8, 3,   138,  5400),
-                                  (2.76523, 0, 0.0, 208, 10710))
+        t.test2(FrechetEuclidean, (2.84717, 8, 3, 138,  5400),
+                                  (2.76523, 0, 0, 208, 10710))
 
-        t.test2(FrechetHaversine, (2.63867, 0, 0,   149,  5400),
-                                  (2.63867, 0, 0.0, 208, 10710))
+        t.test2(FrechetHaversine, (2.63867, 0, 0, 149,  5400),
+                                  (2.63867, 0, 0, 208, 10710))
 
-        t.test2(FrechetVincentys, (2.63867, 0, 0,   149,  5400),
-                                  (2.63867, 0, 0.0, 208, 10710))
+        t.test2(FrechetVincentys, (2.63867, 0, 0, 149,  5400),
+                                  (2.63867, 0, 0, 208, 10710))
 
     elif isWindows:  # Python 2
         t.test2(FrechetDegrees_, (182.5,  83, 45,   21,  5400),
@@ -89,21 +89,21 @@ if __name__ == '__main__':
         t.test2(FrechetEquirectangular, (5.88254, 41, 18,    90,  5400),
                                         (5.90078, 40, 15.5, 137, 10710))
 
-        t.test2(FrechetEuclidean, (2.6207,  49, 26,   74,  5400),
-                                  (2.53749, 67, 34.0, 73, 10710))
+        t.test2(FrechetEuclidean, (2.6207,  49, 26, 74,  5400),
+                                  (2.53749, 67, 34, 73, 10710))
 
-        t.test2(FrechetHaversine, (1.75068, 49, 27,    73,  5400),
-                                  (1.75068, 49, 27.0, 105, 10710))
+        t.test2(FrechetHaversine, (1.75068, 49, 27,  73,  5400),
+                                  (1.75068, 49, 27, 105, 10710))
 
-        t.test2(FrechetVincentys, (1.75068, 49, 27,    73,  5400),
-                                  (1.75068, 49, 27.0, 105, 10710))
+        t.test2(FrechetVincentys, (1.75068, 49, 27,  73,  5400),
+                                  (1.75068, 49, 27, 105, 10710))
 
     else:  # Python 2, elsewhere
-        t.test2(FrechetDegrees_, (288.0, 1, 1,   147,  5400),
-                                 (288.0, 1, 1.0, 205, 10710))
+        t.test2(FrechetDegrees_, (288.0, 1, 1, 147,  5400),
+                                 (288.0, 1, 1, 205, 10710))
 
-        t.test2(FrechetRadians_, (5.02655, 1, 1,   147,  5400),
-                                 (5.02655, 1, 1.0, 205, 10710))
+        t.test2(FrechetRadians_, (5.02655, 1, 1, 147,  5400),
+                                 (5.02655, 1, 1, 205, 10710))
 
         t.test2(FrechetEquirectangular, ( 7.53702, 1, 3,   145,  5400),
                                         (12.58507, 0, 2.5, 203, 10710))
