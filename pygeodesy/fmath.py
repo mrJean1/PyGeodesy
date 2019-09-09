@@ -20,7 +20,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.08.14'
+__version__ = '19.09.05'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -729,19 +729,23 @@ def fpowers(x, n, alts=0):
     return xs
 
 
-def fprod(iterable, start=1.0):
-    '''Iterable product, like C{numpy.prod}.
+try:
+    from math import prod as fprod  # Python 3.8
+except ImportError:
 
-       @param iterable: Values to be multiplied (C{scalar}[]).
-       @keyword start: Initial product, also the value returned
-                       for an empty iterable (C{scalar}).
+    def fprod(iterable, start=1.0):
+        '''Iterable product, like C{math.prod} or C{numpy.prod}.
 
-       @return: The product (C{float}).
+           @param iterable: Values to be multiplied (C{scalar}[]).
+           @keyword start: Initial product, also the value returned
+                           for an empty iterable (C{scalar}).
 
-       @see: U{NumPy.prod<https://docs.SciPy.org/doc/
-             numpy/reference/generated/numpy.prod.html>}.
-    '''
-    return freduce(mul, iterable, start)
+           @return: The product (C{float}).
+
+           @see: U{NumPy.prod<https://docs.SciPy.org/doc/
+                 numpy/reference/generated/numpy.prod.html>}.
+        '''
+        return freduce(mul, iterable, start)
 
 
 def frange(start, number, step=1):

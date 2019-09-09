@@ -180,13 +180,29 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var EPS1:   M{1 - EPS} ≈0.9999999999999998 (C{float}).
 @var EPS1_2: M{1 - EPS_2} ≈0.9999999999999999 (C{float}).
 
-@var F_D:   Format degrees as "deg°" (C{str}).
-@var F_DM:  Format degrees as "deg°min′" (C{str}).
-@var F_DMS: Format degrees as "deg°min′sec″" (C{str}).
-@var F_DEG: Format degrees as "[D]DD" without symbol (C{str}).
-@var F_MIN: Format degrees as "[D]DDMM" without symbols (C{str}).
-@var F_SEC: Format degrees as "[D]DDMMSS" without symbols (C{str}).
-@var F_RAD: Convert degrees to radians and format as "RR" (C{str}).
+@var F_D:   Format degrees as unsigned "deg°" plus suffix (C{str}).
+@var F_DM:  Format degrees as unsigned "deg°min′" plus suffix (C{str}).
+@var F_DMS: Format degrees as unsigned "deg°min′sec″" plus suffix (C{str}).
+@var F_DEG: Format degrees as unsigned "[D]DD" plus suffix without symbol (C{str}).
+@var F_MIN: Format degrees as unsigned "[D]DDMM" plus suffix without symbols (C{str}).
+@var F_SEC: Format degrees as unsigned "[D]DDMMSS" plus suffix without symbols (C{str}).
+@var F_RAD: Convert degrees to radians and format as unsigned "RR" plus suffix (C{str}).
+
+@var F_D_:   Format degrees as signed "-/deg°" without suffix (C{str}).
+@var F_DM_:  Format degrees as signed "-/deg°min′" without suffix (C{str}).
+@var F_DMS_: Format degrees as signed "-/deg°min′sec″" without suffix (C{str}).
+@var F_DEG_: Format degrees as signed "-/[D]DD" without suffix and symbol (C{str}).
+@var F_MIN_: Format degrees as signed "-/[D]DDMM" without suffix and symbols (C{str}).
+@var F_SEC_: Format degrees as signed "-/[D]DDMMSS" without suffix and symbols (C{str}).
+@var F_RAD_: Convert degrees to radians and format as signed "-/RR" without suffix (C{str}).
+
+@var F_D__:   Format degrees as signed "-/+deg°" without suffix (C{str}).
+@var F_DM__:  Format degrees as signed "-/+deg°min′" without suffix (C{str}).
+@var F_DMS__: Format degrees as signed "-/+deg°min′sec″" without suffix (C{str}).
+@var F_DEG__: Format degrees as signed "-/+[D]DD" without suffix and symbol (C{str}).
+@var F_MIN__: Format degrees as signed "-/+[D]DDMM" without suffix and symbols (C{str}).
+@var F_SEC__: Format degrees as signed "-/+[D]DDMMSS" without suffix and symbols (C{str}).
+@var F_RAD__: Convert degrees to radians and format as signed "-/+RR" without suffix (C{str}).
 
 @var INF:    Infinity (C{float}), see C{isinf}, C{isfinite}.
 @var MANTIS: System's M{mantissa bits} ≈53 (C{int}).
@@ -236,7 +252,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.09.04'
+__version__ = '19.09.08'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

@@ -23,15 +23,31 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '19.07.12'
+__version__ = '19.09.07'
 
-F_D   = 'd'    #: Format degrees as deg° (C{str}).
-F_DM  = 'dm'   #: Format degrees as deg°min′ (C{str}).
-F_DMS = 'dms'  #: Format degrees as deg°min′sec″ (C{str}).
-F_DEG = 'deg'  #: Format degrees as [D]DD without symbol (C{str}).
-F_MIN = 'min'  #: Format degrees as [D]DDMM without symbols (C{str}).
-F_SEC = 'sec'  #: Format degrees as [D]DDMMSS without symbols (C{str}).
-F_RAD = 'rad'  #: Convert degrees to radians and format as RR.r (C{str}).
+F_D   = 'd'    #: Format degrees as unsigned "deg°" plus suffix (C{str}).
+F_DM  = 'dm'   #: Format degrees as unsigned "deg°min′" plus suffix (C{str}).
+F_DMS = 'dms'  #: Format degrees as unsigned "deg°min′sec″" plus suffix (C{str}).
+F_DEG = 'deg'  #: Format degrees as unsigned "[D]DD" plus suffix without symbol (C{str}).
+F_MIN = 'min'  #: Format degrees as unsigned "[D]DDMM" plus suffix without symbols (C{str}).
+F_SEC = 'sec'  #: Format degrees as unsigned "[D]DDMMSS" plus suffix without symbols (C{str}).
+F_RAD = 'rad'  #: Convert degrees to radians and format as unsigned "RR" plus suffix (C{str}).
+
+F_D_   = '-d'    #: Format degrees as signed "-/deg°" without suffix (C{str}).
+F_DM_  = '-dm'   #: Format degrees as signed "-/deg°min′" without suffix (C{str}).
+F_DMS_ = '-dms'  #: Format degrees as signed "-/deg°min′sec″" without suffix (C{str}).
+F_DEG_ = '-deg'  #: Format degrees as signed "-/[D]DD" without suffix and symbol (C{str}).
+F_MIN_ = '-min'  #: Format degrees as signed "-/[D]DDMM" without suffix and symbols (C{str}).
+F_SEC_ = '-sec'  #: Format degrees as signed "-/[D]DDMMSS" without suffix and symbols (C{str}).
+F_RAD_ = '-rad'  #: Convert degrees to radians and format as signed "-/RR" without suffix (C{str}).
+
+F_D__   = '+d'    #: Format degrees as signed "-/+deg°" without suffix (C{str}).
+F_DM__  = '+dm'   #: Format degrees as signed "-/+deg°min′" without suffix (C{str}).
+F_DMS__ = '+dms'  #: Format degrees as signed "-/+deg°min′sec″" without suffix (C{str}).
+F_DEG__ = '+deg'  #: Format degrees as signed "-/+[D]DD" without suffix and symbol (C{str}).
+F_MIN__ = '+min'  #: Format degrees as signed "-/+[D]DDMM" without suffix and symbols (C{str}).
+F_SEC__ = '+sec'  #: Format degrees as signed "-/+[D]DDMMSS" without suffix and symbols (C{str}).
+F_RAD__ = '+rad'  #: Convert degrees to radians and format as signed "-/+RR" without suffix (C{str}).
 
 S_DEG = '°'  #: Degrees "°" symbol (C{str}).
 S_MIN = '′'  #: Minutes "′" symbol (C{str}).
@@ -60,13 +76,20 @@ class RangeError(ValueError):
     pass
 
 
-def _toDMS(deg, form, prec, sep, ddd):
-    '''(INTERNAL) Convert degrees to C{str}, without sign or suffix.
+def _toDMS(deg, form, prec, sep, ddd, suff):  # MCCABE 14
+    '''(INTERNAL) Convert degrees to C{str}, with/-out sign and/or suffix.
     '''
     try:
         d = abs(float(deg))
     except ValueError:
         raise ValueError('%s invalid: %r' % ('deg', deg))
+
+    form = form.lower()
+    sign = form[:1]
+    if sign in '-+':
+        form = form[1:]
+    else:
+        sign = ''
 
     if prec is None:
         z = p = _F_prec.get(form, 6)
@@ -75,21 +98,20 @@ def _toDMS(deg, form, prec, sep, ddd):
         p = abs(z)
     w = p + (1 if p else 0)
 
-    f = form.lower()
-    if f in (F_DEG, F_MIN, F_SEC):
+    if form in (F_DEG, F_MIN, F_SEC):
         s_deg = s_min = s_sec = ''  # no symbols
     else:
         s_deg, s_min, s_sec = S_DEG, S_MIN, S_SEC
 
-    if f in (F_D, F_DEG, 'degrees'):  # deg°, degrees
+    if form in (F_D, F_DEG, 'degrees'):  # deg°, degrees
         t = '%0*.*f' % (ddd+w,p,d)
         s = s_deg
 
-    elif f in (F_RAD, 'radians'):
+    elif form in (F_RAD, 'radians'):
         t = '%.*f' % (p,radians(d))
         s = S_RAD
 
-    elif f in (F_DM, F_MIN, 'deg+min'):
+    elif form in (F_DM, F_MIN, 'deg+min'):
         d, m = divmod(d * 60, 60)
         t = "%0*d%s%s%0*.*f" % (ddd,int(d),s_deg, sep, w+2,p,m)
         s = s_min
@@ -104,6 +126,14 @@ def _toDMS(deg, form, prec, sep, ddd):
 
     if z > 1:
         t = fStrzs(t)
+
+    if sign:
+        if deg < 0:
+            t = '-' + t
+        elif deg > 0 and sign == '+':
+            t = '+' + t
+    elif suff:
+        s += sep + suff
     return t + s
 
 
@@ -111,21 +141,23 @@ def bearingDMS(bearing, form=F_D, prec=None, sep=S_SEP):
     '''Convert bearing to a string.
 
        @param bearing: Bearing from North (compass C{degrees360}).
-       @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
-                      L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
-                      deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
-                      [D]DDMMSS or radians (C{str}).
+       @keyword form: Optional B{C{bearing}} format (C{str} or L{F_D},
+                      L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN}, L{F_SEC},
+                      L{F_RAD}, L{F_D_}, L{F_DM_}, L{F_DMS_}, L{F_DEG_},
+                      L{F_MIN_}, L{F_SEC_}, L{F_RAD_}, L{F_D__},
+                      L{F_DM__}, L{F_DMS__}, L{F_DEG__}, L{F_MIN__},
+                      L{F_SEC__} or L{F_RAD__}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for B{C{prec}} values of 1 and above,
-                      but kept for negative B{C{prec}} values.
+                      are stripped for B{C{prec}} values of 1 and
+                      above, but kept for negative B{C{prec}}.
        @keyword sep: Optional separator (C{str}).
 
        @return: Compass degrees per the specified B{C{form}} (C{str}).
 
        @JSname: I{toBrng}.
     '''
-    return _toDMS(bearing % 360, form, prec, sep, 1)
+    return _toDMS(bearing % 360, form, prec, sep, 1, '')
 
 
 def clipDMS(deg, limit):
@@ -152,20 +184,21 @@ def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):
     '''Convert bearing to a string suffixed with compass point.
 
        @param bearing: Bearing from North (compass C{degrees360}).
-       @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
-                      L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
-                      deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
-                      [D]DDMMSS or radians (C{str}).
+       @keyword form: Optional B{C{bearing}} format (C{str} or L{F_D},
+                      L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN}, L{F_SEC},
+                      L{F_RAD}, L{F_D_}, L{F_DM_}, L{F_DMS_}, L{F_DEG_},
+                      L{F_MIN_}, L{F_SEC_}, L{F_RAD_}, L{F_D__},
+                      L{F_DM__}, L{F_DMS__}, L{F_DEG__}, L{F_MIN__},
+                      L{F_SEC__} or L{F_RAD__}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for B{C{prec}} values of 1 and above,
-                      but kept for negative B{C{prec}} values.
+                      are stripped for B{C{prec}} values of 1 and
+                      above, but kept for negative B{C{prec}}.
        @keyword sep: Optional separator (C{str}).
 
        @return: Compass degrees and point in the specified form (C{str}).
     '''
-    t = bearingDMS(bearing, form, prec, sep), compassPoint(bearing)
-    return sep.join(t)
+    return _toDMS(bearing % 360, form, prec, sep, 1, compassPoint(bearing))
 
 
 def compassPoint(bearing, prec=3):
@@ -223,8 +256,8 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg='-', pos=''):
        @param deg: Value in degrees (C{scalar}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for B{C{prec}} values of 1 and above,
-                      but kept for negative B{C{prec}} values.
+                      are stripped for B{C{prec}} values of 1 and
+                      above, but kept for negative B{C{prec}}.
        @keyword s_D: Symbol for degrees (C{str}).
        @keyword s_M: Symbol for minutes (C{str}) or C{""}.
        @keyword s_S: Symbol for seconds (C{str}) or C{""}.
@@ -255,47 +288,49 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg='-', pos=''):
 
 
 def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
-    '''Convert latitude to a string suffixed with N or S.
+    '''Convert latitude to a string, optionally suffixed with N or S.
 
        @param deg: Latitude to be formatted (C{degrees}).
-       @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
-                      L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
-                      deg°, deg°min′, deg°min′sec″, DD, DDMM, DDMMSS
-                      or radians (C{str}).
+       @keyword form: Optional B{C{deg}} format (C{str} or L{F_D},
+                      L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN}, L{F_SEC},
+                      L{F_RAD}, L{F_D_}, L{F_DM_}, L{F_DMS_}, L{F_DEG_},
+                      L{F_MIN_}, L{F_SEC_}, L{F_RAD_}, L{F_D__},
+                      L{F_DM__}, L{F_DMS__}, L{F_DEG__}, L{F_MIN__},
+                      L{F_SEC__} or L{F_RAD__}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for B{C{prec}} values of 1 and above,
-                      but kept for negative B{C{prec}} values.
+                      are stripped for B{C{prec}} values of 1 and
+                      above, but kept for negative B{C{prec}}.
        @keyword sep: Optional separator (C{str}).
 
        @return: Degrees in the specified form (C{str}).
 
        @JSname: I{toLat}.
     '''
-    t = _toDMS(deg, form, prec, sep, 2), ('S' if deg < 0 else 'N')
-    return sep.join(t)
+    return _toDMS(deg, form, prec, sep, 2, 'S' if deg < 0 else 'N')
 
 
 def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
-    '''Convert longitude to a string suffixed with E or W.
+    '''Convert longitude to a string, optionally suffixed with E or W.
 
        @param deg: Longitude to be formatted (C{degrees}).
-       @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
-                      L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
-                      deg°, deg°min′, deg°min′sec″, DDD, DDDMM,
-                      DDDMMSS or radians (C{str}).
+       @keyword form: Optional B{C{deg}} format (C{str} or L{F_D},
+                      L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN}, L{F_SEC},
+                      L{F_RAD}, L{F_D_}, L{F_DM_}, L{F_DMS_}, L{F_DEG_},
+                      L{F_MIN_}, L{F_SEC_}, L{F_RAD_}, L{F_D__},
+                      L{F_DM__}, L{F_DMS__}, L{F_DEG__}, L{F_MIN__},
+                      L{F_SEC__} or L{F_RAD__}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for B{C{prec}} values of 1 and above,
-                      but kept for negative B{C{prec}} values.
+                      are stripped for B{C{prec}} values of 1 and
+                      above, but kept for negative B{C{prec}}.
        @keyword sep: Optional separator (C{str}).
 
        @return: Degrees in the specified form (C{str}).
 
        @JSname: I{toLon}.
     '''
-    t = _toDMS(deg, form, prec, sep, 3), ('W' if deg < 0 else 'E')
-    return sep.join(t)
+    return _toDMS(deg, form, prec, sep, 3, 'W' if deg < 0 else 'E')
 
 
 def normDMS(strDMS, norm=''):
@@ -495,7 +530,7 @@ def precision(form, prec=None):
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
                       are stripped for B{C{prec}} values of 1 and
-                      above, but kept for negative B{C{prec}} values.
+                      above, but kept for negative B{C{prec}}.
 
        @return: Previous precision (C{int}).
 
@@ -535,14 +570,16 @@ def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):
     '''Convert signed degrees to string, without suffix.
 
        @param deg: Degrees to be formatted (C{degrees}).
-       @keyword form: Optional format, L{F_D}, L{F_DM}, L{F_DMS},
-                      L{F_DEG}, L{F_MIN}, L{F_SEC} or L{F_RAD} for
-                      deg°, deg°min′, deg°min′sec″, [D]DD, [D]DDMM,
-                      [D]DDMMSS or radians (C{str}).
+       @keyword form: Optional B{C{deg}} format (C{str} or L{F_D},
+                      L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN}, L{F_SEC},
+                      L{F_RAD} without suffix, L{F_D_}, L{F_DM_},
+                      L{F_DMS_}, L{F_DEG_}, L{F_MIN_}, L{F_SEC_},
+                      L{F_RAD_}, L{F_D__}, L{F_DM__}, L{F_DMS__},
+                      L{F_DEG__}, L{F_MIN__}, L{F_SEC__} or L{F_RAD__}).
        @keyword prec: Optional number of decimal digits (0..9 or
                       C{None} for default).  Trailing zero decimals
-                      are stripped for B{C{prec}} values of 1 and above,
-                      but kept for negative B{C{prec}} values.
+                      are stripped for B{C{prec}} values of 1 and
+                      above, but kept for negative B{C{prec}}.
        @keyword sep: Optional separator (C{str}).
        @keyword ddd: Optional number of digits for deg° (2 or 3).
        @keyword neg: Optional sign for negative degrees ('-').
@@ -550,9 +587,10 @@ def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):
 
        @return: Degrees in the specified form (C{str}).
     '''
-    t = _toDMS(deg, form, prec, sep, ddd)
-    s = neg if deg < 0 else pos
-    return s + t
+    t = _toDMS(deg, form, prec, sep, ddd, '')
+    if form[:1] not in '-+':
+        t = (neg if deg < 0 else pos) + t
+    return t
 
 # **) MIT License
 #

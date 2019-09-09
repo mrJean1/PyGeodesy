@@ -78,7 +78,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
                           datum=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
                                  'Datum', 'Ellipsoid', 'Transform', 'Datums', 'Ellipsoids', 'Transforms'),
-                            dms=('F_D', 'F_DM', 'F_DMS', 'F_DEG', 'F_MIN', 'F_SEC', 'F_RAD', 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',
+                            dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_RAD',
+                                 'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_RAD_',
+                                 'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F_RAD__',
+                                 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',
                                  'RangeError', 'bearingDMS', 'clipDMS', 'compassDMS', 'compassPoint', 'degDMS', 'latDMS', 'lonDMS',
                                  'normDMS', 'parseDMS', 'parseDMS2', 'parse3llh', 'precision', 'rangerrors', 'toDMS'),
                      deprecated=('HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError',  # DEPRECATED classes
@@ -156,7 +159,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                 utily=('points2 as polygon',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.08.26'
+__version__ = '19.09.07'
 
 
 def _all_imports(**more):

@@ -265,7 +265,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.09.04
+        19.09.08
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -2575,7 +2575,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fprod" class="summary-sig-name">fprod</a>(<span class="summary-sig-arg">iterable</span>,
         <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">1.0</span>)</span><br />
-      Iterable product, like <code>numpy.prod</code>.</td>
+      Iterable product, like <code>math.prod</code> or 
+      <code>numpy.prod</code>.</td>
           <td align="right" valign="top">
             
             
@@ -2770,7 +2771,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x1031aef50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10fa740c8&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -3338,7 +3339,7 @@
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Convert latitude to a string suffixed with N or S.</td>
+      Convert latitude to a string, optionally suffixed with N or S.</td>
           <td align="right" valign="top">
             
             
@@ -3393,7 +3394,7 @@
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Convert longitude to a string suffixed with E or W.</td>
+      Convert longitude to a string, optionally suffixed with E or W.</td>
           <td align="right" valign="top">
             
             
@@ -4967,7 +4968,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.9.4'"><code class="variable-quote">'</code><code class="variable-string">19.9.4</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.9.8'"><code class="variable-quote">'</code><code class="variable-string">19.9.8</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -5058,7 +5059,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code><br />
-      Format degrees as &quot;deg&#176;&quot; (<code>str</code>).
+      Format degrees as unsigned &quot;deg&#176;&quot; plus suffix 
+      (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -5066,8 +5068,26 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code><br />
-      Format degrees as &quot;[D]DD&quot; without symbol 
-      (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DD&quot; plus suffix without 
+      symbol (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DEG_"></a><span class="summary-name">F_DEG_</span> = <code title="'-deg'"><code class="variable-quote">'</code><code class="variable-string">-deg</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/[D]DD&quot; without suffix and 
+      symbol (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DEG__"></a><span class="summary-name">F_DEG__</span> = <code title="'+deg'"><code class="variable-quote">'</code><code class="variable-string">+deg</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/+[D]DD&quot; without suffix and 
+      symbol (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -5075,7 +5095,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DM"></a><span class="summary-name">F_DM</span> = <code title="'dm'"><code class="variable-quote">'</code><code class="variable-string">dm</code><code class="variable-quote">'</code></code><br />
-      Format degrees as &quot;deg&#176;min&#8242;&quot; (<code>str</code>).
+      Format degrees as unsigned &quot;deg&#176;min&#8242;&quot; plus suffix 
+      (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -5083,7 +5104,62 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_DMS"></a><span class="summary-name">F_DMS</span> = <code title="'dms'"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></code><br />
-      Format degrees as &quot;deg&#176;min&#8242;sec&#8243;&quot; (<code>str</code>).
+      Format degrees as unsigned &quot;deg&#176;min&#8242;sec&#8243;&quot; plus suffix 
+      (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DMS_"></a><span class="summary-name">F_DMS_</span> = <code title="'-dms'"><code class="variable-quote">'</code><code class="variable-string">-dms</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/deg&#176;min&#8242;sec&#8243;&quot; without suffix 
+      (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DMS__"></a><span class="summary-name">F_DMS__</span> = <code title="'+dms'"><code class="variable-quote">'</code><code class="variable-string">+dms</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/+deg&#176;min&#8242;sec&#8243;&quot; without suffix 
+      (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DM_"></a><span class="summary-name">F_DM_</span> = <code title="'-dm'"><code class="variable-quote">'</code><code class="variable-string">-dm</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/deg&#176;min&#8242;&quot; without suffix 
+      (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_DM__"></a><span class="summary-name">F_DM__</span> = <code title="'+dm'"><code class="variable-quote">'</code><code class="variable-string">+dm</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/+deg&#176;min&#8242;&quot; without suffix 
+      (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D_"></a><span class="summary-name">F_D_</span> = <code title="'-d'"><code class="variable-quote">'</code><code class="variable-string">-d</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/deg&#176;&quot; without suffix 
+      (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_D__"></a><span class="summary-name">F_D__</span> = <code title="'+d'"><code class="variable-quote">'</code><code class="variable-string">+d</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/+deg&#176;&quot; without suffix 
+      (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -5091,8 +5167,26 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_MIN"></a><span class="summary-name">F_MIN</span> = <code title="'min'"><code class="variable-quote">'</code><code class="variable-string">min</code><code class="variable-quote">'</code></code><br />
-      Format degrees as &quot;[D]DDMM&quot; without symbols 
-      (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DDMM&quot; plus suffix without 
+      symbols (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_MIN_"></a><span class="summary-name">F_MIN_</span> = <code title="'-min'"><code class="variable-quote">'</code><code class="variable-string">-min</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/[D]DDMM&quot; without suffix and 
+      symbols (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_MIN__"></a><span class="summary-name">F_MIN__</span> = <code title="'+min'"><code class="variable-quote">'</code><code class="variable-string">+min</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/+[D]DDMM&quot; without suffix and 
+      symbols (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -5100,8 +5194,26 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_RAD"></a><span class="summary-name">F_RAD</span> = <code title="'rad'"><code class="variable-quote">'</code><code class="variable-string">rad</code><code class="variable-quote">'</code></code><br />
-      Convert degrees to radians and format as &quot;RR&quot; 
-      (<code>str</code>).
+      Convert degrees to radians and format as unsigned &quot;RR&quot; plus
+      suffix (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_RAD_"></a><span class="summary-name">F_RAD_</span> = <code title="'-rad'"><code class="variable-quote">'</code><code class="variable-string">-rad</code><code class="variable-quote">'</code></code><br />
+      Convert degrees to radians and format as signed &quot;-/RR&quot; 
+      without suffix (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_RAD__"></a><span class="summary-name">F_RAD__</span> = <code title="'+rad'"><code class="variable-quote">'</code><code class="variable-string">+rad</code><code class="variable-quote">'</code></code><br />
+      Convert degrees to radians and format as signed &quot;-/+RR&quot; 
+      without suffix (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -5109,8 +5221,26 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_SEC"></a><span class="summary-name">F_SEC</span> = <code title="'sec'"><code class="variable-quote">'</code><code class="variable-string">sec</code><code class="variable-quote">'</code></code><br />
-      Format degrees as &quot;[D]DDMMSS&quot; without symbols 
-      (<code>str</code>).
+      Format degrees as unsigned &quot;[D]DDMMSS&quot; plus suffix without 
+      symbols (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_SEC_"></a><span class="summary-name">F_SEC_</span> = <code title="'-sec'"><code class="variable-quote">'</code><code class="variable-string">-sec</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/[D]DDMMSS&quot; without suffix and 
+      symbols (<code>str</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="F_SEC__"></a><span class="summary-name">F_SEC__</span> = <code title="'+sec'"><code class="variable-quote">'</code><code class="variable-string">+sec</code><code class="variable-quote">'</code></code><br />
+      Format degrees as signed &quot;-/+[D]DDMMSS&quot; without suffix and 
+      symbols (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -5624,20 +5754,39 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>form</code></strong> - Optional format, <a href="pygeodesy.dms-module.html#F_D" 
-          class="link">F_D</a>, <a href="pygeodesy.dms-module.html#F_DM" 
-          class="link">F_DM</a>, <a href="pygeodesy.dms-module.html#F_DMS" 
-          class="link">F_DMS</a>, <a href="pygeodesy.dms-module.html#F_DEG"
-          class="link">F_DEG</a>, <a href="pygeodesy.dms-module.html#F_MIN"
-          class="link">F_MIN</a>, <a href="pygeodesy.dms-module.html#F_SEC"
-          class="link">F_SEC</a> or <a 
-          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> for
-          deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
-          radians (<code>str</code>).</li>
+        <li><strong class="pname"><code>form</code></strong> - Optional <b><code>bearing</code></b> format (<code>str</code> or 
+          <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
+          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
+          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
+          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
+          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
+          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
+          <a href="pygeodesy.dms-module.html#F_DEG_" 
+          class="link">F_DEG_</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
+          <a href="pygeodesy.dms-module.html#F_SEC_" 
+          class="link">F_SEC_</a>, <a 
+          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
+          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
+          <a href="pygeodesy.dms-module.html#F_DM__" 
+          class="link">F_DM__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS__" 
+          class="link">F_DMS__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DEG__" 
+          class="link">F_DEG__</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN__" 
+          class="link">F_MIN__</a>, <a 
+          href="pygeodesy.dms-module.html#F_SEC__" class="link">F_SEC__</a>
+          or <a href="pygeodesy.dms-module.html#F_RAD__" 
+          class="link">F_RAD__</a>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
-          negative <b><code>prec</code></b> values.</li>
+          negative <b><code>prec</code></b>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -6182,20 +6331,39 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from North (compass <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>form</code></strong> - Optional format, <a href="pygeodesy.dms-module.html#F_D" 
-          class="link">F_D</a>, <a href="pygeodesy.dms-module.html#F_DM" 
-          class="link">F_DM</a>, <a href="pygeodesy.dms-module.html#F_DMS" 
-          class="link">F_DMS</a>, <a href="pygeodesy.dms-module.html#F_DEG"
-          class="link">F_DEG</a>, <a href="pygeodesy.dms-module.html#F_MIN"
-          class="link">F_MIN</a>, <a href="pygeodesy.dms-module.html#F_SEC"
-          class="link">F_SEC</a> or <a 
-          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> for
-          deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
-          radians (<code>str</code>).</li>
+        <li><strong class="pname"><code>form</code></strong> - Optional <b><code>bearing</code></b> format (<code>str</code> or 
+          <a href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
+          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
+          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
+          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
+          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
+          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
+          <a href="pygeodesy.dms-module.html#F_DEG_" 
+          class="link">F_DEG_</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
+          <a href="pygeodesy.dms-module.html#F_SEC_" 
+          class="link">F_SEC_</a>, <a 
+          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
+          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
+          <a href="pygeodesy.dms-module.html#F_DM__" 
+          class="link">F_DM__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS__" 
+          class="link">F_DMS__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DEG__" 
+          class="link">F_DEG__</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN__" 
+          class="link">F_MIN__</a>, <a 
+          href="pygeodesy.dms-module.html#F_SEC__" class="link">F_SEC__</a>
+          or <a href="pygeodesy.dms-module.html#F_RAD__" 
+          class="link">F_RAD__</a>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
-          negative <b><code>prec</code></b> values.</li>
+          negative <b><code>prec</code></b>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -6347,7 +6515,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
-          negative <b><code>prec</code></b> values.</li>
+          negative <b><code>prec</code></b>.</li>
         <li><strong class="pname"><code>s_D</code></strong> - Symbol for degrees (<code>str</code>).</li>
         <li><strong class="pname"><code>s_M</code></strong> - Symbol for minutes (<code>str</code>) or 
           <code>&quot;&quot;</code>.</li>
@@ -7288,7 +7456,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Iterable product, like <code>numpy.prod</code>.</p>
+  <p>Iterable product, like <code>math.prod</code> or 
+  <code>numpy.prod</code>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -7652,7 +7821,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x1031aef50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10fa740c8&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -8577,25 +8746,44 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Convert latitude to a string suffixed with N or S.</p>
+  <p>Convert latitude to a string, optionally suffixed with N or S.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Latitude to be formatted (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>form</code></strong> - Optional format, <a href="pygeodesy.dms-module.html#F_D" 
-          class="link">F_D</a>, <a href="pygeodesy.dms-module.html#F_DM" 
-          class="link">F_DM</a>, <a href="pygeodesy.dms-module.html#F_DMS" 
-          class="link">F_DMS</a>, <a href="pygeodesy.dms-module.html#F_DEG"
-          class="link">F_DEG</a>, <a href="pygeodesy.dms-module.html#F_MIN"
-          class="link">F_MIN</a>, <a href="pygeodesy.dms-module.html#F_SEC"
-          class="link">F_SEC</a> or <a 
-          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> for
-          deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DD, DDMM, DDMMSS or radians 
-          (<code>str</code>).</li>
+        <li><strong class="pname"><code>form</code></strong> - Optional <b><code>deg</code></b> format (<code>str</code> or <a 
+          href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
+          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
+          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
+          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
+          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
+          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
+          <a href="pygeodesy.dms-module.html#F_DEG_" 
+          class="link">F_DEG_</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
+          <a href="pygeodesy.dms-module.html#F_SEC_" 
+          class="link">F_SEC_</a>, <a 
+          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
+          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
+          <a href="pygeodesy.dms-module.html#F_DM__" 
+          class="link">F_DM__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS__" 
+          class="link">F_DMS__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DEG__" 
+          class="link">F_DEG__</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN__" 
+          class="link">F_MIN__</a>, <a 
+          href="pygeodesy.dms-module.html#F_SEC__" class="link">F_SEC__</a>
+          or <a href="pygeodesy.dms-module.html#F_RAD__" 
+          class="link">F_RAD__</a>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
-          negative <b><code>prec</code></b> values.</li>
+          negative <b><code>prec</code></b>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -8679,25 +8867,44 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Convert longitude to a string suffixed with E or W.</p>
+  <p>Convert longitude to a string, optionally suffixed with E or W.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Longitude to be formatted (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>form</code></strong> - Optional format, <a href="pygeodesy.dms-module.html#F_D" 
-          class="link">F_D</a>, <a href="pygeodesy.dms-module.html#F_DM" 
-          class="link">F_DM</a>, <a href="pygeodesy.dms-module.html#F_DMS" 
-          class="link">F_DMS</a>, <a href="pygeodesy.dms-module.html#F_DEG"
-          class="link">F_DEG</a>, <a href="pygeodesy.dms-module.html#F_MIN"
-          class="link">F_MIN</a>, <a href="pygeodesy.dms-module.html#F_SEC"
-          class="link">F_SEC</a> or <a 
-          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> for
-          deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, DDD, DDDMM, DDDMMSS or radians 
-          (<code>str</code>).</li>
+        <li><strong class="pname"><code>form</code></strong> - Optional <b><code>deg</code></b> format (<code>str</code> or <a 
+          href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
+          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
+          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
+          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
+          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
+          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
+          <a href="pygeodesy.dms-module.html#F_DEG_" 
+          class="link">F_DEG_</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
+          <a href="pygeodesy.dms-module.html#F_SEC_" 
+          class="link">F_SEC_</a>, <a 
+          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
+          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
+          <a href="pygeodesy.dms-module.html#F_DM__" 
+          class="link">F_DM__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS__" 
+          class="link">F_DMS__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DEG__" 
+          class="link">F_DEG__</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN__" 
+          class="link">F_MIN__</a>, <a 
+          href="pygeodesy.dms-module.html#F_SEC__" class="link">F_SEC__</a>
+          or <a href="pygeodesy.dms-module.html#F_RAD__" 
+          class="link">F_RAD__</a>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
-          negative <b><code>prec</code></b> values.</li>
+          negative <b><code>prec</code></b>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -9760,7 +9967,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
-          negative <b><code>prec</code></b> values.</li>
+          negative <b><code>prec</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Previous precision (<code>int</code>).</dd>
@@ -10596,20 +10803,40 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Degrees to be formatted (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>form</code></strong> - Optional format, <a href="pygeodesy.dms-module.html#F_D" 
-          class="link">F_D</a>, <a href="pygeodesy.dms-module.html#F_DM" 
-          class="link">F_DM</a>, <a href="pygeodesy.dms-module.html#F_DMS" 
-          class="link">F_DMS</a>, <a href="pygeodesy.dms-module.html#F_DEG"
-          class="link">F_DEG</a>, <a href="pygeodesy.dms-module.html#F_MIN"
-          class="link">F_MIN</a>, <a href="pygeodesy.dms-module.html#F_SEC"
-          class="link">F_SEC</a> or <a 
-          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> for
-          deg&#176;, deg&#176;min&#8242;, deg&#176;min&#8242;sec&#8243;, [D]DD, [D]DDMM, [D]DDMMSS or 
-          radians (<code>str</code>).</li>
+        <li><strong class="pname"><code>form</code></strong> - Optional <b><code>deg</code></b> format (<code>str</code> or <a 
+          href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
+          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
+          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
+          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a> 
+          without suffix, <a href="pygeodesy.dms-module.html#F_D_" 
+          class="link">F_D_</a>, <a href="pygeodesy.dms-module.html#F_DM_" 
+          class="link">F_DM_</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
+          <a href="pygeodesy.dms-module.html#F_DEG_" 
+          class="link">F_DEG_</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
+          <a href="pygeodesy.dms-module.html#F_SEC_" 
+          class="link">F_SEC_</a>, <a 
+          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
+          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
+          <a href="pygeodesy.dms-module.html#F_DM__" 
+          class="link">F_DM__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS__" 
+          class="link">F_DMS__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DEG__" 
+          class="link">F_DEG__</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN__" 
+          class="link">F_MIN__</a>, <a 
+          href="pygeodesy.dms-module.html#F_SEC__" class="link">F_SEC__</a>
+          or <a href="pygeodesy.dms-module.html#F_RAD__" 
+          class="link">F_RAD__</a>).</li>
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
           default).  Trailing zero decimals are stripped for 
           <b><code>prec</code></b> values of 1 and above, but kept for 
-          negative <b><code>prec</code></b> values.</li>
+          negative <b><code>prec</code></b>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
         <li><strong class="pname"><code>ddd</code></strong> - Optional number of digits for deg&#176; (2 or 3).</li>
         <li><strong class="pname"><code>neg</code></strong> - Optional sign for negative degrees ('-').</li>
@@ -11920,7 +12147,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep  5 12:08:37 2019
+    Generated by Epydoc 3.0.1 on Sun Sep  8 21:43:02 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

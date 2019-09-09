@@ -4,11 +4,13 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '18.09.28'
+__version__ = '19.09.08'
 
 from base import TestsBase
 
-from pygeodesy import F_D, F_DM, F_DMS, F_DEG, F_MIN, F_SEC, F_RAD, \
+from pygeodesy import F_D,   F_DM,   F_DMS,   F_DEG,   F_MIN,   F_SEC,   F_RAD, \
+                      F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_RAD_, \
+                      F_D__, F_DM__, F_DMS__, F_DEG__, F_MIN__, F_SEC__, F_RAD__, \
                       compassPoint, parse3llh, parseDMS, rangerrors, \
                       toDMS
 
@@ -57,6 +59,28 @@ class Tests(TestsBase):
                      ((F_RAD, -6),   '0.798708')):
             t = 'toDMS(%s)' % (a[:1] or '')
             self.test(t, toDMS(45.76260, *a), x)
+
+        for a, x in (((F_D_,    6),   '45.7626°'),
+                     ((F_DM_,  -4),   "45°45.7560'"),
+                     ((F_DMS_,  2), '''45°45'45.36"'''),
+                     ((F_DEG_, -6),   '45.762600'),
+                     ((F_MIN_, -5),   '4545.75600'),
+                     ((F_SEC_, -3),   '454545.360'),
+                     ((F_RAD_, -6),   '0.798708')):
+            t = 'toDMS(%s)' % (a[:1] or '')
+            self.test(t, toDMS( 45.76260, *a),       x)
+            self.test(t, toDMS(-45.76260, *a), '-' + x)
+
+        for a, x in (((F_D__,    6),   '45.7626°'),
+                     ((F_DM__,  -4),   "45°45.7560'"),
+                     ((F_DMS__,  2), '''45°45'45.36"'''),
+                     ((F_DEG__, -6),   '45.762600'),
+                     ((F_MIN__, -5),   '4545.75600'),
+                     ((F_SEC__, -3),   '454545.360'),
+                     ((F_RAD__, -6),   '0.798708')):
+            t = 'toDMS(%s)' % (a[:1] or '')
+            self.test(t, toDMS( 45.76260, *a), '+' + x)
+            self.test(t, toDMS(-45.76260, *a), '-' + x)
 
         # <https://GitHub.com/chrisveness/geodesy/blob/master/test/dms-tests.js>
         for a, x in (((1,),   'N'),
