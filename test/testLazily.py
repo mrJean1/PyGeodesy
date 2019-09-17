@@ -4,7 +4,7 @@
 # Test the lazy import module lazily.
 
 __all__ = ('Tests',)
-__version__ = '19.06.19'
+__version__ = '19.09.11'
 
 from base import TestsBase, ismacOS, isNix, isPython37, isWindows, \
                  PythonX, type2str
@@ -49,8 +49,8 @@ class Tests(TestsBase):
             for z in range(5):
                 e = 'PYGEODESY_LAZY_IMPORT=%s' % (z,)
                 c = _env_cmd % (e, z if isPython37 else None)
-                x = os.system(c)
-                self.test(e, x, 0, known=isPython37)  # XXX hack
+                x = os.system(c) >> 8  # exit status in high byte
+                self.test(e, x, 0)
         else:
             self.skip('no _env_cmd')
 

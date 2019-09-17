@@ -44,28 +44,28 @@ C{distance} method overloading L{Frechet.distance} as in this example.
 
 Transcribed from the original U{Computing Discrete Fréchet Distance
 <https://www.kr.TUWien.ac.AT/staff/eiter/et-archive/cdtr9464.pdf>} by
-Eiter, T. and Mannila, H., 1994, April 25, Techical Report CD-TR 94/64,
+Eiter, T. and Mannila, H., 1994, April 25, Technical Report CD-TR 94/64,
 Information Systems Department/Christian Doppler Laboratory for Expert
 Systems, Technical University Vienna, Austria.
 
-This implementation optionally generates intermediate points for each
-point set separately.  For example, using keyword argument C{fraction=0.5}
-adds one additional point halfway between each pair of points.  Or using
-C{fraction=0.1} interpolates nine additional points between each points
-pair.
+This L{Frechet.discrete} implementation optionally generates intermediate
+points for each point set separately.  For example, using keyword argument
+C{fraction=0.5} adds one additional point halfway between each pair of
+points.  Or using C{fraction=0.1} interpolates nine additional points
+between each points pair.
 
-The L{Frechet6Tuple} attributes C{fi} and/or C{fj} will be I{fractional}
-indices of type C{float} if keyword argument C{fraction} is given (with
-a value between L{EPS} and 0.5).  Otherwise, C{fi} and/or C{fj} are
-simply type C{int} indices into the respective point set.
+The L{Frechet6Tuple} attributes C{fi1} and/or C{fi2} will be I{fractional}
+indices of type C{float} if keyword argument C{fraction} is used.  Otherwise,
+C{fi1} and/or C{fi2} are simply type C{int} indices into the respective
+points set.
 
-An example, C{fractional} index value 2.5 means an intermediate point
+For example, C{fractional} index value 2.5 means an intermediate point
 halfway between points[2] and points[3].  Use function L{fractional}
 to obtain the intermediate point for a I{fractional} index in the
 corresponding set of points.
 
-The Fréchet distance was introduced by U{Maurice Fréchet
-<https://WikiPedia.org/wiki/Maurice_Rene_Frechet>} in 1906, see U{reference
+The C{Fréchet} distance was introduced in 1906 by U{Maurice Fréchet
+<https://WikiPedia.org/wiki/Maurice_Rene_Frechet>}, see U{reference
 [6]<https://www.kr.TUWien.ac.AT/staff/eiter/et-archive/cdtr9464.pdf>}.
 It is a measure of similarity between curves that takes into account the
 location and ordering of the points.  Therefore, it is often a better metric
@@ -82,7 +82,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '19.08.30'
+__version__ = '19.09.16'
 
 
 class FrechetError(ValueError):
@@ -93,7 +93,7 @@ class FrechetError(ValueError):
 
 def _fraction(fraction, n):
     f = 1  # int, no fractional indices
-    if fraction is None:
+    if fraction in (None, 1):
         pass
     elif not (isscalar(fraction) and EPS < fraction < EPS1
                                  and (float(n) - fraction) < n):
@@ -104,23 +104,23 @@ def _fraction(fraction, n):
 
 
 class Frechet6Tuple(_NamedTuple):
-    '''6-Tuple C{(fd, fi, fj, r, n, units)} with the I{discrete} U{Fréchet
-       <https://WikiPedia.org/wiki/Frechet_distance>} distance C{fd},
-       I{fractional} indices C{fi} and C{fj}, the recursion depth C{r},
-       the number of distances computed C{n} and the name of the distance
-       C{units}.
+    '''6-Tuple C{(fd, fi1, fi2, r, n, units)} with the I{discrete}
+       U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} distance
+       C{fd}, I{fractional} indices C{fi1} and C{fi2}, the recursion
+       depth C{r}, the number of distances computed C{n} and the name
+       of the distance C{units}.
 
-       If I{fractional} indices C{fi} and C{fj} are type C{int}, the
-       returned C{fd} is the distance between C{points1}[C{fi}] and
-       C{points2}[C{fj}].  For type C{float} indices, the distance is
-       between an intermediate point along C{points1}[C{int(f1)}] and
-       C{points1}[C{int(f1)+1}] respectively an intermediate point
-       along C{points2}[C{int(f2)}] and C{points2}[C{int(f2)+1}].
+       If I{fractional} indices C{fi1} and C{fi2} are type C{int}, the
+       returned C{fd} is the distance between C{points1}[C{fi1}] and
+       C{points2}[C{fi2}].  For type C{float} indices, the distance is
+       between an intermediate point along C{points1}[C{int(fi1)}] and
+       C{points1}[C{int(fi1)+1}] respectively an intermediate point
+       along C{points2}[C{int(fi2)}] and C{points2}[C{int(fi2)+1}].
 
        Use function L{fractional} to compute the point at a fractional
        index.
     '''
-    _Names_ = ('fd', 'fi', 'fj', 'r', 'n', 'units')
+    _Names_ = ('fd', 'fi1', 'fi2', 'r', 'n', 'units')
 
 #   def __gt__(self, other):
 #       if isinstance(other, Frechet6Tuple):
@@ -138,7 +138,7 @@ class Frechet(_Named):
        be overloaded.
     '''
     _adjust = False
-    _fr1    = 1
+    _f1     = 1
     _n1     = 0
     _ps1    = None
     _units  = ''
@@ -150,13 +150,13 @@ class Frechet(_Named):
            @param points: First set of points (C{LatLon}[], C{Numpy2LatLon}[],
                           C{Tuple2LatLon}[] or C{other}[]).
            @keyword fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                              interpolate intermediate B{C{points}} or C{None},
-                              C{0} or C{1} for no I{fractional} indices and
-                              intermediate B{C{points}}.
-           @keyword name: Optional calculator name (C{str}).
+                              interpolate intermediate B{C{points}} or C{None}
+                              or C{1} for no intermediate B{C{points}} and no
+                              I{fractional} indices.
+           @keyword name: Optional calculator/interpolator name (C{str}).
            @keyword units: Optional, distance units (C{str}).
 
-           @raise FrechetError: Insufficient number of B{C{points1}} or
+           @raise FrechetError: Insufficient number of B{C{points}} or
                                 invalid B{C{fraction}}.
         '''
         self._n1, self._ps1 = _points2(points, closed=False, Error=FrechetError)
@@ -168,20 +168,22 @@ class Frechet(_Named):
             self.units = units
 
     def discrete(self, points, fraction=None):
-        '''Compute only the C{forward Frechet} distance.
+        '''Compute the C{forward, discrete Fréchet} distance.
 
            @param points: Second set of points (C{LatLon}[], C{Numpy2LatLon}[],
                           C{Tuple2LatLon}[] or C{other}[]).
            @keyword fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                              interpolate intermediate B{C{points}} or C{None},
-                              C{0} or C{1} for no I{fractional} indices and
-                              intermediate B{C{points}}.
+                              interpolate intermediate B{C{points}} or C{None}
+                              or C{1} for no intermediate B{C{points}} and no
+                              I{fractional} indices.
 
-           @return: A L{Frechet6Tuple}C{(fd, fi, fj, r, n, units)}.
+           @return: A L{Frechet6Tuple}C{(fd, fi1, fi2, r, n, units)}.
 
-           @raise FrechetError: Insufficient number of B{C{points}}.
+           @raise FrechetError: Insufficient number of B{C{points}} or
+                                invalid B{C{fraction}}.
 
-           @raise RecursionError: Recursion depth exceeded C{sys.getrecursionlimit()}.
+           @raise RecursionError: Recursion depth exceeded, see U{sys.getrecursionlimit()
+                                  <https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit>}.
         '''
         n2, ps2 = _points2(points, closed=False, Error=FrechetError)
 
@@ -191,10 +193,9 @@ class Frechet(_Named):
         f1 = self.fraction
         p1 = self.points_fraction if f1 < EPS1 else self.points_  # PYCHOK expected
 
-        def dF(fi, fj):
-            return self.distance(p1(self._ps1, fi), p2(ps2, fj))
+        def dF(fi1, fi2):
+            return self.distance(p1(self._ps1, fi1), p2(ps2, fi2))
 
-        n2, ps2 = _points2(points, closed=False, Error=FrechetError)
         return _frechet_(self._n1, f1, n2, f2, dF, self.units)
 
     def distance(self, point1, point2):  # PYCHOK unused
@@ -205,6 +206,25 @@ class Frechet(_Named):
            @raise AssertionError: Not overloaded.
         '''
         raise AssertionError('method %s.%s not overloaded' % (self.named, 'distance'))
+
+    @property
+    def fraction(self):
+        '''Get the index fraction (C{float} or C{1}).
+        '''
+        return self._f1
+
+    @fraction.setter  # PYCHOK setter!
+    def fraction(self, fraction):
+        '''Set the the index fraction (C{float} or C{1}).
+
+           @param fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
+                            interpolate intermediate B{C{points}} or C{None}
+                            or C{1} for no intermediate B{C{points}} and no
+                            I{fractional} indices.
+
+           @raise FrechetError: Invalid B{C{fraction}}.
+        '''
+        self._f1 = _fraction(fraction, self._n1)
 
     def point(self, point):
         '''Convert a point for the C{.distance} method.
@@ -232,30 +252,11 @@ class Frechet(_Named):
 
            @param points: The orignal B{C{points}} to convert ((C{LatLon}[],
                           C{Numpy2LatLon}[], C{Tuple2LatLon}[] or C{other}[]).
-           @param fi: The I{fractional} index in B{C{points}} (C{float}).
+           @param fi: The I{fractional} index in B{C{points}} (C{float} or C{int}).
 
            @return: The interpolated, converted, intermediate B{C{points}[B{C{fi}}]}.
         '''
         return self.point(_fractional(points, fi))
-
-    @property
-    def fraction(self):
-        '''Get the index fraction (C{float} or C{1}).
-        '''
-        return self._fr1
-
-    @fraction.setter  # PYCHOK setter!
-    def fraction(self, fraction):
-        '''Set the the index fraction (C{float} or C{int}).
-
-           @param fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                            interpolate intermediate B{C{points}} or C{None},
-                            C{0} or C{1} for no I{fractional} indices and
-                            intermediate B{C{points}}.
-
-           @raise FrechetError: Invalid B{C{fraction}}.
-        '''
-        self._fr1 = _fraction(fraction, self._n1)
 
     @property
     def units(self):
@@ -316,10 +317,10 @@ class FrechetEquirectangular(FrechetRadians):
                             delta by the cosine of the mean latitude (C{bool}).
            @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
            @keyword fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                              interpolate intermediate B{C{points}} or C{None},
-                              C{0} or C{1} for no I{fractional} indices and
-                              intermediate B{C{points}}.
-           @keyword name: Optional calculator name (C{str}).
+                              interpolate intermediate B{C{points}} or C{None}
+                              or C{1} for no intermediate B{C{points}} and no
+                              I{fractional} indices.
+           @keyword name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
                                 invalid B{C{adjust}} or B{C{seed}}.
@@ -357,10 +358,10 @@ class FrechetEuclidean(FrechetRadians):
            @keyword adjust: Adjust the wrapped, unrolled longitudinal
                             delta by the cosine of the mean latitude (C{bool}).
            @keyword fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                              interpolate intermediate B{C{points}} or C{None},
-                              C{0} or C{1} for no I{fractional} indices and
-                              intermediate B{C{points}}.
-           @keyword name: Optional calculator name (C{str}).
+                              interpolate intermediate B{C{points}} or C{None}
+                              or C{1} for no intermediate B{C{points}} and no
+                              I{fractional} indices.
+           @keyword name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
                                 invalid B{C{fraction}}.
@@ -394,10 +395,10 @@ class FrechetHaversine(FrechetRadians):
                           C{Tuple2LatLon}[] or C{other}[]).
            @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
            @keyword fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                              interpolate intermediate B{C{points}} or C{None},
-                              C{0} or C{1} for no I{fractional} indices and
-                              intermediate B{C{points}}.
-           @keyword name: Optional calculator name (C{str}).
+                              interpolate intermediate B{C{points}} or C{None}
+                              or C{1} for no intermediate B{C{points}} and no
+                              I{fractional} indices.
+           @keyword name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
                                 invalid B{C{fraction}}.
@@ -432,10 +433,10 @@ class FrechetVincentys(FrechetRadians):
                           C{Tuple2LatLon}[] or C{other}[]).
            @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
            @keyword fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
-                              interpolate intermediate B{C{points}} or C{None},
-                              C{0} or C{1} for no I{fractional} indices and
-                              intermediate B{C{points}}.
-           @keyword name: Optional calculator name (C{str}).
+                              interpolate intermediate B{C{points}} or C{None}
+                              or C{1} for no intermediate B{C{points}} and no
+                              I{fractional} indices.
+           @keyword name: Optional calculator/interpolator name (C{str}).
 
            @raise FrechetError: Insufficient number of B{C{points}} or
                                 invalid B{C{fraction}}.
@@ -454,7 +455,7 @@ class FrechetVincentys(FrechetRadians):
 
 
 def _fractional(points, fi):
-    '''(INTERANL) Compute point as I{fractional} index.
+    '''(INTERANL) Compute point at I{fractional} index.
     '''
     i = int(fi)
     p = points[i]
@@ -474,7 +475,7 @@ def fractional(points, fi, LatLon=None):
 
        @param points: The points (C{LatLon}[], C{Numpy2LatLon}[],
                       C{Tuple2LatLon}[] or C{other}[]).
-       @param fi: The fractional index (C{int} or C{float}).
+       @param fi: The fractional index (C{float} or C{int}).
        @keyword LatLon: Optional (sub-)class to return the
                         I{intermediate} point (C{LatLon}) or
                         C{None}.
@@ -483,7 +484,8 @@ def fractional(points, fi, LatLon=None):
                 B{C{LatLon}} is C{None} with B{C{points}}[B{C{fi}}]
                 if I{fractional} index B{C{fi}} is C{int}, otherwise
                 the intermediate point between B{C{points}}[C{int(B{fi})}]
-                and B{C{points}}[C{int(B{fi}+1)}] for C{float} B{C{fi}}.
+                and B{C{points}}[C{int(B{fi})+1}] for C{float}
+                I{fractional} index B{C{fi}}.
 
        @raise IndexError: Fractional index B{C{fi}} invalid or
                           B{C{points}} not subscriptable.
@@ -500,64 +502,60 @@ def fractional(points, fi, LatLon=None):
     return p
 
 
-def _frechet_(ni, fi, nj, fj, dF, units):  # MCCABE 13
-    '''(INTERNAL) Recursive function L{frechet_} and method
-       C{discrete} of classes C{frechet.Frechet...}.
+def _frechet_(ni, fi, nj, fj, dF, units):  # MCCABE 14
+    '''(INTERNAL) Recursive core of function L{frechet_}
+       and method C{discrete} of C{Frechet...} classes.
     '''
-    _iFs = {}
+    iFs = {}
 
-    def _iF(i):  # cache indices, float and int
-        try:
-            i = _iFs[i]
-        except KeyError:
-            _iFs[i] = i
-        return i
+    def iF(i):  # cache index, depth ints and floats
+        return iFs.setdefault(i, i)
 
-    def _rF(i, j, r):  # recursive Fréchet
-        i = _iF(i)
-        j = _iF(j)
+    def rF(i, j, r):  # recursive Fréchet
+        i = iF(i)
+        j = iF(j)
         try:
-            t4 = ca[i][j]
+            t = cF[i][j]
         except KeyError:
-            r += 1
+            r = iF(r + 1)
             try:
                 if i > 0:
                     if j > 0:
-                        t4 = min(_rF(i - fi, j,      r),
-                                 _rF(i - fi, j - fj, r),
-                                 _rF(i,      j - fj, r))
+                        t = min(rF(i - fi, j,      r),
+                                rF(i - fi, j - fj, r),
+                                rF(i,      j - fj, r))
                     elif j < 0:
                         raise IndexError
                     else:  # j == 0
-                        t4 = _rF(i - fi, 0, r)
+                        t = rF(i - fi, 0, r)
                 elif i < 0:
                     raise IndexError
 
                 elif j > 0:  # i == 0
-                    t4 = _rF(0, j - fj, r)
+                    t = rF(0, j - fj, r)
                 elif j < 0:  # i == 0
                     raise IndexError
                 else:  # i == j == 0
-                    t4 = (-INF, i, j, r)
+                    t = (-INF, i, j, r)
 
                 d = dF(i, j)
-                if d > t4[0]:
-                    t4 = (d, i, j, r)
+                if d > t[0]:
+                    t = (d, i, j, r)
             except IndexError:
-                t4 = (INF, i, j, r)
-            ca[i][j] = t4
-        return t4
+                t = (INF, i, j, r)
+            cF[i][j] = t
+        return t
 
-    ca = defaultdict(dict)
-    t4 = _rF(ni - 1, nj - 1, 0)
-    t6 = t4 + (sum(map(len, ca.values())), units)
-#   del _iFs
-    return Frechet6Tuple(*t6)
+    cF = defaultdict(dict)
+    t  = rF(ni - 1, nj - 1, 0)
+    t += (sum(map(len, cF.values())), units)
+#   del cF, iFs
+    return Frechet6Tuple(*t)
 
 
 def frechet_(points1, points2, distance=None, units=''):
     '''Compute the I{discrete} U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>}
-       distance between two curves given as sets of points.
+       distance between two paths given as sets of points.
 
        @param points1: First set of points (C{LatLon}[], C{Numpy2LatLon}[],
                        C{Tuple2LatLon}[] or C{other}[]).
@@ -567,17 +565,18 @@ def frechet_(points1, points2, distance=None, units=''):
                           and a B{C{points2}} point (signature C{(point1, point2)}).
        @keyword units: Optional, name of the distance units (C{str}).
 
-       @return: A L{Frechet6Tuple}C{(fd, fi, fj, r, n, units)} where C{fi} and
-                C{fj} are type C{int} indices into B{C{points1}} respectively
+       @return: A L{Frechet6Tuple}C{(fd, fi1, fi2, r, n, units)} where C{fi1} and
+                C{fi2} are type C{int} indices into B{C{points1}} respectively
                 B{C{points2}}.
 
-       @raise FrechetError: Insufficient B{C{points1}} or B{C{points2}}.
+       @raise FrechetError: Insufficient number of B{C{points1}} or B{C{points2}}.
 
-       @raise RecursionError: Recursion depth exceeded C{sys.getrecursionlimit()}.
+       @raise RecursionError: Recursion depth exceeded, see U{sys.getrecursionlimit()
+                              <https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit>}.
 
        @raise TypeError: If B{C{distance}} is not a callable.
 
-       @note: Keyword C{fraction}, intermediate B{C{points1}} or B{C{points2}}
+       @note: Keyword C{fraction}, intermediate B{C{points1}} and B{C{points2}}
               and I{fractional} indices are I{not} supported in this L{frechet_}
               function.
     '''
@@ -587,8 +586,8 @@ def frechet_(points1, points2, distance=None, units=''):
     n1, ps1 = _points2(points1, closed=False, Error=FrechetError)
     n2, ps2 = _points2(points2, closed=False, Error=FrechetError)
 
-    def dF(i, j):
-        return distance(ps1[i], ps2[j])
+    def dF(i1, i2):
+        return distance(ps1[i1], ps2[i2])
 
     return _frechet_(n1, 1, n2, 1, dF, units)
 

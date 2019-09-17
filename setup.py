@@ -3,7 +3,7 @@
 
 # The setuptools script to build, install and test a PyGeodesy distribution.
 
-# Tested with 64-bit Python 2.7.13-16, 3.6.1-2 and 3.7.0-3 (using
+# Tested with 64-bit Python 2.7.13-16, 3.6.1-2 and 3.7.0-4 (using
 # setuptools 28.8.0) but only on macOS 10.12.3-6 Sierra and 10.13.0-6
 # High Sierra.
 
@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.08.28'
+__version__ = '19.09.15'
 
 
 def _c2(*names):

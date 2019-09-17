@@ -115,30 +115,29 @@
   <p>Transcribed from the original <a 
   href="https://www.kr.TUWien.ac.AT/staff/eiter/et-archive/cdtr9464.pdf" 
   target="_top">Computing Discrete Fr&#233;chet Distance</a> by Eiter, T. and 
-  Mannila, H., 1994, April 25, Techical Report CD-TR 94/64, Information 
+  Mannila, H., 1994, April 25, Technical Report CD-TR 94/64, Information 
   Systems Department/Christian Doppler Laboratory for Expert Systems, 
   Technical University Vienna, Austria.</p>
-  <p>This implementation optionally generates intermediate points for each 
-  point set separately.  For example, using keyword argument 
-  <code>fraction=0.5</code> adds one additional point halfway between each 
-  pair of points.  Or using <code>fraction=0.1</code> interpolates nine 
-  additional points between each points pair.</p>
+  <p>This <a href="pygeodesy.frechet.Frechet-class.html#discrete" 
+  class="link">Frechet.discrete</a> implementation optionally generates 
+  intermediate points for each point set separately.  For example, using 
+  keyword argument <code>fraction=0.5</code> adds one additional point 
+  halfway between each pair of points.  Or using <code>fraction=0.1</code> 
+  interpolates nine additional points between each points pair.</p>
   <p>The <a href="pygeodesy.frechet.Frechet6Tuple-class.html" 
-  class="link">Frechet6Tuple</a> attributes <code>fi</code> and/or 
-  <code>fj</code> will be <i>fractional</i> indices of type 
-  <code>float</code> if keyword argument <code>fraction</code> is given 
-  (with a value between <a href="pygeodesy.frechet-module.html#EPS" 
-  class="link" onclick="show_private();">EPS</a> and 0.5).  Otherwise, 
-  <code>fi</code> and/or <code>fj</code> are simply type <code>int</code> 
-  indices into the respective point set.</p>
-  <p>An example, <code>fractional</code> index value 2.5 means an 
+  class="link">Frechet6Tuple</a> attributes <code>fi1</code> and/or 
+  <code>fi2</code> will be <i>fractional</i> indices of type 
+  <code>float</code> if keyword argument <code>fraction</code> is used.  
+  Otherwise, <code>fi1</code> and/or <code>fi2</code> are simply type 
+  <code>int</code> indices into the respective points set.</p>
+  <p>For example, <code>fractional</code> index value 2.5 means an 
   intermediate point halfway between points[2] and points[3].  Use function
   <a href="pygeodesy.frechet-module.html#fractional" 
   class="link">fractional</a> to obtain the intermediate point for a 
   <i>fractional</i> index in the corresponding set of points.</p>
-  <p>The Fr&#233;chet distance was introduced by <a 
+  <p>The <code>Fr&#233;chet</code> distance was introduced in 1906 by <a 
   href="https://WikiPedia.org/wiki/Maurice_Rene_Frechet" 
-  target="_top">Maurice Fr&#233;chet</a> in 1906, see <a 
+  target="_top">Maurice Fr&#233;chet</a>, see <a 
   href="https://www.kr.TUWien.ac.AT/staff/eiter/et-archive/cdtr9464.pdf" 
   target="_top">reference [6]</a>. It is a measure of similarity between 
   curves that takes into account the location and ordering of the points.  
@@ -149,7 +148,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.08.30
+        19.09.16
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -172,13 +171,14 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.Frechet6Tuple-class.html" class="summary-name">Frechet6Tuple</a><br />
-      6-Tuple <code>(fd, fi, fj, r, n, units)</code> with the 
+      6-Tuple <code>(fd, fi1, fi2, r, n, units)</code> with the 
         <i>discrete</i> <a 
         href="https://WikiPedia.org/wiki/Frechet_distance" 
         target="_top">Fr&#233;chet</a> distance <code>fd</code>, 
-        <i>fractional</i> indices <code>fi</code> and <code>fj</code>, the 
-        recursion depth <code>r</code>, the number of distances computed 
-        <code>n</code> and the name of the distance <code>units</code>.
+        <i>fractional</i> indices <code>fi1</code> and <code>fi2</code>, 
+        the recursion depth <code>r</code>, the number of distances 
+        computed <code>n</code> and the name of the distance 
+        <code>units</code>.
     </td>
   </tr>
 <tr>
@@ -297,8 +297,8 @@
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Compute the <i>discrete</i> <a 
       href="https://WikiPedia.org/wiki/Frechet_distance" 
-      target="_top">Fr&#233;chet</a> distance between two curves given as sets 
-      of points.</td>
+      target="_top">Fr&#233;chet</a> distance between two paths given as sets of
+      points.</td>
           <td align="right" valign="top">
             
             
@@ -340,7 +340,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The points (<code>LatLon</code>[], <code>Numpy2LatLon</code>[], 
           <code>Tuple2LatLon</code>[] or <code>other</code>[]).</li>
-        <li><strong class="pname"><code>fi</code></strong> - The fractional index (<code>int</code> or <code>float</code>).</li>
+        <li><strong class="pname"><code>fi</code></strong> - The fractional index (<code>float</code> or <code>int</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the <i>intermediate</i> point 
           (<code>LatLon</code>) or <code>None</code>.</li>
     </ul></dd>
@@ -353,8 +353,9 @@
           <i>fractional</i> index <b><code>fi</code></b> is 
           <code>int</code>, otherwise the intermediate point between 
           <b><code>points</code></b>[<code>int(<b>fi</b>)</code>] and 
-          <b><code>points</code></b>[<code>int(<b>fi</b>+1)</code>] for 
-          <code>float</code> <b><code>fi</code></b>.</dd>
+          <b><code>points</code></b>[<code>int(<b>fi</b>)+1</code>] for 
+          <code>float</code> <i>fractional</i> index 
+          <b><code>fi</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>IndexError</strong></code> - Fractional index <b><code>fi</code></b> invalid or 
@@ -382,7 +383,7 @@
   
   <p>Compute the <i>discrete</i> <a 
   href="https://WikiPedia.org/wiki/Frechet_distance" 
-  target="_top">Fr&#233;chet</a> distance between two curves given as sets of 
+  target="_top">Fr&#233;chet</a> distance between two paths given as sets of 
   points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -400,21 +401,23 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.frechet.Frechet6Tuple-class.html" 
-          class="link">Frechet6Tuple</a><code>(fd, fi, fj, r, n, 
-          units)</code> where <code>fi</code> and <code>fj</code> are type 
-          <code>int</code> indices into <b><code>points1</code></b> 
+          class="link">Frechet6Tuple</a><code>(fd, fi1, fi2, r, n, 
+          units)</code> where <code>fi1</code> and <code>fi2</code> are 
+          type <code>int</code> indices into <b><code>points1</code></b> 
           respectively <b><code>points2</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.frechet.FrechetError-class.html">FrechetError</a></strong></code> - Insufficient <b><code>points1</code></b> or 
+        <li><code><strong class='fraise'><a href="pygeodesy.frechet.FrechetError-class.html">FrechetError</a></strong></code> - Insufficient number of <b><code>points1</code></b> or 
         <b><code>points2</code></b>.</li>
-        <li><code><strong class='fraise'>RecursionError</strong></code> - Recursion depth exceeded <code>sys.getrecursionlimit()</code>.</li>
+        <li><code><strong class='fraise'>RecursionError</strong></code> - Recursion depth exceeded, see <a 
+        href="https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit"
+        target="_top">sys.getrecursionlimit()</a>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>distance</code></b> is not a callable.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Keyword <code>fraction</code>, intermediate 
-        <b><code>points1</code></b> or <b><code>points2</code></b> and 
+        <b><code>points1</code></b> and <b><code>points2</code></b> and 
         <i>fractional</i> indices are <i>not</i> supported in this <a 
         href="pygeodesy.frechet-module.html#frechet_" 
         class="link">frechet_</a> function.
@@ -453,7 +456,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Sep  8 21:43:02 2019
+    Generated by Epydoc 3.0.1 on Tue Sep 17 12:36:09 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
