@@ -23,7 +23,7 @@ from math import atan2, cos, sin
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '19.07.12'
+__version__ = '19.09.30'
 
 try:
     _cmp = cmp
@@ -563,9 +563,9 @@ class Vector3d(_VectorBase):
                             self.z * factor)
 
     def to2ab(self):
-        '''Convert this vector to (geodetic) lat- and longitude.
+        '''Convert this vector to (geodetic) lat- and longitude in C{radians}.
 
-           @return: A L{PhiLam2Tuple}C{(phi, lambda)}.
+           @return: A L{PhiLam2Tuple}C{(phi, lam)}.
 
            @example:
 
@@ -577,7 +577,7 @@ class Vector3d(_VectorBase):
         return self._xnamed(PhiLam2Tuple(a, b))
 
     def to2ll(self):
-        '''Convert this vector to (geodetic) lat- and longitude.
+        '''Convert this vector to (geodetic) lat- and longitude in C{degrees}.
 
            @return: A L{LatLon2Tuple}C{(lat, lon)}.
 
@@ -665,7 +665,7 @@ def sumOf(vectors, Vector=Vector3d, **kwds):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

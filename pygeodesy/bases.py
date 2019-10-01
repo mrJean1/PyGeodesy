@@ -23,7 +23,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_LAZY.bases + _ALL_DOCS('_VectorBase')
-__version__ = '19.08.14'
+__version__ = '19.10.01'
 
 
 class _VectorBase(_NamedBase):
@@ -38,13 +38,13 @@ class LatLonHeightBase(_NamedBase):
     '''(INTERNAL) Base class for C{LatLon} points on
        spherical or ellipsiodal earth models.
     '''
-    _ab     = ()    #: (INTERNAL) Cache (L{PhiLam2Tuple})
     _datum  = None  #: (INTERNAL) Datum, overriden
     _height = 0     #: (INTERNAL) Height (C{meter})
     _lat    = 0     #: (INTERNAL) Latitude (C{degrees})
     _latlon = None  #: (INTERNAL) Cache (L{LatLon2Tuple})
     _lon    = 0     #: (INTERNAL) Longitude (C{degrees})
     _name   = ''    #: (INTERNAL) name (C{str})
+    _philam = None  #: (INTERNAL) Cache (L{PhiLam2Tuple})
 
     def __init__(self, lat, lon, height=0, name=''):
         '''New C{LatLon}.
@@ -428,7 +428,7 @@ class LatLonHeightBase(_NamedBase):
         return self.latlon2(ndigits)
 
     def latlon2(self, ndigits=0):
-        '''Return this point's lat- and longitude, rounded.
+        '''Return this point's lat- and longitude in C{degrees}, rounded.
 
            @keyword ndigits: Number of decimal digits (C{int}).
 
@@ -464,6 +464,22 @@ class LatLonHeightBase(_NamedBase):
         self._update(lon != self._lon)
         self._lon = lon
 
+    def philam2(self, ndigits=0):
+        '''Return this point's lat- and longitude in C{radians}, rounded.
+
+           @keyword ndigits: Number of decimal digits (C{int}).
+
+           @return: A L{PhiLam2Tuple}C{(phi, lam)}, both rounded
+                    away from zero.
+
+           @see: Built-in function C{round}.
+        '''
+        r = self.to2ab()
+        if ndigits:
+            r = self._xnamed(PhiLam2Tuple(round(r.phi, ndigits),
+                                          round(r.lam, ndigits)))
+        return r
+
     def points(self, points, closed=True):
         '''DEPRECATED, use method C{points2}.
         '''
@@ -489,12 +505,12 @@ class LatLonHeightBase(_NamedBase):
     def to2ab(self):
         '''Return this point's lat- and longitude in C{radians}.
 
-           @return: A L{PhiLam2Tuple}C{(phi, lambda)}.
+           @return: A L{PhiLam2Tuple}C{(phi, lam)}.
         '''
-        if not self._ab:
+        if not self._philam:
             a, b = map1(radians, self.lat, self.lon)
-            self._ab = self._xnamed(PhiLam2Tuple(a, b))
-        return self._ab
+            self._philam = self._xnamed(PhiLam2Tuple(a, b))
+        return self._philam
 
     def to3llh(self, height=None):
         '''Return this point's lat-, longitude and height.
@@ -569,7 +585,7 @@ class LatLonHeightBase(_NamedBase):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -135,7 +135,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'anStr', 'clipStr',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
                                  'enStr2', 'false2f', 'ft2m', 'halfs2',
-                                 'issequence', 'isNumpy2', 'isPoints2', 'issubclassof', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
+                                 'isNumpy2', 'isPoints2', 'issequence', 'issubclassof', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
                                  'limiterrors', 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
                                  'points2', 'property_RO',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
@@ -159,7 +159,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                 utily=('points2 as polygon',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.09.07'
+__version__ = '19.10.01'
 
 
 def _all_imports(**more):

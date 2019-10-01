@@ -25,7 +25,7 @@ __all__ = _ALL_LAZY.nvector + _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'Nvector',  # classes
           'sumOf')  # functions
-__version__ = '19.07.12'
+__version__ = '19.09.30'
 
 
 class Nvector(Vector3d):  # XXX kept private
@@ -102,19 +102,19 @@ class Nvector(Vector3d):  # XXX kept private
 
     def to3abh(self, height=None):
         '''Convert this n-vector to (geodetic) lat-, longitude
-           and height.
+           in C{radians} and height.
 
            @keyword height: Optional height, overriding this
                             n-vector's height (C{meter}).
 
-           @return: A L{PhiLam3Tuple}C{(phi, lambda, height)}.
+           @return: A L{PhiLam3Tuple}C{(phi, lam, height)}.
         '''
         h = self.h if height is None else height
         return Vector3d.to2ab(self)._3Tuple(h)
 
     def to3llh(self, height=None):
         '''Convert this n-vector to (geodetic) lat-, longitude
-           and height.
+           in C{degrees} and height.
 
            @keyword height: Optional height, overriding this
                             n-vector's height (C{meter}).
@@ -256,7 +256,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

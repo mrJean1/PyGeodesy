@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.09.15'
+__version__ = '19.10.01'
 
 
 def _c2(*names):
@@ -82,9 +82,9 @@ setup(
     version=_version(),
 
     author='Jean M. Brouwers',
-    author_email='mrJean1@Gmail.com',  # 'mrJean1 at Gmail dot com'
+    author_email='mrJean1@Gmail.com',
     maintainer='Jean M. Brouwers',
-    maintainer_email='mrJean1@Gmail.com',  # 'mrJean1 at Gmail dot com'
+    maintainer_email='mrJean1@Gmail.com',
 
     license='MIT',
     keywords=' '.join(_KeyWords),

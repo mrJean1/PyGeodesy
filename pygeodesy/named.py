@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '19.09.04'
+__version__ = '19.09.30'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -733,12 +733,6 @@ class GeoidHeight5Tuple(_NamedTuple):  # .geoids.py
     _Names_ = ('lat', 'lon', 'egm84', 'egm96', 'egm2008')
 
 
-class _LLab2Tuple(_NamedTuple):  # frechet, hausdorff
-    '''2-Tuple C{(a, b)} with C{lat} and C{lon} in C{radians}.
-    '''
-    _Names_ = ('a', 'b')
-
-
 class LatLon2Tuple(_NamedTuple):
     '''2-Tuple C{(lat, lon)} in C{degrees[90]} and C{degrees[180]}.
     '''
@@ -863,14 +857,14 @@ class Ned3Tuple(_NamedTuple):  # .ellipsoidalNvector.py
 
 
 class PhiLam2Tuple(_NamedTuple):  # .bases.py, .points.py, .vector3d.py
-    '''2-Tuple C{(phi, lambda)} with latitude C{phi} in C{radians[PI_2]}
-       and longitude C{lambda} in C{radians[PI]}.
+    '''2-Tuple C{(phi, lam)} with latitude C{phi} in C{radians[PI_2]}
+       and longitude C{lam} in C{radians[PI]}.
 
-       @note: Using C{phi/lamda} for lat-/longitude in radians
+       @note: Using C{phi/lambda} for lat-/longitude in radians
               follows Chris Veness' U{convention
               <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
     '''
-    _Names_ = ('phi', 'lambda')
+    _Names_ = ('phi', 'lam')
 
     def _3Tuple(self, height):
         '''(INTERNAL) Extend to a L{PhiLam3Tuple}.
@@ -879,15 +873,15 @@ class PhiLam2Tuple(_NamedTuple):  # .bases.py, .points.py, .vector3d.py
 
 
 class PhiLam3Tuple(_NamedTuple):  # .nvector.py
-    '''3-Tuple C{(phi, lambda, height)} with latitude C{phi} in
-       C{radians[PI_2]}, longitude C{lambda} in C{radians[PI]} and
+    '''3-Tuple C{(phi, lam, height)} with latitude C{phi} in
+       C{radians[PI_2]}, longitude C{lam} in C{radians[PI]} and
        C{height} in C{meter}.
 
        @note: Using C{phi/lamda} for lat-/longitude in radians
               follows Chris Veness' U{convention
               <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
     '''
-    _Names_ = ('phi', 'lambda', 'height')
+    _Names_ = ('phi', 'lam', 'height')
 
 
 class Point3Tuple(_NamedTuple):  # .points.py
@@ -1038,7 +1032,7 @@ if __name__ == '__main__':
         raise NameError('usage: %s' % ('env PYGEODESY_FOR_DOCS=1 python ...',))
 
     ls = set(locals().keys()) - \
-         set(('fStr', 'ls', 'n', 'property_RO', 'unStr'))
+         set(('fStr', 'ls', 'n', 'property_RO', 'issubclassof', 'unStr'))
     for n in __all__:
         if n not in ls:
             raise NameError('%s %r not in %s' % ('__all__', n, 'locals'))
@@ -1046,9 +1040,11 @@ if __name__ == '__main__':
         if n not in __all__ and not n.startswith('_'):
             raise NameError('%s %r not in %s' % ('locals', n, '__all__'))
 
+    print('all %s %s OK' % (len(ls), 'locals'))
+
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -1067,3 +1063,6 @@ if __name__ == '__main__':
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
+
+# % env PYGEODESY_FOR_DOCS=1 python -m pygeodesy.named
+# all 71 locals OK

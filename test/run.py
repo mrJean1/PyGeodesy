@@ -14,7 +14,7 @@ from os import environ, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '19.07.14'
+__version__ = '19.10.01'
 
 if isiOS:  # MCCABE 14
 
@@ -242,7 +242,7 @@ if __name__ == '__main__':  # MCCABE 16
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

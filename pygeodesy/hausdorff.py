@@ -65,14 +65,14 @@ from pygeodesy.datum import Datum
 from pygeodesy.fmath import INF
 from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
-from pygeodesy.named import _LLab2Tuple, _Named, _NamedTuple
+from pygeodesy.named import _Named, _NamedTuple, PhiLam2Tuple
 from pygeodesy.utily import points2, property_RO, unroll180, unrollPI
 
 from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '19.08.17'
+__version__ = '19.09.30'
 
 
 class HausdorffError(ValueError):
@@ -243,9 +243,9 @@ class HausdorffRadians(Hausdorff):
         '''Convert C{(lat, lon)} point in degrees to C{(a, b)}
            in radians.
 
-           @return: An L{_LLab2Tuple}C{(a, b)}.
+           @return: An L{PhiLam2Tuple}C{(phi, lam)}.
         '''
-        return _LLab2Tuple(radians(point.lat), radians(point.lon))
+        return PhiLam2Tuple(radians(point.lat), radians(point.lon))
 
 
 class HausdorffEquirectangular(HausdorffRadians):
@@ -284,10 +284,10 @@ class HausdorffEquirectangular(HausdorffRadians):
     def distance(self, p1, p2):
         '''Return the L{equirectangular_} distance in C{radians squared}.
         '''
-        d, _ = unrollPI(p1.b, p2.b, wrap=self._wrap)
+        d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         if self._adjust:
-            d *= _scaler(p1.a, p2.a)
-        return d**2 + (p2.a - p1.a)**2  # like equirectangular_ d2
+            d *= _scaler(p1.phi, p2.phi)
+        return d**2 + (p2.phi - p1.phi)**2  # like equirectangular_ d2
 
     directed  = Hausdorff.directed   # for __doc__
     symmetric = Hausdorff.symmetric  # for __doc__
@@ -325,7 +325,7 @@ class HausdorffEuclidean(HausdorffRadians):
     def distance(self, p1, p2):
         '''Return the L{euclidean_} distance in C{radians}.
         '''
-        return euclidean_(p2.a, p1.a, p2.b - p1.b, adjust=self._adjust)
+        return euclidean_(p2.phi, p1.phi, p2.lam - p1.lam, adjust=self._adjust)
 
     directed  = Hausdorff.directed   # for __doc__
     symmetric = Hausdorff.symmetric  # for __doc__
@@ -364,8 +364,8 @@ class HausdorffHaversine(HausdorffRadians):
     def distance(self, p1, p2):
         '''Return the L{haversine_} distance in C{radians}.
         '''
-        d, _ = unrollPI(p1.b, p2.b, wrap=self._wrap)
-        return haversine_(p2.a, p1.a, d)
+        d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
+        return haversine_(p2.phi, p1.phi, d)
 
     directed  = Hausdorff.directed   # for __doc__
     symmetric = Hausdorff.symmetric  # for __doc__
@@ -469,8 +469,8 @@ class HausdorffVincentys(HausdorffRadians):
     def distance(self, p1, p2):
         '''Return the L{vincentys_} distance in C{radians}.
         '''
-        d, _ = unrollPI(p1.b, p2.b, wrap=self._wrap)
-        return vincentys_(p2.a, p1.a, d)
+        d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
+        return vincentys_(p2.phi, p1.phi, d)
 
     directed  = Hausdorff.directed   # for __doc__
     symmetric = Hausdorff.symmetric  # for __doc__
@@ -622,7 +622,7 @@ def randomrangenerator(seed):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -52,12 +52,12 @@ install``.  To run all PyGeodesy tests, type ``python setup.py test``
 before installation.
 
 Installation of `GeographicLib`_, `NumPy`_ and `SciPy`_ is optional.
-However, the former is required for module *css* classes *CassiniSoldner*
-and *Css* and function *toCss*, for module *ellipsoidalKarney* classes
-*LatLon* and *Cartesian* and functions *areaOf* and *perimeterOf* and
-for the *HeightIDWkarney* interpolator.  The latter are needed for the
-*Geoid...* and *Height...* interpolator classes, except *GeoidKarney*
-and all *HeightIDW...*.
+However, the former is required for classes *CassiniSoldner* and *Css*
+and function *toCss*, for module *ellipsoidalKarney* classes *LatLon* and
+*Cartesian* and functions *areaOf* and *perimeterOf* and for the
+*HeightIDWkarney* interpolator.  The latter are needed for the *Geoid...*
+and *Height...* interpolator classes, except the *GeoidKarney* and all
+*HeightIDW...* classes.
 
 Documentation
 =============
@@ -111,12 +111,12 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 16, 2019.*
+*Last updated: Oct 01, 2019.*
 
 License
 =======
 
-``Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com``
+``Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.``
 
 ``Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),

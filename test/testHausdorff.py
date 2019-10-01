@@ -4,7 +4,7 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '19.08.14'
+__version__ = '19.09.30'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
@@ -58,7 +58,7 @@ if __name__ == '__main__':  # MCCABE 13
     class HausdorffRadians_(HausdorffRadians):
         '''Custom Hausdorff.'''
         def distance(self, p1, p2):
-            dy, dx = abs(p1.a - p2.a), abs(p1.b - p2.b)
+            dy, dx = abs(p1.phi - p2.phi), abs(p1.lam - p2.lam)
             if dx < dy:
                 dx, dy = dy, dx
             return dx + dy * 0.5

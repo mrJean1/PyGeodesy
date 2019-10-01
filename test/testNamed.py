@@ -4,15 +4,24 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '19.08.19'
+__version__ = '19.10.01'
 
 from base import PyGeodesy_dir, TestsBase
+
+from os import linesep
 
 _B_    = ')}'
 _C_    = '}C{'
 _DICT  = 'Dict'
 _LINK  = 'L{'
 _TUPLE = 'Tuple'
+
+
+def _mod_line(m, py):
+    '''Count number of lines.
+    '''
+    n = py.count(linesep) + 1
+    return '%s:%s' % (m, n)
 
 
 class Tests(TestsBase):
@@ -73,6 +82,7 @@ class Tests(TestsBase):
         L = py.rfind(_LINK, 0, i)
         c = py.find(_B_, i)
         if 0 < L < i < c:
+            m = _mod_line(m, py[:L])
             n = py[L + len(_LINK):i + len(_N)]
             t = ' '.join(py[L:c + len(_B_)].split())
             self.test(m, t, _Ndict.get(n, 'signature'))

@@ -48,7 +48,7 @@ from pygeodesy.named import classname, _NamedDict as _X, \
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_LAZY.trf
-__version__ = '19.08.17'
+__version__ = '19.10.01'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value
@@ -58,11 +58,7 @@ _trfFs = {}
 def _F(f):
     '''Cache a single C{float}.
     '''
-    try:
-        f = _trfFs[f]  # PYCHOK del _trfFs
-    except KeyError:
-        _trfFs[f] = f  # PYCHOK del _trfFs
-    return f
+    return _trfFs.setdefault(f, f)  # PYCHOK undefined by del _trfFs
 
 
 def _T(*fs):
@@ -397,7 +393,7 @@ del _trfFs  # trash floats cache
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -416,3 +412,19 @@ del _trfFs  # trash floats cache
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
+
+# % python -m pygeodesy.trf
+# len(_trfFs) 216 / len(_trfXs) 627: 34.4%
+#
+# date2epoch(2020, 1, 31) 2020.085
+# date2epoch(2020, 2, 29) 2020.164
+# date2epoch(2020, 3, 31) 2020.249
+# date2epoch(2020, 4, 30) 2020.331
+# date2epoch(2020, 5, 31) 2020.415
+# date2epoch(2020, 6, 30) 2020.497
+# date2epoch(2020, 7, 31) 2020.582
+# date2epoch(2020, 8, 31) 2020.667
+# date2epoch(2020, 9, 30) 2020.749
+# date2epoch(2020, 10, 31) 2020.833
+# date2epoch(2020, 11, 30) 2020.915
+# date2epoch(2020, 12, 31) 2021.000

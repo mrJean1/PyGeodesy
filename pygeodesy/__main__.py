@@ -9,7 +9,7 @@ import os.path as os_path
 import sys
 
 __all__ = ()
-__version__ = '19.07.14'
+__version__ = '19.10.01'
 
 try:
     from pygeodesy import isLazy, pygeodesy_abspath, version, \
@@ -52,7 +52,7 @@ except ImportError:
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -71,3 +71,6 @@ except ImportError:
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
+
+# % python -m pygeodesy
+# pygeodesy.version='19.10.1', .pygeodesy_abspath='.../PyGeodesy/pygeodesy', .isLazy=None, ._isfrozen=False (Python 2.7.16, geographiclib 1.49, numpy 1.16.4, scipy 1.2.2)

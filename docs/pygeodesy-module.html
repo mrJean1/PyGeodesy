@@ -155,8 +155,7 @@
     target="_top">GeographicLib</a>, <a href="https://www.NumPy.org" 
     target="_top">NumPy</a> and <a href="https://SciPy.org" 
     target="_top">SciPy</a> is optional. However, the former is required 
-    for module <a href="pygeodesy.css-module.html" class="link">css</a> 
-    classes <a href="pygeodesy.css.CassiniSoldner-class.html" 
+    for classes <a href="pygeodesy.css.CassiniSoldner-class.html" 
     class="link">CassiniSoldner</a> and <a 
     href="pygeodesy.css.Css-class.html" class="link">Css</a> and function 
     <a href="pygeodesy.css-module.html#toCss" class="link">toCss</a>, for 
@@ -167,8 +166,9 @@
     href="pygeodesy.heights.HeightIDWkarney-class.html" 
     class="link">HeightIDWkarney</a> interpolator.  The latter are needed 
     for the <code>Geoid...</code> and <code>Height...</code> interpolator 
-    classes, except <a href="pygeodesy.geoids.GeoidKarney-class.html" 
-    class="link">GeoidKarney</a> and all <code>HeightIDW...</code>.</p>
+    classes, except the <a href="pygeodesy.geoids.GeoidKarney-class.html" 
+    class="link">GeoidKarney</a> and all <code>HeightIDW...</code> 
+    classes.</p>
   <h1 class="heading">Documentation</h1>
     <p>In addition to the <code>pygeodesy</code> package, the <a 
     href="https://PyPI.org/project/PyGeodesy" target="_top">PyGeodesy</a> 
@@ -242,8 +242,8 @@
     JavaScript name.</p>
   <h1 class="heading">License</h1>
     <p>**) <a href="https://OpenSource.org/licenses/MIT" 
-    target="_top">Copyright (C) 2016-2019 -- mrJean1 at Gmail dot 
-    com</a></p>
+    target="_top">Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights
+    Reserved.</a></p>
     <p><code>Permission is hereby granted, free of charge, to any person 
     obtaining a copy of this software and associated documentation files 
     (the &quot;Software&quot;), to deal in the Software without 
@@ -265,7 +265,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.09.16
+        19.10.01
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1118,39 +1118,30 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights.HeightIDWeuclidean-class.html" class="summary-name">HeightIDW</a><br />
-      Height interpolator using <a 
-        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <code>Euclidean</code> distance from function <a 
-        href="pygeodesy.formy-module.html#euclidean_" 
-        class="link">euclidean_</a>.
+        <a href="pygeodesy.deprecated.HeightIDW-class.html" class="summary-name">HeightIDW</a><br />
+      DEPRECATED, use class <a 
+        href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
+        class="link">HeightIDWeuclidean</a>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights.HeightIDWequirectangular-class.html" class="summary-name">HeightIDW2</a><br />
-      Height interpolator using <a 
-        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <code>equirectangular</code> distance (in radians squared) like 
-        function <a href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>.
+        <a href="pygeodesy.deprecated.HeightIDW2-class.html" class="summary-name">HeightIDW2</a><br />
+      DEPRECATED, use class <a 
+        href="pygeodesy.heights.HeightIDWequirectangular-class.html" 
+        class="link">HeightIDWequirectangular</a>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights.HeightIDWhaversine-class.html" class="summary-name">HeightIDW3</a><br />
-      Height interpolator using <a 
-        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> <code>Haversine</code> distance from function <a 
-        href="pygeodesy.formy-module.html#haversine_" 
-        class="link">haversine_</a>.
+        <a href="pygeodesy.deprecated.HeightIDW3-class.html" class="summary-name">HeightIDW3</a><br />
+      DEPRECATED, use class <a 
+        href="pygeodesy.heights.HeightIDWhaversine-class.html" 
+        class="link">HeightIDWhaversine</a>.
     </td>
   </tr>
 <tr>
@@ -1391,10 +1382,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.trf.TRFError-class.html" class="summary-name">RefFrameError</a><br />
-      Terrestrial Reference Frame (TRF) or <a 
-        href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a> 
-        conversion issue.
+        <a href="pygeodesy.deprecated.RefFrameError-class.html" class="summary-name">RefFrameError</a><br />
+      DEPRECATED, use class <a href="pygeodesy.trf.TRFError-class.html" 
+        class="link">TRFError</a>.
     </td>
   </tr>
 <tr>
@@ -2771,7 +2761,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10970b050&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10ec7d0c8&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -2918,8 +2908,8 @@
           <td><span class="summary-sig"><a name="hypot3"></a><span class="summary-sig-name">hypot3</span>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>)</span><br />
-      (DEPRECATED), use function <a 
-      href="pygeodesy.fmath-module.html#hypot_" class="link">hypot_</a>.</td>
+      DEPRECATED, use function <a href="pygeodesy.fmath-module.html#hypot_"
+      class="link">hypot_</a>.</td>
           <td align="right" valign="top">
             
             
@@ -4968,7 +4958,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.9.16'"><code class="variable-quote">'</code><code class="variable-string">19.9.16</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.10.1'"><code class="variable-quote">'</code><code class="variable-string">19.10.1</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7824,7 +7814,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10970b050&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10ec7d0c8&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -12150,7 +12140,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 17 12:36:09 2019
+    Generated by Epydoc 3.0.1 on Tue Oct  1 12:32:23 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

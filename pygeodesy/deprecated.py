@@ -3,32 +3,41 @@
 
 u'''DEPRECATED classes, functions, etc. exported for backward compatibility.
 '''
-from pygeodesy.heights import HeightIDWequirectangular, \
-                              HeightIDWeuclidean, \
-                              HeightIDWhaversine
+from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
+                              HeightIDWeuclidean as _HeightIDWeuclidean, \
+                              HeightIDWhaversine as _HeightIDWhaversine
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.trf import TRFError
+from pygeodesy.trf import TRFError as _TRFError
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '19.07.12'
+__version__ = '19.09.19'
 
 _R_M = _WGS84 = _UTM = object()
 
 
 # DEPRECATED classes, for export only
-HeightIDW = HeightIDWeuclidean  # PYCHOK exported
-'''DEPRECATED, use class L{HeightIDWeuclidean}.
-'''
-HeightIDW2 = HeightIDWequirectangular  # PYCHOK exported
-'''DEPRECATED, use class L{HeightIDWequirectangular}.
-'''
-HeightIDW3 = HeightIDWhaversine  # PYCHOK exported
-'''DEPRECATED, use class L{HeightIDWhaversine}.
-'''
+class HeightIDW(_HeightIDWeuclidean):  # PYCHOK exported
+    '''DEPRECATED, use class L{HeightIDWeuclidean}.
+    '''
+    pass
 
-RefFrameError = TRFError  # PYCHOK exported
-'''DEPRECATED, use class L{TRFError}.
-'''
+
+class HeightIDW2(_HeightIDWequirectangular):  # PYCHOK exported
+    '''DEPRECATED, use class L{HeightIDWequirectangular}.
+    '''
+    pass
+
+
+class HeightIDW3(_HeightIDWhaversine):  # PYCHOK exported
+    '''DEPRECATED, use class L{HeightIDWhaversine}.
+    '''
+    pass
+
+
+class RefFrameError(_TRFError):  # PYCHOK exported
+    '''DEPRECATED, use class L{TRFError}.
+    '''
+    pass
 
 
 def areaof(points, adjust=True, radius=_R_M, wrap=True):
@@ -79,7 +88,7 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
 
 
 def hypot3(x, y, z):
-    '''(DEPRECATED), use function L{hypot_}.
+    '''DEPRECATED, use function L{hypot_}.
     '''
     from pygeodesy.fmath import hypot_
     return hypot_(x, y, z)

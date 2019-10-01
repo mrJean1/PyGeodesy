@@ -46,7 +46,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.8.14'
+__version__ = '19.09.30'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -126,9 +126,9 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     points.__doc__ = points2.__doc__
 
     def to2ab(self):
-        '''Return the lat- and longitude in radians.
+        '''Return the lat- and longitude in C{radians}.
 
-           @return: A L{PhiLam2Tuple}C{(phi, lambda)}.
+           @return: A L{PhiLam2Tuple}C{(phi, lam)}.
         '''
         return PhiLam2Tuple(radians(self.lat), radians(self.lon))
 
@@ -1406,7 +1406,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

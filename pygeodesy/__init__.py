@@ -76,12 +76,12 @@ before installation.
 
 Installation of U{GeographicLib<https://PyPI.org/project/geographiclib>},
 U{NumPy<https://www.NumPy.org>} and U{SciPy<https://SciPy.org>} is optional.
-However, the former is required for module L{css} classes L{CassiniSoldner}
-and L{Css} and function L{toCss}, for module L{ellipsoidalKarney} classes
-C{LatLon} and C{Cartesian} and functions C{areaOf} and C{perimeterOf} and
-for the L{HeightIDWkarney} interpolator.  The latter are needed for the
-C{Geoid...} and C{Height...} interpolator classes, except L{GeoidKarney}
-and all C{HeightIDW...}.
+However, the former is required for classes L{CassiniSoldner} and L{Css} and
+function L{toCss}, for module L{ellipsoidalKarney} classes C{LatLon} and
+C{Cartesian} and functions C{areaOf} and C{perimeterOf} and for the
+L{HeightIDWkarney} interpolator.  The latter are needed for the C{Geoid...}
+and C{Height...} interpolator classes, except the L{GeoidKarney} and all
+C{HeightIDW...} classes.
 
 Documentation
 =============
@@ -151,7 +151,7 @@ cases documentation tag B{JS name:} shows the original JavaScript name.
 License
 =======
 
-**) U{Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+**) U{Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 <https://OpenSource.org/licenses/MIT>}
 
 C{Permission is hereby granted, free of charge, to any person obtaining a
@@ -252,7 +252,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.09.16'
+__version__ = '19.10.01'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -399,7 +399,7 @@ del abspath, basename, dirname, _lazy_import2, sys
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

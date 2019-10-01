@@ -23,7 +23,7 @@ from pygeodesy.named import Elevation2Tuple, GeoidHeight2Tuple
 from pygeodesy.utily import clipStr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.07.14'
+__version__ = '19.10.01'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -223,7 +223,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2016-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -242,3 +242,7 @@ if __name__ == '__main__':
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
+
+# % python -m pygeodesy.elevations
+# elevation2: (1173.79, '3DEP 1/3 arc-second')
+# geoidHeight2: (-31.703, 'GEOID12B')
