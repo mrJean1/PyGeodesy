@@ -9,7 +9,7 @@ elliptic and approximate methods for geodetic (lat-/longitude) and
 geocentric cartesian (x/y/z) coordinates.
 
 Transcribed from `JavaScript originals`_ by *Chris Veness (C) 2005-2016*
-and several `C++ classes`_ by *Charles Karney (C) 2008-2017* and published
+and several `C++ classes`_ by *Charles Karney (C) 2008-2019* and published
 under the same `MIT License`_.
 
 There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,

@@ -9,7 +9,7 @@ geocentric cartesian (x/y/z) coordinates.
 Transcribed from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>}
 by I{Chris Veness (C) 2005-2016} and several U{C++ classes
 <https://GeographicLib.SourceForge.io/html/annotated.html>} by I{Charles Karney
-(C) 2008-2017} and published under the same U{MIT License
+(C) 2008-2019} and published under the same U{MIT License
 <https://OpenSource.org/licenses/MIT>}**.
 
 There are three modules for ellipsoidal earth models, I{ellipsoidalKarney},
