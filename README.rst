@@ -72,16 +72,16 @@ Tests
 =====
 
 The tests have been run with Python 2.7.16 and 3.7.4 (both with
-geographiclib_ 1.49, numpy_ 1.16.4 and scipy_ 1.2.2 respectively 1.3.0)
-and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) on macOS 10.13.6 High
-Sierra, *all in 64-bit only*.  The results of those tests are included
-in the distribution files.
+geographiclib_ 1.50, numpy_ 1.16.5 respectively 1.17.2 and scipy_ 1.2.2
+respectively 1.3.1) and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) on
+macOS 10.13.6 High Sierra, *all in 64-bit only*.  The results of those
+tests are included in the distribution files.
 
 The tests also run with Python 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_
-1.49) on `Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_ 1.49)
-on `Debian 9`_ *all in 64-bit only* and with Python 2.7.15, 3.6.8 and
-3.7.2 (all with geographiclib_ 1.49) on `Windows Server 2012R2`_ *in both
-32- and 64-bit*.
+1.49 or 1.50) on `Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_
+1.49 or 1.50) on `Debian 9`_ *all in 64-bit only* and with Python 2.7.15,
+3.6.8 and 3.7.2 (all with geographiclib_ 1.49 or 1.50) on
+`Windows Server 2012R2`_ *in both 32- and 64-bit*.
 
 With Python 3.7+, the tests run with and without *lazy import*.
 
@@ -96,9 +96,9 @@ and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on MacOS X 10.10 Yosemite,
 MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra
 and macOS 10.14 Mojave, with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3,
 11.1.2 and 11.3 on iPad4, with Pythonista_ 3.2 (with geographiclib 1.49
-and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6
-and/or iPhone10, all in 64-bit only and with 32-bit Python 2.6.6 on
-Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
+or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4,
+iPhone6 and/or iPhone10, all in 64-bit only and with 32-bit Python 2.6.6
+on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
 
 Notes
 =====
@@ -111,7 +111,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 02, 2019.*
+*Last updated: Oct 04, 2019.*
 
 License
 =======

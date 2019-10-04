@@ -34,12 +34,11 @@ from pygeodesy.utily import enStr2, halfs2, property_RO
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
 from pygeodesy.utmupsBase import _hemi
 
-from math import log10
 import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs
-__version__ = '19.09.04'
+__version__ = '19.10.04'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -285,6 +284,10 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
        >>> str(m)  # 31U DQ 48251 11932
        >>> m = parseMGRS('31UDQ4825111932')
        >>> repr(m)  # [Z:31U, G:DQ, E:48251, N:11932]
+       >>> m = mgrs.parseMGRS('42SXD0970538646')
+       >>> str(m)  # 42S XD 09705 38646
+       >>> m = mgrs.parseMGRS('42SXD9738')  # Km
+       >>> str(m)  # 42S XD 97000 38000
     '''
     def _mg(cre, s):  # return re.match groups
         m = cre.match(s)
@@ -292,13 +295,10 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
             raise ValueError
         return m.groups()
 
-    def _s2m(g):  # e or n string to meter
-        f = float(g)
-        if f > 0:
-            x = int(log10(f))
-            if 0 <= x < 4:  # at least 5 digits
-                f *= (10000, 1000, 100, 10)[x]
-        return f
+    def _s2m(g):  # e or n string to float meter
+        # convert to meter if less than 5 digits
+        m = g + '00000'
+        return float(m[:5])
 
     m = tuple(strMGRS.strip().replace(',', ' ').split())
     try:

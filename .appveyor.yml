@@ -5,6 +5,11 @@ environment:
 
   matrix:
     # <http://www.AppVeyor.com/docs/windows-images-software/#python>
+    - APPVEYOR_JOB_NAME: "Python27-64bit"
+      PYTHON: "C:\\Python27-x64"
+    - APPVEYOR_JOB_NAME: "Python27-32bit"
+      PYTHON: "C:\\Python27"
+    # Python-26 no longer supported
     - APPVEYOR_JOB_NAME: "Python37-64bit"
       PYTHON: "C:\\Python37-x64"
     - APPVEYOR_JOB_NAME: "Python37-64bit-isLazy-0"
@@ -21,11 +26,6 @@ environment:
       PYTHON: "C:\\Python36-x64"
     - APPVEYOR_JOB_NAME: "Python36-32bit"
       PYTHON: "C:\\Python36"
-    - APPVEYOR_JOB_NAME: "Python27-64bit"
-      PYTHON: "C:\\Python27-x64"
-    - APPVEYOR_JOB_NAME: "Python27-32bit"
-      PYTHON: "C:\\Python27"
-    # Python-26 no longer supported
 
 install:
   # symlink python from a directory with a space

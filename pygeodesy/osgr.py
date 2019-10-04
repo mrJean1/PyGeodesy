@@ -350,8 +350,8 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
         return float(g.strip())
 
     def _s2i(G, g):
-        g += '00000'  # std to meter
-        return int(str(G) + g[:5])
+        m = g + '00000'  # std to meter
+        return int(str(G) + m[:5])
 
     s = strOSGR.strip()
     try:
