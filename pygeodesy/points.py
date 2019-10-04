@@ -25,6 +25,7 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.bases import points2
 from pygeodesy.dms import F_D, latDMS, lonDMS
 from pygeodesy.fmath import EPS, favg, fdot, Fsum, fsum, isint, map1, scalar
 from pygeodesy.formy import equirectangular_
@@ -34,7 +35,7 @@ from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, classname, inStr, \
                             PhiLam2Tuple, Point3Tuple, Shape2Tuple, \
                             nameof, _xnamed
 from pygeodesy.utily import PI_2, R_M, degrees90, degrees180, degrees360, \
-                            degrees2m, issequence, points2, property_RO, \
+                            degrees2m, issequence, property_RO, \
                             unroll180, unrollPI, wrap90, wrap180
 from pygeodesy.vector3d import CrossError, crosserrors
 
@@ -46,7 +47,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.09.30'
+__version__ = '19.10.02'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -121,6 +122,11 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
                              classname(other), classname(self)))
 
     def points(self, points, closed=False, base=None):
+        '''DEPRECATED, use method C{points2}.
+        '''
+        return points2(points, closed=closed, base=base)
+
+    def points2(self, points, closed=False, base=None):
         return points2(points, closed=closed, base=base)
 
     points.__doc__ = points2.__doc__

@@ -265,7 +265,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.10.01
+        19.10.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -2761,7 +2761,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10ec7d0c8&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x1017a2398&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -3913,7 +3913,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span><br />
-      Check a polygon represented by points.</td>
+      Check a path or polygon represented by points.</td>
           <td align="right" valign="top">
             
             
@@ -3933,7 +3933,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>)</span><br />
       DEPRECATED, use function <a 
-      href="pygeodesy.utily-module.html#points2" class="link">points2</a>.</td>
+      href="pygeodesy.bases-module.html#points2" class="link">points2</a>.</td>
           <td align="right" valign="top">
             
             
@@ -4958,7 +4958,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.10.1'"><code class="variable-quote">'</code><code class="variable-string">19.10.1</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.10.2'"><code class="variable-quote">'</code><code class="variable-string">19.10.2</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7814,7 +7814,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10ec7d0c8&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x1017a2398&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -9908,20 +9908,22 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Check a polygon represented by points.</p>
+  <p>Check a path or polygon represented by points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[])</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[])</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, consider the polygon closed, ignoring any duplicate 
           or closing final <b><code>points</code></b> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>base</code></strong> - Optionally, check the <b><code>points</code></b> against this 
-          base class <code>None</code>.</li>
-        <li><strong class="pname"><code>Error</code></strong> - Exception for raise (<code>ValueError</code>).</li>
+        <li><strong class="pname"><code>base</code></strong> - Optionally, check all <b><code>points</code></b> against this 
+          base class, if <code>None</code> don't check.</li>
+        <li><strong class="pname"><code>Error</code></strong> - Exception to raise (<code>ValueError</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (n, points) with the number (<code>int</code>) of points 
-          and the points <code>list</code> or <code>tuple</code>.</dd>
+        <dd>A <a href="pygeodesy.named.Points2Tuple-class.html" 
+          class="link">Points2Tuple</a><code>(number, points)</code> with 
+          the number of points and the points <code>list</code> or 
+          <code>tuple</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
@@ -12140,7 +12142,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct  1 12:32:23 2019
+    Generated by Epydoc 3.0.1 on Thu Oct  3 11:52:25 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

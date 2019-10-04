@@ -10,7 +10,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.trf import TRFError as _TRFError
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '19.09.19'
+__version__ = '19.10.02'
 
 _R_M = _WGS84 = _UTM = object()
 
@@ -147,7 +147,7 @@ def perimeterof(points, closed=False, adjust=True, radius=_R_M, wrap=True):
 def polygon(points, closed=True, base=None):
     '''DEPRECATED, use function L{points2}.
     '''
-    from pygeodesy.utily import points2
+    from pygeodesy.bases import points2
     return points2(points, closed=closed, base=base)
 
 

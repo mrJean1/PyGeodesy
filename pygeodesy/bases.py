@@ -10,20 +10,21 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
-from pygeodesy.fmath import EPS, favg, map1, scalar
+from pygeodesy.fmath import EPS, favg, len2, scalar
 from pygeodesy.formy import antipode, compassAngle, equirectangular, \
                             euclidean, haversine, isantipode, vincentys
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
 from pygeodesy.named import Bounds2Tuple, LatLon2Tuple, _NamedBase, \
-                            PhiLam2Tuple, Vector3Tuple, _xattrs
-from pygeodesy.utily import R_M, points2, sincos2
+                            PhiLam2Tuple, Points2Tuple, Vector3Tuple, \
+                            _xattrs
+from pygeodesy.utily import isNumpy2, isTuple2, R_M, property_RO, sincos2
 
 from math import asin, cos, degrees, radians
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_LAZY.bases + _ALL_DOCS('_VectorBase')
-__version__ = '19.10.01'
+__version__ = '19.10.02'
 
 
 class _VectorBase(_NamedBase):
@@ -38,13 +39,13 @@ class LatLonHeightBase(_NamedBase):
     '''(INTERNAL) Base class for C{LatLon} points on
        spherical or ellipsiodal earth models.
     '''
+    _ab     = None  #: (INTERNAL) Cache (L{PhiLam2Tuple})
     _datum  = None  #: (INTERNAL) Datum, overriden
     _height = 0     #: (INTERNAL) Height (C{meter})
     _lat    = 0     #: (INTERNAL) Latitude (C{degrees})
     _latlon = None  #: (INTERNAL) Cache (L{LatLon2Tuple})
     _lon    = 0     #: (INTERNAL) Longitude (C{degrees})
     _name   = ''    #: (INTERNAL) name (C{str})
-    _philam = None  #: (INTERNAL) Cache (L{PhiLam2Tuple})
 
     def __init__(self, lat, lon, height=0, name=''):
         '''New C{LatLon}.
@@ -95,7 +96,7 @@ class LatLonHeightBase(_NamedBase):
         '''(INTERNAL) Reset caches if updated.
         '''
         if updated:  # reset caches
-            self._ab = self._latlon = self._wm = None
+            self._ab = self._latlon = None
 
     def _xcopy(self, *attrs):
         '''(INTERNAL) Make copy with add'l, subclass attributes.
@@ -422,6 +423,12 @@ class LatLonHeightBase(_NamedBase):
                      lon != self._lon or h != self._height)
         self._lat, self._lon, self._height = lat, lon, h
 
+    @property_RO
+    def latlonheight(self):
+        '''Get the lat-, longitude and height (L{LatLon3Tuple}).
+        '''
+        return self.latlon._3Tuple(self.height)
+
     def latlon_(self, ndigits=0):
         '''DEPRECATED, use method C{latlon2}.
         '''
@@ -432,10 +439,11 @@ class LatLonHeightBase(_NamedBase):
 
            @keyword ndigits: Number of decimal digits (C{int}).
 
-           @return: A L{LatLon2Tuple}C{(lat, lon)}, both rounded
-                    away from zero.
+           @return: A L{LatLon2Tuple}C{(lat, lon)}, both C{float}
+                    and rounded away from zero.
 
-           @see: Built-in function C{round}.
+           @note: The C{round}ed values are always C{float}, also
+                  if B{C{ndigits}} is omitted.
         '''
         r = LatLon2Tuple(round(self.lat, ndigits),
                          round(self.lon, ndigits))
@@ -464,21 +472,33 @@ class LatLonHeightBase(_NamedBase):
         self._update(lon != self._lon)
         self._lon = lon
 
+    @property_RO
+    def philam(self):
+        '''Get the lat- and longitude (L{PhiLam2Tuple}).
+        '''
+        return self.to2ab()
+
+    @property_RO
+    def philamheight(self):
+        '''Get the lat-, longitude and height (L{PhiLam3Tuple}).
+        '''
+        return self.philam._3Tuple(self.height)
+
     def philam2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{radians}, rounded.
 
            @keyword ndigits: Number of decimal digits (C{int}).
 
-           @return: A L{PhiLam2Tuple}C{(phi, lam)}, both rounded
-                    away from zero.
+           @return: A L{PhiLam2Tuple}C{(phi, lam)}, both C{float}
+                    and rounded away from zero.
 
-           @see: Built-in function C{round}.
+           @note: The C{round}ed values are always C{float}, also
+                  if B{C{ndigits}} is omitted.
         '''
-        r = self.to2ab()
-        if ndigits:
-            r = self._xnamed(PhiLam2Tuple(round(r.phi, ndigits),
-                                          round(r.lam, ndigits)))
-        return r
+        r = self._ab or self.to2ab()
+        r = PhiLam2Tuple(round(r.phi, ndigits),
+                         round(r.lam, ndigits))
+        return self._xnamed(r)
 
     def points(self, points, closed=True):
         '''DEPRECATED, use method C{points2}.
@@ -486,15 +506,15 @@ class LatLonHeightBase(_NamedBase):
         return self.points2(points, closed=closed)
 
     def points2(self, points, closed=True):
-        '''Check a polygon represented by points.
+        '''Check a path or polygon represented by points.
 
-           @param points: The polygon points (C{LatLon}[])
+           @param points: The path or polygon points (C{LatLon}[])
            @keyword closed: Optionally, consider the polygon closed,
                             ignoring any duplicate or closing final
                             B{C{points}} (C{bool}).
 
-           @return: 2-Tuple (number, ...) of points (C{int}, C{list} or
-                    C{tuple}).
+           @return: A L{Points2Tuple}C{(number, points)}, C{int}
+                    and C{list} or C{tuple}.
 
            @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
@@ -507,10 +527,9 @@ class LatLonHeightBase(_NamedBase):
 
            @return: A L{PhiLam2Tuple}C{(phi, lam)}.
         '''
-        if not self._philam:
-            a, b = map1(radians, self.lat, self.lon)
-            self._philam = self._xnamed(PhiLam2Tuple(a, b))
-        return self._philam
+        if self._ab is None:
+            self._ab = PhiLam2Tuple(radians(self.lat), radians(self.lon))
+        return self._xnamed(self._ab)
 
     def to3llh(self, height=None):
         '''Return this point's lat-, longitude and height.
@@ -582,6 +601,45 @@ class LatLonHeightBase(_NamedBase):
                  C{euclideanTo}, C{distanceTo*} and C{haversineTo}.
         '''
         return self._distanceTo(vincentys, other, radius, wrap=wrap)
+
+
+def points2(points, closed=True, base=None, Error=ValueError):
+    '''Check a path or polygon represented by points.
+
+       @param points: The path or polygon points (C{LatLon}[])
+       @keyword closed: Optionally, consider the polygon closed,
+                        ignoring any duplicate or closing final
+                        B{C{points}} (C{bool}).
+       @keyword base: Optionally, check all B{C{points}} against
+                      this base class, if C{None} don't check.
+       @keyword Error: Exception to raise (C{ValueError}).
+
+       @return: A L{Points2Tuple}C{(number, points)} with the number
+                of points and the points C{list} or C{tuple}.
+
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
+
+       @raise Error: Insufficient number of B{C{points}}.
+    '''
+    n, points = len2(points)
+
+    if closed:
+        # remove duplicate or closing final points
+        while n > 1 and (points[n-1] == points[0] or
+                         points[n-1] == points[n-2]):
+            n -= 1
+        # XXX following line is unneeded if points
+        # are always indexed as ... i in range(n)
+        points = points[:n]  # XXX numpy.array slice is a view!
+
+    if n < (3 if closed else 1):
+        raise Error('too few %s: %s' % ('points', n))
+
+    if base and not (isNumpy2(points) or isTuple2(points)):
+        for i in range(n):
+            base.others(points[i], name='%s[%s]' % ('points', i))
+
+    return Points2Tuple(n, points)
 
 # **) MIT License
 #

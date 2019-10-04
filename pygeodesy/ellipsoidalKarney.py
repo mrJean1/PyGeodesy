@@ -28,19 +28,19 @@ or by converting to anothor datum:
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.bases import points2
 from pygeodesy.datum import Datums
 from pygeodesy.ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
-from pygeodesy.utily import points2, property_RO, unroll180, \
-                            wrap90, wrap180, wrap360
+from pygeodesy.utily import property_RO, unroll180, wrap90, wrap180, wrap360
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
-__version__ = '19.07.14'
+__version__ = '19.10.02'
 
 
 class LatLon(LatLonEllipsoidalBase):

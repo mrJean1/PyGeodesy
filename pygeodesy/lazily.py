@@ -73,7 +73,7 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 
 # __all__ value for most modules, accessible as _ALL_LAZY.<module>
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
-                          bases=('LatLonHeightBase',),
+                          bases=('LatLonHeightBase', 'points2'),
                           clipy=('clipCS3', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
                           datum=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
@@ -137,7 +137,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'enStr2', 'false2f', 'ft2m', 'halfs2',
                                  'isNumpy2', 'isPoints2', 'issequence', 'issubclassof', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
                                  'limiterrors', 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
-                                 'points2', 'property_RO',
+                                 'property_RO',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
                                  'sincos2', 'sincos2d', 'splice', 'tan_2', 'tanPI_2_2',
                                  'unroll180', 'unrollPI', 'unStr',
@@ -151,15 +151,15 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
 # DEPRECATED __all__ names overloading those in _ALL_LAZY.deprecated where
 # the new name is fully backward compatible in signature and return value
 _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
+                                bases=('points2 as polygon',),
                                 fmath=('hypot_ as hypot3',),
                               heights=('HeightIDWequirectangular as HeightIDW2', 'HeightIDWeuclidean as HeightIDW', 'HeightIDWhaversine as HeightIDW3'),
                                points=('areaOf as areaof',
                                        'isenclosedBy as isenclosedby', 'perimeterOf as perimeterof'),
-                             simplify=('simplifyRW as simplify2',),
-                                utily=('points2 as polygon',))
+                             simplify=('simplifyRW as simplify2',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.10.01'
+__version__ = '19.10.02'
 
 
 def _all_imports(**more):

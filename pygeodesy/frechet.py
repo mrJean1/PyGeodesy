@@ -72,17 +72,18 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
+from pygeodesy.bases import points2 as _points2
 from pygeodesy.fmath import EPS, EPS1, favg, INF, isscalar
 from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
 from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, PhiLam2Tuple
-from pygeodesy.utily import points2 as _points2, unrollPI
+from pygeodesy.utily import unrollPI
 
 from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '19.09.30'
+__version__ = '19.10.02'
 
 
 class FrechetError(ValueError):

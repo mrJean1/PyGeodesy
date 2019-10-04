@@ -7,15 +7,15 @@ against a rectangular box or clip region.
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.bases import points2
 from pygeodesy.fmath import EPS, fsum_, len2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import ClipCS3Tuple, ClipSH3Tuple
 from pygeodesy.points import _imdex2, boundsOf, isclockwise, isconvex_, \
                               LatLon_ as LL_
-from pygeodesy.utily  import points2
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '19.07.09'
+__version__ = '19.10.02'
 
 
 def _eq(p1, p2):  # near-equal points

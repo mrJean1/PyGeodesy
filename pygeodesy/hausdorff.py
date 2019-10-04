@@ -61,18 +61,19 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
+from pygeodesy.bases import points2
 from pygeodesy.datum import Datum
 from pygeodesy.fmath import INF
 from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
 from pygeodesy.named import _Named, _NamedTuple, PhiLam2Tuple
-from pygeodesy.utily import points2, property_RO, unroll180, unrollPI
+from pygeodesy.utily import property_RO, unroll180, unrollPI
 
 from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '19.09.30'
+__version__ = '19.10.02'
 
 
 class HausdorffError(ValueError):

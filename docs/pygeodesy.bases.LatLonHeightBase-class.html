@@ -557,7 +557,7 @@ named._NamedBase --+
           <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Check a polygon represented by points.</td>
+      Check a path or polygon represented by points.</td>
           <td align="right" valign="top">
             
             
@@ -728,8 +728,38 @@ named._NamedBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.bases.LatLonHeightBase-class.html#latlonheight" class="summary-name">latlonheight</a><br />
+      Get the lat-, longitude and height (<a 
+      href="pygeodesy.named.LatLon3Tuple-class.html" 
+      class="link">LatLon3Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.bases.LatLonHeightBase-class.html#lon" class="summary-name">lon</a><br />
       Get the longitude (<code>degrees180</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.bases.LatLonHeightBase-class.html#philam" class="summary-name">philam</a><br />
+      Get the lat- and longitude (<a 
+      href="pygeodesy.named.PhiLam2Tuple-class.html" 
+      class="link">PhiLam2Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.bases.LatLonHeightBase-class.html#philamheight" class="summary-name">philamheight</a><br />
+      Get the lat-, longitude and height (<a 
+      href="pygeodesy.named.PhiLam3Tuple-class.html" 
+      class="link">PhiLam3Tuple</a>).
     </td>
   </tr>
   <tr>
@@ -1263,10 +1293,11 @@ named._NamedBase --+
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code>, both 
-          rounded away from zero.</dd>
+          <code>float</code> and rounded away from zero.</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Built-in function <code>round</code>.
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>round</code>ed values are always <code>float</code>, also
+        if <b><code>ndigits</code></b> is omitted.
       </p>
 </div></td></tr></table>
 </div>
@@ -1295,10 +1326,11 @@ named._NamedBase --+
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
           class="link">PhiLam2Tuple</a><code>(phi, lam)</code>, both 
-          rounded away from zero.</dd>
+          <code>float</code> and rounded away from zero.</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Built-in function <code>round</code>.
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>round</code>ed values are always <code>float</code>, also
+        if <b><code>ndigits</code></b> is omitted.
       </p>
 </div></td></tr></table>
 </div>
@@ -1318,17 +1350,18 @@ named._NamedBase --+
     </td>
   </tr></table>
   
-  <p>Check a polygon represented by points.</p>
+  <p>Check a path or polygon represented by points.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[])</li>
+        <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[])</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, consider the polygon closed, ignoring any duplicate 
           or closing final <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (number, ...) of points (<code>int</code>, 
-          <code>list</code> or <code>tuple</code>).</dd>
+        <dd>A <a href="pygeodesy.named.Points2Tuple-class.html" 
+          class="link">Points2Tuple</a><code>(number, points)</code>, 
+          <code>int</code> and <code>list</code> or <code>tuple</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
@@ -1574,6 +1607,30 @@ class="link">LatLon2Tuple</a>).
   </dl>
 </td></tr></table>
 </div>
+<a name="latlonheight"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonheight</h3>
+  <p>Get the lat-, longitude and height (<a 
+  href="pygeodesy.named.LatLon3Tuple-class.html" 
+  class="link">LatLon3Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">latlonheight(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitude and height (<a 
+href="pygeodesy.named.LatLon3Tuple-class.html" 
+class="link">LatLon3Tuple</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="lon"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1590,6 +1647,54 @@ class="link">LatLon2Tuple</a>).
     <dd class="value"><span class="summary-sig">lon(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lon</span>)</span>
         - Set the longitude.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philam"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philam</h3>
+  <p>Get the lat- and longitude (<a 
+  href="pygeodesy.named.PhiLam2Tuple-class.html" 
+  class="link">PhiLam2Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat- and longitude (<a 
+href="pygeodesy.named.PhiLam2Tuple-class.html" 
+class="link">PhiLam2Tuple</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philamheight"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamheight</h3>
+  <p>Get the lat-, longitude and height (<a 
+  href="pygeodesy.named.PhiLam3Tuple-class.html" 
+  class="link">PhiLam3Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">philamheight(<span class="summary-sig-arg">self</span>)</span>
+        - Get the lat-, longitude and height (<a 
+href="pygeodesy.named.PhiLam3Tuple-class.html" 
+class="link">PhiLam3Tuple</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
 </td></tr></table>
@@ -1626,7 +1731,7 @@ class="link">LatLon2Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct  1 12:32:24 2019
+    Generated by Epydoc 3.0.1 on Thu Oct  3 11:52:26 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

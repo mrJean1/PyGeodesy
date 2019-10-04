@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.04.28'
+__version__ = '19.10.02'
 
 from base import TestsBase
 
@@ -22,7 +22,13 @@ class Tests(TestsBase):
 
         p = LatLon(52.205, 0.119)
         q = LatLon(52.205, 0.119)
-        self.test('isequalTo', p.isequalTo(q), True)
+        self.test('isequalTo',  p.isequalTo(q), True)
+        self.test('isequalTo3', p.isequalTo3(q), True)
+
+        self.test('latlon',       p.latlon, q.latlon)
+        self.test('latlonheight', p.latlonheight, q.latlonheight)
+        self.test('phimlam',       p.philam, q.philam)
+        self.test('phimlamheight', p.philamheight, q.philamheight)
 
         t = precision(F_DMS, 0)
         p = LatLon(51.4778, -0.0016)
@@ -35,10 +41,25 @@ class Tests(TestsBase):
         precision(F_DMS, t)  # restore
 
         q.latlon = p.latlon
-        self.test('isequalTo', p.isequalTo(q), True)
+        self.test('isequalTo',  p.isequalTo(q), True)
         self.test('isequalTo3', p.isequalTo3(q), False)
+
+        self.test('latlon', p.latlon, q.latlon)
+        self.test('phimlam', p.philam, q.philam)
+
         q.latlon = p.latlon + (p.height,)
+        self.test('isequalTo', p.isequalTo(q), True)
         self.test('isequalTo3', p.isequalTo3(q), True)
+
+        self.test('latlon',       p.latlon, q.latlon)
+        self.test('latlonheight', p.latlonheight, q.latlonheight)
+        self.test('phimlam',       p.philam, q.philam)
+        self.test('phimlamheight', p.philamheight, q.philamheight)
+
+        self.test('latlon',       repr(p.latlon), repr(q.latlon))
+        self.test('latlonheight', repr(p.latlonheight), repr(q.latlonheight))
+        self.test('phimlam',       repr(p.philam), repr(q.philam))
+        self.test('phimlamheight', repr(p.philamheight), repr(q.philamheight))
 
 
 if __name__ == '__main__':

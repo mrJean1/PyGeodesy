@@ -38,11 +38,11 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'NearestOn3Tuple', 'NearestOn5Tuple',
          'Ned3Tuple', 'Neighbors8Dict',
          'PhiLam2Tuple', 'PhiLam3Tuple',
-         'Point3Tuple', 'Shape2Tuple',
+         'Point3Tuple', 'Points2Tuple', 'Shape2Tuple',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '19.09.30'
+__version__ = '19.10.02'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -583,7 +583,7 @@ class _NamedTuple(tuple, _Named):
     iteritems = items
 
     def _xtend(self, namedTuple, *items):
-        '''(INTERNAL) Extend this C{_Tuple} with C{items} to a other C{namedTuple}.
+        '''(INTERNAL) Extend this C{_Tuple} with C{items} to an other C{namedTuple}.
         '''
         if not (issubclassof(namedTuple, _NamedTuple) and
                (len(self._Names_) + len(items)) == len(namedTuple._Names_)
@@ -888,6 +888,13 @@ class Point3Tuple(_NamedTuple):  # .points.py
     '''3-Tuple C{(x, y, ll)} in C{meter}, C{meter} and C{LatLon}.
     '''
     _Names_ = ('x', 'y', 'll')
+
+
+class Points2Tuple(_NamedTuple):  # .bases.py
+    '''2-Tuple C{(number, points)} with the C{number} of points
+       and -possible reduced- C{list} or C{tuple} of C{points}.
+    '''
+    _Names_ = ('number', 'points')
 
 
 class Shape2Tuple(_NamedTuple):  # .points.py

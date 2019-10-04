@@ -111,7 +111,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 01, 2019.*
+*Last updated: Oct 02, 2019.*
 
 License
 =======
