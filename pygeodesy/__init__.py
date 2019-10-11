@@ -32,7 +32,8 @@ U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system
 (Universal Polar Stereographic), U{UTM
 <https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (U{Exact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
-and Universal Transverse Mercator) and U{Web Mercator
+and Universal Transverse Mercator), U{ECEF<https://WikiPedia.org/wiki/ECEF>}
+(Earth-Centered, Earth-Fixed geocentric) and U{Web Mercator
 <https://WikiPedia.org/wiki/Web_Mercator>} (Pseudo-Mercator) coordinates,
 U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (NATO
 Military Grid Reference System) and U{OSGR
@@ -253,7 +254,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.10.04'
+__version__ = '19.10.11'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -287,6 +288,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.datum                 as datum                  # PYCHOK exported
     import pygeodesy.deprecated            as deprecated             # PYCHOK exported
     import pygeodesy.dms                   as dms                    # PYCHOK exported
+    import pygeodesy.ecef                  as ecef                   # PYCHOK exported
     import pygeodesy.elevations            as elevations             # PYCHOK exported
     import pygeodesy.ellipsoidalKarney     as ellipsoidalKarney      # PYCHOK exported
     import pygeodesy.ellipsoidalNvector    as ellipsoidalNvector     # PYCHOK exported
@@ -332,6 +334,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.datum                 import *  # PYCHOK __all__
     from pygeodesy.deprecated            import *  # PYCHOK __all__
     from pygeodesy.dms                   import *  # PYCHOK __all__
+    from pygeodesy.ecef                  import *  # PYCHOK __all__
     from pygeodesy.elevations            import *  # PYCHOK __all__
 #   from pygeodesy.ellipsoidalKarney     import -  # MODULE O_N_L_Y
 #   from pygeodesy.ellipsoidalNvector    import -  # MODULE O_N_L_Y

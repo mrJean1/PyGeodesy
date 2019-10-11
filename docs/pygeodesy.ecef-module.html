@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ecef</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;ecef
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ecef-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module ecef</h1><p class="nomargin-top"></p>
+<p>Geocentric conversions transcribed from <i>Charles Karney's</i> C++ 
+  classes <a 
+  href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
+  target="_top">Geocentric</a> and <a 
+  href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
+  target="_top">LocalCartesian</a> into pure Python classes <a 
+  href="pygeodesy.ecef.EcefKarney-class.html" class="link">EcefKarney</a> 
+  respectively <a href="pygeodesy.ecef.EcefCartesian-class.html" 
+  class="link">EcefCartesian</a> and class <a 
+  href="pygeodesy.ecef.EcefYou-class.html" class="link">EcefYou</a> 
+  implementing Rey-Jer You's <a 
+  href="https://www.ResearchGate.net/publication/240359424" 
+  target="_top">transformations</a>.</p>
+  <p>Convert between geodetic coordinates <code>lat</code>-, 
+  <code>lon</code>gitude and height <code>h</code> (measured vertically 
+  from the surface of the ellipsoid) to geocentric <code>x</code>, 
+  <code>y</code> and <code>z</code> coordinates, also known as 
+  <i>Earth-Centered, Earth-Fixed</i> (<a 
+  href="https://WikiPedia.org/wiki/ECEF" target="_top">ECEF</a>).</p>
+  <p>The origin of geocentric coordinates is at the center of the earth.  
+  The <code>z</code> axis goes thru the North pole, <code>lat</code> = 90&#176;.
+  The <code>x</code> axis goes thru <code>lat</code> = 0&#176;, <code>lon</code>
+  = 0&#176;.</p>
+  <p>The origin of local cartesian coordinate system is at 
+  <code>lat0</code>, <code>lon0</code> and <code>height0</code>.  The 
+  <code>z</code> axis is normal to the ellipsoid, the <code>y</code> axis 
+  points due North.  The plane <code>z = -height0</code> is tangent to the 
+  ellipsoid.</p>
+  <p>Forward conversion from geodetic to geocentric (ECEF) coordinates is 
+  straightforward.</p>
+  <p>For the reverse transformation we use Hugues Vermeille's <a 
+  href="https://DOI.org/10.1007/s00190-002-0273-6" target="_top">Direct 
+  transformation from geocentric coordinates to geodetic coordinates</a>, 
+  J. Geodesy (2002) 76, 451-454.</p>
+  <p>Several changes have been made to ensure that the method returns 
+  accurate results for all finite inputs (even if h is infinite).  The 
+  changes are described in Appendix B of C. F. F. Karney <a 
+  href="https://arXiv.org/abs/1102.1215v1" target="_top">Geodesics on an 
+  ellipsoid of revolution</a>, Feb. 2011, 85, 105-117 (<a 
+  href="https://arXiv.org/abs/1102.1215v1" target="_top">preprint</a>).  
+  Vermeille similarly updated his method in <a 
+  href="https://DOI.org/10.1007/s00190-010-0419-x" target="_top">An 
+  analytical method to transform geocentric into geodetic coordinates</a>, 
+  J. Geodesy (2011) 85, 105-117.  See <a 
+  href="https://GeographicLib.SourceForge.io/html/geocentric.html" 
+  target="_top">Geocentric coordinates</a> for more information.</p>
+  <p>The errors in these routines are close to round-off.  Specifically, 
+  for points within 5,000 km of the surface of the ellipsoid (either inside
+  or outside the ellipsoid), the error is bounded by 7 nm (7 nanometers) 
+  for the WGS84 ellipsoid. See <a 
+  href="https://GeographicLib.SourceForge.io/html/geocentric.html" 
+  target="_top">Geocentric coordinates</a> for further information on the 
+  errors.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        19.10.09
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefError-class.html" class="summary-name">EcefError</a><br />
+      An ECEF issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef._EcefBase-class.html" class="summary-name">_EcefBase</a><br />
+      (INTERNAL) Base class for <a 
+        href="pygeodesy.ecef.EcefKarney-class.html" 
+        class="link">EcefKarney</a> and <a 
+        href="pygeodesy.ecef.EcefYou-class.html" class="link">EcefYou</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefKarney-class.html" class="summary-name">EcefKarney</a><br />
+      Conversion between geodetic and geocentric, aka <i>Earth Centered, 
+        Earth Fixed</i> (ECEF) coordinates based on <i>Karney's</i> <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
+        target="_top">Geocentric</a> methods.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefCartesian-class.html" class="summary-name">EcefCartesian</a><br />
+      Conversion between geodetic <code>(lat, lon, height)</code> and 
+        local cartesian <code>(x, y, z)</code> coordinates with a local 
+        cartesian origin at <code>(lat0, lon0, height0)</code> transcibed 
+        from on Karney's C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
+        target="_top">LocalCartesian</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefMatrix-class.html" class="summary-name">EcefMatrix</a><br />
+      A rotation matrix.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html" class="summary-name">Ecef9Tuple</a><br />
+      9-Tuple <code>(x, y, z, lat, lon, height, C, M, datum)</code> with 
+        geocentric coordinates <code>x</code>, <code>y</code> and 
+        <code>z</code>, geodetic coordinates <code>lat</code>, 
+        <code>lon</code> and <code>height</code>, case <code>C</code> and 
+        optionally, the <a href="pygeodesy.ecef.EcefMatrix-class.html" 
+        class="link">EcefMatrix</a> <code>M</code> and <code>datum</code>, 
+        with <code>lat</code> and <code>lon</code> in <code>degrees</code> 
+        and <code>x</code>, <code>y</code>, <code>z</code> and 
+        <code>height</code> in <code>meter</code>, usually.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefYou-class.html" class="summary-name">EcefYou</a><br />
+      Conversion between geodetic and geocentric, aka <i>Earth Centered, 
+        Earth Fixed</i> (ECEF) coordinates using Rey-Jer You's <a 
+        href="https://www.ResearchGate.net/publication/240359424" 
+        target="_top">transformations</a>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:35 2019
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

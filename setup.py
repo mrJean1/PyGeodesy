@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.10.01'
+__version__ = '19.10.09'
 
 
 def _c2(*names):
@@ -50,7 +50,7 @@ _KeyWords=('altitude', 'antipode', 'area', 'azimuth', 'bearing',
            'cartesian', 'Cassini', 'Cassini-Soldner', 'clip',
            'Cohen', 'Cohen-Sutherland', 'conic', 'curvature',
            'datum', 'development', 'discrete', 'distance', 'Douglas',
-           'earth', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
+           'earth', 'ECEF', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
            'equirectangular', 'ETM', 'ETRF', 'Euclidean', 'ExactTM',
            'fmath', 'fractional', 'Fréchet',
            'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
@@ -59,21 +59,21 @@ _KeyWords=('altitude', 'antipode', 'area', 'azimuth', 'bearing',
            'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon',
            'IDW', 'interpolate', 'Inverse-Distance-Weighting', 'ITRF',
            'Karney', 'Krueger', 'Krüger',
-           'Lambert', 'latitude', 'Lesh', 'linearize', 'longitude',
+           'Lambert', 'latitude', 'Lesh', 'linearize', 'LocalCartesian', 'longitude',
            'Mercator', 'MGRS',
            'nearest', 'numpy', 'n-vector', 'Nvector',
            'OSGR',
            'perimeter', 'Peucker', 'polar', 'Pseudo-Mercator',
            'PyGeodesy', 'PyInstaller', 'PyPy',
            'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker',
-           'Reumann', 'Reumann-Witkam', 'rhumb',
+           'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
            'scipy', 'simplify', 'Soldner', 'sphere', 'stereographic',
            'Sutherland', 'Sutherland-Hodgman',
            'Terrestrial-Reference-Frame', 'TMcoords', 'TMExact',
            'TransverseMercatorExact', 'TRF', 'trigonometry',
            'unroll', 'UPS', 'UTM', 'UTM/UPS',
-           'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
-           'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam')
+           'Vermeille', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
+           'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam', 'You')
 
 setup(
     name='PyGeodesy',

@@ -17,7 +17,7 @@ sub-classes of C{_NamedTuple} defined here.
 '''
 
 from pygeodesy.fmath import fStr
-from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.utily import issubclassof, property_RO, _Strs, unStr
 
 # XXX 'FsumDelta2Tuple' is in _ALL_LAZY.named
@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '19.10.02'
+__version__ = '19.10.09'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -185,14 +185,16 @@ class _Named(object):
             inst.name = self.name
         return inst
 
-    def _xnamed(self, inst):
+    def _xnamed(self, inst, name=''):
         '''(INTERNAL) Set the instance' C{.name = self.name}.
 
            @param inst: The instance (C{_Named}).
+           @keyword name: Optional name, overriding C{self.name} (C{str}).
 
            @return: The B{C{inst}}, named if not named before.
         '''
-        return _xnamed(inst, self.name) if self.name else inst
+        n = name or self.name
+        return _xnamed(inst, n) if n else inst
 
 
 class _NamedBase(_Named):

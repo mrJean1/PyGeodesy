@@ -24,11 +24,11 @@ the Python `GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
 UPS_ (Universal Polar Stereographic), UTM_ (Exact_ and Universal Transverse
-Mercator) and `Web Mercator`_ (Pseudo-Mercator) coordinates, MGRS_ (NATO
-Military Grid Reference System) and OSGR_ (British Ordinance Survery Grid
-Reference) grid references, TRF_ (Terrestrial Reference Frames) and
-modules to encode and decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and
-`Garefs (GARS)`_ .
+Mercator), ECEF_ (Earth-Centered, Earth-Fixed geocentric) and `Web Mercator`_
+(Pseudo-Mercator) coordinates, MGRS_ (NATO Military Grid Reference System)
+and OSGR_ (British Ordinance Survery Grid Reference) grid references, TRF_
+(Terrestrial Reference Frames) and modules to encode and decode EPSG_,
+Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
 Other modules provide Lambert conformal conic projections and positions
 (from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
@@ -111,7 +111,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 04, 2019.*
+*Last updated: Oct 11, 2019.*
 
 License
 =======
@@ -158,6 +158,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Debian 9: https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
 .. _docs: https://www.Movable-Type.co.UK/scripts/geodesy/docs
 .. _documentation: https://mrJean1.GitHub.io/PyGeodesy
+.. _ECEF: https://WikiPedia.org/wiki/ECEF
 .. _EPSG: https://www.EPSG-Registry.org
 .. _Epydoc: https://PyPI.org/project/epydoc
 .. _Exact: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html

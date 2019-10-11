@@ -88,6 +88,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'areaof', 'bounds', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions
                                  'equirectangular3', 'hypot3', 'isenclosedby', 'nearestOn3', 'nearestOn4',
                                  'parseUTM', 'perimeterof', 'polygon', 'simplify2', 'toUtm', 'utmZoneBand2'),
+                           ecef=('EcefCartesian', 'EcefError', 'EcefKarney', 'EcefMatrix', 'EcefYou'),
                      elevations=('elevation2', 'geoidHeight2'),
               ellipsoidalKarney=(),  # module only
              ellipsoidalNvector=(),  # module only
@@ -159,7 +160,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                              simplify=('simplifyRW as simplify2',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.10.02'
+__version__ = '19.10.09'
 
 
 def _all_imports(**more):

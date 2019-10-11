@@ -98,7 +98,9 @@
   href="https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html" 
   target="_top">UTM</a> (<a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html"
-  target="_top">Exact</a> and Universal Transverse Mercator) and <a 
+  target="_top">Exact</a> and Universal Transverse Mercator), <a 
+  href="https://WikiPedia.org/wiki/ECEF" target="_top">ECEF</a> 
+  (Earth-Centered, Earth-Fixed geocentric) and <a 
   href="https://WikiPedia.org/wiki/Web_Mercator" target="_top">Web 
   Mercator</a> (Pseudo-Mercator) coordinates, <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html" 
@@ -266,7 +268,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.10.04
+        19.10.11
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -305,6 +307,20 @@
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED classes, functions, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format bearing, compass, lat- and longitudes
         in various forms of degrees, minutes and seconds.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary">Geocentric conversions transcribed from <i>Charles Karney's</i> C++
+        classes <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
+        target="_top">Geocentric</a> and <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
+        target="_top">LocalCartesian</a> into pure Python classes <a 
+        href="pygeodesy.ecef.EcefKarney-class.html" 
+        class="link">EcefKarney</a> respectively <a 
+        href="pygeodesy.ecef.EcefCartesian-class.html" 
+        class="link">EcefCartesian</a> and class <a 
+        href="pygeodesy.ecef.EcefYou-class.html" class="link">EcefYou</a> 
+        implementing Rey-Jer You's <a 
+        href="https://www.ResearchGate.net/publication/240359424" 
+        target="_top">transformations</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Functions to obtain elevations and geoid heights thru web services,
         for (lat, lon) locations, currently limited to the <a 
         href="https://WikiPedia.org/wiki/Contiguous_United_States" 
@@ -757,6 +773,57 @@
         <a href="pygeodesy.etm.ETMError-class.html" class="summary-name">ETMError</a><br />
       Exact Transverse Mercator (ETM) parse, projection or other <a 
         href="pygeodesy.etm.Etm-class.html" class="link">Etm</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefCartesian-class.html" class="summary-name">EcefCartesian</a><br />
+      Conversion between geodetic <code>(lat, lon, height)</code> and 
+        local cartesian <code>(x, y, z)</code> coordinates with a local 
+        cartesian origin at <code>(lat0, lon0, height0)</code> transcibed 
+        from on Karney's C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
+        target="_top">LocalCartesian</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefError-class.html" class="summary-name">EcefError</a><br />
+      An ECEF issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefKarney-class.html" class="summary-name">EcefKarney</a><br />
+      Conversion between geodetic and geocentric, aka <i>Earth Centered, 
+        Earth Fixed</i> (ECEF) coordinates based on <i>Karney's</i> <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
+        target="_top">Geocentric</a> methods.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefMatrix-class.html" class="summary-name">EcefMatrix</a><br />
+      A rotation matrix.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefYou-class.html" class="summary-name">EcefYou</a><br />
+      Conversion between geodetic and geocentric, aka <i>Earth Centered, 
+        Earth Fixed</i> (ECEF) coordinates using Rey-Jer You's <a 
+        href="https://www.ResearchGate.net/publication/240359424" 
+        target="_top">transformations</a>.
     </td>
   </tr>
 <tr>
@@ -2762,7 +2829,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x110448050&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x1015e3b90&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -4959,7 +5026,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.10.4'"><code class="variable-quote">'</code><code class="variable-string">19.10.4</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.10.11'"><code class="variable-quote">'</code><code class="variable-string">19.10.11</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -5035,12 +5102,12 @@ sform=Transforms.WGS84),
     </td><td class="summary">
         <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
 56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e\
-22=0.006715335, n=0.00167322, R1=6370461.233666666, R2=6370459.6545894\
-42, R3=6370453.309866445, Rr=6366914.608805893, Rs=6366901.239881964),
+12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370461.233666666, R2\
+=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805893, Rs=636\
+6901.239881964),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
  b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006\
-67054, e22=0.006715335, n=0.00167322, R1=6370238.275333334, R2=6370236\
-.696361165, R3=6370230.351810658, Rr=6366691.774649803, Rs=6366678.406\
+67054, e12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370238.27533\
 ...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
       Registered ellipsoids (<code>enum-like</code>).
     </td>
@@ -7815,7 +7882,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x110448050&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x1015e3b90&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -12051,12 +12118,12 @@ sform=Transforms.WGS84),
       <dd><table><tr><td><pre class="variable">
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-22=0.006715335, n=0.00167322, R1=6370461.233666666, R2=6370459.6545894<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-42, R3=6370453.309866445, Rr=6366914.608805893, Rs=6366901.239881964),
+12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370461.233666666, R2<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805893, Rs=636<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+6901.239881964),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
  b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-67054, e22=0.006715335, n=0.00167322, R1=6370238.275333334, R2=6370236<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-.696361165, R3=6370230.351810658, Rr=6366691.774649803, Rs=6366678.406<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+67054, e12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370238.27533<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -12147,7 +12214,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct  4 16:19:47 2019
+    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:35 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

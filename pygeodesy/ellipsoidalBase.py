@@ -24,7 +24,7 @@ from pygeodesy.vector3d import Vector3d
 from math import atan2, copysign, sqrt
 
 __all__ = _ALL_DOCS('CartesianBase', 'LatLonEllipsoidalBase')
-__version__ = '19.07.09'
+__version__ = '19.10.09'
 
 
 class CartesianBase(Vector3d):
@@ -179,18 +179,19 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
     '''
     _convergence  = None  #: (INTERNAL) UTM/UPS meridian convergence (C{degrees}).
     _datum        = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
-    _elevation2   = ()    #: (INTERNAL) cached C{elevation2} result.
+    _ecef         = None  #: (INTERNAL) Cached (L{Ecef9Tuple}).
+    _elevation2   = ()    #: (INTERNAL) Cached C{elevation2} result.
     _epoch        = None  #: (INTERNAL) overriding .reframe.epoch (C{float}).
-    _etm          = None  #: (INTERNAL) cache toEtm (L{Etm}).
-    _geoidHeight2 = ()    #: (INTERNAL) cached C{geoidHeight2} result.
-    _lcc          = None  #: (INTERNAL) cache toLcc (C{Lcc}).
-    _osgr         = None  #: (INTERNAL) cache toOsgr (C{Osgr}).
+    _etm          = None  #: (INTERNAL) Cached toEtm (L{Etm}).
+    _geoidHeight2 = ()    #: (INTERNAL) Cached C{geoidHeight2} result.
+    _lcc          = None  #: (INTERNAL) Cached toLcc (C{Lcc}).
+    _osgr         = None  #: (INTERNAL) Cached toOsgr (C{Osgr}).
     _reframe      = None  #: (INTERNAL) reference frame (L{RefFrame}).
     _scale        = None  #: (INTERNAL) UTM/UPS scale factor (C{float}).
-    _ups          = None  #: (INTERNAL) cache toUps (L{Ups}).
-    _utm          = None  #: (INTERNAL) cache toUtm (L{Utm}).
-    _wm           = None  #: (INTERNAL) cache toWm (webmercator.Wm instance).
-    _3xyz         = None  #: (INTERNAL) Cache (L{Vector3Tuple})
+    _ups          = None  #: (INTERNAL) Cached toUps (L{Ups}).
+    _utm          = None  #: (INTERNAL) Cached toUtm (L{Utm}).
+    _wm           = None  #: (INTERNAL) Cached toWm (webmercator.Wm instance).
+    _3xyz         = None  #: (INTERNAL) Cached (L{Vector3Tuple})
 
     def __init__(self, lat, lon, height=0, datum=None, reframe=None,
                                            epoch=None, name=''):
@@ -580,6 +581,21 @@ class LatLonEllipsoidalBase(LatLonHeightBase):
            Cartesian coordinates.  Must be overloaded.
         '''
         raise AssertionError(unStr(self.classname + '.toCartesian'))
+
+    def toEcef(self):
+        '''Convert this C{LatLon} point to a geocentric coordinate,
+           also known as I{Earth-Centered, Earth-Fixed} (U{ECEF
+           <https://WikiPedia.org/wiki/ECEF>}).
+
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
+                    C, M, datum)} with {C} 0 and C{M} C{None}.
+
+           @raise EcefError: No C{datum} or no C{datum.ecef} or
+                             an other ECEF issue.
+        '''
+        if self._ecef is None:
+            self._ecef = self.datum.ecef.forward(self)
+        return self._ecef
 
     def toEtm(self):
         '''Convert this C{LatLon} point to an ETM coordinate.

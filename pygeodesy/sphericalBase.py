@@ -26,13 +26,14 @@ from math import atan2, cos, hypot, log, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonSphericalBase')
-__version__ = '19.07.09'
+__version__ = '19.10.09'
 
 
 class LatLonSphericalBase(LatLonHeightBase):
     '''(INTERNAL) Base class for spherical C{LatLon}.
     '''
-    _datum = Datums.Sphere  #: (INTERNAL) XXX TBD
+    _datum = Datums.Sphere  #: (INTERNAL) Spherical L{Datum}.
+    _ecef  = None           #: (INTERNAL) Cached L{Ecef9Tuple}.
 
     def bearingTo2(self, other, wrap=False, raiser=False):
         '''Return the initial and final bearing (forward and reverse
@@ -252,7 +253,7 @@ class LatLonSphericalBase(LatLonHeightBase):
            (loxodrome) line.
 
            @param other: The other point (spherical C{LatLon}).
-           @keyword radius: Optional mean radius of earth (scalar, default meter).
+           @keyword radius: Optional, mean earth radius (C{meter}).
 
            @return: Distance (C{meter}, the same units as I{radius}).
 
@@ -321,6 +322,28 @@ class LatLonSphericalBase(LatLonHeightBase):
 
         h = self._havg(other) if height is None else height
         return self.classof(degrees90(a3), degrees180(b3), height=h)
+
+    def toEcef(self, radius=None):
+        '''Convert this C{LatLon} point to a geocentric coordinate,
+           also known as I{Earth-Centered, Earth-Fixed} (U{ECEF
+           <https://WikiPedia.org/wiki/ECEF>}).
+
+           @keyword radius: Optional, mean earth radius (C{meter}) to
+                            configure a separate L{EcefKarney} instance.
+
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
+                    C, M, datum)} witj {C} 0 and C{M} C{None}.
+
+           @raise EcefError: No-scalar or invalid B{C{radius}}, no
+                             C{datum.ecef} or an other ECEF issue.
+        '''
+        if radius is not None:
+            from pygeodesy.ecef import EcefKarney
+            return EcefKarney(radius, 0).forward(self)
+
+        elif self._ecef is None:
+            self._ecef = self.datum.ecef.forward(self)
+        return self._ecef
 
     def toWm(self, radius=R_MA):
         '''Convert this C{LatLon} point to a I{WM} coordinate.

@@ -9,7 +9,7 @@ import os.path as os_path
 import sys
 
 __all__ = ()
-__version__ = '19.10.04'
+__version__ = '19.10.09'
 
 try:
     from pygeodesy import isLazy, pygeodesy_abspath, version, \
@@ -73,7 +73,7 @@ except ImportError:
 # OTHER DEALINGS IN THE SOFTWARE.
 
 # % python -m pygeodesy
-# pygeodesy.version='19.10.4', .pygeodesy_abspath='.../PyGeodesy/pygeodesy', .isLazy=None, ._isfrozen=False (Python 2.7.16, geographiclib 1.50, numpy 1.16.4, scipy 1.2.2)
+# pygeodesy.version='19.10.9', .pygeodesy_abspath='.../PyGeodesy/pygeodesy', .isLazy=None, ._isfrozen=False (Python 2.7.16, geographiclib 1.50, numpy 1.16.4, scipy 1.2.2)
 
 # % python3 -m pygeodesy
-# pygeodesy.version='19.10.4', .pygeodesy_abspath='.../PyGeodesy/pygeodesy', .isLazy=1, ._isfrozen=False (Python 3.7.4, geographiclib 1.50, numpy 1.17.2, scipy 1.3.1)
+# pygeodesy.version='19.10.9', .pygeodesy_abspath='.../PyGeodesy/pygeodesy', .isLazy=1, ._isfrozen=False (Python 3.7.4, geographiclib 1.50, numpy 1.17.2, scipy 1.3.1)

@@ -21,9 +21,9 @@ from pygeodesy.utily import degrees90, degrees180, property_RO
 
 from math import atan2, cos, sin
 
-# all public contants, classes and functions
+# all public constants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '19.09.30'
+__version__ = '19.10.10'
 
 try:
     _cmp = cmp

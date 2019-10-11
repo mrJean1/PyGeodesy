@@ -24,7 +24,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_LAZY.bases + _ALL_DOCS('_VectorBase')
-__version__ = '19.10.02'
+__version__ = '19.10.09'
 
 
 class _VectorBase(_NamedBase):
@@ -39,11 +39,11 @@ class LatLonHeightBase(_NamedBase):
     '''(INTERNAL) Base class for C{LatLon} points on
        spherical or ellipsiodal earth models.
     '''
-    _ab     = None  #: (INTERNAL) Cache (L{PhiLam2Tuple})
+    _ab     = None  #: (INTERNAL) Cached (L{PhiLam2Tuple})
     _datum  = None  #: (INTERNAL) Datum, overriden
     _height = 0     #: (INTERNAL) Height (C{meter})
     _lat    = 0     #: (INTERNAL) Latitude (C{degrees})
-    _latlon = None  #: (INTERNAL) Cache (L{LatLon2Tuple})
+    _latlon = None  #: (INTERNAL) Cached (L{LatLon2Tuple})
     _lon    = 0     #: (INTERNAL) Longitude (C{degrees})
     _name   = ''    #: (INTERNAL) name (C{str})
 
@@ -476,7 +476,7 @@ class LatLonHeightBase(_NamedBase):
     def philam(self):
         '''Get the lat- and longitude (L{PhiLam2Tuple}).
         '''
-        return self.to2ab()
+        return self._ab or self.to2ab()
 
     @property_RO
     def philamheight(self):
