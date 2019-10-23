@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>pygeodesy.bases.LatLonHeightBase</title>
+  <title>pygeodesy.latlonBase.LatLonBase</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -43,8 +43,8 @@
     <td width="100%">
       <span class="breadcrumbs">
         <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
-        <a href="pygeodesy.bases-module.html" onclick="show_private();">Module&nbsp;bases</a> ::
-        Class&nbsp;LatLonHeightBase
+        <a href="pygeodesy.latlonBase-module.html" onclick="show_private();">Module&nbsp;latlonBase</a> ::
+        Class&nbsp;LatLonBase
       </span>
     </td>
     <td>
@@ -52,14 +52,14 @@
         <!-- hide/show private -->
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="pygeodesy.bases.LatLonHeightBase-class.html"
+            >]&nbsp;|&nbsp;<a href="pygeodesy.latlonBase.LatLonBase-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class LatLonHeightBase</h1><p class="nomargin-top"></p>
+<h1 class="epydoc">Class LatLonBase</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
   object --+        
            |        
@@ -67,18 +67,18 @@ named._Named --+
                |    
 named._NamedBase --+
                    |
-                  <strong class="uidshort">LatLonHeightBase</strong>
+                  <strong class="uidshort">LatLonBase</strong>
 </pre>
 
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a></li><li>, <a href="pygeodesy.nvector.LatLonNvectorBase-class.html">nvector.LatLonNvectorBase</a></li><li>, <a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a></li>  </ul>
+<li><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a></li><li>, <a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html">nvectorBase.LatLonNvectorBase</a></li><li>, <a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a></li>  </ul>
 </dd></dl>
 
 <hr />
 <p>(INTERNAL) Base class for <code>LatLon</code> points on spherical or 
-  ellipsiodal earth models.</p>
+  ellipsoidal earth models.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -111,7 +111,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
@@ -149,7 +149,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
       str(x)</td>
           <td align="right" valign="top">
             
@@ -166,7 +166,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#antipode" class="summary-sig-name">antipode</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#antipode" class="summary-sig-name">antipode</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Return the antipode, the point diametrically opposite to this point.</td>
           <td align="right" valign="top">
@@ -204,7 +204,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#boundsOf" class="summary-sig-name">boundsOf</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#boundsOf" class="summary-sig-name">boundsOf</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">wide</span>,
         <span class="summary-sig-arg">high</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
@@ -243,7 +243,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngleTo" class="summary-sig-name">compassAngleTo</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo" class="summary-sig-name">compassAngleTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
@@ -264,7 +264,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#copy" class="summary-sig-name">copy</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Copy this point.</td>
           <td align="right" valign="top">
             
@@ -319,7 +319,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo" class="summary-sig-name">equirectangularTo</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo" class="summary-sig-name">equirectangularTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
@@ -341,7 +341,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#euclideanTo" class="summary-sig-name">euclideanTo</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo" class="summary-sig-name">euclideanTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
@@ -362,7 +362,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo" class="summary-sig-name">haversineTo</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo" class="summary-sig-name">haversineTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
@@ -403,7 +403,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo" class="summary-sig-name">isantipodeTo</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo" class="summary-sig-name">isantipodeTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
       Check whether this and an other point are antipodal, on diametrically
@@ -423,7 +423,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo" class="summary-sig-name">isequalTo</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo" class="summary-sig-name">isequalTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
       Compare this point with an other point.</td>
@@ -442,7 +442,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo3" class="summary-sig-name">isequalTo3</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo3" class="summary-sig-name">isequalTo3</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
       Compare this point with an other point.</td>
@@ -461,7 +461,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon2" class="summary-sig-name">latlon2</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2" class="summary-sig-name">latlon2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return this point's lat- and longitude in <code>degrees</code>, 
       rounded.</td>
@@ -516,7 +516,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#philam2" class="summary-sig-name">philam2</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam2" class="summary-sig-name">philam2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
       Return this point's lat- and longitude in <code>radians</code>, 
       rounded.</td>
@@ -554,7 +554,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>)</span><br />
       Check a path or polygon represented by points.</td>
@@ -573,7 +573,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Return this point's lat- and longitude in <code>radians</code>.</td>
           <td align="right" valign="top">
             
@@ -590,7 +590,7 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh" class="summary-sig-name">to3llh</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3llh" class="summary-sig-name">to3llh</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Return this point's lat-, longitude and height.</td>
           <td align="right" valign="top">
@@ -608,9 +608,9 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert this (geodetic) point to (n-)vector (normal to the earth's 
-      surface) x/y/z components, ignoring the height.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      DEPRECATED, use method <code>toVector</code>, <code>toNvector</code> 
+      or <code>toEcef</code>.</td>
           <td align="right" valign="top">
             
             
@@ -626,7 +626,66 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Cartesian</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Convert this point to geocentric (ECEF cartesian) coordinates.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef" class="summary-sig-name">toEcef</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Convert this point to a geocentric coordinates, alse known as 
+      <i>Earth-Centered, Earth-Fixed</i> (<a 
+      href="https://WikiPedia.org/wiki/ECEF" target="_top">ECEF</a>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector" class="summary-sig-name">toNvector</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">Nvector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Convert this point to <code>n-vector</code> (normal to the earth's 
+      surface) components, <i>including height</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>,
@@ -648,7 +707,45 @@ named._NamedBase --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.bases.LatLonHeightBase-class.html#vincentysTo" class="summary-sig-name">vincentysTo</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector" class="summary-sig-name">toVector</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Convert this point to <code>n-vector</code> (normal to the earth's 
+      surface) components, <i>ignoring height</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector3d" class="summary-sig-name">toVector3d</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Convert this point to <code>n-vector</code> (normal to the earth's 
+      surface) components, <i>ignoring height</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo" class="summary-sig-name">vincentysTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
@@ -702,7 +799,27 @@ named._NamedBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#height" class="summary-name">height</a><br />
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#Ecef" class="summary-name">Ecef</a><br />
+      Get the ECEF <code>class</code> (<a 
+      href="pygeodesy.ecef.EcefKarney-class.html" 
+      class="link">EcefKarney</a> or <a 
+      href="pygeodesy.ecef.EcefVeness-class.html" 
+      class="link">EcefVeness</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#datum" class="summary-name">datum</a><br />
+      Get this point's datum.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#height" class="summary-name">height</a><br />
       Get the height (<code>meter</code>).
     </td>
   </tr>
@@ -710,7 +827,7 @@ named._NamedBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#lat" class="summary-name">lat</a><br />
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#lat" class="summary-name">lat</a><br />
       Get the latitude (<code>degrees90</code>).
     </td>
   </tr>
@@ -718,7 +835,7 @@ named._NamedBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon" class="summary-name">latlon</a><br />
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon" class="summary-name">latlon</a><br />
       Get the lat- and longitude (<a 
       href="pygeodesy.named.LatLon2Tuple-class.html" 
       class="link">LatLon2Tuple</a>).
@@ -728,7 +845,7 @@ named._NamedBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#latlonheight" class="summary-name">latlonheight</a><br />
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#latlonheight" class="summary-name">latlonheight</a><br />
       Get the lat-, longitude and height (<a 
       href="pygeodesy.named.LatLon3Tuple-class.html" 
       class="link">LatLon3Tuple</a>).
@@ -738,7 +855,7 @@ named._NamedBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#lon" class="summary-name">lon</a><br />
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#lon" class="summary-name">lon</a><br />
       Get the longitude (<code>degrees180</code>).
     </td>
   </tr>
@@ -746,7 +863,7 @@ named._NamedBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#philam" class="summary-name">philam</a><br />
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#philam" class="summary-name">philam</a><br />
       Get the lat- and longitude (<a 
       href="pygeodesy.named.PhiLam2Tuple-class.html" 
       class="link">PhiLam2Tuple</a>).
@@ -756,7 +873,7 @@ named._NamedBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.bases.LatLonHeightBase-class.html#philamheight" class="summary-name">philamheight</a><br />
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight" class="summary-name">philamheight</a><br />
       Get the lat-, longitude and height (<a 
       href="pygeodesy.named.PhiLam3Tuple-class.html" 
       class="link">PhiLam3Tuple</a>).
@@ -1213,7 +1330,7 @@ named._NamedBase --+
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a 
-        href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo3" 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo3" 
         class="link">isequalTo3</a>.
       </p>
       <p><strong>Example:</strong>
@@ -1257,7 +1374,7 @@ named._NamedBase --+
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a 
-        href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo" 
+        href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo" 
         class="link">isequalTo</a>.
       </p>
       <p><strong>Example:</strong>
@@ -1434,13 +1551,122 @@ named._NamedBase --+
     </td>
   </tr></table>
   
-  <p>Convert this (geodetic) point to (n-)vector (normal to the earth's 
-  surface) x/y/z components, ignoring the height.</p>
+  <p>DEPRECATED, use method <code>toVector</code>, <code>toNvector</code> 
+  or <code>toEcef</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code> in 
-          <code>units</code>, NOT <code>meter</code>.</dd>
+        <dd>See method <code>toVector</code> for 
+          <code><b>Vector</b>=None</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Cartesian</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to geocentric (ECEF cartesian) coordinates.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Cartesian</code></strong> - Optional (sub-)class to return the geocentric coordinates 
+          (<code>Cartesian</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
+          arguments, ignored if <code><b>Cartesian</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <b><code>Cartesian</code></b> or if 
+          <code><b>Cartesian</b>=None</code>, an <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> 0 and <code>M</code> if 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b> or <b><code>kwds</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toEcef"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toEcef</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to a geocentric coordinates, alse known as 
+  <i>Earth-Centered, Earth-Fixed</i> (<a 
+  href="https://WikiPedia.org/wiki/ECEF" target="_top">ECEF</a>).</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> 0 and <code>M</code> if 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.ecef.EcefError-class.html">EcefError</a></strong></code> - A <code>.datum</code> or an ECEF issue.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toNvector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">h</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">Nvector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to <code>n-vector</code> (normal to the earth's 
+  surface) components, <i>including height</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>h</code></strong> - Optional height, overriding this point's height 
+          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>Nvector</code></strong> - Optional (sub-)class to return the <code>n-vector</code> 
+          components (<code>Nvector</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
+          arguments, ignored if <code><b>Nvector</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <b><code>Nvector</code></b> or an <a 
+          href="pygeodesy.named.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
+          <code><b>Nvector</b>=None</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector</code></b> or <b><code>kwds</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1476,7 +1702,7 @@ named._NamedBase --+
     <dt>Returns:</dt>
         <dd>Point in the specified form (<code>str</code>).</dd>
     <dt>Overrides:
-        named._NamedBase.toStr
+        named._Named.toStr
     </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1486,6 +1712,68 @@ named._NamedBase --+
 <span class="py-prompt">&gt;&gt;&gt; </span>LatLon(51.4778, -0.0016, 42).toStr()  <span class="py-comment"># 51&#176;28&#8242;40&#8243;N, 000&#176;00&#8242;06&#8243;W, +42.00m</span></pre>
       </p>
 </div></td></tr></table>
+</div>
+<a name="toVector"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toVector</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to <code>n-vector</code> (normal to the earth's 
+  surface) components, <i>ignoring height</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Vector</code></strong> - Optional (sub-)class to return the <code>n-vector</code> 
+          components (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <b><code>Vector</code></b> or if 
+          <code><b>Vector</b>=None</code>, an <a 
+          href="pygeodesy.named.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Vector</code></b> or <b><code>kwds</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toVector3d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toVector3d</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to <code>n-vector</code> (normal to the earth's 
+  surface) components, <i>ignoring height</i>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Unit vector (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="vincentysTo"></a>
 <div>
@@ -1543,6 +1831,52 @@ named._NamedBase --+
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="Ecef"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Ecef</h3>
+  <p>Get the ECEF <code>class</code> (<a 
+  href="pygeodesy.ecef.EcefKarney-class.html" class="link">EcefKarney</a> 
+  or <a href="pygeodesy.ecef.EcefVeness-class.html" 
+  class="link">EcefVeness</a>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">Ecef(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ECEF <code>class</code> (<a 
+href="pygeodesy.ecef.EcefKarney-class.html" class="link">EcefKarney</a> or 
+<a href="pygeodesy.ecef.EcefVeness-class.html" 
+class="link">EcefVeness</a>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="datum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">datum</h3>
+  <p>Get this point's datum.  <i>Must be overloaded</i>.</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
+        - Get this point's datum.
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="height"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1731,7 +2065,7 @@ class="link">PhiLam3Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:36 2019
+    Generated by Epydoc 3.0.1 on Tue Oct 22 15:14:02 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

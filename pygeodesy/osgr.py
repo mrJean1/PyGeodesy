@@ -34,7 +34,7 @@ U{Transverse Mercator: Redfearn series
 from pygeodesy.datum import Datums
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_, map1
+from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_, _IsNotError, map1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, LatLonDatum3Tuple, \
                            _NamedBase, nameof, _xattrs, _xnamed
@@ -45,7 +45,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '19.07.12'
+__version__ = '19.10.12'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -240,7 +240,7 @@ class Osgr(_NamedBase):
         elif issubclassof(LatLon, _LLEB):
             ll = _xnamed(LatLon(ll.lat, ll.lon, datum=ll.datum), ll.name)
             return _ll2datum(ll, datum, 'LatLon')
-        raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
+        raise _IsNotError(_LLEB.__name__, LatLon=LatLon)
 
     def toStr(self, prec=10, sep=' '):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.

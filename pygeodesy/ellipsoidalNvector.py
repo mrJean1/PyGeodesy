@@ -1,9 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''N-vector-based ellipsoidal geodetic (lat-/longitude) and cartesion
-(x/y/z) classes L{LatLon}, L{Ned}, L{Nvector} and L{Cartesian} and
-functions L{meanOf} and L{toNed}.
+u'''N-vector-based classes geodetic (lat-/longitude) L{LatLon}, geocentric
+(ECEF) L{Cartesian}, L{Ned} and L{Nvector} and functions L{meanOf} and
+L{toNed}, I{all ellipsoidal}.
 
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
 methods by I{(C) Chris Veness 2011-2016} published under the same MIT
@@ -23,34 +23,85 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 '''
 
 from pygeodesy.datum import Datum, Datums
-from pygeodesy.ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
-from pygeodesy.fmath import EPS, cbrt, fdot, fStr, fsum_, hypot, hypot_
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.ecef import EcefVeness
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
+                                      LatLonEllipsoidalBase
+from pygeodesy.fmath import fdot, fStr, hypot_
+from pygeodesy.lazily import _ALL_LAZY, _2kwds
 from pygeodesy.named import LatLon3Tuple, _Named, Ned3Tuple, _xnamed
-from pygeodesy.nvector import NorthPole, LatLonNvectorBase, \
-                              Nvector as NvectorBase, sumOf
-from pygeodesy.utily import degrees90, degrees360, property_RO
+from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
+                                  NvectorBase, sumOf as _sumOf
+from pygeodesy.utily import degrees90, degrees360, property_RO, _TypeError
 
-from math import asin, atan2, cos, radians, sin, sqrt
+from math import asin, atan2, cos, radians, sin
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
-          'meanOf', 'toNed')  # functions
-__version__ = '19.07.12'
+          'meanOf', 'sumOf', 'toNed')  # functions
+__version__ = '19.10.19'
+
+
+class Cartesian(CartesianEllipsoidalBase):
+    '''Extended to convert geocentric, L{Cartesian} points to
+       L{Nvector} and n-vector-based, geodetic L{LatLon}.
+    '''
+
+    def toLatLon(self, **kwds):  # PYCHOK LatLon=LatLon, datum=None
+        '''Convert this cartesian point to an C{Nvector}-based
+           geodetic point.
+
+           @keyword kwds: Optional, additional B{C{LatLon}} keyword
+                          arguments, ignored if C{B{LatLon}=None}.
+                          Specify C{LatLon=...} to override this
+                          L{LatLon} class or set C{B{LatLon}=None}.
+
+           @return: The B{C{LatLon}} point (L{LatLon}) or when
+                    C{B{LatLon}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and
+                    C{M} if available.
+
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
+        '''
+        kwds = _2kwds(kwds, LatLon=LatLon, datum=self.datum)
+        return CartesianEllipsoidalBase.toLatLon(self, **kwds)
+
+    def toNvector(self, **kwds):  # PYCHOK Datums.WGS84
+        '''Convert this cartesian to L{Nvector} components,
+           I{including height}.
+
+           @keyword kwds: Optional, additional B{C{Nvector}} keyword
+                          arguments, ignored if C{B{Nvector}=None}.
+                          Specify C{Nvector=...} to override this
+                          L{Nvector} class or set C{B{Nvector}=None}.
+
+           @return: The B{C{Nvector}} components (L{Nvector}) or a
+                    L{Vector4Tuple}C{(x, y, z, h)} if C{B{Nvector}=None}.
+
+           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
+
+           @example:
+
+           >>> from ellipsoidalNvector import LatLon
+           >>> c = Cartesian(3980581, 97, 4966825)
+           >>> n = c.toNvector()  # (0.62282, 0.000002, 0.78237, +0.24)
+        '''
+        kwds = _2kwds(kwds, Nvector=Nvector, datum=self.datum)
+        return CartesianEllipsoidalBase.toNvector(self, **kwds)
 
 
 class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
-    '''An n-vector-based ellipsoidal L{LatLon} point.
+    '''An n-vector-based, ellipsoidal L{LatLon} point.
 
        @example:
 
        >>> from ellipsoidalNvector import LatLon
        >>> p = LatLon(52.205, 0.119)  # height=0, datum=Datums.WGS84
     '''
-    _Nv  = None  #: (INTERNAL) Cache toNvector (L{Nvector}).
-#   _v3d = None  #: (INTERNAL) Cache toVector3d (L{Vector3d}).
-    _r3  = None  #: (INTERNAL) Cache _rotation3 (3-Tuple L{Nvector}).
+    _Ecef = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
+    _Nv   = None        #: (INTERNAL) Cached toNvector (L{Nvector}).
+#   _v3d  = None        #: (INTERNAL) Cached toVector3d (L{Vector3d}).
+    _r3   = None        #: (INTERNAL) Cached _rotation3 (3-Tuple L{Nvector}).
 
     def _rotation3(self):
         '''(INTERNAL) Build the rotation matrix from n-vector
@@ -212,9 +263,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @JSname: I{destinationPoint}.
         '''
-        if not isinstance(delta, Ned):
-            raise TypeError('type(%s) not %s.%s' % ('delta',
-                             Ned.__module__, Ned.__name__))
+        _TypeError(Ned, delta=delta)
 
         n, e, d = self._rotation3()
         # convert NED delta to standard Vector3d in coordinate frame of n-vector
@@ -371,21 +420,37 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             h = height
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
-    def toCartesian(self):
-        '''Convert this (geodetic) point to (geocentric x/y/z)
-           cartesian coordinates.
+    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian, datum=None
+        '''Convert this point to an C{Nvector}-based geodetic point.
 
-           @return: Cartesian instance (L{Cartesian} x/y/z in meter
-                    from the earth center).
+           @keyword kwds: Optional, additional B{C{LatLon}} keyword
+                          arguments, ignored if C{B{LatLon}=None}.
+                          Specify C{LatLon=...} to override this
+                          L{LatLon} class or set C{B{LatLon}=None}.
+
+           @return: The B{C{LatLon}} point (L{LatLon}) or when
+                    C{B{LatLon}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and
+                    C{M} if available.
+
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
         '''
-        x, y, z = self.to3xyz()  # ellipsoidalBase.LatLonEllipsoidalBase
-        return Cartesian(x, y, z, name=self.name)  # this ellipsoidalNvector Cartesian
+        kwds = _2kwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
-    def toNvector(self):  # note: replicated in LatLonNvectorSpherical
-        '''Convert this point to an L{Nvector} normal to the
-           earth's surface.
+    def toNvector(self, **kwds):  # PYCHOK signature
+        '''Convert this point to L{Nvector} components, I{including
+           height}.
 
-           @return: N-vector representing this point (L{Nvector}).
+           @keyword kwds: Optional, additional B{C{Nvector}} keyword
+                          arguments, ignored if C{B{Nvector}=None}.
+                          Specify C{Nvector=...} to override this
+                          L{Nvector} class or set C{B{Nvector}=None}.
+
+           @return: The B{C{Nvector}} components (L{Nvector}) or a
+                    L{Vector4Tuple}C{(x, y, z, h)} if C{B{Nvector}=None}.
+
+           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
 
            @example:
 
@@ -393,11 +458,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            >>> n = p.toNvector()
            >>> n.toStr()  # [0.50, 0.50, 0.70710]
         '''
-        if self._Nv is None:
-            x, y, z, h = self.to4xyzh()  # nvector.LatLonNvectorBase
-            self._Nv = Nvector(x, y, z, h=h, datum=self.datum, ll=self,
-                                             name=self.name)
-        return self._Nv
+        kwds = _2kwds(kwds, Nvector=Nvector, datum=self.datum)
+        return LatLonNvectorBase.toNvector(self, **kwds)
 
 #     def toVector3d(self):
 #         '''Convert this point to a L{Vector3d} normal to the
@@ -412,85 +474,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            >>> v.toStr()  # '(0.50, 0.50, 0.707)'
 #         '''
 #         if self._v3d is None:
-#             x, y, z, _ = self.to4xyzh()  # nvector.LatLonNvectorBase
+#             x, y, z, _ = self.toNvector()
 #             self._v3d = Vector3d(x, y, z)
 #         return self._v3d
-
-
-class Cartesian(CartesianBase):
-    '''Extended to convert (geocentric) L{Cartesian} points to
-       (ellipsoidal) L{Nvector} and n-vector-based geodetic L{LatLon}.
-    '''
-    _Nv = None  #: (INTERNAL) Cache toNvector (L{Nvector}).
-
-    def _update(self, updated):
-        '''(INTERNAL) Clear caches if updated.
-        '''
-        if updated:  # reset caches
-            self._Nv = None
-            CartesianBase._update(self, updated)
-
-    def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon, **pairs):  # PYCHOK XXX
-        '''Convert this (geocentric) cartesian (x/y/z) point to
-           an (ellipsoidal) geodetic point on the specified datum.
-
-           @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional ellipsoidal (sub-)class to return
-                            the point (L{LatLon}) or C{None}.
-           @keyword pairs: Optional C{name=value} pairs to be set at
-                           the B{C{LatLon}} instance.
-
-           @return: The ellipsoidal geodetic point (B{C{LatLon}}) or
-                    a L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None}.
-        '''
-        return CartesianBase._to3LLh(self, datum, LatLon, **pairs)
-
-    def toNvector(self, datum=Datums.WGS84):
-        '''Convert this cartesian to an (ellipsoidal) n-vector.
-
-           @keyword datum: Optional datum to use (L{Datum}).
-
-           @return: The ellipsoidal n-vector (L{Nvector}).
-
-           @raise ValueError: The B{C{Cartesian}} at origin.
-
-           @example:
-
-           >>> from ellipsoidalNvector import LatLon
-           >>> c = Cartesian(3980581, 97, 4966825)
-           >>> n = c.toNvector()  # (0.62282, 0.000002, 0.78237, +0.24)
-        '''
-        if self._Nv is None or datum != self._Nv.datum:
-            E = datum.ellipsoid
-            x, y, z = self.to3xyz()
-
-            # Kenneth Gade eqn 23
-            p = (x**2 + y**2) * E.a2_
-            q = (z**2 * E.e12) * E.a2_
-            r = fsum_(p, q, -E.e4) / 6
-            s = (p * q * E.e4) / (4 * r**3)
-            t = cbrt(fsum_(1, s, sqrt(s * (2 + s))))
-
-            u = r * fsum_(1, t, 1 / t)
-            v = sqrt(u**2 + E.e4 * q)
-            w = E.e2 * fsum_(u, v, -q) / (2 * v)
-
-            k = sqrt(fsum_(u, v, w**2)) - w
-            if abs(k) < EPS:
-                raise ValueError('%s: %r' % ('origin', self))
-            e = k / (k + E.e2)
-            d = e * hypot(x, y)
-
-            t = hypot(d, z)
-            if t < EPS:
-                raise ValueError('%s: %r' % ('origin', self))
-            h = fsum_(k, E.e2, -1) / k * t
-
-            s = e / t
-            self._Nv = Nvector(x * s, y * s, z / t, h=h, datum=datum,
-                                                    name=self.name)
-        return self._Nv
 
 
 class Ned(_Named):
@@ -630,7 +616,8 @@ class Nvector(NvectorBase):
 
        Note commonality with L{sphericalNvector.Nvector}.
     '''
-    _datum = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
+    _datum = Datums.WGS84  #: (INTERNAL) Default datum (L{Datum}).
+    _Ecef  = EcefVeness    #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
 
     def __init__(self, x, y, z, h=0, datum=None, ll=None, name=''):
         '''New n-vector normal to the earth's surface.
@@ -654,8 +641,7 @@ class Nvector(NvectorBase):
         '''
         NvectorBase.__init__(self, x, y, z, h=h, ll=ll, name=name)
         if datum:
-            if not isinstance(datum, Datum):
-                raise TypeError('%s invalid: %r' % ('datum', datum))
+            _TypeError(Datum, datum=datum)
             self._datum = datum
 
     def copy(self):
@@ -674,33 +660,22 @@ class Nvector(NvectorBase):
         '''
         return self._datum
 
-    def toLatLon(self, height=None, LatLon=LatLon):
-        '''Convert this n-vector to an (ellipsoidal) geodetic point.
+    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian
+        '''Convert this n-vector to C{Nvector}-based cartesian
+           (ECEF) coordinates.
 
-           @keyword height: Optional height, overriding the default
-                            height (C{meter}).
-           @keyword LatLon: Optional ellipsoidal (sub-)class to return
-                            the point (L{LatLon}) or C{None}.
+           @keyword kwds: Optional, additional B{C{Cartesian}} keyword
+                          arguments, ignored if C{B{Cartesian}=None}.
+                          Specify C{Cartesian=...} to override this
+                          L{Cartesian} class or set C{B{Cartesian}=None}.
 
-           @return: Point equivalent to this n-vector (B{C{LatLon}})
-                    or a L{LatLon3Tuple}C{(lat, lon, height)}
-                    if B{C{LatLon}} is C{None}.
+           @return: The B{C{Cartesian}} point (L{Cartesian}) or if
+                    C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and C{M}
+                    if available.
 
-           @example:
-
-           >>> v = Nvector(0.5, 0.5, 0.7071)
-           >>> p = v.toLatLon()  # 45.0°N, 45.0°E
-        '''
-        return NvectorBase._to3LLh(self, LatLon, height, datum=self.datum)
-
-    def toCartesian(self, Cartesian=Cartesian):
-        '''Convert this n-vector to a cartesian point.
-
-           @keyword Cartesian: Optional, cartesion (sub-)class to
-                               return the point (L{Cartesian}).
-
-           @return: Cartesian equivalent to this n-vector
-                    (B{C{Cartesian}}).
+           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
+                             or B{C{kwds}}.
 
            @example:
 
@@ -708,14 +683,30 @@ class Nvector(NvectorBase):
            >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
            >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
-        E = self.datum.ellipsoid
+        kwds = _2kwds(kwds, h=self.h, Cartesian=Cartesian, datum=self.datum)
+        return NvectorBase.toCartesian(self, **kwds)  # class or .classof
 
-        x, y, z, h = self.to4xyzh()
-        # Kenneth Gade eqn (22)
-        n = E.b / hypot_(x * E.a_b, y * E.a_b, z)
-        r = h + n * E.a_b**2
-        c = Cartesian(x * r, y * r, z * (n + h))
-        return self._xnamed(c)
+    def toLatLon(self, **kwds):  # PYCHOK height=None, LatLon=LatLon
+        '''Convert this n-vector to an C{Nvector}-based geodetic point.
+
+           @keyword kwds: Optional, additional B{C{LatLon}} keyword
+                          arguments, ignored if C{B{LatLon}=None}.
+                          Specify C{LatLon=...} to override this
+                          L{LatLon} class or set C{B{LatLon}=None}.
+
+           @return: The B{C{LatLon}} point (L{LatLon}) or a
+                    L{LatLon3Tuple}C{(lat, lon, height)} if
+                    C{B{LatLon}=None}.
+
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
+
+           @example:
+
+           >>> v = Nvector(0.5, 0.5, 0.7071)
+           >>> p = v.toLatLon()  # 45.0°N, 45.0°E
+        '''
+        kwds = _2kwds(kwds, height=self.h, LatLon=LatLon, datum=self.datum)
+        return NvectorBase.toLatLon(self, **kwds)  # class or .classof
 
     def unit(self, ll=None):
         '''Normalize this vector to unit length.
@@ -758,6 +749,21 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
     r = LatLon3Tuple(a, b, h) if LatLon is None else \
               LatLon(a, b, height=h, datum=datum)
     return _xnamed(r, meanOf.__name__)
+
+
+def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
+    '''Return the vectorial sum of two or more n-vectors.
+
+       @param nvectors: Vectors to be added (L{Nvector}[]).
+       @keyword Vector: Optional class for the vectorial sum (L{Nvector}).
+       @keyword h: Optional height, overriding the mean height (C{meter}).
+       @keyword kwds: Optional, additional B{C{Vector}} keyword arguments.
+
+       @return: Vectorial sum (B{C{Vector}}).
+
+       @raise VectorError: No B{C{nvectors}}.
+    '''
+    return _sumOf(nvectors, Vector=Vector, h=h, **kwds)
 
 
 def toNed(distance, bearing, elevation, name=''):

@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.10.09'
+__version__ = '19.10.21'
 
 
 def _c2(*names):
@@ -117,6 +117,7 @@ setup(
         _c2('Programming Language', 'Python', '3.5'),
         _c2('Programming Language', 'Python', '3.6'),
         _c2('Programming Language', 'Python', '3.7'),
+        _c2('Programming Language', 'Python', '3.8'),
         _c2('Topic', 'Software Development'),
         _c2('Topic', 'Scientific/Engineering', 'GIS'),
     ],

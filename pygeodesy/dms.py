@@ -235,7 +235,7 @@ def compassPoint(bearing, prec=3):
     try:  # m = 2 << prec; x = 32 // m
         m, x = _MOD_X[prec]
     except KeyError:
-        raise ValueError('invalid %s: %r' % ('prec', prec))
+        raise ValueError('%s invalid: %r' % ('prec', prec))
     # not round(), i.e. half-even rounding in Python 3,
     # but round-away-from-zero as int(b + 0.5) iff b is
     # non-negative, otherwise int(b + copysign(0.5, b))

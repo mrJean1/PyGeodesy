@@ -1,9 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Vincenty's ellipsoidal geodetic (lat-/longitude) and cartesian (x/y/z)
-classes L{LatLon}, L{Cartesian} and L{VincentyError} and functions
-L{areaOf} and L{perimeterOf}.
+u'''Vincenty's geodetic (lat-/longitude) L{LatLon}, geocentric (ECEF)
+L{Cartesian} amd L{VincentyError} classes and functions L{areaOf}
+and L{perimeterOf}, I{all ellipsoidal}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
@@ -60,9 +60,11 @@ if not division:
 del division
 
 from pygeodesy.datum import Datums
-from pygeodesy.ellipsoidalBase import CartesianBase, LatLonEllipsoidalBase
+from pygeodesy.ecef import EcefVeness
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
+                                      LatLonEllipsoidalBase
 from pygeodesy.fmath import EPS, fpolynomial, hypot, hypot1, scalar
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _2kwds
 from pygeodesy.named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
 from pygeodesy.utily import degrees90, degrees180, degrees360, sincos2, unroll180
@@ -73,7 +75,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '19.08.30'
+__version__ = '19.10.19'
 
 
 class VincentyError(ValueError):
@@ -81,6 +83,33 @@ class VincentyError(ValueError):
        for coincident points or lack of convergence.
     '''
     pass
+
+
+class Cartesian(CartesianEllipsoidalBase):
+    '''Extended to convert geocentric, L{Cartesian} points to
+       Vincenty-based, ellipsoidal, geodetic L{LatLon}.
+    '''
+
+    def toLatLon(self, **kwds):  # PYCHOK LatLon=LatLon, datum=None
+        '''Convert this cartesian point to a C{Vincenty}-based
+           geodetic point.
+
+           @keyword kwds: Optional, additional B{C{LatLon}} keyword
+                          arguments, ignored if C{B{LatLon}=None}.
+                          For example, use C{LatLon=...} to override
+                          the L{LatLon} (sub-)class or specify
+                          C{B{LatLon}=None}.
+
+           @return: The B{C{LatLon}} point (L{LatLon}) or if
+                    C{B{LatLon}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and
+                    C{M} if available.
+
+           @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}}
+                             or B{C{kwds}}.
+        '''
+        kwds = _2kwds(kwds, LatLon=LatLon, datum=self.datum)
+        return CartesianEllipsoidalBase.toLatLon(self, **kwds)
 
 
 class LatLon(LatLonEllipsoidalBase):
@@ -99,6 +128,7 @@ class LatLon(LatLonEllipsoidalBase):
        and/or the iteration limit, see properties L{LatLon.epsilon}
        and L{LatLon.iterations}.
     '''
+    _Ecef       = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
     _epsilon    = 1.0e-12  # about 0.006 mm
     _iterations = 50
 
@@ -397,14 +427,26 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         self._iterations = scalar(limit, 4, 200, name='limit')
 
-    def toCartesian(self):
-        '''Convert this (geodetic) point to (geocentric) x/y/z
-           Cartesian coordinates.
+    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian, datum=None
+        '''Convert this point to C{Vincenty}-based cartesian (ECEF)
+           coordinates.
 
-           @return: Ellipsoidal (geocentric) Cartesian point (L{Cartesian}).
+           @keyword kwds: Optional, additional B{C{Cartesian}} keyword
+                          arguments, ignored if C{B{Cartesian}=None}.
+                          For example, use C{Cartesian=...} to override
+                          the L{Cartesian} (sub-)class or specify
+                          C{B{Cartesian}=None}.
+
+           @return: The B{C{Cartesian}} point (L{Cartesian}) or if
+                    C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and C{M}
+                    if available.
+
+           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
+                             or B{C{kwds}}.
         '''
-        x, y, z = self.to3xyz()  # ellipsoidalBase.LatLonEllipsoidalBase
-        return Cartesian(x, y, z)  # this ellipsoidalVincenty.Cartesian
+        kwds = _2kwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
     def _direct(self, distance, bearing, llr, height=None):
         '''(INTERNAL) Direct Vincenty method.
@@ -569,28 +611,6 @@ def _r3(a, f):
     c = 1 / hypot1(t)
     s = t * c
     return c, s, t
-
-
-class Cartesian(CartesianBase):
-    '''Extended to convert (geocentric) L{Cartesian} points to
-       Vincenty-based (ellipsoidal) geodetic L{LatLon}.
-    '''
-
-    def toLatLon(self, datum=Datums.WGS84, LatLon=LatLon, **pairs):  # PYCHOK XXX
-        '''Convert this (geocentric) Cartesian (x/y/z) point to
-           an (ellipsoidal) geodetic point on the specified datum.
-
-           @keyword datum: Optional datum to use (L{Datum}).
-           @keyword LatLon: Optional ellipsoidal (sub-)class to return
-                            the point (L{LatLon}) or C{None}.
-           @keyword pairs: Optional C{name=value} pairs to be set at
-                           the B{C{LatLon}} instance.
-
-           @return: The ellipsoidal geodetic point (B{C{LatLon}}) or
-                    a L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None}.
-        '''
-        return CartesianBase._to3LLh(self, datum, LatLon, **pairs)
 
 
 def areaOf(points, datum=Datums.WGS84, wrap=True):

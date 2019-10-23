@@ -67,9 +67,9 @@
                         |            
          named._NamedBase --+        
                             |        
-       <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+    
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a> --+    
                                 |    
-        <a href="pygeodesy.nvector.LatLonNvectorBase-class.html">nvector.LatLonNvectorBase</a> --+
+    <a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html">nvectorBase.LatLonNvectorBase</a> --+
                                     |
            object --+               |
                     |               |
@@ -77,7 +77,7 @@
                         |           |
          named._NamedBase --+       |
                             |       |
-       <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+   |
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a> --+   |
                                 |   |
 <a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a> --+
                                     |
@@ -85,7 +85,7 @@
 </pre>
 
 <hr />
-<p>New n-vector based point on spherical earth model.</p>
+<p>New n-vector based point on a spherical earth model.</p>
   <p>Tools for working with points and paths on (a spherical model of) the 
   earth's surface using vector-based methods.</p>
 
@@ -485,9 +485,30 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#toNvector" class="summary-sig-name">toNvector</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert this (geodetic) point to a (spherical) n-vector normal to the
-      earth's surface.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Convert this point to <code>Nvector</code>-based cartesian (ECEF) 
+      coordinates.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#toNvector" class="summary-sig-name">toNvector</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Convert this point to <a 
+      href="pygeodesy.sphericalNvector.Nvector-class.html" 
+      class="link">Nvector</a> components, <i>including height</i>.</td>
           <td align="right" valign="top">
             
             
@@ -546,11 +567,11 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.nvector.LatLonNvectorBase-class.html">nvector.LatLonNvectorBase</a></code></b>:
-      <code><a href="pygeodesy.nvector.LatLonNvectorBase-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.nvector.LatLonNvectorBase-class.html#to4xyzh">to4xyzh</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html">nvectorBase.LatLonNvectorBase</a></code></b>:
+      <code><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#others">others</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a></code></b>:
+      <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#__init__">__init__</a></code>,
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#bearingTo2">bearingTo2</a></code>,
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#finalBearingTo">finalBearingTo</a></code>,
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#maxLat">maxLat</a></code>,
@@ -560,39 +581,40 @@
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbDestination">rhumbDestination</a></code>,
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbDistanceTo">rhumbDistanceTo</a></code>,
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#rhumbMidpointTo">rhumbMidpointTo</a></code>,
-      <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#toEcef">toEcef</a></code>,
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#toWm">toWm</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__eq__">__eq__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__init__">__init__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__ne__">__ne__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#antipode">antipode</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#bounds">bounds</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#boundsOf">boundsOf</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngle">compassAngle</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngleTo">compassAngleTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo">equirectangularTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#euclideanTo">euclideanTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo">haversineTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo">isantipodeTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo">isequalTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo3">isequalTo3</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon2">latlon2</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon2round">latlon2round</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon_">latlon_</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#philam2">philam2</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points2">points2</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3xyz">to3xyz</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#vincentysTo">vincentysTo</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></code></b>:
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#antipode">antipode</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#bounds">bounds</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#boundsOf">boundsOf</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngle">compassAngle</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo">compassAngleTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals3">equals3</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo">euclideanTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo">haversineTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipode">isantipode</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo">isantipodeTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo">isequalTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo3">isequalTo3</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2">latlon2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2round">latlon2round</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon_">latlon_</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam2">philam2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points">points</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points2">points2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to2ab">to2ab</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3xyz">to3xyz</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef">toEcef</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector">toVector</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector3d">toVector3d</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo">vincentysTo</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
       <code>__repr__</code>,
@@ -632,14 +654,15 @@
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#isEllipsoidal">isEllipsoidal</a></code>,
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#isSpherical">isSpherical</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#height">height</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lat">lat</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlonheight">latlonheight</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#philam">philam</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#philamheight">philamheight</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></code></b>:
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#Ecef">Ecef</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lat">lat</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon">latlon</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlonheight">latlonheight</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lon">lon</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam">philam</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight">philamheight</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
       <code>classname</code>,
@@ -1440,6 +1463,51 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="toCartesian"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this point to <code>Nvector</code>-based cartesian (ECEF) 
+  coordinates.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
+          arguments, ignored if <code><b>Cartesian</b>=None</code>. For 
+          example, use <code>Cartesian=...</code> to override the <a 
+          href="pygeodesy.sphericalNvector.Cartesian-class.html" 
+          class="link">Cartesian</a> (sub-)class or specify</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <b><code>Cartesian</code></b> point (<a 
+          href="pygeodesy.sphericalNvector.Cartesian-class.html" 
+          class="link">Cartesian</a>) or if 
+          <code><b>Cartesian</b>=None</code>, an <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> and <code>M</code> if 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b> or <b><code>attrs</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian">latlonBase.LatLonBase.toCartesian</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <a name="toNvector"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1447,20 +1515,40 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert this (geodetic) point to a (spherical) n-vector normal to the 
-  earth's surface.</p>
+  <p>Convert this point to <a 
+  href="pygeodesy.sphericalNvector.Nvector-class.html" 
+  class="link">Nvector</a> components, <i>including height</i>.</p>
   <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>N-vector representing this point (<a 
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
+          arguments, ignored if <code><b>Nvector</b>=None</code>. For 
+          example, use <code>Nvector=...</code> to override the <a 
           href="pygeodesy.sphericalNvector.Nvector-class.html" 
-          class="link">Nvector</a>).</dd>
+          class="link">Nvector</a> (sub-)class or specify</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <b><code>Nvector</code></b> components (<a 
+          href="pygeodesy.sphericalNvector.Nvector-class.html" 
+          class="link">Nvector</a>) or a <a 
+          href="pygeodesy.named.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
+          <code><b>Nvector</b>=None</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector</code></b> or <b><code>kwds</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector">latlonBase.LatLonBase.toNvector</a>
+    </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -1616,7 +1704,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:38 2019
+    Generated by Epydoc 3.0.1 on Tue Oct 22 15:14:04 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

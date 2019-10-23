@@ -61,27 +61,27 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Cartesian</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-   object --+                    
-            |                    
- named._Named --+                
-                |                
- named._NamedBase --+            
-                    |            
-    <a href="pygeodesy.bases._VectorBase-class.html">bases._VectorBase</a> --+        
-                        |        
-        <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+    
-                            |    
-<a href="pygeodesy.ellipsoidalBase.CartesianBase-class.html">ellipsoidalBase.CartesianBase</a> --+
-                                |
-                               <strong class="uidshort">Cartesian</strong>
+              object --+                    
+                       |                    
+            named._Named --+                
+                           |                
+            named._NamedBase --+            
+                               |            
+               <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+        
+                                   |        
+         <a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a> --+    
+                                       |    
+<a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html">ellipsoidalBase.CartesianEllipsoidalBase</a> --+
+                                           |
+                                          <strong class="uidshort">Cartesian</strong>
 </pre>
 
 <hr />
-<p>Extended to convert (geocentric) <a 
+<p>Extended to convert <code>Karney</code>-based <a 
   href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-  class="link">Cartesian</a> points to Karney-based (ellipsoidal) geodetic 
-  <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-  class="link">LatLon</a>.</p>
+  class="link">Cartesian</a> to <code>Karney</code>-based <a 
+  href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+  class="link">LatLon</a> points.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -98,11 +98,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalKarney.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">**pairs</span>)</span><br />
-      Convert this (geocentric) Cartesian (x/y/z) point to an (ellipsoidal)
-      geodetic point on the specified datum.</td>
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Convert this cartesian point to a <code>Karney</code>-based geodetic 
+      point.</td>
           <td align="right" valign="top">
             
             
@@ -114,11 +112,16 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBase.CartesianBase-class.html">ellipsoidalBase.CartesianBase</a></code></b>:
-      <code><a href="pygeodesy.ellipsoidalBase.CartesianBase-class.html#convertDatum">convertDatum</a></code>,
-      <code><a href="pygeodesy.ellipsoidalBase.CartesianBase-class.html#convertRefFrame">convertRefFrame</a></code>,
-      <code><a href="pygeodesy.ellipsoidalBase.CartesianBase-class.html#to3llh">to3llh</a></code>,
-      <code><a href="pygeodesy.ellipsoidalBase.CartesianBase-class.html#toStr">toStr</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html">ellipsoidalBase.CartesianEllipsoidalBase</a></code></b>:
+      <code><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#convertRefFrame">convertRefFrame</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></code></b>:
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#__init__">__init__</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum">convertDatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toEcef">toEcef</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toNvector">toNvector</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#__abs__">__abs__</a></code>,
@@ -131,7 +134,6 @@
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#__iadd__">__iadd__</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#__imatmul__">__imatmul__</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#__imul__">__imul__</a></code>,
-      <code><a href="pygeodesy.vector3d.Vector3d-class.html#__init__">__init__</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#__isub__">__isub__</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#__itruediv__">__itruediv__</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#__le__">__le__</a></code>,
@@ -202,6 +204,10 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></code></b>:
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#Ecef">Ecef</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#datum">datum</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#crosserrors">crosserrors</a></code>,
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#length">length</a></code>,
@@ -239,33 +245,41 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalKarney.LatLon'&gt;</span>,
-        <span class="sig-arg">**pairs</span>)</span>
+        <span class="sig-arg">**kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert this (geocentric) Cartesian (x/y/z) point to an (ellipsoidal) 
-  geodetic point on the specified datum.</p>
+  <p>Convert this cartesian point to a <code>Karney</code>-based geodetic 
+  point.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
-          class="link">Datum</a>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional ellipsoidal (sub-)class to return the point (<a 
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b>=None</code>. For 
+          example, use <code>LatLon=...</code> to override the <a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-          class="link">LatLon</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>pairs</code></strong> - Optional <code>name=value</code> pairs to be set at the 
-          <b><code>LatLon</code></b> instance.</li>
+          class="link">LatLon</a> (sub-)class or specify 
+          <code><b>LatLon</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The ellipsoidal geodetic point (<b><code>LatLon</code></b>) or a 
-          <a href="pygeodesy.named.LatLon3Tuple-class.html" 
-          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
-          <b><code>LatLon</code></b> is <code>None</code>.</dd>
+        <dd>The <b><code>LatLon</code></b> point (<a 
+          href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+          class="link">LatLon</a>) or if <code><b>LatLon</b>=None</code>, 
+          an <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> and <code>M</code> if 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon</code></b>, <b><code>datum</code></b> or 
+        <b><code>kwds</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLatLon">cartesianBase.CartesianBase.toLatLon</a>
+    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -301,7 +315,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:36 2019
+    Generated by Epydoc 3.0.1 on Tue Oct 22 15:14:00 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

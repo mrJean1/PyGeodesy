@@ -1,9 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Trigonometric spherical geodetic (lat-/longitude) class L{LatLon}
-and functions L{areaOf}, L{intersection}, L{isPoleEnclosedBy},
-L{meanOf}, L{nearestOn2} and L{perimeterOf}.
+u'''Trigonometric classes geodetic (lat-/longitude) L{LatLon} and
+geocentric (ECEF) L{Cartesian} and functionsL{areaOf}, L{intersection},
+L{isPoleEnclosedBy}, L{meanOf}, L{nearestOn2} and L{perimeterOf},
+I{all spherical}.
 
 Pure Python implementation of geodetic (lat-/longitude) methods using
 spherical trigonometry, transcribed from JavaScript originals by
@@ -17,10 +18,10 @@ from pygeodesy.datum import R_M
 from pygeodesy.fmath import EPS, acos1, favg, fdot, fmean, fsum, \
                             isscalar, map1
 from pygeodesy.formy import antipode, bearing_, haversine_
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _2kwds
 from pygeodesy.named import LatLon3Tuple, NearestOn3Tuple, _xnamed
 from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
-from pygeodesy.sphericalBase import LatLonSphericalBase
+from pygeodesy.sphericalBase import CartesianSphericalBase, LatLonSphericalBase
 from pygeodesy.utily import PI2, PI_2, PI_4, degrees90, degrees180, \
                             degrees2m, iterNumpy2, radiansPI2, \
                             sincos2, tan_2, unrollPI, wrapPI
@@ -31,13 +32,40 @@ from math import asin, atan2, copysign, cos, degrees, hypot, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.sphericalTrigonometry + (
-          'LatLon',  # classes
+          'Cartesian', 'LatLon',  # classes
           'areaOf',  # functions
           'intersection', 'ispolar', 'isPoleEnclosedBy',  # DEPRECATED, use ispolar
           'meanOf',
           'nearestOn2', 'nearestOn3',
-          'perimeterOf')
-__version__ = '19.07.09'
+          'perimeterOf',
+          'sumOf')  # == vector3d.sumOf
+__version__ = '19.10.21'
+
+
+class Cartesian(CartesianSphericalBase):
+    '''Extended to convert geocentric, L{Cartesian} points to
+       spherical, geodetic L{LatLon}.
+    '''
+
+    def toLatLon(self, **kwds):  # PYCHOK LatLon=LatLon
+        '''Convert this cartesian point to an C{Nvector}-based
+           geodetic point.
+
+           @keyword kwds: Optional, additional B{C{LatLon}} keyword
+                          arguments, ignored if C{B{LatLon}=None}.
+                          For example, use C{LatLon=...} to override
+                          the L{LatLon} (sub-)class or specify
+
+           @return: The B{C{LatLon}} point (L{LatLon}) or if
+                    C{B{LatLon}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and
+                    C{M} if available.
+
+           @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}}
+                             or B{C{kwds}}.
+        '''
+        kwds = _2kwds(kwds, LatLon=LatLon, datum=self.datum)
+        return CartesianSphericalBase.toLatLon(self, **kwds)
 
 
 class LatLon(LatLonSphericalBase):
@@ -47,15 +75,6 @@ class LatLon(LatLonSphericalBase):
 
        >>> p = LatLon(52.205, 0.119)  # height=0
     '''
-
-    _v3d = None  # cache Vector3d
-
-    def _update(self, updated):
-        '''(INTERNAL) Clear caches if updated.
-        '''
-        if updated:  # reset caches
-            self._v3d = None
-            LatLonSphericalBase._update(self, updated)
 
     def _trackDistanceTo3(self, start, end, radius, wrap):
         '''(INTERNAL) Helper for along-/crossTrackDistanceTo.
@@ -566,15 +585,25 @@ class LatLon(LatLonSphericalBase):
         return NearestOn3Tuple(self.classof(a, b, height=h),
                                degrees2m(d, radius=radius), c)
 
-    def toVector3d(self):
-        '''Convert this point to a vector normal to earth's surface.
+    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian
+        '''Convert this point to C{Karney}-based cartesian (ECEF)
+           coordinates.
 
-           @return: Vector representing this point (L{Vector3d}).
+           @keyword kwds: Optional, additional B{C{Cartesian}} keyword
+                          arguments, ignored if C{B{Cartesian}=None}.
+                          For example, use C{Cartesian=...} to override
+                          the L{Cartesian} (sub-)class or specify
+
+           @return: The B{C{Cartesian}} point (L{Cartesian}) or if
+                    C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and C{M}
+                    if available.
+
+           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
+                             or B{C{kwds}}.
         '''
-        if self._v3d is None:
-            x, y, z = self.to3xyz()
-            self._v3d = Vector3d(x, y, z)  # XXX .unit()
-        return self._v3d
+        kwds = _2kwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        return LatLonSphericalBase.toCartesian(self, **kwds)
 
 
 _Trll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).

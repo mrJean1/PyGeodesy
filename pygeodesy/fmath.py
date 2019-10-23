@@ -20,7 +20,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.09.05'
+__version__ = '19.09.17'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -65,6 +65,18 @@ NEG0 = -0.0          #: Negative 0.0 (C{float}), see C{isneg0}
 _1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (C{float})
 _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two thirds (C{float})
 _3_2nd = 3.0 / 2.0  #: (INTERNAL) Three halfs (C{float})
+
+
+def _IsNotError(*names, **pair):  # Error=TypeError
+    '''(INTERNAL) Format a C{TypeError} for a C{name=value} pair.
+    '''
+    Error = pair.pop('Error', TypeError)
+    for n, v in pair.items():
+        break
+    else:
+        n, v = 'pair', 'N/A'
+    t = ' or ' .join(names)
+    return Error('%s not %s: %r' % (n, t, v))
 
 
 def _2even(s, r, p):
@@ -645,15 +657,15 @@ def fidw(xs, ds, beta=2):
             ds = tuple(d**b for d in ds)
             d = fsum(ds)
             if d < EPS:
-                raise ValueError('invalid %s[%s]: %r' % ('ds', '', d))
+                raise ValueError('%s[%s] invalid: %r' % ('ds', '', d))
             x = fdot(xs, *ds) / d
         elif b == 0:
             x = fmean(xs)
         else:
-            raise ValueError('invalid %s=%r' % ('beta', beta))
+            raise ValueError('%s=%r invalid' % ('beta', beta))
     elif d < 0:
         i = ds.index(d)
-        raise ValueError('invalid %s[%s]: %r' % ('ds', i, d))
+        raise ValueError('%s[%s] invalid: %r' % ('ds', i, d))
     return x
 
 
@@ -713,7 +725,7 @@ def fpowers(x, n, alts=0):
     if not isfinite(x):
         raise ValueError('not %s: %r' %('finite', x))
     if not isinstance(n, _Ints):
-        raise TypeError('%s invalid: %r' % ('n', n))
+        raise _IsNotError(int.__name_, n=n)
     elif n < 1:
         raise ValueError('%s invalid: %r' % ('n', n))
 
@@ -761,7 +773,7 @@ def frange(start, number, step=1):
              numpy/reference/generated/numpy.arange.html>}.
     '''
     if not isinstance(number, _Ints):
-        raise TypeError('%s not %s: %r' % ('number', 'int', number))
+        raise _IsNotError(int.__name_, number=number)
     for i in range(number):
         yield start + i * step
 
@@ -947,9 +959,9 @@ except ImportError:
 
            @raise TypeError: Non-scalar B{C{obj}}.
         '''
-        if isscalar(obj):
-            return not (isinf(obj) or isnan(obj))
-        raise TypeError('not %s: %r' % ('scalar', obj))
+        if not isscalar(obj):
+            raise _IsNotError(isscalar.__name__, obj=obj)
+        return not (isinf(obj) or isnan(obj))
 
 
 def isint(obj, both=False):
@@ -1048,7 +1060,7 @@ def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
        @raise ValueError: Out-of-bounds B{C{value}}.
     '''
     if not isscalar(value):
-        raise TypeError('%s invalid: %r' % (name, value))
+        raise _IsNotError('scalar', **{name: value})
     try:
         if low is None:
             v = float(value)
@@ -1057,7 +1069,7 @@ def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
             if v < low or v > high:
                 raise ValueError
     except (TypeError, ValueError):
-        raise Error('%s invalid: %r' % (name, value))
+        raise Error(str(_IsNotError('valid', **{name: value})))
     return v
 
 

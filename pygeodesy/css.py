@@ -10,7 +10,7 @@ L{CSSError} requiring I{Charles Karney's} U{geographiclib
 
 from pygeodesy.datum import Datums
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.fmath import fStr
+from pygeodesy.fmath import fStr, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, EasNor3Tuple, EasNorAziRk4Tuple, \
                             LatLon2Tuple, LatLon4Tuple, LatLonAziRk4Tuple, \
@@ -19,7 +19,7 @@ from pygeodesy.utily import false2f, issubclassof, property_RO, _TypeError
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css
-__version__ = '19.07.12'
+__version__ = '19.10.12'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -221,7 +221,7 @@ class CassiniSoldner(_NamedBase):
         elif issubclassof(LatLon, _LLEB):
             r = LatLon(a, b, datum=self.datum)
         else:
-            raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
+            raise _IsNotError(_LLEB.__name__, LatLon=LatLon)
         return self._xnamed(r)
 
     toLatLon = reverse
@@ -408,7 +408,7 @@ class Css(_NamedBase):
            @raise TypeError: If B{C{LatLon}} or B{C{datum}} is not ellipsoidal.
         '''
         if LatLon and not issubclassof(LatLon, _LLEB):
-            raise TypeError('%s not %s: %r' % ('LatLon', 'ellipsoidal', LatLon))
+            raise _IsNotError(_LLEB.__name__, LatLon=LatLon)
 
         a, b = self.latlon
         d = self.cs0.datum
@@ -482,7 +482,7 @@ def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=''):
        @raise TypeError: If B{C{latlon}} is not ellipsoidal.
     '''
     if not isinstance(latlon, _LLEB):
-        raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
+        raise _IsNotError(_LLEB.__name__, latlon=latlon)
 
     cs = _CassiniSoldner(cs0)
 

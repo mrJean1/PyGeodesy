@@ -15,8 +15,8 @@ including coverage of UPS as zone C{0}.
 
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedInt, UtmUps2Tuple
-from pygeodesy.utily import property_RO, _Strs
 from pygeodesy.ups import Ups
+from pygeodesy.utily import property_RO, _Strs, _TypeError
 from pygeodesy.utm import Utm
 from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
                                  _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
@@ -24,7 +24,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.epsg + ('decode2', 'encode')
-__version__ = '19.07.14'
+__version__ = '19.10.12'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -81,14 +81,13 @@ class Epsg(_NamedInt):
         elif isinstance(eisu, _Strs):
             self = encode(eisu)
 
-        elif isinstance(eisu, (Utm, Ups)):
+        else:
             u = eisu
+            _TypeError(Utm, Ups, eisu=u)
             self = encode(u.zone, hemipole=u.hemisphere, band=u.band)  # PYCHOK **kwds
             self._utmups = u
             if u.name:
                 self.name = u.name
-        else:
-            raise TypeError('%s invalid: %r' % ('eisu', eisu))
 
         return self
 

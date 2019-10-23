@@ -14,7 +14,7 @@ from os import environ, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '19.10.01'
+__version__ = '19.10.14'
 
 if isiOS:  # MCCABE 14
 
@@ -231,9 +231,9 @@ if __name__ == '__main__':  # MCCABE 16
         t = '%s (%.3f tps)' % (t, _T / s)
 
     if _X:
-        x = '%d FAILED' % (_X,)
+        x = '%d (of %d) tests FAILED' % (_X, _T)
     elif _T > 0:
-        x = 'all %s tests OK' % (_T,)
+        x = 'all %d tests OK' % (_T,)
     else:
         x = 'all OK'
 

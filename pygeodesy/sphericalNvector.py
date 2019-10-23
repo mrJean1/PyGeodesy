@@ -1,9 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''N-vector-based spherical geodetic (lat-/longitude) classes L{LatLon}
-and L{Nvector} and functions L{areaOf}, L{intersection}, L{meanOf},
-L{nearestOn2}, L{triangulate} and L{trilaterate}.
+u'''N-vector-based classes geodetic (lat-/longitude) L{LatLon}, geocentric
+(ECEF) L{Cartesian} and L{Nvector} and functions L{areaOf}, L{intersection},
+L{meanOf}, L{nearestOn2}, L{triangulate} and L{trilaterate}, I{all spherical}.
 
 Pure Python implementation of n-vector-based spherical geodetic (lat-/longitude)
 methods, transcribed from JavaScript originals by I{(C) Chris Veness 2011-2016},
@@ -30,33 +30,81 @@ to a normalised version of an (ECEF) cartesian coordinate.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.datum import R_M
+from pygeodesy.datum import Datums, R_M
+from pygeodesy.ecef import EcefKarney
 from pygeodesy.fmath import EPS, EPS_2, fidw, fmean, fsum, fsum_, \
                             isscalar, map1
-from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.nvector import NorthPole, LatLonNvectorBase, \
-                              Nvector as NvectorBase, sumOf
+from pygeodesy.lazily import _ALL_LAZY, _2kwds
+from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
+                                  NvectorBase, sumOf as _sumOf
 from pygeodesy.points import _imdex2, ispolar  # PYCHOK exported
-from pygeodesy.sphericalBase import LatLonSphericalBase
+from pygeodesy.sphericalBase import CartesianSphericalBase, LatLonSphericalBase
 from pygeodesy.utily import PI, PI2, PI_2, degrees360, iterNumpy2, \
-                            sincos2, sincos2d
+                            sincos2, sincos2d, _TypeError
 
 from math import atan2, fabs, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.sphericalNvector + (
-          'LatLon', 'Nvector',  # classes
+          'Cartesian', 'LatLon', 'Nvector',  # classes
           'areaOf',  # functions
           'intersection', 'ispolar',
           'meanOf',
           'nearestOn2',
           'perimeterOf',
+          'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '19.08.14'
+__version__ = '19.10.21'
+
+
+class Cartesian(CartesianSphericalBase):
+    '''Extended to convert geocentric, L{Cartesian} points to
+       L{Nvector} and n-vector-based, spherical L{LatLon}.
+    '''
+
+    def toLatLon(self, **kwds):  # PYCHOK LatLon=LatLon
+        '''Convert this cartesian to an C{Nvector}-based geodetic point.
+
+           @keyword kwds: Optional, additional B{C{LatLon}} keyword
+                          arguments, ignored if C{B{LatLon}=None}.
+                          For example, use C{LatLon=...} to override
+                          the L{LatLon} (sub-)class or specify
+                          C{B{LatLon}=None}.
+
+           @return: The B{C{LatLon}} point (L{LatLon}) or if
+                    C{B{LatLon}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and
+                    C{M} if available.
+
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
+        '''
+        kwds = _2kwds(kwds, LatLon=LatLon, datum=self.datum)
+        return CartesianSphericalBase.toLatLon(self, **kwds)
+
+    def toNvector(self, **kwds):  # PYCHOK Datums.WGS84
+        '''Convert this cartesian to L{Nvector} components,
+           I{including height}.
+
+           @keyword kwds: Optional, additional B{C{Nvector}} keyword
+                          arguments, ignored if C{B{Nvector}=None}.
+                          For example, use C{Nvector=...} to override
+                          the L{Nvector} (sub-)class or specify
+
+           @return: The B{C{Nvector}} components (L{Nvector}) or a
+                    L{Vector4Tuple}C{(x, y, z, h)} if C{B{Nvector}=None}.
+
+           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
+        '''
+        # ll = CartesianBase.toLatLon(self, LatLon=LatLon,
+        #                                    datum=datum or self.datum)
+        # kwds = _2kwds(kwds, Nvector=Nvector)
+        # return ll.toNvector(**kwds)
+        kwds = _2kwds(kwds, Nvector=Nvector, datum=self.datum)
+        return CartesianSphericalBase.toNvector(self, **kwds)
 
 
 class LatLon(LatLonNvectorBase, LatLonSphericalBase):
-    '''New n-vector based point on spherical earth model.
+    '''New n-vector based point on a spherical earth model.
 
        Tools for working with points and paths on (a spherical
        model of) the earth's surface using vector-based methods.
@@ -637,11 +685,38 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                 c, d = p, t
         return c, d
 
-    def toNvector(self):
-        '''Convert this (geodetic) point to a (spherical) n-vector
-           normal to the earth's surface.
+    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian
+        '''Convert this point to C{Nvector}-based cartesian (ECEF)
+           coordinates.
 
-           @return: N-vector representing this point (L{Nvector}).
+           @keyword kwds: Optional, additional B{C{Cartesian}} keyword
+                          arguments, ignored if C{B{Cartesian}=None}.
+                          For example, use C{Cartesian=...} to override
+                          the L{Cartesian} (sub-)class or specify
+
+           @return: The B{C{Cartesian}} point (L{Cartesian}) or if
+                    C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and C{M}
+                    if available.
+
+           @raise TypeError: Invalid B{C{Cartesian}} or B{C{attrs}}.
+        '''
+        kwds = _2kwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        return LatLonSphericalBase.toCartesian(self, **kwds)
+
+    def toNvector(self, **kwds):  # PYCHOK signature
+        '''Convert this point to L{Nvector} components, I{including
+           height}.
+
+           @keyword kwds: Optional, additional B{C{Nvector}} keyword
+                          arguments, ignored if C{B{Nvector}=None}.
+                          For example, use C{Nvector=...} to override
+                          the L{Nvector} (sub-)class or specify
+
+           @return: The B{C{Nvector}} components (L{Nvector}) or a
+                    L{Vector4Tuple}C{(x, y, z, h)} if C{B{Nvector}=None}.
+
+           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
 
            @example:
 
@@ -651,10 +726,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{toVector}.
         '''
-        if self._Nv is None:
-            x, y, z, h = self.to4xyzh()
-            self._Nv = Nvector(x, y, z, h=h, ll=self, name=self.name)
-        return self._Nv
+        kwds = _2kwds(kwds, Nvector=Nvector)
+        return LatLonNvectorBase.toNvector(self, **kwds)
 
     def triangulate(self, bearing1, other, bearing2, height=None):
         '''Locate a point given this and an other point and a bearing
@@ -728,25 +801,46 @@ class Nvector(NvectorBase):
 
        Note commonality with L{ellipsoidalNvector.Nvector}.
     '''
+    _datum = Datums.Sphere  #: (INTERNAL) Default datum (L{Datum}).
+    _Ecef  = EcefKarney     #: (INTERNAL) Preferred C{Ecef...} class.
 
-    def toLatLon(self, height=None, LatLon=LatLon):
-        '''Convert this n-vector to a (spherical) geodetic point.
+    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian
+        '''Convert this n-vector to C{Nvector}-based cartesian
+           (ECEF) coordinates.
 
-           @keyword height: Optional height above earth radius,
-                            overriding the default height (C{meter}).
-           @keyword LatLon: Optional (spherical) LatLon (sub-)class to
-                            return the point (L{LatLon}) or C{None}.
+           @keyword kwds: Optional, additional B{C{Cartesian}} keyword
+                          arguments, ignored if C{B{Cartesian}=None}.
+                          For example, use C{Cartesian=...} to override
+                          the L{Cartesian} (sub-)class or specify
 
-           @return: Point equivalent to this n-vector (B{C{LatLon}})
-                    or a L{LatLon3Tuple}C{(lat, lon, height)}
-                    if B{C{LatLon}} is C{None}.
+           @return: The B{C{Cartesian}} point (L{Cartesian}) or if
+                    C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and C{M}
+                    if available.
 
-           @example:
-
-           >>> n = Nvector(0.5, 0.5, 0.7071)
-           >>> p = n.toLatLon()  # 45.0°N, 45.0°E
+           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
+                             or B{C{kwds}}.
         '''
-        return self._to3LLh(LatLon, height)
+        kwds = _2kwds(kwds, h=self.h, Cartesian=Cartesian)
+        return NvectorBase.toCartesian(self, **kwds)  # class or .classof
+
+    def toLatLon(self, **kwds):  # PYCHOK height=None, LatLon=LatLon
+        '''Convert this n-vector to an C{Nvector}-based geodetic point.
+
+           @keyword kwds: Optional, additional B{C{LatLon}} keyword
+                          arguments, ignored if C{B{LatLon}=None}.
+                          For example, use C{LatLon=...} to override
+                          the L{LatLon} (sub-)class or specify
+                          C{B{LatLon}=None}.
+
+           @return: The B{C{LatLon}} point (L{LatLon}) or if
+                    C{B{LatLon}=None} or a L{LatLon3Tuple}C{(lat,
+                    lon, height)} if B{C{LatLon}} is C{None}.
+
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
+        '''
+        kwds = _2kwds(kwds, height=self.h, LatLon=LatLon)
+        return NvectorBase.toLatLon(self, **kwds)  # class or .classof
 
     def greatCircle(self, bearing):
         '''Compute the n-vector normal to great circle obtained by
@@ -945,9 +1039,7 @@ def meanOf(points, height=None, LatLon=LatLon):
     n, points = _Nvll.points2(points, closed=False)
     # geographic mean
     m = sumOf(points[i].toNvector() for i in range(n))
-    a, b, h = m.to3llh()
-
-    return LatLon(a, b, height=h if height is None else height)
+    return m.toLatLon(height=height, LatLon=LatLon)
 
 
 def nearestOn2(point, points, closed=False, radius=R_M, height=None):
@@ -974,8 +1066,7 @@ def nearestOn2(point, points, closed=False, radius=R_M, height=None):
 
        @raise ValueError: No B{C{points}}.
     '''
-    if not isinstance(point, LatLon):
-        raise TypeError('%s not %r: %r' % ('point', LatLon, point))
+    _TypeError(LatLon, point=point)
 
     return point.nearestOn2(points, closed=closed, radius=radius, height=height)
 
@@ -1009,6 +1100,21 @@ def perimeterOf(points, closed=False, radius=R_M):
 
     r = fsum(_rads(n, points, closed))
     return r * float(radius)
+
+
+def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
+    '''Return the vectorial sum of two or more n-vectors.
+
+       @param nvectors: Vectors to be added (L{Nvector}[]).
+       @keyword Vector: Optional class for the vectorial sum (L{Nvector}).
+       @keyword h: Optional height, overriding the mean height (C{meter}).
+       @keyword kwds: Optional, additional B{C{Vector}} keyword arguments.
+
+       @return: Vectorial sum (B{C{Vector}}).
+
+       @raise VectorError: No B{C{nvectors}}.
+    '''
+    return _sumOf(nvectors, Vector=Vector, h=h, **kwds)
 
 
 def triangulate(point1, bearing1, point2, bearing2,

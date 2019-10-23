@@ -17,7 +17,7 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 '''
 
 from pygeodesy.dms import parse3llh, parseDMS2
-from pygeodesy.fmath import EPS, favg, fStr, map2
+from pygeodesy.fmath import EPS, favg, fStr, _IsNotError, map2
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
@@ -30,7 +30,7 @@ from math import ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash + ('bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '19.07.12'
+__version__ = '19.10.12'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -90,8 +90,7 @@ def _2Geohash(geohash):
         try:
             geohash = Geohash(geohash)
         except (TypeError, ValueError):
-            raise TypeError('%r not a %s, %s or str' % (geohash,
-                             Geohash.__name__, 'LatLon'))
+            raise _IsNotError(Geohash.__name__, str.__name__, 'LatLon', geohash=geohash)
     return geohash
 
 

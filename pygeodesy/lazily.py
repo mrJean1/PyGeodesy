@@ -73,11 +73,12 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 
 # __all__ value for most modules, accessible as _ALL_LAZY.<module>
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
-                          bases=('LatLonHeightBase', 'points2'),
+                          bases=(),  # module and for backward compatibility only
                           clipy=('clipCS3', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
                           datum=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
-                                 'Datum', 'Ellipsoid', 'Transform', 'Datums', 'Ellipsoids', 'Transforms'),
+                                 'Datum',  'Ellipsoid',  'Transform',
+                                 'Datums', 'Ellipsoids', 'Transforms'),
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_RAD',
                                  'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_RAD_',
                                  'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F_RAD__',
@@ -88,7 +89,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'areaof', 'bounds', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions
                                  'equirectangular3', 'hypot3', 'isenclosedby', 'nearestOn3', 'nearestOn4',
                                  'parseUTM', 'perimeterof', 'polygon', 'simplify2', 'toUtm', 'utmZoneBand2'),
-                           ecef=('EcefCartesian', 'EcefError', 'EcefKarney', 'EcefMatrix', 'EcefYou'),
+                           ecef=('EcefCartesian', 'EcefError', 'EcefKarney', 'EcefMatrix', 'EcefVeness', 'EcefYou'),
                      elevations=('elevation2', 'geoidHeight2'),
               ellipsoidalKarney=(),  # module only
              ellipsoidalNvector=(),  # module only
@@ -104,7 +105,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'hypot', 'hypot1', 'hypot_', 'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar',
                                  'len2', 'map1', 'map2', 'scalar', 'sqrt3'),
                           formy=('antipode', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
-                                 'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode', 'vincentys', 'vincentys_'),
+                                 'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode', 'points2', 'vincentys', 'vincentys_'),
                         frechet=('Frechet', 'FrechetDegrees', 'FrechetRadians', 'FrechetError',
                                  'FrechetEquirectangular', 'FrechetEuclidean', 'FrechetHaversine', 'FrechetVincentys',
                                  'fractional', 'frechet_'),
@@ -121,7 +122,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                            mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs'),
                           named=('classname', 'classnaming', 'inStr', 'nameof'),
-                        nvector=(),  # module only
+                        nvector=(),  # module and for backward compatibility only
                            osgr=('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
                          points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
                                  'areaOf', 'boundsOf', 'centroidOf',
@@ -152,15 +153,15 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
 # DEPRECATED __all__ names overloading those in _ALL_LAZY.deprecated where
 # the new name is fully backward compatible in signature and return value
 _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
-                                bases=('points2 as polygon',),
                                 fmath=('hypot_ as hypot3',),
+                                formy=('points2 as polygon',),
                               heights=('HeightIDWequirectangular as HeightIDW2', 'HeightIDWeuclidean as HeightIDW', 'HeightIDWhaversine as HeightIDW3'),
                                points=('areaOf as areaof',
                                        'isenclosedBy as isenclosedby', 'perimeterOf as perimeterof'),
                              simplify=('simplifyRW as simplify2',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.10.09'
+__version__ = '19.10.19'
 
 
 def _all_imports(**more):
@@ -195,6 +196,16 @@ def _all_missing2(_all_):
     _alzy = _all_imports(**_NamedEnum_RO((a, ()) for a in _ALL_INIT))
     return (('lazily._all_imports', ', '.join(a for a in _all_ if a not in _alzy)),
             ('pygeodesy.__all__',   ', '.join(a for a in _alzy if a not in _all_)))
+
+
+def _2kwds(kwds, **dflts):
+    '''(INTERNAL) Override C{dflts} with C{kwds}.
+    '''
+    d = dflts
+    if kwds:
+        d = d.copy()
+        d.update(kwds)
+    return d
 
 
 def _lazy_import2(_package_):  # MCCABE 23

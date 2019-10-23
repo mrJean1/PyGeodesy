@@ -4,14 +4,31 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.06.19'
+__version__ = '19.10.20'
 
 from base import TestsBase
 
-from pygeodesy import F_D
+from pygeodesy import F_D, fStr
 
 
 class Tests(TestsBase):
+
+    def testNvectorBase(self, module, **kwds):
+
+        try:
+            Nvector = module.Nvector
+        except AttributeError:
+            Nvector = module.NvectorBase
+        self.subtitle(module, Nvector.__name__)
+
+        v = Nvector(0.500, 0.500, 0.707, **kwds)
+        p = v.toLatLon(LatLon=None)
+        c = v.toCartesian(Cartesian=None)
+        self.test('ecef.x, .y, .z', fStr(p[:3],  prec=5), fStr(c[:3],  prec=5))
+        self.test('ecef.lat, .lon', fStr(p[3:5], prec=6), fStr(c[3:5], prec=6))
+        self.test('ecef.height', fStr(p.height, prec=6), fStr(c.height, prec=6), known=True)
+        if c.M is not None:
+            self.test('ecef.M', fStr(p.M, prec=9), fStr(c.M, prec=9))
 
     def testVectorial(self, module):  # MCCABE 13
 
@@ -156,16 +173,20 @@ class Tests(TestsBase):
             self.test('trilaterate', t, p)
             self.test('trilaterate', isinstance(t, LatLon), True)
 
+        self.testNvectorBase(module)
+
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalNvector, sphericalNvector
+    from pygeodesy import Datums, ellipsoidalNvector, nvectorBase, sphericalNvector
 
     t = Tests(__file__, __version__)
 
     t.testVectorial(ellipsoidalNvector)
-
     t.testVectorial(sphericalNvector)
+
+    t.testNvectorBase(nvectorBase, datum=Datums.Sphere)
+    t.testNvectorBase(nvectorBase, datum=Datums.WGS84)
 
     t.results()
     t.exit()

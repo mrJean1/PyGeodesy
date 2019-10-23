@@ -16,8 +16,8 @@ from pygeodesy import F_D, F_DMS, R_MA, Datums, LatLon_, \
 class Tests(TestsBase):
 
     def testWebMercator(self, LatLon, LatLonE):
-        # <https://alastaira.WordPress.com/2011/01/23/
-        #         the-google-maps-bing-maps-spherical-mercator-projection>
+        # <https://AlastairA.WordPress.com/2011/01/23/
+        #        the-google-maps-bing-maps-spherical-mercator-projection>
         lat = 52.4827802220782
         w = toWm(lat, -5.625)
         self.test('toWm1', w.toStr(prec=8), '-626172.13571216 6887893.4928338')
@@ -78,8 +78,8 @@ class Tests(TestsBase):
         self.test('Wm7.toLatLonE', ll, '24.218566°N, 100.333333°W')
         self.test('Wm7.toLatLonE', ll.toStr(form=F_DMS), '24°13′06.84″N, 100°20′00.0″W')
 
-        # <https://alastaira.WordPress.com/2011/01/23/
-        #         the-google-maps-bing-maps-spherical-mercator-projection>
+        # <https://AlastairA.WordPress.com/2011/01/23/
+        #        the-google-maps-bing-maps-spherical-mercator-projection>
         w = toWm(51.4085960537841, -0.304339270784791)
         self.test('Wm8.toWm', w.toStr2(), '[x:-33878.893, y:6693890.382]')
         ll = w.toLatLon(LatLon)

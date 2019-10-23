@@ -9,7 +9,7 @@ Pure Python implementation of a U{Web Mercator<https://WikiPedia.org/wiki/Web_Me
 near-spherical earth models.
 
 References U{Google Maps / Bing Maps Spherical Mercator Projection
-<https://alastaira.WordPress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>},
+<https://AlastairA.WordPress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection>},
 U{Geomatics Guidance Note 7, part 2<https://www.EPSG.org/Portals/0/373-07-02.pdf>} and
 U{Implementation Practice Web Mercator Map Projection
 <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/%28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>}.
@@ -20,18 +20,18 @@ U{Implementation Practice Web Mercator Map Projection
 from pygeodesy.datum import R_MA
 from pygeodesy.dms import clipDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.fmath import EPS, fStr, isscalar, map1
+from pygeodesy.fmath import EPS, fStr, isscalar, map1, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNorRadius3Tuple, LatLon2Tuple, \
                            _NamedBase, nameof, _xnamed
-from pygeodesy.utily import PI_2, degrees90, degrees180, \
-                            issubclassof, property_RO
+from pygeodesy.utily import PI_2, degrees90, degrees180, issubclassof, \
+                            property_RO
 
 from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator
-__version__ = '19.07.12'
+__version__ = '19.10.12'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -116,7 +116,7 @@ class Wm(_NamedBase):
         if datum:
             E = datum.ellipsoid
             if not E.isEllipsoidal:
-                raise TypeError('%s not %s: %r' % ('datum', 'ellipsoidal', datum))
+                raise _IsNotError('ellipsoidal', datum=datum)
             # <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
             #       %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
             y = y / r

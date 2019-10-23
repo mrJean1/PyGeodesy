@@ -5,18 +5,18 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.fmath import EPS, fStr, fsum_, map1
+from pygeodesy.fmath import EPS, fStr, fsum_, len2, map1
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import Distance4Tuple, LatLon2Tuple
+from pygeodesy.named import Distance4Tuple, LatLon2Tuple, Points2Tuple
 from pygeodesy.utily import PI, PI2, PI_2, R_M, degrees2m, degrees360, \
-                            LimitError, _limiterrors, sincos2, \
-                            unroll180, unrollPI, wrap90, wrap180
+                            isNumpy2, isTuple2, LimitError, _limiterrors, \
+                            sincos2, unroll180, unrollPI, wrap90, wrap180
 
 from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '19.08.14'
+__version__ = '19.10.19'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -371,6 +371,45 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
     '''
     return abs(wrap90(lat1) + wrap90(lat2)) < eps and \
            abs(abs(wrap180(lon1) - wrap180(lon2)) % 360 - 180) < eps
+
+
+def points2(points, closed=True, base=None, Error=ValueError):
+    '''Check a path or polygon represented by points.
+
+       @param points: The path or polygon points (C{LatLon}[])
+       @keyword closed: Optionally, consider the polygon closed,
+                        ignoring any duplicate or closing final
+                        B{C{points}} (C{bool}).
+       @keyword base: Optionally, check all B{C{points}} against
+                      this base class, if C{None} don't check.
+       @keyword Error: Exception to raise (C{ValueError}).
+
+       @return: A L{Points2Tuple}C{(number, points)} with the number
+                of points and the points C{list} or C{tuple}.
+
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
+
+       @raise Error: Insufficient number of B{C{points}}.
+    '''
+    n, points = len2(points)
+
+    if closed:
+        # remove duplicate or closing final points
+        while n > 1 and (points[n-1] == points[0] or
+                         points[n-1] == points[n-2]):
+            n -= 1
+        # XXX following line is unneeded if points
+        # are always indexed as ... i in range(n)
+        points = points[:n]  # XXX numpy.array slice is a view!
+
+    if n < (3 if closed else 1):
+        raise Error('too few %s: %s' % ('points', n))
+
+    if base and not (isNumpy2(points) or isTuple2(points)):
+        for i in range(n):
+            base.others(points[i], name='%s[%s]' % ('points', i))
+
+    return Points2Tuple(n, points)
 
 
 def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):

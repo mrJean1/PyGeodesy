@@ -25,10 +25,10 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.bases import points2
 from pygeodesy.dms import F_D, latDMS, lonDMS
-from pygeodesy.fmath import EPS, favg, fdot, Fsum, fsum, isint, map1, scalar
-from pygeodesy.formy import equirectangular_
+from pygeodesy.fmath import EPS, favg, fdot, Fsum, fsum, isint, \
+                           _IsNotError, map1, scalar
+from pygeodesy.formy import equirectangular_, points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, classname, inStr, \
                             LatLon2Tuple, NearestOn3Tuple, NearestOn5Tuple, \
@@ -36,7 +36,7 @@ from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, classname, inStr, \
                             nameof, _xnamed
 from pygeodesy.utily import PI_2, R_M, degrees90, degrees180, degrees360, \
                             degrees2m, issequence, property_RO, \
-                            unroll180, unrollPI, wrap90, wrap180
+                            unroll180, unrollPI, wrap90, wrap180, _TypeError
 from pygeodesy.vector3d import CrossError, crosserrors
 
 try:
@@ -47,7 +47,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.10.02'
+__version__ = '19.10.12'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -345,15 +345,15 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             if isclass(LatLon) and all(hasattr(LatLon, a) for a in LatLon_.__slots__):
                 self._LatLon = LatLon
             else:
-                raise TypeError('%s invalid: %r' % ('LatLon', LatLon))
+                raise _IsNotError('valid', LatLon=LatLon)
 
         # check the attr indices
         for n, (ai, i) in enumerate(ais):
             if not isint(i):
-                raise TypeError('%s invalid: %r' % (ai, i))
+                raise _IsNotError(int.__name__, **{ai: i})
             i = int(i)
             if not 0 <= i < shape[1]:
-                raise ValueError('%s invalid: %s' % (ai, i))
+                raise _IsNotError('valid', Error=ValueError, **{ai: i})
             for aj, j in ais[:n]:
                 if int(j) == i:
                     raise ValueError('%s == %s == %s' % (ai, aj, i))
@@ -418,7 +418,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
 
            @return: Index or -1 if not found (C{int}).
 
-           @raise TypeError: Invalid latlon.
+           @raise TypeError: Invalid B{C{latlon}}.
         '''
         return self._find(latlon, start_end)
 
@@ -431,7 +431,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             try:
                 lat, lon = latlon
             except (TypeError, ValueError):
-                raise TypeError('%s invalid: %r' % ('latlon', latlon))
+                raise _IsNotError('valid', latlon=latlon)
 
         for i in self._range(*start_end):
             row = self._array[i]
@@ -542,14 +542,14 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''
         if not issequence(indices, tuple):  # NO tuple, only list
             # and range work properly to get Numpy array sub-sets
-            raise TypeError('%s invalid: %s' % ('indices', type(indices)))
+            raise _IsNotError('valid', indices=type(indices))
 
         n = len(self)
         for i, v in enumerate(indices):
             if not isint(v):
-                raise TypeError('%s[%s] invalid: %r' % ('indices', i, v))
+                raise TypeError('%s[%s] not valid: %r' % ('indices', i, v))
             elif not 0 <= v < n:
-                raise IndexError('%s[%s] invalid: %r' % ('indices', i, v))
+                raise IndexError('%s[%s] not valid: %r' % ('indices', i, v))
 
         return self._subset(indices)
 
@@ -665,7 +665,7 @@ class LatLon2psxy(_Basequence):
             try:
                 x, y = xy
             except (TypeError, ValueError):
-                raise TypeError('%s invalid: %r' % ('xy', xy))
+                raise _IsNotError('valid', xy=xy)
 
             def _3xyll(ll):  # PYCHOK expected
                 return self.point(ll)
@@ -779,7 +779,7 @@ class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
         try:  # get shape and check some other numpy.array attrs
             s, _, _ = array.shape, array.nbytes, array.ndim  # PYCHOK expected
         except AttributeError:
-            raise TypeError('%s not NumPy: %s' % ('array', type(array)))
+            raise _IsNotError('NumPy', array=type(array))
 
         _Array2LatLon.__init__(self, array, ilat=ilat, ilon=ilon,
                                      LatLon=LatLon, shape=s)
@@ -842,10 +842,8 @@ class Tuple2LatLon(_Array2LatLon):
            >>> closest
            LatLon_(lat=2.001162, lon=3.001162)
         '''
-        if isinstance(tuples, (list, tuple)):
-            s = len(tuples), min(len(_) for _ in tuples)
-        else:
-            TypeError('%s not sequence: %s' % ('tuple', type(tuples)))
+        _TypeError(list, tuple, tuples=tuples)
+        s = len(tuples), min(len(_) for _ in tuples)
         _Array2LatLon.__init__(self, tuples, ilat=ilat, ilon=ilon,
                                      LatLon=LatLon, shape=s)
 
@@ -1240,7 +1238,7 @@ def ispolar(points, wrap=False):
         try:  # LatLon must have initial- and finalBearingTo
             b1, _ = p1.bearingTo2(points[0], wrap=wrap)
         except AttributeError:
-            raise TypeError('invalid %s: %r' % ('points', p1))
+            raise _IsNotError('.bearingTo2', points=p1)
 
         for i in range(n):
             p2 = points[i]

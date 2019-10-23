@@ -4,7 +4,7 @@
 # Test OSGR functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '17.09.08'
+__version__ = '19.10.14'  # '17.09.08'
 
 from base import TestsBase
 
@@ -23,7 +23,7 @@ class Tests(TestsBase):
         self.test('OSGB36', r, '51.477284°N, 000.00002°E')
         r = r.convertDatum(Datums.WGS84)
         r.height = 0
-        self.test('WGS84', r, '51.4778°N, 000.0016°W')
+        self.test('WGS84', r, '51.4778°N, 000.0016°W', known=True)
 
         g = osgr.Osgr(651409.903, 313177.270)
         self.test('OSgr1', g, 'TG 51409 13177')
@@ -74,9 +74,10 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalNvector
+    from pygeodesy import ellipsoidalNvector  # sphericalNvector
 
     t = Tests(__file__, __version__, osgr)
     t.testOSgr(ellipsoidalNvector.LatLon)
+#   t.testOSgr(sphericalNvector.LatLon)
     t.results()
     t.exit()

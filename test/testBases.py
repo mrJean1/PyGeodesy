@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.10.02'
+__version__ = '19.10.21'
 
 from base import TestsBase
 
@@ -13,7 +13,9 @@ from pygeodesy import F_D, F_DMS, precision
 
 class Tests(TestsBase):
 
-    def testBases(self, LatLon):
+    def testBases(self, module, LatLon):
+
+        self.subtitle(module, LatLon.__name__)
 
         p = LatLon(50.06632, -5.71475)
         self.test('lat, lon', p, '50.06632°N, 005.71475°W')
@@ -66,13 +68,25 @@ if __name__ == '__main__':
 
     from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, \
                           ellipsoidalVincenty, sphericalNvector, \
-                          sphericalTrigonometry
+                          sphericalTrigonometry, LazyImportError
 
     t = Tests(__file__, __version__)
-    t.testBases(ellipsoidalKarney.LatLon)
-    t.testBases(ellipsoidalNvector.LatLon)
-    t.testBases(ellipsoidalVincenty.LatLon)
-    t.testBases(sphericalNvector.LatLon)
-    t.testBases(sphericalTrigonometry.LatLon)
+
+    t.testBases(ellipsoidalKarney, ellipsoidalKarney.LatLon)
+    t.testBases(ellipsoidalNvector, ellipsoidalNvector.LatLon)
+    t.testBases(ellipsoidalVincenty, ellipsoidalVincenty.LatLon)
+
+    t.testBases(sphericalNvector, sphericalNvector.LatLon)
+    t.testBases(sphericalTrigonometry, sphericalTrigonometry.LatLon)
+
+    try:  # (INTERNAL) modules not explicitly exported
+        from pygeodesy import ellipsoidalBase, latlonBase, sphericalBase
+
+        t.testBases(latlonBase, latlonBase.LatLonBase)
+        t.testBases(ellipsoidalBase, ellipsoidalBase.LatLonEllipsoidalBase)
+        t.testBases(sphericalBase, sphericalBase.LatLonSphericalBase)
+    except LazyImportError:
+        pass
+
     t.results()
     t.exit()

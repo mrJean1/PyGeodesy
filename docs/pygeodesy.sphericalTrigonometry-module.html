@@ -59,9 +59,11 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module sphericalTrigonometry</h1><p class="nomargin-top"></p>
-<p>Trigonometric spherical geodetic (lat-/longitude) class <a 
+<p>Trigonometric classes geodetic (lat-/longitude) <a 
   href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-  class="link">LatLon</a> and functions <a 
+  class="link">LatLon</a> and geocentric (ECEF) <a 
+  href="pygeodesy.sphericalTrigonometry.Cartesian-class.html" 
+  class="link">Cartesian</a> and functions<a 
   href="pygeodesy.sphericalTrigonometry-module.html#areaOf" 
   class="link">areaOf</a>, <a 
   href="pygeodesy.sphericalTrigonometry-module.html#intersection" 
@@ -73,7 +75,7 @@
   href="pygeodesy.sphericalTrigonometry-module.html#nearestOn2" 
   class="link">nearestOn2</a> and <a 
   href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
-  class="link">perimeterOf</a>.</p>
+  class="link">perimeterOf</a>, <i>all spherical</i>.</p>
   <p>Pure Python implementation of geodetic (lat-/longitude) methods using 
   spherical trigonometry, transcribed from JavaScript originals by <i>(C) 
   Chris Veness 2011-2016</i> published under the same MIT Licence**, see <a
@@ -82,7 +84,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.07.09
+        19.10.21
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -92,6 +94,18 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Classes</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.sphericalTrigonometry.Cartesian-class.html" class="summary-name">Cartesian</a><br />
+      Extended to convert geocentric, <a 
+        href="pygeodesy.sphericalTrigonometry.Cartesian-class.html" 
+        class="link">Cartesian</a> points to spherical, geodetic <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -118,6 +132,25 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#ispolar" class="summary-sig-name">ispolar</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Check whether a polygon encloses a pole.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#sumOf" class="summary-sig-name">sumOf</a>(<span class="summary-sig-arg">vectors</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Compute the vectorial sum of several vectors.</td>
           <td align="right" valign="top">
             
             
@@ -317,6 +350,44 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code> or 
         don't have <code>bearingTo2</code>, <code>initialBearingTo</code> 
         and <code>finalBearingTo</code> methods.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="sumOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sumOf</span>(<span class="sig-arg">vectors</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the vectorial sum of several vectors.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>vectors</code></strong> - Vectors to be added (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>[]).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Optional class for the vectorial sum (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Vectorial sum (<b><code>Vector</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.VectorError-class.html">VectorError</a></strong></code> - No <b><code>vectors</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -689,7 +760,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:36 2019
+    Generated by Epydoc 3.0.1 on Tue Oct 22 15:13:59 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

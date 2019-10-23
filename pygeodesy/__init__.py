@@ -4,7 +4,7 @@
 u'''A pure Python implementation of geodesy tools for various ellipsoidal
 and spherical earth models using precision trigonometric, vector-based,
 elliptic and approximate methods for geodetic (lat-/longitude) and
-geocentric cartesian (x/y/z) coordinates.
+geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>} cartesian) coordinates.
 
 Transcribed from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>}
 by I{Chris Veness (C) 2005-2016} and several U{C++ classes
@@ -14,10 +14,10 @@ by I{Chris Veness (C) 2005-2016} and several U{C++ classes
 
 There are three modules for ellipsoidal earth models, I{ellipsoidalKarney},
 I{-Vincenty} and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry}
-and I{-Nvector}.  Each module provides a I{attributes-LatLon-html} class
-with methods and functions to compute distance, initial and final bearing,
-intermediate and nearest points, area, perimeter, conversions and unrolling,
-among other things.  For more information and further details see the
+and I{-Nvector}.  Each module provides a geodetic I{LatLon} and a geocentric
+I{Cartesian} class with methods and functions to compute distance, initial and
+final bearing, intermediate and nearest points, area, perimeter, conversions and
+unrolling, among other things.  For more information and further details see the
 U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
 U{Vincenty<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and
@@ -33,7 +33,7 @@ U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system
 <https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (U{Exact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
 and Universal Transverse Mercator), U{ECEF<https://WikiPedia.org/wiki/ECEF>}
-(Earth-Centered, Earth-Fixed geocentric) and U{Web Mercator
+(Earth-Centered, Earth-Fixed cartesian) and U{Web Mercator
 <https://WikiPedia.org/wiki/Web_Mercator>} (Pseudo-Mercator) coordinates,
 U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (NATO
 Military Grid Reference System) and U{OSGR
@@ -97,15 +97,18 @@ the test results (on macOS only) and the complete U{documentation
 Tests
 =====
 
-The tests have been run with Python 2.7.16 and 3.7.4 (both with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
-U{numpy<https://PyPI.org/project/numpy>} 1.16.5 respectively 1.17.2 and
-U{scipy<https://SciPy.org/scipylib/download.html>} 1.2.2 respectively
-1.3.1) and with U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3)
-on macOS 10.13.6 High Sierra, I{all in 64-bit only}.  The results of
-those tests are included in the distribution files.
+The tests have been run with Python 3.8.0 (with U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.50 and U{numpy
+<https://PyPI.org/project/numpy>} 1.17.3), with Python 3.7.4 and 2.7.16
+(both with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
+U{numpy<https://PyPI.org/project/numpy>} 1.17.2 respectively 1.16.5 and
+U{scipy<https://SciPy.org/scipylib/download.html>} 1.3.1 respectively 1.2.2)
+and with U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3, both
+without geographiclib, numpy and scipy) on macOS 10.13.6 High Sierra,
+I{all in 64-bit only}.  The results of those tests are included in the
+distribution files.
 
-The tests also run with Python 2.7.14, 3.5.6 and 3.6.3 (and U{geographiclib
+The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on U{Ubuntu 14.04
 <https://Travis-CI.org/mrJean1/PyGeodesy>} and with Python 3.7.3 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on
@@ -115,7 +118,7 @@ U{geographiclib <https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on
 U{Windows Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
 I{in both 32- and 64-bit}.
 
-with Python 3.7+, the tests run with and without C{lazy import}.
+With Python 3.7+, the tests run I{with and without} C{lazy import}.
 
 A single-File and single-Directory application with C{pygeodesy} has
 been bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4
@@ -144,7 +147,7 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.16 and with U{Flake8
-<https://PyPI.org/project/flake8>} using Python 3.7.4, both in 64-bit
+<https://PyPI.org/project/flake8>} using Python 3.8.0, both in 64-bit
 on macOS 10.13.6 High Sierra.
 
 Some function and method names differ from the JavaScript version. In such
@@ -246,6 +249,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var version: Normalized C{PyGeodesy} version (C{str}).
 
 '''
+
 from os.path import abspath, basename, dirname
 import sys
 
@@ -254,7 +258,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.10.11'
+__version__ = '19.10.21'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -264,7 +268,7 @@ else:
     # setting __path__ should ...
     __path__ = [pygeodesy_abspath]
     try:  # ... make this import work, ...
-        import pygeodesy.bases as _
+        import pygeodesy.datum as _
     except ImportError:  # ... if it doesn't, extend
         # sys.path to include this very directory such
         # that all public and private sub-modules can
@@ -282,7 +286,7 @@ else:
 if not _lazy_import2:  # import and set __all__
 
     # import all public modules and export as such
-    import pygeodesy.bases                 as bases                  # PYCHOK exported
+    import pygeodesy.bases                 as bases                  # PYCHOK DEPRECATED
     import pygeodesy.clipy                 as clipy                  # PYCHOK exported
     import pygeodesy.css                   as css                    # PYCHOK exported
     import pygeodesy.datum                 as datum                  # PYCHOK exported
@@ -308,7 +312,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.lcc                   as lcc                    # PYCHOK exported
     import pygeodesy.mgrs                  as mgrs                   # PYCHOK exported
     import pygeodesy.named                 as named                  # PYCHOK exported
-    import pygeodesy.nvector               as nvector                # PYCHOK exported
+    import pygeodesy.nvector               as nvector                # PYCHOK DEPRECATED
     import pygeodesy.osgr                  as osgr                   # PYCHOK exported
     import pygeodesy.points                as points                 # PYCHOK exported
     import pygeodesy.simplify              as simplify               # PYCHOK exported
@@ -328,7 +332,7 @@ if not _lazy_import2:  # import and set __all__
     # talk <https://DaBeaz.com/modulepackage/index.html>) ... BUT
     # NOT modules ellipsoidal*, epsg, gars, geohash, spherical*,
     # vector and wgrs ... in order keep those as modules ONLY
-    from pygeodesy.bases                 import *  # PYCHOK __all__
+#   from pygeodesy.bases                 import *  # PYCHOK __all__
     from pygeodesy.clipy                 import *  # PYCHOK __all__
     from pygeodesy.css                   import *  # PYCHOK __all__
     from pygeodesy.datum                 import *  # PYCHOK __all__

@@ -26,7 +26,7 @@ _MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.10.02'
+__version__ = '19.10.19'
 
 try:
     _Strs = basestring, str  # PYCHOK .datum.py, .geohash.py
@@ -39,7 +39,7 @@ PI2  = PI * 2  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
 PI_2 = PI / 2  #: Half PI, M{PI / 2} (C{float})
 PI_4 = PI / 4  #: Quarter PI, M{PI / 4} (C{float})
 
-# R_M moved here to avoid circular import for bases and datum
+# R_M moved here to avoid circular imports
 R_M = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
 
 _1_90 = 1 / 90.0  # 0.011111111111111111111111111111111111111111111111
@@ -51,15 +51,14 @@ _limiterrors   = True
 
 
 def _TypeError(*Types, **pairs):
-    '''(INTERNAL) Check name=value pairs Types.
+    '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
     '''
     for n, v in pairs.items():
         if not isinstance(v, Types):
             t = ' or '.join(t.__name__ for t in Types)
-            c = len(Types) - 2
-            if c > 0:
-                t = t.replace(' or ', ', ', c)
-            raise TypeError('%s not a %s: %r' % (n, t, v))
+            # first letter of Type name I{pronounced} as vowel
+            a = 'an' if t[:1].lower() in 'aeinoux' else 'a'
+            raise TypeError('%s not %s %s: %r' % (n, a, t, v))
 
 
 class LimitError(ValueError):

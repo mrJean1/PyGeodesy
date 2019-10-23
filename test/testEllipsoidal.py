@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.04.03'
+__version__ = '19.10.15'
 
 from base import geographiclib, isWindows
 from testLatLon import Tests as _TestsLL
@@ -73,13 +73,15 @@ class Tests(_TestsLL, _TestsV):
         self.test('coincident', m, 0.0)
 
         if hasattr(LatLon, 'toCartesian'):
+            c = Cleveland_OH.convertDatum(Datums.OSGB36)
+            self.test('convertDatum', c.datum.name, 'OSGB36')
             try:
-                m = Newport_RI.distanceTo(Cleveland_OH.convertDatum(Datums.OSGB36))
-                self.test('ValueError', None, 'other Ellipsoid mistmatch: ...' + d.ellipsoid.name)
+                m = Newport_RI.distanceTo(c)
+                self.test('ValueError1', None, 'other Ellipsoid mistmatch: ...' + d.ellipsoid.name)
             except ValueError as x:
-                self.test('ValueError', x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
+                self.test('ValueError2', x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
             except Exception as x:
-                self.test('ValueError', x, 'ValueError ...' + d.ellipsoid.name)
+                self.test('ValueError3', x, 'ValueError ...' + d.ellipsoid.name)
 
         p = LatLon(-37.95103342, 144.42486789, datum=d)
         self.test('isEllipsoidal', p.isEllipsoidal, True)
@@ -137,13 +139,15 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo', m, '866455.43292', fmt='%.5f')
 
         if hasattr(LatLon, 'toCartesian'):
+            c = Cleveland_OH.convertDatum(Datums.OSGB36)
+            self.test('convertDatum', c.datum.name, 'OSGB36')
             try:
-                m = Newport_RI.distanceTo(Cleveland_OH.convertDatum(Datums.OSGB36))
-                self.test('ValueError', None, 'other Ellipsoid mistmatch: ...' + d.ellipsoid.name)
+                m = Newport_RI.distanceTo(c)
+                self.test('ValueError1', None, 'other Ellipsoid mistmatch: ...' + d.ellipsoid.name)
             except ValueError as x:
-                self.test('ValueError', x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
+                self.test('ValueError2', x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
             except Exception as x:
-                self.test('ValueError', x, 'ValueError ...' + d.ellipsoid.name)
+                self.test('ValueError3', x, 'ValueError ...' + d.ellipsoid.name)
 
         p = LatLon(-37.95103342, 144.42486789, datum=d)
         self.test('isEllipsoidal', p.isEllipsoidal, True)

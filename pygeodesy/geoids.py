@@ -84,7 +84,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '19.07.12'
+__version__ = '19.10.15'
 
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',
@@ -262,9 +262,8 @@ class _GeoidBase(_HeightBase):
                 raise GeoidError('%s[%s]: %.12f' % (name, i, e))
         return self._np.array(a), d
 
-    def _g2ll2(self, lat, lon):  # PYCHOK not used
-        raise AssertionError('%s.%s not overloaded' % (self.classname,
-                                                       self._g2ll2.__name__))
+    def _g2ll2(self, lat, lon):
+        self._notOverloaded(self._g2ll2.__name__, lat, lon)
 
     def _gyx2g2(self, y, x):
         # convert grid (y, x) indices to grid (lat, lon)
@@ -277,9 +276,8 @@ class _GeoidBase(_HeightBase):
             raise RangeError('outside on %s' % (out,))
         return float(self._ev(*self._ll2g2(lat, lon)))
 
-    def _ll2g2(self, lat, lon):  # PYCHOK not used
-        raise AssertionError('%s.%s not overloaded' % (self.classname,
-                                                       self._ll2g2.__name__))
+    def _ll2g2(self, lat, lon):
+        self._notOverloaded(self._ll2g2.__name__, lat, lon)
 
     def _llh3(self, lat, lon):
         r = LatLon3Tuple(lat, lon, self._hGeoid(lat, lon))
@@ -541,7 +539,7 @@ class _GeoidBase(_HeightBase):
             self._stdev = float(self._np.std(self._hs_y_x))
         return self._stdev
 
-    def toStr(self, prec=3, sep=', '):
+    def toStr(self, prec=3, sep=', '):  # PYCHOK signature
         '''This geoid and all geoid attributes as a string.
 
            @keyword prec: Optional number of decimal digits (0..9 or

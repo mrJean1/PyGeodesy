@@ -59,9 +59,11 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module sphericalNvector</h1><p class="nomargin-top"></p>
-<p>N-vector-based spherical geodetic (lat-/longitude) classes <a 
+<p>N-vector-based classes geodetic (lat-/longitude) <a 
   href="pygeodesy.sphericalNvector.LatLon-class.html" 
-  class="link">LatLon</a> and <a 
+  class="link">LatLon</a>, geocentric (ECEF) <a 
+  href="pygeodesy.sphericalNvector.Cartesian-class.html" 
+  class="link">Cartesian</a> and <a 
   href="pygeodesy.sphericalNvector.Nvector-class.html" 
   class="link">Nvector</a> and functions <a 
   href="pygeodesy.sphericalNvector-module.html#areaOf" 
@@ -75,7 +77,7 @@
   href="pygeodesy.sphericalNvector-module.html#triangulate" 
   class="link">triangulate</a> and <a 
   href="pygeodesy.sphericalNvector-module.html#trilaterate" 
-  class="link">trilaterate</a>.</p>
+  class="link">trilaterate</a>, <i>all spherical</i>.</p>
   <p>Pure Python implementation of n-vector-based spherical geodetic 
   (lat-/longitude) methods, transcribed from JavaScript originals by <i>(C)
   Chris Veness 2011-2016</i>, published under the same MIT Licence**.  See 
@@ -99,7 +101,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.08.14
+        19.10.21
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -113,8 +115,22 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.sphericalNvector.Cartesian-class.html" class="summary-name">Cartesian</a><br />
+      Extended to convert geocentric, <a 
+        href="pygeodesy.sphericalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <a 
+        href="pygeodesy.sphericalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and n-vector-based, spherical <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.sphericalNvector.LatLon-class.html" class="summary-name">LatLon</a><br />
-      New n-vector based point on spherical earth model.
+      New n-vector based point on a spherical earth model.
     </td>
   </tr>
 <tr>
@@ -247,6 +263,26 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
       Compute the perimeter of a (spherical) polygon (with great circle 
       arcs joining consecutive points).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#sumOf" class="summary-sig-name">sumOf</a>(<span class="summary-sig-arg">nvectors</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.Nvector'&gt;</span>,
+        <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Return the vectorial sum of two or more n-vectors.</td>
           <td align="right" valign="top">
             
             
@@ -606,6 +642,46 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="sumOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sumOf</span>(<span class="sig-arg">nvectors</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.Nvector'&gt;</span>,
+        <span class="sig-arg">h</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the vectorial sum of two or more n-vectors.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>nvectors</code></strong> - Vectors to be added (<a 
+          href="pygeodesy.sphericalNvector.Nvector-class.html" 
+          class="link">Nvector</a>[]).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Optional class for the vectorial sum (<a 
+          href="pygeodesy.sphericalNvector.Nvector-class.html" 
+          class="link">Nvector</a>).</li>
+        <li><strong class="pname"><code>h</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Vectorial sum (<b><code>Vector</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.VectorError-class.html">VectorError</a></strong></code> - No <b><code>nvectors</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="triangulate"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -762,7 +838,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:36 2019
+    Generated by Epydoc 3.0.1 on Tue Oct 22 15:13:59 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

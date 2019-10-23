@@ -16,7 +16,7 @@ sub-classes of C{_NamedTuple} defined here.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.fmath import fStr
+from pygeodesy.fmath import fStr, _IsNotError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.utily import issubclassof, property_RO, _Strs, unStr
 
@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '19.10.09'
+__version__ = '19.10.19'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -61,7 +61,7 @@ def _xattrs(inst, other, *attrs):
     def _getattr(o, a):
         if hasattr(o, a):
             return getattr(o, a)
-        raise AttributeError('invalid %r.%s' % (o, a))
+        raise AttributeError('.%s invalid: %r' % (a, o))
 
     for a in attrs:
         s = _getattr(other, a)
@@ -95,9 +95,9 @@ class _Named(object):
     __str__ = __repr__
 
     def _xcopy(self, *attrs):
-        '''(INTERNAL) Must be overloaded.
+        '''(INTERNAL) I{Must be overloaded}.
         '''
-        raise AssertionError(unStr(self.classname + '._xcopy', *attrs))
+        self._notOverloaded(self._xcopy.__name__, *attrs)
 
     @property_RO
     def classname(self):
@@ -171,6 +171,22 @@ class _Named(object):
         n, c = self.name, self.classname
         return ('%s %r' % (c, n)) if c and n else (c or n)
 
+    def _notOverloaded(self, name, *args, **kwds):
+        '''Raise an error for a method or property not overloaded.
+        '''
+        n = '%s %s.%s' % (self._notOverloaded.__name__, self.classname, name)
+        raise AssertionError(unStr(n, *args, **kwds))
+
+    def toStr(self, **unused):
+        '''Default C{str(self)}.
+        '''
+        return str(self)
+
+    def toStr2(self, **unused):
+        '''Default C{repr(self)}.
+        '''
+        return repr(self)
+
     def _xrenamed(self, inst):
         '''(INTERNAL) Rename the instance' C{.name = self.name}.
 
@@ -179,7 +195,7 @@ class _Named(object):
            @return: The B{C{inst}}, named if not named before.
         '''
         if not isinstance(inst, _Named):
-            raise TypeError('%s invalid: %r' % ('inst', inst))
+            raise _IsNotError('valid', inst=inst)
 
         if inst.name != self.name:
             inst.name = self.name
@@ -242,7 +258,7 @@ class _NamedBase(_Named):
 
            @param kwds: Optional, keyword arguments.
         '''
-        raise AssertionError(unStr(self.classname + '.toStr', **kwds))
+        self._notOverloaded(self.toStr.__name__, **kwds)
 
 #   def toStr(self, *args, **kwds):
 #       if kwds or args:
@@ -530,20 +546,20 @@ class _NamedTuple(tuple, _Named):
         self = tuple.__new__(cls, args)
         ns = self._Names_
         if not (isinstance(ns, tuple) and len(ns) > 1):
-            raise TypeError('%s.%s invalid: %r' %
+            raise TypeError('%s.%s inot valid: %r' %
                             (self.classname, '_Names_', ns))
         if len(ns) != len(args) or not ns:
-            raise ValueError('%s(%s) invalid: %r[%s] vs %s' %
+            raise ValueError('%s(%s) not valid: %r[%s] vs %s' %
                              (self.classname, 'args',
                               args, len(args), len(ns)))
         if _NAME_ in ns:
-            raise NameError('%s.%s invalid: %r' %
+            raise NameError('%s.%s not valid: %r' %
                              (self.classname, '_Names_', _NAME_))
         return self
 
     def __delattr__(self, name):
         if name in self._Names_:
-            raise TypeError('%s is immutable: %s .%s' %
+            raise TypeError('%s not mutable: %s .%s' %
                             (self.classname, 'del', name))
         elif name == _NAME_:
             tuple.__setattr__(self, name, '')
@@ -554,7 +570,7 @@ class _NamedTuple(tuple, _Named):
         try:
             return tuple.__getitem__(self, self._Names_.index(name))
         except IndexError:
-            raise IndexError('%s.%s invalid: %r' %
+            raise IndexError('%s.%s not valid: %r' %
                              (self.classname, '<name>', name))
         except ValueError:
             return tuple.__getattribute__(self, name)
@@ -568,7 +584,7 @@ class _NamedTuple(tuple, _Named):
 
     def __setattr__(self, name, value):
         if name in self._Names_:
-            raise TypeError('%s is immutable: %s=%r' %
+            raise TypeError('%s not mutable: %s=%r' %
                             (self.classname, name, value))
         else:
             tuple.__setattr__(self, name, value)
@@ -601,7 +617,7 @@ class Bearing2Tuple(_NamedTuple):
     _Names_ = ('initial', 'final')
 
 
-class Bounds2Tuple(_NamedTuple):  # .bases.py, .geohash.py, .points.py
+class Bounds2Tuple(_NamedTuple):  # .geohash.py, .latlonBase.py, .points.py
     '''2-Tuple C{(latlonSW, latlonNE)} with the bounds' lower-left and
        upper-right corner as C{LatLon} instance.
     '''
@@ -858,7 +874,7 @@ class Ned3Tuple(_NamedTuple):  # .ellipsoidalNvector.py
     _Names_ = ('north', 'east', 'down')
 
 
-class PhiLam2Tuple(_NamedTuple):  # .bases.py, .points.py, .vector3d.py
+class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, .points.py, .vector3d.py
     '''2-Tuple C{(phi, lam)} with latitude C{phi} in C{radians[PI_2]}
        and longitude C{lam} in C{radians[PI]}.
 
@@ -892,7 +908,7 @@ class Point3Tuple(_NamedTuple):  # .points.py
     _Names_ = ('x', 'y', 'll')
 
 
-class Points2Tuple(_NamedTuple):  # .bases.py
+class Points2Tuple(_NamedTuple):  # .formy.py
     '''2-Tuple C{(number, points)} with the C{number} of points
        and -possible reduced- C{list} or C{tuple} of C{points}.
     '''

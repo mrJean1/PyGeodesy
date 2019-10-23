@@ -74,7 +74,7 @@ named._NamedBase --+
 
 <hr />
 <p>Conversion between geodetic and geocentric, aka <i>Earth Centered, 
-  Earth Fixed</i> (ECEF) coordinates using Rey-Jer You's <a 
+  EarthFixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
   href="https://www.ResearchGate.net/publication/240359424" 
   target="_top">transformations</a>.</p>
 
@@ -85,7 +85,7 @@ named._NamedBase --+
         target="_top">Closed-form transformation between geodetic and 
         ellipsoidal coordinates</a> Studia Geophysica et Geodaetica, 2008, 
         52, 1-18 and <a href="https://PyPI.org/project/pymap3d" 
-        target="_top">PyMap3D</a>,
+        target="_top">PyMap3D</a>.
       </p>
 </div><!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -106,7 +106,7 @@ named._NamedBase --+
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       New <a href="pygeodesy.ecef.EcefYou-class.html" 
-      class="link">EcefYou</a>.</td>
+      class="link">EcefYou</a> converter.</td>
           <td align="right" valign="top">
             
             
@@ -126,7 +126,7 @@ named._NamedBase --+
         <span class="summary-sig-arg">latlonh</span>,
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">**no_M</span>)</span><br />
+        <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>)</span><br />
       Convert from geodetic <code>(lat, lon, height)</code> to geocentric 
       <code>(x, y, z)</code>.</td>
           <td align="right" valign="top">
@@ -150,7 +150,8 @@ named._NamedBase --+
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**no_M</span>)</span><br />
       Convert from geocentric <code>(x, y, z)</code> to geodetic 
-      <code>(lat, lon, height)</code> using Rey-Jer You's transformation.</td>
+      <code>(lat, lon, height)</code> using <i>Rey-Jer You</i>'s 
+      transformation.</td>
           <td align="right" valign="top">
             
             
@@ -162,11 +163,13 @@ named._NamedBase --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ecef._EcefBase-class.html">_EcefBase</a></code></b>:
+      <code><a href="pygeodesy.ecef._EcefBase-class.html#toStr">toStr</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
       <code>__repr__</code>,
       <code>__str__</code>,
       <code>others</code>,
-      <code>toStr</code>,
       <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
@@ -248,7 +251,7 @@ named._NamedBase --+
   </tr></table>
   
   <p>New <a href="pygeodesy.ecef.EcefYou-class.html" 
-  class="link">EcefYou</a>.</p>
+  class="link">EcefYou</a> converter.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -292,7 +295,7 @@ named._NamedBase --+
         <span class="sig-arg">latlonh</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">**no_M</span>)</span>
+        <span class="sig-arg">M</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -312,7 +315,9 @@ named._NamedBase --+
           for <code>scalar</code> <b><code>latlonh</code></b>.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height in <code>meter</code>, vertically above (or 
           below) the surface of the ellipsoid.</li>
-        <li><strong class="pname"><code>no_M</code></strong> - Rotation matrix <code>M</code> not available.</li>
+        <li><strong class="pname"><code>M</code></strong> - Optionally, return the rotation <a 
+          href="pygeodesy.ecef.EcefMatrix-class.html" 
+          class="link">EcefMatrix</a> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
@@ -321,8 +326,8 @@ named._NamedBase --+
           coordinates for the given geodetic ones <code>(lat, lon, 
           height)</code>, case <code>C</code> 0, <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a> <code>M</code> always 
-          <code>None</code> and <code>datum</code> if available.</dd>
+          class="link">EcefMatrix</a> <code>M</code> and <code>datum</code>
+          if available.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.ecef.EcefError-class.html">EcefError</a></strong></code> - If <b><code>latlonh</code></b> not <code>LatLon</code>, <a 
@@ -354,7 +359,7 @@ named._NamedBase --+
   </tr></table>
   
   <p>Convert from geocentric <code>(x, y, z)</code> to geodetic <code>(lat,
-  lon, height)</code> using Rey-Jer You's transformation.</p>
+  lon, height)</code> using <i>Rey-Jer You</i>'s transformation.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -423,7 +428,7 @@ named._NamedBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:36 2019
+    Generated by Epydoc 3.0.1 on Tue Oct 22 15:14:00 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

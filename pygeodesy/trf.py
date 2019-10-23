@@ -41,14 +41,14 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 '''
 
 from pygeodesy.datum import Ellipsoid, Ellipsoids, Transform
-from pygeodesy.fmath import fStrzs, isscalar, map1
+from pygeodesy.fmath import fStrzs, isscalar, map1, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedDict as _X, \
                            _NamedEnum, _NamedEnumItem
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_LAZY.trf
-__version__ = '19.10.01'
+__version__ = '19.10.12'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value
@@ -72,7 +72,7 @@ def _2epoch(epoch):  # imported by .ellipsoidalBase.py
     '''
     if isscalar(epoch) and epoch > 0:  # XXX 1970?
         return _F(epoch)
-    raise TypeError('%s not %s: %r' % ('epoch', 'scalar', epoch))
+    raise _IsNotError('scalar', epoch=epoch)
 
 
 class TRFError(ValueError):

@@ -6,7 +6,7 @@ PyGeodesy
 A pure Python implementation of geodesy tools for various ellipsoidal
 and spherical earth models using precision trigonometric, vector-based,
 elliptic and approximate methods for geodetic (lat-/longitude) and
-geocentric cartesian (x/y/z) coordinates.
+geocentric (ECEF_ cartesian) coordinates.
 
 Transcribed from `JavaScript originals`_ by *Chris Veness (C) 2005-2016*
 and several `C++ classes`_ by *Charles Karney (C) 2008-2019* and published
@@ -14,17 +14,17 @@ under the same `MIT License`_.
 
 There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
 *-Vincenty* and *-Nvector* and two for spherical ones, *sphericalTrigonometry*
-and *-Nvector*.  Each module provides a *LatLon* class with methods and
-functions to compute distance, initial and final bearing, intermediate
-and nearest points, area, perimeter, conversions and unrolling, among
-other things.  For more information and further details see the
-documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_ and
-`Vector-based`_ geodesy, the original `JavaScript source`_ or docs_ and
+and *-Nvector*.  Each module provides a geodetic *LatLon* and a geocentric
+*Cartesian* class with methods and functions to compute distance, initial and
+final bearing, intermediate and nearest points, area, perimeter, conversions
+and unrolling, among other things.  For more information and further details
+see the documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_
+and `Vector-based`_ geodesy, the original `JavaScript source`_ or docs_ and
 the Python `GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
 UPS_ (Universal Polar Stereographic), UTM_ (Exact_ and Universal Transverse
-Mercator), ECEF_ (Earth-Centered, Earth-Fixed geocentric) and `Web Mercator`_
+Mercator), ECEF_ (Earth-Centered, Earth-Fixed cartesian) and `Web Mercator`_
 (Pseudo-Mercator) coordinates, MGRS_ (NATO Military Grid Reference System)
 and OSGR_ (British Ordinance Survery Grid Reference) grid references, TRF_
 (Terrestrial Reference Frames) and modules to encode and decode EPSG_,
@@ -71,19 +71,21 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 2.7.16 and 3.7.4 (both with
-geographiclib_ 1.50, numpy_ 1.16.5 respectively 1.17.2 and scipy_ 1.2.2
-respectively 1.3.1) and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) on
-macOS 10.13.6 High Sierra, *all in 64-bit only*.  The results of those
-tests are included in the distribution files.
+The tests have been run with Python 3.8.0 (with geographiclib_ 1.50 and
+numpy_ 1.17.3), with Python 3.7.4 and 2.7.16 (both with geographiclib_
+1.50, numpy_ 1.17.2 respectively 1.16.5  and scipy_ 1.3.1 respectively
+1.2.2) and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3, both without
+geographiclib, numpy and scipy) on macOS 10.13.6 High Sierra, *all in
+64-bit only*.  The results of those tests are included in the
+distribution files.
 
-The tests also run with Python 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_
+The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_
 1.49 or 1.50) on `Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_
 1.49 or 1.50) on `Debian 9`_ *all in 64-bit only* and with Python 2.7.15,
 3.6.8 and 3.7.2 (all with geographiclib_ 1.49 or 1.50) on
 `Windows Server 2012R2`_ *in both 32- and 64-bit*.
 
-With Python 3.7+, the tests run with and without *lazy import*.
+With Python 3.7+, the tests run *with and without* ``lazy import``.
 
 A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.3 and 3.7.4
@@ -105,13 +107,13 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.16
-and with Flake8_ using Python 3.7.4, both in 64-bit on macOS 10.13.6
+and with Flake8_ using Python 3.8.0, both in 64-bit on macOS 10.13.6
 High Sierra.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 11, 2019.*
+*Last updated: Oct 21, 2019.*
 
 License
 =======

@@ -640,7 +640,7 @@
       <em class="summary">Conversion between geodetic <code>(lat, lon, height)</code> and 
         local cartesian <code>(x, y, z)</code> coordinates with a local 
         cartesian origin at <code>(lat0, lon0, height0)</code> transcibed 
-        from on Karney's C++ class <a 
+        from on <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
         target="_top">LocalCartesian</a>.</em>
     </li>
@@ -651,12 +651,12 @@
         exact transverse mercator projection, referred to as 
         <code>TMExact</code> here.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.bases.LatLonHeightBase-class.html">pygeodesy.bases.LatLonHeightBase</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.latlonBase.LatLonBase-class.html">pygeodesy.latlonBase.LatLonBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <code>LatLon</code> points on spherical 
-        or ellipsiodal earth models.</em>
+        or ellipsoidal earth models.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase</a></strong>:
-      <em class="summary">(INTERNAL) Base class for ellipsoidal <code>LatLon</code>.</em>
+      <em class="summary">(INTERNAL) Base class for ellipsoidal <code>LatLon</code>s.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
@@ -671,7 +671,7 @@
         the destination point given a start point and an initial bearing.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.LatLon-class.html">pygeodesy.ellipsoidalNvector.LatLon</a></strong>:
-      <em class="summary">An n-vector-based ellipsoidal <a 
+      <em class="summary">An n-vector-based, ellipsoidal <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a> point.</em>
     </li>
@@ -683,25 +683,25 @@
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.nvector.LatLonNvectorBase-class.html">pygeodesy.nvector.LatLonNvectorBase</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html">pygeodesy.nvectorBase.LatLonNvectorBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for n-vector-based ellipsoidal and spherical 
         <code>LatLon</code> classes.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.LatLon-class.html">pygeodesy.ellipsoidalNvector.LatLon</a></strong>:
-      <em class="summary">An n-vector-based ellipsoidal <a 
+      <em class="summary">An n-vector-based, ellipsoidal <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a> point.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.LatLon-class.html">pygeodesy.sphericalNvector.LatLon</a></strong>:
-      <em class="summary">New n-vector based point on spherical earth model.</em>
+      <em class="summary">New n-vector based point on a spherical earth model.</em>
     </li>
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html">pygeodesy.sphericalBase.LatLonSphericalBase</a></strong>:
-      <em class="summary">(INTERNAL) Base class for spherical <code>LatLon</code>.</em>
+      <em class="summary">(INTERNAL) Base class for spherical <code>LatLon</code>s.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.LatLon-class.html">pygeodesy.sphericalNvector.LatLon</a></strong>:
-      <em class="summary">New n-vector based point on spherical earth model.</em>
+      <em class="summary">New n-vector based point on a spherical earth model.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry.LatLon-class.html">pygeodesy.sphericalTrigonometry.LatLon</a></strong>:
       <em class="summary">New point on spherical model earth model.</em>
@@ -745,6 +745,79 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Vector3d-class.html">pygeodesy.vector3d.Vector3d</a></strong>:
+      <em class="summary">Generic 3-D vector manipulation.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.cartesianBase.CartesianBase-class.html">pygeodesy.cartesianBase.CartesianBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for ellipsoidal and spherical 
+        <code>Cartesian</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html">pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for ellipsoidal <code>Cartesian</code>s.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <a 
+        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and n-vector-based, geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalBase.CartesianSphericalBase-class.html">pygeodesy.sphericalBase.CartesianSphericalBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for spherical <code>Cartesian</code>s.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Cartesian-class.html">pygeodesy.sphericalNvector.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.sphericalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <a 
+        href="pygeodesy.sphericalNvector.Nvector-class.html" 
+        class="link">Nvector</a> and n-vector-based, spherical <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry.Cartesian-class.html">pygeodesy.sphericalTrigonometry.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.sphericalTrigonometry.Cartesian-class.html" 
+        class="link">Cartesian</a> points to spherical, geodetic <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.nvectorBase.NvectorBase-class.html">pygeodesy.nvectorBase.NvectorBase</a></strong>:
+      <em class="summary">Base class for ellipsoidal and spherical <code>Nvector</code>s.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html">pygeodesy.ellipsoidalNvector.Nvector</a></strong>:
+      <em class="summary">An n-vector is a position representation using a (unit) vector 
+        normal to the earth ellipsoid.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
+      <em class="summary">An n-vector is a position representation using a (unit) vector 
+        normal to the earth's surface.</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.webmercator.Wm-class.html">pygeodesy.webmercator.Wm</a></strong>:
       <em class="summary">Web Mercator (WM) coordinate.</em>
     </li>
@@ -755,14 +828,21 @@
         href="pygeodesy.ecef.EcefYou-class.html" class="link">EcefYou</a>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefKarney-class.html">pygeodesy.ecef.EcefKarney</a></strong>:
-      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth Centered, 
-        Earth Fixed</i> (ECEF) coordinates based on <i>Karney's</i> <a 
+      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based on <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
         target="_top">Geocentric</a> methods.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefVeness-class.html">pygeodesy.ecef.EcefVeness</a></strong>:
+      <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates transcribed from <i>Chris 
+        Veness</i>' JavaScript classes <a 
+        href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
+        target="_top">LatLonEllipsoidal, Cartesian</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefYou-class.html">pygeodesy.ecef.EcefYou</a></strong>:
       <em class="summary">Conversion between geodetic and geocentric, aka <i>Earth Centered, 
-        Earth Fixed</i> (ECEF) coordinates using Rey-Jer You's <a 
+        EarthFixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
         target="_top">transformations</a>.</em>
     </li>
@@ -787,61 +867,6 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datum.Transform-class.html">pygeodesy.datum.Transform</a></strong>:
       <em class="summary">Helmert transformation.</em>
-    </li>
-    </ul>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.bases._VectorBase-class.html">pygeodesy.bases._VectorBase</a></strong>:
-      <em class="summary">(INTERNAL) Base class for <a 
-        href="pygeodesy.vector3d.Vector3d-class.html" 
-        class="link">Vector3d</a>.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.Vector3d-class.html">pygeodesy.vector3d.Vector3d</a></strong>:
-      <em class="summary">Generic 3-D vector manipulation.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase.CartesianBase-class.html">pygeodesy.ellipsoidalBase.CartesianBase</a></strong>:
-      <em class="summary">(INTERNAL) Base class for ellipsoidal <code>Cartesian</code>.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert (geocentric) <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Karney-based (ellipsoidal) 
-        geodetic <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
-      <em class="summary">Extended to convert (geocentric) <a 
-        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to (ellipsoidal) <a 
-        href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
-        class="link">Nvector</a> and n-vector-based geodetic <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert (geocentric) <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based (ellipsoidal) 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
-    </ul>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.nvector.Nvector-class.html">pygeodesy.nvector.Nvector</a></strong>:
-      <em class="summary">Base class for ellipsoidal and spherical <a 
-        href="pygeodesy.nvector.Nvector-class.html" 
-        class="link">Nvector</a>.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html">pygeodesy.ellipsoidalNvector.Nvector</a></strong>:
-      <em class="summary">An n-vector is a position representation using a (unit) vector 
-        normal to the earth ellipsoid.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector.Nvector-class.html">pygeodesy.sphericalNvector.Nvector</a></strong>:
-      <em class="summary">An n-vector is a position representation using a (unit) vector 
-        normal to the earth's surface.</em>
-    </li>
-    </ul>
-    </li>
-    </ul>
     </li>
     </ul>
     </li>
@@ -1581,7 +1606,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:34 2019
+    Generated by Epydoc 3.0.1 on Tue Oct 22 15:13:57 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

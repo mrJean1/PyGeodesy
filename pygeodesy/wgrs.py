@@ -14,17 +14,17 @@ C{height} and C{radius}.  See also U{World Geographic Reference System
 '''
 
 from pygeodesy.dms import parse3llh, parseDMS2
-from pygeodesy.fmath import EPS1_2
+from pygeodesy.fmath import EPS1_2, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
                             LatLonPrec5Tuple, _NamedStr
-from pygeodesy.utily import _MISSING, ft2m, m2ft, m2NM, \
-                             property_RO, _Strs
+from pygeodesy.utily import _MISSING, ft2m, m2ft, m2NM, property_RO, \
+                            _Strs
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '19.07.12'
+__version__ = '19.10.12'
 
 _Base    = 10
 _BaseLen = 4
@@ -71,8 +71,7 @@ def _2Georef(georef):
         try:
             georef = Georef(georef)
         except (TypeError, ValueError):
-            raise TypeError('%r not a %s, %s or str' % (georef,
-                             Georef.__name__, 'LatLon'))
+            raise _IsNotError(Georef.__name__, str.__name__, 'LatLon', georef=georef)
     return georef
 
 
@@ -87,8 +86,7 @@ def _2geostr2(georef):
              or not geostr.isalnum():
             raise ValueError
     except (AttributeError, TypeError, ValueError):
-        raise WGRSError('%s: %r[%s]' % (Georef.__name__,
-                           georef, len(georef)))
+        raise WGRSError('%s: %r[%s]' % (Georef.__name__, georef, len(georef)))
     return geostr, p - 1
 
 
@@ -151,7 +149,7 @@ class Georef(_NamedStr):
                 lat, lon, h = _2fllh(cll.lat, cll.lon)
                 h = getattr(cll, 'height', h)
             except AttributeError:
-                raise TypeError('%s: %r' % (Georef.__name__, cll))
+                raise _IsNotError('valid', **{Georef.__name__: cll})
             g = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
             self = str.__new__(cls, g)
             self._latlon = LatLon2Tuple(lat, lon)

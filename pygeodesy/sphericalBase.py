@@ -1,7 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Spherical base classes.
+u'''(INTERNAL) Spherical base classes C{CartesianSphericalBase} and
+C{LatLonSphericalBase}.
 
 Pure Python implementation of geodetic (lat-/longitude) functions,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
@@ -11,10 +12,12 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.bases import LatLonHeightBase
+from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import R_M, R_MA, Datum, Datums
 from pygeodesy.dms import parse3llh
-from pygeodesy.fmath import EPS, acos1, favg, fsum_
+from pygeodesy.ecef import EcefKarney
+from pygeodesy.fmath import EPS, acos1, favg, fsum_, _IsNotError
+from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Bearing2Tuple
 from pygeodesy.utily import PI, PI2, PI_2, degrees90, degrees180, \
@@ -25,15 +28,44 @@ from math import atan2, cos, hypot, log, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
-__all__ = _ALL_DOCS('LatLonSphericalBase')
-__version__ = '19.10.09'
+__all__ = _ALL_DOCS('CartesianSphericalBase', 'LatLonSphericalBase')
+__version__ = '19.10.21'
 
 
-class LatLonSphericalBase(LatLonHeightBase):
-    '''(INTERNAL) Base class for spherical C{LatLon}.
+class CartesianSphericalBase(CartesianBase):
+    '''(INTERNAL) Base class for spherical C{Cartesian}s.
+    '''
+    _datum = Datums.Sphere  #: (INTERNAL) L{Datum}.
+    _Ecef  = EcefKarney     #: (INTERNAL) Preferred C{Ecef...} class.
+
+
+class LatLonSphericalBase(LatLonBase):
+    '''(INTERNAL) Base class for spherical C{LatLon}s.
     '''
     _datum = Datums.Sphere  #: (INTERNAL) Spherical L{Datum}.
-    _ecef  = None           #: (INTERNAL) Cached L{Ecef9Tuple}.
+    _Ecef  = EcefKarney     #: (INTERNAL) Preferred C{Ecef...} class.
+
+    def __init__(self, lat, lon, height=0, datum=None, name=''):
+        '''Create a spherical C{LatLon} point frome the given
+           lat-, longitude and height on the given datum.
+
+           @param lat: Latitude (C{degrees} or DMS C{[N|S]}).
+           @param lon: Longitude (C{degrees} or DMS C{str[E|W]}).
+           @keyword height: Optional elevation (C{meter}, the same units
+                            as the datum's half-axes).
+           @keyword datum: Optional, shperical datum to use (L{Datum}).
+           @keyword name: Optional name (string).
+
+           @raise TypeError: B{C{datum}} is not a L{datum} or
+                             not spherical.
+
+           @example:
+
+           >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
+        '''
+        LatLonBase.__init__(self, lat, lon, height=height, name=name)
+        if datum:
+            self.datum = datum
 
     def bearingTo2(self, other, wrap=False, raiser=False):
         '''Return the initial and final bearing (forward and reverse
@@ -62,17 +94,16 @@ class LatLonSphericalBase(LatLonHeightBase):
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Set this point's datum without conversion.
+        '''Set this point's datum I{without conversion}.
 
            @param datum: New datum (L{Datum}).
 
-           @raise TypeError: If B{C{datum}} is not a L{Datum}.
-
-           @raise ValueError: If B{C{datum}} is not spherical.
+           @raise TypeError: If B{C{datum}} is not a L{Datum}
+                             or not spherical.
         '''
         _TypeError(Datum, datum=datum)
         if not datum.isSpherical:
-            raise ValueError('%r not %s: %r' % ('datum', 'spherical', datum))
+            raise _IsNotError('spherical', datum=datum)
         self._update(datum != self._datum)
         self._datum = datum
 
@@ -322,28 +353,6 @@ class LatLonSphericalBase(LatLonHeightBase):
 
         h = self._havg(other) if height is None else height
         return self.classof(degrees90(a3), degrees180(b3), height=h)
-
-    def toEcef(self, radius=None):
-        '''Convert this C{LatLon} point to a geocentric coordinate,
-           also known as I{Earth-Centered, Earth-Fixed} (U{ECEF
-           <https://WikiPedia.org/wiki/ECEF>}).
-
-           @keyword radius: Optional, mean earth radius (C{meter}) to
-                            configure a separate L{EcefKarney} instance.
-
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} witj {C} 0 and C{M} C{None}.
-
-           @raise EcefError: No-scalar or invalid B{C{radius}}, no
-                             C{datum.ecef} or an other ECEF issue.
-        '''
-        if radius is not None:
-            from pygeodesy.ecef import EcefKarney
-            return EcefKarney(radius, 0).forward(self)
-
-        elif self._ecef is None:
-            self._ecef = self.datum.ecef.forward(self)
-        return self._ecef
 
     def toWm(self, radius=R_MA):
         '''Convert this C{LatLon} point to a I{WM} coordinate.

@@ -65,7 +65,8 @@ from pygeodesy.fmath import cbrt, EPS, Fsum, hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNorExact4Tuple, LatLonExact4Tuple, \
                            _NamedBase, _xnamed
-from pygeodesy.utily import PI_2, PI_4, property_RO, sincos2
+from pygeodesy.utily import PI_2, PI_4, property_RO, sincos2, \
+                           _TypeError
 from pygeodesy.utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
                           _toXtm8, _to7zBlldfn
 from pygeodesy.utmupsBase import _LLEB
@@ -74,7 +75,7 @@ from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '19.08.30'
+__version__ = '19.10.12'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -225,8 +226,7 @@ class Etm(Utm):
     def exactTM(self, exactTM):
         '''Set the ETM projection (L{ExactTransverseMercator}).
         '''
-        if not isinstance(exactTM, ExactTransverseMercator):
-            raise TypeError('%s invalid: %r' % ('exactTM', exactTM))
+        _TypeError(ExactTransverseMercator, exactTM=exactTM)
 
         E = self.datum.ellipsoid
         if exactTM._E != E or exactTM.majoradius != E.a \
@@ -371,8 +371,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
-        if not isinstance(datum, Datum):
-            raise TypeError('%s invalid: %r' % ('datum', datum))
+        _TypeError(Datum, datum=datum)
 
         E = datum.ellipsoid
         self._reset(E.e, E.e2)

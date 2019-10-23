@@ -143,9 +143,21 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '19.10.07'
+__version__ = '19.10.21'
 
 _TOL = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
+
+
+def _4Ecef(this, Ecef):
+    '''Return an ECEF converter.
+    '''
+    from pygeodesy.ecef import EcefKarney, EcefVeness, EcefYou
+
+    if Ecef is None:
+        Ecef = EcefKarney
+    else:
+        _TypeError(EcefKarney, EcefVeness, EcefYou, Ecef=Ecef)
+    return Ecef(this, name=this.name)  # datum or ellipsoid
 
 
 class Ellipsoid(_NamedEnumItem):
@@ -187,7 +199,6 @@ class Ellipsoid(_NamedEnumItem):
 
     _ab_90  = None  #: (a - b) / 90  # for .Rlat below
     _area   = None  #: (INTERNAL) Surface area: 4 * PI * R2**2
-    _ecef   = None  #: (INTERNAL) Cached L{EcefKarney}
     _volume = None  #: (INTERNAL) Volume: 4 / 3 * PI * a**2 * b
 
     _A       = None  #: (INTERNAL) Meridional radius
@@ -196,7 +207,7 @@ class Ellipsoid(_NamedEnumItem):
     _KsOrder = 8     #: (INTERNAL) Krüger series order (4, 6 or 8)
     _Mabcd   = None  #: (INTERNAL) OSGB meridional coefficients
 
-    _geodesic = None  #: (INTERNAL) geographiclib.geodesic.Geodesic
+    _geodesic = None  #: (INTERNAL) Cached C{geographiclib.geodesic.Geodesic}
 
     def __init__(self, a, b, f_, name=''):
         '''New L{Ellipsoid}.
@@ -225,7 +236,7 @@ class Ellipsoid(_NamedEnumItem):
             self._a_b = 1
             self._R1 = self._R2 = self._R3 = self._Rr = self._Rs = a
         else:
-            raise ValueError('invalid %s: %s' % ('ellipsoid',
+            raise ValueError('%s invalid: %s' % ('ellipsoid',
                              inStr(self, a, b, f_, name=name)))
 
         d = a - b
@@ -482,15 +493,18 @@ class Ellipsoid(_NamedEnumItem):
             self._e22 = self.e2 / (1 - self.e2)
         return self._e22
 
-    @property_RO
-    def ecef(self):
-        '''Get this ellipsoid's U{ECEF<https://WikiPedia.org/wiki/ECEF>}
-           converter (L{EcefKarney}).
+    def ecef(self, Ecef=None):
+        '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.
+
+           @keyword Ecef: ECEF class to use (L{EcefKarney}, L{EcefVeness}
+                          or L{EcefYou}).
+
+           @return: An ECEF converter for this C{ellipsoid} (L{EcefKarney},
+                    L{EcefVeness} or L{EcefYou}).
+
+           @raise TypeError: Invalid B{C{Ecef}}.
         '''
-        if self._ecef is None:
-            from pygeodesy.ecef import EcefKarney
-            self._ecef = EcefKarney(self)
-        return self._ecef
+        return _4Ecef(self, Ecef)
 
     def e2s(self, s):
         '''Compute norm M{sqrt(1 - e2 * s**2)}.
@@ -504,7 +518,7 @@ class Ellipsoid(_NamedEnumItem):
         try:
             return sqrt(self.e2s2(s))
         except (TypeError, ValueError):
-            raise ValueError('invalid %s.%s: %r' % (self.name, 'e2s', s))
+            raise ValueError('%s.%s invalid: %r' % (self.name, 'e2s', s))
 
     def e2s2(self, s):
         '''Compute M{1 - e2 * s**2}.
@@ -521,7 +535,7 @@ class Ellipsoid(_NamedEnumItem):
                 return r
         except (TypeError, ValueError):
             pass
-        raise ValueError('invalid %s.%s: %r' % (self.name, 'e2s2', s))
+        raise ValueError('%s.%s invalid: %r' % (self.name, 'e2s2', s))
 
     @property_RO
     def es(self):
@@ -616,7 +630,7 @@ class Ellipsoid(_NamedEnumItem):
                 from geographiclib.geodesic import Geodesic
                 self._geodesic = Geodesic(self.a, self.f)
             except ImportError:
-                raise ImportError('no %s' % ('geographiclib',))
+                raise  # ImportError('no %s' % ('geographiclib',))
         return self._geodesic
 
     @property_RO
@@ -1186,12 +1200,18 @@ class Datum(_NamedEnumItem):
         '''
         return self._xcopy()
 
-    @property_RO
-    def ecef(self):
-        '''Get this datum's U{ECEF<https://WikiPedia.org/wiki/ECEF>}
-           converter (L{EcefKarney}).
+    def ecef(self, Ecef=None):
+        '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.
+
+           @keyword Ecef: ECEF class to use (L{EcefKarney}, L{EcefVeness}
+                          or L{EcefYou}).
+
+           @return: An ECEF converter for this C{datum} (L{EcefKarney},
+                    L{EcefVeness} or L{EcefYou}).
+
+           @raise TypeError: Invalid B{C{Ecef}}.
         '''
-        return self._ellipsoid.ecef
+        return _4Ecef(self, Ecef)
 
     @property_RO
     def ellipsoid(self):

@@ -11,19 +11,18 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.bases import _VectorBase
 from pygeodesy.fmath import EPS, fdot, fStr, fsum, hypot, hypot_, \
-                            isscalar, len2, map1
+                            isscalar, len2, map1, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple, \
-                           _xattrs
+from pygeodesy.named import LatLon2Tuple, _NamedBase, PhiLam2Tuple, \
+                            Vector3Tuple, _xattrs
 from pygeodesy.utily import degrees90, degrees180, property_RO
 
 from math import atan2, cos, sin
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '19.10.10'
+__version__ = '19.10.21'
 
 try:
     _cmp = cmp
@@ -31,6 +30,36 @@ except NameError:  # Python 3+
     def _cmp(a, b):
         return +1 if a > b else (
                -1 if a < b else 0)
+
+
+def _xyzn4(xyz, y, z, Error=TypeError):  # imported by .ecef.py
+    '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
+    '''
+    try:
+        t = xyz.x, xyz.y, xyz.z
+    except AttributeError:
+        t = xyz, y, z
+    try:
+        x, y, z = map1(float, *t)
+    except (TypeError, ValueError) as x:
+        raise Error('%s invalid: %r, %s' % ('xyz, y or z', t, x))
+
+    return x, y, z, getattr(xyz, 'name', '')
+
+
+def _xyzhdn6(xyz, y, z, height, datum, ll, Error=TypeError):  # .cartesianBase.py, .nvectorBase.py
+    '''(INTERNAL) Get an C{(x, y, z, h, d, name)} 6-tuple.
+    '''
+    x, y, z, n = _xyzn4(xyz, y, z, Error=Error)
+
+    h = height or getattr(xyz, 'height', None) \
+               or getattr(xyz, 'h', None) \
+               or getattr(ll,  'height', None)
+
+    d = datum or getattr(xyz, 'datum', None) \
+              or getattr(ll,  'datum', None)
+
+    return x, y, z, h, d, n
 
 
 class CrossError(ValueError):
@@ -61,7 +90,7 @@ class VectorError(ValueError):
     pass
 
 
-class Vector3d(_VectorBase):
+class Vector3d(_NamedBase):
     '''Generic 3-D vector manipulation.
 
        In a geodesy context, these may be used to represent:
@@ -94,13 +123,13 @@ class Vector3d(_VectorBase):
            @keyword ll: Optional, original latlon (C{LatLon}).
            @keyword name: Optional name (C{str}).
         '''
-        _VectorBase.__init__(self, name=name)
-
         self._x = x
         self._y = y
         self._z = z
         if ll:
             self._fromll = ll
+        if name:
+            self.name = name
 
     def __add__(self, other):
         '''Add this to an other vector (L{Vector3d}).
@@ -384,7 +413,7 @@ class Vector3d(_VectorBase):
            @raise VectorError: Invalid or zero B{C{factor}}.
         '''
         if not isscalar(factor):
-            raise TypeError('%s not scalar: %r' % ('factor', factor))
+            raise _IsNotError('scalar', factor=factor)
         try:
             return self.times(1.0 / factor)
         except (ValueError, ZeroDivisionError):
@@ -472,7 +501,7 @@ class Vector3d(_VectorBase):
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         try:
-            _VectorBase.others(self, other, name=name)
+            _NamedBase.others(self, other, name=name)
         except TypeError:
             if not isinstance(other, Vector3d):
                 raise
@@ -557,7 +586,7 @@ class Vector3d(_VectorBase):
            @raise TypeError: Non-scalar B{C{factor}}.
         '''
         if not isscalar(factor):
-            raise TypeError('%s not scalar: %r' % ('factor', factor))
+            raise _IsNotError('scalar', factor=factor)
         return self.classof(self.x * factor,
                             self.y * factor,
                             self.z * factor)
@@ -650,7 +679,8 @@ def sumOf(vectors, Vector=Vector3d, **kwds):
 
        @param vectors: Vectors to be added (L{Vector3d}[]).
        @keyword Vector: Optional class for the vectorial sum (L{Vector3d}).
-       @keyword kwds: Optional, additional B{C{Vector}} keyword arguments.
+       @keyword kwds: Optional, additional B{C{Vector}} keyword arguments,
+                      ignored if C{B{Vector}=None}.
 
        @return: Vectorial sum (B{C{Vector}}).
 
@@ -659,9 +689,13 @@ def sumOf(vectors, Vector=Vector3d, **kwds):
     n, vectors = len2(vectors)
     if n < 1:
         raise VectorError('no vectors: %r' & (n,))
-    return Vector(fsum(v.x for v in vectors),
-                  fsum(v.y for v in vectors),
-                  fsum(v.z for v in vectors), **kwds)
+
+    r = Vector3Tuple(fsum(v.x for v in vectors),
+                     fsum(v.y for v in vectors),
+                     fsum(v.z for v in vectors))
+    if Vector is not None:
+        r = Vector(r.x, r.y, r.z, **kwds)  # PYCHOK x, y, z
+    return r
 
 # **) MIT License
 #

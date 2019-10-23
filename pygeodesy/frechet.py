@@ -72,9 +72,9 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-from pygeodesy.bases import points2 as _points2
-from pygeodesy.fmath import EPS, EPS1, favg, INF, isscalar
-from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
+from pygeodesy.fmath import EPS, EPS1, favg, INF, isscalar, _IsNotError
+from pygeodesy.formy import euclidean_, haversine_, points2 as _points2, \
+                           _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
 from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, PhiLam2Tuple
 from pygeodesy.utily import unrollPI
@@ -83,7 +83,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '19.10.02'
+__version__ = '19.10.19'
 
 
 class FrechetError(ValueError):
@@ -124,14 +124,12 @@ class Frechet6Tuple(_NamedTuple):
     _Names_ = ('fd', 'fi1', 'fi2', 'r', 'n', 'units')
 
 #   def __gt__(self, other):
-#       if isinstance(other, Frechet6Tuple):
-#           return self if self.fd > other.fd else other  # PYCHOK .fd=[0]
-#       raise TypeError('%s: %r' % ('other', other))
+#       _TypeError(Frechet6Tuple, other=other)
+#       return self if self.fd > other.fd else other  # PYCHOK .fd=[0]
 #
 #   def __lt__(self, other):
-#       if isinstance(other, Frechet6Tuple):
-#           return self if self.fd < other.fd else other  # PYCHOK .fd=[0]
-#       raise TypeError('%s: %r' % ('other', other))
+#       _TypeError(Frechet6Tuple, other=other)
+#       return self if self.fd < other.fd else other  # PYCHOK .fd=[0]
 
 
 class Frechet(_Named):
@@ -199,14 +197,14 @@ class Frechet(_Named):
 
         return _frechet_(self._n1, f1, n2, f2, dF, self.units)
 
-    def distance(self, point1, point2):  # PYCHOK unused
+    def distance(self, point1, point2):
         '''Distance between 2 points from C{.point}.
 
            @note: This method I{must be overloaded}.
 
            @raise AssertionError: Not overloaded.
         '''
-        raise AssertionError('method %s.%s not overloaded' % (self.named, 'distance'))
+        self._notOverloaded(self.distance.__name__, point1, point2)
 
     @property
     def fraction(self):
@@ -582,7 +580,7 @@ def frechet_(points1, points2, distance=None, units=''):
               function.
     '''
     if not callable(distance):
-        raise TypeError('%s not callable: %r' % ('distance', distance))
+        raise _IsNotError(callable.__name__, distance=distance)
 
     n1, ps1 = _points2(points1, closed=False, Error=FrechetError)
     n2, ps2 = _points2(points2, closed=False, Error=FrechetError)

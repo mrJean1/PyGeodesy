@@ -7,15 +7,15 @@ against a rectangular box or clip region.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.bases import points2
 from pygeodesy.fmath import EPS, fsum_, len2
+from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import ClipCS3Tuple, ClipSH3Tuple
 from pygeodesy.points import _imdex2, boundsOf, isclockwise, isconvex_, \
                               LatLon_ as LL_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '19.10.02'
+__version__ = '19.10.19'
 
 
 def _eq(p1, p2):  # near-equal points
@@ -41,7 +41,7 @@ class _CS(object):
         self._ymin, self._ymax = lowerleft.lat, upperright.lat
         self._xmin, self._xmax = lowerleft.lon, upperright.lon
         if self._xmin > self._xmax or self._ymin > self._ymax:
-            raise ValueError('invalid %s: %r to %r' % (
+            raise ValueError('%s invalid: %r to %r' % (
                              'clip box', lowerleft, upperright))
         self._y1 = self._dy = 0
         self._x1 = self._dx = 0
@@ -184,7 +184,7 @@ class _SH(object):
             if self._cw != isconvex_(cs, adjust=False, wrap=False):
                 raise ValueError
         except ValueError:
-            raise ValueError('invalid %s[%s]: %r' % ('corners', n, corners))
+            raise ValueError('%s[%s] invalid: %r' % ('corners', n, corners))
         self._clipped = self._points = []
 
     def append(self, p, inull):  # save a clipped point

@@ -1,21 +1,22 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Some UTM, UPS, Mgrs and Epsg functions.
+u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
+for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datums
 from pygeodesy.dms import degDMS, parseDMS2
-from pygeodesy.fmath import fStr, isscalar
+from pygeodesy.fmath import fStr, isscalar, _IsNotError
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import EasNor2Tuple, LatLonDatum5Tuple, \
                            _NamedBase, nameof, _xattrs, _xnamed
-from pygeodesy.utily import issubclassof, property_RO, _Strs, unStr, \
-                            wrap90, wrap360
+from pygeodesy.utily import issubclassof, property_RO, _Strs, \
+                           _TypeError, wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '19.07.09'
+__version__ = '19.10.14'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -58,8 +59,7 @@ def _to4lldn(latlon, lon, datum, name):
         # if lon is not None:
         #     raise AttributeError
         lat, lon = latlon.lat, latlon.lon
-        if not isinstance(latlon, _LLEB):
-            raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
+        _TypeError(_LLEB, latlon=latlon)
         d = datum or latlon.datum
     except AttributeError:
         lat, lon = parseDMS2(latlon, lon)
@@ -150,9 +150,9 @@ class UtmUpsBase(_NamedBase):
         return self.toStr()
 
 #   def _xcopy(self, *attrs):  # see _Named._xcopy
-#       '''(INTERNAL) Must be overloaded.
+#       '''(INTERNAL) I{Must be overloaded}.
 #       '''
-#       raise AssertionError(unStr(self.classname + '._xcopy', *attrs))
+#       self._notOverloaded(self._xcopy.__name__, *attrs)
 
     @property_RO
     def convergence(self):
@@ -197,9 +197,9 @@ class UtmUpsBase(_NamedBase):
 
     @property_RO
     def falsed2(self):
-        '''(INTERNAL) Must be overloaded.
+        '''(INTERNAL) I{Must be overloaded}.
         '''
-        raise AssertionError(unStr(self.classname + '.falsed2'))
+        self._notOverloaded(self.falsed2.__name__)
 
     @property_RO
     def hemisphere(self):
@@ -218,7 +218,7 @@ class UtmUpsBase(_NamedBase):
             r = _xattrs(LatLon(ll.lat, ll.lon, datum=ll.datum),
                                ll, '_convergence', '_scale')
         else:
-            raise TypeError('%s not ellipsoidal: %r' % ('LatLon', LatLon))
+            raise _IsNotError(_LLEB.__name__, LatLon=LatLon)
         return _xnamed(r, ll.name)
 
     @property_RO

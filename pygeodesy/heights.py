@@ -52,7 +52,7 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 '''
 
 from pygeodesy.datum import Datum
-from pygeodesy.fmath import EPS, fidw, isscalar, len2, map1
+from pygeodesy.fmath import EPS, fidw, _IsNotError, isscalar, len2, map1
 from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named
@@ -61,7 +61,7 @@ from pygeodesy.utily import PI, PI2, PI_2, property_RO, \
                             radiansPI, radiansPI2, unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '19.08.08'
+__version__ = '19.10.14'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -191,14 +191,18 @@ class _HeightBase(_Named):  # imported by .geoids
     _spi  = None  # scipy.interpolate
     _sp_v = None  # version
 
-    def __call__(self, *unused):
-        raise AssertionError('%s.%s not overloaded' % (self.classname, '_()'))
+    def __call__(self, *args):
+        '''(INTERNAL) I{Must be overloaded}.
+        '''
+        self._notOverloaded('__call__', *args)
 
     def _axyllis4(self, llis):
         return _axyllis4(self._np.array, llis)
 
-    def _ev(self, *unused):
-        raise AssertionError('%s.%s not overloaded' % (self.classname, '_ev'))
+    def _ev(self, *args):
+        '''(INTERNAL) I{Must be overloaded}.
+        '''
+        self._notOverloaded(self._ev.__name__, *args)
 
     def _eval(self, llis):  # XXX single arg, not *args
         _as, xis, yis, _ = self._axyllis4(llis)
@@ -219,7 +223,8 @@ class _HeightBase(_Named):  # imported by .geoids
         return self(llis)  # __call__(lli) or __call__(llis)
 
     def _NumSciPy(self, throwarnings=False):
-        # import numpy and scipy
+        '''(INTERNAL) Import C{numpy} and C{scipy}.
+        '''
         if throwarnings:  # raise SciPyWarnings, but ...
             # ... not if scipy has been imported already
             import sys
@@ -514,7 +519,7 @@ class HeightIDWeuclidean(_HeightIDW):
                                B{C{beta}}.
         '''
         if adjust not in (True, False):
-            raise HeightError('invalid %s=%r' % ('adjust', adjust))
+            raise HeightError('%s=%r invalid' % ('adjust', adjust))
         self._adjust = adjust
         _HeightIDW.__init__(self, knots, beta=beta, name=name)
 
@@ -614,7 +619,7 @@ class HeightIDWkarney(_HeightIDW):
             if not isinstance(self.datum, Datum):
                 raise TypeError
         except (AttributeError, TypeError):
-            raise TypeError('%s invalid: %r' % ('datum', self.datum or datum))
+            raise _IsNotError('valid', datum=self.datum or datum)
         self._geodesic = self.datum.ellipsoid.geodesic
 
         self.beta = beta
@@ -745,16 +750,16 @@ class HeightLSQBiSpline(_HeightBase):
         elif isscalar(weight):
             w = float(weight)
             if w <= 0:
-                raise HeightError('invalid %s: %.6f' % ('weight', w))
+                raise HeightError('%s invalid: %.6f' % ('weight', w))
         else:
             n, w = len2(weight)
             if n != m:
-                raise HeightError('invalid %s: %s, not %s' % (
+                raise HeightError('%s invalid: %s, not %s' % (
                                   'number of weights', n, m))
             w = np.array(map(float, w))
             for i in range(m):
                 if w[i] <= 0:
-                    raise HeightError('invalid %s[%s]: %.6f' % (
+                    raise HeightError('%s[%s] invalid: %.6f' % (
                                       'weight', i, w[i]))
         try:
             T = 1.0e-4  # like SciPy example

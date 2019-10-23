@@ -14,7 +14,7 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 '''
 
 from pygeodesy.dms import parse3llh, parseDMS2
-from pygeodesy.fmath import EPS1_2
+from pygeodesy.fmath import EPS1_2, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
                            _NamedStr, nameof, _xnamed
@@ -23,7 +23,7 @@ from pygeodesy.utily import property_RO, _Strs
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '19.07.12'
+__version__ = '19.10.12'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -74,8 +74,7 @@ def _2Garef(garef):
         try:
             garef = Garef(garef)
         except (TypeError, ValueError):
-            raise TypeError('%r not a %s, %s or str' % (garef,
-                             Garef.__name__, 'LatLon'))
+            raise _IsNotError(Garef.__name__, str.__name__, 'LatLon', garef=garef)
     return garef
 
 

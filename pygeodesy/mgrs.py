@@ -30,7 +30,7 @@ from pygeodesy.datum import Datums
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, Mgrs4Tuple, Mgrs6Tuple, \
                              UtmUps4Tuple, _xattrs, _xnamed
-from pygeodesy.utily import enStr2, halfs2, property_RO
+from pygeodesy.utily import enStr2, halfs2, property_RO, _TypeError
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
 from pygeodesy.utmupsBase import _hemi
 
@@ -38,7 +38,7 @@ import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs
-__version__ = '19.10.04'
+__version__ = '19.10.12'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -342,8 +342,7 @@ def toMgrs(utm, Mgrs=Mgrs, name=''):
        >>> u = Utm(31, 'N', 448251, 5411932)
        >>> m = u.toMgrs()  # 31U DQ 48251 11932
     '''
-    if not isinstance(utm, Utm):
-        raise TypeError('%s not Utm: %s' % ('utm', type(utm)))
+    _TypeError(Utm, utm=utm)  # Utm, Etm
 
     e, n = utm.to2en(falsed=True)
     # truncate east-/northing to within 100 km grid square

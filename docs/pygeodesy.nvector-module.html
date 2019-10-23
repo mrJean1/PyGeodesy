@@ -59,19 +59,12 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module nvector</h1><p class="nomargin-top"></p>
-<p>N-vector base class <a href="pygeodesy.nvector.Nvector-class.html" 
-  class="link">Nvector</a> and function <a 
-  href="pygeodesy.nvector-module.html#sumOf" class="link">sumOf</a>.</p>
-  <p>Pure Python implementation of <code>n-vector</code>-based geodesy 
-  tools for ellipsoidal earth models, transcribed from JavaScript originals
-  by <i>(C) Chris Veness 2005-2016</i> and published under the same MIT 
-  Licence**, see <a 
-  href="https://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
-  target="_top">Vector-based geodesy</a>.</p>
+<p>DEPRECATED, use module <a href="pygeodesy.nvectorBase-module.html" 
+  class="link" onclick="show_private();">nvectorBase</a> instead.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.09.30
+        19.10.20
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -85,19 +78,17 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.nvector.Nvector-class.html" class="summary-name">Nvector</a><br />
-      Base class for ellipsoidal and spherical <a 
-        href="pygeodesy.nvector.Nvector-class.html" 
-        class="link">Nvector</a>.
+        <a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html" class="summary-name">LatLonNvectorBase</a><br />
+      (INTERNAL) Base class for n-vector-based ellipsoidal and spherical 
+        <code>LatLon</code> classes.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.nvector.LatLonNvectorBase-class.html" class="summary-name">LatLonNvectorBase</a><br />
-      (INTERNAL) Base class for n-vector-based ellipsoidal and spherical 
-        <code>LatLon</code> classes.
+        <a href="pygeodesy.nvectorBase.NvectorBase-class.html" class="summary-name">Nvector</a><br />
+      Base class for ellipsoidal and spherical <code>Nvector</code>s.
     </td>
   </tr>
 </table>
@@ -116,7 +107,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.nvector-module.html#sumOf" class="summary-sig-name">sumOf</a>(<span class="summary-sig-arg">nvectors</span>,
-        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.nvector.Nvector'&gt;</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the vectorial sum of two or more n-vectors.</td>
@@ -142,18 +133,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="NorthPole"></a><span class="summary-name">NorthPole</span> = <code title="Nvector(0.0, 0.0, 1.0)">Nvector(0.0, 0.0, 1.0)</code><br />
-      North pole (<a href="pygeodesy.nvector.Nvector-class.html" 
-      class="link">Nvector</a>).
+        <a name="NorthPole"></a><span class="summary-name">NorthPole</span> = <code title="NvectorBase(0.0, 0.0, 1.0)">NvectorBase(0.0, 0.0, 1.0)</code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="SouthPole"></a><span class="summary-name">SouthPole</span> = <code title="Nvector(0.0, 0.0, -1.0)">Nvector(0.0, 0.0, -1.0)</code><br />
-      South pole (<a href="pygeodesy.nvector.Nvector-class.html" 
-      class="link">Nvector</a>).
+        <a name="SouthPole"></a><span class="summary-name">SouthPole</span> = <code title="NvectorBase(0.0, 0.0, -1.0)">NvectorBase(0.0, 0.0, -1.0)</code>
     </td>
   </tr>
 </table>
@@ -174,7 +161,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">sumOf</span>(<span class="sig-arg">nvectors</span>,
-        <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.nvector.Nvector'&gt;</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">h</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**kwds</span>)</span>
   </h3>
@@ -187,18 +174,18 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>nvectors</code></strong> - Vectors to be added (<a 
-          href="pygeodesy.nvector.Nvector-class.html" 
-          class="link">Nvector</a>[]).</li>
-        <li><strong class="pname"><code>Vector</code></strong> - Optional class for the vectorial sum (<a 
-          href="pygeodesy.nvector.Nvector-class.html" 
-          class="link">Nvector</a>).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments.</li>
+        <li><strong class="pname"><code>nvectors</code></strong> - Vectors to be added (<code>Nvector</code>[]).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Optional class for the vectorial sum (<code>Nvector</code>) or 
+          <code>None</code>.</li>
         <li><strong class="pname"><code>h</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Vectorial sum (<b><code>Vector</code></b>).</dd>
+        <dd>Vectorial sum (<b><code>Vector</code></b>) or a <a 
+          href="pygeodesy.named.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
+          <code><b>Vector</b>=None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.vector3d.VectorError-class.html">VectorError</a></strong></code> - No <b><code>nvectors</code></b>.</li>
@@ -238,7 +225,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:35 2019
+    Generated by Epydoc 3.0.1 on Tue Oct 22 15:13:59 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

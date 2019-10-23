@@ -61,10 +61,10 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.bases import points2
 from pygeodesy.datum import Datum
-from pygeodesy.fmath import INF
-from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
+from pygeodesy.fmath import INF, _IsNotError
+from pygeodesy.formy import euclidean_, haversine_, points2, \
+                           _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
 from pygeodesy.named import _Named, _NamedTuple, PhiLam2Tuple
 from pygeodesy.utily import property_RO, unroll180, unrollPI
@@ -73,7 +73,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '19.10.02'
+__version__ = '19.10.19'
 
 
 class HausdorffError(ValueError):
@@ -150,14 +150,14 @@ class Hausdorff(_Named):
         return _hausdorff_(self._model, ps2, False, early, self.seed,
                            self.units, self.distance, self.point)
 
-    def distance(self, point1, point2):  # PYCHOK unused
+    def distance(self, point1, point2):
         '''Distance between 2 points from C{.point}.
 
            @note: This method I{must be overloaded}.
 
            @raise AssertionError: Not overloaded.
         '''
-        raise AssertionError('method %s.%s not overloaded' % (self.named, 'distance'))
+        self._notOverloaded(self.distance.__name__, point1, point2)
 
     def point(self, point):
         '''Convert a C{model} or C{target} point for the C{.distance} method.
@@ -416,7 +416,7 @@ class HausdorffKarney(HausdorffDegrees):
             if not isinstance(self.datum, Datum):
                 raise TypeError
         except (AttributeError, TypeError):
-            raise TypeError('%s invalid: %r' % ('datum', self.datum or datum))
+            raise _IsNotError('valid', datum=self.datum or datum)
         self._Inverse = self.datum.ellipsoid.geodesic.Inverse
 
     @property_RO
@@ -560,9 +560,9 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units='',
        @raise TypeError: If B{C{distance}} or B{C{point}} is not callable.
     '''
     if not callable(distance):
-        raise TypeError('%s not callable: %r' % ('distance', distance))
+        raise _IsNotError(callable.__name__, distance=distance)
     if not callable(point):
-        raise TypeError('%s not callable: %r' % ('point', point))
+        raise _IsNotError(callable.__name__, point=point)
 
     _, ps1 = points2(model,  closed=False, Error=HausdorffError)
     _, ps2 = points2(target, closed=False, Error=HausdorffError)

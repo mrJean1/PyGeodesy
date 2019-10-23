@@ -67,7 +67,7 @@
                             |            
              named._NamedBase --+        
                                 |        
-           <a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a> --+    
+            <a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a> --+    
                                     |    
 <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">ellipsoidalBase.LatLonEllipsoidalBase</a> --+
                                         |
@@ -89,7 +89,7 @@
         This <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a>'s methods require the <a 
         href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> package to be installed.
+        target="_top">GeographicLib</a> package.
       </p>
 </div><!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -128,7 +128,8 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the initial and final bearing (forward and reverse azimuth) 
-      from this to an other point, using Karney's Inverse method.</td>
+      from this to an other point, using Karney's <code>Inverse</code> 
+      method.</td>
           <td align="right" valign="top">
             
             
@@ -150,7 +151,7 @@
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Compute the destination point after having travelled for the given 
       distance from this point along a geodesic given by an initial 
-      bearing, using Karney's Direct method.</td>
+      bearing, using Karney's <code>Direct</code> method.</td>
           <td align="right" valign="top">
             
             
@@ -172,7 +173,8 @@
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Compute the destination point and the final bearing (reverse azimuth)
       after having travelled for the given distance from this point along a
-      geodesic given by an initial bearing, using Karney's Direct method.</td>
+      geodesic given by an initial bearing, using Karney's 
+      <code>Direct</code> method.</td>
           <td align="right" valign="top">
             
             
@@ -192,7 +194,7 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between this and an other point along a 
-      geodesic, using Karney's Inverse method.</td>
+      geodesic, using Karney's <code>Inverse</code> method.</td>
           <td align="right" valign="top">
             
             
@@ -212,7 +214,8 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance, the initial and final bearing along a geodesic 
-      between this and an other point, using Karney's Inverse method.</td>
+      between this and an other point, using Karney's <code>Inverse</code> 
+      method.</td>
           <td align="right" valign="top">
             
             
@@ -233,7 +236,7 @@
         <span class="summary-sig-arg">bearing</span>)</span><br />
       Compute the final bearing (reverse azimuth) after having travelled 
       for the given distance along a geodesic given by an initial bearing 
-      from this point, using Karney's Direct method.</td>
+      from this point, using Karney's <code>Direct</code> method.</td>
           <td align="right" valign="top">
             
             
@@ -254,7 +257,7 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the final bearing (reverse azimuth) after having travelled 
       along a geodesic from this point to an other point, using Karney's 
-      Inverse method.</td>
+      <code>Inverse</code> method.</td>
           <td align="right" valign="top">
             
             
@@ -274,8 +277,8 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the initial bearing (forward azimuth) to travel along a 
-      geodesic from this point to an other point, using Karney's Inverse 
-      method.</td>
+      geodesic from this point to an other point, using Karney's 
+      <code>Inverse</code> method.</td>
           <td align="right" valign="top">
             
             
@@ -291,8 +294,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert this (geodetic) point to (geocentric) x/y/z Cartesian 
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Convert this point to <code>Karney</code>-based cartesian (ECEF) 
       coordinates.</td>
           <td align="right" valign="top">
             
@@ -317,7 +321,6 @@
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2">geoidHeight2</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#parse">parse</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#to3xyz">to3xyz</a></code>,
-      <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEcef">toEcef</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm">toEtm</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toLcc">toLcc</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr">toOsgr</a></code>,
@@ -326,34 +329,38 @@
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps">toUtmUps</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toWm">toWm</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__eq__">__eq__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__ne__">__ne__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#bounds">bounds</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#boundsOf">boundsOf</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngle">compassAngle</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#compassAngleTo">compassAngleTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#copy">copy</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals">equals</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equals3">equals3</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#equirectangularTo">equirectangularTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#euclideanTo">euclideanTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#haversineTo">haversineTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipode">isantipode</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isantipodeTo">isantipodeTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo">isequalTo</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#isequalTo3">isequalTo3</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon2">latlon2</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon2round">latlon2round</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon_">latlon_</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#philam2">philam2</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points">points</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#points2">points2</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to2ab">to2ab</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#to3llh">to3llh</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#toStr">toStr</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#vincentysTo">vincentysTo</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></code></b>:
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__eq__">__eq__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__ne__">__ne__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#bounds">bounds</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#boundsOf">boundsOf</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngle">compassAngle</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo">compassAngleTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals">equals</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals3">equals3</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo">equirectangularTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo">euclideanTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo">haversineTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipode">isantipode</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo">isantipodeTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo">isequalTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo3">isequalTo3</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2">latlon2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2round">latlon2round</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon_">latlon_</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam2">philam2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points">points</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points2">points2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to2ab">to2ab</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef">toEcef</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector">toNvector</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector">toVector</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toVector3d">toVector3d</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo">vincentysTo</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
       <code>__repr__</code>,
@@ -410,14 +417,15 @@
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#reframe">reframe</a></code>,
       <code><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale">scale</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.bases.LatLonHeightBase-class.html">bases.LatLonHeightBase</a></code></b>:
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#height">height</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lat">lat</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlon">latlon</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#latlonheight">latlonheight</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#lon">lon</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#philam">philam</a></code>,
-      <code><a href="pygeodesy.bases.LatLonHeightBase-class.html#philamheight">philamheight</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></code></b>:
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#Ecef">Ecef</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lat">lat</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon">latlon</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlonheight">latlonheight</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lon">lon</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam">philam</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight">philamheight</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
       <code>classname</code>,
@@ -458,8 +466,9 @@
   </tr></table>
   
   <p>Compute the initial and final bearing (forward and reverse azimuth) 
-  from this to an other point, using Karney's Inverse method.  See methods 
-  <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html#initialBearingTo" 
+  from this to an other point, using Karney's <code>Inverse</code> method.
+  See methods <a 
+  href="pygeodesy.ellipsoidalKarney.LatLon-class.html#initialBearingTo" 
   class="link">initialBearingTo</a> and <a 
   href="pygeodesy.ellipsoidalKarney.LatLon-class.html#finalBearingTo" 
   class="link">finalBearingTo</a> for more details.</p>
@@ -507,7 +516,7 @@
   
   <p>Compute the destination point after having travelled for the given 
   distance from this point along a geodesic given by an initial bearing, 
-  using Karney's Direct method.  See method <a 
+  using Karney's <code>Direct</code> method.  See method <a 
   href="pygeodesy.ellipsoidalKarney.LatLon-class.html#destination2" 
   class="link">destination2</a> for more details.</p>
   <dl class="fields">
@@ -556,7 +565,8 @@
   
   <p>Compute the destination point and the final bearing (reverse azimuth) 
   after having travelled for the given distance from this point along a 
-  geodesic given by an initial bearing, using Karney's Direct method.</p>
+  geodesic given by an initial bearing, using Karney's <code>Direct</code> 
+  method.</p>
   <p>The distance must be in the same units as this point's datum axes, 
   conventionally meter.  The distance is measured on the surface of the 
   ellipsoid, ignoring this point's height.</p>
@@ -610,7 +620,7 @@
   </tr></table>
   
   <p>Compute the distance between this and an other point along a geodesic,
-  using Karney's Inverse method. See method <a 
+  using Karney's <code>Inverse</code> method. See method <a 
   href="pygeodesy.ellipsoidalKarney.LatLon-class.html#distanceTo3" 
   class="link">distanceTo3</a> for more details.</p>
   <dl class="fields">
@@ -660,7 +670,8 @@
   </tr></table>
   
   <p>Compute the distance, the initial and final bearing along a geodesic 
-  between this and an other point, using Karney's Inverse method.</p>
+  between this and an other point, using Karney's <code>Inverse</code> 
+  method.</p>
   <p>The distance is in the same units as this point's datum axes, 
   conventially meter.  The distance is measured on the surface of the 
   ellipsoid, ignoring this point's height.</p>
@@ -710,7 +721,7 @@
   
   <p>Compute the final bearing (reverse azimuth) after having travelled for
   the given distance along a geodesic given by an initial bearing from this
-  point, using Karney's Direct method.  See method <a 
+  point, using Karney's <code>Direct</code> method.  See method <a 
   href="pygeodesy.ellipsoidalKarney.LatLon-class.html#destination2" 
   class="link">destination2</a> for more details.</p>
   <dl class="fields">
@@ -753,7 +764,7 @@
   
   <p>Compute the final bearing (reverse azimuth) after having travelled 
   along a geodesic from this point to an other point, using Karney's 
-  Inverse method.  See method <a 
+  <code>Inverse</code> method.  See method <a 
   href="pygeodesy.ellipsoidalKarney.LatLon-class.html#distanceTo3" 
   class="link">distanceTo3</a> for more details.</p>
   <dl class="fields">
@@ -807,8 +818,8 @@
   </tr></table>
   
   <p>Compute the initial bearing (forward azimuth) to travel along a 
-  geodesic from this point to an other point, using Karney's Inverse 
-  method.  See method <a 
+  geodesic from this point to an other point, using Karney's 
+  <code>Inverse</code> method.  See method <a 
   href="pygeodesy.ellipsoidalKarney.LatLon-class.html#distanceTo3" 
   class="link">distanceTo3</a> for more details.</p>
   <dl class="fields">
@@ -855,22 +866,42 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert this (geodetic) point to (geocentric) x/y/z Cartesian 
+  <p>Convert this point to <code>Karney</code>-based cartesian (ECEF) 
   coordinates.</p>
   <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>Ellipsoidal (geocentric) Cartesian point (<a 
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
+          arguments, ignored if <code><b>Cartesian</b>=None</code>. For 
+          example, use <code>Cartesian=...</code> to override the <a 
           href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-          class="link">Cartesian</a>).</dd>
+          class="link">Cartesian</a> (sub-)class or specify 
+          <code><b>Cartesian</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <b><code>Cartesian</code></b> point (<a 
+          href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+          class="link">Cartesian</a>) or if 
+          <code><b>Cartesian</b>=None</code>, an <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> and <code>M</code> if 
+          available.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b>, <b><code>datum</code></b> or
+        <b><code>kwds</code></b>.</li>
+    </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toCartesian">ellipsoidalBase.LatLonEllipsoidalBase.toCartesian</a>
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian">latlonBase.LatLonBase.toCartesian</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -945,7 +976,7 @@ target="_top">geographiclib</a> is installed.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 11 16:59:36 2019
+    Generated by Epydoc 3.0.1 on Tue Oct 22 15:14:00 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

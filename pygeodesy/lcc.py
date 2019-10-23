@@ -19,19 +19,20 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datums
-from pygeodesy.fmath import EPS, fStr, hypot
+from pygeodesy.fmath import EPS, fStr, hypot, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor3Tuple, LatLon4Tuple, LatLonDatum3Tuple, \
                            _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
                            _xattrs, _xnamed
 from pygeodesy.utily import PI_2, degrees90, degrees180, false2f, \
-                            issubclassof, property_RO, sincos2, tanPI_2_2
+                            issubclassof, property_RO, sincos2, tanPI_2_2, \
+                            _TypeError
 
 from math import atan, copysign, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '19.10.01'
+__version__ = '19.10.12'
 
 
 class Conic(_NamedEnumItem):
@@ -83,8 +84,7 @@ class Conic(_NamedEnumItem):
            >>> Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
         '''
         if latlon0 is not None:
-            if not isinstance(latlon0, _LLEB):
-                raise TypeError('%s not %s: %r' % ('latlon0', 'ellipsoidal', latlon0))
+            _TypeError(_LLEB, latlon0=latlon0)
 
             self._lat0, self._lon0 = latlon0.to2ab()
             self._par1 = radians(par1)
@@ -205,7 +205,7 @@ class Conic(_NamedEnumItem):
         '''
         E = datum.ellipsoid
         if not E.isEllipsoidal:
-            raise TypeError('%s not %s: %r' % ('datum', 'ellipsoidal', datum))
+            raise _IsNotError('ellipsoidal', datum=datum)
 
         c = self
         if c._e != E.e or c._datum != datum:
@@ -361,8 +361,7 @@ class Lcc(_NamedBase):
 
            >>> lb = Lcc(448251, 5411932.0001)
         '''
-        if not isinstance(conic, Conic):
-            raise TypeError('%s not Conic: %r' % ('conic', conic))
+        _TypeError(Conic, conic=conic)
         self._conic = conic
         self._easting  = false2f(e, 'easting',  false=conic.E0 > 0, Error=LCCError)
         self._northing = false2f(n, 'northing', false=conic.N0 > 0, Error=LCCError)
@@ -457,7 +456,7 @@ class Lcc(_NamedBase):
            @raise TypeError: If B{C{LatLon}} or B{C{datum}} is not ellipsoidal.
         '''
         if LatLon and not issubclassof(LatLon, _LLEB):
-            raise TypeError('%s not %s: %r' % ('LatLon', 'ellipsoidal', LatLon))
+            raise _IsNotError(_LLEB.__name__, LatLon=LatLon)
 
         a, b, d = self.to3lld(datum=datum)
         h = self.height if height is None else height
@@ -526,7 +525,7 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=''):
        @raise TypeError: If B{C{latlon}} is not ellipsoidal.
     '''
     if not isinstance(latlon, _LLEB):
-        raise TypeError('%s not %s: %r' % ('latlon', 'ellipsoidal', latlon))
+        raise _IsNotError(_LLEB.__name__, latlon=latlon)
 
     a, b = latlon.to2ab()
     c = conic.toDatum(latlon.datum)
