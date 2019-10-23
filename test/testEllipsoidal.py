@@ -4,9 +4,9 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.10.15'
+__version__ = '19.10.21'
 
-from base import geographiclib, isWindows
+from base import geographiclib
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
@@ -108,10 +108,10 @@ class Tests(_TestsLL, _TestsV):
         self.test('lat2', d['lat2'],  40.960, fmt='%.3f')
         self.test('lon2', d['lon2'],  -5.500, fmt='%.3f')
         self.test('azi2', d['azi2'],  18.825195123247, fmt='%.12f')
-        self.test('s12',  d['s12'], 19959679.267353821546, fmt='%.12f', known=isWindows)
+        self.test('s12',  d['s12'], 19959679.267353821546, fmt='%.12f', known=True)
 
         d3 = ll1.distanceTo3(module.LatLon(40.96, -5.50))
-        self.test('distanceTo3', fStr(d3, prec=12), '19959679.267353821546, 161.06766998616, 18.825195123247', known=isWindows)
+        self.test('distanceTo3', fStr(d3, prec=12), '19959679.267353821546, 161.06766998616, 18.825195123247', known=True)
         ll2, d2 = ll1.destination2(19959679.26735382, 161.067669986160)
         self.test('destination2', fStr((ll2.lat, ll2.lon, d2), prec=12), '40.96, -5.5, 18.825195123247')
 
