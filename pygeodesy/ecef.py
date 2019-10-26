@@ -60,7 +60,7 @@ from math import atan2, copysign, cos, degrees, hypot, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '19.10.21'
+__version__ = '19.10.24'
 
 
 class EcefError(ValueError):
@@ -83,7 +83,7 @@ def _aRepr(this, *attrs):
     return tuple(map(_repr, attrs))
 
 
-def _latlonh4(latlonh, lon, height, suffix):
+def _llhn4(latlonh, lon, height, suffix):
     '''(INTERNAL) Get an C{(lat, lon, h, name)} 4-tuple.
     '''
     try:
@@ -291,7 +291,7 @@ class EcefKarney(_EcefBase):
                   C{v0} in geocentric C{x, y, z} coordinates.  Then, M{v0 =
                   M ⋅ v1} where C{M} is the rotation matrix.
         '''
-        lat, lon, h, name = _latlonh4(latlonh, lon, height, '')
+        lat, lon, h, name = _llhn4(latlonh, lon, height, '')
         sa, ca, sb, cb = sincos2d(lat, lon)
 
         n = self.a / sqrt(1 - self.e2 * sa**2)
@@ -500,7 +500,7 @@ class EcefCartesian(_NamedBase):
 
            @see: Note at method L{EcefKarney.forward}.
         '''
-        lat, lon, h, name = _latlonh4(latlonh, lon, height, '')
+        lat, lon, h, name = _llhn4(latlonh, lon, height, '')
         t = self.ecef.forward(lat, lon, h, M=M)
         x, y, z = self.M.rotate(t[:3], *self._t0[:3])  # .x, .y, .z
 
@@ -548,7 +548,7 @@ class EcefCartesian(_NamedBase):
                              C{scalar} or B{C{lon0}} not C{scalar} for C{scalar}
                              B{C{latlonh0}} or C{abs(B{lat})} exceeds 90°.
         '''
-        lat0, lon0, height0, n = _latlonh4(latlonh0, lon0, height0, '0')
+        lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, '0')
         if name or n:
             self.ecef.name = self.name = name or n
         self._t0 = self.ecef.forward(lat0, lon0, height0, M=True)
@@ -694,8 +694,8 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
     _Names_ = ('x', 'y', 'z', 'lat', 'lon', 'height', 'C', 'M', 'datum')
 
     def toCartesian(self, Cartesian):
-        '''Return the geocentric C{(x, y, z)} coordinates as an (ellipsoidal)
-           C{Cartesian}.
+        '''Return the geocentric C{(x, y, z)} coordinates as an ellipsoidal
+           or spherical C{Cartesian}.
 
            @param Cartesian: L{ellipsoidalKarney.Cartesian},
                              L{ellipsoidalNvector.Cartesian},
@@ -708,8 +708,8 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
 
            @raise TypeError: Invalid B{C{Cartesian}}.
         '''
-        from pygeodesy.cartesian import CartesianBase as _CB
-        if not isinstance(Cartesian, _CB):
+        from pygeodesy.cartesianBase import CartesianBase as _CB
+        if not issubclass(Cartesian, _CB):
             raise _IsNotError(_CB.__name__, Cartesian=Cartesian)
         r = Cartesian(self)
         return self._xnamed(r)
@@ -717,22 +717,22 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
     def toLatLon(self, LatLon=None):
         '''Return the geodetic C{(lat, lon, height[, datum])} coordinates.
 
-           @keyword LatLon: Optional (sub-)class to return
-                            C{(lat, lon, height[, datum])} or C{None}.
+           @keyword LatLon: Optional (sub-)class to return C{(lat, lon,
+                            height[, datum])} or C{None}.
 
-           @return: An instance of C{LatLon}C{(lat, lon, height[, datum])}
-                    if B{C{LatLon}} is not C{None} or a L{LatLon3Tuple}C{(lat,
-                    lon, height)} or a L{LatLon4Tuple}C{(lat, lon, height,
-                    datum)} if C{datum} is un- respectively unavailable.
+           @return: An instance of C{LatLon}C{(lat, lon, height[, datum])} if
+                    B{C{LatLon}} is not C{None} or a L{LatLon3Tuple}C{(lat, lon,
+                    height)} or a L{LatLon4Tuple}C{(lat, lon, height, datum)}
+                    if C{datum} is unavailable respectively available.
         '''
         lat, lon = self.lat, self.lon  # PYCHOK expected
         h, d = self.height, self.datum  # PYCHOK expected
         if d is None:
-            r = LatLon3Tuple(lat, lon, h) if LatLon is None \
-                 else LatLon(lat, lon, h)
+            r = LatLon3Tuple(lat, lon, h) if LatLon is None else \
+                      LatLon(lat, lon, h)
         elif isinstance(d, Datum):
-            r = LatLon4Tuple(lat, lon, h, d) if LatLon is None \
-                 else LatLon(lat, lon, height=h, datum=d)
+            r = LatLon4Tuple(lat, lon, h, d) if LatLon is None else \
+                      LatLon(lat, lon, height=h, datum=d)
         else:
             raise AssertionError('%r.%s: %r' % (self, 'datum', d))
         return self._xnamed(r)
@@ -746,8 +746,8 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
            @return: A C{Vector}C{(x, y, z)} instance or if B{C{Vector}}
                     is C{None} a L{Vector3Tuple}C{(x, y, z)}.
         '''
-        r = Vector3Tuple(self.x, self.y, self.z) if Vector is None \
-             else Vector(self.x, self.y, self.z)  # PYCHOK x, y, z
+        r = Vector3Tuple(self.x, self.y, self.z) if Vector is None else \
+                  Vector(self.x, self.y, self.z)  # PYCHOK x, y, z
         return self._xnamed(r)
 
 
@@ -756,6 +756,11 @@ class EcefVeness(_EcefBase):
        Earth-Fixed} (ECEF) coordinates transcribed from I{Chris Veness}'
        JavaScript classes U{LatLonEllipsoidal, Cartesian
        <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
+
+       @see: U{A Guide to Coordinate Systems in Great Britain
+             <https://www.OrdnanceSurvey.co.UK/documents/resources/guide-coordinate-systems-great-britain.pdf>},
+             section I{B) Converting between 3D Cartesian and ellipsoidal
+             latitude, longitude and height coordinates}.
     '''
 
     def __init__(self, a_ellipsoid, f=None, name=''):
@@ -796,7 +801,7 @@ class EcefVeness(_EcefBase):
                              C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
                              B{C{latlonh}} or C{abs(B{lat})} exceeds 90°.
         '''
-        lat, lon, h, name = _latlonh4(latlonh, lon, height, '')
+        lat, lon, h, name = _llhn4(latlonh, lon, height, '')
         sa, ca, sb, cb = sincos2d(lat, lon)
 
         E = self.ellipsoid
@@ -804,8 +809,8 @@ class EcefVeness(_EcefBase):
         # radius of curvature in prime vertical
         t = E.e2s2(sa)  # r, _ = E.roc2_(sa, 1)
         r = 0 if t < EPS else (E.a if t > EPS1 else (E.a / sqrt(t)))
-        z = (h + r * E.e12) * sa
         x = (h + r) * ca
+        z = (h + r * E.e12) * sa
 
         m = self._Matrix(sa, ca, sb, cb) if M else None
         r = Ecef9Tuple(x * cb, x * sb, z, lat, lon, h, 0, m, self.datum)
@@ -931,7 +936,7 @@ class EcefYou(_EcefBase):
                              C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
                              B{C{latlonh}} or C{abs(B{lat})} exceeds 90°.
         '''
-        lat, lon, h, name = _latlonh4(latlonh, lon, height, '')
+        lat, lon, h, name = _llhn4(latlonh, lon, height, '')
         sa, ca, sb, cb = sincos2d(lat, lon)
 
         E = self.ellipsoid

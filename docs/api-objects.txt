@@ -403,7 +403,7 @@ pygeodesy.ecef._ALL_LAZY	pygeodesy.ecef-module.html#_ALL_LAZY
 pygeodesy.ecef.degrees90	pygeodesy.utily-module.html#degrees90
 pygeodesy.ecef._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_DOCS
 pygeodesy.ecef.EPS1	pygeodesy.ecef-module.html#EPS1
-pygeodesy.ecef._latlonh4	pygeodesy.ecef-module.html#_latlonh4
+pygeodesy.ecef._xyzn4	pygeodesy.vector3d-module.html#_xyzn4
 pygeodesy.ecef.sincos2d	pygeodesy.utily-module.html#sincos2d
 pygeodesy.ecef.isscalar	pygeodesy.fmath-module.html#isscalar
 pygeodesy.ecef._afStr	pygeodesy.ecef-module.html#_afStr
@@ -415,13 +415,13 @@ pygeodesy.ecef.fsum_	pygeodesy.fmath-module.html#fsum_
 pygeodesy.ecef.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.ecef.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.ecef.property_RO	pygeodesy.utily-module.html#property_RO
-pygeodesy.ecef._xyzn4	pygeodesy.vector3d-module.html#_xyzn4
 pygeodesy.ecef._sch3	pygeodesy.ecef-module.html#_sch3
 pygeodesy.ecef.degrees180	pygeodesy.utily-module.html#degrees180
 pygeodesy.ecef._IsNotError	pygeodesy.fmath-module.html#_IsNotError
 pygeodesy.ecef.unStr	pygeodesy.utily-module.html#unStr
 pygeodesy.ecef.fStr	pygeodesy.fmath-module.html#fStr
 pygeodesy.ecef.fdot	pygeodesy.fmath-module.html#fdot
+pygeodesy.ecef._llhn4	pygeodesy.ecef-module.html#_llhn4
 pygeodesy.elevations	pygeodesy.elevations-module.html
 pygeodesy.elevations._error	pygeodesy.elevations-module.html#_error
 pygeodesy.elevations.__all__	pygeodesy.elevations-module.html#__all__

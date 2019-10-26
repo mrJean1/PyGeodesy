@@ -6,17 +6,17 @@ the height of various U{geoid<https://WikiPedia.org/wiki/Geoid>}s at
 C{LatLon} locations or separate lat-/longitudes using different
 interpolation methods and C{geoid} files.
 
-L{GeoidKarney} is a transcription of Charles Karney's U{C++ class Geoid
+L{GeoidKarney} is a transcription of I{Charles Karney's} C++ class U{Geoid
 <https://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.
 
 The L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on
 U{scipy<https://SciPy.org>} and U{numpy<https://PyPI.org/project/numpy>}
-and require both those packages to be installed.
+and require those packages to be installed.
 
 In addition, each geoid interpolator needs C{grid knots} to be
 (down)loaded from a geoid file, specific to the interpolator, more
 details below.  For each interpolator, there are several interpolation
-choices, like I{bilinear}, I{cubic}, I{spline}, etc.
+choices, like I{linear}, I{cubic}, etc.
 
 Typical usage is as follows.  First create an interpolator from a
 geoid file, also referred to as the C{grid knots}.
@@ -43,7 +43,7 @@ or
 
 C{h0, h1, h2, ... = ginterpolator.height(lats, lons)}  # C{list, ...}
 
-Errors from C{scipy} as raised as L{SciPyError}s.  Warnings issued by
+Errors from C{scipy} are raised as L{SciPyError}s.  Warnings issued by
 C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
 C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
@@ -84,7 +84,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '19.10.15'
+__version__ = '19.10.24'
 
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',

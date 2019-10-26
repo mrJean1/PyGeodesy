@@ -108,6 +108,14 @@ without geographiclib, numpy and scipy) on macOS 10.13.6 High Sierra,
 I{all in 64-bit only}.  The results of those tests are included in the
 distribution files.
 
+Test coverage has been measured with Python 3.7.4 (with U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
+<https://PyPI.org/project/numpy>} 1.17.2 and U{scipy
+<https://SciPy.org/scipylib/download.html>} 1.3.1) and an HMTL report
+is included in the distribution files.
+
+With Python 3.7 and 3.8, the tests run I{with and without} C{lazy import}.
+
 The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on U{Ubuntu 14.04
 <https://Travis-CI.org/mrJean1/PyGeodesy>} and with Python 3.7.3 (and
@@ -117,8 +125,6 @@ in 64-bit only} and with Python 2.7.15, 3.6.8 and 3.7.2 (all with
 U{geographiclib <https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on
 U{Windows Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
 I{in both 32- and 64-bit}.
-
-With Python 3.7+, the tests run I{with and without} C{lazy import}.
 
 A single-File and single-Directory application with C{pygeodesy} has
 been bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4
@@ -258,7 +264,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.10.21'
+__version__ = '19.10.25'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

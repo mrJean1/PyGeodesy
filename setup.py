@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '19.10.21'
+__version__ = '19.10.25'
 
 
 def _c2(*names):
@@ -48,7 +48,7 @@ def _version():
 
 _KeyWords=('altitude', 'antipode', 'area', 'azimuth', 'bearing',
            'cartesian', 'Cassini', 'Cassini-Soldner', 'clip',
-           'Cohen', 'Cohen-Sutherland', 'conic', 'curvature',
+           'Cohen', 'Cohen-Sutherland', 'conic', 'coverage', 'curvature',
            'datum', 'development', 'discrete', 'distance', 'Douglas',
            'earth', 'ECEF', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
            'equirectangular', 'ETM', 'ETRF', 'Euclidean', 'ExactTM',

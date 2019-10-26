@@ -5,12 +5,12 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '19.10.19'
+__version__ = '19.10.24'
 
 from base import TestsBase
 
 from pygeodesy import Datums, EcefCartesian, EcefKarney, EcefMatrix, EcefVeness, EcefYou, \
-                      fStr, LatLon_, nvector
+                      Ellipsoids, fStr, latDMS, LatLon_, lonDMS, nvector, parse3llh
 
 
 class Tests(TestsBase):
@@ -85,6 +85,22 @@ class Tests(TestsBase):
             self.test('reverse' + i, fStr(t[3:6], prec=3), r)
             t = g.forward(t.lat, t.lon, t.height)
             self.test('forward' + i, fStr(t[0:3], prec=1), fStr((x, y, z), prec=1))
+
+        # <https://www.OrdnanceSurvey.co.UK/documents/resources/guide-coordinate-systems-great-britain.pdf> pp 47
+        g = Ecef(Ellipsoids.GRS80, name='OS-UK')
+        self.test('name', g.name, 'OS-UK')
+
+        t = g.forward(parse3llh('''53°36′43.1653"N, 001°39′51.9920"W, 299.800'''))
+        self.test('forward', fStr(t[3:6], prec=8), '53.61199036, -1.66444222, 299.8')
+        self.test('forward', fStr(t[0:3], prec=2), '3790644.9, -110149.21, 5111482.97')
+
+        t = g.reverse(3790644.9, -110149.21, 5111482.97)
+        self.test('reverse', fStr(t[0:3], prec=2), '3790644.9, -110149.21, 5111482.97')
+        self.test('reverse', fStr(t[3:5], prec=8), '53.61199036, -1.66444223')
+        self.test('reverse.lat', latDMS(t.lat, prec=4), '53°36′43.1653″N')
+        self.test('reverse.lon', lonDMS(t.lon, prec=4), '001°39′51.992″W')
+        self.test('reverse.height', fStr(t.height, prec=-3), '299.800')
+        self.test('case', t.C, 2 if Karney else 1)
 
     def testEcefCartesian(self):
 
@@ -170,6 +186,10 @@ class Tests(TestsBase):
         self.test('toVector', str(v), '(4202946.79528, 171232.46613, 4778354.17)' if ll.isEllipsoidal
                                  else '(4190278.55277, 170716.34863, 4796058.20898)')
         self.test('name', v.name, 'Paris')
+
+        c = t.toCartesian(module.Cartesian)
+        self.test('forward', c.toStr(prec=2), '[4202946.8, 171232.47, 4778354.17]' if ll.isEllipsoidal
+                                         else '[4190278.55, 170716.35, 4796058.21]')
 
 
 if __name__ == '__main__':

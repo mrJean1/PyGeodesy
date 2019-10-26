@@ -79,13 +79,17 @@ geographiclib, numpy and scipy) on macOS 10.13.6 High Sierra, *all in
 64-bit only*.  The results of those tests are included in the
 distribution files.
 
+Test coverage has been measured with Python 3.7.4 (with geographiclib_
+1.50, numpy_ 1.17.2 and scipy_ 1.3.1) and an HMTL report is included
+in the distribution files.
+
+With Python 3.7 and 3.9, the tests run *with and without* ``lazy import``.
+
 The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_
 1.49 or 1.50) on `Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_
 1.49 or 1.50) on `Debian 9`_ *all in 64-bit only* and with Python 2.7.15,
 3.6.8 and 3.7.2 (all with geographiclib_ 1.49 or 1.50) on
 `Windows Server 2012R2`_ *in both 32- and 64-bit*.
-
-With Python 3.7+, the tests run *with and without* ``lazy import``.
 
 A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.3 and 3.7.4
@@ -113,7 +117,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 21, 2019.*
+*Last updated: Oct 25, 2019.*
 
 License
 =======

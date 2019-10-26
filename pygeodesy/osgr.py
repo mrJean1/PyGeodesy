@@ -45,7 +45,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '19.10.12'
+__version__ = '19.10.24'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -198,7 +198,7 @@ class Osgr(_NamedBase):
 
         sa, ca = sincos2(a)
 
-        s = E.e2s2(sa)  # v, r = E.roc2_(sa, _F0)
+        s = E.e2s2(sa)  # r, v = E.roc2_(sa, _F0)
         v = a_F0 / sqrt(s)  # nu
         r = v * E.e12 / s  # rho
 
@@ -433,9 +433,9 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
 
     sa, ca = sincos2(a)
 
-    s = E.e2s2(sa)  # v, r = E.roc2_(sa, _F0); r = v / r
+    s = E.e2s2(sa)  # r, v = E.roc2_(sa, _F0); r = v / r
     v = E.a * _F0 / sqrt(s)  # nu
-    r = s / E.e12  # nu / rho == v / (v * E.e12 / s)
+    r = s / E.e12  # nu / rho == v / (v * E.e12 / s) == s / E.e12
 
     x2 = r - 1  # η2
     ta = tan(a)
