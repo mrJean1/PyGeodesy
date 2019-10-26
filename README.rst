@@ -83,7 +83,7 @@ Test coverage has been measured with Python 3.7.4 (with geographiclib_
 1.50, numpy_ 1.17.2 and scipy_ 1.3.1) and an HMTL report is included
 in the distribution files.
 
-With Python 3.7 and 3.9, the tests run *with and without* ``lazy import``.
+With Python 3.7 and 3.8, the tests run *with and without* ``lazy import``.
 
 The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_
 1.49 or 1.50) on `Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_
