@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for pygeodesy/hausdorff.py: 87%</title>
+    <title>Coverage for pygeodesy/hausdorff.py: 90%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,16 +24,16 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>pygeodesy/hausdorff.py</b> :
-            <span class="pc_cov">87%</span>
+            <span class="pc_cov">90%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            190 statements &nbsp;
+            185 statements &nbsp;
             <span class="run hide_run shortkey_r button_toggle_run">166 run</span>
-            <span class="mis shortkey_m button_toggle_mis">24 missing</span>
-            <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
+            <span class="mis shortkey_m button_toggle_mis">19 missing</span>
+            <span class="exc shortkey_x button_toggle_exc">5 excluded</span>
 
             
         </h2>
@@ -253,7 +253,7 @@
 <p id="n184" class="stm run hide_run"><a href="#n184">184</a></p>
 <p id="n185" class="stm run hide_run"><a href="#n185">185</a></p>
 <p id="n186" class="stm mis"><a href="#n186">186</a></p>
-<p id="n187" class="stm mis"><a href="#n187">187</a></p>
+<p id="n187" class="exc"><a href="#n187">187</a></p>
 <p id="n188" class="stm run hide_run"><a href="#n188">188</a></p>
 <p id="n189" class="pln"><a href="#n189">189</a></p>
 <p id="n190" class="stm mis"><a href="#n190">190</a></p>
@@ -483,9 +483,9 @@
 <p id="n414" class="stm run hide_run"><a href="#n414">414</a></p>
 <p id="n415" class="stm run hide_run"><a href="#n415">415</a></p>
 <p id="n416" class="stm run hide_run"><a href="#n416">416</a></p>
-<p id="n417" class="stm mis"><a href="#n417">417</a></p>
+<p id="n417" class="exc"><a href="#n417">417</a></p>
 <p id="n418" class="stm mis"><a href="#n418">418</a></p>
-<p id="n419" class="stm mis"><a href="#n419">419</a></p>
+<p id="n419" class="exc"><a href="#n419">419</a></p>
 <p id="n420" class="stm run hide_run"><a href="#n420">420</a></p>
 <p id="n421" class="pln"><a href="#n421">421</a></p>
 <p id="n422" class="stm run hide_run"><a href="#n422">422</a></p>
@@ -629,9 +629,9 @@
 <p id="n560" class="pln"><a href="#n560">560</a></p>
 <p id="n561" class="pln"><a href="#n561">561</a></p>
 <p id="n562" class="stm mis"><a href="#n562">562</a></p>
-<p id="n563" class="stm mis"><a href="#n563">563</a></p>
+<p id="n563" class="exc"><a href="#n563">563</a></p>
 <p id="n564" class="stm mis"><a href="#n564">564</a></p>
-<p id="n565" class="stm mis"><a href="#n565">565</a></p>
+<p id="n565" class="exc"><a href="#n565">565</a></p>
 <p id="n566" class="pln"><a href="#n566">566</a></p>
 <p id="n567" class="stm mis"><a href="#n567">567</a></p>
 <p id="n568" class="stm mis"><a href="#n568">568</a></p>
@@ -900,7 +900,7 @@
 <p id="t184" class="stm run hide_run">            <span class="key">try</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t185" class="stm run hide_run">                <span class="nam">Random</span><span class="op">(</span><span class="nam">seed</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t186" class="stm mis">            <span class="key">except</span> <span class="op">(</span><span class="nam">TypeError</span><span class="op">,</span> <span class="nam">ValueError</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t187" class="stm mis">                <span class="key">raise</span> <span class="nam">HausdorffError</span><span class="op">(</span><span class="str">'%s invalid: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'seed'</span><span class="op">,</span> <span class="nam">seed</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t187" class="exc">                <span class="key">raise</span> <span class="nam">HausdorffError</span><span class="op">(</span><span class="str">'%s invalid: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'seed'</span><span class="op">,</span> <span class="nam">seed</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t188" class="stm run hide_run">            <span class="nam">self</span><span class="op">.</span><span class="nam">_seed</span> <span class="op">=</span> <span class="nam">seed</span><span class="strut">&nbsp;</span></p>
 <p id="t189" class="pln">        <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t190" class="stm mis">            <span class="nam">self</span><span class="op">.</span><span class="nam">_seed</span> <span class="op">=</span> <span class="key">None</span><span class="strut">&nbsp;</span></p>
@@ -1130,9 +1130,9 @@
 <p id="t414" class="stm run hide_run">        <span class="key">try</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t415" class="stm run hide_run">            <span class="nam">self</span><span class="op">.</span><span class="nam">_datum</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_model</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="op">.</span><span class="nam">datum</span> <span class="key">if</span> <span class="nam">datum</span> <span class="key">is</span> <span class="key">None</span> <span class="key">else</span> <span class="nam">datum</span><span class="strut">&nbsp;</span></p>
 <p id="t416" class="stm run hide_run">            <span class="key">if</span> <span class="key">not</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">datum</span><span class="op">,</span> <span class="nam">Datum</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t417" class="stm mis">                <span class="key">raise</span> <span class="nam">TypeError</span><span class="strut">&nbsp;</span></p>
+<p id="t417" class="exc">                <span class="key">raise</span> <span class="nam">TypeError</span><span class="strut">&nbsp;</span></p>
 <p id="t418" class="stm mis">        <span class="key">except</span> <span class="op">(</span><span class="nam">AttributeError</span><span class="op">,</span> <span class="nam">TypeError</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t419" class="stm mis">            <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="str">'valid'</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">self</span><span class="op">.</span><span class="nam">datum</span> <span class="key">or</span> <span class="nam">datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t419" class="exc">            <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="str">'valid'</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">self</span><span class="op">.</span><span class="nam">datum</span> <span class="key">or</span> <span class="nam">datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t420" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_Inverse</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">datum</span><span class="op">.</span><span class="nam">ellipsoid</span><span class="op">.</span><span class="nam">geodesic</span><span class="op">.</span><span class="nam">Inverse</span><span class="strut">&nbsp;</span></p>
 <p id="t421" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t422" class="stm run hide_run">    <span class="op">@</span><span class="nam">property_RO</span><span class="strut">&nbsp;</span></p>
@@ -1276,9 +1276,9 @@
 <p id="t560" class="pln"><span class="str">       @raise TypeError: If B{C{distance}} or B{C{point}} is not callable.</span><span class="strut">&nbsp;</span></p>
 <p id="t561" class="pln"><span class="str">    '''</span><span class="strut">&nbsp;</span></p>
 <p id="t562" class="stm mis">    <span class="key">if</span> <span class="key">not</span> <span class="nam">callable</span><span class="op">(</span><span class="nam">distance</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t563" class="stm mis">        <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="nam">callable</span><span class="op">.</span><span class="nam">__name__</span><span class="op">,</span> <span class="nam">distance</span><span class="op">=</span><span class="nam">distance</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t563" class="exc">        <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="nam">callable</span><span class="op">.</span><span class="nam">__name__</span><span class="op">,</span> <span class="nam">distance</span><span class="op">=</span><span class="nam">distance</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t564" class="stm mis">    <span class="key">if</span> <span class="key">not</span> <span class="nam">callable</span><span class="op">(</span><span class="nam">point</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t565" class="stm mis">        <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="nam">callable</span><span class="op">.</span><span class="nam">__name__</span><span class="op">,</span> <span class="nam">point</span><span class="op">=</span><span class="nam">point</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t565" class="exc">        <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="nam">callable</span><span class="op">.</span><span class="nam">__name__</span><span class="op">,</span> <span class="nam">point</span><span class="op">=</span><span class="nam">point</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t566" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t567" class="stm mis">    <span class="nam">_</span><span class="op">,</span> <span class="nam">ps1</span> <span class="op">=</span> <span class="nam">points2</span><span class="op">(</span><span class="nam">model</span><span class="op">,</span>  <span class="nam">closed</span><span class="op">=</span><span class="key">False</span><span class="op">,</span> <span class="nam">Error</span><span class="op">=</span><span class="nam">HausdorffError</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t568" class="stm mis">    <span class="nam">_</span><span class="op">,</span> <span class="nam">ps2</span> <span class="op">=</span> <span class="nam">points2</span><span class="op">(</span><span class="nam">target</span><span class="op">,</span> <span class="nam">closed</span><span class="op">=</span><span class="key">False</span><span class="op">,</span> <span class="nam">Error</span><span class="op">=</span><span class="nam">HausdorffError</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -1368,7 +1368,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-10-25 15:31
+            created at 2019-10-27 12:40
         </p>
     </div>
 </div>

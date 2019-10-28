@@ -30,10 +30,10 @@
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            192 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">144 run</span>
-            <span class="mis shortkey_m button_toggle_mis">48 missing</span>
-            <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
+            189 statements &nbsp;
+            <span class="run hide_run shortkey_r button_toggle_run">142 run</span>
+            <span class="mis shortkey_m button_toggle_mis">47 missing</span>
+            <span class="exc shortkey_x button_toggle_exc">3 excluded</span>
 
             
         </h2>
@@ -270,7 +270,7 @@
 <p id="n201" class="stm run hide_run"><a href="#n201">201</a></p>
 <p id="n202" class="pln"><a href="#n202">202</a></p>
 <p id="n203" class="stm run hide_run"><a href="#n203">203</a></p>
-<p id="n204" class="stm run hide_run"><a href="#n204">204</a></p>
+<p id="n204" class="exc"><a href="#n204">204</a></p>
 <p id="n205" class="pln"><a href="#n205">205</a></p>
 <p id="n206" class="stm run hide_run"><a href="#n206">206</a></p>
 <p id="n207" class="stm run hide_run"><a href="#n207">207</a></p>
@@ -301,7 +301,7 @@
 <p id="n232" class="pln"><a href="#n232">232</a></p>
 <p id="n233" class="stm run hide_run"><a href="#n233">233</a></p>
 <p id="n234" class="stm run hide_run"><a href="#n234">234</a></p>
-<p id="n235" class="stm mis"><a href="#n235">235</a></p>
+<p id="n235" class="exc"><a href="#n235">235</a></p>
 <p id="n236" class="stm run hide_run"><a href="#n236">236</a></p>
 <p id="n237" class="stm run hide_run"><a href="#n237">237</a></p>
 <p id="n238" class="pln"><a href="#n238">238</a></p>
@@ -387,7 +387,7 @@
 <p id="n318" class="stm mis"><a href="#n318">318</a></p>
 <p id="n319" class="stm run hide_run"><a href="#n319">319</a></p>
 <p id="n320" class="stm run hide_run"><a href="#n320">320</a></p>
-<p id="n321" class="stm run hide_run"><a href="#n321">321</a></p>
+<p id="n321" class="exc"><a href="#n321">321</a></p>
 <p id="n322" class="pln"><a href="#n322">322</a></p>
 <p id="n323" class="stm run hide_run"><a href="#n323">323</a></p>
 <p id="n324" class="pln"><a href="#n324">324</a></p>
@@ -845,7 +845,7 @@
 <p id="t201" class="stm run hide_run">        <span class="nam">_TypeError</span><span class="op">(</span><span class="nam">RefFrame</span><span class="op">,</span> <span class="nam">reframe2</span><span class="op">=</span><span class="nam">reframe2</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t202" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t203" class="stm run hide_run">        <span class="key">if</span> <span class="key">not</span> <span class="nam">self</span><span class="op">.</span><span class="nam">reframe</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t204" class="stm run hide_run">            <span class="key">raise</span> <span class="nam">TRFError</span><span class="op">(</span><span class="str">'no %r.%s'</span> <span class="op">%</span> <span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="str">'reframe'</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t204" class="exc">            <span class="key">raise</span> <span class="nam">TRFError</span><span class="op">(</span><span class="str">'no %r.%s'</span> <span class="op">%</span> <span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="str">'reframe'</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t205" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t206" class="stm run hide_run">        <span class="nam">ts</span> <span class="op">=</span> <span class="nam">_reframeTransforms</span><span class="op">(</span><span class="nam">reframe2</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">reframe</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">epoch</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t207" class="stm run hide_run">        <span class="key">if</span> <span class="nam">ts</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -876,7 +876,7 @@
 <p id="t232" class="pln"><span class="str">        '''</span><span class="strut">&nbsp;</span></p>
 <p id="t233" class="stm run hide_run">        <span class="nam">_TypeError</span><span class="op">(</span><span class="nam">Datum</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t234" class="stm run hide_run">        <span class="key">if</span> <span class="key">not</span> <span class="nam">datum</span><span class="op">.</span><span class="nam">isEllipsoidal</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t235" class="stm mis">            <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="str">'ellipsoidal'</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t235" class="exc">            <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="str">'ellipsoidal'</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t236" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_update</span><span class="op">(</span><span class="nam">datum</span> <span class="op">!=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t237" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_datum</span> <span class="op">=</span> <span class="nam">datum</span><span class="strut">&nbsp;</span></p>
 <p id="t238" class="pln"><span class="strut">&nbsp;</span></p>
@@ -962,7 +962,7 @@
 <p id="t318" class="stm mis">                <span class="nam">e</span> <span class="op">=</span> <span class="nam">E</span>  <span class="com"># no datum, XXX assume equivalent?</span><span class="strut">&nbsp;</span></p>
 <p id="t319" class="stm run hide_run">        <span class="key">if</span> <span class="nam">e</span> <span class="op">!=</span> <span class="nam">E</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t320" class="stm run hide_run">            <span class="nam">c</span> <span class="op">=</span> <span class="nam">E</span><span class="op">.</span><span class="nam">classname</span><span class="strut">&nbsp;</span></p>
-<p id="t321" class="stm run hide_run">            <span class="key">raise</span> <span class="nam">ValueError</span><span class="op">(</span><span class="str">'%s %s mistmatch: %ss.%s vs %ss.%s'</span> <span class="op">%</span><span class="strut">&nbsp;</span></p>
+<p id="t321" class="exc">            <span class="key">raise</span> <span class="nam">ValueError</span><span class="op">(</span><span class="str">'%s %s mistmatch: %ss.%s vs %ss.%s'</span> <span class="op">%</span><span class="strut">&nbsp;</span></p>
 <p id="t322" class="pln">                             <span class="op">(</span><span class="str">'other'</span><span class="op">,</span> <span class="nam">c</span><span class="op">,</span> <span class="nam">c</span><span class="op">,</span> <span class="nam">e</span><span class="op">.</span><span class="nam">name</span><span class="op">,</span> <span class="nam">c</span><span class="op">,</span> <span class="nam">E</span><span class="op">.</span><span class="nam">name</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t323" class="stm run hide_run">        <span class="key">return</span> <span class="nam">E</span><span class="strut">&nbsp;</span></p>
 <p id="t324" class="pln"><span class="strut">&nbsp;</span></p>
@@ -1224,7 +1224,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-10-25 15:31
+            created at 2019-10-27 12:40
         </p>
     </div>
 </div>

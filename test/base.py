@@ -14,6 +14,7 @@ from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
 from time import time
 
+coverage = None
 try:
     import geographiclib
 except ImportError:
@@ -44,7 +45,7 @@ __all__ = ('geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '19.10.01'
+__version__ = '19.10.27'
 
 try:
     _Ints = int, long
@@ -333,12 +334,9 @@ def versions():
     if isPyPy:
         vs += 'PyPy', sys.version.split('[PyPy ')[1].split()[0]
     vs += 'Python', sys.version.split()[0], _os_bitstr
-    if geographiclib:
-        vs += 'geographiclib', geographiclib.__version__
-    if numpy:
-        vs += 'numpy', numpy.__version__
-    if scipy:
-        vs += 'scipy', scipy.__version__
+    for t in (coverage, geographiclib, numpy, scipy):
+        if t:
+            vs += t.__name__, t.__version__
 
     # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
     #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS
@@ -366,6 +364,16 @@ def versions():
         vs += 'B',
 
     return ' '.join(vs)
+
+
+if __name__ == '__main__':
+
+    try:
+        import coverage  # PYCHOK re-imported?
+    except ImportError:
+        coverage = None
+
+    print(versions())
 
 # **) MIT License
 #

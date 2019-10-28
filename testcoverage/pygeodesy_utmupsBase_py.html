@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for pygeodesy/utmupsBase.py: 93%</title>
+    <title>Coverage for pygeodesy/utmupsBase.py: 95%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,16 +24,16 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>pygeodesy/utmupsBase.py</b> :
-            <span class="pc_cov">93%</span>
+            <span class="pc_cov">95%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            130 statements &nbsp;
+            128 statements &nbsp;
             <span class="run hide_run shortkey_r button_toggle_run">121 run</span>
-            <span class="mis shortkey_m button_toggle_mis">9 missing</span>
-            <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
+            <span class="mis shortkey_m button_toggle_mis">7 missing</span>
+            <span class="exc shortkey_x button_toggle_exc">3 excluded</span>
 
             
         </h2>
@@ -126,7 +126,7 @@
 <p id="n57" class="pln"><a href="#n57">57</a></p>
 <p id="n58" class="stm run hide_run"><a href="#n58">58</a></p>
 <p id="n59" class="pln"><a href="#n59">59</a></p>
-<p id="n60" class="pln"><a href="#n60">60</a></p>
+<p id="n60" class="exc"><a href="#n60">60</a></p>
 <p id="n61" class="stm run hide_run"><a href="#n61">61</a></p>
 <p id="n62" class="stm run hide_run"><a href="#n62">62</a></p>
 <p id="n63" class="stm run hide_run"><a href="#n63">63</a></p>
@@ -174,7 +174,7 @@
 <p id="n105" class="pln"><a href="#n105">105</a></p>
 <p id="n106" class="stm mis"><a href="#n106">106</a></p>
 <p id="n107" class="stm mis"><a href="#n107">107</a></p>
-<p id="n108" class="stm mis"><a href="#n108">108</a></p>
+<p id="n108" class="exc"><a href="#n108">108</a></p>
 <p id="n109" class="pln"><a href="#n109">109</a></p>
 <p id="n110" class="pln"><a href="#n110">110</a></p>
 <p id="n111" class="pln"><a href="#n111">111</a></p>
@@ -287,7 +287,7 @@
 <p id="n218" class="stm run hide_run"><a href="#n218">218</a></p>
 <p id="n219" class="pln"><a href="#n219">219</a></p>
 <p id="n220" class="pln"><a href="#n220">220</a></p>
-<p id="n221" class="stm mis"><a href="#n221">221</a></p>
+<p id="n221" class="exc"><a href="#n221">221</a></p>
 <p id="n222" class="stm run hide_run"><a href="#n222">222</a></p>
 <p id="n223" class="pln"><a href="#n223">223</a></p>
 <p id="n224" class="stm run hide_run"><a href="#n224">224</a></p>
@@ -422,7 +422,7 @@
 <p id="t57" class="pln"><span class="str">    '''</span><span class="strut">&nbsp;</span></p>
 <p id="t58" class="stm run hide_run">    <span class="key">try</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t59" class="pln">        <span class="com"># if lon is not None:</span><span class="strut">&nbsp;</span></p>
-<p id="t60" class="pln">        <span class="com">#     raise AttributeError</span><span class="strut">&nbsp;</span></p>
+<p id="t60" class="exc">        <span class="com">#     raise AttributeError</span><span class="strut">&nbsp;</span></p>
 <p id="t61" class="stm run hide_run">        <span class="nam">lat</span><span class="op">,</span> <span class="nam">lon</span> <span class="op">=</span> <span class="nam">latlon</span><span class="op">.</span><span class="nam">lat</span><span class="op">,</span> <span class="nam">latlon</span><span class="op">.</span><span class="nam">lon</span><span class="strut">&nbsp;</span></p>
 <p id="t62" class="stm run hide_run">        <span class="nam">_TypeError</span><span class="op">(</span><span class="nam">_LLEB</span><span class="op">,</span> <span class="nam">latlon</span><span class="op">=</span><span class="nam">latlon</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t63" class="stm run hide_run">        <span class="nam">d</span> <span class="op">=</span> <span class="nam">datum</span> <span class="key">or</span> <span class="nam">latlon</span><span class="op">.</span><span class="nam">datum</span><span class="strut">&nbsp;</span></p>
@@ -470,7 +470,7 @@
 <p id="t105" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t106" class="stm mis">    <span class="key">except</span> <span class="op">(</span><span class="nam">AttributeError</span><span class="op">,</span> <span class="nam">TypeError</span><span class="op">,</span> <span class="nam">ValueError</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t107" class="stm mis">        <span class="key">pass</span><span class="strut">&nbsp;</span></p>
-<p id="t108" class="stm mis">    <span class="key">raise</span> <span class="nam">ValueError</span><span class="op">(</span><span class="str">'%s, %s or %s invalid: %r'</span> <span class="op">%</span><span class="strut">&nbsp;</span></p>
+<p id="t108" class="exc">    <span class="key">raise</span> <span class="nam">ValueError</span><span class="op">(</span><span class="str">'%s, %s or %s invalid: %r'</span> <span class="op">%</span><span class="strut">&nbsp;</span></p>
 <p id="t109" class="pln">                     <span class="op">(</span><span class="str">'zone'</span><span class="op">,</span> <span class="str">'band'</span><span class="op">,</span> <span class="str">'hemipole'</span><span class="op">,</span> <span class="op">(</span><span class="nam">zone</span><span class="op">,</span> <span class="nam">B</span><span class="op">,</span> <span class="nam">hemipole</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t110" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t111" class="pln"><span class="strut">&nbsp;</span></p>
@@ -583,7 +583,7 @@
 <p id="t218" class="stm run hide_run">            <span class="nam">r</span> <span class="op">=</span> <span class="nam">_xattrs</span><span class="op">(</span><span class="nam">LatLon</span><span class="op">(</span><span class="nam">ll</span><span class="op">.</span><span class="nam">lat</span><span class="op">,</span> <span class="nam">ll</span><span class="op">.</span><span class="nam">lon</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">ll</span><span class="op">.</span><span class="nam">datum</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t219" class="pln">                               <span class="nam">ll</span><span class="op">,</span> <span class="str">'_convergence'</span><span class="op">,</span> <span class="str">'_scale'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t220" class="pln">        <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t221" class="stm mis">            <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="nam">_LLEB</span><span class="op">.</span><span class="nam">__name__</span><span class="op">,</span> <span class="nam">LatLon</span><span class="op">=</span><span class="nam">LatLon</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t221" class="exc">            <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="nam">_LLEB</span><span class="op">.</span><span class="nam">__name__</span><span class="op">,</span> <span class="nam">LatLon</span><span class="op">=</span><span class="nam">LatLon</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t222" class="stm run hide_run">        <span class="key">return</span> <span class="nam">_xnamed</span><span class="op">(</span><span class="nam">r</span><span class="op">,</span> <span class="nam">ll</span><span class="op">.</span><span class="nam">name</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t223" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t224" class="stm run hide_run">    <span class="op">@</span><span class="nam">property_RO</span><span class="strut">&nbsp;</span></p>
@@ -666,7 +666,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-10-25 15:31
+            created at 2019-10-27 12:40
         </p>
     </div>
 </div>

@@ -1,0 +1,15 @@
+
+# python -m coverage html --rcfile=testcoverage.rc --title="..."
+
+[report]
+exclude_lines =
+    pragma: no cover
+    PYCHOK no cover
+    \sraise\s
+    if False:
+    if __name__ == .__main__.:
+
+omit = test/*.py
+
+[html]
+directory = testcoverage

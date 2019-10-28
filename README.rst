@@ -72,16 +72,16 @@ Tests
 =====
 
 The tests have been run with Python 3.8.0 (with geographiclib_ 1.50 and
-numpy_ 1.17.3), with Python 3.7.4 and 2.7.16 (both with geographiclib_
+numpy_ 1.17.3), with Python 3.7.5 and 2.7.17 (both with geographiclib_
 1.50, numpy_ 1.17.2 respectively 1.16.5  and scipy_ 1.3.1 respectively
 1.2.2) and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3, both without
 geographiclib, numpy and scipy) on macOS 10.13.6 High Sierra, *all in
 64-bit only*.  The results of those tests are included in the
 distribution files.
 
-Test coverage has been measured with Python 3.7.4 (with geographiclib_
-1.50, numpy_ 1.17.2 and scipy_ 1.3.1) and an HMTL report is included
-in the distribution files.
+Test coverage has been measured with Python 3.7.5 (using coverage_ 4.5.4,
+geographiclib_ 1.50, numpy_ 1.17.2 and scipy_ 1.3.1).  An HMTL report is
+included in the distribution files.
 
 With Python 3.7 and 3.8, the tests run *with and without* ``lazy import``.
 
@@ -95,29 +95,30 @@ A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.3 and 3.7.4
 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
-(and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15 (and numpy 1.13.1, 1.14.0,
-1.15.2 or 1.16.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2, 3.7.3
-and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on MacOS X 10.10 Yosemite,
-MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra
-and macOS 10.14 Mojave, with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3,
-11.1.2 and 11.3 on iPad4, with Pythonista_ 3.2 (with geographiclib 1.49
-or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4,
-iPhone6 and/or iPhone10, all in 64-bit only and with 32-bit Python 2.6.6
-on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
+Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2),
+2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15, 2.7.16 (and numpy
+1.13.1, 1.14.0, 1.15.2, 1.16.2 or 1.16.5), 3.5.3, 3.6.2, 3.6.3, 3.6.4,
+3.6.5, 3.7.0, 3.7.2, 3.7.3, 3.7.4 and `Intel-Python`_ 3.5.3 (and numpy_
+1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12
+Sierra, macOS 10.13.5 High Sierra and macOS 10.14 Mojave, with Pythonista_
+3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with Pythonista_ 3.2
+(with geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0,
+12.2 and 12.3 on iPad4, iPhone6 and/or iPhone10, all in 64-bit only and
+with 32-bit Python 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14
+on Windows 10 Pro.
 
 Notes
 =====
 
 All Python source code has been statically checked_ with PyChecker_,
-PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.16
+PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.17
 and with Flake8_ using Python 3.8.0, both in 64-bit on macOS 10.13.6
 High Sierra.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 25, 2019.*
+*Last updated: Oct 27, 2019.*
 
 License
 =======
@@ -161,6 +162,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Cassini-Soldner: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html
 .. _checked: https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Cohen-Sutherland: https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
+.. _coverage: https://PyPI.org/project/coverage
 .. _Debian 9: https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master
 .. _docs: https://www.Movable-Type.co.UK/scripts/geodesy/docs
 .. _documentation: https://mrJean1.GitHub.io/PyGeodesy

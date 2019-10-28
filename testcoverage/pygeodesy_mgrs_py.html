@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for pygeodesy/mgrs.py: 85%</title>
+    <title>Coverage for pygeodesy/mgrs.py: 88%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,16 +24,16 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>pygeodesy/mgrs.py</b> :
-            <span class="pc_cov">85%</span>
+            <span class="pc_cov">88%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            123 statements &nbsp;
+            118 statements &nbsp;
             <span class="run hide_run shortkey_r button_toggle_run">104 run</span>
-            <span class="mis shortkey_m button_toggle_mis">19 missing</span>
-            <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
+            <span class="mis shortkey_m button_toggle_mis">14 missing</span>
+            <span class="exc shortkey_x button_toggle_exc">5 excluded</span>
 
             
         </h2>
@@ -168,11 +168,11 @@
 <p id="n99" class="stm run hide_run"><a href="#n99">99</a></p>
 <p id="n100" class="stm run hide_run"><a href="#n100">100</a></p>
 <p id="n101" class="stm run hide_run"><a href="#n101">101</a></p>
-<p id="n102" class="stm mis"><a href="#n102">102</a></p>
+<p id="n102" class="exc"><a href="#n102">102</a></p>
 <p id="n103" class="stm run hide_run"><a href="#n103">103</a></p>
 <p id="n104" class="stm run hide_run"><a href="#n104">104</a></p>
 <p id="n105" class="stm mis"><a href="#n105">105</a></p>
-<p id="n106" class="stm mis"><a href="#n106">106</a></p>
+<p id="n106" class="exc"><a href="#n106">106</a></p>
 <p id="n107" class="pln"><a href="#n107">107</a></p>
 <p id="n108" class="stm run hide_run"><a href="#n108">108</a></p>
 <p id="n109" class="pln"><a href="#n109">109</a></p>
@@ -361,7 +361,7 @@
 <p id="n292" class="stm run hide_run"><a href="#n292">292</a></p>
 <p id="n293" class="stm run hide_run"><a href="#n293">293</a></p>
 <p id="n294" class="stm run hide_run"><a href="#n294">294</a></p>
-<p id="n295" class="stm mis"><a href="#n295">295</a></p>
+<p id="n295" class="exc"><a href="#n295">295</a></p>
 <p id="n296" class="stm run hide_run"><a href="#n296">296</a></p>
 <p id="n297" class="pln"><a href="#n297">297</a></p>
 <p id="n298" class="stm run hide_run"><a href="#n298">298</a></p>
@@ -379,10 +379,10 @@
 <p id="n310" class="stm run hide_run"><a href="#n310">310</a></p>
 <p id="n311" class="stm mis"><a href="#n311">311</a></p>
 <p id="n312" class="stm run hide_run"><a href="#n312">312</a></p>
-<p id="n313" class="stm mis"><a href="#n313">313</a></p>
+<p id="n313" class="exc"><a href="#n313">313</a></p>
 <p id="n314" class="stm run hide_run"><a href="#n314">314</a></p>
 <p id="n315" class="stm mis"><a href="#n315">315</a></p>
-<p id="n316" class="stm mis"><a href="#n316">316</a></p>
+<p id="n316" class="exc"><a href="#n316">316</a></p>
 <p id="n317" class="pln"><a href="#n317">317</a></p>
 <p id="n318" class="stm run hide_run"><a href="#n318">318</a></p>
 <p id="n319" class="stm run hide_run"><a href="#n319">319</a></p>
@@ -558,11 +558,11 @@
 <p id="t99" class="stm run hide_run">        <span class="key">try</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t100" class="stm run hide_run">            <span class="nam">en</span> <span class="op">=</span> <span class="nam">str</span><span class="op">(</span><span class="nam">en100k</span><span class="op">)</span><span class="op">.</span><span class="nam">upper</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t101" class="stm run hide_run">            <span class="key">if</span> <span class="nam">len</span><span class="op">(</span><span class="nam">en</span><span class="op">)</span> <span class="op">!=</span> <span class="num">2</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t102" class="stm mis">                <span class="key">raise</span> <span class="nam">IndexError</span>  <span class="com"># caught below</span><span class="strut">&nbsp;</span></p>
+<p id="t102" class="exc">                <span class="key">raise</span> <span class="nam">IndexError</span>  <span class="com"># caught below</span><span class="strut">&nbsp;</span></p>
 <p id="t103" class="stm run hide_run">            <span class="nam">self</span><span class="op">.</span><span class="nam">_en100k</span> <span class="op">=</span> <span class="nam">en</span><span class="strut">&nbsp;</span></p>
 <p id="t104" class="stm run hide_run">            <span class="nam">self</span><span class="op">.</span><span class="nam">_en100k2m</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t105" class="stm mis">        <span class="key">except</span> <span class="nam">IndexError</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t106" class="stm mis">            <span class="key">raise</span> <span class="nam">MGRSError</span><span class="op">(</span><span class="str">'%s invalid: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'en100k'</span><span class="op">,</span> <span class="nam">en100k</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t106" class="exc">            <span class="key">raise</span> <span class="nam">MGRSError</span><span class="op">(</span><span class="str">'%s invalid: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'en100k'</span><span class="op">,</span> <span class="nam">en100k</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t107" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t108" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_easting</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_northing</span> <span class="op">=</span> <span class="nam">float</span><span class="op">(</span><span class="nam">easting</span><span class="op">)</span><span class="op">,</span> <span class="nam">float</span><span class="op">(</span><span class="nam">northing</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t109" class="pln"><span class="strut">&nbsp;</span></p>
@@ -751,7 +751,7 @@
 <p id="t292" class="stm run hide_run">    <span class="key">def</span> <span class="nam">_mg</span><span class="op">(</span><span class="nam">cre</span><span class="op">,</span> <span class="nam">s</span><span class="op">)</span><span class="op">:</span>  <span class="com"># return re.match groups</span><span class="strut">&nbsp;</span></p>
 <p id="t293" class="stm run hide_run">        <span class="nam">m</span> <span class="op">=</span> <span class="nam">cre</span><span class="op">.</span><span class="nam">match</span><span class="op">(</span><span class="nam">s</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t294" class="stm run hide_run">        <span class="key">if</span> <span class="key">not</span> <span class="nam">m</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t295" class="stm mis">            <span class="key">raise</span> <span class="nam">ValueError</span><span class="strut">&nbsp;</span></p>
+<p id="t295" class="exc">            <span class="key">raise</span> <span class="nam">ValueError</span><span class="strut">&nbsp;</span></p>
 <p id="t296" class="stm run hide_run">        <span class="key">return</span> <span class="nam">m</span><span class="op">.</span><span class="nam">groups</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t297" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t298" class="stm run hide_run">    <span class="key">def</span> <span class="nam">_s2m</span><span class="op">(</span><span class="nam">g</span><span class="op">)</span><span class="op">:</span>  <span class="com"># e or n string to float meter</span><span class="strut">&nbsp;</span></p>
@@ -769,10 +769,10 @@
 <p id="t310" class="stm run hide_run">        <span class="key">elif</span> <span class="nam">len</span><span class="op">(</span><span class="nam">m</span><span class="op">)</span> <span class="op">==</span> <span class="num">3</span><span class="op">:</span>  <span class="com"># 01ABC 12345 12345'</span><span class="strut">&nbsp;</span></p>
 <p id="t311" class="stm mis">            <span class="nam">m</span> <span class="op">=</span> <span class="nam">_mg</span><span class="op">(</span><span class="nam">_GZDre</span><span class="op">,</span> <span class="nam">m</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="nam">m</span><span class="op">[</span><span class="num">1</span><span class="op">:</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
 <p id="t312" class="stm run hide_run">        <span class="key">if</span> <span class="nam">len</span><span class="op">(</span><span class="nam">m</span><span class="op">)</span> <span class="op">!=</span> <span class="num">4</span><span class="op">:</span>  <span class="com"># 01A BC 1234 12345</span><span class="strut">&nbsp;</span></p>
-<p id="t313" class="stm mis">            <span class="key">raise</span> <span class="nam">ValueError</span><span class="strut">&nbsp;</span></p>
+<p id="t313" class="exc">            <span class="key">raise</span> <span class="nam">ValueError</span><span class="strut">&nbsp;</span></p>
 <p id="t314" class="stm run hide_run">        <span class="nam">e</span><span class="op">,</span> <span class="nam">n</span> <span class="op">=</span> <span class="nam">map</span><span class="op">(</span><span class="nam">_s2m</span><span class="op">,</span> <span class="nam">m</span><span class="op">[</span><span class="num">2</span><span class="op">:</span><span class="op">]</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t315" class="stm mis">    <span class="key">except</span> <span class="op">(</span><span class="nam">TypeError</span><span class="op">,</span> <span class="nam">ValueError</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t316" class="stm mis">        <span class="key">raise</span> <span class="nam">MGRSError</span><span class="op">(</span><span class="str">'%s invalid: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'strMGRS'</span><span class="op">,</span> <span class="nam">strMGRS</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t316" class="exc">        <span class="key">raise</span> <span class="nam">MGRSError</span><span class="op">(</span><span class="str">'%s invalid: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'strMGRS'</span><span class="op">,</span> <span class="nam">strMGRS</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t317" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t318" class="stm run hide_run">    <span class="nam">z</span><span class="op">,</span> <span class="nam">EN</span> <span class="op">=</span> <span class="nam">m</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="op">,</span> <span class="nam">m</span><span class="op">[</span><span class="num">1</span><span class="op">]</span><span class="op">.</span><span class="nam">upper</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t319" class="stm run hide_run">    <span class="nam">r</span> <span class="op">=</span> <span class="nam">Mgrs4Tuple</span><span class="op">(</span><span class="nam">z</span><span class="op">,</span> <span class="nam">EN</span><span class="op">,</span> <span class="nam">e</span><span class="op">,</span> <span class="nam">n</span><span class="op">)</span> <span class="key">if</span> <span class="nam">Mgrs</span> <span class="key">is</span> <span class="key">None</span> <span class="key">else</span> <span class="xx">\</span><span class="strut">&nbsp;</span></p>
@@ -854,7 +854,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-10-25 15:31
+            created at 2019-10-27 12:40
         </p>
     </div>
 </div>

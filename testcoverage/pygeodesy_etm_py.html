@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for pygeodesy/etm.py: 80%</title>
+    <title>Coverage for pygeodesy/etm.py: 82%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,16 +24,16 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>pygeodesy/etm.py</b> :
-            <span class="pc_cov">80%</span>
+            <span class="pc_cov">82%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            364 statements &nbsp;
+            359 statements &nbsp;
             <span class="run hide_run shortkey_r button_toggle_run">293 run</span>
-            <span class="mis shortkey_m button_toggle_mis">71 missing</span>
-            <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
+            <span class="mis shortkey_m button_toggle_mis">66 missing</span>
+            <span class="exc shortkey_x button_toggle_exc">5 excluded</span>
 
             
         </h2>
@@ -300,7 +300,7 @@
 <p id="n231" class="stm run hide_run"><a href="#n231">231</a></p>
 <p id="n232" class="stm run hide_run"><a href="#n232">232</a></p>
 <p id="n233" class="pln"><a href="#n233">233</a></p>
-<p id="n234" class="stm mis"><a href="#n234">234</a></p>
+<p id="n234" class="exc"><a href="#n234">234</a></p>
 <p id="n235" class="stm run hide_run"><a href="#n235">235</a></p>
 <p id="n236" class="stm run hide_run"><a href="#n236">236</a></p>
 <p id="n237" class="pln"><a href="#n237">237</a></p>
@@ -338,7 +338,7 @@
 <p id="n269" class="stm run hide_run"><a href="#n269">269</a></p>
 <p id="n270" class="pln"><a href="#n270">270</a></p>
 <p id="n271" class="stm run hide_run"><a href="#n271">271</a></p>
-<p id="n272" class="stm mis"><a href="#n272">272</a></p>
+<p id="n272" class="exc"><a href="#n272">272</a></p>
 <p id="n273" class="pln"><a href="#n273">273</a></p>
 <p id="n274" class="stm run hide_run"><a href="#n274">274</a></p>
 <p id="n275" class="stm mis"><a href="#n275">275</a></p>
@@ -540,7 +540,7 @@
 <p id="n471" class="pln"><a href="#n471">471</a></p>
 <p id="n472" class="stm run hide_run"><a href="#n472">472</a></p>
 <p id="n473" class="stm run hide_run"><a href="#n473">473</a></p>
-<p id="n474" class="stm mis"><a href="#n474">474</a></p>
+<p id="n474" class="exc"><a href="#n474">474</a></p>
 <p id="n475" class="stm run hide_run"><a href="#n475">475</a></p>
 <p id="n476" class="pln"><a href="#n476">476</a></p>
 <p id="n477" class="stm run hide_run"><a href="#n477">477</a></p>
@@ -753,7 +753,7 @@
 <p id="n684" class="stm run hide_run"><a href="#n684">684</a></p>
 <p id="n685" class="stm run hide_run"><a href="#n685">685</a></p>
 <p id="n686" class="pln"><a href="#n686">686</a></p>
-<p id="n687" class="stm mis"><a href="#n687">687</a></p>
+<p id="n687" class="exc"><a href="#n687">687</a></p>
 <p id="n688" class="stm run hide_run"><a href="#n688">688</a></p>
 <p id="n689" class="pln"><a href="#n689">689</a></p>
 <p id="n690" class="stm run hide_run"><a href="#n690">690</a></p>
@@ -888,7 +888,7 @@
 <p id="n819" class="stm run hide_run"><a href="#n819">819</a></p>
 <p id="n820" class="stm run hide_run"><a href="#n820">820</a></p>
 <p id="n821" class="pln"><a href="#n821">821</a></p>
-<p id="n822" class="stm mis"><a href="#n822">822</a></p>
+<p id="n822" class="exc"><a href="#n822">822</a></p>
 <p id="n823" class="stm run hide_run"><a href="#n823">823</a></p>
 <p id="n824" class="pln"><a href="#n824">824</a></p>
 <p id="n825" class="stm run hide_run"><a href="#n825">825</a></p>
@@ -1294,7 +1294,7 @@
 <p id="t231" class="stm run hide_run">        <span class="nam">E</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">datum</span><span class="op">.</span><span class="nam">ellipsoid</span><span class="strut">&nbsp;</span></p>
 <p id="t232" class="stm run hide_run">        <span class="key">if</span> <span class="nam">exactTM</span><span class="op">.</span><span class="nam">_E</span> <span class="op">!=</span> <span class="nam">E</span> <span class="key">or</span> <span class="nam">exactTM</span><span class="op">.</span><span class="nam">majoradius</span> <span class="op">!=</span> <span class="nam">E</span><span class="op">.</span><span class="nam">a</span> <span class="xx">\</span><span class="strut">&nbsp;</span></p>
 <p id="t233" class="pln">                           <span class="key">or</span> <span class="nam">exactTM</span><span class="op">.</span><span class="nam">flattening</span> <span class="op">!=</span> <span class="nam">E</span><span class="op">.</span><span class="nam">f</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t234" class="stm mis">            <span class="key">raise</span> <span class="nam">ETMError</span><span class="op">(</span><span class="str">'%r vs %r'</span> <span class="op">%</span> <span class="op">(</span><span class="nam">exactTM</span><span class="op">,</span> <span class="nam">E</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t234" class="exc">            <span class="key">raise</span> <span class="nam">ETMError</span><span class="op">(</span><span class="str">'%r vs %r'</span> <span class="op">%</span> <span class="op">(</span><span class="nam">exactTM</span><span class="op">,</span> <span class="nam">E</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t235" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_exactTM</span> <span class="op">=</span> <span class="nam">exactTM</span><span class="strut">&nbsp;</span></p>
 <p id="t236" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_scale0</span>  <span class="op">=</span> <span class="nam">exactTM</span><span class="op">.</span><span class="nam">k0</span><span class="strut">&nbsp;</span></p>
 <p id="t237" class="pln"><span class="strut">&nbsp;</span></p>
@@ -1332,7 +1332,7 @@
 <p id="t269" class="stm run hide_run">        <span class="nam">xTM</span><span class="op">,</span> <span class="nam">d</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">exactTM</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">datum</span><span class="strut">&nbsp;</span></p>
 <p id="t270" class="pln">        <span class="com"># double check that this and exactTM's ellipsoids stil match</span><span class="strut">&nbsp;</span></p>
 <p id="t271" class="stm run hide_run">        <span class="key">if</span> <span class="nam">xTM</span><span class="op">.</span><span class="nam">_E</span> <span class="op">!=</span> <span class="nam">d</span><span class="op">.</span><span class="nam">ellipsoid</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t272" class="stm mis">            <span class="key">raise</span> <span class="nam">ETMError</span><span class="op">(</span><span class="str">'%r vs %r'</span> <span class="op">%</span> <span class="op">(</span><span class="nam">xTM</span><span class="op">.</span><span class="nam">_E</span><span class="op">,</span> <span class="nam">d</span><span class="op">.</span><span class="nam">ellipsoid</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t272" class="exc">            <span class="key">raise</span> <span class="nam">ETMError</span><span class="op">(</span><span class="str">'%r vs %r'</span> <span class="op">%</span> <span class="op">(</span><span class="nam">xTM</span><span class="op">.</span><span class="nam">_E</span><span class="op">,</span> <span class="nam">d</span><span class="op">.</span><span class="nam">ellipsoid</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t273" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t274" class="stm run hide_run">        <span class="key">if</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_latlon</span> <span class="key">and</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_latlon_args</span> <span class="op">==</span> <span class="op">(</span><span class="nam">xTM</span><span class="op">,</span> <span class="nam">unfalse</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t275" class="stm mis">            <span class="key">return</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_latlon5</span><span class="op">(</span><span class="nam">LatLon</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -1534,7 +1534,7 @@
 <p id="t471" class="pln"><span class="str">        '''</span><span class="strut">&nbsp;</span></p>
 <p id="t472" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_k0</span> <span class="op">=</span> <span class="nam">float</span><span class="op">(</span><span class="nam">k0</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t473" class="stm run hide_run">        <span class="key">if</span> <span class="key">not</span> <span class="num">0</span> <span class="op">&lt;</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_k0</span> <span class="op">&lt;=</span> <span class="num">1</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t474" class="stm mis">            <span class="key">raise</span> <span class="nam">ETMError</span><span class="op">(</span><span class="str">'%s invalid: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'k0'</span><span class="op">,</span> <span class="nam">k0</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t474" class="exc">            <span class="key">raise</span> <span class="nam">ETMError</span><span class="op">(</span><span class="str">'%s invalid: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'k0'</span><span class="op">,</span> <span class="nam">k0</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t475" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_k0_a</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_k0</span> <span class="op">*</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_a</span><span class="strut">&nbsp;</span></p>
 <p id="t476" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t477" class="stm run hide_run">    <span class="op">@</span><span class="nam">property</span><span class="strut">&nbsp;</span></p>
@@ -1747,7 +1747,7 @@
 <p id="t684" class="stm run hide_run">                    <span class="key">break</span><span class="strut">&nbsp;</span></p>
 <p id="t685" class="stm run hide_run">                <span class="nam">trip</span> <span class="op">=</span> <span class="op">(</span><span class="nam">du</span><span class="op">**</span><span class="num">2</span> <span class="op">+</span> <span class="nam">dv</span><span class="op">**</span><span class="num">2</span><span class="op">)</span> <span class="op">&lt;</span> <span class="nam">_TOL_10</span><span class="strut">&nbsp;</span></p>
 <p id="t686" class="pln">            <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t687" class="stm mis">                <span class="key">raise</span> <span class="nam">EllipticError</span><span class="op">(</span><span class="str">'no %s convergence'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'sigmaInv'</span><span class="op">,</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t687" class="exc">                <span class="key">raise</span> <span class="nam">EllipticError</span><span class="op">(</span><span class="str">'no %s convergence'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'sigmaInv'</span><span class="op">,</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t688" class="stm run hide_run">        <span class="key">return</span> <span class="nam">u</span><span class="op">,</span> <span class="nam">v</span><span class="strut">&nbsp;</span></p>
 <p id="t689" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t690" class="stm run hide_run">    <span class="key">def</span> <span class="nam">_sigmaInv0</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">xi</span><span class="op">,</span> <span class="nam">eta</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -1882,7 +1882,7 @@
 <p id="t819" class="stm run hide_run">                    <span class="key">break</span><span class="strut">&nbsp;</span></p>
 <p id="t820" class="stm run hide_run">                <span class="nam">trip</span> <span class="op">=</span> <span class="op">(</span><span class="nam">du</span><span class="op">**</span><span class="num">2</span> <span class="op">+</span> <span class="nam">dv</span><span class="op">**</span><span class="num">2</span><span class="op">)</span> <span class="op">&lt;</span> <span class="nam">stol2</span><span class="strut">&nbsp;</span></p>
 <p id="t821" class="pln">            <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t822" class="stm mis">                <span class="key">raise</span> <span class="nam">EllipticError</span><span class="op">(</span><span class="str">'no %s convergence'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'zetaInv'</span><span class="op">,</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t822" class="exc">                <span class="key">raise</span> <span class="nam">EllipticError</span><span class="op">(</span><span class="str">'no %s convergence'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'zetaInv'</span><span class="op">,</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t823" class="stm run hide_run">        <span class="key">return</span> <span class="nam">u</span><span class="op">,</span> <span class="nam">v</span><span class="strut">&nbsp;</span></p>
 <p id="t824" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t825" class="stm run hide_run">    <span class="key">def</span> <span class="nam">_zetaInv0</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">psi</span><span class="op">,</span> <span class="nam">lam</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -2062,7 +2062,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-10-25 15:31
+            created at 2019-10-27 12:40
         </p>
     </div>
 </div>

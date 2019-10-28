@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for pygeodesy/cartesianBase.py: 87%</title>
+    <title>Coverage for pygeodesy/cartesianBase.py: 90%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,16 +24,16 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>pygeodesy/cartesianBase.py</b> :
-            <span class="pc_cov">87%</span>
+            <span class="pc_cov">90%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            106 statements &nbsp;
+            102 statements &nbsp;
             <span class="run hide_run shortkey_r button_toggle_run">92 run</span>
-            <span class="mis shortkey_m button_toggle_mis">14 missing</span>
-            <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
+            <span class="mis shortkey_m button_toggle_mis">10 missing</span>
+            <span class="exc shortkey_x button_toggle_exc">4 excluded</span>
 
             
         </h2>
@@ -198,9 +198,9 @@
 <p id="n129" class="pln"><a href="#n129">129</a></p>
 <p id="n130" class="stm run hide_run"><a href="#n130">130</a></p>
 <p id="n131" class="stm run hide_run"><a href="#n131">131</a></p>
-<p id="n132" class="stm mis"><a href="#n132">132</a></p>
+<p id="n132" class="exc"><a href="#n132">132</a></p>
 <p id="n133" class="stm run hide_run"><a href="#n133">133</a></p>
-<p id="n134" class="stm mis"><a href="#n134">134</a></p>
+<p id="n134" class="exc"><a href="#n134">134</a></p>
 <p id="n135" class="stm run hide_run"><a href="#n135">135</a></p>
 <p id="n136" class="stm run hide_run"><a href="#n136">136</a></p>
 <p id="n137" class="pln"><a href="#n137">137</a></p>
@@ -312,12 +312,12 @@
 <p id="n243" class="pln"><a href="#n243">243</a></p>
 <p id="n244" class="stm run hide_run"><a href="#n244">244</a></p>
 <p id="n245" class="stm run hide_run"><a href="#n245">245</a></p>
-<p id="n246" class="stm mis"><a href="#n246">246</a></p>
+<p id="n246" class="exc"><a href="#n246">246</a></p>
 <p id="n247" class="stm run hide_run"><a href="#n247">247</a></p>
 <p id="n248" class="pln"><a href="#n248">248</a></p>
 <p id="n249" class="stm run hide_run"><a href="#n249">249</a></p>
 <p id="n250" class="stm run hide_run"><a href="#n250">250</a></p>
-<p id="n251" class="stm mis"><a href="#n251">251</a></p>
+<p id="n251" class="exc"><a href="#n251">251</a></p>
 <p id="n252" class="stm run hide_run"><a href="#n252">252</a></p>
 <p id="n253" class="pln"><a href="#n253">253</a></p>
 <p id="n254" class="stm run hide_run"><a href="#n254">254</a></p>
@@ -494,9 +494,9 @@
 <p id="t129" class="pln"><span class="str">        '''</span><span class="strut">&nbsp;</span></p>
 <p id="t130" class="stm run hide_run">        <span class="nam">_TypeError</span><span class="op">(</span><span class="nam">Datum</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t131" class="stm run hide_run">        <span class="key">if</span> <span class="nam">self</span><span class="op">.</span><span class="nam">datum</span><span class="op">.</span><span class="nam">isEllipsoidal</span> <span class="key">and</span> <span class="key">not</span> <span class="nam">datum</span><span class="op">.</span><span class="nam">isEllipsoidal</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t132" class="stm mis">            <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="str">'ellipsoidal'</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t132" class="exc">            <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="str">'ellipsoidal'</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t133" class="stm run hide_run">        <span class="key">elif</span> <span class="nam">self</span><span class="op">.</span><span class="nam">datum</span><span class="op">.</span><span class="nam">isSpherical</span> <span class="key">and</span> <span class="key">not</span> <span class="nam">datum</span><span class="op">.</span><span class="nam">isSpherical</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t134" class="stm mis">            <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="str">'spherical'</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t134" class="exc">            <span class="key">raise</span> <span class="nam">_IsNotError</span><span class="op">(</span><span class="str">'spherical'</span><span class="op">,</span> <span class="nam">datum</span><span class="op">=</span><span class="nam">datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t135" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_update</span><span class="op">(</span><span class="nam">datum</span> <span class="op">!=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_datum</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t136" class="stm run hide_run">        <span class="nam">self</span><span class="op">.</span><span class="nam">_datum</span> <span class="op">=</span> <span class="nam">datum</span><span class="strut">&nbsp;</span></p>
 <p id="t137" class="pln"><span class="strut">&nbsp;</span></p>
@@ -608,12 +608,12 @@
 <p id="t243" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t244" class="stm run hide_run">            <span class="nam">k</span> <span class="op">=</span> <span class="nam">sqrt</span><span class="op">(</span><span class="nam">fsum_</span><span class="op">(</span><span class="nam">u</span><span class="op">,</span> <span class="nam">v</span><span class="op">,</span> <span class="nam">w</span><span class="op">**</span><span class="num">2</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="nam">w</span><span class="strut">&nbsp;</span></p>
 <p id="t245" class="stm run hide_run">            <span class="key">if</span> <span class="nam">abs</span><span class="op">(</span><span class="nam">k</span><span class="op">)</span> <span class="op">&lt;</span> <span class="nam">EPS</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t246" class="stm mis">                <span class="key">raise</span> <span class="nam">ValueError</span><span class="op">(</span><span class="str">'%s: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'origin'</span><span class="op">,</span> <span class="nam">self</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t246" class="exc">                <span class="key">raise</span> <span class="nam">ValueError</span><span class="op">(</span><span class="str">'%s: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'origin'</span><span class="op">,</span> <span class="nam">self</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t247" class="stm run hide_run">            <span class="nam">e</span> <span class="op">=</span> <span class="nam">k</span> <span class="op">/</span> <span class="op">(</span><span class="nam">k</span> <span class="op">+</span> <span class="nam">E</span><span class="op">.</span><span class="nam">e2</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t248" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t249" class="stm run hide_run">            <span class="nam">t</span> <span class="op">=</span> <span class="nam">hypot</span><span class="op">(</span><span class="nam">e</span> <span class="op">*</span> <span class="nam">hypot</span><span class="op">(</span><span class="nam">x</span><span class="op">,</span> <span class="nam">y</span><span class="op">)</span><span class="op">,</span> <span class="nam">z</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t250" class="stm run hide_run">            <span class="key">if</span> <span class="nam">t</span> <span class="op">&lt;</span> <span class="nam">EPS</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t251" class="stm mis">                <span class="key">raise</span> <span class="nam">ValueError</span><span class="op">(</span><span class="str">'%s: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'origin'</span><span class="op">,</span> <span class="nam">self</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t251" class="exc">                <span class="key">raise</span> <span class="nam">ValueError</span><span class="op">(</span><span class="str">'%s: %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'origin'</span><span class="op">,</span> <span class="nam">self</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t252" class="stm run hide_run">            <span class="nam">h</span> <span class="op">=</span> <span class="nam">fsum_</span><span class="op">(</span><span class="nam">k</span><span class="op">,</span> <span class="nam">E</span><span class="op">.</span><span class="nam">e2</span><span class="op">,</span> <span class="op">-</span><span class="num">1</span><span class="op">)</span> <span class="op">/</span> <span class="nam">k</span> <span class="op">*</span> <span class="nam">t</span><span class="strut">&nbsp;</span></p>
 <p id="t253" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t254" class="stm run hide_run">            <span class="nam">s</span> <span class="op">=</span> <span class="nam">e</span> <span class="op">/</span> <span class="nam">t</span><span class="strut">&nbsp;</span></p>
@@ -666,7 +666,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-10-25 15:31
+            created at 2019-10-27 12:40
         </p>
     </div>
 </div>

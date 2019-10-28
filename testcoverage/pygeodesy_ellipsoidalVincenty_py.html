@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for pygeodesy/ellipsoidalVincenty.py: 95%</title>
+    <title>Coverage for pygeodesy/ellipsoidalVincenty.py: 97%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,16 +24,16 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>pygeodesy/ellipsoidalVincenty.py</b> :
-            <span class="pc_cov">95%</span>
+            <span class="pc_cov">97%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            154 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">147 run</span>
-            <span class="mis shortkey_m button_toggle_mis">7 missing</span>
-            <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
+            150 statements &nbsp;
+            <span class="run hide_run shortkey_r button_toggle_run">146 run</span>
+            <span class="mis shortkey_m button_toggle_mis">4 missing</span>
+            <span class="exc shortkey_x button_toggle_exc">5 excluded</span>
 
             
         </h2>
@@ -125,7 +125,7 @@
 <p id="n56" class="stm run hide_run"><a href="#n56">56</a></p>
 <p id="n57" class="stm run hide_run"><a href="#n57">57</a></p>
 <p id="n58" class="stm run hide_run"><a href="#n58">58</a></p>
-<p id="n59" class="stm mis"><a href="#n59">59</a></p>
+<p id="n59" class="exc"><a href="#n59">59</a></p>
 <p id="n60" class="stm run hide_run"><a href="#n60">60</a></p>
 <p id="n61" class="pln"><a href="#n61">61</a></p>
 <p id="n62" class="stm run hide_run"><a href="#n62">62</a></p>
@@ -553,7 +553,7 @@
 <p id="n484" class="stm run hide_run"><a href="#n484">484</a></p>
 <p id="n485" class="stm run hide_run"><a href="#n485">485</a></p>
 <p id="n486" class="pln"><a href="#n486">486</a></p>
-<p id="n487" class="stm mis"><a href="#n487">487</a></p>
+<p id="n487" class="exc"><a href="#n487">487</a></p>
 <p id="n488" class="pln"><a href="#n488">488</a></p>
 <p id="n489" class="stm run hide_run"><a href="#n489">489</a></p>
 <p id="n490" class="pln"><a href="#n490">490</a></p>
@@ -600,7 +600,7 @@
 <p id="n531" class="stm run hide_run"><a href="#n531">531</a></p>
 <p id="n532" class="stm run hide_run"><a href="#n532">532</a></p>
 <p id="n533" class="stm run hide_run"><a href="#n533">533</a></p>
-<p id="n534" class="stm run hide_run"><a href="#n534">534</a></p>
+<p id="n534" class="exc"><a href="#n534">534</a></p>
 <p id="n535" class="pln"><a href="#n535">535</a></p>
 <p id="n536" class="stm run hide_run"><a href="#n536">536</a></p>
 <p id="n537" class="stm run hide_run"><a href="#n537">537</a></p>
@@ -625,11 +625,11 @@
 <p id="n556" class="pln"><a href="#n556">556</a></p>
 <p id="n557" class="pln"><a href="#n557">557</a></p>
 <p id="n558" class="pln"><a href="#n558">558</a></p>
-<p id="n559" class="pln"><a href="#n559">559</a></p>
+<p id="n559" class="exc"><a href="#n559">559</a></p>
 <p id="n560" class="pln"><a href="#n560">560</a></p>
 <p id="n561" class="pln"><a href="#n561">561</a></p>
 <p id="n562" class="stm mis"><a href="#n562">562</a></p>
-<p id="n563" class="stm mis"><a href="#n563">563</a></p>
+<p id="n563" class="exc"><a href="#n563">563</a></p>
 <p id="n564" class="pln"><a href="#n564">564</a></p>
 <p id="n565" class="stm run hide_run"><a href="#n565">565</a></p>
 <p id="n566" class="stm run hide_run"><a href="#n566">566</a></p>
@@ -777,7 +777,7 @@
 <p id="t56" class="stm run hide_run"><span class="key">from</span> <span class="nam">__future__</span> <span class="key">import</span> <span class="nam">division</span><span class="strut">&nbsp;</span></p>
 <p id="t57" class="stm run hide_run"><span class="nam">division</span> <span class="op">=</span> <span class="num">1</span> <span class="op">/</span> <span class="num">2</span>  <span class="com"># double check int division, see .datum.py</span><span class="strut">&nbsp;</span></p>
 <p id="t58" class="stm run hide_run"><span class="key">if</span> <span class="key">not</span> <span class="nam">division</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t59" class="stm mis">    <span class="key">raise</span> <span class="nam">ImportError</span><span class="op">(</span><span class="str">'%s 1/2 == %d'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'division'</span><span class="op">,</span> <span class="nam">division</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t59" class="exc">    <span class="key">raise</span> <span class="nam">ImportError</span><span class="op">(</span><span class="str">'%s 1/2 == %d'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'division'</span><span class="op">,</span> <span class="nam">division</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t60" class="stm run hide_run"><span class="key">del</span> <span class="nam">division</span><span class="strut">&nbsp;</span></p>
 <p id="t61" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t62" class="stm run hide_run"><span class="key">from</span> <span class="nam">pygeodesy</span><span class="op">.</span><span class="nam">datum</span> <span class="key">import</span> <span class="nam">Datums</span><span class="strut">&nbsp;</span></p>
@@ -1205,7 +1205,7 @@
 <p id="t484" class="stm run hide_run">            <span class="key">if</span> <span class="nam">abs</span><span class="op">(</span><span class="nam">s</span> <span class="op">-</span> <span class="nam">s_</span><span class="op">)</span> <span class="op">&lt;</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_epsilon</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t485" class="stm run hide_run">                <span class="key">break</span><span class="strut">&nbsp;</span></p>
 <p id="t486" class="pln">        <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t487" class="stm mis">            <span class="key">raise</span> <span class="nam">VincentyError</span><span class="op">(</span><span class="str">'%s, %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'no convergence'</span><span class="op">,</span> <span class="nam">self</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t487" class="exc">            <span class="key">raise</span> <span class="nam">VincentyError</span><span class="op">(</span><span class="str">'%s, %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'no convergence'</span><span class="op">,</span> <span class="nam">self</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t488" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t489" class="stm run hide_run">        <span class="nam">t</span> <span class="op">=</span> <span class="nam">s1</span> <span class="op">*</span> <span class="nam">ss</span> <span class="op">-</span> <span class="nam">c1</span> <span class="op">*</span> <span class="nam">cs</span> <span class="op">*</span> <span class="nam">ci</span><span class="strut">&nbsp;</span></p>
 <p id="t490" class="pln">        <span class="com"># final bearing (reverse azimuth +/- 180)</span><span class="strut">&nbsp;</span></p>
@@ -1252,7 +1252,7 @@
 <p id="t531" class="stm run hide_run">            <span class="nam">ss</span> <span class="op">=</span> <span class="nam">hypot</span><span class="op">(</span><span class="nam">c2</span> <span class="op">*</span> <span class="nam">sll</span><span class="op">,</span> <span class="nam">c1s2</span> <span class="op">-</span> <span class="nam">s1c2</span> <span class="op">*</span> <span class="nam">cll</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t532" class="stm run hide_run">            <span class="key">if</span> <span class="nam">ss</span> <span class="op">&lt;</span> <span class="nam">EPS</span><span class="op">:</span>  <span class="com"># coincident or antipodal, ...</span><span class="strut">&nbsp;</span></p>
 <p id="t533" class="stm run hide_run">                <span class="key">if</span> <span class="nam">self</span><span class="op">.</span><span class="nam">isantipodeTo</span><span class="op">(</span><span class="nam">other</span><span class="op">,</span> <span class="nam">eps</span><span class="op">=</span><span class="nam">self</span><span class="op">.</span><span class="nam">_epsilon</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t534" class="stm run hide_run">                    <span class="key">raise</span> <span class="nam">VincentyError</span><span class="op">(</span><span class="str">'%s, %r %sto %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'ambiguous'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t534" class="exc">                    <span class="key">raise</span> <span class="nam">VincentyError</span><span class="op">(</span><span class="str">'%s, %r %sto %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'ambiguous'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t535" class="pln">                                        <span class="nam">self</span><span class="op">,</span> <span class="str">'antipodal '</span><span class="op">,</span> <span class="nam">other</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t536" class="stm run hide_run">                <span class="nam">d</span> <span class="op">=</span> <span class="num">0.0</span>  <span class="com"># like Karney, ...</span><span class="strut">&nbsp;</span></p>
 <p id="t537" class="stm run hide_run">                <span class="key">if</span> <span class="nam">azis</span><span class="op">:</span>  <span class="com"># return zeros</span><span class="strut">&nbsp;</span></p>
@@ -1277,11 +1277,11 @@
 <p id="t556" class="pln"><span class="com">#           # under Inverse at &lt;https://WikiPedia.org/wiki/Vincenty's_formulae></span><span class="strut">&nbsp;</span></p>
 <p id="t557" class="pln"><span class="com">#           # &lt;https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js></span><span class="strut">&nbsp;</span></p>
 <p id="t558" class="pln"><span class="com">#           elif abs(ll) > PI and self.isantipodeTo(other, eps=self._epsilon):</span><span class="strut">&nbsp;</span></p>
-<p id="t559" class="pln"><span class="com">#              raise VincentyError('%s, %r %sto %r' % ('ambiguous', self,</span><span class="strut">&nbsp;</span></p>
+<p id="t559" class="exc"><span class="com">#              raise VincentyError('%s, %r %sto %r' % ('ambiguous', self,</span><span class="strut">&nbsp;</span></p>
 <p id="t560" class="pln"><span class="com">#                                  'antipodal ', other))</span><span class="strut">&nbsp;</span></p>
 <p id="t561" class="pln">        <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t562" class="stm mis">            <span class="nam">t</span> <span class="op">=</span> <span class="str">'antipodal '</span> <span class="key">if</span> <span class="nam">self</span><span class="op">.</span><span class="nam">isantipodeTo</span><span class="op">(</span><span class="nam">other</span><span class="op">,</span> <span class="nam">eps</span><span class="op">=</span><span class="nam">self</span><span class="op">.</span><span class="nam">_epsilon</span><span class="op">)</span> <span class="key">else</span> <span class="str">''</span><span class="strut">&nbsp;</span></p>
-<p id="t563" class="stm mis">            <span class="key">raise</span> <span class="nam">VincentyError</span><span class="op">(</span><span class="str">'%s, %r %sto %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'no convergence'</span><span class="op">,</span> <span class="nam">self</span><span class="op">,</span> <span class="nam">t</span><span class="op">,</span> <span class="nam">other</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t563" class="exc">            <span class="key">raise</span> <span class="nam">VincentyError</span><span class="op">(</span><span class="str">'%s, %r %sto %r'</span> <span class="op">%</span> <span class="op">(</span><span class="str">'no convergence'</span><span class="op">,</span> <span class="nam">self</span><span class="op">,</span> <span class="nam">t</span><span class="op">,</span> <span class="nam">other</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t564" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t565" class="stm run hide_run">        <span class="key">if</span> <span class="nam">c2a</span><span class="op">:</span>  <span class="com"># e22 == (a / b)**2 - 1</span><span class="strut">&nbsp;</span></p>
 <p id="t566" class="stm run hide_run">            <span class="nam">A</span><span class="op">,</span> <span class="nam">B</span> <span class="op">=</span> <span class="nam">_p2</span><span class="op">(</span><span class="nam">c2a</span> <span class="op">*</span> <span class="nam">E</span><span class="op">.</span><span class="nam">e22</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -1378,7 +1378,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-10-25 15:31
+            created at 2019-10-27 12:40
         </p>
     </div>
 </div>
