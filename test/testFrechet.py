@@ -4,9 +4,9 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '19.10.31'
+__version__ = '19.11.02'
 
-from base import isPython3, isWindows, TestsBase
+from base import coverage, isPython3, isWindows, TestsBase
 
 from pygeodesy import fStr, LatLon_, randomrangenerator
 
@@ -121,12 +121,13 @@ if __name__ == '__main__':
         t.test2(FrechetVincentys, (1.81341, 18, 14,   117,  5400),
                                   (1.83289,  3,  4.5, 196, 10710))
 
-    f = frechet_(_ms, _ps, distance=_distance, units='degrees')
-    t.test('frechet_', f, "(178.5, 74, 56, 19, 5400, 'degrees')" if isPython3 else
-                          "(288.0, 1, 1, 147, 5400, 'degrees')")
+    if coverage:  # for test coverage
+        f = frechet_(_ms, _ps, distance=_distance, units='degrees')
+        t.test('frechet_', f, "(178.5, 74, 56, 19, 5400, 'degrees')" if isPython3 else
+                              "(288.0, 1, 1, 147, 5400, 'degrees')", known=True)
 
-    t.test('[fi1]', fractional(_ms, f.fi1), '64.0°S, 096.0°E' if isPython3 else '38.0°S, 116.0°W')
-    t.test('[fi2]', fractional(_ps, f.fi2), '41.0°S, 071.0°W' if isPython3 else '64.0°N, 121.0°E')
+        t.test('[fi1]', fractional(_ms, f.fi1), '64.0°S, 096.0°E' if isPython3 else '38.0°S, 116.0°W', known=True)
+        t.test('[fi2]', fractional(_ps, f.fi2), '41.0°S, 071.0°W' if isPython3 else '64.0°N, 121.0°E', known=True)
 
     t.results()
     t.exit()
