@@ -1,15 +1,18 @@
 
 # python -m coverage html --rcfile=testcoverage.rc --title="..."
+# __version__ = '19.11.02'
 
 [report]
 exclude_lines =
     pragma: no cover
     PYCHOK no cover
     \sraise\s
+    \._notOverloaded\(
     if False:
     if __name__ == .__main__.:
 
-omit = test/*.py
+include = pygeodesy/*.py
+# omit = test/*.py
 
 [html]
 directory = testcoverage

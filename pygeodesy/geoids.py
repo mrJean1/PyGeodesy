@@ -84,7 +84,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '19.10.24'
+__version__ = '19.11.02'
 
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',
@@ -286,11 +286,11 @@ class _GeoidBase(_HeightBase):
     def _llh3LL(self, llh, LatLon):
         return llh if LatLon is None else LatLon(*llh)
 
-    def _llh3minmax(self, high):
+    def _llh3minmax(self, highest=True):
         hs, np = self._hs_y_x, self._np
         # <https://docs.SciPy.org/doc/numpy/reference/generated/
         #         numpy.argmin.html#numpy.argmin>
-        arg = self._np.argmax if high else self._np.argmin
+        arg = self._np.argmax if highest else self._np.argmin
         y, x = np.unravel_index(arg(hs, axis=None), hs.shape)
         return self._g2ll2(*self._gyx2g2(y, x)) + (float(hs[y, x]),)
 
@@ -939,7 +939,7 @@ class GeoidKarney(_GeoidBase):
             lon += 360
         return lat, lon
 
-    def _llh3minmax(self, highest):
+    def _llh3minmax(self, highest=True):
         # find highest or lowest, takes 10+ secs for egm2008-1.pgm geoid
         # (Python 2.7.16, macOS 10.13.6 High Sierra, iMac 3 GHz Core i3)
         y = x = 0
@@ -1399,6 +1399,9 @@ class _PGM(_Gpars):
         self.crop4 = south, west, north, east
         self.knots = k
         self.skip  = 0  # no header lines in c
+
+        c.seek(0, _SEEK_SET)
+        # c = open(c.name, 'rb')  # reopen for numpy 1.8.0-
         return c
 
     def _Errorf(self, fmt, *args):

@@ -2,5 +2,5 @@ graft docs
 include docs.html
 graft test
 include test/testRoutesMap.jpg
-graft testcoverage
+include testcoverage.pdf
 graft testresults

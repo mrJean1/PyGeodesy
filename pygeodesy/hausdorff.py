@@ -73,7 +73,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '19.10.19'
+__version__ = '19.10.30'
 
 
 class HausdorffError(ValueError):
@@ -578,7 +578,7 @@ def randomrangenerator(seed):
               current time or from a platform-specific
               randomness source, if available.
 
-       @return: A generator of random range functions.
+       @return: A function to generatore random ranges.
 
        @example:
 

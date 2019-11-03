@@ -26,7 +26,7 @@ _MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.10.19'
+__version__ = '19.10.29'
 
 try:
     _Strs = basestring, str  # PYCHOK .datum.py, .geohash.py
@@ -96,14 +96,13 @@ def clipStr(bstr, limit=50, white=''):
        @keyword limit: Length limit (C{int}).
        @keyword white: Whitespace replacement (C{str}).
 
-       @return: Clipped C{bytes} or C{str}.
+       @return: Un/-clipped B{C{bstr}}.
     '''
     t = type(bstr)
-    if bstr and limit > 8:
-        n = len(bstr)
-        if n > limit:
-            h = limit // 2
-            bstr = bstr[:h] + t('....') + bstr[-h:]
+    n = len(bstr)
+    if n > limit > 8:
+        h = limit // 2
+        bstr = bstr[:h] + t('....') + bstr[-h:]
     if white:  # replace whitespace
         bstr = t(white).join(bstr.split())
     return bstr
@@ -333,7 +332,7 @@ def iterNumpy2over(n=None):
 def limiterrors(raiser=None):
     '''Get/set the raising of limit errors.
 
-       @keyword raiser: Choose C{True} to raise or C{False} to
+       @keyword raiser: Choose C{True} to throw or C{False} to
                         ignore L{LimitError} exceptions.  Use
                         C{None} to leave the setting unchanged.
 

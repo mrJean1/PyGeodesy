@@ -60,7 +60,7 @@ from math import atan2, copysign, cos, degrees, hypot, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '19.10.24'
+__version__ = '19.10.28'
 
 
 class EcefError(ValueError):
@@ -115,7 +115,7 @@ def _sch3(y, x):
 
 
 class _EcefBase(_NamedBase):
-    '''(INTERNAL) Base class for L{EcefKarney} and L{EcefYou}.
+    '''(INTERNAL) Base class for L{EcefKarney}, L{EcefVeness} and L{EcefYou}.
     '''
     _datum = None
     _E     = None

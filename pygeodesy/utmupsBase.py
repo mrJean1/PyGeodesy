@@ -16,7 +16,7 @@ from pygeodesy.utily import issubclassof, property_RO, _Strs, \
                            _TypeError, wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '19.10.14'
+__version__ = '19.10.31'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -59,7 +59,7 @@ def _to4lldn(latlon, lon, datum, name):
         # if lon is not None:
         #     raise AttributeError
         lat, lon = latlon.lat, latlon.lon
-        _TypeError(_LLEB, latlon=latlon)
+        _TypeError(_LLEB, LatLonDatum5Tuple, latlon=latlon)
         d = datum or latlon.datum
     except AttributeError:
         lat, lon = parseDMS2(latlon, lon)

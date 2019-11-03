@@ -39,7 +39,7 @@ from math import asin, atan2, cos, radians, sin
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '19.10.19'
+__version__ = '19.10.31'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -280,28 +280,28 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
         return v.toLatLon(datum=self.datum, LatLon=self.classof)  # Cartesian(v.x, v.y, v.z).toLatLon(...)
 
-#     def distanceTo(self, other, radius=None):
-#         '''Compute the distance from this to an other point.
-#
-#            @param other: The other point (L{LatLon}).
-#            @keyword radius: Optional, mean earth radius (C{meter}).
-#
-#            @return: Distance (C{meter}, same units as B{C{radius}}).
-#
-#            @raise TypeError: The B{C{other}} point is not L{LatLon}.
-#
-#            @example:
-#
-#            >>> p = LatLon(52.205, 0.119)
-#            >>> q = LatLon(48.857, 2.351);
-#            >>> d = p.distanceTo(q)  # 404300
-#         '''
-#         self.others(other)
-#
-#         v1 = self.toVector3d()
-#         v2 = other.toVector3d()
-#         r = self.datum.ellipsoid.R1 if radius is None else radius
-#         return v1.angleTo(v2) * float(r)
+    def distanceTo(self, other, radius=None):
+        '''Approximate the distance from this to an other point.
+
+           @param other: The other point (L{LatLon}).
+           @keyword radius: Optional, mean earth radius (C{meter}).
+
+           @return: Distance (C{meter}, same units as B{C{radius}}).
+
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
+
+           @example:
+
+           >>> p = LatLon(52.205, 0.119)
+           >>> q = LatLon(48.857, 2.351);
+           >>> d = p.distanceTo(q)  # 404300
+        '''
+        self.others(other)
+
+        v1 = self.toVector3d()
+        v2 = other.toVector3d()
+        r = self.datum.ellipsoid.R1 if radius is None else radius
+        return v1.angleTo(v2) * float(r)
 
     def equals(self, other, eps=None):
         '''DEPRECATED, use method C{isequalTo}.

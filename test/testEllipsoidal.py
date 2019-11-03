@@ -4,14 +4,15 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.10.21'
+__version__ = '19.11.02'
 
-from base import geographiclib
+from base import coverage, geographiclib
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
-from pygeodesy import EPS, F_D, F_DMS, bearingDMS, compassDMS, \
-                      Datums, fStr, m2SM, normDMS, wrap360
+from pygeodesy import EPS, F_D, F_D__, F_DMS, bearingDMS, compassDMS, \
+                      Datums, ellipsoidalVincenty as V, \
+                      fStr, m2SM, normDMS, wrap360
 
 
 class Tests(_TestsLL, _TestsV):
@@ -33,6 +34,19 @@ class Tests(_TestsLL, _TestsV):
 
         self.test('convertDatum', d, '51.477284°N, 000.00002°E, -45.91m')  # 51.4773°N, 000.0000°E, -45.91m
         self.test('convertDatum', d.toStr(F_D, prec=4), '51.4773°N, 000.0°E, -45.91m')
+        self.test('convertDatum', p.convertDatum(p.datum), p)  # i.e. p.copy()
+
+        if coverage:  # for test coverage
+            self.test('parse', p.parse(d.toStr(F_D__)), d)
+            t.reframe = None
+            self.test('reframe', t.reframe, None)
+            self.test('toEtm',    p.toEtm(), '30 N 916396 5720041')
+            self.test('toLcc',    p.toLcc(), '5639901 4612638')
+            self.test('toOsgr',   p.toOsgr(), 'TQ 38876 77320')
+            self.test('toUps',    LatLon(84, 0).toUps(), '00 N 2000000 1333272')
+            self.test('toUtm',    p.toUtm(), '30 N 708207 5707224')
+            self.test('toUtmUps', p.toUtmUps(), '30 N 708207 5707224')
+            self.test('toWm',     p.toWm(), '-178.111 6672799.209')
 
         if Cartesian and Nvector:
             c = Cartesian(3980581, 97, 4966825)
@@ -56,6 +70,16 @@ class Tests(_TestsLL, _TestsV):
 
             n = Nvector(0.51, 0.512, 0.7071, 1).toStr(3)
             self.test('Nvector', n, '(0.51, 0.512, 0.707, +1.00)')
+
+        # <https://GitHub.com/DieuwerH/AE3537/blob/master/PyGeodesyTesting.py>
+        s = Cartesian(3145.5036885, 5387.14337206, 3208.93193301).toLatLon()  # WGS84 XXX m, Km, other?
+        self.test('sat', s, '82.545852°N, 059.719736°E, -6353121.71m' if Nvector or module is V else
+                            '82.219069°N, 059.719736°E, -6353120.97m')  # XXX neg height?
+        d = LatLon(51.99888889, 4.37333333, height=134.64, name='DopTrackStation')
+        self.test('dop', d, '51.998889°N, 004.373333°E, +134.64m')
+        self.test('distance', d.distanceTo(s), '3806542.94364687' if Nvector else
+                                              ('3817991.07401530' if module is V else
+                                               '3802238.50498862'), fmt='%.8f')
 
     def testKarney(self, module, datum):
 
@@ -329,8 +353,7 @@ class Tests(_TestsLL, _TestsV):
 if __name__ == '__main__':
 
     from pygeodesy import ellipsoidalKarney as K, \
-                          ellipsoidalNvector as N, \
-                          ellipsoidalVincenty as V
+                          ellipsoidalNvector as N
 
     t = Tests(__file__, __version__)
 
@@ -338,15 +361,15 @@ if __name__ == '__main__':
     t.testLatLon(N, Sph=False, Nv=True)
     t.testVectorial(N)
 
-    t.testEllipsoidal(V, None, None)
-    t.testLatLon(V, Sph=False)
+    t.testEllipsoidal(V, V.Cartesian, None)
+    t.testLatLon(V, Sph=False, Nv=False)
     t.testNOAA(V)
     for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
         t.testVincenty(V, d)
 
     if geographiclib:
-        t.testEllipsoidal(K, None, None)
-        t.testLatLon(K, Sph=False)
+        t.testEllipsoidal(K, K.Cartesian, None)
+        t.testLatLon(K, Sph=False, Nv=False)
         t.testNOAA(K)
         for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
             t.testKarney(K, d)

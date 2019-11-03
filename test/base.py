@@ -14,7 +14,10 @@ from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
 from time import time
 
-coverage = None
+try:
+    import coverage
+except ImportError:
+    coverage = None
 try:
     import geographiclib
 except ImportError:
@@ -35,17 +38,17 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anStr, isLazy, iterNumpy2over, normDMS, \
+from pygeodesy import anStr, clipStr, isLazy, iterNumpy2over, normDMS, \
                       property_RO, version as PyGeodesy_version  # PYCHOK expected
 
-__all__ = ('geographiclib', 'numpy',  # constants
+__all__ = ('coverage', 'geographiclib', 'numpy',  # constants
            'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
            'isPython2', 'isPython3', 'isPython37', 'isWindows',
            'PyGeodesy_dir', 'PythonX', 'scipy',
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '19.10.27'
+__version__ = '19.11.02'
 
 try:
     _Ints = int, long
@@ -367,11 +370,6 @@ def versions():
 
 
 if __name__ == '__main__':
-
-    try:
-        import coverage  # PYCHOK re-imported?
-    except ImportError:
-        coverage = None
 
     print(versions())
 

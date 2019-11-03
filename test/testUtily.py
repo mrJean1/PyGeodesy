@@ -4,15 +4,16 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.05.02'
+__version__ = '19.10.29'
 
 from base import TestsBase, geographiclib
 
-from pygeodesy import EPS, fStr, map1, PI, PI2, PI_2, \
-                      sincos2, sincos2d, splice, unroll180, \
-                      degrees90, degrees180, degrees360, \
-                      ft2m, m2ft, \
+from pygeodesy import EPS, PI, PI2, PI_2, anStr, clipStr, \
+                      degrees90, degrees180, degrees360, degrees2m, \
+                      fStr, ft2m, isPoints2, \
+                      limiterrors, map1, m2degrees, m2ft, \
                       radiansPI, radiansPI2, radiansPI_2, \
+                      sincos2, sincos2d, splice, unroll180, \
                       wrap90, wrap180, wrap360, \
                       wrapPI, wrapPI2, wrapPI_2
 
@@ -161,15 +162,30 @@ class Tests(TestsBase):
         self.test('splice', t, map1(type(t[0]), (0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9)))
 
         # <https://www.CivilGeo.com/when-a-foot-isnt-really-a-foot/>
-        self.test('iFt2m',  ft2m(614963.91), 187441, fmt='%.0f')
+        self.test('iFt2m', ft2m( 614963.91), 187441, fmt='%.0f')
         self.test('iFt2m', ft2m(2483759.84), 757050, fmt='%.0f')
-        self.test('sFt2m',  ft2m(614962.68, usurvey=True), 187441, fmt='%.0f')
+        self.test('sFt2m', ft2m( 614962.68, usurvey=True), 187441, fmt='%.0f')
         self.test('sFt2m', ft2m(2483754.87, usurvey=True), 757050, fmt='%.0f')
 
-        self.test('m2iFt',  m2ft(187441),  614963.91, fmt='%.0f')
-        self.test('m2iFt',  m2ft(757050), 2483759.84, fmt='%.0f')
-        self.test('m2sFt',  m2ft(187441, usurvey=True),  614962.68, fmt='%.0f')
-        self.test('m2sFt',  m2ft(757050, usurvey=True), 2483754.87, fmt='%.0f')
+        self.test('m2iFt', m2ft(187441),  614963.91, fmt='%.0f')
+        self.test('m2iFt', m2ft(757050), 2483759.84, fmt='%.0f')
+        self.test('m2sFt', m2ft(187441, usurvey=True),  614962.68, fmt='%.0f')
+        self.test('m2sFt', m2ft(757050, usurvey=True), 2483754.87, fmt='%.0f')
+
+        self.test('degrees2m', fStr(degrees2m(90), prec=4),        '10007557.1761')
+        self.test('degrees2m', fStr(degrees2m(90, lat=30), prec=4), '8666798.7443')
+        self.test('m2degrees', fStr(m2degrees(degrees2m(90)), prec=1),   '90.0')
+
+        self.test('degrees2m', fStr(degrees2m(180), prec=4),          '20015114.3522')
+        self.test('degrees2m', fStr(degrees2m(180, lat=3-0), prec=4), '19987684.3336')
+        self.test('m2degrees', fStr(m2degrees(degrees2m(180)), prec=1),    '180.0')
+
+        self.test('anStr', anStr('a-b?_'), 'a-b__')
+        self.test('clipStr', clipStr('test/testUtily.py', limit=12), 'test/t....ily.py')
+
+        self.test('isPoints2', isPoints2(None), False)
+
+        self.test('limiterrors', limiterrors(False), True)
 
 
 if __name__ == '__main__':

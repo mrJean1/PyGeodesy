@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '19.05.07'
+__version__ = '19.11.02'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -12,7 +12,7 @@ import warnings  # PYCHOK expected
 # warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings('ignore')  # or 'error'
 
-from base import scipy, PyGeodesy_dir, TestsBase
+from base import coverage, scipy, PyGeodesy_dir, TestsBase
 
 from pygeodesy import fStr, len2, egmGeoidHeights, GeoidError, \
                       GeoidG2012B, GeoidKarney, GeoidPGM, RangeError
@@ -22,7 +22,7 @@ from os import SEEK_SET as _SEEK_SET
 
 _GeoidHeights_dat = b'''
 # the first and last 100 tests from GeoidHeights.dat.gz
-# <https://GeographicLib.sourceforge.io/html/geoid.html> or
+# <https://GeographicLib.SourceForge.io/html/geoid.html> or
 # <https://SourceForge.net/projects/geographiclib/files/testdata/>
 
 # Lat EasternLon egm84-15 egm96-5 egm2008-1-height
@@ -271,13 +271,13 @@ class Tests(TestsBase):
 #               lon -= 360
             yield lat, lon, t5[h]
 
-    def testGeoid(self, G, grid, llh3, crop=None):
+    def testGeoid(self, G, grid, llh3, crop=None, eps=None, kind=None):
         # test geoid G(grid) for (lat, lon, height, eps)
         if scipy or G is GeoidKarney:
             e_max = 0
-            eps = self._epsHeight
+            eps = eps or self._epsHeight
             f = self.failed - self.known
-            g = G(grid, kind=self._kind, crop=crop)
+            g = G(grid, kind=kind or self._kind, crop=crop)
             s = '%s.height(%%s) kind %s' % (g, g.kind)
             try:
                 for lat, lon, expected in llh3:
@@ -306,6 +306,14 @@ class Tests(TestsBase):
                 self.test(t, e_max, x, fmt='%.3f', known=e_max < eps, nl=1, nt=1)
 
             # print('%r\n\n%r' % (g, getattr(g, 'pgm', None)))
+
+            if coverage:  # for test coverage
+                for a in ('highest', '_llh3minmax', 'lowest', 'lowerright', 'upperleft'):
+                    t = fStr(getattr(g, a)(), prec=3)
+                    self.test('%s.%s' % (g, a), t, t, known=True)
+            t = g.toStr()
+            self.test('%s.%s' % (g, 'toStr'), t, t, known=True, nt=1)
+
         else:
             n, _ = len2(llh3)
             self.skip('no scipy', n=n)
@@ -317,12 +325,13 @@ if __name__ == '__main__':  # PYCHOK internal error?
 
     # usage: testGeoids.py [-dat GeoidHeights.dat] [-eps 0.010]
     #        [-hindex 2-4] [-kind -5, -3, -2, 1, 2, 3, 4, 5]
-    #        [.../GeographicLib/geoids/egm*.pgm]
-    #        [.../G2012B/*/g2012b*.bin] ...
+    #        [.../testGeoids/egm*.pgm]
+    #        [.../testGeoids/g2012b*.bin] ...
 
     t = Tests(__file__, __version__)
 
-    _GeoidEGM = GeoidKarney
+    _CONUS = 25, -125, 55, -65
+    _GeoidEGM = None
 
     gs = sys.argv[1:]
     while gs:  # get cmd line options
@@ -330,7 +339,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
         g_ = g.lower()
 
         if '-crop'.startswith(g_) and len(g_) > 1:
-            t._crop4 = 25, -125, 55, -65  # CONUS
+            t._crop4 = _CONUS
         elif '-karney'.startswith(g_) and len(g_) > 1:
             _GeoidEGM = GeoidKarney
         elif '-pgm'.startswith(g_) and len(g_) > 1:
@@ -357,18 +366,23 @@ if __name__ == '__main__':  # PYCHOK internal error?
             gs.insert(0, g)
             break
 
-    if not gs:  # look for ../geoids/egm*.pgm
+    if not gs:  # look for ../testGeoids/egm*.pgm
         from glob import glob
-        gs = glob(_os_path.join(PyGeodesy_dir, '../geoids/egm*.pgm')) \
-           + glob(_os_path.join(PyGeodesy_dir, '../geoids/g*u0.bin'))
+        gs = glob(_os_path.join(PyGeodesy_dir, '../testGeoids/egm*.pgm')) \
+           + glob(_os_path.join(PyGeodesy_dir, '../testGeoids/g*u0.bin'))
 
     if gs:  # test one or more geoids/grids
         for g in gs:
             g_ = g.lower()
 
             if g_.endswith('.pgm',):
-                # Karney geoids .../egm*.pgm
-                t.testGeoid(_GeoidEGM, g, t.dat5llhs3(g), crop=t._crop4)
+                # Karney or PGM geoids .../egm*.pgm
+                if _GeoidEGM:
+                    t.testGeoid(_GeoidEGM, g, t.dat5llhs3(g), crop=t._crop4)
+                else:
+                    t.testGeoid(GeoidKarney, g, t.dat5llhs3(g), kind=2, eps=0.12)
+                    t.testGeoid(GeoidKarney, g, t.dat5llhs3(g), kind=3)
+                    t.testGeoid(GeoidPGM,    g, t.dat5llhs3(g), crop=_CONUS)
 
             elif g_.endswith('g2012bu0.bin'):
                 # .../G2012B/CONUS/g2012bu0.bin

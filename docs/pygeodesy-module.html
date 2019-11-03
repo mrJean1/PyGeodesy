@@ -183,29 +183,25 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.8.0 (with <a 
-    href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.50 and <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.17.3), 
-    with Python 3.7.5 and 2.7.17 (both with <a 
+    <p>The tests have been run with Python 3.7.5 and 2.7.17 (both with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.17.2 
     respectively 1.16.5 and <a 
     href="https://SciPy.org/scipylib/download.html" target="_top">scipy</a>
-    1.3.1 respectively 1.2.2) and with <a href="https://PyPy.org" 
-    target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3, both without 
-    geographiclib, numpy and scipy) on macOS 10.13.6 High Sierra, <i>all in
-    64-bit only</i>.  The results of those tests are included in the 
-    distribution files.</p>
-    <p>Test coverage has been measured with Python 3.7.5 (using <a 
+    1.3.1 respectively 1.2.2), with Python 3.8.0 and with <a 
+    href="https://PyPy.org" target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and
+    3.5.3), all on macOS 10.13.6 High Sierra and <i>all in 64-bit only</i>.
+    The results of those tests are included in the distribution files.</p>
+    <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4, <a href="https://PyPI.org/project/geographiclib" 
+    4.5.4 using Python 3.7.5 (with <a 
+    href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.17.2 
     and <a href="https://SciPy.org/scipylib/download.html" 
-    target="_top">scipy</a> 1.3.1).  An HMTL report is included in the 
-    distribution files.</p>
+    target="_top">scipy</a> 1.3.1) and Python 3.8.0.  An HMTL report is 
+    included in the distribution files.</p>
     <p>With Python 3.7 and 3.8, the tests run <i>with and without</i> 
     <code>lazy import</code>.</p>
     <p>The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and <a 
@@ -283,7 +279,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        19.10.27
+        19.11.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -2874,7 +2870,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x1010a4ed0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x1064d8f50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -5071,7 +5067,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.10.27'"><code class="variable-quote">'</code><code class="variable-string">19.10.27</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'19.11.2'"><code class="variable-quote">'</code><code class="variable-string">19.11.2</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -5611,7 +5607,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - Use <code>True</code> to raise or <code>False</code> to ignore <a
+        <li><strong class="pname"><code>raiser</code></strong> - Use <code>True</code> to throw or <code>False</code> to ignore <a
           href="pygeodesy.vector3d.CrossError-class.html" 
           class="link">CrossError</a> exceptions.  Use <code>None</code> to
           leave the setting unchanged.</li>
@@ -6360,7 +6356,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>white</code></strong> - Whitespace replacement (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Clipped <code>bytes</code> or <code>str</code>.</dd>
+        <dd>Un/-clipped <b><code>bstr</code></b>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -7927,7 +7923,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x1010a4ed0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x1064d8f50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -8946,7 +8942,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - Choose <code>True</code> to raise or <code>False</code> to ignore
+        <li><strong class="pname"><code>raiser</code></strong> - Choose <code>True</code> to throw or <code>False</code> to ignore
           <a href="pygeodesy.utily.LimitError-class.html" 
           class="link">LimitError</a> exceptions.  Use <code>None</code> to
           leave the setting unchanged.</li>
@@ -10217,7 +10213,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>seed</code></strong> - Initial, internal Random state (<code>hashable</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A generator of random range functions.</dd>
+        <dd>A function to generatore random ranges.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Random <b><code>seed</code></b> <code>None</code> seeds from the 
@@ -12259,7 +12255,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 26 17:22:36 2019
+    Generated by Epydoc 3.0.1 on Sun Nov  3 14:57:27 2019
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

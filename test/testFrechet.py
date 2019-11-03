@@ -4,7 +4,7 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '19.09.30'
+__version__ = '19.10.31'
 
 from base import isPython3, isWindows, TestsBase
 
@@ -38,17 +38,21 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import FrechetDegrees, FrechetRadians, \
+    from pygeodesy import fractional, frechet_, \
+                          FrechetDegrees, FrechetRadians, \
                           FrechetEquirectangular, FrechetEuclidean, \
                           FrechetHaversine, FrechetVincentys
+
+    def _distance(p1, p2):
+        dy, dx = abs(p1.lat - p2.lat), abs(p1.lon - p2.lon)
+        if dx < dy:
+            dx, dy = dy, dx
+        return dx + dy * 0.5
 
     class FrechetDegrees_(FrechetDegrees):
         '''Custom Frechet.'''
         def distance(self, p1, p2):
-            dy, dx = abs(p1.lat - p2.lat), abs(p1.lon - p2.lon)
-            if dx < dy:
-                dx, dy = dy, dx
-            return dx + dy * 0.5
+            return _distance(p1, p2)
 
     class FrechetRadians_(FrechetRadians):
         '''Custom Frechet.'''
@@ -116,5 +120,13 @@ if __name__ == '__main__':
 
         t.test2(FrechetVincentys, (1.81341, 18, 14,   117,  5400),
                                   (1.83289,  3,  4.5, 196, 10710))
+
+    f = frechet_(_ms, _ps, distance=_distance, units='degrees')
+    t.test('frechet_', f, "(178.5, 74, 56, 19, 5400, 'degrees')" if isPython3 else
+                          "(288.0, 1, 1, 147, 5400, 'degrees')")
+
+    t.test('[fi1]', fractional(_ms, f.fi1), '64.0°S, 096.0°E' if isPython3 else '38.0°S, 116.0°W')
+    t.test('[fi2]', fractional(_ps, f.fi2), '41.0°S, 071.0°W' if isPython3 else '64.0°N, 121.0°E')
+
     t.results()
     t.exit()

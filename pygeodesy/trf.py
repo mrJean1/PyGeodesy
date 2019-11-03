@@ -56,7 +56,7 @@ _trfFs = {}
 
 
 def _F(f):
-    '''Cache a single C{float}.
+    '''(INTERNAL) Cache a single C{float}.
     '''
     return _trfFs.setdefault(f, f)  # PYCHOK undefined by del _trfFs
 

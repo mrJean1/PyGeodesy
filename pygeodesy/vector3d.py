@@ -72,7 +72,7 @@ class CrossError(ValueError):
 def crosserrors(raiser=None):
     '''Get/set raising of vectorial cross product errors.
 
-       @keyword raiser: Use C{True} to raise or C{False} to ignore
+       @keyword raiser: Use C{True} to throw or C{False} to ignore
                         L{CrossError} exceptions.  Use C{None} to
                         leave the setting unchanged.
 
@@ -139,7 +139,7 @@ class Vector3d(_NamedBase):
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.plus(other)
-    __iadd__ = __add__
+#   __iadd__ = __add__
     __radd__ = __add__
 
     def __abs__(self):
@@ -171,7 +171,7 @@ class Vector3d(_NamedBase):
            @raise TypeError: Non-scalar B{C{scalar}}.
         '''
         return self.dividedBy(scalar)
-    __itruediv__ = __div__
+#   __itruediv__ = __div__
     __truediv__ = __div__
 
     def __eq__(self, other):
@@ -245,7 +245,7 @@ class Vector3d(_NamedBase):
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.cross(other)
-    __imatmul__ = __matmul__
+#   __imatmul__ = __matmul__
 
     def __mul__(self, scalar):
         '''Multiply this vector by a scalar
@@ -255,8 +255,8 @@ class Vector3d(_NamedBase):
            @return: Product (L{Vector3d}).
         '''
         return self.times(scalar)
-    __imul__ = __mul__
-    __rmul__ = __mul__
+#   __imul__ = __mul__
+#   __rmul__ = __mul__
 
     def __ne__(self, other):
         '''Is this vector not equal to an other vector?
@@ -319,7 +319,7 @@ class Vector3d(_NamedBase):
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         return self.minus(other)
-    __isub__ = __sub__
+#   __isub__ = __sub__
 
     def _update(self, updated):
         '''(INTERNAL) Clear caches.

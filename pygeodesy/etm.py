@@ -58,6 +58,12 @@ attempt to control round-off.  For example, C{atanh(sin(phi))} is
 replaced by C{asinh(tan(phi))} which maintains accuracy near
 C{phi = pi/2}.  Such changes are noted in the code.
 '''
+# make sure int/int division yields float quotient
+from __future__ import division
+division = 1 / 2  # double check int division, see .datum.py, .utily.py
+if not division:
+    raise ImportError('%s 1/2 == %d' % ('division', division))
+del division
 
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
@@ -75,7 +81,7 @@ from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '19.10.12'
+__version__ = '19.10.30'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS

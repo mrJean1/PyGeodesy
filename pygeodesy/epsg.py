@@ -24,7 +24,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.epsg + ('decode2', 'encode')
-__version__ = '19.10.12'
+__version__ = '19.10.31'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -66,7 +66,7 @@ class Epsg(_NamedInt):
         if isinstance(eisu, Epsg):
             self = int.__new__(cls, int(eisu))
             self._band       = eisu.band
-            self._epsg       = eisu.epsg
+            self._epsg       = self  # XXX eisu
             self._hemisphere = eisu.hemisphere
             self._utmups     = eisu.utmups
             self._zone       = eisu.zone
@@ -198,7 +198,7 @@ def encode(zone, hemipole='', band=''):
             raise ValueError
     except ValueError:
         raise EPSGError('%s, %s or %s invalid: %r' %
-                        ('zone', 'hemipole', 'band', (zone, hp or hemipole, B or band)))
+                        ('zone', 'hemipole', 'band', (zone, hemipole, band)))
 
     if _UTM_ZONE_MIN <= z <= _UTM_ZONE_MAX:
         e = z - _UTM_ZONE_MIN + (_EPSG_N_01 if hp == 'N' else _EPSG_S_01)

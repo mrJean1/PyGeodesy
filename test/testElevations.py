@@ -4,7 +4,7 @@
 # Test elevations functions.
 
 __all__ = ('Tests',)
-__version__ = '19.01.08'
+__version__ = '19.10.30'
 
 from base import isPython2, isPython3, TestsBase
 
@@ -52,18 +52,22 @@ class Tests(TestsBase):
     def testError(self, name, m, x, error):
         # check an error test result
         x = x.replace(',)', ')').split('): ')[-1]
-        self.test(name, (m, x), (None, error))
+        self.test(name, (m, x), (None, error), known=True)
 
 
 if __name__ == '__main__':
 
+    import os
     import sys
 
     t = Tests(__file__, __version__)
 
     if len(sys.argv) > 1:
         timeout = float(sys.argv[1])
+    else:
+        timeout = float(os.environ.get('PYGEODESY_COVERAGE', '0'))
 
+    if timeout > 4:
         from pygeodesy import ellipsoidalVincenty
         LL = ellipsoidalVincenty.LatLon
 

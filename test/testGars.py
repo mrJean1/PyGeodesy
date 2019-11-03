@@ -4,7 +4,7 @@
 # Test gars module.
 
 __all__ = ('Tests',)
-__version__ = '19.04.17'
+__version__ = '19.10.31'
 
 from base import TestsBase
 
@@ -26,10 +26,14 @@ class Tests(TestsBase):
         g = Garef('57.64911, 10.40744', precision=2)
         self.test('Garef', g, '381NH45')
         self.test('Garef', repr(g), "Garef('381NH45')")
+        self.test('Garef.precision', g.precision, 2)
+
         self.test('Garef.latlon', fStr(g.latlon, prec=5), '57.64911, 10.40744')
         t = g.toLatLon(LL)
         self.test('Garef.toLatLon', repr(t), 'LatLon(57°38′56.8″N, 010°24′26.78″E)')
         self.testCodec3(g, '57.625, 10.375, 2.0', prec=4)
+        t = Garef(t, precision=2, name='self')
+        self.test('Garef(LatLon)', t, g)
 
         for t in range(-1, 4):
             r = gars.resolution(t)

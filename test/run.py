@@ -7,14 +7,14 @@
 # 3.7.0 on macOS 10.12 Sierra and 10.13 High Sierra and with
 # Pythonista 3.1 and 3.2 on iOS 10.3, 11.0, 11.1, 11.3 and 11.4.
 
-from base import isiOS, PyGeodesy_dir, PythonX, \
-          secs2str, test_dir, tilde, versions  # PYCHOK expected
+from base import clipStr, isiOS, PyGeodesy_dir, PythonX, \
+                 secs2str, test_dir, tilde, versions  # PYCHOK expected
 
 from os import environ, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '19.10.14'
+__version__ = '19.10.31'
 
 if isiOS:  # MCCABE 14
 
@@ -72,14 +72,20 @@ else:  # non-iOS
 
     from subprocess import PIPE, STDOUT, Popen
 
-    def run2(test, *argv):  # PYCHOK expected
+    # replace home dir with ~
+    PythonX_O = PythonX.replace(environ.get('HOME', '~'), '~')
+    pythonC_  = PythonX,  # python cmd tuple
+    if not __debug__:
+        PythonX_O += ' -O'
+        pythonC_ += '-O',
+    if environ.get('PYGEODESY_COVERAGE', ''):
+        pythonC_ += tuple('-m coverage run -a'.split())
+
+    def run2(test, *opts):  # PYCHOK expected
         '''Invoke one test module and return
            the exit status and console output.
         '''
-        if __debug__:
-            c = (PythonX, test) + argv
-        else:
-            c = (PythonX, '-O', test) + argv
+        c = pythonC_ + (test,) + opts
         p = Popen(c, creationflags=0,
                      executable   =sys.executable,
                    # shell        =True,
@@ -95,14 +101,8 @@ else:  # non-iOS
         # test failures in the tested module
         return p.returncode, r
 
-    # replace home dir with ~
-    PythonX_O = PythonX.replace(environ.get('HOME', '~'), '~')
-    if not __debug__:
-        PythonX_O += ' -O'
-
-# shorten Python path [-OO]
-if len(PythonX_O) > 32:
-    PythonX_O = PythonX_O[:16] + '...' + PythonX_O[-16:]
+# shorten Python path [-O]
+PythonX_O = clipStr(PythonX_O, 32)
 
 # command line options
 _failedonly = False
@@ -124,7 +124,7 @@ def _exit(last, text, exit):
     sys.exit(exit)
 
 
-def _run(test):
+def _run(test, *opts):
     '''(INTERNAL) Run a test script and parse the result.
     '''
     global _T, _X
@@ -132,7 +132,7 @@ def _run(test):
     t = 'running%s %s %s' % (_E, PythonX_O, tilde(test))
     print(t)
 
-    x, r = run2(test)
+    x, r = run2(test, *opts)
     if _results:
         _write(NL + t + NL)
         _write(r)
@@ -220,7 +220,7 @@ if __name__ == '__main__':  # MCCABE 16
     s = time()
     try:
         for arg in args:
-            _run(arg)
+            _run(*arg.split())
     except KeyboardInterrupt:
         _exit('', '^C', 9)
     except SystemExit:

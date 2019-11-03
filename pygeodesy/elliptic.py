@@ -68,6 +68,12 @@ The notation follows U{NIST Digital Library of Mathematical Functions
 <https://DLMF.NIST.gov>} chapters U{19<https://DLMF.NIST.gov/19>} and
 U{22<https://DLMF.NIST.gov/22>}.
 '''
+# make sure int/int division yields float quotient
+from __future__ import division
+division = 1 / 2  # double check int division, see .datum.py, .utily.py
+if not division:
+    raise ImportError('%s 1/2 == %d' % ('division', division))
+del division
 
 from pygeodesy.fmath import EPS, fdot, Fsum, fsum_, hypot1, \
                             INF as _INF, map2
@@ -80,7 +86,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '19.07.14'
+__version__ = '19.10.30'
 
 _tolJAC = sqrt(EPS * 0.01)
 _tolRD  =  pow(EPS * 0.002, 0.125)
@@ -108,13 +114,13 @@ class Elliptic(_Named):
     _kp2     = 0
     _trips_  = _TRIPS
 
-    _Dc      = _INF
-    _Ec      = 1.0
-    _Gc      = _INF
-    _Hc      = _INF
-    _Kc      = _INF
-    _KEc     = _INF
-    _Pic     = _INF
+    _Dc  = _INF
+    _Ec  = 1.0
+    _Gc  = _INF
+    _Hc  = _INF
+    _Kc  = _INF
+    _KEc = _INF
+    _Pic = _INF
 
     def __init__(self, k2=0, alpha2=0, kp2=None, alphap2=None):
         '''Constructor, specifying the C{modulus} and C{parameter}.
@@ -472,10 +478,10 @@ class Elliptic(_Named):
             n = self.classname + '.f' + deltaX.__name__[5:]
             raise EllipticError('%s invalid: %s%r' % ('args', n, (sn, cn, dn)))
 
-        if cn < 0:  # enforce usual trig-like symmetries
-            xi = 2 * cX - fX(sn, cn, dn)
-        elif cn > 0:
+        if cn > 0:  # enforce usual trig-like symmetries
             xi = fX(sn, cn, dn)
+        elif cn < 0:
+            xi = 2 * cX - fX(sn, cn, dn)
         else:
             xi = cX
         return copysign(xi, sn)
@@ -500,7 +506,7 @@ class Elliptic(_Named):
            @keyword kp2: complementary modulus squared (C{float} k'2 >= 0).
            @keyword alphap2: complementary parameter α'2 (C{float} α'2 >= 0).
 
-           @note: The arguments must satisfy I{B{C{k2}} + B{C{k2}} = 1}
+           @note: The arguments must satisfy I{B{C{k2}} + B{C{kp2}} = 1}
                   and I{B{C{alpha2}} + B{C{alphap2}} = 1}.  No checking
                   is done that these conditions are met to enable
                   accuracy to be maintained, e.g., when C{k} is very
@@ -563,11 +569,14 @@ class Elliptic(_Named):
                 # Complete elliptic integral K(k), Carlson eq. 4.1
                 # https://DLMF.NIST.gov/19.25.E1
                 self._Kc = _RF(kp2, 1)
+            else:
+                self._Dc = self._Kc = self._KEc = _INF
+                self._Ec = 1.0
         else:
             self._Dc  = PI_4
             self._Ec  = PI_2
             self._Kc  = PI_2
-            self._KEc = 0.0
+            self._KEc = 0.0  # k2 * self._Dc
 
         if alpha2:
             if kp2:
@@ -580,10 +589,11 @@ class Elliptic(_Named):
                     self._Hc = self._Kc - alphap2 * rj_3
                     # Pi(alpha^2, k)
                     self._Pic = self._Kc + alpha2 * rj_3
-                # else:
-                #   self._Gc = self._Hc = self._Pc = _INF  # XXX _NAN?
+                else:
+                    self._Gc = self._Hc = self._Pic = _INF  # XXX _NAN?
             elif alphap2:
                 self._Gc = self._Hc = _RC(1, alphap2)
+                self._Pic = _INF  # XXX _NAN?
         else:
             self._Gc  = self._Ec
             self._Pic = self._Kc
@@ -602,7 +612,7 @@ class Elliptic(_Named):
             #   Hc = int(cos(phi),...) = 1
             self._Hc = kp2 * _RD_3(0, 1, kp2) if kp2 else 1.0
 
-    def sncndn(self, x):
+    def sncndn(self, x):  # PYCHOK x not used?
         '''The Jacobi elliptic function.
 
            @param x: The argument (C{float}).
@@ -611,8 +621,8 @@ class Elliptic(_Named):
         '''
         # Bulirsch's sncndn routine, p 89.
         mc = self._kp2
-        if mc:
-            if mc < 0:
+        if mc:  # never negative ...
+            if mc < 0:  # PYCHOK no cover
                 d = 1.0 - mc
                 mc /= -d
                 d = sqrt(d)
@@ -692,15 +702,15 @@ def _RC(x, y):
     if d < 0:  # catch _NaN
         # <https://DLMF.NIST.gov/19.2.E18>
         d = -d
-        r = atan(sqrt(d / x))
+        r = atan(sqrt(d / x)) if x > 0 else PI_2
     elif d == 0:
         r, d = 1.0, y
     elif y > 0:  # <https://DLMF.NIST.gov/19.2.E19>
-        # atanh(sqrt((x - y) / x))
-        r = asinh(sqrt(d / y))
-    else:  # <https://DLMF.NIST.gov/19.2.E20>
-        # atanh(sqrt(x / (x - y)))
-        r = asinh(sqrt(-x / y))
+        r = asinh(sqrt(d / y))  # atanh(sqrt((x - y) / x))
+    elif y < 0:  # <https://DLMF.NIST.gov/19.2.E20>
+        r = asinh(sqrt(-x / y))  # atanh(sqrt(x / (x - y)))
+    else:
+        raise EllipticError('%s invalid: %r' % ('y', (x, y)))
     return r / sqrt(d)
 
 

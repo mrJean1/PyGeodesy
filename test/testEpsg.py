@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.05.09'
+__version__ = '19.10.31'
 
 from base import TestsBase
 
-from pygeodesy import decodeEPSG2, encodeEPSG, epsg, toUtmUps8
+from pygeodesy import decodeEPSG2, encodeEPSG, Epsg, epsg, toUtmUps8
 
 
 class Tests(TestsBase):
@@ -18,12 +18,19 @@ class Tests(TestsBase):
         for p in ('N', 'S'):
             z = epsg._UPS_ZONE
             e = encode(z, hemipole=p)
+            self.test('Epsg', Epsg(e), e, known=True)
             d = decode(e)
             self.test(str(z) + ' ' + p, str(d), (z, p))
             for z in range(epsg._UTM_ZONE_MIN, epsg._UTM_ZONE_MAX + 1):
                 e = encode(z, hemipole=p)
                 d = decode(e)
                 self.test(str(z) + ' ' + p, str(d), (z, p))
+
+        for u in ('00A', '00B', '00Y', '00Z'):
+            e = Epsg(u)
+            self.test('Ups', e, e)
+            u = e.utmupsStr(B=True)
+            self.test('Ups', u, u)
 
     def testEpsgTMcoord(self, n, lat, lon):
         u = toUtmUps8(lat, lon)

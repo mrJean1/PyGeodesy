@@ -83,7 +83,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '19.10.19'
+__version__ = '19.10.31'
 
 
 class FrechetError(ValueError):
@@ -454,7 +454,7 @@ class FrechetVincentys(FrechetRadians):
 
 
 def _fractional(points, fi):
-    '''(INTERANL) Compute point at I{fractional} index.
+    '''(INTERNAL) Compute point at I{fractional} index.
     '''
     i = int(fi)
     p = points[i]

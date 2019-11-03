@@ -11,14 +11,14 @@ from os.path import join
 import unittest
 
 __all__ = ('TestSuite',)
-__version__ = '19.10.07'
+__version__ = '19.10.31'
 
 
 class TestSuite(unittest.TestCase):
     '''Combine all test modules into a test suite/case
        and run each test module as a separate test.
     '''
-    _runs = -1  # pseudo global, -1 for testGeoids
+    _runs = 0  # pseudo global, 0 for testGeoids
 
     def _run(self, test, *argv):
         TestSuite._runs += 1  # pseudo global
@@ -89,8 +89,9 @@ class TestSuite(unittest.TestCase):
         self._run('testGeohash')
 
     def test_Geoids(self):
-        self._run('testGeoids', '-Karney')
-        self._run('testGeoids', '-PGM', '-crop')  # -crop to cut time
+        self._run('testGeoids')  # both Karney and PGM
+        # self._run('testGeoids', '-Karney')
+        # self._run('testGeoids', '-PGM', '-crop')  # -crop to cut time
 
     def test_GreatCircle(self):
         self._run('testGreatCircle')

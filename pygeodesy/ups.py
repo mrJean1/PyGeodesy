@@ -32,7 +32,7 @@ from math import atan, atan2, radians, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '19.07.12'
+__version__ = '19.10.31'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = 2000e3  #: (INTERNAL) False easting and northing (C{meter}).
@@ -120,7 +120,8 @@ class Ups(UtmUpsBase):
     def _xcopy(self, *attrs):
         '''(INTERNAL) Make copy with add'l, subclass attributes.
         '''
-        return _xattrs(self.classof(self.pole, self.easting, self.northing,  # PYCHOK pole
+        return _xattrs(self.classof(self.zone, self.pole,
+                                    self.easting, self.northing,
                                     band=self.band, datum=self.datum,
                                     convergence=self.convergence,
                                     scale=self.scale),

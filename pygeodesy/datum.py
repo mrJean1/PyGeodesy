@@ -192,7 +192,7 @@ class Ellipsoid(_NamedEnumItem):
     # fixed earth radii from <https://WikiPedia.org/wiki/Earth_radius>
     _R1 = None  #: (INTERNAL) Mean earth radius: (2 * a + b) / 3 per IUGG definition (C{meter})
     _R2 = None  #: (INTERNAL) Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (C{meter})
-#   _c  = None  #: (INTERNAL) authalic radius: equ (60) in Karney's "Algorithms for Geodesics"
+#   _c  = None  #: (INTERNAL) Authalic radius: equ (60) in Karney's "Algorithms for Geodesics"
     _R3 = None  #: (INTERNAL) Volumetric radius: (a * a * b)**1/3 (C{meter})
     _Rr = None  #: (INTERNAL) Rectifying radius: ((a**3/2 + b**3/2) / 2)**2/3 (C{meter})
     _Rs = None  #: (INTERNAL) Mean earth radius: sqrt(a * b) (C{meter})

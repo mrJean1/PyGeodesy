@@ -4,9 +4,9 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.05.08'
+__version__ = '19.11.02'
 
-from base import TestsBase
+from base import coverage, TestsBase
 # from math import sqrt
 from random import random, gauss, shuffle
 
@@ -129,6 +129,21 @@ class Tests(TestsBase):
             a += a
             self.test('FSum*', a.fsum(), b.fsum())
             t += t
+
+        if coverage:  # for test coverage
+            c = a - b
+            self.test('FSum0', c.fsum(), 0.0)
+            c -= 0
+            self.test('FSum0', c.fsum(), 0.0)
+            c -= c
+            self.test('FSum0', c.fsum(), 0.0)
+            c *= Fsum(1.0)
+            self.test('FSum0', c.fsum(), 0.0)
+            a.fsub_(*a._ps)
+            self.test('FSum0', a.fsum(), 0.0)
+            self.test('Fsum#', len(a), 2049)
+            self.test('Fsum#', len(a._ps), 1)
+            self.test('FSum.', a, 'pygeodesy.fmath.Fsum()')
 
         h = hypot_(1.0, 0.0050, 0.0000000000010)
         self.test('hypot_', h, '1.0000124999219', fmt='%.13f')

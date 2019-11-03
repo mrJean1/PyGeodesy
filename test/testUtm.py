@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.05.09'
+__version__ = '19.10.31'
 
 from base import TestsBase
 
@@ -41,11 +41,20 @@ class Tests(TestsBase):
         self.test('toUtm6', u, '13 S 622698 8516965')
         self.test('toUtm7', u.toStr(prec=6, B=True, cs=True), '13L S 622697.645817 8516965.222916 -15.77480856′ 0.99978623')
 
+        t = u.toEtm()
+        self.test('toEtm', t, '13 S 622698 8516965')
+
         m = u.toMgrs()
         self.test('toMgrs1', m, '13L FF 22697 16965')
 
         m = Utm('31U', 'N', 448251, 5411932).toMgrs()
         self.test('toMgrs2', m, '31U DQ 48251 11932')
+
+        t = u.toUps(pole=u.pole)
+        self.test('toUps', t, '00 S -7702368 -395110')  # XXX invalid?
+
+        t = u.toUtm(14)
+        self.test('toUtm14', t, '14 S -27436 8512042')  # XXX invalid?
 
         u = parseUTM5('18 N 516620 4574500')  # Milford, PA
         self.test('Utm8', u, '18 N 516620 4574500')

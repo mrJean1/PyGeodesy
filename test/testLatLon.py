@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.08.14'
+__version__ = '19.10.31'
 
 from base import geographiclib, TestsBase
 
@@ -93,11 +93,11 @@ class Tests(TestsBase):
 
         if hasattr(LatLon, 'distanceTo'):
             d = p.distanceTo(q)
-            self.test('distanceTo', d, '404279.720589' if Sph else '404607.805988', fmt='%.6f')  # 404300
+            self.test('distanceTo', d, '404279.720589' if Sph else ('404279.720589' if Nv else '404607.805988'), fmt='%.6f')  # 404300
             d = q.distanceTo(p)
-            self.test('distanceTo', d, '404279.720589' if Sph else '404607.805988', fmt='%.6f')  # 404300
+            self.test('distanceTo', d, '404279.720589' if Sph else ('404279.720589' if Nv else '404607.805988'), fmt='%.6f')  # 404300
             d = LAX.distanceTo(JFK, radius=R_NM) if Sph else LAX.distanceTo(JFK)
-            self.test('distanceTo', d, 2145 if Sph else 3981601, fmt='%.0f')  # PYCHOK test attr?
+            self.test('distanceTo', d, 2145 if Sph else (3972863 if Nv else 3981601), fmt='%.0f')  # PYCHOK test attr?
             if not Nv:  # <https://GeographicLib.SourceForge.io/html/python/examples.html>
                 self.test('antipodal', WNZ.isantipodeTo(SAL, eps=0.1), False)
                 d = WNZ.distanceTo(SAL, wrap=False)
@@ -113,7 +113,7 @@ class Tests(TestsBase):
 
             # <https://GitHub.com/chrisveness/geodesy/issues/64>
             d = LatLon(20, 0).distanceTo(LatLon(-2, 180))
-            self.test('distanceTo', d, 18013602.92 if Sph else 18012714.66, fmt='%.2f')
+            self.test('distanceTo', d, 18013602.92 if Sph or Nv else 18012714.66, fmt='%.2f')
             try:
                 d = LatLon(0, 0).distanceTo(LatLon(0, 180))  # antipodal
                 self.test('distanceTo', d, 20015114.35 if Sph else 20003931.46, fmt='%.2f', known=Nv)  # PYCHOK 0.0 for Nv
@@ -142,13 +142,13 @@ class Tests(TestsBase):
             self.test('intermediateTo+5', i, '35.160975°N, 008.989542°E' if Sph
                                         else '35.560239°N, 008.833512°E')
             if hasattr(p, 'distanceTo'):
-                self.test('intermediateTo+5', p.distanceTo(i) / d, '5.000', fmt='%.3f')  # PYCHOK test attr?
+                self.test('intermediateTo+5', p.distanceTo(i) / d, '4.885' if Nv and not Sph else '5.000', fmt='%.3f')  # PYCHOK test attr?
 
             i = p.intermediateTo(q, -4)
             self.test('intermediateTo-4', i, '64.911647°N, 013.726301°W' if Sph
                                         else '64.570387°N, 013.156352°W')
             if hasattr(p, 'distanceTo'):
-                self.test('intermediateTo-4', p.distanceTo(i) / d, '4.000', fmt='%.3f')  # PYCHOK test attr?
+                self.test('intermediateTo-4', p.distanceTo(i) / d, '3.885' if Nv and not Sph else '4.000', fmt='%.3f')  # PYCHOK test attr?
 
             # courtesy of <https://GitHub.com/bakakaldsas>
             i = LatLon(52, 0, 100).intermediateTo(LatLon(48, 2, 200), 0.25)
@@ -314,7 +314,7 @@ class Tests(TestsBase):
         self.test('equirectangularTo', m2km(d), 592.185, fmt='%.3f')
         if hasattr(LatLon, 'distanceTo'):
             d = LHR.distanceTo(FRA)
-            self.test('distanceTo', m2km(d), 591.831 if Sph else 593.571, fmt='%.3f')  # PYCHOK test attr?
+            self.test('distanceTo', m2km(d), 591.831 if Sph else (591.831 if Nv else 593.571), fmt='%.3f')  # PYCHOK test attr?
 
         p = LatLon(0, 0)
         for a, b, d in ((1, 0, 0.0), ( 1, 1,  45.0), ( 0,  1,  90.0),

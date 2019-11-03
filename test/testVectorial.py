@@ -4,9 +4,9 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.10.20'
+__version__ = '19.11.02'
 
-from base import TestsBase
+from base import coverage, TestsBase
 
 from pygeodesy import F_D, fStr
 
@@ -29,6 +29,25 @@ class Tests(TestsBase):
         self.test('ecef.height', fStr(p.height, prec=6), fStr(c.height, prec=6), known=True)
         if c.M is not None:
             self.test('ecef.M', fStr(p.M, prec=9), fStr(c.M, prec=9))
+
+        if coverage:  # to test coverage
+            t = v.parse('0.5, 0.5, 0.707')
+            self.test('parse', t, v)
+
+            self.test('eq', t == v, True)
+            self.test('ge', t >= v, True)
+            self.test('gt', t >  v, False)
+            self.test('le', t <= v, True)
+            self.test('lt', t <  v, False)
+            self.test('ne', t != v, False)
+
+            m = v.__matmul__(t)
+            self.test('@', m, '(0.0, 0.0, 0.0)')
+            r = t.__rmatmul__(m)
+            self.test('@', r, m)
+
+            r = v.rotate(m, 45)
+            self.test('rotate', r, '(0.26268, 0.26268, 0.37143)')
 
     def testVectorial(self, module):  # MCCABE 13
 

@@ -23,7 +23,7 @@ from pygeodesy.named import Elevation2Tuple, GeoidHeight2Tuple
 from pygeodesy.utily import clipStr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.10.01'
+__version__ = '19.10.30'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -38,7 +38,7 @@ try:
     from json import loads as _json
 except ImportError:
 
-    def _json(ngs):
+    def _json(ngs):  # PYCHOK no cover
         '''(INTERNAL) Convert an NGS response in JSON to a C{dict}.
         '''
         # b'{"geoidModel": "GEOID12A",
