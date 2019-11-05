@@ -15,7 +15,7 @@ from pygeodesy.points import _imdex2, boundsOf, isclockwise, isconvex_, \
                               LatLon_ as LL_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '19.10.19'
+__version__ = '19.11.04'
 
 
 def _eq(p1, p2):  # near-equal points
@@ -347,7 +347,7 @@ def clipSH3(points, corners, inull=False, closed=False):
 
 # **) MIT License
 #
-# Copyright (C) 2018-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2018-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -161,7 +161,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                              simplify=('simplifyRW as simplify2',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '19.10.19'
+__version__ = '19.11.04'
 
 
 def _all_imports(**more):
@@ -324,7 +324,7 @@ def _lazy_import2(_package_):  # MCCABE 23
 
 # **) MIT License
 #
-# Copyright (C) 2018-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2018-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -10,7 +10,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.trf import TRFError as _TRFError
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '19.10.19'
+__version__ = '19.11.04'
 
 _R_M = _WGS84 = _UTM = object()
 
@@ -187,7 +187,7 @@ def utmZoneBand2(lat, lon):
 
 # **) MIT License
 #
-# Copyright (C) 2018-2019 -- mrJean1 at Gmail dot com
+# Copyright (C) 2018-2020 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
