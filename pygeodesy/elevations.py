@@ -3,9 +3,9 @@
 
 u'''Functions to obtain elevations and geoid heights thru web services,
 for (lat, lon) locations, currently limited to the U{Conterminous US
-(CONUS) <https://WikiPedia.org/wiki/Contiguous_United_States>}, see also
-module L{geoids} and classes L{GeoidG2012B}, L{GeoidKarney} and L{GeoidPGM}
-and U{USGS10mElev.py<https://Gist.GitHub.com/pyRobShrk>}.
+(CONUS)<https://WikiPedia.org/wiki/Contiguous_United_States>}, see also
+module L{geoids}, module L{heights} classes and U{USGS10mElev.py
+<https://Gist.GitHub.com/pyRobShrk>}.
 
 B{macOS}: If an C{SSLCertVerificationError} occurs, especially this
 I{"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self
@@ -23,7 +23,7 @@ from pygeodesy.named import Elevation2Tuple, GeoidHeight2Tuple
 from pygeodesy.utily import clipStr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.10.30'
+__version__ = '19.11.05'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected

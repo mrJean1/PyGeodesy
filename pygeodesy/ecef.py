@@ -60,7 +60,7 @@ from math import atan2, copysign, cos, degrees, hypot, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '19.10.28'
+__version__ = '19.12.22'
 
 
 class EcefError(ValueError):
@@ -887,8 +887,8 @@ class EcefVeness(_EcefBase):
 
 
 class EcefYou(_EcefBase):
-    '''Conversion between geodetic and geocentric, aka I{Earth Centered,
-       EarthFixed} (ECEF) coordinates using I{Rey-Jer You}'s U{transformations
+    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
+       Earth-Fixed} (ECEF) coordinates using I{Rey-Jer You}'s U{transformations
        <https://www.ResearchGate.net/publication/240359424>}.
 
        @see: W.E. Featherstone, S.J. (Sten) Claessens U{Closed-form transformation

@@ -61,7 +61,7 @@ from pygeodesy.utily import PI, PI2, PI_2, property_RO, \
                             radiansPI, radiansPI2, unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '19.10.14'
+__version__ = '19.12.21'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -183,7 +183,7 @@ def _xyhs3(atype, m, knots, off=True):
 
 
 class _HeightBase(_Named):  # imported by .geoids
-    '''Interpolator base class.
+    '''(INTERNAL) Interpolator base class.
     '''
     _kmin = 2     # min number of knots
     _np   = None  # numpy
@@ -360,7 +360,7 @@ class HeightLinear(HeightCubic):
 
 
 class _HeightIDW(_HeightBase):
-    '''Base class for U{Inverse Distance Weighting
+    '''(INTERNAL) Base class for U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
        height interpolators.
     '''

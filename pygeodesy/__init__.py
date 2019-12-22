@@ -28,12 +28,12 @@ U{GeographicLib<https://PyPI.org/project/geographiclib>}.
 
 Also included are modules for conversions to and from U{Cassini-Soldner
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html>},
+U{ECEF<https://WikiPedia.org/wiki/ECEF>} (Earth-Centered, Earth-Fixed cartesian),
 U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
 (Universal Polar Stereographic), U{UTM
 <https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (U{Exact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
-and Universal Transverse Mercator), U{ECEF<https://WikiPedia.org/wiki/ECEF>}
-(Earth-Centered, Earth-Fixed cartesian) and U{Web Mercator
+and Universal Transverse Mercator) and U{Web Mercator
 <https://WikiPedia.org/wiki/Web_Mercator>} (Pseudo-Mercator) coordinates,
 U{MGRS<https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html>} (NATO
 Military Grid Reference System) and U{OSGR
@@ -101,7 +101,7 @@ The tests have been run with Python 3.7.5 and 2.7.17 (both with U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.50, U{numpy
 <https://PyPI.org/project/numpy>} 1.17.2 respectively 1.16.5 and U{scipy
 <https://SciPy.org/scipylib/download.html>} 1.3.1 respectively 1.2.2), with
-Python 3.8.0 and with U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3),
+Python 3.8.1 and with U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3),
 all on macOS 10.13.6 High Sierra and I{all in 64-bit only}.  The results of
 those tests are included in the distribution files.
 
@@ -109,7 +109,7 @@ Test coverage has been measured with U{coverage
 <https://PyPI.org/project/coverage>} 4.5.4 using Python 3.7.5 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
 <https://PyPI.org/project/numpy>} 1.17.2 and U{scipy
-<https://SciPy.org/scipylib/download.html>} 1.3.1) and Python 3.8.0.  An
+<https://SciPy.org/scipylib/download.html>} 1.3.1) and Python 3.8.1.  An
 HMTL report is included in the distribution files.
 
 With Python 3.7 and 3.8, the tests run I{with and without} C{lazy import}.
@@ -130,7 +130,7 @@ Python 3.7.3 on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10 (and
 numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15, 2.7.16 (and numpy 1.13.1, 1.14.0, 1.15.2
-or 1.16.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2, 3.7.3, 3.7.4 and
+or 1.16.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2, 3.7.3, 3.7.4, 3.8 and
 U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3
 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite,
 MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra and macOS
@@ -150,7 +150,7 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.17 and with U{Flake8
-<https://PyPI.org/project/flake8>} using Python 3.8.0, both in 64-bit
+<https://PyPI.org/project/flake8>} using Python 3.8.1, both in 64-bit
 on macOS 10.13.6 High Sierra.
 
 Some function and method names differ from the JavaScript version. In such
@@ -261,7 +261,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.11.04'
+__version__ = '19.12.22'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

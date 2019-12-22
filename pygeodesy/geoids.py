@@ -61,7 +61,8 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.dms import parseDMS2, RangeError
-from pygeodesy.fmath import EPS, favg, Fdot, fdot, Fhorner, frange, fStr, len2
+from pygeodesy.fmath import EPS, favg, Fdot, fdot, Fhorner, frange, fStr, \
+                            len2, map1
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError, _SciPyIssue
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
@@ -80,12 +81,14 @@ try:
 except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
-    def _b2str(bs):  # used only egm*.pgm text
+    def _b2str(bs):  # used only for egm*.pgm text
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '19.11.02'
+__version__ = '19.12.21'
 
+# temporarily hold a single instance for each int value
+_intCs = {}
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',
                 -5: 'quintic'}
@@ -690,6 +693,18 @@ class GeoidG2012B(_GeoidBase):
         return lat, lon
 
 
+def _I(i):
+    '''(INTERNAL) Cache a single C{int} constant.
+    '''
+    return _intCs.setdefault(i, i)  # PYCHOK undefined by del _intCs
+
+
+def _T(*cs):
+    '''(INTERNAL) Cache a tuple of single C{int} constants.
+    '''
+    return map1(_I, *cs)
+
+
 class GeoidKarney(_GeoidBase):
     '''Geoid height interpolator for Charles Karney's U{GeographicLib
        Earth Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/
@@ -706,38 +721,38 @@ class GeoidKarney(_GeoidBase):
     '''
     _C0 = (372.0, 240.0, 372.0)  # n, _ and s common denominators
     # matrices c3n_, c3, c3s_, transposed from GeographicLib/Geoid.cpp
-    _C3 = (((0,    0,   62,  124,  124,  62,    0,   0,   0,   0,    0,   0),
-            (0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
-         (-131,    7,  -31,  -62,  -62, -31,   45, 216, 156, -45,  -55,  -7),
-            (0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
-          (138, -138,    0,    0,    0,   0, -183,  33, 153,  -3,   48, -48),  # PYCHOK indent
-          (144,   42,  -62, -124, -124, -62,   -9,  87,  99,   9,   42, -42),
-            (0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
-            (0,    0,    0,    0,    0,   0,   93, -93, -93,  93,    0,   0),
-         (-102,  102,    0,    0,    0,   0,   18,  12, -12, -18,  -84,  84),
-          (-31,  -31,   31,   62,   62,  31,    0, -93, -93,   0,   31,  31)),  # PYCHOK indent
+    _C3 = ((_T(0,    0,   62,  124,  124,  62,    0,   0,   0,   0,    0,   0),
+            _T(0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
+         _T(-131,    7,  -31,  -62,  -62, -31,   45, 216, 156, -45,  -55,  -7),
+            _T(0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
+          _T(138, -138,    0,    0,    0,   0, -183,  33, 153,  -3,   48, -48),  # PYCHOK indent
+          _T(144,   42,  -62, -124, -124, -62,   -9,  87,  99,   9,   42, -42),
+            _T(0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
+            _T(0,    0,    0,    0,    0,   0,   93, -93, -93,  93,    0,   0),
+         _T(-102,  102,    0,    0,    0,   0,   18,  12, -12, -18,  -84,  84),
+          _T(-31,  -31,   31,   62,   62,  31,    0, -93, -93,   0,   31,  31)),  # PYCHOK indent
 
-           ((9,   -9,    9,  186,   54,  -9,   -9,  54, -54,   9,   -9,   9),
-          (-18,   18,  -88,  -42,  162, -32,    8, -78,  78,  -8,   18, -18),
-          (-88,    8,  -18,  -42,  -78,  18,   18, 162,  78, -18,  -32,  -8),
-            (0,    0,   90, -150,   30,  30,   30, -90,  90, -30,    0,   0),
-           (96,  -96,   96,  -96,  -24,  24,  -96, -24, 144, -24,   24, -24),  # PYCHOK indent
-           (90,   30,    0, -150,  -90,   0,    0,  30,  90,   0,   30, -30),
-            (0,    0,  -20,   60,  -60,  20,  -20,  60, -60,  20,    0,   0),
-            (0,    0,  -60,   60,   60, -60,   60, -60, -60,  60,    0,   0),
-          (-60,   60,    0,   60,  -60,   0,    0,  60, -60,   0,  -60,  60),
-          (-20,  -20,    0,   60,   60,   0,    0, -60, -60,   0,   20,  20)),
+           (_T(9,   -9,    9,  186,   54,  -9,   -9,  54, -54,   9,   -9,   9),
+          _T(-18,   18,  -88,  -42,  162, -32,    8, -78,  78,  -8,   18, -18),
+          _T(-88,    8,  -18,  -42,  -78,  18,   18, 162,  78, -18,  -32,  -8),
+            _T(0,    0,   90, -150,   30,  30,   30, -90,  90, -30,    0,   0),
+           _T(96,  -96,   96,  -96,  -24,  24,  -96, -24, 144, -24,   24, -24),  # PYCHOK indent
+           _T(90,   30,    0, -150,  -90,   0,    0,  30,  90,   0,   30, -30),
+            _T(0,    0,  -20,   60,  -60,  20,  -20,  60, -60,  20,    0,   0),
+            _T(0,    0,  -60,   60,   60, -60,   60, -60, -60,  60,    0,   0),
+          _T(-60,   60,    0,   60,  -60,   0,    0,  60, -60,   0,  -60,  60),
+          _T(-20,  -20,    0,   60,   60,   0,    0, -60, -60,   0,   20,  20)),
 
-          ((18,  -18,   36,  210,  162, -36,    0,   0,   0,   0,  -18,  18),  # PYCHOK indent
-          (-36,   36, -165,   45,  141, -21,    0,   0,   0,   0,   36, -36),
-         (-122,   -2,  -27, -111,  -75,  27,   62, 124, 124,  62,  -64,   2),
-            (0,    0,   93,  -93,  -93,  93,    0,   0,   0,   0,    0,   0),
-          (120, -120,  147,  -57, -129,  39,    0,   0,   0,   0,   66, -66),  # PYCHOK indent
-          (135,   51,   -9, -192, -180,   9,   31,  62,  62,  31,   51, -51),
-            (0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
-            (0,    0,  -93,   93,   93, -93,    0,   0,   0,   0,    0,   0),
-          (-84,   84,   18,   12,  -12, -18,    0,   0,   0,   0, -102, 102),
-          (-31,  -31,    0,   93,   93,   0,  -31, -62, -62, -31,   31,  31)))
+          (_T(18,  -18,   36,  210,  162, -36,    0,   0,   0,   0,  -18,  18),  # PYCHOK indent
+          _T(-36,   36, -165,   45,  141, -21,    0,   0,   0,   0,   36, -36),
+         _T(-122,   -2,  -27, -111,  -75,  27,   62, 124, 124,  62,  -64,   2),
+            _T(0,    0,   93,  -93,  -93,  93,    0,   0,   0,   0,    0,   0),
+          _T(120, -120,  147,  -57, -129,  39,    0,   0,   0,   0,   66, -66),  # PYCHOK indent
+          _T(135,   51,   -9, -192, -180,   9,   31,  62,  62,  31,   51, -51),
+            _T(0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
+            _T(0,    0,  -93,   93,   93, -93,    0,   0,   0,   0,    0,   0),
+          _T(-84,   84,   18,   12,  -12, -18,    0,   0,   0,   0, -102, 102),
+          _T(-31,  -31,    0,   93,   93,   0,  -31, -62, -62, -31,   31,  31)))
 
     _egm     = None   # open geoid file
     _endian  = '>H'   # struct.unpack 1 ushort (big endian, unsigned short)
@@ -1525,6 +1540,9 @@ if __name__ == '__main__':
 
         else:
             raise GeoidError('unknown grid: %r' % (geoid,))
+
+_I = int    # PYCHOK unused _I
+del _intCs  # trash ints cache
 
 # **) MIT License
 #

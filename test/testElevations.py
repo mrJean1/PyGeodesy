@@ -4,7 +4,7 @@
 # Test elevations functions.
 
 __all__ = ('Tests',)
-__version__ = '19.10.30'
+__version__ = '19.12.22'
 
 from base import isPython2, isPython3, TestsBase
 
@@ -17,7 +17,7 @@ class Tests(TestsBase):
 
         # <https://WikiPedia.org/wiki/Mount_Diablo>
         m, _ = elevation2(37.8816, -121.9142, timeout=timeout)
-        self.test('elevation2', m, 1173.79)
+        self.test('elevation2', m, 1173.79, known=m is None)
         m, _ = geoidHeight2(37.8816, -121.9142, timeout=timeout)
         self.test('geoidHeight2', m, -31.703)
 

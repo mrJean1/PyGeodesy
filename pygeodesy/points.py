@@ -47,7 +47,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '19.10.12'
+__version__ = '19.12.16'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -1148,8 +1148,8 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
        @raise ValueError: Insufficient number of B{C{points}} or
                           invalid B{C{point}}.
 
-       @see: L{sphericalNvector.LatLon.isEnclosedBy},
-             L{sphericalTrigonometry.LatLon.isEnclosedBy} and
+       @see: L{sphericalNvector.LatLon.isenclosedBy},
+             L{sphericalTrigonometry.LatLon.isenclosedBy} and
              U{MultiDop GeogContainPt<https://GitHub.com/NASA/MultiDop>}
              (U{Shapiro et al. 2009, JTECH
              <https://Journals.AMetSoc.org/doi/abs/10.1175/2009JTECHA1256.1>}

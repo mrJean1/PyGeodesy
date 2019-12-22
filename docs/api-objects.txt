@@ -748,6 +748,7 @@ pygeodesy.geohash._2geostr	pygeodesy.geohash-module.html#_2geostr
 pygeodesy.geohash._MaxPrec	pygeodesy.geohash-module.html#_MaxPrec
 pygeodesy.geoids	pygeodesy.geoids-module.html
 pygeodesy.geoids._SciPyIssue	pygeodesy.heights-module.html#_SciPyIssue
+pygeodesy.geoids._T	pygeodesy.geoids-module.html#_T
 pygeodesy.geoids.EPS	pygeodesy.geoids-module.html#EPS
 pygeodesy.geoids.Datums	pygeodesy.geoids-module.html#Datums
 pygeodesy.geoids._ALL_LAZY	pygeodesy.geoids-module.html#_ALL_LAZY
@@ -757,6 +758,7 @@ pygeodesy.geoids.egmGeoidHeights	pygeodesy.geoids-module.html#egmGeoidHeights
 pygeodesy.geoids.frange	pygeodesy.fmath-module.html#frange
 pygeodesy.geoids.__package__	pygeodesy.geoids-module.html#__package__
 pygeodesy.geoids._interp2d_ks	pygeodesy.geoids-module.html#_interp2d_ks
+pygeodesy.geoids.map1	pygeodesy.fmath-module.html#map1
 pygeodesy.geoids._allis2	pygeodesy.heights-module.html#_allis2
 pygeodesy.geoids.property_RO	pygeodesy.utily-module.html#property_RO
 pygeodesy.geoids._SEEK_CUR	pygeodesy.geoids-module.html#_SEEK_CUR

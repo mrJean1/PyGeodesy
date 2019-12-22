@@ -30,7 +30,7 @@ if isiOS:  # MCCABE 14
         '''Invoke one test module and return
            the exit status and console output.
         '''
-        # Mimick partial behavior of function runner
+        # Mimick partial behavior of function run2
         # further below because subprocess.Popen is
         # not available on iOS/Pythonista/Python.
         # One issue however, test scripts are all

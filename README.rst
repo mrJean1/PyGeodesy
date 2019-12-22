@@ -23,12 +23,12 @@ and `Vector-based`_ geodesy, the original `JavaScript source`_ or docs_ and
 the Python `GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
-UPS_ (Universal Polar Stereographic), UTM_ (Exact_ and Universal Transverse
-Mercator), ECEF_ (Earth-Centered, Earth-Fixed cartesian) and `Web Mercator`_
-(Pseudo-Mercator) coordinates, MGRS_ (NATO Military Grid Reference System)
-and OSGR_ (British Ordinance Survery Grid Reference) grid references, TRF_
-(Terrestrial Reference Frames) and modules to encode and decode EPSG_,
-Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
+ECEF_ (Earth-Centered, Earth-Fixed cartesian), UPS_ (Universal Polar
+Stereographic), UTM_ (Exact_ and Universal Transverse Mercator) and
+`Web Mercator`_ (Pseudo-Mercator) coordinates, MGRS_ (NATO Military Grid
+Reference System) and OSGR_ (British Ordinance Survery Grid Reference) grid
+references, TRF_ (Terrestrial Reference Frames) and modules to encode and
+decode EPSG_ Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
 Other modules provide Lambert conformal conic projections and positions
 (from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
@@ -73,12 +73,12 @@ Tests
 
 The tests have been run with Python 3.7.5 and 2.7.17 (both with geographiclib_
 1.50, numpy_ 1.17.2 respectively 1.16.5 and scipy_ 1.3.1 respectively 1.2.2),
-with Python 3.8.0 and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3), all on macOS
+with Python 3.8.1 and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3), all on macOS
 10.13.6 High Sierra and *all in 64-bit only*.  The results of those tests are
 included in the distribution files.
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.7.5 (with
-geographiclib_ 1.50, numpy_ 1.17.2 and scipy_ 1.3.1) and Python 3.8.0.  An
+geographiclib_ 1.50, numpy_ 1.17.2 and scipy_ 1.3.1) and Python 3.8.1.  An
 HMTL report is included in the distribution files.
 
 With Python 3.7 and 3.8, the tests run *with and without* ``lazy import``.
@@ -96,27 +96,27 @@ on macOS 10.13.6 High Sierra.
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15, 2.7.16 (and numpy
 1.13.1, 1.14.0, 1.15.2, 1.16.2 or 1.16.5), 3.5.3, 3.6.2, 3.6.3, 3.6.4,
-3.6.5, 3.7.0, 3.7.2, 3.7.3, 3.7.4 and `Intel-Python`_ 3.5.3 (and numpy_
-1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12
-Sierra, macOS 10.13.5 High Sierra and macOS 10.14 Mojave, with Pythonista_
-3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with Pythonista_ 3.2
-(with geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0,
-12.2 and 12.3 on iPad4, iPhone6 and/or iPhone10, all in 64-bit only and
-with 32-bit Python 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14
-on Windows 10 Pro.
+3.6.5, 3.7.0, 3.7.2, 3.7.3, 3.7.4, 3.8 and `Intel-Python`_ 3.5.3 (and
+numpy_ 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS
+10.12 Sierra, macOS 10.13.5 High Sierra and macOS 10.14 Mojave, with
+Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with
+Pythonista_ 3.2 (with geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS
+11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6 and/or iPhone10, all in
+64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and with
+32-bit Python 2.7.14 on Windows 10 Pro.
 
 Notes
 =====
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.17
-and with Flake8_ using Python 3.8.0, both in 64-bit on macOS 10.13.6
+and with Flake8_ using Python 3.8.1, both in 64-bit on macOS 10.13.6
 High Sierra.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Nov 04, 2019.*
+*Last updated: Dec 22, 2019.*
 
 License
 =======
