@@ -97,22 +97,23 @@ the test results (on macOS only) and the complete U{documentation
 Tests
 =====
 
-The tests have been run with Python 3.7.5 and 2.7.17 (both with U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
-<https://PyPI.org/project/numpy>} 1.17.2 respectively 1.16.5 and U{scipy
-<https://SciPy.org/scipylib/download.html>} 1.3.1 respectively 1.2.2), with
-Python 3.8.1 and with U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3),
+The tests have been run with Python 3.8.1, 3.7.5 and 2.7.17 (all with
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
+<https://PyPI.org/project/numpy>} 1.18.0, 1.17.2 respectively 1.16.5 and
+U{scipy<https://SciPy.org/scipylib/download.html>} 1.4.1, 1.3.1 respectively
+1.2.2) and with U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3),
 all on macOS 10.13.6 High Sierra and I{all in 64-bit only}.  The results of
 those tests are included in the distribution files.
 
-Test coverage has been measured with U{coverage
-<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.7.5 (with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
-<https://PyPI.org/project/numpy>} 1.17.2 and U{scipy
-<https://SciPy.org/scipylib/download.html>} 1.3.1) and Python 3.8.1.  An
-HMTL report is included in the distribution files.
+With Python 3.8.1 and 3.7.5, the tests run I{with and without} C{lazy import}.
 
-With Python 3.7 and 3.8, the tests run I{with and without} C{lazy import}.
+Test coverage has been measured with U{coverage
+<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.8.1 and 3.7.5
+(both with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
+U{numpy<https://PyPI.org/project/numpy>} 1.18.0 respectively 1.17.2 and
+U{scipy<https://SciPy.org/scipylib/download.html>} 1.4.1 respectively
+1.3.1).  A summary PDF file and a full HMTL report are included in the
+distribution files.
 
 The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on U{Ubuntu 14.04
@@ -261,7 +262,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.12.22'
+__version__ = '19.12.31'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

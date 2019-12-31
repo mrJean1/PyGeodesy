@@ -20,7 +20,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.09.17'
+__version__ = '19.12.29'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -67,7 +67,7 @@ _2_3rd = 2.0 / 3.0  #: (INTERNAL) Two thirds (C{float})
 _3_2nd = 3.0 / 2.0  #: (INTERNAL) Three halfs (C{float})
 
 
-def _IsNotError(*names, **pair):  # Error=TypeError
+def _IsNotError(*names, **pair):  # Error=TypeError, name=value
     '''(INTERNAL) Format a C{TypeError} for a C{name=value} pair.
     '''
     Error = pair.pop('Error', TypeError)
@@ -95,7 +95,7 @@ def _2sum(a, b):
     '''
     s = a + b
     if not isfinite(s):
-        raise OverflowError('%s: %r' % ('2sum', s))
+        raise OverflowError('%s: %r' % (_2sum.__name__, s))
     if abs(a) < abs(b):
         a, b = b, a
     return s, b - (s - a)
@@ -183,7 +183,7 @@ class Fsum(object):
         if isscalar(other):
             self.fmul(other)
         elif isinstance(other, Fsum):
-            ps = list(other._ps)
+            ps = list(other._ps)  # copy
             if ps:
                 s = self.fcopy()
                 self.fmul(ps.pop())
@@ -283,7 +283,7 @@ class Fsum(object):
         ps = self._ps
         for a in iterable:  # _iter()
             if not isfinite(a):
-                raise ValueError('not %s: %r' %('finite', a))
+                raise ValueError('%s, not %s: %r' % (self, 'finite', a))
             i = 0
             for p in ps:
                 a, p = _2sum(a, p)
@@ -311,7 +311,7 @@ class Fsum(object):
          '''
         f = Fsum()
         f._n  = self._n
-        f._ps = list(self._ps)
+        f._ps = list(self._ps)  # copy
         return f
 
     __copy__ = fcopy
@@ -328,7 +328,7 @@ class Fsum(object):
            @see: Method L{Fsum.fadd}.
         '''
         if not isfinite(factor):
-            raise ValueError('not %s: %r' %('finite', factor))
+            raise ValueError('%s, not %s: %r' % (self, 'finite', factor))
 
         ps = self._ps
         if ps:  # multiply and adjust partial sums
@@ -444,7 +444,7 @@ class Fdot(Fsum):
            @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
         if not len(a) == len(b):
-            raise ValueError('%s: %s vs %s' % ('len', len(a), len(b)))
+            raise ValueError('%s, %s: %s vs %s' % (self, 'len', len(a), len(b)))
 
         Fsum.__init__(self)
         self.fadd(map(mul, a, b))
@@ -469,9 +469,9 @@ class Fhorner(Fsum):
            @see: Function L{fhorner} and methods L{Fsum.fadd} and L{Fsum.fmul}.
         '''
         if not isfinite(x):
-            raise ValueError('not %s: %r' %('finite', x))
+            raise ValueError('%s, not %s: %r' % (self, 'finite', x))
         if not cs:
-            raise ValueError('no %s: %r' % ('coefficents', cs))
+            raise ValueError('%s, no %s: %r' % (self, 'coefficents', cs))
 
         x, cs = float(x), list(cs)
 
@@ -500,9 +500,9 @@ class Fpolynomial(Fsum):
            @see: Function L{fpolynomial} and method L{Fsum.fadd}.
         '''
         if not isfinite(x):
-            raise ValueError('not %s: %r' %('finite', x))
+            raise ValueError('%s, not %s: %r' % (self, 'finite', x))
         if not cs:
-            raise ValueError('no %s: %r' % ('coefficents', cs))
+            raise ValueError('%s, no %s: %r' % (self, 'coefficents', cs))
 
         x, cs, xp = float(x), list(cs), 1
 
@@ -574,7 +574,8 @@ def fdot(a, *b):
        @see: Class L{Fdot}.
     '''
     if not len(a) == len(b):
-        raise ValueError('%s: %s vs %s' % ('len', len(a), len(b)))
+        raise ValueError('%s(%s): %s vs %s' % (fdot.__name__, 'len',
+                                               len(a), len(b)))
 
     return fsum(map(mul, a, b))
 
@@ -599,7 +600,8 @@ def fdot3(a, b, c, start=0):
         return a * b * c  # PYCHOK returns
 
     if not len(a) == len(b) == len(c):
-        raise ValueError('%s: %s vs %s vs %s' % ('len', len(a), len(b), len(c)))
+        raise ValueError('%s(%s): %s vs %s vs %s' % (fdot3.__name__, 'len',
+                                                     len(a), len(b), len(c)))
 
     if start:
         f = Fsum(start)
@@ -648,7 +650,7 @@ def fidw(xs, ds, beta=2):
     n, xs = len2(xs)
     d, ds = len2(ds)
     if n != d or n < 1:
-        raise ValueError('%s: %s vs %s' % ('len', n, d))
+        raise ValueError('%s(%s): %s vs %s' % (fidw.__name, 'len', n, d))
 
     d, x = min(zip(ds, xs))
     if d > EPS and n > 1:
@@ -657,15 +659,15 @@ def fidw(xs, ds, beta=2):
             ds = tuple(d**b for d in ds)
             d = fsum(ds)
             if d < EPS:
-                raise ValueError('%s[%s] invalid: %r' % ('ds', '', d))
+                raise ValueError('%s(%s[%s]) invalid: %r' % (fidw.__name, 'ds', '', d))
             x = fdot(xs, *ds) / d
         elif b == 0:
             x = fmean(xs)
         else:
-            raise ValueError('%s=%r invalid' % ('beta', beta))
+            raise ValueError('%s(%s=%r) invalid' % (fidw.__name, 'beta', beta))
     elif d < 0:
         i = ds.index(d)
-        raise ValueError('%s[%s] invalid: %r' % ('ds', i, d))
+        raise ValueError('%s(%s[%s]) invalid: %r' % (fidw.__name, 'ds', i, d))
     return x
 
 
@@ -684,7 +686,7 @@ def fmean(xs):
     n, xs = len2(xs)
     if n > 0:
         return fsum(xs) / n
-    raise ValueError('no %s: %r' % ('xs', xs))
+    raise ValueError('%s(%r)' % (fmean.__name__, xs))
 
 
 def fpolynomial(x, *cs):
@@ -796,7 +798,7 @@ except ImportError:
             for v in iterable:
                 r = f(r, v)
             if v is _EMPTY:
-                raise TypeError('%s() empty, no start' % ('freduce',))
+                raise TypeError('%s() empty, no start' % (freduce.__name__,))
             return r
 
 
@@ -942,7 +944,7 @@ except TypeError:  # Python 3.7-
                 return h
         else:
             n = ''
-        raise ValueError('%s(): %r[%s]' % ('hypot_', xs, n))
+        raise ValueError('%s(): %r[%s]' % (hypot_.__name__, xs, n))
 
 
 try:
@@ -1057,10 +1059,10 @@ def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
 
        @raise TypeError: Non-scalar B{C{value}}.
 
-       @raise ValueError: Out-of-bounds B{C{value}}.
+       @raise Error: Out-of-bounds B{C{value}}.
     '''
     if not isscalar(value):
-        raise _IsNotError('scalar', **{name: value})
+        raise _IsNotError(scalar.__name__, **{name: value})
     try:
         if low is None:
             v = float(value)
@@ -1069,7 +1071,7 @@ def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
             if v < low or v > high:
                 raise ValueError
     except (TypeError, ValueError):
-        raise Error(str(_IsNotError('valid', **{name: value})))
+        raise _IsNotError('valid', Error=Error, **{name: value})
     return v
 
 
@@ -1085,7 +1087,7 @@ def sqrt3(x):
        @see: Functions L{cbrt} and L{cbrt2}.
     '''
     if x < 0:
-        raise ValueError('%s(%r)' % ('sqrt3', x))
+        raise ValueError('%s(%r)' % (sqrt3.__name__, x))
     return pow(x, _3_2nd)
 
 # **) MIT License

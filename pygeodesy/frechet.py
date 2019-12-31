@@ -83,7 +83,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '19.10.31'
+__version__ = '19.12.29'
 
 
 class FrechetError(ValueError):
@@ -494,7 +494,7 @@ def fractional(points, fi, LatLon=None):
             raise IndexError
         p = _fractional(points, fi)
     except (IndexError, TypeError):
-        raise IndexError('%s invalid: %r' % ('fractional', fi))
+        raise IndexError('%s invalid: %r' % (fractional.__name__, fi))
 
     if LatLon and isinstance(p, LatLon2Tuple):
         p = LatLon(*p)

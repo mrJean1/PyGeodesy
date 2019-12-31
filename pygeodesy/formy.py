@@ -16,7 +16,7 @@ from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '19.10.19'
+__version__ = '19.12.29'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -327,7 +327,7 @@ def heightOf(angle, distance, radius=R_M):
         if s > 0:
             return r * sqrt(s) - float(radius)
 
-    raise ValueError('%s%r' % ('heightOf', (angle, distance, radius)))
+    raise ValueError('%s%r' % (heightOf.__name__, (angle, distance, radius)))
 
 
 def horizon(height, radius=R_M, refraction=False):
@@ -345,7 +345,7 @@ def horizon(height, radius=R_M, refraction=False):
        @see: U{Distance to horizon<https://www.EdWilliams.org/avform.htm#Horizon>}.
     '''
     if min(height, radius) < 0:
-        raise ValueError('%s%r' % ('horizon', (height, radius)))
+        raise ValueError('%s%r' % (horizon.__name__, (height, radius)))
 
     if refraction:
         d2 = 2.415750694528 * height * radius  # 2.0 / 0.8279

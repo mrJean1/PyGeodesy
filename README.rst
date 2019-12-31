@@ -71,17 +71,18 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.7.5 and 2.7.17 (both with geographiclib_
-1.50, numpy_ 1.17.2 respectively 1.16.5 and scipy_ 1.3.1 respectively 1.2.2),
-with Python 3.8.1 and with PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3), all on macOS
-10.13.6 High Sierra and *all in 64-bit only*.  The results of those tests are
-included in the distribution files.
+The tests have been run with Python 3.8.1, 3.7.5 and 2.7.17 (all with
+geographiclib_ 1.50, numpy_ 1.18.0, 1.17.2 respectively 1.16.5 and scipy_
+1.4.1, 1.3.1 respectively 1.2.2) and with PyPy_ 6.0.0 (Python 2.7.13 and
+3.5.3), all on macOS 10.13.6 High Sierra and *all in 64-bit only*.  The
+results of those tests are included in the distribution files.
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.7.5 (with
-geographiclib_ 1.50, numpy_ 1.17.2 and scipy_ 1.3.1) and Python 3.8.1.  An
-HMTL report is included in the distribution files.
+With Python 3.8.1 and 3.7.5, the tests run *with and without* ``lazy import``.
 
-With Python 3.7 and 3.8, the tests run *with and without* ``lazy import``.
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.1
+and 3.7.5 (both with geographiclib_ 1.50, numpy_ 1.18.0 respectively
+1.17.2 and scipy_ 1.4.1 respectively 1.3.1).  A summary PDF file and a
+full HMTL report are included in the distribution files.
 
 The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_
 1.49 or 1.50) on `Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_
@@ -116,7 +117,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Dec 22, 2019.*
+*Last updated: Dec 31, 2019.*
 
 License
 =======
