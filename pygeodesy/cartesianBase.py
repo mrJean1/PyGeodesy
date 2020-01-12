@@ -25,7 +25,7 @@ from math import hypot, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '19.10.21'
+__version__ = '20.01.12'
 
 
 class CartesianBase(Vector3d):
@@ -73,8 +73,13 @@ class CartesianBase(Vector3d):
            @param transform: Transform to apply (L{Transform}).
            @keyword inverse: Optionally, apply the inverse
                              Helmert transform (C{bool}).
+           @keyword datum: Optional datum of the returned point,
+                           (C{B{datum}=}L{Datum}).
 
            @return: The transformed point (C{Cartesian}).
+
+           @note: For C{B{inverse}=True} keyword B{C{datum}} must
+                  be C{B{datum}=Datums.WGS84}.
         '''
         xyz = transform.transform(self.x, self.y, self.z, inverse)
         return self._xnamed(self.classof(xyz, **datum))
@@ -108,10 +113,10 @@ class CartesianBase(Vector3d):
             i = True  # conver to WGS84, use inverse transform
 
         else:  # neither datum2 nor c.datum is WGS84, invert to WGS84 first
-            c = c._applyHelmert(d.transform, True, datum=d)
+            c = c._applyHelmert(d.transform, True, datum=Datums.WGS84)
             d = datum2
 
-        return c._applyHelmert(d.transform, i, datum=d)
+        return c._applyHelmert(d.transform, i, datum=datum2)
 
     @property
     def datum(self):

@@ -143,7 +143,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '19.10.21'
+__version__ = '20.01.09'
 
 _TOL = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
 
@@ -187,7 +187,7 @@ class Ellipsoid(_NamedEnumItem):
     _e2   = None  #: 1st Eccentricity squared: f * (2 - f) = 1 - (b / a)**2
     _e4   = None  #: e2**2  # for ellipsoidalNvector.Cartesian.toNvector, ecef
     _e12  = None  #: 1 - e2 = (1 - f)**2 # for ellipsoidalNvector.Cartesian.toNvector, ecef utm
-    _e22  = None  #: 2nd Eccentricity squared: e2 / (1 - e2) = ab**2 - 1
+    _e22  = None  #: 2nd Eccentricity squared: e2 / (1 - e2) = (a / b)**2 - 1
 
     # fixed earth radii from <https://WikiPedia.org/wiki/Earth_radius>
     _R1 = None  #: (INTERNAL) Mean earth radius: (2 * a + b) / 3 per IUGG definition (C{meter})
@@ -474,8 +474,24 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the (1st) Eccentricity squared (C{float}), M{f * (2 - f) == 1 - (b / a)**2}.
         '''
         if self._e2 is None:
-            self._e2 = self.f * (2 - self.f)
+            self._e2 = e2 = self.f * (2 - self.f)
+            t = 1 - (self.b / self.a)**2
+            if abs(e2 - t) > 1e-9:
+                raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (self.name,
+                                     'e2', e2, '1-(b/a)**2', t))
         return self._e2
+
+    @property_RO
+    def e22(self):
+        '''Get the 2nd Eccentricity I{squared} (C{float}), M{e2 / (1 - e2) == (a / b)**2 - 1}.
+        '''
+        if self._e22 is None:
+            self._e22 = e22 = self.e2 / (1 - self.e2)
+            t = self.a_b**2 - 1
+            if abs(e22 - t) > 1e-9:
+                raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (self.name,
+                                     'e22', e22, '(a/b)**2-1', t))
+        return self._e22
 
     @property_RO
     def e4(self):
@@ -484,14 +500,6 @@ class Ellipsoid(_NamedEnumItem):
         if self._e4 is None:
             self._e4 = self.e2**2
         return self._e4
-
-    @property_RO
-    def e22(self):
-        '''Get the 2nd Eccentricity I{squared} (C{float}), M{e2 / (1 - e2) == ab**2 - 1}.
-        '''
-        if self._e22 is None:
-            self._e22 = self.e2 / (1 - self.e2)
-        return self._e22
 
     def ecef(self, Ecef=None):
         '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.
@@ -701,7 +709,7 @@ class Ellipsoid(_NamedEnumItem):
         if self._n is None:
             self._n = n = self.f / (2 - self.f)
             t = (self.a - self.b) / (self.a + self.b)
-            if abs(n - t) > 1e-8:
+            if abs(n - t) > 1e-9:
                 raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (self.name,
                                      'n', n, '(a-b)/(a+b)', t))
         return self._n

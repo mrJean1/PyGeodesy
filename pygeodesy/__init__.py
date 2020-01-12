@@ -262,7 +262,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '19.12.31'
+__version__ = '20.01.12'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -272,7 +272,7 @@ else:
     # setting __path__ should ...
     __path__ = [pygeodesy_abspath]
     try:  # ... make this import work, ...
-        import pygeodesy.datum as _
+        import pygeodesy.lazily as _
     except ImportError:  # ... if it doesn't, extend
         # sys.path to include this very directory such
         # that all public and private sub-modules can

@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '19.10.19'
+__version__ = '20.01.09'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -65,7 +65,8 @@ def _xattrs(inst, other, *attrs):
 
     for a in attrs:
         s = _getattr(other, a)
-        if _getattr(inst, a) != s:
+        g = _getattr(inst, a)
+        if g is None or g != s:
             setattr(inst, a, s)  # not settable?
     return inst
 

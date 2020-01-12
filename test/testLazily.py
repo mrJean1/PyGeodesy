@@ -4,7 +4,7 @@
 # Test the lazy import module lazily.
 
 __all__ = ('Tests',)
-__version__ = '19.09.11'
+__version__ = '20.01.07'
 
 from base import TestsBase, ismacOS, isNix, isPython37, isWindows, \
                  PythonX, type2str
@@ -27,6 +27,7 @@ else:
 _HOME = os.environ.get('HOME', '')
 if _HOME and _cmd.startswith(_HOME):
     _cmd = '~' + _cmd[len(_HOME):]
+del _HOME
 
 
 class Tests(TestsBase):

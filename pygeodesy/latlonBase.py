@@ -27,7 +27,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '19.10.19'
+__version__ = '20.01.09'
 
 
 class LatLonBase(_NamedBase):
@@ -635,7 +635,8 @@ class LatLonBase(_NamedBase):
            @keyword form: Optional format, F_D, F_DM, F_DMS for
                           deg°, deg°min′, deg°min′sec″ (C{str}).
            @keyword prec: Optional number of decimal digits (0..8 or C{None}).
-           @keyword m: Optional unit of the height (C{str}).
+           @keyword m: Optional unit of the height (C{str}), use C{None}
+                       to exclude height from the returned string.
            @keyword sep: Optional separator to join (C{str}).
 
            @return: Point in the specified form (C{str}).
@@ -649,7 +650,7 @@ class LatLonBase(_NamedBase):
         '''
         t = [latDMS(self.lat, form=form, prec=prec),
              lonDMS(self.lon, form=form, prec=prec)]
-        if self.height:
+        if self.height and m is not None:
             t += ['%+.2f%s' % (self.height, m)]
         return sep.join(t)
 

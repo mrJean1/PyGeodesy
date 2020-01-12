@@ -45,7 +45,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '19.10.24'
+__version__ = '20.01.09'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -116,7 +116,7 @@ class Osgr(_NamedBase):
         '''(INTERNAL) Make copy with add'l, subclass attributes.
         '''
         return _xattrs(self.classof(self.easting, self.northing),
-                       self, *attrs)
+                       self, '_datum', '_latlon', *attrs)
 
     def copy(self):
         '''Copy this OSGR reference.
@@ -180,27 +180,26 @@ class Osgr(_NamedBase):
         if self._latlon:
             return self._latlon3(LatLon, datum)
 
-        E = _OSGB36.ellipsoid  # Airy130
+        E = self.datum.ellipsoid  # _OSGB36.ellipsoid, Airy130
         a_F0 = E.a * _F0
         b_F0 = E.b * _F0
 
-        e, n = self._easting, self._northing
+        e, n = self.easting, self.northing
         n_N0 = n - _N0
 
         a, M = _A0, 0
         sa = Fsum(a)
         while True:
-            t = n_N0 - M
-            if t < _10um:
+            a = sa.fsum_((n_N0 - M) / a_F0)
+            M = b_F0 * _M(E.Mabcd, a)  # meridional arc
+            if abs(n_N0 - M) < _10um:
                 break
-            a = sa.fsum_(t / a_F0)
-            M = b_F0 * _M(E.Mabcd, a)
 
         sa, ca = sincos2(a)
 
         s = E.e2s2(sa)  # r, v = E.roc2_(sa, _F0)
         v = a_F0 / sqrt(s)  # nu
-        r = v * E.e12 / s  # rho
+        r = v * E.e12 / s  # rho = a_F0 * E.e12 / pow(s, 1.5) == a_F0 * E.e12 / (s * sqrt(s))
 
         vr = v / r  # == s / E.e12
         x2 = vr - 1  # η2
@@ -220,13 +219,13 @@ class Osgr(_NamedBase):
               csa / v,
               csa / (   6 * v3) * fsum_(vr, ta, ta),
               csa / ( 120 * v5) * fdot((5, 28, 24), 1, ta2, ta4),
-              csa / (5040 * v7) * fdot((61, 662, 1320, 720), ta, ta2, ta4, ta6))
+              csa / (5040 * v7) * fdot((61, 662, 1320, 720), 1, ta2, ta4, ta6))
 
         d, d2, d3, d4, d5, d6, d7 = fpowers(e - _E0, 7)  # PYCHOK false!
         a = fdot(V4, 1,    -d2, d4, -d6)
         b = fdot(X5, 1, d, -d3, d5, -d7)
 
-        self._latlon = _LLEB(degrees90(a), degrees180(b), datum=_OSGB36, name=self.name)
+        self._latlon = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
         return self._latlon3(LatLon, datum)
 
     def _latlon3(self, LatLon, datum):
