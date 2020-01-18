@@ -17,14 +17,14 @@ from pygeodesy.dms import parse3llh, parseDMS2
 from pygeodesy.fmath import EPS1_2, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
-                            LatLonPrec5Tuple, _NamedStr
+                            LatLonPrec5Tuple, _NamedStr, _xattrs
 from pygeodesy.utily import _MISSING, ft2m, m2ft, m2NM, property_RO, \
                             _Strs
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '19.10.12'
+__version__ = '20.01.18'
 
 _Base    = 10
 _BaseLen = 4
@@ -222,6 +222,11 @@ class Georef(_NamedStr):
 
         h = height if height is not None else (self.height or 0)
         return self._xnamed(LatLon(*self.latlon, height=h, **kwds))
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xattrs(self.classof(self), self, *attrs)
 
 
 def decode3(georef, center=True):

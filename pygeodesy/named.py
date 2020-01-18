@@ -42,9 +42,10 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '20.01.09'
+__version__ = '20.01.18'
 
-_NAME_ = 'name'  # __NAME gets mangled in class
+_COPYOF = object()  # singleton
+_NAME_  = 'name'  # __NAME gets mangled in class
 
 
 def _xattrs(inst, other, *attrs):
@@ -52,7 +53,7 @@ def _xattrs(inst, other, *attrs):
 
        @param inst: Instance to copy attribute values to.
        @param other: Instance to copy attribute values from.
-       @param attrs: Attribute names (C{str})s.
+       @param attrs: Attribute names (C{str}s).
 
        @return: The B{C{inst}}, updated.
 
@@ -66,9 +67,22 @@ def _xattrs(inst, other, *attrs):
     for a in attrs:
         s = _getattr(other, a)
         g = _getattr(inst, a)
-        if g is None or g != s:
+        if (g is None and s is not None) or g != s:
             setattr(inst, a, s)  # not settable?
     return inst
+
+
+def _xcopyof(other, *attrs):
+    '''(INTERNAL) Copy B{C{inst}} and its attribute values.
+
+       @param other: Instance to copy.
+       @param attrs: Attribute names (C{str}s).
+
+       @return: The copy of B{C{other}}, updated.
+
+       @raise AttributeError: An B{C{attr}} doesn't exist or is not settable.
+    '''
+    return _xattrs(other.classof(_COPYOF), other, *attrs)
 
 
 def _xnamed(inst, name):
@@ -600,6 +614,11 @@ class _NamedTuple(tuple, _Named):
             yield n, tuple.__getitem__(self, i)
 
     iteritems = items
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xattrs(self.classof(*self), self, *attrs)
 
     def _xtend(self, namedTuple, *items):
         '''(INTERNAL) Extend this C{_Tuple} with C{items} to an other C{namedTuple}.

@@ -69,8 +69,8 @@ from pygeodesy.datum import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.fmath import cbrt, EPS, Fsum, hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import EasNorExact4Tuple, LatLonExact4Tuple, \
-                           _NamedBase, _xnamed
+from pygeodesy.named import _COPYOF, EasNorExact4Tuple, LatLonExact4Tuple, \
+                            _NamedBase, _xnamed, _xcopyof
 from pygeodesy.utily import PI_2, PI_4, property_RO, sincos2, \
                            _TypeError
 from pygeodesy.utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
@@ -81,7 +81,7 @@ from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '19.10.30'
+__version__ = '20.01.18'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -214,13 +214,18 @@ class Etm(Utm):
            @example:
 
            >>> import pygeodesy
-           >>> u = pygeodesy.Utm(31, 'N', 448251, 5411932)
+           >>> u = pygeodesy.Etm(31, 'N', 448251, 5411932)
         '''
         Utm.__init__(self, zone, hemisphere, easting, northing,
                                  band=band, datum=datum, falsed=falsed,
                                  convergence=convergence, scale=scale,
                                  name=name)
         self.exactTM = self.datum.exactTM  # ExactTransverseMercator(datum=self.datum)
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return Utm._xcopy(self, '_Error', '_exactTM', *attrs)
 
     @property
     def exactTM(self):
@@ -268,8 +273,8 @@ class Etm(Utm):
 
            @example:
 
-           >>> u = Utm(31, 'N', 448251.795, 5411932.678)
-           >>> from pygeodesy import ellipsoidalVincenty as eV
+           >>> from pygeodesy import ellipsoidalVincenty as eV, Etm
+           >>> u = Etm(31, 'N', 448251.795, 5411932.678)
            >>> ll = u.toLatLon(eV.LatLon)  # 48°51′29.52″N, 002°17′40.20″E
         '''
         xTM, d = self.exactTM, self.datum
@@ -354,6 +359,9 @@ class ExactTransverseMercator(_NamedBase):
                   3.5.3 and PyPy6 2.7.13, all in 64-bit on macOS
                   10.13.6 High Sierra).
         '''
+        if datum is _COPYOF:
+            return None
+
         if extendp:
             self._extendp = bool(extendp)
         if name:
@@ -362,6 +370,12 @@ class ExactTransverseMercator(_NamedBase):
         self.datum = datum
         self.lon0  = lon0
         self.k0    = k0
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xcopyof(self, '_a', '_datum', '_e', '_E', '_extendp',
+                              '_f', '_k0', '_k0_a', '_lon0', *attrs)
 
     @property
     def datum(self):
@@ -744,6 +758,18 @@ class ExactTransverseMercator(_NamedBase):
             u = xi  * r
             v = eta * r
         return u, v, trip
+
+    def toStr(self, **kwds):
+        '''Return a C{str} representation.
+
+           @param kwds: Optional, keyword arguments.
+        '''
+        d = dict(datum=self.datum.name, lon0=self.lon0, k0=self.k0, extendp=self.extendp)
+        if self.name:
+            d['name'] = self.name
+        if kwds:
+            d.update(kwds)
+        return ', '.join('%s=%s' % t for t in sorted(d.items()))
 
     def _zeta3(self, snu, cnu, dnu, snv, cnv, dnv):
         '''

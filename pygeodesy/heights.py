@@ -55,13 +55,13 @@ from pygeodesy.datum import Datum
 from pygeodesy.fmath import EPS, fidw, _IsNotError, isscalar, len2, map1
 from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _Named
+from pygeodesy.named import _COPYOF, _Named, _xcopyof
 from pygeodesy.points import LatLon_
 from pygeodesy.utily import PI, PI2, PI_2, property_RO, \
                             radiansPI, radiansPI2, unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '19.12.21'
+__version__ = '20.01.18'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -243,6 +243,12 @@ class _HeightBase(_Named):  # imported by .geoids
 
         return np, spi
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xcopyof(self, '_kmin', '_np',  '_np_v',
+                                       '_spi', '_sp_v', *attrs)
+
     def _xyhs3(self, knots):
         return _xyhs3(self._np.array, self._kmin, knots)
 
@@ -273,6 +279,9 @@ class HeightCubic(_HeightBase):
            @raise SciPyWarning: A C{scipy.interpolate.interp2d} warning
                                 as exception.
         '''
+        if knots is _COPYOF:
+            return None
+
         _, spi = self._NumSciPy()
 
         xs, ys, hs = self._xyhs3(knots)
@@ -307,6 +316,11 @@ class HeightCubic(_HeightBase):
         # to make SciPy .interp2d signature(x, y), single (x, y)
         # match SciPy .ev signature(ys, xs), flipped multiples
         return map(self._interp2d, xis, yis)
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _HeightBase._xcopy(self, '_interp2d', '_kind', *attrs)
 
     def height(self, lats, lons):
         '''Interpolate the height for one or several lat-/longitudes.
@@ -372,6 +386,9 @@ class _HeightIDW(_HeightBase):
     def __init__(self, knots, beta=2, name=''):
         '''New L{_HeightIDW} interpolator.
         '''
+        if knots is _COPYOF:
+            return None
+
         self._xs, self._ys, self._hs = _xyhs3(tuple, self._kmin, knots, off=False)
         self.beta = beta
         if name:
@@ -405,6 +422,11 @@ class _HeightIDW(_HeightBase):
             return fidw(self._hs, ds, beta=self._beta)
         except ValueError as x:
             raise HeightError(str(x))
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _HeightBase._xcopy(self, '_beta', '_hs', '_xs', '_ys', *attrs)
 
     @property
     def beta(self):
@@ -486,6 +508,11 @@ class HeightIDWequirectangular(_HeightIDW):
                 d *= _scaler(yk, y)
             yield d**2 + (yk - y)**2  # like equirectangular_ distance2
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _HeightIDW._xcopy(self, '_adjust', '_wrap', *attrs)
+
     __call__ = _HeightIDW.__call__  # for __doc__
     height   = _HeightIDW.height    # for __doc__
 
@@ -527,6 +554,11 @@ class HeightIDWeuclidean(_HeightIDW):
         for xk, yk in zip(self._xs, self._ys):
             yield euclidean_(yk, y, xk - x, adjust=self._adjust)
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _HeightIDW._xcopy(self, '_adjust', *attrs)
+
     __call__ = _HeightIDW.__call__  # for __doc__
     height   = _HeightIDW.height    # for __doc__
 
@@ -567,6 +599,11 @@ class HeightIDWhaversine(_HeightIDW):
         for xk, yk in zip(self._xs, self._ys):
             d, _ = unrollPI(xk, x, wrap=self._wrap)
             yield haversine_(yk, y, d)
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _HeightIDW._xcopy(self, '_wrap', *attrs)
 
     __call__ = _HeightIDW.__call__  # for __doc__
     height   = _HeightIDW.height    # for __doc__
@@ -611,6 +648,9 @@ class HeightIDWkarney(_HeightIDW):
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
+        if knots is _COPYOF:
+            return None
+
         n, self._lls = len2(knots)
         if n < self._kmin:
             raise HeightError('insufficient %s: %s, need %s' % ('knots', n, self._kmin))
@@ -640,6 +680,11 @@ class HeightIDWkarney(_HeightIDW):
     def _hs(self):
         for ll in self._lls:
             yield ll.height
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xcopyof(self, '_datum', '_geodesic', '_wrap', *attrs)
 
     def __call__(self, *llis):
         '''Interpolate the height for one or several locations.
@@ -710,6 +755,11 @@ class HeightIDWvincentys(_HeightIDW):
             d, _ = unrollPI(xk, x, wrap=self._wrap)
             yield vincentys_(yk, y, d)
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _HeightIDW._xcopy(self, '_wrap', *attrs)
+
     __call__ = _HeightIDW.__call__  # for __doc__
     height   = _HeightIDW.height    # for __doc__
 
@@ -740,6 +790,9 @@ class HeightLSQBiSpline(_HeightBase):
            @raise SciPyWarning: A C{LSQSphereBivariateSpline} warning
                                 as exception.
         '''
+        if knots is _COPYOF:
+            return None
+
         np, spi = self._NumSciPy()
 
         xs, ys, hs = self._xyhs3(knots)
@@ -837,6 +890,9 @@ class HeightSmoothBiSpline(_HeightBase):
            @raise SciPyWarning: A C{SmoothSphereBivariateSpline} warning
                                 as exception.
         '''
+        if knots is _COPYOF:
+            return None
+
         _, spi = self._NumSciPy()
 
         if s < 4:

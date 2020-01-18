@@ -5,7 +5,7 @@ u'''Test Elliptic Python implementation.
 '''
 
 __all__ = ('Tests',)
-__version__ = '19.10.30'
+__version__ = '20.01.17'
 
 from base import TestsBase
 
@@ -86,6 +86,8 @@ class Tests(TestsBase):
         e.reset(1, 1)
         self.test('sncndn(x)', fStr(e.sncndn(0), prec=9), '0.0, 1.0, 1.0')
         self.test('sncndn(x)', fStr(e.sncndn(PI_2), prec=9), '0.917152336, 0.398536815, 0.398536815')
+
+        self.testCopy(e)
 
 
 if __name__ == '__main__':

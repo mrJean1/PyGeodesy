@@ -4,7 +4,7 @@
 # Test Web Mercator classes functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.10.31'
+__version__ = '20.01.18'
 
 from math import log, radians, tan
 from base import TestsBase
@@ -23,11 +23,13 @@ class Tests(TestsBase):
         self.test('toWm1', w.toStr(prec=8), '-626172.13571216 6887893.4928338')
         y = R_MA * log(tan(radians((90 + lat) * 0.5)))
         self.test('Wm1.y', y, '6887893.49283380', fmt='%.8f')
+        self.testCopy(w)
 
         w = Wm(448251.795, 5411932.678)
         self.test('Wm2', w, '448251.795 5411932.678')
         self.test('Wm2', w.toStr(prec=0), '448252 5411933')
         self.test('Wm2', w.toStr(prec=1), '448251.8 5411932.7')
+        self.testCopy(w)
 
         ll = w.to2ll(None)  # 2-tuple
         self.test('Wm2.to2ll', fStr(ll, prec=8), '43.65321741, 4.02671439')

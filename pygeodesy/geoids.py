@@ -66,7 +66,8 @@ from pygeodesy.fmath import EPS, favg, Fdot, fdot, Fhorner, frange, fStr, \
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError, _SciPyIssue
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
-from pygeodesy.named import GeoidHeight5Tuple, LatLon3Tuple, _Named
+from pygeodesy.named import _COPYOF, GeoidHeight5Tuple, LatLon3Tuple, \
+                            _Named, _xcopyof
 from pygeodesy.utily import property_RO
 
 from math import floor
@@ -85,7 +86,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '19.12.21'
+__version__ = '20.01.18'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -159,6 +160,9 @@ class _GeoidBase(_HeightBase):
                                 C{-.RectBivariateSpline} warning as
                                 exception.
         '''
+        if hs is _COPYOF:
+            return None
+
         # for 2d scipy.interpolate.interp2d(xs, ys, hs, ...) and
         # scipy.interpolate.RectBivariateSpline(ys, xs, hs, ...)
         # require the shape of hs to be (len(ys), len(xs)), note
@@ -342,6 +346,19 @@ class _GeoidBase(_HeightBase):
         except (IndexError, TypeError, ValueError):
             pass
         raise GeoidError('%s invalid: %r' % ('crop', crop))
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xcopyof(self, '_datum', '_endian', '_geoid', '_hs_y_x',
+                              '_interp2d', '_kind', '_knots', '_mean',
+                              '_nBytes', '_sizeB', '_smooth', '_stdev',
+                              '_lat_d', '_lat_lo', '_lat_hi',
+                              '_lon_d', '_lon_lo', '_lon_hi',
+                              '_lon_of', '_lon_og', '_center',
+                              '_highest', '_lowerleft', '_lowerright',
+                              '_lowest', '_upperleft', '_upperright',
+                              '_yx_hits', *attrs)
 
     def center(self, LatLon=None):
         '''Return the center location and height of this geoid.
@@ -649,6 +666,9 @@ class GeoidG2012B(_GeoidBase):
            @raise SciPyWarning: A C{RectBivariateSpline} or C{inter2d}
                                 warning as exception.
         '''
+        if g2012b_bin is _COPYOF:
+            return None
+
         if crop is not None:
             raise GeoidError('not supported: %s=%r' % ('crop', crop))
 
@@ -799,6 +819,9 @@ class GeoidKarney(_GeoidBase):
 
            @see: Class L{GeoidPGM} and function L{egmGeoidHeights}.
         '''
+        if egm_pgm is _COPYOF:
+            return None
+
         if smooth is not None:
             raise GeoidError('not supported: %s=%r' % ('smooth', smooth))
 
@@ -1014,6 +1037,15 @@ class GeoidKarney(_GeoidBase):
         self._egm.seek(b, _SEEK_SET)
         return b  # position
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xcopyof(self, '_egm', '_endian', '_4endian', '_Rendian',
+                              '_highest', '_lowest', '_mean', '_nBytes',
+                              '_nterms', '_pgm', '_smooth', '_stdev',
+                              '_u2B', '_4u2B', '_Ru2B',
+                              '_yxH', '_yxHt', '_yx_hits', *attrs)
+
     @property_RO
     def dtype(self):
         '''Get the geoid's grid data type (C{str}).
@@ -1123,6 +1155,9 @@ class GeoidPGM(_GeoidBase):
 
            @see: Class L{GeoidKarney} and function L{egmGeoidHeights}.
         '''
+        if egm_pgm is _COPYOF:
+            return None
+
         np, _ = self._NumSciPy()
         self._u2B = np.dtype(self.endian).itemsize
 
@@ -1178,6 +1213,11 @@ class GeoidPGM(_GeoidBase):
         '''Get the PGM itemsize in bytes (C{int}).
         '''
         return self._u2B
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _GeoidBase._xcopy(self, '_pgm', '_u2B', *attrs)
 
 
 class _Gpars(_Named):

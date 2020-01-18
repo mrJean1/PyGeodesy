@@ -9,7 +9,7 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '19.07.12'
+__version__ = '20.01.18'
 
 from base import TestsBase
 
@@ -29,6 +29,7 @@ class Tests(TestsBase):
         c = Cartesian(4027893.924, 307041.993, 4919474.294)
         x = c.toLatLon()
         x.reframe = RefFrames.ITRF2000
+        self.testCopy(x.reframe)
         self.test('toLatLon', x.toStr(form=F_D, prec=4), '50.7978°N, 004.3592°E, +148.96m')
         c = Cartesian(3980574.247, -102.127, 4966830.065)
         x = c.convertRefFrame(RefFrames.ETRF2000, RefFrames.ITRF2000)
@@ -37,6 +38,7 @@ class Tests(TestsBase):
         p = LatLon(0, 0, reframe=RefFrames.ITRF2000)
         x = p.convertRefFrame(RefFrames.ITRF2000)
         self.test('Nil', x is p, True)
+        self.testCopy(x.reframe)
         c = Cartesian(1, 2, 3)
         x = c.convertRefFrame(RefFrames.ITRF2000, RefFrames.ITRF2000)
         self.test('Nil', x is c, True)
@@ -47,6 +49,7 @@ class Tests(TestsBase):
         x = p.convertRefFrame(RefFrames.NAD83)
         self.test('Roundtrip', x == p, True)
         self.test('reframe', x.reframe == RefFrames.NAD83, True)
+        self.testCopy(x.reframe)
 
         # Dawson, J. & Woods, A., Appendix A, Journal of Applied Geodesy 4 (2010)
         p = LatLon('23°40′12.41482″S', '133°53′7.86712″E', height=603.2562, reframe=RefFrames.ITRF2005, epoch=2010.4559)

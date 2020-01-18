@@ -5,7 +5,7 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '19.10.24'
+__version__ = '20.01.17'
 
 from base import TestsBase
 
@@ -26,6 +26,8 @@ class Tests(TestsBase):
 
         t = g.toStr2()
         self.test('toStr', t, g.classname, known=True)
+
+        self.testCopy(g)
 
         # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>
         t = g.forward(27.99, 86.93, 8820)  # Mt Everest
@@ -109,9 +111,10 @@ class Tests(TestsBase):
         # <https://GeographicLib.SourceForge.io/html/CartConvert.1.html>
         c = EcefCartesian(33, 44, 20, name='Test')
         self.test('name', c.name, 'Test')
-
         t = c.toStr2()
         self.test('toStr', t, c.classname, known=True)
+
+        self.testCopy(c)
 
         t = c.forward(33.3, 44.4, 6000)
         self.test('forward', fStr(t[3:6], prec=1), '33.3, 44.4, 6000.0')
@@ -156,12 +159,16 @@ class Tests(TestsBase):
         t = M.multiply(M)
         self.test('multiply', fStr(t, prec=0), '45, 54, 63, 54, 66, 78, 63, 78, 93')
 
+        self.testCopy(M)
+
         I = [0] * 9  # PYCHOK I
         I[0] = I[4] = I[8] = 1
         I = EcefMatrix(*I)  # PYCHOK I
         self.test('matrix', fStr(I, prec=0), '1, 0, 0, 0, 1, 0, 0, 0, 1')
         t = I.multiply(I)
         self.test('multiply', fStr(t, prec=0), '1, 0, 0, 0, 1, 0, 0, 0, 1')
+
+        self.testCopy(I)
 
     def testLatLonEcef(self, module):
 

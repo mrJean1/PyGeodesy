@@ -5,7 +5,7 @@ u'''Test projection L{ExactTransverseMercator}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '19.10.01'
+__version__ = '20.01.17'
 
 from base import isiOS, isNix, isWindows, TestsBase
 
@@ -96,6 +96,8 @@ class Tests(TestsBase):
             t, _ = _sum2(t, x)
         self.test(n, s, '1.0e-20', fmt='%.1e')
         self.test(n, t, '0.0e+00', fmt='%.1e')
+
+        self.testCopy(_ETM)
 
 
 if __name__ == '__main__':

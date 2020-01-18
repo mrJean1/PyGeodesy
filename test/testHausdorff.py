@@ -4,7 +4,7 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '19.09.30'
+__version__ = '20.01.18'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
@@ -37,6 +37,8 @@ class Tests(TestsBase):
 
             t = _tstr(h.symmetric(_ps, early=e))
             self.test(h.named, t, y)  # + (h.units,)
+
+        self.testCopy(h)
 
 
 if __name__ == '__main__':  # MCCABE 13

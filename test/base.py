@@ -228,6 +228,12 @@ class TestsBase(object):
         t = '-' * len(str(self.total))
         self.printf('test %s %s', t, (fmt % args), **kwds)
 
+    def testCopy(self, inst, Clas=None):
+        C = Clas or inst.__class__
+        c = inst.copy()
+        t = c.__class__, id(c) != id(inst)
+        self.test(C.__name__ + '.copy()', t, (C, True))
+
     def testiter(self):
         '''Test with/-out I{iterNumpy2} threshold.
         '''

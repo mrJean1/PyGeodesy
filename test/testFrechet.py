@@ -4,7 +4,7 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '19.11.02'
+__version__ = '20.01.18'
 
 from base import coverage, isPython3, isWindows, TestsBase
 
@@ -34,6 +34,8 @@ class Tests(TestsBase):
 
         t = _tstr(f.discrete(_ps, fraction=0.5))
         self.test(f.named, t, y)  # + (t.units,)
+
+        self.testCopy(f)
 
 
 if __name__ == '__main__':

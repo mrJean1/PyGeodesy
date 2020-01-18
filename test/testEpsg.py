@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.10.31'
+__version__ = '20.01.17'
 
 from base import TestsBase
 
@@ -31,6 +31,7 @@ class Tests(TestsBase):
             self.test('Ups', e, e)
             u = e.utmupsStr(B=True)
             self.test('Ups', u, u)
+            self.testCopy(e)
 
     def testEpsgTMcoord(self, n, lat, lon):
         u = toUtmUps8(lat, lon)

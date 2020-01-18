@@ -4,7 +4,7 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '19.05.06'
+__version__ = '20.01.18'
 
 from base import TestsBase
 
@@ -24,6 +24,7 @@ class Tests(TestsBase):
         self.test('toLatLon', g.toLatLon(LL), '65.478516°N, 017.753906°W')
         self.test('latlon', fStr(g.latlon, prec=7), '65.4785156, -17.7539062')
         self.test('ab', fStr(g.ab, prec=7), '1.1428157, -0.3098641')
+        self.testCopy(g)
 
         g = Geohash(LL(65.390625, -17.929689), precision=9)
         self.test('Geohash', g, 'geehpbpbp')
@@ -36,6 +37,7 @@ class Tests(TestsBase):
         self.test('distance2', g.distance2('geehpb'),  '682.760', fmt='%.3f')
         self.test('distance3', g.distance3('geehpb'),  '397.404', fmt='%.3f')
         self.test('sizes', fStr(g.sizes, prec=1), '4.8, 4.8')
+        self.testCopy(g)
 
         for d in (g.neighbors, geohash.neighbors(g)):
             self.test('N',  d.N,  g.N)

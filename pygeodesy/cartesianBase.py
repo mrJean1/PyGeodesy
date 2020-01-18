@@ -25,7 +25,7 @@ from math import hypot, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.01.12'
+__version__ = '20.01.14'
 
 
 class CartesianBase(Vector3d):
@@ -107,13 +107,13 @@ class CartesianBase(Vector3d):
             return c.copy() if c is self else c
 
         elif d == Datums.WGS84:
-            d = datum2  # convert from WGS 84 to datum2
+            d = datum2  # convert from WGS84 to datum2
 
         elif datum2 == Datums.WGS84:
-            i = True  # conver to WGS84, use inverse transform
+            i = True  # convert to WGS84 by inverse transform
 
         else:  # neither datum2 nor c.datum is WGS84, invert to WGS84 first
-            c = c._applyHelmert(d.transform, True, datum=Datums.WGS84)
+            c = c._applyHelmert(d.transform, True)
             d = datum2
 
         return c._applyHelmert(d.transform, i, datum=datum2)
@@ -133,11 +133,13 @@ class CartesianBase(Vector3d):
            @raise TypeError: The B{C{datum}} is not a L{Datum}.
         '''
         _TypeError(Datum, datum=datum)
-        if self.datum.isEllipsoidal and not datum.isEllipsoidal:
-            raise _IsNotError('ellipsoidal', datum=datum)
-        elif self.datum.isSpherical and not datum.isSpherical:
-            raise _IsNotError('spherical', datum=datum)
-        self._update(datum != self._datum)
+        d = self.datum
+        if d is not None:
+            if d.isEllipsoidal and not datum.isEllipsoidal:
+                raise _IsNotError('ellipsoidal', datum=datum)
+            elif d.isSpherical and not datum.isSpherical:
+                raise _IsNotError('spherical', datum=datum)
+        self._update(datum != d)
         self._datum = datum
 
     @property_RO

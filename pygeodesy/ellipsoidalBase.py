@@ -23,7 +23,7 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '19.10.21'
+__version__ = '20.01.14'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -51,10 +51,10 @@ class CartesianEllipsoidalBase(CartesianBase):
         '''
         _TypeError(RefFrame, reframe2=reframe2, reframe=reframe)
 
-        c = self
+        c, d = self, self.datum
         for t in _reframeTransforms(reframe2, reframe, reframe.epoch if
                                     epoch is None else _2epoch(epoch)):
-            c = c._applyHelmert(t, False)
+            c = c._applyHelmert(t, False, datum=d)
         return c
 
 

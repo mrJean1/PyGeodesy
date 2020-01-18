@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '19.11.02'
+__version__ = '20.01.18'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -313,6 +313,8 @@ class Tests(TestsBase):
                     self.test('%s.%s' % (g, a), t, t, known=True)
             t = g.toStr()
             self.test('%s.%s' % (g, 'toStr'), t, t, known=True, nt=1)
+
+            self.testCopy(g)
 
         else:
             n, _ = len2(llh3)

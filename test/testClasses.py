@@ -6,8 +6,9 @@
 # classes, like LatLon.
 
 __all__ = ('Tests',)
-__version__ = '18.09.12'
+__version__ = '20.01.18'
 
+from inspect import isclass
 from os.path import basename
 
 from base import TestsBase, type2str
@@ -47,6 +48,15 @@ class Tests(TestsBase):
         self.testAttrs('Cartesian', modules, 0, 0, 0)
         self.testMro(  'Cartesian', modules)
 
+    def testCopyAttr(self, package):
+        self._subtitle('Copy', 'Attr', package)
+        for a in sorted(package.__all__):
+            C = getattr(package, a)
+            if isclass(C) and not (a.endswith('Error') or a == 'SciPyWarning'):
+                c = getattr(C, 'copy', None) or getattr(C, 'fcopy', None)
+                t = 'copy' if callable(c) else 'missing'
+                self.test(C.__name__, t, 'copy')
+
     def testLatLonAttrs(self, *modules):
         self.testAttrs('LatLon', modules, 0, 0)
         self.testMro(  'LatLon', modules)
@@ -79,5 +89,9 @@ if __name__ == '__main__':
     t.testVectorAttrs(ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
                       sphericalNvector, sphericalTrigonometry,
                       nvector, vector3d)
+
+    import pygeodesy  # PYCHOK re-import
+    t.testCopyAttr(pygeodesy)
+
     t.results()
     t.exit()

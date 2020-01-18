@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '19.07.06'
+__version__ = '20.01.17'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -38,6 +38,7 @@ class Tests(TestsBase):
 
     def testHeight(self, H, kts, lli, expected, lats, lons):
         interpolator = H(kts)
+        self.testCopy(interpolator)
         self.testHeightError(interpolator)
         h = interpolator(lli)
         self.test(H.__name__, h, expected, fmt='%.9f')
@@ -64,6 +65,7 @@ class Tests(TestsBase):
 
     def testIDW(self, IDW, kts, lli, expected, **kwds):
         interpolator = IDW(kts, **kwds)
+        self.testCopy(interpolator)
         kt = kts[2]
         expected1 = '%.1f' % (kt.height,)
         kwdstr = '(%s)' % (_kwdstr(kwds),)
@@ -131,6 +133,7 @@ class Tests(TestsBase):
 
         if scipy:
             interpolator = HeightLinear(kts)
+            self.testCopy(interpolator)
             h = interpolator(lli)
             self.test(HeightLinear.__name__, h, '2.536626441', fmt='%.9f')
             self.test(HeightLinear.__name__+'(float)', type(h), float)

@@ -66,14 +66,15 @@ from pygeodesy.fmath import INF, _IsNotError
 from pygeodesy.formy import euclidean_, haversine_, points2, \
                            _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
-from pygeodesy.named import _Named, _NamedTuple, PhiLam2Tuple
+from pygeodesy.named import _COPYOF, _Named, _NamedTuple, \
+                             PhiLam2Tuple, _xcopyof
 from pygeodesy.utily import property_RO, unroll180, unrollPI
 
 from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '19.10.30'
+__version__ = '20.01.18'
 
 
 class HausdorffError(ValueError):
@@ -125,6 +126,9 @@ class Hausdorff(_Named):
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
         '''
+        if points is _COPYOF:
+            return None
+
         _, self._model = points2(points, closed=False, Error=HausdorffError)
         if seed:
             self.seed = seed
@@ -220,6 +224,11 @@ class Hausdorff(_Named):
         '''
         self._units = str(units or "")
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return _xcopyof(self, '_model', '_seed', '_units', *attrs)
+
 
 class HausdorffDegrees(Hausdorff):
     '''L{Hausdorff} base class for distances in C{degrees} from
@@ -293,6 +302,11 @@ class HausdorffEquirectangular(HausdorffRadians):
     directed  = Hausdorff.directed   # for __doc__
     symmetric = Hausdorff.symmetric  # for __doc__
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return super(HausdorffRadians, self)._xcopy('_adjust', '_wrap', *attrs)
+
 
 class HausdorffEuclidean(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the C{Euclidean}
@@ -330,6 +344,11 @@ class HausdorffEuclidean(HausdorffRadians):
 
     directed  = Hausdorff.directed   # for __doc__
     symmetric = Hausdorff.symmetric  # for __doc__
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return super(HausdorffRadians, self)._xcopy('_adjust', *attrs)
 
 
 class HausdorffHaversine(HausdorffRadians):
@@ -371,6 +390,11 @@ class HausdorffHaversine(HausdorffRadians):
     directed  = Hausdorff.directed   # for __doc__
     symmetric = Hausdorff.symmetric  # for __doc__
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return super(HausdorffRadians, self)._xcopy('_wrap', *attrs)
+
 
 class HausdorffKarney(HausdorffDegrees):
     '''Compute the C{Hausdorff} distance based on the I{angular}
@@ -408,6 +432,9 @@ class HausdorffKarney(HausdorffDegrees):
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
+        if points is _COPYOF:
+            return None
+
         if wrap:
             self._wrap = True
         super(HausdorffDegrees, self).__init__(points, seed=seed, name=name)
@@ -436,6 +463,11 @@ class HausdorffKarney(HausdorffDegrees):
     directed  = Hausdorff.directed   # for __doc__
     symmetric = Hausdorff.symmetric  # for __doc__
 
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return super(HausdorffDegrees, self)._xcopy('_datum', '_Inverse', '_wrap', *attrs)
+
 
 class HausdorffVincentys(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular}
@@ -463,6 +495,9 @@ class HausdorffVincentys(HausdorffRadians):
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
         '''
+        if points is _COPYOF:
+            return None
+
         if wrap:
             self._wrap = True
         super(HausdorffRadians, self).__init__(points, seed=seed, name=name)
@@ -475,6 +510,11 @@ class HausdorffVincentys(HausdorffRadians):
 
     directed  = Hausdorff.directed   # for __doc__
     symmetric = Hausdorff.symmetric  # for __doc__
+
+    def _xcopy(self, *attrs):
+        '''(INTERNAL) Make copy with add'l, subclass attributes.
+        '''
+        return super(HausdorffRadians, self)._xcopy('_wrap', *attrs)
 
 
 def _hausdorff_(ps1, ps2, both, early, seed, units, distance, point):
