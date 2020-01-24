@@ -26,6 +26,7 @@ imported by that top-level module.
              C{lazy import} failed.
 '''
 
+from copy import copy as _copy, deepcopy as _deepcopy
 from os import environ as _environ
 
 _FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)
@@ -161,7 +162,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                              simplify=('simplifyRW as simplify2',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.01.02'
+__version__ = '20.01.23'
 
 
 def _all_imports(**more):
@@ -321,6 +322,18 @@ def _lazy_import2(_package_):  # MCCABE 23
         return imported  # __getattr__
 
     return package, __getattr__  # _lazy_import2
+
+
+def _xcopy(inst, deep=False):
+    '''(INTERNAL) Copy an instance, shallow or deep.
+
+       @param inst: The instance to copy (C{_Named}).
+       @keyword deep: If C{True} make a deep, otherwise
+                      shallow copy (C{bool}).
+
+       @return: The copy (C{This class} or subclass thereof).
+    '''
+    return _deepcopy(inst) if deep else _copy(inst)
 
 # **) MIT License
 #

@@ -7,6 +7,7 @@
 # see <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>
 # and <https://www.Movable-Type.co.UK/scripts/latlong.html>.
 
+from copy import copy as _xcopy
 from inspect import isclass, isfunction, ismethod, ismodule
 from os import getenv
 from os.path import abspath, basename, dirname
@@ -48,7 +49,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '19.11.02'
+__version__ = '20.01.22'
 
 try:
     _Ints = int, long
@@ -233,6 +234,9 @@ class TestsBase(object):
         c = inst.copy()
         t = c.__class__, id(c) != id(inst)
         self.test(C.__name__ + '.copy()', t, (C, True))
+        c = _xcopy(inst)
+        t = c.__class__, id(c) != id(inst)
+        self.test('copy(%s)' % C.__name__, t, (C, True))
 
     def testiter(self):
         '''Test with/-out I{iterNumpy2} threshold.

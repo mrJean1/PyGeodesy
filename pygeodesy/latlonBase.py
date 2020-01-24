@@ -18,7 +18,7 @@ from pygeodesy.formy import antipode, compassAngle, equirectangular, euclidean, 
                             haversine, isantipode, points2, vincentys
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Bounds2Tuple, LatLon2Tuple, _NamedBase, \
-                            PhiLam2Tuple, Vector3Tuple, _xattrs
+                            PhiLam2Tuple, Vector3Tuple
 from pygeodesy.utily import R_M, property_RO, sincos2, _TypeError
 from pygeodesy.vector3d import Vector3d
 
@@ -27,7 +27,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.01.09'
+__version__ = '20.01.22'
 
 
 class LatLonBase(_NamedBase):
@@ -97,12 +97,6 @@ class LatLonBase(_NamedBase):
         if updated:  # reset caches
             self._ab = self._e9t = self._latlon = \
                        self._v3d = self._v4t = None
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.lat, self.lon),
-                       self, '_height', *attrs)
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
@@ -184,13 +178,6 @@ class LatLonBase(_NamedBase):
         self.others(other)
         return compassAngle(self.lat, self.lon, other.lat, other.lon,
                             adjust=adjust, wrap=wrap)
-
-    def copy(self):
-        '''Copy this point.
-
-           @return: The copy (C{LatLon} or subclass thereof).
-        '''
-        return self._xcopy()
 
     @property_RO
     def datum(self):

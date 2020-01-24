@@ -54,7 +54,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '19.10.21'
+__version__ = '20.01.22'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -182,13 +182,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''DEPRECATED, use method C{initialBearingTo}.
         '''
         return self.initialBearingTo(other)
-
-    def copy(self):
-        '''Copy this point.
-
-           @return: The copy (L{LatLon} or subclass thereof).
-        '''
-        return LatLonNvectorBase.copy(self)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
         '''Compute the (signed) distance from this point to great circle

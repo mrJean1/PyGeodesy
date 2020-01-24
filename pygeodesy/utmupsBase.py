@@ -16,7 +16,7 @@ from pygeodesy.utily import issubclassof, property_RO, _Strs, \
                            _TypeError, wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '19.10.31'
+__version__ = '20.01.22'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -148,11 +148,6 @@ class UtmUpsBase(_NamedBase):
 
     def __str__(self):
         return self.toStr()
-
-#   def _xcopy(self, *attrs):  # see _Named._xcopy
-#       '''(INTERNAL) I{Must be overloaded}.
-#       '''
-#       self._notOverloaded(self._xcopy.__name__, *attrs)
 
     @property_RO
     def convergence(self):

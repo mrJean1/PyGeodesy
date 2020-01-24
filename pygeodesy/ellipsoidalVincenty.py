@@ -75,7 +75,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '19.10.19'
+__version__ = '20.01.22'
 
 
 class VincentyError(ValueError):
@@ -131,11 +131,6 @@ class LatLon(LatLonEllipsoidalBase):
     _Ecef       = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
     _epsilon    = 1.0e-12  # about 0.006 mm
     _iterations = 50
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return LatLonEllipsoidalBase._xcopy(self, '_epsilon', '_iterations', *attrs)
 
     def bearingTo(self, other, wrap=False):
         '''DEPRECATED, use method C{initialBearingTo}.

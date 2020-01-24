@@ -14,12 +14,12 @@ from pygeodesy.fmath import fStr, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, EasNor3Tuple, EasNorAziRk4Tuple, \
                             LatLon2Tuple, LatLon4Tuple, LatLonAziRk4Tuple, \
-                            _NamedBase, nameof, _xattrs, _xnamed
+                            _NamedBase, nameof, _xnamed
 from pygeodesy.utily import false2f, issubclassof, property_RO, _TypeError
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css
-__version__ = '19.10.12'
+__version__ = '20.01.22'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -74,20 +74,6 @@ class CassiniSoldner(_NamedBase):
             self._datum = datum
 
         self.reset(lat0, lon0)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.lat0, self.lon0,
-                                    datum=self.datum),
-                       self, *attrs)
-
-    def copy(self):
-        '''Copy this Cassini-Soldner projection.
-
-           @return: The copy (L{CassiniSoldner} or subclass thereof).
-        '''
-        return self._xcopy()
 
     @property_RO
     def datum(self):
@@ -327,13 +313,6 @@ class Css(_NamedBase):
         self._azi, self._rk = r.azimuth, r.reciprocal
         return r  # LatLonAziRk4Tuple
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.easting, self.northing,
-                                    h=self.height, cs0=self.cs0),
-                       self, *attrs)
-
     @property_RO
     def azi(self):
         '''Get the azimuth of easting direction (C{degrees}).
@@ -349,13 +328,6 @@ class Css(_NamedBase):
         '''Get the projection (L{CassiniSoldner}).
         '''
         return self._cs0
-
-    def copy(self):
-        '''Copy this Css location.
-
-           @return: The copy (L{Css} or subclass thereof).
-        '''
-        return self._xcopy()
 
     @property_RO
     def easting(self):

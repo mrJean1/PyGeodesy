@@ -29,11 +29,11 @@ from pygeodesy.dms import F_D, latDMS, lonDMS
 from pygeodesy.fmath import EPS, favg, fdot, Fsum, fsum, isint, \
                            _IsNotError, map1, scalar
 from pygeodesy.formy import equirectangular_, points2
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _xcopy
 from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, classname, inStr, \
                             LatLon2Tuple, NearestOn3Tuple, NearestOn5Tuple, \
                             PhiLam2Tuple, Point3Tuple, Shape2Tuple, \
-                            nameof, _xattrs, _xnamed
+                            nameof, _xnamed
 from pygeodesy.utily import PI_2, R_M, degrees90, degrees180, degrees360, \
                             degrees2m, issequence, property_RO, \
                             unroll180, unrollPI, unStr, \
@@ -48,7 +48,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.01.18'
+__version__ = '20.01.23'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -107,15 +107,15 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         else:
             return self.__class__(name=self.name, *args, **kwds)
 
-    def copy(self):
-        '''Make a copy of this instance.
+    def copy(self, deep=False):
+        '''Make a shallow or deep copy of this instance.
+
+           @keyword deep: If C{True} make a deep, otherwise
+                          a shallow copy (C{bool}).
 
            @return: The copy (C{This class} or subclass thereof).
         '''
-        return self.classof(self.lat, self.lon, height=self.height)
-
-    __copy__     = copy
-#   __deepcopy__ = copy
+        return _xcopy(self, deep=deep)
 
     def others(self, other, name='other'):
         '''Check this and an other instance for type compatiblility.
@@ -194,15 +194,15 @@ class _Basequence(_Sequence):  # immutable, on purpose
             return True
         return False
 
-    def copy(self):
-        '''Make a copy of this instance.
+    def copy(self, deep=False):
+        '''Make a shallow or deep copy of this instance.
+
+           @keyword deep: If C{True} make a deep, otherwise
+                          a shallow copy (C{bool}).
 
            @return: The copy (C{This class} or subclass thereof).
         '''
-        return self._xcopy()
-
-    __copy__     = copy
-#   __deepcopy__ = copy
+        return _xcopy(self, deep=deep)
 
     def _count(self, point):
         '''(INTERNAL) Count the number of matching points.
@@ -307,11 +307,6 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         return {}
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) I{Must be overloaded}.
-        '''
-        self._notOverloaded(self._xcopy.__name__, *attrs)
-
     def _zeros(self, *zeros):
         '''(INTERNAL) Check for near-zero values.
         '''
@@ -404,16 +399,6 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
            @raise TypeError: Invalid B{C{latlon}}.
         '''
         return self._contains(latlon)
-
-    def copy(self):
-        '''Make a copy of this instance.
-
-           @return: The copy (C{This class} or subclass thereof).
-        '''
-        return self._xcopy()
-
-    __copy__     = copy
-#   __deepcopy__ = copy
 
     def __getitem__(self, index):
         '''Return row[index] as C{LatLon} or return a L{Numpy2LatLon} slice.
@@ -596,14 +581,6 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
                 raise IndexError('%s[%s] not valid: %r' % ('indices', i, v))
 
         return self._subset(indices)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.__class__(self._array, ilat=self.ilat,
-                                                   ilon=self.ilon,
-                                                 Latlon=self._LatLon),
-                       self, '_epsilon', '_itemname', '_shape', *attrs)
 
 
 class LatLon2psxy(_Basequence):
@@ -794,14 +771,6 @@ class LatLon2psxy(_Basequence):
         '''(INTERNAL) Slice kwds.
         '''
         return dict(closed=self._closed, radius=self._radius, wrap=self._wrap)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.__class__(self._array, closed=self._closed,
-                                                   radius=self._radius,
-                                                     wrap=self._wrap),
-                       self, '_epsilon', '_itemname', *attrs)
 
 
 class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose

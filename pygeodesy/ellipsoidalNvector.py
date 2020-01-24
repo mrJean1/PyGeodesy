@@ -39,7 +39,7 @@ from math import asin, atan2, cos, radians, sin
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '19.10.31'
+__version__ = '20.01.22'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -127,13 +127,6 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             self._r3 = None
             LatLonNvectorBase._update(self, updated)
             LatLonEllipsoidalBase._update(self, updated)
-
-    def copy(self):
-        '''Copy this point.
-
-           @return: The copy (L{LatLon} or subclass thereof).
-        '''
-        return LatLonNvectorBase.copy(self)
 
 #     def crossTrackDistanceTo(self, start, end, radius=R_M):
 #         '''Return the (signed) distance from this point to the great
@@ -643,16 +636,6 @@ class Nvector(NvectorBase):
         if datum:
             _TypeError(Datum, datum=datum)
             self._datum = datum
-
-    def copy(self):
-        '''Copy this vector.
-
-           @return: Copy (L{Nvector}).
-        '''
-        n = NvectorBase.copy(self)
-        if self.datum != n.datum:
-            n._datum = self._datum
-        return n
 
     @property_RO
     def datum(self):

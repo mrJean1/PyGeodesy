@@ -69,8 +69,8 @@ from pygeodesy.datum import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.fmath import cbrt, EPS, Fsum, hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _COPYOF, EasNorExact4Tuple, LatLonExact4Tuple, \
-                            _NamedBase, _xnamed, _xcopyof
+from pygeodesy.named import EasNorExact4Tuple, LatLonExact4Tuple, \
+                           _NamedBase, _xnamed
 from pygeodesy.utily import PI_2, PI_4, property_RO, sincos2, \
                            _TypeError
 from pygeodesy.utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
@@ -81,7 +81,7 @@ from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.01.18'
+__version__ = '20.01.22'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -124,7 +124,6 @@ except ImportError:  # no geographiclib
 
            @note: The C{residual} can be the same as one
                   of the first two arguments.
-
         '''
         s = u + v
         r = s - v
@@ -221,11 +220,6 @@ class Etm(Utm):
                                  convergence=convergence, scale=scale,
                                  name=name)
         self.exactTM = self.datum.exactTM  # ExactTransverseMercator(datum=self.datum)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return Utm._xcopy(self, '_Error', '_exactTM', *attrs)
 
     @property
     def exactTM(self):
@@ -359,9 +353,6 @@ class ExactTransverseMercator(_NamedBase):
                   3.5.3 and PyPy6 2.7.13, all in 64-bit on macOS
                   10.13.6 High Sierra).
         '''
-        if datum is _COPYOF:
-            return None
-
         if extendp:
             self._extendp = bool(extendp)
         if name:
@@ -370,12 +361,6 @@ class ExactTransverseMercator(_NamedBase):
         self.datum = datum
         self.lon0  = lon0
         self.k0    = k0
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xcopyof(self, '_a', '_datum', '_e', '_E', '_extendp',
-                              '_f', '_k0', '_k0_a', '_lon0', *attrs)
 
     @property
     def datum(self):

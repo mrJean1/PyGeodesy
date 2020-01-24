@@ -14,7 +14,7 @@ including coverage of UPS as zone C{0}.
 '''
 
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedInt, UtmUps2Tuple, _xattrs
+from pygeodesy.named import _NamedInt, UtmUps2Tuple
 from pygeodesy.ups import Ups
 from pygeodesy.utily import property_RO, _Strs, _TypeError
 from pygeodesy.utm import Utm
@@ -24,7 +24,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.epsg + ('decode2', 'encode')
-__version__ = '20.01.18'
+__version__ = '20.01.22'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -96,11 +96,6 @@ class Epsg(_NamedInt):
 
     def __str__(self):
         return int.__str__(self)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self), self, *attrs)
 
     @property_RO
     def band(self):

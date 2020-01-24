@@ -17,13 +17,13 @@ from pygeodesy.dms import parse3llh, parseDMS2
 from pygeodesy.fmath import EPS1_2  # _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
-                           _NamedStr, nameof, _xattrs, _xnamed
+                           _NamedStr, nameof, _xnamed
 from pygeodesy.utily import property_RO, _Strs
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.01.18'
+__version__ = '20.01.22'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -196,11 +196,6 @@ class Garef(_NamedStr):
             raise GARSError('%s invalid: %r' % ('LatLon', LatLon))
 
         return self._xnamed(LatLon(*self.latlon, **kwds))
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self), self, *attrs)
 
 
 def decode3(garef, center=True):

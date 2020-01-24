@@ -38,7 +38,7 @@ from pygeodesy.dms import degDMS, parseDMS2, _parseUTMUPS, RangeError
 from pygeodesy.fmath import EPS, fdot3, Fsum, hypot, hypot1, len2, map2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
-                            UtmUpsLatLon5Tuple, _xattrs, _xnamed
+                            UtmUpsLatLon5Tuple, _xnamed
 from pygeodesy.utily import degrees90, degrees180, property_RO, sincos2  # splice
 from pygeodesy.utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
                                  _UTM_LAT_MAX, _UTM_LAT_MIN, \
@@ -51,7 +51,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '19.07.12'
+__version__ = '20.01.22'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -302,12 +302,6 @@ class Utm(UtmUpsBase):
     def __str__(self):
         return self.toStr()
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self._xcopy2(self.classof),
-                       self, *attrs)
-
     def _xcopy2(self, Xtm):
         '''(INTERNAL) Make copy as an B{C{Xtm}} instance.
 
@@ -325,13 +319,6 @@ class Utm(UtmUpsBase):
         '''Get the (latitudinal) band (C{str}, 'C'..'X' or '').
         '''
         return self._band
-
-    def copy(self):
-        '''Copy this UTM coordinate.
-
-           @return: The copy (L{Utm} or subclass thereof).
-        '''
-        return self._xcopy()
 
     @property_RO
     def falsed2(self):

@@ -44,11 +44,11 @@ from pygeodesy.datum import Ellipsoid, Ellipsoids, Transform
 from pygeodesy.fmath import fStrzs, isscalar, map1, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedDict as _X, \
-                           _NamedEnum, _NamedEnumItem, _xattrs
+                           _NamedEnum, _NamedEnumItem
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.01.18'
+__version__ = '20.01.22'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value
@@ -104,12 +104,6 @@ class RefFrame(_NamedEnumItem):
         self._ellipsoid = ellipsoid
         self._epoch = _2epoch(epoch)
         self._register(RefFrames, name)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.epoch, self.ellipsoid),
-                       self, *attrs)
 
     @property_RO
     def ellipsoid(self):

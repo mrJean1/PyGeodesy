@@ -78,7 +78,7 @@ del division
 from pygeodesy.fmath import EPS, fdot, Fsum, fsum_, hypot1, \
                             INF as _INF, map2
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _COPYOF, _Named, _xcopyof
+from pygeodesy.named import _Named
 from pygeodesy.utily import PI, PI_2, PI_4, property_RO, \
                             sincos2, sincos2d
 
@@ -86,7 +86,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.01.18'
+__version__ = '20.01.22'
 
 _tolJAC = sqrt(EPS * 0.01)
 _tolRD  =  pow(EPS * 0.002, 0.125)
@@ -138,9 +138,6 @@ class Elliptic(_Named):
 
            @see: Method L{reset}.
         '''
-        if k2 is _COPYOF:
-            return None
-
         self.reset(k2, alpha2=alpha2, kp2=kp2, alphap2=alphap2)
 
     @property_RO
@@ -671,14 +668,6 @@ class Elliptic(_Named):
         '''
         sn, cn = sincos2(phi)
         return sn, cn, self.fDelta(sn, cn)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xcopyof(self, '_alpha2', '_alphap2', '_eps',
-                              '_k2', '_kp2', '_trips_',
-                              '_Dc', '_Ec',  '_Gc', '_Hc',
-                              '_Kc', '_KEc', '_Pic', *attrs)
 
 
 def _Hf(e0, e1, e2, e3, e4, e5):

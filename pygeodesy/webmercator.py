@@ -23,7 +23,7 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.fmath import EPS, fStr, isscalar, map1, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNorRadius3Tuple, LatLon2Tuple, \
-                           _NamedBase, nameof, _xattrs, _xnamed
+                           _NamedBase, nameof, _xnamed
 from pygeodesy.utily import PI_2, degrees90, degrees180, issubclassof, \
                             property_RO
 
@@ -31,7 +31,7 @@ from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.01.18'
+__version__ = '20.01.22'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -200,12 +200,6 @@ class Wm(_NamedBase):
     def x(self):
         '''Get the easting (C{meter}).'''
         return self._x
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.x, self.y, radius=self.radius),
-                       self, *attrs)
 
     @property_RO
     def y(self):

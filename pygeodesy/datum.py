@@ -119,8 +119,7 @@ from pygeodesy.fmath import _2_3rd, EPS, EPS1, cbrt, cbrt2, fdot, \
                              fpowers, Fsum, fsum_, hypot1, sqrt3
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Curvature2Tuple, Distance2Tuple, inStr, \
-                           _NamedEnum, _NamedEnumItem, Vector3Tuple, \
-                           _xattrs
+                           _NamedEnum, _NamedEnumItem, Vector3Tuple
 from pygeodesy.utily import PI2, R_M, degrees360, m2degrees, m2km, \
                             m2NM, m2SM, property_RO, _TypeError
 
@@ -143,7 +142,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '20.01.09'
+__version__ = '20.01.22'
 
 _TOL = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
 
@@ -285,12 +284,6 @@ class Ellipsoid(_NamedEnumItem):
         ns = fpowers(self.n, k)
         return tuple(fdot(AB8Ks[i][:k-i], *ns[i:]) for i in range(k))
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.a, self.b, self.f_),
-                       self, *attrs)
-
     @property_RO
     def a(self):
         '''Get the major (equatorial) radius, semi-axis (C{meter}).
@@ -423,13 +416,6 @@ class Ellipsoid(_NamedEnumItem):
                  <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>}.
         '''
         return self.R2
-
-    def copy(self):
-        '''Copy this ellipsoid.
-
-           @return: The copy, unregistered (L{Ellipsoid} or subclass thereof).
-        '''
-        return self._xcopy()
 
     def distance2(self, lat0, lon0, lat1, lon1):
         '''Approximate the distance and (initial) bearing between two
@@ -1027,14 +1013,6 @@ class Transform(_NamedEnumItem):
 
         self._register(Transforms, name)
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(tx=self.tx, ty=self.ty, tz=self.tz,
-                                    sx=self.sx, sy=self.sy, sz=self.sz,
-                                    s=self.s),
-                       self, *attrs)
-
     def __eq__(self, other):
         '''Compare this and an other transform.
 
@@ -1050,13 +1028,6 @@ class Transform(_NamedEnumItem):
                                  self.ry == other.ry and
                                  self.rz == other.rz and
                                  self.s  == other.s)
-
-    def copy(self):
-        '''Copy this transform.
-
-           @return: The copy, unregistered (L{Transform} or subclass thereof).
-        '''
-        return self._xcopy()
 
     def inverse(self, name=''):
         '''Return the inverse of this transform.
@@ -1194,19 +1165,6 @@ class Datum(_NamedEnumItem):
         return self is other or (isinstance(other, Datum) and
                                  self.ellipsoid == other.ellipsoid and
                                  self.transform == other.transform)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.ellipsoid, self.transform),
-                       self, *attrs)
-
-    def copy(self):
-        '''Copy this datum.
-
-           @return: The copy, unregistered (L{Datum} or subclass thereof).
-        '''
-        return self._xcopy()
 
     def ecef(self, Ecef=None):
         '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.

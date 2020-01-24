@@ -22,7 +22,7 @@ from pygeodesy.dms import clipDMS, degDMS, parseDMS2, _parseUTMUPS, RangeError
 from pygeodesy.fmath import EPS, hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
-                            UtmUpsLatLon5Tuple, _xattrs, _xnamed
+                            UtmUpsLatLon5Tuple, _xnamed
 from pygeodesy.utily import degrees90, degrees180, property_RO, sincos2d
 from pygeodesy.utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
                                  _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
@@ -32,7 +32,7 @@ from math import atan, atan2, radians, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '19.10.31'
+__version__ = '20.01.22'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = 2000e3  #: (INTERNAL) False easting and northing (C{meter}).
@@ -117,16 +117,6 @@ class Ups(UtmUpsBase):
                                       and other.band     == self.band \
                                       and other.datum    == self.datum
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.zone, self.pole,
-                                    self.easting, self.northing,
-                                    band=self.band, datum=self.datum,
-                                    convergence=self.convergence,
-                                    scale=self.scale),
-                       self, *attrs)
-
     @property_RO
     def band(self):
         '''Get the polar band letter ('A', 'B', 'Y' or 'Z').
@@ -134,13 +124,6 @@ class Ups(UtmUpsBase):
         if not self._band:
             self.toLatLon(unfalse=True)
         return self._band
-
-    def copy(self):
-        '''Copy this UPS coordinate.
-
-           @return: The copy (L{Ups} or subclass thereof).
-        '''
-        return self._xcopy()
 
     @property_RO
     def falsed2(self):

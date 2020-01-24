@@ -15,14 +15,14 @@ from pygeodesy.fmath import EPS, fdot, fStr, fsum, hypot, hypot_, \
                             isscalar, len2, map1, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, _NamedBase, PhiLam2Tuple, \
-                            Vector3Tuple, _xattrs
+                            Vector3Tuple
 from pygeodesy.utily import degrees90, degrees180, property_RO
 
 from math import atan2, cos, sin
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '20.01.12'
+__version__ = '20.01.22'
 
 try:
     _cmp = cmp
@@ -327,12 +327,6 @@ class Vector3d(_NamedBase):
         if updated:  # reset caches
             self._length = self._united = None
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.x, self.y, self.z),
-                       self, '_length', '_united', *attrs)  # _crosserrors
-
     def angleTo(self, other, vSign=None):
         '''Compute the angle between this and an other vector.
 
@@ -355,13 +349,6 @@ class Vector3d(_NamedBase):
         if vSign and x.dot(vSign) < 0:
             s = -s
         return atan2(s, self.dot(other))
-
-    def copy(self):
-        '''Copy this vector.
-
-           @return: The copy (L{Vector3d} or subclass thereof).
-        '''
-        return self._xcopy()
 
     def cross(self, other, raiser=None):
         '''Compute the cross product of this and an other vector.

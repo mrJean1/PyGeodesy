@@ -50,8 +50,8 @@ from pygeodesy.datum import Datum, Datums, Ellipsoid
 from pygeodesy.fmath import cbrt, EPS, EPS1, EPS_2, fdot, fStr, fsum_, hypot1, \
                            _IsNotError, isscalar, map1
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _COPYOF, LatLon3Tuple, LatLon4Tuple, _NamedBase, \
-                            _NamedTuple, Vector3Tuple, _xcopyof
+from pygeodesy.named import LatLon3Tuple, LatLon4Tuple, _NamedBase, _NamedTuple, \
+                            Vector3Tuple, _xnamed
 from pygeodesy.utily import degrees90, degrees180, property_RO, \
                             sincos2, sincos2d, _TypeError, unStr
 from pygeodesy.vector3d import _xyzn4
@@ -60,7 +60,7 @@ from math import atan2, copysign, cos, degrees, hypot, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '20.01.17'
+__version__ = '20.01.22'
 
 
 class EcefError(ValueError):
@@ -123,9 +123,6 @@ class _EcefBase(_NamedBase):
     def __init__(self, a_ellipsoid, f, name):
         '''(INTERNAL) New C{Ecef...}.
         '''
-        if a_ellipsoid is _COPYOF:
-            return None
-
         try:
             E = a_ellipsoid
             if f is None:
@@ -215,11 +212,6 @@ class _EcefBase(_NamedBase):
             _aRepr(self, 'datum','ellipsoid','name')
         return ', '.join(t)
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xcopyof(self, '_datum', '_E', *attrs)
-
 
 class EcefKarney(_EcefBase):
     '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
@@ -245,16 +237,8 @@ class EcefKarney(_EcefBase):
                              B{C{a_ellipsoid}} not positive or B{C{f}} not less
                              than 1.0.
         '''
-        if a_ellipsoid is _COPYOF:
-            return None
-
         _EcefBase.__init__(self, a_ellipsoid, f, name)
         self._hmax = self.a / EPS_2
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _EcefBase._xcopy(self, '_hmax', *attrs)
 
     @property_RO
     def e2(self):
@@ -483,17 +467,9 @@ class EcefCartesian(_NamedBase):
 
            @raise TypeError: Invalid B{C{ecef}}, not L{EcefKarney}.
         '''
-        if latlonh0 is _COPYOF:
-            return None
-
         _TypeError(EcefKarney, ecef=ecef)
         self._ecef = ecef
         self.reset(latlonh0, lon0, height0, name=name)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xcopyof(self, '_ecef', '_t0', *attrs)
 
     @property_RO
     def ecef(self):
@@ -652,6 +628,15 @@ class EcefMatrix(_NamedTuple):
                    0,       ca,      sa)
 
         return _NamedTuple.__new__(cls, *t)
+
+    def copy(self, **unused):  # PYCHOK signature
+        '''Make a shallow or deep copy of this instance.
+
+           @return: The copy (C{This class} or subclass thereof).
+        '''
+        return _xnamed(self.classof(*self), self.name)
+
+    __copy__ = __deepcopy__ = copy
 
     def multiply(self, other):
         '''Matrix multiply M{M0' ⋅ M} this matrix transposed with

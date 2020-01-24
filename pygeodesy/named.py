@@ -17,7 +17,7 @@ sub-classes of C{_NamedTuple} defined here.
 '''
 
 from pygeodesy.fmath import fStr, _IsNotError
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _xcopy
 from pygeodesy.utily import issubclassof, property_RO, _Strs, unStr
 
 # XXX 'FsumDelta2Tuple' is in _ALL_LAZY.named
@@ -42,10 +42,9 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '20.01.18'
+__version__ = '20.01.23'
 
-_COPYOF = object()  # singleton
-_NAME_  = 'name'  # __NAME gets mangled in class
+_NAME_ = 'name'  # __NAME gets mangled in class
 
 
 def _xattrs(inst, other, *attrs):
@@ -72,19 +71,6 @@ def _xattrs(inst, other, *attrs):
     return inst
 
 
-def _xcopyof(other, *attrs):
-    '''(INTERNAL) Copy B{C{inst}} and its attribute values.
-
-       @param other: Instance to copy.
-       @param attrs: Attribute names (C{str}s).
-
-       @return: The copy of B{C{other}}, updated.
-
-       @raise AttributeError: An B{C{attr}} doesn't exist or is not settable.
-    '''
-    return _xattrs(other.classof(_COPYOF), other, *attrs)
-
-
 def _xnamed(inst, name):
     '''(INTERNAL) Set the instance' C{.name = }B{C{name}}.
 
@@ -108,11 +94,6 @@ class _Named(object):
         return '<%s at %#x>' % (self.named2, id(self))
 
     __str__ = __repr__
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) I{Must be overloaded}.
-        '''
-        self._notOverloaded(self._xcopy.__name__, *attrs)
 
     @property_RO
     def classname(self):
@@ -145,15 +126,15 @@ class _Named(object):
         '''
         return _xnamed(self.__class__(*args, **kwds), self.name)
 
-    def copy(self):
-        '''Make a copy of this instance.
+    def copy(self, deep=False):
+        '''Make a shallow or deep copy of this instance.
+
+           @keyword deep: If C{True} make a deep, otherwise
+                          a shallow copy (C{bool}).
 
            @return: The copy (C{This class} or subclass thereof).
         '''
-        return self._xcopy()
-
-    __copy__     = copy
-#   __deepcopy__ = copy
+        return _xcopy(self, deep=deep)
 
     @property
     def name(self):
@@ -614,11 +595,6 @@ class _NamedTuple(tuple, _Named):
             yield n, tuple.__getitem__(self, i)
 
     iteritems = items
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(*self), self, *attrs)
 
     def _xtend(self, namedTuple, *items):
         '''(INTERNAL) Extend this C{_Tuple} with C{items} to an other C{namedTuple}.

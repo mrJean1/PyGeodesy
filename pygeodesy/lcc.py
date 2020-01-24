@@ -23,7 +23,7 @@ from pygeodesy.fmath import EPS, fStr, hypot, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor3Tuple, LatLon4Tuple, LatLonDatum3Tuple, \
                            _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
-                           _xattrs, _xnamed
+                           _xnamed
 from pygeodesy.utily import PI_2, degrees90, degrees180, false2f, \
                             issubclassof, property_RO, sincos2, tanPI_2_2, \
                             _TypeError
@@ -32,7 +32,7 @@ from math import atan, copysign, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '19.10.12'
+__version__ = '20.01.22'
 
 
 class Conic(_NamedEnumItem):
@@ -108,25 +108,11 @@ class Conic(_NamedEnumItem):
         if auth:
             self._auth = auth
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        c = Conic(None, 0, name=self._name)
-        self._dup2(c)
-        return _xattrs(c, self, *attrs)
-
     @property_RO
     def auth(self):
         '''Get the authentication authority (C{str}).
         '''
         return self._auth
-
-    def copy(self):
-        '''Copy this conic.
-
-           @return: The copy, unregistered (L{Conic} or subclass thereof).
-        '''
-        return self._xcopy()
 
     @property_RO
     def datum(self):
@@ -210,9 +196,9 @@ class Conic(_NamedEnumItem):
         c = self
         if c._e != E.e or c._datum != datum:
 
-            c = self.copy()
+            c = Conic(None, 0, name=self._name)
+            self._dup2(c)
             c._datum = datum
-
             c._e = E.e
 
             if abs(c._par1 - c._par2) < EPS:
@@ -370,25 +356,11 @@ class Lcc(_NamedBase):
         if name:
             self.name = name
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.easting, self.northing,
-                                    h=self.height, conic=self.conic),
-                       self, *attrs)
-
     @property_RO
     def conic(self):
         '''Get the conic projection (L{Conic}).
         '''
         return self._conic
-
-    def copy(self):
-        '''Copy this LCC location.
-
-           @return: The copy (L{Lcc} or subclass thereof).
-        '''
-        return self._xcopy()
 
     @property_RO
     def easting(self):

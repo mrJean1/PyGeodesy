@@ -76,15 +76,14 @@ from pygeodesy.fmath import EPS, EPS1, favg, INF, isscalar, _IsNotError
 from pygeodesy.formy import euclidean_, haversine_, points2 as _points2, \
                            _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
-from pygeodesy.named import _COPYOF, LatLon2Tuple, _Named, _NamedTuple, \
-                             PhiLam2Tuple, _xcopyof
+from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, PhiLam2Tuple
 from pygeodesy.utily import unrollPI
 
 from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.01.18'
+__version__ = '20.01.22'
 
 
 class FrechetError(ValueError):
@@ -159,9 +158,6 @@ class Frechet(_Named):
            @raise FrechetError: Insufficient number of B{C{points}} or
                                 invalid B{C{fraction}}.
         '''
-        if points is _COPYOF:
-            return None
-
         self._n1, self._ps1 = _points2(points, closed=False, Error=FrechetError)
         if fraction:
             self.fraction = fraction
@@ -274,12 +270,6 @@ class Frechet(_Named):
            @param units: New units name (C{str}).
         '''
         self._units = str(units or "")
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xcopyof(self, '_adjust', '_f1', '_n1', '_ps1',
-                              '_units', '_warp', *attrs)
 
 
 class FrechetDegrees(Frechet):

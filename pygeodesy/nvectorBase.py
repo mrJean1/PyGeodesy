@@ -31,7 +31,7 @@ __all__ = _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'NvectorBase',  # classes
           'sumOf')  # functions
-__version__ = '19.10.21'
+__version__ = '20.01.22'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -71,18 +71,6 @@ class NvectorBase(Vector3d):  # XXX kept private
             self.h = h
         if d:  # just pass-thru
             self._datum = d
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return Vector3d._xcopy(self, '_h', *attrs)
-
-    def copy(self):
-        '''Copy this vector.
-
-           @return: The copy (C{Nvector} or subclass thereof).
-        '''
-        return self._xcopy()
 
     @property_RO
     def datum(self):

@@ -21,7 +21,7 @@ from pygeodesy.fmath import EPS, favg, fStr, _IsNotError, map2
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
-                           _NamedStr, Neighbors8Dict, _xattrs
+                           _NamedStr, Neighbors8Dict
 from pygeodesy.utily import R_M, property_RO, _Strs, unrollPI
 
 from math import ldexp, log10, radians
@@ -30,7 +30,7 @@ from math import ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash + ('bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '20.01.18'
+__version__ = '20.01.22'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -435,11 +435,6 @@ class Geohash(_NamedStr):
         '''Get the cell SouthWest of this (L{Geohash}).
         '''
         return self.S.W
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self), self, *attrs)
 
 
 def bounds(geohash, LatLon=None, **kwds):

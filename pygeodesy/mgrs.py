@@ -29,7 +29,7 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 from pygeodesy.datum import Datums
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, Mgrs4Tuple, Mgrs6Tuple, \
-                             UtmUps4Tuple, _xattrs, _xnamed
+                             UtmUps4Tuple, _xnamed
 from pygeodesy.utily import enStr2, halfs2, property_RO, _TypeError
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
 from pygeodesy.utmupsBase import _hemi
@@ -38,7 +38,7 @@ import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs
-__version__ = '19.10.12'
+__version__ = '20.01.22'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -120,14 +120,6 @@ class Mgrs(_NamedBase):
         n = float(_Ln100k[z % 2].index(self._en100k[1])) * _100km  # metres
         return e, n
 
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.zone, self.en100k,
-                                    self.easting, self.northing,
-                                    band=self.band, datum=self.datum),
-                       self, *attrs)
-
     @property_RO
     def band(self):
         '''Get the latitudinal band (C{str, 'A'|'B'..'Y'|'Z'}).
@@ -139,13 +131,6 @@ class Mgrs(_NamedBase):
         '''Get the band latitude (C{degrees90} or C{None}).
         '''
         return self._bandLat
-
-    def copy(self):
-        '''Copy this MGRS reference.
-
-           @return: The copy (L{Mgrs} or subclass thereof).
-        '''
-        return self._xcopy()
 
     @property_RO
     def datum(self):

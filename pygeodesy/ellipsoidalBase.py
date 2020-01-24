@@ -23,7 +23,7 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '20.01.14'
+__version__ = '20.01.22'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -132,11 +132,6 @@ class LatLonEllipsoidalBase(LatLonBase):
                         self._utm = self._wm = self._3xyz = None
             self._elevation2 = self._geoidHeight2 = ()
             LatLonBase._update(self, updated)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return LatLonBase._xcopy(self, '_datum', '_epoch', '_reframe', *attrs)
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite

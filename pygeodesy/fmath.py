@@ -12,7 +12,7 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _xcopy
 
 from math import acos, copysign, hypot, isinf, isnan, sqrt  # pow
 from operator import mul
@@ -20,7 +20,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '19.12.29'
+__version__ = '20.01.23'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -304,17 +304,15 @@ class Fsum(object):
         '''
         self.fadd(xs)
 
-    def fcopy(self):
-        '''Copy this instance.
+    def fcopy(self, deep=False):
+        '''Copy this instance, shallow or deep.
 
            @return: The copy, a new instance (L{Fsum}).
          '''
-        f = Fsum()
+        f = _xcopy(self, deep=deep)
         f._n  = self._n
         f._ps = list(self._ps)  # copy
         return f
-
-    __copy__ = fcopy
 
     def fmul(self, factor):
         '''Multiple the current, partial sum by a factor.

@@ -37,7 +37,7 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_, _IsNotError, map1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, LatLonDatum3Tuple, \
-                           _NamedBase, nameof, _xattrs, _xnamed
+                           _NamedBase, nameof, _xnamed
 from pygeodesy.utily import degrees90, degrees180, enStr2, false2f, \
                             halfs2, issubclassof, property_RO, sincos2
 
@@ -45,7 +45,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.01.09'
+__version__ = '20.01.22'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -111,19 +111,6 @@ class Osgr(_NamedBase):
 
         self._easting  = false2f(easting, 'easting',   Error=OSGRError)
         self._northing = false2f(northing, 'northing', Error=OSGRError)
-
-    def _xcopy(self, *attrs):
-        '''(INTERNAL) Make copy with add'l, subclass attributes.
-        '''
-        return _xattrs(self.classof(self.easting, self.northing),
-                       self, '_datum', '_latlon', *attrs)
-
-    def copy(self):
-        '''Copy this OSGR reference.
-
-           @return: The copy (L{Osgr} or subclass thereof).
-        '''
-        return self._xcopy()
 
     @property_RO
     def datum(self):
