@@ -76,7 +76,7 @@ if not division:
 del division
 
 from pygeodesy.fmath import EPS, fdot, Fsum, fsum_, hypot1, \
-                            INF as _INF, map2
+                            INF, map2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named
 from pygeodesy.utily import PI, PI_2, PI_4, property_RO, \
@@ -86,7 +86,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.01.22'
+__version__ = '20.01.25'
 
 _tolJAC = sqrt(EPS * 0.01)
 _tolRD  =  pow(EPS * 0.002, 0.125)
@@ -114,13 +114,13 @@ class Elliptic(_Named):
     _kp2     = 0
     _trips_  = _TRIPS
 
-    _Dc  = _INF
-    _Ec  =  1.0
-    _Gc  = _INF
-    _Hc  = _INF
-    _Kc  = _INF
-    _KEc = _INF
-    _Pic = _INF
+    _cD  = INF
+    _cE  = 1.0
+    _cG  = INF
+    _cH  = INF
+    _cK  = INF
+    _cKE = INF
+    _cPi = INF
 
     def __init__(self, k2=0, alpha2=0, kp2=None, alphap2=None):
         '''Constructor, specifying the C{modulus} and C{parameter}.
@@ -157,54 +157,54 @@ class Elliptic(_Named):
         '''Get Jahnke's complete integral C{D(k)},
            U{defined<https://DLMF.NIST.gov/19.2.E6>}.
         '''
-        return self._Dc
+        return self._cD
 
     @property_RO
     def cE(self):
         '''Get the complete integral of the second kind C{E(k)},
            U{defined<https://DLMF.NIST.gov/19.2.E5>}.
         '''
-        return self._Ec
+        return self._cE
 
     @property_RO
     def cG(self):
         '''Get Legendre's complete geodesic longitude integral C{G(alpha2, k)}.
         '''
-        return self._Gc
+        return self._cG
 
     @property_RO
     def cH(self):
         '''Get Cayley's complete geodesic longitude difference integral C{H(alpha2, k)}.
         '''
-        return self._Hc
+        return self._cH
 
     @property_RO
     def cK(self):
         '''Get the complete integral of the first kind C{K(k)},
            U{defined<https://DLMF.NIST.gov/19.2.E4>}.
         '''
-        return self._Kc
+        return self._cK
 
     @property_RO
     def cKE(self):
         '''Get the difference between the complete integrals of the
            first and second kinds, C{K(k) − E(k)}.
         '''
-        return self._KEc
+        return self._cKE
 
     @property_RO
     def cPi(self):
         '''Get the complete integral of the third kind C{Pi(alpha2, k)},
            U{defined<https://DLMF.NIST.gov/19.2.E7>}.
         '''
-        return self._Pic
+        return self._cPi
 
     def deltaD(self, sn, cn, dn):
         '''The periodic Jahnke's incomplete elliptic integral.
 
-           @param sn: sinφ.
-           @param cn: cosφ.
-           @param dn: sqrt(1 − k2 sin2φ).
+           @param sn: sin(φ).
+           @param cn: cos(φ).
+           @param dn: sqrt(1 − k2 sin(2φ)).
 
            @return: Periodic function π D(φ, k) / (2 D(k)) - φ.
         '''
@@ -213,9 +213,9 @@ class Elliptic(_Named):
     def deltaE(self, sn, cn, dn):
         '''The periodic incomplete integral of the second kind.
 
-           @param sn: sinφ.
-           @param cn: cosφ.
-           @param dn: sqrt(1 − k2 sin2φ).
+           @param sn: sin(φ).
+           @param cn: cos(φ).
+           @param dn: sqrt(1 − k2 sin(2φ)).
 
            @return: Periodic function 𝜋π E(φ, k) / (2 E(k)) - φ.
         '''
@@ -224,21 +224,21 @@ class Elliptic(_Named):
     def deltaEinv(self, stau, ctau):
         '''The periodic inverse of the incomplete integral of the second kind.
 
-           @param stau: sinτ
-           @param ctau: cosτ
+           @param stau: sin(τ)
+           @param ctau: cos(τ)
 
            @return: Periodic function E^−1(τ (2 E(k)/π), k) - τ.
         '''
         # Function is periodic with period pi
         t = atan2(-stau, -ctau) if ctau < 0 else atan2(stau, ctau)
-        return self.fEinv(t * self._Ec / PI_2) - t
+        return self.fEinv(t * self._cE / PI_2) - t
 
     def deltaF(self, sn, cn, dn):
         '''The periodic incomplete integral of the first kind.
 
-           @param sn: sinφ.
-           @param cn: cosφ.
-           @param dn: sqrt(1 − k2 sin2φ).
+           @param sn: sin(φ).
+           @param cn: cos(φ).
+           @param dn: sqrt(1 − k2 sin(2φ)).
 
            @return: Periodic function π F(φ, k) / (2 K(k)) - φ.
         '''
@@ -247,9 +247,9 @@ class Elliptic(_Named):
     def deltaG(self, sn, cn, dn):
         '''Legendre's periodic geodesic longitude integral.
 
-           @param sn: sinφ.
-           @param cn: cosφ.
-           @param dn: sqrt(1 − k2 sin2φ).
+           @param sn: sin(φ).
+           @param cn: cos(φ).
+           @param dn: sqrt(1 − k2 sin(2φ)).
 
            @return: Periodic function π G(φ, k) / (2 G(k)) - φ.
         '''
@@ -258,9 +258,9 @@ class Elliptic(_Named):
     def deltaH(self, sn, cn, dn):
         '''Cayley's periodic geodesic longitude difference integral.
 
-           @param sn: sinφ.
-           @param cn: cosφ.
-           @param dn: sqrt(1 − k2 sin2φ).
+           @param sn: sin(φ).
+           @param cn: cos(φ).
+           @param dn: sqrt(1 − k2 sin(2φ)).
 
            @return: Periodic function π H(φ, k) / (2 H(k)) - φ.
         '''
@@ -269,9 +269,9 @@ class Elliptic(_Named):
     def deltaPi(self, sn, cn, dn):
         '''The periodic incomplete integral of the third kind.
 
-           @param sn: sinφ.
-           @param cn: cosφ.
-           @param dn: sqrt(1 − k2 sin2φ).
+           @param sn: sin(φ).
+           @param cn: cos(φ).
+           @param dn: sqrt(1 − k2 sin(2φ)).
 
            @return: Periodic function π Π(φ, α2, k) / (2 Π(α2, k)) - φ.
         '''
@@ -288,9 +288,9 @@ class Elliptic(_Named):
         '''Jahnke's incomplete elliptic integral in terms
            of Jacobi elliptic functions.
 
-           @param phi_or_sn: φ or sinφ.
-           @keyword cn: cosφ.
-           @keyword dn: sqrt(1 − k2 sin2φ).
+           @param phi_or_sn: φ or sin(φ).
+           @keyword cn: cos(φ).
+           @keyword dn: sqrt(1 − k2 sin(2φ)).
 
            @return: D(φ, k) as though φ ∈ (−π, π],
                     U{defined<https://DLMF.NIST.gov/19.2.E4>}.
@@ -304,10 +304,10 @@ class Elliptic(_Named):
     def fDelta(self, sn, cn):
         '''The C{Delta} amplitude function.
 
-           @param sn: sinφ.
-           @param cn: cosφ.
+           @param sn: sin(φ).
+           @param cn: cos(φ).
 
-           @return: C{sqrt(1 − k2 sin2φ)}.
+           @return: C{sqrt(1 − k2 sin(2φ))}.
         '''
         k2 = self._k2
         return sqrt((1 - k2 * sn**2) if k2 < 0 else
@@ -317,9 +317,9 @@ class Elliptic(_Named):
         '''The incomplete integral of the second kind in terms
            of Jacobi elliptic functions.
 
-           @param phi_or_sn: φ or sinφ.
-           @keyword cn: cosφ.
-           @keyword dn: sqrt(1 − k2 sin2φ).
+           @param phi_or_sn: φ or sin(φ).
+           @keyword cn: cos(φ).
+           @keyword dn: sqrt(1 − k2 sin(2φ)).
 
            @return: E(φ, k) as though φ ∈ (−π, π],
                     U{defined<https://DLMF.NIST.gov/19.2.E5>}.
@@ -384,9 +384,9 @@ class Elliptic(_Named):
         '''The incomplete integral of the first kind in terms
            of Jacobi elliptic functions.
 
-           @param phi_or_sn: φ or sinφ.
-           @keyword cn: cosφ.
-           @keyword dn: sqrt(1 − k2 sin2φ).
+           @param phi_or_sn: φ or sin(φ).
+           @keyword cn: cos(φ) or C{None}.
+           @keyword dn: sqrt(1 − k2 sin(2φ)) or C{None}.
 
            @return: F(φ, k) as though φ ∈ (−π, π],
                     U{defined<https://DLMF.NIST.gov/19.2.E4>}.
@@ -401,9 +401,9 @@ class Elliptic(_Named):
         '''Legendre's geodesic longitude integral in terms
            of Jacobi elliptic functions.
 
-           @param phi_or_sn: φ or sinφ.
-           @keyword cn: cosφ.
-           @keyword dn: sqrt(1 − k2 sin2φ).
+           @param phi_or_sn: φ or sin(φ).
+           @keyword cn: cos(φ) or C{None}.
+           @keyword dn: sqrt(1 − k2 sin(2φ)) or C{None}.
 
            @return: G(φ, k) as though φ ∈ (−π, π].
 
@@ -424,9 +424,9 @@ class Elliptic(_Named):
         '''Cayley's geodesic longitude difference integral in terms
            of Jacobi elliptic functions.
 
-           @param phi_or_sn: φ or sinφ.
-           @keyword cn: cosφ.
-           @keyword dn: sqrt(1 − k2 sin2φ).
+           @param phi_or_sn: φ or sin(φ).
+           @keyword cn: cos(φ) or C{None}.
+           @keyword dn: sqrt(1 − k2 sin(2φ)) or C{None}.
 
            @return: H(φ, k) as though φ ∈ (−π, π].
 
@@ -446,9 +446,9 @@ class Elliptic(_Named):
         '''The incomplete integral of the third kind in terms
            of Jacobi elliptic functions.
 
-           @param phi_or_sn: φ or sinφ.
-           @keyword cn: cosφ.
-           @keyword dn: sqrt(1 − k2 sin2φ).
+           @param phi_or_sn: φ or sin(φ).
+           @keyword cn: cos(φ) or C{None}.
+           @keyword dn: sqrt(1 − k2 sin(2φ)) or C{None}.
 
            @return: Π(φ, α2, k) as though φ ∈ (−π, π].
         '''
@@ -561,22 +561,22 @@ class Elliptic(_Named):
             if kp2:
                 # D(k) = (K(k) - E(k))/k^2, Carlson eq.4.3
                 # <https://DLMF.NIST.gov/19.25.E1>
-                self._Dc = _RD_3(0, kp2, 1)
-                self._KEc = k2 * self._Dc
+                self._cD = _RD_3(0, kp2, 1)
+                self._cKE = k2 * self._cD
                 # Complete elliptic integral E(k), Carlson eq. 4.2
                 # <https://DLMF.NIST.gov/19.25.E1>
-                self._Ec = _RG(kp2, 1) * 2
+                self._cE = _RG(kp2, 1) * 2
                 # Complete elliptic integral K(k), Carlson eq. 4.1
-                # https://DLMF.NIST.gov/19.25.E1
-                self._Kc = _RF(kp2, 1)
+                # <https://DLMF.NIST.gov/19.25.E1>
+                self._cK = _RF(kp2, 1)
             else:
-                self._Dc = self._Kc = self._KEc = _INF
-                self._Ec = 1.0
+                self._cD = self._cK = self._cKE = INF
+                self._cE = 1.0
         else:
-            self._Dc  = PI_4
-            self._Ec  = PI_2
-            self._Kc  = PI_2
-            self._KEc = 0.0  # k2 * self._Dc
+            self._cD  = PI_4
+            self._cE  = PI_2
+            self._cK  = PI_2
+            self._cKE = 0.0  # k2 * self._cD
 
         if alpha2:
             if kp2:
@@ -584,19 +584,19 @@ class Elliptic(_Named):
                 if alphap2:
                     rj_3 = _RJ_3(0, kp2, 1, alphap2)
                     # G(alpha^2, k)
-                    self._Gc = self._Kc + (alpha2 - k2) * rj_3
+                    self._cG = self._cK + (alpha2 - k2) * rj_3
                     # H(alpha^2, k)
-                    self._Hc = self._Kc - alphap2 * rj_3
+                    self._cH = self._cK - alphap2 * rj_3
                     # Pi(alpha^2, k)
-                    self._Pic = self._Kc + alpha2 * rj_3
+                    self._cPi = self._cK + alpha2 * rj_3
                 else:
-                    self._Gc = self._Hc = self._Pic = _INF  # XXX _NAN?
+                    self._cG = self._cH = self._cPi = INF  # XXX _NAN?
             elif alphap2:
-                self._Gc = self._Hc = _RC(1, alphap2)
-                self._Pic = _INF  # XXX _NAN?
+                self._cG = self._cH = _RC(1, alphap2)
+                self._cPi = INF  # XXX _NAN?
         else:
-            self._Gc  = self._Ec
-            self._Pic = self._Kc
+            self._cG  = self._cE
+            self._cPi = self._cK
             # Hc = Kc - Dc but this involves large cancellations
             # if k2 is close to 1.  So write (for alpha2 = 0)
             #   Hc = int(cos(phi)^2/sqrt(1-k2*sin(phi)^2),phi,0,pi/2)
@@ -605,12 +605,12 @@ class Elliptic(_Named):
             # and use D(k) = RD(0, kp2, 1) / 3
             # so Hc = 1/kp * RD(0, 1/kp2, 1) / 3
             #       = kp2 * RD(0, 1, kp2) / 3
-            # using https://DLMF.NIST.gov/19.20.E18
+            # using <https://DLMF.NIST.gov/19.20.E18>
             # Equivalently
             #   RF(x, 1) - RD(0, x, 1)/3 = x * RD(0, 1, x)/3 for x > 0
             # For k2 = 1 and alpha2 = 0, we have
             #   Hc = int(cos(phi),...) = 1
-            self._Hc = kp2 * _RD_3(0, 1, kp2) if kp2 else 1.0
+            self._cH = kp2 * _RD_3(0, 1, kp2) if kp2 else 1.0
 
     def sncndn(self, x):  # PYCHOK x not used?
         '''The Jacobi elliptic function.
@@ -640,7 +640,7 @@ class Elliptic(_Named):
                 mc *= a
                 a = c
             else:
-                raise EllipticError('no %s convergence' % ('sncndn',))
+                raise EllipticError('no %s%r convergence' % ('sncndn', (x,)))
             x *= c
             dn = 1
             sn, cn = sincos2(x)
@@ -710,7 +710,7 @@ def _RC(x, y):
     elif y < 0:  # <https://DLMF.NIST.gov/19.2.E20>
         r = asinh(sqrt(-x / y))  # atanh(sqrt(x / (x - y)))
     else:
-        raise EllipticError('%s invalid: %r' % ('y', (x, y)))
+        raise EllipticError('%s invalid: %s%r' % ('y', '_RC', (x, y)))
     return r / sqrt(d)
 
 
@@ -741,7 +741,7 @@ def _RD(x, y, z):
         S.fadd_(1.0 / (m * s[2] * (t + r)))
         m *= 4
     else:
-        raise EllipticError('no %s convergence' % ('RD',))
+        raise EllipticError('no %s%r convergence' % ('_RD', (x, y, z)))
 
     S *= 3
     m *= T[0]  # An
@@ -784,7 +784,7 @@ def _RF(x, y, z=None):
         _, _, T = _rsT(T)
         m *= 4
     else:
-        raise EllipticError('no %s convergence' % ('RF',))
+        raise EllipticError('no %s%r convergence' % ('_RF', (x, y, z)))
 
     m *= T[0]  # An
     x = (A - x) / m
@@ -864,7 +864,7 @@ def _RJ(x, y, z, p):
         m *= 4
         m3 *= 64
     else:
-        raise EllipticError('no %s convergence' % ('RJ',))
+        raise EllipticError('no %s%r convergence' % ('_RJ', (x, y, z, p)))
 
     S *= 6
     m *= T[0]  # An

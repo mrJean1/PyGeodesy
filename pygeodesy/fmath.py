@@ -20,7 +20,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.01.23'
+__version__ = '20.01.24'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -310,9 +310,12 @@ class Fsum(object):
            @return: The copy, a new instance (L{Fsum}).
          '''
         f = _xcopy(self, deep=deep)
-        f._n  = self._n
+        # f._fsum2_ = self._fsum2_
+        # f._n = self._n
         f._ps = list(self._ps)  # copy
         return f
+
+    copy = fcopy
 
     def fmul(self, factor):
         '''Multiple the current, partial sum by a factor.

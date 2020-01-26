@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.11.02'
+__version__ = '20.01.25'
 
 from base import coverage, TestsBase
 # from math import sqrt
@@ -129,6 +129,7 @@ class Tests(TestsBase):
             a += a
             self.test('FSum*', a.fsum(), b.fsum())
             t += t
+            self.testCopy(a, '_fsum2_', '_n', '_ps')
 
         if coverage:  # for test coverage
             c = a - b

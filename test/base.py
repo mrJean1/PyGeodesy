@@ -49,7 +49,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.01.22'
+__version__ = '20.01.25'
 
 try:
     _Ints = int, long
@@ -229,14 +229,20 @@ class TestsBase(object):
         t = '-' * len(str(self.total))
         self.printf('test %s %s', t, (fmt % args), **kwds)
 
-    def testCopy(self, inst, Clas=None):
-        C = Clas or inst.__class__
-        c = inst.copy()
-        t = c.__class__, id(c) != id(inst)
-        self.test(C.__name__ + '.copy()', t, (C, True))
+    def testCopy(self, inst, *attrs, **kwds):  # Clas=None
+        C = kwds.get('Clas', inst.__class__)
+
         c = _xcopy(inst)
         t = c.__class__, id(c) != id(inst)
         self.test('copy(%s)' % C.__name__, t, (C, True))
+        for a in attrs:
+            self.test('.' + a, getattr(c, a), getattr(inst, a))
+
+        c = inst.copy()
+        t = c.__class__, id(c) != id(inst)
+        self.test(C.__name__ + '.copy()', t, (C, True))
+        for a in attrs:
+            self.test('.' + a, getattr(c, a), getattr(inst, a))
 
     def testiter(self):
         '''Test with/-out I{iterNumpy2} threshold.
