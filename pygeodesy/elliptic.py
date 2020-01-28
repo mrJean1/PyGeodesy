@@ -86,7 +86,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.01.25'
+__version__ = '20.01.27'
 
 _tolJAC = sqrt(EPS * 0.01)
 _tolRD  =  pow(EPS * 0.002, 0.125)
@@ -378,7 +378,7 @@ class Elliptic(_Named):
             phi, e = Phi.fsum2_((x - self.fE(sn, cn, dn)) / dn)
             if abs(e) < _tolJAC:
                 return n * PI + phi
-        raise EllipticError('no %s convergence' % ('fEinv',))
+        raise EllipticError('no %s%r convergence' % ('fEinv', (x,)))
 
     def fF(self, phi_or_sn, cn=None, dn=None):
         '''The incomplete integral of the first kind in terms
@@ -475,8 +475,8 @@ class Elliptic(_Named):
                 return (deltaX(sn, cn, dn) + phi) * cX / PI_2
             # fall through
         elif None in (cn, dn):
-            n = self.classname + '.f' + deltaX.__name__[5:]
-            raise EllipticError('%s invalid: %s%r' % ('args', n, (sn, cn, dn)))
+            t = self.classname + '.f' + deltaX.__name__[5:]
+            raise EllipticError('%s invalid: %s%r' % ('args', t, (sn, cn, dn)))
 
         if cn > 0:  # enforce usual trig-like symmetries
             xi = fX(sn, cn, dn)
@@ -670,18 +670,21 @@ class Elliptic(_Named):
         return sn, cn, self.fDelta(sn, cn)
 
 
-def _Hf(e0, e1, e2, e3, e4, e5):
+def _Horner(e0, e1, e2, e3, e4, e5):
     '''(INTERNAL) Horner form for C{_RD} and C{_RJ} below.
     '''
     # Polynomial is <https://DLMF.NIST.gov/19.36.E2>
     # (1 - 3*E2/14 + E3/6 + 9*E2^2/88 - 3*E4/22 - 9*E2*E3/52 + 3*E5/26
     #    - E2^3/16 + 3*E3^2/40 + 3*E2*E4/20 + 45*E2^2*E3/272
     #    - 9*(E3*E4+E2*E5)/68)
-    return fsum_(fsum_(471240,      -540540 * e2) * e5,
-                 fsum_(612612 * e2, -540540 * e3,    -556920) * e4,
-                 fsum_(306306 * e3,  675675 * e2**2, -706860 * e2, 680680) * e3,
-                 fsum_(417690 * e2, -255255 * e2**2, -875160) * e2,
-                 4084080) / (4084080 * e1) + e0
+    H  = Fsum(471240,      -540540 * e2) * e5
+    H += Fsum(612612 * e2, -540540 * e3,    -556920) * e4
+    H += Fsum(306306 * e3,  675675 * e2**2, -706860  * e2, 680680) * e3
+    H += Fsum(417690 * e2, -255255 * e2**2, -875160) * e2
+    H += 4084080
+    e  = 4084080 * e1
+    H += e * e0
+    return H.fsum() / e
 
 
 def _Q(A, T, tol):
@@ -703,7 +706,7 @@ def _RC(x, y):
         # <https://DLMF.NIST.gov/19.2.E18>
         d = -d
         r = atan(sqrt(d / x)) if x > 0 else PI_2
-    elif d == 0:
+    elif d == 0:  # d < EPS?
         r, d = 1.0, y
     elif y > 0:  # <https://DLMF.NIST.gov/19.2.E19>
         r = asinh(sqrt(d / y))  # atanh(sqrt((x - y) / x))
@@ -738,23 +741,22 @@ def _RD(x, y, z):
             break
         t = T[3]  # z0
         r, s, T = _rsT(T)
-        S.fadd_(1.0 / (m * s[2] * (t + r)))
+        S += 1.0 / (m * s[2] * (t + r))
         m *= 4
     else:
         raise EllipticError('no %s%r convergence' % ('_RD', (x, y, z)))
 
-    S *= 3
     m *= T[0]  # An
     x = (x - A) / m
     y = (y - A) / m
     z = (x + y) / 3.0
     z2 = z**2
     xy = x * y
-    return _Hf(S.fsum(), m * sqrt(T[0]),
-               xy - 6 * z2,
-              (xy * 3 - 8 * z2) * z,
-              (xy - z2) * 3 * z2,
-               xy * z2 * z)
+    return _Horner(3 * S.fsum(), m * sqrt(T[0]),
+                   xy - 6 * z2,
+                  (xy * 3 - 8 * z2) * z,
+                  (xy - z2) * 3 * z2,
+                   xy * z2 * z)
 
 
 def _RF(x, y, z=None):
@@ -796,10 +798,11 @@ def _RF(x, y, z=None):
     # Polynomial is <https://DLMF.NIST.gov/19.36.E1>
     # (1 - E2/10 + E3/14 + E2^2/24 - 3*E2*E3/44
     #    - 5*E2^3/208 + 3*E3^2/104 + E2^2*E3/16)
-    # convert to Horner form ...
-    return fsum_(fsum_( 6930 * e3, 15015 * e2**2, -16380 * e2, 17160) * e3,
-                 fsum_(10010 * e2, -5775 * e2**2, -24024) * e2,
-                 240240) / (240240 * sqrt(T[0]))
+    # converted to Horner form ...
+    H  = Fsum( 6930 * e3, 15015 * e2**2, -16380  * e2, 17160) * e3
+    H += Fsum(10010 * e2, -5775 * e2**2, -24024) * e2
+    H += 240240
+    return H.fsum() / (240240 * sqrt(T[0]))
 
 
 def _RG(x, y, z=None):
@@ -820,7 +823,7 @@ def _RG(x, y, z=None):
         while abs(a - b) > (_tolRG0 * a):  # max 4 trips
             b, a = sqrt(a * b), (a + b) * 0.5
             m *= 2
-            S.fadd_(m * (a - b)**2)
+            S += m * (a - b)**2
         return S.fsum() * PI_2 / (a + b)
 
     if not z:
@@ -828,7 +831,7 @@ def _RG(x, y, z=None):
     # Carlson, eq 1.7
     return fsum_(_RF(x, y, z) * z,
                  _RD_3(x, y, z) * (x - z) * (z - y),
-                 sqrt(x * y / z)) * 0.5
+                  sqrt(x * y / z)) * 0.5
 
 
 def _RJ_3(x, y, z, p):
@@ -860,13 +863,12 @@ def _RJ(x, y, z, p):
         _, s, T = _rsT(T)
         d = _xyzp(*s)
         e = D / (m3 * d**2)
-        S.fadd_(_RC(1, 1 + e) / (m * d))
+        S += _RC(1, 1 + e) / (m * d)
         m *= 4
         m3 *= 64
     else:
         raise EllipticError('no %s%r convergence' % ('_RJ', (x, y, z, p)))
 
-    S *= 6
     m *= T[0]  # An
     x = (A - x) / m
     y = (A - y) / m
@@ -876,11 +878,11 @@ def _RJ(x, y, z, p):
     p2 = p**2
 
     e2 = fsum_(x * y, x * z, y * z, -3 * p2)
-    return _Hf(S.fsum(), m * sqrt(T[0]),
-               e2,
-               fsum_(xyz, 2 * p * e2, 4 * p * p2),
-               fsum_(xyz * 2, p * e2, 3 * p * p2) * p,
-               p2 * xyz)
+    return _Horner(6 * S.fsum(), m * sqrt(T[0]),
+                   e2,
+                   fsum_(xyz, 2 * p * e2, 4 * p * p2),
+                   fsum_(xyz * 2, p * e2, 3 * p * p2) * p,
+                   p2 * xyz)
 
 
 def _rsT(T):

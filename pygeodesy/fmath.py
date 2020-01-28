@@ -20,7 +20,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.01.24'
+__version__ = '20.01.27'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -118,6 +118,8 @@ class Fsum(object):
              U{Full precision summation<https://Bugs.Python.org/issue2819>}.
     '''
     _fsum2_ = None
+    _n      = 0
+    _ps     = []
 
     def __init__(self, *starts):
         '''Initialize a new accumulator with one or more start values.
@@ -312,7 +314,7 @@ class Fsum(object):
         f = _xcopy(self, deep=deep)
         # f._fsum2_ = self._fsum2_
         # f._n = self._n
-        f._ps = list(self._ps)  # copy
+        f._ps = list(self._ps)  # separate copy
         return f
 
     copy = fcopy
