@@ -67,7 +67,8 @@ from pygeodesy.fmath import EPS, fpolynomial, hypot, hypot1, scalar
 from pygeodesy.lazily import _ALL_LAZY, _2kwds
 from pygeodesy.named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
-from pygeodesy.utily import degrees90, degrees180, degrees360, sincos2, unroll180
+from pygeodesy.utily import degrees90, degrees180, degrees360, \
+                            property_RO, sincos2, unroll180
 
 from math import atan2, cos, radians, tan
 
@@ -75,7 +76,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '20.01.22'
+__version__ = '20.02.03'
 
 
 class VincentyError(ValueError):
@@ -130,7 +131,8 @@ class LatLon(LatLonEllipsoidalBase):
     '''
     _Ecef       = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
     _epsilon    = 1.0e-12  # about 0.006 mm
-    _iterations = 50
+    _iteration  = -1  # index, see C{.iteration}
+    _iterations = 100  # vs Veness' 500
 
     def bearingTo(self, other, wrap=False):
         '''DEPRECATED, use method C{initialBearingTo}.
@@ -404,6 +406,12 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         return self._inverse(other, True, wrap)[1]
 
+    @property_RO
+    def iteration(self):
+        '''Get the iteration number (C{int} or C{None} if not available/applicable).
+        '''
+        return self._iteration + 1  # index to number
+
     @property
     def iterations(self):
         '''Get the iteration limit (C{int}).
@@ -420,7 +428,7 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise ValueError: Out-of-bounds B{C{limit}}.
         '''
-        self._iterations = scalar(limit, 4, 200, name='limit')
+        self._iterations = scalar(limit, 4, 500, name='limit')
 
     def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Vincenty}-based cartesian (ECEF)
@@ -472,7 +480,7 @@ class LatLon(LatLonEllipsoidalBase):
             A, B = _p2(c2a * E.e22)
 
         s = d = distance / (E.b * A)
-        for _ in range(self._iterations):
+        for self._iteration in range(self._iterations):
             ss, cs = sincos2(s)
             c2sm = cos(s12 + s)
             s_, s = s, d + _ds(B, cs, ss, c2sm)
@@ -519,7 +527,7 @@ class LatLon(LatLonEllipsoidalBase):
 
         dl, _ = unroll180(self.lon, other.lon, wrap=wrap)
         ll = dl = radians(dl)
-        for _ in range(self._iterations):
+        for self._iteration in range(self._iterations):
             ll_ = ll
             sll, cll = sincos2(ll)
 
@@ -529,7 +537,7 @@ class LatLon(LatLonEllipsoidalBase):
                     raise VincentyError('%s, %r %sto %r' % ('ambiguous',
                                         self, 'antipodal ', other))
                 d = 0.0  # like Karney, ...
-                if azis:  # return zeros
+                if azis:  # return zeros, but unlike Veness
                     d = d, 0, 0
                 return d
 

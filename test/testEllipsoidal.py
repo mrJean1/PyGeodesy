@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.11.02'
+__version__ = '20.02.03'
 
 from base import coverage, geographiclib
 from testLatLon import Tests as _TestsLL
@@ -12,7 +12,7 @@ from testVectorial import Tests as _TestsV
 
 from pygeodesy import EPS, F_D, F_D__, F_DMS, bearingDMS, compassDMS, \
                       Datums, ellipsoidalVincenty as V, \
-                      fStr, m2SM, normDMS, wrap360
+                      fStr, m2SM, normDMS, VincentyError, wrap360
 
 
 class Tests(_TestsLL, _TestsV):
@@ -117,7 +117,8 @@ class Tests(_TestsLL, _TestsV):
 
         self.test('copy', q.toStr(F_DMS, prec=4), '37°57′03.7203″S, 144°25′29.5244″E')
 
-        self.testKarneyVincenty(LatLon, d)
+        self.testKarneyVincenty(module, LatLon, d)
+        self.testKarneyVincentyError(module, LatLon, d, True)
 
     def testKarneyPython(self, module):
 
@@ -178,7 +179,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('isSpherical', p.isSpherical, False)
 
         self.test('epsilon', p.epsilon, 1e-12)
-        self.test('iterations', p.iterations, 50)
+        self.test('iterations', p.iterations, 100)
 
         q = p.copy()
         self.test('copy', q.isequalTo(p), True)
@@ -190,10 +191,14 @@ class Tests(_TestsLL, _TestsV):
         q.epsilon, q.iterations = EPS, 200
         self.test('epsilon', q.epsilon, EPS)
         self.test('iterations', q.iterations, 200)
+        self.test('iteration', q.iteration, 0)
 
-        self.testKarneyVincenty(LatLon, d)
+        self.testKarneyVincenty(module, LatLon, d)
+        self.testKarneyVincentyError(module, LatLon, d, False)
 
-    def testKarneyVincenty(self, LatLon, d):
+    def testKarneyVincenty(self, module, LatLon, d):
+
+        self.subtitle(module, 'KarneyVincenty', datum=d.name)
 
         p = LatLon(-37.95103342, 144.42486789, datum=d)
         t = p.distanceTo(p)
@@ -215,6 +220,8 @@ class Tests(_TestsLL, _TestsV):
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
         self.test('finalBearingOn', t, '307.1736°, 307°10′25.07″NW')
 
+        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
+        # ... Test case (UK), using WGS-84
         p = LatLon(50.06632, -5.71475, datum=d)
         q = LatLon(58.64402, -3.07009, datum=d)
         m = p.distanceTo(q)
@@ -232,9 +239,16 @@ class Tests(_TestsLL, _TestsV):
         t = bearingDMS(b, prec=4) + ', ' + compassDMS(b, form=F_DMS, prec=2)
         self.test('initialBearingTo', t, '9.1419°, 9°08′30.76″N')
 
+        t = p.destination(m, b)
+        self.test('destination', t.toStr(form=F_D, prec=5), '58.64402°N, 003.07009°W')
+
         f = p.finalBearingTo(q)
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
         self.test('finalBearingTo', t, '11.2972°, 11°17′49.99″NNE')
+
+        f = p.finalBearingOn(m, b)
+        t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
+        self.test('finalBearingOn', t, '11.2972°, 11°17′49.99″NNE')
 
         p = LatLon(52.205, 0.119)
         q = LatLon(48.857, 2.351)
@@ -253,9 +267,16 @@ class Tests(_TestsLL, _TestsV):
         t = bearingDMS(b, prec=4) + ', ' + compassDMS(b, form=F_DMS, prec=2)
         self.test('initialBearingTo', t, '156.1106°, 156°06′38.31″SSE')
 
+        t = p.destination(m, b)
+        self.test('destination', t.toStr(form=F_D, prec=5), '48.857°N, 002.351°E')
+
         f = p.finalBearingTo(q)
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
         self.test('finalBearingTo', t, '157.8345°, 157°50′04.2″SSE')  # 157.9
+
+        f = p.finalBearingOn(m, b)
+        t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
+        self.test('finalBearingOn', t, '157.8345°, 157°50′04.2″SSE')
 
         p = LatLon(37.95103, 144.42487, datum=d)
         q = LatLon(37.65280, 143.9265, datum=d)
@@ -274,9 +295,16 @@ class Tests(_TestsLL, _TestsV):
         t = bearingDMS(b, prec=4) + ', ' + compassDMS(b, form=F_DMS, prec=2)
         self.test('initialBearingTo', t, '233.1301°, 233°07′48.28″SW')
 
+        t = p.destination(m, b)
+        self.test('destination', t.toStr(form=F_D, prec=5), '37.6528°N, 143.9265°E')
+
         f = p.finalBearingTo(q)
         t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
         self.test('finalBearingTo', t, '232.8246°, 232°49′28.59″SW')
+
+        f = p.finalBearingOn(m, b)
+        t = bearingDMS(f, prec=4) + ', ' + compassDMS(f, form=F_DMS, prec=2)
+        self.test('finalBearingOn', t, '232.8246°, 232°49′28.59″SW')
 
         # <https://GitHub.com/maurycyp/vincenty> Maurycy Pietrzak
         Boston = LatLon(42.3541165, -71.0693514, datum=d)
@@ -315,6 +343,113 @@ class Tests(_TestsLL, _TestsV):
         m, b = FindersPeak.distanceTo2(Buninyong)
         self.test('distanceTo2', m, '54902.390', fmt='%.3f')
         self.test('distanceTo2', bearingDMS(b, F_DMS), '307°04′38.41″')
+
+    def testKarneyVincentyError(self, module, LatLon, d, isKarney):  # MCCABE 21
+
+        self.subtitle(module, 'KarneyVincentyError', datum=d.name)
+
+        def _i(name, ll):
+            return '%s (%s)' % (name, ll.iteration)
+
+        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
+        # ... Test case (antipodal), using WGS-84
+        p = LatLon(0, 0, datum=d)
+        q = LatLon(0.5, 179.5, datum=d)
+        try:
+            m, t, fmt = p.distanceTo(q), '19936288.579', '%.3f'
+        except VincentyError as x:
+            m, t, fmt = str(x), 'no convergence, ...', '%s'
+        self.test(_i('distanceTo/antipodal', p), m, t, fmt=fmt, known=True)
+
+        q = LatLon(0.5, 179.7, datum=d)
+        try:
+            m, t, fmt = p.distanceTo(q), '19944127.421', '%.3f'
+        except VincentyError as x:
+            m, t, fmt = str(x), 'no convergence, ...', '%s'
+        self.test(_i('distanceTo/VincentyError', p), m, t, fmt=fmt, known=True)
+        try:
+            b, t, fmt = p.initialBearingTo(q), '15.556883', '%.6f'
+        except VincentyError as x:
+            b, t, fmt = str(x), 'no convergence, ...', '%s'
+        self.test(_i('initialBearingTo/VincentyError', p), b, t, fmt=fmt, known=True)
+        try:
+            f, t, fmt = p.finalBearingTo(q), '164.442514', '%.6f'
+        except VincentyError as x:
+            f, t, fmt = str(x), 'no convergence, ...', '%s'
+        self.test(_i('finalBearingTo/VincentyError', p), f, t, fmt=fmt, known=True)
+
+        q = LatLon(0, 180, datum=d)
+        try:
+            m, t, fmt = p.distanceTo(q), '20003931.46', '%.2f'
+        except VincentyError as x:
+            m, t, fmt = str(x), 'ambiguous, ...', '%s'
+        self.test(_i('distanceTo/equatorial', p), m, t, fmt=fmt, known=True)
+        try:
+            b, t, fmt = p.initialBearingTo(q), '0.0', '%.1f'
+        except VincentyError as x:
+            b, t, fmt = str(x), 'ambiguous, ...', '%s'
+        self.test(_i('initialBearingTo/equatorial', p), b, t, fmt=fmt, known=True)
+
+        q = LatLon(0, 1, datum=d)
+        m = p.distanceTo(q)
+        self.test(_i('distanceTo/coincident', p), m, '111319.491', fmt='%.3f')  # 40075016.686 / 360
+
+        q = LatLon(-90, 0, datum=d)
+        m = p.distanceTo(q)
+        self.test(_i('distanceTo/meridional', p), m, 10001965.729, fmt='%.3f')
+        b = p.initialBearingTo(q)
+        self.test(_i('initialBearingTo/meridional', p), b, 180.0, fmt='%.1f')
+
+        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
+        # ... Test case (coincident), using WGS-84
+        p = LatLon(50.06632, -5.71475, datum=d)
+        m = p.distanceTo(p)
+        self.test(_i('distanceTo/coincident', p), m, '0.0', fmt='%.1f')
+        try:
+            b, t, fmt = p.initialBearingTo(p), '180.0' if isKarney else '0.0', '%.1f'
+        except VincentyError as x:
+            b, t, fmt = str(x), 'no convergence, ...', '%s'
+        self.test(_i('initialBearingTo/coincident', p), b, t, fmt=fmt, known=True)  # NaN
+        try:
+            f, t, fmt = p.finalBearingTo(p), '180.0' if isKarney else '0.0', '%.1f'
+        except VincentyError as x:
+            f, t, fmt = str(x), 'no convergence, ...', '%s'
+        self.test(_i('finalBearingTo/coincident', p), f, t, fmt=fmt, known=True)  # NaN
+        try:
+            q, t = p.destination(0, 0), '50.06632°N, 005.71475°W'
+        except VincentyError as x:
+            q, t = str(x), 'no convergence, ...'
+        self.test(_i('destination/coincident', p), q, t, known=True)
+
+        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
+        # ... Test case (crossing anti-meridian), using WGS-84
+        p = LatLon(30,  120, datum=d)
+        q = LatLon(30, -120, datum=d)
+        m = p.distanceTo(q)
+        self.test(_i('distanceTo/anti-meridian', p), m, '10825924.1', fmt='%.1f')
+
+        # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
+        # ... Test case (quadrants), using WGS-84
+        for t in (( 30, 30, 60, 60),
+                  ( 60, 60, 30, 30),
+                  ( 30, 60, 60, 30),
+                  ( 60, 30, 30, 60),
+                  ( 30,-30, 60,-60),
+                  ( 60,-60, 30,-30),
+                  ( 30,-60, 60,-30),
+                  ( 60,-30, 30,-60),
+                  (-30,-30,-60,-60),
+                  (-60,-60,-30,-30),
+                  (-30,-60,-60,-30),
+                  (-60,-30,-30,-60),
+                  (-30, 30,-60, 60),
+                  (-60, 60,-30, 30),
+                  (-30, 60,-60, 30),
+                  (-60, 30,-30, 60)):
+            p = LatLon(t[0], t[1], datum=d)
+            q = LatLon(t[2], t[3], datum=d)
+            m = p.distanceTo(q)
+            self.test(_i('distanceTo/quadrants', p), m, '4015703.02', fmt='%.2f')
 
     def testNOAA(self, module):
         # <https://www.NGS.NOAA.gov/PC_PROD/Inv_Fwd/readme.htm>

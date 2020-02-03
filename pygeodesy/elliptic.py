@@ -86,12 +86,12 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.01.27'
+__version__ = '20.01.29'
 
-_tolJAC = sqrt(EPS * 0.01)
-_tolRD  =  pow(EPS * 0.002, 0.125)
-_tolRF  =  pow(EPS * 0.030, 0.125)
-_tolRG0 = _tolJAC * 2.7
+_TolJAC = sqrt(EPS * 0.01)
+_TolRD  =  pow(EPS * 0.002, 0.125)
+_TolRF  =  pow(EPS * 0.030, 0.125)
+_TolRG0 = _TolJAC * 2.7
 _TRIPS  =  13  # Max depth for sncndn, etc, 5-7 might be enough
 
 
@@ -284,6 +284,12 @@ class Elliptic(_Named):
             cn, sn = -cn, -sn
         return fX(sn, cn, dn) * PI_2 / cX - atan2(sn, cn)
 
+    @property_RO
+    def eps(self):
+        '''Get epsilon (C{float}).
+        '''
+        return self._eps
+
     def fD(self, phi_or_sn, cn=None, dn=None):
         '''Jahnke's incomplete elliptic integral in terms
            of Jacobi elliptic functions.
@@ -309,9 +315,9 @@ class Elliptic(_Named):
 
            @return: C{sqrt(1 − k2 sin(2φ))}.
         '''
-        k2 = self._k2
+        k2 = self.k2
         return sqrt((1 - k2 * sn**2) if k2 < 0 else
-                        (k2 * cn**2 + self._kp2))
+                        (k2 * cn**2 + self.kp2))
 
     def fE(self, phi_or_sn, cn=None, dn=None):
         '''The incomplete integral of the second kind in terms
@@ -326,7 +332,7 @@ class Elliptic(_Named):
         '''
         def _fE(sn, cn, dn):
             sn2, cn2, dn2 = sn**2, cn**2, dn**2
-            kp2, k2 = self._kp2, self._k2
+            kp2, k2 = self.kp2, self.k2
             if k2 <= 0:
                 # Carlson, eq. 4.6 and <https://DLMF.NIST.gov/19.25.E9>
                 ei = _RF(cn2, dn2, 1) - k2 * sn2 * _RD_3(cn2, dn2, 1)
@@ -369,14 +375,14 @@ class Elliptic(_Named):
         phi = PI * x / E2  # phi in [-pi/2, pi/2)
         Phi = Fsum(phi)
         # first order correction
-        phi = Phi.fsum_(-self._eps * sin(2 * phi) * 0.5)
+        phi = Phi.fsum_(-self.eps * sin(2 * phi) * 0.5)
         # For kp2 close to zero use asin(x/.cE) or J. P. Boyd,
         # Applied Math. and Computation 218, 7005-7013 (2012)
         # <https://DOI.org/10.1016/j.amc.2011.12.021>
         for _ in range(self._trips_):  # GEOGRAPHICLIB_PANIC
             sn, cn, dn = self._sncndn3(phi)
             phi, e = Phi.fsum2_((x - self.fE(sn, cn, dn)) / dn)
-            if abs(e) < _tolJAC:
+            if abs(e) < _TolJAC:
                 return n * PI + phi
         raise EllipticError('no %s%r convergence' % ('fEinv', (x,)))
 
@@ -476,7 +482,7 @@ class Elliptic(_Named):
             # fall through
         elif None in (cn, dn):
             t = self.classname + '.f' + deltaX.__name__[5:]
-            raise EllipticError('%s invalid: %s%r' % ('args', t, (sn, cn, dn)))
+            raise EllipticError('%s invalid: %s%r' % ('cn or dn', t, (sn, cn, dn)))
 
         if cn > 0:  # enforce usual trig-like symmetries
             xi = fX(sn, cn, dn)
@@ -562,13 +568,13 @@ class Elliptic(_Named):
                 # D(k) = (K(k) - E(k))/k^2, Carlson eq.4.3
                 # <https://DLMF.NIST.gov/19.25.E1>
                 self._cD = _RD_3(0, kp2, 1)
-                self._cKE = k2 * self._cD
+                self._cKE = k2 * self.cD
                 # Complete elliptic integral E(k), Carlson eq. 4.2
                 # <https://DLMF.NIST.gov/19.25.E1>
-                self._cE = _RG(kp2, 1) * 2
+                self._cE = _RG_(kp2, 1) * 2
                 # Complete elliptic integral K(k), Carlson eq. 4.1
                 # <https://DLMF.NIST.gov/19.25.E1>
-                self._cK = _RF(kp2, 1)
+                self._cK = _RF_(kp2, 1)
             else:
                 self._cD = self._cK = self._cKE = INF
                 self._cE = 1.0
@@ -584,32 +590,32 @@ class Elliptic(_Named):
                 if alphap2:
                     rj_3 = _RJ_3(0, kp2, 1, alphap2)
                     # G(alpha^2, k)
-                    self._cG = self._cK + (alpha2 - k2) * rj_3
+                    self._cG = self.cK + (alpha2 - k2) * rj_3
                     # H(alpha^2, k)
-                    self._cH = self._cK - alphap2 * rj_3
+                    self._cH = self.cK - alphap2 * rj_3
                     # Pi(alpha^2, k)
-                    self._cPi = self._cK + alpha2 * rj_3
+                    self._cPi = self.cK + alpha2 * rj_3
                 else:
-                    self._cG = self._cH = self._cPi = INF  # XXX _NAN?
+                    self._cG = self._cH = self._cPi = INF  # XXX or NAN?
             elif alphap2:
                 self._cG = self._cH = _RC(1, alphap2)
-                self._cPi = INF  # XXX _NAN?
+                self._cPi = INF  # XXX or NAN?
         else:
-            self._cG  = self._cE
-            self._cPi = self._cK
-            # Hc = Kc - Dc but this involves large cancellations
+            self._cG  = self.cE
+            self._cPi = self.cK
+            # cH = cK - cD but this involves large cancellations
             # if k2 is close to 1.  So write (for alpha2 = 0)
-            #   Hc = int(cos(phi)^2/sqrt(1-k2*sin(phi)^2),phi,0,pi/2)
+            #   cH = int(cos(phi)^2/sqrt(1-k2*sin(phi)^2),phi,0,pi/2)
             #      = 1/sqrt(1-k2) * int(sin(phi)^2/sqrt(1-k2/kp2*sin(phi)^2,...)
             #      = 1/kp * D(i*k/kp)
             # and use D(k) = RD(0, kp2, 1) / 3
-            # so Hc = 1/kp * RD(0, 1/kp2, 1) / 3
+            # so cH = 1/kp * RD(0, 1/kp2, 1) / 3
             #       = kp2 * RD(0, 1, kp2) / 3
             # using <https://DLMF.NIST.gov/19.20.E18>
             # Equivalently
             #   RF(x, 1) - RD(0, x, 1)/3 = x * RD(0, 1, x)/3 for x > 0
             # For k2 = 1 and alpha2 = 0, we have
-            #   Hc = int(cos(phi),...) = 1
+            #   cH = int(cos(phi),...) = 1
             self._cH = kp2 * _RD_3(0, 1, kp2) if kp2 else 1.0
 
     def sncndn(self, x):  # PYCHOK x not used?
@@ -620,7 +626,7 @@ class Elliptic(_Named):
            @return: 3-Tuple C{(sn(x, k), cn(x, k), dn(x, k))}.
         '''
         # Bulirsch's sncndn routine, p 89.
-        mc = self._kp2
+        mc = self.kp2
         if mc:  # never negative ...
             if mc < 0:  # PYCHOK no cover
                 d = 1.0 - mc
@@ -635,7 +641,7 @@ class Elliptic(_Named):
                 mc = sqrt(mc)
                 mn.append((a, mc))
                 c = (a + mc) * 0.5
-                if not abs(a - mc) > (_tolJAC * a):
+                if not abs(a - mc) > (_TolJAC * a):
                     break
                 mc *= a
                 a = c
@@ -655,7 +661,7 @@ class Elliptic(_Named):
                     a = c / m
                 sn = copysign(1.0 / hypot1(c), sn)
                 cn = c * sn
-                if d:
+                if d:  # PYCHOK no cover
                     cn, dn = dn, cn
                     sn /= d
         else:
@@ -677,6 +683,7 @@ def _Horner(e0, e1, e2, e3, e4, e5):
     # (1 - 3*E2/14 + E3/6 + 9*E2^2/88 - 3*E4/22 - 9*E2*E3/52 + 3*E5/26
     #    - E2^3/16 + 3*E3^2/40 + 3*E2*E4/20 + 45*E2^2*E3/272
     #    - 9*(E3*E4+E2*E5)/68)
+    # converted to Horner form ...
     H  = Fsum(471240,      -540540 * e2) * e5
     H += Fsum(612612 * e2, -540540 * e3,    -556920) * e4
     H += Fsum(306306 * e3,  675675 * e2**2, -706860  * e2, 680680) * e3
@@ -734,8 +741,8 @@ def _RD(x, y, z):
     m = 1.0
     S = Fsum()
     A = fsum_(x, y, z, z, z) * 0.2
-    T = [A, x, y, z]
-    Q = _Q(A, T, _tolRD)
+    T = (A, x, y, z)
+    Q = _Q(A, T, _TolRD)
     for _ in range(_TRIPS):
         if Q < abs(m * T[0]):  # max 7 trips
             break
@@ -759,27 +766,34 @@ def _RD(x, y, z):
                    xy * z2 * z)
 
 
-def _RF(x, y, z=None):
+def _RF_(x, y):
+    '''Symmetric integral of the first kind C{_RF}.
+
+       @return: C{_RF(x, y)}.
+
+       @see: U{C{_RF} definition<https://DLMF.NIST.gov/19.16.E1>}.
+    '''
+    # Carlson, eqs 2.36 - 2.38
+    a, b = sqrt(x), sqrt(y)
+    if a < b:
+        a, b = b, a
+    while abs(a - b) > (_TolRG0 * a):  # max 4 trips
+        b, a = sqrt(a * b), (a + b) * 0.5
+    return PI / (a + b)
+
+
+def _RF(x, y, z):
     '''Symmetric integral of the first kind C{_RF}.
 
        @return: C{_RF(x, y, z)}.
 
        @see: U{C{_RF} definition<https://DLMF.NIST.gov/19.16.E1>}.
     '''
-    if z is None:
-        # Carlson, eqs 2.36 - 2.38
-        a, b = sqrt(x), sqrt(y)
-        if a < b:
-            a, b = b, a
-        while abs(a - b) > (_tolRG0 * a):  # max 4 trips
-            b, a = sqrt(a * b), (a + b) * 0.5
-        return PI / (a + b)
-
     # Carlson, eqs 2.2 - 2.7
     m = 1.0
     A = fsum_(x, y, z) / 3.0
-    T = [A, x, y, z]
-    Q = _Q(A, T, _tolRF)
+    T = (A, x, y, z)
+    Q = _Q(A, T, _TolRF)
     for _ in range(_TRIPS):
         if Q < abs(m * T[0]):  # max 6 trips
             break
@@ -805,7 +819,28 @@ def _RF(x, y, z=None):
     return H.fsum() / (240240 * sqrt(T[0]))
 
 
-def _RG(x, y, z=None):
+def _RG_(x, y):
+    '''Symmetric integral of the second kind C{_RG}.
+
+       @return: C{_RG(x, y)}.
+
+       @see: U{C{_RG} definition<https://DLMF.NIST.gov/19.16.E3>}
+             and in Carlson, eq. 1.5.
+    '''
+    # Carlson, eqs 2.36 - 2.39
+    a, b = sqrt(x), sqrt(y)
+    if a < b:
+        a, b = b, a
+    m = 0.25
+    S = Fsum(m * (a + b)**2)
+    while abs(a - b) > (_TolRG0 * a):  # max 4 trips
+        b, a = sqrt(a * b), (a + b) * 0.5
+        m *= 2
+        S -= m * (a - b)**2
+    return S.fsum() * PI_2 / (a + b)
+
+
+def _RG(x, y, z):  # used by testElleiptic.py
     '''Symmetric integral of the second kind C{_RG}.
 
        @return: C{_RG(x, y, z)}.
@@ -813,19 +848,6 @@ def _RG(x, y, z=None):
        @see: U{C{_RG} definition<https://DLMF.NIST.gov/19.16.E3>}
              and in Carlson, eq. 1.5.
     '''
-    if z is None:
-        # Carlson, eqs 2.36 - 2.39
-        a, b = sqrt(x), sqrt(y)
-        if a < b:
-            a, b = b, a
-        S = Fsum(0.25 * (a + b)**2)
-        m = -0.25  # note, negative
-        while abs(a - b) > (_tolRG0 * a):  # max 4 trips
-            b, a = sqrt(a * b), (a + b) * 0.5
-            m *= 2
-            S += m * (a - b)**2
-        return S.fsum() * PI_2 / (a + b)
-
     if not z:
         y, z = z, y
     # Carlson, eq 1.7
@@ -855,8 +877,8 @@ def _RJ(x, y, z, p):
     S = Fsum()
     D = -_xyzp(x, y, z, -p)
     A = fsum_(x, y, z, 2 * p) * 0.2
-    T = [A, x, y, z, p]
-    Q = _Q(A, T, _tolRD)
+    T = (A, x, y, z, p)
+    Q = _Q(A, T, _TolRD)
     for _ in range(_TRIPS):
         if Q < abs(m * T[0]):  # max 7 trips
             break
@@ -878,8 +900,7 @@ def _RJ(x, y, z, p):
     p2 = p**2
 
     e2 = fsum_(x * y, x * z, y * z, -3 * p2)
-    return _Horner(6 * S.fsum(), m * sqrt(T[0]),
-                   e2,
+    return _Horner(6 * S.fsum(), m * sqrt(T[0]), e2,
                    fsum_(xyz, 2 * p * e2, 4 * p * p2),
                    fsum_(xyz * 2, p * e2, 3 * p * p2) * p,
                    p2 * xyz)
@@ -890,7 +911,7 @@ def _rsT(T):
     '''
     s = map2(sqrt, T[1:])
     r = fdot(s[:3], s[1], s[2], s[0])
-    T[:] = [(t + r) * 0.25 for t in T]
+    T = tuple((t + r) * 0.25 for t in T)
     return r, s, T
 
 # **) MIT License

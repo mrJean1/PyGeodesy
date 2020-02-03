@@ -5,7 +5,7 @@ u'''Test Elliptic Python implementation.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.01.17'
+__version__ = '20.01.29'
 
 from base import TestsBase
 
@@ -22,15 +22,15 @@ class Tests(TestsBase):
         _RG = elliptic._RG
         _RJ = elliptic._RJ
 
-        eps = EPS * 4
-        self.test('eps', eps, eps, fmt='%.12e')
+        eps4 = EPS * 4
+        self.test('eps4', eps4, eps4, fmt='%.9e')
 
         y = 0.1
         for x in range(2, 100):
             x *= 0.01
             rc = _RC(x, y)
             rf = _RF(x, y, y)
-            k = abs(rc - rf) < eps
+            k = abs(rc - rf) < eps4
             t = '_RC, _RF(%.3f, ...)' % (x,)
             self.test(t, rc, rf, fmt='%.12f', known=k)
             y = x
@@ -39,16 +39,17 @@ class Tests(TestsBase):
             kp2 *= 0.01
             rd = _RD(0, kp2, 1)
             rj = _RJ(0, kp2, 1, 1)
-            k = abs(rd - rj) < eps
+            k = abs(rd - rj) < eps4
             t = '_RD, _RJ(%.3f, ...)' % (kp2,)
             self.test(t, rd, rj, fmt='%.12f', known=k)
 
-        self.test('eps', eps, eps, fmt='%.12e')
+        self.test('eps4', eps4, eps4, fmt='%.9e')
 
         # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html>
         e = elliptic.Elliptic(0.1)
         self.test('cK', e.cK, '1.612441349', fmt='%.9f')
         self.test('cE', e.cE, '1.530757637', fmt='%.9f')
+        self.test('eps', e.eps, '0.0263340', fmt='%.7f')
         phi = radians(20)
         sn, cn = sincos2(phi)
         self.test('fE(phi)', e.fE(phi), '0.348372822', fmt='%.9f')

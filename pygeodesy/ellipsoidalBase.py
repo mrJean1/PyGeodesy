@@ -23,7 +23,7 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '20.01.22'
+__version__ = '20.02.03'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -374,6 +374,12 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''Check whether this C{LatLon} point is spherical (C{bool}).
         '''
         return self.datum.isSpherical
+
+    @property_RO
+    def iteration(self):
+        '''Get the iteration number (C{int} or C{None} if not available/applicable).
+        '''
+        return None
 
     def parse(self, strll, height=0, datum=None, sep=','):
         '''Parse a string representing this C{LatLon} point.

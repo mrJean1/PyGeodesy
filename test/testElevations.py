@@ -4,7 +4,7 @@
 # Test elevations functions.
 
 __all__ = ('Tests',)
-__version__ = '20.01.18'
+__version__ = '20.01.29'
 
 from base import isPython2, isPython3, TestsBase
 
@@ -17,9 +17,9 @@ class Tests(TestsBase):
 
         # <https://WikiPedia.org/wiki/Mount_Diablo>
         m, _ = elevation2(37.8816, -121.9142, timeout=timeout)
-        self.test('elevation2', m, 1173.79, known=False if m else True)
+        self.test('elevation2', m, 1173.79, fmt='%.3f' if m else '%s', known=True)
         m, _ = geoidHeight2(37.8816, -121.9142, timeout=timeout)
-        self.test('geoidHeight2', m, -31.703, known=False if m else True)
+        self.test('geoidHeight2', m, -31.703, fmt='%.3f' if m else '%s', known=True)
 
         MtDiablo = LatLon(37.8816, -121.9142)
         NewYork = LatLon(40.7791472, -73.9680804)
@@ -33,9 +33,9 @@ class Tests(TestsBase):
                         (Newport_RI,     8.52, -30.009),
                         (NewYork,       32.79, -31.668)):
             m, _ = p.elevation2(datum=datum, timeout=timeout)
-            self.test('elevation2', m, e, fmt='%s' if m is None else '%.3f', known=False if m else True)
+            self.test('elevation2', m, e, fmt='%.3f' if m else '%s', known=True)
             m, _ = p.geoidHeight2(datum=datum, timeout=timeout)
-            self.test('geodHeight2', m, h, fmt='%s' if m is None else '%.3f', known=False if m else True)  # PYCHOK test attr?
+            self.test('geodHeight2', m, h, fmt='%.3f' if m else '%s', known=True)  # PYCHOK test attr?
 
         m, x = elevation2(0, 0, timeout=timeout)
         self.testError('elevation2', m, x, 'non-CONUS -1000000.00')
