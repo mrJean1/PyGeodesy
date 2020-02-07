@@ -142,7 +142,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '20.01.22'
+__version__ = '20.02.07'
 
 _TOL = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
 
@@ -915,6 +915,7 @@ Ellipsoids = _NamedEnum('Ellipsoids', Ellipsoid)  #: Registered ellipsoids.
 Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     Airy1830       = Ellipsoid(6377563.396, 6356256.909,       299.3249646,   'Airy1830'),
     AiryModified   = Ellipsoid(6377340.189, 6356034.448,       299.3249646,   'AiryModified'),
+#   ANS            = Ellipsoid(6378160.0,   6356774.719,       298.25,        'ANS'),
     Australia1966  = Ellipsoid(6378160.0,   6356774.719,       298.25,        'Australia1966'),
 #   Bessel1841     = Ellipsoid(6377397.155, 6356078.963,       299.152815351, 'Bessel1841'),
     Bessel1841     = Ellipsoid(6377397.155, 6356078.962818,    299.1528128,   'Bessel1841'),
@@ -1243,6 +1244,8 @@ Datums._assert(
     ED50           = Datum(Ellipsoids.Intl1924, Transforms.ED50),
 
     # Australia <https://ICSM.Gov.AU/datum/gda2020-and-gda94-technical-manuals>
+#   ADG66          = Datum(Ellipsoids.ANS, Transforms.WGS84, name='ADG66'),  # XXX Transform?
+#   ADG84          = Datum(Ellipsoids.ANS, Transforms.WGS84, name='ADG84'),  # XXX Transform?
 #   GDA94          = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GDA94'),
     GDA2020        = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GDA2020'),  # XXX Transform?
 

@@ -73,16 +73,18 @@ Tests
 
 The tests have been run with Python 3.8.1, 3.7.6 and 2.7.17 (all with
 geographiclib_ 1.50, numpy_ 1.18.0, 1.17.2 respectively 1.16.5 and scipy_
-1.4.1, 1.3.1 respectively 1.2.2) and with PyPy_ 6.0.0 (Python 2.7.13 and
-3.5.3), all on macOS 10.13.6 High Sierra and *all in 64-bit only*.  The
+1.4.1, 1.3.1 respectively 1.2.2), with macOS' Python 2.7.16 (without
+geographiclib, numpy and scipy) and with PyPy_ 7.3.0 (Python 2.7.13 and
+3.6.9), all on macOS 10.13.6 High Sierra and *all in 64-bit only*.  The
 results of those tests are included in the distribution files.
 
 With Python 3.8.1 and 3.7.6, the tests run *with and without* ``lazy import``.
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.1
 and 3.7.6 (both with geographiclib_ 1.50, numpy_ 1.18.0 respectively
-1.17.2 and scipy_ 1.4.1 respectively 1.3.1).  A summary PDF file and a
-full HMTL report are included in the distribution files.
+1.17.2 and scipy_ 1.4.1 respectively 1.3.1) and macOS' Python 2.7.16
+(without geographiclib, numpy and scipy).  A summary PDF file and a full
+HMTL report are included in the distribution files.
 
 The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and geographiclib_
 1.49 or 1.50) on `Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_
@@ -97,14 +99,14 @@ on macOS 10.13.6 High Sierra.
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15, 2.7.16 (and numpy
 1.13.1, 1.14.0, 1.15.2, 1.16.2 or 1.16.5), 3.5.3, 3.6.2, 3.6.3, 3.6.4,
-3.6.5, 3.7.0, 3.7.2, 3.7.3, 3.7.4, 3.7.5, 3.8 and `Intel-Python`_ 3.5.3
-(and numpy_ 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan,
-macOS 10.12 Sierra, macOS 10.13.5 High Sierra and macOS 10.14 Mojave, with
-Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with
-Pythonista_ 3.2 (with geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS
-11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6 and/or iPhone10, all in
-64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and with
-32-bit Python 2.7.14 on Windows 10 Pro.
+3.6.5, 3.7.0, 3.7.2, 3.7.3, 3.7.4, 3.7.5, 3.8, PyPy_ 6.0.0 (Python 2.7.13
+and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on MacOS X 10.10
+Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.5
+High Sierra and/or macOS 10.14 Mojave, with Pythonista_ 3.1 on iOS 10.3.3,
+11.0.3, 11.1.2 and 11.3 on iPad4, with Pythonista_ 3.2 (with geographiclib
+1.49 or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4,
+iPhone6 and/or iPhone10, all in 64-bit only and with 32-bit Python 2.6.6
+on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
 
 Notes
 =====
@@ -117,7 +119,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Feb 03, 2020.*
+*Last updated: Feb 07, 2020.*
 
 License
 =======

@@ -5,11 +5,11 @@ u'''Test Elliptic Python implementation.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.01.29'
+__version__ = '20.02.06'
 
 from base import TestsBase
 
-from pygeodesy import elliptic, EPS, fStr, PI_2, radians, sincos2
+from pygeodesy import elliptic, EllipticError, EPS, fStr, PI_2, PI_4, radians, sincos2
 
 
 class Tests(TestsBase):
@@ -54,15 +54,44 @@ class Tests(TestsBase):
         sn, cn = sincos2(phi)
         self.test('fE(phi)', e.fE(phi), '0.348372822', fmt='%.9f')
         dn = e.fDelta(sn, cn)
-        self.test('fDelta', dn, '0.994133906', fmt='%.9f')
-        self.test('fE(sn, cn, Delta)', e.fE(sn, cn, dn), '0.348372822', fmt='%.9f')
+        self.test('fDelta(sn, cn)', dn, '0.994133906', fmt='%.9f')
 
+        self.test('fD(sn, cn, dn)',  e.fD(sn, cn, dn),  '0.013885234', fmt='%.9f')
+        self.test('fE(sn, cn, dn)',  e.fE(sn, cn, dn),  '0.348372822', fmt='%.9f')
         self.test('fEd(PI_2)',       e.fEd(PI_2),       '0.027415224', fmt='%.9f')
         self.test('fEinv(PI_2)',     e.fEinv(PI_2),     '1.612999420', fmt='%.9f')
         self.test('fF(sn, cn, dn)',  e.fF(sn, cn, dn),  '0.349761345', fmt='%.9f')
         self.test('fG(sn, cn, dn)',  e.fG(sn, cn, dn),  '0.348372822', fmt='%.9f')
         self.test('fH(sn, cn, dn)',  e.fH(sn, cn, dn),  '0.363646580', fmt='%.9f')
         self.test('fPi(sn, cn, dn)', e.fPi(sn, cn, dn), '0.349761345', fmt='%.9f')
+        try:
+            t = e.fPi(0, None, 1)
+        except EllipticError as x:
+            t = str(x)
+        self.test('fPi(sn, None, dn)', t, 'invokation invalid: Elliptic.fPi(0, None, 1)')
+        try:
+            t = e.fPi(0, 1, None)
+        except EllipticError as x:
+            t = str(x)
+        self.test('fPi(sn, dn, None)', t, 'invokation invalid: Elliptic.fPi(0, 1, None)')
+
+        self.test('deltaD(sn, cn, dn)',  e.deltaD(sn, cn, dn),  '-0.3223642', fmt='%.7f')
+        self.test('deltaE(sn, cn, dn)',  e.deltaE(sn, cn, dn),   '0.0084191', fmt='%.7f')
+        self.test('deltaEinv(sn, cn)',   e.deltaEinv(sn, cn),   '-0.0082518', fmt='%.7f')
+        self.test('deltaF(sn, cn, dn)',  e.deltaF(sn, cn, dn),  '-0.0083379', fmt='%.7f')
+        self.test('deltaG(sn, cn, dn)',  e.deltaG(sn, cn, dn),   '0.0084191', fmt='%.7f')
+        self.test('deltaH(sn, cn, dn)',  e.deltaH(sn, cn, dn),   '0.3688975', fmt='%.7f')
+        self.test('deltaPi(sn, cn, dn)', e.deltaPi(sn, cn, dn), '-0.0083379', fmt='%.7f')
+        try:
+            t = e.deltaPi(0, None, 1)
+        except EllipticError as x:
+            t = str(x)
+        self.test('deltaPi(sn, None, dn)', t, 'invokation invalid: Elliptic.deltaPi(0, None, 1)')
+        try:
+            t = e.deltaPi(0, 1, None)
+        except EllipticError as x:
+            t = str(x)
+        self.test('deltaPi(sn, dn, None)', t, 'invokation invalid: Elliptic.deltaPi(0, 1, None)')
 
         self.test('_RF(1, 2, 0)', _RF(1, 2, 0), '1.311028777', fmt='%.9f')
         self.test('_RF(2, 3, 4)', _RF(2, 3, 4), '0.584082842', fmt='%.9f')
@@ -87,6 +116,7 @@ class Tests(TestsBase):
         e.reset(1, 1)
         self.test('sncndn(x)', fStr(e.sncndn(0), prec=9), '0.0, 1.0, 1.0')
         self.test('sncndn(x)', fStr(e.sncndn(PI_2), prec=9), '0.917152336, 0.398536815, 0.398536815')
+        self.test('sncndn(x)', type(e.sncndn(PI_4)), elliptic.Elliptic3Tuple)
 
         self.testCopy(e)
 

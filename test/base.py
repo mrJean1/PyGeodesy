@@ -39,7 +39,7 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anStr, clipStr, isLazy, iterNumpy2over, normDMS, \
+from pygeodesy import anStr, clipStr, isLazy, iterNumpy2over, map2, normDMS, \
                       property_RO, version as PyGeodesy_version  # PYCHOK expected
 
 __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
@@ -49,7 +49,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.01.25'
+__version__ = '20.02.07'
 
 try:
     _Ints = int, long
@@ -61,6 +61,11 @@ except NameError:  # Python 3+
 _os_bitstr = architecture()[0]  # XXX sys.maxsize
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 _SIsecs = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
+
+# don't test with numpy and/or scypi older than 1.9 resp. 1.0
+if (numpy and map2(int, numpy.__version__.split('.')[:2]) < (1, 9)) or \
+   (scipy and map2(int, scipy.__version__.split('.')[:2]) < (1, 0)):
+    numpy = scipy = None
 
 PythonX = sys.executable  # python or Pythonista path
 isIntelPython = 'intelpython' in PythonX

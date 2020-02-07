@@ -189,8 +189,9 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.18.0, 
     1.17.2 respectively 1.16.5 and <a 
     href="https://SciPy.org/scipylib/download.html" target="_top">scipy</a>
-    1.4.1, 1.3.1 respectively 1.2.2) and with <a href="https://PyPy.org" 
-    target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3), all on macOS 
+    1.4.1, 1.3.1 respectively 1.2.2), with macOS' Python 2.7.16 (without 
+    geographiclib, numpy and scipy) and with <a href="https://PyPy.org" 
+    target="_top">PyPy</a> 7.3.0 (Python 2.7.13 and 3.6.9), all on macOS 
     10.13.6 High Sierra and <i>all in 64-bit only</i>.  The results of 
     those tests are included in the distribution files.</p>
     <p>With Python 3.8.1 and 3.7.6, the tests run <i>with and without</i> 
@@ -203,8 +204,9 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.18.0 
     respectively 1.17.2 and <a 
     href="https://SciPy.org/scipylib/download.html" target="_top">scipy</a>
-    1.4.1 respectively 1.3.1).  A summary PDF file and a full HMTL report 
-    are included in the distribution files.</p>
+    1.4.1 respectively 1.3.1) and macOS' Python 2.7.16 (without 
+    geographiclib, numpy and scipy). A summary PDF file and a full HMTL 
+    report are included in the distribution files.</p>
     <p>The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49 or 1.50) on <a 
@@ -227,12 +229,13 @@
     <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
     2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15, 2.7.16 (and numpy 
     1.13.1, 1.14.0, 1.15.2 or 1.16.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 
-    3.7.0, 3.7.2, 3.7.3, 3.7.4, 3.7.5, 3.8 and <a 
+    3.7.0, 3.7.2, 3.7.3, 3.7.4, 3.7.5, 3.8, <a href="https://PyPy.org" 
+    target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3) and <a 
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
     on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 
-    Sierra, macOS 10.13.5 High Sierra and macOS 10.14 Mojave, with <a 
+    Sierra, macOS 10.13.5 High Sierra and/or macOS 10.14 Mojave, with <a 
     href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
     3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with <a 
     href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
@@ -280,7 +283,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.02.03
+        20.02.07
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -2866,7 +2869,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x107a200d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x104ce5e50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -5063,7 +5066,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.2.3'"><code class="variable-quote">'</code><code class="variable-string">20.2.3</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.2.7'"><code class="variable-quote">'</code><code class="variable-string">20.2.7</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -6815,8 +6818,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.named.Elevation2Tuple-class.html" 
           class="link">Elevation2Tuple</a><code>(elevation, 
-          data_source)</code> or (<code>None, error</code>) in case of 
-          errors.</dd>
+          data_source)</code> or (<code>None, &quot;error&quot;</code>) in 
+          case of errors.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The returned <code>elevation</code> is <code>None</code> if 
@@ -7847,8 +7850,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.named.GeoidHeight2Tuple-class.html" 
           class="link">GeoidHeight2Tuple</a><code>(height, 
-          model_name)</code> or <code>(None, error</code>) in case of 
-          errors.</dd>
+          model_name)</code> or <code>(None, &quot;error&quot;</code>) in 
+          case of errors.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The returned <code>height</code> is <code>None</code> if 
@@ -7919,7 +7922,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x107a200d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x104ce5e50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -12251,7 +12254,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb  3 10:19:28 2020
+    Generated by Epydoc 3.0.1 on Fri Feb  7 13:45:12 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

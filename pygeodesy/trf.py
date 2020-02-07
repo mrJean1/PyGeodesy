@@ -48,7 +48,7 @@ from pygeodesy.named import classname, _NamedDict as _X, \
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.01.22'
+__version__ = '20.02.07'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value
@@ -132,6 +132,7 @@ class RefFrame(_NamedEnumItem):
 RefFrames = _NamedEnum('RefFrames', RefFrame)  #: Registered reference frames.
 # <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>
 RefFrames._assert(
+#   ITRF2014AU = RefFrame(_F(2020.0), Ellipsoids.GRS80, 'ITRF2014AU'),
     ITRF2014   = RefFrame(_F(2010.0), Ellipsoids.GRS80, 'ITRF2014'),
     ITRF2008   = RefFrame(_F(2005.0), Ellipsoids.GRS80, 'ITRF2008'),
     ITRF2005   = RefFrame(_F(2000.0), Ellipsoids.GRS80, 'ITRF2005'),

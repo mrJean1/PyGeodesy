@@ -7,14 +7,14 @@
 # 3.7.0 on macOS 10.12 Sierra and 10.13 High Sierra and with
 # Pythonista 3.1 and 3.2 on iOS 10.3, 11.0, 11.1, 11.3 and 11.4.
 
-from base import clipStr, isiOS, PyGeodesy_dir, PythonX, \
+from base import clipStr, coverage, isiOS, PyGeodesy_dir, PythonX, \
                  secs2str, test_dir, tilde, versions  # PYCHOK expected
 
 from os import environ, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '19.10.31'
+__version__ = '20.02.07'
 
 if isiOS:  # MCCABE 14
 
@@ -78,7 +78,7 @@ else:  # non-iOS
     if not __debug__:
         PythonX_O += ' -O'
         pythonC_ += '-O',
-    if environ.get('PYGEODESY_COVERAGE', ''):
+    if coverage and environ.get('PYGEODESY_COVERAGE', ''):
         pythonC_ += tuple('-m coverage run -a'.split())
 
     def run2(test, *opts):  # PYCHOK expected

@@ -62,7 +62,7 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.dms import parseDMS2, RangeError
 from pygeodesy.fmath import EPS, favg, Fdot, fdot, Fhorner, frange, fStr, \
-                            len2, map1
+                            len2, map1, map2
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError, _SciPyIssue
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
@@ -85,7 +85,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '20.01.22'
+__version__ = '20.02.06'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -1132,6 +1132,8 @@ class GeoidPGM(_GeoidBase):
             g = p._cropped(g, abs(kind) + 1, *self._swne(crop))
             self._g2ll2 = self._g2ll2_cropped
             self._ll2g2 = self._ll2g2_cropped
+            if map2(int, self.numpy.split('.')[:2]) < (1, 9):
+                g = open(g.name, 'rb')  # reopen tempfile for numpy 1.8.0-
         try:
             # U{numpy dtype formats are different from Python struct formats
             # <https://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}

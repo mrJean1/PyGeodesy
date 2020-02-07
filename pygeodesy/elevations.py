@@ -23,16 +23,18 @@ from pygeodesy.named import Elevation2Tuple, GeoidHeight2Tuple
 from pygeodesy.utily import clipStr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '19.11.05'
+__version__ = '20.02.07'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
     from urllib2 import urlopen  # quote, urlcleanup
+    from httplib import HTTPException as HTTPError
 
 except (ImportError, NameError):  # Python 3+
     _Bytes = bytes, bytearray
     from urllib.request import urlopen  # urlcleanup
     # from urllib.parse import quote
+    from urllib.error import HTTPError
 
 try:
     from json import loads as _json
@@ -128,7 +130,7 @@ def elevation2(lat, lon, timeout=2.0):
        @keyword timeout: Optional, query timeout (seconds).
 
        @return: An L{Elevation2Tuple}C{(elevation, data_source)}
-                or (C{None, error}) in case of errors.
+                or (C{None, "error"}) in case of errors.
 
        @note: The returned C{elevation} is C{None} if B{C{lat}} or B{C{lon}}
               is invalid or outside the C{Conterminous US (CONUS)},
@@ -161,7 +163,7 @@ def elevation2(lat, lon, timeout=2.0):
                 pass
         else:
             e = 'no XML "%s"' % (clipStr(x, limit=128, white=' '),)
-    except (IOError, TypeError, ValueError) as x:
+    except (HTTPError, IOError, TypeError, ValueError) as x:
         e = repr(x)
     return Elevation2Tuple(None, _error(elevation2, lat, lon, e))
 
@@ -175,7 +177,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
        @keyword timeout: Optional, query timeout (seconds).
 
        @return: An L{GeoidHeight2Tuple}C{(height, model_name)}
-                or C{(None, error}) in case of errors.
+                or C{(None, "error"}) in case of errors.
 
        @note: The returned C{height} is C{None} if B{C{lat}} or B{C{lon}} is
               invalid or outside the C{Conterminous US (CONUS)}, if the
@@ -207,7 +209,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
         else:
             e = 'JSON'
         e = 'no %s "%s"' % (e, clipStr(j, limit=256, white=' '))
-    except (IOError, TypeError, ValueError) as x:
+    except (HTTPError, IOError, TypeError, ValueError) as x:
         e = repr(x)
     e = _error(geoidHeight2, lat, lon, e)
     return GeoidHeight2Tuple(None, e)

@@ -521,7 +521,7 @@ named._Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#alpha2" class="summary-name">alpha2</a><br />
-      Get the parameter <b><code>alpha2</code></b> (<code>float</code>).
+      Get &#945;^2, the square of the parameter (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -529,7 +529,7 @@ named._Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#alphap2" class="summary-name">alphap2</a><br />
-      Get the complementary parameter <b><code>alphap2</code></b> 
+      Get &#945;'^2, the square of the complementary parameter 
       (<code>float</code>).
     </td>
   </tr>
@@ -538,8 +538,9 @@ named._Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#cD" class="summary-name">cD</a><br />
-      Get Jahnke's complete integral <code>D(k)</code>, <a 
-      href="https://DLMF.NIST.gov/19.2.E6" target="_top">defined</a>.
+      Get Jahnke's complete integral <code>D(k)</code> 
+      (<code>float</code>), <a href="https://DLMF.NIST.gov/19.2.E6" 
+      target="_top">defined</a>.
     </td>
   </tr>
 <tr>
@@ -547,8 +548,9 @@ named._Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#cE" class="summary-name">cE</a><br />
-      Get the complete integral of the second kind <code>E(k)</code>, <a 
-      href="https://DLMF.NIST.gov/19.2.E5" target="_top">defined</a>.
+      Get the complete integral of the second kind <code>E(k)</code> 
+      (<code>float</code>), <a href="https://DLMF.NIST.gov/19.2.E5" 
+      target="_top">defined</a>.
     </td>
   </tr>
 <tr>
@@ -557,7 +559,7 @@ named._Named --+
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#cG" class="summary-name">cG</a><br />
       Get Legendre's complete geodesic longitude integral <code>G(alpha2, 
-      k)</code>.
+      k)</code> (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -566,7 +568,7 @@ named._Named --+
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#cH" class="summary-name">cH</a><br />
       Get Cayley's complete geodesic longitude difference integral 
-      <code>H(alpha2, k)</code>.
+      <code>H(alpha2, k)</code> (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -574,8 +576,9 @@ named._Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#cK" class="summary-name">cK</a><br />
-      Get the complete integral of the first kind <code>K(k)</code>, <a 
-      href="https://DLMF.NIST.gov/19.2.E4" target="_top">defined</a>.
+      Get the complete integral of the first kind <code>K(k)</code> 
+      (<code>float</code>), <a href="https://DLMF.NIST.gov/19.2.E4" 
+      target="_top">defined</a>.
     </td>
   </tr>
 <tr>
@@ -584,7 +587,7 @@ named._Named --+
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#cKE" class="summary-name">cKE</a><br />
       Get the difference between the complete integrals of the first and 
-      second kinds, <code>K(k) &#8722; E(k)</code>.
+      second kinds, <code>K(k) &#8722; E(k)</code> (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -593,8 +596,8 @@ named._Named --+
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#cPi" class="summary-name">cPi</a><br />
       Get the complete integral of the third kind <code>Pi(alpha2, 
-      k)</code>, <a href="https://DLMF.NIST.gov/19.2.E7" 
-      target="_top">defined</a>.
+      k)</code> (<code>float</code>), <a 
+      href="https://DLMF.NIST.gov/19.2.E7" target="_top">defined</a>.
     </td>
   </tr>
 <tr>
@@ -610,7 +613,7 @@ named._Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#k2" class="summary-name">k2</a><br />
-      Get the square of the modulus (<code>float</code>).
+      Get k^2, the square of the modulus (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -618,7 +621,8 @@ named._Named --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.elliptic.Elliptic-class.html#kp2" class="summary-name">kp2</a><br />
-      Get the square of the complementary modulus (<code>float</code>).
+      Get k'^2, the square of the complementary modulus 
+      (<code>float</code>).
     </td>
   </tr>
   <tr>
@@ -669,24 +673,25 @@ named._Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>k2</code></strong> - Modulus squared (<code>scalar</code> k^2 &lt;= 1).</li>
-        <li><strong class="pname"><code>alpha2</code></strong> - Parameter squared (<code>scalar</code> &#945;^2 &lt;= 1).</li>
-        <li><strong class="pname"><code>kp2</code></strong> - Complementary modulus squared (<code>float</code> k'^2 &gt;= 0).</li>
-        <li><strong class="pname"><code>alphap2</code></strong> - Complementary parameter &#945;'2 (<code>float</code> &#945;'^2 &gt;= 0).</li>
+        <li><strong class="pname"><code>k2</code></strong> - Modulus squared (<code>scalar</code>, 0 &lt;= k^2 &lt;= 1).</li>
+        <li><strong class="pname"><code>alpha2</code></strong> - Parameter squared (<code>scalar</code>, 0 &lt;= &#945;^2 &lt;= 1).</li>
+        <li><strong class="pname"><code>kp2</code></strong> - Complementary modulus squared (<code>float</code>, k'^2 &gt;= 0).</li>
+        <li><strong class="pname"><code>alphap2</code></strong> - Complementary parameter squared (<code>float</code>, &#945;'^2 &gt;= 
+          0).</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
     </dt>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.elliptic.Elliptic-class.html#reset" 
+        class="link">reset</a> for further details.
+      </p>
+      <p><strong>Note:</strong>
         If only elliptic integrals of the first and second kinds are 
         needed, then set <b><code>alpha2</code></b> = 0 (the default 
-        value); in this case, we have &#928;(&#966;, 0, k) = F(&#966;, k), G(&#966;, 0, k) = 
+        value).  In that case, we have &#928;(&#966;, 0, k) = F(&#966;, k), G(&#966;, 0, k) = 
         E(&#966;, k), and H(&#966;, 0, k) = F(&#966;, k) - D(&#966;, k).
-      </p>
-      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.elliptic.Elliptic-class.html#reset" 
-        class="link">reset</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -716,7 +721,11 @@ named._Named --+
         <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Periodic function &#960; D(&#966;, k) / (2 D(k)) - &#966;.</dd>
+        <dd>Periodic function &#960; D(&#966;, k) / (2 D(k)) - &#966; (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -746,7 +755,11 @@ named._Named --+
         <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Periodic function &#120587;&#960; E(&#966;, k) / (2 E(k)) - &#966;.</dd>
+        <dd>Periodic function &#960; E(&#966;, k) / (2 E(k)) - &#966; (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -775,7 +788,11 @@ named._Named --+
         <li><strong class="pname"><code>ctau</code></strong> - cos(&#964;)</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Periodic function E^&#8722;1(&#964; (2 E(k)/&#960;), k) - &#964;.</dd>
+        <dd>Periodic function E^&#8722;1(&#964; (2 E(k)/&#960;), k) - &#964; (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - No convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -805,7 +822,11 @@ named._Named --+
         <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Periodic function &#960; F(&#966;, k) / (2 K(k)) - &#966;.</dd>
+        <dd>Periodic function &#960; F(&#966;, k) / (2 K(k)) - &#966; (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -835,7 +856,11 @@ named._Named --+
         <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Periodic function &#960; G(&#966;, k) / (2 G(k)) - &#966;.</dd>
+        <dd>Periodic function &#960; G(&#966;, k) / (2 G(k)) - &#966; (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -865,7 +890,11 @@ named._Named --+
         <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Periodic function &#960; H(&#966;, k) / (2 H(k)) - &#966;.</dd>
+        <dd>Periodic function &#960; H(&#966;, k) / (2 H(k)) - &#966; (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -895,7 +924,12 @@ named._Named --+
         <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Periodic function &#960; &#928;(&#966;, &#945;2, k) / (2 &#928;(&#945;2, k)) - &#966;.</dd>
+        <dd>Periodic function &#960; &#928;(&#966;, &#945;2, k) / (2 &#928;(&#945;2, k)) - &#966; 
+          (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -922,12 +956,16 @@ named._Named --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
-        <li><strong class="pname"><code>cn</code></strong> - cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>D(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;], <a 
+        <dd>D(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>), <a 
           href="https://DLMF.NIST.gov/19.2.E4" target="_top">defined</a>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -955,7 +993,8 @@ named._Named --+
         <li><strong class="pname"><code>cn</code></strong> - cos(&#966;).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>sqrt(1 &#8722; k2 sin(2&#966;))</code>.</dd>
+        <dd><code>sqrt(1 &#8722; k2 <code>sin</code>(2&#966;))</code> 
+          (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -982,12 +1021,16 @@ named._Named --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
-        <li><strong class="pname"><code>cn</code></strong> - cos(&#966;).</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)).</li>
+        <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>E(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;], <a 
+        <dd>E(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>), <a 
           href="https://DLMF.NIST.gov/19.2.E5" target="_top">defined</a>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1014,7 +1057,11 @@ named._Named --+
         <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>E(&#960; deg/180, k).</dd>
+        <dd>E(&#960; <b><code>deg</code></b>/180, k) (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - No convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1041,7 +1088,11 @@ named._Named --+
     </ul></dd>
     <dt>Returns:</dt>
         <dd>&#966; = 1 / E(<b><code>x</code></b>, k), such that E(&#966;, k) = 
-          <b><code>x</code></b>.</dd>
+          <b><code>x</code></b> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - No convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1068,12 +1119,16 @@ named._Named --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
-        <li><strong class="pname"><code>cn</code></strong> - cos(&#966;) or <code>None</code>.</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)) or <code>None</code>.</li>
+        <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>F(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;], <a 
+        <dd>F(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>), <a 
           href="https://DLMF.NIST.gov/19.2.E4" target="_top">defined</a>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1100,11 +1155,15 @@ named._Named --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
-        <li><strong class="pname"><code>cn</code></strong> - cos(&#966;) or <code>None</code>.</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)) or <code>None</code>.</li>
+        <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>G(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;].</dd>
+        <dd>G(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Legendre expresses the longitude of a point on the geodesic in 
@@ -1144,11 +1203,15 @@ named._Named --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
-        <li><strong class="pname"><code>cn</code></strong> - cos(&#966;) or <code>None</code>.</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)) or <code>None</code>.</li>
+        <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>H(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;].</dd>
+        <dd>H(&#966;, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Cayley expresses the longitude difference of a point on the 
@@ -1187,11 +1250,15 @@ named._Named --+
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi_or_sn</code></strong> - &#966; or sin(&#966;).</li>
-        <li><strong class="pname"><code>cn</code></strong> - cos(&#966;) or <code>None</code>.</li>
-        <li><strong class="pname"><code>dn</code></strong> - sqrt(1 &#8722; k2 sin(2&#966;)) or <code>None</code>.</li>
+        <li><strong class="pname"><code>cn</code></strong> - <code>None</code> or cos(&#966;).</li>
+        <li><strong class="pname"><code>dn</code></strong> - <code>None</code> or sqrt(1 &#8722; k2 sin(2&#966;)).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>&#928;(&#966;, &#945;2, k) as though &#966; &#8712; (&#8722;&#960;, &#960;].</dd>
+        <dd>&#928;(&#966;, &#945;2, k) as though &#966; &#8712; (&#8722;&#960;, &#960;] (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid invokation or no convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1217,10 +1284,17 @@ named._Named --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>k2</code></strong> - modulus squared (<code>float</code> k2 &lt;= 1).</li>
-        <li><strong class="pname"><code>alpha2</code></strong> - parameter (<code>float</code> &#945;2 &lt;= 1).</li>
-        <li><strong class="pname"><code>kp2</code></strong> - complementary modulus squared (<code>float</code> k'2 &gt;= 0).</li>
-        <li><strong class="pname"><code>alphap2</code></strong> - complementary parameter &#945;'2 (<code>float</code> &#945;'2 &gt;= 0).</li>
+        <li><strong class="pname"><code>k2</code></strong> - modulus squared (<code>float</code>, 0 &lt;= k^2&lt;= 1).</li>
+        <li><strong class="pname"><code>alpha2</code></strong> - parameter (<code>float</code>, 0 &lt;= &#945;^2 &lt;= 1).</li>
+        <li><strong class="pname"><code>kp2</code></strong> - complementary modulus squared (<code>float</code>, k'^2 &gt;= 0).</li>
+        <li><strong class="pname"><code>alphap2</code></strong> - complementary parameter squared (<code>float</code>, &#945;'^2 &gt;= 
+          0).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - Invalid <b><code>k2</code></b>, <b><code>alpha2</code></b>, 
+        <b><code>kp2</code></b> or <b><code>alphap2</code></b> or no 
+        convergence.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -1254,7 +1328,13 @@ named._Named --+
         <li><strong class="pname"><code>x</code></strong> - The argument (<code>float</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>3-Tuple <code>(sn(x, k), cn(x, k), dn(x, k))</code>.</dd>
+        <dd>An <a href="pygeodesy.elliptic.Elliptic3Tuple-class.html" 
+          class="link">Elliptic3Tuple</a><code>(sn, cn, dn)</code> with 
+          <code>sn(<b>x</b>, k), cn(<b>x</b>, k), dn(<b>x</b>, k)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.elliptic.EllipticError-class.html">EllipticError</a></strong></code> - No convergence.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1274,11 +1354,11 @@ named._Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">alpha2</h3>
-  <p>Get the parameter <b><code>alpha2</code></b> (<code>float</code>).</p>
+  <p>Get &#945;^2, the square of the parameter (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">alpha2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the parameter <b><code>alpha2</code></b> (<code>float</code>).
+        - Get &#945;^2, the square of the parameter (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1294,13 +1374,12 @@ named._Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">alphap2</h3>
-  <p>Get the complementary parameter <b><code>alphap2</code></b> 
+  <p>Get &#945;'^2, the square of the complementary parameter 
   (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">alphap2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the complementary parameter <b><code>alphap2</code></b> 
-(<code>float</code>).
+        - Get &#945;'^2, the square of the complementary parameter (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1316,12 +1395,12 @@ named._Named --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">cD</h3>
-  <p>Get Jahnke's complete integral <code>D(k)</code>, <a 
-  href="https://DLMF.NIST.gov/19.2.E6" target="_top">defined</a>.</p>
+  <p>Get Jahnke's complete integral <code>D(k)</code> (<code>float</code>),
+  <a href="https://DLMF.NIST.gov/19.2.E6" target="_top">defined</a>.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">cD(<span class="summary-sig-arg">self</span>)</span>
-        - Get Jahnke's complete integral <code>D(k)</code>, <a 
+        - Get Jahnke's complete integral <code>D(k)</code> (<code>float</code>), <a 
 href="https://DLMF.NIST.gov/19.2.E6" target="_top">defined</a>.
     </dd>
     <dt>Set Method:</dt>
@@ -1338,13 +1417,15 @@ href="https://DLMF.NIST.gov/19.2.E6" target="_top">defined</a>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">cE</h3>
-  <p>Get the complete integral of the second kind <code>E(k)</code>, <a 
-  href="https://DLMF.NIST.gov/19.2.E5" target="_top">defined</a>.</p>
+  <p>Get the complete integral of the second kind <code>E(k)</code> 
+  (<code>float</code>), <a href="https://DLMF.NIST.gov/19.2.E5" 
+  target="_top">defined</a>.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">cE(<span class="summary-sig-arg">self</span>)</span>
-        - Get the complete integral of the second kind <code>E(k)</code>, <a 
-href="https://DLMF.NIST.gov/19.2.E5" target="_top">defined</a>.
+        - Get the complete integral of the second kind <code>E(k)</code> 
+(<code>float</code>), <a href="https://DLMF.NIST.gov/19.2.E5" 
+target="_top">defined</a>.
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1361,12 +1442,12 @@ href="https://DLMF.NIST.gov/19.2.E5" target="_top">defined</a>.
 <tr><td>
   <h3 class="epydoc">cG</h3>
   <p>Get Legendre's complete geodesic longitude integral <code>G(alpha2, 
-  k)</code>.</p>
+  k)</code> (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">cG(<span class="summary-sig-arg">self</span>)</span>
         - Get Legendre's complete geodesic longitude integral <code>G(alpha2, 
-k)</code>.
+k)</code> (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1383,12 +1464,12 @@ k)</code>.
 <tr><td>
   <h3 class="epydoc">cH</h3>
   <p>Get Cayley's complete geodesic longitude difference integral 
-  <code>H(alpha2, k)</code>.</p>
+  <code>H(alpha2, k)</code> (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">cH(<span class="summary-sig-arg">self</span>)</span>
         - Get Cayley's complete geodesic longitude difference integral 
-<code>H(alpha2, k)</code>.
+<code>H(alpha2, k)</code> (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1404,13 +1485,15 @@ k)</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">cK</h3>
-  <p>Get the complete integral of the first kind <code>K(k)</code>, <a 
-  href="https://DLMF.NIST.gov/19.2.E4" target="_top">defined</a>.</p>
+  <p>Get the complete integral of the first kind <code>K(k)</code> 
+  (<code>float</code>), <a href="https://DLMF.NIST.gov/19.2.E4" 
+  target="_top">defined</a>.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">cK(<span class="summary-sig-arg">self</span>)</span>
-        - Get the complete integral of the first kind <code>K(k)</code>, <a 
-href="https://DLMF.NIST.gov/19.2.E4" target="_top">defined</a>.
+        - Get the complete integral of the first kind <code>K(k)</code> 
+(<code>float</code>), <a href="https://DLMF.NIST.gov/19.2.E4" 
+target="_top">defined</a>.
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1427,12 +1510,12 @@ href="https://DLMF.NIST.gov/19.2.E4" target="_top">defined</a>.
 <tr><td>
   <h3 class="epydoc">cKE</h3>
   <p>Get the difference between the complete integrals of the first and 
-  second kinds, <code>K(k) &#8722; E(k)</code>.</p>
+  second kinds, <code>K(k) &#8722; E(k)</code> (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">cKE(<span class="summary-sig-arg">self</span>)</span>
         - Get the difference between the complete integrals of the first and second 
-kinds, <code>K(k) &#8722; E(k)</code>.
+kinds, <code>K(k) &#8722; E(k)</code> (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1448,14 +1531,15 @@ kinds, <code>K(k) &#8722; E(k)</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">cPi</h3>
-  <p>Get the complete integral of the third kind <code>Pi(alpha2, 
-  k)</code>, <a href="https://DLMF.NIST.gov/19.2.E7" 
+  <p>Get the complete integral of the third kind <code>Pi(alpha2, k)</code>
+  (<code>float</code>), <a href="https://DLMF.NIST.gov/19.2.E7" 
   target="_top">defined</a>.</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">cPi(<span class="summary-sig-arg">self</span>)</span>
-        - Get the complete integral of the third kind <code>Pi(alpha2, k)</code>, <a 
-href="https://DLMF.NIST.gov/19.2.E7" target="_top">defined</a>.
+        - Get the complete integral of the third kind <code>Pi(alpha2, k)</code> 
+(<code>float</code>), <a href="https://DLMF.NIST.gov/19.2.E7" 
+target="_top">defined</a>.
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1491,11 +1575,11 @@ href="https://DLMF.NIST.gov/19.2.E7" target="_top">defined</a>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">k2</h3>
-  <p>Get the square of the modulus (<code>float</code>).</p>
+  <p>Get k^2, the square of the modulus (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">k2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the square of the modulus (<code>float</code>).
+        - Get k^2, the square of the modulus (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1511,11 +1595,12 @@ href="https://DLMF.NIST.gov/19.2.E7" target="_top">defined</a>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">kp2</h3>
-  <p>Get the square of the complementary modulus (<code>float</code>).</p>
+  <p>Get k'^2, the square of the complementary modulus 
+  (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">kp2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the square of the complementary modulus (<code>float</code>).
+        - Get k'^2, the square of the complementary modulus (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
     <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
@@ -1557,7 +1642,7 @@ href="https://DLMF.NIST.gov/19.2.E7" target="_top">defined</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb  3 10:19:30 2020
+    Generated by Epydoc 3.0.1 on Fri Feb  7 13:45:15 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

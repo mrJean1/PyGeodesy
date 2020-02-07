@@ -4,7 +4,7 @@
 # Test elevations functions.
 
 __all__ = ('Tests',)
-__version__ = '20.01.29'
+__version__ = '20.02.07'
 
 from base import isPython2, isPython3, TestsBase
 
@@ -13,13 +13,20 @@ from pygeodesy import elevation2, Datums, geoidHeight2
 
 class Tests(TestsBase):
 
+    def testApprox(self, name, m, e):
+        # allow margin and errors
+        if m:
+            self.test(name, m, e, fmt='%.3f', known=abs(m - e) < 0.1)
+        else:
+            self.test(name, m, e, fmt='%s', known=True)
+
     def testElevations(self, LatLon, datum, timeout):
 
         # <https://WikiPedia.org/wiki/Mount_Diablo>
         m, _ = elevation2(37.8816, -121.9142, timeout=timeout)
-        self.test('elevation2', m, 1173.79, fmt='%.3f' if m else '%s', known=True)
+        self.testApprox('elevation2', m, 1173.79)
         m, _ = geoidHeight2(37.8816, -121.9142, timeout=timeout)
-        self.test('geoidHeight2', m, -31.703, fmt='%.3f' if m else '%s', known=True)
+        self.testApprox('geoidHeight2', m, -31.699)
 
         MtDiablo = LatLon(37.8816, -121.9142)
         NewYork = LatLon(40.7791472, -73.9680804)
@@ -27,15 +34,15 @@ class Tests(TestsBase):
         Cleveland_OH = LatLon(41.499498, -81.695391)
         # <https://GitHub.com/maurycyp/vincenty> Maurycy Pietrzak
         Boston = LatLon(42.3541165, -71.0693514)
-        for p, e, h in ((MtDiablo,    1173.79, -31.703),
-                        (Boston,         2.03, -27.765),
-                        (Cleveland_OH, 199.18, -34.366),
-                        (Newport_RI,     8.52, -30.009),
-                        (NewYork,       32.79, -31.668)):
+        for p, e, h in ((MtDiablo,    1173.79, -31.699),
+                        (Boston,         2.03, -27.773),
+                        (Cleveland_OH, 199.18, -34.337),
+                        (Newport_RI,     8.52, -30.000),
+                        (NewYork,       32.79, -31.666)):
             m, _ = p.elevation2(datum=datum, timeout=timeout)
-            self.test('elevation2', m, e, fmt='%.3f' if m else '%s', known=True)
+            self.testApprox('elevation2', m, e)
             m, _ = p.geoidHeight2(datum=datum, timeout=timeout)
-            self.test('geodHeight2', m, h, fmt='%.3f' if m else '%s', known=True)  # PYCHOK test attr?
+            self.testApprox('geodHeight2', m, h)  # PYCHOK test attr?
 
         m, x = elevation2(0, 0, timeout=timeout)
         self.testError('elevation2', m, x, 'non-CONUS -1000000.00')
