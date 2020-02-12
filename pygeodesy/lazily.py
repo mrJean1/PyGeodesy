@@ -103,7 +103,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
                                  'acos1', 'cbrt', 'cbrt2',
                                  'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial', 'fpowers', 'fprod', 'frange', 'freduce', 'fStr', 'fStrzs', 'fsum', 'fsum_',
-                                 'hypot', 'hypot1', 'hypot_', 'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar',
+                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar',
                                  'len2', 'map1', 'map2', 'scalar', 'sqrt3'),
                           formy=('antipode', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
                                  'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode', 'points2', 'vincentys', 'vincentys_'),
@@ -162,7 +162,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                              simplify=('simplifyRW as simplify2',))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.01.23'
+__version__ = '20.02.09'
 
 
 def _all_imports(**more):

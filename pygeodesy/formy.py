@@ -5,7 +5,7 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.fmath import EPS, fStr, fsum_, len2, map1
+from pygeodesy.fmath import EPS, fStr, fsum_, hypot2, len2, map1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Distance4Tuple, LatLon2Tuple, Points2Tuple
 from pygeodesy.utily import PI, PI2, PI_2, R_M, degrees2m, degrees360, \
@@ -16,7 +16,7 @@ from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '19.12.29'
+__version__ = '20.02.09'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -191,7 +191,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
     if adjust:  # scale delta lon
         d_lon *= _scaled(lat1, lat2)
 
-    d2 = d_lat**2 + d_lon**2  # degrees squared!
+    d2 = hypot2(d_lat, d_lon)  # degrees squared!
     return Distance4Tuple(d2, d_lat, d_lon, ulon2 - lon2)
 
 

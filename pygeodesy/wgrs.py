@@ -24,7 +24,7 @@ from pygeodesy.utily import _MISSING, ft2m, m2ft, m2NM, property_RO, \
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.01.22'
+__version__ = '20.02.09'
 
 _Base    = 10
 _BaseLen = 4
@@ -299,7 +299,7 @@ def decode5(georef, center=True):
         return NM / m2NM(1)
 
     def _split2(g, name, _2m):
-        i = max(g.rfind(name[0].upper()), g.rfind(name[0]))
+        i = max(g.rfind(name[0]), g.rfind(name[0]))
         if i > _BaseLen:
             try:
                 return g[:i], _2m(int(g[i+1:]))
@@ -312,8 +312,8 @@ def decode5(georef, center=True):
     except (TypeError, ValueError):
         raise WGRSError('%s invalid: %r' % ('georef', georef))
 
-    g, h = _split2(g, 'height', _h2m)  # H is last
-    g, r = _split2(g, 'radius', _r2m)  # R before H
+    g, h = _split2(g, 'Height', _h2m)  # H is last
+    g, r = _split2(g, 'Radius', _r2m)  # R before H
 
     a, b, p = decode3(g, center=center)
     return LatLonPrec5Tuple(a, b, p, h, r)
@@ -351,7 +351,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
                 raise ValueError
         except (TypeError, ValueError):
             raise WGRSError('%s invalid: %r' % (name, m))
-        return '%s%d' % (name[0].upper(), int(f + 0.5))
+        return '%s%d' % (name[0], int(f + 0.5))
 
     def _pstr(p, x):
         return '%0*d' % (p, x)
@@ -381,9 +381,9 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
             g += x, y
 
     if radius is not None:  # R before H
-        g += _option('radius', radius, m2NM, 1.0),
+        g += _option('Radius', radius, m2NM, 1.0),
     if height is not None:  # H is last
-        g += _option('height', height, m2ft, 1e-3),
+        g += _option('Height', height, m2ft, 1e-3),
 
     return ''.join(g)
 

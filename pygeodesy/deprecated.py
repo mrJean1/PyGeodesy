@@ -10,7 +10,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.trf import TRFError as _TRFError
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '19.11.04'
+__version__ = '20.02.09'
 
 _R_M = _WGS84 = _UTM = object()
 

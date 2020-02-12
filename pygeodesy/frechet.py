@@ -72,7 +72,8 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-from pygeodesy.fmath import EPS, EPS1, favg, INF, isscalar, _IsNotError
+from pygeodesy.fmath import EPS, EPS1, favg, hypot2, INF, isscalar, \
+                           _IsNotError
 from pygeodesy.formy import euclidean_, haversine_, points2 as _points2, \
                            _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
@@ -83,7 +84,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.01.22'
+__version__ = '20.02.09'
 
 
 class FrechetError(ValueError):
@@ -336,7 +337,7 @@ class FrechetEquirectangular(FrechetRadians):
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         if self._adjust:
             d *= _scaler(p1.phi, p2.phi)
-        return d**2 + (p2.phi - p1.phi)**2  # like equirectangular_ d2
+        return hypot2(d, p2.phi - p1.phi)  # like equirectangular_ d2
 
     discrete = Frechet.discrete  # for __doc__
 

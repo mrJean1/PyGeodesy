@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.02.03'
+__version__ = '20.02.12'
 
 from base import coverage, geographiclib
 from testLatLon import Tests as _TestsLL
@@ -37,9 +37,9 @@ class Tests(_TestsLL, _TestsV):
         self.test('convertDatum', p.convertDatum(p.datum), p)  # i.e. p.copy()
 
         if coverage:  # for test coverage
-            self.test('parse', p.parse(d.toStr(F_D__)), d)
-            t.reframe = None
-            self.test('reframe', t.reframe, None)
+            self.test('parse',    p.parse(d.toStr(F_D__)), d)
+            p.reframe = None
+            self.test('reframe',  p.reframe, None)
             self.test('toEtm',    p.toEtm(), '30 N 916396 5720041')
             self.test('toLcc',    p.toLcc(), '5639901 4612638')
             self.test('toOsgr',   p.toOsgr(), 'TQ 38876 77320')
@@ -56,9 +56,20 @@ class Tests(_TestsLL, _TestsV):
             c = n.toCartesian()
             self.test('toCartesian', c.toStr(0), '[3980581, 97, 4966825]')
             self.test('toCartesian', isinstance(c, Cartesian), True)
+            v = n.toVector3d()
+            self.test('toVector3D', v.toStr(4), '(0.6228, 0.0, 0.7824)')
 
             n = Nvector(0.5, 0.5, 0.7071)
             self.test('Nvector', n, '(0.5, 0.5, 0.7071)')
+            v = n.toVector3d()
+            self.test('toVector3D', v.toStr(4), '(0.5, 0.5, 0.7071)')
+            t = n.to3abh()
+            self.test('to3abh', fStr(t, 4), '0.7854, 0.7854, 0.0')
+            t = n.to3llh()
+            self.test('to3llh', fStr(t, 3), '45.0, 45.0, 0.0')
+            t = n.to4xyzh()
+            self.test('to4xyzh', fStr(t, 1), '0.5, 0.5, 0.7, 0.0')
+            n.H = ''  # for test coverage
 
             c = n.toCartesian()  # [3194434, 3194434, 4487327]
             self.test('toCartesian', c, '[3194434.411, 3194434.411, 4487326.82]')

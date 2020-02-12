@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '20.01.23'
+__version__ = '20.02.09'
 
 _NAME_ = 'name'  # __NAME gets mangled in class
 
@@ -806,8 +806,8 @@ class LatLonDatum5Tuple(_NamedTuple):  # .ups.py, .utm.py
 
 
 class LatLonExact4Tuple(_NamedTuple):  # .etm.py
-    '''4-Tuple C{(lat, lon, convergence, scale)} in C{degrees},
-       C{degrees180}, C{degrees} and C{sclar}.
+    '''4-Tuple C{(lat, lon, convergence, scale)} in C{degrees180},
+       C{degrees}, C{degrees} and C{scalar}.
     '''
     _Names_ = ('lat', 'lon', 'convergence', 'scale')
 

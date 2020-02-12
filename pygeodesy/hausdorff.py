@@ -62,7 +62,7 @@ Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
 from pygeodesy.datum import Datum
-from pygeodesy.fmath import INF, _IsNotError
+from pygeodesy.fmath import hypot2, INF, _IsNotError
 from pygeodesy.formy import euclidean_, haversine_, points2, \
                            _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
@@ -73,7 +73,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.01.22'
+__version__ = '20.02.09'
 
 
 class HausdorffError(ValueError):
@@ -288,7 +288,7 @@ class HausdorffEquirectangular(HausdorffRadians):
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         if self._adjust:
             d *= _scaler(p1.phi, p2.phi)
-        return d**2 + (p2.phi - p1.phi)**2  # like equirectangular_ d2
+        return hypot2(d, p2.phi - p1.phi)  # like equirectangular_ d2
 
     directed  = Hausdorff.directed   # for __doc__
     symmetric = Hausdorff.symmetric  # for __doc__

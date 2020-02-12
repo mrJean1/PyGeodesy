@@ -91,6 +91,7 @@ pygeodesy.R_M	pygeodesy-module.html#R_M
 pygeodesy.toUtm8	pygeodesy-module.html#toUtm8
 pygeodesy.toUtmUps8	pygeodesy-module.html#toUtmUps8
 pygeodesy.classname	pygeodesy-module.html#classname
+pygeodesy.nearestOn5	pygeodesy-module.html#nearestOn5
 pygeodesy.clipCS3	pygeodesy-module.html#clipCS3
 pygeodesy.inStr	pygeodesy-module.html#inStr
 pygeodesy.toMgrs	pygeodesy-module.html#toMgrs
@@ -159,12 +160,12 @@ pygeodesy.precision	pygeodesy-module.html#precision
 pygeodesy.simplifyRDPm	pygeodesy-module.html#simplifyRDPm
 pygeodesy.toEtm8	pygeodesy-module.html#toEtm8
 pygeodesy.degrees180	pygeodesy-module.html#degrees180
-pygeodesy.nearestOn5	pygeodesy-module.html#nearestOn5
 pygeodesy.degrees2m	pygeodesy-module.html#degrees2m
 pygeodesy.parse3llh	pygeodesy-module.html#parse3llh
 pygeodesy.euclidean	pygeodesy-module.html#euclidean
 pygeodesy.false2f	pygeodesy-module.html#false2f
 pygeodesy.m2km	pygeodesy-module.html#m2km
+pygeodesy.hypot2	pygeodesy-module.html#hypot2
 pygeodesy.hypot3	pygeodesy-module.html#hypot3
 pygeodesy.ispolar	pygeodesy-module.html#ispolar
 pygeodesy.fidw	pygeodesy-module.html#fidw
@@ -255,6 +256,7 @@ pygeodesy.cartesianBase.fsum_	pygeodesy.fmath-module.html#fsum_
 pygeodesy.cartesianBase.EPS	pygeodesy.cartesianBase-module.html#EPS
 pygeodesy.cartesianBase.Datums	pygeodesy.cartesianBase-module.html#Datums
 pygeodesy.cartesianBase.__package__	pygeodesy.cartesianBase-module.html#__package__
+pygeodesy.cartesianBase.hypot2	pygeodesy.fmath-module.html#hypot2
 pygeodesy.cartesianBase.cbrt	pygeodesy.fmath-module.html#cbrt
 pygeodesy.cartesianBase._xyzhdn6	pygeodesy.vector3d-module.html#_xyzhdn6
 pygeodesy.clipy	pygeodesy.clipy-module.html
@@ -554,6 +556,7 @@ pygeodesy.epsg._EPSG_S_01	pygeodesy.epsg-module.html#_EPSG_S_01
 pygeodesy.epsg._EPSG_N_60	pygeodesy.epsg-module.html#_EPSG_N_60
 pygeodesy.epsg._UTM_ZONE_MIN	pygeodesy.epsg-module.html#_UTM_ZONE_MIN
 pygeodesy.etm	pygeodesy.etm-module.html
+pygeodesy.etm.hypot2	pygeodesy.fmath-module.html#hypot2
 pygeodesy.etm._parseUTM5	pygeodesy.utm-module.html#_parseUTM5
 pygeodesy.etm._TAYTOL2	pygeodesy.etm-module.html#_TAYTOL2
 pygeodesy.etm.hypot	pygeodesy.fmath-module.html#hypot
@@ -621,6 +624,7 @@ pygeodesy.fmath.MANTIS	pygeodesy.fmath-module.html#MANTIS
 pygeodesy.fmath.fStrzs	pygeodesy.fmath-module.html#fStrzs
 pygeodesy.fmath.fStr	pygeodesy.fmath-module.html#fStr
 pygeodesy.fmath.hypot1	pygeodesy.fmath-module.html#hypot1
+pygeodesy.fmath.hypot2	pygeodesy.fmath-module.html#hypot2
 pygeodesy.fmath.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.fmath.fprod	pygeodesy.fmath-module.html#fprod
 pygeodesy.fmath._3_2nd	pygeodesy.fmath-module.html#_3_2nd
@@ -630,6 +634,7 @@ pygeodesy.fmath.freduce	pygeodesy.fmath-module.html#freduce
 pygeodesy.formy	pygeodesy.formy-module.html
 pygeodesy.formy.bearing	pygeodesy.formy-module.html#bearing
 pygeodesy.formy.unroll180	pygeodesy.utily-module.html#unroll180
+pygeodesy.formy.hypot2	pygeodesy.fmath-module.html#hypot2
 pygeodesy.formy.points2	pygeodesy.formy-module.html#points2
 pygeodesy.formy.len2	pygeodesy.fmath-module.html#len2
 pygeodesy.formy.haversine	pygeodesy.formy-module.html#haversine
@@ -681,6 +686,7 @@ pygeodesy.frechet._IsNotError	pygeodesy.fmath-module.html#_IsNotError
 pygeodesy.frechet._scaler	pygeodesy.formy-module.html#_scaler
 pygeodesy.frechet.frechet_	pygeodesy.frechet-module.html#frechet_
 pygeodesy.frechet._points2	pygeodesy.formy-module.html#points2
+pygeodesy.frechet.hypot2	pygeodesy.fmath-module.html#hypot2
 pygeodesy.frechet.INF	pygeodesy.frechet-module.html#INF
 pygeodesy.gars	pygeodesy.gars-module.html
 pygeodesy.gars._M3	pygeodesy.gars-module.html#_M3
@@ -793,6 +799,7 @@ pygeodesy.hausdorff.unrollPI	pygeodesy.utily-module.html#unrollPI
 pygeodesy.hausdorff._point	pygeodesy.hausdorff-module.html#_point
 pygeodesy.hausdorff._IsNotError	pygeodesy.fmath-module.html#_IsNotError
 pygeodesy.hausdorff._scaler	pygeodesy.formy-module.html#_scaler
+pygeodesy.hausdorff.hypot2	pygeodesy.fmath-module.html#hypot2
 pygeodesy.hausdorff.randomrangenerator	pygeodesy.hausdorff-module.html#randomrangenerator
 pygeodesy.hausdorff.INF	pygeodesy.hausdorff-module.html#INF
 pygeodesy.hausdorff._hausdorff_	pygeodesy.hausdorff-module.html#_hausdorff_
@@ -822,6 +829,7 @@ pygeodesy.heights._IsNotError	pygeodesy.fmath-module.html#_IsNotError
 pygeodesy.heights._scaler	pygeodesy.formy-module.html#_scaler
 pygeodesy.heights.radiansPI2	pygeodesy.utily-module.html#radiansPI2
 pygeodesy.heights.map1	pygeodesy.fmath-module.html#map1
+pygeodesy.heights.hypot2	pygeodesy.fmath-module.html#hypot2
 pygeodesy.latlonBase	pygeodesy.latlonBase-module.html
 pygeodesy.latlonBase.EPS	pygeodesy.latlonBase-module.html#EPS
 pygeodesy.latlonBase.vincentys	pygeodesy.formy-module.html#vincentys
@@ -2658,6 +2666,7 @@ pygeodesy.etm.ExactTransverseMercator._E	pygeodesy.etm.ExactTransverseMercator-c
 pygeodesy.etm.ExactTransverseMercator._trips_	pygeodesy.etm.ExactTransverseMercator-class.html#_trips_
 pygeodesy.etm.ExactTransverseMercator.__init__	pygeodesy.etm.ExactTransverseMercator-class.html#__init__
 pygeodesy.etm.ExactTransverseMercator._k0_a	pygeodesy.etm.ExactTransverseMercator-class.html#_k0_a
+pygeodesy.etm.ExactTransverseMercator._zetaScaled	pygeodesy.etm.ExactTransverseMercator-class.html#_zetaScaled
 pygeodesy.etm.ExactTransverseMercator._scaled	pygeodesy.etm.ExactTransverseMercator-class.html#_scaled
 pygeodesy.etm.ExactTransverseMercator.datum	pygeodesy.etm.ExactTransverseMercator-class.html#datum
 pygeodesy.etm.ExactTransverseMercator._zeta3	pygeodesy.etm.ExactTransverseMercator-class.html#_zeta3
@@ -2669,6 +2678,7 @@ pygeodesy.etm.ExactTransverseMercator._f	pygeodesy.etm.ExactTransverseMercator-c
 pygeodesy.etm.ExactTransverseMercator._e	pygeodesy.etm.ExactTransverseMercator-class.html#_e
 pygeodesy.etm.ExactTransverseMercator._lon0	pygeodesy.etm.ExactTransverseMercator-class.html#_lon0
 pygeodesy.etm.ExactTransverseMercator._a	pygeodesy.etm.ExactTransverseMercator-class.html#_a
+pygeodesy.etm.ExactTransverseMercator._sncndn6	pygeodesy.etm.ExactTransverseMercator-class.html#_sncndn6
 pygeodesy.etm.ExactTransverseMercator.toStr	pygeodesy.etm.ExactTransverseMercator-class.html#toStr
 pygeodesy.etm.ExactTransverseMercator._datum	pygeodesy.etm.ExactTransverseMercator-class.html#_datum
 pygeodesy.etm.ExactTransverseMercator._zetaInv0	pygeodesy.etm.ExactTransverseMercator-class.html#_zetaInv0

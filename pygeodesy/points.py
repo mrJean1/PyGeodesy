@@ -48,7 +48,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.01.23'
+__version__ = '20.02.09'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -1353,7 +1353,7 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
     # with
     #   f = w / hypot(dx, dy)
     # or
-    #   f = (y * dy + x * dx) / (dx**2 + dy**2)
+    #   f = (y * dy + x * dx) / hypot2(dx, dy)
 
     i, m = _imdex2(closed, n)
     p2 = c = points[i]

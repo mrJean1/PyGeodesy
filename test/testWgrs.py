@@ -4,7 +4,7 @@
 # Test wgrs module.
 
 __all__ = ('Tests',)
-__version__ = '19.05.07'
+__version__ = '20.02.09'
 
 from base import TestsBase
 
@@ -37,18 +37,32 @@ class Tests(TestsBase):
         self.test('Georef', g, 'NKLN2444638946')
         self.test('Georef', repr(g), "Georef('NKLN2444638946')")
         self.test('Georef.latlon', fStr(g.latlon, prec=5), '57.64911, 10.40744')
-        t = g.toLatLon(LL)
-        self.test('Georef.toLatLon', repr(t), 'LatLon(57°38′56.8″N, 010°24′26.78″E)')
+        ll = g.toLatLon(LL)
+        self.test('Georef.toLatLon', repr(ll), 'LatLon(57°38′56.8″N, 010°24′26.78″E)')
         self.testCodec3(g, '57.64911, 10.40744, 6.0', prec=5)
+
+        g = Georef(ll, precision=6)
+        self.test('Georef', g, 'NKLN2444638946H0')
+        self.test('Georef', repr(g), "Georef('NKLN2444638946H0')")
+        self.test('Georef.latlon', fStr(g.latlon, prec=5), '57.64911, 10.40744')
+        self.test('Georef.precision', g.precision, 6)
+        self.test('Georef.radius', g.radius, None)
 
         # <https://WikiPedia.org/wiki/World_Geographic_Reference_System>
         g = Georef('38.286108, -76.4291704', precision=6)
         self.test('Georef', g, 'GJPJ3424917166')
         self.test('Georef', repr(g), "Georef('GJPJ3424917166')")
         self.test('Georef.latlon', fStr(g.latlon, prec=6), '38.286108, -76.42917')
-        t = g.toLatLon(LL)
-        self.test('Georef.toLatLon', repr(t), 'LatLon(38°17′09.99″N, 076°25′45.01″W)')
+        ll = g.toLatLon(LL)
+        self.test('Georef.toLatLon', repr(ll), 'LatLon(38°17′09.99″N, 076°25′45.01″W)')
         self.testCodec3(g, '38.286108, -76.429175, 6.0', prec=6)
+
+        g = Georef(ll, precision=6)
+        self.test('Georef', g, 'GJPJ3424917166H0')
+        self.test('Georef', repr(g), "Georef('GJPJ3424917166H0')")
+        self.test('Georef.latlon', fStr(g.latlon, prec=6), '38.286108, -76.42917')
+        self.test('Georef.precision', g.precision, 6)
+        self.test('Georef.radius', g.radius, None)
 
         # <https://Earth-Info.NGA.mil/GandG/coordsys/grids/georef.pdf>
         self.testCodec3('MKPG1204', '51.075, -1.7917, 3.0', prec=4)

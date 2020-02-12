@@ -26,7 +26,7 @@ _MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '19.10.29'
+__version__ = '20.02.12'
 
 try:
     _Strs = basestring, str  # PYCHOK .datum.py, .geohash.py
@@ -64,7 +64,8 @@ def _TypeError(*Types, **pairs):
 class LimitError(ValueError):
     '''Error raised for lat- or longitudinal deltas exceeding
        the B{C{limit}} in functions L{equirectangular} and
-       L{equirectangular_}.
+       L{equirectangular_} and C{nearestOn*} and C{simplify*}
+       functions or methods.
     '''
     pass
 
@@ -486,7 +487,7 @@ def sincos2(*rad):
 
 
 def sincos2d(*deg):
-    '''Return the C{sine} and C{cosine} of an angle.
+    '''Return the C{sine} and C{cosine} of angle(s) in C{degrees}.
 
        @param deg: One or more angles (C{degrees}).
 

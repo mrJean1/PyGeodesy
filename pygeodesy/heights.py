@@ -52,7 +52,8 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 '''
 
 from pygeodesy.datum import Datum
-from pygeodesy.fmath import EPS, fidw, _IsNotError, isscalar, len2, map1
+from pygeodesy.fmath import EPS, fidw, hypot2, \
+                           _IsNotError, isscalar, len2, map1
 from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named
@@ -61,7 +62,7 @@ from pygeodesy.utily import PI, PI2, PI_2, property_RO, \
                             radiansPI, radiansPI2, unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.01.22'
+__version__ = '20.02.09'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -484,7 +485,7 @@ class HeightIDWequirectangular(_HeightIDW):
             d, _ = unrollPI(xk, x, wrap=self._wrap)
             if self._adjust:
                 d *= _scaler(yk, y)
-            yield d**2 + (yk - y)**2  # like equirectangular_ distance2
+            yield hypot2(d, yk - y)  # like equirectangular_ distance2
 
     __call__ = _HeightIDW.__call__  # for __doc__
     height   = _HeightIDW.height    # for __doc__

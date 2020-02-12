@@ -207,8 +207,8 @@
     1.4.1 respectively 1.3.1) and macOS' Python 2.7.16 (without 
     geographiclib, numpy and scipy). A summary PDF file and a full HMTL 
     report are included in the distribution files.</p>
-    <p>The tests also ran with Python 2.7.14, 3.5.6 and 3.6.3 (and <a 
-    href="https://PyPI.org/project/geographiclib" 
+    <p>The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1 and 3.8.0
+    (and <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49 or 1.50) on <a 
     href="https://Travis-CI.org/mrJean1/PyGeodesy" target="_top">Ubuntu 
     14.04</a> and with Python 3.7.3 (and <a 
@@ -229,20 +229,21 @@
     <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
     2.7.10 (and numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15, 2.7.16 (and numpy 
     1.13.1, 1.14.0, 1.15.2 or 1.16.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 
-    3.7.0, 3.7.2, 3.7.3, 3.7.4, 3.7.5, 3.8, <a href="https://PyPy.org" 
-    target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3) and <a 
+    3.7.0, 3.7.2, 3.7.3, 3.7.4, 3.7.5, 3.8 and 3.8.1, <a 
+    href="https://PyPy.org" target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and
+    3.5.3) and <a 
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
     on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 
-    Sierra, macOS 10.13.5 High Sierra and/or macOS 10.14 Mojave, with <a 
-    href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
-    3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with <a 
-    href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
-    3.2</a> (with geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 
-    11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6 and/or iPhone10, all in 
-    64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and with 
-    32-bit Python 2.7.14 on Windows 10 Pro.</p>
+    Sierra, macOS 10.13.5 High Sierra, macOS 10.14 Mojave and/or macOS 
+    10.15.3 Catalina, with <a href="https://OMZ-Software.com/pythonista" 
+    target="_top">Pythonista 3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
+    on iPad4, with <a href="https://OMZ-Software.com/pythonista" 
+    target="_top">Pythonista 3.2</a> (with geographiclib 1.49 or 1.50 and 
+    numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6 
+    and/or iPhone10, <i>all in 64-bit only</i> and with 32-bit Python 2.6.6
+    on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.</p>
   <h1 class="heading">Notes</h1>
     <p>All Python source code has been statically <a 
     href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
@@ -283,7 +284,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.02.07
+        20.02.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1406,7 +1407,8 @@
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a> and <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
-        class="link">equirectangular_</a>.
+        class="link">equirectangular_</a> and <code>nearestOn*</code> and 
+        <code>simplify*</code> functions or methods.
     </td>
   </tr>
 <tr>
@@ -2869,7 +2871,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x104ce5e50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10cb9c2d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -2998,6 +3000,24 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot1" class="summary-sig-name">hypot1</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Compute the norm <i class="math">sqrt(1 + x**2)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot2" class="summary-sig-name">hypot2</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Compute the norm squared <i class="math">x**2 + y**2</i>.</td>
           <td align="right" valign="top">
             
             
@@ -4394,7 +4414,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#sincos2d" class="summary-sig-name">sincos2d</a>(<span class="summary-sig-arg">*deg</span>)</span><br />
-      Return the <code>sine</code> and <code>cosine</code> of an angle.</td>
+      Return the <code>sine</code> and <code>cosine</code> of angle(s) in 
+      <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -5066,7 +5087,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.2.7'"><code class="variable-quote">'</code><code class="variable-string">20.2.7</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.2.12'"><code class="variable-quote">'</code><code class="variable-string">20.2.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7922,7 +7943,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x104ce5e50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10cb9c2d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -8187,6 +8208,33 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Norm (<code>float</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="hypot2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot2</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the norm squared <i class="math">x**2 + y**2</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Argument (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code><b>x</b>**2 + <b>y</b>**2</code> (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -10669,7 +10717,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Return the <code>sine</code> and <code>cosine</code> of an angle.</p>
+  <p>Return the <code>sine</code> and <code>cosine</code> of angle(s) in 
+  <code>degrees</code>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -12254,7 +12303,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Feb  7 13:45:12 2020
+    Generated by Epydoc 3.0.1 on Wed Feb 12 15:56:57 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

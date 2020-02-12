@@ -14,7 +14,7 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.fmath import EPS, cbrt, fsum_, _IsNotError
+from pygeodesy.fmath import EPS, cbrt, fsum_, hypot2, _IsNotError
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import LatLon4Tuple, Vector4Tuple
 from pygeodesy.utily import property_RO, _TypeError
@@ -25,7 +25,7 @@ from math import hypot, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.01.22'
+__version__ = '20.02.09'
 
 
 class CartesianBase(Vector3d):
@@ -233,7 +233,7 @@ class CartesianBase(Vector3d):
             x, y, z = self.to3xyz()
 
             # Kenneth Gade eqn 23
-            p = (x**2 + y**2) * E.a2_
+            p = hypot2(x, y) * E.a2_
             q = (z**2 * E.e12) * E.a2_
             r = fsum_(p, q, -E.e4) / 6
             s = (p * q * E.e4) / (4 * r**3)

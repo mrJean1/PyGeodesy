@@ -20,7 +20,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.01.27'
+__version__ = '20.02.09'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -785,7 +785,7 @@ def frange(start, number, step=1):
 
 try:
     from functools import reduce as freduce
-except ImportError:
+except ImportError:  # PYCHOK no cover
     try:
         freduce = reduce  # PYCHOK expected
     except NameError:  # Python 3+
@@ -874,7 +874,7 @@ try:
         del fsum  # no, remove fsum ...
         raise ImportError  # ... use fsum below
 
-except ImportError:
+except ImportError:  # PYCHOK no cover
 
     def fsum(iterable):
         '''Precision summation similar to standard Python function C{math.fsum}.
@@ -895,16 +895,6 @@ except ImportError:
         '''
         f = Fsum()
         return f.fsum(iterable)
-
-
-def hypot1(x):
-    '''Compute the norm M{sqrt(1 + x**2)}.
-
-       @param x: Argument (C{scalar}).
-
-       @return: Norm (C{float}).
-    '''
-    return hypot(1.0, x)
 
 
 try:
@@ -948,6 +938,32 @@ except TypeError:  # Python 3.7-
         else:
             n = ''
         raise ValueError('%s(): %r[%s]' % (hypot_.__name__, xs, n))
+
+
+def hypot1(x):
+    '''Compute the norm M{sqrt(1 + x**2)}.
+
+       @param x: Argument (C{scalar}).
+
+       @return: Norm (C{float}).
+    '''
+    return hypot(1.0, x)
+
+
+def hypot2(x, y):
+    '''Compute the norm squared M{x**2 + y**2}.
+
+       @param x: Argument (C{scalar}).
+       @param y: Argument (C{scalar}).
+
+       @return: C{B{x}**2 + B{y}**2} (C{float}).
+    '''
+    x, y = x**2, y**2
+    if x < y:
+        x, y = y, x
+    if x:
+        x *= 1 + y / x
+    return x
 
 
 try:

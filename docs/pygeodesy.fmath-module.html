@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.01.27
+        20.02.09
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -511,6 +511,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#hypot_" class="summary-sig-name">hypot_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Compute the norm <i class="math">sqrt(sum(xs[i]**2)) for 
+      i=0..len(xs)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#hypot1" class="summary-sig-name">hypot1</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Compute the norm <i class="math">sqrt(1 + x**2)</i>.</td>
           <td align="right" valign="top">
@@ -528,9 +546,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#hypot_" class="summary-sig-name">hypot_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Compute the norm <i class="math">sqrt(sum(xs[i]**2)) for 
-      i=0..len(xs)</i>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#hypot2" class="summary-sig-name">hypot2</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Compute the norm squared <i class="math">x**2 + y**2</i>.</td>
           <td align="right" valign="top">
             
             
@@ -1377,31 +1395,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="hypot1"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot1</span>(<span class="sig-arg">x</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Compute the norm <i class="math">sqrt(1 + x**2)</i>.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - Argument (<code>scalar</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Norm (<code>float</code>).</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="hypot_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1447,6 +1440,58 @@
         length <i>n</i>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="hypot1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot1</span>(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the norm <i class="math">sqrt(1 + x**2)</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Argument (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Norm (<code>float</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="hypot2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot2</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the norm squared <i class="math">x**2 + y**2</i>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Argument (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Argument (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code><b>x</b>**2 + <b>y</b>**2</code> (<code>float</code>).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="isfinite"></a>
 <div>
@@ -1751,7 +1796,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Feb  7 13:45:12 2020
+    Generated by Epydoc 3.0.1 on Wed Feb 12 15:56:57 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

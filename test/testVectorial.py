@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.11.02'
+__version__ = '20.02.09'
 
 from base import coverage, TestsBase
 
@@ -17,11 +17,16 @@ class Tests(TestsBase):
 
         try:
             Nvector = module.Nvector
+            c = Nvector.__name__
         except AttributeError:
             Nvector = module.NvectorBase
+            c = 'Vector4Tuple'
         self.subtitle(module, Nvector.__name__)
 
         v = Nvector(0.500, 0.500, 0.707, **kwds)
+        s = module.sumOf((v, v), h=0, name='sumOf')
+        self.test('sumOf', s.__class__.__name__, c)
+
         p = v.toLatLon(LatLon=None)
         c = v.toCartesian(Cartesian=None)
         self.test('ecef.x, .y, .z', fStr(p[:3],  prec=5), fStr(c[:3],  prec=5))

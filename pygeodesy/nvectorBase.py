@@ -31,7 +31,7 @@ __all__ = _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'NvectorBase',  # classes
           'sumOf')  # functions
-__version__ = '20.01.22'
+__version__ = '20.02.12'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -334,7 +334,7 @@ def sumOf(nvectors, Vector=None, h=None, **kwds):
         h = fsum(v.h for v in nvectors) / float(n)
 
     if Vector is None:
-        r = _sumOf(nvectors, Vector=Vector3Tuple)._to4Tuple(h)
+        r = _sumOf(nvectors, Vector=Vector3Tuple)._4Tuple(h)
     else:
         r = _sumOf(nvectors, Vector=Vector, h=h, **kwds)
     return r
