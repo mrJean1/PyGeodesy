@@ -122,9 +122,9 @@ U{geographiclib <https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on
 U{Ubuntu 14.04<https://Travis-CI.org/mrJean1/PyGeodesy>} and with Python
 3.7.3 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49 or
 1.50) on U{Debian 9<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}
-I{all in 64-bit only} and with Python 2.7.15, 3.6.8 and 3.7.2 (all with
-U{geographiclib <https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on
-U{Windows Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
+I{all in 64-bit only} and with Python 2.7.15, 3.6.8, 3.7.2, and 3.8.0 (all
+with U{geographiclib <https://PyPI.org/project/geographiclib>} 1.49 or 1.50)
+on U{Windows Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
 I{in both 32- and 64-bit}.
 
 A single-File and single-Directory application with C{pygeodesy} has been
@@ -265,7 +265,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.02.12'
+__version__ = '20.02.17'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

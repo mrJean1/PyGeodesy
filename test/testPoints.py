@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '19.04.03'
+__version__ = '20.02.14'
 
 from base import TestsBase
 
@@ -86,6 +86,8 @@ class Tests(TestsBase):
             _test('reversed[%s]' % (i,), p, pts[i])
 
     def test3(self, LatLon):
+        self.subtitle(points, LatLon=LatLon)
+
         p = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
         self.test('areaOf', areaOf(p, radius=R_MA), '8.811228e+09', fmt='%.6e')
         self.test('centroidOf', fStr(centroidOf(p), prec=6), '45.5, 1.5',)
@@ -134,6 +136,19 @@ class Tests(TestsBase):
         self.test('perimeterOf', perimeterOf(p, radius=R_M), '1.366270e+13', fmt='%.6e', known=True)  # 1.366270368002013e+13
         self.test('centroidOf', fStr(centroidOf(p), prec=3), '-72.112, 92.032',)
         self.test('isclockwise', isclockwise(p), False)
+
+        p = LatLon(-66.6, -88)
+        self.test('to2ab', fStr(p.to2ab(), prec=6), '-1.162389, -1.53589')
+
+        q = p.classof(-66.6, -88)
+        self.test('classof', q, p)
+        try:
+            t = p.others(q)
+        except Exception as x:
+            t = str(x)
+        self.test('others', t, None)
+
+        self.testCopy(p)
 
 
 if __name__ == '__main__':  # PYCHOK internal error?

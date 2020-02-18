@@ -915,6 +915,7 @@ pygeodesy.named._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.named._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_DOCS
 pygeodesy.named._IsNotError	pygeodesy.fmath-module.html#_IsNotError
 pygeodesy.named.classnaming	pygeodesy.named-module.html#classnaming
+pygeodesy.named._name_	pygeodesy.named-module.html#_name_
 pygeodesy.named.property_RO	pygeodesy.utily-module.html#property_RO
 pygeodesy.named._xattrs	pygeodesy.named-module.html#_xattrs
 pygeodesy.named._xcopy	pygeodesy.lazily-module.html#_xcopy
@@ -1140,6 +1141,7 @@ pygeodesy.sphericalTrigonometry.sumOf	pygeodesy.sphericalTrigonometry-module.htm
 pygeodesy.sphericalTrigonometry.ispolar	pygeodesy.sphericalTrigonometry-module.html#ispolar
 pygeodesy.trf	pygeodesy.trf-module.html
 pygeodesy.trf._T	pygeodesy.trf-module.html#_T
+pygeodesy.trf._S2	pygeodesy.trf-module.html#_S2
 pygeodesy.trf.isscalar	pygeodesy.fmath-module.html#isscalar
 pygeodesy.trf.fStrzs	pygeodesy.fmath-module.html#fStrzs
 pygeodesy.trf._reframeTransforms	pygeodesy.trf-module.html#_reframeTransforms

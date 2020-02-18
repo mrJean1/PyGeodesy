@@ -22,7 +22,7 @@ from math import atan2, cos, sin
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '20.01.22'
+__version__ = '20.02.17'
 
 try:
     _cmp = cmp
@@ -422,7 +422,7 @@ class Vector3d(_NamedBase):
     def equals(self, other, units=False):
         '''DEPRECATED, use method C{isequalTo}.
         '''
-        return self.isequalTo(other, units=units)
+        return self.isequalTo(other, units=units)  # PYCHOK no cover
 
     def isequalTo(self, other, units=False):
         '''Check if this and an other vector are equal or equivalent.
@@ -561,7 +561,7 @@ class Vector3d(_NamedBase):
     def rotateAround(self, axis, theta):
         '''DEPRECATED, use method C{rotate}.
         '''
-        return self.rotate(axis, theta)
+        return self.rotate(axis, theta)  # PYCHOK no cover
 
     def times(self, factor):
         '''Multiply this vector by a scalar.

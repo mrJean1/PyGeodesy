@@ -25,7 +25,7 @@ from math import hypot, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.02.09'
+__version__ = '20.02.17'
 
 
 class CartesianBase(Vector3d):
@@ -156,7 +156,7 @@ class CartesianBase(Vector3d):
             self._e9t = self._xnamed(r)
         return self._e9t
 
-    def to3llh(self, datum=None):
+    def to3llh(self, datum=None):  # PYCHOK no cover
         '''DEPRECATED, use method C{toLatLon}.
 
            Convert this cartesian to geodetic lat-, longitude and

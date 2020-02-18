@@ -76,7 +76,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '20.02.03'
+__version__ = '20.02.17'
 
 
 class VincentyError(ValueError):
@@ -137,7 +137,7 @@ class LatLon(LatLonEllipsoidalBase):
     def bearingTo(self, other, wrap=False):
         '''DEPRECATED, use method C{initialBearingTo}.
         '''
-        return self.initialBearingTo(other, wrap=wrap)
+        return self.initialBearingTo(other, wrap=wrap)  # PYCHOK no cover
 
     def bearingTo2(self, other, wrap=False):
         '''Compute the initial and final bearing (forward and reverse
@@ -616,14 +616,14 @@ def _r3(a, f):
     return c, s, t
 
 
-def areaOf(points, datum=Datums.WGS84, wrap=True):
+def areaOf(points, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function C{ellipsoidalKarney.areaOf}.
     '''
     from pygeodesy.ellipsoidalKarney import areaOf
     return areaOf(points, datum=datum, wrap=wrap)
 
 
-def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
+def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function C{ellipsoidalKarney.perimeterOf}.
     '''
     from pygeodesy.ellipsoidalKarney import perimeterOf

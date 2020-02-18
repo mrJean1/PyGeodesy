@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.10.31'
+__version__ = '20.02.14'
 
 from base import TestsBase
 
@@ -78,6 +78,11 @@ class Tests(TestsBase):
         self.test('toUps', u, '00 N 2663075 1930308')
         self.test('toUps', u.toStr(prec=6, cs=True), '00 N 2663075.299562 1930307.977716 +84.0° 0.99673')
         # self.test('toMgrs5', u.toMgrs(), 'Z JG 63075 30307')
+
+        self.test('toUps(None)', toUps8(ll, Ups=None)[:5], "(0, 'N', 2663075.299562 1930307.977716, 'Z', ...)", known=True)  # coverage
+        self.test('.scale0', u.scale0, '0.994000', fmt='%.6f')
+        u.rescale0(84, 1.0)
+        self.test('rescale0', u.scale0, '0.997261', fmt='%.6f')
 
         # <https://Earth-Info.NGA.mil/GandG/publications/NGA_SIG_0012_2_0_0_UTMUPS/NGA.SIG.0012_2.0.0_UTMUPS.pdf>
         # 10.2 Examples of computng {x, y, sigma, gamma}, given {lambda, phi, Z} page 41

@@ -8,7 +8,38 @@ __version__ = '20.01.18'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
-from pygeodesy import fStr, LatLon_, randomrangenerator
+from pygeodesy import Datums, fStr, hausdorff_, \
+                      HausdorffDegrees, HausdorffRadians, \
+                      HausdorffEquirectangular, HausdorffEuclidean, \
+                      HausdorffHaversine, HausdorffKarney, \
+                      HausdorffVincentys, \
+                      LatLon_, randomrangenerator
+
+
+class HausdorffDegrees_(HausdorffDegrees):
+    '''Custom Hausdorff.'''
+    def distance(self, p1, p2):
+        dy, dx = abs(p1.lat - p2.lat), abs(p1.lon - p2.lon)
+        if dx < dy:
+            dx, dy = dy, dx
+        return dx + dy * 0.5
+
+
+class HausdorffRadians_(HausdorffRadians):
+    '''Custom Hausdorff.'''
+    def distance(self, p1, p2):
+        dy, dx = abs(p1.phi - p2.phi), abs(p1.lam - p2.lam)
+        if dx < dy:
+            dx, dy = dy, dx
+        return dx + dy * 0.5
+
+
+def _tstr(t):
+    s = list(t[:5])
+    s[0] = fStr(t.hd, prec=5)
+    s[4] = None if t.md is None else fStr(t.md, prec=5)
+    return '(%s)' % (', '.join(map(str, s)),)
+
 
 _rr = randomrangenerator('R')
 # like <https://GitHub.com/mavillan/py-hausdorff> Example
@@ -23,12 +54,6 @@ class Tests(TestsBase):
 
     def test4(self, Hausdorff, *tests, **kwds):
 
-        def _tstr(t):
-            s = list(t[:5])
-            s[0] = fStr(t.hd, prec=5)
-            s[4] = None if t.md is None else fStr(t.md, prec=5)
-            return '(%s)' % (', '.join(map(str, s)),)
-
         for s, e, x, y in tests:
             h = Hausdorff(_ms, seed=s, **kwds)
 
@@ -40,30 +65,21 @@ class Tests(TestsBase):
 
         self.testCopy(h)
 
+    def test4_(self, H_, *tests):
+
+        h = HausdorffDegrees_(_ms)
+        d = h.distance
+
+        for s, e, x, y in tests:
+
+            t = _tstr(H_(_ms, _ps, both=False, distance=d, early=e, seed=s))
+            self.test(hausdorff_.__name__, t, x)
+
+            t = _tstr(H_(_ms, _ps, both=True,  distance=d, early=e, seed=s))
+            self.test(hausdorff_.__name__, t, y)
+
 
 if __name__ == '__main__':  # MCCABE 13
-
-    from pygeodesy import Datums, \
-                          HausdorffDegrees, HausdorffRadians, \
-                          HausdorffEquirectangular, HausdorffEuclidean, \
-                          HausdorffHaversine, HausdorffKarney, \
-                          HausdorffVincentys
-
-    class HausdorffDegrees_(HausdorffDegrees):
-        '''Custom Hausdorff.'''
-        def distance(self, p1, p2):
-            dy, dx = abs(p1.lat - p2.lat), abs(p1.lon - p2.lon)
-            if dx < dy:
-                dx, dy = dy, dx
-            return dx + dy * 0.5
-
-    class HausdorffRadians_(HausdorffRadians):
-        '''Custom Hausdorff.'''
-        def distance(self, p1, p2):
-            dy, dx = abs(p1.phi - p2.phi), abs(p1.lam - p2.lam)
-            if dx < dy:
-                dx, dy = dy, dx
-            return dx + dy * 0.5
 
     def _4(t5directed, t5symmetric):
         # generate Hausdorff(*args) and results for
@@ -107,6 +123,10 @@ if __name__ == '__main__':  # MCCABE 13
             t.test4(HausdorffKarney, *_4((28.79903, 35, 3,  90, 12.16138),
                                          (28.79903, 35, 3, 150, 11.53021)),
                                      datum=Datums.WGS84)
+
+        t.test4_(hausdorff_, *_4((40.0, 22,  6,  90, 18.16111),
+                                 (48.0, 38, 36, 150, 17.30667)))
+
     elif isWindows:  # Python 2
         t.test4(HausdorffDegrees_, *_4((51.0, 10, 50,  90, 15.92222),
                                        (51.0, 10, 50, 150, 14.32667)))
@@ -130,6 +150,10 @@ if __name__ == '__main__':  # MCCABE 13
             t.test4(HausdorffKarney, *_4((30.11794, 74, 45,  90, 10.43166),
                                          (30.11794, 74, 45, 150,  9.49554)),
                                      datum=Datums.WGS84)
+
+        t.test4_(hausdorff_, *_4((51.0, 10, 50,  90, 15.92222),
+                                 (51.0, 10, 50, 150, 14.32667)))
+
     else:  # Python 2, elsewhere
         t.test4(HausdorffDegrees_, *_4((50.5, 61, 7,  90, 18.45556),
                                        (50.5, 61, 7, 150, 16.05)))
@@ -153,5 +177,9 @@ if __name__ == '__main__':  # MCCABE 13
             t.test4(HausdorffKarney, *_4((32.28234, 49, 29,  90, 11.34653),
                                          (32.28234, 49, 29, 150, 10.09914)),
                                      datum=Datums.WGS84)
+
+        t.test4_(hausdorff_, *_4((50.5, 61, 7,  90, 18.45556),
+                                 (50.5, 61, 7, 150, 16.05)))
+
     t.results()
     t.exit()

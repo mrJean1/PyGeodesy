@@ -23,7 +23,7 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '20.02.03'
+__version__ = '20.02.17'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -434,7 +434,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._scale
 
-    def to3xyz(self):  # overloads LatLonBase.to3xyz
+    def to3xyz(self):  # overloads LatLonBase.to3xyz  # PYCHOK no cover
         '''DEPRECATED, use method C{toEcef}.
 
            @return: A L{Vector3Tuple}C{(x, y, z)}.

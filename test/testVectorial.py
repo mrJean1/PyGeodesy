@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.02.09'
+__version__ = '20.02.14'
 
 from base import coverage, TestsBase
 
@@ -58,7 +58,7 @@ class Tests(TestsBase):
 
         self.subtitle(module, 'Vectorial')
 
-        LatLon, Nvector, sumOf = module.LatLon, module.Nvector, module.sumOf
+        LatLon, Nvector, meanOf, sumOf = module.LatLon, module.Nvector, module.meanOf, module.sumOf
 
         if hasattr(LatLon, 'crossTrackDistanceTo'):
             p = LatLon(53.2611, -0.7972)
@@ -76,9 +76,6 @@ class Tests(TestsBase):
             r = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
             self.test('enclosedby', p.enclosedby(r), False)
 
-#       p = meanOf(r)
-#       self.test('meanOf', p, '')
-
         v = Nvector(0.500, 0.500, 0.707)
         p = v.toLatLon()
         self.test('toLatLon', p, '44.995674°N, 045.0°E')  # 45.0°N, 45.0°E
@@ -88,6 +85,10 @@ class Tests(TestsBase):
         self.test('isequalTo', c.isequalTo(v, units=True), True)
         self.test('length', v.length, '0.99992449715',  fmt='%.11f')
         self.test('length', c.length, '1.0')
+
+        s = meanOf((p, p, p, p), height=0, LatLon=LatLon)
+        self.test('meanOf', s, '44.995674°N, 045.0°E')
+        self.test('meanOf', s.__class__.__name__, LatLon.__name__)
 
         class Nv(Nvector):
             pass

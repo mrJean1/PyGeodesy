@@ -27,7 +27,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.01.22'
+__version__ = '20.02.17'
 
 
 class LatLonBase(_NamedBase):
@@ -114,7 +114,7 @@ class LatLonBase(_NamedBase):
     def bounds(self, wide, high, radius=R_M):
         '''DEPRECATED, use method C{boundsOf}.
         '''
-        return self.boundsOf(wide, high, radius=radius)
+        return self.boundsOf(wide, high, radius=radius)  # PYCHOK no cover
 
     def boundsOf(self, wide, high, radius=R_M):
         '''Return the SE and NW lat-/longitude of a great circle
@@ -150,7 +150,7 @@ class LatLonBase(_NamedBase):
     def compassAngle(self, other):
         '''DEPRECATED, use method C{compassAngleTo}.
         '''
-        return self.compassAngleTo(other)
+        return self.compassAngleTo(other)  # PYCHOK no cover
 
     def compassAngleTo(self, other, adjust=True, wrap=False):
         '''Return the angle from North for the direction vector between
@@ -203,12 +203,12 @@ class LatLonBase(_NamedBase):
     def equals(self, other, eps=None):
         '''DEPRECATED, use method C{isequalTo}.
         '''
-        return self.isequalTo(other, eps=eps)
+        return self.isequalTo(other, eps=eps)  # PYCHOK no cover
 
     def equals3(self, other, eps=None):
         '''DEPRECATED, use method C{isequalTo3}.
         '''
-        return self.isequalTo3(other, eps=eps)
+        return self.isequalTo3(other, eps=eps)  # PYCHOK no cover
 
     def equirectangularTo(self, other, radius=None, **options):
         '''Compute the distance between this and an other point
@@ -316,7 +316,7 @@ class LatLonBase(_NamedBase):
     def isantipode(self, other, eps=EPS):
         '''DEPRECATED, use method C{isantipodeTo}.
         '''
-        return self.isantipodeTo(other, eps=eps)
+        return self.isantipodeTo(other, eps=eps)  # PYCHOK no cover
 
     def isequalTo(self, other, eps=None):
         '''Compare this point with an other point.
@@ -431,7 +431,7 @@ class LatLonBase(_NamedBase):
     def latlon_(self, ndigits=0):
         '''DEPRECATED, use method C{latlon2}.
         '''
-        return self.latlon2(ndigits)
+        return self.latlon2(ndigits)  # PYCHOK no cover
 
     def latlon2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{degrees}, rounded.
@@ -451,7 +451,7 @@ class LatLonBase(_NamedBase):
     def latlon2round(self, ndigits=0):
         '''DEPRECATED, use method C{latlon2}.
         '''
-        return self.latlon2(ndigits)
+        return self.latlon2(ndigits)  # PYCHOK no cover
 
     @property
     def lon(self):
@@ -502,7 +502,7 @@ class LatLonBase(_NamedBase):
     def points(self, points, closed=True):
         '''DEPRECATED, use method C{points2}.
         '''
-        return self.points2(points, closed=closed)
+        return self.points2(points, closed=closed)  # PYCHOK no cover
 
     def points2(self, points, closed=True):
         '''Check a path or polygon represented by points.
@@ -546,7 +546,7 @@ class LatLonBase(_NamedBase):
 
            @return: See method C{toVector} for C{B{Vector}=None}.
         '''
-        return self.toVector()
+        return self.toVector()  # PYCHOK no cover
 
     def toCartesian(self, Cartesian=None, **kwds):
         '''Convert this point to geocentric (ECEF cartesian) coordinates.

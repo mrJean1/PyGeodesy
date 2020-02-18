@@ -39,7 +39,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'nearestOn2', 'nearestOn3',
           'perimeterOf',
           'sumOf')  # == vector3d.sumOf
-__version__ = '19.10.21'
+__version__ = '20.02.17'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -133,7 +133,7 @@ class LatLon(LatLonSphericalBase):
     def bearingTo(self, other, wrap=False, raiser=False):
         '''DEPRECATED, use method C{initialBearingTo}.
         '''
-        return self.initialBearingTo(other, wrap=wrap, raiser=raiser)
+        return self.initialBearingTo(other, wrap=wrap, raiser=raiser)  # PYCHOK no cover
 
     def crossingParallels(self, other, lat, wrap=False):
         '''Return the pair of meridians at which a great circle defined
@@ -478,7 +478,7 @@ class LatLon(LatLonSphericalBase):
     def isEnclosedBy(self, points):
         '''DEPRECATED, use method C{isenclosedBy}.
         '''
-        return self.isenclosedBy(points)
+        return self.isenclosedBy(points)  # PYCHOK no cover
 
     def midpointTo(self, other, height=None, wrap=False):
         '''Find the midpoint between this and an other point.
@@ -542,7 +542,7 @@ class LatLon(LatLonSphericalBase):
         return self.nearestOn3([point1, point2], closed=False, radius=radius,
                                                **options)[0]
 
-    def nearestOn2(self, points, closed=False, radius=R_M, **options):
+    def nearestOn2(self, points, closed=False, radius=R_M, **options):  # PYCHOK no cover
         '''DEPRECATED, use method L{sphericalTrigonometry.LatLon.nearestOn3}.
 
            @return: ... 2-Tuple C{(closest, distance)} of the closest
@@ -850,7 +850,7 @@ def intersection(start1, end1, start2, end2,
 def isPoleEnclosedBy(points, wrap=False):
     '''DEPRECATED, use function L{ispolar}.
     '''
-    return ispolar(points, wrap=wrap)
+    return ispolar(points, wrap=wrap)  # PYCHOK no cover
 
 
 def meanOf(points, height=None, LatLon=LatLon):
@@ -885,8 +885,8 @@ def meanOf(points, height=None, LatLon=LatLon):
     return _xnamed(r, meanOf.__name__)
 
 
-def nearestOn2(point, points, closed=False, radius=R_M,
-                              LatLon=LatLon, **options):
+def nearestOn2(point, points, closed=False, radius=R_M,   # PYCHOK no cover
+                              LatLon=LatLon, **options):  # PYCHOK no cover
     '''DEPRECATED, use function L{sphericalTrigonometry.nearestOn3}.
 
        @return: ... C{closest} as B{C{LatLon}} or a 2-tuple C{(lat, lon)}

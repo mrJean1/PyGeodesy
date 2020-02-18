@@ -89,8 +89,8 @@ HMTL report are included in the distribution files.
 The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1 and 3.8.0 (and
 geographiclib_ 1.49 or 1.50) on `Ubuntu 14.04`_ and with Python 3.7.3 (and
 geographiclib_ 1.49 or 1.50) on `Debian 9`_ *all in 64-bit only* and with
-Python 2.7.15, 3.6.8 and 3.7.2 (all with geographiclib_ 1.49 or 1.50) on
-`Windows Server 2012R2`_ *in both 32- and 64-bit*.
+Python 2.7.15, 3.6.8, 3.7.2 and 3.8.0 (all with geographiclib_ 1.49 or 1.50)
+on `Windows Server 2012R2`_ *in both 32- and 64-bit*.
 
 A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.3 and 3.7.4
@@ -120,7 +120,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Feb 12, 2020.*
+*Last updated: Feb 17, 2020.*
 
 License
 =======

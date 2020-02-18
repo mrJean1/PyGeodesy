@@ -42,9 +42,10 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '20.02.09'
+__version__ = '20.02.17'
 
-_NAME_ = 'name'  # __NAME gets mangled in class
+_NAME_ =  'name'  # __NAME gets mangled in class
+_name_ = '_name'
 
 
 def _xattrs(inst, other, *attrs):
@@ -301,7 +302,7 @@ class _NamedDict(dict, _Named):
     def __delattr__(self, name):
         if name in dict.keys(self):
             dict.pop(name)
-        elif name == _NAME_:
+        elif name in (_NAME_, _name_):
             dict.__setattr__(self, name, '')
         else:
             dict.__delattr__(self, name)
@@ -542,7 +543,7 @@ class _NamedTuple(tuple, _Named):
         self = tuple.__new__(cls, args)
         ns = self._Names_
         if not (isinstance(ns, tuple) and len(ns) > 1):
-            raise TypeError('%s.%s inot valid: %r' %
+            raise TypeError('%s.%s not valid: %r' %
                             (self.classname, '_Names_', ns))
         if len(ns) != len(args) or not ns:
             raise ValueError('%s(%s) not valid: %r[%s] vs %s' %
@@ -557,7 +558,7 @@ class _NamedTuple(tuple, _Named):
         if name in self._Names_:
             raise TypeError('%s not mutable: %s .%s' %
                             (self.classname, 'del', name))
-        elif name == _NAME_:
+        elif name in (_NAME_, _name_):
             tuple.__setattr__(self, name, '')
         else:
             tuple.__delattr__(self, name)

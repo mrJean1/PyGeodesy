@@ -48,7 +48,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.02.09'
+__version__ = '20.02.14'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -135,12 +135,26 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     def points(self, points, closed=False, base=None):
         '''DEPRECATED, use method C{points2}.
         '''
-        return points2(points, closed=closed, base=base)
+        return points2(points, closed=closed, base=base)  # PYCHOK no cover
 
     def points2(self, points, closed=False, base=None):
-        return points2(points, closed=closed, base=base)
+        '''Check a path or polygon represented by points.
 
-    points.__doc__ = points2.__doc__
+           @param points: The path or polygon points (C{LatLon}[])
+           @keyword closed: Optionally, consider the polygon closed,
+                            ignoring any duplicate or closing final
+                            B{C{points}} (C{bool}).
+           @keyword base: Optionally, check all B{C{points}} against
+                          this base class, if C{None} don't check.
+
+           @return: A L{Points2Tuple}C{(number, points)} with the number
+                    of points and the points C{list} or C{tuple}.
+
+           @raise TypeError: Some B{C{points}} are not B{C{base}}.
+
+           @raise ValueError: Insufficient number of B{C{points}}.
+        '''
+        return points2(points, closed=closed, base=base)
 
     def to2ab(self):
         '''Return the lat- and longitude in C{radians}.

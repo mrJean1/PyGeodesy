@@ -30,7 +30,7 @@ from math import ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash + ('bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '20.01.22'
+__version__ = '20.02.17'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -228,7 +228,7 @@ class Geohash(_NamedStr):
     def distance1(self, other):
         '''DEPRECATED, use method C{distance1To}.
         '''
-        return self.distance1To(other)
+        return self.distance1To(other)  # PYCHOK no cover
 
     def distance1To(self, other):
         '''Estimate the distance between this and an other geohash
@@ -252,7 +252,7 @@ class Geohash(_NamedStr):
     def distance2(self, other, radius=R_M, adjust=False, wrap=False):
         '''DEPRECATED, use method C{distance2To}.
         '''
-        return self.distance2To(other, radius=radius, adjust=adjust, wrap=wrap)
+        return self.distance2To(other, radius=radius, adjust=adjust, wrap=wrap)  # PYCHOK no cover
 
     def distance2To(self, other, radius=R_M, adjust=False, wrap=False):
         '''Compute the distance between this and an other geohash
@@ -291,7 +291,7 @@ class Geohash(_NamedStr):
     def distance3(self, other, radius=R_M, wrap=False):
         '''DEPRECATED, use method C{distance3To}.
         '''
-        return self.distance3To(other, radius=radius, wrap=wrap)
+        return self.distance3To(other, radius=radius, wrap=wrap)  # PYCHOK no cover
 
     def distance3To(self, other, radius=R_M, wrap=False):
         '''Compute the great-circle distance between this and an other

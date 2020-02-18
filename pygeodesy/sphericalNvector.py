@@ -54,7 +54,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.01.22'
+__version__ = '20.02.17'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -181,7 +181,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def bearingTo(self, other, **unused):
         '''DEPRECATED, use method C{initialBearingTo}.
         '''
-        return self.initialBearingTo(other)
+        return self.initialBearingTo(other)  # PYCHOK no cover
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
         '''Compute the (signed) distance from this point to great circle
@@ -521,7 +521,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def isEnclosedBy(self, points):
         '''DEPRECATED, use method C{isenclosedBy}.
         '''
-        return self.isenclosedBy(points)
+        return self.isenclosedBy(points)  # PYCHOK no cover
 
     def iswithin(self, point1, point2):
         '''Check whether this point is between two other points.
@@ -566,7 +566,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def isWithin(self, point1, point2):
         '''DEPRECATED, use method C{iswithin}.
         '''
-        return self.iswithin(point1, point2)
+        return self.iswithin(point1, point2)  # PYCHOK no cover
 
     def midpointTo(self, other, height=None):
         '''Find the midpoint between this and an other point.

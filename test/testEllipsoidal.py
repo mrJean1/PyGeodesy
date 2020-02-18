@@ -36,17 +36,21 @@ class Tests(_TestsLL, _TestsV):
         self.test('convertDatum', d.toStr(F_D, prec=4), '51.4773°N, 000.0°E, -45.91m')
         self.test('convertDatum', p.convertDatum(p.datum), p)  # i.e. p.copy()
 
-        if coverage:  # for test coverage
-            self.test('parse',    p.parse(d.toStr(F_D__)), d)
+        if coverage:  # coverage
+            self.test('parse',       p.parse(d.toStr(F_D__)), d)
             p.reframe = None
-            self.test('reframe',  p.reframe, None)
-            self.test('toEtm',    p.toEtm(), '30 N 916396 5720041')
-            self.test('toLcc',    p.toLcc(), '5639901 4612638')
-            self.test('toOsgr',   p.toOsgr(), 'TQ 38876 77320')
-            self.test('toUps',    LatLon(84, 0).toUps(), '00 N 2000000 1333272')
-            self.test('toUtm',    p.toUtm(), '30 N 708207 5707224')
-            self.test('toUtmUps', p.toUtmUps(), '30 N 708207 5707224')
-            self.test('toWm',     p.toWm(), '-178.111 6672799.209')
+            self.test('reframe',     p.reframe, None)
+            c = p.toCartesian()
+            self.test('toCartesian', c, '[3980581.21, -111.159, 4966824.522]')
+            t = fStr(c.toEcef()[:3], 3)
+            self.test('toEcef',      t,  '3980581.21, -111.159, 4966824.522')
+            self.test('toEtm',       p.toEtm(), '30 N 916396 5720041')
+            self.test('toLcc',       p.toLcc(), '5639901 4612638')
+            self.test('toOsgr',      p.toOsgr(), 'TQ 38876 77320')
+            self.test('toUps',       LatLon(84, 0).toUps(), '00 N 2000000 1333272')
+            self.test('toUtm',       p.toUtm(), '30 N 708207 5707224')
+            self.test('toUtmUps',    p.toUtmUps(), '30 N 708207 5707224')
+            self.test('toWm',        p.toWm(), '-178.111 6672799.209')
 
         if Cartesian and Nvector:
             c = Cartesian(3980581, 97, 4966825)

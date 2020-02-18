@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.04.12'
+__version__ = '20.02.14'
 
 from base import TestsBase, geographiclib
 
@@ -65,6 +65,15 @@ class Tests(TestsBase):
         self.test('Css.'+'toLatLon.height', r.height, '1.0')
         self.test('Css.'+'toLatLon.name', r.name, 'Calais')
         self.test('Css.'+'toLatLon.datum.name', r.datum.name, 'WGS84')
+
+        r = c.classof(c.easting, c.northing, h=c.height, cs0=c.cs0)  # coverage Css._reverse4
+        for a, f, x in (('height',   '%.1f', '1.0'),
+                        ('azi',      '%.9f', '89.586103815'),
+                        ('rk',       '%.9f', '0.999982722'),
+                        ('name',     '%s',   'Calais'),
+                        ('cs0',      '%s',   '48.833333 2.333333')):
+            v = getattr(r, a)
+            self.test('classof.'+a, v, x, fmt=f)
 
 
 if __name__ == '__main__':

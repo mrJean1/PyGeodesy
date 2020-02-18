@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.02.05'
+__version__ = '20.02.17'
 
 from base import PyGeodesy_dir, TestsBase
 
@@ -34,6 +34,20 @@ class Tests(TestsBase):
         self.test(n.named, repr(n.name), "''", known=k)
         n.name = 'Test'
         self.test(n.named, n.name, 'Test')
+        self.test(n.named2, n.named2, n.classname + " 'Test'")
+
+        for a in ('name', '_name'):  # coverage
+            self.test(n.named2, getattr(n, a), 'Test')
+        try:  # coverage
+            self.test(n.named2, str(n), n)
+        except AssertionError as x:
+            self.test(n.named2, x, x)
+        try:  # coverage
+            self.test(n.named2, repr(n), n, f='%r', known=True)
+        except AssertionError as x:
+            self.test(n.named2, x, x)
+        delattr(n, '_name')  # coverage
+        self.test(n.named2, n.name, '')
 
     def testNamedDicts(self, named):
         self.testNamed_class(named, _DICT, '_Keys_', self._NamedDicts)
@@ -125,7 +139,7 @@ if __name__ == '__main__':
     from glob import glob
     import os.path as os_path
 
-    from pygeodesy import ecef, elliptic, frechet, hausdorff, named
+    from pygeodesy import Datums, ecef, elliptic, frechet, hausdorff, named, Transforms
 
     t = Tests(__file__, __version__)
     t.testNamed(named._Named)
@@ -135,7 +149,7 @@ if __name__ == '__main__':
     t.testNamed(named._NamedEnumItem)
     t.testNamed(named._NamedInt, 0)
     t.testNamed(named._NamedStr, '')
-#   t.testNamed(named._NamedTuple)
+    t.testNamed(named.LatLon2Tuple, 0, 0)  # _NamedTuple
 
     # find all _NamedDict and _NamedTuple (sub)classes
     t.testNamedDicts(named)
@@ -154,5 +168,16 @@ if __name__ == '__main__':
             t.testNamed__doc__(m[len(PyGeodesy_dir):], py)
 
     t.testNamed_xtend(named)
+
+    for n, d in tuple(Datums.items()):
+        Datums.unregister(d)  # coverage _NamedEnum.unregister
+        t.test('unregister(%s)' % (n,), getattr(Datums, n, None), None)
+    t.test('Datums', len(Datums), 0)
+
+    for n, e in tuple(Transforms.items()):
+        e.unregister()  # coverage _NamedEnumItem.unregister
+        t.test(n + '.unregister', getattr(Transforms, n, None), None)
+    t.test('Transforms', len(Transforms), 0)
+
     t.results()
     t.exit()

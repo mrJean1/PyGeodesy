@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.10.31'
+__version__ = '20.02.17'
 
 from base import geographiclib, TestsBase
 
@@ -235,9 +235,16 @@ class Tests(TestsBase):
             gc = p.greatCircle(96.0)
             self.test('greatCircle', gc, '(-0.79408, 0.12856, 0.59406)')  # PYCHOK test attr?
 
+        p = LatLon(53.3206, -1.7297)
+        q = LatLon(53.1887, 0.1334)
+        self.test('equirectangularTo', p.equirectangularTo(q), '124804.754', fmt='%.3f')
+        self.test('equirectangularTo', q.equirectangularTo(p), '124804.754', fmt='%.3f')
+        self.test('euclideanTo',       p.euclideanTo(q),       '131273.287', fmt='%.3f')
+        self.test('euclideanTo',       q.euclideanTo(p),       '131273.287', fmt='%.3f')
+        self.test('haversineTo',       p.haversineTo(q),       '124801.098', fmt='%.3f')
+        self.test('haversineTo',       q.haversineTo(p),       '124801.098', fmt='%.3f')
+
         if hasattr(LatLon, 'greatCircleTo'):
-            p = LatLon(53.3206, -1.7297)
-            q = LatLon(53.1887, 0.1334)
             gc = p.greatCircleTo(q)
             self.test('greatCircleTo', gc, '(-0.79408, 0.12859, 0.59406)')  # PYCHOK test attr?
 
@@ -328,8 +335,10 @@ class Tests(TestsBase):
             c = p.compassAngleTo(q, adjust=False)
             self.test('compassAngleTo', c, d, fmt='%.1f')
 
-        p = LatLon(52, 0)
+        p.lat, p.lon = 52, '0'  # coverage
         q = LatLon(p.lat + 1, p.lon + 1)  # 45 unadjusted
+        self.test('latlon2', q.latlon2(1), '(53.0, 1.0)')
+        self.test('philam2', q.philam2(2), '(0.93, 0.02)')
         if not Nv:
             b = p.initialBearingTo(q)
             self.test('bearingTo', b, 31.0, fmt='%.0f')

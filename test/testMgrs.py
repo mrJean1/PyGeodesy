@@ -4,7 +4,7 @@
 # Test MGRS functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.10.04'
+__version__ = '20.02.14'
 
 from base import TestsBase
 
@@ -44,6 +44,17 @@ class Tests(TestsBase):
         u = m.toUtm()
         self.test('toUtm1', str(u), '31 N 448251 5411932')
         self.test('toUtm1', repr(u), '[Z:31U, H:N, E:448251, N:5411932]')
+
+        p = m.parse('31UDQ4825111932')  # coverage
+        self.test('toUtm(None)', p.toUtm(None), "(31, 'N', 448251.0, 5411932.0)")
+        for a, x in (('easting',  48251.0),
+                     ('northing', 11932.0),
+                     ('en100k', 'DQ'),
+                     ('digraph', 'DQ'),
+                     ('zone', 31),
+                     ('band', 'U'),
+                     ('bandLatitude', 48)):
+            self.test(a, getattr(p, a), x)
 
         m = u.toMgrs()
         self.test('toMgrs', str(m), '31U DQ 48251 11932')

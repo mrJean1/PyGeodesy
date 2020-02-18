@@ -81,7 +81,7 @@ from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.02.12'
+__version__ = '20.02.14'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -204,8 +204,6 @@ class Etm(Utm):
            @keyword scale: Optional grid scale factor (C{scalar}) or
                            C{None}.
            @keyword name: Optional name (C{str}).
-
-           @raise EllipticError: No convergence.
 
            @raise ETMError: Invalid B{C{zone}}, B{C{hemishere}} or
                             B{C{band}}.

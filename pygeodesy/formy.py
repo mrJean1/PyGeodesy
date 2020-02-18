@@ -16,7 +16,7 @@ from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.02.09'
+__version__ = '20.02.14'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -387,7 +387,7 @@ def points2(points, closed=True, base=None, Error=ValueError):
        @return: A L{Points2Tuple}C{(number, points)} with the number
                 of points and the points C{list} or C{tuple}.
 
-       @raise TypeError: Some B{C{points}} are not C{LatLon}.
+       @raise TypeError: Some B{C{points}} are not B{C{base}}.
 
        @raise Error: Insufficient number of B{C{points}}.
     '''

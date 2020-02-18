@@ -48,17 +48,30 @@ from pygeodesy.named import classname, _NamedDict as _X, \
 from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.02.07'
+__version__ = '20.02.14'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
-# temporarily hold a single instance for each float value
-_trfFs = {}
+# temporarily hold a single instance for each float value and name
+_trfFs = {}  # trashed below
+_trfSs = {}  # trashed below
 
 
 def _F(f):
     '''(INTERNAL) Cache a single C{float}.
     '''
     return _trfFs.setdefault(f, f)  # PYCHOK undefined by del _trfFs
+
+
+def _S(n):
+    '''(INTERNAL) Cache a single C{str}.
+    '''
+    return _trfSs.setdefault(n, n)  # PYCHOK undefined by del _trfSs
+
+
+def _S2(n1, n2):
+    '''(INTERNAL) Cache two C{str}s.
+    '''
+    return _S(n1), _S(n2)
 
 
 def _T(*fs):
@@ -132,19 +145,19 @@ class RefFrame(_NamedEnumItem):
 RefFrames = _NamedEnum('RefFrames', RefFrame)  #: Registered reference frames.
 # <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>
 RefFrames._assert(
-#   ITRF2014AU = RefFrame(_F(2020.0), Ellipsoids.GRS80, 'ITRF2014AU'),
-    ITRF2014   = RefFrame(_F(2010.0), Ellipsoids.GRS80, 'ITRF2014'),
-    ITRF2008   = RefFrame(_F(2005.0), Ellipsoids.GRS80, 'ITRF2008'),
-    ITRF2005   = RefFrame(_F(2000.0), Ellipsoids.GRS80, 'ITRF2005'),
-    ITRF2000   = RefFrame(_F(1997.0), Ellipsoids.GRS80, 'ITRF2000'),
-    ITRF93     = RefFrame(_F(1988.0), Ellipsoids.GRS80, 'ITRF93'),
-    ITRF91     = RefFrame(_F(1988.0), Ellipsoids.GRS80, 'ITRF91'),
-    WGS84g1762 = RefFrame(_F(2005.0), Ellipsoids.WGS84, 'WGS84g1762'),
-    WGS84g1674 = RefFrame(_F(2005.0), Ellipsoids.WGS84, 'WGS84g1674'),
-    WGS84g1150 = RefFrame(_F(2001.0), Ellipsoids.WGS84, 'WGS84g1150'),
-    ETRF2000   = RefFrame(_F(2005.0), Ellipsoids.GRS80, 'ETRF2000'),  # ETRF2000(R08)
-    NAD83      = RefFrame(_F(1997.0), Ellipsoids.GRS80, 'NAD83'),  # CORS96
-    GDA94      = RefFrame(_F(1994.0), Ellipsoids.GRS80, 'GDA94'))
+#   ITRF2014AU = RefFrame(_F(2020.0), Ellipsoids.GRS80, _S('ITRF2014AU')),
+    ITRF2014   = RefFrame(_F(2010.0), Ellipsoids.GRS80, _S('ITRF2014')),
+    ITRF2008   = RefFrame(_F(2005.0), Ellipsoids.GRS80, _S('ITRF2008')),
+    ITRF2005   = RefFrame(_F(2000.0), Ellipsoids.GRS80, _S('ITRF2005')),
+    ITRF2000   = RefFrame(_F(1997.0), Ellipsoids.GRS80, _S('ITRF2000')),
+    ITRF93     = RefFrame(_F(1988.0), Ellipsoids.GRS80, _S('ITRF93')),
+    ITRF91     = RefFrame(_F(1988.0), Ellipsoids.GRS80, _S('ITRF91')),
+    WGS84g1762 = RefFrame(_F(2005.0), Ellipsoids.WGS84, _S('WGS84g1762')),
+    WGS84g1674 = RefFrame(_F(2005.0), Ellipsoids.WGS84, _S('WGS84g1674')),
+    WGS84g1150 = RefFrame(_F(2001.0), Ellipsoids.WGS84, _S('WGS84g1150')),
+    ETRF2000   = RefFrame(_F(2005.0), Ellipsoids.GRS80, _S('ETRF2000')),  # ETRF2000(R08)
+    NAD83      = RefFrame(_F(1997.0), Ellipsoids.GRS80, _S('NAD83')),  # CORS96
+    GDA94      = RefFrame(_F(1994.0), Ellipsoids.GRS80, _S('GDA94')))
 
 
 def date2epoch(year, month, day):
@@ -173,153 +186,153 @@ def date2epoch(year, month, day):
 # TRF conversions specified as 7-parameter Helmert transforms and an epoch.  Most
 # from U{Transformation Parameters<http://ITRF.IGN.FR/trans_para.php>}, more at U{QPS
 # <https://Confluence.QPS.NL/qinsy/files/en/29856813/45482834/2/1453459502000/ITRF_Transformation_Parameters.xlsx>}.
-_trfNs =                                   ('tx',    'ty',    'tz',   's',   'sx',    'sy',    'sz')
-_trfXs = {  # (from_TRF, to_TRF):            mm       mm       mm     ppb     mas      mas      mas
+_trfNs =                                     ('tx',    'ty',    'tz',   's',   'sx',    'sy',    'sz')
+_trfXs = {  # (from_TRF, to_TRF):              mm       mm       mm     ppb     mas      mas      mas
     # see U{Transformation Parameters ITRF2014<http://ITRF.IGN.FR/doc_ITRF/Transfo-ITRF2014_ITRFs.txt>}
-    ('ITRF2014', 'ITRF2008'): _X(epoch=_F(2010.0),  # <http://ITRF.ENSG.IGN.FR/ITRF_solutions/2014/tp_14-08.php>
-                                 xform=_T(  1.6,     1.9,     2.4,  -0.02,   0.0,     0.0,     0.0),
-                                 rates=_T(  0.0,     0.0,    -0.1,   0.03,   0.0,     0.0,     0.0)),
-    ('ITRF2014', 'ITRF2005'): _X(epoch=_F(2010.0),
-                                 xform=_T(  2.6,     1.0,    -2.3,   0.92,   0.0,     0.0,     0.0),
-                                 rates=_T(  0.3,     0.0,    -0.1,   0.03,   0.0,     0.0,     0.0)),
-    ('ITRF2014', 'ITRF2000'): _X(epoch=_F(2010.0),
-                                 xform=_T(  0.7,     1.2,   -26.1,   2.12,   0.0,     0.0,     0.0),
-                                 rates=_T(  0.1,     0.1,    -1.9,   0.11,   0.0,     0.0,     0.0)),
-    ('ITRF2014', 'ITRF97'):   _X(epoch=_F(2010.0),
-                                 xform=_T(  7.4,    -0.5,   -62.8,   3.8,    0.0,     0.0,     0.26),
-                                 rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
-    ('ITRF2014', 'ITRF96'):   _X(epoch=_F(2010.0),
-                                 xform=_T(  7.4,    -0.5,   -62.8,   3.8,    0.0,     0.0,     0.26),
-                                 rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
-    ('ITRF2014', 'ITRF94'):   _X(epoch=_F(2010.0),
-                                 xform=_T(  7.4,    -0.5,   -62.8,   3.8,    0.0,     0.0,     0.26),
-                                 rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
-    ('ITRF2014', 'ITRF93'):   _X(epoch=_F(2010.0),
-                                 xform=_T(-50.4,     3.3,   -60.2,   4.29,  -2.81,   -3.38,    0.4),
-                                 rates=_T( -2.8,    -0.1,    -2.5,   0.12,  -0.11,   -0.19,    0.07)),
-    ('ITRF2014', 'ITRF92'):   _X(epoch=_F(2010.0),
-                                 xform=_T( 15.4,     1.5,   -70.8,   3.09,   0.0,     0.0,     0.26),
-                                 rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
-    ('ITRF2014', 'ITRF91'):   _X(epoch=_F(2010.0),
-                                 xform=_T( 27.4,    15.5,   -76.8,   4.49,   0.0,     0.0,     0.26),
-                                 rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
-    ('ITRF2014', 'ITRF90'):   _X(epoch=_F(2010.0),
-                                 xform=_T( 25.4,    11.5,   -92.8,   4.79,   0.0,     0.0,     0.26),
-                                 rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
-    ('ITRF2014', 'ITRF89'):   _X(epoch=_F(2010.0),
-                                 xform=_T( 30.4,    35.5,  -130.8,   8.19,   0.0,     0.0,     0.26),
-                                 rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
-    ('ITRF2014', 'ITRF88'):   _X(epoch=_F(2010.0),
-                                 xform=_T( 25.4,    -0.5,  -154.8,  11.29,   0.1,     0.0,     0.26),
-                                 rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
+    _S2('ITRF2014', 'ITRF2008'): _X(epoch=_F(2010.0),  # <http://ITRF.ENSG.IGN.FR/ITRF_solutions/2014/tp_14-08.php>
+                                    xform=_T(  1.6,     1.9,     2.4,  -0.02,   0.0,     0.0,     0.0),
+                                    rates=_T(  0.0,     0.0,    -0.1,   0.03,   0.0,     0.0,     0.0)),
+    _S2('ITRF2014', 'ITRF2005'): _X(epoch=_F(2010.0),
+                                    xform=_T(  2.6,     1.0,    -2.3,   0.92,   0.0,     0.0,     0.0),
+                                    rates=_T(  0.3,     0.0,    -0.1,   0.03,   0.0,     0.0,     0.0)),
+    _S2('ITRF2014', 'ITRF2000'): _X(epoch=_F(2010.0),
+                                    xform=_T(  0.7,     1.2,   -26.1,   2.12,   0.0,     0.0,     0.0),
+                                    rates=_T(  0.1,     0.1,    -1.9,   0.11,   0.0,     0.0,     0.0)),
+    _S2('ITRF2014', 'ITRF97'):   _X(epoch=_F(2010.0),
+                                    xform=_T(  7.4,    -0.5,   -62.8,   3.8,    0.0,     0.0,     0.26),
+                                    rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
+    _S2('ITRF2014', 'ITRF96'):   _X(epoch=_F(2010.0),
+                                    xform=_T(  7.4,    -0.5,   -62.8,   3.8,    0.0,     0.0,     0.26),
+                                    rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
+    _S2('ITRF2014', 'ITRF94'):   _X(epoch=_F(2010.0),
+                                    xform=_T(  7.4,    -0.5,   -62.8,   3.8,    0.0,     0.0,     0.26),
+                                    rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
+    _S2('ITRF2014', 'ITRF93'):   _X(epoch=_F(2010.0),
+                                    xform=_T(-50.4,     3.3,   -60.2,   4.29,  -2.81,   -3.38,    0.4),
+                                    rates=_T( -2.8,    -0.1,    -2.5,   0.12,  -0.11,   -0.19,    0.07)),
+    _S2('ITRF2014', 'ITRF92'):   _X(epoch=_F(2010.0),
+                                    xform=_T( 15.4,     1.5,   -70.8,   3.09,   0.0,     0.0,     0.26),
+                                    rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
+    _S2('ITRF2014', 'ITRF91'):   _X(epoch=_F(2010.0),
+                                    xform=_T( 27.4,    15.5,   -76.8,   4.49,   0.0,     0.0,     0.26),
+                                    rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
+    _S2('ITRF2014', 'ITRF90'):   _X(epoch=_F(2010.0),
+                                    xform=_T( 25.4,    11.5,   -92.8,   4.79,   0.0,     0.0,     0.26),
+                                    rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
+    _S2('ITRF2014', 'ITRF89'):   _X(epoch=_F(2010.0),
+                                    xform=_T( 30.4,    35.5,  -130.8,   8.19,   0.0,     0.0,     0.26),
+                                    rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
+    _S2('ITRF2014', 'ITRF88'):   _X(epoch=_F(2010.0),
+                                    xform=_T( 25.4,    -0.5,  -154.8,  11.29,   0.1,     0.0,     0.26),
+                                    rates=_T(  0.1,    -0.5,    -3.3,   0.12,   0.0,     0.0,     0.02)),
 
     # see U{Transformation Parameters ITRF2008<http://ITRF.IGN.FR/doc_ITRF/Transfo-ITRF2008_ITRFs.txt>}
-#   ('ITRF2008', 'ITRF2005'): _X(epoch=_F(2005.0),  # <http://ITRF.ENSG.IGN.FR/ITRF_solutions/2008/tp_08-05.php>
-#                                xform=_T( -0.5,    -0.9,    -4.7,   0.94,   0.0,     0.0,     0.0),
-#                                rates=_T(  0.3,     0.0,     0.0,   0.0,    0.0,     0.0,     0.0)),
-    ('ITRF2008', 'ITRF2005'): _X(epoch=_F(2000.0),
-                                 xform=_T( -2.0,    -0.9,    -4.7,   0.94,   0.0,     0.0,     0.0),
-                                 rates=_T(  0.3,     0.0,     0.0,   0.0,    0.0,     0.0,     0.0)),
-    ('ITRF2008', 'ITRF2000'): _X(epoch=_F(2000.0),
-                                 xform=_T( -1.9,    -1.7,   -10.5,   1.34,   0.0,     0.0,     0.0),
-                                 rates=_T(  0.1,     0.1,    -1.8,   0.08,   0.0,     0.0,     0.0)),
-    ('ITRF2008', 'ITRF97'):   _X(epoch=_F(2000.0),
-                                 xform=_T(  4.8,     2.6,   -33.2,   2.92,   0.0,     0.0,     0.06),
-                                 rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
-    ('ITRF2008', 'ITRF96'):   _X(epoch=_F(2000.0),
-                                 xform=_T(  4.8,     2.6,   -33.2,   2.92,   0.0,     0.0,     0.06),
-                                 rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
-    ('ITRF2008', 'ITRF94'):   _X(epoch=_F(2000.0),
-                                 xform=_T(  4.8,     2.6,   -33.2,   2.92,   0.0,     0.0,     0.06),
-                                 rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
-    ('ITRF2008', 'ITRF93'):   _X(epoch=_F(2000.0),
-                                 xform=_T(-24.0,     2.4,   -38.6,   3.41,  -1.71,   -1.48,   -0.3),
-                                 rates=_T( -2.8,    -0.1,    -2.4,   0.09,  -0.11,   -0.19,    0.07)),
-    ('ITRF2008', 'ITRF92'):   _X(epoch=_F(2000.0),
-                                 xform=_T( 12.8,     4.6,   -41.2,   2.21,   0.0,     0.0,     0.06),
-                                 rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
-    ('ITRF2008', 'ITRF91'):   _X(epoch=_F(2000.0),
-                                 xform=_T( 24.8,    18.6,   -47.2,   3.61,   0.0,     0.0,     0.06),
-                                 rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
-    ('ITRF2008', 'ITRF90'):   _X(epoch=_F(2000.0),
-                                 xform=_T( 22.8,    14.6,   -63.2,   3.91,   0.0,     0.0,     0.06),
-                                 rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
-    ('ITRF2008', 'ITRF89'):   _X(epoch=_F(2000.0),
-                                 xform=_T( 27.8,    38.6,  -101.2,   7.31,   0.0,     0.0,     0.06),
-                                 rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
-    ('ITRF2008', 'ITRF88'):   _X(epoch=_F(2000.0),
-                                 xform=_T( 22.8,     2.6,  -125.2,  10.41,   0.1,     0.0,     0.06),
-                                 rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
+#   _S2('ITRF2008', 'ITRF2005'): _X(epoch=_F(2005.0),  # <http://ITRF.ENSG.IGN.FR/ITRF_solutions/2008/tp_08-05.php>
+#                                   xform=_T( -0.5,    -0.9,    -4.7,   0.94,   0.0,     0.0,     0.0),
+#                                   rates=_T(  0.3,     0.0,     0.0,   0.0,    0.0,     0.0,     0.0)),
+    _S2('ITRF2008', 'ITRF2005'): _X(epoch=_F(2000.0),
+                                    xform=_T( -2.0,    -0.9,    -4.7,   0.94,   0.0,     0.0,     0.0),
+                                    rates=_T(  0.3,     0.0,     0.0,   0.0,    0.0,     0.0,     0.0)),
+    _S2('ITRF2008', 'ITRF2000'): _X(epoch=_F(2000.0),
+                                    xform=_T( -1.9,    -1.7,   -10.5,   1.34,   0.0,     0.0,     0.0),
+                                    rates=_T(  0.1,     0.1,    -1.8,   0.08,   0.0,     0.0,     0.0)),
+    _S2('ITRF2008', 'ITRF97'):   _X(epoch=_F(2000.0),
+                                    xform=_T(  4.8,     2.6,   -33.2,   2.92,   0.0,     0.0,     0.06),
+                                    rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
+    _S2('ITRF2008', 'ITRF96'):   _X(epoch=_F(2000.0),
+                                    xform=_T(  4.8,     2.6,   -33.2,   2.92,   0.0,     0.0,     0.06),
+                                    rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
+    _S2('ITRF2008', 'ITRF94'):   _X(epoch=_F(2000.0),
+                                    xform=_T(  4.8,     2.6,   -33.2,   2.92,   0.0,     0.0,     0.06),
+                                    rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
+    _S2('ITRF2008', 'ITRF93'):   _X(epoch=_F(2000.0),
+                                    xform=_T(-24.0,     2.4,   -38.6,   3.41,  -1.71,   -1.48,   -0.3),
+                                    rates=_T( -2.8,    -0.1,    -2.4,   0.09,  -0.11,   -0.19,    0.07)),
+    _S2('ITRF2008', 'ITRF92'):   _X(epoch=_F(2000.0),
+                                    xform=_T( 12.8,     4.6,   -41.2,   2.21,   0.0,     0.0,     0.06),
+                                    rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
+    _S2('ITRF2008', 'ITRF91'):   _X(epoch=_F(2000.0),
+                                    xform=_T( 24.8,    18.6,   -47.2,   3.61,   0.0,     0.0,     0.06),
+                                    rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
+    _S2('ITRF2008', 'ITRF90'):   _X(epoch=_F(2000.0),
+                                    xform=_T( 22.8,    14.6,   -63.2,   3.91,   0.0,     0.0,     0.06),
+                                    rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
+    _S2('ITRF2008', 'ITRF89'):   _X(epoch=_F(2000.0),
+                                    xform=_T( 27.8,    38.6,  -101.2,   7.31,   0.0,     0.0,     0.06),
+                                    rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
+    _S2('ITRF2008', 'ITRF88'):   _X(epoch=_F(2000.0),
+                                    xform=_T( 22.8,     2.6,  -125.2,  10.41,   0.1,     0.0,     0.06),
+                                    rates=_T(  0.1,    -0.5,    -3.2,   0.09,   0.0,     0.0,     0.02)),
 
-    ('ITRF2005', 'ITRF2000'): _X(epoch=_F(2000.0),  # <http://ITRF.ENSG.IGN.FR/ITRF_solutions/2005/tp_05-00.php>
-                                 xform=_T(  0.1,    -0.8,    -5.8,   0.4,    0.0,     0.0,     0.0),
-                                 rates=_T( -0.2,     0.1,    -1.8,   0.08,   0.0,     0.0,     0.0)),
+    _S2('ITRF2005', 'ITRF2000'): _X(epoch=_F(2000.0),  # <http://ITRF.ENSG.IGN.FR/ITRF_solutions/2005/tp_05-00.php>
+                                    xform=_T(  0.1,    -0.8,    -5.8,   0.4,    0.0,     0.0,     0.0),
+                                    rates=_T( -0.2,     0.1,    -1.8,   0.08,   0.0,     0.0,     0.0)),
 
-    ('ITRF2000', 'ITRF97'):   _X(epoch=_F(1997.0),
-                                 xform=_T( 0.67,     0.61,   -1.85,  1.55,   0.0,     0.0,     0.0),
-                                 rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
-    ('ITRF2000', 'ITRF96'):   _X(epoch=_F(1997.0),
-                                 xform=_T( 0.67,     0.61,   -1.85,  1.55,   0.0,     0.0,     0.0),
-                                 rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
-    ('ITRF2000', 'ITRF94'):   _X(epoch=_F(1997.0),
-                                 xform=_T( 0.67,     0.61,   -1.85,  1.55,   0.0,     0.0,     0.0),
-                                 rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
-    ('ITRF2000', 'ITRF93'):   _X(epoch=_F(1988.0),
-                                 xform=_T( 12.7,     6.5,   -20.9,   1.95,  -0.39,    0.8,    -1.14),
-                                 rates=_T( -2.9,    -0.2,    -0.6,   0.01,  -0.11,   -0.19,    0.07)),
-    ('ITRF2000', 'ITRF92'):   _X(epoch=_F(1988.0),
-                                 xform=_T( 1.47,     1.35,   -1.39,  0.75,   0.0,     0.0,    -0.18),
-                                 rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
-    ('ITRF2000', 'ITRF91'):   _X(epoch=_F(1988.0),
-                                 xform=_T( 26.7,    27.5,   -19.9,   2.15,   0.0,     0.0,    -0.18),
-                                 rates=_T(  0.0,    -0.6,    -1.4,   0.01,   0.0,     0.0,     0.02)),
-    ('ITRF2000', 'ITRF90'):   _X(epoch=_F(1988.0),
-                                 xform=_T( 2.47,     2.35,   -3.59,  2.45,   0.0,     0.0,    -0.18),
-                                 rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
-    ('ITRF2000', 'ITRF89'):   _X(epoch=_F(1988.0),
-                                 xform=_T( 2.97,     4.75,   -7.39,  5.85,   0.0,     0.0,    -0.18),
-                                 rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
-    ('ITRF2000', 'ITRF88'):   _X(epoch=_F(1988.0),
-                                 xform=_T( 2.47,     1.15,   -9.79,  8.95,   0.1,     0.0,    -0.18),
-                                 rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
+    _S2('ITRF2000', 'ITRF97'):   _X(epoch=_F(1997.0),
+                                    xform=_T( 0.67,     0.61,   -1.85,  1.55,   0.0,     0.0,     0.0),
+                                    rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
+    _S2('ITRF2000', 'ITRF96'):   _X(epoch=_F(1997.0),
+                                    xform=_T( 0.67,     0.61,   -1.85,  1.55,   0.0,     0.0,     0.0),
+                                    rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
+    _S2('ITRF2000', 'ITRF94'):   _X(epoch=_F(1997.0),
+                                    xform=_T( 0.67,     0.61,   -1.85,  1.55,   0.0,     0.0,     0.0),
+                                    rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
+    _S2('ITRF2000', 'ITRF93'):   _X(epoch=_F(1988.0),
+                                    xform=_T( 12.7,     6.5,   -20.9,   1.95,  -0.39,    0.8,    -1.14),
+                                    rates=_T( -2.9,    -0.2,    -0.6,   0.01,  -0.11,   -0.19,    0.07)),
+    _S2('ITRF2000', 'ITRF92'):   _X(epoch=_F(1988.0),
+                                    xform=_T( 1.47,     1.35,   -1.39,  0.75,   0.0,     0.0,    -0.18),
+                                    rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
+    _S2('ITRF2000', 'ITRF91'):   _X(epoch=_F(1988.0),
+                                    xform=_T( 26.7,    27.5,   -19.9,   2.15,   0.0,     0.0,    -0.18),
+                                    rates=_T(  0.0,    -0.6,    -1.4,   0.01,   0.0,     0.0,     0.02)),
+    _S2('ITRF2000', 'ITRF90'):   _X(epoch=_F(1988.0),
+                                    xform=_T( 2.47,     2.35,   -3.59,  2.45,   0.0,     0.0,    -0.18),
+                                    rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
+    _S2('ITRF2000', 'ITRF89'):   _X(epoch=_F(1988.0),
+                                    xform=_T( 2.97,     4.75,   -7.39,  5.85,   0.0,     0.0,    -0.18),
+                                    rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
+    _S2('ITRF2000', 'ITRF88'):   _X(epoch=_F(1988.0),
+                                    xform=_T( 2.47,     1.15,   -9.79,  8.95,   0.1,     0.0,    -0.18),
+                                    rates=_T( 0.0,     -0.06,   -0.14,  0.01,   0.0,     0.0,     0.02)),
 
     # see U{Boucher, C. & Altamimi, Z. "Memo: Specifications for reference frame fixing in the
     # analysis of a EUREF GPS campaign" (2011) <https://ETRS89.ENSG.IGN.FR/memo-V8.pdf>} and
     # Altamimi, Z. U{"Key results of ITRF2014 and implication to ETRS89 realization", EUREF2016
     # <https://www.EUREF.EU/symposia/2016SanSebastian/01-02-Altamimi.pdf>}.
-    ('ITRF2014', 'ETRF2000'): _X(epoch=_F(2000.0),
-                                 xform=_T( 53.7,    51.2,   -55.1,   1.02,   0.891,   5.39,   -8.712),
-                                 rates=_T(  0.1,     0.1,    -1.9,   0.11,   0.081,   0.49,   -0.792)),
-    ('ITRF2008', 'ETRF2000'): _X(epoch=_F(2000.0),
-                                 xform=_T( 52.1,    49.3,   -58.5,   1.34,   0.891,   5.39,   -8.712),
-                                 rates=_T(  0.1,     0.1,    -1.8,   0.08,   0.081,   0.49,   -0.792)),
-    ('ITRF2005', 'ETRF2000'): _X(epoch=_F(2000.0),
-                                 xform=_T( 54.1,    50.2,   -53.8,   0.4,    0.891,   5.39,   -8.712),
-                                 rates=_T( -0.2,     0.1,    -1.8,   0.08,   0.081,   0.49,   -0.792)),
-    ('ITRF2000', 'ETRF2000'): _X(epoch=_F(2000.0),
-                                 xform=_T( 54.0,    51.0,   -48.0,   0.0,    0.891,   5.39,   -8.712),
-                                 rates=_T(  0.0,     0.0,     0.0,   0.0,    0.081,   0.49,   -0.792)),
+    _S2('ITRF2014', 'ETRF2000'): _X(epoch=_F(2000.0),
+                                    xform=_T( 53.7,    51.2,   -55.1,   1.02,   0.891,   5.39,   -8.712),
+                                    rates=_T(  0.1,     0.1,    -1.9,   0.11,   0.081,   0.49,   -0.792)),
+    _S2('ITRF2008', 'ETRF2000'): _X(epoch=_F(2000.0),
+                                    xform=_T( 52.1,    49.3,   -58.5,   1.34,   0.891,   5.39,   -8.712),
+                                    rates=_T(  0.1,     0.1,    -1.8,   0.08,   0.081,   0.49,   -0.792)),
+    _S2('ITRF2005', 'ETRF2000'): _X(epoch=_F(2000.0),
+                                    xform=_T( 54.1,    50.2,   -53.8,   0.4,    0.891,   5.39,   -8.712),
+                                    rates=_T( -0.2,     0.1,    -1.8,   0.08,   0.081,   0.49,   -0.792)),
+    _S2('ITRF2000', 'ETRF2000'): _X(epoch=_F(2000.0),
+                                    xform=_T( 54.0,    51.0,   -48.0,   0.0,    0.891,   5.39,   -8.712),
+                                    rates=_T(  0.0,     0.0,     0.0,   0.0,    0.081,   0.49,   -0.792)),
 
     # see U{Solar, T. & Snay, R.A. "Transforming Positions and Velocities between the
     # International Terrestrial Reference Frame of 2000 and North American Datum of 1983"
     # (2004)<https://www.NGS.NOAA.gov/CORS/Articles/SolerSnayASCE.pdf>}
-    ('ITRF2000', 'NAD83'):    _X(epoch=_F(1997.0),  # note NAD83(CORS96)
-                                 xform=_T(995.6, -1901.3,  -521.5,   0.62,  25.915,   9.426,  11.599),
-                                 rates=_T(  0.7,    -0.7,     0.5,  -0.18,   0.067,  -0.757,  -0.051)),
+    _S2('ITRF2000', 'NAD83'):    _X(epoch=_F(1997.0),  # note NAD83(CORS96)
+                                    xform=_T(995.6, -1901.3,  -521.5,   0.62,  25.915,   9.426,  11.599),
+                                    rates=_T(  0.7,    -0.7,     0.5,  -0.18,   0.067,  -0.757,  -0.051)),
 
     # see Table 2 in U{Dawson, J. & Woods, A. "ITRF to GDA94 coordinate transformations", Journal of
     # Applied Geodesy 4 (2010), 189-199<https://www.ResearchGate.net/publication/258401581_ITRF_to_GDA94_coordinate_transformations>}
     # (note, sign of rotations for GDA94 reversed as "Australia assumes rotation to be of coordinate
     # axes" rather than the more conventional "position around the coordinate axes")
-    ('ITRF2008', 'GDA94'):    _X(epoch=_F(1994.0),
-                                 xform=_T(-84.68,  -19.42,   32.01,  9.71,  -0.4254,  2.2578,  2.4015),
-                                 rates=_T(  1.42,    1.34,    0.9,   0.109,  1.5461,  1.182,   1.1551)),
-    ('ITRF2005', 'GDA94'):    _X(epoch=_F(1994.0),
-                                 xform=_T(-79.73,   -6.86,   38.03,  6.636,  0.0351, -2.1211, -2.1411),
-                                 rates=_T(  2.25,   -0.62,   -0.56,  0.294, -1.4707, -1.1443, -1.1701)),
-    ('ITRF2000', 'GDA94'):    _X(epoch=_F(1994.0),
-                                 xform=_T(-45.91,  -29.85,  -20.37,  7.07,  -1.6705,  0.4594,  1.9356),
-                                 rates=_T( -4.66,    3.55,   11.24,  0.249,  1.7454,  1.4868,  1.224)),
+    _S2('ITRF2008', 'GDA94'):    _X(epoch=_F(1994.0),
+                                    xform=_T(-84.68,  -19.42,   32.01,  9.71,  -0.4254,  2.2578,  2.4015),
+                                    rates=_T(  1.42,    1.34,    0.9,   0.109,  1.5461,  1.182,   1.1551)),
+    _S2('ITRF2005', 'GDA94'):    _X(epoch=_F(1994.0),
+                                    xform=_T(-79.73,   -6.86,   38.03,  6.636,  0.0351, -2.1211, -2.1411),
+                                    rates=_T(  2.25,   -0.62,   -0.56,  0.294, -1.4707, -1.1443, -1.1701)),
+    _S2('ITRF2000', 'GDA94'):    _X(epoch=_F(1994.0),
+                                    xform=_T(-45.91,  -29.85,  -20.37,  7.07,  -1.6705,  0.4594,  1.9356),
+                                    rates=_T( -4.66,    3.55,   11.24,  0.249,  1.7454,  1.4868,  1.224)),
 }
 
 _Forward =  1.0e-3  # mm2m, ppb2ppM, mas2as
@@ -378,8 +391,14 @@ def _2Transform(n1_n2, epoch, _Forward_Reverse):
 
 if __name__ == '__main__':
 
-    n, t = len(_trfFs), (len(RefFrames) + len(_trfXs) * 15)
-    print('len(_trfFs) %d / len(_trfXs) %d: %.1f%%\n' % (n, t, n * 100.0 / t))
+    def _percent(L, cache, number, nl):
+        n = len(cache)
+        m = len(RefFrames) + len(_trfXs) * number
+        t = L, n, m, L, (n * 100.0 / m), nl
+        print('len(_trf%ss) %3d / %3d %ss: %.1f%%%s' % t)
+
+    _percent('F', _trfFs, 15, '')
+    _percent('S', _trfSs,  2, '\n')
 
     for m in range(1, 13):
         y, d = 2020, _mDays[m]
@@ -390,7 +409,9 @@ if __name__ == '__main__':
     print('\n@var '.join(i.strip(',') for i in t))
 
 _F = float  # float back to normal
+_S = str    # str back to normal
 del _trfFs  # trash floats cache
+del _trfSs  # trash strs cache
 
 # **) MIT License
 #

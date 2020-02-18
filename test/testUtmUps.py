@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.04.22'
+__version__ = '20.02.14'
 
 from base import TestsBase
 
@@ -39,10 +39,14 @@ class Tests(TestsBase):
         u = toUtmUps8('84 17 14.042N', '132 14 52.761W')  # -132.247988889
         self.test('toUtmUps8ID1', u.toStr(prec=2, B=True, cs=True), '00Y N 1530125.78 2426773.6 -132.24798917° 0.99647445')
         self.test('toUtmUps8ID1.ValidateOK', utmupsValidateOK(u), OK)
+        u = toUtmUps8('84 17 14.042N', '132 14 52.761W', Utm=None, Ups=None)  # coverage
+        self.test('toUtmUps8ID1.ValidateOK', utmupsValidateOK(u), OK)
 
         # TM8358-2 pg 3-7 ID 2
         u = toUtmUps8('73N', '44E')  # Karney 38n 467368 8100752 (73°00'00.0"N 044°00'00.0"E) MGRS 38XMG6736700752
         self.test('toUtmUps8ID2', u.toStr(prec=2, cs=True), '38 N 3320416.75 632668.43 +44.0° 1.01619505', known=True)
+        self.test('toUtmUps8ID2.ValidateOK', utmupsValidateOK(u), OK)
+        u = toUtmUps8('73N', '44E', Utm=None, Ups=None)  # coverage
         self.test('toUtmUps8ID2.ValidateOK', utmupsValidateOK(u), OK)
         u = toUps8('73N', '44E', strict=False)  # allow lat outside UPS range
         self.test('toUtmUps8ID2', u.toStr(prec=2, cs=True), '00 N 3320416.75 632668.43 +44.0° 1.01619505')
@@ -51,6 +55,8 @@ class Tests(TestsBase):
         # TM8358-2 pg 3-7 ID 3
         u = toUtmUps8('87 17 14.4S', '132 14 52.303E')  # -132.247861111
         self.test('toUtmUps8ID3', u.toStr(prec=2, B=True, cs=True), '00B S 2222979.47 1797474.9 -132.24786194° 0.99455723')
+        self.test('toUtmUps8ID3.ValidateOK', utmupsValidateOK(u), OK)
+        u = toUtmUps8('87 17 14.4S', '132 14 52.303E', Utm=None, Ups=None)  # coverage
         self.test('toUtmUps8ID3.ValidateOK', utmupsValidateOK(u), OK)
 
         # TM8358-2 pg 3-7 ID 4
