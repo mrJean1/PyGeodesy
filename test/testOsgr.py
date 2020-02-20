@@ -4,7 +4,7 @@
 # Test OSGR functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.01.09'
+__version__ = '20.02.19'
 
 from base import TestsBase
 

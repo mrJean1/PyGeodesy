@@ -20,11 +20,11 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.02.09'
+__version__ = '20.02.19'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
-except ImportError:
+except ImportError:  # PYCHOK no cover
     try:  # _Ints imported by .utily
         _Ints = int, long  #: (INTERNAL) Int objects (C{tuple})
     except NameError:  # Python 3+
@@ -32,7 +32,7 @@ except ImportError:
 
 try:  # similarly ...
     from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
-except ImportError:
+except ImportError:  # PYCHOK no cover
     try:
         _Scalars = int, long, float  #: (INTERNAL) Scalar objects (C{tuple})
     except NameError:
@@ -40,7 +40,7 @@ except ImportError:
 
 try:  # _Seqs imported by .utily
     from collections import Sequence as _Seqs  #: (INTERNAL) incl MutableSequence
-except ImportError:
+except ImportError:  # PYCHOK no cover
     _Seqs = list, tuple, range  # XXX also set?
 
 try:
@@ -48,7 +48,7 @@ try:
     MANTIS = _float_info.mant_dig  #: System's mantissa bits (C{int})
     MAX    = _float_info.max       #: System's float max (C{float})
     MIN    = _float_info.min       #: System's float min (C{float})
-except AttributeError:
+except AttributeError:  # PYCHOK no cover
     EPS    = 2.220446049250313e-16  #: Epsilon (C{float}) 2**-52?
     MANTIS = 53  #: Mantissa bits ≈53 (C{int})
     MAX    = pow(2.0,  1023) * (2 - EPS)  #: Float max (C{float}) ≈10**308, 2**1024?

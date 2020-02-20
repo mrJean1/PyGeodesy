@@ -45,7 +45,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.01.22'
+__version__ = '20.02.19'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -55,6 +55,7 @@ _E0, _N0 = 400e3, -100e3  #: (INTERNAL) East-/northing of true origin (C{meter})
 _F0      = 0.9996012717   #: (INTERNAL) NatGrid scale of central meridian (C{float}).
 
 _OSGB36  = Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
+_TRIPS   = 32  #: (INTERNAL) Convergence
 
 
 def _ll2datum(ll, datum, name):
@@ -153,6 +154,8 @@ class Osgr(_NamedBase):
                     L{LatLonDatum3Tuple}C{(lat, lon, datum)}
                     if B{C{LatLon}} is C{None}.
 
+           @raise OSGRError: No convergence.
+
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal or if
                              B{C{datum}} conversion failed.
 
@@ -174,13 +177,16 @@ class Osgr(_NamedBase):
         e, n = self.easting, self.northing
         n_N0 = n - _N0
 
-        a, M = _A0, 0
+        a, m = _A0, n_N0
         sa = Fsum(a)
-        while True:
-            a = sa.fsum_((n_N0 - M) / a_F0)
-            M = b_F0 * _M(E.Mabcd, a)  # meridional arc
-            if abs(n_N0 - M) < _10um:
+        for _ in range(_TRIPS):
+            a = sa.fsum_(m / a_F0)
+            m = n_N0 - b_F0 * _M(E.Mabcd, a)  # meridional arc
+            if abs(m) < _10um:
                 break
+        else:
+            t = self.classname, self.toStr(prec=-3), 'toLatLon'
+            raise OSGRError('no convergence %s(%s).%s' % t)
 
         sa, ca = sincos2(a)
 
@@ -290,7 +296,7 @@ class Osgr(_NamedBase):
         if prec > 0:
             t = sep.join('%s:%s' % t for t in zip('GEN', t.split()))
         else:
-            t = 'OSGR:' + t
+            t = '%s:%s' % (Osgr.__name__.upper(), t)
         return fmt % (t,)
 
 

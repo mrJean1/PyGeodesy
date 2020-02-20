@@ -45,11 +45,12 @@ Installation
 ============
 
 To install PyGeodesy, type ``pip install PyGeodesy`` or ``easy_install
-PyGeodesy`` in a terminal or command window.  Alternatively, download
-``PyGeodesy-yy.m.d.zip`` from PyPI_ or GitHub_, ``unzip`` the downloaded
-file, ``cd`` to directory ``PyGeodesy-yy.m.d`` and type ``python setup.py
-install``.  To run all PyGeodesy tests, type ``python setup.py test``
-before installation.
+PyGeodesy`` in a terminal or command window.
+
+Alternatively, download ``PyGeodesy-yy.m.d.zip`` from PyPI_ or GitHub_,
+``unzip`` the downloaded file, ``cd`` to directory ``PyGeodesy-yy.m.d``
+and type ``python setup.py install``.  To run all PyGeodesy tests, type
+``python setup.py test`` before installation.
 
 Installation of `GeographicLib`_, `NumPy`_ and `SciPy`_ is optional.
 However, the former is required for classes *CassiniSoldner* and *Css*
@@ -120,7 +121,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Feb 17, 2020.*
+*Last updated: Feb 20, 2020.*
 
 License
 =======

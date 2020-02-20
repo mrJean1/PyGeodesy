@@ -53,7 +53,7 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
 from pygeodesy.datum import Datum
 from pygeodesy.fmath import EPS, fidw, hypot2, \
-                           _IsNotError, isscalar, len2, map1
+                           _IsNotError, isscalar, len2, map1, map2
 from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named
@@ -62,7 +62,7 @@ from pygeodesy.utily import PI, PI2, PI_2, property_RO, \
                             radiansPI, radiansPI2, unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.02.09'
+__version__ = '20.02.20'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -744,24 +744,24 @@ class HeightLSQBiSpline(_HeightBase):
         np, spi = self._NumSciPy()
 
         xs, ys, hs = self._xyhs3(knots)
-        m = len(hs)
+        n = len(hs)
 
-        if not weight:
-            w = None  # default
-        elif isscalar(weight):
-            w = float(weight)
+        w = weight
+        if isscalar(w):
+            w = float(w)
             if w <= 0:
                 raise HeightError('%s invalid: %.6f' % ('weight', w))
-        else:
-            n, w = len2(weight)
-            if n != m:
+            w = [w] * n
+        elif w is not None:
+            m, w = len2(w)
+            if m != n:
                 raise HeightError('%s invalid: %s, not %s' % (
-                                  'number of weights', n, m))
-            w = np.array(map(float, w))
-            for i in range(m):
-                if w[i] <= 0:
-                    raise HeightError('%s[%s] invalid: %.6f' % (
-                                      'weight', i, w[i]))
+                                  'number of weights', m, n))
+            w = map2(float, w)
+            m = min(w)
+            if m <= 0:
+                raise HeightError('%s[%s] invalid: %.6f' % (
+                                  'weight', w.find(m), m))
         try:
             T = 1.0e-4  # like SciPy example
             ps = np.array(_ordedup(xs, T, PI2 - T))

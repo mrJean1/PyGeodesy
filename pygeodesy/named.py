@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '20.02.17'
+__version__ = '20.02.19'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
@@ -168,7 +168,7 @@ class _Named(object):
         n, c = self.name, self.classname
         return ('%s %r' % (c, n)) if c and n else (c or n)
 
-    def _notOverloaded(self, name, *args, **kwds):
+    def _notOverloaded(self, name, *args, **kwds):  # PYCHOK no cover
         '''Raise an error for a method or property not overloaded.
         '''
         n = '%s %s.%s' % (self._notOverloaded.__name__, self.classname, name)

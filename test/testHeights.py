@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.01.17'
+__version__ = '20.02.20'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -36,8 +36,8 @@ def _kwdstr(kwds):
 
 class Tests(TestsBase):
 
-    def testHeight(self, H, kts, lli, expected, lats, lons):
-        interpolator = H(kts)
+    def testHeight(self, H, kts, lli, expected, lats, lons, **kwds):
+        interpolator = H(kts, **kwds)
         self.testCopy(interpolator)
         self.testHeightError(interpolator)
         h = interpolator(lli)
@@ -144,7 +144,7 @@ class Tests(TestsBase):
             kts += LatLon(1.1, 2, 2), LatLon(2.1, 3, 2), LatLon(1.2, 5, 3), LatLon(2.2, 4, 3)
             kts += LatLon(1.1, 3, 2), LatLon(2.1, 4, 2), LatLon(1.2, 6, 3), LatLon(2.2, 5, 3)
             kts += LatLon(1.1, 4, 2), LatLon(2.1, 5, 2), LatLon(1.2, 7, 3), LatLon(2.2, 6, 3)
-            # list of lats and lons
+            # unzip into a list of lats and of lons
             lats, lons = zip(*[(ll.lat, ll.lon) for ll in kts])
 
             self.testHeight(HeightCubic,              kts, lli, '3.000000000', lats, lons)
@@ -156,6 +156,8 @@ class Tests(TestsBase):
             self.testHeight(HeightIDWvincentys,       kts, lli, '2.402157442', lats, lons)
             self.testHeight(HeightLinear,             kts, lli, '3.000000000', lats, lons)
             self.testHeight(HeightLSQBiSpline,        kts, lli, '6.419251669', lats, lons)
+            self.testHeight(HeightLSQBiSpline,        kts, lli, '6.419251669', lats, lons, weight=2)  # coverage
+            self.testHeight(HeightLSQBiSpline,        kts, lli, '6.419251669', lats, lons, weight=[1] * len(kts))
             self.testHeight(HeightSmoothBiSpline,     kts, lli, '2.598922541', lats, lons)
 
         else:

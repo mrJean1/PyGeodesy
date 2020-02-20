@@ -142,7 +142,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '20.02.07'
+__version__ = '20.02.19'
 
 _TOL = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
 
@@ -548,7 +548,7 @@ class Ellipsoid(_NamedEnumItem):
         # note, self.e is always non-negative
         if self.f > 0:
             r = self.e * atanh(self.e * x)
-        elif self.f < 0:
+        elif self.f < 0:  # PYCHOK no cover
             r = self.e * atan(-self.e * x)
         else:
             r = 0
@@ -1256,8 +1256,8 @@ Datums._assert(
     Irl1975        = Datum(Ellipsoids.AiryModified, Transforms.Irl1975),
 
     # Germany <https://WikiPedia.org/wiki/Helmert_transformation>
-    Krassovski1940 = Datum(Ellipsoids.Krassovski1940, Transforms.Krassovski1940),  # spelling
-    Krassowsky1940 = Datum(Ellipsoids.Krassowsky1940, Transforms.Krassowsky1940),  # spelling
+    Krassovski1940 = Datum(Ellipsoids.Krassovski1940, Transforms.Krassovski1940),  # XXX spelling?
+    Krassowsky1940 = Datum(Ellipsoids.Krassowsky1940, Transforms.Krassowsky1940),  # XXX spelling?
 
     # Austria <https://DE.WikiPedia.org/wiki/Datum_Austria>
     MGI            = Datum(Ellipsoids.Bessel1841, Transforms.MGI),

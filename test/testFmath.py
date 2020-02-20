@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.01.25'
+__version__ = '20.02.19'
 
 from base import coverage, TestsBase
 # from math import sqrt
@@ -78,6 +78,10 @@ class Tests(TestsBase):
             f = Fsum()
             f.fsum(t[n:])  # test ps
             self.test('Fsum', f.fsum(t[:n]), s)
+
+        p = f * (f * 1e10)  # coverage Fsum.__imul__
+        f *= f * 1e10
+        self.test('fmul', p.fsum(), f.fsum(), fmt='%0.8f')
 
         p = fpowers(2, 10)  # PYCHOK false!
         self.test('fpowers', len(p), 10)

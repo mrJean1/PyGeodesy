@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '18.08.26'
+__version__ = '20.02.19'
 
 from base import TestsBase
 
@@ -24,6 +24,12 @@ class Tests(TestsBase):
         c = Conic(LatLon(23, -96, datum=Datums.NAD27), 33, 45, E0=0, N0=0, name=n)
         self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)" % (n,))
 
+        n = '_' + n
+        c = Conic(LatLon(23, -96, datum=Datums.NAD27), 33, name=n)
+        self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, E0=0, N0=0, k0=1, SP=1, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)" % (n,))
+        c = c.toDatum(Datums.NAD83)
+        self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, E0=0, N0=0, k0=1, SP=1, datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83)" % (n,))
+
     def testLcc(self, module):
 
         self.subtitle(module, 'Lcc')
@@ -33,6 +39,7 @@ class Tests(TestsBase):
         lb = Lcc(448251, 5411932.0001, name='lb1')
         self.test('lb1', lb.toStr(4), '448251.0 5411932.0001')
         self.test('lb1', lb.toStr(sep=', '), '448251, 5411932')
+        self.test('lb1', lb.toStr2(), '[E:448251, N:5411932]')
         self.test('lb1', lb.conic.name2, 'WRF_Lb.WGS84')
         self.test('lb1', lb.name, 'lb1')
 
@@ -53,6 +60,7 @@ class Tests(TestsBase):
         self.test('toLatLon2', ll.datum.name, 'NAD27')
         lb = toLcc(ll, conic=Conics.Snyder)
         self.test('toLcc2', lb.toStr(prec=1), '1894410.9 1564649.5')
+        self.test('toLcc2', lb.toStr2(), '[E:1894411, N:1564649]')
         self.test('toLcc2', lb.conic.name2, 'Snyder.NAD27')
 
         for n, c in sorted(Conics.items()):

@@ -32,8 +32,8 @@ from geocentric coordinates to geodetic coordinates
 Several changes have been made to ensure that the method returns accurate
 results for all finite inputs (even if h is infinite).  The changes are
 described in Appendix B of C. F. F. Karney U{Geodesics on an ellipsoid of
-revolution<https://arXiv.org/abs/1102.1215v1>}, Feb. 2011, 85, 105-117
-(U{preprint<https://arXiv.org/abs/1102.1215v1>}).  Vermeille similarly updated
+revolution<https://ArXiv.org/abs/1102.1215v1>}, Feb. 2011, 85, 105-117
+(U{preprint<https://ArXiv.org/abs/1102.1215v1>}).  Vermeille similarly updated
 his method in U{An analytical method to transform geocentric into geodetic
 coordinates<https://DOI.org/10.1007/s00190-010-0419-x>}, J. Geodesy (2011) 85,
 105-117.  See U{Geocentric coordinates

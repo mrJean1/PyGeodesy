@@ -85,7 +85,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '20.02.06'
+__version__ = '20.02.19'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -933,7 +933,7 @@ class GeoidKarney(_GeoidBase):
 
     def _g2ll2(self, lat, lon):
         # convert grid (lat, lon) to earth (lat, lon), uncropped
-        if lon > 180:
+        while lon > 180:
             lon -= 360
         return lat, lon
 
@@ -950,7 +950,7 @@ class GeoidKarney(_GeoidBase):
 
     def _ll2g2(self, lat, lon):
         # convert earth (lat, lon) to grid (lat, lon), uncropped
-        if lon < 0:
+        while lon < 0:
             lon += 360
         return lat, lon
 
@@ -1151,7 +1151,7 @@ class GeoidPGM(_GeoidBase):
 
     def _g2ll2(self, lat, lon):
         # convert grid (lat, lon) to earth (lat, lon), uncropped
-        if lon > 180:
+        while lon > 180:
             lon -= 360
         return lat, lon
 
@@ -1161,7 +1161,7 @@ class GeoidPGM(_GeoidBase):
 
     def _ll2g2(self, lat, lon):
         # convert earth (lat, lon) to grid (lat, lon), uncropped
-        if lon < 0:
+        while lon < 0:
             lon += 360
         return lat, lon
 
@@ -1421,7 +1421,7 @@ class _PGM(_Gpars):
         # c = open(c.name, 'rb')  # reopen for numpy 1.8.0-
         return c
 
-    def _Errorf(self, fmt, *args):
+    def _Errorf(self, fmt, *args):  # PYCHOK no cover
         e = self.pgm or ''
         if e:
             e = ' in %r' % (e,)
@@ -1485,7 +1485,7 @@ def egmGeoidHeights(GeoidHeights_dat):
         t = t.strip()
         if t and not t.startswith(b'#'):
             lat, lon, egm84, egm96, egm2008 = map(float, t.split())
-            if lon > 180:  # EasternLon to earth lon
+            while lon > 180:  # EasternLon to earth lon
                 lon -= 360
             yield GeoidHeight5Tuple(lat, lon, egm84, egm96, egm2008)
 

@@ -19,7 +19,7 @@ from pygeodesy.utily import false2f, issubclassof, property_RO, _TypeError
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css
-__version__ = '20.01.22'
+__version__ = '20.02.19'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -88,7 +88,7 @@ class CassiniSoldner(_NamedBase):
         return self.geodesic.f
 
     def forward(self, lat, lon):
-        '''Convert an (ellipsoidal) geodetic location Cassini-Soldner
+        '''Convert an (ellipsoidal) geodetic location to Cassini-Soldner
            easting and northing.
 
            @param lat: Latitude of the location (C{degrees90}).
@@ -100,7 +100,7 @@ class CassiniSoldner(_NamedBase):
         return self._xnamed(r)
 
     def forward4(self, lat, lon):
-        '''Convert an (ellipsoidal) geodetic location Cassini-Soldner
+        '''Convert an (ellipsoidal) geodetic location to Cassini-Soldner
            easting and northing.
 
            @param lat: Latitude of the location (C{degrees90}).
@@ -201,20 +201,18 @@ class CassiniSoldner(_NamedBase):
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
         '''
-        a, b = self.reverse4(easting, northing)[:2]
-        if LatLon is None:
-            r = LatLon2Tuple(a, b)
-        elif issubclassof(LatLon, _LLEB):
-            r = LatLon(a, b, datum=self.datum)
-        else:
+        r = LatLon2Tuple(*self.reverse4(easting, northing)[:2])
+        if issubclassof(LatLon, _LLEB):
+            r = LatLon(r.lat, r.lon, datum=self.datum)  # PYCHOK expected
+        elif LatLon is not None:
             raise _IsNotError(_LLEB.__name__, LatLon=LatLon)
         return self._xnamed(r)
 
     toLatLon = reverse
 
     def reverse4(self, easting, northing):
-        '''Convert a Cassini-Soldner location to (ellipsoidal) geodetic lat-
-           and longitude.
+        '''Convert a Cassini-Soldner location to (ellipsoidal) geodetic
+           lat- and longitude.
 
            @param easting: Easting of the location (C{meter}).
            @param northing: Northing of the location (C{meter}).
@@ -224,8 +222,8 @@ class CassiniSoldner(_NamedBase):
         g = self.geodesic
 
         r = self._meridian.Position(northing)
-        a, b, z = r['lat2'], r['lon2'], r['azi2']
-        r = g.Direct(a, b, z + 90, easting, g.STANDARD | g.GEODESICSCALE)
+        lat, lon, z = r['lat2'], r['lon2'], r['azi2']
+        r = g.Direct(lat, lon, z + 90, easting, g.STANDARD | g.GEODESICSCALE)
         # include azimuth of easting direction and reciprocal of
         # azimuthal northing scale (see C++ member Direct() 5/6
         # <https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1Geodesic.html>)
@@ -382,12 +380,12 @@ class Css(_NamedBase):
         if LatLon and not issubclassof(LatLon, _LLEB):
             raise _IsNotError(_LLEB.__name__, LatLon=LatLon)
 
-        a, b = self.latlon
+        lat, lon = self.latlon
         d = self.cs0.datum
         h = self.height if height is None else height
 
-        r = LatLon4Tuple(a, b, h, d) if LatLon is None else \
-                  LatLon(a, b, height=h, datum=d)
+        r = LatLon4Tuple(lat, lon, h, d) if LatLon is None else \
+                  LatLon(lat, lon, height=h, datum=d)
         return self._xnamed(r)
 
     def toStr(self, prec=6, sep=' ', m='m'):  # PYCHOK expected
@@ -431,7 +429,8 @@ class Css(_NamedBase):
 
 
 def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=''):
-    '''Convert an (ellipsoidal) geodetic point to a Cassini-Soldner location.
+    '''Convert an (ellipsoidal) geodetic point to a Cassini-Soldner
+       location.
 
        @param latlon: Ellipsoidal point (C{LatLon}).
        @keyword cs0: Optional, the Cassini-Soldner projection to use

@@ -4,12 +4,12 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '19.10.07'
+__version__ = '20.02.19'
 
 from base import TestsBase
 
-from pygeodesy import R_M, Datum, Datums, Ellipsoid, Ellipsoids, \
-                      fStr, Transform, Transforms
+from pygeodesy import Datum, Datums, EcefKarney, Ellipsoid, Ellipsoids, \
+                      fStr, R_M, PI_2, Transform, Transforms
 
 
 class Tests(TestsBase):
@@ -84,10 +84,25 @@ class Tests(TestsBase):
             self.test('rocPrimeVertical', fStr(E.rocPrimeVertical(45), prec=3), '6388838.29')
             self.test('rocPrimeVertical', fStr(E.rocPrimeVertical(90), prec=3), '6399593.626')
 
-        E = Ellipsoids.WGS84.copy()
+        self.test('a, b, None',  Ellipsoid(1000, 500, None).f_, 2.0)  # coverage
+        self.test('a, None, f_', Ellipsoid(1000, None, 2).b, 500.0)  # coverage
+
+        E = Ellipsoids.WGS84.copy()  # coverage
         self.test('WGS84.copy', E is not Ellipsoids.WGS84, True)
         self.test('WGS84.copy', E == Ellipsoids.WGS84, True)
         self.test('WGS84.find', Ellipsoids.find(E), None)
+
+        self.test('WGS84.a2_b', E.a2_b, E.a2 / E.b, fmt='%.6f')
+        self.test('WGS84.b2_a', E.b2_a, E.b2 / E.a, fmt='%.6f')
+        self.test('WGS84.c',    E.c,    E.R2,       fmt='%.6f')
+        self.test('WGS84.es',   E.es,   E.e,        fmt='%.6f')
+        self.test('WGS84.f2',   E.f2, (E.a - E.b) / E.b, fmt='%.6f')
+        self.test('WGS84.m2degrees', int(E.m2degrees(E.a * PI_2)), 90)
+        self.test('WGS84.area',   E.area,   '5.101e+14', fmt='%.3e')
+        self.test('WGS84.volume', E.volume, '1.083e+21', fmt='%.3e')
+
+        self.test('WGS84.ecef', E.ecef().__class__, EcefKarney)
+        self.test('WGS84.ecef', E.ecef().name, E.name)
 
         t = E.toStr(prec=10)
         self.test('WGS84', t, "name='WGS84', a=6378137, b=6356752.3142499998, f_=298.257223563, f=0.0033528107, e=0.0818191908, e2=0.00669438, e12=0.99330562, e22=0.0067394967, n=0.0016792204, R1=6371008.7714166669, R2=6371007.180920884, R3=6371000.7900107643, Rr=6367449.1458250266, Rs=6367435.6797186071")

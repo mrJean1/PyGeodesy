@@ -42,13 +42,13 @@ from pygeodesy.vector3d import CrossError, crosserrors
 
 try:
     from collections import Sequence as _Sequence  # immutable
-except ImportError:
+except ImportError:  # PYCHOK no cover
     _Sequence = object  # XXX or tuple
 from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.02.14'
+__version__ = '20.02.19'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -261,7 +261,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         for i in range(len(self)):
             yield self.point(self._array[i])
 
-    def _notOverloaded(self, name, *args, **kwds):
+    def _notOverloaded(self, name, *args, **kwds):  # PYCHOK no cover
         '''Raise an error for a method or property not overloaded.
         '''
         n = '%s %s.%s' % (self._notOverloaded.__name__, classname(self, prefixed=True), name)
@@ -316,7 +316,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
             return i
         return -1
 
-    def _slicekwds(self):
+    def _slicekwds(self):  # PYCHOK no cover
         '''(INTERNAL) Should be overloaded.
         '''
         return {}
@@ -345,19 +345,19 @@ class _Basequence(_Sequence):  # immutable, on purpose
         self._epsilon = scalar(tol, 0.0, name='tolerance')
 
     @property_RO
-    def isNumpy2(self):
+    def isNumpy2(self):  # PYCHOK no cover
         '''Is this a Numpy2 wrapper?
         '''
         return False  # isinstance(self, (Numpy2LatLon, ...))
 
     @property_RO
-    def isPoints2(self):
+    def isPoints2(self):  # PYCHOK no cover
         '''Is this a LatLon2 wrapper/converter?
         '''
         return False  # isinstance(self, (LatLon2psxy, ...))
 
     @property_RO
-    def isTuple2(self):
+    def isTuple2(self):  # PYCHOK no cover
         '''Is this a Tuple2 wrapper?
         '''
         return False  # isinstance(self, (Tuple2LatLon, ...))

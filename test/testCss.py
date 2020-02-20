@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.02.14'
+__version__ = '20.02.19'
 
 from base import TestsBase, geographiclib
 
@@ -25,6 +25,8 @@ class Tests(TestsBase):
         f = P.forward4(50.9, 1.8)  # Calais
         self.test('forward4', fStr(f, prec=6), '-37518.854545, 230003.561828, 89.586104, 0.999983')
 
+        self.testCopy(P)
+
         r = P.reverse(-38e3, 230e3)
         self.test('reverse', fStr(r, prec=6), '50.899937, 1.793161')
         f = P.forward(*r)
@@ -36,15 +38,15 @@ class Tests(TestsBase):
             r = P.reverse(-38e3, 230e3, LatLon=LL)
             self.test('reverse', repr(r), 'LatLon(50°53′59.77″N, 001°47′35.38″E)')
 
-        g = CassiniSoldner(51.4934, 0.0098, name='Greenwich')
-        self.test(repr(g), g, g)
-        f = g.forward(48 + 50/60.0, 2 + 20/60.0)  # Paris
+        G = CassiniSoldner(51.4934, 0.0098, name='Greenwich')
+        self.test(repr(G), G, G)
+        f = G.forward(48 + 50/60.0, 2 + 20/60.0)  # Paris
         self.test('forward', fStr(f, prec=6), '170557.151692, -293280.6051')
-        r = g.reverse(*f)
+        r = G.reverse(*f)
         self.test('reverse', fStr(r, prec=6), '48.833333, 2.333333')
 
         h = hypot(*f)  # easting + norting ~= distance
-        d = haversine(*(g.latlon0 + r))
+        d = haversine(*(G.latlon0 + r))
         self.test('hypot', h, d, fmt='%.3f', known=abs(d - h) < 1000)
 
         c = toCss(LL(50.9, 1.8, height=1), cs0=P, name='Calais')
@@ -65,6 +67,8 @@ class Tests(TestsBase):
         self.test('Css.'+'toLatLon.height', r.height, '1.0')
         self.test('Css.'+'toLatLon.name', r.name, 'Calais')
         self.test('Css.'+'toLatLon.datum.name', r.datum.name, 'WGS84')
+
+        self.testCopy(c)
 
         r = c.classof(c.easting, c.northing, h=c.height, cs0=c.cs0)  # coverage Css._reverse4
         for a, f, x in (('height',   '%.1f', '1.0'),

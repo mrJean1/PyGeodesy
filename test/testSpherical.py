@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '19.06.29'
+__version__ = '20.02.19'
 
 from base import isWindows
 from testLatLon import Tests as _TestsLL
@@ -204,10 +204,17 @@ class Tests(_TestsLL, _TestsV):
                 for i in range(8):
                     p = LatLon(i + 2, i)
                     c, d, a = p.nearestOn3(b, adjust=False)
-                    q = LatLon(p.lat - 1.5, p.lon + 1.5)
-                    self.test('nearestOn3', c.toStr(F_D, prec=6), q.toStr(F_D, prec=6))
+                    t = LatLon(p.lat - 1.5, p.lon + 1.5).toStr(F_D, prec=6)
+                    self.test('nearestOn3', c.toStr(F_D, prec=6), t)
                     self.test('distance', d, '235880.385', fmt='%.3f')
                     self.test('angle', a, '135.00', fmt='%.2f')
+
+                n = module.meanOf(b)  # coverage
+                self.test('meanOf', n.toStr(F_D, prec=6), '04.004858°N, 004.990226°E')
+                n = module.nearestOn3(p, b, LatLon=LatLon, adjust=False)[0]  # coverage
+                self.test('nearestOn3', n, '07.5°N, 008.5°E')
+                c = p.toCartesian()  # coverage
+                self.test('toCartesian', c, '[6245667.211, 766871.506, 996645.349]')
 
         if hasattr(module, 'ispolar'):
             p = LatLon(85, 90), LatLon(85, 0), LatLon(85, -90), LatLon(85, -180)

@@ -68,10 +68,12 @@ Installation
 ============
 
 To install PyGeodesy, type C{pip install PyGeodesy} or C{easy_install
-PyGeodesy} in a terminal or command window.  Alternatively, download
-C{PyGeodesy-yy.m.d.zip} from U{PyPI<https://PyPI.org/project/PyGeodesy>}
-or U{GitHub<https://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded
-file, C{cd} to directory C{Pygeodesy-yy.m.d} and type C{python setup.py
+PyGeodesy} in a terminal or command window.
+
+Alternatively, download C{PyGeodesy-yy.m.d.zip} from U{PyPI
+<https://PyPI.org/project/PyGeodesy>} or U{GitHub
+<https://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded file,
+C{cd} to directory C{Pygeodesy-yy.m.d} and type C{python setup.py
 install}.  To run all PyGeodesy tests, type C{python setup.py test}
 before installation.
 
@@ -265,7 +267,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.02.17'
+__version__ = '20.02.20'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

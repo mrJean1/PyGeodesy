@@ -827,6 +827,7 @@ pygeodesy.heights._ascalar	pygeodesy.heights-module.html#_ascalar
 pygeodesy.heights._axyllis4	pygeodesy.heights-module.html#_axyllis4
 pygeodesy.heights._IsNotError	pygeodesy.fmath-module.html#_IsNotError
 pygeodesy.heights._scaler	pygeodesy.formy-module.html#_scaler
+pygeodesy.heights.map2	pygeodesy.fmath-module.html#map2
 pygeodesy.heights.radiansPI2	pygeodesy.utily-module.html#radiansPI2
 pygeodesy.heights.map1	pygeodesy.fmath-module.html#map1
 pygeodesy.heights.hypot2	pygeodesy.fmath-module.html#hypot2
@@ -954,6 +955,7 @@ pygeodesy.osgr._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.osgr._OSGB36	pygeodesy.osgr-module.html#_OSGB36
 pygeodesy.osgr.fpowers	pygeodesy.fmath-module.html#fpowers
 pygeodesy.osgr.property_RO	pygeodesy.utily-module.html#property_RO
+pygeodesy.osgr._TRIPS	pygeodesy.osgr-module.html#_TRIPS
 pygeodesy.osgr._B0	pygeodesy.osgr-module.html#_B0
 pygeodesy.osgr.__package__	pygeodesy.osgr-module.html#__package__
 pygeodesy.osgr.parseOSGR	pygeodesy.osgr-module.html#parseOSGR
