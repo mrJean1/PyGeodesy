@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.02.23'
+__version__ = '20.02.24'
 
 from base import coverage, TestsBase
 
@@ -108,7 +108,7 @@ class Tests(TestsBase):
             c = p.toCartesian()
             self.test('toCartesian', c, '[3185744.919, 3185744.919, 4504643.315]')
             self.test('toLatLon',  c.toLatLon(), p, known=True)  # '44.995674°N, 045.0°E, -0.00m'
-            self.test('toNvector', c.toNvector(), '(0.50004, 0.50004, 0.70705, -0.00)')
+            self.test('toNvector', c.toNvector(), '(0.50004, 0.50004, 0.70705, -0.00)', known=True)
 
         if hasattr(LatLon, 'intersection'):
             # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
