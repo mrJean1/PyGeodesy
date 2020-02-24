@@ -4,11 +4,11 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.02.19'
+__version__ = '20.02.23'
 
 from base import TestsBase, geographiclib
 
-from pygeodesy import CassiniSoldner, fStr, haversine, hypot, toCss
+from pygeodesy import CassiniSoldner, Css, fStr, haversine, hypot, toCss
 
 
 class Tests(TestsBase):
@@ -49,9 +49,9 @@ class Tests(TestsBase):
         d = haversine(*(G.latlon0 + r))
         self.test('hypot', h, d, fmt='%.3f', known=abs(d - h) < 1000)
 
-        c = toCss(LL(50.9, 1.8, height=1), cs0=P, name='Calais')
-        self.test('toCss', c, '-37518.854545 230003.561828 +1.00m')
-        self.test('toCss', c.toStr2(C=True), "[E:-37518.854545, N:230003.561828, H:+1.00m, name:'Calais', C:CassiniSoldner(48.833333, 2.333333, name='Paris')]")
+        C = toCss(LL(50.9, 1.8, height=1), cs0=P, name='Calais')
+        self.test('toCss', C, '-37518.854545 230003.561828 +1.00m')
+        self.test('toCss', C.toStr2(C=True), "[E:-37518.854545, N:230003.561828, H:+1.00m, name:'Calais', C:CassiniSoldner(48.833333, 2.333333, name='Paris')]")
         for a, f, x in (('easting',  '%.6f', '-37518.854545'),
                         ('northing', '%.6f', '230003.561828'),
                       # ('latlon',   '%r',   '(50.9, 1.8)'),  # Python 2.6 Ubuntu (50.899999999999999, 1.8)
@@ -60,23 +60,30 @@ class Tests(TestsBase):
                         ('rk',       '%.9f', '0.999982722'),
                         ('name',     '%s',   'Calais'),
                         ('cs0',      '%s',   '48.833333 2.333333')):
-            v = getattr(c, a)
+            v = getattr(C, a)
             self.test('Css.'+a, v, x, fmt=f)
-        r = c.toLatLon(LatLon=LL)
+        r = C.toLatLon(LatLon=LL)
         self.test('Css.'+'toLatLon', repr(r), 'LatLon(50°54′00.0″N, 001°48′00.0″E, +1.00m)')
         self.test('Css.'+'toLatLon.height', r.height, '1.0')
         self.test('Css.'+'toLatLon.name', r.name, 'Calais')
         self.test('Css.'+'toLatLon.datum.name', r.datum.name, 'WGS84')
 
-        self.testCopy(c)
+        self.testCopy(C)
 
-        r = c.classof(c.easting, c.northing, h=c.height, cs0=c.cs0)  # coverage Css._reverse4
+        self.test('cs0.name', C.cs0.name, 'Paris')
+        c = Css(C.easting, C.northing)  # coverage css._CassiniSoldner
+        self.test('cs0.name',       c.cs0.name, 'Default')
+        self.test('cs0.flattening', c.cs0.flattening, 0.00335281066475, fmt='%.9f')
+        self.test('cs0.lat0',       c.cs0.lat0, 0)
+        self.test('cs0.majoradius', c.cs0.majoradius, '6378137.0')
+
+        c = C.classof(C.easting, C.northing, h=C.height, cs0=C.cs0)  # coverage Css._reverse4
         for a, f, x in (('height',   '%.1f', '1.0'),
                         ('azi',      '%.9f', '89.586103815'),
                         ('rk',       '%.9f', '0.999982722'),
                         ('name',     '%s',   'Calais'),
                         ('cs0',      '%s',   '48.833333 2.333333')):
-            v = getattr(r, a)
+            v = getattr(c, a)
             self.test('classof.'+a, v, x, fmt=f)
 
 

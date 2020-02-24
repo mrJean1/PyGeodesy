@@ -81,7 +81,7 @@ from pygeodesy.utily import isNumpy2, isTuple2
 from math import degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '19.07.12'
+__version__ = '20.02.22'
 
 
 # try:
@@ -371,7 +371,7 @@ def simplify1(points, distance, radius=R_M, indices=False, **options):
 
        @param points: Path points (C{LatLon}[]).
        @param distance: Tolerance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword indices: Optionally return the simplified point indices
                          instead of the simplified points (C{bool}).
        @keyword options: Optional keyword arguments passed thru to
@@ -414,7 +414,7 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
 
        @param points: Path points (C{LatLon}[]).
        @param distance: Tolerance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword shortest: Optional, shortest or perpendicular distance
                           (C{bool}).
        @keyword indices: Optionally return the simplified point indices
@@ -448,7 +448,7 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
 
        @param points: Path points (C{LatLon}[]).
        @param distance: Tolerance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword shortest: Optional, shortest or perpendicular distance
                           (C{bool}).
        @keyword indices: Optionally return the simplified point indices
@@ -477,7 +477,7 @@ def simplifyRW(points, pipe, radius=R_M, shortest=False,
 
        @param points: Path points (C{LatLon}[]).
        @param pipe: Half pipe width (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword shortest: Optional, shortest or perpendicular distance
                           (C{bool}).
        @keyword indices: Optionally return the simplified point indices
@@ -528,7 +528,7 @@ def simplifyVW(points, area, radius=R_M, attr=None,
 
        @param points: Path points (C{LatLon}[]).
        @param area: Tolerance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword attr: Optional, points attribute save area value (C{str}).
        @keyword indices: Optionally return the simplified point indices
                          instead of the simplified points (C{bool}).
@@ -583,7 +583,7 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
 
        @param points: Path points (C{LatLon}[]).
        @param area: Tolerance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword attr: Optional attribute to save the area value (C{str}).
        @keyword indices: Optionally return the simplified point indices
                          instead of the simplified points (C{bool}).

@@ -5,7 +5,7 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.01.17'
+__version__ = '20.02.23'
 
 from base import TestsBase
 
@@ -26,6 +26,9 @@ class Tests(TestsBase):
 
         t = g.toStr2()
         self.test('toStr', t, g.classname, known=True)
+
+        t = Ecef(g.a, g.f, name=g.name)  # coverage
+        self.test('a, f', t, t.classname, known=True)
 
         self.testCopy(g)
 

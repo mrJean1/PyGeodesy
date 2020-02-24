@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.02.17'
+__version__ = '20.02.22'
 
 from base import PyGeodesy_dir, TestsBase
 
@@ -139,7 +139,8 @@ if __name__ == '__main__':
     from glob import glob
     import os.path as os_path
 
-    from pygeodesy import Datums, ecef, elliptic, frechet, hausdorff, named, Transforms
+    from pygeodesy import Datums, ecef, elliptic, frechet, hausdorff, \
+                          named, Transforms
 
     t = Tests(__file__, __version__)
     t.testNamed(named._Named)
@@ -178,6 +179,33 @@ if __name__ == '__main__':
         e.unregister()  # coverage _NamedEnumItem.unregister
         t.test(n + '.unregister', getattr(Transforms, n, None), None)
     t.test('Transforms', len(Transforms), 0)
+
+    Nd = named.Neighbors8Dict  # coverage
+    nd = Nd(**dict((t, t) for t in (Nd._Keys_ + ('name',))))
+    t.test('nd.name', nd.name, 'name')
+    t.test('nd.named', nd.named, 'name')
+    del nd.name
+    t.test('nd.named', nd.named, Nd.__name__)
+
+    nd.name = 'test'
+    t.test('nd.name', nd.name, 'test')
+
+    nd.test = 'test'
+    t.test('nd.test', nd.test, 'test')
+    del nd.test
+    t.test('nd.test', getattr(nd, 'test', None), None)
+
+    t.test('nd.classnaming', nd.classnaming, False)
+    t.test('nd.classname', nd.classname, nd.classname)
+    t.test('nd.named2', nd.named2, nd.named2)
+
+    nd.classnaming = True
+    t.test('nd.classnaming', nd.classnaming, True)
+    t.test('nd.classname', nd.classname, nd.classname)
+    t.test('nd.named2', nd.named2, nd.named2)
+
+    t.test('classnaming', named.classnaming(True), False)
+    t.test('classnaming', named.classnaming(False), True)
 
     t.results()
     t.exit()

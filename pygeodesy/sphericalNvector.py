@@ -54,7 +54,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.02.17'
+__version__ = '20.02.22'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -153,7 +153,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param end: End point of great circle path (L{LatLon}) or
                        initial bearing from start point (compass
                        C{degrees360}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
 
            @return: Distance along the great circle path (positive if
                     after the start toward the end point of the path
@@ -191,7 +191,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param end: End point of great circle path (L{LatLon}) or
                        initial bearing from start point (compass
                        C{degrees360}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
 
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
@@ -223,7 +223,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param distance: Distance travelled (C{meter}, same units
                             as B{C{radius}}).
            @param bearing: Bearing from this point (compass C{degrees360}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword height: Optional height at destination, overriding
                             the default height (C{meter}, same units as
                             B{C{radius}}).
@@ -256,7 +256,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Compute the distance from this to an other point.
 
            @param other: The other point (L{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
 
            @return: Distance between this and the B{C{other}} point
                     (C{meter}, same units as B{C{radius}}).
@@ -652,7 +652,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @param points: The polygon points (L{LatLon}[]).
            @keyword closed: Optionally, close the polygon (C{bool}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword height: Optional height, overriding the mean height
                             for a point within the arc (C{meter}).
 
@@ -761,7 +761,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param point3: Third reference point (L{LatLon}).
            @param distance3: Distance to point3 (C{meter}, same units as
                              B{C{radius}}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword height: Optional height at trilaterated point,
                             overriding the mean height (C{meter}, same
                             units as B{C{radius}}).
@@ -872,7 +872,7 @@ def areaOf(points, radius=R_M):
        arcs joining consecutive points).
 
        @param points: The polygon points (L{LatLon}[]).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
 
        @return: Polygon area (C{meter}, same units as B{C{radius}}, squared).
 
@@ -1046,7 +1046,7 @@ def nearestOn2(point, points, closed=False, radius=R_M, height=None):
        @param point: The other, reference point (L{LatLon}).
        @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword height: Optional height, overriding the mean height
                         for a point within the arc (C{meter}).
 
@@ -1070,7 +1070,7 @@ def perimeterOf(points, closed=False, radius=R_M):
 
        @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
 
        @return: Polygon perimeter (C{meter}, same units as B{C{radius}}).
 
@@ -1175,7 +1175,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
        @param point3: Third point (L{LatLon}).
        @param distance3: Distance to the third point (C{meter}, same units
                          as B{C{radius}}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword height: Optional height at the trilaterated point, overriding
                         the IDW height (C{meter}, same units as B{C{radius}}).
        @keyword LatLon: Optional (sub-)class to return the trilaterated

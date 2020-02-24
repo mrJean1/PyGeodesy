@@ -11,8 +11,9 @@ by I{Charles Karney}.
 The U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
 system is used in conjuction with U{UTM
 <https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>}
-to location on the polar regions of the earth.  UPS covers areas south of 79.5°S
-and north of 83.5°N (slightly overlapping the UTM range from 80°S to 84°N).
+for locations on the polar regions of the earth.  UPS covers areas south of 79.5°S
+and north of 83.5°N (slightly overlapping the UTM range from 80°S to 84°N by 30' at
+each end).
 
 @newfield example: Example, Examples
 '''
@@ -32,7 +33,7 @@ from math import atan, atan2, radians, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '20.01.22'
+__version__ = '20.02.22'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = 2000e3  #: (INTERNAL) False easting and northing (C{meter}).
@@ -82,9 +83,10 @@ class Ups(UtmUpsBase):
            @keyword datum: Optional, this coordinate's datum (L{Datum}).
            @keyword falsed: Both B{C{easting}} and B{C{northing}} are
                             falsed (C{bool}).
-           @keyword convergence: Optionally, save gamma meridian
-                                 convergence (C{degrees}).
-           @keyword scale: Optionally, save computed k scale (C{scalar}).
+           @keyword convergence: Optional, meridian convergence gamma
+                                 to save (C{degrees}).
+           @keyword scale: Optional, computed scale factor k to save
+                           (C{scalar}).
            @keyword name: Optional name (C{str}).
 
            @raise UPSError: Invalid B{C{zone}}, B{C{pole}} or B{C{band}}.

@@ -203,8 +203,9 @@ heights._HeightBase --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#highest" class="summary-sig-name">highest</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Return the highest location and height of this geoid.</td>
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**unused</span>)</span><br />
+      Return the location and largest height of this geoid.</td>
           <td align="right" valign="top">
             
             
@@ -257,8 +258,9 @@ heights._HeightBase --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#lowest" class="summary-sig-name">lowest</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Return the lowest location and height of this geoid.</td>
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**unused</span>)</span><br />
+      Return the location and the lowest height of this geoid.</td>
           <td align="right" valign="top">
             
             
@@ -373,6 +375,15 @@ heights._HeightBase --+
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids._GeoidBase-class.html#cropped" class="summary-name">cropped</a><br />
+      Is geoid cropped (<code>bool</code> or <code>None</code> if crop not 
+      supported).
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -718,14 +729,15 @@ heights._HeightBase --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">highest</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**unused</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return the highest location and height of this geoid.</p>
+  <p>Return the location and largest height of this geoid.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -811,14 +823,15 @@ heights._HeightBase --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">lowest</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**unused</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return the lowest location and height of this geoid.</p>
+  <p>Return the location and the lowest height of this geoid.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -970,6 +983,28 @@ heights._HeightBase --+
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="cropped"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">cropped</h3>
+  <p>Is geoid cropped (<code>bool</code> or <code>None</code> if crop not 
+  supported).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">cropped(<span class="summary-sig-arg">self</span>)</span>
+        - Is geoid cropped (<code>bool</code> or <code>None</code> if crop not 
+supported).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="dtype"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1273,7 +1308,7 @@ target="_top">dtype</a> (<code>str</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb 20 14:41:49 2020
+    Generated by Epydoc 3.0.1 on Mon Feb 24 14:20:33 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

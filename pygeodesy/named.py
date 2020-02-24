@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '20.02.19'
+__version__ = '20.02.22'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
@@ -163,7 +163,7 @@ class _Named(object):
 
     @property_RO
     def named2(self):
-        '''Get the class name I{and/or} thename or C{""} (C{str}).
+        '''Get the class name I{and/or} the name or C{""} (C{str}).
         '''
         n, c = self.name, self.classname
         return ('%s %r' % (c, n)) if c and n else (c or n)
@@ -220,7 +220,7 @@ class _NamedBase(_Named):
     def __str__(self):
         return self.toStr()
 
-    def _update(self, unused):
+    def _update(self, unused):  # PYCHOK no cover
         '''(INTERNAL) To be overloaded.
         '''
         pass

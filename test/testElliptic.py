@@ -5,7 +5,7 @@ u'''Test Elliptic Python implementation.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.02.06'
+__version__ = '20.02.22'
 
 from base import TestsBase
 
@@ -119,6 +119,11 @@ class Tests(TestsBase):
         self.test('sncndn(x)', type(e.sncndn(PI_4)), elliptic.Elliptic3Tuple)
 
         self.testCopy(e)
+
+        for t in range(4):  # coverage
+            t = (t / 4.0,) * 4
+            e = elliptic.Elliptic(*t)
+            self.test('k2, alpha2, kp2, alphap2', (e.k2, e.alpha2, e.kp2, e.alphap2), t)
 
 
 if __name__ == '__main__':

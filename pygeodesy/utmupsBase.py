@@ -16,7 +16,7 @@ from pygeodesy.utily import issubclassof, property_RO, _Strs, \
                            _TypeError, wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '20.01.22'
+__version__ = '20.02.22'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -125,7 +125,7 @@ def _to3zll(lat, lon):  # imported by .ups, .utm
 
 
 class UtmUpsBase(_NamedBase):
-    '''Base class for L{Utm} and L{Ups} coordinates.
+    '''(INTERNAL) Base class for L{Utm} and L{Ups} coordinates.
     '''
     _band        = ''    #: (INTERNAL) Latitude band letter ('A..Z').
     _convergence = None  #: (INTERNAL) Meridian conversion (C{degrees}).
@@ -191,7 +191,7 @@ class UtmUpsBase(_NamedBase):
         return self._falsed
 
     @property_RO
-    def falsed2(self):
+    def falsed2(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.
         '''
         self._notOverloaded(self.falsed2.__name__)

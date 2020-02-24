@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.01.18'
+__version__ = '20.01.23'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -271,7 +271,7 @@ class Tests(TestsBase):
 #               lon -= 360
             yield lat, lon, t5[h]
 
-    def testGeoid(self, G, grid, llh3, crop=None, eps=None, kind=None):
+    def testGeoid(self, G, grid, llh3, crop=None, eps=None, kind=None):  # MCCABE 13
         # test geoid G(grid) for (lat, lon, height, eps)
         if scipy or G is GeoidKarney:
             e_max = 0
@@ -307,10 +307,14 @@ class Tests(TestsBase):
 
             # print('%r\n\n%r' % (g, getattr(g, 'pgm', None)))
 
-            if coverage:  # for test coverage
-                for a in ('highest', '_llh3minmax', 'lowest', 'lowerright', 'upperleft'):
+            if coverage:
+                for a in ('highest', 'lowerleft', 'lowerright', 'lowest', 'upperleft', 'upperright'):
                     t = fStr(getattr(g, a)(), prec=3)
                     self.test('%s.%s' % (g, a), t, t, known=True)
+                for a in ('_g2ll2', '_ll2g2'):
+                    t = getattr(g, a)(180, 360)
+                    self.test('%s.%s' % (g, a), t, t, known=True)
+
             t = g.toStr()
             self.test('%s.%s' % (g, 'toStr'), t, t, known=True, nt=1)
 

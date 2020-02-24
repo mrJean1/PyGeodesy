@@ -48,7 +48,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.02.19'
+__version__ = '20.02.22'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -617,7 +617,7 @@ class LatLon2psxy(_Basequence):
            @param latlons: Points C{list}, C{sequence}, C{set}, C{tuple},
                            etc. (C{LatLon[]}).
            @keyword closed: Optionally, close the polygon (C{bool}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword wrap: Wrap lat- and longitudes (C{bool}).
 
            @raise TypeError: Some B{C{latlons}} are not C{LatLon}.
@@ -931,7 +931,7 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
        @param points: The polygon points (C{LatLon}[]).
        @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
                         by the cosine of the mean latitude (C{bool}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
        @return: Approximate area (C{meter}, same units as B{C{radius}},
@@ -1413,7 +1413,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
        @keyword closed: Optionally, close the path or polygon (C{bool}).
        @keyword adjust: Adjust the wrapped, unrolled longitudinal delta
                         by the cosine of the mean latitude (C{bool}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword wrap: Wrap lat-, wrap and unroll longitudes (C{bool}).
 
        @return: Approximate perimeter (C{meter}, same units as

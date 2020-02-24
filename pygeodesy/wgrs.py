@@ -24,7 +24,7 @@ from pygeodesy.utily import _MISSING, ft2m, m2ft, m2NM, property_RO, \
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.02.09'
+__version__ = '20.02.22'
 
 _Base    = 10
 _BaseLen = 4
@@ -38,8 +38,8 @@ _M       = 60000000000  # = 60_000_000_000 = 60 * pow(10, 9)
 _MaxPrec = 11
 _Tile    = 15  # tile size in degrees
 
-_MaxLen  = _BaseLen + 2 * _MaxPrec
-_MinLen  = _BaseLen - 2
+_MaxLen = _BaseLen + 2 * _MaxPrec
+_MinLen = _BaseLen - 2
 
 _LatOrig_M = _LatOrig * _M
 _LonOrig_M = _LonOrig * _M
@@ -62,17 +62,6 @@ def _2fllh(lat, lon, height=None):
     '''(INTERNAL) Convert lat, lon, height.
     '''
     return parseDMS2(lat, lon) + (height,)
-
-
-def _2Georef(georef):
-    '''(INTERNAL) Check or create a L{Georef} instance.
-    '''
-    if not isinstance(georef, Georef):
-        try:
-            georef = Georef(georef)
-        except (TypeError, ValueError):
-            raise _IsNotError(Georef.__name__, str.__name__, 'LatLon', georef=georef)
-    return georef
 
 
 def _2geostr2(georef):

@@ -23,7 +23,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '19.09.07'
+__version__ = '20.02.23'
 
 F_D   = 'd'    #: Format degrees as unsigned "deg°" plus suffix (C{str}).
 F_DM  = 'dm'   #: Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -251,7 +251,7 @@ _WINDS = ('N', 'NbE', 'NNE', 'NEbN', 'NE', 'NEbE', 'ENE', 'EbN',
 
 
 def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg='-', pos=''):
-    '''Convert degrees to a string in degrees, minutes I{or} seconds.
+    '''Convert degrees to a string in degrees, minutes B{I{or}} seconds.
 
        @param deg: Value in degrees (C{scalar}).
        @keyword prec: Optional number of decimal digits (0..9 or
@@ -261,10 +261,10 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg='-', pos=''):
        @keyword s_D: Symbol for degrees (C{str}).
        @keyword s_M: Symbol for minutes (C{str}) or C{""}.
        @keyword s_S: Symbol for seconds (C{str}) or C{""}.
-       @keyword neg: Optional sign for negative ('-').
-       @keyword pos: Optional sign for positive ('').
+       @keyword neg: Optional sign for negative (C{'-'}).
+       @keyword pos: Optional sign for positive (C{''}).
 
-       @return: I{Either} degrees, minutes I{or} seconds (C{str}).
+       @return: I{Either} degrees, minutes B{I{or}} seconds (C{str}).
     '''
     d, s = abs(deg), s_D
     if d < 1:

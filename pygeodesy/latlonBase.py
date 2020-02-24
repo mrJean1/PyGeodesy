@@ -27,7 +27,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.02.17'
+__version__ = '20.02.22'
 
 
 class LatLonBase(_NamedBase):
@@ -124,7 +124,7 @@ class LatLonBase(_NamedBase):
                         B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
            @param high: Latitudinal box height (C{meter}, same units as
                         B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
 
            @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)}, the
                     lower-left and upper-right corner (C{LatLon}).
@@ -223,9 +223,9 @@ class LatLonBase(_NamedBase):
            available B{C{options}} and errors raised.
 
            @param other: The other point (C{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}) or
-                            C{None} for the mean radius of this
-                            point's datum ellipsoid.
+           @keyword radius: Mean earth radius (C{meter}) or C{None}
+                            for the mean radius of this point's datum
+                            ellipsoid.
            @keyword options: Optional keyword arguments for function
                              L{equirectangular}.
 
@@ -245,9 +245,9 @@ class LatLonBase(_NamedBase):
            See function L{euclidean} for the available B{C{options}}.
 
            @param other: The other point (C{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}) or
-                            C{None} for the mean radius of this
-                            point's datum ellipsoid.
+           @keyword radius: Mean earth radius (C{meter}) or C{None}
+                            for the mean radius of this point's datum
+                            ellipsoid.
            @keyword options: Optional keyword arguments for function
                              L{euclidean}.
 
@@ -266,9 +266,9 @@ class LatLonBase(_NamedBase):
            formula.
 
            @param other: The other point (C{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}) or
-                            C{None} for the mean radius of this
-                            point's datum ellipsoid.
+           @keyword radius: Mean earth radius (C{meter}) or C{None}
+                            for the mean radius of this point's datum
+                            ellipsoid.
            @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
@@ -681,9 +681,9 @@ class LatLonBase(_NamedBase):
            spherical formula.
 
            @param other: The other point (C{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}) or
-                            C{None} for the mean radius of this
-                            point's datum ellipsoid.
+           @keyword radius: Mean earth radius (C{meter}) or C{None}
+                            for the mean radius of this point's datum
+                            ellipsoid.
            @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).

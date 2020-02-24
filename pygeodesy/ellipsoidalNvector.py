@@ -39,7 +39,7 @@ from math import asin, atan2, cos, radians, sin
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.02.17'
+__version__ = '20.02.22'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -136,7 +136,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @param end: End point of great circle path (L{LatLon}) or
 #                        initial bearing (compass C{degrees360}) at
 #                        the start point.
-#            @keyword radius: Optional, mean earth radius (C{meter}).
+#            @keyword radius: Mean earth radius (C{meter}).
 #
 #            @return: Distance to great circle, negative if to left or
 #                     positive if to right of path (C{meter}, same units
@@ -213,7 +213,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            @param distance: Distance traveled (C{meter}, same units as
 #                             given earth B{C{radius}}).
 #            @param bearing: Initial bearing (compass C{degrees360}).
-#            @keyword radius: Optional, mean earth radius (C{meter}).
+#            @keyword radius: Mean earth radius (C{meter}).
 #            @keyword height: Optional height at destination point,
 #                             overriding default (C{meter}, same units
 #                             as B{C{radius}}).
@@ -277,7 +277,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''Approximate the distance from this to an other point.
 
            @param other: The other point (L{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 

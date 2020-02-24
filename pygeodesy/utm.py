@@ -51,7 +51,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '20.01.22'
+__version__ = '20.02.22'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -578,10 +578,9 @@ def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=''):
        @keyword name: Optional B{C{Utm}} name (C{str}).
 
        @return: The UTM coordinate (B{C{Utm}}) or a
-                L{UtmUps5Tuple}C{(zone, hemipole,
-                easting, northing, band)} if B{C{Utm}} is
-                C{None}.  The C{hemipole} is the hemisphere
-                C{'N'|'S'}.
+                L{UtmUps5Tuple}C{(zone, hemipole, easting,
+                northing, band)} if B{C{Utm}} is C{None}.  The
+                C{hemipole} is the C{'N'|'S'} hemisphere.
 
        @raise UTMError: Invalid B{C{strUTM}}.
 

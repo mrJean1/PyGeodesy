@@ -4,11 +4,11 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.02.14'
+__version__ = '20.02.23'
 
 from base import coverage, TestsBase
 
-from pygeodesy import F_D, fStr
+from pygeodesy import F_D, fStr, sphericalNvector
 
 
 class Tests(TestsBase):
@@ -54,7 +54,7 @@ class Tests(TestsBase):
             r = v.rotate(m, 45)
             self.test('rotate', r, '(0.26268, 0.26268, 0.37143)')
 
-    def testVectorial(self, module):  # MCCABE 13
+    def testVectorial(self, module):  # MCCABE 14
 
         self.subtitle(module, 'Vectorial')
 
@@ -83,7 +83,7 @@ class Tests(TestsBase):
         self.test('toNvector', c, '(0.50004, 0.50004, 0.70705)')  # 0.500, 0.500, 0.707
         self.test('isequalTo', c.isequalTo(v), False)
         self.test('isequalTo', c.isequalTo(v, units=True), True)
-        self.test('length', v.length, '0.99992449715',  fmt='%.11f')
+        self.test('length', v.length, '0.99992449715', fmt='%.11f')
         self.test('length', c.length, '1.0')
 
         s = meanOf((p, p, p, p), height=0, LatLon=LatLon)
@@ -97,12 +97,18 @@ class Tests(TestsBase):
         self.test('sumOf', s, '(52.70504, 0.61904, 0.70705)')
         self.test('sumOf', s.__class__.__name__, 'Nv')
         self.test('sumOf', s._name, 'sumOf')
-        self.test('length', s.length, '52.7134151513',  fmt='%.10f')
+        self.test('length', s.length, '52.7134151513', fmt='%.10f')
 
         c = v.copy()
         self.test('copy', c.isequalTo(v), True)
-        self.test('length', v.length, '52.2051356286',  fmt='%.10f')
-        self.test('length', c.length, '52.2051356286',  fmt='%.10f')
+        self.test('length', v.length, '52.2051356286', fmt='%.10f')
+        self.test('length', c.length, '52.2051356286', fmt='%.10f')
+
+        if module is sphericalNvector:  # coverage
+            c = p.toCartesian()
+            self.test('toCartesian', c, '[3185744.919, 3185744.919, 4504643.315]')
+            self.test('toLatLon',  c.toLatLon(), p, known=True)  # '44.995674°N, 045.0°E, -0.00m'
+            self.test('toNvector', c.toNvector(), '(0.50004, 0.50004, 0.70705, -0.00)')
 
         if hasattr(LatLon, 'intersection'):
             # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
@@ -203,7 +209,7 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import Datums, ellipsoidalNvector, nvectorBase, sphericalNvector
+    from pygeodesy import Datums, ellipsoidalNvector, nvectorBase
 
     t = Tests(__file__, __version__)
 

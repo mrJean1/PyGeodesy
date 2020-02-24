@@ -4,14 +4,14 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '19.09.08'
+__version__ = '20.02.23'
 
 from base import TestsBase
 
 from pygeodesy import F_D,   F_DM,   F_DMS,   F_DEG,   F_MIN,   F_SEC,   F_RAD, \
                       F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_RAD_, \
                       F_D__, F_DM__, F_DMS__, F_DEG__, F_MIN__, F_SEC__, F_RAD__, \
-                      compassPoint, parse3llh, parseDMS, rangerrors, \
+                      compassPoint, degDMS, fStr, parse3llh, parseDMS, rangerrors, \
                       toDMS
 
 
@@ -19,12 +19,15 @@ class Tests(TestsBase):
 
     def testDms(self):
         # dms module tests
-        self.test('parseDMS', parseDMS(  '0.0°'), '0.0')
-        self.test('parseDMS', parseDMS(    '0°'), '0.0')
-        self.test('parseDMS', parseDMS('''000°00'00"'''),   '0.0')
-        self.test('parseDMS', parseDMS('''000°00'00.0"'''), '0.0')
-        self.test('parseDMS', parseDMS('''000° 00'00"'''),    '0.0')
-        self.test('parseDMS', parseDMS('''000°00 ' 00.0"'''), '0.0')
+        for i, t in enumerate(('0.0°',
+                               '0°',
+                           '''000°00'00"''',
+                           '''000°00'00.0"''',
+                           '''000° 00'00"''',
+                           '''000°00 ' 00.0"''',
+                           '''000° 00' 00.0''')):
+            self.test('parseDMS' + str(i + 1), parseDMS(t), '0.0')
+        self.test('parseDMS' + str(i + 2), parseDMS('000°-00′-00.0"', sep='-'), '0.0')
 
         r = rangerrors(True)
         try:
@@ -39,8 +42,7 @@ class Tests(TestsBase):
         rangerrors(r)
 
         x = parse3llh('000° 00′ 05.31″W, 51° 28′ 40.12″ N')
-        x = ', '.join('%.6f' % a for a in x)  # XXX fStr
-        self.test('parse3llh', x, '51.477811, -0.001475, 0.000000')
+        self.test('parse3llh', fStr(x, prec=6), '51.477811, -0.001475, 0.0')
 
         for a, x in (((),            '''45°45'45.36"'''),
                      ((F_D,   None),   '45.7626°'),
@@ -144,6 +146,13 @@ class Tests(TestsBase):
                                'WbN', 'NWbW', 'NWbN', 'NbW')):
             a = 11.25 + a * 22.5
             self.test('compassPoint(%s)' % (a,), compassPoint(a, 4), x)
+
+        t = degDMS(1.0101, prec=5, s_D='', pos='+')  # coverage
+        self.test('_DEG', t, '+1.0101')
+        t = degDMS(0.0101, prec=5, s_S='', pos='+')
+        self.test('_MIN', t, "+0.606'")
+        t = degDMS(0.0101, prec=5, s_M='', pos='+')
+        self.test('_SEC', t, '+36.36"')
 
 
 if __name__ == '__main__':

@@ -39,7 +39,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'nearestOn2', 'nearestOn3',
           'perimeterOf',
           'sumOf')  # == vector3d.sumOf
-__version__ = '20.02.17'
+__version__ = '20.02.22'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -105,7 +105,7 @@ class LatLon(LatLonSphericalBase):
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance along the great circle path (C{meter},
@@ -175,7 +175,7 @@ class LatLon(LatLonSphericalBase):
 
            @param start: Start point of great circle path (L{LatLon}).
            @param end: End point of great circle path (L{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance to great circle (negative if to the
@@ -201,7 +201,7 @@ class LatLon(LatLonSphericalBase):
            @param distance: Distance travelled (C{meter}, same units as
                             B{C{radius}}).
            @param bearing: Bearing from this point (compass C{degrees360}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword height: Optional height at destination (C{meter},
                             same units a B{C{radius}}).
 
@@ -228,7 +228,7 @@ class LatLon(LatLonSphericalBase):
         '''Compute the distance from this to an other point.
 
            @param other: The other point (L{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance between this and the B{C{other}} point
@@ -525,7 +525,7 @@ class LatLon(LatLonSphericalBase):
 
            @param point1: Start point (L{LatLon}).
            @param point2: End point (L{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword options: Optional keyword arguments for function
                              L{equirectangular_}.
 
@@ -560,7 +560,7 @@ class LatLon(LatLonSphericalBase):
 
            @param points: The polygon points (L{LatLon}[]).
            @keyword closed: Optionally, close the polygon (C{bool}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword options: Optional keyword arguments for function
                              L{equirectangular_}.
 
@@ -647,7 +647,7 @@ def areaOf(points, radius=R_M, wrap=True):
        arcs joining the points).
 
        @param points: The polygon points (L{LatLon}[]).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
        @return: Polygon area (C{meter}, same units as B{C{radius}}, squared).
@@ -907,7 +907,7 @@ def nearestOn3(point, points, closed=False, radius=R_M,
        @param point: The other, reference point (L{LatLon}).
        @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword LatLon: Optional (sub-)class to return the closest
                         point (L{LatLon}) or C{None}.
        @keyword options: Optional keyword arguments for function
@@ -944,7 +944,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @param points: The polygon points (L{LatLon}[]).
        @keyword closed: Optionally, close the polygon (C{bool}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
        @return: Polygon perimeter (C{meter}, same units as B{C{radius}}).

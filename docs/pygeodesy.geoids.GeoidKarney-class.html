@@ -157,16 +157,52 @@ heights._HeightBase --+
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geoids.GeoidKarney-class.html#highest" class="summary-sig-name">highest</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">full</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return the location and largest height of this geoid.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geoids.GeoidKarney-class.html#lowest" class="summary-sig-name">lowest</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">full</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Return the location and the lowest height of this geoid.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geoids._GeoidBase-class.html">_GeoidBase</a></code></b>:
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#__repr__">__repr__</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#__str__">__str__</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#center">center</a></code>,
-      <code><a href="pygeodesy.geoids._GeoidBase-class.html#highest">highest</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#lowerleft">lowerleft</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#lowerright">lowerright</a></code>,
-      <code><a href="pygeodesy.geoids._GeoidBase-class.html#lowest">lowest</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#outside">outside</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#toStr">toStr</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#upperleft">upperleft</a></code>,
@@ -227,6 +263,7 @@ heights._HeightBase --+
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geoids._GeoidBase-class.html">_GeoidBase</a></code></b>:
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#cropped">cropped</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#endian">endian</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#hits">hits</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#kind">kind</a></code>,
@@ -401,6 +438,78 @@ heights._HeightBase --+
   </dl>
 </td></tr></table>
 </div>
+<a name="highest"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">highest</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">full</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the location and largest height of this geoid.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the location (<code>LatLon</code>)
+          and height or <code>None</code>.</li>
+        <li><strong class="pname"><code>full</code></strong> - Search the full or limited latitude range (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code> or a 
+          <b><code>LatLon</code></b> instance with the lat-, longitude and 
+          height of the highest grid location.</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.geoids._GeoidBase-class.html#highest">_GeoidBase.highest</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lowest"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">lowest</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">full</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the location and the lowest height of this geoid.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the location (<code>LatLon</code>)
+          and height or <code>None</code>.</li>
+        <li><strong class="pname"><code>full</code></strong> - Search the full or limited latitude range (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code> or a 
+          <b><code>LatLon</code></b> instance with the lat-, longitude and 
+          height of the lowest grid location.</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.geoids._GeoidBase-class.html#lowest">_GeoidBase.lowest</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
@@ -503,7 +612,7 @@ heights._HeightBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Feb 20 14:41:49 2020
+    Generated by Epydoc 3.0.1 on Mon Feb 24 14:20:33 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

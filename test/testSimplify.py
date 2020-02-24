@@ -4,11 +4,11 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '19.08.14'
+__version__ = '20.02.23'
 
 from base import numpy, TestsBase, secs2str
 
-from pygeodesy import EPS, R_M, Numpy2LatLon, \
+from pygeodesy import EPS, R_M, LatLon_, Numpy2LatLon, \
                       simplify1, simplifyRW, \
                       simplifyRDP, simplifyRDPm, \
                       simplifyVW, simplifyVWm, \
@@ -282,12 +282,14 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(simplifyRDPgr, PtsFFI, _ms({1000: 2, 100:  7, 10: 15, 1: 45}), adjust=True, shortest=True)
 
     # <https://docs.RS/geo/0.8.3/geo/algorithm/simplify/trait.Simplify.html>
-#   t.test2(simplifyRDP, [_LatLon(*ll) for ll in ((0.0, 0.0), (5.0, 4.0), (11.0, 5.5), (17.3, 3.2), (27.8, 0.1))],
-#                         _ms({1: 4}), adjust=False, shortest=True)  # (0.0, 0.0), (5.0, 4.0), (11.0, 5.5), (27.8, 0.1)
+#   t.test2(simplifyRDP, [LatLon_(*ll) for ll in ((0.0, 0.0), (5.0, 4.0), (11.0, 5.5), (17.3, 3.2), (27.8, 0.1))],
+#                        _ms({1: 5}), adjust=False, shortest=True)  # (0.0, 0.0), (5.0, 4.0), (11.0, 5.5), (27.8, 0.1)
+    t.test2(simplifyRDP, [LatLon_(*ll) for ll in ((0.0, 0.0), (5.0, 4.0), (11.0, 5.5), (17.3, 3.2), (EPS, EPS))],
+                         _ms({1: 5}), adjust=False, shortest=True)  # coverahe d2ih
 
     # <https://docs.RS/geo/0.8.3/geo/algorithm/simplifyvw/trait.SimplifyVW.html>
-#   t.test2(simplifyVW, [_LatLon(*ll) for ll in ((5.0, 2.0), (3.0, 8.0), (6.0, 20.0), (7.0, 25.0), (10.0, 10.0))],
-#                        _ms({30: 3}), adjust=False)  # (5.0, 2.0), (7.0, 25.0), (10.0, 10.0)
+#   t.test2(simplifyVW, [LatLon_(*ll) for ll in ((5.0, 2.0), (3.0, 8.0), (6.0, 20.0), (7.0, 25.0), (10.0, 10.0))],
+#                       _ms({30: 3}), adjust=False)  # (5.0, 2.0), (7.0, 25.0), (10.0, 10.0)
 
     if numpy:
         if 'numpy' in _Simplifys:

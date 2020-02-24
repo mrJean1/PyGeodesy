@@ -85,7 +85,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '20.02.19'
+__version__ = '20.02.24'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -109,6 +109,7 @@ class PGMError(GeoidError):
 class _GeoidBase(_HeightBase):
     '''(INTERNAL) Base class for C{Geoid...}s.
     '''
+    _cropped  = None
     _datum    = Datums.WGS84
     _endian   = 'tbd'
     _geoid    = 'n/a'
@@ -289,7 +290,7 @@ class _GeoidBase(_HeightBase):
     def _llh3LL(self, llh, LatLon):
         return llh if LatLon is None else LatLon(*llh)
 
-    def _llh3minmax(self, highest=True):
+    def _llh3minmax(self, highest=True, *unused):
         hs, np = self._hs_y_x, self._np
         # <https://docs.SciPy.org/doc/numpy/reference/generated/
         #         numpy.argmin.html#numpy.argmin>
@@ -360,6 +361,12 @@ class _GeoidBase(_HeightBase):
         return self._llh3LL(self._center, LatLon)
 
     @property_RO
+    def cropped(self):
+        '''Is geoid cropped (C{bool} or C{None} if crop not supported).
+        '''
+        return self._cropped
+
+    @property_RO
     def dtype(self):
         '''Get the grid C{scipy} U{dtype<https://docs.SciPy.org/doc/numpy/
            reference/generated/numpy.ndarray.dtype.html>} (C{numpy.dtype}).
@@ -385,8 +392,8 @@ class _GeoidBase(_HeightBase):
            @raise GeoidError: Insufficient or non-matching number of
                               B{C{lats}} and B{C{lons}}.
 
-           @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this geoid's
-                              lat- or longitude range.
+           @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this
+                              geoid's lat- or longitude range.
 
            @raise SciPyError: A C{scipy.interpolate.inter2d} or
                               C{-.RectBivariateSpline} issue.
@@ -397,15 +404,15 @@ class _GeoidBase(_HeightBase):
         '''
         return _HeightBase._height(self, lats, lons, Error=GeoidError)
 
-    def highest(self, LatLon=None):
-        '''Return the highest location and height of this geoid.
+    def highest(self, LatLon=None, **unused):
+        '''Return the location and largest height of this geoid.
 
            @keyword LatLon: Optional (sub-)class to return the location
                             (C{LatLon}) and height or C{None}.
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
-                    the lat-, longitude and height of the highest
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the highest
                     grid location.
         '''
         if self._highest is None:
@@ -437,8 +444,8 @@ class _GeoidBase(_HeightBase):
                             (C{LatLon}) and height or C{None}.
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
-                    the lat-, longitude and height of the lower-left,
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the lower-left,
                     SW grid corner.
         '''
         if self._lowerleft is None:
@@ -452,23 +459,23 @@ class _GeoidBase(_HeightBase):
                             (C{LatLon}) and height or C{None}.
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
-                    the lat-, longitude and height of the lower-right,
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the lower-right,
                     SE grid corner.
         '''
         if self._lowerright is None:
             self._lowerright = self._llh3(self._lat_lo, self._lon_hi)
         return self._llh3LL(self._lowerright, LatLon)
 
-    def lowest(self, LatLon=None):
-        '''Return the lowest location and height of this geoid.
+    def lowest(self, LatLon=None, **unused):
+        '''Return the location and the lowest height of this geoid.
 
            @keyword LatLon: Optional (sub-)class to return the location
                             (C{LatLon}) and height or C{None}.
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
-                    the lat-, longitude and height of the lowest
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the lowest
                     grid location.
         '''
         if self._lowest is None:
@@ -562,8 +569,8 @@ class _GeoidBase(_HeightBase):
             if v is not None:
                 t.append('%s=%s' % (n, fStr(v, prec=prec)))
         s = 1 if self.kind < 0 else 2
-        for n in (('kind',  'smooth')[:s] + ('dtype', 'endian', 'hits',
-                   'knots', 'nBytes', 'sizeB', 'scipy', 'numpy')):
+        for n in (('kind', 'smooth')[:s] + ('cropped', 'dtype', 'endian',
+                   'hits', 'knots', 'nBytes', 'sizeB', 'scipy', 'numpy')):
             v = getattr(self, n)
             if v is not None:
                 t.append('%s=%r' % (n, v))
@@ -576,8 +583,8 @@ class _GeoidBase(_HeightBase):
                             (C{LatLon}) and height or C{None}.
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
-                    the lat-, longitude and height of the upper-left,
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the upper-left,
                     NW grid corner.
         '''
         if self._upperleft is None:
@@ -591,8 +598,8 @@ class _GeoidBase(_HeightBase):
                             (C{LatLon}) and height or C{None}.
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
-                    the lat-, longitude and height of the upper-right,
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the upper-right,
                     NE grid corner.
         '''
         if self._upperright is None:
@@ -758,12 +765,12 @@ class GeoidKarney(_GeoidBase):
     _endian  = '>H'   # struct.unpack 1 ushort (big endian, unsigned short)
     _4endian = '>4H'  # struct.unpack 4 ushorts
     _Rendian = ''     # struct.unpack a row of ushorts
-    _highest = -8.4, -32.633, 85.839   # egm2008-1.pgm, takes 10+ secs
-#   _highest = -8.167, -32.75, 85.422  # egm96-5.pgm
-#   _highest = -4.5, -31.25, 81.33     # egm84-15.pgm
-    _lowest  = 4.683, -101.25, -106.911   # egm2008-1.pgm, takes 10+ secs
-#   _lowest  = 4.667, -101.167, -107.043  # egm96-5.pgm
-#   _lowest  = 4.75, -100.75, -107.34     # egm84-15.pgm
+#   _highest = (-8.4,   147.367, 85.839) if egm2008-1.pgm else (
+#              (-8.167, 147.25,  85.422) if egm96-5.pgm else
+#              (-4.5,   148.75,  81.33)   # egm84-15.pgm)
+#   _lowest  = (4.7,   78.767, -106.911) if egm2008-1.pgm else (
+#              (4.667, 78.833, -107.043) if egm96-5.pgm else
+#              (4.75,  79.25,  -107.34)   # egm84-15.pgm
     _mean    = -1.317  # from egm2008-1, -1.438 egm96-5, -0.855 egm84-15
     _nBytes  = None  # not applicable
     _nterms  = len(_C3[0])  # columns length, number of row
@@ -821,6 +828,7 @@ class GeoidKarney(_GeoidBase):
         self._lon_lo, \
         self._lat_hi, \
         self._lon_hi = self._swne(crop if crop else p.crop4)
+        self._cropped = True if crop else False
 
     def __call__(self, *llis):
         '''Interpolate the geoid height for one or several locations.
@@ -948,24 +956,32 @@ class GeoidKarney(_GeoidBase):
         p = self._pgm
         return (p.slat + p.dlat * y), (p.wlon + p.dlon * x)
 
+    def _lat2y2(self, lat2):
+        # convert earth lat(s) to min and max grid y indices
+        ys, m = [], self._pgm.nlat - 1
+        for lat in lat2:
+            y, _ = self._g2yx2(*self._ll2g2(lat, 0))
+            ys.append(max(min(int(y), m), 0))
+        return min(ys), max(ys) + 1
+
     def _ll2g2(self, lat, lon):
         # convert earth (lat, lon) to grid (lat, lon), uncropped
         while lon < 0:
             lon += 360
         return lat, lon
 
-    def _llh3minmax(self, highest=True):
+    def _llh3minmax(self, highest=True, *lat2):
         # find highest or lowest, takes 10+ secs for egm2008-1.pgm geoid
         # (Python 2.7.16, macOS 10.13.6 High Sierra, iMac 3 GHz Core i3)
         y = x = 0
         h = self._raw(y, x)
         if highest:
-            for j, r in self._raw2():
+            for j, r in self._raw2(*lat2):
                 m = max(r)
                 if m > h:
                     h, y, x = m, j, r
         else:  # lowest
-            for j, r in self._raw2():
+            for j, r in self._raw2(*lat2):
                 m = min(r)
                 if m < h:
                     h, y, x = m, j, r
@@ -985,26 +1001,29 @@ class GeoidKarney(_GeoidBase):
             x += p.nlon
         elif x >= p.nlon:
             x -= p.nlon
+        h = p.nlon // 2
         if y < 0:
             y = -y
-            h = p.nlon // 2
-            x += h if x < h else -h
         elif y >= p.nlat:
             y = (p.nlat - 1) * 2 - y
-            h = p.nlon // 2
-            x += h if x < h else -h
+        else:
+            h = 0
+        x += h if x < h else -h
         self._seek(y, x)
         h = _unpack(self._endian, self._egm.read(self._u2B))
         return h[0]
 
-    def _raw2(self):
-        # yield a 2-tuple (y, ushorts) for each row
+    def _raw2(self, *lat2):
+        # yield a 2-tuple (y, ushorts) for each row or for
+        # the rows between two (or more) earth lat values
         p = self._pgm
         g = self._egm
         e = self._Rendian
         n = self._Ru2B
-        self._egm.seek(p.skip, _SEEK_SET)
-        for y in range(p.nlat):
+        # min(lat2) <= lat <= max(lat2) or 0 <= y < p.nlat
+        s, t = self._lat2y2(lat2) if lat2 else (0, p.nlat)
+        self._seek(s, 0)  # to start of row s
+        for y in range(s, t):
             yield y, _unpack(e, g.read(n))
 
     def _seek(self, y, x):
@@ -1032,10 +1051,46 @@ class GeoidKarney(_GeoidBase):
            @raise GeoidError: Insufficient or non-matching number of
                               B{C{lats}} and B{C{lons}}.
 
-           @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this geoid's
-                              lat- or longitude range.
+           @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this
+                              geoid's lat- or longitude range.
         '''
         return _HeightBase._height(self, lats, lons, Error=GeoidError)
+
+    def highest(self, LatLon=None, full=False):  # PYCHOK full
+        '''Return the location and largest height of this geoid.
+
+           @keyword LatLon: Optional (sub-)class to return the location
+                            (C{LatLon}) and height or C{None}.
+           @keyword full: Search the full or limited latitude range
+                          (C{bool}).
+
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the highest
+                    grid location.
+        '''
+        if self._highest is None:
+            lat2 = () if full or self.cropped else (-12, -4)
+            self._highest = self._llh3minmax(True, *lat2)
+        return self._llh3LL(self._highest, LatLon)
+
+    def lowest(self, LatLon=None, full=False):  # PYCHOK full
+        '''Return the location and the lowest height of this geoid.
+
+           @keyword LatLon: Optional (sub-)class to return the location
+                            (C{LatLon}) and height or C{None}.
+           @keyword full: Search the full or limited latitude range
+                          (C{bool}).
+
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
+                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the lowest
+                    grid location.
+        '''
+        if self._lowest is None:
+            lat2 = () if full or self.cropped else (0, 8)
+            self._lowest = self._llh3minmax(False, *lat2)
+        return self._llh3LL(self._lowest, LatLon)
 
     @property_RO
     def pgm(self):
@@ -1134,6 +1189,10 @@ class GeoidPGM(_GeoidBase):
             self._ll2g2 = self._ll2g2_cropped
             if map2(int, self.numpy.split('.')[:2]) < (1, 9):
                 g = open(g.name, 'rb')  # reopen tempfile for numpy 1.8.0-
+            self._cropped = True
+        else:
+            self._cropped = False
+
         try:
             # U{numpy dtype formats are different from Python struct formats
             # <https://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}

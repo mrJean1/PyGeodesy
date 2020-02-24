@@ -1415,7 +1415,6 @@ pygeodesy.wgrs._MinLen	pygeodesy.wgrs-module.html#_MinLen
 pygeodesy.wgrs._LonTile	pygeodesy.wgrs-module.html#_LonTile
 pygeodesy.wgrs._MaxLen	pygeodesy.wgrs-module.html#_MaxLen
 pygeodesy.wgrs._Strs	pygeodesy.wgrs-module.html#_Strs
-pygeodesy.wgrs._MaxPrec	pygeodesy.wgrs-module.html#_MaxPrec
 pygeodesy.wgrs._Degrees	pygeodesy.wgrs-module.html#_Degrees
 pygeodesy.wgrs.EPS1_2	pygeodesy.wgrs-module.html#EPS1_2
 pygeodesy.wgrs._LonOrig_Tile	pygeodesy.wgrs-module.html#_LonOrig_Tile
@@ -1424,7 +1423,7 @@ pygeodesy.wgrs.decode5	pygeodesy.wgrs-module.html#decode5
 pygeodesy.wgrs._LonOrig_M	pygeodesy.wgrs-module.html#_LonOrig_M
 pygeodesy.wgrs._2fllh	pygeodesy.wgrs-module.html#_2fllh
 pygeodesy.wgrs._BaseLen	pygeodesy.wgrs-module.html#_BaseLen
-pygeodesy.wgrs._2Georef	pygeodesy.wgrs-module.html#_2Georef
+pygeodesy.wgrs._MaxPrec	pygeodesy.wgrs-module.html#_MaxPrec
 pygeodesy.wgrs.resolution	pygeodesy.wgrs-module.html#resolution
 pygeodesy.wgrs._MISSING	pygeodesy.wgrs-module.html#_MISSING
 abc.ABCMeta	abc.ABCMeta-class.html
@@ -2954,6 +2953,7 @@ pygeodesy.geoids._GeoidBase.sizeB	pygeodesy.geoids._GeoidBase-class.html#sizeB
 pygeodesy.geoids._GeoidBase.name	pygeodesy.geoids._GeoidBase-class.html#name
 pygeodesy.geoids._GeoidBase.upperright	pygeodesy.geoids._GeoidBase-class.html#upperright
 pygeodesy.geoids.GeoidG2012B._ll2g2	pygeodesy.geoids.GeoidG2012B-class.html#_ll2g2
+pygeodesy.geoids._GeoidBase._cropped	pygeodesy.geoids._GeoidBase-class.html#_cropped
 pygeodesy.geoids._GeoidBase._lowerright	pygeodesy.geoids._GeoidBase-class.html#_lowerright
 pygeodesy.geoids._GeoidBase._lat_lo	pygeodesy.geoids._GeoidBase-class.html#_lat_lo
 pygeodesy.geoids._GeoidBase.mean	pygeodesy.geoids._GeoidBase-class.html#mean
@@ -2999,6 +2999,7 @@ pygeodesy.geoids._GeoidBase._upperleft	pygeodesy.geoids._GeoidBase-class.html#_u
 pygeodesy.geoids.GeoidG2012B.__init__	pygeodesy.geoids.GeoidG2012B-class.html#__init__
 pygeodesy.geoids._GeoidBase._gaxis2	pygeodesy.geoids._GeoidBase-class.html#_gaxis2
 pygeodesy.geoids._GeoidBase._endian	pygeodesy.geoids._GeoidBase-class.html#_endian
+pygeodesy.geoids._GeoidBase.cropped	pygeodesy.geoids._GeoidBase-class.html#cropped
 pygeodesy.geoids._GeoidBase._nBytes	pygeodesy.geoids._GeoidBase-class.html#_nBytes
 pygeodesy.geoids._GeoidBase.__repr__	pygeodesy.geoids._GeoidBase-class.html#__repr__
 pygeodesy.geoids._GeoidBase._llh3	pygeodesy.geoids._GeoidBase-class.html#_llh3
@@ -3008,15 +3009,17 @@ pygeodesy.geoids._GeoidBase.center	pygeodesy.geoids._GeoidBase-class.html#center
 pygeodesy.geoids._GeoidBase._lon_og	pygeodesy.geoids._GeoidBase-class.html#_lon_og
 pygeodesy.geoids._GeoidBase._lon_of	pygeodesy.geoids._GeoidBase-class.html#_lon_of
 pygeodesy.geoids.GeoidKarney	pygeodesy.geoids.GeoidKarney-class.html
-pygeodesy.geoids.GeoidKarney._evH	pygeodesy.geoids.GeoidKarney-class.html#_evH
+pygeodesy.geoids._GeoidBase.sizeB	pygeodesy.geoids._GeoidBase-class.html#sizeB
 pygeodesy.geoids._GeoidBase._knots	pygeodesy.geoids._GeoidBase-class.html#_knots
 pygeodesy.geoids._GeoidBase._sizeB	pygeodesy.geoids._GeoidBase-class.html#_sizeB
 pygeodesy.geoids.GeoidKarney._Rendian	pygeodesy.geoids.GeoidKarney-class.html#_Rendian
 pygeodesy.geoids.GeoidKarney._smooth	pygeodesy.geoids.GeoidKarney-class.html#_smooth
+pygeodesy.geoids.GeoidKarney._evH	pygeodesy.geoids.GeoidKarney-class.html#_evH
 pygeodesy.geoids.GeoidKarney._yxHt	pygeodesy.geoids.GeoidKarney-class.html#_yxHt
 pygeodesy.geoids._GeoidBase._llh3LL	pygeodesy.geoids._GeoidBase-class.html#_llh3LL
 pygeodesy.geoids.GeoidKarney._ev2H	pygeodesy.geoids.GeoidKarney-class.html#_ev2H
 pygeodesy.geoids.GeoidKarney.__call__	pygeodesy.geoids.GeoidKarney-class.html#__call__
+pygeodesy.geoids.GeoidKarney._lat2y2	pygeodesy.geoids.GeoidKarney-class.html#_lat2y2
 pygeodesy.geoids._GeoidBase.__str__	pygeodesy.geoids._GeoidBase-class.html#__str__
 pygeodesy.geoids.GeoidKarney._egm	pygeodesy.geoids.GeoidKarney-class.html#_egm
 pygeodesy.geoids.GeoidKarney._nterms	pygeodesy.geoids.GeoidKarney-class.html#_nterms
@@ -3024,12 +3027,12 @@ pygeodesy.geoids._GeoidBase.toStr	pygeodesy.geoids._GeoidBase-class.html#toStr
 pygeodesy.geoids._GeoidBase._datum	pygeodesy.geoids._GeoidBase-class.html#_datum
 pygeodesy.geoids.GeoidKarney._gyx2g2	pygeodesy.geoids.GeoidKarney-class.html#_gyx2g2
 pygeodesy.geoids._GeoidBase.scipy	pygeodesy.geoids._GeoidBase-class.html#scipy
-pygeodesy.geoids._GeoidBase.sizeB	pygeodesy.geoids._GeoidBase-class.html#sizeB
+pygeodesy.geoids.GeoidKarney._seek	pygeodesy.geoids.GeoidKarney-class.html#_seek
 pygeodesy.geoids._GeoidBase.name	pygeodesy.geoids._GeoidBase-class.html#name
 pygeodesy.geoids._GeoidBase.upperright	pygeodesy.geoids._GeoidBase-class.html#upperright
 pygeodesy.geoids.GeoidKarney._ll2g2	pygeodesy.geoids.GeoidKarney-class.html#_ll2g2
 pygeodesy.geoids.GeoidKarney._yxH	pygeodesy.geoids.GeoidKarney-class.html#_yxH
-pygeodesy.geoids._GeoidBase._lon_hi	pygeodesy.geoids._GeoidBase-class.html#_lon_hi
+pygeodesy.geoids._GeoidBase._cropped	pygeodesy.geoids._GeoidBase-class.html#_cropped
 pygeodesy.geoids._GeoidBase._lowerright	pygeodesy.geoids._GeoidBase-class.html#_lowerright
 pygeodesy.geoids._GeoidBase._lat_lo	pygeodesy.geoids._GeoidBase-class.html#_lat_lo
 pygeodesy.geoids._GeoidBase.mean	pygeodesy.geoids._GeoidBase-class.html#mean
@@ -3038,7 +3041,7 @@ pygeodesy.geoids._GeoidBase._upperright	pygeodesy.geoids._GeoidBase-class.html#_
 pygeodesy.geoids.GeoidKarney.u2B	pygeodesy.geoids.GeoidKarney-class.html#u2B
 pygeodesy.geoids.GeoidKarney._pgm	pygeodesy.geoids.GeoidKarney-class.html#_pgm
 pygeodesy.geoids.GeoidKarney._mean	pygeodesy.geoids.GeoidKarney-class.html#_mean
-pygeodesy.geoids.GeoidKarney._lowest	pygeodesy.geoids.GeoidKarney-class.html#_lowest
+pygeodesy.geoids._GeoidBase._lowest	pygeodesy.geoids._GeoidBase-class.html#_lowest
 pygeodesy.geoids._GeoidBase._lowerleft	pygeodesy.geoids._GeoidBase-class.html#_lowerleft
 pygeodesy.geoids._GeoidBase._swne	pygeodesy.geoids._GeoidBase-class.html#_swne
 pygeodesy.geoids.GeoidKarney._raw2	pygeodesy.geoids.GeoidKarney-class.html#_raw2
@@ -3051,7 +3054,7 @@ pygeodesy.geoids._GeoidBase.stdev	pygeodesy.geoids._GeoidBase-class.html#stdev
 pygeodesy.geoids.GeoidKarney._ev	pygeodesy.geoids.GeoidKarney-class.html#_ev
 pygeodesy.geoids._GeoidBase.hits	pygeodesy.geoids._GeoidBase-class.html#hits
 pygeodesy.geoids.GeoidKarney._yx_hits	pygeodesy.geoids.GeoidKarney-class.html#_yx_hits
-pygeodesy.geoids.GeoidKarney._highest	pygeodesy.geoids.GeoidKarney-class.html#_highest
+pygeodesy.geoids._GeoidBase._highest	pygeodesy.geoids._GeoidBase-class.html#_highest
 pygeodesy.geoids.GeoidKarney._ev3H	pygeodesy.geoids.GeoidKarney-class.html#_ev3H
 pygeodesy.geoids._GeoidBase.lowerleft	pygeodesy.geoids._GeoidBase-class.html#lowerleft
 pygeodesy.geoids._GeoidBase._interp2d	pygeodesy.geoids._GeoidBase-class.html#_interp2d
@@ -3067,9 +3070,9 @@ pygeodesy.geoids._GeoidBase._geoid	pygeodesy.geoids._GeoidBase-class.html#_geoid
 pygeodesy.geoids._GeoidBase._open	pygeodesy.geoids._GeoidBase-class.html#_open
 pygeodesy.geoids._GeoidBase.numpy	pygeodesy.geoids._GeoidBase-class.html#numpy
 pygeodesy.geoids._GeoidBase._lon_lo	pygeodesy.geoids._GeoidBase-class.html#_lon_lo
-pygeodesy.geoids._GeoidBase.lowest	pygeodesy.geoids._GeoidBase-class.html#lowest
+pygeodesy.geoids.GeoidKarney.lowest	pygeodesy.geoids.GeoidKarney-class.html#lowest
 pygeodesy.geoids._GeoidBase._kind	pygeodesy.geoids._GeoidBase-class.html#_kind
-pygeodesy.geoids._GeoidBase.highest	pygeodesy.geoids._GeoidBase-class.html#highest
+pygeodesy.geoids.GeoidKarney.highest	pygeodesy.geoids.GeoidKarney-class.html#highest
 pygeodesy.geoids._GeoidBase._load	pygeodesy.geoids._GeoidBase-class.html#_load
 pygeodesy.geoids._GeoidBase.kind	pygeodesy.geoids._GeoidBase-class.html#kind
 pygeodesy.geoids._GeoidBase._lat_hi	pygeodesy.geoids._GeoidBase-class.html#_lat_hi
@@ -3077,7 +3080,7 @@ pygeodesy.geoids._GeoidBase.smooth	pygeodesy.geoids._GeoidBase-class.html#smooth
 pygeodesy.geoids._GeoidBase.endian	pygeodesy.geoids._GeoidBase-class.html#endian
 pygeodesy.geoids.GeoidKarney._g2ll2	pygeodesy.geoids.GeoidKarney-class.html#_g2ll2
 pygeodesy.geoids.GeoidKarney._llh3minmax	pygeodesy.geoids.GeoidKarney-class.html#_llh3minmax
-pygeodesy.geoids._GeoidBase._called	pygeodesy.geoids._GeoidBase-class.html#_called
+pygeodesy.geoids._GeoidBase._lon_hi	pygeodesy.geoids._GeoidBase-class.html#_lon_hi
 pygeodesy.geoids.GeoidKarney._c0c3v	pygeodesy.geoids.GeoidKarney-class.html#_c0c3v
 pygeodesy.geoids._GeoidBase.upperleft	pygeodesy.geoids._GeoidBase-class.html#upperleft
 pygeodesy.geoids.GeoidKarney._4u2B	pygeodesy.geoids.GeoidKarney-class.html#_4u2B
@@ -3086,6 +3089,7 @@ pygeodesy.geoids._GeoidBase._upperleft	pygeodesy.geoids._GeoidBase-class.html#_u
 pygeodesy.geoids.GeoidKarney.__init__	pygeodesy.geoids.GeoidKarney-class.html#__init__
 pygeodesy.geoids._GeoidBase._gaxis2	pygeodesy.geoids._GeoidBase-class.html#_gaxis2
 pygeodesy.geoids.GeoidKarney._endian	pygeodesy.geoids.GeoidKarney-class.html#_endian
+pygeodesy.geoids._GeoidBase.cropped	pygeodesy.geoids._GeoidBase-class.html#cropped
 pygeodesy.geoids.GeoidKarney._nBytes	pygeodesy.geoids.GeoidKarney-class.html#_nBytes
 pygeodesy.geoids._GeoidBase.__repr__	pygeodesy.geoids._GeoidBase-class.html#__repr__
 pygeodesy.geoids._GeoidBase._llh3	pygeodesy.geoids._GeoidBase-class.html#_llh3
@@ -3094,7 +3098,7 @@ pygeodesy.geoids._GeoidBase.nBytes	pygeodesy.geoids._GeoidBase-class.html#nBytes
 pygeodesy.geoids._GeoidBase.center	pygeodesy.geoids._GeoidBase-class.html#center
 pygeodesy.geoids.GeoidKarney._C0	pygeodesy.geoids.GeoidKarney-class.html#_C0
 pygeodesy.geoids.GeoidKarney._C3	pygeodesy.geoids.GeoidKarney-class.html#_C3
-pygeodesy.geoids.GeoidKarney._seek	pygeodesy.geoids.GeoidKarney-class.html#_seek
+pygeodesy.geoids._GeoidBase._called	pygeodesy.geoids._GeoidBase-class.html#_called
 pygeodesy.geoids._GeoidBase._lon_og	pygeodesy.geoids._GeoidBase-class.html#_lon_og
 pygeodesy.geoids._GeoidBase._lon_of	pygeodesy.geoids._GeoidBase-class.html#_lon_of
 pygeodesy.geoids.GeoidKarney._raw	pygeodesy.geoids.GeoidKarney-class.html#_raw
@@ -3115,6 +3119,7 @@ pygeodesy.geoids._GeoidBase.sizeB	pygeodesy.geoids._GeoidBase-class.html#sizeB
 pygeodesy.geoids._GeoidBase.name	pygeodesy.geoids._GeoidBase-class.html#name
 pygeodesy.geoids._GeoidBase.upperright	pygeodesy.geoids._GeoidBase-class.html#upperright
 pygeodesy.geoids.GeoidPGM._ll2g2	pygeodesy.geoids.GeoidPGM-class.html#_ll2g2
+pygeodesy.geoids._GeoidBase._cropped	pygeodesy.geoids._GeoidBase-class.html#_cropped
 pygeodesy.geoids._GeoidBase._lowerright	pygeodesy.geoids._GeoidBase-class.html#_lowerright
 pygeodesy.geoids._GeoidBase._lat_lo	pygeodesy.geoids._GeoidBase-class.html#_lat_lo
 pygeodesy.geoids._GeoidBase.mean	pygeodesy.geoids._GeoidBase-class.html#mean
@@ -3164,6 +3169,7 @@ pygeodesy.geoids._GeoidBase._upperleft	pygeodesy.geoids._GeoidBase-class.html#_u
 pygeodesy.geoids.GeoidPGM.__init__	pygeodesy.geoids.GeoidPGM-class.html#__init__
 pygeodesy.geoids._GeoidBase._gaxis2	pygeodesy.geoids._GeoidBase-class.html#_gaxis2
 pygeodesy.geoids.GeoidPGM._endian	pygeodesy.geoids.GeoidPGM-class.html#_endian
+pygeodesy.geoids._GeoidBase.cropped	pygeodesy.geoids._GeoidBase-class.html#cropped
 pygeodesy.geoids.GeoidPGM._ll2g2_cropped	pygeodesy.geoids.GeoidPGM-class.html#_ll2g2_cropped
 pygeodesy.geoids._GeoidBase._nBytes	pygeodesy.geoids._GeoidBase-class.html#_nBytes
 pygeodesy.geoids._GeoidBase.__repr__	pygeodesy.geoids._GeoidBase-class.html#__repr__
@@ -3190,6 +3196,7 @@ pygeodesy.geoids._GeoidBase.sizeB	pygeodesy.geoids._GeoidBase-class.html#sizeB
 pygeodesy.geoids._GeoidBase.name	pygeodesy.geoids._GeoidBase-class.html#name
 pygeodesy.geoids._GeoidBase.upperright	pygeodesy.geoids._GeoidBase-class.html#upperright
 pygeodesy.geoids._GeoidBase._ll2g2	pygeodesy.geoids._GeoidBase-class.html#_ll2g2
+pygeodesy.geoids._GeoidBase._cropped	pygeodesy.geoids._GeoidBase-class.html#_cropped
 pygeodesy.geoids._GeoidBase._lowerright	pygeodesy.geoids._GeoidBase-class.html#_lowerright
 pygeodesy.geoids._GeoidBase._lat_lo	pygeodesy.geoids._GeoidBase-class.html#_lat_lo
 pygeodesy.geoids._GeoidBase.mean	pygeodesy.geoids._GeoidBase-class.html#mean
@@ -3236,6 +3243,7 @@ pygeodesy.geoids._GeoidBase._upperleft	pygeodesy.geoids._GeoidBase-class.html#_u
 pygeodesy.geoids._GeoidBase.__init__	pygeodesy.geoids._GeoidBase-class.html#__init__
 pygeodesy.geoids._GeoidBase._gaxis2	pygeodesy.geoids._GeoidBase-class.html#_gaxis2
 pygeodesy.geoids._GeoidBase._endian	pygeodesy.geoids._GeoidBase-class.html#_endian
+pygeodesy.geoids._GeoidBase.cropped	pygeodesy.geoids._GeoidBase-class.html#cropped
 pygeodesy.geoids._GeoidBase._nBytes	pygeodesy.geoids._GeoidBase-class.html#_nBytes
 pygeodesy.geoids._GeoidBase.__repr__	pygeodesy.geoids._GeoidBase-class.html#__repr__
 pygeodesy.geoids._GeoidBase._hs_y_x	pygeodesy.geoids._GeoidBase-class.html#_hs_y_x

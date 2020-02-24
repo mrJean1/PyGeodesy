@@ -16,7 +16,7 @@ from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.02.14'
+__version__ = '20.02.22'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -132,7 +132,7 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
        @param lon1: Start longitude (C{degrees}).
        @param lat2: End latitude (C{degrees}).
        @param lon2: End longitude (C{degrees}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword options: Optional keyword arguments for function
                          L{equirectangular_}.
 
@@ -202,7 +202,7 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
        @param lon1: Start longitude (C{degrees}).
        @param lat2: End latitude (C{degrees}).
        @param lon2: End longitude (C{degrees}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword adjust: Adjust the longitudinal delta by the
                         cosine of the mean latitude (C{bool}).
        @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
@@ -215,9 +215,11 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
              methods L{Ellipsoid.distance2}, C{LatLon.distanceTo*}
              and C{LatLon.equirectangularTo}.
     '''
-    d, _ = unroll180(lon1, lon2, wrap=wrap)
-    r = euclidean_(radians(lat2), radians(lat1), radians(d), adjust=adjust)
-    return r * float(radius)
+    r = float(radius)
+    if r:
+        d, _ = unroll180(lon1, lon2, wrap=wrap)
+        r *= euclidean_(radians(lat2), radians(lat1), radians(d), adjust=adjust)
+    return r
 
 
 def euclidean_(a2, a1, b21, adjust=True):
@@ -252,7 +254,7 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @param lon1: Start longitude (C{degrees}).
        @param lat2: End latitude (C{degrees}).
        @param lon2: End longitude (C{degrees}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
@@ -265,9 +267,11 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @note: See note under L{vincentys_}.
     '''
-    d, _ = unroll180(lon1, lon2, wrap=wrap)
-    r = haversine_(radians(lat2), radians(lat1), radians(d))
-    return r * float(radius)
+    r = float(radius)
+    if r:
+        d, _ = unroll180(lon1, lon2, wrap=wrap)
+        r *= haversine_(radians(lat2), radians(lat1), radians(d))
+    return r
 
 
 def haversine_(a2, a1, b21):
@@ -421,7 +425,7 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @param lon1: Start longitude (C{degrees}).
        @param lat2: End latitude (C{degrees}).
        @param lon2: End longitude (C{degrees}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
        @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).

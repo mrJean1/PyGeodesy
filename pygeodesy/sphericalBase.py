@@ -29,7 +29,7 @@ from math import atan2, cos, hypot, log, radians, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianSphericalBase', 'LatLonSphericalBase')
-__version__ = '19.10.21'
+__version__ = '20.02.22'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -244,7 +244,7 @@ class LatLonSphericalBase(LatLonBase):
            @param distance: Distance travelled (C{meter}, same units as
                             I{radius}).
            @param bearing: Bearing from this point (compass C{degrees360}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword height: Optional height, overriding the default
                             height (C{meter}, same unit as I{radius}).
 
@@ -284,7 +284,7 @@ class LatLonSphericalBase(LatLonBase):
            (loxodrome) line.
 
            @param other: The other point (spherical C{LatLon}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
 
            @return: Distance (C{meter}, the same units as I{radius}).
 

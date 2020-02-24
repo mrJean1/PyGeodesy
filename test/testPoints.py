@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '20.02.14'
+__version__ = '20.02.23'
 
 from base import TestsBase
 
@@ -62,8 +62,10 @@ class Tests(TestsBase):
                      (50, (52.24023,  -0.709919)),
                      (60, (52.240745, -0.707042))):
 
-            if psxy:  # flip to x, y tuple
-                p = tuple(reversed(p))
+            if psxy:
+                _test('find LL', pts.find(LatLon_(*p)), i)  # coverage
+                p = tuple(reversed(p))  # flip to x, y tuple
+                _test('find LL', pts.find(LatLon_(*p)), -1)  # coverage
 
             _test('count', pts.count(p), 1)
             _test('index', pts.index(p), i)

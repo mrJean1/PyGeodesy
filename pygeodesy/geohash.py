@@ -30,7 +30,7 @@ from math import ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash + ('bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '20.02.17'
+__version__ = '20.02.22'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -260,8 +260,7 @@ class Geohash(_NamedStr):
            <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
            @param other: The other geohash (L{Geohash}).
-           @keyword radius: Optional, mean earth radius (C{meter}) or
-                            C{None}.
+           @keyword radius: Mean earth radius (C{meter}) or C{None}.
            @keyword adjust: Adjust the wrapped, unrolled longitudinal
                             delta by the cosine of the mean latitude
                             (C{bool}).
@@ -299,7 +298,7 @@ class Geohash(_NamedStr):
            <https://www.Movable-Type.co.UK/scripts/latlong.html>} formula.
 
            @param other: The other geohash (L{Geohash}).
-           @keyword radius: Optional, mean earth radius (C{meter}).
+           @keyword radius: Mean earth radius (C{meter}).
            @keyword wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Great-circle distance (C{meter}, same units as I{radius}).
@@ -570,7 +569,7 @@ def distance2(geohash1, geohash2, radius=R_M):
 
        @param geohash1: First geohash (L{Geohash}).
        @param geohash2: Second geohash (L{Geohash}).
-       @keyword radius: Optional, mean earth radius (C{meter}) or C{None}.
+       @keyword radius: Mean earth radius (C{meter}) or C{None}.
 
        @return: Approximate distance (C{meter}, same units as B{C{radius}}).
 
@@ -590,7 +589,7 @@ def distance3(geohash1, geohash2, radius=R_M):
 
        @param geohash1: First geohash (L{Geohash}).
        @param geohash2: Second geohash (L{Geohash}).
-       @keyword radius: Optional, mean earth radius (C{meter}).
+       @keyword radius: Mean earth radius (C{meter}).
 
        @return: Great-circle distance (C{meter}, same units as B{C{radius}}).
 

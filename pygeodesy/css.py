@@ -19,7 +19,7 @@ from pygeodesy.utily import false2f, issubclassof, property_RO, _TypeError
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css
-__version__ = '20.02.19'
+__version__ = '20.02.232'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -106,8 +106,8 @@ class CassiniSoldner(_NamedBase):
            @param lat: Latitude of the location (C{degrees90}).
            @param lon: Longitude of the location (C{degrees180}).
 
-           @return: An L{EasNorAziRk4Tuple}C{(easting,
-                    northing, azimuth, reciprocal)}.
+           @return: An L{EasNorAziRk4Tuple}C{(easting, northing,
+                    azimuth, reciprocal)}.
         '''
         g, M = self.datum.ellipsoid._geodesic2
 
@@ -147,7 +147,7 @@ class CassiniSoldner(_NamedBase):
            provided package U{geographiclib
            <https://PyPI.org/project/geographiclib>} is installed.
         '''
-        return self._datum.ellipsoid.geodesic
+        return self.datum.ellipsoid.geodesic
 
     @property_RO
     def lat0(self):
@@ -171,7 +171,7 @@ class CassiniSoldner(_NamedBase):
     def majoradius(self):
         '''Get the geodesic's major (equatorial) radius (C{float}).
         '''
-        return self.geodetic.a
+        return self.geodesic.a
 
     def reset(self, lat0, lon0):
         '''Set the center point of this projection.
@@ -183,7 +183,7 @@ class CassiniSoldner(_NamedBase):
 
         self._meridian = m = g.Line(lat0, lon0, 0.0, g.STANDARD | g.DISTANCE_IN)
         self._latlon0 = LatLon2Tuple(m.lat1, m.lon1)
-        s, c = M.sincosd(m.lat1)  # == self.lat0 == self..LatitudeOrigin()
+        s, c = M.sincosd(m.lat1)  # == self.lat0 == self.LatitudeOrigin()
         self._sb0, self._cb0 = M.norm(s * (1.0 - g.f), c)
 
     def reverse(self, easting, northing, LatLon=None):
@@ -196,8 +196,8 @@ class CassiniSoldner(_NamedBase):
                             the location as (C{LatLon}) or C{None}.
 
            @return: Geodetic location B{C{LatLon}} or a
-                    L{LatLon2Tuple}C{(lat, lon)} if
-                    B{C{LatLon}} is C{None}.
+                    L{LatLon2Tuple}C{(lat, lon)} if B{C{LatLon}}
+                    is C{None}.
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
         '''
@@ -372,8 +372,8 @@ class Css(_NamedBase):
                             the default height (C{meter}).
 
            @return: The point (B{C{LatLon}}) or a
-                    L{LatLon4Tuple}C{(lat, lon, height,
-                    datum)} if B{C{LatLon}} is C{None}.
+                    L{LatLon4Tuple}C{(lat, lon, height, datum)} if
+                    B{C{LatLon}} is C{None}.
 
            @raise TypeError: If B{C{LatLon}} or B{C{datum}} is not ellipsoidal.
         '''
@@ -445,7 +445,7 @@ def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=''):
                 L{EasNor3Tuple}C{(easting, northing, height)}
                 if B{C{Css}} is C{None}.
 
-       @raise CSSError: Mismatch of this and the B{C{latlon}} ellipsoidal.
+       @raise CSSError: Mismatch of this and the B{C{latlon}} ellipsoid.
 
        @raise ImportError: Package U{GeographicLib<https://PyPI.org/
                            project/geographiclib>} missing.

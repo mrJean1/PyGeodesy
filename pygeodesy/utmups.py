@@ -26,7 +26,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '19.07.12'
+__version__ = '20.02.22'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -43,7 +43,7 @@ _UTM_S_MIN =  10 * _MGRS_TILE
 _UTM_N_SHIFT = _UTM_S_MAX - _UTM_N_MIN  # South minus North UTM northing
 
 
-class _UpsMinMax(object):
+class _UpsMinMax(object):  # XXX _NamedEnum or _NamedTuple
     # UPS ranges for South, North pole
     eMax = _UPS_S_MAX, _UPS_N_MAX
     eMin = _UPS_S_MIN, _UPS_N_MIN
@@ -51,7 +51,7 @@ class _UpsMinMax(object):
     nMin = _UPS_S_MIN, _UPS_N_MIN
 
 
-class _UtmMinMax(object):
+class _UtmMinMax(object):  # XXX _NamedEnum or _NamedTuple
     # UTM ranges for South-, Northern hemisphere
     eMax =  _UTM_C_MAX, _UTM_C_MAX
     eMin =  _UTM_C_MIN, _UTM_C_MIN
@@ -120,10 +120,9 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
                        from zone's central meridian, for UTM only (C{bool}).
 
        @return: The UTM or UPS coordinate (B{C{Utm}} respectively B{C{Ups}})
-                or a L{UtmUps8Tuple}C{(zone,
-                hemipole, easting, northing, band, datum, convergence,
-                scale)} if B{C{Utm}} respectively B{C{Ups}} is C{None} or
-                B{C{cmoff}} is C{False}.
+                or a L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
+                band, datum, convergence, scale)} if B{C{Utm}} respectively
+                B{C{Ups}} is C{None} or B{C{cmoff}} is C{False}.
 
        @raise RangeError: If B{C{lat}} outside the valid UTM or UPS bands
                           or if B{C{lat}} or B{C{lon}} outside the valid
