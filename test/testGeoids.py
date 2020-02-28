@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.01.23'
+__version__ = '20.01.27'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -15,7 +15,8 @@ warnings.filterwarnings('ignore')  # or 'error'
 from base import coverage, scipy, PyGeodesy_dir, TestsBase
 
 from pygeodesy import fStr, len2, egmGeoidHeights, GeoidError, \
-                      GeoidG2012B, GeoidKarney, GeoidPGM, RangeError
+                      GeoidG2012B, GeoidKarney, GeoidPGM, \
+                      LatLon_, RangeError
 
 import os.path as _os_path
 from os import SEEK_SET as _SEEK_SET
@@ -314,6 +315,10 @@ class Tests(TestsBase):
                 for a in ('_g2ll2', '_ll2g2'):
                     t = getattr(g, a)(180, 360)
                     self.test('%s.%s' % (g, a), t, t, known=True)
+                for t in ((LatLon_(-10, -100), LatLon_(10, 100)),
+                          (       (-10, -100),        (10, 100))):
+                    t = g._swne(t)
+                    self.test('%s.%s' % (g, '_swne'), t, '(-10.0, -100.0, 10.0, 100.0)')
 
             t = g.toStr()
             self.test('%s.%s' % (g, 'toStr'), t, t, known=True, nt=1)

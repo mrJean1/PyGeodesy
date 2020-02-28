@@ -65,7 +65,7 @@ from pygeodesy.fmath import EPS, favg, Fdot, fdot, Fhorner, frange, fStr, \
                             len2, map1, map2
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError, _SciPyIssue
-from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import GeoidHeight5Tuple, LatLon3Tuple, _Named
 from pygeodesy.utily import property_RO
 

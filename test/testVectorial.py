@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.02.24'
+__version__ = '20.02.27'
 
 from base import coverage, TestsBase
 
@@ -35,9 +35,10 @@ class Tests(TestsBase):
         if c.M is not None:
             self.test('ecef.M', fStr(p.M, prec=9), fStr(c.M, prec=9))
 
-        if coverage:  # to test coverage
+        if coverage:
             t = v.parse('0.5, 0.5, 0.707')
             self.test('parse', t, v)
+            self.test('cmp', t.cmp(v), 0)
 
             self.test('eq', t == v, True)
             self.test('ge', t >= v, True)
@@ -45,6 +46,12 @@ class Tests(TestsBase):
             self.test('le', t <= v, True)
             self.test('lt', t <  v, False)
             self.test('ne', t != v, False)
+
+            m = t * 2
+            self.test('*', m, '(1.0, 1.0, 1.414)')
+            self.test('+', t + v, m)
+            self.test('/', m / 2, t)
+            self.test('-', m - t, t)
 
             m = v.__matmul__(t)
             self.test('@', m, '(0.0, 0.0, 0.0)')

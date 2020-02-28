@@ -55,14 +55,14 @@ from pygeodesy.datum import Datum
 from pygeodesy.fmath import EPS, fidw, hypot2, \
                            _IsNotError, isscalar, len2, map1, map2
 from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named
 from pygeodesy.points import LatLon_
 from pygeodesy.utily import PI, PI2, PI_2, property_RO, \
                             radiansPI, radiansPI2, unroll180, unrollPI
 
-__all__ = _ALL_LAZY.heights
-__version__ = '20.02.20'
+__all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
+__version__ = '20.02.26'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -150,7 +150,7 @@ def _ordedup(ts, lo=EPS, hi=PI2-EPS):
     return ks
 
 
-def _SciPyIssue(x, *extras):  # imported by .geoids
+def _SciPyIssue(x, *extras):  # imported by .geoids  # PYCHOK no cover
     t = ' '.join(str(x).strip().split() + map(str, extras))
     if isinstance(x, (RuntimeWarning, UserWarning)):
         return SciPyWarning(t)
@@ -186,16 +186,24 @@ def _xyhs3(atype, m, knots, off=True):
 class _HeightBase(_Named):  # imported by .geoids
     '''(INTERNAL) Interpolator base class.
     '''
-    _kmin = 2     # min number of knots
-    _np   = None  # numpy
-    _np_v = None  # version
-    _spi  = None  # scipy.interpolate
-    _sp_v = None  # version
+    _adjust = None  # not applicable
+    _kmin   = 2     # min number of knots
+    _np     = None  # numpy
+    _np_v   = None  # version
+    _spi    = None  # scipy.interpolate
+    _sp_v   = None  # version
+    _wrap   = None  # not applicable
 
     def __call__(self, *args):
         '''(INTERNAL) I{Must be overloaded}.
         '''
         self._notOverloaded('__call__', *args)
+
+    @property_RO
+    def adjust(self):
+        '''Get the adjust setting (C{bool} or C{None} if not applicable).
+        '''
+        return self._adjust
 
     def _axyllis4(self, llis):
         return _axyllis4(self._np.array, llis)
@@ -223,6 +231,12 @@ class _HeightBase(_Named):  # imported by .geoids
             llis = [LatLon_(*ll) for ll in zip(lats, lons)]
         return self(llis)  # __call__(lli) or __call__(llis)
 
+    @property_RO
+    def kmin(self):
+        '''Get the minimum number of knots (C{int}).
+        '''
+        return self._kmin
+
     def _NumSciPy(self, throwarnings=False):
         '''(INTERNAL) Import C{numpy} and C{scipy}.
         '''
@@ -246,6 +260,12 @@ class _HeightBase(_Named):  # imported by .geoids
 
     def _xyhs3(self, knots):
         return _xyhs3(self._np.array, self._kmin, knots)
+
+    @property_RO
+    def wrap(self):
+        '''Get the wrap setting (C{bool} or C{None} if not applicable).
+        '''
+        return self._wrap
 
 
 class HeightCubic(_HeightBase):
@@ -483,7 +503,7 @@ class HeightIDWequirectangular(_HeightIDW):
     def _distances(self, x, y):  # (x, y) radians
         for xk, yk in zip(self._xs, self._ys):
             d, _ = unrollPI(xk, x, wrap=self._wrap)
-            if self._adjust:
+            if self.adjust:
                 d *= _scaler(yk, y)
             yield hypot2(d, yk - y)  # like equirectangular_ distance2
 
@@ -516,17 +536,15 @@ class HeightIDWeuclidean(_HeightIDW):
            @keyword name: Optional height interpolator name (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}}, B{C{adjust}} or
-                               B{C{beta}}.
+                               invalid B{C{knot}} or B{C{beta}}.
         '''
-        if adjust not in (True, False):
-            raise HeightError('%s=%r invalid' % ('adjust', adjust))
-        self._adjust = adjust
+        if not adjust:
+            self._adjust = False
         _HeightIDW.__init__(self, knots, beta=beta, name=name)
 
     def _distances(self, x, y):  # (x, y) radians
         for xk, yk in zip(self._xs, self._ys):
-            yield euclidean_(yk, y, xk - x, adjust=self._adjust)
+            yield euclidean_(yk, y, xk - x, adjust=self.adjust)
 
     __call__ = _HeightIDW.__call__  # for __doc__
     height   = _HeightIDW.height    # for __doc__
@@ -561,7 +579,7 @@ class HeightIDWhaversine(_HeightIDW):
                                invalid B{C{knot}} or B{C{beta}}.
         '''
         if wrap:
-            self._warp = True
+            self._wrap = True
         _HeightIDW.__init__(self, knots, beta=beta, name=name)
 
     def _distances(self, x, y):  # (x, y) radians
@@ -625,7 +643,7 @@ class HeightIDWkarney(_HeightIDW):
 
         self.beta = beta
         if wrap:
-            self._warp = True
+            self._wrap = True
         if name:
             self.name = name
 
@@ -703,7 +721,7 @@ class HeightIDWvincentys(_HeightIDW):
                                invalid B{C{knot}} or B{C{beta}}.
         '''
         if wrap:
-            self._warp = True
+            self._wrap = True
         _HeightIDW.__init__(self, knots, beta=beta, name=name)
 
     def _distances(self, x, y):  # (x, y) radians

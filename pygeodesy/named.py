@@ -21,8 +21,8 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _xcopy
 from pygeodesy.utily import issubclassof, property_RO, _Strs, unStr
 
 # XXX 'FsumDelta2Tuple' is in _ALL_LAZY.named
-__all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
-         # '_NamedDict', '_NamedEnum', '_NamedEnumItem',
+__all__ = _ALL_LAZY.named + _ALL_DOCS('_Named', '_NamedBase',
+         '_NamedEnum', '_NamedEnumItem',  # '_NamedDict',
          # '_NamedInt', '_NamedStr', '_NamedTuple',
          'Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
          'ClipCS3Tuple', 'ClipSH3Tuple', 'Curvature2Tuple',
@@ -42,7 +42,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS(  # '_Named', '_NamedBase',
          'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple')
-__version__ = '20.02.22'
+__version__ = '20.02.28'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
@@ -85,6 +85,22 @@ def _xnamed(inst, name):
     return inst
 
 
+def _zattrs(inst, dflt, *attrs):
+    '''(INTERNAL) Zap instance attributes.
+
+       @param inst: The instance (C{_NamedBase}).
+       @param dflt: The original, default value (C{None}).
+       @param attrs: Attribute names (C{str}s).
+
+       @raise AttributeError: An B{C{attr}} doesn't exist.
+    '''
+    for a in attrs:
+        if getattr(inst, a, dflt) is not dflt:
+            setattr(inst, a, dflt)
+        elif not hasattr(inst, a):
+            raise AttributeError('.%s invalid: %r' % (a, inst))
+
+
 class _Named(object):
     '''(INTERNAL) Root class for named objects.
     '''
@@ -99,13 +115,13 @@ class _Named(object):
     @property_RO
     def classname(self):
         '''Get this object's C{[module.]class} name (C{str}), see
-           property C{classnaming} and function C{classnaming}.
+           property C{.classnaming} and function C{classnaming}.
         '''
         return classname(self, prefixed=self._classnaming)
 
     @property
     def classnaming(self):
-        '''Get the class naming (C{bool}).
+        '''Get the class naming (C{bool}), see function C{classnaming}.
         '''
         return self._classnaming
 
@@ -220,10 +236,11 @@ class _NamedBase(_Named):
     def __str__(self):
         return self.toStr()
 
-    def _update(self, unused):  # PYCHOK no cover
-        '''(INTERNAL) To be overloaded.
+    def _update(self, updated, *attrs):
+        '''(INTERNAL) Zap cached instance attributes.
         '''
-        pass
+        if updated:
+            _zattrs(self, None, *attrs)
 
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
@@ -714,7 +731,7 @@ class EasNorAziRk4Tuple(_NamedTuple):
 
 class EasNorExact4Tuple(_NamedTuple):  # .etm.py
     '''4-Tuple C{(easting, northing, convergence, scale)} in
-       C{meter}, C{meter}, {degrees} and C{scalar}.
+       C{meter}, C{meter}, C{degrees} and C{scalar}.
     '''
     _Names_ = ('easting', 'northing', 'convergence', 'scale')
 
@@ -800,7 +817,7 @@ class LatLonDatum3Tuple(_NamedTuple):  # .lcc.py, .osgr.py
 
 class LatLonDatum5Tuple(_NamedTuple):  # .ups.py, .utm.py
     '''5-Tuple C{(lat, lon, datum, convergence, scale)} in
-       C{degrees[90]}, C{degrees[180]}, L{Datum}, {degrees}
+       C{degrees[90]}, C{degrees[180]}, L{Datum}, C{degrees}
        and C{float}.
     '''
     _Names_ = ('lat', 'lon', 'datum', 'convergence', 'scale')
@@ -875,7 +892,7 @@ class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, 
     '''2-Tuple C{(phi, lam)} with latitude C{phi} in C{radians[PI_2]}
        and longitude C{lam} in C{radians[PI]}.
 
-       @note: Using C{phi/lambda} for lat-/longitude in radians
+       @note: Using C{phi/lambda} for lat-/longitude in C{radians}
               follows Chris Veness' U{convention
               <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
     '''
@@ -892,7 +909,7 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py
        C{radians[PI_2]}, longitude C{lam} in C{radians[PI]} and
        C{height} in C{meter}.
 
-       @note: Using C{phi/lamda} for lat-/longitude in radians
+       @note: Using C{phi/lambda} for lat-/longitude in C{radians}
               follows Chris Veness' U{convention
               <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
     '''
@@ -938,7 +955,7 @@ class UtmUps5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
     '''5-Tuple C{(zone, hemipole, easting, northing, band)} as C{int},
        C{str}, C{meter}, C{meter} and C{band} letter, where C{zone}
        is C{1..60} for UTM or C{0} for UPS, C{hemipole} C{'N'|'S'} is
-       the UTM hemisphere or the UPS pole and {band} is C{""} or the
+       the UTM hemisphere or the UPS pole and C{band} is C{""} or the
        (longitudinal) UTM band C{'C'|'D'..'W'|'X'} or the (polar) UPS
        band C{'A'|'B'|'Y'|'Z'}.
     '''
@@ -950,7 +967,7 @@ class UtmUps8Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
        convergence, scale)} as C{int}, C{str}, C{meter}, C{meter},
        C{band} letter, C{Datum}, C{degrees} and C{float}, where
        C{zone} is C{1..60} for UTM or C{0} for UPS, C{hemipole}
-       C{'N'|'S'} is the UTM hemisphere or the UPS pole and {band}
+       C{'N'|'S'} is the UTM hemisphere or the UPS pole and C{band}
        is C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
        or the (polar) UPS band C{'A'|'B'|'Y'|'Z'}.
     '''
@@ -961,7 +978,7 @@ class UtmUps8Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
 class UtmUpsLatLon5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
     '''5-Tuple C{(zone, band, hemipole, lat, lon)} as C{int},
        C{str}, C{str}, C{degrees90} and C{degrees180}, where
-       C{zone} is C{1..60} for UTM or C{0} for UPS, {band} is
+       C{zone} is C{1..60} for UTM or C{0} for UPS, C{band} is
        C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
        or (polar) UPS band C{'A'|'B'|'Y'|'Z'} and C{hemipole}
        C{'N'|'S'} is the UTM hemisphere or the UPS pole.
@@ -994,26 +1011,26 @@ def classname(inst, prefixed=None):
 
        @param inst: The object (any C{type}).
        @keyword prefixed: Include the module name (C{bool}), see
-                          function L{classnaming}.
+                          function C{classnaming}.
 
        @return: The B{C{inst}}'s C{[module.]class} name (C{str}).
     '''
     try:
         n = inst.__class__.__name__
     except AttributeError:
-        n = 'Nn'
-    if prefixed or (getattr(inst, 'classnaming', _Named._classnaming)
+        n = '--'
+    if prefixed or (getattr(inst, 'classnaming', classnaming())
                     if prefixed is None else False):
         try:
-            m = inst.__module__
-            n = '.'.join(m.split('.')[-1:] + [n])
+            m = inst.__module__.split('.')
+            n = '.'.join(m[-1:] + [n])
         except AttributeError:
             pass
     return n
 
 
 def classnaming(prefixed=None):
-    '''Get/set the default naming for C{[module.]class} names.
+    '''Get/set the default class naming for C{[module.]class} names.
 
        @keyword prefixed: Include the module name (C{bool}).
 

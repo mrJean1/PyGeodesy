@@ -22,14 +22,7 @@ from math import atan2, cos, sin
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '20.02.17'
-
-try:
-    _cmp = cmp
-except NameError:  # Python 3+
-    def _cmp(a, b):
-        return +1 if a > b else (
-               -1 if a < b else 0)
+__version__ = '20.02.28'
 
 
 def _xyzn4(xyz, y, z, Error=TypeError):  # imported by .ecef.py
@@ -159,7 +152,10 @@ class Vector3d(_NamedBase):
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         self.others(other)
-        return _cmp(self.length, other.length)
+        return -1 if self.length < other.length else (
+               +1 if self.length > other.length else 0)
+
+    cmp = __cmp__
 
     def __div__(self, scalar):
         '''Divide this vector by a scalar.
@@ -321,11 +317,11 @@ class Vector3d(_NamedBase):
         return self.minus(other)
 #   __isub__ = __sub__
 
-    def _update(self, updated):
-        '''(INTERNAL) Clear caches.
+    def _update(self, updated, *attrs):
+        '''(INTERNAL) Zap cached attributes if updated.
         '''
-        if updated:  # reset caches
-            self._length = self._united = None
+        if updated:
+            _NamedBase._update(self, updated, '_length', '_united', *attrs)
 
     def angleTo(self, other, vSign=None):
         '''Compute the angle between this and an other vector.

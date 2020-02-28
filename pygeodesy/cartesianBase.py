@@ -25,7 +25,7 @@ from math import hypot, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.02.17'
+__version__ = '20.02.28'
 
 
 class CartesianBase(Vector3d):
@@ -56,10 +56,11 @@ class CartesianBase(Vector3d):
         if d:
             self.datum = d
 
-    def _update(self, updated):
-        if updated:  # reset cached attrs
-            self._e9t = self._v4t = None
-            Vector3d._update(self, updated)
+    def _update(self, updated, *attrs):
+        '''(INTERNAL) Zap cached attributes if updated.
+        '''
+        if updated:
+            Vector3d._update(self, updated, '_e9t', '_v4t', *attrs)
 
     def _applyHelmert(self, transform, inverse=False, **datum):
         '''(INTERNAL) Return a new cartesian point by applying a

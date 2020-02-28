@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.02.17'
+__version__ = '20.02.28'
 
 from base import geographiclib, TestsBase
 
@@ -86,7 +86,9 @@ class Tests(TestsBase):
             self.test('ispolar', ispolar(b), True)  # PYCHOK test attr?
 
         c = p.copy()
-        self.test('copy', p.isequalTo(c), 'True')
+        self.test('copy', p.isequalTo(c), True)
+        self.test('__eq__', p == c, True)
+        self.test('__ne__', p != c, False)
 
         d = p.equirectangularTo(q)
         self.test('equirectangularTo', d, '404329.56', fmt='%.2f')

@@ -39,7 +39,7 @@ from math import asin, atan2, cos, radians, sin
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.02.22'
+__version__ = '20.02.28'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -117,16 +117,15 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             self._r3 = n, e, d  # matrix rows
         return self._r3
 
-    def _update(self, updated):
-        '''(INTERNAL) Clear caches if updated.
+    def _update(self, updated, *attrs):
+        '''(INTERNAL) Zap cached attributes if updated.
         '''
-        if updated:  # reset caches
+        if updated:
             if self._Nv:
                 self._Nv._fromll = None
                 self._Nv = None
-            self._r3 = None
-            LatLonNvectorBase._update(self, updated)
-            LatLonEllipsoidalBase._update(self, updated)
+            LatLonNvectorBase._update(self, updated, '_r3', *attrs)
+            LatLonEllipsoidalBase._update(self, updated, *attrs)
 
 #     def crossTrackDistanceTo(self, start, end, radius=R_M):
 #         '''Return the (signed) distance from this point to the great

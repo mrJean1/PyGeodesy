@@ -27,7 +27,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.02.22'
+__version__ = '20.02.28'
 
 
 class LatLonBase(_NamedBase):
@@ -91,12 +91,12 @@ class LatLonBase(_NamedBase):
         '''
         return favg(self.height, other.height, f=f)
 
-    def _update(self, updated):
-        '''(INTERNAL) Reset caches if updated.
+    def _update(self, updated, *attrs):
+        '''(INTERNAL) Zap cached attributes if updated.
         '''
-        if updated:  # reset caches
-            self._ab = self._e9t = self._latlon = \
-                       self._v3d = self._v4t = None
+        if updated:
+            _NamedBase._update(self, updated, '_ab', '_e9t',
+                                   '_latlon', '_v3d', '_v4t', *attrs)
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
@@ -367,6 +367,12 @@ class LatLonBase(_NamedBase):
         '''
         return self.isequalTo(other, eps=eps) and self.height == other.height
 
+    @property_RO
+    def lam(self):
+        '''Get the longitude (B{C{radians}}).
+        '''
+        return self.philam.lam
+
     @property
     def lat(self):
         '''Get the latitude (C{degrees90}).
@@ -472,6 +478,12 @@ class LatLonBase(_NamedBase):
         self._lon = lon
 
     @property_RO
+    def phi(self):
+        '''Get the latitude (B{C{radians}}).
+        '''
+        return self.philam.phi
+
+    @property_RO
     def philam(self):
         '''Get the lat- and longitude (L{PhiLam2Tuple}).
         '''
@@ -494,9 +506,8 @@ class LatLonBase(_NamedBase):
            @note: The C{round}ed values are always C{float}, also
                   if B{C{ndigits}} is omitted.
         '''
-        r = self._ab or self.to2ab()
-        r = PhiLam2Tuple(round(r.phi, ndigits),
-                         round(r.lam, ndigits))
+        r = PhiLam2Tuple(round(self.phi, ndigits),
+                         round(self.lam, ndigits))
         return self._xnamed(r)
 
     def points(self, points, closed=True):

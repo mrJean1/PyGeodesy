@@ -63,9 +63,9 @@
 <pre class="base-tree">
   object --+        
            |        
-named._Named --+    
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
                |    
-named._NamedBase --+
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+
                    |
                   <strong class="uidshort">LatLonBase</strong>
 </pre>
@@ -746,14 +746,14 @@ named._NamedBase --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedBase</code></b>:
-      <code>__repr__</code>,
-      <code>others</code>,
-      <code>toStr2</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toStr2">toStr2</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
-      <code>classof</code>,
-      <code>copy</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -810,6 +810,14 @@ named._NamedBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#lam" class="summary-name">lam</a><br />
+      Get the longitude (<b><code>radians</code></b>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#lat" class="summary-name">lat</a><br />
       Get the latitude (<code>degrees90</code>).
     </td>
@@ -846,6 +854,14 @@ named._NamedBase --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.latlonBase.LatLonBase-class.html#phi" class="summary-name">phi</a><br />
+      Get the latitude (<b><code>radians</code></b>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#philam" class="summary-name">philam</a><br />
       Get the lat- and longitude (<a 
       href="pygeodesy.named.PhiLam2Tuple-class.html" 
@@ -864,12 +880,12 @@ named._NamedBase --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._Named</code></b>:
-      <code>classname</code>,
-      <code>classnaming</code>,
-      <code>name</code>,
-      <code>named</code>,
-      <code>named2</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -1659,7 +1675,7 @@ named._NamedBase --+
     <dt>Returns:</dt>
         <dd>Point in the specified form (<code>str</code>).</dd>
     <dt>Overrides:
-        named._Named.toStr
+        <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1853,6 +1869,26 @@ class="link">EcefVeness</a>).
   </dl>
 </td></tr></table>
 </div>
+<a name="lam"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lam</h3>
+  <p>Get the longitude (<b><code>radians</code></b>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">lam(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitude (<b><code>radians</code></b>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="lat"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1941,6 +1977,26 @@ class="link">LatLon3Tuple</a>).
   </dl>
 </td></tr></table>
 </div>
+<a name="phi"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">phi</h3>
+  <p>Get the latitude (<b><code>radians</code></b>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">phi(<span class="summary-sig-arg">self</span>)</span>
+        - Get the latitude (<b><code>radians</code></b>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ignored</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="philam"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2021,7 +2077,7 @@ class="link">PhiLam3Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 24 14:20:34 2020
+    Generated by Epydoc 3.0.1 on Fri Feb 28 15:12:51 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

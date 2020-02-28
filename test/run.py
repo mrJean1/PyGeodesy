@@ -14,7 +14,7 @@ from os import environ, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '20.02.07'
+__version__ = '20.02.28'
 
 if isiOS:  # MCCABE 14
 
@@ -74,10 +74,10 @@ else:  # non-iOS
 
     # replace home dir with ~
     PythonX_O = PythonX.replace(environ.get('HOME', '~'), '~')
-    pythonC_  = PythonX,  # python cmd tuple
+    pythonC_ = (PythonX,)  # python cmd tuple
     if not __debug__:
         PythonX_O += ' -O'
-        pythonC_ += '-O',
+        pythonC_  += ('-O',)
     if coverage and environ.get('PYGEODESY_COVERAGE', ''):
         pythonC_ += tuple('-m coverage run -a'.split())
 
@@ -109,9 +109,8 @@ _failedonly = False
 _raiser     = False
 _results    = False  # or file
 _verbose    = False
-_E = ''  # -B -Z -z
-_T = 0   # total tests
-_X = 0   # failed tests
+_Total = 0  # total tests
+_FailX = 0  # failed tests
 
 
 def _exit(last, text, exit):
@@ -127,9 +126,9 @@ def _exit(last, text, exit):
 def _run(test, *opts):
     '''(INTERNAL) Run a test script and parse the result.
     '''
-    global _T, _X
+    global _Total, _FailX
 
-    t = 'running%s %s %s' % (_E, PythonX_O, tilde(test))
+    t = 'running %s %s' % (PythonX_O, tilde(test))
     print(t)
 
     x, r = run2(test, *opts)
@@ -137,13 +136,13 @@ def _run(test, *opts):
         _write(NL + t + NL)
         _write(r)
 
-    _T += r.count(NL + '    test ')  # number of tests
-    _X += x  # failures, excluding KNOWN ones
+    _Total += r.count(NL + '    test ')  # number of tests
+    _FailX += x  # failures, excluding KNOWN ones
 
     if 'Traceback' in r:
         print(r + NL)
         if not x:  # count as failure
-            _X += 1
+            _FailX += 1
         if _raiser:
             raise SystemExit
 
@@ -227,18 +226,18 @@ if __name__ == '__main__':  # MCCABE 16
         pass
     s = time() - s
     t = secs2str(s)
-    if _T > s > 1:
-        t = '%s (%.3f tps)' % (t, _T / s)
+    if _Total > s > 1:
+        t = '%s (%.3f tps)' % (t, _Total / s)
 
-    if _X:
-        x = '%d (of %d) tests FAILED' % (_X, _T)
-    elif _T > 0:
-        x = 'all %d tests OK' % (_T,)
+    if _FailX:
+        x = '%d (of %d) tests FAILED' % (_FailX, _Total)
+    elif _Total > 0:
+        x = 'all %d tests OK' % (_Total,)
     else:
         x = 'all OK'
 
     t = '%s %s %s (%s) %s' % (argv0, PythonX_O, x, v, t)
-    _exit(t, t, 2 if _X else 0)
+    _exit(t, t, 2 if _FailX else 0)
 
 # **) MIT License
 #

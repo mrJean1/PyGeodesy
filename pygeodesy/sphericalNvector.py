@@ -54,7 +54,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.02.22'
+__version__ = '20.02.28'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -129,15 +129,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             gc = s.cross(e, raiser=raiser)  # XXX .unit()?
         return gc, s, e
 
-    def _update(self, updated):
-        '''(INTERNAL) Clear caches id updated.
+    def _update(self, updated, *attrs):
+        '''(INTERNAL) Zap cached attributes if updated.
         '''
         if updated:  # reset caches
             if self._Nv:
                 self._Nv._fromll = None
                 self._Nv = None
-            LatLonNvectorBase._update(self, updated)
-            LatLonSphericalBase._update(self, updated)
+            LatLonNvectorBase._update(self, updated, *attrs)
+            LatLonSphericalBase._update(self, updated, *attrs)
 
     def alongTrackDistanceTo(self, start, end, radius=R_M):
         '''Compute the (signed) distance from the start to the closest

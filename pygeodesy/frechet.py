@@ -76,15 +76,15 @@ from pygeodesy.fmath import EPS, EPS1, favg, hypot2, INF, isscalar, \
                            _IsNotError
 from pygeodesy.formy import euclidean_, haversine_, points2 as _points2, \
                            _scaler, vincentys_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, PhiLam2Tuple
-from pygeodesy.utily import unrollPI
+from pygeodesy.utily import property_RO, unrollPI
 
 from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.02.09'
+__version__ = '20.02.27'
 
 
 class FrechetError(ValueError):
@@ -137,12 +137,12 @@ class Frechet(_Named):
     '''Frechet base class, requires method L{Frechet.distance} to
        be overloaded.
     '''
-    _adjust = False
+    _adjust = None
     _f1     = 1
     _n1     = 0
     _ps1    = None
     _units  = ''
-    _warp   = False
+    _wrap   = None
 
     def __init__(self, points, fraction=None, name='', units=''):
         '''New L{Frechet} calculator/interpolator.
@@ -166,6 +166,12 @@ class Frechet(_Named):
             self.name = name
         if units:
             self.units = units
+
+    @property_RO
+    def adjust(self):
+        '''Get the adjust setting (C{bool} or C{None} if not applicable).
+        '''
+        return self._adjust
 
     def discrete(self, points, fraction=None):
         '''Compute the C{forward, discrete Fréchet} distance.
@@ -272,6 +278,12 @@ class Frechet(_Named):
         '''
         self._units = str(units or "")
 
+    @property_RO
+    def wrap(self):
+        '''Get the wrap setting (C{bool} or C{None} if not applicable).
+        '''
+        return self._wrap
+
 
 class FrechetDegrees(Frechet):
     '''L{Frechet} base class for distances in C{degrees} from
@@ -334,8 +346,8 @@ class FrechetEquirectangular(FrechetRadians):
     def distance(self, p1, p2):
         '''Return the L{equirectangular_} distance in C{radians squared}.
         '''
-        d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
-        if self._adjust:
+        d, _ = unrollPI(p1.lam, p2.lam, wrap=self.wrap)
+        if self.adjust:
             d *= _scaler(p1.phi, p2.phi)
         return hypot2(d, p2.phi - p1.phi)  # like equirectangular_ d2
 
@@ -373,7 +385,7 @@ class FrechetEuclidean(FrechetRadians):
     def distance(self, p1, p2):
         '''Return the L{euclidean_} distance in C{radians}.
         '''
-        return euclidean_(p2.phi, p1.phi, p2.lam - p1.lam, adjust=self._adjust)
+        return euclidean_(p2.phi, p1.phi, p2.lam - p1.lam, adjust=self.adjust)
 
     discrete = Frechet.discrete  # for __doc__
 
@@ -410,7 +422,7 @@ class FrechetHaversine(FrechetRadians):
     def distance(self, p1, p2):
         '''Return the L{haversine_} distance in C{radians}.
         '''
-        d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
+        d, _ = unrollPI(p1.lam, p2.lam, wrap=self.wrap)
         return haversine_(p2.phi, p1.phi, d)
 
     discrete = Frechet.discrete  # for __doc__
@@ -448,7 +460,7 @@ class FrechetVincentys(FrechetRadians):
     def distance(self, p1, p2):
         '''Return the L{vincentys_} distance in C{radians}.
         '''
-        d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
+        d, _ = unrollPI(p1.lam, p2.lam, wrap=self.wrap)
         return vincentys_(p2.phi, p1.phi, d)
 
     discrete = Frechet.discrete  # for __doc__

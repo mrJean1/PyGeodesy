@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.02.20'
+__version__ = '20.02.27'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -12,7 +12,7 @@ import warnings  # PYCHOK expected
 # warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings('ignore')  # or 'error'
 
-from base import geographiclib, scipy, TestsBase
+from base import coverage, geographiclib, scipy, TestsBase
 
 from pygeodesy import Datums, fStr, HeightError, \
                       HeightCubic, HeightLinear, \
@@ -56,12 +56,17 @@ class Tests(TestsBase):
         hs2 = interpolator.height(lats, lons)
         self.test(H.__name__+'(latlon)', hs2 == hs, True)
 
-    def testHeightError(self, interpolator):
+    def testHeightError(self, interpolator, *attrs):
         try:  # force an error
             h = interpolator(0.0, 1.0)
         except HeightError as x:
             h = str(x)
         self.test('HeightError', h, "'float' object has no attribute 'lon': 0.0")
+
+        if coverage:
+            for a in ('adjust', 'kmin', 'wrap') + attrs:
+                t = getattr(interpolator, a)
+                self.test(interpolator.__class__.__name__+a, t, t)
 
     def testIDW(self, IDW, kts, lli, expected, **kwds):
         interpolator = IDW(kts, **kwds)
@@ -89,7 +94,12 @@ class Tests(TestsBase):
         self.test(IDW.__name__+'(list', type(hs), list)
         self.test(IDW.__name__+'(list-float)', type(hs[0]), float)
         self.test(IDW.__name__+'(list-float)', type(hs[1]), float)
-        self.testHeightError(interpolator)
+        self.testHeightError(interpolator, 'beta')
+
+        if coverage:
+            for a in ('adjust', 'beta', 'kmin', 'wrap'):
+                t = getattr(interpolator, a)
+                self.test(IDW.__name__+a, t, t)
 
     def testHeights(self):
         kts = LatLon(0.4, 0.9, 1), LatLon(1.5, 1.5, 3), \
