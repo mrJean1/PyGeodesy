@@ -121,7 +121,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Feb 27, 2020.*
+*Last updated: Feb 29, 2020.*
 
 License
 =======
@@ -152,7 +152,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
   :target: https://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
 .. image:: https://Img.Shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
   :target: https://Travis-CI.org/mrJean1/PyGeodesy
-.. image:: https://Img.Shields.io/cirrus/github/mrJean1/Pygeodesy?branch=master&label=Cirrus
+.. image:: https://Img.Shields.io/cirrus/github/mrJean1/PyGeodesy?branch=master&label=Cirrus
   :target: https://Cirrus-CI.com/github/mrJean1/PyGeodesy
 .. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
   :target: https://PyPI.org/project/PyGeodesy
