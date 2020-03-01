@@ -72,16 +72,16 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.8.1, 3.7.6 and 2.7.17 (all with
+The tests have been run with Python 3.8.2, 3.7.6 and 2.7.17 (all with
 geographiclib_ 1.50, numpy_ 1.18.0, 1.17.2 respectively 1.16.5 and scipy_
 1.4.1, 1.3.1 respectively 1.2.2), with macOS' Python 2.7.16 (without
 geographiclib, numpy and scipy) and with PyPy_ 7.3.0 (Python 2.7.13 and
 3.6.9), all on macOS 10.13.6 High Sierra and *all in 64-bit only*.  The
 results of those tests are included in the distribution files.
 
-With Python 3.8.1 and 3.7.6, the tests run *with and without* ``lazy import``.
+With Python 3.8.2 and 3.7.6, the tests run *with and without* ``lazy import``.
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.1
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.2
 and 3.7.6 (both with geographiclib_ 1.50, numpy_ 1.18.0 respectively
 1.17.2 and scipy_ 1.4.1 respectively 1.3.1) and macOS' Python 2.7.16
 (without geographiclib, numpy and scipy).  A summary PDF file and a full
@@ -121,7 +121,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Feb 29, 2020.*
+*Last updated: Mar 02, 2020.*
 
 License
 =======
@@ -150,10 +150,10 @@ OTHER DEALINGS IN THE SOFTWARE.``
   :target: https://PyPI.org/project/PyGeodesy
 .. image:: https://Img.Shields.io/appveyor/ci/mrJean1/PyGeodesy.svg?branch=master&label=AppVeyor
   :target: https://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
-.. image:: https://Img.Shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
-  :target: https://Travis-CI.org/mrJean1/PyGeodesy
 .. image:: https://Img.Shields.io/cirrus/github/mrJean1/PyGeodesy?branch=master&label=Cirrus
   :target: https://Cirrus-CI.com/github/mrJean1/PyGeodesy
+.. image:: https://Img.Shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
+  :target: https://Travis-CI.org/mrJean1/PyGeodesy
 .. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
   :target: https://PyPI.org/project/PyGeodesy
 .. image:: https://Img.Shields.io/pypi/wheel/PyGeodesy.svg
