@@ -24,7 +24,7 @@ file C{Header}.
 
 Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2017)
 and licensed under the MIT/X11 License.  For more information, see the
-U{GeographicLib<https://GeographicLib.SourceForge.io/>} documentation.
+U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
 B{Elliptic integrals and functions.}
 
@@ -75,18 +75,17 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.fmath import EPS, fdot, Fsum, fsum_, hypot1, \
-                            INF, map2
+from pygeodesy.basics import EPS, INF, map2, property_RO
+from pygeodesy.fmath import fdot, Fsum, fsum_, hypot1
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
-from pygeodesy.utily import PI, PI_2, PI_4, property_RO, \
-                            sincos2, sincos2d
+from pygeodesy.utily import PI, PI_2, PI_4, sincos2, sincos2d
 
 from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic + _ALL_DOCS('Elliptic3Tuple')
-__version__ = '20.02.06'
+__version__ = '20.03.15'
 
 _TolJAC = sqrt(EPS * 0.01)
 _TolRD  =  pow(EPS * 0.002, 0.125)

@@ -59,15 +59,16 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
 
+from pygeodesy.basics import EPS, len2, map1, map2, property_RO
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.dms import parseDMS2, RangeError
-from pygeodesy.fmath import EPS, favg, Fdot, fdot, Fhorner, frange, fStr, \
-                            len2, map1, map2
+from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError, _SciPyIssue
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import GeoidHeight5Tuple, LatLon3Tuple, _Named
-from pygeodesy.utily import property_RO
+from pygeodesy.named import GeoidHeight5Tuple, LatLon3Tuple, \
+                           _Named, notOverloaded
+from pygeodesy.streprs import attrs, fstr
 
 from math import floor
 import os.path as _os_path
@@ -85,7 +86,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '20.02.24'
+__version__ = '20.03.12'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -238,7 +239,7 @@ class _GeoidBase(_HeightBase):
             except (GeoidError, RangeError) as x:
                 # XXX avoid str(LatLon()) degree symbols
                 i = '' if _as is _ascalar else '[%s]' % (i,)
-                lli = fStr((lli.lat, lli.lon), prec=6)
+                lli = fstr((lli.lat, lli.lon), prec=6)
                 raise x.__class__('location%s (%s) %s' % (i, lli, x))
             except Exception as x:
                 if scipy and self.scipy:
@@ -263,11 +264,11 @@ class _GeoidBase(_HeightBase):
         for i in range(1, m):
             e = a[i] - a[i-1]
             if e < EPS:  # non-increasing axis
-                raise GeoidError('%s[%s]: %.12f' % (name, i, e))
+                raise GeoidError('%s[%s]: %.12F' % (name, i, e))
         return self._np.array(a), d
 
     def _g2ll2(self, lat, lon):
-        self._notOverloaded(self._g2ll2.__name__, lat, lon)
+        notOverloaded(self, self._g2ll2.__name__, lat, lon)
 
     def _gyx2g2(self, y, x):
         # convert grid (y, x) indices to grid (lat, lon)
@@ -281,7 +282,7 @@ class _GeoidBase(_HeightBase):
         return float(self._ev(*self._ll2g2(lat, lon)))
 
     def _ll2g2(self, lat, lon):
-        self._notOverloaded(self._ll2g2.__name__, lat, lon)
+        notOverloaded(self, self._ll2g2.__name__, lat, lon)
 
     def _llh3(self, lat, lon):
         r = LatLon3Tuple(lat, lon, self._hGeoid(lat, lon))
@@ -560,20 +561,15 @@ class _GeoidBase(_HeightBase):
 
            @return: Geoid name and attributes (C{str}).
         '''
-        t = ['%s(%s)' % (m.__name__, fStr(m(), prec=prec))
-                     for m in (self.lowerleft, self.upperright,
-                               self.center,
-                               self.highest, self.lowest)]
-        for n in ('mean', 'stdev'):
-            v = getattr(self, n)
-            if v is not None:
-                t.append('%s=%s' % (n, fStr(v, prec=prec)))
         s = 1 if self.kind < 0 else 2
-        for n in (('kind', 'smooth')[:s] + ('cropped', 'dtype', 'endian',
-                   'hits', 'knots', 'nBytes', 'sizeB', 'scipy', 'numpy')):
-            v = getattr(self, n)
-            if v is not None:
-                t.append('%s=%r' % (n, v))
+        t = tuple('%s(%s)' % (m.__name__, fstr(m(), prec=prec))
+                          for m in (self.lowerleft, self.upperright,
+                                    self.center,
+                                    self.highest, self.lowest)) + \
+            attrs( 'mean', 'stdev',           prec=prec, Nones=False) + \
+            attrs(('kind', 'smooth')[:s],     prec=prec, Nones=False) + \
+            attrs( 'cropped', 'dtype', 'endian', 'hits', 'knots', 'nBytes',
+                   'sizeB', 'scipy', 'numpy', prec=prec, Nones=False)
         return '%s: %s' % (self, sep.join(t))
 
     def upperleft(self, LatLon=None):
@@ -1590,8 +1586,8 @@ if __name__ == '__main__':
             ll = parseDMS2('16:46:33N', '3:00:34W', sep=':')
             for ll in (ll, (16.776, -3.009),):
                 try:
-                    h, ll = g.height(*ll), fStr(ll, prec=6)
-                    print('%s.height(%s): %.4f vs %s' % (t, ll, h, k))
+                    h, ll = g.height(*ll), fstr(ll, prec=6)
+                    print('%s.height(%s): %.4F vs %s' % (t, ll, h, k))
                 except (GeoidError, RangeError) as x:
                     print('%s: %s' % (t, x))
 

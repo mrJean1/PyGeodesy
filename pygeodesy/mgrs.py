@@ -26,11 +26,12 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import halfs2, property_RO, _TypeError
 from pygeodesy.datum import Datums
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, Mgrs4Tuple, Mgrs6Tuple, \
                              UtmUps4Tuple, _xnamed
-from pygeodesy.utily import enStr2, halfs2, property_RO, _TypeError
+from pygeodesy.streprs import enstr2
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
 from pygeodesy.utmupsBase import _hemi
 
@@ -38,7 +39,7 @@ import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.01.22'
+__version__ = '20.03.09'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -189,7 +190,7 @@ class Mgrs(_NamedBase):
            >>> m = Mgrs(31, 'DQ', 48251, 11932, band='U')
            >>> m.toStr()  # '31U DQ 48251 11932'
         '''
-        t = enStr2(self._easting, self._northing, prec,
+        t = enstr2(self._easting, self._northing, prec,
                    '%02d%s' % (self._zone, self._band), self._en100k)
         return sep.join(t)
 

@@ -4,12 +4,12 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '20.02.19'
+__version__ = '20.03.10'
 
 from base import TestsBase
 
 from pygeodesy import Datum, Datums, EcefKarney, Ellipsoid, Ellipsoids, \
-                      fStr, R_M, PI_2, Transform, Transforms
+                      fstr, R_M, PI_2, Transform, Transforms
 
 
 class Tests(TestsBase):
@@ -55,14 +55,14 @@ class Tests(TestsBase):
             self.test('Rlat', E.Rlat(45), '6367444.657', fmt='%.3f')
             self.test('Rlat', E.Rlat(90), '6356752.314', fmt='%.3f')
 
-            self.test('distance2', fStr(E.distance2( 0,  0,  1,  1), prec=3),  '156903.472, 45.192')
-            self.test('distance2', fStr(E.distance2( 0,  0, 10, 10), prec=3), '1569034.719, 45.192')
-            self.test('distance2', fStr(E.distance2(40, 40, 50, 50), prec=3), '1400742.676, 37.563')
-            self.test('distance2', fStr(E.distance2(70, 70, 80, 80), prec=3), '1179164.848, 18.896')
+            self.test('distance2', fstr(E.distance2( 0,  0,  1,  1), prec=3),  '156903.472, 45.192')
+            self.test('distance2', fstr(E.distance2( 0,  0, 10, 10), prec=3), '1569034.719, 45.192')
+            self.test('distance2', fstr(E.distance2(40, 40, 50, 50), prec=3), '1400742.676, 37.563')
+            self.test('distance2', fstr(E.distance2(70, 70, 80, 80), prec=3), '1179164.848, 18.896')
 
-            self.test('roc2', fStr(E.roc2(0),  prec=3), '6335439.327, 6378137.0')
-            self.test('roc2', fStr(E.roc2(45), prec=3), '6367381.816, 6388838.29')
-            self.test('roc2', fStr(E.roc2(90), prec=3), '6399593.626, 6399593.626')
+            self.test('roc2', fstr(E.roc2(0),  prec=3), '6335439.327, 6378137.0')
+            self.test('roc2', fstr(E.roc2(45), prec=3), '6367381.816, 6388838.29')
+            self.test('roc2', fstr(E.roc2(90), prec=3), '6399593.626, 6399593.626')
 
             self.test('rocBearing', E.rocBearing( 0,  0), '6335439.327', fmt='%.3f')
             self.test('rocBearing', E.rocBearing(45, 45), '6378092.008', fmt='%.3f')
@@ -76,13 +76,13 @@ class Tests(TestsBase):
             self.test('rocMean', E.rocMean(45), '6378092.008', fmt='%.3f')
             self.test('rocMean', E.rocMean(90), '6399593.626', fmt='%.3f')
 
-            self.test('rocMeridional', fStr(E.rocMeridional(0),  prec=3), '6335439.327')
-            self.test('rocMeridional', fStr(E.rocMeridional(45), prec=3), '6367381.816')
-            self.test('rocMeridional', fStr(E.rocMeridional(90), prec=3), '6399593.626')
+            self.test('rocMeridional', fstr(E.rocMeridional(0),  prec=3), '6335439.327')
+            self.test('rocMeridional', fstr(E.rocMeridional(45), prec=3), '6367381.816')
+            self.test('rocMeridional', fstr(E.rocMeridional(90), prec=3), '6399593.626')
 
-            self.test('rocPrimeVertical', fStr(E.rocPrimeVertical(0),  prec=3), '6378137.0')
-            self.test('rocPrimeVertical', fStr(E.rocPrimeVertical(45), prec=3), '6388838.29')
-            self.test('rocPrimeVertical', fStr(E.rocPrimeVertical(90), prec=3), '6399593.626')
+            self.test('rocPrimeVertical', fstr(E.rocPrimeVertical(0),  prec=3), '6378137.0')
+            self.test('rocPrimeVertical', fstr(E.rocPrimeVertical(45), prec=3), '6388838.29')
+            self.test('rocPrimeVertical', fstr(E.rocPrimeVertical(90), prec=3), '6399593.626')
 
         self.test('a, b, None',  Ellipsoid(1000, 500, None).f_, 2.0)  # coverage
         self.test('a, None, f_', Ellipsoid(1000, None, 2).b, 500.0)  # coverage
@@ -112,14 +112,14 @@ class Tests(TestsBase):
 
         def _AB(E, K, A, B):
             E.KsOrder = K
-            self.test('WGS84.AlphaKs', fStr(E.AlphaKs, prec=12, fmt='%.*e', ints=True), A)
-            self.test('WGS84.BetaKs ', fStr(E.BetaKs,  prec=12, fmt='%.*e', ints=True), B)
+            self.test('WGS84.AlphaKs', fstr(E.AlphaKs, prec=12, fmt='%.*e', ints=True), A)
+            self.test('WGS84.BetaKs ', fstr(E.BetaKs,  prec=12, fmt='%.*e', ints=True), B)
 
-        _AB(E, 8, '8.377318206245e-04, 7.608527773572e-07, 1.197645503242e-09, 2.429170680397e-12, 5.711818370428e-15, 1.479997931380e-17, 4.107624109371e-20, 1.210785038923e-22',
-                  '8.377321640579e-04, 5.905870152220e-08, 1.673482665344e-10, 2.164798110491e-13, 3.787930968626e-16, 7.236769021816e-19, 1.493479824778e-21, 3.259522545838e-24')
+        _AB(E, 8, '8.377318206245e-04, 7.608527773572e-07, 1.197645503242e-09, 2.429170680397e-12, 5.711818370428e-15, 1.47999793138e-17, 4.107624109371e-20, 1.210785038923e-22',
+                  '8.377321640579e-04, 5.90587015222e-08, 1.673482665344e-10, 2.164798110491e-13, 3.787930968626e-16, 7.236769021816e-19, 1.493479824778e-21, 3.259522545838e-24')
 
         _AB(E, 6, '8.377318206245e-04, 7.608527773572e-07, 1.197645503329e-09, 2.429170607201e-12, 5.711757677866e-15, 1.491117731258e-17',
-                  '8.377321640579e-04, 5.905870152220e-08, 1.673482665284e-10, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19')
+                  '8.377321640579e-04, 5.90587015222e-08, 1.673482665284e-10, 2.164798040063e-13, 3.787978046169e-16, 7.248748890694e-19')
 
         _AB(E, 4, '8.377318206304e-04, 7.608527714249e-07, 1.197638001561e-09, 2.443376194522e-12',
                   '8.377321640601e-04, 5.905869567934e-08, 1.673488880355e-10, 2.167737763022e-13')

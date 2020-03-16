@@ -16,13 +16,16 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import EPS, R_M, _IsNotError, isstr, map2, \
+                             property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
-from pygeodesy.fmath import EPS, favg, fStr, _IsNotError, map2
+from pygeodesy.fmath import favg
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
                            _NamedStr, Neighbors8Dict
-from pygeodesy.utily import R_M, property_RO, _Strs, unrollPI
+from pygeodesy.streprs import fstr
+from pygeodesy.utily import unrollPI
 
 from math import ldexp, log10, radians
 
@@ -30,7 +33,7 @@ from math import ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash + ('bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '20.02.22'
+__version__ = '20.03.10'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -149,7 +152,7 @@ class Geohash(_NamedStr):
             gh = _2geostr(str(cll))
             self = str.__new__(cls, gh)
 
-        elif isinstance(cll, _Strs):
+        elif isstr(cll):
             if ',' in cll:
                 lat, lon = _2fll(*parse3llh(cll))
                 gh = encode(lat, lon, precision=precision)
@@ -514,8 +517,8 @@ def decode(geohash):
 
     # round to near centre without excessive precision
     # ⌊2-log10(Δ°)⌋ decimal places, strip trailing zeros
-    lat = fStr(favg(n, s), prec=int(2 - log10(n - s)))
-    lon = fStr(favg(e, w), prec=int(2 - log10(e - w)))
+    lat = fstr(favg(n, s), prec=int(2 - log10(n - s)))
+    lon = fstr(favg(e, w), prec=int(2 - log10(e - w)))
 
     return lat, lon  # strings
 

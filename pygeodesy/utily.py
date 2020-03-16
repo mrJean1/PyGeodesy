@@ -9,104 +9,25 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 
 @newfield example: Example, Examples
 '''
-# make sure int division yields float quotient
-from __future__ import division
-division = 1 / 2  # double check int division, see .datum.py, .fmath.py
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
 
-from pygeodesy.fmath import _Ints, _Seqs, EPS, map2
+from pygeodesy.basics import EPS, R_M  # PYCHOK PI_4
 from pygeodesy.lazily import _ALL_LAZY
 
-from inspect import isclass
 from math import cos, degrees, pi as PI, radians, sin, tan  # pow
-
-_MISSING  = object()  # singleton, imported by .utily
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '20.02.12'
+__version__ = '20.03.09'
 
-try:
-    _Strs = basestring, str  # PYCHOK .datum.py, .geohash.py
-except NameError:
-    _Strs = str,
+PI2  = PI * 2.0  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
+PI_2 = PI / 2.0  #: Half PI, M{PI / 2} (C{float})
+PI_4 = PI / 4.0  #: Quarter PI, M{PI / 4} (C{float})
 
-OK = 'OK'  # OK for test like I{if ... is OK: ...}
-
-PI2  = PI * 2  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
-PI_2 = PI / 2  #: Half PI, M{PI / 2} (C{float})
-PI_4 = PI / 4  #: Quarter PI, M{PI / 4} (C{float})
-
-# R_M moved here to avoid circular imports
-R_M = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
-
-_1_90 = 1 / 90.0  # 0.011111111111111111111111111111111111111111111111
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
-_2_PI = 2 / PI  # 0.63661977236758134307553505349005744813783858296182
+_1_90 = 1.0 / 90  # 0.011111111111111111111111111111111111111111111111
+_2_PI = 2.0 / PI  # 0.63661977236758134307553505349005744813783858296182
 
 _iterNumpy2len = 1  # adjustable for testing purposes
-_limiterrors   = True
-
-
-def _TypeError(*Types, **pairs):
-    '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
-    '''
-    for n, v in pairs.items():
-        if not isinstance(v, Types):
-            t = ' or '.join(t.__name__ for t in Types)
-            # first letter of Type name I{pronounced} as vowel
-            a = 'an' if t[:1].lower() in 'aeinoux' else 'a'
-            raise TypeError('%s not %s %s: %r' % (n, a, t, v))
-
-
-class LimitError(ValueError):
-    '''Error raised for lat- or longitudinal deltas exceeding
-       the B{C{limit}} in functions L{equirectangular} and
-       L{equirectangular_} and C{nearestOn*} and C{simplify*}
-       functions or methods.
-    '''
-    pass
-
-
-def anStr(name, OKd='._-', sub='_'):
-    '''Make a valid name of alphanumeric and OKd characters.
-
-       @param name: The original name (C{str}).
-       @keyword OKd: Other acceptable characters (C{str}).
-       @keyword sub: Substitute for invalid charactes (C{str}).
-
-       @return: The modified name (C{str}).
-
-       @note: Leading and trailing whitespace characters are removed
-              and intermediate whitespace characters are coalesced
-              and substituted.
-    '''
-    s = n = str(name).strip()
-    for c in n:
-        if not (c.isalnum() or c in OKd or c in sub):
-            s = s.replace(c, ' ')
-    return sub.join(s.strip().split())
-
-
-def clipStr(bstr, limit=50, white=''):
-    '''Clip a string to the given length limit.
-
-       @param bstr: String (C{bytes} or C{str}).
-       @keyword limit: Length limit (C{int}).
-       @keyword white: Whitespace replacement (C{str}).
-
-       @return: Un/-clipped B{C{bstr}}.
-    '''
-    t = type(bstr)
-    n = len(bstr)
-    if n > limit > 8:
-        h = limit // 2
-        bstr = bstr[:h] + t('....') + bstr[-h:]
-    if white:  # replace whitespace
-        bstr = t(white).join(bstr.split())
-    return bstr
 
 
 def degrees90(rad):
@@ -159,27 +80,6 @@ def degrees2m(deg, radius=R_M, lat=0):
     return m
 
 
-def enStr2(easting, northing, prec, *extras):
-    '''Return easting, northing string representations.
-
-       @param easting: Easting from false easting (C{meter}).
-       @param northing: Northing from from false northing (C{meter}).
-       @param prec: Precision in number of digits (C{int}).
-       @param extras: Optional leading items (strings).
-
-       @return: B{C{extras}} + 2-Tuple C{(eastingStr, northingStr)}.
-
-       @raise ValueError: Invalid B{C{prec}}.
-    '''
-    w = prec // 2
-    try:
-        p10 = (1e-4, 1e-3, 1e-2, 1e-1, 1)[w - 1]  # 10**(5 - w)
-    except IndexError:
-        raise ValueError('%s invalid: %r' % ('prec', prec))
-    return extras + ('%0*d' % (w, int(easting * p10)),
-                     '%0*d' % (w, int(northing * p10)))
-
-
 def false2f(value, name='value', false=True, Error=ValueError):
     '''Convert a false east-/northing to non-negative float.
 
@@ -214,21 +114,6 @@ def ft2m(feet, usurvey=False):
     return feet * (0.3048006096012192 if usurvey else 0.3048)
 
 
-def halfs2(str2):
-    '''Split a string in 2 halfs.
-
-       @param str2: String to split (C{str}).
-
-       @return: 2-Tuple (1st, 2nd) half (C{str}).
-
-       @raise ValueError: Zero or odd C{len}(B{str2}).
-    '''
-    h, r = divmod(len(str2), 2)
-    if r or not h:
-        raise ValueError('%s invalid: %r' % ('str2', str2))
-    return str2[:h], str2[h:]
-
-
 def isNumpy2(obj):
     '''Check for an B{C{Numpy2LatLon}} points wrapper.
 
@@ -251,34 +136,6 @@ def isPoints2(obj):
     '''
     # isinstance(self, (LatLon2psxy, ...))
     return getattr(obj, 'isPoints2', False)
-
-
-def issequence(obj, *excluded):
-    '''Check for sequence types.
-
-       @param obj: The object (any C{type}).
-       @param excluded: Optional, exclusions (C{type}).
-
-       @note: Excluding C{tuple} implies excluding C{namedtuple}.
-
-       @return: C{True} if B{C{obj}} is a sequence, C{False} otherwise.
-    '''
-    if excluded:
-        return isinstance(obj, _Seqs) and not \
-               isinstance(obj, excluded)
-    else:
-        return isinstance(obj, _Seqs)
-
-
-def issubclassof(sub, sup):
-    '''Check whether a class is a subclass of a super class.
-
-       @param sub: The sub class (C{class}).
-       @param sup: The super class (C{class}).
-
-       @return: C{True} if B{C{sub}} is a subclass of B{C{sup}}.
-    '''
-    return isclass(sub) and isclass(sup) and issubclass(sub, sup)
 
 
 def isTuple2(obj):
@@ -330,22 +187,6 @@ def iterNumpy2over(n=None):
     return p
 
 
-def limiterrors(raiser=None):
-    '''Get/set the raising of limit errors.
-
-       @keyword raiser: Choose C{True} to throw or C{False} to
-                        ignore L{LimitError} exceptions.  Use
-                        C{None} to leave the setting unchanged.
-
-       @return: Previous setting (C{bool}).
-    '''
-    global _limiterrors
-    t = _limiterrors
-    if raiser in (True, False):
-        _limiterrors = raiser
-    return t
-
-
 def m2degrees(meter, radius=R_M):
     '''Convert distance to angle along equator.
 
@@ -358,7 +199,7 @@ def m2degrees(meter, radius=R_M):
     '''
     if radius < EPS:
         raise ValueError('%s invalid: %r' % ('radius', radius))
-    return degrees(meter / radius)
+    return degrees(float(meter) / radius)
 
 
 def m2ft(meter, usurvey=False):
@@ -402,23 +243,6 @@ def m2SM(meter):
        @return: Value in SM (C{float}).
     '''
     return meter * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
-
-
-def property_RO(method):
-    '''Decorator for C{Read_Only} property.
-
-       @param method: The callable to be decorated as C{property.getter}.
-
-       @note: Like standard Python C{property} without a C{property.setter}
-              with a more descriptive error message when set.
-    '''
-    def Read_Only(self, ignored):
-        '''Throws an C{AttributeError}, always.
-        '''
-        raise AttributeError('Read_Only property: %r.%s = %r' %
-                             (self, method.__name__, ignored))
-
-    return property(method, Read_Only, None, method.__doc__ or 'N/A')
 
 
 def radiansPI(deg):
@@ -509,59 +333,6 @@ def sincos2d(*deg):
         yield c
 
 
-def splice(iterable, n=2, fill=_MISSING):
-    '''Split an iterable into C{n} slices.
-
-       @param iterable: Items to be spliced (C{list}, C{tuple}, ...).
-       @keyword n: Number of slices to generate (C{int}).
-       @keyword fill: Fill value for missing items.
-
-       @return: Generator of B{C{n}} slices M{iterable[i::n] for i=0..n}.
-
-       @note: Each generated slice is a C{tuple} or a C{list},
-              the latter only if the B{C{iterable}} is a C{list}.
-
-       @raise ValueError: Non-C{int} or non-positive B{C{n}}.
-
-       @example:
-
-       >>> from pygeodesy import splice
-
-       >>> a, b = splice(range(10))
-       >>> a, b
-       ((0, 2, 4, 6, 8), (1, 3, 5, 7, 9))
-
-       >>> a, b, c = splice(range(10), n=3)
-       >>> a, b, c
-       ((0, 3, 6, 9), (1, 4, 7], [2, 5, 8))
-
-       >>> a, b, c = splice(range(10), n=3, fill=-1)
-       >>> a, b, c
-       ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
-
-       >>> list(splice(range(12), n=5))
-       [(0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9)]
-
-       >>> splice(range(9), n=1)
-       <generator object splice at 0x0...>
-    '''
-    if not (isinstance(n, _Ints) and n > 0):
-        raise ValueError('%s %s=%s' % ('splice', 'n', n))
-
-    t = iterable
-    if not isinstance(t, (list, tuple)):
-        t = tuple(t)  # force tuple, also for PyPy3
-    if n > 1:
-        if fill is not _MISSING:
-            m = len(t) % n
-            if m > 0:  # fill with same type
-                t += type(t)((fill,)) * (n - m)
-        for i in range(n):
-            yield t[i::n]  # [i:None:n] pychok -Tb ...
-    else:
-        yield t
-
-
 def tan_2(rad):
     '''Compute the tangent of half angle.
 
@@ -622,21 +393,6 @@ def unrollPI(rad1, rad2, wrap=True):
         if u != r:
             return u, rad1 + u
     return r, rad2
-
-
-def unStr(name, *args, **kwds):
-    '''Return the string representation of an invokation.
-
-       @param name: Function, method or class name (C{str}).
-       @param args: Optional positional arguments.
-       @keyword kwds: Optional keyword arguments.
-
-       @return: Representation (C{str}).
-    '''
-    t = tuple('%s=%s' % t for t in sorted(kwds.items()))
-    if args:
-        t = map2(str, args) + t
-    return '%s(%s)' % (name, ', '.join(t))
 
 
 def _wrap(angle, wrap, modulo):

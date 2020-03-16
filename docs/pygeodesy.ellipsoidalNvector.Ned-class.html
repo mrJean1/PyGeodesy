@@ -108,7 +108,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      str(x)</td>
+      Default <code>str(self)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -125,7 +125,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html#to3ned" class="summary-sig-name">to3ned</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return this NED vector as north/east/down components.</td>
+      DEPRECATED, use property <code>ned</code>.</td>
           <td align="right" valign="top">
             
             
@@ -197,6 +197,8 @@
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
@@ -228,7 +230,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#bearing" class="summary-name">bearing</a><br />
-      Get the bearing of this NED vector (compass <code>degrees360</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -236,7 +238,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#down" class="summary-name">down</a><br />
-      Gets the Down component of this NED vector (<code>meter</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -244,7 +246,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#east" class="summary-name">east</a><br />
-      Gets the East component of this NED vector (<code>meter</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -252,8 +254,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#elevation" class="summary-name">elevation</a><br />
-      Get the elevation, tilt of this NED vector in degrees from 
-      horizontal, i.e.
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -261,7 +262,15 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#length" class="summary-name">length</a><br />
-      Gets the length of this NED vector (<code>meter</code>).
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#ned" class="summary-name">ned</a><br />
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -269,7 +278,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#north" class="summary-name">north</a><br />
-      Gets the North component of this NED vector (<code>meter</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -352,7 +361,7 @@
     </td>
   </tr></table>
   
-  <p>str(x)</p>
+  <p>Default <code>str(self)</code>.</p>
   <dl class="fields">
     <dt>Overrides:
         object.__str__
@@ -375,7 +384,7 @@
     </td>
   </tr></table>
   
-  <p>Return this NED vector as north/east/down components.</p>
+  <p>DEPRECATED, use property <code>ned</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.named.Ned3Tuple-class.html" 
@@ -490,16 +499,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">bearing</h3>
-  <p>Get the bearing of this NED vector (compass 
-  <code>degrees360</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">bearing(<span class="summary-sig-arg">self</span>)</span>
         - Get the bearing of this NED vector (compass <code>degrees360</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -511,15 +519,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">down</h3>
-  <p>Gets the Down component of this NED vector (<code>meter</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">down(<span class="summary-sig-arg">self</span>)</span>
         - Gets the Down component of this NED vector (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -531,15 +539,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">east</h3>
-  <p>Gets the East component of this NED vector (<code>meter</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">east(<span class="summary-sig-arg">self</span>)</span>
         - Gets the East component of this NED vector (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -551,16 +559,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">elevation</h3>
-  <p>Get the elevation, tilt of this NED vector in degrees from horizontal,
-  i.e. tangent to ellipsoid surface (<code>degrees90</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">elevation(<span class="summary-sig-arg">self</span>)</span>
         - Get the elevation, tilt of this NED vector in degrees from horizontal, i.e.
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -572,15 +579,37 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">length</h3>
-  <p>Gets the length of this NED vector (<code>meter</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">length(<span class="summary-sig-arg">self</span>)</span>
         - Gets the length of this NED vector (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ned"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ned</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">ned(<span class="summary-sig-arg">self</span>)</span>
+        - Get this NED vector as north/east/down components (<a 
+href="pygeodesy.named.Ned3Tuple-class.html" 
+class="link">Ned3Tuple</a><code>(north, east, down)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -592,15 +621,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">north</h3>
-  <p>Gets the North component of this NED vector (<code>meter</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">north(<span class="summary-sig-arg">self</span>)</span>
         - Gets the North component of this NED vector (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -638,7 +667,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:09 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

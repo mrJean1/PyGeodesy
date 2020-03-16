@@ -72,8 +72,7 @@ See:
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.datum import R_M
-from pygeodesy.fmath import EPS, len2
+from pygeodesy.basics import EPS, R_M, len2
 from pygeodesy.formy import equirectangular_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.utily import isNumpy2, isTuple2
@@ -81,7 +80,7 @@ from pygeodesy.utily import isNumpy2, isTuple2
 from math import degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '20.02.22'
+__version__ = '20.03.10'
 
 
 # try:
@@ -109,15 +108,16 @@ class _Sy(object):
     '''
     d2i     = None  # d2iP or d2iS
     d2yxse  = ()
-    eps     = EPS  # system epsilon
+    eps     = EPS   # system epsilon
     indices = False
     n       = 0
     options = {}
     pts     = []
-    radius  = R_M  # mean earth radius
-    r       = {}   # RDP indices or VW 2-tuples
-    s2      = EPS  # tolerance squared
-    s2e     = EPS  # sentinel
+    radius  = R_M   # mean earth radius
+    r       = {}    # RDP indices or VW 2-tuples
+    s2      = EPS   # tolerance squared
+    s2e     = EPS   # sentinel
+    subset  = None  # isNumpy2 or isTuple2
 
     def __init__(self, points, tolerance, radius, shortest,
                                           indices, **options):
@@ -127,6 +127,9 @@ class _Sy(object):
         if n > 0:
             self.n = n
             self.r = {0: True, n-1: True}  # dict to avoid duplicates
+
+        if isNumpy2(points) or isTuple2(points):  # NOT self.pts
+            self.subset = points.subset
 
         if indices:
             self.indices = True
@@ -253,8 +256,8 @@ class _Sy(object):
         r = sorted(r.keys())
         if self.indices:
             return list(r)
-        elif isNumpy2(self.pts) or isTuple2(self.pts):
-            return self.pts.subset(r)
+        elif self.subset:
+            return self.subset(r)
         else:
             return [self.pts[i] for i in r]
 

@@ -172,6 +172,8 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
@@ -203,9 +205,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Datum-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
-      Get this datum's ellipsoid (<a 
-      href="pygeodesy.datum.Ellipsoid-class.html" 
-      class="link">Ellipsoid</a>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -213,9 +213,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Datum-class.html#exactTM" class="summary-name">exactTM</a><br />
-      Get the <code>ExactTM</code> projection (<a 
-      href="pygeodesy.etm.ExactTransverseMercator-class.html" 
-      class="link">ExactTransverseMercator</a>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -223,7 +221,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Datum-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
-      Check whether this datum is ellipsoidal (<code>bool</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -231,7 +229,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Datum-class.html#isSpherical" class="summary-name">isSpherical</a><br />
-      Check whether this datum is spherical (<code>bool</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -239,9 +237,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Datum-class.html#transform" class="summary-name">transform</a><br />
-      Get this datum's transform (<a 
-      href="pygeodesy.datum.Transform-class.html" 
-      class="link">Transform</a>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -402,12 +398,14 @@
   
   <p>Return this datum as a string.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
-    </ul></dd>
     <dt>Returns:</dt>
         <dd>Datum attributes (<code>str</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AssertionError</strong></code> - Always, see function <a 
+        href="pygeodesy.named-module.html#notOverloaded" 
+        class="link">notOverloaded</a>.</li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -430,9 +428,7 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">ellipsoid</h3>
-  <p>Get this datum's ellipsoid (<a 
-  href="pygeodesy.datum.Ellipsoid-class.html" 
-  class="link">Ellipsoid</a>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
@@ -440,8 +436,8 @@
 class="link">Ellipsoid</a>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -453,9 +449,7 @@ class="link">Ellipsoid</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">exactTM</h3>
-  <p>Get the <code>ExactTM</code> projection (<a 
-  href="pygeodesy.etm.ExactTransverseMercator-class.html" 
-  class="link">ExactTransverseMercator</a>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">exactTM(<span class="summary-sig-arg">self</span>)</span>
@@ -464,8 +458,8 @@ href="pygeodesy.etm.ExactTransverseMercator-class.html"
 class="link">ExactTransverseMercator</a>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -477,15 +471,15 @@ class="link">ExactTransverseMercator</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isEllipsoidal</h3>
-  <p>Check whether this datum is ellipsoidal (<code>bool</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
         - Check whether this datum is ellipsoidal (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -497,15 +491,15 @@ class="link">ExactTransverseMercator</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isSpherical</h3>
-  <p>Check whether this datum is spherical (<code>bool</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
         - Check whether this datum is spherical (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -517,9 +511,7 @@ class="link">ExactTransverseMercator</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">transform</h3>
-  <p>Get this datum's transform (<a 
-  href="pygeodesy.datum.Transform-class.html" 
-  class="link">Transform</a>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">transform(<span class="summary-sig-arg">self</span>)</span>
@@ -527,8 +519,8 @@ class="link">ExactTransverseMercator</a>).
 class="link">Transform</a>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -566,7 +558,7 @@ class="link">Transform</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:09 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

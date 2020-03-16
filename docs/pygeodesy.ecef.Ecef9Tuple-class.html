@@ -138,7 +138,8 @@ named._NamedTuple --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toVector" class="summary-sig-name">toVector</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the geocentric <code>(x, y, z)</code> coordinates as vector.</td>
           <td align="right" valign="top">
             
@@ -159,7 +160,9 @@ named._NamedTuple --+
       <code>__setattr__</code>,
       <code>__str__</code>,
       <code>items</code>,
-      <code>iteritems</code>
+      <code>iteritems</code>,
+      <code>toStr</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>tuple</code></b>:
       <code>__add__</code>,
@@ -182,10 +185,10 @@ named._NamedTuple --+
       <code>index</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#toStr">toStr</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__format__</code>,
@@ -238,6 +241,86 @@ named._NamedTuple --+
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#lam" class="summary-name">lam</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlon" class="summary-name">latlon</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlonheight" class="summary-name">latlonheight</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlonheightdatum" class="summary-name">latlonheightdatum</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#phi" class="summary-name">phi</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philam" class="summary-name">philam</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philamheight" class="summary-name">philamheight</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philamheightdatum" class="summary-name">philamheightdatum</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#xyz" class="summary-name">xyz</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#xyzh" class="summary-name">xyzh</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
@@ -347,7 +430,8 @@ named._NamedTuple --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toVector</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -361,14 +445,19 @@ named._NamedTuple --+
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>Vector</code></strong> - Optional vector (sub-)class to return <code>(x, y, z)</code> or 
           <code>None</code>.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <code>Vector</code><code>(x, y, z)</code> instance or if 
-          <b><code>Vector</code></b> is <code>None</code> a <a 
-          href="pygeodesy.named.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+        <dd>A <code>Vector</code><code>(x, y, z, **kwds)</code> instance or a
+          <a href="pygeodesy.named.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code> if 
+          <b><code>Vector</code></b> is <code>None</code>.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Propertes <code>xyz</code> and <code>xyzh</code>
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== CLASS VARIABLE DETAILS ==================== -->
@@ -395,6 +484,232 @@ named._NamedTuple --+
 <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">z</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lat</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lon</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">height</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">C</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">M</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">datum</code><code class="variable-quote">'</code><code class="variable-group">)</code>
 </pre></td></tr></table>
 </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="lam"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lam</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">lam(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (geodetic) longitude in <code>radians</code> (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlon</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (geodetic) lat-, longitude in <code>degrees</code> (<a 
+href="pygeodesy.named.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlonheight"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonheight</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">latlonheight(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (geodetic) lat-, longitude in <code>degrees</code> and height (<a 
+href="pygeodesy.named.LatLon3Tuple-class.html" 
+class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlonheightdatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonheightdatum</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">latlonheightdatum(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (geodetic) lat-, longitude in <code>degrees</code> with height and 
+datum (<a href="pygeodesy.named.LatLon4Tuple-class.html" 
+class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="phi"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">phi</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">phi(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (geodetic) latitude in <code>radians</code> (<code>float</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philam"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philam</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (geodetic) lat-, longitude in <code>radians</code> (<a 
+href="pygeodesy.named.PhiLam2Tuple-class.html" 
+class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philamheight"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamheight</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">philamheight(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (geodetic) lat-, longitude in <code>radians</code> and height (<a 
+href="pygeodesy.named.PhiLam3Tuple-class.html" 
+class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philamheightdatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamheightdatum</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">philamheightdatum(<span class="summary-sig-arg">self</span>)</span>
+        - Get the (geodetic) lat-, longitude in <code>radians</code> with height and 
+datum (<a href="pygeodesy.named.PhiLam4Tuple-class.html" 
+class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="xyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">xyz</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
+        - Get the geocentric <code>(x, y, z)</code> coordinates (<a 
+href="pygeodesy.named.Vector3Tuple-class.html" 
+class="link">Vector3Tuple</a><code>(x, y, z)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="xyzh"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">xyzh</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">xyzh(<span class="summary-sig-arg">self</span>)</span>
+        - Get the geocentric <code>(x, y, z)</code> coordinates and height (<a 
+href="pygeodesy.named.Vector4Tuple-class.html" 
+class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -430,7 +745,7 @@ named._NamedTuple --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:09 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -31,21 +31,23 @@ U{Transverse Mercator: Redfearn series
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import halfs2, _IsNotError, issubclassof, \
+                             map1, property_RO
 from pygeodesy.datum import Datums
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_, _IsNotError, map1
+from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, LatLonDatum3Tuple, \
                            _NamedBase, nameof, _xnamed
-from pygeodesy.utily import degrees90, degrees180, enStr2, false2f, \
-                            halfs2, issubclassof, property_RO, sincos2
+from pygeodesy.streprs import enstr2
+from pygeodesy.utily import degrees90, degrees180, false2f, sincos2
 
 from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.02.19'
+__version__ = '20.03.09'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -272,7 +274,7 @@ class Osgr(_NamedBase):
             EN = _i2c( N - (N % 5) + (E + 10) // 5) + \
                  _i2c((N * 5) % 25 + (E % 5))
 
-            t = enStr2(e, n, prec, EN)
+            t = enstr2(e, n, prec, EN)
             s = sep
 
         elif -6 < prec < 0:

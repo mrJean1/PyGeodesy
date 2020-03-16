@@ -74,7 +74,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.02.28
+        20.03.15
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -324,8 +324,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.named.LatLon2Tuple-class.html" class="summary-name">LatLon2Tuple</a><br />
-      2-Tuple <code>(lat, lon)</code> in <code>degrees[90]</code> and 
-        <code>degrees[180]</code>.
+      2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
+        <code>degrees180</code>.
     </td>
   </tr>
 <tr>
@@ -333,9 +333,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.named.LatLon3Tuple-class.html" class="summary-name">LatLon3Tuple</a><br />
-      3-Tuple <code>(lat, lon, height)</code> in 
-        <code>degrees[90]</code>, <code>degrees[180]</code> and 
-        <code>meter</code>.
+      3-Tuple <code>(lat, lon, height)</code> in <code>degrees90</code>, 
+        <code>degrees180</code> and <code>meter</code>.
     </td>
   </tr>
 <tr>
@@ -365,8 +364,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.named.LatLonDatum3Tuple-class.html" class="summary-name">LatLonDatum3Tuple</a><br />
-      3-Tuple <code>(lat, lon, datum)</code> in <code>degrees[90]</code>,
-        <code>degrees[180]</code> and <a 
+      3-Tuple <code>(lat, lon, datum)</code> in <code>degrees90</code>, 
+        <code>degrees180</code> and <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.
     </td>
   </tr>
@@ -376,7 +375,7 @@
     </td><td class="summary">
         <a href="pygeodesy.named.LatLonDatum5Tuple-class.html" class="summary-name">LatLonDatum5Tuple</a><br />
       5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
-        <code>degrees[90]</code>, <code>degrees[180]</code>, <a 
+        <code>degrees90</code>, <code>degrees180</code>, <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>, 
         <code>degrees</code> and <code>float</code>.
     </td>
@@ -487,6 +486,18 @@
         <code>phi</code> in <code>radians[PI_2]</code>, longitude 
         <code>lam</code> in <code>radians[PI]</code> and 
         <code>height</code> in <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.named.PhiLam4Tuple-class.html" class="summary-name">PhiLam4Tuple</a><br />
+      4-Tuple <code>(phi, lam, height, datum)</code> with latitude 
+        <code>phi</code> in <code>radians[PI_2]</code>, longitude 
+        <code>lam</code> in <code>radians[PI]</code>, <code>height</code> 
+        in <code>meter</code> and <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.
     </td>
   </tr>
 <tr>
@@ -656,10 +667,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.named-module.html#inStr" class="summary-sig-name">inStr</a>(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
-      Return the string representation of an instance.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.named-module.html#modulename" class="summary-sig-name">modulename</a>(<span class="summary-sig-arg">clas</span>,
+        <span class="summary-sig-arg">prefixed</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the class name optionally prefixed with the module name.</td>
           <td align="right" valign="top">
             
             
@@ -677,6 +687,27 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named-module.html#nameof" class="summary-sig-name">nameof</a>(<span class="summary-sig-arg">inst</span>)</span><br />
       Get the name of an instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named-module.html#notOverloaded" class="summary-sig-name">notOverloaded</a>(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">name</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Raise an <code>AssertionError</code> for a method or property not 
+      overloaded.</td>
           <td align="right" valign="top">
             
             
@@ -752,32 +783,32 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="inStr"></a>
+<a name="modulename"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">inStr</span>(<span class="sig-arg">inst</span>,
-        <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">modulename</span>(<span class="sig-arg">clas</span>,
+        <span class="sig-arg">prefixed</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return the string representation of an instance.</p>
+  <p>Return the class name optionally prefixed with the module name.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>inst</code></strong> - The instance (any <code>type</code>).</li>
-        <li><strong class="pname"><code>args</code></strong> - Optional positional arguments.</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments.</li>
+        <li><strong class="pname"><code>clas</code></strong> - The class (any <code>class</code>).</li>
+        <li><strong class="pname"><code>prefixed</code></strong> - Include the module name (<code>bool</code>), see function 
+          <code>classnaming</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <b><code>inst</code></b>'s representation (<code>str</code>).</dd>
+        <dd>The <b><code>class</code></b>'s <code>[module.]class</code> name 
+          (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -804,6 +835,35 @@
     <dt>Returns:</dt>
         <dd>The instance' name (<code>str</code>) or 
           <code>&quot;&quot;</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="notOverloaded"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">notOverloaded</span>(<span class="sig-arg">inst</span>,
+        <span class="sig-arg">name</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Raise an <code>AssertionError</code> for a method or property not 
+  overloaded.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Method or property name (<code>str</code>).</li>
+        <li><strong class="pname"><code>args</code></strong> - Method or property positional arguments (any <code>type</code>s).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Method or property keyword arguments (any <code>type</code>s).</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -839,7 +899,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:08 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:49 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

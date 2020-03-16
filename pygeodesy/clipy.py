@@ -7,7 +7,8 @@ against a rectangular box or clip region.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.fmath import EPS, fsum_, len2
+from pygeodesy.basics import EPS, len2
+from pygeodesy.fmath import fsum_
 from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import ClipCS3Tuple, ClipSH3Tuple
@@ -15,7 +16,7 @@ from pygeodesy.points import _imdex2, boundsOf, isclockwise, isconvex_, \
                               LatLon_ as LL_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '19.11.04'
+__version__ = '20.03.09'
 
 
 def _eq(p1, p2):  # near-equal points
@@ -201,7 +202,7 @@ class _SH(object):
             raise ValueError('too few %s: %s' % ('points', np))
 
         no = ni = True  # all out- or inside?
-        for e in self.clips():
+        for e in self.clipedges():
             # clip the points, closed
             d2, p2 = self.dot2(np - 1)
             for i in range(np):
@@ -247,14 +248,7 @@ class _SH(object):
                     np -= 1
         return np
 
-    def clipped2(self, i):  # return (clipped point[i], edge)
-        p = self._points[i]
-        if isinstance(p, _LLi_):  # intersection point
-            return p.classof(p.lat, p.lon), p.edge
-        else:  # original point
-            return p, 0
-
-    def clips(self):  # yield clip edge index
+    def clipedges(self):  # yield clip edge index
         c2 = self._corners[self._nc - 1]
         for i in range(self._nc):
             c1, c2 = c2, self._corners[i]
@@ -263,6 +257,13 @@ class _SH(object):
             if abs(self._dx) > EPS or abs(self._dy) > EPS:
                 self._xy = self._y1 * self._dx - self._x1 * self._dy
                 yield i + 1
+
+    def clipped2(self, i):  # return (clipped point[i], edge)
+        p = self._points[i]
+        if isinstance(p, _LLi_):  # intersection point
+            return p.classof(p.lat, p.lon), p.edge
+        else:  # original point
+            return p, 0
 
     def dot2(self, i):  # dot product of points[i] to the current
         # clip corner c1 and clip edge c1 to c2, indicating whether

@@ -115,13 +115,15 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.fmath import _2_3rd, EPS, EPS1, cbrt, cbrt2, fdot, \
-                             fpowers, Fsum, fsum_, hypot1, sqrt3
+from pygeodesy.basics import EPS, EPS1, R_M, property_doc_, property_RO, \
+                            _TypeError
+from pygeodesy.fmath import _2_3rd, cbrt, cbrt2, fdot, fpowers, \
+                             Fsum, fsum_, hypot1, sqrt3
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import Curvature2Tuple, Distance2Tuple, inStr, \
+from pygeodesy.named import Curvature2Tuple, Distance2Tuple, \
                            _NamedEnum, _NamedEnumItem, Vector3Tuple
-from pygeodesy.utily import PI2, R_M, degrees360, m2degrees, m2km, \
-                            m2NM, m2SM, property_RO, _TypeError
+from pygeodesy.streprs import instr, fstr
+from pygeodesy.utily import PI2, degrees360, m2degrees, m2km, m2NM, m2SM
 
 from math import atan, atan2, atanh, copysign, cos, exp, hypot, \
                  radians, sin, sinh, sqrt
@@ -142,9 +144,10 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '20.02.19'
+__version__ = '20.03.15'
 
-_TOL = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
+_floats = {}  # cache, deleted below
+_TOL    = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
 
 
 def _4Ecef(this, Ecef):
@@ -157,6 +160,13 @@ def _4Ecef(this, Ecef):
     else:
         _TypeError(EcefKarney, EcefVeness, EcefYou, Ecef=Ecef)
     return Ecef(this, name=this.name)  # datum or ellipsoid
+
+
+def _float(f):
+    '''(INTERNAL) cache initial C{float}s.
+    '''
+    f = float(f)
+    return _floats.setdefault(f, f)  # PYCHOK del _floats
 
 
 class Ellipsoid(_NamedEnumItem):
@@ -218,17 +228,17 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise NameError: Ellipsoid with that B{C{name}} already exists.
         '''
-        self._a = a = float(a)  # major half-axis in meter
+        self._a = a = _float(a)  # major half-axis in meter
         if not b:  # get b from a and f_, minor half-axis in meter
-            self._b = b = a * (f_ - 1) / float(f_)
+            self._b = b = _float(a * (f_ - 1) / _float(f_))
         else:  # get f_ from a and b if not spherical
-            self._b = b = float(b)
+            self._b = b = _float(b)
             if not f_ and a > b:
                 f_ = a / (a - b)
 
         if f_ > 0 and a > b > 0:
-            self._f_ = f_ = float(f_)  # inverse flattening
-            self._f  = f  = 1 / f_  # flattening
+            self._f_ = f_ = _float(f_)  # inverse flattening
+            self._f  = f  = _float(1 / f_)  # flattening
         elif a > 0:  # sphere
             self._b = b = self._a2b = self._b2a = a
             self._f2 = self._n = f_ = f = 0
@@ -236,20 +246,20 @@ class Ellipsoid(_NamedEnumItem):
             self._R1 = self._R2 = self._R3 = self._Rr = self._Rs = a
         else:
             raise ValueError('%s invalid: %s' % ('ellipsoid',
-                             inStr(self, a, b, f_, name=name)))
+                             instr(self, a, b, f_, name=name)))
 
         d = a - b
         # some sanity checks to catch mistakes
         if d < 0 or min(a, b) < 1:
-            raise AssertionError('%s: %s=%0.9f vs %s=%0.9f' % (name,
+            raise AssertionError('%s: %s=%0.9g vs %s=%0.9g' % (name,
                                  'a', a, 'b', b))
         t = d / a
         if abs(f - t) > 1e-8:
-            raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
+            raise AssertionError('%s: %s=%.9g vs %s=%.9g' % (name,
                                  'f', f, '(a-b)/a', t))
         t = (1 - self.f)**2
         if abs(self.e12 - t) > EPS:
-            raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (name,
+            raise AssertionError('%s: %s=%.9g vs %s=%.9g' % (name,
                                  'e12', self.e12, '(1-f)**2', t))
 
         self._register(Ellipsoids, name)
@@ -463,7 +473,7 @@ class Ellipsoid(_NamedEnumItem):
             self._e2 = e2 = self.f * (2 - self.f)
             t = 1 - (self.b / self.a)**2
             if abs(e2 - t) > 1e-9:
-                raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (self.name,
+                raise AssertionError('%s: %s=%.9g vs %s=%.9g' % (self.name,
                                      'e2', e2, '1-(b/a)**2', t))
         return self._e2
 
@@ -475,7 +485,7 @@ class Ellipsoid(_NamedEnumItem):
             self._e22 = e22 = self.e2 / (1 - self.e2)
             t = self.a_b**2 - 1
             if abs(e22 - t) > 1e-9:
-                raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (self.name,
+                raise AssertionError('%s: %s=%.9g vs %s=%.9g' % (self.name,
                                      'e22', e22, '(a/b)**2-1', t))
         return self._e22
 
@@ -512,7 +522,7 @@ class Ellipsoid(_NamedEnumItem):
         try:
             return sqrt(self.e2s2(s))
         except (TypeError, ValueError):
-            raise ValueError('%s.%s invalid: %r' % (self.name, 'e2s', s))
+            raise ValueError('%s invalid: %r' % (self._dot_('e2s'), s))
 
     def e2s2(self, s):
         '''Compute M{1 - e2 * s**2}.
@@ -529,7 +539,7 @@ class Ellipsoid(_NamedEnumItem):
                 return r
         except (TypeError, ValueError):
             pass
-        raise ValueError('%s.%s invalid: %r' % (self.name, 'e2s2', s))
+        raise ValueError('%s invalid: %r' % (self._dot_('e2s2'), s))
 
     @property_RO
     def es(self):
@@ -647,7 +657,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return self.a == self.R1 == self.b
 
-    @property
+    @property_doc_(" the Krüger series' order (C{int}).")
     def KsOrder(self):
         '''Get the Krüger series order (C{int} 4, 6 or 8).
         '''
@@ -655,17 +665,20 @@ class Ellipsoid(_NamedEnumItem):
 
     @KsOrder.setter  # PYCHOK setter!
     def KsOrder(self, order):
-        '''Set the Krüger series order.
+        '''Set the Krüger series' order.
 
-           @param order: New Krüger series order (C{int} 4, 6 or 8).
+           @param order: New Krüger series' order (C{int} 4, 6 or 8).
 
            @raise ValueError: Invalid B{C{order}}.
         '''
         if order not in (4, 6, 8):
             raise ValueError('%s invalid: %r' % ('order', order))
         if order != self._KsOrder:
+            if self._AlphaKs:
+                self._AlphaKs = None
+            if self._BetaKs:
+                self._BetaKs = None
             self._KsOrder = order
-            self._AlphaKs = self._BetaKs = None
 
     def m2degrees(self, meter):
         '''Convert distance to angle along equator.
@@ -696,7 +709,7 @@ class Ellipsoid(_NamedEnumItem):
             self._n = n = self.f / (2 - self.f)
             t = (self.a - self.b) / (self.a + self.b)
             if abs(n - t) > 1e-9:
-                raise AssertionError('%s: %s=%.9e vs %s=%.9e' % (self.name,
+                raise AssertionError('%s: %s=%.9g vs %s=%.9g' % (self.name,
                                      'n', n, '(a-b)/(a+b)', t))
         return self._n
 
@@ -895,8 +908,8 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Ellipsoid attributes (C{str}).
         '''
-        return self._fStr(prec, 'a', 'b', 'f_', 'f', 'e', 'e2', 'e12', 'e22',
-                                'n', 'R1', 'R2', 'R3', 'Rr', 'Rs')
+        return self._instr(prec, 'a', 'b', 'f_', 'f', 'e', 'e2', 'e12', 'e22',
+                                 'n', 'R1', 'R2', 'R3', 'Rr', 'Rs')
 
     @property_RO
     def volume(self):
@@ -960,6 +973,12 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
 )
 
 
+def _r_s2(s):
+    '''(INTERNAL) rotation in C{radians} and C{degree seconds}.
+    '''
+    return _float(radians(s / 3600.0)), _float(s)
+
+
 class Transform(_NamedEnumItem):
     '''Helmert transformation.
     '''
@@ -994,23 +1013,20 @@ class Transform(_NamedEnumItem):
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
         if tx:
-            self.tx = float(tx)
+            self.tx = _float(tx)
         if ty:
-            self.ty = float(ty)
+            self.ty = _float(ty)
         if tz:
-            self.tz = float(tz)
+            self.tz = _float(tz)
         if sx:  # secs to rads
-            self.rx = radians(sx / 3600.0)
-            self.sx = sx
+            self.rx, self.sx = _r_s2(sx)
         if sy:
-            self.ry = radians(sy / 3600.0)
-            self.sy = sy
+            self.ry, self.sy = _r_s2(sy)
         if sz:
-            self.rz = radians(sz / 3600.0)
-            self.sz = sz
+            self.rz, self.sz = _r_s2(sz)
         if s:
-            self.s = float(s)
-            self.s1 = s * 1.e-6 + 1  # normalize ppm to (s + 1)
+            self.s = _float(s)
+            self.s1 = _float(s * 1.e-6 + 1)  # normalize ppm to (s + 1)
 
         self._register(Transforms, name)
 
@@ -1050,9 +1066,9 @@ class Transform(_NamedEnumItem):
 
            @return: Transform attributes (C{str}).
         '''
-        return self._fStr(prec, 'tx', 'ty', 'tz',
-                                'rx', 'ry', 'rz', 's', 's1',
-                                'sx', 'sy', 'sz')
+        return self._instr(prec, 'tx', 'ty', 'tz',
+                                 'rx', 'ry', 'rz', 's', 's1',
+                                 'sx', 'sy', 'sz')
 
     def transform(self, x, y, z, inverse=False):
         '''Transform a (geocentric) Cartesian point, forward or inverse.
@@ -1212,11 +1228,11 @@ class Datum(_NamedEnumItem):
 
            @return: Datum attributes (C{str}).
         '''
-        t = []
+        t = ['name=' + repr(self.named)]
         for a in ('ellipsoid', 'transform'):
             v = getattr(self, a)
             t.append('%s=%ss.%s' % (a, v.classname, v.name))
-        return ', '.join(['name=%r' % (self.named,)] + t)
+        return ', '.join(t)
 
     @property_RO
     def transform(self):
@@ -1295,23 +1311,29 @@ if __name__ == '__main__':
 
     for E in (Datums.WGS84.ellipsoid, Datums.NAD83.ellipsoid,
               Ellipsoids.Sphere, Ellipsoids.SpherePopular):
-        e = (E.a - E.b) / (E.a + E.b) - E.n
         if E.f:
-            f_ = 'f_=1/%.10f' % (1 / E.f,)
+            f_ = 'f_=1/%.10F' % (1 / E.f,)
         else:
             f_ = 'f_=N/A'
+        e = (E.a - E.b) / (E.a + E.b) - E.n
         t = (E.toStr(prec=10),
-            'A=%r, e=%.13e, %s, n=%.10f(%.10e)' % (E.A, E.e, f_, E.n, e),
-            'AlphaKs=%r' % (E.AlphaKs,),
-            'BetaKs= %r' % (E.BetaKs,),
-            'KsOrder=%r' % (E.KsOrder,),
-            'Mabcd=%r' % (E.Mabcd,))
+            'A=%r, e=%s, %s, n=%s(%s)' % (E.A, fstr(E.e, prec=13, fmt='e'),
+                                          f_,  fstr(E.n, prec=13, fmt='F'),
+                                               fstr(e,   prec=3,  fmt='e'),),
+            'AlphaKs=(%s)' % (fstr(E.AlphaKs, prec=20),),
+            'BetaKs= (%s)' % (fstr(E.BetaKs,  prec=20),),
+            'KsOrder=(%s)' % (fstr(E.KsOrder, prec=20),),
+            'Mabcd=  (%s)' % (fstr(E.Mabcd,   prec=20),))
         print('\nEllipsoid.%s: %s' % (E.name, ',\n    '.join(t)))
 
     # __doc__ of this file
     for e in (Datums, Ellipsoids, Transforms):
         t = [''] + repr(e).split('\n')
         print('\n@var '.join(i.strip(',') for i in t))
+
+# zap floats cache
+_float = float  # PYCHOK expected
+del _floats
 
 # **) MIT License
 #
@@ -1338,29 +1360,29 @@ if __name__ == '__main__':
 # % python -m pygeodesy.datum
 
 # Ellipsoid.WGS84: name='WGS84', a=6378137, b=6356752.3142499998, f_=298.257223563, f=0.0033528107, e=0.0818191908, e2=0.00669438, e12=0.99330562, e22=0.0067394967, n=0.0016792204, R1=6371008.7714166669, R2=6371007.180920884, R3=6371000.7900107643, Rr=6367449.1458250266, Rs=6367435.6797186071,
-#     A=6367449.145823414, e=8.1819190842621e-02, f_=1/298.2572235630, n=0.0016792204(-3.7914875232e-13),
-#     AlphaKs=(0.0008377318206244698, 7.608527773572489e-07, 1.1976455032424919e-09, 2.4291706803970904e-12, 5.711818370428019e-15, 1.4799979313796632e-17, 4.1076241093707195e-20, 1.2107850389225785e-22),
-#     BetaKs= (0.0008377321640579486, 5.905870152220365e-08, 1.6734826653438247e-10, 2.164798110490642e-13, 3.78793096862602e-16, 7.236769021815623e-19, 1.4934798247781072e-21, 3.2595225458381582e-24),
-#     KsOrder=8,
-#     Mabcd=(1.0016827510315587, 0.005046132931933289, 5.2959677624344715e-06, 6.90525779768578e-09)
+#     A=6367449.145823414, e=8.1819190842621e-02, f_=1/298.2572235630, n=0.0016792203864(-3.791e-13),
+#     AlphaKs=(0.00083773182062446983, 0.00000076085277735725, 0.00000000119764550324, 0.00000000000242917068, 0.00000000000000571182, 0.0000000000000000148, 0.00000000000000000004, 0.0),
+#     BetaKs= (0.00083773216405794864, 0.0000000590587015222, 0.00000000016734826653, 0.00000000000021647981, 0.00000000000000037879, 0.00000000000000000072, 0.0, 0.0),
+#     KsOrder=(8.0),
+#     Mabcd=  (1.00168275103155868244, 0.00504613293193328927, 0.00000529596776243447, 0.00000000690525779769)
 
 # Ellipsoid.GRS80: name='GRS80', a=6378137, b=6356752.3141403468, f_=298.257222101, f=0.0033528107, e=0.081819191, e2=0.00669438, e12=0.99330562, e22=0.0067394968, n=0.0016792204, R1=6371008.7713801153, R2=6371007.1808835128, R3=6371000.7899741307, Rr=6367449.1457702462, Rs=6367435.6796636879,
-#     A=6367449.145771047, e=8.1819191042816e-02, f_=1/298.2572221010, n=0.0016792204(7.0906822081e-16),
-#     AlphaKs=(0.0008377318247285514, 7.608527848149656e-07, 1.1976455208553066e-09, 2.4291707280367475e-12, 5.7118185104663376e-15, 1.4799979749262572e-17, 4.107624250383829e-20, 1.2107850864826076e-22),
-#     BetaKs= (0.0008377321681620353, 5.905870210369122e-08, 1.6734826899771703e-10, 2.1647981529930687e-13, 3.7879310615900127e-16, 7.236769234953247e-19, 1.4934798760970368e-21, 3.2595226738732615e-24),
-#     KsOrder=8,
-#     Mabcd=(1.0016827510398385, 0.005046132956751664, 5.295967814484897e-06, 6.9052578994010674e-09)
+#     A=6367449.145771047, e=8.1819191042816e-02, f_=1/298.2572221010, n=0.0016792203946(7.091e-16),
+#     AlphaKs=(0.00083773182472855138, 0.00000076085278481497, 0.00000000119764552086, 0.00000000000242917073, 0.00000000000000571182, 0.0000000000000000148, 0.00000000000000000004, 0.0),
+#     BetaKs= (0.00083773216816203529, 0.00000005905870210369, 0.000000000167348269, 0.00000000000021647982, 0.00000000000000037879, 0.00000000000000000072, 0.0, 0.0),
+#     KsOrder=(8.0),
+#     Mabcd=  (1.00168275103983850371, 0.00504613295675166405, 0.0000052959678144849, 0.0000000069052578994)
 
 # Ellipsoid.Sphere: name='Sphere', a=6371008.7714149999, b=6371008.7714149999, f_=0, f=0, e=0, e2=0, e12=1, e22=0, n=0, R1=6371008.7714149999, R2=6371008.7714149999, R3=6371008.7714149999, Rr=6371008.7714149999, Rs=6371008.7714149999,
-#     A=6371008.771415, e=0.0000000000000e+00, f_=N/A, n=0.0000000000(0.0000000000e+00),
+#     A=6371008.771415, e=0.0e+00, f_=N/A, n=0.0(0.0e+00),
 #     AlphaKs=(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
 #     BetaKs= (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-#     KsOrder=8,
-#     Mabcd=(1.0, 0.0, 0.0, 0.0)
+#     KsOrder=(8.0),
+#     Mabcd=  (1.0, 0.0, 0.0, 0.0)
 
 # Ellipsoid.SpherePopular: name='SpherePopular', a=6378137, b=6378137, f_=0, f=0, e=0, e2=0, e12=1, e22=0, n=0, R1=6378137, R2=6378137, R3=6378137, Rr=6378137, Rs=6378137,
-#     A=6378137.0, e=0.0000000000000e+00, f_=N/A, n=0.0000000000(0.0000000000e+00),
+#     A=6378137.0, e=0.0e+00, f_=N/A, n=0.0(0.0e+00),
 #     AlphaKs=(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
 #     BetaKs= (0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-#     KsOrder=8,
-#     Mabcd=(1.0, 0.0, 0.0, 0.0)
+#     KsOrder=(8.0),
+#     Mabcd=  (1.0, 0.0, 0.0, 0.0)

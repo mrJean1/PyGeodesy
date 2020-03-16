@@ -61,19 +61,21 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
+from pygeodesy.basics import INF, _IsNotError, property_doc_, property_RO
 from pygeodesy.datum import Datum
-from pygeodesy.fmath import hypot2, INF, _IsNotError
+from pygeodesy.fmath import hypot2
 from pygeodesy.formy import euclidean_, haversine_, points2, \
                            _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
-from pygeodesy.named import _Named, _NamedTuple, PhiLam2Tuple
-from pygeodesy.utily import property_RO, unroll180, unrollPI
+from pygeodesy.named import _Named, _NamedTuple, notOverloaded, \
+                             PhiLam2Tuple
+from pygeodesy.utily import unroll180, unrollPI
 
 from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.02.09'
+__version__ = '20.03.15'
 
 
 class HausdorffError(ValueError):
@@ -151,20 +153,16 @@ class Hausdorff(_Named):
                            self.units, self.distance, self.point)
 
     def distance(self, point1, point2):
-        '''Distance between 2 points from C{.point}.
-
-           @note: This method I{must be overloaded}.
-
-           @raise AssertionError: Not overloaded.
+        '''(INTERNAL) I{must be overloaded}.
         '''
-        self._notOverloaded(self.distance.__name__, point1, point2)
+        notOverloaded(self, self.distance.__name__, point1, point2)
 
     def point(self, point):
         '''Convert a C{model} or C{target} point for the C{.distance} method.
         '''
         return point  # pass thru
 
-    @property
+    @property_doc_(' the random sampling seed (C{Random}).')
     def seed(self):
         '''Get the random sampling seed (C{any} or C{None}).
         '''
@@ -206,7 +204,7 @@ class Hausdorff(_Named):
         return _hausdorff_(self._model, ps2, True, early, self.seed,
                            self.units, self.distance, self.point)
 
-    @property
+    @property_doc_(' the distance units (C{str}).')
     def units(self):
         '''Get the distance units (C{str} or C{""}).
         '''

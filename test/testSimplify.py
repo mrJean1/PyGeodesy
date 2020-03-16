@@ -4,11 +4,11 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '20.02.23'
+__version__ = '20.03.12'
 
 from base import numpy, TestsBase, secs2str
 
-from pygeodesy import EPS, R_M, LatLon_, Numpy2LatLon, \
+from pygeodesy import EPS, R_M, LatLon_, Numpy2LatLon, pairs, \
                       simplify1, simplifyRW, \
                       simplifyRDP, simplifyRDPm, \
                       simplifyVW, simplifyVWm, \
@@ -28,7 +28,7 @@ class Tests(TestsBase):
             return  # skip this simplify function
 
         n = len(points)
-        t = ', '.join('%s=%s' % t for t in sorted(kwds.items()))
+        t = ', '.join(pairs(kwds.items()))
         f = '%s(%s, %s)' % (function.__name__, n, t)
 
         S = s = 0
@@ -41,7 +41,7 @@ class Tests(TestsBase):
             self.test(t, n, ms[m])
             S += s
             if typ:
-                self.test(str(type(r)), type(r) is typ, True)
+                self.test(f + ' result', type(r), typ)
 
         if S > s:  # sub-total time
             self.test__('%s %s', f, secs2str(S), nt=1)
@@ -50,7 +50,7 @@ class Tests(TestsBase):
 # for comparison, following are 2 other RDP implementations,
 # modified to match signatures of simplifyRDP and -RDPm.
 
-def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # MCCABE 17
+def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # MCCABE 20
                                    modified=False, indices=False):  # PYCHOK expected
     '''Iterative Ramer-Douglas-Peucker algorithm.
 
@@ -127,7 +127,7 @@ def simplifyRDPfw(points, epsilon, radius=R_M, adjust=False, shortest=False,  # 
         return [points[i] for i, b in enumerate(use) if b]
 
 
-def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCABE 16
+def simplifyRDPgr(source, kink, radius=R_M, adjust=True, shortest=True,  # MCCABE 17
                                 modified=False, indices=False):  # PYCHOK expected
     '''Stack-based Douglas Peucker line simplification.
 

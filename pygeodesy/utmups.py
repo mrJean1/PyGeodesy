@@ -13,11 +13,11 @@ A pure Python implementation, partially transcribed from C++ class U{UTMUPS
 by I{Charles Karney}.
 '''
 
+from pygeodesy.basics import OK
 from pygeodesy.datum import Datums
 from pygeodesy.dms import RangeError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import UtmUps5Tuple, UtmUps8Tuple
-from pygeodesy.utily import OK
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
 from pygeodesy.utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
 from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
@@ -26,7 +26,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.02.22'
+__version__ = '20.03.10'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -198,7 +198,7 @@ def utmupsValidate(coord, falsed=False, MGRS=False):
                 return
         except (TypeError, ValueError):
             pass
-        t = '%s range [%.0f, %.0f]' % (U, lo, hi)
+        t = '%s range [%.0F, %.0F]' % (U, lo, hi)
         raise UTMUPSError('%s outside %s: %g' % (ename, t, en))
 
     if isinstance(coord, (Ups, Utm)):

@@ -73,7 +73,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></li><li>, <a href="pygeodesy.nvectorBase.NvectorBase-class.html">nvectorBase.NvectorBase</a></li>  </ul>
+<li><a href="pygeodesy.nvectorBase.NvectorBase-class.html">nvectorBase.NvectorBase</a></li><li>, <a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></li>  </ul>
 </dd></dl>
 
 <hr />
@@ -589,7 +589,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#isequalTo" class="summary-sig-name">isequalTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
       Check if this and an other vector are equal or equivalent.</td>
           <td align="right" valign="top">
             
@@ -663,9 +664,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#parse" class="summary-sig-name">parse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">str3d</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span><br />
-      Parse an &quot;x, y, z&quot; string representing a <a 
-      href="pygeodesy.vector3d.Vector3d-class.html" 
-      class="link">Vector3d</a>.</td>
+      Parse an <code>&quot;x, y, z&quot;</code> string.</td>
           <td align="right" valign="top">
             
             
@@ -774,8 +773,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert this vector to (geodetic) lat- and longitude in 
-      <code>radians</code>.</td>
+      DEPRECATED, use property <code>Nvector.philam</code>.</td>
           <td align="right" valign="top">
             
             
@@ -792,8 +790,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#to2ll" class="summary-sig-name">to2ll</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert this vector to (geodetic) lat- and longitude in 
-      <code>degrees</code>.</td>
+      DEPRECATED, use property <code>Nvector.latlon</code>.</td>
           <td align="right" valign="top">
             
             
@@ -810,7 +807,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return this vector as a 3-tuple.</td>
+      DEPRECATED, use property <code>xyz</code>.</td>
           <td align="right" valign="top">
             
             
@@ -866,6 +863,8 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
@@ -897,7 +896,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html#crosserrors" class="summary-name">crosserrors</a><br />
-      Get <a href="pygeodesy.vector3d.CrossError-class.html" 
+      Property to raise or ignore <a 
+      href="pygeodesy.vector3d.CrossError-class.html" 
       class="link">CrossError</a> exceptions (<code>bool</code>).
     </td>
   </tr>
@@ -906,7 +906,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html#length" class="summary-name">length</a><br />
-      Get the length (norm, magnitude) of this vector (<code>float</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -914,7 +914,15 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html#x" class="summary-name">x</a><br />
-      Get the X component (<code>float</code>).
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.vector3d.Vector3d-class.html#xyz" class="summary-name">xyz</a><br />
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -922,7 +930,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html#y" class="summary-name">y</a><br />
-      Get the Y component (<code>float</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -930,7 +938,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.Vector3d-class.html#z" class="summary-name">z</a><br />
-      Get the Z component (<code>float</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -1757,7 +1765,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">isequalTo</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">units</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">units</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1772,6 +1781,7 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
         <li><strong class="pname"><code>units</code></strong> - Optionally, compare the normalized, unit version of both vectors.</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for equality (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if vectors are identical, <code>False</code> 
@@ -1899,13 +1909,11 @@
     </td>
   </tr></table>
   
-  <p>Parse an &quot;x, y, z&quot; string representing a <a 
-  href="pygeodesy.vector3d.Vector3d-class.html" 
-  class="link">Vector3d</a>.</p>
+  <p>Parse an <code>&quot;x, y, z&quot;</code> string.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>str3d</code></strong> - X, y and z value (<code>str</code>).</li>
+        <li><strong class="pname"><code>str3d</code></strong> - X, y and z values (<code>str</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2070,19 +2078,13 @@
     </td>
   </tr></table>
   
-  <p>Convert this vector to (geodetic) lat- and longitude in 
-  <code>radians</code>.</p>
+  <p>DEPRECATED, use property <code>Nvector.philam</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
           class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>v = Vector3d(0.500, 0.500, 0.707)
-<span class="py-prompt">&gt;&gt;&gt; </span>a, b = v.to2ab()  <span class="py-comment"># 0.785323, 0.785398</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="to2ll"></a>
 <div>
@@ -2098,19 +2100,13 @@
     </td>
   </tr></table>
   
-  <p>Convert this vector to (geodetic) lat- and longitude in 
-  <code>degrees</code>.</p>
+  <p>DEPRECATED, use property <code>Nvector.latlon</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code>.</dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>v = Vector3d(0.500, 0.500, 0.707)
-<span class="py-prompt">&gt;&gt;&gt; </span>a, b = v.to2ll()  <span class="py-comment"># 44.99567, 45.0</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="to3xyz"></a>
 <div>
@@ -2126,7 +2122,7 @@
     </td>
   </tr></table>
   
-  <p>Return this vector as a 3-tuple.</p>
+  <p>DEPRECATED, use property <code>xyz</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.Vector3Tuple-class.html" 
@@ -2161,6 +2157,12 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Vector as &quot;(x, y, z)&quot; (<code>str</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AssertionError</strong></code> - Always, see function <a 
+        href="pygeodesy.named-module.html#notOverloaded" 
+        class="link">notOverloaded</a>.</li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -2186,7 +2188,7 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>ll</code></strong> - Optional, original latlon (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>ll</code></strong> - Optional, original location (<code>LatLon</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Normalized vector (<a 
@@ -2211,7 +2213,8 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">crosserrors</h3>
-  <p>Get <a href="pygeodesy.vector3d.CrossError-class.html" 
+  <p>Property to raise or ignore <a 
+  href="pygeodesy.vector3d.CrossError-class.html" 
   class="link">CrossError</a> exceptions (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
@@ -2234,16 +2237,15 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">length</h3>
-  <p>Get the length (norm, magnitude) of this vector 
-  (<code>float</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">length(<span class="summary-sig-arg">self</span>)</span>
         - Get the length (norm, magnitude) of this vector (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -2255,15 +2257,37 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">x</h3>
-  <p>Get the X component (<code>float</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">x(<span class="summary-sig-arg">self</span>)</span>
         - Get the X component (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="xyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">xyz</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
+        - Get the X, Y and Z components (<a 
+href="pygeodesy.named.Vector3Tuple-class.html" 
+class="link">Vector3Tuple</a><code>(x, y, z)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -2275,15 +2299,15 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">y</h3>
-  <p>Get the Y component (<code>float</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">y(<span class="summary-sig-arg">self</span>)</span>
         - Get the Y component (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -2295,15 +2319,15 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">z</h3>
-  <p>Get the Z component (<code>float</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">z(<span class="summary-sig-arg">self</span>)</span>
         - Get the Z component (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -2341,7 +2365,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:13 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:54 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -12,24 +12,27 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import EPS, _IsNotError, property_doc_, \
+                             property_RO, _TypeError
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import R_M, R_MA, Datum, Datums
 from pygeodesy.dms import parse3llh
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.fmath import EPS, acos1, favg, fsum_, _IsNotError
+from pygeodesy.fmath import acos1, favg, fsum_
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Bearing2Tuple
-from pygeodesy.utily import PI, PI2, PI_2, degrees90, degrees180, \
-                            degrees360, property_RO, sincos2d, \
-                            tanPI_2_2, _TypeError, wrapPI
+from pygeodesy.nvectorBase import NvectorBase
+from pygeodesy.utily import PI, PI2, PI_2, \
+                            degrees90, degrees180, degrees360, \
+                            sincos2d, tanPI_2_2, wrapPI
 
 from math import atan2, cos, hypot, log, radians, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianSphericalBase', 'LatLonSphericalBase')
-__version__ = '20.02.22'
+__version__ = '20.03.15'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -86,7 +89,7 @@ class LatLonSphericalBase(LatLonBase):
                           self.finalBearingTo(  other, wrap=wrap, raiser=raiser))
         return self._xnamed(r)
 
-    @property
+    @property_doc_(" this point's datum (L{Datum}).")
     def datum(self):
         '''Get this point's datum (L{Datum}).
         '''
@@ -161,8 +164,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @JSname: I{maxLatitude}.
         '''
-        a, _ = self.to2ab()
-        m = acos1(abs(sin(radians(bearing)) * cos(a)))
+        m = acos1(abs(sin(radians(bearing)) * cos(self.phi)))
         return degrees90(m)
 
     def minLat(self, bearing):
@@ -209,8 +211,8 @@ class LatLonSphericalBase(LatLonBase):
         '''
         self.others(other)
 
-        a1, b1 = self.to2ab()
-        a2, b2 = other.to2ab()
+        a1, b1 = self.philam
+        a2, b2 = other.philam
         # if |db| > 180 take shorter rhumb
         # line across the anti-meridian
         db = wrapPI(b2 - b1)
@@ -257,10 +259,9 @@ class LatLonSphericalBase(LatLonBase):
 
            @JSname: I{rhumbDestinationPoint}
         '''
-        a1, b1 = self.to2ab()
-
         r = float(distance) / float(radius)  # angular distance in radians
 
+        a1, b1 = self.philam
         sb, cb = sincos2d(bearing)
 
         da = r * cb
@@ -303,11 +304,7 @@ class LatLonSphericalBase(LatLonBase):
         # by latitude; the 'stretch factor' q becomes ill-
         # conditioned along E-W line (0/0); use an empirical
         # tolerance to avoid it
-        if abs(dp) > EPS:
-            q = da / dp
-        else:
-            a, _ = self.to2ab()
-            q = cos(a)
+        q = (da / dp) if abs(dp) > EPS else cos(self.phi)
         return float(radius) * hypot(da, q * db)
 
     def rhumbMidpointTo(self, other, height=None):
@@ -332,8 +329,8 @@ class LatLonSphericalBase(LatLonBase):
         self.others(other)
 
         # see <https://MathForum.org/library/drmath/view/51822.html>
-        a1, b1 = self.to2ab()
-        a2, b2 = other.to2ab()
+        a1, b1 = self.philam
+        a2, b2 = other.philam
         if abs(b2 - b1) > PI:
             b1 += PI2  # crossing anti-meridian
 
@@ -354,8 +351,22 @@ class LatLonSphericalBase(LatLonBase):
         h = self._havg(other) if height is None else height
         return self.classof(degrees90(a3), degrees180(b3), height=h)
 
+    def toNvector(self, Nvector=NvectorBase, **kwds):  # PYCHOK signature
+        '''Convert this point to C{Nvector} components, I{including
+           height}.
+
+           @keyword kwds: Optional, additional B{C{Nvector}} keyword
+                          arguments, ignored if C{B{Nvector}=None}.
+
+           @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)}
+                    if C{B{Nvector}=None}.
+
+           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
+        '''
+        return LatLonBase.toNvector(self, Nvector=Nvector, **kwds)
+
     def toWm(self, radius=R_MA):
-        '''Convert this C{LatLon} point to a I{WM} coordinate.
+        '''Convert this point to a I{WM} coordinate.
 
            @keyword radius: Optional earth radius (C{meter}).
 

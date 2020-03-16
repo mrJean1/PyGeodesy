@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.10.21'
+__version__ = '20.03.154'
 
 from base import TestsBase
 
@@ -23,14 +23,14 @@ class Tests(TestsBase):
         self.test('lat, lon', q, '50.066389°N, 005.714722°W')
 
         p = LatLon(52.205, 0.119)
-        q = LatLon(52.205, 0.119)
-        self.test('isequalTo',  p.isequalTo(q), True)
-        self.test('isequalTo3', p.isequalTo3(q), True)
+        q = p.copy()  # LatLon(52.205, 0.119)
+        self.test('isequalTo',  q.isequalTo(p), True)
+        self.test('isequalTo3', q.isequalTo3(p), True)
 
-        self.test('latlon',       p.latlon, q.latlon)
-        self.test('latlonheight', p.latlonheight, q.latlonheight)
-        self.test('phimlam',       p.philam, q.philam)
-        self.test('phimlamheight', p.philamheight, q.philamheight)
+        self.test('latlon',       q.latlon, p.latlon)
+        self.test('latlonheight', q.latlonheight, p.latlonheight)
+        self.test('phimlam',       q.philam, p.philam)
+        self.test('phimlamheight', q.philamheight, p.philamheight)
 
         t = precision(F_DMS, 0)
         p = LatLon(51.4778, -0.0016)
@@ -43,25 +43,25 @@ class Tests(TestsBase):
         precision(F_DMS, t)  # restore
 
         q.latlon = p.latlon
-        self.test('isequalTo',  p.isequalTo(q), True)
-        self.test('isequalTo3', p.isequalTo3(q), False)
+        self.test('isequalTo',  q.isequalTo(p), True)
+        self.test('isequalTo3', q.isequalTo3(p), False)
 
-        self.test('latlon', p.latlon, q.latlon)
-        self.test('phimlam', p.philam, q.philam)
+        self.test('latlon', q.latlon, p.latlon)
+        self.test('phimlam', q.philam, p.philam)
 
         q.latlon = p.latlon + (p.height,)
-        self.test('isequalTo', p.isequalTo(q), True)
-        self.test('isequalTo3', p.isequalTo3(q), True)
+        self.test('isequalTo', q.isequalTo(p), True)
+        self.test('isequalTo3', q.isequalTo3(p), True)
 
-        self.test('latlon',       p.latlon, q.latlon)
-        self.test('latlonheight', p.latlonheight, q.latlonheight)
-        self.test('phimlam',       p.philam, q.philam)
-        self.test('phimlamheight', p.philamheight, q.philamheight)
+        self.test('latlon',       q.latlon, p.latlon)
+        self.test('latlonheight', q.latlonheight, p.latlonheight)
+        self.test('phimlam',       q.philam, p.philam)
+        self.test('phimlamheight', q.philamheight, p.philamheight)
 
-        self.test('latlon',       repr(p.latlon), repr(q.latlon))
-        self.test('latlonheight', repr(p.latlonheight), repr(q.latlonheight))
-        self.test('phimlam',       repr(p.philam), repr(q.philam))
-        self.test('phimlamheight', repr(p.philamheight), repr(q.philamheight))
+        self.test('latlon',       repr(q.latlon), repr(p.latlon))
+        self.test('latlonheight', repr(q.latlonheight), repr(p.latlonheight))
+        self.test('phimlam',       repr(q.philam), repr(p.philam))
+        self.test('phimlamheight', repr(q.philamheight), repr(p.philamheight))
 
 
 if __name__ == '__main__':
@@ -80,9 +80,11 @@ if __name__ == '__main__':
     t.testBases(sphericalTrigonometry, sphericalTrigonometry.LatLon)
 
     try:  # (INTERNAL) modules not explicitly exported
-        from pygeodesy import ellipsoidalBase, latlonBase, sphericalBase
+        from pygeodesy import ellipsoidalBase, latlonBase, \
+                              nvectorBase, sphericalBase
 
         t.testBases(latlonBase, latlonBase.LatLonBase)
+        t.testBases(nvectorBase, nvectorBase.LatLonNvectorBase)
         t.testBases(ellipsoidalBase, ellipsoidalBase.LatLonEllipsoidalBase)
         t.testBases(sphericalBase, sphericalBase.LatLonSphericalBase)
     except LazyImportError:

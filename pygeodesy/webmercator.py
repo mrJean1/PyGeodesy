@@ -17,21 +17,22 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import EPS, _IsNotError, isscalar, issubclassof, \
+                             map1, property_RO
 from pygeodesy.datum import R_MA
 from pygeodesy.dms import clipDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.fmath import EPS, fStr, isscalar, map1, _IsNotError
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _dot_
 from pygeodesy.named import EasNorRadius3Tuple, LatLon2Tuple, \
                            _NamedBase, nameof, _xnamed
-from pygeodesy.utily import PI_2, degrees90, degrees180, issubclassof, \
-                            property_RO
+from pygeodesy.streprs import strs
+from pygeodesy.utily import PI_2, degrees90, degrees180
 
 from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.01.22'
+__version__ = '20.03.12'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -76,9 +77,38 @@ class Wm(_NamedBase):
             raise WebMercatorError('%s invalid: %r' % (Wm.__name__, (x, y, radius)))
 
         if r < EPS:  # check radius
-            t = '%s.%s' % (self.classname, 'radius')
+            t = _dot_(self.classname, 'radius')
             raise WebMercatorError('%s invalid: %r' % (t, r))
         self._radius = r
+
+    def latlon2(self, datum=None):
+        '''Convert this WM coordinate to a (geodetic) lat- and longitude.
+
+           @keyword datum: Optional datum (C{Datum}).
+
+           @return: A L{LatLon2Tuple}C{(lat, lon)}.
+
+           @raise TypeError: Non-ellipsoidal B{C{datum}}.
+
+           @see: Method C{toLatLon}.
+        '''
+        r = self.radius
+        x = self._x / r
+        y = 2 * atan(exp(self._y / r)) - PI_2
+        if datum:
+            E = datum.ellipsoid
+            if not E.isEllipsoidal:
+                raise _IsNotError('ellipsoidal', datum=datum)
+            # <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
+            #       %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
+            y = y / r
+            if E.e:
+                y -= E.e * atanh(E.e * tanh(y))  # == E.es_atanh(tanh(y))
+            y *= E.a
+            x *= E.a / r
+
+        t = LatLon2Tuple(degrees90(y), degrees180(x))
+        return self._xnamed(t)
 
     def parseWM(self, strWM, name=''):
         '''Parse a string to a WM coordinate.
@@ -94,30 +124,12 @@ class Wm(_NamedBase):
         '''
         return self._radius
 
-    def to2ll(self, datum=None):
-        '''Convert this WM coordinate to a geodetic lat- and longitude.
-
-           @keyword datum: Optional datum (C{Datum}).
+    def to2ll(self, datum=None):  # PYCHOK no cover
+        '''DEPRECATED, use method C{latlon2}.
 
            @return: A L{LatLon2Tuple}C{(lat, lon)}.
-
-           @raise TypeError: Non-ellipsoidal B{C{datum}}.
         '''
-        r = self.radius
-        x = self._x / r
-        y = 2 * atan(exp(self._y / r)) - PI_2
-        if datum:
-            E = datum.ellipsoid
-            if not E.isEllipsoidal:
-                raise _IsNotError('ellipsoidal', datum=datum)
-            # <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
-            #       %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
-            y = y / r
-            if E.e:
-                y -= E.e * atanh(E.e * tanh(y))
-            y *= E.a
-            x *= E.a / r
-        return self._xnamed(LatLon2Tuple(degrees90(y), degrees180(x)))
+        return self.latlon2(datum=datum)
 
     def toLatLon(self, LatLon, datum=None):
         '''Convert this WM coordinate to a geodetic point.
@@ -141,9 +153,11 @@ class Wm(_NamedBase):
         '''
         e = issubclassof(LatLon, _LLEB)
         if e and datum:
-            r = LatLon(*self.to2ll(datum=datum), datum=datum)
-        elif LatLon and not (e or datum):
-            r = LatLon(*self.to2ll(datum=None))
+            lat, lon = self.latlon2(datum=datum)
+            r = LatLon(lat, lon, datum=datum)
+        elif not (e or datum):  # and LatLon
+            lat, lon = self.latlon2(datum=None)
+            r = LatLon(lat, lon)
         else:
             raise TypeError('%s %r and %s %r' % ('spherical', LatLon,
                                                  'datum', datum))
@@ -176,7 +190,7 @@ class Wm(_NamedBase):
             fs += (radius,)
         else:
             raise WebMercatorError('% invalid: %r' % ('radius', radius))
-        return fStr(fs, prec=prec, sep=sep)
+        return sep.join(strs(fs, prec=prec))
 
     def toStr2(self, prec=3, fmt='[%s]', sep=', ', radius=False):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.

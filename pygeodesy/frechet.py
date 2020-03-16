@@ -72,19 +72,21 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-from pygeodesy.fmath import EPS, EPS1, favg, hypot2, INF, isscalar, \
-                           _IsNotError
+from pygeodesy.basics import EPS, EPS1, INF, _IsNotError, \
+                             isscalar, property_doc_, property_RO
+from pygeodesy.fmath import favg, hypot2
 from pygeodesy.formy import euclidean_, haversine_, points2 as _points2, \
                            _scaler, vincentys_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, PhiLam2Tuple
-from pygeodesy.utily import property_RO, unrollPI
+from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, \
+                            notOverloaded, PhiLam2Tuple
+from pygeodesy.utily import unrollPI
 
 from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.02.27'
+__version__ = '20.03.15'
 
 
 class FrechetError(ValueError):
@@ -205,15 +207,11 @@ class Frechet(_Named):
         return _frechet_(self._n1, f1, n2, f2, dF, self.units)
 
     def distance(self, point1, point2):
-        '''Distance between 2 points from C{.point}.
-
-           @note: This method I{must be overloaded}.
-
-           @raise AssertionError: Not overloaded.
+        '''(INTERNAL) I{must be overloaded}.
         '''
-        self._notOverloaded(self.distance.__name__, point1, point2)
+        notOverloaded(self, self.distance.__name__, point1, point2)
 
-    @property
+    @property_doc_(' the index fraction (C{float}).')
     def fraction(self):
         '''Get the index fraction (C{float} or C{1}).
         '''
@@ -264,7 +262,7 @@ class Frechet(_Named):
         '''
         return self.point(_fractional(points, fi))
 
-    @property
+    @property_doc_(' the distance units (C{str}).')
     def units(self):
         '''Get the distance units (C{str} or C{""}).
         '''

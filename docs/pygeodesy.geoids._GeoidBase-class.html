@@ -132,7 +132,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      repr(x)</td>
+      Default <code>repr(self)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -149,7 +149,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      str(x)</td>
+      Default <code>str(self)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -348,6 +348,8 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
@@ -380,8 +382,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#cropped" class="summary-name">cropped</a><br />
-      Is geoid cropped (<code>bool</code> or <code>None</code> if crop not 
-      supported).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -389,9 +390,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#dtype" class="summary-name">dtype</a><br />
-      Get the grid <code>scipy</code> <a 
-      href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.ndarray.dtype.html"
-      target="_top">dtype</a> (<code>numpy.dtype</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -399,9 +398,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#endian" class="summary-name">endian</a><br />
-      Get the geoid endianess and <a 
-      href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.dtype.html"
-      target="_top">dtype</a> (<code>str</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -409,7 +406,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#hits" class="summary-name">hits</a><br />
-      Get the number of cache hits (<code>int</code> or <code>None</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -417,7 +414,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#kind" class="summary-name">kind</a><br />
-      Get the interpolator kind and order (<code>int</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -425,7 +422,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#knots" class="summary-name">knots</a><br />
-      Get the number of grid knots (<code>int</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -433,7 +430,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#mean" class="summary-name">mean</a><br />
-      Get the mean of this geoid's heights (<code>float</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -441,7 +438,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#name" class="summary-name">name</a><br />
-      Get the name of this geoid (<code>str</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -449,7 +446,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#nBytes" class="summary-name">nBytes</a><br />
-      Get the grid in-memory size in bytes (<code>int</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -457,7 +454,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#numpy" class="summary-name">numpy</a><br />
-      Get the imported <code>numpy</code> version (<code>str</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -465,7 +462,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#scipy" class="summary-name">scipy</a><br />
-      Get the imported <code>scipy</code> version (<code>str</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -473,7 +470,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#sizeB" class="summary-name">sizeB</a><br />
-      Get the geoid grid file size in bytes (<code>int</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -481,8 +478,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#smooth" class="summary-name">smooth</a><br />
-      Get the <code>RectBivariateSpline</code> smoothing 
-      (<code>int</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -490,8 +486,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#stdev" class="summary-name">stdev</a><br />
-      Get the standard deviation of this geoid's heights 
-      (<code>float</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -620,7 +615,7 @@
     </td>
   </tr></table>
   
-  <p>repr(x)</p>
+  <p>Default <code>repr(self)</code>.</p>
   <dl class="fields">
     <dt>Overrides:
         object.__repr__
@@ -644,7 +639,7 @@
     </td>
   </tr></table>
   
-  <p>str(x)</p>
+  <p>Default <code>str(self)</code>.</p>
   <dl class="fields">
     <dt>Overrides:
         object.__str__
@@ -994,8 +989,7 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">cropped</h3>
-  <p>Is geoid cropped (<code>bool</code> or <code>None</code> if crop not 
-  supported).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">cropped(<span class="summary-sig-arg">self</span>)</span>
@@ -1003,8 +997,8 @@
 supported).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1016,9 +1010,7 @@ supported).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">dtype</h3>
-  <p>Get the grid <code>scipy</code> <a 
-  href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.ndarray.dtype.html"
-  target="_top">dtype</a> (<code>numpy.dtype</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">dtype(<span class="summary-sig-arg">self</span>)</span>
@@ -1027,8 +1019,8 @@ href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.ndarray.dtype.h
 target="_top">dtype</a> (<code>numpy.dtype</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1040,9 +1032,7 @@ target="_top">dtype</a> (<code>numpy.dtype</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">endian</h3>
-  <p>Get the geoid endianess and <a 
-  href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.dtype.html"
-  target="_top">dtype</a> (<code>str</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">endian(<span class="summary-sig-arg">self</span>)</span>
@@ -1051,8 +1041,8 @@ href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.dtype.html"
 target="_top">dtype</a> (<code>str</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1064,16 +1054,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">hits</h3>
-  <p>Get the number of cache hits (<code>int</code> or 
-  <code>None</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">hits(<span class="summary-sig-arg">self</span>)</span>
         - Get the number of cache hits (<code>int</code> or <code>None</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1085,15 +1074,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">kind</h3>
-  <p>Get the interpolator kind and order (<code>int</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">kind(<span class="summary-sig-arg">self</span>)</span>
         - Get the interpolator kind and order (<code>int</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1105,15 +1094,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">knots</h3>
-  <p>Get the number of grid knots (<code>int</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">knots(<span class="summary-sig-arg">self</span>)</span>
         - Get the number of grid knots (<code>int</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1125,15 +1114,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">mean</h3>
-  <p>Get the mean of this geoid's heights (<code>float</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">mean(<span class="summary-sig-arg">self</span>)</span>
         - Get the mean of this geoid's heights (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1145,15 +1134,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">name</h3>
-  <p>Get the name of this geoid (<code>str</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">name(<span class="summary-sig-arg">self</span>)</span>
         - Get the name of this geoid (<code>str</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1165,15 +1154,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">nBytes</h3>
-  <p>Get the grid in-memory size in bytes (<code>int</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">nBytes(<span class="summary-sig-arg">self</span>)</span>
         - Get the grid in-memory size in bytes (<code>int</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1185,15 +1174,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">numpy</h3>
-  <p>Get the imported <code>numpy</code> version (<code>str</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">numpy(<span class="summary-sig-arg">self</span>)</span>
         - Get the imported <code>numpy</code> version (<code>str</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1205,15 +1194,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">scipy</h3>
-  <p>Get the imported <code>scipy</code> version (<code>str</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">scipy(<span class="summary-sig-arg">self</span>)</span>
         - Get the imported <code>scipy</code> version (<code>str</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1225,15 +1214,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">sizeB</h3>
-  <p>Get the geoid grid file size in bytes (<code>int</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">sizeB(<span class="summary-sig-arg">self</span>)</span>
         - Get the geoid grid file size in bytes (<code>int</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1245,16 +1234,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">smooth</h3>
-  <p>Get the <code>RectBivariateSpline</code> smoothing 
-  (<code>int</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">smooth(<span class="summary-sig-arg">self</span>)</span>
         - Get the <code>RectBivariateSpline</code> smoothing (<code>int</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1266,16 +1254,15 @@ target="_top">dtype</a> (<code>str</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">stdev</h3>
-  <p>Get the standard deviation of this geoid's heights 
-  (<code>float</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">stdev(<span class="summary-sig-arg">self</span>)</span>
         - Get the standard deviation of this geoid's heights (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1313,7 +1300,7 @@ target="_top">dtype</a> (<code>str</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:10 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:51 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

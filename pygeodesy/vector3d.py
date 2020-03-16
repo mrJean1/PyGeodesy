@@ -11,18 +11,19 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.fmath import EPS, fdot, fStr, fsum, hypot, hypot_, \
-                            isscalar, len2, map1, _IsNotError
+from pygeodesy.basics import EPS, _IsNotError, isscalar, len2, \
+                             map1, property_doc_, property_RO
+from pygeodesy.fmath import fdot, fsum, hypot_
+from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import LatLon2Tuple, _NamedBase, PhiLam2Tuple, \
-                            Vector3Tuple
-from pygeodesy.utily import degrees90, degrees180, property_RO
+from pygeodesy.named import _NamedBase, Vector3Tuple
+from pygeodesy.streprs import strs
 
 from math import atan2, cos, sin
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '20.02.28'
+__version__ = '20.03.15'
 
 
 def _xyzn4(xyz, y, z, Error=TypeError):  # imported by .ecef.py
@@ -63,7 +64,7 @@ class CrossError(ValueError):
 
 
 def crosserrors(raiser=None):
-    '''Get/set raising of vectorial cross product errors.
+    '''Report or ignore vectorial cross product errors.
 
        @keyword raiser: Use C{True} to throw or C{False} to ignore
                         L{CrossError} exceptions.  Use C{None} to
@@ -78,12 +79,12 @@ def crosserrors(raiser=None):
 
 
 class VectorError(ValueError):
-    '''L{Vector3d} or C{*Nvector} issue.
+    '''Issue with class L{Vector3d} or C{*Nvector}.
     '''
     pass
 
 
-class Vector3d(_NamedBase):
+class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     '''Generic 3-D vector manipulation.
 
        In a geodesy context, these may be used to represent:
@@ -97,7 +98,8 @@ class Vector3d(_NamedBase):
 
     _fromll = None  #: (INTERNAL) original ll.
     _length = None  #: (INTERNAL) cached length.
-    _united = None  #: (INTERNAL) cached norm, unit.
+    _united = None  #: (INTERNAL) cached norm, unit (L{Vector3d}).
+    _xyz    = None  #: (INTERNAL) cached xyz (L{Vector3Tuple}).
 
     _x = 0  #: (INTERNAL) X component.
     _y = 0  #: (INTERNAL) Y component.
@@ -321,7 +323,8 @@ class Vector3d(_NamedBase):
         '''(INTERNAL) Zap cached attributes if updated.
         '''
         if updated:
-            _NamedBase._update(self, updated, '_length', '_united', *attrs)
+            _NamedBase._update(self, updated, '_length',  # '_fromll'
+                                   '_united', '_xyz', *attrs)
 
     def angleTo(self, other, vSign=None):
         '''Compute the angle between this and an other vector.
@@ -372,7 +375,7 @@ class Vector3d(_NamedBase):
 
         return self.classof(x, y, z)
 
-    @property
+    @property_doc_('raise or ignore L{CrossError} exceptions (C{bool}).')
     def crosserrors(self):
         '''Get L{CrossError} exceptions (C{bool}).
         '''
@@ -413,19 +416,20 @@ class Vector3d(_NamedBase):
         '''
         self.others(other)
 
-        return fdot(self.to3xyz(), *other.to3xyz())
+        return fdot(self.xyz, *other.xyz)
 
     def equals(self, other, units=False):
         '''DEPRECATED, use method C{isequalTo}.
         '''
         return self.isequalTo(other, units=units)  # PYCHOK no cover
 
-    def isequalTo(self, other, units=False):
+    def isequalTo(self, other, units=False, eps=EPS):
         '''Check if this and an other vector are equal or equivalent.
 
            @param other: The other vector (L{Vector3d}).
            @keyword units: Optionally, compare the normalized,
                            unit version of both vectors.
+           @keyword eps: Tolerance for equality (C{scalar}).
 
            @return: C{True} if vectors are identical, C{False} otherwise.
 
@@ -443,7 +447,7 @@ class Vector3d(_NamedBase):
             d = self.unit().minus(other.unit())
         else:
             d = self.minus(other)
-        return max(map(abs, d.to3xyz())) < EPS
+        return max(map(abs, d.xyz)) < eps
 
     @property_RO
     def length(self):
@@ -475,6 +479,13 @@ class Vector3d(_NamedBase):
         '''
         return self.classof(-self.x, -self.y, -self.z)
 
+    @property_RO
+    def _N_vector(self):
+        '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
+        '''
+        from pygeodesy.nvectorBase import _N_vector_
+        return _N_vector_(*(self._xyz or self.xyz))
+
     def others(self, other, name='other'):
         '''Refined class comparison.
 
@@ -490,9 +501,9 @@ class Vector3d(_NamedBase):
                 raise
 
     def parse(self, str3d, sep=','):
-        '''Parse an "x, y, z" string representing a L{Vector3d}.
+        '''Parse an C{"x, y, z"} string.
 
-           @param str3d: X, y and z value (C{str}).
+           @param str3d: X, y and z values (C{str}).
            @keyword sep: Optional separator (C{str}).
 
            @return: New vector (L{Vector3d}).
@@ -547,7 +558,7 @@ class Vector3d(_NamedBase):
         b = a.times(1 - c)
         s = a.times(sin(theta))
 
-        p = self.unit().to3xyz()  # point being rotated
+        p = self.unit().xyz  # point being rotated
 
         # multiply p by a quaternion-derived rotation matrix
         return self.classof(fdot(p, a.x * b.x + c,   a.x * b.y - s.z, a.x * b.z + s.y),
@@ -574,40 +585,26 @@ class Vector3d(_NamedBase):
                             self.y * factor,
                             self.z * factor)
 
-    def to2ab(self):
-        '''Convert this vector to (geodetic) lat- and longitude in C{radians}.
+    def to2ab(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{Nvector.philam}.
 
            @return: A L{PhiLam2Tuple}C{(phi, lam)}.
-
-           @example:
-
-           >>> v = Vector3d(0.500, 0.500, 0.707)
-           >>> a, b = v.to2ab()  # 0.785323, 0.785398
         '''
-        a = atan2(self.z, hypot(self.x, self.y))
-        b = atan2(self.y, self.x)
-        return self._xnamed(PhiLam2Tuple(a, b))
+        return n_xyz2philam(self.x, self.y, self.z)
 
-    def to2ll(self):
-        '''Convert this vector to (geodetic) lat- and longitude in C{degrees}.
+    def to2ll(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{Nvector.latlon}.
 
            @return: A L{LatLon2Tuple}C{(lat, lon)}.
-
-           @example:
-
-           >>> v = Vector3d(0.500, 0.500, 0.707)
-           >>> a, b = v.to2ll()  # 44.99567, 45.0
         '''
-        a, b = self.to2ab()
-        r = LatLon2Tuple(degrees90(a), degrees180(b))
-        return self._xnamed(r)
+        return n_xyz2latlon(self.x, self.y, self.z)
 
-    def to3xyz(self):
-        '''Return this vector as a 3-tuple.
+    def to3xyz(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{xyz}.
 
            @return: A L{Vector3Tuple}C{(x, y, z)}.
         '''
-        return self._xnamed(Vector3Tuple(self.x, self.y, self.z))
+        return self.xyz
 
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
         '''Return a string representation of this vector.
@@ -618,19 +615,19 @@ class Vector3d(_NamedBase):
 
            @return: Vector as "(x, y, z)" (C{str}).
         '''
-        return fmt % (fStr(self.to3xyz(), prec=prec, sep=sep),)
+        return fmt % (sep.join(strs(self.xyz, prec=prec)),)
 
     def unit(self, ll=None):
         '''Normalize this vector to unit length.
 
-           @keyword ll: Optional, original latlon (C{LatLon}).
+           @keyword ll: Optional, original location (C{LatLon}).
 
            @return: Normalized vector (L{Vector3d}).
         '''
         if self._united is None:
             n = self.length
             if n > EPS and abs(n - 1) > EPS:
-                u = self.dividedBy(n)
+                u = self._xnamed(self.dividedBy(n))
                 u._length = 1
             else:
                 u = self.copy()
@@ -643,6 +640,14 @@ class Vector3d(_NamedBase):
         '''Get the X component (C{float}).
         '''
         return self._x
+
+    @property_RO
+    def xyz(self):
+        '''Get the X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).
+        '''
+        if self._xyz is None:
+            self._xyz = Vector3Tuple(self.x, self.y, self.z)
+        return self._xnamed(self._xyz)
 
     @property_RO
     def y(self):

@@ -5,18 +5,23 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.fmath import EPS, fStr, fsum_, hypot2, len2, map1
+from pygeodesy.basics import EPS, R_M, LimitError, \
+                            _limiterrors, len2, map1
+from pygeodesy.fmath import fsum_, hypot, hypot2
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import Distance4Tuple, LatLon2Tuple, Points2Tuple
-from pygeodesy.utily import PI, PI2, PI_2, R_M, degrees2m, degrees360, \
-                            isNumpy2, isTuple2, LimitError, _limiterrors, \
-                            sincos2, unroll180, unrollPI, wrap90, wrap180
+from pygeodesy.named import Distance4Tuple, LatLon2Tuple, PhiLam2Tuple, \
+                            Points2Tuple, Vector3Tuple
+from pygeodesy.streprs import fstr
+from pygeodesy.utily import PI, PI2, PI_2, degrees2m, \
+                            degrees90, degrees180, degrees360, \
+                            isNumpy2, isTuple2, sincos2, unroll180, unrollPI, \
+                            wrap90, wrap180, wrapPI, wrapPI_2
 
-from math import atan2, cos, degrees, hypot, radians, sin, sqrt  # pow
+from math import atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.02.22'
+__version__ = '20.03.09'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -33,7 +38,7 @@ def _scaler(rad1, rad2):  # radians, imported by heights.HeighIDW2
 
 def antipode(lat, lon):
     '''Return the antipode, the point diametrically opposite
-       to a given point.
+       to a given point in C{degrees}.
 
        @param lat: Latitude (C{degrees}).
        @param lon: Longitude (C{degrees}).
@@ -43,6 +48,20 @@ def antipode(lat, lon):
        @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
     return LatLon2Tuple(-wrap90(lat), wrap180(lon + 180))
+
+
+def antipode_(phi, lam):
+    '''Return the antipode, the point diametrically opposite
+       to a given point in C{radians}.
+
+       @param phi: Latitude (C{radians}).
+       @param lam: Longitude (C{radians}).
+
+       @return: A L{PhiLam2Tuple}C{(phi, lam)}.
+
+       @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
+    '''
+    return PhiLam2Tuple(-wrapPI_2(phi), wrapPI(lam + PI))
 
 
 def bearing(lat1, lon1, lat2, lon2, **options):
@@ -184,9 +203,9 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
     if limit and _limiterrors \
              and max(abs(d_lat), abs(d_lon)) > limit > 0:
-        t = fStr((lat1, lon1, lat2, lon2), prec=4)
+        t = fstr((lat1, lon1, lat2, lon2), prec=4)
         raise LimitError('%s(%s, limit=%s) delta exceeds limit' %
-                        ('equirectangular_', t, fStr(limit, prec=2)))
+                        ('equirectangular_', t, fstr(limit, prec=2)))
 
     if adjust:  # scale delta lon
         d_lon *= _scaled(lat1, lat2)
@@ -375,6 +394,91 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
     '''
     return abs(wrap90(lat1) + wrap90(lat2)) < eps and \
            abs(abs(wrap180(lon1) - wrap180(lon2)) % 360 - 180) < eps
+
+
+def isantipode_(phi1, lam1, phi2, lam2, eps=EPS):
+    '''Check whether two points are antipodal, on diametrically
+       opposite sides of the earth.
+
+       @param phi1: Latitude of one point (C{radians}).
+       @param lam1: Longitude of one point (C{radians}).
+       @param phi2: Latitude of the other point (C{radians}).
+       @param lam2: Longitude of the other point (C{radians}).
+       @keyword eps: Tolerance for near-equality (C{radians}).
+
+       @return: C{True} if points are antipodal within the
+                B{C{eps}} tolerance, C{False} otherwise.
+
+       @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
+    '''
+    return abs(wrapPI_2(phi1) + wrapPI_2(phi2)) < eps and \
+           abs(abs(wrapPI(lam1) - wrapPI(lam2)) % PI2 - PI) < eps
+
+
+def latlon2n_xyz(lat, lon):
+    '''Convert lat-, longitude to C{n-vector} (normal to the
+       earth's surface) X, Y and Z components.
+
+       @param lat: Latitude (C{degrees}).
+       @param lon: Longitude (C{degrees}).
+
+       @return: A L{Vector3Tuple}C{(x, y, z)}.
+
+       @see: Function L{philam2n_xyz}.
+
+       @note: These are C{n-vector} x, y and z components,
+              I{NOT} (geocentric) ECEF x, y and z coordinates!
+    '''
+    return philam2n_xyz(radians(lat), radians(lon))
+
+
+def n_xyz2latlon(x, y, z):
+    '''Convert C{n-vector} components to lat- and longitude in C{degrees}.
+
+       @param x: X component (C{scalar}).
+       @param y: Y component (C{scalar}).
+       @param z: Z component (C{scalar}).
+
+       @return: A L{LatLon2Tuple}C{(lat, lon)} in C{degrees}.
+
+       @see: Function L{n_xyz2philam}.
+    '''
+    a, b = n_xyz2philam(x, y, z)  # PYCHOK PhiLam2Tuple
+    return LatLon2Tuple(degrees90(a), degrees180(b))
+
+
+def n_xyz2philam(x, y, z):
+    '''Convert C{n-vector} components to lat- and longitude in C{radians}.
+
+       @param x: X component (C{scalar}).
+       @param y: Y component (C{scalar}).
+       @param z: Z component (C{scalar}).
+
+       @return: A L{PhiLam2Tuple}C{(phi, lam)} in C{radian}.
+
+       @see: Function L{n_xyz2latlon}.
+    '''
+    return PhiLam2Tuple(atan2(z, hypot(x, y)), atan2(y, x))
+
+
+def philam2n_xyz(phi, lam):
+    '''Convert lat-, longitude to C{n-vector} (normal to the
+       earth's surface) X, Y and Z components.
+
+       @param phi: Latitude (C{radians}).
+       @param lam: Longitude (C{radians}).
+
+       @return: A L{Vector3Tuple}C{(x, y, z)}.
+
+       @see: Function L{latlon2n_xyz}.
+
+       @note: These are C{n-vector} x, y and z components,
+              I{NOT} (geocentric) ECEF x, y and z coordinates!
+    '''
+    # Kenneth Gade eqn 3, but using right-handed
+    # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
+    sa, ca, sb, cb = sincos2(phi, lam)
+    return Vector3Tuple(ca * cb, ca * sb, sa)
 
 
 def points2(points, closed=True, base=None, Error=ValueError):

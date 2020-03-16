@@ -4,16 +4,15 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.02.19'
+__version__ = '20.03.09'
 
 from base import coverage, TestsBase
-# from math import sqrt
-from random import random, gauss, shuffle
 
 from pygeodesy import Ellipsoids, fhorner, fpolynomial, fpowers, \
-                      Fsum, fsum, hypot3, hypot_, INF, isfinite, \
-                      isneg0, NAN, NEG0
+                      Fsum, fsum, fsum_, hypot3, hypot_
+
 from math import sqrt
+from random import random, gauss, shuffle
 
 
 class Tests(TestsBase):
@@ -96,18 +95,6 @@ class Tests(TestsBase):
         self.test('fpowers', p[0], 2**3)
         self.test('fpowers', p[3], 2**9)
 
-        self.test('isfinite(0)',      isfinite(0), 'True')
-        self.test('isfinite(1e300)',  isfinite(1e300), 'True')
-        self.test('isfinite(-1e300)', isfinite(-1e300), 'True')
-        self.test('isfinite(1e1234)', isfinite(1e1234), 'False')
-        self.test('isfinite(INF)',    isfinite(INF), 'False')
-        self.test('isfinite(NAN)',    isfinite(NAN), 'False')
-        self.test('isfinite(NEG0)',   isfinite(NEG0), 'True')
-
-        self.test('isneg0(NEG0)', isneg0(NEG0), True)
-        self.test('isneg0(0.0)',  isneg0(0.0), False)
-        self.test('isneg0(NAN)',  isneg0(NAN), False)
-
         for _, E in sorted(Ellipsoids.items()):
             Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384)
             self.test(E.name, Ah, E.A, fmt='%.8f')
@@ -148,7 +135,7 @@ class Tests(TestsBase):
             self.test('FSum0', a.fsum(), 0.0)
             self.test('Fsum#', len(a), 2049)
             self.test('Fsum#', len(a._ps), 1)
-            self.test('FSum.', a, 'pygeodesy.fmath.Fsum()')
+            self.test('FSum.', a, 'fmath.Fsum()')
 
         h = hypot_(1.0, 0.0050, 0.0000000000010)
         self.test('hypot_', h, '1.0000124999219', fmt='%.13f')
@@ -161,7 +148,7 @@ class Tests(TestsBase):
         self.test('hypot3', s, h, fmt='%.6f')
 
         h = hypot_(40000, 3000, 200, 10.0)
-        s = sqrt(40000**2 + 3000**2 + 200**2 + 100)
+        s = sqrt(fsum_(40000**2, 3000**2, 200**2, 100))
         self.test('hypot_', h, s, fmt='%.3f')
 
 

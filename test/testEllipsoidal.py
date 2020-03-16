@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.02.12'
+__version__ = '20.03.10'
 
 from base import coverage, geographiclib
 from testLatLon import Tests as _TestsLL
@@ -12,7 +12,7 @@ from testVectorial import Tests as _TestsV
 
 from pygeodesy import EPS, F_D, F_D__, F_DMS, bearingDMS, compassDMS, \
                       Datums, ellipsoidalVincenty as V, \
-                      fStr, m2SM, normDMS, VincentyError, wrap360
+                      fstr, m2SM, normDMS, VincentyError, wrap360
 
 
 class Tests(_TestsLL, _TestsV):
@@ -42,7 +42,7 @@ class Tests(_TestsLL, _TestsV):
             self.test('reframe',     p.reframe, None)
             c = p.toCartesian()
             self.test('toCartesian', c, '[3980581.21, -111.159, 4966824.522]')
-            t = fStr(c.toEcef()[:3], 3)
+            t = fstr(c.toEcef()[:3], 3)
             self.test('toEcef',      t,  '3980581.21, -111.159, 4966824.522')
             self.test('toEtm',       p.toEtm(), '30 N 916396 5720041')
             self.test('toLcc',       p.toLcc(), '5639901 4612638')
@@ -67,12 +67,12 @@ class Tests(_TestsLL, _TestsV):
             self.test('Nvector', n, '(0.5, 0.5, 0.7071)')
             v = n.toVector3d()
             self.test('toVector3D', v.toStr(4), '(0.5, 0.5, 0.7071)')
-            t = n.to3abh()
-            self.test('to3abh', fStr(t, 4), '0.7854, 0.7854, 0.0')
-            t = n.to3llh()
-            self.test('to3llh', fStr(t, 3), '45.0, 45.0, 0.0')
-            t = n.to4xyzh()
-            self.test('to4xyzh', fStr(t, 1), '0.5, 0.5, 0.7, 0.0')
+            t = n.to3abh()  # DEPRECATED
+            self.test('to3abh', fstr(t, 4), '0.7854, 0.7854, 0.0')
+            t = n.to3llh()  # DEPRECATED
+            self.test('to3llh', fstr(t, 3), '45.0, 45.0, 0.0')
+            t = n.to4xyzh()  # DEPRECATED
+            self.test('to4xyzh', fstr(t, 1), '0.5, 0.5, 0.7, 0.0')
             n.H = ''  # for test coverage
 
             c = n.toCartesian()  # [3194434, 3194434, 4487327]
@@ -151,9 +151,9 @@ class Tests(_TestsLL, _TestsV):
         self.test('s12',  d['s12'], 19959679.267353821546, fmt='%.12f', known=True)
 
         d3 = ll1.distanceTo3(module.LatLon(40.96, -5.50))
-        self.test('distanceTo3', fStr(d3, prec=12), '19959679.267353821546, 161.06766998616, 18.825195123247', known=True)
+        self.test('distanceTo3', fstr(d3, prec=12), '19959679.267353821546, 161.06766998616, 18.825195123247', known=True)
         ll2, d2 = ll1.destination2(19959679.26735382, 161.067669986160)
-        self.test('destination2', fStr((ll2.lat, ll2.lon, d2), prec=12), '40.96, -5.5, 18.825195123247')
+        self.test('destination2', fstr((ll2.lat, ll2.lon, d2), prec=12), '40.96, -5.5, 18.825195123247')
 
         # <https://GeographicLib.SourceForge.io/scripts/geod-calc.html>
         LL = module.LatLon
@@ -219,7 +219,7 @@ class Tests(_TestsLL, _TestsV):
         t = p.distanceTo(p)
         self.test('coincident', t, '0.0')
         t = p.distanceTo3(p)
-        self.test('coincident', fStr(t), '0.0, 0.0, 0.0')
+        self.test('coincident', fstr(t), '0.0, 0.0, 0.0')
 
         q = p.destination(54972.271, 306.86816)
         t = q.toStr(F_D, prec=4)
@@ -243,11 +243,11 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo', m, '969954.166', fmt='%.3f')
 
         t = p.distanceTo3(q)
-        t = fStr(t, prec=6)
+        t = fstr(t, prec=6)
         self.test('distanceTo3', t, '969954.166314, 9.141877, 11.29722')
 
         t = p.distanceTo2(q)
-        t = fStr(t, prec=5)
+        t = fstr(t, prec=5)
         self.test('distanceTo2', t, '972708.16174, 11.22502')
 
         b = p.initialBearingTo(q)
@@ -271,11 +271,11 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo', m, '404607.806', fmt='%.3f')
 
         t = p.distanceTo3(q)
-        t = fStr(t, prec=6)
+        t = fstr(t, prec=6)
         self.test('distanceTo3', t, '404607.805988, 156.11064, 157.8345')
 
         t = p.distanceTo2(q)
-        t = fStr(t, prec=6)
+        t = fstr(t, prec=6)
         self.test('distanceTo2', t, '402574.597287, 157.726344')
 
         b = p.initialBearingTo(q)
@@ -299,11 +299,11 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo', m, '54973.295', fmt='%.3f')
 
         t = p.distanceTo3(q)
-        t = fStr(t, prec=5)
+        t = fstr(t, prec=5)
         self.test('distanceTo3', t, '54973.29527, 233.13008, 232.82461')
 
         t = p.distanceTo2(q)
-        t = fStr(t, prec=5)
+        t = fstr(t, prec=5)
         self.test('distanceTo2', t, '54903.41209, 232.9209')
 
         b = p.initialBearingTo(q)

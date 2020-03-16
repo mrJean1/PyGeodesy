@@ -4,9 +4,10 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.02.22'
+__version__ = '20.03.10'
 
 from base import PyGeodesy_dir, TestsBase
+from pygeodesy import Datums, named
 
 from os import linesep
 
@@ -27,6 +28,7 @@ def _mod_line(m, py):
 class Tests(TestsBase):
 
     def testNamed(self, N, *args, **kwds):
+        self.subtitle(named, 'ing %s%s ' % (N.__name__, args))
         n = N(*args)
         k = kwds.pop('known', False)
         self.test(n.named, n.classname, N.__name__)
@@ -104,32 +106,32 @@ class Tests(TestsBase):
     def testNamed_xtend(self, named):
         # test extending a _NamedTuple class
         t = named.LatLon2Tuple(0, 1)
-        x = t._3Tuple(2)
-        r = named.LatLon3Tuple(0, 1, 2)
+        x = t.to3Tuple(2)
+        r = named.LatLon3Tuple(0, 1, 2.0)
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
         t = named.LatLon2Tuple(0, 1)
-        x = t._4Tuple(2, 3)
-        r = named.LatLon4Tuple(0, 1, 2, 3)
+        x = t.to4Tuple(2, Datums.WGS84)
+        r = named.LatLon4Tuple(0, 1, 2.0, Datums.WGS84)
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
         t = named.LatLon3Tuple(0, 1, 2)
-        x = t._4Tuple(3)
-        r = named.LatLon4Tuple(0, 1, 2, 3)
+        x = t.to4Tuple(Datums.WGS84)
+        r = named.LatLon4Tuple(0, 1, 2, Datums.WGS84)
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
         t = named.PhiLam2Tuple(0, 1)
-        x = t._3Tuple(2)
-        r = named.PhiLam3Tuple(0, 1, 2)
+        x = t.to3Tuple(2)
+        r = named.PhiLam3Tuple(0, 1, 2.0)
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
         t = named.Vector3Tuple(0, 1, 2)
-        x = t._4Tuple(3)
-        r = named.Vector4Tuple(0, 1, 2, 3)
+        x = t.to4Tuple(4)
+        r = named.Vector4Tuple(0, 1, 2, 4.0)
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
@@ -139,8 +141,8 @@ if __name__ == '__main__':
     from glob import glob
     import os.path as os_path
 
-    from pygeodesy import Datums, ecef, elliptic, frechet, hausdorff, \
-                          named, Transforms
+    from pygeodesy import ecef, elliptic, frechet, hausdorff, \
+                          Transforms
 
     t = Tests(__file__, __version__)
     t.testNamed(named._Named)

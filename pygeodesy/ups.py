@@ -18,13 +18,14 @@ each end).
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import EPS, property_RO
 from pygeodesy.datum import Datums, _TOL
 from pygeodesy.dms import clipDMS, degDMS, parseDMS2, _parseUTMUPS, RangeError
-from pygeodesy.fmath import EPS, hypot, hypot1
+from pygeodesy.fmath import hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
                             UtmUpsLatLon5Tuple, _xnamed
-from pygeodesy.utily import degrees90, degrees180, property_RO, sincos2d
+from pygeodesy.utily import degrees90, degrees180, sincos2d
 from pygeodesy.utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
                                  _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
                                  _UPS_ZONE_STR, UtmUpsBase
@@ -33,7 +34,7 @@ from math import atan, atan2, radians, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '20.02.22'
+__version__ = '20.03.09'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = 2000e3  #: (INTERNAL) False easting and northing (C{meter}).

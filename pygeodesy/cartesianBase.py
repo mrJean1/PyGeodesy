@@ -12,20 +12,21 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import EPS, _IsNotError, property_doc_, \
+                             property_RO, _TypeError
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.fmath import EPS, cbrt, fsum_, hypot2, _IsNotError
+from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import LatLon4Tuple, Vector4Tuple
-from pygeodesy.utily import property_RO, _TypeError
 from pygeodesy.vector3d import Vector3d, _xyzhdn6
 
-from math import hypot, sqrt
+from math import sqrt  # hypot
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.02.28'
+__version__ = '20.03.15'
 
 
 class CartesianBase(Vector3d):
@@ -63,8 +64,8 @@ class CartesianBase(Vector3d):
             Vector3d._update(self, updated, '_e9t', '_v4t', *attrs)
 
     def _applyHelmert(self, transform, inverse=False, **datum):
-        '''(INTERNAL) Return a new cartesian point by applying a
-           Helmert transform to this point.
+        '''(INTERNAL) Return a new cartesian by applying a Helmert
+           transform to this cartesian.
 
            @param transform: Transform to apply (L{Transform}).
            @keyword inverse: Optionally, apply the inverse
@@ -81,7 +82,7 @@ class CartesianBase(Vector3d):
         return self._xnamed(self.classof(xyz, **datum))
 
     def convertDatum(self, datum2, datum=None):
-        '''Convert this cartesian point from one to an other datum.
+        '''Convert this cartesian from one datum to an other.
 
            @param datum2: Datum to convert I{to} (L{Datum}).
            @keyword datum: Datum to convert I{from} (L{Datum}).
@@ -114,15 +115,15 @@ class CartesianBase(Vector3d):
 
         return c._applyHelmert(d.transform, i, datum=datum2)
 
-    @property
+    @property_doc_(" this cartesian's datum (L{Datum}).")
     def datum(self):
-        '''Get this point's datum (L{Datum}).
+        '''Get this cartesian's datum (L{Datum}).
         '''
         return self._datum
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Set this geocentric point's C{datum} I{without conversion}.
+        '''Set this cartesian's C{datum} I{without conversion}.
 
            @param datum: New datum (L{Datum}).
 
@@ -139,35 +140,74 @@ class CartesianBase(Vector3d):
         self._datum = datum
 
     @property_RO
+    def isEllipsoidal(self):
+        '''Check whether this cartesian is ellipsoidal (C{bool} or C{None} if unknown).
+        '''
+        return self.datum.isEllipsoidal if self._datum else None
+
+    @property_RO
+    def isSpherical(self):
+        '''Check whether this cartesian is spherical (C{bool} or C{None} if unknown).
+        '''
+        return self.datum.isSpherical if self._datum else None
+
+    @property_RO
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefKarney} or L{EcefVeness}).
         '''
         return self._Ecef
 
-    def toEcef(self):
-        '''Convert this cartesian to geodetic coordinates.
-
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} and C{M} if available.
-
-           @raise EcefError: A C{.datum} or an ECEF issue.
+    @property_RO
+    def latlon(self):
+        '''Get this cartesian's (geodetic) lat- and longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        if self._e9t is None:
-            r = self.Ecef(self.datum).reverse(self, M=True)
-            self._e9t = self._xnamed(r)
-        return self._e9t
+        return self.toEcef().latlon
+
+    @property_RO
+    def latlonheight(self):
+        '''Get this cartesian's (geodetic) lat-, longitude in C{degrees} with height (L{LatLon3Tuple}C{(lat, lon, height)}).
+        '''
+        return self.toEcef().latlonheight
+
+    @property_RO
+    def latlonheightdatum(self):
+        '''Get this cartesian's (geodetic) lat-, longitude in C{degrees} with height and datum (L{LatLon4Tuple}C{(lat, lon, height, datum)}).
+        '''
+        return self.toEcef().latlonheightdatum
+
+    @property_RO
+    def _N_vector(self):
+        '''(INTERNAL) Get the (C{nvectorBase._N_vector_}).
+        '''
+        from pygeodesy.nvectorBase import _N_vector_
+        r = self._v4t or self.toNvector()
+        return _N_vector_(r.x, r.y, r.z, h=r.h)
+
+    @property_RO
+    def philam(self):
+        '''Get this cartesian's (geodetic) lat- and longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
+        '''
+        return self.toEcef().philam
+
+    @property_RO
+    def philamheight(self):
+        '''Get this cartesian's (geodetic) lat-, longitude in C{radians} with height (L{PhiLam3Tuple}C{(phi, lam, height)}).
+        '''
+        return self.toEcef().philamheight
+
+    @property_RO
+    def philamheightdatum(self):
+        '''Get this cartesian's (geodetic) lat-, longitude in C{radians} with height and datum (L{PhiLam4Tuple}C{(phi, lam, height, datum)}).
+        '''
+        return self.toEcef().philamheightdatum
 
     def to3llh(self, datum=None):  # PYCHOK no cover
-        '''DEPRECATED, use method C{toLatLon}.
-
-           Convert this cartesian to geodetic lat-, longitude and
-           height.
-
-           @keyword datum: Optional datum to use (L{Datum}).
+        '''DEPRECATED, use property C{latlonheightdatum} or property C{latlonheight}.
 
            @return: A L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
-           @raise TypeError: Invalid B{C{datum}}.
+           @note: This method returns a B{C{-4Tuple}} I{and not a} C{-3Tuple}
+                  as its name suggests.
         '''
         t = self.toLatLon(datum=datum, LatLon=None)
         r = LatLon4Tuple(t.lat, t.lon, t.height, t.datum)
@@ -184,8 +224,21 @@ class CartesianBase(Vector3d):
 #           r = self._xnamed(r)
 #       return r
 
+    def toEcef(self):
+        '''Convert this cartesian to geodetic (lat-/longitude) coordinates.
+
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
+                    C, M, datum)} with C{C} and C{M} if available.
+
+           @raise EcefError: A C{.datum} or an ECEF issue.
+        '''
+        if self._e9t is None:
+            r = self.Ecef(self.datum).reverse(self, M=True)
+            self._e9t = self._xnamed(r)
+        return self._e9t
+
     def toLatLon(self, datum=None, LatLon=None, **kwds):
-        '''Convert this cartesian point to a geodetic point.
+        '''Convert this cartesian to a geodetic (lat-/longitude) point.
 
            @keyword datum: Optional datum (L{Datum}) or C{None}.
            @keyword LatLon: Optional (sub-)class to return the
@@ -199,16 +252,16 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{datum}} or B{C{kwds}}.
         '''
-        c = self
-        if datum is not None:
+        if datum in (None, self.datum):
+            r = self.toEcef()
+        else:
             _TypeError(Datum, datum=datum)
-            if datum != self.datum:
-                c = self.convertDatum(datum)
+            c = self.convertDatum(datum)
+            r = c.Ecef(c.datum).reverse(c, M=True)
 
-        r = c.Ecef(c.datum).reverse(c, M=True)
         if LatLon is not None:  # class or .classof
             r = LatLon(r.lat, r.lon, height=r.height,
-                                      datum=c.datum, **kwds)
+                                      datum=r.datum, **kwds)
         return self._xnamed(r)
 
     def toNvector(self, Nvector=None, datum=None, **kwds):  # PYCHOK Datums.WGS84
@@ -226,12 +279,21 @@ class CartesianBase(Vector3d):
                     y, z, h)} if B{C{Nvector}=None}.
 
            @raise ValueError: The B{C{Cartesian}} at origin.
+
+           @example:
+
+           >>> c = Cartesian(3980581, 97, 4966825)
+           >>> n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
         '''
         d = datum or self.datum
+        _TypeError(Datum, datum=d)
+
         r = self._v4t
-        if r is None or self.datum != d:
+        if r is None or d != self.datum:
+            # <https://www.Movable-Type.co.UK/scripts/geodesy/docs/
+            #        latlon-nvector-ellipsoidal.js.html#line309>
             E = d.ellipsoid
-            x, y, z = self.to3xyz()
+            x, y, z = self.xyz
 
             # Kenneth Gade eqn 23
             p = hypot2(x, y) * E.a2_
@@ -248,13 +310,15 @@ class CartesianBase(Vector3d):
             if abs(k) < EPS:
                 raise ValueError('%s: %r' % ('origin', self))
             e = k / (k + E.e2)
+#           d = e * hypot(x, y)
 
-            t = hypot(e * hypot(x, y), z)
+#           tmp = 1 / hypot(d, z) == 1 / hypot(e * hypot(x, y), z)
+            t = hypot_(e * x, e * y, z)  # == 1 / tmp == hypot(e * hypot(x, y), z)
             if t < EPS:
                 raise ValueError('%s: %r' % ('origin', self))
             h = fsum_(k, E.e2, -1) / k * t
 
-            s = e / t
+            s = e / t  # == e * tmp
             r = Vector4Tuple(x * s, y * s, z / t, h)
             self._v4t = r if d == self.datum else None
 
@@ -272,6 +336,27 @@ class CartesianBase(Vector3d):
            @return: Cartesian represented as "[x, y, z]" (string).
         '''
         return Vector3d.toStr(self, prec=prec, fmt=fmt, sep=sep)
+
+    def toVector(self, Vector=None, **kwds):
+        '''Return this cartesian's components as vector.
+
+           @keyword Vector: Optional (sub-)class to return the
+                            C{n-vector} components (L{Vector3d})
+                            or C{None}.
+           @keyword kwds: Optional, additional B{C{Vector}} keyword
+                          arguments, ignored if C{B{Vector}=None}.
+
+           @return: A B{C{Vector}} or an L{Vector3Tuple}C{(x, y, z)}
+                    if C{B{Vector}=None}.
+
+           @raise TypeError: Invalid B{C{Vector}} or B{C{kwds}}.
+        '''
+        return self.xyz if Vector is None else \
+               self._xnamed(Vector(self.x, self.y, self.z, **kwds))
+
+#   xyz = Vector3d.xyz
+#   '''Get this cartesian's X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).
+#   '''
 
 # **) MIT License
 #

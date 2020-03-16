@@ -22,16 +22,18 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import property_RO, _TypeError, _xkwds
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
-from pygeodesy.fmath import fdot, fStr, hypot_
-from pygeodesy.lazily import _ALL_LAZY, _2kwds
+from pygeodesy.fmath import fdot, hypot_
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon3Tuple, _Named, Ned3Tuple, _xnamed
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
-from pygeodesy.utily import degrees90, degrees360, property_RO, _TypeError
+from pygeodesy.streprs import fstr, strs
+from pygeodesy.utily import degrees90, degrees360
 
 from math import asin, atan2, cos, radians, sin
 
@@ -39,7 +41,7 @@ from math import asin, atan2, cos, radians, sin
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.02.28'
+__version__ = '20.03.15'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -61,9 +63,10 @@ class Cartesian(CartesianEllipsoidalBase):
                     lat, lon, height, C, M, datum)} with C{C} and
                     C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}}
+                             or other B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(kwds, LatLon=LatLon, datum=self.datum)
         return CartesianEllipsoidalBase.toLatLon(self, **kwds)
 
     def toNvector(self, **kwds):  # PYCHOK Datums.WGS84
@@ -78,7 +81,8 @@ class Cartesian(CartesianEllipsoidalBase):
            @return: The B{C{Nvector}} components (L{Nvector}) or a
                     L{Vector4Tuple}C{(x, y, z, h)} if C{B{Nvector}=None}.
 
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Nvector}}, B{C{datum}}
+                             or other B{C{kwds}}.
 
            @example:
 
@@ -86,7 +90,7 @@ class Cartesian(CartesianEllipsoidalBase):
            >>> c = Cartesian(3980581, 97, 4966825)
            >>> n = c.toNvector()  # (0.62282, 0.000002, 0.78237, +0.24)
         '''
-        kwds = _2kwds(kwds, Nvector=Nvector, datum=self.datum)
+        kwds = _xkwds(kwds, Nvector=Nvector, datum=self.datum)
         return CartesianEllipsoidalBase.toNvector(self, **kwds)
 
 
@@ -117,15 +121,12 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             self._r3 = n, e, d  # matrix rows
         return self._r3
 
-    def _update(self, updated, *attrs):
+    def _update(self, updated, *attrs):  # PYCHOK args
         '''(INTERNAL) Zap cached attributes if updated.
         '''
         if updated:
-            if self._Nv:
-                self._Nv._fromll = None
-                self._Nv = None
-            LatLonNvectorBase._update(self, updated, '_r3', *attrs)
-            LatLonEllipsoidalBase._update(self, updated, *attrs)
+            LatLonNvectorBase._update(self, updated, _Nv=self._Nv)  # special case
+            LatLonEllipsoidalBase._update(self, updated, '_r3', *attrs)
 
 #     def crossTrackDistanceTo(self, start, end, radius=R_M):
 #         '''Return the (signed) distance from this point to the great
@@ -240,8 +241,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''Calculate the destination point using the supplied NED delta
            from this point.
 
-           @param delta: Delta from this to the other point in the
-                         local tangent plane (LTP) of this point (L{Ned}).
+           @param delta: Delta from this to the other point in the local
+                         tangent plane (LTP) of this point (L{Ned}).
 
            @return: Destination point (L{Cartesian}).
 
@@ -258,8 +259,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         _TypeError(Ned, delta=delta)
 
         n, e, d = self._rotation3()
-        # convert NED delta to standard Vector3d in coordinate frame of n-vector
-        dn = delta.toVector3d().to3xyz()
+        # convert NED delta to standard coordinate frame of n-vector
+        dn = delta.ned
         # rotate dn to get delta in cartesian (ECEF) coordinate
         # reference frame using the rotation matrix column vectors
         dc = Cartesian(fdot(dn, n.x, e.x, d.x),
@@ -290,8 +291,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         self.others(other)
 
-        v1 = self.toVector3d()
-        v2 = other.toVector3d()
+        v1 = self._N_vector
+        v2 = other._N_vector
         r = self.datum.ellipsoid.R1 if radius is None else radius
         return v1.angleTo(v2) * float(r)
 
@@ -339,16 +340,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            >>> g = p.greatCircle(96.0)
 #            >>> g.toStr()  # '(-0.794, 0.129, 0.594)'
 #         '''
-#         b, a = self.to2ab()
-#         c = radians(bearing)
+#         a, b, _ = self.philamheight
+#         t = radians(bearing)
 #
-#         ca, sa = cos(a), sin(a)
-#         cb, sb = cos(b), sin(b)
-#         cc, sc = cos(c), sin(c)
-#
-#         return self._xnamed(Nvector(sa * cc - ca * sb * sc,
-#                                    -ca * cc - sa * sb * sc,
-#                                     cb * sc)
+#         sa, ca, sb, cb, st, ct = sincos2(a, b, t)
+#         return self._xnamed(Nvector(sb * ct - sa * cb * st,
+#                                    -cb * ct - sa * sb * st,
+#                                     ca * st)
 
 #     def initialBearingTo(self, other):
 #         '''Return the initial bearing (forward azimuth) from this
@@ -427,7 +425,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        kwds = _xkwds(kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
     def toNvector(self, **kwds):  # PYCHOK signature
@@ -450,25 +448,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            >>> n = p.toNvector()
            >>> n.toStr()  # [0.50, 0.50, 0.70710]
         '''
-        kwds = _2kwds(kwds, Nvector=Nvector, datum=self.datum)
+        kwds = _xkwds(kwds, Nvector=Nvector, datum=self.datum)
         return LatLonNvectorBase.toNvector(self, **kwds)
-
-#     def toVector3d(self):
-#         '''Convert this point to a L{Vector3d} normal to the
-#            earth's surface.
-#
-#            @return: Vector representing this point (L{Vector3d}).
-#
-#            @example:
-#
-#            >>> p = LatLon(45, 45)
-#            >>> v = p.toVector3d()
-#            >>> v.toStr()  # '(0.50, 0.50, 0.707)'
-#         '''
-#         if self._v3d is None:
-#             x, y, z, _ = self.toNvector()
-#             self._v3d = Vector3d(x, y, z)
-#         return self._v3d
 
 
 class Ned(_Named):
@@ -497,9 +478,9 @@ class Ned(_Named):
            >>> delta = Ned(110569, 111297, 1936)
            >>> delta.toStr(prec=0)  #  [N:110569, E:111297, D:1936]
         '''
-        self._north = north or 0
-        self._east  = east or 0
-        self._down  = down or 0
+        self._north = float(north or 0)
+        self._east  = float(east or 0)
+        self._down  = float(down or 0)
         if name:
             self.name = name
 
@@ -544,18 +525,24 @@ class Ned(_Named):
         return self._length
 
     @property_RO
+    def ned(self):
+        '''Get this NED vector as north/east/down components (L{Ned3Tuple}C{(north, east, down)}).
+        '''
+        r = Ned3Tuple(self.north, self.east, self.down)
+        return self._xnamed(r)
+
+    @property_RO
     def north(self):
         '''Gets the North component of this NED vector (C{meter}).
         '''
         return self._north
 
-    def to3ned(self):
-        '''Return this NED vector as north/east/down components.
+    def to3ned(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{ned}.
 
            @return: An L{Ned3Tuple}C{(north, east, down)}.
         '''
-        r = Ned3Tuple(self.north, self.east, self.down)
-        return self._xnamed(r)
+        return self.ned
 
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this NED vector.
@@ -566,7 +553,7 @@ class Ned(_Named):
 
            @return: This Ned as "[N:f, E:f, D:f]" (C{str}).
         '''
-        t3 = fStr(self.to3ned(), prec=prec, sep=' ').split()
+        t3 = strs(self.ned, prec=prec)
         return fmt % (sep.join('%s:%s' % t for t in zip('NED', t3)),)
 
     def toStr2(self, prec=None, fmt='[%s]', sep=', '):  # PYCHOK expected
@@ -580,8 +567,8 @@ class Ned(_Named):
            @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
         '''
         from pygeodesy.dms import F_D, toDMS
-        t3 = (fStr(self.length, prec=3 if prec is None else prec),
-              toDMS(self.bearing, form=F_D, prec=prec, ddd=0),
+        t3 = (fstr(self.length, prec=3 if prec is None else prec),
+              toDMS(self.bearing,   form=F_D, prec=prec, ddd=0),
               toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
         return fmt % (sep.join('%s:%s' % t for t in zip('LBE', t3)),)
 
@@ -591,7 +578,7 @@ class Ned(_Named):
            @return: The vector(north, east, down) (L{Vector3d}).
         '''
         from pygeodesy.vector3d import Vector3d
-        return Vector3d(*self.to3ned(), name=self.name)
+        return Vector3d(*self.ned, name=self.name)
 
 
 _Nvll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
@@ -665,7 +652,7 @@ class Nvector(NvectorBase):
            >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
            >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
-        kwds = _2kwds(kwds, h=self.h, Cartesian=Cartesian, datum=self.datum)
+        kwds = _xkwds(kwds, h=self.h, Cartesian=Cartesian, datum=self.datum)
         return NvectorBase.toCartesian(self, **kwds)  # class or .classof
 
     def toLatLon(self, **kwds):  # PYCHOK height=None, LatLon=LatLon
@@ -687,7 +674,7 @@ class Nvector(NvectorBase):
            >>> v = Nvector(0.5, 0.5, 0.7071)
            >>> p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
-        kwds = _2kwds(kwds, height=self.h, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(kwds, height=self.h, LatLon=LatLon, datum=self.datum)
         return NvectorBase.toLatLon(self, **kwds)  # class or .classof
 
     def unit(self, ll=None):
@@ -723,13 +710,13 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
     '''
     _, points = _Nvll.points2(points, closed=False)
     # geographic mean
-    m = sumOf(p.toNvector() for p in points)
-    a, b, h = m.to3llh()
+    m = sumOf(p._N_vector for p in points)
+    lat, lon, h = m._N_vector.latlonheight
 
     if height is not None:
         h = height
-    r = LatLon3Tuple(a, b, h) if LatLon is None else \
-              LatLon(a, b, height=h, datum=datum)
+    r = LatLon3Tuple(lat, lon, h) if LatLon is None else \
+              LatLon(lat, lon, height=h, datum=datum)
     return _xnamed(r, meanOf.__name__)
 
 

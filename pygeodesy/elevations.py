@@ -17,13 +17,13 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.fmath import fStr
+from pygeodesy.basics import clips
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Elevation2Tuple, GeoidHeight2Tuple
-from pygeodesy.utily import clipStr
+from pygeodesy.streprs import fstr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '20.02.07'
+__version__ = '20.03.10'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -74,7 +74,7 @@ except ImportError:
 def _error(fun, lat, lon, e):
     '''(INTERNAL) Format an error
     '''
-    return '%s(%s): %s' % (fun.__name__, fStr((lat, lon)), e)
+    return '%s(%s): %s' % (fun.__name__, fstr((lat, lon)), e)
 
 
 def _qURL(url, params, timeout=2):
@@ -147,8 +147,8 @@ def elevation2(lat, lon, timeout=2.0):
     '''
     try:
         x = _qURL('https://NED.USGS.gov/epqs/pqs.php',  # https://NationalMap.gov/epqs/pqs.php
-                        ('x=%.6f' % (lon,),
-                         'y=%.6f' % (lat,),
+                        ('x=%.6F' % (lon,),
+                         'y=%.6F' % (lat,),
                          'units=Meters',  # Feet
                          'output=xml'),
                           timeout=float(timeout))
@@ -158,11 +158,11 @@ def elevation2(lat, lon, timeout=2.0):
                 e = float(e)
                 if -1000000 < e < 1000000:
                     return Elevation2Tuple(e, _xml('Data_Source', x))
-                e = 'non-CONUS %.2f' % (e,)
+                e = 'non-CONUS %.2F' % (e,)
             except ValueError:
                 pass
         else:
-            e = 'no XML "%s"' % (clipStr(x, limit=128, white=' '),)
+            e = 'no XML "%s"' % (clips(x, limit=128, white=' '),)
     except (HTTPError, IOError, TypeError, ValueError) as x:
         e = repr(x)
     return Elevation2Tuple(None, _error(elevation2, lat, lon, e))
@@ -194,8 +194,8 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
     '''
     try:
         j = _qURL('https://Geodesy.NOAA.gov/api/geoid/ght',
-                        ('lat=%.6f' % (lat,),
-                         'lon=%.6f' % (lon,),
+                        ('lat=%.6F' % (lat,),
+                         'lon=%.6F' % (lon,),
                          'model=%s' % (model,) if model else ''),
                           timeout=float(timeout))  # PYCHOK 5
         if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
@@ -208,7 +208,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
             e = 'geoidHeight'
         else:
             e = 'JSON'
-        e = 'no %s "%s"' % (e, clipStr(j, limit=256, white=' '))
+        e = 'no %s "%s"' % (e, clips(j, limit=256, white=' '))
     except (HTTPError, IOError, TypeError, ValueError) as x:
         e = repr(x)
     e = _error(geoidHeight2, lat, lon, e)

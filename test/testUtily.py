@@ -4,18 +4,18 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.10.29'
+__version__ = '20.03.09'
 
 from base import TestsBase, geographiclib
 
-from pygeodesy import EPS, PI, PI2, PI_2, anStr, clipStr, \
+from pygeodesy import EPS, PI, PI2, PI_2, \
                       degrees90, degrees180, degrees360, degrees2m, \
-                      fStr, ft2m, isPoints2, \
-                      limiterrors, map1, m2degrees, m2ft, \
+                      ft2m, isPoints2, m2degrees, m2ft, \
                       radiansPI, radiansPI2, radiansPI_2, \
-                      sincos2, sincos2d, splice, unroll180, \
+                      sincos2, sincos2d, unroll180, \
                       wrap90, wrap180, wrap360, \
-                      wrapPI, wrapPI2, wrapPI_2
+                      wrapPI, wrapPI2, wrapPI_2, \
+                      fStr  # DEPRECATED, use fstr
 
 from math import cos, radians, sin
 
@@ -152,15 +152,6 @@ class Tests(TestsBase):
             self.test('sincosd ', g, EPS, known=g < EPS_)
             self.test('sincos*d', f, EPS, known=f < EPS_)
 
-        a, b = splice(range(10))  # PYCHOK false
-        self.test('splice', (a, b), map1(type(a), (0, 2, 4, 6, 8), (1, 3, 5, 7, 9)))
-        a, b, c = splice(range(10), n=3)  # PYCHOK false
-        self.test('splice', (a, b, c), map1(type(a), (0, 3, 6, 9), (1, 4, 7), (2, 5, 8)))
-        a, b, c = splice(range(10), n=3, fill=-1)  # PYCHOK false
-        self.test('splice', (a, b, c), map1(type(a), (0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1)))
-        t = tuple(splice(range(12), n=5))  # PYCHOK false
-        self.test('splice', t, map1(type(t[0]), (0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9)))
-
         # <https://www.CivilGeo.com/when-a-foot-isnt-really-a-foot/>
         self.test('iFt2m', ft2m( 614963.91), 187441, fmt='%.0f')
         self.test('iFt2m', ft2m(2483759.84), 757050, fmt='%.0f')
@@ -180,12 +171,7 @@ class Tests(TestsBase):
         self.test('degrees2m', fStr(degrees2m(180, lat=3-0), prec=4), '19987684.3336')
         self.test('m2degrees', fStr(m2degrees(degrees2m(180)), prec=1),    '180.0')
 
-        self.test('anStr', anStr('a-b?_'), 'a-b__')
-        self.test('clipStr', clipStr('test/testUtily.py', limit=12), 'test/t....ily.py')
-
         self.test('isPoints2', isPoints2(None), False)
-
-        self.test('limiterrors', limiterrors(False), True)
 
 
 if __name__ == '__main__':

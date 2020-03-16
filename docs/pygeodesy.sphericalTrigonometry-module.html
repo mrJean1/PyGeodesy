@@ -84,7 +84,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.02.22
+        20.03.15
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -250,10 +250,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#nearestOn2" class="summary-sig-name">nearestOn2</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalTrigonometry.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
+        <span class="summary-sig-arg">**closed_radius_LatLon_options</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.sphericalTrigonometry-module.html#nearestOn3" 
       class="link">sphericalTrigonometry.nearestOn3</a>.</td>
@@ -577,10 +574,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn2</span>(<span class="sig-arg">point</span>,
         <span class="sig-arg">points</span>,
-        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalTrigonometry.LatLon'&gt;</span>,
-        <span class="sig-arg">**options</span>)</span>
+        <span class="sig-arg">**closed_radius_LatLon_options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -592,8 +586,15 @@
   class="link">sphericalTrigonometry.nearestOn3</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>... <code>closest</code> as <b><code>LatLon</code></b> or a 
-          2-tuple <code>(lat, lon)</code> without the height if 
+        <dd>... 2-tuple <code>(closest, distance)</code> of the 
+          <code>closest</code> point (<a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a>) on the polygon and the 
+          <code>distance</code> between the <code>closest</code> and the 
+          given <b><code>point</code></b>.  The <code>closest</code> is a 
+          <b><code>LatLon</code></b> or a <a 
+          href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> if 
           <b><code>LatLon</code></b> is <code>None</code> ...</dd>
   </dl>
 </td></tr></table>
@@ -644,20 +645,26 @@
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.NearestOn3Tuple-class.html" 
           class="link">NearestOn3Tuple</a><code>(closest, distance, 
-          angle)</code>.  The <code>distance</code> is the <a 
+          angle)</code> with the <code>closest</code> point as <b><a 
+          href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
+          class="link">LatLon</a></b> or <a 
+          href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
+          <b><code>LatLon</code></b> is <code>None</code>.  The 
+          <code>distance</code> is the <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a> distance between the 
-          <code>closest</code> and reference <b><code>point</code></b> in 
+          <code>closest</code> and the given <b><code>point</code></b> in 
           <code>meter</code>, same units as <b><code>radius</code></b>.  
-          The <code>angle</code> from the reference 
-          <b><code>point</code></b> to the <code>closest</code> is in 
-          compass <code>degrees360</code>, like function <a 
+          The <code>angle</code> from the given <b><code>point</code></b> 
+          to the <code>closest</code> is in compass 
+          <code>degrees360</code>, like function <a 
           href="pygeodesy.formy-module.html#compassAngle" 
           class="link">compassAngle</a>.  The <code>height</code> is the 
           (interpolated) height at the <code>closest</code> point.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
@@ -760,7 +767,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:09 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:49 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

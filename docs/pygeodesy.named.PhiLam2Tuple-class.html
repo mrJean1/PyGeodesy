@@ -94,6 +94,49 @@ object --+   |
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named.PhiLam2Tuple-class.html#to3Tuple" class="summary-sig-name">to3Tuple</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">height</span>)</span><br />
+      Extend this <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+      class="link">PhiLam2Tuple</a> to a <a 
+      href="pygeodesy.named.PhiLam3Tuple-class.html" 
+      class="link">PhiLam3Tuple</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named.PhiLam2Tuple-class.html#to4Tuple" class="summary-sig-name">to4Tuple</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">height</span>,
+        <span class="summary-sig-arg">datum</span>)</span><br />
+      Extend this <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+      class="link">PhiLam2Tuple</a> to a <a 
+      href="pygeodesy.named.PhiLam4Tuple-class.html" 
+      class="link">PhiLam4Tuple</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code>_NamedTuple</code></b>:
@@ -104,7 +147,9 @@ object --+   |
       <code>__setattr__</code>,
       <code>__str__</code>,
       <code>items</code>,
-      <code>iteritems</code>
+      <code>iteritems</code>,
+      <code>toStr</code>,
+      <code>toStr2</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>tuple</code></b>:
       <code>__add__</code>,
@@ -127,10 +172,10 @@ object --+   |
       <code>index</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">_Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#toStr">toStr</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__format__</code>,
@@ -198,6 +243,88 @@ object --+   |
     </td>
   </tr>
 </table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="to3Tuple"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3Tuple</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">height</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Extend this <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+  class="link">PhiLam2Tuple</a> to a <a 
+  href="pygeodesy.named.PhiLam3Tuple-class.html" 
+  class="link">PhiLam3Tuple</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>height</code></strong> - The height to add (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.PhiLam3Tuple-class.html" 
+          class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>height</code></b> not scalar.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="to4Tuple"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to4Tuple</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">height</span>,
+        <span class="sig-arg">datum</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Extend this <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+  class="link">PhiLam2Tuple</a> to a <a 
+  href="pygeodesy.named.PhiLam4Tuple-class.html" 
+  class="link">PhiLam4Tuple</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>height</code></strong> - The height to add (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - The datum to add (<code>Datum</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.PhiLam4Tuple-class.html" 
+          class="link">PhiLam4Tuple</a><code>(phi, lam, height, 
+          datum)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>height</code></b> not scalar or 
+        <b><code>datum</code></b> not a <code>Datum</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -229,7 +356,7 @@ object --+   |
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:12 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:52 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

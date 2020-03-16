@@ -8,18 +8,20 @@ L{CSSError} requiring I{Charles Karney's} U{geographiclib
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import _IsNotError, issubclassof, property_RO, \
+                             _TypeError
 from pygeodesy.datum import Datums
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.fmath import fStr, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, EasNor3Tuple, EasNorAziRk4Tuple, \
                             LatLon2Tuple, LatLon4Tuple, LatLonAziRk4Tuple, \
                             _NamedBase, nameof, _xnamed
-from pygeodesy.utily import false2f, issubclassof, property_RO, _TypeError
+from pygeodesy.streprs import fstr, strs
+from pygeodesy.utily import false2f
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css
-__version__ = '20.02.232'
+__version__ = '20.03.09'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -238,7 +240,7 @@ class CassiniSoldner(_NamedBase):
 
            @return: This projection as C{"lat0 lon0"} (C{str}).
         '''
-        return fStr(self.latlon0, prec=prec, sep=sep)
+        return sep.join(strs(self.latlon0, prec=prec))
 
     def toStr2(self, prec=6):  # PYCHOK expected
         '''Return a string representation of this projection.
@@ -399,9 +401,9 @@ class Css(_NamedBase):
                     C{meter} plus C{" height"} and C{'m'} if heigth
                     is non-zero (C{str}).
         '''
-        t = [fStr(self.easting,  prec=prec),
-             fStr(self.northing, prec=prec)]
-        if self.height:
+        t = [fstr(self.easting,  prec=prec),
+             fstr(self.northing, prec=prec)]
+        if self.height:  # abs(self.height) > EPS
             t += ['%+.2f%s' % (self.height, m)]
         return sep.join(t)
 

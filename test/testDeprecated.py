@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.07.05'
+__version__ = '20.03.10'
 
 from base import TestsBase
 
@@ -12,8 +12,8 @@ from pygeodesy import R_MA, map2, \
                       HeightIDW, HeightIDW2, HeightIDW3, \
                       HeightIDWequirectangular, HeightIDWeuclidean, \
                       HeightIDWhaversine, \
-                      areaof, bounds, decodeEPSG2, encodeEPSG, \
-                      equirectangular3, hypot3, isenclosedby, \
+                      anStr, areaof, bounds, clipStr, decodeEPSG2, encodeEPSG, \
+                      equirectangular3, fStr, hypot3, isenclosedby, \
                       nearestOn3, nearestOn4, \
                       parseUTM, perimeterof, polygon,\
                       simplify2, toUtm, utmZoneBand2
@@ -40,12 +40,22 @@ class Tests(TestsBase):
         b = map2(float, bounds(p))
         self.test('bounds', b, '(-85.0, -180.0, 85.0, 90.0)')
 
+        self.test('anStr', anStr('a-b?_'), 'a-b__')
+
+        self.test('clipStr', clipStr('test/testBasics.py', limit=12), 'test/t....ics.py')
+
         self.test('decodeEPSG2', decodeEPSG2(32712), "(12, 'S')")
         self.test('encodeEPSG', encodeEPSG(12, hemipole='S'), '32712')
 
         t = equirectangular3(0, 2, 3, 4)
         self.test('equirectangular3', len(t), 3)
         self.test('equirectangular3', t[0], 12.997, fmt='%.3f')
+
+        self.test('fStr', fStr(0.123, prec=-6), '0.123000')
+        self.test('fStr', fStr(0.123, prec=+6), '0.123')
+        self.test('fStr', fStr((0.123, 456.789), prec=+6), '0.123, 456.789')
+        self.test('fStr', fStr(0.123, prec=-5, fmt='%.*e'), '1.23000e-01')
+        self.test('fStr', fStr(0.123, prec=+5, fmt='%.*e'), '1.23e-01')
 
         h = hypot3(3000, 200, 10)
         s = sqrt(3000**2 + 200**2 + 10**2)

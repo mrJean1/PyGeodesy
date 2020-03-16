@@ -95,7 +95,7 @@
         href="pygeodesy.epsg.Epsg-class.html" class="link">Epsg</a> issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefError-class.html">pygeodesy.ecef.EcefError</a></strong>:
-      <em class="summary">An ECEF issue.</em>
+      <em class="summary">An ECEF or related issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic.EllipticError-class.html">pygeodesy.elliptic.EllipticError</a></strong>:
       <em class="summary">Elliptic integral, function, convergence or other <a 
@@ -141,7 +141,7 @@
       <em class="summary">Lambert Conformal Conic <code>LCC</code> or other <a 
         href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> issue.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utily.LimitError-class.html">pygeodesy.utily.LimitError</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.basics.LimitError-class.html">pygeodesy.basics.LimitError</a></strong>:
       <em class="summary">Error raised for lat- or longitudinal deltas exceeding the 
         <b><code>limit</code></b> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
@@ -200,8 +200,8 @@
         (UTM/UPS) parse, validate or other issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector3d.VectorError-class.html">pygeodesy.vector3d.VectorError</a></strong>:
-      <em class="summary"><a href="pygeodesy.vector3d.Vector3d-class.html" 
-        class="link">Vector3d</a> or <code>*Nvector</code> issue.</em>
+      <em class="summary">Issue with class <a href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a> or <code>*Nvector</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">pygeodesy.ellipsoidalVincenty.VincentyError</a></strong>:
       <em class="summary">Error raised from Vincenty's direct and inverse methods for 
@@ -337,28 +337,6 @@
     </ul>
     </li>
     </ul>
-    </li>
-    </ul>
-    </li>
-    </ul>
-    </li>
-    <li> <strong class="uidlink">pygeodesy.points._Basequence</strong>:
-      <em class="summary">(INTERNAL) Base class.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.points.LatLon2psxy-class.html">pygeodesy.points.LatLon2psxy</a></strong>:
-      <em class="summary">Wrapper for <code>LatLon</code> points as &quot;on-the-fly&quot; 
-        pseudo-xy coordinates.</em>
-    </li>
-    <li> <strong class="uidlink">pygeodesy.points._Array2LatLon</strong>:
-      <em class="summary">Base class for Numpy2LatLon or Tuple2LatLon.</em>
-    <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.points.Numpy2LatLon-class.html">pygeodesy.points.Numpy2LatLon</a></strong>:
-      <em class="summary">Wrapper for <code>NumPy</code> arrays as &quot;on-the-fly&quot; 
-        <code>LatLon</code> points.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.points.Tuple2LatLon-class.html">pygeodesy.points.Tuple2LatLon</a></strong>:
-      <em class="summary">Wrapper for tuple sequences as &quot;on-the-fly&quot; 
-        <code>LatLon</code> points.</em>
     </li>
     </ul>
     </li>
@@ -1054,13 +1032,12 @@
         the name of the distance <code>units</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon2Tuple-class.html">pygeodesy.named.LatLon2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees[90]</code> and 
-        <code>degrees[180]</code>.</em>
+      <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
+        <code>degrees180</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon3Tuple-class.html">pygeodesy.named.LatLon3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(lat, lon, height)</code> in 
-        <code>degrees[90]</code>, <code>degrees[180]</code> and 
-        <code>meter</code>.</em>
+      <em class="summary">3-Tuple <code>(lat, lon, height)</code> in <code>degrees90</code>, 
+        <code>degrees180</code> and <code>meter</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon4Tuple-class.html">pygeodesy.named.LatLon4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(lat, lon, height, datum)</code> in 
@@ -1075,13 +1052,13 @@
         azimuthal northing scale.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonDatum3Tuple-class.html">pygeodesy.named.LatLonDatum3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(lat, lon, datum)</code> in <code>degrees[90]</code>,
-        <code>degrees[180]</code> and <a 
+      <em class="summary">3-Tuple <code>(lat, lon, datum)</code> in <code>degrees90</code>, 
+        <code>degrees180</code> and <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonDatum5Tuple-class.html">pygeodesy.named.LatLonDatum5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
-        <code>degrees[90]</code>, <code>degrees[180]</code>, <a 
+        <code>degrees90</code>, <code>degrees180</code>, <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>, 
         <code>degrees</code> and <code>float</code>.</em>
     </li>
@@ -1142,6 +1119,13 @@
         <code>phi</code> in <code>radians[PI_2]</code>, longitude 
         <code>lam</code> in <code>radians[PI]</code> and 
         <code>height</code> in <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.PhiLam4Tuple-class.html">pygeodesy.named.PhiLam4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(phi, lam, height, datum)</code> with latitude 
+        <code>phi</code> in <code>radians[PI_2]</code>, longitude 
+        <code>lam</code> in <code>radians[PI]</code>, <code>height</code> 
+        in <code>meter</code> and <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.Point3Tuple-class.html">pygeodesy.named.Point3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(x, y, ll)</code> in <code>meter</code>, 
@@ -1277,6 +1261,14 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         class, a <code>_NamedInt</code>.</em>
     </li>
     </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">property</strong>:
+      <em class="summary">property(fget=None, fset=None, fdel=None, doc=None) -&gt; property attribute</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.basics.property_RO-class.html">pygeodesy.basics.property_RO</a></strong>:
+      <em class="summary">An immutable property (<code>Read Only</code>).</em>
     </li>
     </ul>
     </li>
@@ -1424,13 +1416,12 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         the name of the distance <code>units</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon2Tuple-class.html">pygeodesy.named.LatLon2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees[90]</code> and 
-        <code>degrees[180]</code>.</em>
+      <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
+        <code>degrees180</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon3Tuple-class.html">pygeodesy.named.LatLon3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(lat, lon, height)</code> in 
-        <code>degrees[90]</code>, <code>degrees[180]</code> and 
-        <code>meter</code>.</em>
+      <em class="summary">3-Tuple <code>(lat, lon, height)</code> in <code>degrees90</code>, 
+        <code>degrees180</code> and <code>meter</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.LatLon4Tuple-class.html">pygeodesy.named.LatLon4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(lat, lon, height, datum)</code> in 
@@ -1445,13 +1436,13 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         azimuthal northing scale.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonDatum3Tuple-class.html">pygeodesy.named.LatLonDatum3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(lat, lon, datum)</code> in <code>degrees[90]</code>,
-        <code>degrees[180]</code> and <a 
+      <em class="summary">3-Tuple <code>(lat, lon, datum)</code> in <code>degrees90</code>, 
+        <code>degrees180</code> and <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.LatLonDatum5Tuple-class.html">pygeodesy.named.LatLonDatum5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
-        <code>degrees[90]</code>, <code>degrees[180]</code>, <a 
+        <code>degrees90</code>, <code>degrees180</code>, <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>, 
         <code>degrees</code> and <code>float</code>.</em>
     </li>
@@ -1512,6 +1503,13 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>phi</code> in <code>radians[PI_2]</code>, longitude 
         <code>lam</code> in <code>radians[PI]</code> and 
         <code>height</code> in <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.named.PhiLam4Tuple-class.html">pygeodesy.named.PhiLam4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(phi, lam, height, datum)</code> with latitude 
+        <code>phi</code> in <code>radians[PI_2]</code>, longitude 
+        <code>lam</code> in <code>radians[PI]</code>, <code>height</code> 
+        in <code>meter</code> and <a 
+        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.Point3Tuple-class.html">pygeodesy.named.Point3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(x, y, ll)</code> in <code>meter</code>, 
@@ -1625,7 +1623,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:06 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:48 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

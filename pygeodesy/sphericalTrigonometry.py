@@ -14,12 +14,12 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.datum import R_M
-from pygeodesy.fmath import EPS, acos1, favg, fdot, fmean, fsum, \
-                            isscalar, map1
-from pygeodesy.formy import antipode, bearing_, haversine_
-from pygeodesy.lazily import _ALL_LAZY, _2kwds
-from pygeodesy.named import LatLon3Tuple, NearestOn3Tuple, _xnamed
+from pygeodesy.basics import EPS, R_M, isscalar, map1, _xkwds
+from pygeodesy.fmath import acos1, favg, fdot, fmean, fsum
+from pygeodesy.formy import antipode_, bearing_, haversine_
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, _xnamed
+from pygeodesy.nvectorBase import NvectorBase as _Nvector
 from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.sphericalBase import CartesianSphericalBase, LatLonSphericalBase
 from pygeodesy.utily import PI2, PI_2, PI_4, degrees90, degrees180, \
@@ -39,7 +39,26 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'nearestOn2', 'nearestOn3',
           'perimeterOf',
           'sumOf')  # == vector3d.sumOf
-__version__ = '20.02.22'
+__version__ = '20.03.15'
+
+
+def _destination2(a, b, r, t):
+    '''(INTERNAL) Destination phi- and longitude in C{radians}.
+
+       @param a: Latitude (C{radians}).
+       @param b: Longitude (C{radians}).
+       @param r: Angular distance (C{radians}).
+       @param t: Bearing (compass C{radians}).
+
+       @return: 2-Tuple (phi, lam) of (C{radians}, C{radiansPI}).
+    '''
+    # see <https://www.EdWilliams.org/avform.htm#LL>
+    sa, ca, sr, cr, st, ct = sincos2(a, r, t)
+
+    a = asin(ct * sr * ca + cr * sa)
+    d = atan2(st * sr * ca, cr - sa * sin(a))
+    # note, in EdWilliams.org/avform.htm W is + and E is -
+    return a, b + d
 
 
 class Cartesian(CartesianSphericalBase):
@@ -55,16 +74,16 @@ class Cartesian(CartesianSphericalBase):
                           arguments, ignored if C{B{LatLon}=None}.
                           For example, use C{LatLon=...} to override
                           the L{LatLon} (sub-)class or specify
+                          C{B{LatLon}=None}.
 
            @return: The B{C{LatLon}} point (L{LatLon}) or if
                     C{B{LatLon}=None}, an L{Ecef9Tuple}C{(x, y, z,
                     lat, lon, height, C, M, datum)} with C{C} and
                     C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}}
-                             or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}} or other B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(kwds, LatLon=LatLon, datum=self.datum)
         return CartesianSphericalBase.toLatLon(self, **kwds)
 
 
@@ -148,8 +167,8 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        a1, b1 = self.to2ab()
-        a2, b2 = other.to2ab()
+        a1, b1 = self.philam
+        a2, b2 = other.philam
 
         a = radians(lat)
         db, b2 = unrollPI(b1, b2, wrap=wrap)
@@ -215,14 +234,13 @@ class LatLon(LatLonSphericalBase):
 
            @JSname: I{destinationPoint}.
         '''
-        a, b = self.to2ab()
+        a, b = self.philam
 
         r = float(distance) / float(radius)  # angular distance in radians
-        t = radians(bearing)
 
-        a, b = _destination2(a, b, r, t)
+        a, b = _destination2(a, b, r, radians(bearing))
         h = self.height if height is None else height
-        return self.classof(a, b, height=h)
+        return self.classof(degrees90(a), degrees180(b), height=h)
 
     def distanceTo(self, other, radius=R_M, wrap=False):
         '''Compute the distance from this to an other point.
@@ -244,8 +262,8 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        a1, b1 = self.to2ab()
-        a2, b2 = other.to2ab()
+        a1, b1 = self.philam
+        a2, b2 = other.philam
 
         db, b2 = unrollPI(b1, b2, wrap=wrap)
         r = haversine_(a2, a1, db)
@@ -268,7 +286,7 @@ class LatLon(LatLonSphericalBase):
            >>> g = p.greatCircle(96.0)
            >>> g.toStr()  # (-0.794, 0.129, 0.594)
         '''
-        a, b = self.to2ab()
+        a, b = self.philam
         t = radians(bearing)
 
         sa, ca, sb, cb, st, ct = sincos2(a, b, t)
@@ -305,8 +323,8 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        a1, b1 = self.to2ab()
-        a2, b2 = other.to2ab()
+        a1, b1 = self.philam
+        a2, b2 = other.philam
 
         # XXX behavior like sphericalNvector.LatLon.initialBearingTo
         if raiser and crosserrors() and max(abs(a2 - a1), abs(b2 - b1)) < EPS:
@@ -339,8 +357,8 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        a1, b1 = self.to2ab()
-        a2, b2 = other.to2ab()
+        a1, b1 = self.philam
+        a2, b2 = other.philam
 
         db, b2 = unrollPI(b1, b2, wrap=wrap)
         r = haversine_(a2, a1, db)
@@ -426,16 +444,16 @@ class LatLon(LatLonSphericalBase):
         '''
         n, points = self.points2(points, closed=True)
 
-        n0 = self.toVector3d()
+        n0 = self._N_vector
 
         if iterNumpy2(points):
 
-            v1 = points[n-1].toVector3d()
-            v2 = points[n-2].toVector3d()
+            v1 = points[n-1]._N_vector
+            v2 = points[n-2]._N_vector
             gc1 = v2.cross(v1)
             t0 = gc1.angleTo(n0) > PI_2
             for i in range(n):
-                v2 = points[i].toVector3d()
+                v2 = points[i]._N_vector
                 gc = v1.cross(v2)
                 v1 = v2
 
@@ -449,9 +467,9 @@ class LatLon(LatLonSphericalBase):
 
         else:
             # get great-circle vector for each edge
-            gc, v1 = [], points[n-1].toVector3d()
+            gc, v1 = [], points[n-1]._N_vector
             for i in range(n):
-                v2 = points[i].toVector3d()
+                v2 = points[i]._N_vector
                 gc.append(v1.cross(v2))
                 v1 = v2
 
@@ -501,8 +519,8 @@ class LatLon(LatLonSphericalBase):
         self.others(other)
 
         # see <https://MathForum.org/library/drmath/view/51822.html>
-        a1, b1 = self.to2ab()
-        a2, b2 = other.to2ab()
+        a1, b1 = self.philam
+        a2, b2 = other.philam
 
         db, b2 = unrollPI(b1, b2, wrap=wrap)
 
@@ -547,10 +565,11 @@ class LatLon(LatLonSphericalBase):
 
            @return: ... 2-Tuple C{(closest, distance)} of the closest
                     point (L{LatLon}) on the polygon and the distance
-                    to that point ...
+                    to that point from this point in C{meter}, same
+                    units of B{C{radius}}.
         '''
-        return self.nearestOn3(points, closed=closed, radius=radius,
-                                     **options)[:2]
+        r = self.nearestOn3(points, closed=closed, radius=radius, **options)
+        return tuple(r[:2])
 
     def nearestOn3(self, points, closed=False, radius=R_M, **options):
         '''Locate the point on a polygon closest to this point.
@@ -564,12 +583,12 @@ class LatLon(LatLonSphericalBase):
            @keyword options: Optional keyword arguments for function
                              L{equirectangular_}.
 
-           @return: A L{NearestOn3Tuple}C{(closest, distance, angle)}
-                    where C{distance} is the L{equirectangular_} distance
-                    between this and the C{closest} point in C{meter},
-                    same units as B{C{radius}}.  The C{angle} from this to
-                    the C{closest} point is in compass C{degrees360},
-                    like function L{compassAngle}.
+           @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of
+                    the C{closest} point (L{LatLon}), the L{equirectangular_}
+                    C{distance} between this and the C{closest} point in
+                    C{meter}, same units as B{C{radius}}.  The C{angle}
+                    from this to the C{closest} point is in compass
+                    C{degrees360}, like function L{compassAngle}.
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               B{C{limit}}, see function L{equirectangular_}.
@@ -581,8 +600,8 @@ class LatLon(LatLonSphericalBase):
            @see: Functions L{compassAngle}, L{equirectangular_} and
                  L{nearestOn5}.
         '''
-        a, b, d, c, h = _nearestOn5(self, points, closed=closed, **options)
-        return NearestOn3Tuple(self.classof(a, b, height=h),
+        lat, lon, d, c, h = _nearestOn5(self, points, closed=closed, **options)
+        return NearestOn3Tuple(self.classof(lat, lon, height=h),
                                degrees2m(d, radius=radius), c)
 
     def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian
@@ -602,44 +621,11 @@ class LatLon(LatLonSphericalBase):
            @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
                              or B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        kwds = _xkwds(kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonSphericalBase.toCartesian(self, **kwds)
 
 
 _Trll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
-
-
-def _destination2_(a, b, r, t):
-    '''(INTERNAL) Computes destination lat- and longitude.
-
-       @param a: Latitude (C{radians}).
-       @param b: Longitude (C{radians}).
-       @param r: Angular distance (C{radians}).
-       @param t: Bearing (compass C{radians}).
-
-       @return: 2-Tuple (lat, lon) of (radians, radians).
-    '''
-    # see <https://www.EdWilliams.org/avform.htm#LL>
-    sa, ca, sr, cr, st, ct = sincos2(a, r, t)
-
-    a = asin(ct * sr * ca + cr * sa)
-    d = atan2(st * sr * ca, cr - sa * sin(a))
-    # note, in EdWilliams.org/avform.htm W is + and E is -
-    return a, b + d
-
-
-def _destination2(a, b, r, t):
-    '''(INTERNAL) Computes destination lat- and longitude.
-
-       @param a: Latitude (C{radians}).
-       @param b: Longitude (C{radians}).
-       @param r: Angular distance (C{radians}).
-       @param t: Bearing (compass C{radians}).
-
-       @return: 2-Tuple (lat, lon) of (C{degrees90}, C{degrees180}).
-    '''
-    a, b = _destination2_(a, b, r, t)
-    return degrees90(a), degrees180(b)
 
 
 def areaOf(points, radius=R_M, wrap=True):
@@ -683,10 +669,10 @@ def areaOf(points, radius=R_M, wrap=True):
     # extending the edge to the equator-circle vector for each edge
 
     def _exs(n, points):  # iterate over spherical edge excess
-        a1, b1 = points[n-1].to2ab()
+        a1, b1 = points[n-1].philam
         ta1 = tan_2(a1)
         for i in range(n):
-            a2, b2 = points[i].to2ab()
+            a2, b2 = points[i].philam
             db, b2 = unrollPI(b1, b2, wrap=wrap)
             ta2, tdb = map1(tan_2, a2, db)
             yield atan2(tdb * (ta1 + ta2), 1 + ta1 * ta2)
@@ -702,14 +688,14 @@ def areaOf(points, radius=R_M, wrap=True):
 
 def _x3d2(start, end, wrap, n, hs):
     # see <https://www.EdWilliams.org/intersect.htm> (5) ff
-    a1, b1 = start.to2ab()
+    a1, b1 = start.philam
 
     if isscalar(end):  # bearing, make a point
-        a2, b2 = _destination2_(a1, b1, PI_4, radians(end))
+        a2, b2 = _destination2(a1, b1, PI_4, radians(end))
     else:  # must be a point
         _Trll.others(end, name='end' + n)
         hs.append(end.height)
-        a2, b2 = end.to2ab()
+        a2, b2 = end.philam
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     if max(abs(db), abs(a2 - a1)) < EPS:
@@ -721,23 +707,23 @@ def _x3d2(start, end, wrap, n, hs):
     sb21, cb21, sb12, cb12, \
     sa21,    _, sa12,    _ = sincos2(b21, b12, a1 - a2, a1 + a2)
 
-    x = Vector3d(sa21 * sb12 * cb21 - sa12 * cb12 * sb21,
+    x = _Nvector(sa21 * sb12 * cb21 - sa12 * cb12 * sb21,
                  sa21 * cb12 * cb21 + sa12 * sb12 * sb21,
-                 cos(a1) * cos(a2) * sin(db), ll=start)
+                 cos(a1) * cos(a2) * sin(db))  # ll=start
     return x.unit(), (db, (a2 - a1))  # negated d
 
 
 def _xb(a1, b1, end, a, b, wrap):
     # difference between the bearing to (a, b) and the given
     # bearing is negative if both are in opposite directions
-    r = bearing_(a1, b1, radians(a), radians(b), wrap=wrap)
+    r = bearing_(a1, b1, a, b, wrap=wrap)
     return PI_2 - abs(wrapPI(r - radians(end)))
 
 
 def _xdot(d, a1, b1, a, b, wrap):
     # compute dot product d . (-b + b1, a - a1)
-    db, _ = unrollPI(b1, radians(b), wrap=wrap)
-    return fdot(d, db, radians(a) - a1)
+    db, _ = unrollPI(b1, b, wrap=wrap)
+    return fdot(d, db, a - a1)
 
 
 def intersection(start1, end1, start2, end2,
@@ -780,13 +766,13 @@ def intersection(start1, end1, start2, end2,
 
     hs = [start1.height, start2. height]
 
-    a1, b1 = start1.to2ab()
-    a2, b2 = start2.to2ab()
+    a1, b1 = start1.philam
+    a2, b2 = start2.philam
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     r12 = haversine_(a2, a1, db)
     if abs(r12) < EPS:  # [nearly] coincident points
-        a, b = map1(degrees, favg(a1, a2), favg(b1, b2))
+        a, b = favg(a1, a2), favg(b1, b2)
 
     # see <https://www.EdWilliams.org/avform.htm#Intersection>
     elif isscalar(end1) and isscalar(end2):  # both bearings
@@ -825,7 +811,7 @@ def intersection(start1, end1, start2, end2,
         # choose antipode for opposing bearings
         if _xb(a1, b1, end1, a, b, wrap) < 0 or \
            _xb(a2, b2, end2, a, b, wrap) < 0:
-            a, b = antipode(a, b)
+            a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
 
     else:  # end point(s) or bearing(s)
         x1, d1 = _x3d2(start1, end1, wrap, '1', hs)
@@ -834,16 +820,17 @@ def intersection(start1, end1, start2, end2,
         if x.length < EPS:  # [nearly] colinear or parallel paths
             raise ValueError('intersection %s: %r vs %r' % ('colinear',
                              (start1, end1), (start2, end2)))
-        a, b = x.to2ll()
+        a, b = x.philam
         # choose intersection similar to sphericalNvector
         d1 = _xdot(d1, a1, b1, a, b, wrap)
-        d2 = _xdot(d2, a2, b2, a, b, wrap)
-        if (d1 < 0 and d2 > 0) or (d1 > 0 and d2 < 0):
-            a, b = antipode(a, b)
+        if d1:
+            d2 = _xdot(d2, a2, b2, a, b, wrap)
+            if (d2 < 0 and d1 > 0) or (d2 > 0 and d1 < 0):
+                a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
 
     h = fmean(hs) if height is None else height
-    r = LatLon3Tuple(a, b, h) if LatLon is None else \
-              LatLon(a, b, height=h)
+    r = LatLon3Tuple(degrees90(a), degrees180(b), h) if LatLon is None else \
+              LatLon(degrees90(a), degrees180(b), height=h)
     return _xnamed(r, intersection.__name__)
 
 
@@ -873,28 +860,31 @@ def meanOf(points, height=None, LatLon=LatLon):
     # geographic mean
     n, points = _Trll.points2(points, closed=False)
 
-    m = sumOf(points[i].toVector3d() for i in range(n))
-    a, b = m.to2ll()
+    m = sumOf(points[i]._N_vector for i in range(n))
+    lat, lon = m._N_vector.latlon
 
     if height is None:
         h = fmean(points[i].height for i in range(n))
     else:
         h = height
-    r = LatLon3Tuple(a, b, h) if LatLon is None else \
-              LatLon(a, b, height=h)
+    r = LatLon3Tuple(lat, lon, h) if LatLon is None else \
+              LatLon(lat, lon, height=h)
     return _xnamed(r, meanOf.__name__)
 
 
-def nearestOn2(point, points, closed=False, radius=R_M,   # PYCHOK no cover
-                              LatLon=LatLon, **options):  # PYCHOK no cover
+def nearestOn2(point, points, **closed_radius_LatLon_options):  # PYCHOK no cover
     '''DEPRECATED, use function L{sphericalTrigonometry.nearestOn3}.
 
-       @return: ... C{closest} as B{C{LatLon}} or a 2-tuple C{(lat, lon)}
-                without the height if B{C{LatLon}} is C{None} ...
+       @return: ... 2-tuple C{(closest, distance)} of the C{closest}
+                point (L{LatLon}) on the polygon and the C{distance}
+                between the C{closest} and the given B{C{point}}.  The
+                C{closest} is a B{C{LatLon}} or a L{LatLon2Tuple}C{(lat,
+                lon)} if B{C{LatLon}} is C{None} ...
     '''
-    a, b, d, _, h = _nearestOn5(point, points, closed=closed, **options)
-    ll = (a, b) if LatLon is None else LatLon(a, b, height=h)
-    return ll, degrees2m(d, radius=radius)
+    ll, d, _ = nearestOn3(point, points, **closed_radius_LatLon_options)
+    if closed_radius_LatLon_options.get('LatLon', LatLon) is None:
+        ll = LatLon2Tuple(ll.lat, ll.lon)
+    return ll, d
 
 
 def nearestOn3(point, points, closed=False, radius=R_M,
@@ -913,13 +903,15 @@ def nearestOn3(point, points, closed=False, radius=R_M,
        @keyword options: Optional keyword arguments for function
                          L{equirectangular_}.
 
-       @return: A L{NearestOn3Tuple}C{(closest, distance, angle)}.  The
-                C{distance} is the L{equirectangular_} distance between
-                the C{closest} and reference B{C{point}} in C{meter}, same
-                units as B{C{radius}}.  The C{angle} from the reference
-                B{C{point}} to the C{closest} is in compass C{degrees360},
-                like function L{compassAngle}.  The C{height} is the
-                (interpolated) height at the C{closest} point.
+       @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
+                C{closest} point as B{L{LatLon}} or L{LatLon3Tuple}C{(lat,
+                lon, height)} if B{C{LatLon}} is C{None}.  The C{distance}
+                is the L{equirectangular_} distance between the C{closest}
+                and the given B{C{point}} in C{meter}, same units as
+                B{C{radius}}.  The C{angle} from the given B{C{point}}
+                to the C{closest} is in compass C{degrees360}, like function
+                L{compassAngle}.  The C{height} is the (interpolated) height
+                at the C{closest} point.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the
                           B{C{limit}}, see function L{equirectangular_}.
@@ -930,10 +922,10 @@ def nearestOn3(point, points, closed=False, radius=R_M,
 
        @see: Functions L{equirectangular_} and L{nearestOn5}.
     '''
-    a, b, d, c, h = _nearestOn5(point, points, closed=closed,
-                                               LatLon=None, **options)
-    r = LatLon3Tuple(a, b, h) if LatLon is None else \
-              LatLon(a, b, height=h)
+    lat, lon, d, c, h = _nearestOn5(point, points, closed=closed,
+                                                   LatLon=None, **options)
+    r = LatLon3Tuple(lat, lon, h) if LatLon is None else \
+              LatLon(lat, lon, height=h)
     r = NearestOn3Tuple(r, degrees2m(d, radius=radius), c)
     return _xnamed(r, nearestOn3.__name__)
 
@@ -962,9 +954,9 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
     def _rads(n, points, closed):  # angular edge lengths in radians
         i, m = _imdex2(closed, n)
-        a1, b1 = points[i].to2ab()
+        a1, b1 = points[i].philam
         for i in range(m, n):
-            a2, b2 = points[i].to2ab()
+            a2, b2 = points[i].philam
             db, b2 = unrollPI(b1, b2, wrap=wrap)
             yield haversine_(a2, a1, db)
             a1, b1 = a2, b2

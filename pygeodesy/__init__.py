@@ -12,10 +12,10 @@ by I{Chris Veness (C) 2005-2016} and several U{C++ classes
 (C) 2008-2019} and published under the same U{MIT License
 <https://OpenSource.org/licenses/MIT>}**.
 
-There are three modules for ellipsoidal earth models, I{ellipsoidalKarney},
-I{-Vincenty} and I{-Nvector} and two for spherical ones, I{sphericalTrigonometry}
-and I{-Nvector}.  Each module provides a geodetic I{LatLon} and a geocentric
-I{Cartesian} class with methods and functions to compute distance, initial and
+There are three modules for ellipsoidal earth models, C{ellipsoidalKarney},
+C{-Vincenty} and C{-Nvector} and two for spherical ones, C{sphericalTrigonometry}
+and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}} and a geocentric
+B{C{Cartesian}} class with methods and functions to compute distance, initial and
 final bearing, intermediate and nearest points, area, perimeter, conversions and
 unrolling, among other things.  For more information and further details see the
 U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of
@@ -267,7 +267,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.03.02'
+__version__ = '20.03.15'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -296,6 +296,7 @@ if not _lazy_import2:  # import and set __all__
 
     # import all public modules and export as such
     import pygeodesy.bases                 as bases                  # PYCHOK DEPRECATED
+    import pygeodesy.basics                as basics                 # PYCHOK DEPRECATED
     import pygeodesy.clipy                 as clipy                  # PYCHOK exported
     import pygeodesy.css                   as css                    # PYCHOK exported
     import pygeodesy.datum                 as datum                  # PYCHOK exported
@@ -327,6 +328,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.simplify              as simplify               # PYCHOK exported
     import pygeodesy.sphericalNvector      as sphericalNvector       # PYCHOK exported
     import pygeodesy.sphericalTrigonometry as sphericalTrigonometry  # PYCHOK exported
+    import pygeodesy.streprs               as streprs                # PYCHOK exported
     import pygeodesy.trf                   as trf                    # PYCHOK exported
     import pygeodesy.ups                   as ups                    # PYCHOK exported
     import pygeodesy.utily                 as utily                  # PYCHOK exported
@@ -342,6 +344,7 @@ if not _lazy_import2:  # import and set __all__
     # NOT modules ellipsoidal*, epsg, gars, geohash, spherical*,
     # vector and wgrs ... in order keep those as modules ONLY
 #   from pygeodesy.bases                 import *  # PYCHOK __all__
+    from pygeodesy.basics                import *  # PYCHOK __all__
     from pygeodesy.clipy                 import *  # PYCHOK __all__
     from pygeodesy.css                   import *  # PYCHOK __all__
     from pygeodesy.datum                 import *  # PYCHOK __all__
@@ -373,6 +376,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.simplify              import *  # PYCHOK __all__
 #   from pygeodesy.sphericalNvector      import -  # MODULE O_N_L_Y
 #   from pygeodesy.sphericalTrigonometry import -  # MODULE O_N_L_Y
+    from pygeodesy.streprs               import *  # PYCHOK __all__
     from pygeodesy.trf                   import *  # PYCHOK __all__
     from pygeodesy.ups                   import *  # PYCHOK __all__
     from pygeodesy.utily                 import *  # PYCHOK __all__
@@ -383,6 +387,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK exported
 
     def _all(globalocals):
+        from pygeodesy.lazily import _dot_  # PYCHOK expected
         # collect all public module and attribute names and check
         # that modules are imported from this package, 'pygeodesy'
         # (but the latter only when not bundled with PyInstaller or
@@ -392,13 +397,13 @@ if not _lazy_import2:  # import and set __all__
 # XXX   ps = () if _isfrozen else set([_pygeodesy] + __name__.split('.'))
         for mod, attrs in lazily._ALL_LAZY.enums():
             if mod not in globalocals:
-                raise ImportError('missing %s: %s.%s' % ('module', _pygeodesy, mod))
+                raise ImportError('missing %s: %s' % ('module', _dot_(_pygeodesy, mod)))
             ns.append(mod)
             # check that all other public attributes do exist
             if attrs and isinstance(attrs, tuple):
                 for a in attrs:
                     if a not in globalocals:
-                        raise ImportError('missing %s: %s.%s' % ('attribute', mod, a))
+                        raise ImportError('missing %s: %s' % ('attribute', _dot_(mod, a)))
                 ns.extend(attrs)
 # XXX       if ps:  # check that mod is a _pygeodesy module
 # XXX           m = globalocals[mod]  # assert(m.__name__ == mod)
@@ -406,7 +411,7 @@ if not _lazy_import2:  # import and set __all__
 # XXX           d = dirname(abspath(f)) if f else pygeodesy_abspath
 # XXX           p = getattr(m, '__package__', '') or _pygeodesy
 # XXX           if p not in ps or d != pygeodesy_abspath:
-# XXX               raise ImportError('foreign module: %s.%s from %r' % (p, mod, f or p))
+# XXX               raise ImportError('foreign module: %s from %r' % (_dot_(p, mod), f or p))
         return tuple(set(ns))  # remove duplicates, only R_M?
 
     __all__ = _all(globals())  # or locals()

@@ -176,6 +176,8 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
@@ -224,7 +226,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#auth" class="summary-name">auth</a><br />
-      Get the authentication authority (<code>str</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -232,8 +234,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#datum" class="summary-name">datum</a><br />
-      Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
-      class="link">Datum</a>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -241,7 +242,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#E0" class="summary-name">E0</a><br />
-      Get the false easting (<code>meter</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -249,7 +250,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#k0" class="summary-name">k0</a><br />
-      Get scale factor (<code>float</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -257,7 +258,23 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#lat0" class="summary-name">lat0</a><br />
-      Get the origin latitude (<code>degrees90</code>).
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Conic-class.html#latlon0" class="summary-name">latlon0</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Conic-class.html#lam0" class="summary-name">lam0</a><br />
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -265,7 +282,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#lon0" class="summary-name">lon0</a><br />
-      Get the central meridian (<code>degrees180</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -273,7 +290,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#N0" class="summary-name">N0</a><br />
-      Get the false northing (<code>meter</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -281,24 +298,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#name2" class="summary-name">name2</a><br />
-      Get the conic and datum names as &quot;conic.datum&quot; 
-      (<code>str</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.lcc.Conic-class.html#par1" class="summary-name">par1</a><br />
-      Get the 1st standard parallel (<code>degrees90</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.lcc.Conic-class.html#par2" class="summary-name">par2</a><br />
-      Get the 2nd standard parallel (<code>degrees90</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -306,7 +306,39 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#opt3" class="summary-name">opt3</a><br />
-      Get the optional meridian (<code>degrees180</code>).
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Conic-class.html#par1" class="summary-name">par1</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Conic-class.html#par2" class="summary-name">par2</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Conic-class.html#phi0" class="summary-name">phi0</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Conic-class.html#philam0" class="summary-name">philam0</a><br />
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -314,7 +346,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.lcc.Conic-class.html#SP" class="summary-name">SP</a><br />
-      Get the number of standard parallels (<code>int</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -487,6 +519,12 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Conic attributes (<code>str</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AssertionError</strong></code> - Always, see function <a 
+        href="pygeodesy.named-module.html#notOverloaded" 
+        class="link">notOverloaded</a>.</li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -509,15 +547,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">auth</h3>
-  <p>Get the authentication authority (<code>str</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">auth(<span class="summary-sig-arg">self</span>)</span>
         - Get the authentication authority (<code>str</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -529,8 +567,7 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">datum</h3>
-  <p>Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
-  class="link">Datum</a>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
@@ -538,8 +575,8 @@
 class="link">Datum</a>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -551,15 +588,15 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">E0</h3>
-  <p>Get the false easting (<code>meter</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">E0(<span class="summary-sig-arg">self</span>)</span>
         - Get the false easting (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -571,15 +608,15 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">k0</h3>
-  <p>Get scale factor (<code>float</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">k0(<span class="summary-sig-arg">self</span>)</span>
         - Get scale factor (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -591,15 +628,56 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lat0</h3>
-  <p>Get the origin latitude (<code>degrees90</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">lat0(<span class="summary-sig-arg">self</span>)</span>
         - Get the origin latitude (<code>degrees90</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlon0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlon0</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">latlon0(<span class="summary-sig-arg">self</span>)</span>
+        - Get the central origin (<a href="pygeodesy.named.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="lam0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lam0</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">lam0(<span class="summary-sig-arg">self</span>)</span>
+        - Get the central meridian (<code>radians</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -611,15 +689,15 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lon0</h3>
-  <p>Get the central meridian (<code>degrees180</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">lon0(<span class="summary-sig-arg">self</span>)</span>
         - Get the central meridian (<code>degrees180</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -631,15 +709,15 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">N0</h3>
-  <p>Get the false northing (<code>meter</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">N0(<span class="summary-sig-arg">self</span>)</span>
         - Get the false northing (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -651,8 +729,7 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">name2</h3>
-  <p>Get the conic and datum names as &quot;conic.datum&quot; 
-  (<code>str</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">name2(<span class="summary-sig-arg">self</span>)</span>
@@ -660,48 +737,8 @@ class="link">Datum</a>).
 (<code>str</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="par1"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">par1</h3>
-  <p>Get the 1st standard parallel (<code>degrees90</code>).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">par1(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 1st standard parallel (<code>degrees90</code>).
-    </dd>
-    <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="par2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">par2</h3>
-  <p>Get the 2nd standard parallel (<code>degrees90</code>).</p>
-  <dl class="fields">
-    <dt>Get Method:</dt>
-    <dd class="value"><span class="summary-sig">par2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 2nd standard parallel (<code>degrees90</code>).
-    </dd>
-    <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -713,15 +750,96 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">opt3</h3>
-  <p>Get the optional meridian (<code>degrees180</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">opt3(<span class="summary-sig-arg">self</span>)</span>
         - Get the optional meridian (<code>degrees180</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="par1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">par1</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">par1(<span class="summary-sig-arg">self</span>)</span>
+        - Get the 1st standard parallel (<code>degrees90</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="par2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">par2</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">par2(<span class="summary-sig-arg">self</span>)</span>
+        - Get the 2nd standard parallel (<code>degrees90</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="phi0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">phi0</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">phi0(<span class="summary-sig-arg">self</span>)</span>
+        - Get the origin latitude (<code>radians</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philam0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philam0</h3>
+  <p>An immutable property (<code>Read Only</code>).</p>
+  <dl class="fields">
+    <dt>Get Method:</dt>
+    <dd class="value"><span class="summary-sig">philam0(<span class="summary-sig-arg">self</span>)</span>
+        - Get the central origin (<a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
+    </dd>
+    <dt>Set Method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -733,15 +851,15 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">SP</h3>
-  <p>Get the number of standard parallels (<code>int</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">SP(<span class="summary-sig-arg">self</span>)</span>
         - Get the number of standard parallels (<code>int</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -779,7 +897,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:11 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:52 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

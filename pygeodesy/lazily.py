@@ -26,10 +26,9 @@ imported by that top-level module.
              C{lazy import} failed.
 '''
 
-from copy import copy as _copy, deepcopy as _deepcopy
 from os import environ as _environ
 
-_FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)
+_FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)  # for epydoc ...
 _N_A      = object()
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
@@ -39,25 +38,26 @@ isLazy = None  # see @var isLazy above
 class LazyImportError(ImportError):
     '''Lazy import is not supported, disabled or failed some other way.
     '''
-    def __init__(self, fmt, *args):
-        ImportError.__init__(self, (fmt % args) if args else fmt)
+    pass
 
 
 class _NamedEnum_RO(dict):
     '''(INTERNAL) C{Read_Only} enum-like C{dict} sub-class.
     '''
+#   _name = ''  # also first kwd, __init__(_name=...)
+
     def __getattr__(self, attr):
         try:
             return self[attr]
         except KeyError:
-            raise AttributeError("%s.%s doesn't exist" % (self._name, attr))  # PYCHOK expected
+            raise AttributeError("%s doesn't exist" % (_dot_(self._name, attr),))  # PYCHOK expected
 
     def __setattr__(self, attr, value):
-        raise TypeError('Read_Only %s.%s = %r' % (self._name, attr, value))  # PYCHOK expected
+        raise TypeError('Read_Only %s = %r' % (_dot_(self._name, attr), value))  # PYCHOK expected
 
     def enums(self):
         for k, v in dict.items(self):
-            if not k.startswith('_'):
+            if not k.startswith('_'):  # skip _name
                 yield k, v
 
 
@@ -75,15 +75,20 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 # __all__ value for most modules, accessible as _ALL_LAZY.<module>
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           bases=(),  # module and for backward compatibility only
+                         basics=('EPS', 'EPS1', 'EPS1_2', 'EPS_2', 'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0', 'OK', 'R_M',  # constants
+                                 'LimitError', 'clips', 'halfs2',
+                                 'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
+                                 'len2', 'limiterrors', 'map1', 'map2', 'property_doc_', 'property_RO', 'scalar', 'splice'),
                           clipy=('clipCS3', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
                           datum=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
                                  'Datum',  'Ellipsoid',  'Transform',
                                  'Datums', 'Ellipsoids', 'Transforms'),
                      deprecated=('HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError',  # DEPRECATED classes
-                                 'areaof', 'bounds', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions
-                                 'equirectangular3', 'hypot3', 'isenclosedby', 'nearestOn3', 'nearestOn4',
-                                 'parseUTM', 'perimeterof', 'polygon', 'simplify2', 'toUtm', 'utmZoneBand2'),
+                                 'anStr', 'areaof', 'bounds', 'clipStr', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
+                                 'equirectangular3', 'enStr2', 'fStr', 'fStrzs', 'hypot3', 'inStr',  # ... except ellipsoidal, spherical flavors
+                                 'isenclosedby', 'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
+                                 'simplify2', 'toUtm', 'unStr', 'utmZoneBand2'),
                             dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_RAD',
                                  'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_RAD_',
                                  'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F_RAD__',
@@ -99,14 +104,14 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                            epsg=('Epsg', 'EPSGError'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'parseETM5', 'toEtm8'),
-                          fmath=('EPS', 'EPS_2', 'EPS1', 'EPS1_2', 'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0',  # constants
-                                 'Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
+                          fmath=('Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
                                  'acos1', 'cbrt', 'cbrt2',
-                                 'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial', 'fpowers', 'fprod', 'frange', 'freduce', 'fStr', 'fStrzs', 'fsum', 'fsum_',
-                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar',
-                                 'len2', 'map1', 'map2', 'scalar', 'sqrt3'),
-                          formy=('antipode', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
-                                 'haversine', 'haversine_', 'heightOf', 'horizon', 'isantipode', 'points2', 'vincentys', 'vincentys_'),
+                                 'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial', 'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
+                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'sqrt3'),
+                          formy=('antipode', 'antipode_', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_',
+                                 'equirectangular', 'equirectangular_', 'haversine', 'haversine_', 'heightOf', 'horizon',
+                                 'isantipode', 'isantipode_', 'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam', 'philam2n_xyz',
+                                 'points2', 'vincentys', 'vincentys_'),
                         frechet=('Frechet', 'FrechetDegrees', 'FrechetRadians', 'FrechetError',
                                  'FrechetEquirectangular', 'FrechetEuclidean', 'FrechetHaversine', 'FrechetVincentys',
                                  'fractional', 'frechet_'),
@@ -122,7 +127,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                            mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs'),
-                          named=('classname', 'classnaming', 'inStr', 'nameof'),
+                          named=('classname', 'classnaming', 'modulename', 'nameof'),
                         nvector=(),  # module and for backward compatibility only
                            osgr=('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
                          points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
@@ -132,18 +137,17 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                sphericalNvector=(),  # module only
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
+                        streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=('RefFrame', 'RefFrames', 'TRFError', 'date2epoch'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
-                          utily=('OK', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M', 'LimitError',
-                                 'anStr', 'clipStr',
+                          utily=('PI', 'PI2', 'PI_2', 'PI_4',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
-                                 'enStr2', 'false2f', 'ft2m', 'halfs2',
-                                 'isNumpy2', 'isPoints2', 'issequence', 'issubclassof', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
-                                 'limiterrors', 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
-                                 'property_RO',
+                                 'false2f', 'ft2m',
+                                 'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
+                                 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
-                                 'sincos2', 'sincos2d', 'splice', 'tan_2', 'tanPI_2_2',
-                                 'unroll180', 'unrollPI', 'unStr',
+                                 'sincos2', 'sincos2d', 'tan_2', 'tanPI_2_2',
+                                 'unroll180', 'unrollPI',
                                  'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2'),
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8', 'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
@@ -154,15 +158,17 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
 # DEPRECATED __all__ names overloading those in _ALL_LAZY.deprecated where
 # the new name is fully backward compatible in signature and return value
 _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
+                               basics=('clips as clipStr',),
                                 fmath=('hypot_ as hypot3',),
                                 formy=('points2 as polygon',),
                               heights=('HeightIDWequirectangular as HeightIDW2', 'HeightIDWeuclidean as HeightIDW', 'HeightIDWhaversine as HeightIDW3'),
                                points=('areaOf as areaof',
                                        'isenclosedBy as isenclosedby', 'perimeterOf as perimeterof'),
-                             simplify=('simplifyRW as simplify2',))
+                             simplify=('simplifyRW as simplify2',),
+                              streprs=('anstr as anStr', 'enstr2 as enStr2', 'fstr as fStr', 'fstrzs as fStrzs', 'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.02.09'
+__version__ = '20.03.15'
 
 
 def _all_imports(**more):
@@ -199,26 +205,22 @@ def _all_missing2(_all_):
             ('pygeodesy.__all__',   ', '.join(a for a in _alzy if a not in _all_)))
 
 
-def _2kwds(kwds, **dflts):
-    '''(INTERNAL) Override C{dflts} with C{kwds}.
+def _dot_(prefix, name):  # imported by .__init__, .deprecated, .fmath, .named, etc.
+    '''(INTERNAL) Period-join C{prefix} and C{name}.
     '''
-    d = dflts
-    if kwds:
-        d = d.copy()
-        d.update(kwds)
-    return d
+    return prefix + '.' + str(name)
 
 
-def _lazy_import2(_package_):  # MCCABE 23
+def _lazy_import2(_package_):  # MCCABE 16
     '''Check for and set up lazy importing.
 
        @param _package_: The name of the package (C{str}) performing
                          the imports, to help facilitate resolving
-                         relative imports.
+                         relative imports, usually C{__package__}.
 
-       @return: 2-Tuple (package, getattr) of the importing package for
-                easy reference within itself and the callable to be set
-                to `__getattr__`.
+       @return: 2-Tuple C{(package, getattr)} of the importing package
+                for easy reference within itself and the callable to
+                be set to `__getattr__`.
 
        @raise LazyImportError: Lazy import not supported, an import
                                failed or a module name or attribute
@@ -230,39 +232,16 @@ def _lazy_import2(_package_):  # MCCABE 23
               and call C{importlib.import_module(<module>.<name>, ...)}
               without causing a C{ModuleNotFoundError}.
 
-       @see: The original U{modutil<https://PyPi.org/project/modutil>},
-             U{PEP 562<https://www.Python.org/dev/peps/pep-0562>} and
-             U{Werkzeug<https://GitHub.com/pallets/werkzeug/blob/master/werkzeug/__init__.py>}.
+       @see: The original U{modutil<https://PyPi.org/project/modutil>} and
+             U{PEP 562<https://www.Python.org/dev/peps/pep-0562>}.
     '''
-    global isLazy
-
     import sys
+
     if sys.version_info[:2] < (3, 7):  # not supported
-        raise LazyImportError('no %s.%s for Python %s', _package_,
-                             _lazy_import2.__name__, sys.version.split()[0])
+        raise LazyImportError('no %s for Python %s' % (_dot_(_package_,
+                              _lazy_import2.__name__), sys.version.split()[0]))
 
-    z = _environ.get('PYGEODESY_LAZY_IMPORT', None)
-    if z is None:  # PYGEODESY_LAZY_IMPORT not set
-        isLazy = 1  # on by default on 3.7
-    else:
-        z = z.strip()  # like PYTHONVERBOSE et.al.
-        isLazy = int(z) if z.isdigit() else (1 if z else 0)
-    if isLazy < 1:  # not enabled
-        raise LazyImportError('env %s=%r', 'PYGEODESY_LAZY_IMPORT', z)
-    if _environ.get('PYTHONVERBOSE', None):
-        isLazy += 1
-    del z
-
-    try:  # to initialize
-        from importlib import import_module
-
-        package = import_module(_package_)
-        parent = package.__spec__.parent  # __spec__ only in Python 3.7+
-        if parent != _package_:  # assertion
-            raise AttributeError('parent %r vs %r' % (parent, _package_))
-    except (AttributeError, ImportError) as x:
-        isLazy = False  # failed
-        raise LazyImportError('init failed: %s', x)
+    import_module, package, parent = _lazy_init3(_package_)
 
     if isLazy > 2:  # trim import path names
         import os  # PYCHOK re-import
@@ -272,7 +251,7 @@ def _lazy_import2(_package_):  # MCCABE 23
     else:  # no import path names
         cwdir = ''
 
-    import_ = _package_ + '.'  # namespace
+    import_ = _dot_(_package_, '')  # namespace
     imports = _all_imports()
 
     def __getattr__(name):  # __getattr__ only for Python 3.7+
@@ -283,23 +262,23 @@ def _lazy_import2(_package_):  # MCCABE 23
             # note in the _lazy_import.__doc__ above).
             mod, _, attr = imports[name].partition('.')
             if mod not in imports:
-                raise LazyImportError('no %s %s.%s', 'module', parent, mod)
+                raise LazyImportError('no %s %s' % ('module', _dot_(parent, mod)))
             imported = import_module(import_ + mod, parent)  # XXX '.' + mod
             if imported.__package__ not in (parent, '__main__', ''):
-                raise LazyImportError('%s.%s %r' % (mod, '__package__', imported.__package__))
+                raise LazyImportError('%s %r' % (_dot_(mod, '__package__'), imported.__package__))
             # import the module or module attribute
             if attr:
                 imported = getattr(imported, attr, _N_A)
             elif name != mod:
                 imported = getattr(imported, name, _N_A)
             if imported is _N_A:
-                raise LazyImportError('no %s %s.%s', 'attribute', mod, attr or name)
+                raise LazyImportError('no %s %s' % ('attribute', _dot_(mod, attr or name)))
 
         elif name in ('__all__',):  # XXX '__dir__', '__members__'?
             imported = _ALL_INIT + tuple(imports.keys())
             mod = ''
         else:
-            raise LazyImportError('no %s %s.%s', 'module or attribute', parent, name)
+            raise LazyImportError('no %s %s' % ('module or attribute', _dot_(parent, name)))
 
         setattr(package, name, imported)
         if isLazy > 1:
@@ -310,30 +289,63 @@ def _lazy_import2(_package_):  # MCCABE 23
                 # sys._getframe(1) ... 'importlib._bootstrap' line 1032,
                 # may throw a ValueError('call stack not deep enough')
                 try:
-                    f = sys._getframe(2)  # importing file and line
+                    f = sys._getframe(2)  # get importing file and line
                     n = f.f_code.co_filename
                     if cwdir and n.startswith(cwdir):
                         n = n[len(cwdir):]
                     z = '%s by %s line %d' % (z, n, f.f_lineno)
                 except ValueError:
                     pass
-            print('# lazily imported %s.%s%s' % (parent, name, z))
+            print('# lazily imported %s%s' % (_dot_(parent, name), z))
 
         return imported  # __getattr__
 
     return package, __getattr__  # _lazy_import2
 
 
-def _xcopy(inst, deep=False):
-    '''(INTERNAL) Copy an instance, shallow or deep.
+def _lazy_init3(_package_):
+    '''(INTERNAL) Try to initialize lazy import.
 
-       @param inst: The instance to copy (C{_Named}).
-       @keyword deep: If C{True} make a deep, otherwise
-                      shallow copy (C{bool}).
+       @param _package_: The name of the package (C{str}) performing
+                         the imports, to help facilitate resolving
+                         relative imports, usually C{__package__}.
 
-       @return: The copy (C{This class} or subclass thereof).
+       @return: 3-Tuple C{(import_module, package, parent)} of module
+                C{importlib.import_module}, the importing C{package}
+                for easy reference within itself and the package name,
+                aka the C{parent}.
+
+       @raise LazyImportError: Lazy import not supported, an import
+                               failed or a module name or attribute
+                               name is invalid or does not exist.
+
+       @note: Global C{isLazy} is set accordingly.
     '''
-    return _deepcopy(inst) if deep else _copy(inst)
+    global isLazy
+
+    z = _environ.get('PYGEODESY_LAZY_IMPORT', None)
+    if z is None:  # PYGEODESY_LAZY_IMPORT not set
+        isLazy = 1  # on by default on 3.7
+    else:
+        z = z.strip()  # like PYTHONVERBOSE et.al.
+        isLazy = int(z) if z.isdigit() else (1 if z else 0)
+    if isLazy < 1:  # not enabled
+        raise LazyImportError('env %s=%r' % ('PYGEODESY_LAZY_IMPORT', z))
+    if _environ.get('PYTHONVERBOSE', None):
+        isLazy += 1
+
+    try:  # to initialize
+        from importlib import import_module
+
+        package = import_module(_package_)
+        parent = package.__spec__.parent  # __spec__ only in Python 3.7+
+        if parent != _package_:  # assertion
+            raise AttributeError('parent %r vs %r' % (parent, _package_))
+    except (AttributeError, ImportError) as x:
+        isLazy = False  # failed
+        raise LazyImportError('%s failed: %s' % (_lazy_init3.__name__, x))
+
+    return import_module, package, parent
 
 # **) MIT License
 #

@@ -16,7 +16,7 @@ file C{Header}.
 
 Copyright (C) U{Charles Karney<mailto:Charles@Karney.com>} (2008-2017)
 and licensed under the MIT/X11 License.  For more information, see the
-U{GeographicLib<https://GeographicLib.SourceForge.io/>} documentation.
+U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
 The method entails using the C{Thompson Transverse Mercator} as an
 intermediate projection.  The projections from the intermediate
@@ -65,14 +65,15 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
+from pygeodesy.basics import EPS, property_doc_, property_RO, _TypeError
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
-from pygeodesy.fmath import cbrt, EPS, Fsum, hypot, hypot1, hypot2
+from pygeodesy.fmath import cbrt, Fsum, hypot, hypot1, hypot2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNorExact4Tuple, LatLonExact4Tuple, \
                            _NamedBase, _xnamed
-from pygeodesy.utily import PI_2, PI_4, property_RO, sincos2, \
-                           _TypeError
+from pygeodesy.streprs import pairs
+from pygeodesy.utily import PI_2, PI_4, sincos2
 from pygeodesy.utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
                           _toXtm8, _to7zBlldfn
 from pygeodesy.utmupsBase import _LLEB
@@ -81,7 +82,7 @@ from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.02.14'
+__version__ = '20.03.15'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -101,7 +102,7 @@ try:
 
 except ImportError:  # no geographiclib
 
-    from pygeodesy.fmath import NAN as _NAN
+    from pygeodesy.basics import NAN
 
     def _diff182(deg0, deg):  # mimick Math.AngDiff
         '''Compute C{deg - deg0}, reduced to C{[-180,180]} accurately.
@@ -115,7 +116,7 @@ except ImportError:  # no geographiclib
     def _fix90(deg):  # mimick Math.LatFix
         '''Replace angles outside [-90,90] by NaN.
         '''
-        return _NAN if abs(deg) > 90 else deg
+        return NAN if abs(deg) > 90 else deg
 
     def _sum2(u, v):  # mimick Math::sum, actually sum2
         '''Error free transformation of a C{sum}.
@@ -219,7 +220,7 @@ class Etm(Utm):
                                  name=name)
         self.exactTM = self.datum.exactTM  # ExactTransverseMercator(datum=self.datum)
 
-    @property
+    @property_doc_(' the ETM projection (L{ExactTransverseMercator}).')
     def exactTM(self):
         '''Get the ETM projection (L{ExactTransverseMercator}).
         '''
@@ -386,7 +387,7 @@ class ExactTransverseMercator(_NamedBase):
         self.lon0  = lon0
         self.k0    = k0
 
-    @property
+    @property_doc_(' the datum (L{Datum}).')
     def datum(self):
         '''Get the datum (L{Datum}) or C{None}.
         '''
@@ -483,7 +484,7 @@ class ExactTransverseMercator(_NamedBase):
             x, g = -x, -g
         return EasNorExact4Tuple(x, y, g, k)
 
-    @property
+    @property_doc_(' the central scale factor (C{float}).')
     def k0(self):
         '''Get the central scale factor (C{float}), aka I{C{scale0}}.
         '''
@@ -500,7 +501,7 @@ class ExactTransverseMercator(_NamedBase):
             raise ETMError('%s invalid: %r' % ('k0', k0))
         self._k0_a = self._k0 * self._a
 
-    @property
+    @property_doc_(' the central meridian (C{degrees180}).')
     def lon0(self):
         '''Get the central meridian (C{degrees180}).
         '''
@@ -774,7 +775,7 @@ class ExactTransverseMercator(_NamedBase):
             d['name'] = self.name
         if kwds:
             d.update(kwds)
-        return ', '.join('%s=%s' % t for t in sorted(d.items()))
+        return ', '.join(pairs(d))
 
     def _zeta3(self, snu, cnu, dnu, snv, cnv, dnv):
         '''(INTERNAL) C{zeta}.

@@ -11,9 +11,10 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.fmath import fStr, fStrzs, isint
+from pygeodesy.basics import isint
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple
+from pygeodesy.streprs import fstr, fstrzs
 
 from math import copysign, radians
 try:
@@ -23,7 +24,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '20.02.23'
+__version__ = '20.03.10'
 
 F_D   = 'd'    #: Format degrees as unsigned "deg°" plus suffix (C{str}).
 F_DM  = 'dm'   #: Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -108,7 +109,7 @@ def _toDMS(deg, form, prec, sep, ddd, suff):  # MCCABE 14
         s = s_deg
 
     elif form in (F_RAD, 'radians'):
-        t = '%.*f' % (p,radians(d))
+        t = '%.*F' % (p,radians(d))
         s = S_RAD
 
     elif form in (F_DM, F_MIN, 'deg+min'):
@@ -125,7 +126,7 @@ def _toDMS(deg, form, prec, sep, ddd, suff):  # MCCABE 14
         s = s_sec
 
     if z > 1:
-        t = fStrzs(t)
+        t = fstrzs(t)
 
     if sign:
         if deg < 0:
@@ -174,8 +175,8 @@ def clipDMS(deg, limit):
     if limit > 0:
         c = min(limit, max(-limit, deg))
         if _rangerrors and deg != c:
-            raise RangeError('%s beyond %s degrees' % (fStr(deg, prec=6),
-                             fStr(copysign(limit, deg), prec=3, ints=True)))
+            raise RangeError('%s beyond %s degrees' % (fstr(deg, prec=6),
+                             fstr(copysign(limit, deg), prec=3, ints=True)))
         deg = c
     return deg
 
@@ -281,9 +282,9 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg='-', pos=''):
 
     n = neg if deg < 0 else pos
     z = int(prec)
-    t = '%s%.*f' % (n, abs(z),d)
+    t = '%s%.*F' % (n, abs(z),d)
     if z > 1:
-        t = fStrzs(t)
+        t = fstrzs(t)
     return t + s
 
 
@@ -455,7 +456,7 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
         except (AttributeError, IndexError, TypeError, ValueError):
             raise ValueError('parsing %r failed' % (strDMS,))
 
-    return clipDMS(d, clip)
+    return clipDMS(d, float(clip))
 
 
 def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180):

@@ -13,18 +13,18 @@ C{height} and C{radius}.  See also U{World Geographic Reference System
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import EPS1_2, _IsNotError, isstr, \
+                            _MISSING, property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
-from pygeodesy.fmath import EPS1_2, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
                             LatLonPrec5Tuple, _NamedStr
-from pygeodesy.utily import _MISSING, ft2m, m2ft, m2NM, property_RO, \
-                            _Strs
+from pygeodesy.utily import ft2m, m2ft, m2NM
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.02.22'
+__version__ = '20.03.09'
 
 _Base    = 10
 _BaseLen = 4
@@ -38,8 +38,8 @@ _M       = 60000000000  # = 60_000_000_000 = 60 * pow(10, 9)
 _MaxPrec = 11
 _Tile    = 15  # tile size in degrees
 
-_MaxLen = _BaseLen + 2 * _MaxPrec
-_MinLen = _BaseLen - 2
+_MaxLen  = _BaseLen + 2 * _MaxPrec
+_MinLen  = _BaseLen - 2
 
 _LatOrig_M = _LatOrig * _M
 _LonOrig_M = _LonOrig * _M
@@ -120,7 +120,7 @@ class Georef(_NamedStr):
             self._name = cll._name
             self._precision = p  # cll._precision
 
-        elif isinstance(cll, _Strs):
+        elif isstr(cll):
             if ',' in cll:
                 lat, lon, h = _2fllh(*parse3llh(cll, height=None))
                 g = encode(lat, lon, precision=precision, height=h)  # PYCHOK false

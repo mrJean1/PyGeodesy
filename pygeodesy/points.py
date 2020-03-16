@@ -25,30 +25,28 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.dms import F_D, latDMS, lonDMS
-from pygeodesy.fmath import EPS, favg, fdot, Fsum, fsum, isint, \
-                           _IsNotError, map1, scalar
-from pygeodesy.formy import equirectangular_, points2
-from pygeodesy.lazily import _ALL_LAZY, _xcopy
-from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, classname, inStr, \
+from pygeodesy.basics import EPS, R_M, _IsNotError, isint, issequence, \
+                             map1, property_doc_, property_RO, scalar, \
+                             _Sequence, _TypeError, _xcopy, _xkwds
+from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
+from pygeodesy.fmath import favg, fdot, Fsum, fsum
+from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, classname, \
                             LatLon2Tuple, NearestOn3Tuple, NearestOn5Tuple, \
                             PhiLam2Tuple, Point3Tuple, Shape2Tuple, \
-                            nameof, _xnamed
-from pygeodesy.utily import PI_2, R_M, degrees90, degrees180, degrees360, \
-                            degrees2m, issequence, property_RO, \
-                            unroll180, unrollPI, unStr, \
-                            wrap90, wrap180, _TypeError
+                            nameof, notOverloaded, Vector4Tuple, _xnamed
+from pygeodesy.nvectorBase import NvectorBase, _N_vector_
+from pygeodesy.streprs import instr, pairs
+from pygeodesy.utily import PI_2, degrees90, degrees180, degrees360, degrees2m, \
+                            unroll180, unrollPI, wrap90, wrap180
 from pygeodesy.vector3d import CrossError, crosserrors
 
-try:
-    from collections import Sequence as _Sequence  # immutable
-except ImportError:  # PYCHOK no cover
-    _Sequence = object  # XXX or tuple
 from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.02.22'
+__version__ = '20.03.15'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -73,10 +71,12 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @keyword name: Optional name (C{str}).
 
            @note: The lat- and longitude are taken as-given,
-                  un-clipped and un-validated.
+                  un-clipped and un-validated .
         '''
-        self.lat = float(lat)
-        self.lon = float(lon)
+        try:
+            self.lat, self.lon = float(lat), float(lon)
+        except (TypeError, ValueError):
+            self.lat, self.lon = parseDMS2(lat, lon, clipLat=0, clipLon=0)  # PYCHOK LatLon2Tuple
         self.name = str(name)
         self.height = height
 
@@ -117,6 +117,24 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         return _xcopy(self, deep=deep)
 
+    @property_RO
+    def latlon(self):
+        '''Get the lat- and longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
+        '''
+        return LatLon2Tuple(self.lat, self.lon)
+
+    @property_RO
+    def latlonheight(self):
+        '''Get the lat-, longitude and height (L{LatLon3Tuple}C{(lat, lon, height)}).
+        '''
+        return self.latlon.to3Tuple(self.height)
+
+    @property_RO
+    def _N_vector(self):
+        '''(INTERNAL) Get the minimal, low-overhead (C{nvectorBase._N_vector_})
+        '''
+        return _N_vector_(*latlon2n_xyz(self.lat, self.lon), h=self.height)
+
     def others(self, other, name='other'):
         '''Check this and an other instance for type compatiblility.
 
@@ -131,6 +149,18 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
                 (hasattr(other, 'lat') and hasattr(other, 'lon'))):
             raise TypeError('type(%s) mismatch: %s vs %s' % (name,
                              classname(other), classname(self)))
+
+    @property_RO
+    def philam(self):
+        '''Get the lat- and longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
+        '''
+        return PhiLam2Tuple(radians(self.lat), radians(self.lon))
+
+    @property_RO
+    def philamheight(self):
+        '''Get the lat-, longitude in C{radians} and height (L{PhiLam3Tuple}C{(phi, lam, height)}).
+        '''
+        return self.philam.to3Tuple(self.height)
 
     def points(self, points, closed=False, base=None):
         '''DEPRECATED, use method C{points2}.
@@ -156,12 +186,35 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         return points2(points, closed=closed, base=base)
 
-    def to2ab(self):
-        '''Return the lat- and longitude in C{radians}.
+    def to2ab(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{philam}.
 
            @return: A L{PhiLam2Tuple}C{(phi, lam)}.
         '''
-        return PhiLam2Tuple(radians(self.lat), radians(self.lon))
+        return self.philam
+
+    def toNvector(self, h=None, Nvector=NvectorBase, **kwds):
+        '''Convert this point to C{n-vector} (normal to the earth's
+           surface) components, I{including height}.
+
+           @keyword h: Optional height, overriding this point's
+                       height (C{meter}).
+           @keyword Nvector: Optional (sub-)class to return the
+                             C{n-vector} components (C{Nvector})
+                             or C{None}.
+           @keyword kwds: Optional, additional B{C{Nvector}} keyword
+                          arguments, ignored if C{B{Nvector}=None}.
+
+           @return: A B{C{Nvector}} or an L{Vector4Tuple}C{(x, y, z, h)}
+                    if C{B{Nvector}=None}.
+
+           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
+        '''
+        x, y, z = latlon2n_xyz(self.lat, self.lon)
+        r = Vector4Tuple(x, y, z, self.height if h is None else h)
+        if Nvector:
+            r = Nvector(x, y, z, h=r.h, **_xkwds(kwds, ll=self))
+        return _xnamed(r, self.name)
 
     def toStr(self, form=F_D, prec=6, sep=', ', **kwds):
         '''This L{LatLon_} as a string "<degrees>, <degrees>".
@@ -174,14 +227,14 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
 
            @return: Instance (C{str}).
         '''
-        t = [latDMS(self.lat, form=form, prec=prec),
-             lonDMS(self.lon, form=form, prec=prec)]
+        t = (latDMS(self.lat, form=form, prec=prec),
+             lonDMS(self.lon, form=form, prec=prec))
         if self.height:
-            t += ['%+.2f' % (self.height,)]
+            t += ('%+.2f' % (self.height,),)
         if self.name:
-            t += [repr(self.name)]
+            t += (repr(self.name),)
         if kwds:
-            t += ['%s=%s' % _ for _ in sorted(kwds.items())]
+            t += pairs(kwds.items(), prec=prec)
         return sep.join(t)
 
     def toStr2(self, **kwds):
@@ -261,18 +314,12 @@ class _Basequence(_Sequence):  # immutable, on purpose
         for i in range(len(self)):
             yield self.point(self._array[i])
 
-    def _notOverloaded(self, name, *args, **kwds):  # PYCHOK no cover
-        '''Raise an error for a method or property not overloaded.
-        '''
-        n = '%s %s.%s' % (self._notOverloaded.__name__, classname(self, prefixed=True), name)
-        raise AssertionError(unStr(n, *args, **kwds))
-
     def point(self, *attrs):
         '''(INTERNAL) Must be overloaded.
 
            @param attrs: Optional arguments.
         '''
-        self._notOverloaded(self.point.__name__, *attrs)
+        notOverloaded(self, self.point.__name__, *attrs)
 
     def _range(self, start=None, end=None, step=1):
         '''(INTERNAL) Return the range.
@@ -298,7 +345,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         t = repr(self._array[:1])  # only first row
         t = '%s ...%s[%s]' % (t[:-1], t[-1:], len(self))
         t = ' '.join(t.split())  # coalesce spaces
-        return inStr(self, t, **self._slicekwds())
+        return instr(self, t, **self._slicekwds())
 
     def _reversed(self):  # PYCHOK false
         '''(INTERNAL) Yield all points in reverse order.
@@ -326,7 +373,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         return all(abs(z) <= self._epsilon for z in zeros)
 
-    @property
+    @property_doc_(' the equality tolerance (C{float}).')
     def epsilon(self):
         '''Get the tolerance for equality tests (C{float}).
         '''
@@ -1319,9 +1366,14 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
        @keyword options: Other keyword arguments for function
                          L{equirectangular_}.
 
-       @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} or
-                a L{NearestOn5Tuple}C{(lat, lon, distance, angle,
-                height)} if B{C{LatLon}} is C{None}.
+       @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with
+                the {closest} point (B{C{LatLon}}) or if B{C{LatLon}} is
+                C{None} a L{NearestOn5Tuple}C{(lat, lon, distance, angle,
+                height)}.  The C{distance} is the L{equirectangular_}
+                distance between the C{closest} and reference B{C{point}}
+                in C{degrees}.  The C{angle} from the reference B{C{point}}
+                to the C{closest} is in compass C{degrees360}, like function
+                L{compassAngle}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the
                           B{C{limit}}, see function L{equirectangular_}.
@@ -1402,7 +1454,8 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
     if LatLon is None:
         r = NearestOn5Tuple(c.lat, c.lon + u, d, a, h)
     else:
-        r = NearestOn3Tuple(LatLon(c.lat, c.lon + u, height=h), d, a)
+        r = LatLon(c.lat, c.lon + u, height=h)
+        r = NearestOn3Tuple(r, d, a)
     return _xnamed(r, nameof(point))
 
 

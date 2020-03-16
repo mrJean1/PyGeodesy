@@ -12,71 +12,20 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.lazily import _ALL_LAZY, _xcopy
+from pygeodesy.basics import EPS, isfinite, isint, _IsNotError, \
+                             isscalar, len2, _xcopy
+from pygeodesy.lazily import _ALL_LAZY
 
-from math import acos, copysign, hypot, isinf, isnan, sqrt  # pow
+from math import acos, copysign, hypot, sqrt  # pow
 from operator import mul
-from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.02.19'
+__version__ = '20.03.14'
 
-try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
-    from numbers import Integral as _Ints  #: (INTERNAL) Int objects
-except ImportError:  # PYCHOK no cover
-    try:  # _Ints imported by .utily
-        _Ints = int, long  #: (INTERNAL) Int objects (C{tuple})
-    except NameError:  # Python 3+
-        _Ints = int,  #: (INTERNAL) Int objects (C{tuple})
-
-try:  # similarly ...
-    from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
-except ImportError:  # PYCHOK no cover
-    try:
-        _Scalars = int, long, float  #: (INTERNAL) Scalar objects (C{tuple})
-    except NameError:
-        _Scalars = int, float  #: (INTERNAL) Scalar objects (C{tuple})
-
-try:  # _Seqs imported by .utily
-    from collections import Sequence as _Seqs  #: (INTERNAL) incl MutableSequence
-except ImportError:  # PYCHOK no cover
-    _Seqs = list, tuple, range  # XXX also set?
-
-try:
-    EPS    = _float_info.epsilon   #: System's epsilon (C{float})
-    MANTIS = _float_info.mant_dig  #: System's mantissa bits (C{int})
-    MAX    = _float_info.max       #: System's float max (C{float})
-    MIN    = _float_info.min       #: System's float min (C{float})
-except AttributeError:  # PYCHOK no cover
-    EPS    = 2.220446049250313e-16  #: Epsilon (C{float}) 2**-52?
-    MANTIS = 53  #: Mantissa bits ≈53 (C{int})
-    MAX    = pow(2.0,  1023) * (2 - EPS)  #: Float max (C{float}) ≈10**308, 2**1024?
-    MIN    = pow(2.0, -1021)  # Float min (C{float}) ≈10**-308, 2**-1021?
-EPS_2  = EPS / 2      #: M{EPS / 2}   ≈1.110223024625e-16 (C{float})
-EPS1   = 1.0 - EPS    #: M{1 - EPS}   ≈0.9999999999999998 (C{float})
-EPS1_2 = 1.0 - EPS_2  #: M{1 - EPS_2} ≈0.9999999999999999 (C{float})
-# _1EPS  = 1.0 + EPS  #: M{1 + EPS}   ≈1.0000000000000002 (C{float})
-
-INF  = float('inf')  #: Infinity (C{float}), see C{isinf}, C{isfinite}
-NAN  = float('nan')  #: Not-A-Number (C{float}), see C{isnan}
-NEG0 = -0.0          #: Negative 0.0 (C{float}), see C{isneg0}
-
-_1_3rd = 1.0 / 3.0  #: (INTERNAL) One third (C{float})
-_2_3rd = 2.0 / 3.0  #: (INTERNAL) Two thirds (C{float})
-_3_2nd = 3.0 / 2.0  #: (INTERNAL) Three halfs (C{float})
-
-
-def _IsNotError(*names, **pair):  # Error=TypeError, name=value
-    '''(INTERNAL) Format a C{TypeError} for a C{name=value} pair.
-    '''
-    Error = pair.pop('Error', TypeError)
-    for n, v in pair.items():
-        break
-    else:
-        n, v = 'pair', 'N/A'
-    t = ' or ' .join(names)
-    return Error('%s not %s: %r' % (n, t, v))
+_1_3rd = 1 / 3.0  #: (INTERNAL) One third (C{float})
+_2_3rd = 2 / 3.0  #: (INTERNAL) Two thirds (C{float})
+_3_2nd = 3 / 2.0  #: (INTERNAL) Three halfs (C{float})
 
 
 def _2even(s, r, p):
@@ -241,8 +190,8 @@ class Fsum(object):
         return f
 
     def __str__(self):
-        # m = self.__module__.split('.')[-1]
-        return '%s.%s()' % (self.__module__, self.__class__.__name__)
+        from pygeodesy.named import classname
+        return '%s()' % (classname(self, prefixed=True),)
 
     def __sub__(self, other):
         '''Difference of this and an other instance or a scalar.
@@ -729,7 +678,7 @@ def fpowers(x, n, alts=0):
     '''
     if not isfinite(x):
         raise ValueError('not %s: %r' %('finite', x))
-    if not isinstance(n, _Ints):
+    if not isint(n):
         raise _IsNotError(int.__name_, n=n)
     elif n < 1:
         raise ValueError('%s invalid: %r' % ('n', n))
@@ -777,7 +726,7 @@ def frange(start, number, step=1):
        @see: U{NumPy.prod<https://docs.SciPy.org/doc/
              numpy/reference/generated/numpy.arange.html>}.
     '''
-    if not isinstance(number, _Ints):
+    if not isint(number):
         raise _IsNotError(int.__name_, number=number)
     for i in range(number):
         yield start + i * step
@@ -803,50 +752,6 @@ except ImportError:  # PYCHOK no cover
             if v is _EMPTY:
                 raise TypeError('%s() empty, no start' % (freduce.__name__,))
             return r
-
-
-def fStr(floats, prec=6, sep=', ', fmt='%.*f', ints=False):
-    '''Convert floats to string, optionally with trailing zero
-       decimals stripped.
-
-       @param floats: List, sequence, tuple, etc. (C{scalar}s).
-       @keyword prec: Optional precision, number of decimal digits (0..9).
-                      Trailing zero decimals are stripped for B{C{prec}} values
-                      of 1 and above, but kept for negative B{C{prec}} values.
-       @keyword sep: Optional, separator to join (string).
-       @keyword fmt: Optional, float format (string).
-       @keyword ints: Optionally, remove decimal dot (C{bool}).
-
-       @return: The floats as 'f, f, ... f' (string).
-    '''
-    def _fstr(p, f):
-        t = fmt % (abs(p), float(f))
-        if ints and (isint(f, both=True) or  # for ...
-                     # corner case testLcc lon0=-96.0
-                     t.rstrip('0').endswith('.')):
-            t = t.split('.')[0]
-        elif p > 1:
-            t = fStrzs(t)
-        return t  # PYCHOK returns
-
-    if isscalar(floats):
-        return _fstr(prec, floats)
-    else:
-        return sep.join(_fstr(prec, f) for f in floats)
-
-
-def fStrzs(fstr):
-    '''Strip trailing zero decimals from a float string.
-
-       @param fstr: Float (string).
-
-       @return: Float (string).
-    '''
-    if fstr.endswith('0'):
-        z = fstr.find('.') + 2  # keep 1st zero decimal
-        if z > 1 and fstr[z:].isdigit():  # don't strip 'e+0..'
-            fstr = fstr[:z] + fstr[z:].rstrip('0')
-    return fstr
 
 
 def fsum_(*xs):
@@ -964,134 +869,6 @@ def hypot2(x, y):
     if x:
         x *= 1 + y / x
     return x
-
-
-try:
-    from math import isfinite  # new in Python 3+
-except ImportError:
-
-    def isfinite(obj):
-        '''Check for C{Inf} and C{NaN} values.
-
-           @param obj: Value (C{scalar}).
-
-           @return: C{False} if B{C{obj}} is C{INF} or C{NAN},
-                    C{True} otherwise.
-
-           @raise TypeError: Non-scalar B{C{obj}}.
-        '''
-        if not isscalar(obj):
-            raise _IsNotError(isscalar.__name__, obj=obj)
-        return not (isinf(obj) or isnan(obj))
-
-
-def isint(obj, both=False):
-    '''Check for integer type or integer value.
-
-       @param obj: The object (any C{type}).
-       @keyword both: Optionally, check both type and value (C{bool}).
-
-       @return: C{True} if B{C{obj}} is C{int}, C{False} otherwise.
-    '''
-    if both and isinstance(obj, float):  # NOT _Scalars!
-        try:
-            return obj.is_integer()
-        except AttributeError:
-            return False  # XXX float(int(obj)) == obj?
-    return isinstance(obj, _Ints)
-
-
-def isneg0(obj):
-    '''Check for NEG0, negative 0.0.
-
-       @param obj: Value (C{scalar}).
-
-       @return: C{True} if B{C{obj}} is C{NEG0} or -0.0,
-                C{False} otherwise.
-    '''
-    return obj in (0.0, NEG0) and copysign(1, obj) < 0
-#                             and str(obj).rstrip('0') == '-0.'
-
-
-def isscalar(obj):
-    '''Check for scalar types.
-
-       @param obj: The object (any C{type}).
-
-       @return: C{True} if B{C{obj}} is C{scalar}, C{False} otherwise.
-    '''
-    return isinstance(obj, _Scalars)
-
-
-def len2(seq):
-    '''Make built-in function L{len} work for generators, iterators,
-       etc. since those can only be started exactly once.
-
-       @param seq: Generator, iterator, list, range, tuple, etc.
-
-       @return: 2-Tuple (number, ...) of items (C{int}, C{list} or
-                C{range} or C{tuple}).
-    '''
-    if not isinstance(seq, _Seqs):  # not hasattr(seq, '__len__'):
-        seq = list(seq)
-    return len(seq), seq
-
-
-def map1(func, *xs):
-    '''Apply each argument to a single-argument function and
-       return a tuple of results.
-
-       @param func: Function to apply (C{callable}).
-       @param xs: Arguments to apply (C{any positional}).
-
-       @return: Function results (C{tuple}).
-    '''
-    return tuple(map(func, xs))
-
-
-def map2(func, *xs):
-    '''Apply arguments to a function and return a tuple of results.
-
-       Unlike Python 2's built-in L{map}, Python 3+ L{map} returns a
-       L{map} object, an iterator-like object which generates the
-       results only once.  Converting the L{map} object to a tuple
-       maintains Python 2 behavior.
-
-       @param func: Function to apply (C{callable}).
-       @param xs: Arguments to apply (C{list, tuple, ...}).
-
-       @return: Function results (C{tuple}).
-    '''
-    return tuple(map(func, *xs))
-
-
-def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
-    '''Validate a scalar.
-
-       @param value: The value (C{scalar}).
-       @keyword low: Optional lower bound (C{scalar}).
-       @keyword high: Optional upper bound (C{scalar}).
-       @keyword name: Optional name of value (C{str}).
-       @keyword Error: Exception to raise (C{ValueError}).
-
-       @return: New value (C{type} of B{C{low}}).
-
-       @raise TypeError: Non-scalar B{C{value}}.
-
-       @raise Error: Out-of-bounds B{C{value}}.
-    '''
-    if not isscalar(value):
-        raise _IsNotError(scalar.__name__, **{name: value})
-    try:
-        if low is None:
-            v = float(value)
-        else:
-            v = type(low)(value)
-            if v < low or v > high:
-                raise ValueError
-    except (TypeError, ValueError):
-        raise _IsNotError('valid', Error=Error, **{name: value})
-    return v
 
 
 def sqrt3(x):

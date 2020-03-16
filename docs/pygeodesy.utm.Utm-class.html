@@ -141,7 +141,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utm.Utm-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      str(x)</td>
+      Default <code>repr(self)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -158,7 +158,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utm.Utm-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      str(x)</td>
+      Default <code>str(self)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -335,6 +335,8 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
@@ -366,7 +368,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utm.Utm-class.html#band" class="summary-name">band</a><br />
-      Get the (latitudinal) band (<code>str</code>, 'C'..'X' or '').
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -374,9 +376,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utm.Utm-class.html#falsed2" class="summary-name">falsed2</a><br />
-      Get the easting and northing falsing (<a 
-      href="pygeodesy.named.EasNor2Tuple-class.html" 
-      class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -384,8 +384,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utm.Utm-class.html#pole" class="summary-name">pole</a><br />
-      Get the top center of (stereographic) projection, 
-      <code>&quot;&quot;</code> always.
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -393,7 +392,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.utm.Utm-class.html#zone" class="summary-name">zone</a><br />
-      Get the (longitudinal) zone (<code>int</code>, 1..60).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -508,7 +507,7 @@
     </td>
   </tr></table>
   
-  <p>str(x)</p>
+  <p>Default <code>repr(self)</code>.</p>
   <dl class="fields">
     <dt>Overrides:
         object.__repr__
@@ -532,7 +531,7 @@
     </td>
   </tr></table>
   
-  <p>str(x)</p>
+  <p>Default <code>str(self)</code>.</p>
   <dl class="fields">
     <dt>Overrides:
         object.__str__
@@ -701,6 +700,12 @@
           meter&quot;</code> plus <code>&quot; degrees float&quot;</code> 
           if <b><code>cs</code></b> is <code>True</code> 
           (<code>str</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AssertionError</strong></code> - Always, see function <a 
+        href="pygeodesy.named-module.html#notOverloaded" 
+        class="link">notOverloaded</a>.</li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -841,15 +846,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">band</h3>
-  <p>Get the (latitudinal) band (<code>str</code>, 'C'..'X' or '').</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
         - Get the (latitudinal) band (<code>str</code>, 'C'..'X' or '').
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -861,9 +866,7 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">falsed2</h3>
-  <p>Get the easting and northing falsing (<a 
-  href="pygeodesy.named.EasNor2Tuple-class.html" 
-  class="link">EasNor2Tuple</a><code>(easting, northing)</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">falsed2(<span class="summary-sig-arg">self</span>)</span>
@@ -872,8 +875,8 @@ href="pygeodesy.named.EasNor2Tuple-class.html"
 class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -885,8 +888,7 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">pole</h3>
-  <p>Get the top center of (stereographic) projection, 
-  <code>&quot;&quot;</code> always.</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">pole(<span class="summary-sig-arg">self</span>)</span>
@@ -894,8 +896,8 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
 always.
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -907,15 +909,15 @@ always.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">zone</h3>
-  <p>Get the (longitudinal) zone (<code>int</code>, 1..60).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">zone(<span class="summary-sig-arg">self</span>)</span>
         - Get the (longitudinal) zone (<code>int</code>, 1..60).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -953,7 +955,7 @@ always.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:12 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:54 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

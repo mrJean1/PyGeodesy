@@ -28,21 +28,22 @@ or by converting to anothor datum:
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import property_RO, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.formy import points2
-from pygeodesy.lazily import _ALL_LAZY, _2kwds
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
-from pygeodesy.utily import property_RO, unroll180, wrap90, wrap180, wrap360
+from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
-__version__ = '20.02.17'
+__version__ = '20.03.14'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -67,9 +68,9 @@ class Cartesian(CartesianEllipsoidalBase):
                     C{M} if available.
 
            @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}}
-                             or B{C{kwds}}.
+                             or other B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(kwds, LatLon=LatLon, datum=self.datum)
         return CartesianEllipsoidalBase.toLatLon(self, **kwds)
 
 
@@ -352,7 +353,7 @@ class LatLon(LatLonEllipsoidalBase):
            @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
                              or B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        kwds = _xkwds(kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
     def _direct(self, distance, bearing, llr, height=None):

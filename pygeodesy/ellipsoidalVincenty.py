@@ -59,16 +59,17 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
+from pygeodesy.basics import EPS, property_doc_, property_RO, scalar, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
-from pygeodesy.fmath import EPS, fpolynomial, hypot, hypot1, scalar
-from pygeodesy.lazily import _ALL_LAZY, _2kwds
+from pygeodesy.fmath import fpolynomial, hypot, hypot1
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
 from pygeodesy.utily import degrees90, degrees180, degrees360, \
-                            property_RO, sincos2, unroll180
+                            sincos2, unroll180
 
 from math import atan2, cos, radians, tan
 
@@ -76,7 +77,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '20.02.17'
+__version__ = '20.03.15'
 
 
 class VincentyError(ValueError):
@@ -107,9 +108,9 @@ class Cartesian(CartesianEllipsoidalBase):
                     C{M} if available.
 
            @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}}
-                             or B{C{kwds}}.
+                             or other B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(kwds, LatLon=LatLon, datum=self.datum)
         return CartesianEllipsoidalBase.toLatLon(self, **kwds)
 
 
@@ -292,9 +293,9 @@ class LatLon(LatLonEllipsoidalBase):
         r = Distance3Tuple(*self._inverse(other, True, wrap))
         return self._xnamed(r)
 
-    @property
+    @property_doc_(' the convergence epsilon (C{scalar}).')
     def epsilon(self):
-        '''Get the convergence epsilon (scalar).
+        '''Get the convergence epsilon (C{scalar}).
         '''
         return self._epsilon
 
@@ -302,7 +303,7 @@ class LatLon(LatLonEllipsoidalBase):
     def epsilon(self, eps):
         '''Set the convergence epsilon.
 
-           @param eps: New epsilon (scalar).
+           @param eps: New epsilon (C{scalar}).
 
            @raise TypeError: Non-scalar B{C{eps}}.
 
@@ -412,7 +413,7 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         return self._iteration + 1  # index to number
 
-    @property
+    @property_doc_(' the iteration limit (C{int}).')
     def iterations(self):
         '''Get the iteration limit (C{int}).
         '''
@@ -422,7 +423,7 @@ class LatLon(LatLonEllipsoidalBase):
     def iterations(self, limit):
         '''Set the iteration limit.
 
-           @param limit: New iteration limit (scalar).
+           @param limit: New iteration limit (C{int}).
 
            @raise TypeError: Non-scalar B{C{limit}}.
 
@@ -448,7 +449,7 @@ class LatLon(LatLonEllipsoidalBase):
            @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
                              or B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        kwds = _xkwds(kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
     def _direct(self, distance, bearing, llr, height=None):

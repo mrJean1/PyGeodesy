@@ -46,45 +46,33 @@ See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/html/geocentri
 for further information on the errors.
 '''
 
+from pygeodesy.basics import EPS, EPS1, EPS_2, _IsNotError, isscalar, map1, \
+                             property_RO, _TypeError
 from pygeodesy.datum import Datum, Datums, Ellipsoid
-from pygeodesy.fmath import cbrt, EPS, EPS1, EPS_2, fdot, fStr, fsum_, hypot1, \
-                           _IsNotError, isscalar, map1
+from pygeodesy.fmath import cbrt, fdot, fsum_, hypot1
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import LatLon3Tuple, LatLon4Tuple, _NamedBase, _NamedTuple, \
-                            Vector3Tuple, _xnamed
-from pygeodesy.utily import degrees90, degrees180, property_RO, \
-                            sincos2, sincos2d, _TypeError, unStr
+from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
+                           _NamedBase, _NamedTuple, PhiLam2Tuple, Vector3Tuple, \
+                           _xnamed
+from pygeodesy.streprs import unstr
+from pygeodesy.utily import degrees90, degrees180, sincos2, sincos2d
 from pygeodesy.vector3d import _xyzn4
 
-from math import atan2, copysign, cos, degrees, hypot, sqrt
+from math import atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '20.01.22'
+__version__ = '20.03.12'
 
 
 class EcefError(ValueError):
-    '''An ECEF issue.
+    '''An ECEF or related issue.
     '''
     pass
 
 
-def _afStr(this, prec, *attrs):
-    def _fStr(a):
-        return '%s=%s' % (a, fStr(getattr(this, a), prec=prec))
-
-    return tuple(map(_fStr, attrs))
-
-
-def _aRepr(this, *attrs):
-    def _repr(a):
-        return '%s=%r' % (a, getattr(this, a))
-
-    return tuple(map(_repr, attrs))
-
-
 def _llhn4(latlonh, lon, height, suffix):
-    '''(INTERNAL) Get an C{(lat, lon, h, name)} 4-tuple.
+    '''(INTERNAL) Get C{lat, lon, h, name} as C{4-tuple}.
     '''
     try:
         llh = latlonh.lat, latlonh.lon, getattr(latlonh, 'height',
@@ -144,7 +132,7 @@ class _EcefBase(_NamedBase):
             if not (E.a > 0 and E.f < 1):
                 raise ValueError
         except (TypeError, ValueError):
-            t = unStr(self.classname, a=E, f=f)
+            t = unstr(self.classname, a=E, f=f)
             raise EcefError('%s invalid: %s' % ('ellipsoid', t))
 
         self._E = E
@@ -201,16 +189,19 @@ class _EcefBase(_NamedBase):
         return self._xnamed(EcefMatrix(sa, ca, sb, cb))
 
     def toStr(self, prec=9):  # PYCHOK signature
-        '''Return this ECEF as a string.
+        '''Return this C{Ecef*} as a string.
 
-           @keyword prec: Optional precision, number of
-                          decimal digits (0..9).
+           @keyword prec: Optional precision, number of decimal digits (0..9).
 
-           @return: This ECEF as C{str}.
+           @return: This C{Ecef*} representation (C{str}).
         '''
-        t = _afStr(self, prec, 'a', 'f') + \
-            _aRepr(self, 'datum','ellipsoid','name')
-        return ', '.join(t)
+        return self.attrs('a', 'f', 'datum', 'ellipsoid', 'name', prec=prec)
+
+#   @property_RO
+#   def xyz(self):
+#       '''Get the geocentric C{(x, y, z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
+#       '''
+#       return self._xnamed(Vector3Tuple(self.x, self.y, self.z))
 
 
 class EcefKarney(_EcefBase):
@@ -586,14 +577,11 @@ class EcefCartesian(_NamedBase):
     def toStr(self, prec=9):  # PYCHOK signature
         '''Return this L{EcefCartesian} as a string.
 
-           @keyword prec: Optional precision, number of
-                          decimal digits (0..9).
+           @keyword prec: Optional precision, number of decimal digits (0..9).
 
-           @return: This L{EcefCartesian} as C{str}.
+           @return: This L{EcefCartesian} representation (C{str}).
         '''
-        t = _afStr(self, prec, 'lat0', 'lon0', 'height0') + \
-            _aRepr(self, 'M', 'ecef', 'name')
-        return ', '.join(t)
+        return self.attrs('lat0', 'lon0', 'height0', 'M', 'ecef', 'name', prec=prec)
 
 
 class EcefMatrix(_NamedTuple):
@@ -702,6 +690,54 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
     '''
     _Names_ = ('x', 'y', 'z', 'lat', 'lon', 'height', 'C', 'M', 'datum')
 
+    @property_RO
+    def lam(self):
+        '''Get the (geodetic) longitude in C{radians} (C{float}).
+        '''
+        return self.philam.lam
+
+    @property_RO
+    def latlon(self):
+        '''Get the (geodetic) lat-, longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
+        '''
+        return self._xnamed(LatLon2Tuple(self.lat, self.lon))
+
+    @property_RO
+    def latlonheight(self):
+        '''Get the (geodetic) lat-, longitude in C{degrees} and height (L{LatLon3Tuple}C{(lat, lon, height)}).
+        '''
+        return self._xnamed(self.latlon.to3Tuple(self.height))
+
+    @property_RO
+    def latlonheightdatum(self):
+        '''Get the (geodetic) lat-, longitude in C{degrees} with height and datum (L{LatLon4Tuple}C{(lat, lon, height, datum)}).
+        '''
+        return self._xnamed(self.latlon.to3Tuple(self.height).to4Tuple(self.datum))
+
+    @property_RO
+    def phi(self):
+        '''Get the (geodetic) latitude in C{radians} (C{float}).
+        '''
+        return self.philam.phi
+
+    @property_RO
+    def philam(self):
+        '''Get the (geodetic) lat-, longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
+        '''
+        return self._xnamed(PhiLam2Tuple(radians(self.lat), radians(self.lon)))
+
+    @property_RO
+    def philamheight(self):
+        '''Get the (geodetic) lat-, longitude in C{radians} and height (L{PhiLam3Tuple}C{(phi, lam, height)}).
+        '''
+        return self._xnamed(self.philam.to3Tuple(self.height))
+
+    @property_RO
+    def philamheightdatum(self):
+        '''Get the (geodetic) lat-, longitude in C{radians} with height and datum (L{PhiLam4Tuple}C{(phi, lam, height, datum)}).
+        '''
+        return self._xnamed(self.philam.to3Tuple(self.height).to4Tuple(self.datum))
+
     def toCartesian(self, Cartesian):
         '''Return the geocentric C{(x, y, z)} coordinates as an ellipsoidal
            or spherical C{Cartesian}.
@@ -734,7 +770,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
                     height)} or a L{LatLon4Tuple}C{(lat, lon, height, datum)}
                     if C{datum} is unavailable respectively available.
         '''
-        lat, lon = self.lat, self.lon  # PYCHOK expected
+        lat, lon = self.latlon  # PYCHOK expected
         h, d = self.height, self.datum  # PYCHOK expected
         if d is None:
             r = LatLon3Tuple(lat, lon, h) if LatLon is None else \
@@ -746,18 +782,33 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
             raise AssertionError('%r.%s: %r' % (self, 'datum', d))
         return self._xnamed(r)
 
-    def toVector(self, Vector=None):
+    def toVector(self, Vector=None, **kwds):
         '''Return the geocentric C{(x, y, z)} coordinates as vector.
 
            @keyword Vector: Optional vector (sub-)class to return
                             C{(x, y, z)} or C{None}.
+           @keyword kwds: Optional, additional B{C{Vector}} keyword
+                          arguments, ignored if C{B{Vector}=None}.
 
-           @return: A C{Vector}C{(x, y, z)} instance or if B{C{Vector}}
-                    is C{None} a L{Vector3Tuple}C{(x, y, z)}.
+           @return: A C{Vector}C{(x, y, z, **kwds)} instance or a
+                    L{Vector3Tuple}C{(x, y, z)} if B{C{Vector}} is C{None}.
+
+           @see: Propertes C{xyz} and C{xyzh}
         '''
-        r = Vector3Tuple(self.x, self.y, self.z) if Vector is None else \
-                  Vector(self.x, self.y, self.z)  # PYCHOK x, y, z
-        return self._xnamed(r)
+        return self.xyz if Vector is None else \
+              self._xnamed(Vector(self.x, self.y, self.z, **kwds))  # PYCHOK x, y, z
+
+    @property_RO
+    def xyz(self):
+        '''Get the geocentric C{(x, y, z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
+        '''
+        return self._xnamed(Vector3Tuple(self.x, self.y, self.z))
+
+    @property_RO
+    def xyzh(self):
+        '''Get the geocentric C{(x, y, z)} coordinates and height (L{Vector4Tuple}C{(x, y, z, h)})
+        '''
+        return self._xnamed(self.xyz.to4Tuple(self.height))
 
 
 class EcefVeness(_EcefBase):

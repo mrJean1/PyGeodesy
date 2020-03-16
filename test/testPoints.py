@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '20.02.23'
+__version__ = '20.03.09'
 
 from base import TestsBase
 
@@ -51,7 +51,7 @@ class Tests(TestsBase):
         _test('slice1', len(pts[:n]), n)
         _test('slice2', type(pts[1:n:2]), type(pts))
         _test('slice3', pts[1:n][0], pts[1])
-        _test('strepr', str(pts), repr(pts))
+        _test('str/repr', str(pts), repr(pts))
         if hasattr(pts, 'subset'):
             _test('subset', type(pts.subset(range(n))), type(npt))  # , nt=1)
 
@@ -140,6 +140,7 @@ class Tests(TestsBase):
         self.test('isclockwise', isclockwise(p), False)
 
         p = LatLon(-66.6, -88)
+        self.test('philam', fStr(p.philam, prec=6), '-1.162389, -1.53589')
         self.test('to2ab', fStr(p.to2ab(), prec=6), '-1.162389, -1.53589')
 
         q = p.classof(-66.6, -88)

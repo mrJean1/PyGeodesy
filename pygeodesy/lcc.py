@@ -17,22 +17,21 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import EPS, _IsNotError, issubclassof, property_RO, _TypeError
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datums
-from pygeodesy.fmath import EPS, fStr, hypot, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import EasNor3Tuple, LatLon4Tuple, LatLonDatum3Tuple, \
-                           _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
+from pygeodesy.named import EasNor3Tuple, LatLon2Tuple, LatLon4Tuple, LatLonDatum3Tuple, \
+                           _NamedBase, _NamedEnum, _NamedEnumItem, nameof, PhiLam2Tuple, \
                            _xnamed
-from pygeodesy.utily import PI_2, degrees90, degrees180, false2f, \
-                            issubclassof, property_RO, sincos2, tanPI_2_2, \
-                            _TypeError
+from pygeodesy.streprs import fstr
+from pygeodesy.utily import PI_2, degrees90, degrees180, false2f, sincos2, tanPI_2_2
 
-from math import atan, copysign, log, radians, sin, sqrt
+from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.01.22'
+__version__ = '20.03.09'
 
 
 class Conic(_NamedEnumItem):
@@ -48,11 +47,11 @@ class Conic(_NamedEnumItem):
     _N0 = 0  #: (INTERNAL) false northing (C{float}).
     _SP = 0  #: (INTERNAL) 1- or 2-SP (C{int})
 
-    _lat0 = 0  #: (INTERNAL) Origin lat (C{radians}).
-    _lon0 = 0  #: (INTERNAL) Origin lon (C{radians}).
+    _opt3 = 0  #: (INTERNAL) Optional, longitude (C{radians}).
     _par1 = 0  #: (INTERNAL) 1st std parallel (C{radians}).
     _par2 = 0  #: (INTERNAL) 2nd std parallel (C{radians}).
-    _opt3 = 0  #: (INTERNAL) Optional, longitude (C{radians}).
+    _phi0 = 0  #: (INTERNAL) Origin lat (C{radians}).
+    _lam0 = 0  #: (INTERNAL) Origin lon (C{radians}).
 
     _aF = 0  #: (INTERNAL) Precomputed F.
     _n  = 0  #: (INTERNAL) Precomputed n.
@@ -86,13 +85,10 @@ class Conic(_NamedEnumItem):
         if latlon0 is not None:
             _TypeError(_LLEB, latlon0=latlon0)
 
-            self._lat0, self._lon0 = latlon0.to2ab()
-            self._par1 = radians(par1)
-            if par2 is None:
-                self._par2 = self._par1
-            else:
-                self._par2 = radians(par2)
             self._opt3 = radians(opt3)
+            self._par1 = radians(par1)
+            self._par2 = self._par1 if par2 is None else radians(par2)
+            self._phi0, self._lam0 = latlon0.philam
 
             if k0 != 1:
                 self._k0 = float(k0)
@@ -136,13 +132,25 @@ class Conic(_NamedEnumItem):
     def lat0(self):
         '''Get the origin latitude (C{degrees90}).
         '''
-        return degrees90(self._lat0)
+        return degrees90(self._phi0)
+
+    @property_RO
+    def latlon0(self):
+        '''Get the central origin (L{LatLon2Tuple}C{(lat, lon)}).
+        '''
+        return LatLon2Tuple(self.lat0, self.lon0)
+
+    @property_RO
+    def lam0(self):
+        '''Get the central meridian (C{radians}).
+        '''
+        return self._lam0
 
     @property_RO
     def lon0(self):
         '''Get the central meridian (C{degrees180}).
         '''
-        return degrees180(self._lon0)
+        return degrees180(self._lam0)
 
     @property_RO
     def N0(self):
@@ -157,6 +165,12 @@ class Conic(_NamedEnumItem):
         return self.name + '.' + self.datum.name
 
     @property_RO
+    def opt3(self):
+        '''Get the optional meridian (C{degrees180}).
+        '''
+        return degrees180(self._opt3)
+
+    @property_RO
     def par1(self):
         '''Get the 1st standard parallel (C{degrees90}).
         '''
@@ -169,10 +183,16 @@ class Conic(_NamedEnumItem):
         return degrees90(self._par2)
 
     @property_RO
-    def opt3(self):
-        '''Get the optional meridian (C{degrees180}).
+    def phi0(self):
+        '''Get the origin latitude (C{radians}).
         '''
-        return degrees180(self._opt3)
+        return self._phi0
+
+    @property_RO
+    def philam0(self):
+        '''Get the central origin (L{PhiLam2Tuple}C{(phi, lam)}).
+        '''
+        return PhiLam2Tuple(self.phi0, self.lam0)
 
     @property_RO
     def SP(self):
@@ -202,18 +222,18 @@ class Conic(_NamedEnumItem):
             c._e = E.e
 
             if abs(c._par1 - c._par2) < EPS:
-                m1 = c._mdef(c._lat0)
-                t1 = c._tdef(c._lat0)
+                m1 = c._mdef(c._phi0)
+                t1 = c._tdef(c._phi0)
                 t0 = t1
                 k  = 1
-                n  = sin(c._lat0)
+                n  = sin(c._phi0)
                 sp = 1
             else:
                 m1 = c._mdef(c._par1)
                 m2 = c._mdef(c._par2)
                 t1 = c._tdef(c._par1)
                 t2 = c._tdef(c._par2)
-                t0 = c._tdef(c._lat0)
+                t0 = c._tdef(c._phi0)
                 k  = c._k0
                 n  = (log(m1) - log(m2)) \
                    / (log(t1) - log(t2))
@@ -239,13 +259,13 @@ class Conic(_NamedEnumItem):
            @return: Conic attributes (C{str}).
         '''
         if self._SP == 1:
-            return self._fStr(prec, 'lat0', 'lon0', 'par1',
-                                    'E0', 'N0', 'k0', 'SP',
-                                     datum='(%s)' % (self.datum),)
+            return self._instr(prec, 'lat0', 'lon0', 'par1',
+                                     'E0', 'N0', 'k0', 'SP',
+                                      datum=self.datum)
         else:
-            return self._fStr(prec, 'lat0', 'lon0', 'par1', 'par2',
-                                    'E0', 'N0', 'k0', 'SP',
-                                     datum='(%s)' % (self.datum),)
+            return self._instr(prec, 'lat0', 'lon0', 'par1', 'par2',
+                                     'E0', 'N0', 'k0', 'SP',
+                                      datum=self.datum)
 
     def _dup2(self, c):
         '''(INTERNAL) Copy this conic to c.
@@ -260,10 +280,10 @@ class Conic(_NamedEnumItem):
         c._N0 = self._N0
         c._SP = self._SP
 
-        c._lat0 = self._lat0
-        c._lon0 = self._lon0
         c._par1 = self._par1
         c._par2 = self._par2
+        c._phi0 = self._phi0
+        c._lam0 = self._lam0
         c._opt3 = self._opt3
 
         c._aF = self._aF
@@ -297,7 +317,7 @@ class Conic(_NamedEnumItem):
     def _xdef(self, t_x):
         '''(INTERNAL) Compute x(t_x).
         '''
-        return PI_2 - 2 * atan(t_x)  # XXX + self._lat0
+        return PI_2 - 2 * atan(t_x)  # XXX + self._phi0
 
 
 Conics = _NamedEnum('Conics', Conic)  #: Registered conics.
@@ -400,14 +420,14 @@ class Lcc(_NamedBase):
         r_ = copysign(hypot(e, n), c._n)
         t_ = pow(r_ / c._aF, c._n_)
 
-        x = c._xdef(t_)  # XXX c._lon0
+        x = c._xdef(t_)  # XXX c._lam0
         while True:
             p, x = x, c._xdef(t_ * c._pdef(x))
             if abs(x - p) < 1e-9:  # XXX EPS too small?
                 break
         # x, y == lon, lat
         a = degrees90(x)
-        b = degrees180((atan(e / n) + c._opt3) * c._n_ + c._lon0)
+        b = degrees180((atan(e / n) + c._opt3) * c._n_ + c._lam0)
 
         return LatLonDatum3Tuple(a, b, c.datum)
 
@@ -453,8 +473,8 @@ class Lcc(_NamedBase):
            >>> lb.toStr(4)  # 448251.0 5411932.0001
            >>> lb.toStr(sep=', ')  # 448251, 5411932
         '''
-        t = [fStr(self._easting, prec=prec),
-             fStr(self._northing, prec=prec)]
+        t = [fstr(self._easting, prec=prec),
+             fstr(self._northing, prec=prec)]
         if self._height:
             t += ['%+.2f%s' % (self._height, m)]
         return sep.join(t)
@@ -499,10 +519,10 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=''):
     if not isinstance(latlon, _LLEB):
         raise _IsNotError(_LLEB.__name__, latlon=latlon)
 
-    a, b = latlon.to2ab()
+    a, b = latlon.philam
     c = conic.toDatum(latlon.datum)
 
-    t = c._n * (b - c._lon0) - c._opt3
+    t = c._n * (b - c._lam0) - c._opt3
     st, ct = sincos2(t)
 
     r = c._rdef(c._tdef(a))

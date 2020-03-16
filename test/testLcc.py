@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.02.19'
+__version__ = '20.03.09'
 
 from base import TestsBase
 
@@ -22,13 +22,13 @@ class Tests(TestsBase):
         n = 'Snyder' + str(n)
         # Snyder, pp 297 <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>
         c = Conic(LatLon(23, -96, datum=Datums.NAD27), 33, 45, E0=0, N0=0, name=n)
-        self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)" % (n,))
+        self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)" % (n,))
 
         n = '_' + n
         c = Conic(LatLon(23, -96, datum=Datums.NAD27), 33, name=n)
-        self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, E0=0, N0=0, k0=1, SP=1, datum=(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)" % (n,))
+        self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, E0=0, N0=0, k0=1, SP=1, datum=Datum(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, transform=Transforms.NAD27)" % (n,))
         c = c.toDatum(Datums.NAD83)
-        self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, E0=0, N0=0, k0=1, SP=1, datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83)" % (n,))
+        self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, E0=0, N0=0, k0=1, SP=1, datum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83)" % (n,))
 
     def testLcc(self, module):
 

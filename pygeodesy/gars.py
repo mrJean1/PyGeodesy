@@ -13,17 +13,16 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import EPS1_2, isstr, property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
-from pygeodesy.fmath import EPS1_2  # _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
                            _NamedStr, nameof, _xnamed
-from pygeodesy.utily import property_RO, _Strs
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.01.22'
+__version__ = '20.03.09'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -132,7 +131,7 @@ class Garef(_NamedStr):
             self._name = cll._name
             self._precision = p  # cll._precision
 
-        elif isinstance(cll, _Strs):
+        elif isstr(cll):
             if ',' in cll:
                 lat, lon = _2fll(*parse3llh(cll))
                 cll = encode(lat, lon, precision=precision)  # PYCHOK false

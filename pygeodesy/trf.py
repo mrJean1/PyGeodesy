@@ -40,15 +40,16 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
+from pygeodesy.basics import _IsNotError, isscalar, map1, property_RO, \
+                             _TypeError
 from pygeodesy.datum import Ellipsoid, Ellipsoids, Transform
-from pygeodesy.fmath import fStrzs, isscalar, map1, _IsNotError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedDict as _X, \
                            _NamedEnum, _NamedEnumItem
-from pygeodesy.utily import property_RO, _TypeError
+from pygeodesy.streprs import fstrzs
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.02.14'
+__version__ = '20.03.10'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value and name
@@ -137,7 +138,7 @@ class RefFrame(_NamedEnumItem):
         '''
         e = self.ellipsoid
         t = ('name=%r'               % (self.name,),
-             'epoch=%s'              % (fStrzs('%.3f' % (self.epoch,)),),
+             'epoch=%s'              % (fstrzs('%.3F' % (self.epoch,)),),
              'ellipsoid=%s(name=%r)' % (classname(e), e.name))
         return ', '.join(t)
 
@@ -395,14 +396,14 @@ if __name__ == '__main__':
         n = len(cache)
         m = len(RefFrames) + len(_trfXs) * number
         t = L, n, m, L, (n * 100.0 / m), nl
-        print('len(_trf%ss) %3d / %3d %ss: %.1f%%%s' % t)
+        print('len(_trf%ss) %3d / %3d %ss: %.1F%%%s' % t)
 
     _percent('F', _trfFs, 15, '')
     _percent('S', _trfSs,  2, '\n')
 
     for m in range(1, 13):
         y, d = 2020, _mDays[m]
-        print('date2epoch(%d, %d, %d) %.3f' % (y, m, d, date2epoch(y, m, d)))
+        print('date2epoch(%d, %d, %d) %.3F' % (y, m, d, date2epoch(y, m, d)))
 
     # __doc__ of this file
     t = [''] + repr(RefFrames).split('\n')

@@ -12,18 +12,18 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import EPS, _IsNotError, property_doc_, \
+                             property_RO, _TypeError
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
-from pygeodesy.fmath import EPS, _IsNotError
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Vector3Tuple
 from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
-from pygeodesy.utily import property_RO, _TypeError
 
 __all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '20.02.28'
+__version__ = '20.03.15'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -74,7 +74,6 @@ class LatLonEllipsoidalBase(LatLonBase):
     _ups          = None  #: (INTERNAL) Cached toUps (L{Ups}).
     _utm          = None  #: (INTERNAL) Cached toUtm (L{Utm}).
     _wm           = None  #: (INTERNAL) Cached toWm (webmercator.Wm instance).
-    _3xyz         = None  #: (DEPRECATED) Cached (L{Vector3Tuple})
 
     def __init__(self, lat, lon, height=0, datum=None, reframe=None,
                                            epoch=None, name=''):
@@ -131,7 +130,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         if updated:
             LatLonBase._update(self, updated, '_etm', '_lcc', '_osgr',
-                                      '_ups', '_utm', '_wm', '_3xyz', *attrs)
+                                      '_ups', '_utm', '_wm', *attrs)
             if self._elevation2:
                 self._elevation2 = ()
             if self._geoidHeight2:
@@ -154,7 +153,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     @property_RO
     def convergence(self):
         '''Get this point's UTM or UPS meridian convergence (C{degrees})
-           or C{None} if not converted from L{Utm} ot L{Ups}.
+           or C{None} if not converted from L{Utm} or L{Ups}.
         '''
         return self._convergence
 
@@ -214,7 +213,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             ll = self
         return ll
 
-    @property
+    @property_doc_(" this points's datum (L{Datum}).")
     def datum(self):
         '''Get this point's datum (L{Datum}).
         '''
@@ -321,7 +320,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                              ('other', c, c, e.name, c, E.name))
         return E
 
-    @property
+    @property_doc_(" this point's observed epoch (C{float}).")
     def epoch(self):
         '''Get this point's observed epoch (C{float}) or C{None}.
         '''
@@ -331,8 +330,8 @@ class LatLonEllipsoidalBase(LatLonBase):
     def epoch(self, epoch):
         '''Set or clear this point's observed epoch.
 
-           @param epoch: Observed epoch, a fractional calendar year
-                         (C{scalar}) or C{None}.
+           @param epoch: Observed epoch, a fractional calendar
+                         year (C{scalar}) or C{None}.
 
            @raise TypeError: The B{C{epoch}} is not C{scalar}.
         '''
@@ -410,7 +409,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         a, b, h = parse3llh(strll, height=height, sep=sep)
         return self.classof(a, b, height=h, datum=datum or self.datum)
 
-    @property
+    @property_doc_(" this point's reference frame (L{RefFrame}).")
     def reframe(self):
         '''Get this point's reference frame (L{RefFrame}) or C{None}.
         '''
@@ -438,15 +437,15 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._scale
 
-    def to3xyz(self):  # overloads LatLonBase.to3xyz  # PYCHOK no cover
+    def to3xyz(self):  # PYCHOK no cover
         '''DEPRECATED, use method C{toEcef}.
 
            @return: A L{Vector3Tuple}C{(x, y, z)}.
+
+           @note: Overloads C{LatLonBase.to3xyz}
         '''
-        if self._3xyz is None:
-            r = self.toEcef()
-            self._3xyz = Vector3Tuple(r.x, r.y, r.z)
-        return self._xrenamed(self._3xyz)
+        r = self.toEcef()
+        return self._xnamed(Vector3Tuple(r.x, r.y, r.z))
 
     def toEtm(self):
         '''Convert this C{LatLon} point to an ETM coordinate.

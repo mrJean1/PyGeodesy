@@ -14,34 +14,35 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
+from pygeodesy.basics import len2, scalar, property_doc_, property_RO
 from pygeodesy.ecef import EcefVeness
-from pygeodesy.fmath import fsum, hypot_, len2, scalar
+from pygeodesy.fmath import fsum, hypot_
+from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
 from pygeodesy.latlonBase import LatLonBase
-from pygeodesy.lazily import _ALL_DOCS, _2kwds
-from pygeodesy.named import LatLon3Tuple, Vector3Tuple, \
-                            Vector4Tuple, _xattrs
+from pygeodesy.lazily import _ALL_DOCS
+from pygeodesy.named import Vector3Tuple, Vector4Tuple, _xattrs
 from pygeodesy.vector3d import Vector3d, VectorError, \
                                sumOf as _sumOf, _xyzhdn6
-from pygeodesy.utily import property_RO
 
-# from math import cos, sin
+# from math import atan2, cos, sin
 
 # all public constants, classes and functions
 __all__ = _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'NvectorBase',  # classes
           'sumOf')  # functions
-__version__ = '20.02.12'
+__version__ = '20.03.15'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
     '''Base class for ellipsoidal and spherical C{Nvector}s.
     '''
-    _datum = None        #: (INTERNAL) L{Datum}, overriden.
-    _Ecef  = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
-    _e9t   = None        #: (INTERNAL) Cached toCartesian (L{Ecef9Tuple}).
-    _h     = 0           #: (INTERNAL) Height (C{meter}).
-    _H     = ''          #: Heigth prefix (C{str}), '↑' in JS version
+    _datum  = None        #: (INTERNAL) L{Datum}, overriden.
+    _Ecef   = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
+    _h      = 0           #: (INTERNAL) Height (C{meter}).
+    _H      = ''          #: Heigth prefix (C{str}), '↑' in JS version
+    _latlon = None        #: (INTERNAL) Cached latlon (L{Latlon2Tuple}).
+    _philam = None        #: (INTERNAL) Cached philam (L{PhiLam2Tuple}).
 
     def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=''):
         '''New n-vector normal to the earth's surface.
@@ -72,6 +73,12 @@ class NvectorBase(Vector3d):  # XXX kept private
         if d:  # just pass-thru
             self._datum = d
 
+    def _update(self, updated, *attrs):
+        '''(INTERNAL) Zap cached attributes if updated.
+        '''
+        if updated:
+            Vector3d._update(self, updated, '_latlon', '_philam', *attrs)
+
     @property_RO
     def datum(self):
         '''Get the I{pass-thru} datum (C{Datum}) or C{None}.
@@ -84,7 +91,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return self._Ecef
 
-    @property
+    @property_doc_(' the height above surface (C{meter}).')
     def h(self):
         '''Get the height above surface (C{meter}).
         '''
@@ -101,10 +108,10 @@ class NvectorBase(Vector3d):  # XXX kept private
            @raise VectorError: If B{C{h}} invalid.
         '''
         h = scalar(h, None, name='h', Error=VectorError)
-        self._update(h != self._h)
+        self._update(h != self._h, '_latlon', '_philam')
         self._h = h
 
-    @property
+    @property_doc_(' the height prefix (C{str}).')
     def H(self):
         '''Get the height prefix (C{str}).
         '''
@@ -118,42 +125,87 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         self._H = str(H) if H else ''
 
-    def to3abh(self, height=None):
-        '''Convert this n-vector to (geodetic) lat-, longitude
-           in C{radians} and height.
+    @property_RO
+    def isEllipsoidal(self):
+        '''Check whether this n-vector is ellipsoidal (C{bool} or C{None} if unknown).
+        '''
+        return self.datum.isEllipsoidal if self._datum else None
+
+    @property_RO
+    def isSpherical(self):
+        '''Check whether this n-vector is spherical (C{bool} or C{None} if unknown).
+        '''
+        return self.datum.isSpherical if self._datum else None
+
+    @property_RO
+    def lam(self):
+        '''Get the (geodetic) longitude in C{radians} (C{float}).
+        '''
+        return self.philamheight.lam
+
+    @property_RO
+    def lat(self):
+        '''Get the (geodetic) latitude in C{degrees} (C{float}).
+        '''
+        return self.latlonheight.lat
+
+    @property_RO
+    def latlon(self):
+        '''Get the (geodetic) lat-, longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
+        '''
+        if self._latlon is None:
+            self._latlon = n_xyz2latlon(self.x, self.y, self.z)
+        return self._xnamed(self._latlon)
+
+    @property_RO
+    def latlonheight(self):
+        '''Get the (geodetic) lat-, longitude in C{degrees} and height (L{LatLon3Tuple}C{(lat, lon, height)}).
+        '''
+        return self._xnamed(self.latlon.to3Tuple(self.h))
+
+    @property_RO
+    def lon(self):
+        '''Get the (geodetic) longitude in C{degrees} (C{float}).
+        '''
+        return self.latlonheight.lon
+
+    @property_RO
+    def phi(self):
+        '''Get the (geodetic) latitude in C{radians} (C{float}).
+        '''
+        return self.philamheight.phi
+
+    @property_RO
+    def philam(self):
+        '''Get the (geodetic) lat-, longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
+        '''
+        if self._philam is None:
+            self._philam = n_xyz2philam(self.x, self.y, self.z)
+        return self._xnamed(self._philam)
+
+    @property_RO
+    def philamheight(self):
+        '''Get the (geodetic) lat-, longitude in C{radians} and height (L{PhiLam3Tuple}C{(phi, lam, height)}).
+        '''
+        return self._xnamed(self.philam.to3Tuple(self.h))
+
+    def to2ab(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{philam}.
+
+           @return: A L{PhiLam2Tuple}C{(phi, lam)}.
+        '''
+        return self.philam
+
+    def to3abh(self, height=None):  # PYCHOK no cover
+        '''DEPRECATED, use method C{philamheight} or C{philam.to3Tuple(B{height})}.
 
            @keyword height: Optional height, overriding this
                             n-vector's height (C{meter}).
 
            @return: A L{PhiLam3Tuple}C{(phi, lam, height)}.
         '''
-        h = self.h if height is None else height
-        return Vector3d.to2ab(self)._3Tuple(h)
-
-    def to3llh(self, height=None):
-        '''Convert this n-vector to (geodetic) lat-, longitude
-           in C{degrees} and height.
-
-           @keyword height: Optional height, overriding this
-                            n-vector's height (C{meter}).
-
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
-        '''
-        r = self.toLatLon(height=height, LatLon=None)
-        r = LatLon3Tuple(r.lat, r.lon, r.height)
-        return self._xnamed(r)
-
-    def to4xyzh(self, h=None):
-        '''Return this n-vector's components as 4-tuple.
-
-           @keyword h: Optional height, overriding this n-vector's
-                       height (C{meter}).
-
-           @return: A L{Vector4Tuple}C{(x, y, z, h)}.
-        '''
-        r = Vector4Tuple(self.x, self.y, self.z,
-                         self.h if h is None else h)
-        return self._xnamed(r)
+        return self.philamheight if height in (None, self.h) else \
+               self.philam.to3Tuple(height)
 
     def toCartesian(self, h=None, Cartesian=None, datum=None, **kwds):
         '''Convert this n-vector to C{Nvector}-based cartesian (ECEF)
@@ -193,6 +245,24 @@ class NvectorBase(Vector3d):  # XXX kept private
             c = Cartesian(c, **kwds)
         return self._xnamed(c)
 
+    def to2ll(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{latlon}.
+
+           @return: A L{LatLon2Tuple}C{(lat, lon)}.
+        '''
+        return self.latlon
+
+    def to3llh(self, height=None):  # PYCHOK no cover
+        '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple(B{height})}.
+
+           @keyword height: Optional height, overriding this
+                            n-vector's height (C{meter}).
+
+           @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
+        '''
+        return self.latlonheight if height in (None, self.h) else \
+               self.latlon.to3Tuple(height)
+
     def toLatLon(self, height=None, LatLon=None, datum=None, **kwds):
         '''Convert this n-vector to an C{Nvector}-based geodetic point.
 
@@ -205,9 +275,9 @@ class NvectorBase(Vector3d):  # XXX kept private
                           for B{C{LatLon}} instance, provided
                           B{C{LatLon}} is not C{None}.
 
-           @return: The B{C{LatLon}} point (L{LatLon}) or if
-                    C{B{LatLon}=None} or a L{LatLon3Tuple}C{(lat,
-                    lon, height)} if B{C{LatLon}} is C{None}.
+           @return: The B{C{LatLon}} point (L{LatLon}) or an
+                    L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
+                    C, M, datum)} if B{C{LatLon}} is C{None}.
 
            @raise TypeError: Invalid B{C{LatLon}}.
 
@@ -216,12 +286,10 @@ class NvectorBase(Vector3d):  # XXX kept private
            >>> v = Nvector(0.5, 0.5, 0.7071)
            >>> p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
+        # use self.Cartesian(Cartesian=None) if h == self.h and
+        # d == self.datum, for better accuracy of the height
         h = self.h if height is None else height
-        d = datum or self.datum
-
-        # XXX use self.Cartesian(Cartesian=None) if h == self.h
-        # and d == self.datum, for better accuracy of the height
-        r = self.Ecef(d).forward(Vector3d.to2ll(self), height=h, M=True)
+        r = self.Ecef(datum or self.datum).forward(self.latlon, height=h, M=True)
         if LatLon is not None:  # class or .classof
             r = LatLon(r.lat, r.lon, r.height, datum=r.datum, **kwds)
         return self._xnamed(r)
@@ -248,17 +316,26 @@ class NvectorBase(Vector3d):  # XXX kept private
             t = '%s%s%s%+.2f' % (t, sep, self.H, self.h)
         return fmt % (t,)
 
-    def toVector3d(self):
-        '''Convert this n-vector to a normalized 3-d vector,
-           I{ignoring the height}.
+    def toVector3d(self, norm=True):
+        '''Convert this n-vector to a 3-D vector, I{ignoring
+           the height}.
 
-           @return: Normalized vector (L{Vector3d}).
+           @keyword norm: Normalize the 3-D vector (C{bool}).
+
+           @return: The (normalized) vector (L{Vector3d}).
         '''
         u = self.unit()
-        return Vector3d(u.x, u.y, u.z, name=self.name)
+        v = Vector3d(u.x, u.y, u.z, name=self.name)
+        return v.unit() if norm else v
+
+    def to4xyzh(self, h=None):  # PYCHOK no cover
+        '''DEPRECATED, use property C{xyzh} or C{xyz.to4Tuple(B{h})}.
+        '''
+        return self.xyzh if h in (None, self.h) else \
+               self._xnamed(Vector4Tuple(self.x, self.y, self.z, h))
 
     def unit(self, ll=None):
-        '''Normalize this vector to unit length.
+        '''Normalize this n-vector to unit length.
 
            @keyword ll: Optional, original latlon (C{LatLon}).
 
@@ -269,15 +346,44 @@ class NvectorBase(Vector3d):  # XXX kept private
             self._united = u._united = _xattrs(u, self, '_h')
         return self._united
 
+    @property_RO
+    def xyzh(self):
+        '''Get this n-vector's components (L{Vector4Tuple}C{(x, y, z, h)})
+        '''
+        return self._xnamed(self.xyz.to4Tuple(self.h))
+
 
 NorthPole = NvectorBase(0, 0, +1, name='NorthPole')  #: North pole (C{Nvector}).
 SouthPole = NvectorBase(0, 0, -1, name='SouthPole')  #: South pole (C{Nvector}).
+
+
+class _N_vector_(NvectorBase):
+    '''(INTERNAL) Minimal, low-overhead C{n-vector}.
+    '''
+    def __init__(self, x, y, z, h=0):
+        self._x, self._y, self._z = x, y, z
+        if h:
+            self._h = h
 
 
 class LatLonNvectorBase(LatLonBase):
     '''(INTERNAL) Base class for n-vector-based ellipsoidal
        and spherical C{LatLon} classes.
     '''
+
+    def _update(self, updated, *attrs, **kwds):  # PYCHOK _Nv=None
+        '''(INTERNAL) Zap cached attributes if updated.
+
+           @see: C{ellipsoidalNvector.LatLon} and C{sphericalNvector.LatLon}
+                 for the special case of B{C{_Nv}}.
+        '''
+        if updated:
+            _Nv = kwds.pop('_Nv', None)
+            if _Nv is not None:
+                if _Nv._fromll is not None:
+                    _Nv._fromll = None
+                self._Nv = None
+            LatLonBase._update(self, updated, *attrs)
 
     def others(self, other, name='other'):
         '''Refine the class comparison.
@@ -293,22 +399,19 @@ class LatLonNvectorBase(LatLonBase):
             if not isinstance(other, NvectorBase):
                 raise
 
-    def toNvector(self, **kwds):  # PYCHOK signature
+    def toNvector(self, Nvector=NvectorBase, **kwds):  # PYCHOK signature
         '''Convert this point to C{Nvector} components, I{including
            height}.
 
            @keyword kwds: Optional, additional B{C{Nvector}} keyword
                           arguments, ignored if C{B{Nvector}=None}.
-                          Specify C{Nvector=...} to override this
-                          C{Nvector} class or set C{B{Nvector}=None}.
 
-           @return: The B{C{Nvector}} components (C{Nvector}) or a
-                    L{Vector4Tuple}C{(x, y, z, h)} if C{B{Nvector}=None}.
+           @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)}
+                    if C{B{Nvector}=None}.
 
            @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, Nvector=NvectorBase)
-        return LatLonBase.toNvector(self, **kwds)
+        return LatLonBase.toNvector(self, Nvector=Nvector, **kwds)
 
 
 def sumOf(nvectors, Vector=None, h=None, **kwds):
@@ -334,7 +437,7 @@ def sumOf(nvectors, Vector=None, h=None, **kwds):
         h = fsum(v.h for v in nvectors) / float(n)
 
     if Vector is None:
-        r = _sumOf(nvectors, Vector=Vector3Tuple)._4Tuple(h)
+        r = _sumOf(nvectors, Vector=Vector3Tuple).to4Tuple(h)
     else:
         r = _sumOf(nvectors, Vector=Vector, h=h, **kwds)
     return r

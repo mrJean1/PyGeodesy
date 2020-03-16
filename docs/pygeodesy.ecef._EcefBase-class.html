@@ -119,7 +119,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ecef._EcefBase-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">9</span>)</span><br />
-      Return this ECEF as a string.</td>
+      Return this <code>Ecef*</code> as a string.</td>
           <td align="right" valign="top">
             
             
@@ -138,6 +138,8 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
@@ -169,8 +171,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#a" class="summary-name">a</a><br />
-      Get <code>E.a</code>, the major, equatorial radius 
-      (<code>meter</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -178,8 +179,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#equatorialRadius" class="summary-name">equatorialRadius</a><br />
-      Get <code>E.a</code>, the major, equatorial radius 
-      (<code>meter</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -187,8 +187,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#datum" class="summary-name">datum</a><br />
-      Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
-      class="link">Datum</a>) or <code>None</code>.
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -196,9 +195,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
-      Get <code>E</code>, the ellipsoid (<a 
-      href="pygeodesy.datum.Ellipsoid-class.html" 
-      class="link">Ellipsoid</a>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -206,8 +203,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#f" class="summary-name">f</a><br />
-      Get <code>E.f</code>, the flattening (<code>float</code>), zero for 
-      sphere.
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -215,8 +211,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#flattening" class="summary-name">flattening</a><br />
-      Get <code>E.f</code>, the flattening (<code>float</code>), zero for 
-      sphere.
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -284,14 +279,20 @@
     </td>
   </tr></table>
   
-  <p>Return this ECEF as a string.</p>
+  <p>Return this <code>Ecef*</code> as a string.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Optional precision, number of decimal digits (0..9).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This ECEF as <code>str</code>.</dd>
+        <dd>This <code>Ecef*</code> representation (<code>str</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AssertionError</strong></code> - Always, see function <a 
+        href="pygeodesy.named-module.html#notOverloaded" 
+        class="link">notOverloaded</a>.</li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -314,16 +315,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">a</h3>
-  <p>Get <code>E.a</code>, the major, equatorial radius 
-  (<code>meter</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
         - Get <code>E.a</code>, the major, equatorial radius (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -335,16 +335,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">equatorialRadius</h3>
-  <p>Get <code>E.a</code>, the major, equatorial radius 
-  (<code>meter</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
         - Get <code>E.a</code>, the major, equatorial radius (<code>meter</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -356,8 +355,7 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">datum</h3>
-  <p>Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
-  class="link">Datum</a>) or <code>None</code>.</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
@@ -365,8 +363,8 @@
 class="link">Datum</a>) or <code>None</code>.
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -378,9 +376,7 @@ class="link">Datum</a>) or <code>None</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">ellipsoid</h3>
-  <p>Get <code>E</code>, the ellipsoid (<a 
-  href="pygeodesy.datum.Ellipsoid-class.html" 
-  class="link">Ellipsoid</a>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
@@ -388,8 +384,8 @@ class="link">Datum</a>) or <code>None</code>.
 href="pygeodesy.datum.Ellipsoid-class.html" class="link">Ellipsoid</a>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -401,16 +397,15 @@ href="pygeodesy.datum.Ellipsoid-class.html" class="link">Ellipsoid</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">f</h3>
-  <p>Get <code>E.f</code>, the flattening (<code>float</code>), zero for 
-  sphere.</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
         - Get <code>E.f</code>, the flattening (<code>float</code>), zero for sphere.
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -422,16 +417,15 @@ href="pygeodesy.datum.Ellipsoid-class.html" class="link">Ellipsoid</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">flattening</h3>
-  <p>Get <code>E.f</code>, the flattening (<code>float</code>), zero for 
-  sphere.</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
         - Get <code>E.f</code>, the flattening (<code>float</code>), zero for sphere.
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -469,7 +463,7 @@ href="pygeodesy.datum.Ellipsoid-class.html" class="link">Ellipsoid</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:09 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -271,6 +271,8 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
@@ -302,8 +304,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.CassiniSoldner-class.html#datum" class="summary-name">datum</a><br />
-      Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
-      class="link">Datum</a>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -311,7 +312,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.CassiniSoldner-class.html#flattening" class="summary-name">flattening</a><br />
-      Get the geodesic's flattening (<code>float</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -319,11 +320,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.CassiniSoldner-class.html#geodesic" class="summary-name">geodesic</a><br />
-      Get this projection's <a 
-      href="https://GeographicLib.SourceForge.io/html/python/code.html" 
-      target="_top">Geodesic</a>, provided package <a 
-      href="https://PyPI.org/project/geographiclib" 
-      target="_top">geographiclib</a> is installed.
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -331,7 +328,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.CassiniSoldner-class.html#lat0" class="summary-name">lat0</a><br />
-      Get the center latitude (<code>degrees90</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -339,9 +336,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.CassiniSoldner-class.html#latlon0" class="summary-name">latlon0</a><br />
-      Get the center lat- and longitude (<a 
-      href="pygeodesy.named.LatLon2Tuple-class.html" 
-      class="link">LatLon2Tuple</a>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -349,7 +344,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.CassiniSoldner-class.html#lon0" class="summary-name">lon0</a><br />
-      Get the center longitude (<code>degrees180</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -357,7 +352,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.CassiniSoldner-class.html#majoradius" class="summary-name">majoradius</a><br />
-      Get the geodesic's major (equatorial) radius (<code>float</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -656,6 +651,12 @@
     <dt>Returns:</dt>
         <dd>This projection as <code>&quot;lat0 lon0&quot;</code> 
           (<code>str</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AssertionError</strong></code> - Always, see function <a 
+        href="pygeodesy.named-module.html#notOverloaded" 
+        class="link">notOverloaded</a>.</li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -708,8 +709,7 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">datum</h3>
-  <p>Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
-  class="link">Datum</a>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
@@ -717,8 +717,8 @@
 class="link">Datum</a>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -730,15 +730,15 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">flattening</h3>
-  <p>Get the geodesic's flattening (<code>float</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">flattening(<span class="summary-sig-arg">self</span>)</span>
         - Get the geodesic's flattening (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -750,11 +750,7 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">geodesic</h3>
-  <p>Get this projection's <a 
-  href="https://GeographicLib.SourceForge.io/html/python/code.html" 
-  target="_top">Geodesic</a>, provided package <a 
-  href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> is installed.</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
@@ -765,8 +761,8 @@ href="https://PyPI.org/project/geographiclib"
 target="_top">geographiclib</a> is installed.
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -778,15 +774,15 @@ target="_top">geographiclib</a> is installed.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lat0</h3>
-  <p>Get the center latitude (<code>degrees90</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">lat0(<span class="summary-sig-arg">self</span>)</span>
         - Get the center latitude (<code>degrees90</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -798,9 +794,7 @@ target="_top">geographiclib</a> is installed.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlon0</h3>
-  <p>Get the center lat- and longitude (<a 
-  href="pygeodesy.named.LatLon2Tuple-class.html" 
-  class="link">LatLon2Tuple</a>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">latlon0(<span class="summary-sig-arg">self</span>)</span>
@@ -809,8 +803,8 @@ href="pygeodesy.named.LatLon2Tuple-class.html"
 class="link">LatLon2Tuple</a>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -822,15 +816,15 @@ class="link">LatLon2Tuple</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lon0</h3>
-  <p>Get the center longitude (<code>degrees180</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">lon0(<span class="summary-sig-arg">self</span>)</span>
         - Get the center longitude (<code>degrees180</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -842,15 +836,15 @@ class="link">LatLon2Tuple</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">majoradius</h3>
-  <p>Get the geodesic's major (equatorial) radius (<code>float</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">majoradius(<span class="summary-sig-arg">self</span>)</span>
         - Get the geodesic's major (equatorial) radius (<code>float</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -888,7 +882,7 @@ class="link">LatLon2Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:09 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

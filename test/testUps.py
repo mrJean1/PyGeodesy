@@ -4,11 +4,11 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.02.14'
+__version__ = '20.03.09'
 
 from base import TestsBase
 
-from pygeodesy import degDMS, F_DMS, fStr, parseUTMUPS5, toUps8, toUtmUps8, ups, Ups
+from pygeodesy import degDMS, F_DMS, parseUTMUPS5, strs, toUps8, toUtmUps8, ups, Ups
 
 
 class Tests(TestsBase):
@@ -173,7 +173,7 @@ class Tests(TestsBase):
             x = lat + ' ' + lon
             u = parseUTMUPS5(' '.join(('00', p, e, n)))
             ll = u.toLatLon(LL)
-            t = fStr(ll.latlon, prec=10, sep=' ')
+            t = ' '.join(strs(ll.latlon, prec=10))
             self.test('NGA-10.3-' + i, t, x, known=i == '3')
 
 

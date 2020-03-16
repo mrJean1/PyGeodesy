@@ -465,6 +465,8 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
@@ -496,10 +498,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence" class="summary-name">convergence</a><br />
-      Get this point's UTM or UPS meridian convergence 
-      (<code>degrees</code>) or <code>None</code> if not converted from <a 
-      href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> ot <a 
-      href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -507,8 +506,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum" class="summary-name">datum</a><br />
-      Get this point's datum (<a href="pygeodesy.datum.Datum-class.html" 
-      class="link">Datum</a>).
+      Property to get and set this points's datum (<a 
+      href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).
     </td>
   </tr>
 <tr>
@@ -516,8 +515,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#epoch" class="summary-name">epoch</a><br />
-      Get this point's observed epoch (<code>float</code>) or 
-      <code>None</code>.
+      Property to get and set this point's observed epoch 
+      (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -525,8 +524,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isEllipsoidal" class="summary-name">isEllipsoidal</a><br />
-      Check whether this <code>LatLon</code> point is ellipsoidal 
-      (<code>bool</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -534,8 +532,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#isSpherical" class="summary-name">isSpherical</a><br />
-      Check whether this <code>LatLon</code> point is spherical 
-      (<code>bool</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -543,8 +540,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration" class="summary-name">iteration</a><br />
-      Get the iteration number (<code>int</code> or <code>None</code> if 
-      not available/applicable).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -552,9 +548,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#reframe" class="summary-name">reframe</a><br />
-      Get this point's reference frame (<a 
-      href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) 
-      or <code>None</code>.
+      Property to get and set this point's reference frame (<a 
+      href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>).
     </td>
   </tr>
 <tr>
@@ -562,10 +557,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale" class="summary-name">scale</a><br />
-      Get this point's UTM grid or UPS point scale factor 
-      (<code>float</code>) or <code>None</code> if not converted from <a 
-      href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
-      href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -580,7 +572,9 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lon">lon</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#phi">phi</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam">philam</a></code>,
-      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight">philamheight</a></code>
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight">philamheight</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyzh">xyzh</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -1061,7 +1055,10 @@
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#to3xyz">latlonBase.LatLonBase.to3xyz</a>
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        Overloads <code>LatLonBase.to3xyz</code>
+      </p>
+</div></td></tr></table>
 </div>
 <a name="toEtm"></a>
 <div>
@@ -1290,21 +1287,18 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">convergence</h3>
-  <p>Get this point's UTM or UPS meridian convergence 
-  (<code>degrees</code>) or <code>None</code> if not converted from <a 
-  href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> ot <a 
-  href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">convergence(<span class="summary-sig-arg">self</span>)</span>
         - Get this point's UTM or UPS meridian convergence (<code>degrees</code>) or 
 <code>None</code> if not converted from <a 
-href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> ot <a 
+href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
 href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1316,8 +1310,8 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">datum</h3>
-  <p>Get this point's datum (<a href="pygeodesy.datum.Datum-class.html" 
-  class="link">Datum</a>).</p>
+  <p>Property to get and set this points's datum (<a 
+  href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
@@ -1338,8 +1332,8 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">epoch</h3>
-  <p>Get this point's observed epoch (<code>float</code>) or 
-  <code>None</code>.</p>
+  <p>Property to get and set this point's observed epoch 
+  (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">epoch(<span class="summary-sig-arg">self</span>)</span>
@@ -1359,8 +1353,7 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isEllipsoidal</h3>
-  <p>Check whether this <code>LatLon</code> point is ellipsoidal 
-  (<code>bool</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
@@ -1368,8 +1361,8 @@ class="link">Datum</a>).
 (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1381,8 +1374,7 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">isSpherical</h3>
-  <p>Check whether this <code>LatLon</code> point is spherical 
-  (<code>bool</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
@@ -1390,8 +1382,8 @@ class="link">Datum</a>).
 (<code>bool</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1403,8 +1395,7 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">iteration</h3>
-  <p>Get the iteration number (<code>int</code> or <code>None</code> if not
-  available/applicable).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">iteration(<span class="summary-sig-arg">self</span>)</span>
@@ -1412,8 +1403,8 @@ class="link">Datum</a>).
 available/applicable).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1425,9 +1416,8 @@ available/applicable).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">reframe</h3>
-  <p>Get this point's reference frame (<a 
-  href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or 
-  <code>None</code>.</p>
+  <p>Property to get and set this point's reference frame (<a 
+  href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">reframe(<span class="summary-sig-arg">self</span>)</span>
@@ -1449,10 +1439,7 @@ href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">scale</h3>
-  <p>Get this point's UTM grid or UPS point scale factor 
-  (<code>float</code>) or <code>None</code> if not converted from <a 
-  href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
-  href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">scale(<span class="summary-sig-arg">self</span>)</span>
@@ -1462,8 +1449,8 @@ href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a
 href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -1501,7 +1488,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:09 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -448,6 +448,27 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#nearestOn2" class="summary-sig-name">nearestOn2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">**closed_radius_height</span>)</span><br />
+      DEPRECATED, use method <a 
+      href="pygeodesy.sphericalNvector.LatLon-class.html#nearestOn3" 
+      class="link">sphericalNvector.LatLon.nearestOn3</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#nearestOn3" class="summary-sig-name">nearestOn3</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -604,6 +625,8 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
@@ -647,7 +670,9 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lon">lon</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#phi">phi</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam">philam</a></code>,
-      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight">philamheight</a></code>
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight">philamheight</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#xyzh">xyzh</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -899,17 +924,11 @@
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>N-vector representing great circle (<a 
+        <dd>N-vector representing the great circle (<a 
           href="pygeodesy.sphericalNvector.Nvector-class.html" 
           class="link">Nvector</a>).</dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(53.3206, -1.7297)
-<span class="py-prompt">&gt;&gt;&gt; </span>gc = p.greatCircle(96.0)
-<span class="py-prompt">&gt;&gt;&gt; </span>gc.toStr()  <span class="py-comment"># [-0.794, 0.129, 0.594]</span></pre>
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="greatCircleTo"></a>
 <div>
@@ -939,7 +958,7 @@
           <code>degrees360</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>N-vector representing great circle (<a 
+        <dd>N-vector representing the great circle (<a 
           href="pygeodesy.sphericalNvector.Nvector-class.html" 
           class="link">Nvector</a>).</dd>
     <dt>Raises:</dt>
@@ -1384,6 +1403,35 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn2</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
+        <span class="sig-arg">**closed_radius_height</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use method <a 
+  href="pygeodesy.sphericalNvector.LatLon-class.html#nearestOn3" 
+  class="link">sphericalNvector.LatLon.nearestOn3</a>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>... 2-Tuple <code>(closest, distance)</code> of the 
+          <code>closest</code> point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) on the polygon and the 
+          <code>distance</code> to that point from this point ...</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="nearestOn3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn3</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
@@ -1410,11 +1458,15 @@
           the arc (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (closest, distance) of the closest point (<a 
+        <dd>A <a href="pygeodesy.named.NearestOn3Tuple-class.html" 
+          class="link">NearestOn3Tuple</a><code>(closest, distance, 
+          angle)</code> of the <code>closest</code> point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) on the polygon and the distance to that 
-          point from the given point in <code>meter</code>, same units of 
-          <b><code>radius</code></b>.</dd>
+          class="link">LatLon</a>), the <code>distance</code> between this 
+          and the <code>closest</code> point in <code>meter</code>, same 
+          units as <b><code>radius</code></b> and the <code>angle</code> 
+          from this to the <code>closest</code> point in compass 
+          <code>degrees360</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
@@ -1664,7 +1716,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:12 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:54 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

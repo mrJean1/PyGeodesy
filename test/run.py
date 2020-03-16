@@ -7,14 +7,14 @@
 # 3.7.0 on macOS 10.12 Sierra and 10.13 High Sierra and with
 # Pythonista 3.1 and 3.2 on iOS 10.3, 11.0, 11.1, 11.3 and 11.4.
 
-from base import clipStr, coverage, isiOS, PyGeodesy_dir, PythonX, \
+from base import clips, coverage, isiOS, PyGeodesy_dir, PythonX, \
                  secs2str, test_dir, tilde, versions  # PYCHOK expected
 
-from os import environ, linesep as NL
+from os import access, environ, F_OK, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '20.02.28'
+__version__ = '20.03.09'
 
 if isiOS:  # MCCABE 14
 
@@ -102,7 +102,7 @@ else:  # non-iOS
         return p.returncode, r
 
 # shorten Python path [-O]
-PythonX_O = clipStr(PythonX_O, 32)
+PythonX_O = clips(PythonX_O, 32)
 
 # command line options
 _failedonly = False
@@ -123,40 +123,48 @@ def _exit(last, text, exit):
     sys.exit(exit)
 
 
-def _run(test, *opts):
+def _run(test, *opts):  # MCCABE 13
     '''(INTERNAL) Run a test script and parse the result.
     '''
     global _Total, _FailX
 
     t = 'running %s %s' % (PythonX_O, tilde(test))
-    print(t)
+    if access(test, F_OK):
 
-    x, r = run2(test, *opts)
-    if _results:
-        _write(NL + t + NL)
-        _write(r)
+        print(t)
+        x, r = run2(test, *opts)
+        if _results:
+            _write(NL + t + NL)
+            _write(r)
+
+        if 'Traceback' in r:
+            print(r + NL)
+            if not x:  # count as failure
+                _FailX += 1
+            if _raiser:
+                raise SystemExit
+
+        elif _failedonly:
+            for t in _testlines(r):
+                if ', KNOWN' not in t:
+                    print(t)
+
+        elif _verbose:
+            print(r + NL)
+
+        elif x:
+            for t in _testlines(r):
+                print(t)
+
+    else:
+        r = t + ' FAILED:  no such file' + NL
+        x = 1
+        if _results:
+            _write(NL + r)
+        print(r)
 
     _Total += r.count(NL + '    test ')  # number of tests
     _FailX += x  # failures, excluding KNOWN ones
-
-    if 'Traceback' in r:
-        print(r + NL)
-        if not x:  # count as failure
-            _FailX += 1
-        if _raiser:
-            raise SystemExit
-
-    elif _failedonly:
-        for t in _testlines(r):
-            if ', KNOWN' not in t:
-                print(t)
-
-    elif _verbose:
-        print(r + NL)
-
-    elif x:
-        for t in _testlines(r):
-            print(t)
 
 
 def _testlines(r):
@@ -174,7 +182,7 @@ def _write(text):
     _results.write(text.encode('utf-8'))
 
 
-if __name__ == '__main__':  # MCCABE 16
+if __name__ == '__main__':  # MCCABE 19
 
     from glob import glob
     from os.path import join

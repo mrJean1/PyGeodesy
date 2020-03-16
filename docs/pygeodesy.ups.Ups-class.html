@@ -301,6 +301,8 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
@@ -332,7 +334,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ups.Ups-class.html#band" class="summary-name">band</a><br />
-      Get the polar band letter ('A', 'B', 'Y' or 'Z').
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -340,9 +342,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ups.Ups-class.html#falsed2" class="summary-name">falsed2</a><br />
-      Get the easting and northing falsing (<a 
-      href="pygeodesy.named.EasNor2Tuple-class.html" 
-      class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -350,7 +350,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ups.Ups-class.html#hemisphere" class="summary-name">hemisphere</a><br />
-      Get the hemisphere (<code>str</code>, 'N'|'S').
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -358,8 +358,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ups.Ups-class.html#pole" class="summary-name">pole</a><br />
-      Get the top/center of (stereographic) projection 
-      (<code>'N'|'S'</code> or <code>&quot;&quot;</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -367,9 +366,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ups.Ups-class.html#zone" class="summary-name">zone</a><br />
-      Get the polar pseudo zone (<code>0</code>), like Karney's <a 
-      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
-      target="_top">zone UPS</a>.
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -630,6 +627,12 @@
           only if <b><code>B</code></b> is <code>True</code> and 
           convergence <code>DMS</code> is in <i>either</i> degrees, minutes
           <i>or</i> seconds (<code>str</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AssertionError</strong></code> - Always, see function <a 
+        href="pygeodesy.named-module.html#notOverloaded" 
+        class="link">notOverloaded</a>.</li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
     </dt>
@@ -776,15 +779,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">band</h3>
-  <p>Get the polar band letter ('A', 'B', 'Y' or 'Z').</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
         - Get the polar band letter ('A', 'B', 'Y' or 'Z').
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -796,9 +799,7 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">falsed2</h3>
-  <p>Get the easting and northing falsing (<a 
-  href="pygeodesy.named.EasNor2Tuple-class.html" 
-  class="link">EasNor2Tuple</a><code>(easting, northing)</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">falsed2(<span class="summary-sig-arg">self</span>)</span>
@@ -807,8 +808,8 @@ href="pygeodesy.named.EasNor2Tuple-class.html"
 class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -820,15 +821,15 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">hemisphere</h3>
-  <p>Get the hemisphere (<code>str</code>, 'N'|'S').</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">hemisphere(<span class="summary-sig-arg">self</span>)</span>
         - Get the hemisphere (<code>str</code>, 'N'|'S').
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -840,8 +841,7 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">pole</h3>
-  <p>Get the top/center of (stereographic) projection (<code>'N'|'S'</code>
-  or <code>&quot;&quot;</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">pole(<span class="summary-sig-arg">self</span>)</span>
@@ -849,8 +849,8 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
 <code>&quot;&quot;</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -862,9 +862,7 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">zone</h3>
-  <p>Get the polar pseudo zone (<code>0</code>), like Karney's <a 
-  href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
-  target="_top">zone UPS</a>.</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">zone(<span class="summary-sig-arg">self</span>)</span>
@@ -873,8 +871,8 @@ href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.htm
 target="_top">zone UPS</a>.
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -912,7 +910,7 @@ target="_top">zone UPS</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:12 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:54 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

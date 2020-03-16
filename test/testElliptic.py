@@ -5,11 +5,11 @@ u'''Test Elliptic Python implementation.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.02.22'
+__version__ = '20.03.10'
 
 from base import TestsBase
 
-from pygeodesy import elliptic, EllipticError, EPS, fStr, PI_2, PI_4, radians, sincos2
+from pygeodesy import elliptic, EllipticError, EPS, fstr, PI_2, PI_4, radians, sincos2
 
 
 class Tests(TestsBase):
@@ -111,11 +111,11 @@ class Tests(TestsBase):
         self.test('_RG(0,  0.0796, 4)', _RG(0,  0.0796, 4), '1.028475809', fmt='%.9f')
 
         e.reset(0, 0)
-        self.test('sncndn(x)', fStr(e.sncndn(0), prec=9), '0.0, 1.0, 1.0')
-        self.test('sncndn(x)', fStr(e.sncndn(PI_2), prec=9), '1.0, -0.0, 1.0', known=True)
+        self.test('sncndn(x)', fstr(e.sncndn(0), prec=9), '0.0, 1.0, 1.0')
+        self.test('sncndn(x)', fstr(e.sncndn(PI_2), prec=9), '1.0, -0.0, 1.0', known=True)
         e.reset(1, 1)
-        self.test('sncndn(x)', fStr(e.sncndn(0), prec=9), '0.0, 1.0, 1.0')
-        self.test('sncndn(x)', fStr(e.sncndn(PI_2), prec=9), '0.917152336, 0.398536815, 0.398536815')
+        self.test('sncndn(x)', fstr(e.sncndn(0), prec=9), '0.0, 1.0, 1.0')
+        self.test('sncndn(x)', fstr(e.sncndn(PI_2), prec=9), '0.917152336, 0.398536815, 0.398536815')
         self.test('sncndn(x)', type(e.sncndn(PI_4)), elliptic.Elliptic3Tuple)
 
         self.testCopy(e)

@@ -71,12 +71,13 @@
   published under the same <a href="https://OpenSource.org/licenses/MIT" 
   target="_top">MIT License</a>**.</p>
   <p>There are three modules for ellipsoidal earth models, 
-  <i>ellipsoidalKarney</i>, <i>-Vincenty</i> and <i>-Nvector</i> and two 
-  for spherical ones, <i>sphericalTrigonometry</i> and <i>-Nvector</i>.  
-  Each module provides a geodetic <i>LatLon</i> and a geocentric 
-  <i>Cartesian</i> class with methods and functions to compute distance, 
-  initial and final bearing, intermediate and nearest points, area, 
-  perimeter, conversions and unrolling, among other things.  For more 
+  <code>ellipsoidalKarney</code>, <code>-Vincenty</code> and 
+  <code>-Nvector</code> and two for spherical ones, 
+  <code>sphericalTrigonometry</code> and <code>-Nvector</code>.  Each 
+  module provides a geodetic <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> and a geocentric 
+  <a href=pygeodesy-Cartesian-attributes-table.html><b><code>Cartesian</code></b></a> class with methods and functions to compute
+  distance, initial and final bearing, intermediate and nearest points, 
+  area, perimeter, conversions and unrolling, among other things.  For more
   information and further details see the <a 
   href="https://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
@@ -285,7 +286,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.03.02
+        20.03.15
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -301,6 +302,7 @@
         version, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.bases-module.html">pygeodesy.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
         class="link" onclick="show_private();">latlonBase</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Basic constants, definitions and functions.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html" onclick="show_private();">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Functions to <i>clip</i> a path or polygon of <code>LatLon</code> 
@@ -588,6 +590,7 @@
         class="link">nearestOn2</a> and <a 
         href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
         class="link">perimeterOf</a>, <i>all spherical</i>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary">Terrestrial Reference Frame (TRF) classes <a 
         href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>,
         registry <a href="pygeodesy.trf-module.html#RefFrames" 
@@ -740,8 +743,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3d.VectorError-class.html" class="summary-name">VectorError</a><br />
-      <a href="pygeodesy.vector3d.Vector3d-class.html" 
-        class="link">Vector3d</a> or <code>*Nvector</code> issue.
+      Issue with class <a href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a> or <code>*Nvector</code>.
     </td>
   </tr>
 <tr>
@@ -832,7 +835,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefError-class.html" class="summary-name">EcefError</a><br />
-      An ECEF issue.
+      An ECEF or related issue.
     </td>
   </tr>
 <tr>
@@ -1402,7 +1405,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.utily.LimitError-class.html" class="summary-name">LimitError</a><br />
+        <a href="pygeodesy.basics.LimitError-class.html" class="summary-name">LimitError</a><br />
       Error raised for lat- or longitudinal deltas exceeding the 
         <b><code>limit</code></b> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
@@ -1602,6 +1605,14 @@
       Web Mercator (WM) coordinate.
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.basics.property_RO-class.html" class="summary-name">property_RO</a><br />
+      An immutable property (<code>Read Only</code>).
+    </td>
+  </tr>
 </table>
 <!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -1618,7 +1629,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#crosserrors" class="summary-sig-name">crosserrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Get/set raising of vectorial cross product errors.</td>
+      Report or ignore vectorial cross product errors.</td>
           <td align="right" valign="top">
             
             
@@ -1675,7 +1686,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#anStr" class="summary-sig-name">anStr</a>(<span class="summary-sig-arg">name</span>,
+          <td><span class="summary-sig"><a name="anStr"></a><span class="summary-sig-name">anStr</span>(<span class="summary-sig-arg">name</span>,
+        <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.streprs-module.html#anstr" class="link">anstr</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#anstr" class="summary-sig-name">anstr</a>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
       Make a valid name of alphanumeric and OKd characters.</td>
@@ -1697,7 +1728,26 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#antipode" class="summary-sig-name">antipode</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>)</span><br />
       Return the antipode, the point diametrically opposite to a given 
-      point.</td>
+      point in <code>degrees</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#antipode_" class="summary-sig-name">antipode_</a>(<span class="summary-sig-arg">phi</span>,
+        <span class="summary-sig-arg">lam</span>)</span><br />
+      Return the antipode, the point diametrically opposite to a given 
+      point in <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1739,6 +1789,27 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.points-module.html#areaOf" class="link">areaOf</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#attrs" class="summary-sig-name">attrs</a>(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">*names</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Get instance attributes as <i>name=value</i> strings, with floats 
+      handled like <a href="pygeodesy.streprs-module.html#fstr" 
+      class="link">fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -2035,7 +2106,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#clipStr" class="summary-sig-name">clipStr</a>(<span class="summary-sig-arg">bstr</span>,
+          <td><span class="summary-sig"><a name="clipStr"></a><span class="summary-sig-name">clipStr</span>(<span class="summary-sig-arg">bstr</span>,
+        <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">50</span>,
+        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      DEPRECATED, use function <a href="pygeodesy.basics-module.html#clips"
+      class="link">clips</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#clips" class="summary-sig-name">clips</a>(<span class="summary-sig-arg">bstr</span>,
         <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">50</span>,
         <span class="summary-sig-arg">white</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Clip a string to the given length limit.</td>
@@ -2155,7 +2246,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degDMS" class="summary-sig-name">degDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">s_D</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">s_M</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&prime;</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">s_M</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">s_S</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
@@ -2307,11 +2398,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#enStr2" class="summary-sig-name">enStr2</a>(<span class="summary-sig-arg">easting</span>,
+          <td><span class="summary-sig"><a name="enStr2"></a><span class="summary-sig-name">enStr2</span>(<span class="summary-sig-arg">easting</span>,
         <span class="summary-sig-arg">northing</span>,
         <span class="summary-sig-arg">prec</span>,
         <span class="summary-sig-arg">*extras</span>)</span><br />
-      Return easting, northing string representations.</td>
+      DEPRECATED, use function <a 
+      href="pygeodesy.streprs-module.html#enstr2" class="link">enstr2</a>.</td>
           <td align="right" valign="top">
             
             
@@ -2332,6 +2424,26 @@
         <span class="summary-sig-arg">band</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.epsg-module.html#encode" 
       class="link">epsg.encode</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#enstr2" class="summary-sig-name">enstr2</a>(<span class="summary-sig-arg">easting</span>,
+        <span class="summary-sig-arg">northing</span>,
+        <span class="summary-sig-arg">prec</span>,
+        <span class="summary-sig-arg">*extras</span>)</span><br />
+      Return easting, northing string representations.</td>
           <td align="right" valign="top">
             
             
@@ -2462,13 +2574,13 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#fStr" class="summary-sig-name">fStr</a>(<span class="summary-sig-arg">floats</span>,
+          <td><span class="summary-sig"><a name="fStr"></a><span class="summary-sig-name">fStr</span>(<span class="summary-sig-arg">floats</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">%.*f</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert floats to string, optionally with trailing zero decimals 
-      stripped.</td>
+        <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
+      DEPRECATED, use function <a href="pygeodesy.streprs-module.html#fstr"
+      class="link">fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -2484,8 +2596,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#fStrzs" class="summary-sig-name">fStrzs</a>(<span class="summary-sig-arg">fstr</span>)</span><br />
-      Strip trailing zero decimals from a float string.</td>
+          <td><span class="summary-sig"><a name="fStrzs"></a><span class="summary-sig-name">fStrzs</span>(<span class="summary-sig-arg">floatstr</span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.streprs-module.html#fstrzs" class="link">fstrzs</a>.</td>
           <td align="right" valign="top">
             
             
@@ -2777,6 +2890,45 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fstr" class="summary-sig-name">fstr</a>(<span class="summary-sig-arg">floats</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
+      Convert floats to string, optionally stripped of trailing zero 
+      decimals.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fstrzs" class="summary-sig-name">fstrzs</a>(<span class="summary-sig-arg">efstr</span>)</span><br />
+      Strip trailing zero decimals from a <code>float</code> string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fsum" class="summary-sig-name">fsum</a>(<span class="summary-sig-arg">iterable</span>)</span><br />
       Return an accurate floating point sum of values in the iterable.</td>
           <td align="right" valign="top">
@@ -2874,7 +3026,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x1039ab4d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10ab721d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -3074,10 +3226,30 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#inStr" class="summary-sig-name">inStr</a>(<span class="summary-sig-arg">inst</span>,
+          <td><span class="summary-sig"><a name="inStr"></a><span class="summary-sig-name">inStr</span>(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      Return the string representation of an instance.</td>
+      DEPRECATED, use function <a 
+      href="pygeodesy.streprs-module.html#instr" class="link">instr</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#instr" class="summary-sig-name">instr</a>(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Return the string representation of an instantion.</td>
           <td align="right" valign="top">
             
             
@@ -3148,6 +3320,28 @@
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
         <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
+      Check whether two points are antipodal, on diametrically opposite 
+      sides of the earth.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isantipode_" class="summary-sig-name">isantipode_</a>(<span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam1</span>,
+        <span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">lam2</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
       Check whether two points are antipodal, on diametrically opposite 
       sides of the earth.</td>
@@ -3299,7 +3493,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Check for integer type or integer value.</td>
+      Check for integer type or an integer <code>float</code>.</td>
           <td align="right" valign="top">
             
             
@@ -3333,7 +3527,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isneg0" class="summary-sig-name">isneg0</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for NEG0, negative 0.0.</td>
+      Check for <a href="pygeodesy.basics-module.html#NEG0" 
+      class="link">NEG0</a>, negative 0.0.</td>
           <td align="right" valign="top">
             
             
@@ -3387,6 +3582,23 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#issequence" class="summary-sig-name">issequence</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">*excluded</span>)</span><br />
       Check for sequence types.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isstr" class="summary-sig-name">isstr</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Check for string types.</td>
           <td align="right" valign="top">
             
             
@@ -3476,7 +3688,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#len2" class="summary-sig-name">len2</a>(<span class="summary-sig-arg">seq</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#latlon2n_xyz" class="summary-sig-name">latlon2n_xyz</a>(<span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>)</span><br />
+      Convert lat-, longitude to <code>n-vector</code> (normal to the 
+      earth's surface) X, Y and Z components.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#len2" class="summary-sig-name">len2</a>(<span class="summary-sig-arg">items</span>)</span><br />
       Make built-in function <code class="link">len</code> work for 
       generators, iterators, etc.</td>
           <td align="right" valign="top">
@@ -3621,8 +3852,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">func</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
-      Apply each argument to a single-argument function and return a tuple 
-      of results.</td>
+      Apply each argument to a single-argument function and return a 
+      <code>tuple</code> of results.</td>
           <td align="right" valign="top">
             
             
@@ -3640,7 +3871,66 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">func</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
-      Apply arguments to a function and return a tuple of results.</td>
+      Apply arguments to a function and return a <code>tuple</code> of 
+      results.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#modulename" class="summary-sig-name">modulename</a>(<span class="summary-sig-arg">clas</span>,
+        <span class="summary-sig-arg">prefixed</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the class name optionally prefixed with the module name.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#n_xyz2latlon" class="summary-sig-name">n_xyz2latlon</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">z</span>)</span><br />
+      Convert <code>n-vector</code> components to lat- and longitude in 
+      <code>degrees</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#n_xyz2philam" class="summary-sig-name">n_xyz2philam</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">z</span>)</span><br />
+      Convert <code>n-vector</code> components to lat- and longitude in 
+      <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -3745,6 +4035,28 @@
         <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Normalize all degree &#730;, minute ' and second &quot; symbols in a 
       string to the default symbols &#176;, &#8242; and &#8243;.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#pairs" class="summary-sig-name">pairs</a>(<span class="summary-sig-arg">items</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">=</code><code class="variable-quote">'</code></span>)</span><br />
+      Convert items to <i>name=value</i> strings, with floats handled like 
+      <a href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -4040,6 +4352,25 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#philam2n_xyz" class="summary-sig-name">philam2n_xyz</a>(<span class="summary-sig-arg">phi</span>,
+        <span class="summary-sig-arg">lam</span>)</span><br />
+      Convert lat-, longitude to <code>n-vector</code> (normal to the 
+      earth's surface) X, Y and Z components.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>,
@@ -4098,8 +4429,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#property_RO" class="summary-sig-name">property_RO</a>(<span class="summary-sig-arg">method</span>)</span><br />
-      Decorator for <code>Read_Only</code> property.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#property_doc_" class="summary-sig-name">property_doc_</a>(<span class="summary-sig-arg">doc</span>)</span><br />
+      Decorator for a property with documentation.</td>
           <td align="right" valign="top">
             
             
@@ -4203,6 +4534,28 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#rangerrors" class="summary-sig-name">rangerrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
       Gert/set raising of range errors.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#reprs" class="summary-sig-name">reprs</a>(<span class="summary-sig-arg">objs</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert objects to <code>repr</code> strings, with floats handled 
+      like <a href="pygeodesy.streprs-module.html#fstr" 
+      class="link">fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -4456,6 +4809,27 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt3" class="summary-sig-name">sqrt3</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Compute the square root cubed <i class="math">sqrt(x)**3</i> or <i 
       class="math">sqrt(x**3)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#strs" class="summary-sig-name">strs</a>(<span class="summary-sig-arg">objs</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert objects to <code>str</code> strings, with floats handled like
+      <a href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -4752,10 +5126,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#unStr" class="summary-sig-name">unStr</a>(<span class="summary-sig-arg">name</span>,
+          <td><span class="summary-sig"><a name="unStr"></a><span class="summary-sig-name">unStr</span>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      Return the string representation of an invokation.</td>
+      DEPRECATED, use function <a 
+      href="pygeodesy.streprs-module.html#unstr" class="link">unstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -4794,6 +5169,25 @@
         <span class="summary-sig-arg">rad2</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Unroll longitudinal delta and wrap longitude in radians.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#unstr" class="summary-sig-name">unstr</a>(<span class="summary-sig-arg">name</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Return the string representation of an invokation.</td>
           <td align="right" valign="top">
             
             
@@ -5090,7 +5484,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.3.2'"><code class="variable-quote">'</code><code class="variable-string">20.3.2</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.3.15'"><code class="variable-quote">'</code><code class="variable-string">20.3.15</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -5100,12 +5494,12 @@
     </td><td class="summary">
         <a href="pygeodesy-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, p\
 ar1=49.833333, par2=51.166667, E0=649328, N0=665262, k0=1, SP=2, datum\
-=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84\
-),
+=Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.\
+WGS84),
 Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8\
 333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, da\
-tum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NA\
-D83),
+tum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transfor\
+ms.NAD83),
 ...">Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, l<code class="variable-ellipsis">...</code></code><br />
       Registered conics (<code>enum-like</code>).
     </td>
@@ -5549,7 +5943,7 @@ Ellipsoid(name='GRS80'),
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">&prime;</code><code class="variable-quote">'</code></code><br />
+        <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code><br />
       Minutes symbol &quot;&#8242;&quot; (<code>str</code>).
     </td>
   </tr>
@@ -5626,7 +6020,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Get/set raising of vectorial cross product errors.</p>
+  <p>Report or ignore vectorial cross product errors.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -5699,14 +6093,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
-<a name="anStr"></a>
+<a name="anstr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">anStr</span>(<span class="sig-arg">name</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">anstr</span>(<span class="sig-arg">name</span>,
         <span class="sig-arg">OKd</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">sub</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span>
   </h3>
@@ -5747,8 +6141,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Return the antipode, the point diametrically opposite to a given 
-  point.</p>
+  <p>Return the antipode, the point diametrically opposite to a given point
+  in <code>degrees</code>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -5758,6 +6152,40 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
+        target="_top">Geosphere</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="antipode_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">antipode_</span>(<span class="sig-arg">phi</span>,
+        <span class="sig-arg">lam</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the antipode, the point diametrically opposite to a given point
+  in <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+          class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
@@ -5816,6 +6244,43 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         class="link">ellipsoidalKarney.areaOf</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="attrs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">attrs</span>(<span class="sig-arg">inst</span>,
+        <span class="sig-arg">*names</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get instance attributes as <i>name=value</i> strings, with floats 
+  handled like <a href="pygeodesy.streprs-module.html#fstr" 
+  class="link">fstr</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>inst</code></strong> - The instance (any <code>type</code>).</li>
+        <li><strong class="pname"><code>names</code></strong> - The attribute names (<code>str</code>s).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Keyword argument for function <a 
+          href="pygeodesy.streprs-module.html#pairs" 
+          class="link">pairs</a>, except <code><b>Nones</b>=True</code> to 
+          in-/exclude missing or attributes with a <code>None</code> 
+          <i>value</i>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <code>tuple(<b><code>sep</code></b>.join(t) for t in 
+          zip(<i>names</i>, reprs(<i>values</i>, ...)))</code> of 
+          <code>str</code>s.</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="bearing"></a>
 <div>
@@ -5981,8 +6446,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>2-Tuple <code>(latlonSW, latlonNE)</code> as 
-          <b><code>LatLon</code></b> or 4-Tuple <code>(latS, lonW, latN, 
-          lonE)</code> if <b><code>LatLon</code></b> is <code>None</code>.</dd>
+          <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> or 4-Tuple <code>(latS, lonW, latN, 
+          lonE)</code> if <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> is <code>None</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -6015,10 +6480,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.Bounds2Tuple-class.html" 
           class="link">Bounds2Tuple</a><code>(latlonSW, latlonNE)</code> as
-          <b><code>LatLon</code></b> or a <a 
+          <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> or a <a 
           href="pygeodesy.named.Bounds4Tuple-class.html" 
           class="link">Bounds4Tuple</a><code>(latS, lonW, latN, 
-          lonE)</code> if <b><code>LatLon</code></b> is <code>None</code>.</dd>
+          lonE)</code> if <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
@@ -6119,10 +6584,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           class="link">LatLon</code>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Centroid location (<b><code>LatLon</code></b>) or a <a 
+        <dd>Centroid location (<a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a>) or a <a 
           href="pygeodesy.named.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code> if 
-          <b><code>LatLon</code></b> is <code>None</code>.</dd>
+          <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
@@ -6354,14 +6819,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
-<a name="clipStr"></a>
+<a name="clips"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">clipStr</span>(<span class="sig-arg">bstr</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clips</span>(<span class="sig-arg">bstr</span>,
         <span class="sig-arg">limit</span>=<span class="sig-default">50</span>,
         <span class="sig-arg">white</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
@@ -6619,7 +7084,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">degDMS</span>(<span class="sig-arg">deg</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
         <span class="sig-arg">s_D</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">s_M</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&prime;</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">s_M</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">s_S</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">neg</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">pos</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
@@ -6870,42 +7335,6 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
-<a name="enStr2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">enStr2</span>(<span class="sig-arg">easting</span>,
-        <span class="sig-arg">northing</span>,
-        <span class="sig-arg">prec</span>,
-        <span class="sig-arg">*extras</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return easting, northing string representations.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>easting</code></strong> - Easting from false easting (<code>meter</code>).</li>
-        <li><strong class="pname"><code>northing</code></strong> - Northing from from false northing (<code>meter</code>).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Precision in number of digits (<code>int</code>).</li>
-        <li><strong class="pname"><code>extras</code></strong> - Optional leading items (strings).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><b><code>extras</code></b> + 2-Tuple <code>(eastingStr, 
-          northingStr)</code>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="encodeEPSG"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -6927,6 +7356,42 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Returns:</dt>
         <dd><code>EPSG</code> code (<code>int</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="enstr2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">enstr2</span>(<span class="sig-arg">easting</span>,
+        <span class="sig-arg">northing</span>,
+        <span class="sig-arg">prec</span>,
+        <span class="sig-arg">*extras</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return easting, northing string representations.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>easting</code></strong> - Easting from false easting (<code>meter</code>).</li>
+        <li><strong class="pname"><code>northing</code></strong> - Northing from from false northing (<code>meter</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Precision in number of digits (<code>int</code>).</li>
+        <li><strong class="pname"><code>extras</code></strong> - Optional leading items (<code>str</code>s).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><b><code>extras</code></b> + 2-Tuple <code>(eastingStr, 
+          northingStr)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>prec</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -7026,7 +7491,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <p>This approximation is valid for short distance of several hundred Km 
   or Miles, see the <b><code>limit</code></b> keyword argument and the <a 
-  href="pygeodesy.utily.LimitError-class.html" 
+  href="pygeodesy.basics.LimitError-class.html" 
   class="link">LimitError</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
@@ -7049,9 +7514,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           delta_lon, unroll_lon2)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
         <b><code>-limit..+limit</code></b> range and <a 
-        href="pygeodesy.utily-module.html#limiterrors" 
+        href="pygeodesy.basics-module.html#limiterrors" 
         class="link">limiterrors</a> set to <code>True</code>.</li>
     </ul></dd>
   </dl>
@@ -7171,68 +7636,6 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         class="link">vincentys_</a>.
       </p>
 </div></td></tr></table>
-</div>
-<a name="fStr"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fStr</span>(<span class="sig-arg">floats</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">%.*f</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">ints</span>=<span class="sig-default">False</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert floats to string, optionally with trailing zero decimals 
-  stripped.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s).</li>
-        <li><strong class="pname"><code>prec</code></strong> - Optional precision, number of decimal digits (0..9). Trailing 
-          zero decimals are stripped for <b><code>prec</code></b> values of
-          1 and above, but kept for negative <b><code>prec</code></b> 
-          values.</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional, separator to join (string).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (string).</li>
-        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove decimal dot (<code>bool</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The floats as 'f, f, ... f' (string).</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="fStrzs"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fStrzs</span>(<span class="sig-arg">fstr</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Strip trailing zero decimals from a float string.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fstr</code></strong> - Float (string).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Float (string).</dd>
-  </dl>
-</td></tr></table>
 </div>
 <a name="false2f"></a>
 <div>
@@ -7443,10 +7846,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>beta</code></b>, negative <b><code>ds</code></b> 
-        value, weighted <b><code>ds</code></b> below <a 
-        href="pygeodesy.fmath-module.html#EPS" class="link">EPS</a> or 
-        unequal <code>len(<b>ds</b>)</code> and 
-        <code>len(<b>xs</b>)</code>.</li>
+        value, weighted <b><code>ds</code></b> below EPS or unequal 
+        <code>len(<b>ds</b>)</code> and <code>len(<b>xs</b>)</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -7625,10 +8026,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (<code>LatLon</code>) or <code>None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <b><code>LatLon</code></b> or a <a 
+        <dd>A <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> or a <a 
           href="pygeodesy.named.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code> if 
-          <b><code>LatLon</code></b> is <code>None</code> with 
+          <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> is <code>None</code> with 
           <b><code>points</code></b>[<b><code>fi</code></b>] if 
           <i>fractional</i> index <b><code>fi</code></b> is 
           <code>int</code>, otherwise the intermediate point between 
@@ -7762,6 +8163,73 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   sequence is empty.</p>
   <dl class="fields">
     <dt>Returns: value</dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fstr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fstr</span>(<span class="sig-arg">floats</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">ints</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert floats to string, optionally stripped of trailing zero 
+  decimals.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s or 
+          <code>scalar</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
+          (0..9). Trailing zero decimals are stripped if 
+          <b><code>prec</code></b> is positive, but kept for negative 
+          <b><code>prec</code></b> values.</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (<code>str</code>).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Separator joining the <b><code>floats</code></b> 
+          (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <code><b>sep</b>.join(strs(<b>floats</b>, ...)</code> string 
+          or a single <code>strs((<b>floats</b>,), ...)</code> if 
+          <b><code>floats</code></b> is <code>scalar</code> 
+          (<code>str</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fstrzs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fstrzs</span>(<span class="sig-arg">efstr</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Strip trailing zero decimals from a <code>float</code> string.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>efstr</code></strong> - Float with or without exponent (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Float (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -7947,7 +8415,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x1039ab4d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10ab721d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -8288,14 +8756,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
-<a name="inStr"></a>
+<a name="instr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">inStr</span>(<span class="sig-arg">inst</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">instr</span>(<span class="sig-arg">inst</span>,
         <span class="sig-arg">*args</span>,
         <span class="sig-arg">**kwds</span>)</span>
   </h3>
@@ -8304,7 +8772,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Return the string representation of an instance.</p>
+  <p>Return the string representation of an instantion.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -8313,7 +8781,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <b><code>inst</code></b>'s representation (<code>str</code>).</dd>
+        <dd>Representation (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -8426,6 +8894,46 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lat2</code></strong> - Latitude of the other point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - Longitude of the other point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (<code>degrees</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if points are antipodal within the 
+          <b><code>eps</code></b> tolerance, <code>False</code> otherwise.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf"
+        target="_top">Geosphere</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="isantipode_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isantipode_</span>(<span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam1</span>,
+        <span class="sig-arg">phi2</span>,
+        <span class="sig-arg">lam2</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether two points are antipodal, on diametrically opposite 
+  sides of the earth.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi1</code></strong> - Latitude of one point (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam1</code></strong> - Longitude of one point (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi2</code></strong> - Latitude of the other point (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam2</code></strong> - Longitude of the other point (<code>radians</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for near-equality (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if points are antipodal within the 
@@ -8666,7 +9174,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Check for integer type or integer value.</p>
+  <p>Check for integer type or an integer <code>float</code>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -8693,7 +9201,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Check for NEG0, negative 0.0.</p>
+  <p>Check for <a href="pygeodesy.basics-module.html#NEG0" 
+  class="link">NEG0</a>, negative 0.0.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -8798,6 +9307,32 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="isstr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isstr</span>(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for string types.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <b><code>obj</code></b> is <code>str</code>,
+          <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="issubclassof"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -8817,7 +9352,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>sub</code></strong> - The sub class (<code>class</code>).</li>
+        <li><strong class="pname"><code>sub</code></strong> - The subclass (<code>class</code>).</li>
         <li><strong class="pname"><code>sup</code></strong> - The super class (<code>class</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -8947,6 +9482,43 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="latlon2n_xyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">latlon2n_xyz</span>(<span class="sig-arg">lat</span>,
+        <span class="sig-arg">lon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert lat-, longitude to <code>n-vector</code> (normal to the 
+  earth's surface) X, Y and Z components.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#philam2n_xyz" 
+        class="link">philam2n_xyz</a>.
+      </p>
+      <p><strong>Note:</strong>
+        These are <code>n-vector</code> x, y and z components, <i>NOT</i> 
+        (geocentric) ECEF x, y and z coordinates!
+      </p>
+</div></td></tr></table>
+</div>
 <a name="len2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -8954,7 +9526,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">len2</span>(<span class="sig-arg">seq</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">len2</span>(<span class="sig-arg">items</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -8967,11 +9539,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>seq</code></strong> - Generator, iterator, list, range, tuple, etc.</li>
+        <li><strong class="pname"><code>items</code></strong> - Generator, iterator, list, range, tuple, etc.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple (number, ...) of items (<code>int</code>, 
-          <code>list</code> or <code>range</code> or <code>tuple</code>).</dd>
+        <dd>2-Tuple <code>(n, items)</code> of the number of items 
+          (<code>int</code>) and the items (<code>list</code> or 
+          <code>tuple</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -8994,7 +9567,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>raiser</code></strong> - Choose <code>True</code> to throw or <code>False</code> to ignore
-          <a href="pygeodesy.utily.LimitError-class.html" 
+          <a href="pygeodesy.basics.LimitError-class.html" 
           class="link">LimitError</a> exceptions.  Use <code>None</code> to
           leave the setting unchanged.</li>
     </ul></dd>
@@ -9219,8 +9792,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Apply each argument to a single-argument function and return a tuple 
-  of results.</p>
+  <p>Apply each argument to a single-argument function and return a 
+  <code>tuple</code> of results.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -9247,7 +9820,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Apply arguments to a function and return a tuple of results.</p>
+  <p>Apply arguments to a function and return a <code>tuple</code> of 
+  results.</p>
   <p>Unlike Python 2's built-in <code class="link">map</code>, Python 3+ 
   <code class="link">map</code> returns a <code class="link">map</code> 
   object, an iterator-like object which generates the results only once.  
@@ -9263,6 +9837,107 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Function results (<code>tuple</code>).</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="modulename"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">modulename</span>(<span class="sig-arg">clas</span>,
+        <span class="sig-arg">prefixed</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the class name optionally prefixed with the module name.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>clas</code></strong> - The class (any <code>class</code>).</li>
+        <li><strong class="pname"><code>prefixed</code></strong> - Include the module name (<code>bool</code>), see function 
+          <code>classnaming</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <b><code>class</code></b>'s <code>[module.]class</code> name 
+          (<code>str</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="n_xyz2latlon"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2latlon</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">z</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <code>n-vector</code> components to lat- and longitude in 
+  <code>degrees</code>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> in 
+          <code>degrees</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#n_xyz2philam" 
+        class="link">n_xyz2philam</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="n_xyz2philam"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2philam</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">z</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <code>n-vector</code> components to lat- and longitude in 
+  <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+          class="link">PhiLam2Tuple</a><code>(phi, lam)</code> in 
+          <code>radian</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#n_xyz2latlon" 
+        class="link">n_xyz2latlon</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="nameof"></a>
 <div>
@@ -9391,14 +10066,23 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.NearestOn3Tuple-class.html" 
           class="link">NearestOn3Tuple</a><code>(closest, distance, 
-          angle)</code> or a <a 
+          angle)</code> with the {closest} point 
+          (<a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a>) or if <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> is 
+          <code>None</code> a <a 
           href="pygeodesy.named.NearestOn5Tuple-class.html" 
           class="link">NearestOn5Tuple</a><code>(lat, lon, distance, angle,
-          height)</code> if <b><code>LatLon</code></b> is 
-          <code>None</code>.</dd>
+          height)</code>.  The <code>distance</code> is the <a 
+          href="pygeodesy.formy-module.html#equirectangular_" 
+          class="link">equirectangular_</a> distance between the 
+          <code>closest</code> and reference <b><code>point</code></b> in 
+          <code>degrees</code>.  The <code>angle</code> from the reference 
+          <b><code>point</code></b> to the <code>closest</code> is in 
+          compass <code>degrees360</code>, like function <a 
+          href="pygeodesy.formy-module.html#compassAngle" 
+          class="link">compassAngle</a>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
@@ -9439,6 +10123,47 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Normalized DMS (<code>str</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="pairs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">pairs</span>(<span class="sig-arg">items</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">ints</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">=</code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert items to <i>name=value</i> strings, with floats handled like 
+  <a href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>items</code></strong> - Name-value pairs (<code>dict</code> or 2-{tuple}s of any 
+          <code>type</code>s).</li>
+        <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
+          (0..9). Trailing zero decimals are stripped if 
+          <b><code>prec</code></b> is positive, but kept for negative 
+          <b><code>prec</code></b> values.</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (<code>str</code>).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Separator joining <i>names</i> and <i>values</i> 
+          (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <code>tuple(<b><code>sep</code></b>.join(t) for t in 
+          zip(<i>names</i>, reprs(<i>values</i>, ...)))</code> of 
+          <code>str</code>s.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -10055,6 +10780,43 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="philam2n_xyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">philam2n_xyz</span>(<span class="sig-arg">phi</span>,
+        <span class="sig-arg">lam</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert lat-, longitude to <code>n-vector</code> (normal to the 
+  earth's surface) X, Y and Z components.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.named.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#latlon2n_xyz" 
+        class="link">latlon2n_xyz</a>.
+      </p>
+      <p><strong>Note:</strong>
+        These are <code>n-vector</code> x, y and z components, <i>NOT</i> 
+        (geocentric) ECEF x, y and z coordinates!
+      </p>
+</div></td></tr></table>
+</div>
 <a name="points2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -10138,31 +10900,36 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
-<a name="property_RO"></a>
+<a name="property_doc_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">property_RO</span>(<span class="sig-arg">method</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">property_doc_</span>(<span class="sig-arg">doc</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Decorator for <code>Read_Only</code> property.</p>
+  <p>Decorator for a property with documentation.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>method</code></strong> - The callable to be decorated as <code>property.getter</code>.</li>
+        <li><strong class="pname"><code>doc</code></strong> - The property documentation (<code>str</code>).</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Like standard Python <code>property</code> without a 
-        <code>property.setter</code> with a more descriptive error message 
-        when set.
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>@property_doc_(<span class="py-string">'documentation text.'</span>)
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">def</span> <span class="py-defname">name</span>(self):
+<span class="py-prompt">&gt;&gt;&gt; </span>    ...
+<span class="py-prompt">&gt;&gt;&gt;</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>@name.setter
+<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">def</span> <span class="py-defname">name</span>(self, value):
+<span class="py-prompt">&gt;&gt;&gt; </span>    ...</pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -10311,6 +11078,42 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="reprs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reprs</span>(<span class="sig-arg">objs</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">ints</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert objects to <code>repr</code> strings, with floats handled like
+  <a href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>objs</code></strong> - List, sequence, tuple, etc. (any <code>type</code>s).</li>
+        <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
+          (0..9). Trailing zero decimals are stripped if 
+          <b><code>prec</code></b> is positive, but kept for negative 
+          <b><code>prec</code></b> values.</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (<code>str</code>).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <code>tuple(map(fstr|repr, <b>objs</b>))</code> of 
+          <code>str</code>s.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="scalar"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -10387,7 +11190,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
@@ -10442,7 +11245,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
@@ -10497,7 +11300,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
@@ -10548,7 +11351,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Simplified points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
@@ -10605,7 +11408,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>AttributeError</strong></code> - If an <b><code>attr</code></b> is specified for <i>Numpy2</i> 
         <b><code>points</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
@@ -10662,7 +11465,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>AttributeError</strong></code> - If an <b><code>attr</code></b> is specified for <i>Numpy2</i> 
         <b><code>points</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.utily.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
@@ -10838,6 +11641,42 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.fmath-module.html#cbrt2" class="link">cbrt2</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="strs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">strs</span>(<span class="sig-arg">objs</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">ints</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert objects to <code>str</code> strings, with floats handled like 
+  <a href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>objs</code></strong> - List, sequence, tuple, etc. (any <code>type</code>s).</li>
+        <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
+          (0..9). Trailing zero decimals are stripped if 
+          <b><code>prec</code></b> is positive, but kept for negative 
+          <b><code>prec</code></b> values.</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (<code>str</code>).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <code>tuple(map(fstr|str, <b>objs</b>))</code> of 
+          <code>str</code>s.</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="tanPI_2_2"></a>
 <div>
@@ -11518,35 +12357,6 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
-<a name="unStr"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">unStr</span>(<span class="sig-arg">name</span>,
-        <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return the string representation of an invokation.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Function, method or class name (<code>str</code>).</li>
-        <li><strong class="pname"><code>args</code></strong> - Optional positional arguments.</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Representation (<code>str</code>).</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="unroll180"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -11620,6 +12430,35 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         target="_top">GeographicLib</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="unstr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">unstr</span>(<span class="sig-arg">name</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the string representation of an invokation.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Function, method or class name (<code>str</code>).</li>
+        <li><strong class="pname"><code>args</code></strong> - Optional positional arguments.</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Representation (<code>str</code>).</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="upsZoneBand5"></a>
 <div>
@@ -12159,12 +12998,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       <dd><table><tr><td><pre class="variable">
 Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, p<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 ar1=49.833333, par2=51.166667, E0=649328, N0=665262, k0=1, SP=2, datum<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-),
+=Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+WGS84),
 Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, da<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-tum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NA<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-D83),
+tum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ms.NAD83),
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -12307,7 +13146,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:07 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:49 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

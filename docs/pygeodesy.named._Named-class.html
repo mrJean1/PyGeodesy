@@ -69,7 +69,7 @@ object --+
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.named._NamedBase-class.html">_NamedBase</a></li><li class="private">, _NamedTuple</li><li>, <a href="pygeodesy.elliptic.Elliptic-class.html">elliptic.Elliptic</a></li><li class="private">, _NamedInt</li><li>, <a href="pygeodesy.frechet.Frechet-class.html">frechet.Frechet</a></li><li class="private">, _NamedStr</li><li>, <a href="pygeodesy.heights._HeightBase-class.html">heights._HeightBase</a></li><li>, <a href="pygeodesy.hausdorff.Hausdorff-class.html">hausdorff.Hausdorff</a></li><li>, <a href="pygeodesy.ellipsoidalNvector.Ned-class.html">ellipsoidalNvector.Ned</a></li><li class="private">, geoids._Gpars</li><li class="private">, _NamedDict</li>  </ul>
+<li><a href="pygeodesy.named._NamedBase-class.html">_NamedBase</a></li><li class="private">, _NamedTuple</li><li>, <a href="pygeodesy.elliptic.Elliptic-class.html">elliptic.Elliptic</a></li><li class="private">, _NamedInt</li><li>, <a href="pygeodesy.frechet.Frechet-class.html">frechet.Frechet</a></li><li class="private">, _NamedStr</li><li>, <a href="pygeodesy.heights._HeightBase-class.html">heights._HeightBase</a></li><li>, <a href="pygeodesy.hausdorff.Hausdorff-class.html">hausdorff.Hausdorff</a></li><li>, <a href="pygeodesy.ellipsoidalNvector.Ned-class.html">ellipsoidalNvector.Ned</a></li><li class="private">, geoids._Gpars</li><li class="private">, _NamedDict</li><li class="private">, _NamedFloat</li>  </ul>
 </dd></dl>
 
 <hr />
@@ -90,7 +90,7 @@ object --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._Named-class.html#__repr__" class="summary-sig-name">__repr__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      str(x)</td>
+      Default <code>repr(self)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -107,7 +107,44 @@ object --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._Named-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      str(x)</td>
+      Default <code>str(self)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_dot_"></a><span class="summary-sig-name">_dot_</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>)</span><br />
+      (INTERNAL) Period-join <code>self.name</code> and <code>name</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._Named-class.html#attrs" class="summary-sig-name">attrs</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*names</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Join attributes as <code>name=value</code> pairs.</td>
           <td align="right" valign="top">
             
             
@@ -221,9 +258,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.named._Named-class.html#classname" class="summary-name">classname</a><br />
-      Get this object's <code>[module.]class</code> name 
-      (<code>str</code>), see property <code>.classnaming</code> and 
-      function <code>classnaming</code>.
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -231,8 +266,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.named._Named-class.html#classnaming" class="summary-name">classnaming</a><br />
-      Get the class naming (<code>bool</code>), see function 
-      <code>classnaming</code>.
+      Property to get and set the class naming (<code>bool</code>).
     </td>
   </tr>
 <tr>
@@ -240,7 +274,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.named._Named-class.html#name" class="summary-name">name</a><br />
-      Get the name (<code>str</code>).
+      Property to get and set the name (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -248,8 +282,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.named._Named-class.html#named" class="summary-name">named</a><br />
-      Get the name <i>or</i> class name or <code>&quot;&quot;</code> 
-      (<code>str</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -257,8 +290,7 @@ object --+
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.named._Named-class.html#named2" class="summary-name">named2</a><br />
-      Get the class name <i>and/or</i> the name or 
-      <code>&quot;&quot;</code> (<code>str</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -293,11 +325,10 @@ object --+
     </td>
   </tr></table>
   
-  <p>str(x)</p>
+  <p>Default <code>repr(self)</code>.</p>
   <dl class="fields">
     <dt>Overrides:
         object.__repr__
-        <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
   </dl>
 </td></tr></table>
@@ -317,12 +348,41 @@ object --+
     </td>
   </tr></table>
   
-  <p>str(x)</p>
+  <p>Default <code>str(self)</code>.</p>
   <dl class="fields">
     <dt>Overrides:
         object.__str__
-        <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="attrs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">attrs</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*names</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Join attributes as <code>name=value</code> pairs.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>names</code></strong> - The attribute names (<code>str</code>s).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Keyword argument for function <a 
+          href="pygeodesy.named._Named-class.html#attrs" 
+          class="link">attrs</a>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>All <code>name=value</code> pairs joined (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -397,9 +457,7 @@ object --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">classname</h3>
-  <p>Get this object's <code>[module.]class</code> name (<code>str</code>),
-  see property <code>.classnaming</code> and function 
-  <code>classnaming</code>.</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">classname(<span class="summary-sig-arg">self</span>)</span>
@@ -407,8 +465,8 @@ object --+
 property <code>.classnaming</code> and function <code>classnaming</code>.
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -420,8 +478,7 @@ property <code>.classnaming</code> and function <code>classnaming</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">classnaming</h3>
-  <p>Get the class naming (<code>bool</code>), see function 
-  <code>classnaming</code>.</p>
+  <p>Property to get and set the class naming (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">classnaming(<span class="summary-sig-arg">self</span>)</span>
@@ -442,7 +499,7 @@ property <code>.classnaming</code> and function <code>classnaming</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">name</h3>
-  <p>Get the name (<code>str</code>).</p>
+  <p>Property to get and set the name (<code>str</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">name(<span class="summary-sig-arg">self</span>)</span>
@@ -462,8 +519,7 @@ property <code>.classnaming</code> and function <code>classnaming</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">named</h3>
-  <p>Get the name <i>or</i> class name or <code>&quot;&quot;</code> 
-  (<code>str</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">named(<span class="summary-sig-arg">self</span>)</span>
@@ -471,8 +527,8 @@ property <code>.classnaming</code> and function <code>classnaming</code>.
 (<code>str</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -484,8 +540,7 @@ property <code>.classnaming</code> and function <code>classnaming</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">named2</h3>
-  <p>Get the class name <i>and/or</i> the name or <code>&quot;&quot;</code>
-  (<code>str</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">named2(<span class="summary-sig-arg">self</span>)</span>
@@ -493,8 +548,8 @@ property <code>.classnaming</code> and function <code>classnaming</code>.
 (<code>str</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -532,7 +587,7 @@ property <code>.classnaming</code> and function <code>classnaming</code>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:12 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:53 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

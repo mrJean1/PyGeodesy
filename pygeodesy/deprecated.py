@@ -10,7 +10,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.trf import TRFError as _TRFError
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '20.02.09'
+__version__ = '20.02.10'
 
 _R_M = _WGS84 = _UTM = object()
 
@@ -40,6 +40,13 @@ class RefFrameError(_TRFError):  # PYCHOK exported
     pass
 
 
+def anStr(name, OKd='._-', sub='_'):
+    '''DEPRECATED, use function L{anstr}.
+    '''
+    from pygeodesy.streprs import anstr
+    return anstr(name, OKd=OKd, sub=sub)
+
+
 def areaof(points, adjust=True, radius=_R_M, wrap=True):
     '''DEPRECATED, use function L{areaOf}.
     '''
@@ -60,6 +67,13 @@ def bounds(points, wrap=True, LatLon=None):
     return tuple(boundsOf(points, wrap=wrap, LatLon=LatLon))
 
 
+def clipStr(bstr, limit=50, white=''):
+    '''DEPRECATED, use function L{clips}.
+    '''
+    from pygeodesy.basics import clips
+    return clips(bstr, limit=limit, white=white)
+
+
 def decodeEPSG2(arg):
     '''DEPRECATED, use function L{epsg.decode2}.
 
@@ -78,6 +92,13 @@ def encodeEPSG(zone, hemipole='', band=''):
     return int(encode(zone, hemipole=hemipole, band=band))
 
 
+def enStr2(easting, northing, prec, *extras):
+    '''DEPRECATED, use function L{enstr2}.
+    '''
+    from pygeodesy.streprs import enstr2
+    return enstr2(easting, northing, prec, *extras)
+
+
 def equirectangular3(lat1, lon1, lat2, lon2, **options):
     '''DEPRECATED, use function C{equirectangular_}.
 
@@ -87,11 +108,32 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
     return tuple(equirectangular_(lat1, lon1, lat2, lon2, **options)[:3])
 
 
+def fStr(floats, prec=6, fmt='%.*f', ints=False, sep=', '):
+    '''DEPRECATED, use function L{fstr}.
+    '''
+    from pygeodesy.streprs import fstr
+    return fstr(floats, prec=prec, fmt=fmt, ints=ints, sep=sep)
+
+
+def fStrzs(floatstr):
+    '''DEPRECATED, use function L{fstrzs}.
+    '''
+    from pygeodesy.streprs import fstrzs
+    return fstrzs(floatstr)
+
+
 def hypot3(x, y, z):
     '''DEPRECATED, use function L{hypot_}.
     '''
     from pygeodesy.fmath import hypot_
     return hypot_(x, y, z)
+
+
+def inStr(inst, *args, **kwds):
+    '''DEPRECATED, use function L{instr}.
+    '''
+    from pygeodesy.streprs import instr
+    return instr(inst, *args, **kwds)
 
 
 def isenclosedby(point, points, wrap=False):
@@ -174,6 +216,13 @@ def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=''):
         # no hemisphere/pole and datum
         r = r.zone, r.easting, r.northing, r.band, r.convergence, r.scale
     return r
+
+
+def unStr(name, *args, **kwds):
+    '''DEPRECATED, use function L{unstr}.
+    '''
+    from pygeodesy.streprs import unstr
+    return unstr(name, *args, **kwds)
 
 
 def utmZoneBand2(lat, lon):

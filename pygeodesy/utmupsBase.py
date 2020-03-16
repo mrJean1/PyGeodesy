@@ -5,18 +5,20 @@ u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
 for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
+from pygeodesy.basics import _IsNotError, isscalar, issubclassof, \
+                              isstr, map1, property_RO, _TypeError
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datums
 from pygeodesy.dms import degDMS, parseDMS2
-from pygeodesy.fmath import fStr, isscalar, _IsNotError
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import EasNor2Tuple, LatLonDatum5Tuple, \
-                           _NamedBase, nameof, _xattrs, _xnamed
-from pygeodesy.utily import issubclassof, property_RO, _Strs, \
-                           _TypeError, wrap90, wrap360
+                           _NamedBase, nameof, notOverloaded, \
+                           _xattrs, _xnamed
+from pygeodesy.streprs import fstr
+from pygeodesy.utily import wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '20.02.22'
+__version__ = '20.03.12'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -58,7 +60,7 @@ def _to4lldn(latlon, lon, datum, name):
     try:
         # if lon is not None:
         #     raise AttributeError
-        lat, lon = latlon.lat, latlon.lon
+        lat, lon = map1(float, latlon.lat, latlon.lon)
         _TypeError(_LLEB, LatLonDatum5Tuple, latlon=latlon)
         d = datum or latlon.datum
     except AttributeError:
@@ -86,7 +88,7 @@ def _to3zBhp(zone, band, hemipole=''):  # imported by .epsg, .ups, .utm, .utmups
         z = _UTMUPS_ZONE_INVALID
         if isscalar(zone) or zone.isdigit():
             z = int(zone)
-        elif zone and isinstance(zone, _Strs):
+        elif zone and isstr(zone):
             if len(zone) > 1:
                 B = zone[-1:]
                 z = int(zone[:-1])
@@ -120,7 +122,7 @@ def _to3zll(lat, lon):  # imported by .ups, .utm
     '''
     x = wrap360(lon + 180)  # use wrap360 to get ...
     z = int(x) // 6 + 1  # ... longitudinal UTM zone [1, 60] and ...
-    lon = x - 180  # ... lon [-180, 180) i.e. -180 <= lon < 180
+    lon = x - 180.0  # ... lon [-180, 180) i.e. -180 <= lon < 180
     return z, wrap90(lat), lon
 
 
@@ -194,7 +196,7 @@ class UtmUpsBase(_NamedBase):
     def falsed2(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.
         '''
-        self._notOverloaded(self.falsed2.__name__)
+        notOverloaded(self, self.falsed2.__name__)
 
     @property_RO
     def hemisphere(self):
@@ -250,13 +252,13 @@ class UtmUpsBase(_NamedBase):
         '''(INTERNAL) Return a string representation of this UTM/UPS coordinate.
         '''
         z = '%02d%s' % (self.zone, (self.band if B else ''))  # PYCHOK band
-        t = (z, hemipole, fStr(self.easting,  prec=prec),
-                          fStr(self.northing, prec=prec))
+        t = (z, hemipole, fstr(self.easting,  prec=prec),
+                          fstr(self.northing, prec=prec))
         if cs:
             t += ('n/a' if self.convergence is None else
                     degDMS(self.convergence, prec=8, pos='+'),
                   'n/a' if self.scale is None else
-                      fStr(self.scale, prec=8))
+                      fstr(self.scale, prec=8))
         return sep.join(t)
 
     def _toStr2(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False):  # PYCHOK expected

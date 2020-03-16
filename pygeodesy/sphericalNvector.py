@@ -30,17 +30,19 @@ to a normalised version of an (ECEF) cartesian coordinate.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.datum import Datums, R_M
+from pygeodesy.basics import EPS, EPS_2, R_M, isscalar, map1, \
+                     _TypeError, _xkwds
+from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.fmath import EPS, EPS_2, fidw, fmean, fsum, fsum_, \
-                            isscalar, map1
-from pygeodesy.lazily import _ALL_LAZY, _2kwds
-from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
-                                  NvectorBase, sumOf as _sumOf
+from pygeodesy.fmath import fidw, fmean, fsum, fsum_
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import NearestOn3Tuple
+from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
+                                  sumOf as _sumOf
 from pygeodesy.points import _imdex2, ispolar  # PYCHOK exported
 from pygeodesy.sphericalBase import CartesianSphericalBase, LatLonSphericalBase
 from pygeodesy.utily import PI, PI2, PI_2, degrees360, iterNumpy2, \
-                            sincos2, sincos2d, _TypeError
+                            sincos2, sincos2d
 
 from math import atan2, fabs, radians, sqrt
 
@@ -54,7 +56,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.02.28'
+__version__ = '20.03.15'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -76,9 +78,9 @@ class Cartesian(CartesianSphericalBase):
                     lat, lon, height, C, M, datum)} with C{C} and
                     C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}} or other B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(kwds, LatLon=LatLon, datum=self.datum)
         return CartesianSphericalBase.toLatLon(self, **kwds)
 
     def toNvector(self, **kwds):  # PYCHOK Datums.WGS84
@@ -97,9 +99,9 @@ class Cartesian(CartesianSphericalBase):
         '''
         # ll = CartesianBase.toLatLon(self, LatLon=LatLon,
         #                                    datum=datum or self.datum)
-        # kwds = _2kwds(kwds, Nvector=Nvector)
+        # kwds = _xkwds(kwds, Nvector=Nvector)
         # return ll.toNvector(**kwds)
-        kwds = _2kwds(kwds, Nvector=Nvector, datum=self.datum)
+        kwds = _xkwds(kwds, Nvector=Nvector, datum=self.datum)
         return CartesianSphericalBase.toNvector(self, **kwds)
 
 
@@ -129,14 +131,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             gc = s.cross(e, raiser=raiser)  # XXX .unit()?
         return gc, s, e
 
-    def _update(self, updated, *attrs):
+    def _update(self, updated, *attrs):  # PYCHOK args
         '''(INTERNAL) Zap cached attributes if updated.
         '''
         if updated:  # reset caches
-            if self._Nv:
-                self._Nv._fromll = None
-                self._Nv = None
-            LatLonNvectorBase._update(self, updated, *attrs)
+            LatLonNvectorBase._update(self, updated, _Nv=self._Nv)  # special case
             LatLonSphericalBase._update(self, updated, *attrs)
 
     def alongTrackDistanceTo(self, start, end, radius=R_M):
@@ -282,19 +281,12 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @param bearing: Bearing from this point (compass C{degrees360}).
 
-           @return: N-vector representing great circle (L{Nvector}).
-
-           @example:
-
-           >>> p = LatLon(53.3206, -1.7297)
-           >>> gc = p.greatCircle(96.0)
-           >>> gc.toStr()  # [-0.794, 0.129, 0.594]
+           @return: N-vector representing the great circle (L{Nvector}).
         '''
-        a, b = self.to2ab()
+        a, b = self.philam
         t = radians(bearing)
 
         sa, ca, sb, cb, st, ct = sincos2(a, b, t)
-
         return Nvector(sb * ct - sa * cb * st,
                       -cb * ct - sa * sb * st,
                        ca * st, name=self.name)  # XXX .unit()
@@ -309,7 +301,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @param other: The other point (L{LatLon}) or the bearing
                          from this point (compass C{degrees360}).
 
-           @return: N-vector representing great circle (L{Nvector}).
+           @return: N-vector representing the great circle (L{Nvector}).
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
@@ -642,7 +634,17 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         return p
 
-    def nearestOn2(self, points, closed=False, radius=R_M, height=None):
+    def nearestOn2(self, points, **closed_radius_height):
+        '''DEPRECATED, use method L{sphericalNvector.LatLon.nearestOn3}.
+
+           @return: ... 2-Tuple C{(closest, distance)} of the C{closest}
+                    point (L{LatLon}) on the polygon and the C{distance}
+                    to that point from this point ...
+        '''
+        r = self.nearestOn3(points, **closed_radius_height)
+        return r.closest, r.distance
+
+    def nearestOn3(self, points, closed=False, radius=R_M, height=None):
         '''Locate the point on a polygon (with great circle arcs
            joining consecutive points) closest to this point.
 
@@ -656,10 +658,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @keyword height: Optional height, overriding the mean height
                             for a point within the arc (C{meter}).
 
-           @return: 2-Tuple (closest, distance) of the closest point
-                    (L{LatLon}) on the polygon and the distance to
-                    that point from the given point in C{meter}, same
-                    units of B{C{radius}}.
+           @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of
+                    the C{closest} point (L{LatLon}), the C{distance}
+                    between this and the C{closest} point in C{meter},
+                    same units as B{C{radius}} and the C{angle} from
+                    this to the C{closest} point in compass C{degrees360}.
 
            @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
@@ -669,14 +672,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         i, m = _imdex2(closed, n)
         c = p2 = points[i]
-        d = self.distanceTo(c, radius=radius)
+        r = self.distanceTo(c, radius=1)  # force radians
         for i in range(m, n):
             p1, p2 = p2, points[i]
             p = self.nearestOn(p1, p2, height=height)
-            t = self.distanceTo(p, radius=radius)
-            if t < d:
-                c, d = p, t
-        return c, d
+            t = self.distanceTo(p, radius=1)  # force radians
+            if t < r:
+                c, r = p, t
+
+        return NearestOn3Tuple(c, r * radius, degrees360(r))
 
     def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian
         '''Convert this point to C{Nvector}-based cartesian (ECEF)
@@ -694,7 +698,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: Invalid B{C{Cartesian}} or B{C{attrs}}.
         '''
-        kwds = _2kwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        kwds = _xkwds(kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonSphericalBase.toCartesian(self, **kwds)
 
     def toNvector(self, **kwds):  # PYCHOK signature
@@ -719,7 +723,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{toVector}.
         '''
-        kwds = _2kwds(kwds, Nvector=Nvector)
+        kwds = _xkwds(kwds, Nvector=Nvector)
         return LatLonNvectorBase.toNvector(self, **kwds)
 
     def triangulate(self, bearing1, other, bearing2, height=None):
@@ -814,7 +818,7 @@ class Nvector(NvectorBase):
            @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
                              or B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, h=self.h, Cartesian=Cartesian)
+        kwds = _xkwds(kwds, h=self.h, Cartesian=Cartesian)
         return NvectorBase.toCartesian(self, **kwds)  # class or .classof
 
     def toLatLon(self, **kwds):  # PYCHOK height=None, LatLon=LatLon
@@ -832,7 +836,7 @@ class Nvector(NvectorBase):
 
            @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
         '''
-        kwds = _2kwds(kwds, height=self.h, LatLon=LatLon)
+        kwds = _xkwds(kwds, height=self.h, LatLon=LatLon)
         return NvectorBase.toLatLon(self, **kwds)  # class or .classof
 
     def greatCircle(self, bearing):
@@ -896,11 +900,11 @@ def areaOf(points, radius=R_M):
     if iterNumpy2(points):
 
         def _interangles(n, points, n0):  # iterate
-            v2 = points[n-2].toNvector()
-            v1 = points[n-1].toNvector()
+            v2 = points[n-2]._N_vector
+            v1 = points[n-1]._N_vector
             gc = v2.cross(v1)
             for i in range(n):
-                v2 = points[i].toNvector()
+                v2 = points[i]._N_vector
                 gc1 = v1.cross(v2)
                 v1 = v2
 
@@ -912,9 +916,9 @@ def areaOf(points, radius=R_M):
 
     else:
         # get great-circle vector for each edge
-        gc, v1 = [], points[n-1].toNvector()
+        gc, v1 = [], points[n-1]._N_vector
         for i in range(n):
-            v2 = points[i].toNvector()
+            v2 = points[i]._N_vector
             gc.append(v1.cross(v2))  # PYCHOK false, does have .cross
             v1 = v2
         gc.append(gc[0])  # XXX needed?
@@ -1031,11 +1035,22 @@ def meanOf(points, height=None, LatLon=LatLon):
     '''
     n, points = _Nvll.points2(points, closed=False)
     # geographic mean
-    m = sumOf(points[i].toNvector() for i in range(n))
+    m = sumOf(points[i]._N_vector for i in range(n))
     return m.toLatLon(height=height, LatLon=LatLon)
 
 
-def nearestOn2(point, points, closed=False, radius=R_M, height=None):
+def nearestOn2(point, points, **closed_radius_height):
+    '''DEPRECATED, use method L{sphericalNvector.nearestOn3}.
+
+       @return: ... 2-Tuple C{(closest, distance)} of the C{closest}
+                point (L{LatLon}) on the polygon and the C{distance}
+                between the C{closest} and the given B{C{point}} ...
+    '''
+    r = nearestOn3(point, points, **closed_radius_height)
+    return r.closest, r.distance
+
+
+def nearestOn3(point, points, closed=False, radius=R_M, height=None):
     '''Locate the point on a polygon (with great circle arcs
        joining consecutive points) closest to an other point.
 
@@ -1050,10 +1065,12 @@ def nearestOn2(point, points, closed=False, radius=R_M, height=None):
        @keyword height: Optional height, overriding the mean height
                         for a point within the arc (C{meter}).
 
-       @return: 2-Tuple C{(closest, distance)} of the closest point
-                (L{LatLon}) on the polygon and the C{distance} from
-                the C{closest} to the other B{C{point}} in C{meter},
-                same units as B{C{radius}}.
+       @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of
+                the C{closest} point (L{LatLon}) on the polygon, the
+                C{distance} and the C{angle} between the C{closest}
+                and the given B{C{point}}.  The C{distance} is in
+                C{meter}, same units as B{C{radius}}, the C{angle}
+                is in compass C{degrees360}.
 
        @raise TypeError: Some B{C{points}} or B{C{point}} not C{LatLon}.
 
@@ -1061,7 +1078,7 @@ def nearestOn2(point, points, closed=False, radius=R_M, height=None):
     '''
     _TypeError(LatLon, point=point)
 
-    return point.nearestOn2(points, closed=closed, radius=radius, height=height)
+    return point.nearestOn3(points, closed=closed, radius=radius, height=height)
 
 
 def perimeterOf(points, closed=False, radius=R_M):
@@ -1085,9 +1102,9 @@ def perimeterOf(points, closed=False, radius=R_M):
 
     def _rads(n, points, closed):  # angular edge lengths in radians
         i, m = _imdex2(closed, n)
-        v1 = points[i].toNvector()
+        v1 = points[i]._N_vector
         for i in range(m, n):
-            v2 = points[i].toNvector()
+            v2 = points[i]._N_vector
             yield v1.angleTo(v2)
             v1 = v2
 

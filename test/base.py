@@ -39,7 +39,7 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anStr, clipStr, isLazy, iterNumpy2over, map2, normDMS, \
+from pygeodesy import anstr, clips, isLazy, iterNumpy2over, map2, normDMS, pairs, \
                       property_RO, version as PyGeodesy_version  # PYCHOK expected
 
 __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
@@ -49,7 +49,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.02.07'
+__version__ = '20.03.15'
 
 try:
     _Ints = int, long
@@ -87,14 +87,14 @@ try:
     else:
         raise ImportError
 
-    _Nix = anStr(distro.id()).capitalize()  # .name()?
+    _Nix = anstr(distro.id()).capitalize()  # .name()?
 
     def nix_ver():  # *nix release
         try:  # no subprocess.check_output ...
             v = distro.version()
         except AttributeError:  # ... Python 2.6
             v = ''
-        return anStr(v), _os_bitstr
+        return anstr(v), _os_bitstr
 
 except ImportError:
     _Nix = ''  # not linux?
@@ -203,8 +203,7 @@ class TestsBase(object):
     def subtitle(self, module, testing='ing', **kwds):
         '''Print the subtitle of a test suite.
         '''
-        t = (basename(module.__name__), module.__version__) + \
-             tuple('%s=%s' % t for t in sorted(kwds.items()))
+        t = (basename(module.__name__), module.__version__) + pairs(kwds.items())
         self.printf('test%s(%s)', testing, ', '.join(t), nl=1)
 
     def test(self, name, value, expect, fmt='%s', known=False, **kwds):
@@ -338,8 +337,8 @@ def type2str(obj, attr):
         t = ' int'
     elif ismodule(t):
         t = ' module'
-    elif type(t) is property:
-        t = ' property'
+    elif isinstance(t, property):  # type(t) is property
+        t = ' ' + t.__class__.__name__
     elif isinstance(t, _Strs):
         t = ' str'
     else:

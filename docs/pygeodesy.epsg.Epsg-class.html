@@ -140,6 +140,10 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedInt</code></b>:
+      <code>toStr</code>,
+      <code>toStr2</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>int</code></b>:
       <code>__abs__</code>,
       <code>__add__</code>,
@@ -191,10 +195,10 @@
       <code>conjugate</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#toStr">toStr</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -250,8 +254,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.epsg.Epsg-class.html#band" class="summary-name">band</a><br />
-      Get the UTM/UPS Band (<code>'A'|'B'|'C'|'D'..'W'|'X'|'Y'|'Z'</code> 
-      or <code>&quot;&quot;</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -259,7 +262,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.epsg.Epsg-class.html#hemisphere" class="summary-name">hemisphere</a><br />
-      Get the UTM/UPS hemisphere (<code>'N'|'S'</code>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -267,9 +270,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.epsg.Epsg-class.html#utmups" class="summary-name">utmups</a><br />
-      Get the UTM/TMP original (<a href="pygeodesy.utm.Utm-class.html" 
-      class="link">Utm</a>, <a href="pygeodesy.ups.Ups-class.html" 
-      class="link">Ups</a>).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
 <tr>
@@ -277,8 +278,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.epsg.Epsg-class.html#zone" class="summary-name">zone</a><br />
-      Get the UTM/UPS zone (<code>int</code>, <code>1..60</code> for UTM, 
-      <code>0</code> for UPS).
+      An immutable property (<code>Read Only</code>).
     </td>
   </tr>
   <tr>
@@ -416,8 +416,7 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">band</h3>
-  <p>Get the UTM/UPS Band (<code>'A'|'B'|'C'|'D'..'W'|'X'|'Y'|'Z'</code> or
-  <code>&quot;&quot;</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
@@ -425,8 +424,8 @@
 <code>&quot;&quot;</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -438,15 +437,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">hemisphere</h3>
-  <p>Get the UTM/UPS hemisphere (<code>'N'|'S'</code>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">hemisphere(<span class="summary-sig-arg">self</span>)</span>
         - Get the UTM/UPS hemisphere (<code>'N'|'S'</code>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -458,9 +457,7 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">utmups</h3>
-  <p>Get the UTM/TMP original (<a href="pygeodesy.utm.Utm-class.html" 
-  class="link">Utm</a>, <a href="pygeodesy.ups.Ups-class.html" 
-  class="link">Ups</a>).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">utmups(<span class="summary-sig-arg">self</span>)</span>
@@ -469,8 +466,8 @@ class="link">Utm</a>, <a href="pygeodesy.ups.Ups-class.html"
 class="link">Ups</a>).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -482,8 +479,7 @@ class="link">Ups</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">zone</h3>
-  <p>Get the UTM/UPS zone (<code>int</code>, <code>1..60</code> for UTM, 
-  <code>0</code> for UPS).</p>
+  <p>An immutable property (<code>Read Only</code>).</p>
   <dl class="fields">
     <dt>Get Method:</dt>
     <dd class="value"><span class="summary-sig">zone(<span class="summary-sig-arg">self</span>)</span>
@@ -491,8 +487,8 @@ class="link">Ups</a>).
 <code>0</code> for UPS).
     </dd>
     <dt>Set Method:</dt>
-    <dd class="value"><span class="summary-sig">Read_Only(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">ignored</span>)</span>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
   </dl>
@@ -530,7 +526,7 @@ class="link">Ups</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 29 11:02:10 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

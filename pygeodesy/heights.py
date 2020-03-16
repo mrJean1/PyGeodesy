@@ -51,18 +51,19 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
+from pygeodesy.basics import EPS, _IsNotError, isscalar, \
+                             len2, map1, map2, property_RO
 from pygeodesy.datum import Datum
-from pygeodesy.fmath import EPS, fidw, hypot2, \
-                           _IsNotError, isscalar, len2, map1, map2
+from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _Named
+from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
-from pygeodesy.utily import PI, PI2, PI_2, property_RO, \
-                            radiansPI, radiansPI2, unroll180, unrollPI
+from pygeodesy.utily import PI, PI2, PI_2, radiansPI, radiansPI2, \
+                            unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.02.26'
+__version__ = '20.03.12'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -197,7 +198,7 @@ class _HeightBase(_Named):  # imported by .geoids
     def __call__(self, *args):
         '''(INTERNAL) I{Must be overloaded}.
         '''
-        self._notOverloaded('__call__', *args)
+        notOverloaded(self, '__call__', *args)
 
     @property_RO
     def adjust(self):
@@ -211,7 +212,7 @@ class _HeightBase(_Named):  # imported by .geoids
     def _ev(self, *args):
         '''(INTERNAL) I{Must be overloaded}.
         '''
-        self._notOverloaded(self._ev.__name__, *args)
+        notOverloaded(self, self._ev.__name__, *args)
 
     def _eval(self, llis):  # XXX single arg, not *args
         _as, xis, yis, _ = self._axyllis4(llis)
@@ -768,7 +769,7 @@ class HeightLSQBiSpline(_HeightBase):
         if isscalar(w):
             w = float(w)
             if w <= 0:
-                raise HeightError('%s invalid: %.6f' % ('weight', w))
+                raise HeightError('%s invalid: %.6F' % ('weight', w))
             w = [w] * n
         elif w is not None:
             m, w = len2(w)
@@ -778,7 +779,7 @@ class HeightLSQBiSpline(_HeightBase):
             w = map2(float, w)
             m = min(w)
             if m <= 0:
-                raise HeightError('%s[%s] invalid: %.6f' % (
+                raise HeightError('%s[%s] invalid: %.6F' % (
                                   'weight', w.find(m), m))
         try:
             T = 1.0e-4  # like SciPy example
