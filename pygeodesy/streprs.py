@@ -5,12 +5,12 @@ u'''Floating point and other formatting utilities.
 
 '''
 
-from pygeodesy.basics import isint, _IsNotError, isscalar
+from pygeodesy.basics import isint, _isnotError, isscalar
 from pygeodesy.lazily import _ALL_LAZY
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.03.12'
+__version__ = '20.03.23'
 
 _EeFfGg = ('F', 'f', 'E', 'e', 'G', 'g')  # float formats
 
@@ -24,7 +24,7 @@ def _streprs(prec, objs, fmt, ints, floats, strepr):
         fmt = fmt.replace('*', str(abs(prec)))
     else:
         t = '[%s]%s' % ('%.*', '|'.join(_EeFfGg))
-        raise _IsNotError(t, fmt=fmt, Error=ValueError)
+        raise _isnotError(t, fmt=fmt, Error=ValueError)
 
     for o in objs:
         if floats or isinstance(o, float):
@@ -38,16 +38,16 @@ def _streprs(prec, objs, fmt, ints, floats, strepr):
         elif strepr:
             t = strepr(o)
         else:
-            raise _IsNotError('scalar', floats=o)
+            raise _isnotError('scalar', floats=o)
         yield t
 
 
 def anstr(name, OKd='._-', sub='_'):
     '''Make a valid name of alphanumeric and OKd characters.
 
-       @param name: The original name (C{str}).
-       @keyword OKd: Other acceptable characters (C{str}).
-       @keyword sub: Substitute for invalid charactes (C{str}).
+       @arg name: The original name (C{str}).
+       @kwarg OKd: Other acceptable characters (C{str}).
+       @kwarg sub: Substitute for invalid charactes (C{str}).
 
        @return: The modified name (C{str}).
 
@@ -62,17 +62,17 @@ def anstr(name, OKd='._-', sub='_'):
     return sub.join(s.strip().split())
 
 
-def attrs(inst, *names, **kwds):  # prec=6, fmt='F', ints=False, Nones=False, sep='='
-    '''Get instance attributes as I{name=value} strings, with floats handled like L{fstr}.
+def attrs(inst, *names, **kwds):  # prec=6, fmt='F', ints=False, Nones=True, sep='='
+    '''Get instance attributes as I{name=value} strings, with C{float}s handled like L{fstr}.
 
-       @param inst: The instance (any C{type}).
-       @param names: The attribute names (C{str}s).
-       @keyword kwds: Keyword argument for function L{pairs}, except
-                      C{B{Nones}=True} to in-/exclude missing or
-                      attributes with a C{None} I{value}.
+       @arg inst: The instance (any C{type}).
+       @arg names: The attribute names (C{str}s).
+       @kwarg kwds: Keyword argument for function L{pairs}, except
+                    B{C{Nones=True}} to in-/exclude missing or
+                    attributes with a C{None} I{value}.
 
-       @return: A C{tuple(B{C{sep}}.join(t) for t in zip(I{names}, reprs(I{values},
-                ...)))} of C{str}s.
+       @return: A C{tuple(sep.join(t) for t in zip(names, reprs(values, ...)))}
+                of C{str}s.
     '''
     Nones = kwds.pop('Nones', True)
 
@@ -88,10 +88,10 @@ def attrs(inst, *names, **kwds):  # prec=6, fmt='F', ints=False, Nones=False, se
 def enstr2(easting, northing, prec, *extras):
     '''Return easting, northing string representations.
 
-       @param easting: Easting from false easting (C{meter}).
-       @param northing: Northing from from false northing (C{meter}).
-       @param prec: Precision in number of digits (C{int}).
-       @param extras: Optional leading items (C{str}s).
+       @arg easting: Easting from false easting (C{meter}).
+       @arg northing: Northing from from false northing (C{meter}).
+       @arg prec: Precision in number of digits (C{int}).
+       @arg extras: Optional leading items (C{str}s).
 
        @return: B{C{extras}} + 2-Tuple C{(eastingStr, northingStr)}.
 
@@ -107,18 +107,18 @@ def enstr2(easting, northing, prec, *extras):
 
 
 def fstr(floats, prec=6, fmt='F', ints=False, sep=', '):
-    '''Convert floats to string, optionally stripped of trailing zero decimals.
+    '''Convert one or more floats to string, optionally stripped of trailing zero decimals.
 
-       @param floats: List, sequence, tuple, etc. (C{scalar}s or C{scalar}).
-       @keyword prec: The C{float} precision, number of decimal digits (0..9).
-                      Trailing zero decimals are stripped if B{C{prec}} is
-                      positive, but kept for negative B{C{prec}} values.
-       @keyword fmt: Optional, float format (C{str}).
-       @keyword ints: Optionally, remove the decimal dot (C{bool}).
-       @keyword sep: Separator joining the B{C{floats}} (C{str}).
+       @arg floats: Single or a list, sequence, tuple, etc. (C{scalar}s).
+       @kwarg prec: The C{float} precision, number of decimal digits (0..9).
+                    Trailing zero decimals are stripped if B{C{prec}} is
+                    positive, but kept for negative B{C{prec}} values.
+       @kwarg fmt: Optional, float format (C{str}).
+       @kwarg ints: Optionally, remove the decimal dot (C{bool}).
+       @kwarg sep: Separator joining the B{C{floats}} (C{str}).
 
-       @return: The C{B{sep}.join(strs(B{floats}, ...)} string or a single
-                C{strs((B{floats},), ...)} if B{C{floats}} is C{scalar} (C{str}).
+       @return: The C{sep.join(strs(floats, ...)} joined (C{str}) or single
+                C{strs((floats,), ...)} (C{str}) if B{C{floats}} is C{scalar}.
     '''
     if isscalar(floats):
         floats = (floats,)
@@ -128,7 +128,7 @@ def fstr(floats, prec=6, fmt='F', ints=False, sep=', '):
 def fstrzs(efstr):
     '''Strip trailing zero decimals from a C{float} string.
 
-       @param efstr: Float with or without exponent (C{str}).
+       @arg efstr: Float with or without exponent (C{str}).
 
        @return: Float (C{str}).
     '''
@@ -147,9 +147,9 @@ def fstrzs(efstr):
 def instr(inst, *args, **kwds):
     '''Return the string representation of an instantion.
 
-       @param inst: The instance (any C{type}).
-       @param args: Optional positional arguments.
-       @keyword kwds: Optional keyword arguments.
+       @arg inst: The instance (any C{type}).
+       @arg args: Optional positional arguments.
+       @kwarg kwds: Optional keyword arguments.
 
        @return: Representation (C{str}).
     '''
@@ -158,18 +158,18 @@ def instr(inst, *args, **kwds):
 
 
 def pairs(items, prec=6, fmt='F', ints=False, sep='='):
-    '''Convert items to I{name=value} strings, with floats handled like L{fstr}.
+    '''Convert items to I{name=value} strings, with C{float}s handled like L{fstr}.
 
-       @param items: Name-value pairs (C{dict} or 2-{tuple}s of any C{type}s).
-       @keyword prec: The C{float} precision, number of decimal digits (0..9).
-                      Trailing zero decimals are stripped if B{C{prec}} is
-                      positive, but kept for negative B{C{prec}} values.
-       @keyword fmt: Optional, float format (C{str}).
-       @keyword ints: Optionally, remove the decimal dot (C{bool}).
-       @keyword sep: Separator joining I{names} and I{values} (C{str}).
+       @arg items: Name-value pairs (C{dict} or 2-{tuple}s of any C{type}s).
+       @kwarg prec: The C{float} precision, number of decimal digits (0..9).
+                    Trailing zero decimals are stripped if B{C{prec}} is
+                    positive, but kept for negative B{C{prec}} values.
+       @kwarg fmt: Optional, float format (C{str}).
+       @kwarg ints: Optionally, remove the decimal dot (C{bool}).
+       @kwarg sep: Separator joining I{names} and I{values} (C{str}).
 
-       @return: A C{tuple(B{C{sep}}.join(t) for t in zip(I{names}, reprs(I{values},
-                ...)))} of C{str}s.
+       @return: A C{tuple(sep.join(t) for t in zip(names, reprs(values,...)))}
+                of C{str}s.
     '''
     try:
         if isinstance(items, dict):
@@ -178,37 +178,37 @@ def pairs(items, prec=6, fmt='F', ints=False, sep='='):
             items = tuple(items)
         n, v = zip(*items) if items else ((), ())
     except (TypeError, ValueError):
-        raise _IsNotError('dict', '2-tuples', items=items)
+        raise _isnotError('dict', '2-tuples', items=items)
     v = _streprs(prec, v, fmt, ints, False, repr)
     return tuple(sep.join(t) for t in zip(n, v))
 
 
 def reprs(objs, prec=6, fmt='F', ints=False):
-    '''Convert objects to C{repr} strings, with floats handled like L{fstr}.
+    '''Convert objects to C{repr} strings, with C{float}s handled like L{fstr}.
 
-       @param objs: List, sequence, tuple, etc. (any C{type}s).
-       @keyword prec: The C{float} precision, number of decimal digits (0..9).
-                      Trailing zero decimals are stripped if B{C{prec}} is
-                      positive, but kept for negative B{C{prec}} values.
-       @keyword fmt: Optional, float format (C{str}).
-       @keyword ints: Optionally, remove the decimal dot (C{bool}).
+       @arg objs: List, sequence, tuple, etc. (any C{type}s).
+       @kwarg prec: The C{float} precision, number of decimal digits (0..9).
+                    Trailing zero decimals are stripped if B{C{prec}} is
+                    positive, but kept for negative B{C{prec}} values.
+       @kwarg fmt: Optional, float format (C{str}).
+       @kwarg ints: Optionally, remove the decimal dot (C{bool}).
 
-       @return: A C{tuple(map(fstr|repr, B{objs}))} of C{str}s.
+       @return: A C{tuple(map(fstr|repr, objs))} of C{str}s.
     '''
     return tuple(_streprs(prec, objs, fmt, ints, False, repr)) if objs else ()
 
 
 def strs(objs, prec=6, fmt='F', ints=False):
-    '''Convert objects to C{str} strings, with floats handled like L{fstr}.
+    '''Convert objects to C{str} strings, with C{float}s handled like L{fstr}.
 
-       @param objs: List, sequence, tuple, etc. (any C{type}s).
-       @keyword prec: The C{float} precision, number of decimal digits (0..9).
-                      Trailing zero decimals are stripped if B{C{prec}} is
-                      positive, but kept for negative B{C{prec}} values.
-       @keyword fmt: Optional, float format (C{str}).
-       @keyword ints: Optionally, remove the decimal dot (C{bool}).
+       @arg objs: List, sequence, tuple, etc. (any C{type}s).
+       @kwarg prec: The C{float} precision, number of decimal digits (0..9).
+                    Trailing zero decimals are stripped if B{C{prec}} is
+                    positive, but kept for negative B{C{prec}} values.
+       @kwarg fmt: Optional, float format (C{str}).
+       @kwarg ints: Optionally, remove the decimal dot (C{bool}).
 
-       @return: A C{tuple(map(fstr|str, B{objs}))} of C{str}s.
+       @return: A C{tuple(map(fstr|str, objs))} of C{str}s.
     '''
     return tuple(_streprs(prec, objs, fmt, ints, False, str)) if objs else ()
 
@@ -216,9 +216,9 @@ def strs(objs, prec=6, fmt='F', ints=False):
 def unstr(name, *args, **kwds):
     '''Return the string representation of an invokation.
 
-       @param name: Function, method or class name (C{str}).
-       @param args: Optional positional arguments.
-       @keyword kwds: Optional keyword arguments.
+       @arg name: Function, method or class name (C{str}).
+       @arg args: Optional positional arguments.
+       @kwarg kwds: Optional keyword arguments.
 
        @return: Representation (C{str}).
     '''

@@ -295,7 +295,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Cartesian_datum_kwds</span>)</span><br />
       Convert this point to <code>Karney</code>-based cartesian (ECEF) 
       coordinates.</td>
           <td align="right" valign="top">
@@ -399,8 +399,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html#geodesic" class="summary-name">geodesic</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ellipsoidalKarney.LatLon-class.html#geodesic" class="summary-name">geodesic</a>
     </td>
   </tr>
   <tr>
@@ -570,12 +569,12 @@
   geodesic given by an initial bearing, using Karney's <code>Direct</code> 
   method.</p>
   <p>The distance must be in the same units as this point's datum axes, 
-  conventionally meter.  The distance is measured on the surface of the 
-  ellipsoid, ignoring this point's height.</p>
+  conventionally <code>meter</code>.  The distance is measured on the 
+  surface of the ellipsoid, ignoring this point's height.</p>
   <p>The initial and final bearing (forward and reverse azimuth) are in 
-  compass degrees.</p>
+  compass <code>degrees360</code>.</p>
   <p>The destination point's height and datum are set to this point's 
-  height and datum.</p>
+  height and datum, unless the former is overridden.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -675,10 +674,10 @@
   between this and an other point, using Karney's <code>Inverse</code> 
   method.</p>
   <p>The distance is in the same units as this point's datum axes, 
-  conventially meter.  The distance is measured on the surface of the 
+  conventionally meter.  The distance is measured on the surface of the 
   ellipsoid, ignoring this point's height.</p>
   <p>The initial and final bearing (forward and reverse azimuth) are in 
-  compass degrees from North.</p>
+  compass <code>degrees360</code> from North.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -869,7 +868,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">**Cartesian_datum_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -881,18 +880,20 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
-          arguments, ignored if <code><b>Cartesian</b>=None</code>. For 
-          example, use <code>Cartesian=...</code> to override the <a 
+        <li><strong class="pname"><code>Cartesian_datum_kwds</code></strong> - Optional <a 
           href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-          class="link">Cartesian</a> (sub-)class or specify 
-          <code><b>Cartesian</b>=None</code>.</li>
+          class="link">Cartesian</a>, <b><code>datum</code></b> and other 
+          keyword arguments, ignored if <b><code>Cartesian=None</code></b>.
+          Use <b><code>Cartesian=...</code></b> to override this <a 
+          href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+          class="link">Cartesian</a> class or set 
+          <b><code>Cartesian=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <b><code>Cartesian</code></b> point (<a 
+        <dd>The cartesian (ECEF) coordinates (<a 
           href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-          class="link">Cartesian</a>) or if 
-          <code><b>Cartesian</b>=None</code>, an <a 
+          class="link">Cartesian</a>) or if <b><code>Cartesian</code></b> 
+          is <code>None</code>, an <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
           M, datum)</code> with <code>C</code> and <code>M</code> if 
@@ -900,7 +901,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b>, <b><code>datum</code></b> or
-        <b><code>kwds</code></b>.</li>
+        other <b><code>Cartesian_datum_kwds</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian">latlonBase.LatLonBase.toCartesian</a>
@@ -924,9 +925,9 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">geodesic</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
         - Get this <code>LatLon</code>'s <a 
 href="https://GeographicLib.SourceForge.io/html/python/code.html" 
@@ -934,7 +935,7 @@ target="_top">Geodesic</a>, provided package <a
 href="https://PyPI.org/project/geographiclib" 
 target="_top">geographiclib</a> is installed.
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -974,7 +975,7 @@ target="_top">geographiclib</a> is installed.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:39 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

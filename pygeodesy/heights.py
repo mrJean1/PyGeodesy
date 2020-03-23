@@ -51,7 +51,7 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import EPS, _IsNotError, isscalar, \
+from pygeodesy.basics import EPS, _isnotError, isscalar, \
                              len2, map1, map2, property_RO
 from pygeodesy.datum import Datum
 from pygeodesy.fmath import fidw, hypot2
@@ -63,7 +63,7 @@ from pygeodesy.utily import PI, PI2, PI_2, radiansPI, radiansPI2, \
                             unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.03.12'
+__version__ = '20.03.23'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -281,8 +281,8 @@ class HeightCubic(_HeightBase):
     def __init__(self, knots, name=''):
         '''New L{HeightCubic} interpolator.
 
-           @param knots: The points with known height (C{LatLon}s).
-           @keyword name: Optional height interpolator name (C{str}).
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg name: Optional height interpolator name (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                invalid B{C{knot}}.
@@ -309,8 +309,8 @@ class HeightCubic(_HeightBase):
     def __call__(self, *llis):
         '''Interpolate the height for one or several locations.
 
-           @param llis: The location or locations (C{LatLon}, ... or
-                        C{LatLon}s).
+           @arg llis: The location or locations (C{LatLon}, ... or
+                      C{LatLon}s).
 
            @return: A single interpolated height (C{float}) or a list
                     or tuple of interpolated heights (C{float}s).
@@ -333,8 +333,8 @@ class HeightCubic(_HeightBase):
     def height(self, lats, lons):
         '''Interpolate the height for one or several lat-/longitudes.
 
-           @param lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @param lons: Longitude or longitudes (C{degrees} or C{degrees}s).
+           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
+           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
 
            @return: A single interpolated height (C{float}) or a list of
                     interpolated heights (C{float}s).
@@ -361,8 +361,8 @@ class HeightLinear(HeightCubic):
     def __init__(self, knots, name=''):
         '''New L{HeightLinear} interpolator.
 
-           @param knots: The points with known height (C{LatLon}s).
-           @keyword name: Optional height interpolator name (C{str}).
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg name: Optional height interpolator name (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                invalid B{C{knot}}.
@@ -402,8 +402,8 @@ class _HeightIDW(_HeightBase):
     def __call__(self, *llis):
         '''Interpolate the height for one or several locations.
 
-           @param llis: The location or locations (C{LatLon}, ... or
-                        C{LatLon}s).
+           @arg llis: The location or locations (C{LatLon}, ... or
+                      C{LatLon}s).
 
            @return: A single interpolated height (C{float}) or a list
                     or tuple of interpolated heights (C{float}s).
@@ -438,7 +438,7 @@ class _HeightIDW(_HeightBase):
     def beta(self, beta):
         '''Set the inverse distance power.
 
-           @param beta: New inverse distance power (C{int} 1, 2, or 3).
+           @arg beta: New inverse distance power (C{int} 1, 2, or 3).
 
            @raise HeightError: Invalid B{C{beta}}.
         '''
@@ -453,8 +453,8 @@ class _HeightIDW(_HeightBase):
     def height(self, lats, lons):
         '''Interpolate the height for one or several lat-/longitudes.
 
-           @param lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @param lons: Longitude or longitudes (C{degrees} or C{degrees}s).
+           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
+           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
 
            @return: A single interpolated height (C{float}) or a list of
                     interpolated heights (C{float}s).
@@ -486,11 +486,11 @@ class HeightIDWequirectangular(_HeightIDW):
     def __init__(self, knots, adjust=True, wrap=False, name=''):
         '''New L{HeightIDWequirectangular} interpolator.
 
-           @param knots: The points with known height (C{LatLon}s).
-           @keyword adjust: Adjust the wrapped, unrolled longitudinal
-                            delta by the cosine of the mean latitude (C{bool}).
-           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
-           @keyword name: Optional height interpolator name (C{str}).
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg adjust: Adjust the wrapped, unrolled longitudinal
+                          delta by the cosine of the mean latitude (C{bool}).
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg name: Optional height interpolator name (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                invalid B{C{knot}}.
@@ -530,11 +530,11 @@ class HeightIDWeuclidean(_HeightIDW):
     def __init__(self, knots, adjust=True, beta=2, name=''):
         '''New L{HeightIDWeuclidean} interpolator.
 
-           @param knots: The points with known height (C{LatLon}s).
-           @keyword adjust: Adjust the longitudinal delta by the cosine
-                            of the mean latitude for B{C{adjust}}=C{True}.
-           @keyword beta: Inverse distance power (C{int} 1, 2, or 3).
-           @keyword name: Optional height interpolator name (C{str}).
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg adjust: Adjust the longitudinal delta by the cosine
+                          of the mean latitude for B{C{adjust}}=C{True}.
+           @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
+           @kwarg name: Optional height interpolator name (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                invalid B{C{knot}} or B{C{beta}}.
@@ -571,10 +571,10 @@ class HeightIDWhaversine(_HeightIDW):
     def __init__(self, knots, beta=2, wrap=False, name=''):
         '''New L{HeightIDWhaversine} interpolator.
 
-           @param knots: The points with known height (C{LatLon}s).
-           @keyword beta: Inverse distance power (C{int} 1, 2, or 3).
-           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
-           @keyword name: Optional height interpolator name (C{str}).
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg name: Optional height interpolator name (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                invalid B{C{knot}} or B{C{beta}}.
@@ -615,12 +615,12 @@ class HeightIDWkarney(_HeightIDW):
     def __init__(self, knots, datum=None, beta=2, wrap=False, name=''):
         '''New L{HeightIDWhaversine} interpolator.
 
-           @param knots: The points with known height (C{LatLon}s).
-           @keyword datum: Optional datum (L{Datum} to use, overriding
-                           the default C{B{knots}[0].datum}
-           @keyword beta: Inverse distance power (C{int} 1, 2, or 3).
-           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
-           @keyword name: Optional height interpolator name (C{str}).
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg datum: Optional datum (L{Datum} to use, overriding
+                         the default B{C{knots[0].datum}}
+           @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg name: Optional height interpolator name (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                invalid B{C{knot}}, B{C{datum}} or
@@ -639,7 +639,7 @@ class HeightIDWkarney(_HeightIDW):
             if not isinstance(self.datum, Datum):
                 raise TypeError
         except (AttributeError, TypeError):
-            raise _IsNotError('valid', datum=self.datum or datum)
+            raise _isnotError('valid', datum=self.datum or datum)
         self._geodesic = self.datum.ellipsoid.geodesic
 
         self.beta = beta
@@ -664,8 +664,8 @@ class HeightIDWkarney(_HeightIDW):
     def __call__(self, *llis):
         '''Interpolate the height for one or several locations.
 
-           @param llis: The location or locations (C{LatLon}, ... or
-                        C{LatLon}s).
+           @arg llis: The location or locations (C{LatLon}, ... or
+                      C{LatLon}s).
 
            @return: A single interpolated height (C{float}) or a list
                     or tuple of interpolated heights (C{float}s).
@@ -713,10 +713,10 @@ class HeightIDWvincentys(_HeightIDW):
     def __init__(self, knots, beta=2, wrap=False, name=''):
         '''New L{HeightIDWvincentys} interpolator.
 
-           @param knots: The points with known height (C{LatLon}s).
-           @keyword beta: Inverse distance power (C{int} 1, 2, or 3).
-           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
-           @keyword name: Optional height interpolator name (C{str}).
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg name: Optional height interpolator name (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                invalid B{C{knot}} or B{C{beta}}.
@@ -744,10 +744,10 @@ class HeightLSQBiSpline(_HeightBase):
     def __init__(self, knots, weight=None, name=''):
         '''New L{HeightLSQBiSpline} interpolator.
 
-           @param knots: The points with known height (C{LatLon}s).
-           @keyword weight: Optional weight or weights for each B{C{knot}}
-                            (C{scalar} or C{scalar}s).
-           @keyword name: Optional height interpolator name (C{str}).
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg weight: Optional weight or weights for each B{C{knot}}
+                          (C{scalar} or C{scalar}s).
+           @kwarg name: Optional height interpolator name (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                B{C{weight}}s or invalid B{C{knot}} or B{C{weight}}.
@@ -796,8 +796,8 @@ class HeightLSQBiSpline(_HeightBase):
     def __call__(self, *llis):
         '''Interpolate the height for one or several locations.
 
-           @param llis: The location or locations (C{LatLon}, ... or
-                        C{LatLon}s).
+           @arg llis: The location or locations (C{LatLon}, ... or
+                      C{LatLon}s).
 
            @return: A single interpolated height (C{float}) or a list
                     or tuple of interpolated heights (C{float}s).
@@ -815,8 +815,8 @@ class HeightLSQBiSpline(_HeightBase):
     def height(self, lats, lons):
         '''Interpolate the height for one or several lat-/longitudes.
 
-           @param lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @param lons: Longitude or longitudes (C{degrees} or C{degrees}s).
+           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
+           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
 
            @return: A single interpolated height (C{float}) or a list of
                     interpolated heights (C{float}s).
@@ -842,9 +842,9 @@ class HeightSmoothBiSpline(_HeightBase):
     def __init__(self, knots, s=4, name=''):
         '''New L{HeightSmoothBiSpline} interpolator.
 
-           @param knots: The points with known height (C{LatLon}s).
-           @keyword s: The spline smoothing factor (C{4}).
-           @keyword name: Optional height interpolator name (C{str}).
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg s: The spline smoothing factor (C{4}).
+           @kwarg name: Optional height interpolator name (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
                                invalid B{C{knot}} or B{C{s}}.
@@ -875,8 +875,8 @@ class HeightSmoothBiSpline(_HeightBase):
     def __call__(self, *llis):
         '''Interpolate the height for one or several locations.
 
-           @param llis: The location or locations (C{LatLon}, ... or
-                        C{LatLon}s).
+           @arg llis: The location or locations (C{LatLon}, ... or
+                      C{LatLon}s).
 
            @return: A single interpolated height (C{float}) or a list
                     or tuple of interpolated heights (C{float}s).
@@ -894,8 +894,8 @@ class HeightSmoothBiSpline(_HeightBase):
     def height(self, lats, lons):
         '''Interpolate the height for one or several lat-/longitudes.
 
-           @param lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @param lons: Longitude or longitudes (C{degrees} or C{degrees}s).
+           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
+           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
 
            @return: A single interpolated height (C{float}) or a list of
                     interpolated heights (C{float}s).

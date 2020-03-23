@@ -34,7 +34,7 @@ from math import atan, atan2, radians, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '20.03.09'
+__version__ = '20.03.20'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = 2000e3  #: (INTERNAL) False easting and northing (C{meter}).
@@ -74,21 +74,21 @@ class Ups(UtmUpsBase):
                                    convergence=None, scale=None, name=''):
         '''New L{Ups} UPS coordinate.
 
-           @param zone: UPS zone (C{int}, zero) or zone with/-out Band
-                        letter (C{str}, '00', '00A', '00B', '00Y' or '00Z').
-           @param pole: Top/center of (stereographic) projection
-                        (C{str}, C{'N[orth]'} or C{'S[outh]'}).
-           @param easting: Easting, see B{C{falsed}} (C{meter}).
-           @param northing: Northing, see B{C{falsed}} (C{meter}).
-           @keyword band: Optional, polar Band (C{str}, 'A'|'B'|'Y'|'Z').
-           @keyword datum: Optional, this coordinate's datum (L{Datum}).
-           @keyword falsed: Both B{C{easting}} and B{C{northing}} are
-                            falsed (C{bool}).
-           @keyword convergence: Optional, meridian convergence gamma
-                                 to save (C{degrees}).
-           @keyword scale: Optional, computed scale factor k to save
-                           (C{scalar}).
-           @keyword name: Optional name (C{str}).
+           @arg zone: UPS zone (C{int}, zero) or zone with/-out Band
+                      letter (C{str}, '00', '00A', '00B', '00Y' or '00Z').
+           @arg pole: Top/center of (stereographic) projection
+                      (C{str}, C{'N[orth]'} or C{'S[outh]'}).
+           @arg easting: Easting, see B{C{falsed}} (C{meter}).
+           @arg northing: Northing, see B{C{falsed}} (C{meter}).
+           @kwarg band: Optional, polar Band (C{str}, 'A'|'B'|'Y'|'Z').
+           @kwarg datum: Optional, this coordinate's datum (L{Datum}).
+           @kwarg falsed: Both B{C{easting}} and B{C{northing}} are
+                          falsed (C{bool}).
+           @kwarg convergence: Optional, meridian convergence gamma
+                               to save (C{degrees}).
+           @kwarg scale: Optional, computed scale factor k to save
+                         (C{scalar}).
+           @kwarg name: Optional name (C{str}).
 
            @raise UPSError: Invalid B{C{zone}}, B{C{pole}} or B{C{band}}.
         '''
@@ -161,8 +161,8 @@ class Ups(UtmUpsBase):
     def rescale0(self, lat, scale0=_K0):
         '''Set the central scale factor for this UPS projection.
 
-           @param lat: Northern latitude (C{degrees}).
-           @param scale0: UPS k0 scale at B{C{lat}} latitude (C{scalar}).
+           @arg lat: Northern latitude (C{degrees}).
+           @arg scale0: UPS k0 scale at B{C{lat}} latitude (C{scalar}).
 
            @raise RangeError: If B{C{lat}} outside the valid range
                               and L{rangerrors} set to C{True}.
@@ -184,17 +184,19 @@ class Ups(UtmUpsBase):
             self._latlon = self._epsg = self._mgrs = self._utm = None
             self._scale0 = k
 
-    def toLatLon(self, LatLon=None, unfalse=True):
+    def toLatLon(self, LatLon=None, unfalse=True, **LatLon_kwds):
         '''Convert this UPS coordinate to an (ellipsoidal) geodetic point.
 
-           @keyword LatLon: Optional, ellipsoidal (sub-)class to return
-                            the point (C{LatLon}) or C{None}.
-           @keyword unfalse: Unfalse B{C{easting}} and B{C{northing}}
-                             if falsed (C{bool}).
+           @kwarg LatLon: Optional, ellipsoidal class to return the
+                          geodetic point (C{LatLon}) or C{None}.
+           @kwarg unfalse: Unfalse B{C{easting}} and B{C{northing}}
+                           if falsed (C{bool}).
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if B{C{LatLon=None}}.
 
-           @return: This UPS coordinate as (B{C{LatLon}}) or A
-                    L{LatLonDatum5Tuple}C{(lat, lon, datum,
-                    convergence, scale)} if B{C{LatLon}} is C{None}.
+           @return: This UPS coordinate (B{C{LatLon}}) or if B{C{LatLon}}
+                    is C{None}, a L{LatLonDatum5Tuple}C{(lat, lon, datum,
+                    convergence, scale)}.
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
 
@@ -226,7 +228,7 @@ class Ups(UtmUpsBase):
         ll._scale = _scale(E, r, t) if r > 0 else self.scale0
 
         self._latlon_to(ll, unfalse)
-        return self._latlon5(LatLon)
+        return self._latlon5(LatLon, **LatLon_kwds)
 
     def _latlon_to(self, ll, unfalse):
         '''(INTERNAL) See C{.toLatLon}, C{toUps8}.
@@ -250,11 +252,11 @@ class Ups(UtmUpsBase):
            Note that UPS coordinates are rounded, not truncated
            (unlike MGRS grid references).
 
-           @keyword prec: Optional number of decimals, unstripped (C{int}).
-           @keyword sep: Optional separator to join (C{str}).
-           @keyword B: Optionally, include and polar band letter (C{bool}).
-           @keyword cs: Optionally, include gamma meridian convergence
-                        and point scale factor (C{bool}).
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg B: Optionally, include and polar band letter (C{bool}).
+           @kwarg cs: Optionally, include gamma meridian convergence and
+                      point scale factor (C{bool}).
 
            @return: This UPS as a string with C{00[Band] pole, easting,
                     northing, [convergence, scale]} as C{"00[B] N|S
@@ -274,12 +276,12 @@ class Ups(UtmUpsBase):
            Note that UPS coordinates are rounded, not truncated
            (unlike MGRS grid references).
 
-           @keyword prec: Optional number of decimals, unstripped (C{int}).
-           @keyword fmt: Optional, enclosing backets format (C{str}).
-           @keyword sep: Optional separator between name:value pairs (C{str}).
-           @keyword B: Optionally, include polar band letter (C{bool}).
-           @keyword cs: Optionally, include gamma meridian convergence
-                        and point scale factor (C{bool}).
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg fmt: Optional, enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between name:value pairs (C{str}).
+           @kwarg B: Optionally, include polar band letter (C{bool}).
+           @kwarg cs: Optionally, include gamma meridian convergence and
+                      point scale factor (C{bool}).
 
            @return: This UPS as a string with C{00[Band] pole, easting,
                     northing, [convergence, scale]} as C{"[Z:00[Band],
@@ -297,8 +299,8 @@ class Ups(UtmUpsBase):
     def toUps(self, pole='', **unused):
         '''Duplicate this UPS coordinate.
 
-           @keyword pole: Optional top/center of the UPS projection,
-                          (C{str}, 'N[orth]'|'S[outh]').
+           @kwarg pole: Optional top/center of the UPS projection,
+                        (C{str}, 'N[orth]'|'S[outh]').
 
            @return: A copt of this UPS coordinate (L{Ups}).
 
@@ -313,8 +315,8 @@ class Ups(UtmUpsBase):
     def toUtm(self, zone, falsed=True, **unused):
         '''Convert this UPS coordinate to a UTM coordinate.
 
-           @param zone: The UTM zone (C{int}).
-           @keyword falsed: False both easting and northing (C{bool}).
+           @arg zone: The UTM zone (C{int}).
+           @kwarg falsed: False both easting and northing (C{bool}).
 
            @return: The UTM coordinate (L{Utm}).
         '''
@@ -344,13 +346,12 @@ def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=''):
        C{"[zone][band] pole easting northing"} where B{C{zone}} is
        pseudo zone C{"00"|"0"|""} and C{band} is C{'A'|'B'|'Y'|'Z'|''}.
 
-       @param strUPS: A UPS coordinate (C{str}).
-       @keyword datum: Optional datum to use (L{Datum}).
-       @keyword Ups: Optional (sub-)class to return the UPS
-                     coordinate (L{Ups}) or C{None}.
-       @keyword falsed: Both B{C{easting}} and B{C{northing}}
-                        are falsed (C{bool}).
-       @keyword name: Optional B{C{Ups}} name (C{str}).
+       @arg strUPS: A UPS coordinate (C{str}).
+       @kwarg datum: Optional datum to use (L{Datum}).
+       @kwarg Ups: Optional class to return the UPS coordinate (L{Ups})
+                   or C{None}.
+       @kwarg falsed: Both B{C{easting}} and B{C{northing}} are falsed (C{bool}).
+       @kwarg name: Optional B{C{Ups}} name (C{str}).
 
        @return: The UPS coordinate (B{C{Ups}}) or a
                 L{UtmUps5Tuple}C{(zone, hemipole, easting, northing,
@@ -381,19 +382,19 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole='',
                              falsed=True, strict=True, name=''):
     '''Convert a lat-/longitude point to a UPS coordinate.
 
-       @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
-                      geodetic C{LatLon} point.
-       @keyword lon: Optional longitude (C{degrees}) or C{None}
-                     if B{C{latlon}} is a C{LatLon}.
-       @keyword datum: Optional datum for this UPS coordinate,
-                       overriding B{C{latlon}}'s datum (C{Datum}).
-       @keyword Ups: Optional (sub-)class to return the UPS
-                     coordinate (L{Ups}) or C{None}.
-       @keyword pole: Optional top/center of (stereographic) projection
-                      (C{str}, C{'N[orth]'} or C{'S[outh]'}).
-       @keyword falsed: False both easting and northing (C{bool}).
-       @keyword strict: Restrict B{C{lat}} to UPS ranges (C{bool}).
-       @keyword name: Optional B{C{Ups}} name (C{str}).
+       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
+                    geodetic C{LatLon} point.
+       @kwarg lon: Optional longitude (C{degrees}) or C{None} if
+                   B{C{latlon}} is a C{LatLon}.
+       @kwarg datum: Optional datum for this UPS coordinate,
+                     overriding B{C{latlon}}'s datum (C{Datum}).
+       @kwarg Ups: Optional class to return the UPS coordinate
+                   (L{Ups}) or C{None}.
+       @kwarg pole: Optional top/center of (stereographic) projection
+                    (C{str}, C{'N[orth]'} or C{'S[outh]'}).
+       @kwarg falsed: False both easting and northing (C{bool}).
+       @kwarg strict: Restrict B{C{lat}} to UPS ranges (C{bool}).
+       @kwarg name: Optional B{C{Ups}} name (C{str}).
 
        @return: The UPS coordinate (B{C{Ups}}) or a
                 L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
@@ -465,9 +466,9 @@ def upsZoneBand5(lat, lon, strict=True):
     '''Return the UTM/UPS zone number, (polar) Band letter, pole and
        clipped lat- and longitude for a given location.
 
-       @param lat: Latitude in degrees (C{scalar} or C{str}).
-       @param lon: Longitude in degrees (C{scalar} or C{str}).
-       @keyword strict: Restrict B{C{lat}} to UPS ranges (C{bool}).
+       @arg lat: Latitude in degrees (C{scalar} or C{str}).
+       @arg lon: Longitude in degrees (C{scalar} or C{str}).
+       @kwarg strict: Restrict B{C{lat}} to UPS ranges (C{bool}).
 
        @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
                 lat, lon)} where C{hemipole} is the C{'N'|'S'} pole,

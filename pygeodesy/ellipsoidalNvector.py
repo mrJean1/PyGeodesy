@@ -41,7 +41,7 @@ from math import asin, atan2, cos, radians, sin
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.03.15'
+__version__ = '20.03.20'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -49,40 +49,43 @@ class Cartesian(CartesianEllipsoidalBase):
        L{Nvector} and n-vector-based, geodetic L{LatLon}.
     '''
 
-    def toLatLon(self, **kwds):  # PYCHOK LatLon=LatLon, datum=None
+    def toLatLon(self, **LatLon_datum_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to an C{Nvector}-based
            geodetic point.
 
-           @keyword kwds: Optional, additional B{C{LatLon}} keyword
-                          arguments, ignored if C{B{LatLon}=None}.
-                          Specify C{LatLon=...} to override this
-                          L{LatLon} class or set C{B{LatLon}=None}.
+           @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
+                                     other keyword arguments, ignored if
+                                     B{C{LatLon=None}}.  Use
+                                     B{C{LatLon=...}} to override this
+                                     L{LatLon} class or specify
+                                     B{C{LatLon=None}}.
 
-           @return: The B{C{LatLon}} point (L{LatLon}) or when
-                    C{B{LatLon}=None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and
-                    C{M} if available.
+           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
+                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
+                    height, C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}}
-                             or other B{C{kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}} or other
+                             B{C{LatLon_datum_kwds}}.
         '''
-        kwds = _xkwds(kwds, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(LatLon_datum_kwds, LatLon=LatLon, datum=self.datum)
         return CartesianEllipsoidalBase.toLatLon(self, **kwds)
 
-    def toNvector(self, **kwds):  # PYCHOK Datums.WGS84
+    def toNvector(self, **Nvector_datum_kwds):  # PYCHOK Datums.WGS84
         '''Convert this cartesian to L{Nvector} components,
            I{including height}.
 
-           @keyword kwds: Optional, additional B{C{Nvector}} keyword
-                          arguments, ignored if C{B{Nvector}=None}.
-                          Specify C{Nvector=...} to override this
-                          L{Nvector} class or set C{B{Nvector}=None}.
+           @kwarg Nvector_datum_kwds: Optional L{Nvector}, B{C{datum}} and
+                                      other keyword arguments, ignored if
+                                      B{C{Nvector=None}}.  Use
+                                      B{C{Nvector=...}} to override this
+                                      L{Nvector} class or specify
+                                      B{C{Nvector=None}}.
 
-           @return: The B{C{Nvector}} components (L{Nvector}) or a
-                    L{Vector4Tuple}C{(x, y, z, h)} if C{B{Nvector}=None}.
+           @return: The C{n-vector} components (L{Nvector}) or a
+                    L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector=None}}.
 
-           @raise TypeError: Invalid B{C{Nvector}}, B{C{datum}}
-                             or other B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Nvector}}, B{C{datum}} or other
+                             B{C{Nvector_datum_kwds}}.
 
            @example:
 
@@ -90,7 +93,7 @@ class Cartesian(CartesianEllipsoidalBase):
            >>> c = Cartesian(3980581, 97, 4966825)
            >>> n = c.toNvector()  # (0.62282, 0.000002, 0.78237, +0.24)
         '''
-        kwds = _xkwds(kwds, Nvector=Nvector, datum=self.datum)
+        kwds = _xkwds(Nvector_datum_kwds, Nvector=Nvector, datum=self.datum)
         return CartesianEllipsoidalBase.toNvector(self, **kwds)
 
 
@@ -132,11 +135,11 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         '''Return the (signed) distance from this point to the great
 #            circle defined by a start point and an end point or bearing.
 #
-#            @param start: Start point of great circle path (L{LatLon}).
-#            @param end: End point of great circle path (L{LatLon}) or
-#                        initial bearing (compass C{degrees360}) at
-#                        the start point.
-#            @keyword radius: Mean earth radius (C{meter}).
+#            @arg start: Start point of great circle path (L{LatLon}).
+#            @arg end: End point of great circle path (L{LatLon}) or
+#                      initial bearing (compass C{degrees360}) at the
+#                      start point.
+#            @kwarg radius: Mean earth radius (C{meter}).
 #
 #            @return: Distance to great circle, negative if to left or
 #                     positive if to right of path (C{meter}, same units
@@ -180,7 +183,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            on the ellipsoid.  The points need not be defined on
            the same datum.
 
-           @param other: The other point (L{LatLon}).
+           @arg other: The other point (L{LatLon}).
 
            @return: Delta of this point (L{Ned}).
 
@@ -210,13 +213,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         '''Return the destination point after traveling from this
 #            point the given distance on the given initial bearing.
 #
-#            @param distance: Distance traveled (C{meter}, same units as
-#                             given earth B{C{radius}}).
-#            @param bearing: Initial bearing (compass C{degrees360}).
-#            @keyword radius: Mean earth radius (C{meter}).
-#            @keyword height: Optional height at destination point,
-#                             overriding default (C{meter}, same units
-#                             as B{C{radius}}).
+#            @arg distance: Distance traveled (C{meter}, same units as
+#                           given earth B{C{radius}}).
+#            @arg bearing: Initial bearing (compass C{degrees360}).
+#            @kwarg radius: Mean earth radius (C{meter}).
+#            @kwarg height: Optional height at destination point,
+#                           overriding default (C{meter}, same units
+#                           as B{C{radius}}).
 #
 #            @return: Destination point (L{LatLon}).
 #
@@ -241,8 +244,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''Calculate the destination point using the supplied NED delta
            from this point.
 
-           @param delta: Delta from this to the other point in the local
-                         tangent plane (LTP) of this point (L{Ned}).
+           @arg delta: Delta from this to the other point in the local
+                       tangent plane (LTP) of this point (L{Ned}).
 
            @return: Destination point (L{Cartesian}).
 
@@ -276,8 +279,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     def distanceTo(self, other, radius=None):
         '''Approximate the distance from this to an other point.
 
-           @param other: The other point (L{LatLon}).
-           @keyword radius: Mean earth radius (C{meter}).
+           @arg other: The other point (L{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -304,8 +307,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     def isequalTo(self, other, eps=None):
         '''Compare this point with an other point.
 
-           @param other: The other point (L{LatLon}).
-           @keyword eps: Optional margin (C{float}).
+           @arg other: The other point (L{LatLon}).
+           @kwarg eps: Optional margin (C{float}).
 
            @return: C{True} if points are identical, including
                     datum, I{ignoring height}, C{False} otherwise.
@@ -330,7 +333,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            Direction of vector is such that initial bearing vector
 #            b = c × p, where p is representing this point.
 #
-#            @param bearing: Bearing from this point (compass C{degrees360}).
+#            @arg bearing: Bearing from this point (compass C{degrees360}).
 #
 #            @return: N-vector representing great circle (L{Nvector}).
 #
@@ -352,7 +355,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         '''Return the initial bearing (forward azimuth) from this
 #            to an other point.
 #
-#            @param other: The other point (L{LatLon}).
+#            @arg other: The other point (L{LatLon}).
 #
 #            @return: Initial bearing (compass C{degrees360}).
 #
@@ -381,11 +384,11 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''Return the point at given fraction between this and
            an other point.
 
-           @param other: The other point (L{LatLon}).
-           @param fraction: Fraction between both points ranging from
-                            0 = this point to 1 = other point (C{float}).
-           @keyword height: Optional height, overriding the fractional
-                            height (C{meter}).
+           @arg other: The other point (L{LatLon}).
+           @arg fraction: Fraction between both points ranging from
+                          0, meaning this to 1, the other point (C{float}).
+           @kwarg height: Optional height, overriding the fractional
+                          height (C{meter}).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -410,37 +413,43 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             h = height
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
-    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian, datum=None
+    def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to an C{Nvector}-based geodetic point.
 
-           @keyword kwds: Optional, additional B{C{LatLon}} keyword
-                          arguments, ignored if C{B{LatLon}=None}.
-                          Specify C{LatLon=...} to override this
-                          L{LatLon} class or set C{B{LatLon}=None}.
+           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
+                                        and other keyword arguments, ignored
+                                        if B{C{Cartesian=None}}.  Use
+                                        B{C{Cartesian=...}} to override this
+                                        L{Cartesian} class or specify
+                                        B{C{Cartesian=None}}.
 
-           @return: The B{C{LatLon}} point (L{LatLon}) or when
-                    C{B{LatLon}=None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and
-                    C{M} if available.
+           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
+                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
+                    height, C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}} or other
+                             B{C{Cartesian_datum_kwds}}.
         '''
-        kwds = _xkwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
-    def toNvector(self, **kwds):  # PYCHOK signature
+    def toNvector(self, **Nvector_datum_kwds):  # PYCHOK signature
         '''Convert this point to L{Nvector} components, I{including
            height}.
 
-           @keyword kwds: Optional, additional B{C{Nvector}} keyword
-                          arguments, ignored if C{B{Nvector}=None}.
-                          Specify C{Nvector=...} to override this
-                          L{Nvector} class or set C{B{Nvector}=None}.
+           @kwarg Nvector_datum_kwds: Optional L{Nvector}, B{C{datum}} or
+                                      other keyword arguments, ignored if
+                                      B{C{Nvector=None}}.  Use
+                                      B{C{Nvector=...}} to override this
+                                      L{Nvector} class or specify
+                                      B{C{Nvector=None}}.
 
-           @return: The B{C{Nvector}} components (L{Nvector}) or a
-                    L{Vector4Tuple}C{(x, y, z, h)} if C{B{Nvector}=None}.
+           @return: The C{n-vector} components (L{Nvector}) or a
+                    L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}}
+                    is C{None}.
 
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Nvector}}, B{C{datum}} or other
+                             B{C{Nvector_datum_kwds}}.
 
            @example:
 
@@ -448,7 +457,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            >>> n = p.toNvector()
            >>> n.toStr()  # [0.50, 0.50, 0.70710]
         '''
-        kwds = _xkwds(kwds, Nvector=Nvector, datum=self.datum)
+        kwds = _xkwds(Nvector_datum_kwds, Nvector=Nvector, datum=self.datum)
         return LatLonNvectorBase.toNvector(self, **kwds)
 
 
@@ -466,11 +475,11 @@ class Ned(_Named):
     def __init__(self, north, east, down, name=''):
         '''New North-East-Down vector.
 
-           @param north: North component (C{meter}).
-           @param east: East component (C{meter}).
-           @param down: Down component, normal to the surface of
-                        the ellipsoid (C{meter}).
-           @keyword name: Optional name (C{str}).
+           @arg north: North component (C{meter}).
+           @arg east: East component (C{meter}).
+           @arg down: Down component, normal to the surface of
+                      the ellipsoid (C{meter}).
+           @kwarg name: Optional name (C{str}).
 
            @example:
 
@@ -547,9 +556,9 @@ class Ned(_Named):
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this NED vector.
 
-           @keyword prec: Optional number of decimals, unstripped (C{int}).
-           @keyword fmt: Optional enclosing backets format (C{str}).
-           @keyword sep: Optional separator between NEDs (C{str}).
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between NEDs (C{str}).
 
            @return: This Ned as "[N:f, E:f, D:f]" (C{str}).
         '''
@@ -560,9 +569,9 @@ class Ned(_Named):
         '''Return a string representation of this NED vector as
            length, bearing and elevation.
 
-           @keyword prec: Optional number of decimals, unstripped (C{int}).
-           @keyword fmt: Optional enclosing backets format (C{str}).
-           @keyword sep: Optional separator between NEDs (C{str}).
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between NEDs (C{str}).
 
            @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
         '''
@@ -601,14 +610,14 @@ class Nvector(NvectorBase):
     def __init__(self, x, y, z, h=0, datum=None, ll=None, name=''):
         '''New n-vector normal to the earth's surface.
 
-           @param x: X component (C{meter}).
-           @param y: Y component (C{meter}).
-           @param z: Z component (C{meter}).
-           @keyword h: Optional height above model surface (C{meter}).
-           @keyword datum: Optional datum this n-vector is defined
-                           within (L{Datum}).
-           @keyword ll: Optional, original latlon (C{LatLon}).
-           @keyword name: Optional name (C{str}).
+           @arg x: X component (C{meter}).
+           @arg y: Y component (C{meter}).
+           @arg z: Z component (C{meter}).
+           @kwarg h: Optional height above model surface (C{meter}).
+           @kwarg datum: Optional datum this n-vector is defined
+                         within (L{Datum}).
+           @kwarg ll: Optional, original latlon (C{LatLon}).
+           @kwarg name: Optional name (C{str}).
 
            @raise TypeError: If B{C{datum}} is not a L{Datum}.
 
@@ -629,22 +638,22 @@ class Nvector(NvectorBase):
         '''
         return self._datum
 
-    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian
+    def toCartesian(self, **Cartesian_h_datum_kwds):  # PYCHOK Cartesian=Cartesian
         '''Convert this n-vector to C{Nvector}-based cartesian
            (ECEF) coordinates.
 
-           @keyword kwds: Optional, additional B{C{Cartesian}} keyword
-                          arguments, ignored if C{B{Cartesian}=None}.
-                          Specify C{Cartesian=...} to override this
-                          L{Cartesian} class or set C{B{Cartesian}=None}.
+           @kwarg Cartesian_h_datum_kwds: Optional L{Cartesian}, B{C{h}},
+                  B{C{datum}} and other keyword arguments, ignored if
+                  B{C{Cartesian=None}}.  Use B{C{Cartesian=...}}
+                  to override this L{Cartesian} class or specify
+                  B{C{Cartesian=None}}.
 
-           @return: The B{C{Cartesian}} point (L{Cartesian}) or if
-                    C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and C{M}
-                    if available.
+           @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
+                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
+                    C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
-                             or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian}}, B{C{h}}, B{C{datum}} or
+                             other B{C{Cartesian_h_datum_kwds}}.
 
            @example:
 
@@ -652,35 +661,39 @@ class Nvector(NvectorBase):
            >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
            >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
-        kwds = _xkwds(kwds, h=self.h, Cartesian=Cartesian, datum=self.datum)
+        kwds = _xkwds(Cartesian_h_datum_kwds, h=self.h, Cartesian=Cartesian,
+                                                            datum=self.datum)
         return NvectorBase.toCartesian(self, **kwds)  # class or .classof
 
-    def toLatLon(self, **kwds):  # PYCHOK height=None, LatLon=LatLon
+    def toLatLon(self, **LatLon_height_datum_kwds):  # PYCHOK height=None, LatLon=LatLon
         '''Convert this n-vector to an C{Nvector}-based geodetic point.
 
-           @keyword kwds: Optional, additional B{C{LatLon}} keyword
-                          arguments, ignored if C{B{LatLon}=None}.
-                          Specify C{LatLon=...} to override this
-                          L{LatLon} class or set C{B{LatLon}=None}.
+           @kwarg LatLon_height_datum_kwds: Optional L{LatLon}, B{C{height}},
+                                            B{C{datum}} and other keyword arguments,
+                                            ignored if B{C{LatLon=None}}.  Use
+                                            B{C{LatLon=...}} to override this
+                                            L{LatLon} class or set B{C{LatLon=None}}.
 
-           @return: The B{C{LatLon}} point (L{LatLon}) or a
-                    L{LatLon3Tuple}C{(lat, lon, height)} if
-                    C{B{LatLon}=None}.
+           @return: The geodetic point (L{LatLon}) or a L{LatLon3Tuple}C{(lat,
+                    lon, height)} if B{C{LatLon}} is C{None}.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}}, B{C{height}}, B{C{datum}}
+                             or other B{C{LatLon_height_datum_kwds}}.
 
            @example:
 
            >>> v = Nvector(0.5, 0.5, 0.7071)
            >>> p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
-        kwds = _xkwds(kwds, height=self.h, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(LatLon_height_datum_kwds, height=self.h,
+                                                LatLon=LatLon,
+                                                 datum=self.datum)
         return NvectorBase.toLatLon(self, **kwds)  # class or .classof
 
     def unit(self, ll=None):
         '''Normalize this vector to unit length.
 
-           @keyword ll: Optional, original latlon (C{LatLon}).
+           @kwarg ll: Optional, original latlon (C{LatLon}).
 
            @return: Normalised vector (L{Nvector}).
         '''
@@ -692,15 +705,19 @@ class Nvector(NvectorBase):
         return self._united
 
 
-def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
+def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon,
+                                                  **LatLon_kwds):
     '''Compute the geographic mean of several points.
 
-       @param points: Points to be averaged (L{LatLon}[]).
-       @keyword datum: Optional datum to use (L{Datum}).
-       @keyword height: Optional height at mean point, overriding
-                        the mean height (C{meter}).
-       @keyword LatLon: Optional (sub-)class to return the mean
-                        point (L{LatLon}) or C{None}.
+       @arg points: Points to be averaged (L{LatLon}[]).
+       @kwarg datum: Optional datum to use (L{Datum}).
+       @kwarg height: Optional height at mean point, overriding
+                      the mean height (C{meter}).
+       @kwarg LatLon: Optional class to return the mean point
+                      (L{LatLon}) or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
+                           keyword arguments, ignored if
+                           B{C{LatLon=None}}.
 
        @return: Geographic mean point and mean height (B{C{LatLon}})
                 or a L{LatLon3Tuple}C{(lat, lon, height)} if
@@ -715,35 +732,39 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon):
 
     if height is not None:
         h = height
-    r = LatLon3Tuple(lat, lon, h) if LatLon is None else \
-              LatLon(lat, lon, height=h, datum=datum)
+    if LatLon is None:
+        r = LatLon3Tuple(lat, lon, h)
+    else:
+        kwds = _xkwds(LatLon_kwds, height=h, datum=datum)
+        r = LatLon(lat, lon, **kwds)
     return _xnamed(r, meanOf.__name__)
 
 
-def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
+def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
     '''Return the vectorial sum of two or more n-vectors.
 
-       @param nvectors: Vectors to be added (L{Nvector}[]).
-       @keyword Vector: Optional class for the vectorial sum (L{Nvector}).
-       @keyword h: Optional height, overriding the mean height (C{meter}).
-       @keyword kwds: Optional, additional B{C{Vector}} keyword arguments.
+       @arg nvectors: Vectors to be added (L{Nvector}[]).
+       @kwarg Vector: Optional class for the vectorial sum (L{Nvector}).
+       @kwarg h: Optional height, overriding the mean height (C{meter}).
+       @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
+                           arguments, ignored if B{C{Vector=None}}.
 
        @return: Vectorial sum (B{C{Vector}}).
 
        @raise VectorError: No B{C{nvectors}}.
     '''
-    return _sumOf(nvectors, Vector=Vector, h=h, **kwds)
+    return _sumOf(nvectors, Vector=Vector, h=h, **Vector_kwds)
 
 
 def toNed(distance, bearing, elevation, name=''):
     '''Create an NED vector from distance, bearing and elevation
        (in local coordinate system).
 
-       @param distance: NED vector length (C{meter}).
-       @param bearing: NED vector bearing (compass C{degrees360}).
-       @param elevation: NED vector elevation from local coordinate
-                         frame horizontal (C{degrees}).
-       @keyword name: Optional name (C{str}).
+       @arg distance: NED vector length (C{meter}).
+       @arg bearing: NED vector bearing (compass C{degrees360}).
+       @arg elevation: NED vector elevation from local coordinate
+                       frame horizontal (C{degrees}).
+       @kwarg name: Optional name (C{str}).
 
        @return: NED vector equivalent to this B{C{distance}},
                 B{C{bearing}} and B{C{elevation}} (L{Ned}).

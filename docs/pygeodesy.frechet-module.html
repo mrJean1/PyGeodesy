@@ -148,7 +148,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.03.15
+        20.03.23
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -274,7 +274,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.frechet-module.html#fractional" class="summary-sig-name">fractional</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">fi</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Return the point at a given <i>fractional</i> index.</td>
           <td align="right" valign="top">
             
@@ -327,7 +328,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fractional</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">fi</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -338,22 +340,26 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points (<code>LatLon</code>[], <code>Numpy2LatLon</code>[], 
-          <code>Tuple2LatLon</code>[] or <code>other</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - The points (<code>LatLon</code>[], <a 
+          href="pygeodesy.points.Numpy2LatLon-class.html" 
+          class="link">Numpy2LatLon</a>[], <a 
+          href="pygeodesy.points.Tuple2LatLon-class.html" 
+          class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
         <li><strong class="pname"><code>fi</code></strong> - The fractional index (<code>float</code> or <code>int</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the <i>intermediate</i> point 
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the <i>intermediate</i> point 
           (<code>LatLon</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional <b><code>LatLon</code></b> keyword arguments, ignored of
+          <b><code>LatLon=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <b><code>LatLon</code></b> or a <a 
+        <dd>A <b><code>LatLon</code></b> or if <b><code>LatLon</code></b> is 
+          <code>None</code>, a <a 
           href="pygeodesy.named.LatLon2Tuple-class.html" 
-          class="link">LatLon2Tuple</a><code>(lat, lon)</code> if 
-          <b><code>LatLon</code></b> is <code>None</code> with 
-          <b><code>points</code></b>[<b><code>fi</code></b>] if 
-          <i>fractional</i> index <b><code>fi</code></b> is 
-          <code>int</code>, otherwise the intermediate point between 
-          <b><code>points</code></b>[<code>int(<b>fi</b>)</code>] and 
-          <b><code>points</code></b>[<code>int(<b>fi</b>)+1</code>] for 
+          class="link">LatLon2Tuple</a><code>(lat, lon)</code> for 
+          <b><code>points[fi]</code></b> if <i>fractional</i> index 
+          <b><code>fi</code></b> is <code>int</code>, otherwise the 
+          intermediate point between <b><code>points[int(fi)]</code></b> 
+          and <b><code>points[int(fi) + 1]</code></b> for 
           <code>float</code> <i>fractional</i> index 
           <b><code>fi</code></b>.</dd>
     <dt>Raises:</dt>
@@ -388,12 +394,16 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points1</code></strong> - First set of points (<code>LatLon</code>[], 
-          <code>Numpy2LatLon</code>[], <code>Tuple2LatLon</code>[] or 
-          <code>other</code>[]).</li>
-        <li><strong class="pname"><code>points2</code></strong> - Second set of points (<code>LatLon</code>[], 
-          <code>Numpy2LatLon</code>[], <code>Tuple2LatLon</code>[] or 
-          <code>other</code>[]).</li>
+        <li><strong class="pname"><code>points1</code></strong> - First set of points (<code>LatLon</code>[], <a 
+          href="pygeodesy.points.Numpy2LatLon-class.html" 
+          class="link">Numpy2LatLon</a>[], <a 
+          href="pygeodesy.points.Tuple2LatLon-class.html" 
+          class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
+        <li><strong class="pname"><code>points2</code></strong> - Second set of points (<code>LatLon</code>[], <a 
+          href="pygeodesy.points.Numpy2LatLon-class.html" 
+          class="link">Numpy2LatLon</a>[], <a 
+          href="pygeodesy.points.Tuple2LatLon-class.html" 
+          class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
         <li><strong class="pname"><code>distance</code></strong> - Callable returning the distance between a 
           <b><code>points1</code></b> and a <b><code>points2</code></b> 
           point (signature <code>(point1, point2)</code>).</li>
@@ -416,7 +426,7 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Keyword <code>fraction</code>, intermediate 
+        Keyword arguments <code>fraction</code>, intermediate 
         <b><code>points1</code></b> and <b><code>points2</code></b> and 
         <i>fractional</i> indices are <i>not</i> supported in this <a 
         href="pygeodesy.frechet-module.html#frechet_" 
@@ -456,7 +466,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:49 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:38 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

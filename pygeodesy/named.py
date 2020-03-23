@@ -17,7 +17,7 @@ sub-classes of C{_NamedTuple} defined here.
 '''
 
 # update imported names under if __name__ == '__main__':
-from pygeodesy.basics import _IsNotError, isscalar, isstr, issubclassof, \
+from pygeodesy.basics import _isnotError, isscalar, isstr, issubclassof, \
                               property_doc_, property_RO, _xcopy
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _dot_
 from pygeodesy.streprs import attrs, fstr, pairs, reprs, unstr
@@ -45,7 +45,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS('_Named', '_NamedBase',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple',
          'notOverloaded')
-__version__ = '20.03.15'
+__version__ = '20.03.23'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
@@ -60,9 +60,9 @@ def _n_v_(name, value):
 def _xattrs(inst, other, *attrs):
     '''(INTERNAL) Copy attribute values from B{C{other}} to B{C{inst}}.
 
-       @param inst: Instance to copy attribute values to.
-       @param other: Instance to copy attribute values from.
-       @param attrs: Attribute names (C{str}s).
+       @arg inst: Instance to copy attribute values to.
+       @arg other: Instance to copy attribute values from.
+       @arg attrs: Attribute names (C{str}s).
 
        @return: The B{C{inst}}, updated.
 
@@ -84,8 +84,8 @@ def _xattrs(inst, other, *attrs):
 def _xnamed(inst, name):
     '''(INTERNAL) Set the instance' C{.name = }B{C{name}}.
 
-       @param inst: The instance (C{_Named}).
-       @param name: The name (C{str}).
+       @arg inst: The instance (C{_Named}).
+       @arg name: The name (C{str}).
 
        @return: The B{C{inst}}, named if not named before.
     '''
@@ -97,9 +97,9 @@ def _xnamed(inst, name):
 def _zattrs(inst, dflt, *attrs):
     '''(INTERNAL) Zap instance attributes.
 
-       @param inst: The instance (C{_NamedBase}).
-       @param dflt: The original, default value (typically C{None}).
-       @param attrs: Attribute names (C{str}s).
+       @arg inst: The instance (C{_NamedBase}).
+       @arg dflt: The original, default value (typically C{None}).
+       @arg attrs: Attribute names (C{str}s).
 
        @raise AttributeError: An B{C{attr}} doesn't exist.
     '''
@@ -129,8 +129,8 @@ class _Named(object):
     def attrs(self, *names, **kwds):
         '''Join attributes as C{name=value} pairs.
 
-           @param names: The attribute names (C{str}s).
-           @keyword kwds: Keyword argument for function L{attrs}.
+           @arg names: The attribute names (C{str}s).
+           @kwarg kwds: Keyword argument for function L{attrs}.
 
            @return: All C{name=value} pairs joined (C{str}).
         '''
@@ -143,7 +143,7 @@ class _Named(object):
         '''
         return classname(self, prefixed=self._classnaming)
 
-    @property_doc_(' the class naming (C{bool}).')
+    @property_doc_(''' the class naming (C{bool}).''')
     def classnaming(self):
         '''Get the class naming (C{bool}), see function C{classnaming}.
         '''
@@ -153,15 +153,15 @@ class _Named(object):
     def classnaming(self, prefixed):
         '''Set the class naming for C{[module.].class} names.
 
-           @param prefixed: Include the module name (C{bool}).
+           @arg prefixed: Include the module name (C{bool}).
         '''
         self._classnaming = bool(prefixed)
 
     def classof(self, *args, **kwds):
         '''Create another instance of this very class.
 
-           @param args: Optional, positional arguments.
-           @keyword kwds: Optional, keyword arguments.
+           @arg args: Optional, positional arguments.
+           @kwarg kwds: Optional, keyword arguments.
 
            @return: New instance (B{self.__class__}).
         '''
@@ -170,7 +170,7 @@ class _Named(object):
     def copy(self, deep=False):
         '''Make a shallow or deep copy of this instance.
 
-           @keyword deep: If C{True} make a deep, otherwise
+           @kwarg deep: If C{True} make a deep, otherwise
                           a shallow copy (C{bool}).
 
            @return: The copy (C{This class} or subclass thereof).
@@ -182,7 +182,7 @@ class _Named(object):
         '''
         return _dot_(self.name, name)
 
-    @property_doc_(' the name (C{str}).')
+    @property_doc_(''' the name (C{str}).''')
     def name(self):
         '''Get the name (C{str}).
         '''
@@ -192,13 +192,13 @@ class _Named(object):
     def name(self, name):
         '''Set the name.
 
-           @param name: New name (C{str}).
+           @arg name: New name (C{str}).
         '''
         self._name = str(name)
-        # to set the name ffrom a sub-class, use
+        # to set the name from a sub-class, use
         # self.name = name or
-        # _Named.name.fset(self, name), but
-        # not _Named(self).name = name
+        # _Named.name.fset(self, name), but not
+        # _Named(self).name = name
 
     @property_RO
     def named(self):
@@ -226,8 +226,8 @@ class _Named(object):
     def _xnamed(self, inst, name=''):
         '''(INTERNAL) Set the instance' C{.name = self.name}.
 
-           @param inst: The instance (C{_Named}).
-           @keyword name: Optional name, overriding C{self.name} (C{str}).
+           @arg inst: The instance (C{_Named}).
+           @kwarg name: Optional name, overriding C{self.name} (C{str}).
 
            @return: The B{C{inst}}, named if not named before.
         '''
@@ -237,12 +237,12 @@ class _Named(object):
     def _xrenamed(self, inst):
         '''(INTERNAL) Rename the instance' C{.name = self.name}.
 
-           @param inst: The instance (C{_Named}).
+           @arg inst: The instance (C{_Named}).
 
            @return: The B{C{inst}}, named if not named before.
         '''
         if not isinstance(inst, _Named):
-            raise _IsNotError('valid', inst=inst)
+            raise _isnotError('valid', inst=inst)
 
         if inst.name != self.name:
             inst.name = self.name
@@ -268,7 +268,7 @@ class _NamedBase(_Named):
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
 #
-#          @param attr: Attribute name (C{str}).
+#          @arg attr: Attribute name (C{str}).
 #
 #          @raise NotImplementedError: No such attribute.
 #       '''
@@ -278,8 +278,8 @@ class _NamedBase(_Named):
     def others(self, other, name='other'):
         '''Check this and an other instance for type compatiblility.
 
-           @param other: The other instance (any C{type}).
-           @keyword name: Optional, name for other (C{str}).
+           @arg other: The other instance (any C{type}).
+           @kwarg name: Optional, name for other (C{str}).
 
            @return: C{None}.
 
@@ -307,7 +307,7 @@ class _NamedBase(_Named):
     def toStr2(self, **kwds):
         '''(INTERNAL) To be overloaded.
 
-           @keyword kwds: Optional, keyword arguments.
+           @kwarg kwds: Optional, keyword arguments.
 
            @return: C{toStr}() with keyword arguments (as C{str}).
         '''
@@ -408,7 +408,7 @@ class _NamedEnum(_NamedDict):
     def __init__(self, name, *classes):
         '''New C{_NamedEnum}.
 
-           @param name: Name (C{str}).
+           @arg name: Name (C{str}).
         '''
         if classes:
             self._item_classes = classes
@@ -439,7 +439,7 @@ class _NamedEnum(_NamedDict):
     def find(self, item):
         '''Find a registered item.
 
-           @param item: The item to look for (any C{type}).
+           @arg item: The item to look for (any C{type}).
 
            @return: If found the B{C{item}}'s name (C{str}), C{None} otherwise.
         '''
@@ -451,7 +451,7 @@ class _NamedEnum(_NamedDict):
     def register(self, item):
         '''Registed a new item.
 
-           @param item: The item (any C{type}).
+           @arg item: The item (any C{type}).
 
            @return: The item name (C{str}).
 
@@ -477,7 +477,7 @@ class _NamedEnum(_NamedDict):
     def unregister(self, name_or_item):
         '''Remove a registered item.
 
-           @param name_or_item: Name (C{str}) of or the item (any C{type}).
+           @arg name_or_item: Name (C{str}) of or the item (any C{type}).
 
            @return: The unregistered item.
 
@@ -532,7 +532,7 @@ class _NamedEnumItem(_NamedBase):
             t += pairs(sorted(kwds.items()), prec=prec)
         return ', '.join(t)
 
-    @property_doc_(' the I{registered} name (C{str}).')
+    @property_doc_(''' the I{registered} name (C{str}).''')
     def name(self):
         '''Get the I{registered} name (C{str}).
         '''
@@ -542,7 +542,7 @@ class _NamedEnumItem(_NamedBase):
     def name(self, name):
         '''Set the name, unless already registered.
 
-           @param name: New name (C{str}).
+           @arg name: New name (C{str}).
         '''
         if self._enum:
             raise ValueError('%s, %s: %r' % ('registered', 'immutable', self))
@@ -636,7 +636,7 @@ class _NamedTuple(tuple, _Named):
         '''
         self = tuple.__new__(cls, args)
         ns = self._Names_
-        if not (isinstance(ns, tuple) and len(ns) > 1):
+        if not (isinstance(ns, tuple) and len(ns) > 1):  # XXX > 0
             raise TypeError('%s not valid: %r' % (_dot_(
                              self.classname, '_Names_'), ns))
         if len(ns) != len(args) or not ns:
@@ -690,23 +690,23 @@ class _NamedTuple(tuple, _Named):
 
     iteritems = items
 
-    def _xtend(self, namedTuple, *items):
-        '''(INTERNAL) Extend this C{_Tuple} with C{items} to an other C{namedTuple}.
+    def _xtend(self, NamedTuple, *items):
+        '''(INTERNAL) Extend this C{_Tuple} with C{items} to an other C{NamedTuple}.
         '''
-        if not (issubclassof(namedTuple, _NamedTuple) and
-               (len(self._Names_) + len(items)) == len(namedTuple._Names_)
-                and self._Names_ == namedTuple._Names_[:len(self)]):
+        if not (issubclassof(NamedTuple, _NamedTuple) and
+               (len(self._Names_) + len(items)) == len(NamedTuple._Names_)
+                and self._Names_ == NamedTuple._Names_[:len(self)]):
             raise TypeError('%s%r vs %s%r' % (self.classname, self._Names_,
-                            namedTuple.__name__, namedTuple._Names_))
-        return self._xnamed(namedTuple(*(self + items)))
+                            NamedTuple.__name__, NamedTuple._Names_))
+        return self._xnamed(NamedTuple(*(self + items)))
 
     def toStr(self, prec=6, sep=', '):  # PYCHOK signature
         '''Return the -Tuple items as string(s).
 
-           @keyword prec: The C{float} precision, number of decimal digits (0..9).
-                          Trailing zero decimals are stripped for B{C{prec}} values
-                          of 1 and above, but kept for negative B{C{prec}} values.
-           @keyword sep: Optional separator to join (C{str}).
+           @kwarg prec: The C{float} precision, number of decimal digits (0..9).
+                        Trailing zero decimals are stripped for B{C{prec}} values
+                        of 1 and above, but kept for negative B{C{prec}} values.
+           @kwarg sep: Optional separator to join (C{str}).
 
            @return: Tuple items (C{str}).
         '''
@@ -715,10 +715,10 @@ class _NamedTuple(tuple, _Named):
     def toStr2(self, prec=6, sep=', '):  # PYCHOK signature
         '''Return the -Tuple items as C{name=value} string(s).
 
-           @keyword prec: The C{float} precision, number of decimal digits (0..9).
-                          Trailing zero decimals are stripped for B{C{prec}} values
-                          of 1 and above, but kept for negative B{C{prec}} values.
-           @keyword sep: Optional separator to join (C{str}).
+           @kwarg prec: The C{float} precision, number of decimal digits (0..9).
+                        Trailing zero decimals are stripped for B{C{prec}} values
+                        of 1 and above, but kept for negative B{C{prec}} values.
+           @kwarg sep: Optional separator to join (C{str}).
 
            @return: Tuple items (C{str}).
         '''
@@ -873,21 +873,21 @@ class LatLon2Tuple(_NamedTuple):
     def to3Tuple(self, height):
         '''Extend this L{LatLon2Tuple} to a L{LatLon3Tuple}.
 
-           @param height: The height to add (C{scalar}).
+           @arg height: The height to add (C{scalar}).
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
 
            @raise TypeError: If B{C{height}} not scalar.
         '''
         if not isscalar(height):
-            raise _IsNotError('scalar', height=height)
+            raise _isnotError('scalar', height=height)
         return self._xtend(LatLon3Tuple, float(height))
 
     def to4Tuple(self, height, datum):
         '''Extend this L{LatLon2Tuple} to a L{LatLon4Tuple}.
 
-           @param height: The height to add (C{scalar}).
-           @param datum: The datum to add (C{Datum}).
+           @arg height: The height to add (C{scalar}).
+           @arg datum: The datum to add (C{Datum}).
 
            @return: A L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
@@ -906,7 +906,7 @@ class LatLon3Tuple(_NamedTuple):
     def to4Tuple(self, datum):
         '''Extend this L{LatLon3Tuple} to a L{LatLon4Tuple}.
 
-           @param datum: The datum to add (C{Datum}).
+           @arg datum: The datum to add (C{Datum}).
 
            @return: A L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
@@ -914,7 +914,7 @@ class LatLon3Tuple(_NamedTuple):
         '''
         from pygeodesy.datum import Datum
         if not isinstance(datum, Datum):
-            raise _IsNotError(Datum.__name__, datum=datum)
+            raise _isnotError(Datum.__name__, datum=datum)
         return self._xtend(LatLon4Tuple, datum)
 
 
@@ -1026,21 +1026,21 @@ class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, 
     def to3Tuple(self, height):
         '''Extend this L{PhiLam2Tuple} to a L{PhiLam3Tuple}.
 
-           @param height: The height to add (C{scalar}).
+           @arg height: The height to add (C{scalar}).
 
            @return: A L{PhiLam3Tuple}C{(phi, lam, height)}.
 
            @raise TypeError: If B{C{height}} not scalar.
         '''
         if not isscalar(height):
-            raise _IsNotError('scalar', height=height)
+            raise _isnotError('scalar', height=height)
         return self._xtend(PhiLam3Tuple, float(height))
 
     def to4Tuple(self, height, datum):
         '''Extend this L{PhiLam2Tuple} to a L{PhiLam4Tuple}.
 
-           @param height: The height to add (C{scalar}).
-           @param datum: The datum to add (C{Datum}).
+           @arg height: The height to add (C{scalar}).
+           @arg datum: The datum to add (C{Datum}).
 
            @return: A L{PhiLam4Tuple}C{(phi, lam, height, datum)}.
 
@@ -1064,7 +1064,7 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py
     def to4Tuple(self, datum):
         '''Extend this L{PhiLam3Tuple} to a L{PhiLam4Tuple}.
 
-           @param datum: The datum to add (C{Datum}).
+           @arg datum: The datum to add (C{Datum}).
 
            @return: A L{PhiLam4Tuple}C{(phi, lam, height, datum)}.
 
@@ -1072,7 +1072,7 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py
         '''
         from pygeodesy.datum import Datum
         if not isinstance(datum, Datum):
-            raise _IsNotError(Datum.__name__, datum=datum)
+            raise _isnotError(Datum.__name__, datum=datum)
         return self._xtend(PhiLam4Tuple, datum)
 
 
@@ -1167,14 +1167,14 @@ class Vector3Tuple(_NamedTuple):
     def to4Tuple(self, h):
         '''Extend this L{Vector3Tuple} to a L{Vector4Tuple}.
 
-           @param h: The height to add (C{scalar}).
+           @arg h: The height to add (C{scalar}).
 
            @return: A L{Vector4Tuple}C{(x, y, z, h)}.
 
            @raise TypeError: If B{C{h}} not scalar.
         '''
         if not isscalar(h):
-            raise _IsNotError('scalar', h=h)
+            raise _isnotError('scalar', h=h)
         return self._xtend(Vector4Tuple, float(h))
 
 
@@ -1189,9 +1189,9 @@ def classname(inst, prefixed=None):
     '''Return the instance' class name optionally prefixed with the
        module name.
 
-       @param inst: The object (any C{type}).
-       @keyword prefixed: Include the module name (C{bool}), see
-                          function C{classnaming}.
+       @arg inst: The object (any C{type}).
+       @kwarg prefixed: Include the module name (C{bool}), see
+                        function C{classnaming}.
 
        @return: The B{C{inst}}'s C{[module.]class} name (C{str}).
     '''
@@ -1203,7 +1203,7 @@ def classname(inst, prefixed=None):
 def classnaming(prefixed=None):
     '''Get/set the default class naming for C{[module.]class} names.
 
-       @keyword prefixed: Include the module name (C{bool}).
+       @kwarg prefixed: Include the module name (C{bool}).
 
        @return: Previous class naming setting (C{bool}).
     '''
@@ -1217,9 +1217,9 @@ def modulename(clas, prefixed=None):
     '''Return the class name optionally prefixed with the
        module name.
 
-       @param clas: The class (any C{class}).
-       @keyword prefixed: Include the module name (C{bool}), see
-                          function C{classnaming}.
+       @arg clas: The class (any C{class}).
+       @kwarg prefixed: Include the module name (C{bool}), see
+                        function C{classnaming}.
 
        @return: The B{C{class}}'s C{[module.]class} name (C{str}).
     '''
@@ -1239,7 +1239,7 @@ def modulename(clas, prefixed=None):
 def nameof(inst):
     '''Get the name of an instance.
 
-       @param inst: The object (any C{type}).
+       @arg inst: The object (any C{type}).
 
        @return: The instance' name (C{str}) or C{""}.
     '''
@@ -1249,9 +1249,9 @@ def nameof(inst):
 def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
     '''Raise an C{AssertionError} for a method or property not overloaded.
 
-       @param name: Method or property name (C{str}).
-       @param args: Method or property positional arguments (any C{type}s).
-       @param kwds: Method or property keyword arguments (any C{type}s).
+       @arg name: Method or property name (C{str}).
+       @arg args: Method or property positional arguments (any C{type}s).
+       @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
     n = '%s %s' % (notOverloaded.__name__, _dot_(classname(inst, prefixed=True), name))
     m = ', '.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])

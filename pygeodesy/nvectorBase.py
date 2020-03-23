@@ -31,7 +31,7 @@ __all__ = _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'NvectorBase',  # classes
           'sumOf')  # functions
-__version__ = '20.03.15'
+__version__ = '20.03.20'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -47,14 +47,14 @@ class NvectorBase(Vector3d):  # XXX kept private
     def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=''):
         '''New n-vector normal to the earth's surface.
 
-           @param x: An C{Nvector}, L{Vector3Tuple}, L{Vector4Tuple} or
+           @arg x: An C{Nvector}, L{Vector3Tuple}, L{Vector4Tuple} or
                      the C{X} coordinate (C{scalar}).
-           @param y: The C{Y} coordinate (C{scalar}) if B{C{x}} C{scalar}.
-           @param z: The C{Z} coordinate (C{scalar}) if B{C{x}} C{scalar}.
-           @keyword h: Optional height above surface (C{meter}).
-           @keyword ll: Optional, original latlon (C{LatLon}).
-           @keyword datum: Optional, I{pass-thru} datum (C{Datum}).
-           @keyword name: Optional name (C{str}).
+           @arg y: The C{Y} coordinate (C{scalar}) if B{C{x}} C{scalar}.
+           @arg z: The C{Z} coordinate (C{scalar}) if B{C{x}} C{scalar}.
+           @kwarg h: Optional height above surface (C{meter}).
+           @kwarg ll: Optional, original latlon (C{LatLon}).
+           @kwarg datum: Optional, I{pass-thru} datum (C{Datum}).
+           @kwarg name: Optional name (C{str}).
 
            @raise TypeError: Non-scalar B{C{x}}, B{C{y}} or B{C{z}}
                              coordinate or B{C{x}} not an C{Nvector},
@@ -91,7 +91,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return self._Ecef
 
-    @property_doc_(' the height above surface (C{meter}).')
+    @property_doc_(''' the height above surface (C{meter}).''')
     def h(self):
         '''Get the height above surface (C{meter}).
         '''
@@ -101,7 +101,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     def h(self, h):
         '''Set the height above surface.
 
-           @param h: New height (C{meter}).
+           @arg h: New height (C{meter}).
 
            @raise TypeError: If B{C{h}} invalid.
 
@@ -111,7 +111,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         self._update(h != self._h, '_latlon', '_philam')
         self._h = h
 
-    @property_doc_(' the height prefix (C{str}).')
+    @property_doc_(''' the height prefix (C{str}).''')
     def H(self):
         '''Get the height prefix (C{str}).
         '''
@@ -121,7 +121,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     def H(self, H):
         '''Set the height prefix.
 
-           @param H: New height prefix (C{str}).
+           @arg H: New height prefix (C{str}).
         '''
         self._H = str(H) if H else ''
 
@@ -197,30 +197,33 @@ class NvectorBase(Vector3d):  # XXX kept private
         return self.philam
 
     def to3abh(self, height=None):  # PYCHOK no cover
-        '''DEPRECATED, use method C{philamheight} or C{philam.to3Tuple(B{height})}.
+        '''DEPRECATED, use method C{philamheight} or C{philam.to3Tuple}C{(}B{C{height}}C{)}.
 
-           @keyword height: Optional height, overriding this
-                            n-vector's height (C{meter}).
+           @kwarg height: Optional height, overriding this
+                          n-vector's height (C{meter}).
 
            @return: A L{PhiLam3Tuple}C{(phi, lam, height)}.
         '''
         return self.philamheight if height in (None, self.h) else \
                self.philam.to3Tuple(height)
 
-    def toCartesian(self, h=None, Cartesian=None, datum=None, **kwds):
+    def toCartesian(self, h=None, Cartesian=None, datum=None, **Cartesian_kwds):
         '''Convert this n-vector to C{Nvector}-based cartesian (ECEF)
            coordinates.
 
-           @keyword height: Optional height, overriding this n-vector's
-                            height (C{meter}).
-           @keyword Cartesian: Optional (sub-)class to return the
-                               (ECEF)coordinates (L{Cartesian}).
-           @keyword datum: Optional, spherical datum (C{Datum}).
-           @keyword kwds: Optional, additional C{name=value} pairs
-                          for B{C{Cartesian}} instance, provided
-                          B{C{Cartesian}} is not C{None}.
+           @kwarg height: Optional height, overriding this n-vector's
+                          height (C{meter}).
+           @kwarg Cartesian: Optional class to return the (ECEF)
+                             coordinates (L{Cartesian}).
+           @kwarg datum: Optional, spherical datum (C{Datum}).
+           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
+                                  keyword arguments, ignored if
+                                  B{C{Cartesian=None}}.
 
-           @return: Cartesian (ECEF) coordinates (B{C{Cartesian}}).
+           @return: The cartesian (ECEF) coordinates (B{C{Cartesian}}) or
+                    if B{C{Cartesian}} is C{None}, an L{Ecef9Tuple}C{(x, y,
+                    z, lat, lon, height, C, M, datum)} with C{C} and C{M}
+                    if available.
 
            @raise TypeError: Invalid B{C{Cartesian}}.
 
@@ -242,7 +245,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
         c = self.Ecef(d).reverse(x * r, y * r, z * (n + h), M=True)
         if Cartesian is not None:  # class or .classof
-            c = Cartesian(c, **kwds)
+            c = Cartesian(c, **Cartesian_kwds)
         return self._xnamed(c)
 
     def to2ll(self):  # PYCHOK no cover
@@ -253,31 +256,30 @@ class NvectorBase(Vector3d):  # XXX kept private
         return self.latlon
 
     def to3llh(self, height=None):  # PYCHOK no cover
-        '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple(B{height})}.
+        '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple}C{)}B{C{height}}C{)}.
 
-           @keyword height: Optional height, overriding this
-                            n-vector's height (C{meter}).
+           @kwarg height: Optional height, overriding this
+                          n-vector's height (C{meter}).
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
         '''
         return self.latlonheight if height in (None, self.h) else \
                self.latlon.to3Tuple(height)
 
-    def toLatLon(self, height=None, LatLon=None, datum=None, **kwds):
+    def toLatLon(self, height=None, LatLon=None, datum=None, **LatLon_kwds):
         '''Convert this n-vector to an C{Nvector}-based geodetic point.
 
-           @keyword height: Optional height, overriding this n-vector's
-                            height (C{meter}).
-           @keyword LatLon: Optional (sub-)class to return the
-                            point (L{LatLon}) or C{None}.
-           @keyword datum: Optional, spherical datum (C{Datum}).
-           @keyword kwds: Optional, additional C{name=value} pairs
-                          for B{C{LatLon}} instance, provided
-                          B{C{LatLon}} is not C{None}.
+           @kwarg height: Optional height, overriding this n-vector's
+                          height (C{meter}).
+           @kwarg LatLon: Optional class to return the geodetic point
+                          (L{LatLon}) or C{None}.
+           @kwarg datum: Optional, spherical datum (C{Datum}).
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if B{C{LatLon=None}}.
 
-           @return: The B{C{LatLon}} point (L{LatLon}) or an
-                    L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} if B{C{LatLon}} is C{None}.
+           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is
+                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
+                    height, C, M, datum)} with C{C} and C{M} if available.
 
            @raise TypeError: Invalid B{C{LatLon}}.
 
@@ -291,7 +293,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         h = self.h if height is None else height
         r = self.Ecef(datum or self.datum).forward(self.latlon, height=h, M=True)
         if LatLon is not None:  # class or .classof
-            r = LatLon(r.lat, r.lon, r.height, datum=r.datum, **kwds)
+            r = LatLon(r.lat, r.lon, r.height, datum=r.datum, **LatLon_kwds)
         return self._xnamed(r)
 
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
@@ -299,9 +301,9 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            Height component is only included if non-zero.
 
-           @keyword prec: Optional number of decimals, unstripped (C{int}).
-           @keyword fmt: Optional enclosing backets format (C{str}).
-           @keyword sep: Optional separator between components (C{str}).
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between components (C{str}).
 
            @return: Comma-separated C{"(x, y, z [, h])"} enclosed in
                     B{C{fmt}} brackets (C{str}).
@@ -320,7 +322,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''Convert this n-vector to a 3-D vector, I{ignoring
            the height}.
 
-           @keyword norm: Normalize the 3-D vector (C{bool}).
+           @kwarg norm: Normalize the 3-D vector (C{bool}).
 
            @return: The (normalized) vector (L{Vector3d}).
         '''
@@ -329,7 +331,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         return v.unit() if norm else v
 
     def to4xyzh(self, h=None):  # PYCHOK no cover
-        '''DEPRECATED, use property C{xyzh} or C{xyz.to4Tuple(B{h})}.
+        '''DEPRECATED, use property C{xyzh} or C{xyz.to4Tuple}C{(}B{C{h}}C{)}.
         '''
         return self.xyzh if h in (None, self.h) else \
                self._xnamed(Vector4Tuple(self.x, self.y, self.z, h))
@@ -337,7 +339,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     def unit(self, ll=None):
         '''Normalize this n-vector to unit length.
 
-           @keyword ll: Optional, original latlon (C{LatLon}).
+           @kwarg ll: Optional, original latlon (C{LatLon}).
 
            @return: Normalized vector (C{Nvector}).
         '''
@@ -388,8 +390,8 @@ class LatLonNvectorBase(LatLonBase):
     def others(self, other, name='other'):
         '''Refine the class comparison.
 
-           @param other: The other point (C{LatLon}).
-           @keyword name: Optional, other's name (C{str}).
+           @arg other: The other point (C{LatLon}).
+           @kwarg name: Optional, other's name (C{str}).
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
@@ -399,33 +401,33 @@ class LatLonNvectorBase(LatLonBase):
             if not isinstance(other, NvectorBase):
                 raise
 
-    def toNvector(self, Nvector=NvectorBase, **kwds):  # PYCHOK signature
+    def toNvector(self, Nvector=NvectorBase, **Nvector_kwds):  # PYCHOK signature
         '''Convert this point to C{Nvector} components, I{including
            height}.
 
-           @keyword kwds: Optional, additional B{C{Nvector}} keyword
-                          arguments, ignored if C{B{Nvector}=None}.
+           @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
+                                arguments, ignored if B{C{Nvector=None}}.
 
-           @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)}
-                    if C{B{Nvector}=None}.
+           @return: An B{C{Nvector}} or a L{Vector4Tuple}C{(x, y, z, h)} if
+                    B{C{Nvector}} is C{None}.
 
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}.
         '''
-        return LatLonBase.toNvector(self, Nvector=Nvector, **kwds)
+        return LatLonBase.toNvector(self, Nvector=Nvector, **Nvector_kwds)
 
 
-def sumOf(nvectors, Vector=None, h=None, **kwds):
+def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
     '''Return the vectorial sum of two or more n-vectors.
 
-       @param nvectors: Vectors to be added (C{Nvector}[]).
-       @keyword Vector: Optional class for the vectorial sum
-                        (C{Nvector}) or C{None}.
-       @keyword h: Optional height, overriding the mean height (C{meter}).
-       @keyword kwds: Optional, additional B{C{Vector}} keyword arguments,
-                      ignored if C{B{Vector}=None}.
+       @arg nvectors: Vectors to be added (C{Nvector}[]).
+       @kwarg Vector: Optional class for the vectorial sum (C{Nvector})
+                      or C{None}.
+       @kwarg h: Optional height, overriding the mean height (C{meter}).
+       @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
+                           arguments, ignored if B{C{Vector=None}}.
 
        @return: Vectorial sum (B{C{Vector}}) or a L{Vector4Tuple}C{(x, y,
-                z, h)} if C{B{Vector}=None}.
+                z, h)} if B{C{Vector}} is C{None}.
 
        @raise VectorError: No B{C{nvectors}}.
     '''
@@ -439,7 +441,7 @@ def sumOf(nvectors, Vector=None, h=None, **kwds):
     if Vector is None:
         r = _sumOf(nvectors, Vector=Vector3Tuple).to4Tuple(h)
     else:
-        r = _sumOf(nvectors, Vector=Vector, h=h, **kwds)
+        r = _sumOf(nvectors, Vector=Vector, h=h, **Vector_kwds)
     return r
 
 # **) MIT License

@@ -94,9 +94,9 @@ basestring --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.wgrs.Georef-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">LatLon</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Return (the center of) this georef cell as an instance of the 
       supplied <code>LatLon</code> class.</td>
           <td align="right" valign="top">
@@ -238,32 +238,28 @@ basestring --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.wgrs.Georef-class.html#height" class="summary-name">height</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.wgrs.Georef-class.html#height" class="summary-name">height</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.wgrs.Georef-class.html#latlon" class="summary-name">latlon</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.wgrs.Georef-class.html#latlon" class="summary-name">latlon</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.wgrs.Georef-class.html#precision" class="summary-name">precision</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.wgrs.Georef-class.html#precision" class="summary-name">precision</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.wgrs.Georef-class.html#radius" class="summary-name">radius</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.wgrs.Georef-class.html#radius" class="summary-name">radius</a>
     </td>
   </tr>
   <tr>
@@ -347,9 +343,9 @@ basestring --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">LatLon</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -361,15 +357,20 @@ basestring --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height ({meter}).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <b><code>LatLon</code></b>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <b><code>LatLon=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This georef location (<b><code>LatLon</code></b>).</dd>
+        <dd>This georef location (<b><code>LatLon</code></b>) or if 
+          <b><code>LatLon</code></b> is <code>None</code>, a <a 
+          href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.wgrs.WGRSError-class.html">WGRSError</a></strong></code> - Invalid <b><code>LatLon</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon</code></b> or 
+        <b><code>LatLon_kwds</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -390,14 +391,14 @@ basestring --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">height</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>)</span>
         - Get this georef's height in <code>meter</code> or <code>None</code> if 
 missing.
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -411,15 +412,15 @@ missing.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlon</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
         - Get this georef's (center) lat- and longitude (<a 
 href="pygeodesy.named.LatLon2Tuple-class.html" 
 class="link">LatLon2Tuple</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -433,13 +434,13 @@ class="link">LatLon2Tuple</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">precision</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">precision(<span class="summary-sig-arg">self</span>)</span>
         - Get this georef's precision (<code>int</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -453,14 +454,14 @@ class="link">LatLon2Tuple</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">radius</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">radius(<span class="summary-sig-arg">self</span>)</span>
         - Get this georef's radius in <code>meter</code> or <code>None</code> if 
 missing.
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -500,7 +501,7 @@ missing.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:54 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:43 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

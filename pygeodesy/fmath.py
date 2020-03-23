@@ -12,16 +12,16 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, isfinite, isint, _IsNotError, \
-                             isscalar, len2, _xcopy
+from pygeodesy.basics import EPS, isfinite, isint, _isnotError, \
+                             isscalar, len2, LenError, _xcopy
 from pygeodesy.lazily import _ALL_LAZY
 
 from math import acos, copysign, hypot, sqrt  # pow
-from operator import mul
+from operator import mul as _mul_
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.03.14'
+__version__ = '20.03.23'
 
 _1_3rd = 1 / 3.0  #: (INTERNAL) One third (C{float})
 _2_3rd = 2 / 3.0  #: (INTERNAL) Two thirds (C{float})
@@ -57,8 +57,8 @@ class Fsum(object):
        and provides intermediate, precision running sums.  Accumulation
        may continue after intermediate summations.
 
-       @note: Handling of exceptions, C{nan} and C{finite} values is
-              different from C{math.fsum}.
+       @note: Handling of exceptions, C{inf}, C{INF}, C{nan} and C{NAN}
+              values is different from C{math.fsum}.
 
        @see: U{Hettinger<https://code.ActiveState.com/recipes/393090>},
              U{Kahan<https://WikiPedia.org/wiki/Kahan_summation_algorithm>},
@@ -73,7 +73,7 @@ class Fsum(object):
     def __init__(self, *starts):
         '''Initialize a new accumulator with one or more start values.
 
-           @param starts: No, one or more start values (C{scalar}s).
+           @arg starts: No, one or more start values (C{scalar}s).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -89,7 +89,7 @@ class Fsum(object):
     def __add__(self, other):
         '''Sum of this and an other instance or a scalar.
 
-           @param other: L{Fsum} instance or C{scalar}.
+           @arg other: L{Fsum} instance or C{scalar}.
 
            @return: The sum, a new instance (L{Fsum}).
 
@@ -102,7 +102,7 @@ class Fsum(object):
     def __iadd__(self, other):
         '''Add a scalar or an other instance to this instance.
 
-           @param other: L{Fsum} instance or C{scalar}.
+           @arg other: L{Fsum} instance or C{scalar}.
 
            @return: This instance, updated (L{Fsum}).
 
@@ -123,7 +123,7 @@ class Fsum(object):
     def __imul__(self, other):
         '''Multiply this instance by a scalar or an other instance.
 
-           @param other: L{Fsum} instance or C{scalar}.
+           @arg other: L{Fsum} instance or C{scalar}.
 
            @return: This instance, updated (L{Fsum}).
 
@@ -152,7 +152,7 @@ class Fsum(object):
     def __isub__(self, other):
         '''Subtract a scalar or an other instance from this instance.
 
-           @param other: L{Fsum} instance or C{scalar}.
+           @arg other: L{Fsum} instance or C{scalar}.
 
            @return: This instance, updated (L{Fsum}).
 
@@ -179,7 +179,7 @@ class Fsum(object):
     def __mul__(self, other):
         '''Product of this and an other instance or a scalar.
 
-           @param other: L{Fsum} instance or C{scalar}.
+           @arg other: L{Fsum} instance or C{scalar}.
 
            @return: The product, a new instance (L{Fsum}).
 
@@ -196,7 +196,7 @@ class Fsum(object):
     def __sub__(self, other):
         '''Difference of this and an other instance or a scalar.
 
-           @param other: L{Fsum} instance or C{scalar}.
+           @arg other: L{Fsum} instance or C{scalar}.
 
            @return: The difference, a new instance (L{Fsum}).
 
@@ -209,7 +209,7 @@ class Fsum(object):
     def fadd(self, iterable):
         '''Accumulate more values from an iterable.
 
-           @param iterable: Sequence, list, tuple, etc. (C{scalar}s).
+           @arg iterable: Sequence, list, tuple, etc. (C{scalar}s).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -249,14 +249,14 @@ class Fsum(object):
     def fadd_(self, *xs):
         '''Accumulate more values from positional arguments.
 
-           @param xs: Values to add (C{scalar}s), all positional.
+           @arg xs: Values to add (C{scalar}s), all positional.
 
            @see: Method L{Fsum.fadd}.
         '''
         self.fadd(xs)
 
     def fcopy(self, deep=False):
-        '''Copy this instance, shallow or deep.
+        '''Copy this instance, C{shallow} or B{C{deep}}.
 
            @return: The copy, a new instance (L{Fsum}).
          '''
@@ -271,7 +271,7 @@ class Fsum(object):
     def fmul(self, factor):
         '''Multiple the current, partial sum by a factor.
 
-           @param factor: The multiplier (C{scalar}).
+           @arg factor: The multiplier (C{scalar}).
 
            @raise TypeError: Non-scalar B{C{factor}}.
 
@@ -292,7 +292,7 @@ class Fsum(object):
     def fsub(self, iterable):
         '''Accumulate more values from an iterable.
 
-           @param iterable: Sequence, list, tuple, etc. (C{scalar}s).
+           @arg iterable: Sequence, list, tuple, etc. (C{scalar}s).
 
            @see: Method L{Fsum.fadd}.
         '''
@@ -302,7 +302,7 @@ class Fsum(object):
     def fsub_(self, *xs):
         '''Accumulate more values from positional arguments.
 
-           @param xs: Values to subtract (C{scalar}s), all positional.
+           @arg xs: Values to subtract (C{scalar}s), all positional.
 
            @see: Method L{Fsum.fadd}.
         '''
@@ -311,7 +311,7 @@ class Fsum(object):
     def fsum(self, iterable=()):
         '''Accumulate more values from an iterable and sum all.
 
-           @keyword iterable: Sequence, list, tuple, etc. (C{scalar}s), optional.
+           @kwarg iterable: Sequence, list, tuple, etc. (C{scalar}s), optional.
 
            @return: Accurate, running sum (C{float}).
 
@@ -348,7 +348,7 @@ class Fsum(object):
     def fsum_(self, *xs):
         '''Accumulate more values from positional arguments and sum all.
 
-           @param xs: Values to add (C{scalar}s), all positional.
+           @arg xs: Values to add (C{scalar}s), all positional.
 
            @return: Accurate, running sum (C{float}).
 
@@ -362,7 +362,7 @@ class Fsum(object):
         '''Accumulate more values from positional arguments, sum all
            and provide the sum and delta.
 
-           @param xs: Values to add (C{scalar}s), all positional.
+           @arg xs: Values to add (C{scalar}s), all positional.
 
            @return: 2-Tuple C{(sum, delta)} with the accurate,
                     running C{sum} and the C{delta} with the
@@ -386,20 +386,20 @@ class Fdot(Fsum):
         '''New L{Fdot} precision dot product M{sum(a[i] * b[i]
            for i=0..len(a))}.
 
-           @param a: List, sequence, tuple, etc. (C{scalar}s).
-           @param b: All positional arguments (C{scalar}s).
+           @arg a: List, sequence, tuple, etc. (C{scalar}s).
+           @arg b: All positional arguments (C{scalar}s).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise ValueError: Unequal C{len}(B{a}) and C{len}(B{b}).
+           @raise ValueError: Unequal C{len}(B{C{a}}) and C{len}(B{C{b}}).
 
            @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
-        if not len(a) == len(b):
-            raise ValueError('%s, %s: %s vs %s' % (self, 'len', len(a), len(b)))
+        if len(a) != len(b):
+            raise LenError(Fdot, a=len(a), b=len(b))
 
         Fsum.__init__(self)
-        self.fadd(map(mul, a, b))
+        self.fadd(map(_mul_, a, b))
 
 
 class Fhorner(Fsum):
@@ -409,8 +409,8 @@ class Fhorner(Fsum):
         '''New L{Fhorner} evaluation of the polynomial
            M{sum(cs[i] * x**i for i=0..len(cs))}.
 
-           @param x: Polynomial argument (C{scalar}).
-           @param cs: Polynomial coeffients (C{scalar}[]).
+           @arg x: Polynomial argument (C{scalar}).
+           @arg cs: Polynomial coeffients (C{scalar}[]).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -440,8 +440,8 @@ class Fpolynomial(Fsum):
         '''New L{Fpolynomial} evaluation of the polynomial
            M{sum(cs[i] * x**i for i=0..len(cs))}.
 
-           @param x: Polynomial argument (C{scalar}).
-           @param cs: Polynomial coeffients (C{scalar}[]).
+           @arg x: Polynomial argument (C{scalar}).
+           @arg cs: Polynomial coeffients (C{scalar}[]).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
@@ -473,7 +473,7 @@ def acos1(x):
 def cbrt(x):
     '''Compute the cubic root M{x**(1/3)}.
 
-       @param x: Value (C{scalar}).
+       @arg x: Value (C{scalar}).
 
        @return: Cubic root (C{float}).
 
@@ -487,7 +487,7 @@ def cbrt(x):
 def cbrt2(x):
     '''Compute the cubic root squared M{x**(2/3)}.
 
-       @param x: Value (C{scalar}).
+       @arg x: Value (C{scalar}).
 
        @return: Cubic root squared (C{float}).
 
@@ -499,9 +499,9 @@ def cbrt2(x):
 def favg(v1, v2, f=0.5):
     '''Return the weighted average of two values.
 
-       @param v1: One value (C{scalar}).
-       @param v2: Other value (C{scalar}).
-       @keyword f: Optional fraction (C{float}).
+       @arg v1: One value (C{scalar}).
+       @arg v2: Other value (C{scalar}).
+       @kwarg f: Optional fraction (C{float}).
 
        @return: M{v1 + f * (v2 - v1)} (C{float}).
     '''
@@ -516,44 +516,43 @@ def fdot(a, *b):
     '''Return the precision dot product M{sum(a[i] * b[i] for
        i=0..len(a))}.
 
-       @param a: List, sequence, tuple, etc. (C{scalar}s).
-       @param b: All positional arguments (C{scalar}s).
+       @arg a: List, sequence, tuple, etc. (C{scalar}s).
+       @arg b: All positional arguments (C{scalar}s).
 
        @return: Dot product (C{float}).
 
-       @raise ValueError: Unequal C{len(B{a})} and C{len(B{b})}.
+       @raise ValueError: Unequal C{len}(B{C{a}}) and C{len}(B{C{b}}).
 
        @see: Class L{Fdot}.
     '''
-    if not len(a) == len(b):
-        raise ValueError('%s(%s): %s vs %s' % (fdot.__name__, 'len',
-                                               len(a), len(b)))
+    if len(a) != len(b):
+        raise LenError(fdot, a=len(a), b=len(b))
 
-    return fsum(map(mul, a, b))
+    return fsum(map(_mul_, a, b))
 
 
 def fdot3(a, b, c, start=0):
     '''Return the precision dot product M{start +
        sum(a[i] * b[i] * c[i] for i=0..len(a))}.
 
-       @param a: List, sequence, tuple, etc. (C{scalar}[]).
-       @param b: List, sequence, tuple, etc. (C{scalar}[]).
-       @param c: List, sequence, tuple, etc. (C{scalar}[]).
-       @keyword start: Optional bias (C{scalar}).
+       @arg a: List, sequence, tuple, etc. (C{scalar}[]).
+       @arg b: List, sequence, tuple, etc. (C{scalar}[]).
+       @arg c: List, sequence, tuple, etc. (C{scalar}[]).
+       @kwarg start: Optional bias (C{scalar}).
 
        @return: Dot product (C{float}).
 
        @raise OverflowError: Partial C{2sum} overflow.
 
-       @raise ValueError: Unequal C{len(B{a})}, C{len(B{b})}
-                          and/or C{len(B{c})}.
+       @raise ValueError: Unequal C{len}C{(}B{C{a}}C{)},
+                          C{len}C{(}B{C{b}}C{)} and/or
+                          C{len}C{(}B{C{c}}C{)}.
     '''
     def _mul3(a, b, c):  # map function
         return a * b * c  # PYCHOK returns
 
     if not len(a) == len(b) == len(c):
-        raise ValueError('%s(%s): %s vs %s vs %s' % (fdot3.__name__, 'len',
-                                                     len(a), len(b), len(c)))
+        raise LenError(fdot3, a=len(a), b=len(b), c=len(c))
 
     if start:
         f = Fsum(start)
@@ -566,8 +565,8 @@ def fhorner(x, *cs):
     '''Evaluate the polynomial M{sum(cs[i] * x**i for
        i=0..len(cs))} using the Horner form.
 
-       @param x: Polynomial argument (C{scalar}).
-       @param cs: Polynomial coeffients (C{scalar}[]).
+       @arg x: Polynomial argument (C{scalar}).
+       @arg cs: Polynomial coeffients (C{scalar}[]).
 
        @return: Horner value (C{float}).
 
@@ -587,17 +586,17 @@ def fidw(xs, ds, beta=2):
     '''Interpolate using using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW).
 
-       @param xs: Known values (C{scalar}[]).
-       @param ds: Non-negative distances (C{scalar}[]).
-       @keyword beta: Inverse distance power (C{int}, 0, 1, 2, or 3).
+       @arg xs: Known values (C{scalar}[]).
+       @arg ds: Non-negative distances (C{scalar}[]).
+       @kwarg beta: Inverse distance power (C{int}, 0, 1, 2, or 3).
 
        @return: Interpolated value C{x} (C{float}).
 
        @raise ValueError: Invalid B{C{beta}}, negative B{C{ds}} value,
                           weighted B{C{ds}} below L{EPS} or unequal
-                          C{len(B{ds})} and C{len(B{xs})}.
+                          C{len}C{(}B{C{ds}}C{)} and C{len}C{(}B{C{xs}}C{)}.
 
-       @note: Using C{B{beta}=0} returns the mean of B{C{xs}}.
+       @note: Using B{C{beta}}C{=0} returns the mean of B{C{xs}}.
     '''
     n, xs = len2(xs)
     d, ds = len2(ds)
@@ -627,7 +626,7 @@ def fmean(xs):
     '''Compute the accurate mean M{sum(xs[i] for
        i=0..len(xs)) / len(xs)}.
 
-       @param xs: Values (C{scalar}s).
+       @arg xs: Values (C{scalar}s).
 
        @return: Mean value (C{float}).
 
@@ -645,8 +644,8 @@ def fpolynomial(x, *cs):
     '''Evaluate the polynomial M{sum(cs[i] * x**i for
        i=0..len(cs))}.
 
-       @param x: Polynomial argument (C{scalar}).
-       @param cs: Polynomial coeffients (C{scalar}[]).
+       @arg x: Polynomial argument (C{scalar}).
+       @arg cs: Polynomial coeffients (C{scalar}[]).
 
        @return: Polynomial value (C{float}).
 
@@ -665,10 +664,10 @@ def fpolynomial(x, *cs):
 def fpowers(x, n, alts=0):
     '''Return a series of powers M{[x**i for i=1..n]}.
 
-       @param x: Value (C{scalar}).
-       @param n: Highest exponent (C{int}).
-       @keyword alts: Only alternating powers, starting
-                      with this exponent (C{int}).
+       @arg x: Value (C{scalar}).
+       @arg n: Highest exponent (C{int}).
+       @kwarg alts: Only alternating powers, starting with
+                    this exponent (C{int}).
 
        @return: Powers of B{C{x}} (C{float}[]).
 
@@ -679,7 +678,7 @@ def fpowers(x, n, alts=0):
     if not isfinite(x):
         raise ValueError('not %s: %r' %('finite', x))
     if not isint(n):
-        raise _IsNotError(int.__name_, n=n)
+        raise _isnotError(int.__name_, n=n)
     elif n < 1:
         raise ValueError('%s invalid: %r' % ('n', n))
 
@@ -702,24 +701,24 @@ except ImportError:
     def fprod(iterable, start=1.0):
         '''Iterable product, like C{math.prod} or C{numpy.prod}.
 
-           @param iterable: Values to be multiplied (C{scalar}[]).
-           @keyword start: Initial product, also the value returned
-                           for an empty iterable (C{scalar}).
+           @arg iterable: Values to be multiplied (C{scalar}[]).
+           @kwarg start: Initial product, also the value returned
+                         for an empty iterable (C{scalar}).
 
            @return: The product (C{float}).
 
            @see: U{NumPy.prod<https://docs.SciPy.org/doc/
                  numpy/reference/generated/numpy.prod.html>}.
         '''
-        return freduce(mul, iterable, start)
+        return freduce(_mul_, iterable, start)
 
 
 def frange(start, number, step=1):
     '''Generate a range of C{float}s.
 
-       @param start: First value (C{float}).
-       @param number: The number of C{float}s to generate (C{int}).
-       @keyword step: Increment value (C{float}).
+       @arg start: First value (C{float}).
+       @arg number: The number of C{float}s to generate (C{int}).
+       @kwarg step: Increment value (C{float}).
 
        @return: A generator (C{float}s).
 
@@ -727,7 +726,7 @@ def frange(start, number, step=1):
              numpy/reference/generated/numpy.arange.html>}.
     '''
     if not isint(number):
-        raise _IsNotError(int.__name_, number=number)
+        raise _isnotError(int.__name_, number=number)
     for i in range(number):
         yield start + i * step
 
@@ -750,14 +749,14 @@ except ImportError:  # PYCHOK no cover
             for v in iterable:
                 r = f(r, v)
             if v is _EMPTY:
-                raise TypeError('%s() empty, no start' % (freduce.__name__,))
+                raise TypeError('%s() empty, no %s' % (freduce.__name__, 'start'))
             return r
 
 
 def fsum_(*xs):
     '''Precision summation of the positional argument vulues.
 
-       @param xs: Values to be added (C{scalar}[]).
+       @arg xs: Values to be added (C{scalar}[]).
 
        @return: Accurate L{fsum} (C{float}).
 
@@ -786,7 +785,7 @@ except ImportError:  # PYCHOK no cover
 
            Exception and I{non-finite} handling differs from C{math.fsum}.
 
-           @param iterable: Values to be added (C{scalar}[]).
+           @arg iterable: Values to be added (C{scalar}[]).
 
            @return: Accurate C{sum} (C{float}).
 
@@ -811,7 +810,7 @@ except TypeError:  # Python 3.7-
     def hypot_(*xs):
         '''Compute the norm M{sqrt(sum(xs[i]**2)) for i=0..len(xs)}.
 
-           @param xs: X arguments, positional (C{scalar}[]).
+           @arg xs: X arguments, positional (C{scalar}[]).
 
            @return: Norm (C{float}).
 
@@ -848,7 +847,7 @@ except TypeError:  # Python 3.7-
 def hypot1(x):
     '''Compute the norm M{sqrt(1 + x**2)}.
 
-       @param x: Argument (C{scalar}).
+       @arg x: Argument (C{scalar}).
 
        @return: Norm (C{float}).
     '''
@@ -856,25 +855,25 @@ def hypot1(x):
 
 
 def hypot2(x, y):
-    '''Compute the norm squared M{x**2 + y**2}.
+    '''Compute the norm, squared M{x**2 + y**2}.
 
-       @param x: Argument (C{scalar}).
-       @param y: Argument (C{scalar}).
+       @arg x: Argument (C{scalar}).
+       @arg y: Argument (C{scalar}).
 
-       @return: C{B{x}**2 + B{y}**2} (C{float}).
+       @return: B{C{x}}C{**2 + }B{C{y}}C{**2} (C{float}).
     '''
     x, y = x**2, y**2
     if x < y:
         x, y = y, x
-    if x:
+    if x:  # and y
         x *= 1 + y / x
     return x
 
 
 def sqrt3(x):
-    '''Compute the square root cubed M{sqrt(x)**3} or M{sqrt(x**3)}.
+    '''Compute the square root, cubed M{sqrt(x)**3} or M{sqrt(x**3)}.
 
-       @param x: Value (C{scalar}).
+       @arg x: Value (C{scalar}).
 
        @return: Cubed square root (C{float}).
 

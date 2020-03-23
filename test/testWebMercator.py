@@ -4,13 +4,13 @@
 # Test Web Mercator classes functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.01.18'
+__version__ = '20.03.23'
 
 from math import log, radians, tan
 from base import TestsBase
 
-from pygeodesy import F_D, F_DMS, R_MA, Datums, LatLon_, \
-                      fStr, toWm, webmercator, Wm
+from pygeodesy import F_D, F_DMS, R_M, R_MA, Datums, LatLon_, \
+                      fstr, toWm, webmercator, Wm
 
 
 class Tests(TestsBase):
@@ -32,7 +32,7 @@ class Tests(TestsBase):
         self.testCopy(w)
 
         ll = w.to2ll(None)  # 2-tuple
-        self.test('Wm2.to2ll', fStr(ll, prec=8), '43.65321741, 4.02671439')
+        self.test('Wm2.to2ll', fstr(ll, prec=8), '43.65321741, 4.02671439')
 
         ll = w.toLatLon(LatLon)
         self.test('Wm2.toLatLon', ll, '43.653217°N, 004.026714°E')
@@ -91,10 +91,17 @@ class Tests(TestsBase):
 
         # <https://AlastairA.WordPress.com/2011/01/23/
         #        the-google-maps-bing-maps-spherical-mercator-projection>
+        w = toWm(51.4085960537841, -0.304339270784791, Wm=None)
+        self.test('Wm8.toWm', fstr(w, prec=3), '-33878.893, 6693890.382, 6378137.0')
         w = toWm(51.4085960537841, -0.304339270784791)
         self.test('Wm8.toWm', w.toStr2(), '[x:-33878.893, y:6693890.382]')
+        self.test('Wm8.toWm', w.toStr(radius=R_M), '-33878.893 6693890.382 6371008.771')
+        self.test('Wm8.toWm.x', w.x, '-33878.893',  fmt='%.3f')
+        self.test('Wm8.toWm.y', w.y, '6693890.382', fmt='%.3f')
+        self.test('Wm8.toWm.latlon', fstr(w.latlon, prec=6), '51.408596, -0.304339')
+        self.test('Wm8.toWm.philam', fstr(w.philam, prec=6),  '0.897249, -0.005312')
         ll = w.toLatLon(LatLon)
-        self.test('Wm8.toLatLon', ll.toStr(form=F_D, prec=12), '51.408596053784°N, 000.304339270785°W')
+        self.test('Wm8.toLatLon', ll.toStr(form=F_D, prec=12),  '51.408596053784°N, 000.304339270785°W')
         self.test('Wm8.toLatLon', ll.toStr(form=F_DMS, prec=6), '51°24′30.945794″N, 000°18′15.621375″W')
 
         for LL, datum in ((LatLon , Datums.WGS84),

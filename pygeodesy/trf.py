@@ -40,7 +40,7 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
-from pygeodesy.basics import _IsNotError, isscalar, map1, property_RO, \
+from pygeodesy.basics import _isnotError, isscalar, map1, property_RO, \
                              _TypeError
 from pygeodesy.datum import Ellipsoid, Ellipsoids, Transform
 from pygeodesy.lazily import _ALL_LAZY
@@ -49,7 +49,7 @@ from pygeodesy.named import classname, _NamedDict as _X, \
 from pygeodesy.streprs import fstrzs
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.03.10'
+__version__ = '20.03.23'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 # temporarily hold a single instance for each float value and name
@@ -86,7 +86,7 @@ def _2epoch(epoch):  # imported by .ellipsoidalBase.py
     '''
     if isscalar(epoch) and epoch > 0:  # XXX 1970?
         return _F(epoch)
-    raise _IsNotError('scalar', epoch=epoch)
+    raise _isnotError('scalar', epoch=epoch)
 
 
 class TRFError(ValueError):
@@ -104,9 +104,9 @@ class RefFrame(_NamedEnumItem):
     def __init__(self, epoch, ellipsoid, name=''):
         '''New L{RefFrame}.
 
-           @param epoch: Epoch, a fractional calendar year (C{scalar}).
-           @param ellipsoid: The ellipsoid (L{Ellipsoid}).
-           @keyword name: Optional, unique name (C{str}).
+           @arg epoch: Epoch, a fractional calendar year (C{scalar}).
+           @arg ellipsoid: The ellipsoid (L{Ellipsoid}).
+           @kwarg name: Optional, unique name (C{str}).
 
            @raise NameError: A L{RefFrame} with that B{C{name}}
                              already exists.
@@ -164,9 +164,9 @@ RefFrames._assert(
 def date2epoch(year, month, day):
     '''Return the reference frame C{epoch} for a calendar day.
 
-       @param year: Year of the date (C{scalar}).
-       @param month: Month in the B{C{year}} (C{scalar}, 1..12).
-       @param day: Day in the B{C{month}} (C{scalar}, 1..31).
+       @arg year: Year of the date (C{scalar}).
+       @arg month: Month in the B{C{year}} (C{scalar}, 1..12).
+       @arg day: Day in the B{C{month}} (C{scalar}, 1..31).
 
        @return: Epoch, the fractional year (C{float}).
 

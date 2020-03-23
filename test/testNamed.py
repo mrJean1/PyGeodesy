@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.03.10'
+__version__ = '20.03.22'
 
 from base import PyGeodesy_dir, TestsBase
 from pygeodesy import Datums, named
@@ -52,11 +52,13 @@ class Tests(TestsBase):
         self.test(n.named2, n.name, '')
 
     def testNamedDicts(self, named):
+        self.subtitle(named, 'ing %s ' % ('NamedDicts',))
         self.testNamed_class(named, _DICT, '_Keys_', self._NamedDicts)
 
     _NamedDicts = {}  # [<name>] = 'L{<name>}C{(...)}'
 
     def testNamedTuples(self, named):
+        self.subtitle(named, 'ing %s ' % ('NamedTuples',))
         self.testNamed_class(named, _TUPLE, '_Names_', self._NamedTuples)
 
     _NamedTuples = {}  # [<name>] = 'L{<name>}C{(...)}'
@@ -82,20 +84,22 @@ class Tests(TestsBase):
                 _Ndict[n] = 'L{%s}%s' % (n, s)
 
     def testNamed__doc__(self, m, py):
+        self.subtitle(named, 'ing %s ' % (m,))
         for _N, _Ndict in ((_DICT,  self._NamedDicts),
                            (_TUPLE, self._NamedTuples)):
+            b = max(map(len, _Ndict.keys()))
             j, _N_C_ = 0, _N + _C_
             while True:
                 i = py.find(_N_C_, j)
                 if i > j:
-                    t.testNamed_Link(_N, i, m, py, _Ndict)
+                    t.testNamed_Link(_N, i, m, py, _Ndict, b)
                     j = i + len(_N_C_)
                 else:
                     break
 
-    def testNamed_Link(self, _N, i, m, py, _Ndict):
+    def testNamed_Link(self, _N, i, m, py, _Ndict, b=30):
         # check a _Named link in a __doc__ string
-        L = py.rfind(_LINK, 0, i)
+        L = py.rfind(_LINK, max(0, i - b), i)
         c = py.find(_B_, i)
         if 0 < L < i < c:
             m = _mod_line(m, py[:L])
@@ -104,6 +108,7 @@ class Tests(TestsBase):
             self.test(m, t, _Ndict.get(n, 'signature'))
 
     def testNamed_xtend(self, named):
+        self.subtitle(named, 'ing %s ' % ('xtend',))
         # test extending a _NamedTuple class
         t = named.LatLon2Tuple(0, 1)
         x = t.to3Tuple(2)
@@ -168,10 +173,11 @@ if __name__ == '__main__':
             py = f.read()
             if isinstance(py, bytes):  # Python 3+
                 py = py.decode('utf-8')
-            t.testNamed__doc__(m[len(PyGeodesy_dir):], py)
+            t.testNamed__doc__(os_path.basename(m), py)
 
     t.testNamed_xtend(named)
 
+    t.subtitle(named, 'ing %s ' % ('unregister',))
     for n, d in tuple(Datums.items()):
         Datums.unregister(d)  # coverage _NamedEnum.unregister
         t.test('unregister(%s)' % (n,), getattr(Datums, n, None), None)
@@ -182,6 +188,7 @@ if __name__ == '__main__':
         t.test(n + '.unregister', getattr(Transforms, n, None), None)
     t.test('Transforms', len(Transforms), 0)
 
+    t.subtitle(named, 'ing %s ' % ('coverage',))
     Nd = named.Neighbors8Dict  # coverage
     nd = Nd(**dict((t, t) for t in (Nd._Keys_ + ('name',))))
     t.test('nd.name', nd.name, 'name')

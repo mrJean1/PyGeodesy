@@ -218,12 +218,12 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_SEC__: Format degrees as signed "-/+[D]DDMMSS" without suffix and symbols (C{str}).
 @var F_RAD__: Convert degrees to radians and format as signed "-/+RR" without suffix (C{str}).
 
-@var INF:    Infinity (C{float}), see C{isinf}, C{isfinite}.
+@var INF:    Infinity (C{float}), see function C{isinf}, C{isfinite}.
 @var MANTIS: System's M{mantissa bits} ≈53 (C{int}).
 @var MAX:    System's M{float max} ≈1.798e+308 (C{float}).
 @var MIN:    System's M{float min} ≈2.225e-308 (C{float}).
-@var NAN:    Not-A-Number (C{float}), see C{isnan}.
-@var NEG0:   Negative 0.0 (C{float}), see C{isneg0}.
+@var NAN:    Not-A-Number (C{float}), see function C{isnan}.
+@var NEG0:   Negative 0.0 (C{float}), see function C{isneg0}.
 
 @var OK:   Unique OK object (C{str}).
 
@@ -267,7 +267,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.03.15'
+__version__ = '20.03.23'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.03.12
+        20.03.23
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -101,9 +101,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.streprs-module.html#attrs" class="summary-sig-name">attrs</a>(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">*names</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      Get instance attributes as <i>name=value</i> strings, with floats 
-      handled like <a href="pygeodesy.streprs-module.html#fstr" 
-      class="link">fstr</a>.</td>
+      Get instance attributes as <i>name=value</i> strings, with 
+      <code>float</code>s handled like <a 
+      href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -144,8 +144,8 @@
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
-      Convert floats to string, optionally stripped of trailing zero 
-      decimals.</td>
+      Convert one or more floats to string, optionally stripped of trailing
+      zero decimals.</td>
           <td align="right" valign="top">
             
             
@@ -202,8 +202,9 @@
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">=</code><code class="variable-quote">'</code></span>)</span><br />
-      Convert items to <i>name=value</i> strings, with floats handled like 
-      <a href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</td>
+      Convert items to <i>name=value</i> strings, with <code>float</code>s 
+      handled like <a href="pygeodesy.streprs-module.html#fstr" 
+      class="link">fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -223,9 +224,9 @@
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert objects to <code>repr</code> strings, with floats handled 
-      like <a href="pygeodesy.streprs-module.html#fstr" 
-      class="link">fstr</a>.</td>
+      Convert objects to <code>repr</code> strings, with 
+      <code>float</code>s handled like <a 
+      href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -245,8 +246,9 @@
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert objects to <code>str</code> strings, with floats handled like
-      <a href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</td>
+      Convert objects to <code>str</code> strings, with <code>float</code>s
+      handled like <a href="pygeodesy.streprs-module.html#fstr" 
+      class="link">fstr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -350,9 +352,9 @@
     </td>
   </tr></table>
   
-  <p>Get instance attributes as <i>name=value</i> strings, with floats 
-  handled like <a href="pygeodesy.streprs-module.html#fstr" 
-  class="link">fstr</a>.</p>
+  <p>Get instance attributes as <i>name=value</i> strings, with 
+  <code>float</code>s handled like <a 
+  href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -360,14 +362,13 @@
         <li><strong class="pname"><code>names</code></strong> - The attribute names (<code>str</code>s).</li>
         <li><strong class="pname"><code>kwds</code></strong> - Keyword argument for function <a 
           href="pygeodesy.streprs-module.html#pairs" 
-          class="link">pairs</a>, except <code><b>Nones</b>=True</code> to 
+          class="link">pairs</a>, except <b><code>Nones=True</code></b> to 
           in-/exclude missing or attributes with a <code>None</code> 
           <i>value</i>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <code>tuple(<b><code>sep</code></b>.join(t) for t in 
-          zip(<i>names</i>, reprs(<i>values</i>, ...)))</code> of 
-          <code>str</code>s.</dd>
+        <dd>A <code>tuple(sep.join(t) for t in zip(names, reprs(values, 
+          ...)))</code> of <code>str</code>s.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -425,13 +426,12 @@
     </td>
   </tr></table>
   
-  <p>Convert floats to string, optionally stripped of trailing zero 
-  decimals.</p>
+  <p>Convert one or more floats to string, optionally stripped of trailing 
+  zero decimals.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>floats</code></strong> - List, sequence, tuple, etc. (<code>scalar</code>s or 
-          <code>scalar</code>).</li>
+        <li><strong class="pname"><code>floats</code></strong> - Single or a list, sequence, tuple, etc. (<code>scalar</code>s).</li>
         <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
@@ -442,10 +442,10 @@
           (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <code><b>sep</b>.join(strs(<b>floats</b>, ...)</code> string 
-          or a single <code>strs((<b>floats</b>,), ...)</code> if 
-          <b><code>floats</code></b> is <code>scalar</code> 
-          (<code>str</code>).</dd>
+        <dd>The <code>sep.join(strs(floats, ...)</code> joined 
+          (<code>str</code>) or single <code>strs((floats,), ...)</code> 
+          (<code>str</code>) if <b><code>floats</code></b> is 
+          <code>scalar</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -521,8 +521,9 @@
     </td>
   </tr></table>
   
-  <p>Convert items to <i>name=value</i> strings, with floats handled like 
-  <a href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</p>
+  <p>Convert items to <i>name=value</i> strings, with <code>float</code>s 
+  handled like <a href="pygeodesy.streprs-module.html#fstr" 
+  class="link">fstr</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -538,9 +539,8 @@
           (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <code>tuple(<b><code>sep</code></b>.join(t) for t in 
-          zip(<i>names</i>, reprs(<i>values</i>, ...)))</code> of 
-          <code>str</code>s.</dd>
+        <dd>A <code>tuple(sep.join(t) for t in zip(names, 
+          reprs(values,...)))</code> of <code>str</code>s.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -561,8 +561,9 @@
     </td>
   </tr></table>
   
-  <p>Convert objects to <code>repr</code> strings, with floats handled like
-  <a href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</p>
+  <p>Convert objects to <code>repr</code> strings, with <code>float</code>s
+  handled like <a href="pygeodesy.streprs-module.html#fstr" 
+  class="link">fstr</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -575,8 +576,7 @@
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <code>tuple(map(fstr|repr, <b>objs</b>))</code> of 
-          <code>str</code>s.</dd>
+        <dd>A <code>tuple(map(fstr|repr, objs))</code> of <code>str</code>s.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -597,8 +597,9 @@
     </td>
   </tr></table>
   
-  <p>Convert objects to <code>str</code> strings, with floats handled like 
-  <a href="pygeodesy.streprs-module.html#fstr" class="link">fstr</a>.</p>
+  <p>Convert objects to <code>str</code> strings, with <code>float</code>s 
+  handled like <a href="pygeodesy.streprs-module.html#fstr" 
+  class="link">fstr</a>.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -611,8 +612,7 @@
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <code>tuple(map(fstr|str, <b>objs</b>))</code> of 
-          <code>str</code>s.</dd>
+        <dd>A <code>tuple(map(fstr|str, objs))</code> of <code>str</code>s.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -677,7 +677,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:49 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:38 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

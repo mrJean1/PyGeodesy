@@ -242,24 +242,21 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geoids.GeoidKarney-class.html#dtype" class="summary-name">dtype</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geoids.GeoidKarney-class.html#dtype" class="summary-name">dtype</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geoids.GeoidKarney-class.html#pgm" class="summary-name">pgm</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geoids.GeoidKarney-class.html#pgm" class="summary-name">pgm</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geoids.GeoidKarney-class.html#u2B" class="summary-name">u2B</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geoids.GeoidKarney-class.html#u2B" class="summary-name">u2B</a>
     </td>
   </tr>
   <tr>
@@ -465,16 +462,16 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the location (<code>LatLon</code>)
-          and height or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
+          (<code>LatLon</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>full</code></strong> - Search the full or limited latitude range (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
-          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
-          <b><code>LatLon</code></b> is <code>None</code> or a 
-          <b><code>LatLon</code></b> instance with the lat-, longitude and 
-          height of the highest grid location.</dd>
+        <dd>If <b><code>LatLon</code></b> is <code>None</code>, a <a 
+          href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
+          otherwise a <b><code>LatLon</code></b> instance with the lat-, 
+          longitude and height of the highest grid location.</dd>
     <dt>Overrides:
         <a href="pygeodesy.geoids._GeoidBase-class.html#highest">_GeoidBase.highest</a>
     </dt>
@@ -501,16 +498,16 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the location (<code>LatLon</code>)
-          and height or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
+          (<code>LatLon</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>full</code></strong> - Search the full or limited latitude range (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
-          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
-          <b><code>LatLon</code></b> is <code>None</code> or a 
-          <b><code>LatLon</code></b> instance with the lat-, longitude and 
-          height of the lowest grid location.</dd>
+        <dd>If <b><code>LatLon</code></b> is <code>None</code>, a <a 
+          href="pygeodesy.named.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
+          otherwise a <b><code>LatLon</code></b> instance with the lat-, 
+          longitude and height of the lowest grid location.</dd>
     <dt>Overrides:
         <a href="pygeodesy.geoids._GeoidBase-class.html#lowest">_GeoidBase.lowest</a>
     </dt>
@@ -533,13 +530,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">dtype</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">dtype(<span class="summary-sig-arg">self</span>)</span>
         - Get the geoid's grid data type (<code>str</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -553,13 +550,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">pgm</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">pgm(<span class="summary-sig-arg">self</span>)</span>
         - Get the PGM attributes (<code>_PGM</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -573,13 +570,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">u2B</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">u2B(<span class="summary-sig-arg">self</span>)</span>
         - Get the PGM itemsize in bytes (<code>int</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -619,7 +616,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:51 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:40 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

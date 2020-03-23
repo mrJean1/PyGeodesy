@@ -101,7 +101,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.03.15
+        20.03.20
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -199,7 +199,8 @@
         <span class="summary-sig-arg">start2</span>,
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Locate the intersection of two paths each defined by two points or by
       a start point and an initial bearing.</td>
           <td align="right" valign="top">
@@ -219,7 +220,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#meanOf" class="summary-sig-name">meanOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Compute the geographic mean of the supplied points.</td>
           <td align="right" valign="top">
             
@@ -280,7 +282,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#sumOf" class="summary-sig-name">sumOf</a>(<span class="summary-sig-arg">nvectors</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.Nvector'&gt;</span>,
         <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
       Return the vectorial sum of two or more n-vectors.</td>
           <td align="right" valign="top">
             
@@ -302,7 +304,8 @@
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">bearing2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Locate a point given two known points and initial bearings from those
       points.</td>
           <td align="right" valign="top">
@@ -328,8 +331,9 @@
         <span class="summary-sig-arg">distance3</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Locate a point at given distances from three other points.</td>
           <td align="right" valign="top">
             
@@ -448,7 +452,8 @@
         <span class="sig-arg">start2</span>,
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span>
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -476,9 +481,11 @@
           start point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection point, overriding the mean 
           height (<code>meter</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the intersection point (<a 
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <b><code>LatLon=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The intersection point (<b><code>LatLon</code></b>) or 3-tuple 
@@ -511,7 +518,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">meanOf</span>(<span class="sig-arg">points</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span>
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -526,9 +534,11 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the mean point (<a 
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the mean point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <b><code>LatLon=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Point at geographic mean and mean height 
@@ -628,7 +638,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">sumOf</span>(<span class="sig-arg">nvectors</span>,
         <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.Nvector'&gt;</span>,
         <span class="sig-arg">h</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">**Vector_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -670,7 +680,8 @@
         <span class="sig-arg">point2</span>,
         <span class="sig-arg">bearing2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>)</span>
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -692,9 +703,11 @@
         <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the second point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the triangulated point, overriding the mean 
           height (<code>meter</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the triangulated point (<a 
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the triangulated point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <b><code>LatLon=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Triangulated point (<b><code>LatLon</code></b>).</dd>
@@ -729,8 +742,9 @@
         <span class="sig-arg">distance3</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
-        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -762,10 +776,10 @@
         <li><strong class="pname"><code>height</code></strong> - Optional height at the trilaterated point, overriding the IDW 
           height (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return the trilaterated point (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - Include Z component iff non-NaN, non-zero (<code>bool</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the trilaterated</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <b><code>LatLon=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Trilaterated point (<b><code>LatLon</code></b>).</dd>
@@ -814,7 +828,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:49 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:38 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

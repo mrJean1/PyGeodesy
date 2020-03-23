@@ -82,7 +82,7 @@ from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.03.15'
+__version__ = '20.03.20'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -188,23 +188,22 @@ class Etm(Utm):
                              convergence=None, scale=None, name=''):
         '''New L{Etm} coordinate.
 
-           @param zone: Longitudinal UTM zone (C{int}, 1..60) or zone
-                        with/-out (latitudinal) Band letter (C{str},
-                        '01C'..'60X').
-           @param hemisphere: Northern or southern hemisphere (C{str},
-                              C{'N[orth]'} or C{'S[outh]'}).
-           @param easting: Easting, see B{C{falsed}} (C{meter}).
-           @param northing: Northing, see B{C{falsed}} (C{meter}).
-           @keyword band: Optional, (latitudinal) band (C{str}, 'C'..'X').
-           @keyword datum: Optional, this coordinate's datum (L{Datum}).
-           @keyword falsed: Both B{C{easting}} and B{C{northing}} are
-                            falsed (C{bool}).
-           @keyword convergence: Optional meridian convergence, bearing
-                                 off grid North, clockwise from true
-                                 North (C{degrees}) or C{None}.
-           @keyword scale: Optional grid scale factor (C{scalar}) or
-                           C{None}.
-           @keyword name: Optional name (C{str}).
+           @arg zone: Longitudinal UTM zone (C{int}, 1..60) or zone
+                      with/-out (latitudinal) Band letter (C{str},
+                      '01C'..'60X').
+           @arg hemisphere: Northern or southern hemisphere (C{str},
+                            C{'N[orth]'} or C{'S[outh]'}).
+           @arg easting: Easting, see B{C{falsed}} (C{meter}).
+           @arg northing: Northing, see B{C{falsed}} (C{meter}).
+           @kwarg band: Optional, (latitudinal) band (C{str}, 'C'..'X').
+           @kwarg datum: Optional, this coordinate's datum (L{Datum}).
+           @kwarg falsed: Both B{C{easting}} and B{C{northing}} are
+                          falsed (C{bool}).
+           @kwarg convergence: Optional meridian convergence, bearing
+                               off grid North, clockwise from true North
+                               (C{degrees}) or C{None}.
+           @kwarg scale: Optional grid scale factor (C{scalar}) or C{None}.
+           @kwarg name: Optional name (C{str}).
 
            @raise ETMError: Invalid B{C{zone}}, B{C{hemishere}} or
                             B{C{band}}.
@@ -220,7 +219,7 @@ class Etm(Utm):
                                  name=name)
         self.exactTM = self.datum.exactTM  # ExactTransverseMercator(datum=self.datum)
 
-    @property_doc_(' the ETM projection (L{ExactTransverseMercator}).')
+    @property_doc_(''' the ETM projection (L{ExactTransverseMercator}).''')
     def exactTM(self):
         '''Get the ETM projection (L{ExactTransverseMercator}).
         '''
@@ -251,10 +250,10 @@ class Etm(Utm):
     def toLatLon(self, LatLon=None, unfalse=True, **unused):  # PYCHOK expected
         '''Convert this ETM coordinate to an (ellipsoidal) geodetic point.
 
-           @keyword LatLon: Optional, ellipsoidal (sub-)class to return
-                            the point (C{LatLon}) or C{None}.
-           @keyword unfalse: Unfalse B{C{easting}} and B{C{northing}}
-                             if falsed (C{bool}).
+           @kwarg LatLon: Optional, ellipsoidal class to return the
+                          geodetic point (C{LatLon}) or C{None}.
+           @kwarg unfalse: Unfalse B{C{easting}} and B{C{northing}} if
+                           falsed (C{bool}).
 
            @return: This ETM coordinate as (B{C{LatLon}}) or a
                     L{LatLonDatum5Tuple}C{(lat, lon, datum,
@@ -357,11 +356,11 @@ class ExactTransverseMercator(_NamedBase):
     def __init__(self, datum=Datums.WGS84, lon0=0, k0=_K0, extendp=True, name=''):
         '''New L{ExactTransverseMercator} projection.
 
-           @keyword datum: The datum and ellipsoid to use (C{Datum}).
-           @keyword lon0: The central meridian (C{degrees180}).
-           @keyword k0: The central scale factor (C{float}).
-           @keyword extendp: Use the extended domain (C{bool}).
-           @keyword name: Optional name for the projection (C{str}).
+           @kwarg datum: The datum and ellipsoid to use (C{Datum}).
+           @kwarg lon0: The central meridian (C{degrees180}).
+           @kwarg k0: The central scale factor (C{float}).
+           @kwarg extendp: Use the extended domain (C{bool}).
+           @kwarg name: Optional name for the projection (C{str}).
 
            @raise EllipticError: No convergence.
 
@@ -387,7 +386,7 @@ class ExactTransverseMercator(_NamedBase):
         self.lon0  = lon0
         self.k0    = k0
 
-    @property_doc_(' the datum (L{Datum}).')
+    @property_doc_(''' the datum (L{Datum}).''')
     def datum(self):
         '''Get the datum (L{Datum}) or C{None}.
         '''
@@ -426,9 +425,9 @@ class ExactTransverseMercator(_NamedBase):
     def forward(self, lat, lon, lon0=None):  # MCCABE 13
         '''Forward projection, from geographic to transverse Mercator.
 
-           @param lat: Latitude of point (C{degrees}).
-           @param lon: Longitude of point (C{degrees}).
-           @keyword lon0: Central meridian of the projection (C{degrees}).
+           @arg lat: Latitude of point (C{degrees}).
+           @arg lon: Longitude of point (C{degrees}).
+           @kwarg lon0: Central meridian of the projection (C{degrees}).
 
            @return: L{EasNorExact4Tuple}C{(easting, northing,
                     convergence, scale)} in C{meter}, C{meter},
@@ -484,7 +483,7 @@ class ExactTransverseMercator(_NamedBase):
             x, g = -x, -g
         return EasNorExact4Tuple(x, y, g, k)
 
-    @property_doc_(' the central scale factor (C{float}).')
+    @property_doc_(''' the central scale factor (C{float}).''')
     def k0(self):
         '''Get the central scale factor (C{float}), aka I{C{scale0}}.
         '''
@@ -501,7 +500,7 @@ class ExactTransverseMercator(_NamedBase):
             raise ETMError('%s invalid: %r' % ('k0', k0))
         self._k0_a = self._k0 * self._a
 
-    @property_doc_(' the central meridian (C{degrees180}).')
+    @property_doc_(''' the central meridian (C{degrees180}).''')
     def lon0(self):
         '''Get the central meridian (C{degrees180}).
         '''
@@ -523,8 +522,8 @@ class ExactTransverseMercator(_NamedBase):
         '''(INTERNAL) Get elliptic functions and pre-compute some
            frequently used values.
 
-           @param e: Eccentricity (C{float}).
-           @param e2: Eccentricity squared (C{float}).
+           @arg e: Eccentricity (C{float}).
+           @arg e2: Eccentricity squared (C{float}).
 
            @raise EllipticError: No convergence.
         '''
@@ -557,9 +556,9 @@ class ExactTransverseMercator(_NamedBase):
     def reverse(self, x, y, lon0=None):
         '''Reverse projection, from Transverse Mercator to geographic.
 
-           @param x: Easting of point (C{meters}).
-           @param y: Northing of point (C{meters}).
-           @keyword lon0: Central meridian of the projection (C{degrees}).
+           @arg x: Easting of point (C{meters}).
+           @arg y: Northing of point (C{meters}).
+           @kwarg lon0: Central meridian of the projection (C{degrees}).
 
            @return: L{LatLonExact4Tuple}C{(lat, lon, convergence, scale)}
                     in C{degrees}, C{degrees180}, C{degrees} and C{scalar}.
@@ -768,7 +767,7 @@ class ExactTransverseMercator(_NamedBase):
     def toStr(self, **kwds):
         '''Return a C{str} representation.
 
-           @param kwds: Optional, keyword arguments.
+           @arg kwds: Optional, keyword arguments.
         '''
         d = dict(datum=self.datum.name, lon0=self.lon0, k0=self.k0, extendp=self.extendp)
         if self.name:
@@ -933,7 +932,7 @@ class ExactTransverseMercator(_NamedBase):
     def _zetaScaled(self, sncndn6, ll=True):
         '''(INTERNAL) Recompute (T, L) from (u, v) to improve accuracy of Scale.
 
-           @param sncndn6: 6-Tuple C{(snu, cnu, dnu, snv, cnv, dnv)}.
+           @arg sncndn6: 6-Tuple C{(snu, cnu, dnu, snv, cnv, dnv)}.
 
            @return: 2-Tuple C{(g, k)} if B{C{ll}} is C{False} else
                     4-tuple C{(g, k, lat, lon)}.
@@ -950,17 +949,16 @@ def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=''):
     '''Parse a string representing a UTM coordinate, consisting
        of C{"zone[band] hemisphere easting northing"}.
 
-       @param strUTM: A UTM coordinate (C{str}).
-       @keyword datum: Optional datum to use (L{Datum}).
-       @keyword Etm: Optional (sub-)class to return the UTM
-                     coordinate (L{Etm}) or C{None}.
-       @keyword falsed: Both easting and northing are falsed (C{bool}).
-       @keyword name: Optional B{C{Etm}} name (C{str}).
+       @arg strUTM: A UTM coordinate (C{str}).
+       @kwarg datum: Optional datum to use (L{Datum}).
+       @kwarg Etm: Optional class to return the UTM coordinate
+                   (L{Etm}) or C{None}.
+       @kwarg falsed: Both easting and northing are falsed (C{bool}).
+       @kwarg name: Optional B{C{Etm}} name (C{str}).
 
-       @return: The UTM coordinate (B{C{Etm}}) or a
-                L{UtmUps5Tuple}C{(zone, hemipole,
-                easting, northing, band)} if B{C{Etm}} is
-                C{None}.  The C{hemipole} is the hemisphere
+       @return: The UTM coordinate (B{C{Etm}}) or if B{C{Etm}} is
+                C{None}, a L{UtmUps5Tuple}C{(zone, hemipole, easting,
+                northing, band)}.  The C{hemipole} is the hemisphere
                 C{'N'|'S'}.
 
        @raise ETMError: Invalid B{C{strUTM}}.
@@ -983,18 +981,18 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name='',
                                          zone=None, **cmoff):
     '''Convert a lat-/longitude point to an ETM coordinate.
 
-       @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
-                      geodetic C{LatLon} point.
-       @keyword lon: Optional longitude (C{degrees}) or C{None}.
-       @keyword datum: Optional datum for this ETM coordinate,
-                       overriding B{C{latlon}}'s datum (C{Datum}).
-       @keyword Etm: Optional (sub-)class to return the ETM
-                     coordinate (L{Etm}) or C{None}.
-       @keyword falsed: False both easting and northing (C{bool}).
-       @keyword name: Optional B{C{Utm}} name (C{str}).
-       @keyword zone: Optional UTM zone to enforce (C{int} or C{str}).
-       @keyword cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
-                       from the zone's central meridian (C{bool}).
+       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
+                    geodetic C{LatLon} point.
+       @kwarg lon: Optional longitude (C{degrees}) or C{None}.
+       @kwarg datum: Optional datum for this ETM coordinate,
+                     overriding B{C{latlon}}'s datum (C{Datum}).
+       @kwarg Etm: Optional class to return the ETM coordinate
+                   (L{Etm}) or C{None}.
+       @kwarg falsed: False both easting and northing (C{bool}).
+       @kwarg name: Optional B{C{Utm}} name (C{str}).
+       @kwarg zone: Optional UTM zone to enforce (C{int} or C{str}).
+       @kwarg cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
+                     from the zone's central meridian (C{bool}).
 
        @return: The ETM coordinate (B{C{Etm}}) or a
                 L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,

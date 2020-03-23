@@ -300,7 +300,7 @@ object --+
           <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#toNvector" class="summary-sig-name">toNvector</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Nvector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.nvectorBase.NvectorBase'&gt;</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Nvector_kwds</span>)</span><br />
       Convert this point to <code>n-vector</code> (normal to the earth's 
       surface) components, <i>including height</i>.</td>
           <td align="right" valign="top">
@@ -384,32 +384,28 @@ object --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.points.LatLon_-class.html#latlon" class="summary-name">latlon</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.points.LatLon_-class.html#latlon" class="summary-name">latlon</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.points.LatLon_-class.html#latlonheight" class="summary-name">latlonheight</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.points.LatLon_-class.html#latlonheight" class="summary-name">latlonheight</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.points.LatLon_-class.html#philam" class="summary-name">philam</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.points.LatLon_-class.html#philam" class="summary-name">philam</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.points.LatLon_-class.html#philamheight" class="summary-name">philamheight</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.points.LatLon_-class.html#philamheight" class="summary-name">philamheight</a>
     </td>
   </tr>
 <tr>
@@ -703,7 +699,7 @@ object --+
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">h</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Nvector</span>=<span class="sig-default">&lt;class 'pygeodesy.nvectorBase.NvectorBase'&gt;</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">**Nvector_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -717,19 +713,20 @@ object --+
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>h</code></strong> - Optional height, overriding this point's height 
           (<code>meter</code>).</li>
-        <li><strong class="pname"><code>Nvector</code></strong> - Optional (sub-)class to return the <code>n-vector</code> 
-          components (<code>Nvector</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
-          arguments, ignored if <code><b>Nvector</b>=None</code>.</li>
+        <li><strong class="pname"><code>Nvector</code></strong> - Optional class to return the <code>n-vector</code> components 
+          (<code>Nvector</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>Nvector_kwds</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
+          arguments, ignored if <b><code>Nvector=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <b><code>Nvector</code></b> or an <a 
+        <dd>The <code>n-vector</code> components <b><code>Nvector</code></b> 
+          or if <b><code>Nvector</code></b> is <code>None</code>, a <a 
           href="pygeodesy.named.Vector4Tuple-class.html" 
-          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
-          <code><b>Nvector</b>=None</code>.</dd>
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector</code></b> or <b><code>kwds</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector</code></b> or 
+        <b><code>Nvector_kwds</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -813,15 +810,15 @@ object --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlon</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat- and longitude in <code>degrees</code> (<a 
 href="pygeodesy.named.LatLon2Tuple-class.html" 
 class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -835,15 +832,15 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlonheight</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">latlonheight(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat-, longitude and height (<a 
 href="pygeodesy.named.LatLon3Tuple-class.html" 
 class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -857,15 +854,15 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">philam</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat- and longitude in <code>radians</code> (<a 
 href="pygeodesy.named.PhiLam2Tuple-class.html" 
 class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -879,15 +876,15 @@ class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">philamheight</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">philamheight(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat-, longitude in <code>radians</code> and height (<a 
 href="pygeodesy.named.PhiLam3Tuple-class.html" 
 class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -927,7 +924,7 @@ class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:53 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:42 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

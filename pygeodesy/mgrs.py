@@ -26,7 +26,7 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import halfs2, property_RO, _TypeError
+from pygeodesy.basics import halfs2, property_RO, _TypeError, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, Mgrs4Tuple, Mgrs6Tuple, \
@@ -39,7 +39,7 @@ import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.03.09'
+__version__ = '20.03.20'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -76,13 +76,13 @@ class Mgrs(_NamedBase):
                              band='', datum=Datums.WGS84, name=''):
         '''New L{Mgrs} Military grid reference.
 
-           @param zone: 6° longitudinal zone (C{int}), 1..60 covering 180°W..180°E.
-           @param en100k: Two-letter EN digraph (C{str}), 100 km grid square.
-           @param easting: Easting (C{meter}), within 100 km grid square.
-           @param northing: Northing (C{meter}), within 100 km grid square.
-           @keyword band: Optional 8° latitudinal band (C{str}), C..X covering 80°S..84°N.
-           @keyword datum: Optional this reference's datum (L{Datum}).
-           @keyword name: Optional name (C{str}).
+           @arg zone: 6° longitudinal zone (C{int}), 1..60 covering 180°W..180°E.
+           @arg en100k: Two-letter EN digraph (C{str}), 100 km grid square.
+           @arg easting: Easting (C{meter}), within 100 km grid square.
+           @arg northing: Northing (C{meter}), within 100 km grid square.
+           @kwarg band: Optional 8° latitudinal band (C{str}), C..X covering 80°S..84°N.
+           @kwarg datum: Optional this reference's datum (L{Datum}).
+           @kwarg name: Optional name (C{str}).
 
            @raise MGRSError: Invalid MGRS grid reference, B{C{zone}}, B{C{en100k}}
                              or B{C{band}}.
@@ -162,7 +162,7 @@ class Mgrs(_NamedBase):
     def parse(self, strMGRS):
         '''Parse a string to a MGRS grid reference.
 
-           @param strMGRS: MGRS grid reference (C{str}).
+           @arg strMGRS: MGRS grid reference (C{str}).
 
            @return: MGRS reference (L{Mgrs}).
 
@@ -178,8 +178,8 @@ class Mgrs(_NamedBase):
            Note that MGRS grid references are truncated, not rounded
            (unlike UTM coordinates).
 
-           @keyword prec: Optional number of digits (C{int}), 4:km, 10:m.
-           @keyword sep: Optional separator to join (C{str}).
+           @kwarg prec: Optional number of digits (C{int}), 4:km, 10:m.
+           @kwarg sep: Optional separator to join (C{str}).
 
            @return: This Mgrs as "00B EN easting northing" (C{str}).
 
@@ -197,9 +197,9 @@ class Mgrs(_NamedBase):
     def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
 
-           @keyword prec: Optional number of digits (C{int}), 4:km, 10:m.
-           @keyword fmt: Optional enclosing backets format (C{str}).
-           @keyword sep: Optional separator between name:values (C{str}).
+           @kwarg prec: Optional number of digits (C{int}), 4:km, 10:m.
+           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between name:values (C{str}).
 
            @return: This Mgrs as "[Z:00B, G:EN, E:meter, N:meter]" (C{str}).
         '''
@@ -209,8 +209,8 @@ class Mgrs(_NamedBase):
     def toUtm(self, Utm=Utm):
         '''Convert this MGRS grid reference to a UTM coordinate.
 
-           @keyword Utm: Optional (sub-)class to return the UTM
-                         coordinate (L{Utm}) or C{None}.
+           @kwarg Utm: Optional class to return the UTM coordinate
+                       (L{Utm}) or C{None}.
 
            @return: The UTM coordinate (L{Utm}) or a
                     L{UtmUps4Tuple}C{(zone, hemipole, easting,
@@ -252,11 +252,11 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
     '''Parse a string representing a MGRS grid reference,
        consisting of zoneBand, grid, easting and northing.
 
-       @param strMGRS: MGRS grid reference (C{str}).
-       @keyword datum: Optional datum to use (L{Datum}).
-       @keyword Mgrs: Optional (sub-)class to return the MGRS
-                      grid reference (L{Mgrs}) or C{None}.
-       @keyword name: Optional B{C{Mgrs}} name (C{str}).
+       @arg strMGRS: MGRS grid reference (C{str}).
+       @kwarg datum: Optional datum to use (L{Datum}).
+       @kwarg Mgrs: Optional class to return the MGRS grid
+                    reference (L{Mgrs}) or C{None}.
+       @kwarg name: Optional B{C{Mgrs}} name (C{str}).
 
        @return: The MGRS grid reference (B{L{Mgrs}}) or an
                 L{Mgrs4Tuple}C{(zone, digraph, easting, northing)}
@@ -307,13 +307,15 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
     return _xnamed(r, name)
 
 
-def toMgrs(utm, Mgrs=Mgrs, name=''):
+def toMgrs(utm, Mgrs=Mgrs, name='', **Mgrs_kwds):
     '''Convert a UTM coordinate to an MGRS grid reference.
 
-       @param utm: A UTM coordinate (L{Utm} or L{Etm}).
-       @keyword Mgrs: Optional (sub-)class to return the MGRS
-                      grid reference (L{Mgrs}) or C{None}.
-       @keyword name: Optional B{C{Mgrs}} name (C{str}).
+       @arg utm: A UTM coordinate (L{Utm} or L{Etm}).
+       @kwarg Mgrs: Optional class to return the MGRS grid
+                    reference (L{Mgrs}) or C{None}.
+       @kwarg name: Optional B{C{Mgrs}} name (C{str}).
+       @kwarg Mgrs_kwds: Optional, additional B{C{Mgrs}} keyword
+                         arguments, ignored if B{C{Mgrs=None}}.
 
        @return: The MGRS grid reference (B{L{Mgrs}}) or an
                 L{Mgrs6Tuple}C{(zone, digraph, easting, northing,
@@ -347,7 +349,8 @@ def toMgrs(utm, Mgrs=Mgrs, name=''):
     if Mgrs is None:
         r = Mgrs6Tuple(utm.zone, en, e, n, utm.band, utm.datum)
     else:
-        r = Mgrs(utm.zone, en, e, n, band=utm.band, datum=utm.datum)
+        kwds = _xkwds(Mgrs_kwds, band=utm.band, datum=utm.datum)
+        r = Mgrs(utm.zone, en, e, n, **kwds)
     return _xnamed(r, name or utm.name)
 
 # **) MIT License

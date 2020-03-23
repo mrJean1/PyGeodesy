@@ -5,7 +5,7 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.02.23'
+__version__ = '20.03.22'
 
 from base import TestsBase
 
@@ -184,20 +184,29 @@ class Tests(TestsBase):
                                               else '4190278.55, 170716.35, 4796058.21')
         self.test('name', t.name, 'Paris')
 
-        t = ll.datum.ecef().reverse(t)
-        self.test('reverse', fStr(t[3:6], prec=3), '48.833, 2.333, 0.0')
-        self.test('name', t.name, 'Paris')
+        e = ll.datum.ecef().reverse(t)
+        self.test('reverse', fStr(e[3:6], prec=3), '48.833, 2.333, 0.0')
+        self.test('name', e.name, 'Paris')
 
-        ll = t.toLatLon(module.LatLon)
+        ll = e.toLatLon(module.LatLon)
         self.test('toLatLon', repr(ll), 'LatLon(48°49′58.8″N, 002°19′58.8″E, +0.00m)' if ll.isEllipsoidal
                                    else 'LatLon(48°49′58.8″N, 002°19′58.8″E)')
         self.test('name', ll.name, 'Paris')
-        v = t.toVector(getattr(module, 'Nvector', nvector.Nvector))  # XXX missing Nvector?
+
+        t = e.toLatLon(LatLon=None)
+        self.test('to4Tuple', t.classname, 'LatLon4Tuple')
+        self.test('to4Tuple', repr(t), 'Paris(lat=48.833, lon=2.333, height=0.0, datum=%r)' % (t.datum,))
+
+        t = e.toLatLon(LatLon=None, datum=None)
+        self.test('to3Tuple', t.classname, 'LatLon3Tuple')
+        self.test('to3Tuple', repr(t), 'Paris(lat=48.833, lon=2.333, height=0.0)')
+
+        v = e.toVector(getattr(module, 'Nvector', nvector.Nvector))  # XXX missing Nvector?
         self.test('toVector', str(v), '(4202946.79528, 171232.46613, 4778354.17)' if ll.isEllipsoidal
                                  else '(4190278.55277, 170716.34863, 4796058.20898)')
         self.test('name', v.name, 'Paris')
 
-        c = t.toCartesian(module.Cartesian)
+        c = e.toCartesian(module.Cartesian)
         self.test('forward', c.toStr(prec=2), '[4202946.8, 171232.47, 4778354.17]' if ll.isEllipsoidal
                                          else '[4190278.55, 170716.35, 4796058.21]')
 

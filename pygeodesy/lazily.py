@@ -76,7 +76,7 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           bases=(),  # module and for backward compatibility only
                          basics=('EPS', 'EPS1', 'EPS1_2', 'EPS_2', 'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0', 'OK', 'R_M',  # constants
-                                 'LimitError', 'clips', 'halfs2',
+                                 'LenError', 'LimitError', 'clips', 'halfs2',
                                  'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'limiterrors', 'map1', 'map2', 'property_doc_', 'property_RO', 'scalar', 'splice'),
                           clipy=('clipCS3', 'clipSH', 'clipSH3'),
@@ -168,7 +168,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                               streprs=('anstr as anStr', 'enstr2 as enStr2', 'fstr as fStr', 'fstrzs as fStrzs', 'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.03.15'
+__version__ = '20.03.22'
 
 
 def _all_imports(**more):
@@ -214,9 +214,9 @@ def _dot_(prefix, name):  # imported by .__init__, .deprecated, .fmath, .named, 
 def _lazy_import2(_package_):  # MCCABE 16
     '''Check for and set up lazy importing.
 
-       @param _package_: The name of the package (C{str}) performing
-                         the imports, to help facilitate resolving
-                         relative imports, usually C{__package__}.
+       @arg _package_: The name of the package (C{str}) performing
+                       the imports, to help facilitate resolving
+                       relative imports, usually C{__package__}.
 
        @return: 2-Tuple C{(package, getattr)} of the importing package
                 for easy reference within itself and the callable to
@@ -306,9 +306,9 @@ def _lazy_import2(_package_):  # MCCABE 16
 def _lazy_init3(_package_):
     '''(INTERNAL) Try to initialize lazy import.
 
-       @param _package_: The name of the package (C{str}) performing
-                         the imports, to help facilitate resolving
-                         relative imports, usually C{__package__}.
+       @arg _package_: The name of the package (C{str}) performing
+                       the imports, to help facilitate resolving
+                       relative imports, usually C{__package__}.
 
        @return: 3-Tuple C{(import_module, package, parent)} of module
                 C{importlib.import_module}, the importing C{package}

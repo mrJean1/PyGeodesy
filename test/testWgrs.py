@@ -4,7 +4,7 @@
 # Test wgrs module.
 
 __all__ = ('Tests',)
-__version__ = '20.02.09'
+__version__ = '20.03.20'
 
 from base import TestsBase
 
@@ -63,6 +63,8 @@ class Tests(TestsBase):
         self.test('Georef.latlon', fStr(g.latlon, prec=6), '38.286108, -76.42917')
         self.test('Georef.precision', g.precision, 6)
         self.test('Georef.radius', g.radius, None)
+        t = g.toLatLon()  # LatLon=None
+        self.test('Georef.3Tuple', fStr(t, prec=6), '38.286108, -76.42917, 0.0')
 
         # <https://Earth-Info.NGA.mil/GandG/coordsys/grids/georef.pdf>
         self.testCodec3('MKPG1204', '51.075, -1.7917, 3.0', prec=4)

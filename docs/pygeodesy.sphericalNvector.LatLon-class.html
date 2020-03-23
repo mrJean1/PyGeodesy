@@ -490,7 +490,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Cartesian_datum_kwds</span>)</span><br />
       Convert this point to <code>Nvector</code>-based cartesian (ECEF) 
       coordinates.</td>
           <td align="right" valign="top">
@@ -509,7 +509,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#toNvector" class="summary-sig-name">toNvector</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Nvector_kwds</span>)</span><br />
       Convert this point to <a 
       href="pygeodesy.sphericalNvector.Nvector-class.html" 
       class="link">Nvector</a> components, <i>including height</i>.</td>
@@ -1056,8 +1056,8 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = 
-          other point).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, between 0.0 for this and 1.0
+          for the other point).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intermediate point, overriding the 
           fractional height (<code>meter</code>).</li>
     </ul></dd>
@@ -1109,8 +1109,8 @@
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, 0.0 = this point, 1.0 = the 
-          other point).</li>
+        <li><strong class="pname"><code>fraction</code></strong> - Fraction between both points (float, between 0.0 for this and 1.0
+          for the other point).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intermediate point, overriding the 
           fractional height (<code>meter</code>).</li>
     </ul></dd>
@@ -1483,7 +1483,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">**Cartesian_datum_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1495,24 +1495,27 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
-          arguments, ignored if <code><b>Cartesian</b>=None</code>. For 
-          example, use <code>Cartesian=...</code> to override the <a 
+        <li><strong class="pname"><code>Cartesian_datum_kwds</code></strong> - Optional <a 
           href="pygeodesy.sphericalNvector.Cartesian-class.html" 
-          class="link">Cartesian</a> (sub-)class or specify</li>
+          class="link">Cartesian</a>, <b><code>datum</code></b> or other 
+          keyword arguments, ignored if <b><code>Cartesian=None</code></b>.
+          Use <b><code>Cartesian=...</code></b> to override this <a 
+          href="pygeodesy.sphericalNvector.Cartesian-class.html" 
+          class="link">Cartesian</a> class or specify 
+          <b><code>Cartesian=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <b><code>Cartesian</code></b> point (<a 
+        <dd>The cartesian point (<a 
           href="pygeodesy.sphericalNvector.Cartesian-class.html" 
-          class="link">Cartesian</a>) or if 
-          <code><b>Cartesian</b>=None</code>, an <a 
+          class="link">Cartesian</a>) or if <b><code>Cartesian</code></b> 
+          is <code>None</code>, an <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
           M, datum)</code> with <code>C</code> and <code>M</code> if 
           available.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b> or <b><code>attrs</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian_datum_kwds</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian">latlonBase.LatLonBase.toCartesian</a>
@@ -1528,7 +1531,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">**Nvector_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1541,22 +1544,24 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
-          arguments, ignored if <code><b>Nvector</b>=None</code>. For 
-          example, use <code>Nvector=...</code> to override the <a 
+        <li><strong class="pname"><code>Nvector_kwds</code></strong> - Optional <a href="pygeodesy.sphericalNvector.Nvector-class.html" 
+          class="link">Nvector</a> keyword arguments, ignored if 
+          <b><code>Nvector=None</code></b>.  Use 
+          <b><code>Nvector=...</code></b> to override this <a 
           href="pygeodesy.sphericalNvector.Nvector-class.html" 
-          class="link">Nvector</a> (sub-)class or specify</li>
+          class="link">Nvector</a> class or specify 
+          <b><code>Nvector=None</code></b></li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <b><code>Nvector</code></b> components (<a 
+        <dd>The <code>n-vector</code> components (<a 
           href="pygeodesy.sphericalNvector.Nvector-class.html" 
           class="link">Nvector</a>) or a <a 
           href="pygeodesy.named.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
-          <code><b>Nvector</b>=None</code>.</dd>
+          <b><code>Nvector</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector</code></b> or <b><code>kwds</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Nvector_kwds</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector">latlonBase.LatLonBase.toNvector</a>
@@ -1716,7 +1721,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:54 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:42 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

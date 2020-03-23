@@ -9,11 +9,9 @@ Transcribed from C++ class U{Georef
 by I{Charles Karney}, but with modified C{precision} and extended with
 C{height} and C{radius}.  See also U{World Geographic Reference System
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
-
-@newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS1_2, _IsNotError, isstr, \
+from pygeodesy.basics import EPS1_2, _isnotError, isstr, \
                             _MISSING, property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
 from pygeodesy.lazily import _ALL_LAZY
@@ -24,7 +22,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.03.09'
+__version__ = '20.03.23'
 
 _Base    = 10
 _BaseLen = 4
@@ -98,12 +96,12 @@ class Georef(_NamedStr):
         '''New L{Georef} from an other L{Georef} instance or georef
            C{str} or from a C{LatLon} instance or lat-/longitude C{str}.
 
-           @param cll: Cell or location (L{Georef} or C{str}, C{LatLon}
-                       or C{str}).
-           @keyword precision: Optional, the desired georef resolution
-                               and length (C{int} 0..11), see function
-                               L{wgrs.encode} for more details.
-           @keyword name: Optional name (C{str}).
+           @arg cll: Cell or location (L{Georef} or C{str}, C{LatLon}
+                     or C{str}).
+           @kwarg precision: Optional, the desired georef resolution
+                             and length (C{int} 0..11), see function
+                             L{wgrs.encode} for more details.
+           @kwarg name: Optional name (C{str}).
 
            @return: New L{Georef}.
 
@@ -138,7 +136,7 @@ class Georef(_NamedStr):
                 lat, lon, h = _2fllh(cll.lat, cll.lon)
                 h = getattr(cll, 'height', h)
             except AttributeError:
-                raise _IsNotError('valid', **{Georef.__name__: cll})
+                raise _isnotError('valid', **{Georef.__name__: cll})
             g = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
             self = str.__new__(cls, g)
             self._latlon = LatLon2Tuple(lat, lon)
@@ -194,36 +192,37 @@ class Georef(_NamedStr):
             self._decode()
         return self._radius
 
-    def toLatLon(self, LatLon, height=None, **kwds):
+    def toLatLon(self, LatLon=None, height=None, **LatLon_kwds):
         '''Return (the center of) this georef cell as an instance
            of the supplied C{LatLon} class.
 
-           @param LatLon: Class to use (C{LatLon}).
-           @keyword height: Optional height ({meter}).
-           @keyword kwds: Optional keyword arguments for B{C{LatLon}}.
+           @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
+           @kwarg height: Optional height ({meter}).
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if B{C{LatLon=None}}.
 
-           @return: This georef location (B{C{LatLon}}).
+           @return: This georef location (B{C{LatLon}}) or if B{C{LatLon}}
+                    is C{None}, a L{LatLon3Tuple}C{(lat, lon, height)}.
 
-           @raise WGRSError: Invalid B{C{LatLon}}.
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
         '''
-        if LatLon is None:
-            raise WGRSError('%s invalid: %r' % ('LatLon', LatLon))
-
-        h = height if height is not None else (self.height or 0)
-        return self._xnamed(LatLon(*self.latlon, height=h, **kwds))
+        h = (self.height or 0) if height is None else height
+        r = self.latlon.to3Tuple(h) if LatLon is None else \
+                 LatLon(*self.latlon, height=h, **LatLon_kwds)
+        return self._xnamed(r)
 
 
 def decode3(georef, center=True):
     '''Decode a C{georef} to lat-, longitude and precision.
 
-       @param georef: To be decoded (L{Georef} or C{str}).
-       @keyword center: If C{True} the center, otherwise the south-west,
-                        lower-left corner (C{bool}).
+       @arg georef: To be decoded (L{Georef} or C{str}).
+       @kwarg center: If C{True} the center, otherwise the south-west,
+                      lower-left corner (C{bool}).
 
        @return: A L{LatLonPrec3Tuple}C{(lat, lon, precision)}.
 
        @raise WGRSError: Invalid B{C{georef}}, INValid, non-alphanumeric
-                           or odd length B{C{georef}}.
+                         or odd length B{C{georef}}.
     '''
     def _digit(ll, g, i, m):
         d = _Digits.find(g[i])
@@ -270,16 +269,16 @@ def decode3(georef, center=True):
 def decode5(georef, center=True):
     '''Decode a C{georef} to lat-, longitude, precision, height and radius.
 
-       @param georef: To be decoded (L{Georef} or C{str}).
-       @keyword center: If C{True} the center, otherwise the south-west,
-                        lower-left corner (C{bool}).
+       @arg georef: To be decoded (L{Georef} or C{str}).
+       @kwarg center: If C{True} the center, otherwise the south-west,
+                      lower-left corner (C{bool}).
 
        @return: A L{LatLonPrec5Tuple}C{(lat, lon,
                 precision, height, radius)} where C{height} and/or
                 C{radius} are C{None} if missing.
 
        @raise WGRSError: Invalid B{C{georef}}, INValid, non-alphanumeric
-                           or odd length B{C{georef}}.
+                         or odd length B{C{georef}}.
     '''
     def _h2m(kft):
         return ft2m(kft * 1000.0)
@@ -311,14 +310,14 @@ def decode5(georef, center=True):
 def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
     '''Encode a lat-/longitude as a C{georef} of the given precision.
 
-       @param lat: Latitude (C{degrees}).
-       @param lon: Longitude (C{degrees}).
-       @keyword precision: Optional, the desired C{georef} resolution
-                           and length (C{int} 0..11).
-       @keyword height: Optional, height in C{meter}, see U{Designation of area
-                        <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
-       @keyword radius: Optional, radius in C{meter}, see U{Designation of area
-                        <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
+       @kwarg precision: Optional, the desired C{georef} resolution and length
+                         (C{int} 0..11).
+       @kwarg height: Optional, height in C{meter}, see U{Designation of area
+                      <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
+       @kwarg radius: Optional, radius in C{meter}, see U{Designation of area
+                      <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 
        @return: The C{georef} (C{str}).
 
@@ -381,7 +380,7 @@ def precision(res):
     '''Determine the L{Georef} precision to meet a required (geographic)
        resolution.
 
-       @param res: The required resolution (C{degrees}).
+       @arg res: The required resolution (C{degrees}).
 
        @return: The L{Georef} precision (C{int} 0..11).
 
@@ -397,7 +396,7 @@ def precision(res):
 def resolution(prec):
     '''Determine the (geographic) resolution of a given L{Georef} precision.
 
-       @param prec: The given precision (C{int}).
+       @arg prec: The given precision (C{int}).
 
        @return: The (geographic) resolution (C{degrees}).
 

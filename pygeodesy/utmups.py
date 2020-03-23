@@ -26,7 +26,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.03.10'
+__version__ = '20.03.20'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -70,19 +70,18 @@ def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=''):
     '''Parse a string representing a UTM or UPS coordinate, consisting
        of C{"zone[band] hemisphere/pole easting northing"}.
 
-       @param strUTMUPS: A UTM or UPS coordinate (C{str}).
-       @keyword datum: Optional datum to use (L{Datum}).
-       @keyword Utm: Optional (sub-)class to return the UTM coordinate
-                     (L{Utm}) or C{None}.
-       @keyword Ups: Optional (sub-)class to return the UPS coordinate
-                     (L{Ups}) or C{None}.
-       @keyword name: Optional name (C{str}).
+       @arg strUTMUPS: A UTM or UPS coordinate (C{str}).
+       @kwarg datum: Optional datum to use (L{Datum}).
+       @kwarg Utm: Optional class to return the UTM coordinate (L{Utm})
+                   or C{None}.
+       @kwarg Ups: Optional class to return the UPS coordinate (L{Ups})
+                   or C{None}.
+       @kwarg name: Optional name (C{str}).
 
        @return: The UTM or UPS coordinate (B{C{Utm}} or B{C{Ups}}) or
-                a L{UtmUps5Tuple}C{(zone,
-                hemipole, easting, northing, band)} if B{C{Utm}}
-                respectively B{C{Ups}} or both are C{None}.  The
-                C{hemipole} is C{'N'|'S'}, the UTM hemisphere
+                a L{UtmUps5Tuple}C{(zone, hemipole, easting, northing,
+                band)} if B{C{Utm}} respectively B{C{Ups}} or both are
+                C{None}.  The C{hemipole} is C{'N'|'S'}, the UTM hemisphere
                 or UPS pole, the UPS projection top/center.
 
        @raise UTMUPSError: Invalid B{C{strUTMUPS}}.
@@ -103,21 +102,21 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
                                             pole='', name='', **cmoff):
     '''Convert a lat-/longitude point to a UTM or UPS coordinate.
 
-       @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
-                      geodetic C{LatLon} point.
-       @keyword lon: Optional longitude (C{degrees}) or C{None}.
-       @keyword datum: Optional datum to use this UTM coordinate,
-                       overriding B{C{latlon}}'s datum (C{Datum}).
-       @keyword falsed: False both easting and northing (C{bool}).
-       @keyword Utm: Optional (sub-)class to return the UTM coordinate
-                     (L{Utm}) or C{None}.
-       @keyword Ups: Optional (sub-)class to return the UPS coordinate
-                     (L{Ups}) or C{None}.
-       @keyword pole: Optional top/center of UPS (stereographic)
-                      projection (C{str}, C{'N[orth]'} or C{'S[outh]'}).
-       @keyword name: Optional name (C{str}).
-       @keyword cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
-                       from zone's central meridian, for UTM only (C{bool}).
+       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
+                    geodetic C{LatLon} point.
+       @kwarg lon: Optional longitude (C{degrees}) or C{None}.
+       @kwarg datum: Optional datum to use this UTM coordinate,
+                     overriding B{C{latlon}}'s datum (C{Datum}).
+       @kwarg falsed: False both easting and northing (C{bool}).
+       @kwarg Utm: Optional class to return the UTM coordinate (L{Utm})
+                   or C{None}.
+       @kwarg Ups: Optional class to return the UPS coordinate (L{Ups})
+                   or C{None}.
+       @kwarg pole: Optional top/center of UPS (stereographic)
+                    projection (C{str}, C{'N[orth]'} or C{'S[outh]'}).
+       @kwarg name: Optional name (C{str}).
+       @kwarg cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
+                     from zone's central meridian, for UTM only (C{bool}).
 
        @return: The UTM or UPS coordinate (B{C{Utm}} respectively B{C{Ups}})
                 or a L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
@@ -152,19 +151,19 @@ def UtmUps(zone, hemipole, easting, northing, band='', datum=Datums.WGS84,
                                               falsed=True, name=''):
     '''Class-like function to create a UTM/UPS coordinate.
 
-       @keyword zone: The UTM (longitudinal) zone with/-out Band
-                      letter for UTM or for UPS zone C{"00"} or
-                      C{0} (C{str} or C{int}).
-       @keyword hemipole: UTM hemisphere or UPS top/center of projection
-                          (C{str}, C{'N[orth]'} or C{'S[outh]'}).
-       @param easting: Easting, see B{C{falsed}} (C{meter}).
-       @param northing: Northing, see B{C{falsed}} (C{meter}).
-       @keyword band: Optional, UTM (latitudinal) Band letter
-                      C{'C'|'D'..'W'|'X'} or UPS (polar) Band letter
-                      C{'A'|'B'|'Y'|'Z'} (C{str}).
-       @keyword datum: Optional, the coordinate's datum (L{Datum}).
-       @keyword falsed: Both B{C{easting}} and B{C{northing}} are falsed (C{bool}).
-       @keyword name: Optional name (C{str}).
+       @kwarg zone: The UTM (longitudinal) zone with/-out Band letter
+                    for UTM or for UPS zone C{"00"} or C{0} (C{str} or
+                    C{int}).
+       @kwarg hemipole: UTM hemisphere or UPS top/center of projection
+                        (C{str}, C{'N[orth]'} or C{'S[outh]'}).
+       @arg easting: Easting, see B{C{falsed}} (C{meter}).
+       @arg northing: Northing, see B{C{falsed}} (C{meter}).
+       @kwarg band: Optional, UTM (latitudinal) Band letter
+                    C{'C'|'D'..'W'|'X'} or UPS (polar) Band letter
+                    C{'A'|'B'|'Y'|'Z'} (C{str}).
+       @kwarg datum: Optional, the coordinate's datum (L{Datum}).
+       @kwarg falsed: Both B{C{easting}} and B{C{northing}} are falsed (C{bool}).
+       @kwarg name: Optional name (C{str}).
 
        @return: New UTM or UPS instance (L{Utm} or L{Ups}).
 
@@ -181,9 +180,9 @@ def UtmUps(zone, hemipole, easting, northing, band='', datum=Datums.WGS84,
 def utmupsValidate(coord, falsed=False, MGRS=False):
     '''Check a UTM or UPS coordinate.
 
-       @param coord: The UTM or UPS coordinate (L{Utm}, L{Ups} or C{5+Tuple}).
-       @keyword falsed: C{5+Tuple} easting and northing are falsed (C{bool}).
-       @keyword MGRS: Increase easting and northing ranges (C{bool}).
+       @arg coord: The UTM or UPS coordinate (L{Utm}, L{Ups} or C{5+Tuple}).
+       @kwarg falsed: C{5+Tuple} easting and northing are falsed (C{bool}).
+       @kwarg MGRS: Increase easting and northing ranges (C{bool}).
 
        @return: C{None} if validation passed.
 
@@ -247,9 +246,9 @@ def utmupsValidate(coord, falsed=False, MGRS=False):
 def utmupsValidateOK(coord, falsed=False, ok=OK):
     '''Check a UTM or UPS coordinate.
 
-       @param coord: The UTM or UPS coordinate (L{Utm}, L{Ups} or C{5+Tuple}).
-       @keyword falsed: C{5+Tuple} easting and northing are falsed (C{bool}).
-       @keyword ok: Result to return if validation passed (B{C{ok}}).
+       @arg coord: The UTM or UPS coordinate (L{Utm}, L{Ups} or C{5+Tuple}).
+       @kwarg falsed: C{5+Tuple} easting and northing are falsed (C{bool}).
+       @kwarg ok: Result to return if validation passed (B{C{ok}}).
 
        @return: B{C{ok}} if validation passed, the L{UTMUPSError} otherwise.
 
@@ -266,10 +265,10 @@ def utmupsZoneBand5(lat, lon, cmoff=False):
     '''Return the UTM/UPS zone number, Band letter, hemisphere/pole
        and clipped lat- and longitude for a given location.
 
-       @param lat: Latitude in degrees (C{scalar} or C{str}).
-       @param lon: Longitude in degrees (C{scalar} or C{str}).
-       @keyword cmoff: Offset longitude from the zone's central
-                       meridian, for UTM only (C{bool}).
+       @arg lat: Latitude in degrees (C{scalar} or C{str}).
+       @arg lon: Longitude in degrees (C{scalar} or C{str}).
+       @kwarg cmoff: Offset longitude from the zone's central
+                     meridian, for UTM only (C{bool}).
 
        @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
                 lat, lon)} where C{hemipole} is C{'N'|'S'}, the

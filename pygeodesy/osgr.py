@@ -31,7 +31,7 @@ U{Transverse Mercator: Redfearn series
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import halfs2, _IsNotError, issubclassof, \
+from pygeodesy.basics import halfs2, _isnotError, issubclassof, \
                              map1, property_RO
 from pygeodesy.datum import Datums
 from pygeodesy.dms import parseDMS2
@@ -47,7 +47,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.03.09'
+__version__ = '20.03.23'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -98,9 +98,9 @@ class Osgr(_NamedBase):
     def __init__(self, easting, northing, name=''):
         '''New L{Osgr} National Grid Reference.
 
-           @param easting: Easting from OS false easting (C{meter}).
-           @param northing: Northing from from OS false northing (C{meter}).
-           @keyword name: Optional name (C{str}).
+           @arg easting: Easting from OS false easting (C{meter}).
+           @arg northing: Northing from from OS false northing (C{meter}).
+           @kwarg name: Optional name (C{str}).
 
            @raise OSGRError: Invalid B{C{easting}} or B{C{northing}}.
 
@@ -148,9 +148,9 @@ class Osgr(_NamedBase):
            etc. is as published by OS, but is inferior to Krüger as
            used by e.g. Karney 2011.}
 
-           @keyword LatLon: Optional ellipsoidal (sub-)class to return
-                            the point (C{LatLon}) or C{None}.
-           @keyword datum: Optional datum to use (C{Datum}).
+           @kwarg LatLon: Optional ellipsoidal class to return the
+                          geodetic point (C{LatLon}) or C{None}.
+           @kwarg datum: Optional datum to use (C{Datum}).
 
            @return: The geodetic point (B{C{LatLon}}) or a
                     L{LatLonDatum3Tuple}C{(lat, lon, datum)}
@@ -234,7 +234,7 @@ class Osgr(_NamedBase):
         elif issubclassof(LatLon, _LLEB):
             ll = _xnamed(LatLon(ll.lat, ll.lon, datum=ll.datum), ll.name)
             return _ll2datum(ll, datum, 'LatLon')
-        raise _IsNotError(_LLEB.__name__, LatLon=LatLon)
+        raise _isnotError(_LLEB.__name__, LatLon=LatLon)
 
     def toStr(self, prec=10, sep=' '):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
@@ -242,8 +242,8 @@ class Osgr(_NamedBase):
            Note that OSGR coordinates are truncated, not rounded
            (unlike UTM grid references).
 
-           @keyword prec: Optional number of digits (C{int}).
-           @keyword sep: Optional C{join} separator (C{str}).
+           @kwarg prec: Optional number of digits (C{int}).
+           @kwarg sep: Optional C{join} separator (C{str}).
 
            @return: This OSGR as C{"EN easting northing"} or as
                     C{"easting,northing"} if B{C{prec}} is non-positive
@@ -287,9 +287,9 @@ class Osgr(_NamedBase):
     def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
 
-           @keyword prec: Optional number of digits (C{int}).
-           @keyword fmt: Optional enclosing backets format (C{str}).
-           @keyword sep: Optional separator to join (C{str}).
+           @kwarg prec: Optional number of digits (C{int}).
+           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg sep: Optional separator to join (C{str}).
 
            @return: This OSGR (C{str}) "[G:00B, E:meter, N:meter]" or
                     "OSGR:meter,meter" if B{C{prec}} is non-positive.
@@ -311,14 +311,14 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
        numeric, comma-separated references in metres, for
        example '438700,114800'.
 
-       @param strOSGR: An OSGR coordinate (C{str}).
-       @keyword Osgr: Optional (sub-)class to return the OSGR
-                      coordinate (L{Osgr}) or C{None}.
-       @keyword name: Optional B{C{Osgr}} name (C{str}).
+       @arg strOSGR: An OSGR coordinate (C{str}).
+       @kwarg Osgr: Optional class to return the OSGR
+                    coordinate (L{Osgr}) or C{None}.
+       @kwarg name: Optional B{C{Osgr}} name (C{str}).
 
        @return: The OSGR coordinate (B{C{Osgr}}) or an
-                L{EasNor2Tuple}C{(easting, northing)} if B{C{Osgr}}
-                is C{None}.
+                L{EasNor2Tuple}C{(easting, northing)} if
+                B{C{Osgr}} is C{None}.
 
        @raise OSGRError: Invalid B{C{strOSGR}}.
 
@@ -385,16 +385,19 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
     return _xnamed(r, name)
 
 
-def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
+def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name='',
+                                               **Osgr_kwds):
     '''Convert a lat-/longitude point to an OSGR coordinate.
 
-       @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
-                      geodetic C{LatLon} point.
-       @keyword lon: Optional longitude in degrees (scalar or C{None}).
-       @keyword datum: Optional datum to convert (C{Datum}).
-       @keyword Osgr: Optional (sub-)class to return the OSGR
-                      coordinate (L{Osgr}) or C{None}.
-       @keyword name: Optional B{C{Osgr}} name (C{str}).
+       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal) geodetic
+                    C{LatLon} point.
+       @kwarg lon: Optional longitude in degrees (scalar or C{None}).
+       @kwarg datum: Optional datum to convert (C{Datum}).
+       @kwarg Osgr: Optional class to return the OSGR coordinate
+                    (L{Osgr}) or C{None}.
+       @kwarg name: Optional B{C{Osgr}} name (C{str}).
+       @kwarg Osgr_kwds: Optional, additional B{C{Osgr}} keyword
+                         arguments, ignored if B{C{Osgr=None}}.
 
        @return: The OSGR coordinate (B{C{Osgr}}) or an
                 L{EasNor2Tuple}C{(easting, northing)} if B{C{Osgr}}
@@ -455,7 +458,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=''):
     if Osgr is None:
         r = EasNor2Tuple(e, n)
     else:
-        r = Osgr(e, n)
+        r = Osgr(e, n, **Osgr_kwds)
         if lon is None and isinstance(latlon, _LLEB):
             r._latlon = latlon  # XXX weakref(latlon)?
     return _xnamed(r, name)

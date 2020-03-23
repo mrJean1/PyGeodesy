@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.02.25'
+__version__ = '20.03.17'
 
 
 def _c2(*names):
@@ -72,7 +72,7 @@ _KeyWords = ('altitude', 'antipode', 'area', 'azimuth', 'bearing',
              'Terrestrial-Reference-Frame', 'TMcoords', 'TMExact',
              'TransverseMercatorExact', 'TRF', 'trigonometry',
              'unroll', 'UPS', 'UTM', 'UTM/UPS',
-             'Vermeille', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
+             'Veness', 'Vermeille', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
              'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam', 'You')
 
 setup(name='PyGeodesy',

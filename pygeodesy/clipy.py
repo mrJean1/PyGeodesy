@@ -16,7 +16,7 @@ from pygeodesy.points import _imdex2, boundsOf, isclockwise, isconvex_, \
                               LatLon_ as LL_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '20.03.09'
+__version__ = '20.03.19'
 
 
 def _eq(p1, p2):  # near-equal points
@@ -108,11 +108,11 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE
        U{Cohen-Sutherland
        <https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} algorithm.
 
-       @param points: The points (C{LatLon}[]).
-       @param lowerleft: Bottom-left corner of the clip box (C{LatLon}).
-       @param upperright: Top-right corner of the clip box (C{LatLon}).
-       @keyword closed: Optionally, close the path (C{bool}).
-       @keyword inull: Optionally, include null edges if inside (C{bool}).
+       @arg points: The points (C{LatLon}[]).
+       @arg lowerleft: Bottom-left corner of the clip box (C{LatLon}).
+       @arg upperright: Top-right corner of the clip box (C{LatLon}).
+       @kwarg closed: Optionally, close the path (C{bool}).
+       @kwarg inull: Optionally, include null edges if inside (C{bool}).
 
        @return: Yield a L{ClipCS3Tuple}C{(start, end, index)} for each
                 edge of the clipped path.
@@ -299,12 +299,12 @@ def clipSH(points, corners, inull=False, closed=False):
        U{Sutherland-Hodgman
        <https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm>} algorithm.
 
-       @param points: The polygon points (C{LatLon}[]).
-       @param corners: Three or more points defining a convex clip
-                       region (C{LatLon}[]) or two points to specify
-                       a rectangular clip box.
-       @keyword inull: Optionally, include null edges (C{bool}).
-       @keyword closed: Close the clipped points (C{bool}).
+       @arg points: The polygon points (C{LatLon}[]).
+       @arg corners: Three or more points defining a convex clip
+                     region (C{LatLon}[]) or two points to specify
+                     a rectangular clip box.
+       @kwarg inull: Optionally, include null edges (C{bool}).
+       @kwarg closed: Close the clipped points (C{bool}).
 
        @return: Yield the clipped points (C{LatLon}[]).
 
@@ -323,12 +323,12 @@ def clipSH3(points, corners, inull=False, closed=False):
        U{Sutherland-Hodgman
        <https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm>} algorithm.
 
-       @param points: The polygon points (C{LatLon}[]).
-       @param corners: Three or more points defining a convex clip
-                       region (C{LatLon}[]) or two points to specify
-                       a rectangular clip box.
-       @keyword inull: Optionally, include null edges (C{bool}).
-       @keyword closed: Close the clipped points (C{bool}).
+       @arg points: The polygon points (C{LatLon}[]).
+       @arg corners: Three or more points defining a convex clip
+                     region (C{LatLon}[]) or two points to specify
+                     a rectangular clip box.
+       @kwarg inull: Optionally, include null edges (C{bool}).
+       @kwarg closed: Close the clipped points (C{bool}).
 
        @return: Yield a L{ClipSH3Tuple}C{(start, end, original)} for
                 each edge of the clipped polygon.

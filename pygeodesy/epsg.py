@@ -24,7 +24,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.epsg + ('decode2', 'encode')
-__version__ = '20.03.09'
+__version__ = '20.03.19'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -55,7 +55,7 @@ class Epsg(_NamedInt):
         '''New L{Epsg} European Petroleum Survey Group (EPSG) code from
            a UTM/USP coordinate or other EPSG code.
 
-           @param eisu: Other (L{Epsg}, C{int}, C{str}, L{Utm} or L{Ups}).
+           @arg eisu: Other (L{Epsg}, C{int}, C{str}, L{Utm} or L{Ups}).
 
            @return: New L{Epsg}.
 
@@ -136,7 +136,7 @@ def decode2(epsg):
     '''Determine the UTM/USP zone and hemisphere from a given
        U{EPSG<https://www.EPSG-Registry.org>}.
 
-       @param epsg: The EPSG (L{Epsg}, C{str} or C{scalar}).
+       @arg epsg: The EPSG (L{Epsg}, C{str} or C{scalar}).
 
        @return: A L{UtmUps2Tuple}C{(zone, hemipole)}.
 
@@ -175,15 +175,15 @@ def encode(zone, hemipole='', band=''):
     '''Determine the U{EPSG<https://www.EPSG-Registry.org>} code for
        a given UTM/UPS zone number, hemisphere/pole and/or Band.
 
-       @param zone: The (longitudinal) UTM zone (C{int}, 1..60) or UPS
-                    zone (C{int}, 0) or UTM zone with/-out (latitudinal)
-                    Band letter (C{str}, '01C'..'60X') or UPS zone
-                    with/-out (polar) Band letter (C{str}, '00A', '00B',
-                    '00Y' or '00Z').
-       @keyword hemipole: UTM/UPS hemisphere or UPS projection top/center
-                          pole (C{str}, C{'N[orth]'} or C{'S[outh]'}).
-       @keyword band: Optional (latitudinal) UTM or (polar) UPS Band
-                      letter (C{str}).
+       @arg zone: The (longitudinal) UTM zone (C{int}, 1..60) or UPS
+                  zone (C{int}, 0) or UTM zone with/-out (latitudinal)
+                  Band letter (C{str}, '01C'..'60X') or UPS zone
+                  with/-out (polar) Band letter (C{str}, '00A', '00B',
+                  '00Y' or '00Z').
+       @kwarg hemipole: UTM/UPS hemisphere or UPS projection top/center
+                        pole (C{str}, C{'N[orth]'} or C{'S[outh]'}).
+       @kwarg band: Optional (latitudinal) UTM or (polar) UPS Band
+                    letter (C{str}).
 
        @return: C{EPSG} code (L{Epsg}).
 

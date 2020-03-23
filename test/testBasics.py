@@ -4,13 +4,14 @@
 # Test some of the basics.
 
 __all__ = ('Tests',)
-__version__ = '20.03.15'
+__version__ = '20.03.22'
 
 from base import TestsBase
 
 from pygeodesy import INF, NAN, NEG0, clips, halfs2, \
                       isint, isfinite, isneg0, isscalar, \
-                      limiterrors, map1, property_RO, splice
+                      LenError, limiterrors, map1, \
+                      property_RO, splice
 
 
 class C(object):
@@ -71,6 +72,12 @@ class Tests(TestsBase):
         self.test('splice', (a, b, c), map1(type(a), (0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1)))
         t = tuple(splice(range(12), n=5))  # PYCHOK False
         self.test('splice', t, map1(type(t[0]), (0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9)))
+
+        try:
+            raise LenError(LenError, a=1, b=2, c=3, d=4)
+            self.test('LenError', None, LenError)
+        except ValueError as x:
+            self.test('LenError', str(x), 'LenError(a, b, c, d) len: 1 vs 2 vs 3 vs 4')
 
 
 if __name__ == '__main__':

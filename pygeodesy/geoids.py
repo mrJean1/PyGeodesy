@@ -86,7 +86,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '20.03.12'
+__version__ = '20.03.20'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -148,9 +148,9 @@ class _GeoidBase(_HeightBase):
         '''(INTERNAL) Set up the grid axes, the C{SciPy} interpolator
            and several internal geoid attributes.
 
-           @param hs: Grid knots with known height (C{numpy 2darray}).
-           @param p: The C{slat, wlon, nlat, nlon, dlat, dlon} and
-                     other geoid parameters (C{INTERNAL}).
+           @arg hs: Grid knots with known height (C{numpy 2darray}).
+           @arg p: The C{slat, wlon, nlat, nlon, dlat, dlon} and
+                   other geoid parameters (C{INTERNAL}).
 
            @raise GeoidError: Invalid B{C{kind}}.
 
@@ -201,8 +201,8 @@ class _GeoidBase(_HeightBase):
     def __call__(self, *llis):
         '''Interpolate the geoid height for one or several locations.
 
-           @param llis: The location or locations (C{LatLon}, ... or
-                        C{LatLon}s).
+           @arg llis: The location or locations (C{LatLon}, ... or
+                      C{LatLon}s).
 
            @return: A single interpolated geoid height (C{float}) or
                     a list or tuple of interpolated geoid heights
@@ -348,13 +348,13 @@ class _GeoidBase(_HeightBase):
     def center(self, LatLon=None):
         '''Return the center location and height of this geoid.
 
-           @keyword LatLon: Optional (sub-)class to return the location
-                            (C{LatLon}) and height or C{None}.
+           @kwarg LatLon: Optional class to return the location and height
+                          (C{LatLon}) or C{None}.
 
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance with
-                    the lat-, longitude and height of the grid center
-                    location.
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
+                    with the lat-, longitude and height of the grid
+                    center location.
         '''
         if self._center is None:
             self._center = self._llh3(favg(self._lat_lo, self._lat_hi),
@@ -384,8 +384,8 @@ class _GeoidBase(_HeightBase):
     def height(self, lats, lons):
         '''Interpolate the geoid height for one or several lat-/longitudes.
 
-           @param lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @param lons: Longitude or longitudes (C{degrees} or C{degrees}s).
+           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
+           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
 
            @return: A single interpolated geoid height (C{float}) or a
                     list of interpolated geoid heights (C{float}s).
@@ -408,11 +408,11 @@ class _GeoidBase(_HeightBase):
     def highest(self, LatLon=None, **unused):
         '''Return the location and largest height of this geoid.
 
-           @keyword LatLon: Optional (sub-)class to return the location
-                            (C{LatLon}) and height or C{None}.
+           @kwarg LatLon: Optional class to return the location and height
+                          (C{LatLon}) or C{None}.
 
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
                     with the lat-, longitude and height of the highest
                     grid location.
         '''
@@ -441,11 +441,11 @@ class _GeoidBase(_HeightBase):
     def lowerleft(self, LatLon=None):
         '''Return the lower-left location and height of this geoid.
 
-           @keyword LatLon: Optional (sub-)class to return the location
-                            (C{LatLon}) and height or C{None}.
+           @kwarg LatLon: Optional class to return the location
+                          (C{LatLon}) and height or C{None}.
 
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
                     with the lat-, longitude and height of the lower-left,
                     SW grid corner.
         '''
@@ -456,11 +456,11 @@ class _GeoidBase(_HeightBase):
     def lowerright(self, LatLon=None):
         '''Return the lower-right location and height of this geoid.
 
-           @keyword LatLon: Optional (sub-)class to return the location
-                            (C{LatLon}) and height or C{None}.
+           @kwarg LatLon: Optional class to return the location and height
+                          (C{LatLon}) or C{None}.
 
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
                     with the lat-, longitude and height of the lower-right,
                     SE grid corner.
         '''
@@ -471,11 +471,11 @@ class _GeoidBase(_HeightBase):
     def lowest(self, LatLon=None, **unused):
         '''Return the location and the lowest height of this geoid.
 
-           @keyword LatLon: Optional (sub-)class to return the location
-                            (C{LatLon}) and height or C{None}.
+           @kwarg LatLon: Optional class to return the location and height
+                          (C{LatLon}) or C{None}.
 
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
                     with the lat-, longitude and height of the lowest
                     grid location.
         '''
@@ -513,8 +513,8 @@ class _GeoidBase(_HeightBase):
         '''Check whether a location is outside this geoid's
            lat-/longitude or crop range.
 
-           @param lat: The latitude (C{degrees}).
-           @param lon: The longitude (C{degrees}).
+           @arg lat: The latitude (C{degrees}).
+           @arg lon: The longitude (C{degrees}).
 
            @return: A 1- or 2-character C{str} if outside or an
                     empty C{str} if inside.
@@ -553,11 +553,11 @@ class _GeoidBase(_HeightBase):
     def toStr(self, prec=3, sep=', '):  # PYCHOK signature
         '''This geoid and all geoid attributes as a string.
 
-           @keyword prec: Optional number of decimal digits (0..9 or
-                          C{None} for default).  Trailing zero decimals
-                          are stripped for B{C{prec}} values of 1 and above,
-                          but kept for negative B{C{prec}} values.
-           @keyword sep: Optional separator (C{str}).
+           @kwarg prec: Optional number of decimal digits (0..9 or
+                        C{None} for default).  Trailing zero decimals
+                        are stripped for B{C{prec}} values of 1 and above,
+                        but kept for negative B{C{prec}} values.
+           @kwarg sep: Optional separator (C{str}).
 
            @return: Geoid name and attributes (C{str}).
         '''
@@ -575,11 +575,11 @@ class _GeoidBase(_HeightBase):
     def upperleft(self, LatLon=None):
         '''Return the upper-left location and height of this geoid.
 
-           @keyword LatLon: Optional (sub-)class to return the location
-                            (C{LatLon}) and height or C{None}.
+           @kwarg LatLon: Optional class to return the location and height
+                          (C{LatLon}) or C{None}.
 
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
                     with the lat-, longitude and height of the upper-left,
                     NW grid corner.
         '''
@@ -590,11 +590,11 @@ class _GeoidBase(_HeightBase):
     def upperright(self, LatLon=None):
         '''Return the upper-right location and height of this geoid.
 
-           @keyword LatLon: Optional (sub-)class to return the location
-                            (C{LatLon}) and height or C{None}.
+           @kwarg LatLon: Optional class to return the location and height
+                          (C{LatLon}) or C{None}.
 
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
                     with the lat-, longitude and height of the upper-right,
                     NE grid corner.
         '''
@@ -626,20 +626,20 @@ class GeoidG2012B(_GeoidBase):
                                    kind=3, name='', smooth=0):
         '''New L{GeoidG2012B} interpolator.
 
-           @param g2012b_bin: A C{GEOID12B} grid file name (C{.bin}).
-           @keyword crop: Optional crop box, not supported (C{None}).
-           @keyword datum: Optional grid datum (C{Datum}), default C{WGS84}.
-           @keyword kind: C{scipy.interpolate} order (C{int}), use 1..5 for
-                          U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
-                          reference/generated/scipy.interpolate.RectBivariateSpline.html>},
-                          -2 for U{interp2d linear<https://docs.SciPy.org/doc/scipy/
-                          reference/generated/scipy.interpolate.interp2d.html>}, -3
-                          for C{interp2d cubic} or -5 for C{interp2d quintic}.
-           @keyword name: Optional geoid name (C{str}).
-           @keyword smooth: Smoothing factor for U{RectBivariateSpline
-                            <https://docs.SciPy.org/doc/scipy/reference/generated/
-                            scipy.interpolate.RectBivariateSpline.html>}
-                            only (C{int}).
+           @arg g2012b_bin: A C{GEOID12B} grid file name (C{.bin}).
+           @kwarg crop: Optional crop box, not supported (C{None}).
+           @kwarg datum: Optional grid datum (C{Datum}), default C{WGS84}.
+           @kwarg kind: C{scipy.interpolate} order (C{int}), use 1..5 for
+                        U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
+                        reference/generated/scipy.interpolate.RectBivariateSpline.html>},
+                        -2 for U{interp2d linear<https://docs.SciPy.org/doc/scipy/
+                        reference/generated/scipy.interpolate.interp2d.html>}, -3
+                        for C{interp2d cubic} or -5 for C{interp2d quintic}.
+           @kwarg name: Optional geoid name (C{str}).
+           @kwarg smooth: Smoothing factor for U{RectBivariateSpline
+                          <https://docs.SciPy.org/doc/scipy/reference/generated/
+                          scipy.interpolate.RectBivariateSpline.html>}
+                          only (C{int}).
 
            @raise GeoidError: G2012B grid file B{C{g2012b_bin}} issue, non-C{None}
                               B{C{crop}} or invalid B{C{kind}} or B{C{smooth}}.
@@ -784,18 +784,18 @@ class GeoidKarney(_GeoidBase):
                                 kind=3, name='', smooth=None):
         '''New L{GeoidKarney} interpolator.
 
-           @param egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
-                           html/geoid.html#geoidinst>} file name (C{egm*.pgm}).
-           @keyword crop: Optional box to limit geoid locations, a 4-tuple (C{south,
-                          west, north, east}), 2-tuple (C{(south, west), (north,
-                          east)}) or 2, in C{degrees90} lat- and C{degrees180}
-                          longitudes or a 2-tuple (C{LatLonSW, LatLonNE}) of
-                          C{LatLon} instances.
-           @keyword datum: Optional grid datum (C{Datum}), default C{WGS84}.
-           @keyword kind: Interpolation order (C{int}), 2 for C{bilinear} or 3
-                          for C{cubic}.
-           @keyword name: Optional geoid name (C{str}).
-           @keyword smooth: Smoothing factor, unsupported (C{None}).
+           @arg egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
+                         html/geoid.html#geoidinst>} file name (C{egm*.pgm}).
+           @kwarg crop: Optional box to limit geoid locations, a 4-tuple (C{south,
+                        west, north, east}), 2-tuple (C{(south, west), (north,
+                        east)}) or 2, in C{degrees90} lat- and C{degrees180}
+                        longitudes or a 2-tuple (C{LatLonSW, LatLonNE}) of
+                        C{LatLon} instances.
+           @kwarg datum: Optional grid datum (C{Datum}), default C{WGS84}.
+           @kwarg kind: Interpolation order (C{int}), 2 for C{bilinear} or 3
+                        for C{cubic}.
+           @kwarg name: Optional geoid name (C{str}).
+           @kwarg smooth: Smoothing factor, unsupported (C{None}).
 
            @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}},
                               B{C{kind}} or B{C{smooth}}.
@@ -829,8 +829,8 @@ class GeoidKarney(_GeoidBase):
     def __call__(self, *llis):
         '''Interpolate the geoid height for one or several locations.
 
-           @param llis: The location or locations (C{LatLon}, ... or
-                        C{LatLon}s).
+           @arg llis: The location or locations (C{LatLon}, ... or
+                      C{LatLon}s).
 
            @return: A single interpolated geoid height (C{float}) or
                     a list or tuple of interpolated geoid heights
@@ -1038,8 +1038,8 @@ class GeoidKarney(_GeoidBase):
     def height(self, lats, lons):
         '''Interpolate the geoid height for one or several lat-/longitudes.
 
-           @param lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @param lons: Longitude or longitudes (C{degrees} or C{degrees}s).
+           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
+           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
 
            @return: A single interpolated geoid height (C{float}) or a
                     list of interpolated geoid heights (C{float}s).
@@ -1055,13 +1055,12 @@ class GeoidKarney(_GeoidBase):
     def highest(self, LatLon=None, full=False):  # PYCHOK full
         '''Return the location and largest height of this geoid.
 
-           @keyword LatLon: Optional (sub-)class to return the location
-                            (C{LatLon}) and height or C{None}.
-           @keyword full: Search the full or limited latitude range
-                          (C{bool}).
+           @kwarg LatLon: Optional class to return the location and height
+                          (C{LatLon}) or C{None}.
+           @kwarg full: Search the full or limited latitude range (C{bool}).
 
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
                     with the lat-, longitude and height of the highest
                     grid location.
         '''
@@ -1073,13 +1072,12 @@ class GeoidKarney(_GeoidBase):
     def lowest(self, LatLon=None, full=False):  # PYCHOK full
         '''Return the location and the lowest height of this geoid.
 
-           @keyword LatLon: Optional (sub-)class to return the location
-                            (C{LatLon}) and height or C{None}.
-           @keyword full: Search the full or limited latitude range
-                          (C{bool}).
+           @kwarg LatLon: Optional class to return the location and height
+                          (C{LatLon}) or C{None}.
+           @kwarg full: Search the full or limited latitude range (C{bool}).
 
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)} if
-                    B{C{LatLon}} is C{None} or a B{C{LatLon}} instance
+           @return: If B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} otherwise a B{C{LatLon}} instance
                     with the lat-, longitude and height of the lowest
                     grid location.
         '''
@@ -1131,24 +1129,24 @@ class GeoidPGM(_GeoidBase):
                                 kind=3, name='', smooth=0):
         '''New L{GeoidPGM} interpolator.
 
-           @param egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
-                           html/geoid.html#geoidinst>} file name (C{egm*.pgm}).
-           @keyword crop: Optional box to crop B{C{egm_pgm}}, a 4-tuple (C{south, west,
-                          north, east}) or 2-tuple (C{(south, west), (north, east)}),
-                          in C{degrees90} lat- and C{degrees180} longitudes or a
-                          2-tuple (C{LatLonSW, LatLonNE}) of C{LatLon} instances.
-           @keyword datum: Optional grid datum (C{Datum}), default C{WGS84}.
-           @keyword kind: C{scipy.interpolate} order (C{int}), use 1..5 for
-                          U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
-                          reference/generated/scipy.interpolate.RectBivariateSpline.html>},
-                          -2 for U{interp2d linear<https://docs.SciPy.org/doc/scipy/
-                          reference/generated/scipy.interpolate.interp2d.html>}, -3
-                          for C{interp2d cubic} or -5 for C{interp2d quintic}.
-           @keyword name: Optional geoid name (C{str}).
-           @keyword smooth: Smoothing factor for U{RectBivariateSpline
-                            <https://docs.SciPy.org/doc/scipy/reference/generated/
-                            scipy.interpolate.RectBivariateSpline.html>}
-                            only (C{int}).
+           @arg egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
+                         html/geoid.html#geoidinst>} file name (C{egm*.pgm}).
+           @kwarg crop: Optional box to crop B{C{egm_pgm}}, a 4-tuple (C{south, west,
+                        north, east}) or 2-tuple (C{(south, west), (north, east)}),
+                        in C{degrees90} lat- and C{degrees180} longitudes or a
+                        2-tuple (C{LatLonSW, LatLonNE}) of C{LatLon} instances.
+           @kwarg datum: Optional grid datum (C{Datum}), default C{WGS84}.
+           @kwarg kind: C{scipy.interpolate} order (C{int}), use 1..5 for
+                        U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
+                        reference/generated/scipy.interpolate.RectBivariateSpline.html>},
+                        -2 for U{interp2d linear<https://docs.SciPy.org/doc/scipy/
+                        reference/generated/scipy.interpolate.interp2d.html>}, -3
+                        for C{interp2d cubic} or -5 for C{interp2d quintic}.
+           @kwarg name: Optional geoid name (C{str}).
+           @kwarg smooth: Smoothing factor for U{RectBivariateSpline
+                          <https://docs.SciPy.org/doc/scipy/reference/generated/
+                          scipy.interpolate.RectBivariateSpline.html>}
+                          only (C{int}).
 
            @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}},
                               B{C{kind}} or B{C{smooth}}.
@@ -1515,8 +1513,8 @@ def egmGeoidHeights(GeoidHeights_dat):
        U{Test data for Geoids <https://GeographicLib.SourceForge.io/html/
        geoid.html#testgeoid>}.
 
-       @param GeoidHeights_dat: The un-gz-ed C{GeoidHeights.dat} file
-                                (C{str} or C{file} handle).
+       @arg GeoidHeights_dat: The un-gz-ed C{GeoidHeights.dat} file
+                              (C{str} or C{file} handle).
 
        @return: For each test, yield a L{GeoidHeight5Tuple}C{(lat, lon,
                 egm84, egm96, egm2008)}.

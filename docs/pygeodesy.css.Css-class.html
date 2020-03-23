@@ -112,7 +112,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.css.Css-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Convert this <a href="pygeodesy.css.Css-class.html" 
       class="link">Css</a> to an (ellipsoidal) geodetic point.</td>
           <td align="right" valign="top">
@@ -208,72 +209,63 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.css.Css-class.html#azi" class="summary-name">azi</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.css.Css-class.html#azi" class="summary-name">azi</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.css.Css-class.html#azimuth" class="summary-name">azimuth</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.css.Css-class.html#azimuth" class="summary-name">azimuth</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.css.Css-class.html#cs0" class="summary-name">cs0</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.css.Css-class.html#cs0" class="summary-name">cs0</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.css.Css-class.html#easting" class="summary-name">easting</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.css.Css-class.html#easting" class="summary-name">easting</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.css.Css-class.html#height" class="summary-name">height</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.css.Css-class.html#height" class="summary-name">height</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.css.Css-class.html#latlon" class="summary-name">latlon</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.css.Css-class.html#latlon" class="summary-name">latlon</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.css.Css-class.html#northing" class="summary-name">northing</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.css.Css-class.html#northing" class="summary-name">northing</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.css.Css-class.html#rk" class="summary-name">rk</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.css.Css-class.html#rk" class="summary-name">rk</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.css.Css-class.html#reciprocal" class="summary-name">reciprocal</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.css.Css-class.html#reciprocal" class="summary-name">reciprocal</a>
     </td>
   </tr>
   <tr>
@@ -364,7 +356,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -376,20 +369,23 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional, ellipsoidal (sub-)class to return the geodetic point 
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional, ellipsoidal class to return the geodetic point 
           (<code>LatLon</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
           (<code>meter</code>).</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <b><code>LatLon=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The point (<b><code>LatLon</code></b>) or a <a 
+        <dd>The geodetic point (<b><code>LatLon</code></b>) or if 
+          <b><code>LatLon</code></b> is <code>None</code>, a <a 
           href="pygeodesy.named.LatLon4Tuple-class.html" 
           class="link">LatLon4Tuple</a><code>(lat, lon, height, 
-          datum)</code> if <b><code>LatLon</code></b> is <code>None</code>.</dd>
+          datum)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>LatLon</code></b> or <b><code>datum</code></b> is not 
-        ellipsoidal.</li>
+        ellipsoidal or invalid <b><code>LatLon_kwds</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -493,13 +489,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">azi</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">azi(<span class="summary-sig-arg">self</span>)</span>
         - Get the azimuth of easting direction (<code>degrees</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -513,13 +509,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">azimuth</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">azi(<span class="summary-sig-arg">self</span>)</span>
         - Get the azimuth of easting direction (<code>degrees</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -533,14 +529,14 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">cs0</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">cs0(<span class="summary-sig-arg">self</span>)</span>
         - Get the projection (<a href="pygeodesy.css.CassiniSoldner-class.html" 
 class="link">CassiniSoldner</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -554,13 +550,13 @@ class="link">CassiniSoldner</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">easting</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">easting(<span class="summary-sig-arg">self</span>)</span>
         - Get the easting (<code>meter</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -574,13 +570,13 @@ class="link">CassiniSoldner</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">height</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>)</span>
         - Get the height (<code>meter</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -594,15 +590,15 @@ class="link">CassiniSoldner</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlon</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat- and longitude (<a 
 href="pygeodesy.named.LatLon2Tuple-class.html" 
 class="link">LatLon2Tuple</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -616,13 +612,13 @@ class="link">LatLon2Tuple</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">northing</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">northing(<span class="summary-sig-arg">self</span>)</span>
         - Get the northing (<code>meter</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -636,13 +632,13 @@ class="link">LatLon2Tuple</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">rk</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">rk(<span class="summary-sig-arg">self</span>)</span>
         - Get the reciprocal of azimuthal northing scale (<code>degrees</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -656,13 +652,13 @@ class="link">LatLon2Tuple</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">reciprocal</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">rk(<span class="summary-sig-arg">self</span>)</span>
         - Get the reciprocal of azimuthal northing scale (<code>degrees</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -702,7 +698,7 @@ class="link">LatLon2Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:39 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

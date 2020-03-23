@@ -21,7 +21,7 @@ from math import atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.03.09'
+__version__ = '20.03.19'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -40,8 +40,8 @@ def antipode(lat, lon):
     '''Return the antipode, the point diametrically opposite
        to a given point in C{degrees}.
 
-       @param lat: Latitude (C{degrees}).
-       @param lon: Longitude (C{degrees}).
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
 
        @return: A L{LatLon2Tuple}C{(lat, lon)}.
 
@@ -54,8 +54,8 @@ def antipode_(phi, lam):
     '''Return the antipode, the point diametrically opposite
        to a given point in C{radians}.
 
-       @param phi: Latitude (C{radians}).
-       @param lam: Longitude (C{radians}).
+       @arg phi: Latitude (C{radians}).
+       @arg lam: Longitude (C{radians}).
 
        @return: A L{PhiLam2Tuple}C{(phi, lam)}.
 
@@ -68,12 +68,12 @@ def bearing(lat1, lon1, lat2, lon2, **options):
     '''Compute the initial or final bearing (forward or reverse
        azimuth) between a (spherical) start and end point.
 
-       @param lat1: Start latitude (C{degrees}).
-       @param lon1: Start longitude (C{degrees}).
-       @param lat2: End latitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword options: Optional keyword arguments for function
-                         L{bearing_}.
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg options: Optional keyword arguments for function
+                       L{bearing_}.
 
        @return: Initial or final bearing (compass C{degrees360}) or
                 zero if start and end point coincide.
@@ -86,13 +86,13 @@ def bearing_(a1, b1, a2, b2, final=False, wrap=False):
     '''Compute the initial or final bearing (forward or reverse
        azimuth) between a (spherical) start and end point.
 
-       @param a1: Start latitude (C{radians}).
-       @param b1: Start longitude (C{radians}).
-       @param a2: End latitude (C{radians}).
-       @param b2: End longitude (C{radians}).
-       @keyword final: Return final bearing if C{True}, initial
-                       otherwise (C{bool}).
-       @keyword wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+       @arg a1: Start latitude (C{radians}).
+       @arg b1: Start longitude (C{radians}).
+       @arg a2: End latitude (C{radians}).
+       @arg b2: End longitude (C{radians}).
+       @kwarg final: Return final bearing if C{True}, initial
+                     otherwise (C{bool}).
+       @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
 
        @return: Initial or final bearing (compass C{radiansPI2}) or
                 zero if start and end point coincide.
@@ -121,13 +121,13 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
        hundred Km or Miles.  Use function L{bearing} for longer
        vectors.
 
-       @param lat1: From latitude (C{degrees}).
-       @param lon1: From longitude (C{degrees}).
-       @param lat2: To latitude (C{degrees}).
-       @param lon2: To longitude (C{degrees}).
-       @keyword adjust: Adjust the longitudinal delta by the
-                        cosine of the mean latitude (C{bool}).
-       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @arg lat1: From latitude (C{degrees}).
+       @arg lon1: From longitude (C{degrees}).
+       @arg lat2: To latitude (C{degrees}).
+       @arg lon2: To longitude (C{degrees}).
+       @kwarg adjust: Adjust the longitudinal delta by the
+                      cosine of the mean latitude (C{bool}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Compass angle from North (C{degrees360}).
 
@@ -147,13 +147,13 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
        the U{Equirectangular Approximation / Projection
        <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
-       @param lat1: Start latitude (C{degrees}).
-       @param lon1: Start longitude (C{degrees}).
-       @param lat2: End latitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword options: Optional keyword arguments for function
-                         L{equirectangular_}.
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg options: Optional keyword arguments for function
+                       L{equirectangular_}.
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -175,15 +175,15 @@ def equirectangular_(lat1, lon1, lat2, lon2,
        hundred Km or Miles, see the B{C{limit}} keyword argument and
        the L{LimitError}.
 
-       @param lat1: Start latitude (C{degrees}).
-       @param lon1: Start longitude (C{degrees}).
-       @param lat2: End latitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword adjust: Adjust the wrapped, unrolled longitudinal
-                        delta by the cosine of the mean latitude (C{bool}).
-       @keyword limit: Optional limit for lat- and longitudinal deltas
-                       (C{degrees}) or C{None} or C{0} for unlimited.
-       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta
+                      by the cosine of the mean latitude (C{bool}).
+       @kwarg limit: Optional limit for lat- and longitudinal deltas
+                     (C{degrees}) or C{None} or C{0} for unlimited.
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: A L{Distance4Tuple}C{(distance2, delta_lat, delta_lon,
                 unroll_lon2)}.
@@ -217,14 +217,14 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
     '''Approximate the C{Euclidian} distance between two (spherical) points.
 
-       @param lat1: Start latitude (C{degrees}).
-       @param lon1: Start longitude (C{degrees}).
-       @param lat2: End latitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword adjust: Adjust the longitudinal delta by the
-                        cosine of the mean latitude (C{bool}).
-       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg adjust: Adjust the longitudinal delta by the cosine
+                      of the mean latitude (C{bool}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -245,11 +245,11 @@ def euclidean_(a2, a1, b21, adjust=True):
     '''Approximate the I{angular} C{Euclidean} distance between two
        (spherical) points.
 
-       @param a2: End latitude (C{radians}).
-       @param a1: Start latitude (C{radians}).
-       @param b21: Longitudinal delta, M{end-start} (C{radians}).
-       @keyword adjust: Adjust the longitudinal delta by the
-                        cosine of the mean latitude (C{bool}).
+       @arg a2: End latitude (C{radians}).
+       @arg a1: Start latitude (C{radians}).
+       @arg b21: Longitudinal delta, M{end-start} (C{radians}).
+       @kwarg adjust: Adjust the longitudinal delta by the cosine
+                      of the mean latitude (C{bool}).
 
        @return: Angular distance (C{radians}).
 
@@ -269,12 +269,12 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        U{Haversine<https://www.Movable-Type.co.UK/scripts/latlong.html>}
        formula.
 
-       @param lat1: Start latitude (C{degrees}).
-       @param lon1: Start longitude (C{degrees}).
-       @param lat2: End latitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -298,9 +298,9 @@ def haversine_(a2, a1, b21):
        using the U{Haversine<https://www.Movable-Type.co.UK/scripts/latlong.html>}
        formula.
 
-       @param a2: End latitude (C{radians}).
-       @param a1: Start latitude (C{radians}).
-       @param b21: Longitudinal delta, M{end-start} (C{radians}).
+       @arg a2: End latitude (C{radians}).
+       @arg a1: Start latitude (C{radians}).
+       @arg b21: Longitudinal delta, M{end-start} (C{radians}).
 
        @return: Angular distance (C{radians}).
 
@@ -324,10 +324,10 @@ def heightOf(angle, distance, radius=R_M):
     '''Determine the height above the (spherical) earth after
        traveling along a straight line at a given tilt.
 
-       @param angle: Tilt angle above horizontal (C{degrees}).
-       @param distance: Distance along the line (C{meter} or same units
-                        as B{C{radius}}).
-       @keyword radius: Optional mean earth radius (C{meter}).
+       @arg angle: Tilt angle above horizontal (C{degrees}).
+       @arg distance: Distance along the line (C{meter} or same units as
+                      B{C{radius}}).
+       @kwarg radius: Optional mean earth radius (C{meter}).
 
        @return: Height (C{meter}, same units as B{C{distance}} and B{C{radius}}).
 
@@ -357,9 +357,9 @@ def horizon(height, radius=R_M, refraction=False):
     '''Determine the distance to the horizon from a given altitude
        above the (spherical) earth.
 
-       @param height: Altitude (C{meter} or same units as B{C{radius}}).
-       @keyword radius: Optional mean earth radius (C{meter}).
-       @keyword refraction: Consider atmospheric refraction (C{bool}).
+       @arg height: Altitude (C{meter} or same units as B{C{radius}}).
+       @kwarg radius: Optional mean earth radius (C{meter}).
+       @kwarg refraction: Consider atmospheric refraction (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{height}} and B{C{radius}}).
 
@@ -381,11 +381,11 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
     '''Check whether two points are antipodal, on diametrically
        opposite sides of the earth.
 
-       @param lat1: Latitude of one point (C{degrees}).
-       @param lon1: Longitude of one point (C{degrees}).
-       @param lat2: Latitude of the other point (C{degrees}).
-       @param lon2: Longitude of the other point (C{degrees}).
-       @keyword eps: Tolerance for near-equality (C{degrees}).
+       @arg lat1: Latitude of one point (C{degrees}).
+       @arg lon1: Longitude of one point (C{degrees}).
+       @arg lat2: Latitude of the other point (C{degrees}).
+       @arg lon2: Longitude of the other point (C{degrees}).
+       @kwarg eps: Tolerance for near-equality (C{degrees}).
 
        @return: C{True} if points are antipodal within the
                 B{C{eps}} tolerance, C{False} otherwise.
@@ -400,11 +400,11 @@ def isantipode_(phi1, lam1, phi2, lam2, eps=EPS):
     '''Check whether two points are antipodal, on diametrically
        opposite sides of the earth.
 
-       @param phi1: Latitude of one point (C{radians}).
-       @param lam1: Longitude of one point (C{radians}).
-       @param phi2: Latitude of the other point (C{radians}).
-       @param lam2: Longitude of the other point (C{radians}).
-       @keyword eps: Tolerance for near-equality (C{radians}).
+       @arg phi1: Latitude of one point (C{radians}).
+       @arg lam1: Longitude of one point (C{radians}).
+       @arg phi2: Latitude of the other point (C{radians}).
+       @arg lam2: Longitude of the other point (C{radians}).
+       @kwarg eps: Tolerance for near-equality (C{radians}).
 
        @return: C{True} if points are antipodal within the
                 B{C{eps}} tolerance, C{False} otherwise.
@@ -419,8 +419,8 @@ def latlon2n_xyz(lat, lon):
     '''Convert lat-, longitude to C{n-vector} (normal to the
        earth's surface) X, Y and Z components.
 
-       @param lat: Latitude (C{degrees}).
-       @param lon: Longitude (C{degrees}).
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
 
        @return: A L{Vector3Tuple}C{(x, y, z)}.
 
@@ -435,9 +435,9 @@ def latlon2n_xyz(lat, lon):
 def n_xyz2latlon(x, y, z):
     '''Convert C{n-vector} components to lat- and longitude in C{degrees}.
 
-       @param x: X component (C{scalar}).
-       @param y: Y component (C{scalar}).
-       @param z: Z component (C{scalar}).
+       @arg x: X component (C{scalar}).
+       @arg y: Y component (C{scalar}).
+       @arg z: Z component (C{scalar}).
 
        @return: A L{LatLon2Tuple}C{(lat, lon)} in C{degrees}.
 
@@ -450,9 +450,9 @@ def n_xyz2latlon(x, y, z):
 def n_xyz2philam(x, y, z):
     '''Convert C{n-vector} components to lat- and longitude in C{radians}.
 
-       @param x: X component (C{scalar}).
-       @param y: Y component (C{scalar}).
-       @param z: Z component (C{scalar}).
+       @arg x: X component (C{scalar}).
+       @arg y: Y component (C{scalar}).
+       @arg z: Z component (C{scalar}).
 
        @return: A L{PhiLam2Tuple}C{(phi, lam)} in C{radian}.
 
@@ -465,8 +465,8 @@ def philam2n_xyz(phi, lam):
     '''Convert lat-, longitude to C{n-vector} (normal to the
        earth's surface) X, Y and Z components.
 
-       @param phi: Latitude (C{radians}).
-       @param lam: Longitude (C{radians}).
+       @arg phi: Latitude (C{radians}).
+       @arg lam: Longitude (C{radians}).
 
        @return: A L{Vector3Tuple}C{(x, y, z)}.
 
@@ -484,13 +484,13 @@ def philam2n_xyz(phi, lam):
 def points2(points, closed=True, base=None, Error=ValueError):
     '''Check a path or polygon represented by points.
 
-       @param points: The path or polygon points (C{LatLon}[])
-       @keyword closed: Optionally, consider the polygon closed,
-                        ignoring any duplicate or closing final
-                        B{C{points}} (C{bool}).
-       @keyword base: Optionally, check all B{C{points}} against
-                      this base class, if C{None} don't check.
-       @keyword Error: Exception to raise (C{ValueError}).
+       @arg points: The path or polygon points (C{LatLon}[])
+       @kwarg closed: Optionally, consider the polygon closed,
+                      ignoring any duplicate or closing final
+                      B{C{points}} (C{bool}).
+       @kwarg base: Optionally, check all B{C{points}} against
+                    this base class, if C{None} don't check.
+       @kwarg Error: Exception to raise (C{ValueError}).
 
        @return: A L{Points2Tuple}C{(number, points)} with the number
                 of points and the points C{list} or C{tuple}.
@@ -525,12 +525,12 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        U{Vincenty's<https://WikiPedia.org/wiki/Great-circle_distance>}
        spherical formula.
 
-       @param lat1: Start latitude (C{degrees}).
-       @param lon1: Start longitude (C{degrees}).
-       @param lat2: End latitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -550,9 +550,9 @@ def vincentys_(a2, a1, b21):
        U{Vincenty's<https://WikiPedia.org/wiki/Great-circle_distance>}
        spherical formula.
 
-       @param a2: End latitude (C{radians}).
-       @param a1: Start latitude (C{radians}).
-       @param b21: Longitudinal delta, M{end-start} (C{radians}).
+       @arg a2: End latitude (C{radians}).
+       @arg a1: Start latitude (C{radians}).
+       @arg b21: Longitudinal delta, M{end-start} (C{radians}).
 
        @return: Angular distance (C{radians}).
 

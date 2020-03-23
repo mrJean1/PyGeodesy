@@ -240,40 +240,35 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefCartesian-class.html#ecef" class="summary-name">ecef</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ecef.EcefCartesian-class.html#ecef" class="summary-name">ecef</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefCartesian-class.html#height0" class="summary-name">height0</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ecef.EcefCartesian-class.html#height0" class="summary-name">height0</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefCartesian-class.html#lat0" class="summary-name">lat0</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ecef.EcefCartesian-class.html#lat0" class="summary-name">lat0</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefCartesian-class.html#lon0" class="summary-name">lon0</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ecef.EcefCartesian-class.html#lon0" class="summary-name">lon0</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefCartesian-class.html#M" class="summary-name">M</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ecef.EcefCartesian-class.html#M" class="summary-name">M</a>
     </td>
   </tr>
   <tr>
@@ -345,7 +340,7 @@
         class="link">Ecef9Tuple</a> or <code>scalar</code> or 
         <b><code>lon0</code></b> not <code>scalar</code> for 
         <code>scalar</code> <b><code>latlonh0</code></b> or 
-        <code>abs(<b>lat0</b>)</code> exceeds 90&#176;.</li>
+        <code>abs(lat)</code> exceeds 90&#176;.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ecef</code></b>, not <a 
         href="pygeodesy.ecef.EcefKarney-class.html" 
         class="link">EcefKarney</a>.</li>
@@ -407,7 +402,7 @@
         class="link">Ecef9Tuple</a> or <code>scalar</code> or 
         <b><code>lon</code></b> not <code>scalar</code> for 
         <code>scalar</code> <b><code>latlonh</code></b> or 
-        <code>abs(<b>lat</b>)</code> exceeds 90&#176;.</li>
+        <code>abs(lat)</code> exceeds 90&#176;.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -457,7 +452,7 @@
         class="link">Ecef9Tuple</a> or <code>scalar</code> or 
         <b><code>lon0</code></b> not <code>scalar</code> for 
         <code>scalar</code> <b><code>latlonh0</code></b> or 
-        <code>abs(<b>lat</b>)</code> exceeds 90&#176;.</li>
+        <code>abs(lat)</code> exceeds 90&#176;.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -578,14 +573,14 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">ecef</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">ecef(<span class="summary-sig-arg">self</span>)</span>
         - Get the ECEF converter (<a href="pygeodesy.ecef.EcefKarney-class.html" 
 class="link">EcefKarney</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -599,13 +594,13 @@ class="link">EcefKarney</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">height0</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">height0(<span class="summary-sig-arg">self</span>)</span>
         - Get origin's height (<code>meter</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -619,13 +614,13 @@ class="link">EcefKarney</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lat0</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">lat0(<span class="summary-sig-arg">self</span>)</span>
         - Get origin's latitude (<code>degrees</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -639,13 +634,13 @@ class="link">EcefKarney</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lon0</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">lon0(<span class="summary-sig-arg">self</span>)</span>
         - Get origin's longitude (<code>degrees</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -659,13 +654,13 @@ class="link">EcefKarney</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">M</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">M(<span class="summary-sig-arg">self</span>)</span>
         - Get the rotation matrix (<code>EcefMatrix</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -705,7 +700,7 @@ class="link">EcefKarney</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:39 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

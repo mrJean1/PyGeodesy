@@ -80,7 +80,7 @@ from pygeodesy.utily import isNumpy2, isTuple2
 from math import degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '20.03.10'
+__version__ = '20.03.19'
 
 
 # try:
@@ -265,7 +265,7 @@ class _Sy(object):
         '''Ramer-Douglas-Peucker (RDP) simplification of a
            path of C{LatLon} points.
 
-           @param modified: Use modified RDP (C{bool}).
+           @arg modified: Use modified RDP (C{bool}).
         '''
         n, r = self.n, self.r
         if n > 1:
@@ -372,13 +372,13 @@ def simplify1(points, distance, radius=R_M, indices=False, **options):
        Eliminates any points closer together than the given distance
        tolerance.
 
-       @param points: Path points (C{LatLon}[]).
-       @param distance: Tolerance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (C{bool}).
-       @keyword options: Optional keyword arguments passed thru to
-                         function L{equirectangular_}.
+       @arg points: Path points (C{LatLon}[]).
+       @arg distance: Tolerance (C{meter}, same units as B{C{radius}}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg indices: Optionally return the simplified point indices
+                       instead of the simplified points (C{bool}).
+       @kwarg options: Optional keyword arguments passed thru to
+                       function L{equirectangular_}.
 
        @return: Simplified points (C{LatLon}[]).
 
@@ -415,15 +415,15 @@ def simplifyRDP(points, distance, radius=R_M, shortest=False,
        the largest distance, resulting in worst-case complexity
        M{O(n**2)} where M{n} is the number of points.
 
-       @param points: Path points (C{LatLon}[]).
-       @param distance: Tolerance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword shortest: Optional, shortest or perpendicular distance
-                          (C{bool}).
-       @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (C{bool}).
-       @keyword options: Optional keyword arguments passed thru to
-                         function L{equirectangular_}.
+       @arg points: Path points (C{LatLon}[]).
+       @arg distance: Tolerance (C{meter}, same units as B{C{radius}}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg shortest: Optional, shortest or perpendicular distance
+                        (C{bool}).
+       @kwarg indices: Optionally return the simplified point indices
+                       instead of the simplified points (C{bool}).
+       @kwarg options: Optional keyword arguments passed thru to
+                       function L{equirectangular_}.
 
        @return: Simplified points (C{LatLon}[]).
 
@@ -449,15 +449,15 @@ def simplifyRDPm(points, distance, radius=R_M, shortest=False,
        given distance tolerance, significantly reducing the run time
        (but producing results different from the original C{RDP} method).
 
-       @param points: Path points (C{LatLon}[]).
-       @param distance: Tolerance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword shortest: Optional, shortest or perpendicular distance
-                          (C{bool}).
-       @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (C{bool}).
-       @keyword options: Optional keyword arguments passed thru to
-                         function L{equirectangular_}.
+       @arg points: Path points (C{LatLon}[]).
+       @arg distance: Tolerance (C{meter}, same units as B{C{radius}}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg shortest: Optional, shortest or perpendicular distance
+                        (C{bool}).
+       @kwarg indices: Optionally return the simplified point indices
+                       instead of the simplified points (C{bool}).
+       @kwarg options: Optional keyword arguments passed thru to
+                       function L{equirectangular_}.
 
        @return: Simplified points (C{LatLon}[]).
 
@@ -478,15 +478,15 @@ def simplifyRW(points, pipe, radius=R_M, shortest=False,
        Eliminates any points too close together or within the given
        pipe tolerance along an edge.
 
-       @param points: Path points (C{LatLon}[]).
-       @param pipe: Half pipe width (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword shortest: Optional, shortest or perpendicular distance
-                          (C{bool}).
-       @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (C{bool}).
-       @keyword options: Optional keyword arguments passed thru to
-                         function L{equirectangular_}.
+       @arg points: Path points (C{LatLon}[]).
+       @arg pipe: Half pipe width (C{meter}, same units as B{C{radius}}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg shortest: Optional, shortest or perpendicular distance
+                        (C{bool}).
+       @kwarg indices: Optionally return the simplified point indices
+                       instead of the simplified points (C{bool}).
+       @kwarg options: Optional keyword arguments passed thru to
+                       function L{equirectangular_}.
 
        @return: Simplified points (C{LatLon}[]).
 
@@ -529,14 +529,14 @@ def simplifyVW(points, area, radius=R_M, attr=None,
        with the smallest triangular area, resulting in worst-case
        complexity M{O(n**2)} where M{n} is the number of points.
 
-       @param points: Path points (C{LatLon}[]).
-       @param area: Tolerance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword attr: Optional, points attribute save area value (C{str}).
-       @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (C{bool}).
-       @keyword options: Optional keyword arguments passed thru to
-                         function L{equirectangular_}.
+       @arg points: Path points (C{LatLon}[]).
+       @arg area: Tolerance (C{meter}, same units as B{C{radius}}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg attr: Optional, points attribute save area value (C{str}).
+       @kwarg indices: Optionally return the simplified point indices
+                       instead of the simplified points (C{bool}).
+       @kwarg options: Optional keyword arguments passed thru to
+                       function L{equirectangular_}.
 
        @return: Simplified points (C{LatLon}[]).
 
@@ -584,14 +584,14 @@ def simplifyVWm(points, area, radius=R_M, attr=None,
        the run time (but producing results different from the
        original C{VW} method).
 
-       @param points: Path points (C{LatLon}[]).
-       @param area: Tolerance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword attr: Optional attribute to save the area value (C{str}).
-       @keyword indices: Optionally return the simplified point indices
-                         instead of the simplified points (C{bool}).
-       @keyword options: Optional keyword arguments passed thru to
-                         function L{equirectangular_}.
+       @arg points: Path points (C{LatLon}[]).
+       @arg area: Tolerance (C{meter}, same units as B{C{radius}}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg attr: Optional attribute to save the area value (C{str}).
+       @kwarg indices: Optionally return the simplified point indices
+                       instead of the simplified points (C{bool}).
+       @kwarg options: Optional keyword arguments passed thru to
+                       function L{equirectangular_}.
 
        @return: Simplified points (C{LatLon}[]).
 

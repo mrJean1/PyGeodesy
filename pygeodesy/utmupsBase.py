@@ -5,8 +5,9 @@ u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
 for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
-from pygeodesy.basics import _IsNotError, isscalar, issubclassof, \
-                              isstr, map1, property_RO, _TypeError
+from pygeodesy.basics import _isnotError, isscalar, isstr, \
+                              issubclassof, map1, property_RO, \
+                              _TypeError, _xkwds
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datums
 from pygeodesy.dms import degDMS, parseDMS2
@@ -18,7 +19,7 @@ from pygeodesy.streprs import fstr
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '20.03.12'
+__version__ = '20.03.23'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -47,7 +48,7 @@ _UTMUPS_ZONE_MAX     = _UTM_ZONE_MAX  # PYCHOK for export too
 def _hemi(lat):  # imported by .ups, .utm
     '''Return the hemisphere letter.
 
-       @param lat: Latitude (C{degrees} or C{radians}).
+       @arg lat: Latitude (C{degrees} or C{radians}).
 
        @return: C{'N'|'S'} for north-/southern hemisphere.
     '''
@@ -72,9 +73,9 @@ def _to4lldn(latlon, lon, datum, name):
 def _to3zBhp(zone, band, hemipole=''):  # imported by .epsg, .ups, .utm, .utmups
     '''Parse UTM/UPS zone, Band letter and hemisphere/pole letter.
 
-       @param zone: Zone with/-out Band (C{scalar} or C{str}).
-       @keyword band: Optional (longitudinal/polar) Band letter (C{str}).
-       @keyword hemipole: Optional hemisphere/pole letter (C{str}).
+       @arg zone: Zone with/-out Band (C{scalar} or C{str}).
+       @kwarg band: Optional (longitudinal/polar) Band letter (C{str}).
+       @kwarg hemipole: Optional hemisphere/pole letter (C{str}).
 
        @return: 3-Tuple (C{zone, Band, hemisphere/pole}) as (C{int,
                 str, 'N'|'S'}) where C{zone} is C{0} for UPS or
@@ -114,8 +115,8 @@ def _to3zBhp(zone, band, hemipole=''):  # imported by .epsg, .ups, .utm, .utmups
 def _to3zll(lat, lon):  # imported by .ups, .utm
     '''Wrap lat- and longitude and determine UTM zone.
 
-       @param lat: Latitude (C{degrees}).
-       @param lon: Longitude (C{degrees}).
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
 
        @return: 3-Tuple (C{zone, lat, lon}) as (C{int}, C{degrees90},
                 C{degrees180}) where C{zone} is C{1..60} for UTM.
@@ -169,13 +170,19 @@ class UtmUpsBase(_NamedBase):
         '''
         return self._easting
 
-    def to2en(self, falsed=True):
+    @property_RO
+    def eastingnorthing(self):
+        '''Get easting and northing (L{EasNor2Tuple}C{(easting, northing)}) in C{meter}s.
+        '''
+        return EasNor2Tuple(self.easting, self.northing)
+
+    def eastingnorthing2(self, falsed=True):
         '''Return easting and northing, falsed or unfalsed.
 
-           @keyword falsed: Return easting and northing falsed
-                            (C{bool}), otherwise unfalsed.
+           @kwarg falsed: Return easting and northing falsed
+                          (C{bool}), otherwise unfalsed.
 
-           @return: An L{EasNor2Tuple}C{(easting, northing)}.
+           @return: An L{EasNor2Tuple}C{(easting, northing)} in C{meter}s.
         '''
         e, n = self.falsed2
         if self.falsed and not falsed:
@@ -204,7 +211,7 @@ class UtmUpsBase(_NamedBase):
         '''
         return self._hemisphere
 
-    def _latlon5(self, LatLon):
+    def _latlon5(self, LatLon, **LatLon_kwds):
         '''(INTERNAL) Convert cached LatLon
         '''
         ll = self._latlon
@@ -212,10 +219,11 @@ class UtmUpsBase(_NamedBase):
             r = LatLonDatum5Tuple(ll.lat, ll.lon, ll.datum,
                                   ll.convergence, ll.scale)
         elif issubclassof(LatLon, _LLEB):
-            r = _xattrs(LatLon(ll.lat, ll.lon, datum=ll.datum),
+            kwds = _xkwds(LatLon_kwds, datum=ll.datum)
+            r = _xattrs(LatLon(ll.lat, ll.lon, **kwds),
                                ll, '_convergence', '_scale')
         else:
-            raise _IsNotError(_LLEB.__name__, LatLon=LatLon)
+            raise _isnotError(_LLEB.__name__, LatLon=LatLon)
         return _xnamed(r, ll.name)
 
     @property_RO
@@ -235,6 +243,13 @@ class UtmUpsBase(_NamedBase):
         '''Get the central scale factor (C{float}).
         '''
         return self._scale0
+
+    def to2en(self, falsed=True):
+        '''DEPRECATED, use method C{eastingnorthing2}.
+
+           @return: An L{EasNor2Tuple}C{(easting, northing)}.
+        '''
+        return self.eastingnorthing2(falsed=falsed)
 
     def toEpsg(self):
         '''Determine the B{EPSG (European Petroleum Survey Group)} code.

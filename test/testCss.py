@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.02.23'
+__version__ = '20.03.20'
 
 from base import TestsBase, geographiclib
 
@@ -85,6 +85,17 @@ class Tests(TestsBase):
                         ('cs0',      '%s',   '48.833333 2.333333')):
             v = getattr(c, a)
             self.test('classof.'+a, v, x, fmt=f)
+
+        ll0 = c.cs0.latlon0
+        self.test('cs0.latlon0', ll0, '(48.833333, 2.333333)')
+        c.cs0.latlon0 = ll0
+        self.test('cs0.latlon0', ll0, '(48.833333, 2.333333)')
+        try:
+            c.cs0.latlon0 = tuple(ll0)
+            self.test('cs0.latlon0', c.cs0.latlon0, 'latlon0 not a LatLonEllipsoidalBase or LatLon4Tuple or LatLon2Tuple')
+        except TypeError as x:
+            x = str(x).split(':')[0]
+            self.test('cs0.latlon0', x, 'latlon0 not a LatLonEllipsoidalBase or LatLon4Tuple or LatLon2Tuple')
 
 
 if __name__ == '__main__':

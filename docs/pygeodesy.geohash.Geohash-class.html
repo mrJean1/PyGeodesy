@@ -113,7 +113,7 @@ basestring --+
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#bounds" class="summary-sig-name">bounds</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Return the lower-left SW and upper-right NE bounds of this geohash 
       cell.</td>
           <td align="right" valign="top">
@@ -256,8 +256,8 @@ basestring --+
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geohash.Geohash-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">LatLon</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Return (the approximate center of) this geohash cell as an instance 
       of the supplied <code>LatLon</code> class.</td>
           <td align="right" valign="top">
@@ -399,104 +399,91 @@ basestring --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#ab" class="summary-name">ab</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#ab" class="summary-name">ab</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#latlon" class="summary-name">latlon</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#latlon" class="summary-name">latlon</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#neighbors" class="summary-name">neighbors</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#neighbors" class="summary-name">neighbors</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#precision" class="summary-name">precision</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#precision" class="summary-name">precision</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#sizes" class="summary-name">sizes</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#sizes" class="summary-name">sizes</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#N" class="summary-name">N</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#N" class="summary-name">N</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#S" class="summary-name">S</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#S" class="summary-name">S</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#E" class="summary-name">E</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#E" class="summary-name">E</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#W" class="summary-name">W</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#W" class="summary-name">W</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#NE" class="summary-name">NE</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#NE" class="summary-name">NE</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#NW" class="summary-name">NW</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#NW" class="summary-name">NW</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#SE" class="summary-name">SE</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#SE" class="summary-name">SE</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohash-class.html#SW" class="summary-name">SW</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.geohash.Geohash-class.html#SW" class="summary-name">SW</a>
     </td>
   </tr>
   <tr>
@@ -554,7 +541,7 @@ basestring --+
           or <code>str</code>).</li>
         <li><strong class="pname"><code>precision</code></strong> - Optional, the desired geohash length (<code>int</code> 1..12), 
           see function <a href="pygeodesy.geohash-module.html#encode" 
-          class="link">geohash.encode</a> for examples.</li>
+          class="link">geohash.encode</a> for some examples.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns: a new object with type S, a subtype of T</dt>
@@ -612,7 +599,7 @@ basestring --+
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">bounds</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -624,17 +611,18 @@ basestring --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional (sub-)class to return <i>bounds</i> 
-          (<code>LatLon</code>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <i>LatLon</i>.</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return <i>bounds</i> (<code>LatLon</code>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional keyword arguments for <b>{LatLon}</b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.Bounds2Tuple-class.html" 
-          class="link">Bounds2Tuple</a><code>(latlonSW, latlonNE)</code> as
-          <b><code>LatLon</code></b> or a <a 
+          class="link">Bounds2Tuple</a><code>(latlonSW, latlonNE)</code> of
+          <b><code>LatLon</code></b>s or if <b><code>LatLon</code></b> is 
+          <code>None</code>, a <a 
           href="pygeodesy.named.Bounds4Tuple-class.html" 
           class="link">Bounds4Tuple</a><code>(latS, lonW, latN, 
-          lonE)</code> if <b><code>LatLon</code></b> is <code>None</code>.</dd>
+          lonE)</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -700,7 +688,7 @@ basestring --+
           class="link">Geohash</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
-          the mean latitude (<code>bool</code>).</li>
+          the mean latitude <code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -768,8 +756,8 @@ basestring --+
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">LatLon</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -781,14 +769,16 @@ basestring --+
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <b><code>LatLon</code></b>.</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional keyword arguments for <b><code>LatLon</code></b>, 
+          ignored if <b><code>LatLon=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This geohash location (<b><code>LatLon</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.geohash.GeohashError-class.html">GeohashError</a></strong></code> - <b><code>LatLon</code></b> invalid.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon</code></b> or 
+        <b><code>LatLon_kwds</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -816,14 +806,14 @@ basestring --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">ab</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">ab(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat- and longitude of (the approximate center of) this geohash as a
 2-tuple (lat, lon) in <code>radians</code>.
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -837,14 +827,16 @@ basestring --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlon</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat- and longitude of (the approximate center of) this geohash as a
-2-tuple (lat, lon) in <code>degrees</code>.
+<a href="pygeodesy.named.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a><code>(lat, lon)</code> in 
+<code>degrees</code>.
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -858,16 +850,16 @@ basestring --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">neighbors</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">neighbors(<span class="summary-sig-arg">self</span>)</span>
         - Get all 8 adjacent cells as a <a 
 href="pygeodesy.named.Neighbors8Dict-class.html" 
 class="link">Neighbors8Dict</a><code>(N, NE, E, SE, S, SW, W, NW)</code> of
 <a href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>es.
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -881,13 +873,13 @@ class="link">Neighbors8Dict</a><code>(N, NE, E, SE, S, SW, W, NW)</code> of
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">precision</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">precision(<span class="summary-sig-arg">self</span>)</span>
         - Get this geohash's precision (<code>int</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -901,16 +893,16 @@ class="link">Neighbors8Dict</a><code>(N, NE, E, SE, S, SW, W, NW)</code> of
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">sizes</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">sizes(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat- and longitudinal size of this cell as a <a 
 href="pygeodesy.named.LatLon2Tuple-class.html" 
 class="link">LatLon2Tuple</a><code>(lat, lon)</code> with the latitudinal 
 height and longitudinal width in (<code>meter</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -924,14 +916,14 @@ height and longitudinal width in (<code>meter</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">N</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">N(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell North of this (<a href="pygeodesy.geohash.Geohash-class.html" 
 class="link">Geohash</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -945,14 +937,14 @@ class="link">Geohash</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">S</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">S(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell South of this (<a href="pygeodesy.geohash.Geohash-class.html" 
 class="link">Geohash</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -966,14 +958,14 @@ class="link">Geohash</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">E</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">E(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell East of this (<a href="pygeodesy.geohash.Geohash-class.html" 
 class="link">Geohash</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -987,14 +979,14 @@ class="link">Geohash</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">W</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">W(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell West of this (<a href="pygeodesy.geohash.Geohash-class.html" 
 class="link">Geohash</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -1008,14 +1000,14 @@ class="link">Geohash</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">NE</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">NE(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell NorthEast of this (<a 
 href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -1029,14 +1021,14 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">NW</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">NW(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell NorthWest of this (<a 
 href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -1050,14 +1042,14 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">SE</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">SE(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell SouthEast of this (<a 
 href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -1071,14 +1063,14 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">SW</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">SW(<span class="summary-sig-arg">self</span>)</span>
         - Get the cell SouthWest of this (<a 
 href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -1118,7 +1110,7 @@ href="pygeodesy.geohash.Geohash-class.html" class="link">Geohash</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:51 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:40 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -17,7 +17,7 @@ from math import cos, degrees, pi as PI, radians, sin, tan  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '20.03.09'
+__version__ = '20.03.19'
 
 PI2  = PI * 2.0  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
 PI_2 = PI / 2.0  #: Half PI, M{PI / 2} (C{float})
@@ -33,7 +33,7 @@ _iterNumpy2len = 1  # adjustable for testing purposes
 def degrees90(rad):
     '''Convert radians to degrees and wrap M{[-270..+90]}.
 
-       @param rad: Angle (C{radians}).
+       @arg rad: Angle (C{radians}).
 
        @return: Angle in degrees, wrapped (C{degrees90}).
     '''
@@ -43,7 +43,7 @@ def degrees90(rad):
 def degrees180(rad):
     '''Convert radians to degrees and wrap M{[-180..+180]}.
 
-       @param rad: Angle (C{radians}).
+       @arg rad: Angle (C{radians}).
 
        @return: Angle in degrees, wrapped (C{degrees180}).
     '''
@@ -53,7 +53,7 @@ def degrees180(rad):
 def degrees360(rad):
     '''Convert radians to degrees and wrap M{[0..+360)}.
 
-       @param rad: Angle (C{radians}).
+       @arg rad: Angle (C{radians}).
 
        @return: Angle in degrees, wrapped (C{degrees360}).
     '''
@@ -64,9 +64,9 @@ def degrees2m(deg, radius=R_M, lat=0):
     '''Convert angle to distance along the equator or along a
        parallel at an other latitude.
 
-       @param deg: Angle (C{degrees}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword lat: Parallel latitude (C{degrees90}).
+       @arg deg: Angle (C{degrees}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg lat: Parallel latitude (C{degrees90}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -83,10 +83,10 @@ def degrees2m(deg, radius=R_M, lat=0):
 def false2f(value, name='value', false=True, Error=ValueError):
     '''Convert a false east-/northing to non-negative float.
 
-       @param value: Value to convert (C{scalar}).
-       @keyword name: Optional name of the value (C{str}).
-       @keyword false: Optionally, value includes false origin (C{bool}).
-       @keyword Error: Exception to raise (C{ValueError}).
+       @arg value: Value to convert (C{scalar}).
+       @kwarg name: Optional name of the value (C{str}).
+       @kwarg false: Optionally, value includes false origin (C{bool}).
+       @kwarg Error: Exception to raise (C{ValueError}).
 
        @return: The value (C{float}).
 
@@ -104,9 +104,9 @@ def false2f(value, name='value', false=True, Error=ValueError):
 def ft2m(feet, usurvey=False):
     '''Convert I{International} or I{US Survey} feet to meter.
 
-       @param feet: Value in feet (C{scalar}).
-       @keyword usurvery: Convert I{US Survey} feet (C{bool}),
-                          I{International} feet otherwise.
+       @arg feet: Value in feet (C{scalar}).
+       @kwarg usurvery: Convert I{US Survey} feet (C{bool}),
+                        I{International} feet otherwise.
 
        @return: Value in C{meter} (C{float}).
     '''
@@ -117,7 +117,7 @@ def ft2m(feet, usurvey=False):
 def isNumpy2(obj):
     '''Check for an B{C{Numpy2LatLon}} points wrapper.
 
-       @param obj: The object (any C{type}).
+       @arg obj: The object (any C{type}).
 
        @return: C{True} if B{C{obj}} is an B{C{Numpy2LatLon}}
                 instance, C{False} otherwise.
@@ -129,7 +129,7 @@ def isNumpy2(obj):
 def isPoints2(obj):
     '''Check for an B{C{LatLon2psxy}} points wrapper.
 
-       @param obj: The object (any C{type}).
+       @arg obj: The object (any C{type}).
 
        @return: C{True} if B{C{obj}} is an B{C{LatLon2psxy}}
                 instance, C{False} otherwise.
@@ -141,7 +141,7 @@ def isPoints2(obj):
 def isTuple2(obj):
     '''Check for an B{C{Tuple2LatLon}} points wrapper.
 
-       @param obj: The object (any).
+       @arg obj: The object (any).
 
        @return: C{True} if B{C{obj}} is an B{C{Tuple2LatLon}}
                 instance, C{False} otherwise.
@@ -154,7 +154,7 @@ def iterNumpy2(obj):
     '''Iterate over Numpy2 wrappers or other sequences exceeding
        the threshold.
 
-       @param obj: Points array, list, sequence, set, etc. (any).
+       @arg obj: Points array, list, sequence, set, etc. (any).
 
        @return: C{True} do, C{False} don't iterate.
     '''
@@ -167,7 +167,7 @@ def iterNumpy2(obj):
 def iterNumpy2over(n=None):
     '''Get or set the L{iterNumpy2} threshold.
 
-       @keyword n: Optional, new threshold (C{int}).
+       @kwarg n: Optional, new threshold (C{int}).
 
        @return: Previous threshold (C{int}).
 
@@ -190,8 +190,8 @@ def iterNumpy2over(n=None):
 def m2degrees(meter, radius=R_M):
     '''Convert distance to angle along equator.
 
-       @param meter: Distance (C{meter}, same units as B{C{radius}}).
-       @keyword radius: Mean earth radius (C{meter}).
+       @arg meter: Distance (C{meter}, same units as B{C{radius}}).
+       @kwarg radius: Mean earth radius (C{meter}).
 
        @return: Angle (C{degrees}).
 
@@ -205,9 +205,9 @@ def m2degrees(meter, radius=R_M):
 def m2ft(meter, usurvey=False):
     '''Convert meter to I{International} or I{US Survey} feet (C{ft}).
 
-       @param meter: Value in meter (C{scalar}).
-       @keyword usurvery: Convert to I{US Survey} feet (C{bool}),
-                          I{International} feet otherwise.
+       @arg meter: Value in meter (C{scalar}).
+       @kwarg usurvery: Convert to I{US Survey} feet (C{bool}),
+                        I{International} feet otherwise.
 
        @return: Value in C{feet} (C{float}).
     '''
@@ -218,7 +218,7 @@ def m2ft(meter, usurvey=False):
 def m2km(meter):
     '''Convert meter to kilo meter (km).
 
-       @param meter: Value in meter (C{scalar}).
+       @arg meter: Value in meter (C{scalar}).
 
        @return: Value in km (C{float}).
     '''
@@ -228,7 +228,7 @@ def m2km(meter):
 def m2NM(meter):
     '''Convert meter to nautical miles (NM).
 
-       @param meter: Value in meter (C{scalar}).
+       @arg meter: Value in meter (C{scalar}).
 
        @return: Value in NM (C{float}).
     '''
@@ -238,7 +238,7 @@ def m2NM(meter):
 def m2SM(meter):
     '''Convert meter to statute miles (SM).
 
-       @param meter: Value in meter (C{scalar}).
+       @arg meter: Value in meter (C{scalar}).
 
        @return: Value in SM (C{float}).
     '''
@@ -248,7 +248,7 @@ def m2SM(meter):
 def radiansPI(deg):
     '''Convert and wrap degrees to radians M{[-PI..+PI]}.
 
-       @param deg: Angle (C{degrees}).
+       @arg deg: Angle (C{degrees}).
 
        @return: Radians, wrapped (C{radiansPI})
     '''
@@ -258,7 +258,7 @@ def radiansPI(deg):
 def radiansPI2(deg):
     '''Convert and wrap degrees to radians M{[0..+2PI)}.
 
-       @param deg: Angle (C{degrees}).
+       @arg deg: Angle (C{degrees}).
 
        @return: Radians, wrapped (C{radiansPI2})
     '''
@@ -268,7 +268,7 @@ def radiansPI2(deg):
 def radiansPI_2(deg):
     '''Convert and wrap degrees to radians M{[-3PI/2..+PI/2]}.
 
-       @param deg: Angle (C{degrees}).
+       @arg deg: Angle (C{degrees}).
 
        @return: Radians, wrapped (C{radiansPI_2})
     '''
@@ -290,7 +290,7 @@ def _sincos2(q, r):
 def sincos2(*rad):
     '''Return the C{sine} and C{cosine} of angle(s).
 
-       @param rad: One or more angles (C{radians}).
+       @arg rad: One or more angles (C{radians}).
 
        @return: The C{sin(rad)} and C{cos(rad)} for each angle.
 
@@ -313,7 +313,7 @@ def sincos2(*rad):
 def sincos2d(*deg):
     '''Return the C{sine} and C{cosine} of angle(s) in C{degrees}.
 
-       @param deg: One or more angles (C{degrees}).
+       @arg deg: One or more angles (C{degrees}).
 
        @return: The C{sin(rad)} and C{cos(rad)} for each angle.
 
@@ -336,7 +336,7 @@ def sincos2d(*deg):
 def tan_2(rad):
     '''Compute the tangent of half angle.
 
-       @param rad: Angle (C{radians}).
+       @arg rad: Angle (C{radians}).
 
        @return: M{tan(rad / 2)} (C{float}).
     '''
@@ -346,7 +346,7 @@ def tan_2(rad):
 def tanPI_2_2(rad):
     '''Compute the tangent of half angle, 90 degrees rotated.
 
-       @param rad: Angle (C{radians}).
+       @arg rad: Angle (C{radians}).
 
        @return: M{tan((rad + PI/2) / 2)} (C{float}).
     '''
@@ -356,15 +356,15 @@ def tanPI_2_2(rad):
 def unroll180(lon1, lon2, wrap=True):
     '''Unroll longitudinal delta and wrap longitude in degrees.
 
-       @param lon1: Start longitude (C{degrees}).
-       @param lon2: End longitude (C{degrees}).
-       @keyword wrap: Wrap and unroll to the M{(-180..+180]} range (C{bool}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg wrap: Wrap and unroll to the M{(-180..+180]} range (C{bool}).
 
-       @return: 2-Tuple (delta B{C{lon2}}-B{lon1}, B{C{lon2}}) unrolled
-                (C{degrees}, C{degrees}).
+       @return: 2-Tuple (B{C{lon2-lon1}}, B{C{lon2}}) unrolled (C{degrees},
+                C{degrees}).
 
-       @see: Capability B{C{LONG_UNROLL}} in U{GeographicLib
-       <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
+       @see: Capability C{LONG_UNROLL} in U{GeographicLib
+             <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     d = lon2 - lon1
     if wrap and abs(d) > 180:
@@ -377,15 +377,15 @@ def unroll180(lon1, lon2, wrap=True):
 def unrollPI(rad1, rad2, wrap=True):
     '''Unroll longitudinal delta and wrap longitude in radians.
 
-       @param rad1: Start longitude (C{radians}).
-       @param rad2: End longitude (C{radians}).
-       @keyword wrap: Wrap and unroll to the M{(-PI..+PI]} range (C{bool}).
+       @arg rad1: Start longitude (C{radians}).
+       @arg rad2: End longitude (C{radians}).
+       @kwarg wrap: Wrap and unroll to the M{(-PI..+PI]} range (C{bool}).
 
-       @return: 2-Tuple (delta B{C{rad2}}-B{rad1}, B{C{rad2}}) unrolled
-                (C{radians}, C{radians}).
+       @return: 2-Tuple (B{C{rad2 - rad1}}, B{C{rad2}}) unrolled (C{radians},
+                C{radians}).
 
-       @see: Capability B{C{LONG_UNROLL}} in U{GeographicLib
-       <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
+       @see: Capability C{LONG_UNROLL} in U{GeographicLib
+             <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     r = rad2 - rad1
     if wrap and abs(r) > PI:
@@ -398,9 +398,9 @@ def unrollPI(rad1, rad2, wrap=True):
 def _wrap(angle, wrap, modulo):
     '''(INTERNAL) Angle wrapper M{((wrap-modulo)..+wrap]}.
 
-       @param angle: Angle (C{degrees} or C{radians}).
-       @param wrap: Range (C{degrees} or C{radians}).
-       @param modulo: Upper limit (360 C{degrees} or PI2 C{radians}).
+       @arg angle: Angle (C{degrees} or C{radians}).
+       @arg wrap: Range (C{degrees} or C{radians}).
+       @arg modulo: Upper limit (360 C{degrees} or PI2 C{radians}).
 
        @return: The B{C{angle}}, wrapped (C{degrees} or C{radians}).
     '''
@@ -416,7 +416,7 @@ def _wrap(angle, wrap, modulo):
 def wrap90(deg):
     '''Wrap degrees to M{[-270..+90]}.
 
-       @param deg: Angle (C{degrees}).
+       @arg deg: Angle (C{degrees}).
 
        @return: Degrees, wrapped (C{degrees90}).
     '''
@@ -426,7 +426,7 @@ def wrap90(deg):
 def wrap180(deg):
     '''Wrap degrees to M{[-180..+180]}.
 
-       @param deg: Angle (C{degrees}).
+       @arg deg: Angle (C{degrees}).
 
        @return: Degrees, wrapped (C{degrees180}).
     '''
@@ -436,7 +436,7 @@ def wrap180(deg):
 def wrap360(deg):
     '''Wrap degrees to M{[0..+360)}.
 
-       @param deg: Angle (C{degrees}).
+       @arg deg: Angle (C{degrees}).
 
        @return: Degrees, wrapped (C{degrees360}).
     '''
@@ -446,7 +446,7 @@ def wrap360(deg):
 def wrapPI(rad):
     '''Wrap radians to M{[-PI..+PI]}.
 
-       @param rad: Angle (C{radians}).
+       @arg rad: Angle (C{radians}).
 
        @return: Radians, wrapped (C{radiansPI}).
     '''
@@ -456,7 +456,7 @@ def wrapPI(rad):
 def wrapPI2(rad):
     '''Wrap radians to M{[0..+2PI)}.
 
-       @param rad: Angle (C{radians}).
+       @arg rad: Angle (C{radians}).
 
        @return: Radians, wrapped (C{radiansPI2}).
     '''
@@ -466,7 +466,7 @@ def wrapPI2(rad):
 def wrapPI_2(rad):
     '''Wrap radians to M{[-3PI/2..+PI/2]}.
 
-       @param rad: Angle (C{radians}).
+       @arg rad: Angle (C{radians}).
 
        @return: Radians, wrapped (C{radiansPI_2}).
     '''

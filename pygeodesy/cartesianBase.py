@@ -12,7 +12,7 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _IsNotError, property_doc_, \
+from pygeodesy.basics import EPS, _isnotError, property_doc_, \
                              property_RO, _TypeError
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefKarney
@@ -26,7 +26,7 @@ from math import sqrt  # hypot
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.03.15'
+__version__ = '20.03.23'
 
 
 class CartesianBase(Vector3d):
@@ -40,13 +40,13 @@ class CartesianBase(Vector3d):
     def __init__(self, xyz, y=None, z=None, datum=None, ll=None, name=''):
         '''New C{Cartesian...}.
 
-           @param xyz: An L{Ecef9Tuple}, L{Vector3Tuple}, L{Vector4Tuple}
-                       or the C{X} coordinate (C{scalar}).
-           @param y: The C{Y} coordinate (C{scalar}) if B{C{xyz}} C{scalar}.
-           @param z: The C{Z} coordinate (C{scalar}) if B{C{xyz}} C{scalar}.
-           @keyword datum: Optional datum (L{Datum}).
-           @keyword ll: Optional, original latlon (C{LatLon}).
-           @keyword name: Optional name (C{str}).
+           @arg xyz: An L{Ecef9Tuple}, L{Vector3Tuple}, L{Vector4Tuple}
+                     or the C{X} coordinate (C{scalar}).
+           @arg y: The C{Y} coordinate (C{scalar}) if B{C{xyz}} C{scalar}.
+           @arg z: The C{Z} coordinate (C{scalar}) if B{C{xyz}} C{scalar}.
+           @kwarg datum: Optional datum (L{Datum}).
+           @kwarg ll: Optional, original latlon (C{LatLon}).
+           @kwarg name: Optional name (C{str}).
 
            @raise TypeError: Non-scalar B{C{xyz}}, B{C{y}} or B{C{z}}
                              coordinate or B{C{xyz}} not an L{Ecef9Tuple},
@@ -67,16 +67,16 @@ class CartesianBase(Vector3d):
         '''(INTERNAL) Return a new cartesian by applying a Helmert
            transform to this cartesian.
 
-           @param transform: Transform to apply (L{Transform}).
-           @keyword inverse: Optionally, apply the inverse
-                             Helmert transform (C{bool}).
-           @keyword datum: Optional datum of the returned point,
-                           (C{B{datum}=}L{Datum}).
+           @arg transform: Transform to apply (L{Transform}).
+           @kwarg inverse: Optionally, apply the inverse
+                           Helmert transform (C{bool}).
+           @kwarg datum: Optional datum of the returned point,
+                         (B{C{datum=}}L{Datum}).
 
            @return: The transformed point (C{Cartesian}).
 
-           @note: For C{B{inverse}=True} keyword B{C{datum}} must
-                  be C{B{datum}=Datums.WGS84}.
+           @note: For B{C{inverse=True}} keyword B{C{datum}} must
+                  be B{C{datum=}}L{Datums.WGS84}.
         '''
         xyz = transform.transform(self.x, self.y, self.z, inverse)
         return self._xnamed(self.classof(xyz, **datum))
@@ -84,8 +84,8 @@ class CartesianBase(Vector3d):
     def convertDatum(self, datum2, datum=None):
         '''Convert this cartesian from one datum to an other.
 
-           @param datum2: Datum to convert I{to} (L{Datum}).
-           @keyword datum: Datum to convert I{from} (L{Datum}).
+           @arg datum2: Datum to convert I{to} (L{Datum}).
+           @kwarg datum: Datum to convert I{from} (L{Datum}).
 
            @return: The converted point (C{Cartesian}).
 
@@ -115,7 +115,7 @@ class CartesianBase(Vector3d):
 
         return c._applyHelmert(d.transform, i, datum=datum2)
 
-    @property_doc_(" this cartesian's datum (L{Datum}).")
+    @property_doc_(''' this cartesian's datum (L{Datum}).''')
     def datum(self):
         '''Get this cartesian's datum (L{Datum}).
         '''
@@ -125,7 +125,7 @@ class CartesianBase(Vector3d):
     def datum(self, datum):
         '''Set this cartesian's C{datum} I{without conversion}.
 
-           @param datum: New datum (L{Datum}).
+           @arg datum: New datum (L{Datum}).
 
            @raise TypeError: The B{C{datum}} is not a L{Datum}.
         '''
@@ -133,9 +133,9 @@ class CartesianBase(Vector3d):
         d = self.datum
         if d is not None:
             if d.isEllipsoidal and not datum.isEllipsoidal:
-                raise _IsNotError('ellipsoidal', datum=datum)
+                raise _isnotError('ellipsoidal', datum=datum)
             elif d.isSpherical and not datum.isSpherical:
-                raise _IsNotError('spherical', datum=datum)
+                raise _isnotError('spherical', datum=datum)
         self._update(datum != d)
         self._datum = datum
 
@@ -237,20 +237,21 @@ class CartesianBase(Vector3d):
             self._e9t = self._xnamed(r)
         return self._e9t
 
-    def toLatLon(self, datum=None, LatLon=None, **kwds):
+    def toLatLon(self, datum=None, LatLon=None, **LatLon_kwds):
         '''Convert this cartesian to a geodetic (lat-/longitude) point.
 
-           @keyword datum: Optional datum (L{Datum}) or C{None}.
-           @keyword LatLon: Optional (sub-)class to return the
-                            geodetic point (C{LatLon}) or C{None}.
-           @keyword kwds: Optional, additional B{C{LatLon}} keyword
-                          arguments, ignored if C{B{LatLon}=None}.
+           @kwarg datum: Optional datum (L{Datum}) or C{None}.
+           @kwarg LatLon: Optional class to return the geodetic point
+                          (C{LatLon}) or C{None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
+                               keyword arguments, ignored if
+                               B{C{LatLon=None}}.
 
-           @return: The B{C{LatLon}} point or if C{B{LatLon}=None},
-                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} and C{M} if available.
+           @return: The geodetic point (B{C{LatLon}}) or if B{C{LatLon}}
+                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
+                    height, C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{datum}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{datum}} or B{C{LatLon_kwds}}.
         '''
         if datum in (None, self.datum):
             r = self.toEcef()
@@ -261,22 +262,21 @@ class CartesianBase(Vector3d):
 
         if LatLon is not None:  # class or .classof
             r = LatLon(r.lat, r.lon, height=r.height,
-                                      datum=r.datum, **kwds)
+                                      datum=r.datum, **LatLon_kwds)
         return self._xnamed(r)
 
-    def toNvector(self, Nvector=None, datum=None, **kwds):  # PYCHOK Datums.WGS84
+    def toNvector(self, Nvector=None, datum=None, **Nvector_kwds):  # PYCHOK Datums.WGS84
         '''Convert this cartesian to C{n-vector} components.
 
-           @keyword Nvector: Optional (sub-)class to return the
-                             C{n-vector} components (C{Nvector})
-                             or C{None}.
-           @keyword datum: Optional datum (L{Datum}) overriding this
-                           cartesian's datum.
-           @keyword kwds: Optional, additional B{C{Nvector}} keyword
-                          arguments, ignored if C{B{Nvector}=None}.
+           @kwarg Nvector: Optional class to return the C{n-vector}
+                           components (C{Nvector}) or C{None}.
+           @kwarg datum: Optional datum (L{Datum}) overriding this cartesian's
+                         datum.
+           @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
+                                arguments, ignored if B{C{Nvector=None}}.
 
-           @return: Unit vector B{C{Nvector}} or a L{Vector4Tuple}C{(x,
-                    y, z, h)} if B{C{Nvector}=None}.
+           @return: The C{unit, n-vector} components (B{C{Nvector}}) or a
+                    L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}} is C{None}.
 
            @raise ValueError: The B{C{Cartesian}} at origin.
 
@@ -323,36 +323,35 @@ class CartesianBase(Vector3d):
             self._v4t = r if d == self.datum else None
 
         if Nvector is not None:
-            r = Nvector(r.x, r.y, r.z, h=r.h, datum=d, **kwds)
+            r = Nvector(r.x, r.y, r.z, h=r.h, datum=d, **Nvector_kwds)
         return self._xnamed(r)
 
     def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
         '''Return the string representation of this cartesian.
 
-           @keyword prec: Optional number of decimals, unstripped (C{int}).
-           @keyword fmt: Optional enclosing backets format (string).
-           @keyword sep: Optional separator to join (string).
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg fmt: Optional enclosing backets format (string).
+           @kwarg sep: Optional separator to join (string).
 
            @return: Cartesian represented as "[x, y, z]" (string).
         '''
         return Vector3d.toStr(self, prec=prec, fmt=fmt, sep=sep)
 
-    def toVector(self, Vector=None, **kwds):
+    def toVector(self, Vector=None, **Vector_kwds):
         '''Return this cartesian's components as vector.
 
-           @keyword Vector: Optional (sub-)class to return the
-                            C{n-vector} components (L{Vector3d})
-                            or C{None}.
-           @keyword kwds: Optional, additional B{C{Vector}} keyword
-                          arguments, ignored if C{B{Vector}=None}.
+           @kwarg Vector: Optional class to return the C{n-vector}
+                          components (L{Vector3d}) or C{None}.
+           @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
+                               arguments, ignored if B{C{Vector=None}}.
 
            @return: A B{C{Vector}} or an L{Vector3Tuple}C{(x, y, z)}
-                    if C{B{Vector}=None}.
+                    if B{C{Vector}} is C{None}.
 
-           @raise TypeError: Invalid B{C{Vector}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Vector}} or B{C{Vector_kwds}}.
         '''
         return self.xyz if Vector is None else \
-               self._xnamed(Vector(self.x, self.y, self.z, **kwds))
+               self._xnamed(Vector(self.x, self.y, self.z, **Vector_kwds))
 
 #   xyz = Vector3d.xyz
 #   '''Get this cartesian's X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).

@@ -4,13 +4,15 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '19.05.02'
+__version__ = '20.03.23'
 
 from base import TestsBase
 
-from pygeodesy import R_M, antipode, equirectangular, euclidean, \
-                      haversine, heightOf, horizon, isantipode, \
-                      vincentys
+from pygeodesy import R_M, antipode, bearing, equirectangular, euclidean, \
+                      haversine, heightOf, horizon, isantipode, isantipode_, \
+                      map1, vincentys
+
+from math import radians
 
 
 class Tests(TestsBase):
@@ -36,9 +38,18 @@ class Tests(TestsBase):
         self.test('antipode1', antipode( 89,  179), (-89, -1))
         self.test('antipode2', antipode(-89, -179), (89, 1))
 
+        # roughly, Newport to New York
+        self.test('bearing1', bearing(41.49, -71.31, 40.78, -73.97),              251.364, fmt='%.3f')
+        self.test('bearing2', bearing(41.49, -71.31, 40.78, -73.97, final=False), 251.364, fmt='%.3f')
+        self.test('bearing3', bearing(41.49, -71.31, 40.78, -73.97, final=True),  249.614, fmt='%.3f')
+
         self.test('isantipode1', isantipode( 89,  179, -89, -1), True)
         self.test('isantipode2', isantipode(-89, -179,  89,  1), True)
         self.test('isantipode3', isantipode(-89, -179, -89, -1), False)
+
+        self.test('isantipode4', isantipode_(*map1(radians,  89,  179, -89, -1)), True)
+        self.test('isantipode5', isantipode_(*map1(radians, -89, -179,  89,  1)), True)
+        self.test('isantipode6', isantipode_(*map1(radians, -89, -179, -89, -1)), False)
 
         self.test('heightOf0',   heightOf(0,   R_M), 2638958.23912, fmt='%.5f')
         self.test('heightOf45',  heightOf(45,  R_M), 5401080.43931, fmt='%.5f')

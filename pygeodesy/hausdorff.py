@@ -61,7 +61,7 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.basics import INF, _IsNotError, property_doc_, property_RO
+from pygeodesy.basics import INF, _isnotError, property_doc_, property_RO
 from pygeodesy.datum import Datum
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import euclidean_, haversine_, points2, \
@@ -75,7 +75,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.03.15'
+__version__ = '20.03.23'
 
 
 class HausdorffError(ValueError):
@@ -115,14 +115,14 @@ class Hausdorff(_Named):
     def __init__(self, points, seed=None, name='', units=''):
         '''New L{Hausdorff} calculator.
 
-           @param points: Initial set of points, aka the C{model} or
-                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
-                          C{Tuple2LatLon}[] or C{other}[]).
-           @keyword seed: Random sampling seed (C{any}) or C{None}, C{0}
-                          or C{False} for no U{random sampling<https://
-                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @keyword name: Optional calculator name (C{str}).
-           @keyword units: Optional, distance units (C{str}).
+           @arg points: Initial set of points, aka the C{model} or
+                        C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                        C{Tuple2LatLon}[] or C{other}[]).
+           @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
+                        or C{False} for no U{random sampling<https://
+                        Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @kwarg name: Optional calculator name (C{str}).
+           @kwarg units: Optional, distance units (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
@@ -138,11 +138,10 @@ class Hausdorff(_Named):
     def directed(self, points, early=True):
         '''Compute only the C{forward Hausdorff} distance.
 
-           @param points: Second set of points, aka the C{target} (C{LatLon}[],
-                          C{Numpy2LatLon}[], C{Tuple2LatLon}[] or C{other}[]).
-           @keyword early: Enable or disable U{early breaking<https://
-                           Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
-                           (C{bool}).
+           @arg points: Second set of points, aka the C{target} (C{LatLon}[],
+                        C{Numpy2LatLon}[], C{Tuple2LatLon}[] or C{other}[]).
+           @kwarg early: Enable or disable U{early breaking<https://
+                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>} (C{bool}).
 
            @return: A L{Hausdorff6Tuple}C{(hd, i, j, mn, md, units)}.
 
@@ -162,7 +161,7 @@ class Hausdorff(_Named):
         '''
         return point  # pass thru
 
-    @property_doc_(' the random sampling seed (C{Random}).')
+    @property_doc_(''' the random sampling seed (C{Random}).''')
     def seed(self):
         '''Get the random sampling seed (C{any} or C{None}).
         '''
@@ -172,9 +171,9 @@ class Hausdorff(_Named):
     def seed(self, seed):
         '''Set the random sampling seed.
 
-           @param seed: Valid L{Random(seed)} or C{None}, C{0} or
-                        C{False} for no U{random sampling<https://
-                        Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @arg seed: Valid L{Random(seed)} or C{None}, C{0} or
+                      C{False} for no U{random sampling<https://
+                      Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
 
            @raise HausdorffError: Invalid B{C{seed}}.
         '''
@@ -190,11 +189,10 @@ class Hausdorff(_Named):
     def symmetric(self, points, early=True):
         '''Compute the combined C{forward and reverse Hausdorff} distance.
 
-           @param points: Second set of points, aka the C{target} (C{LatLon}[],
-                          C{Numpy2LatLon}[], C{Tuple2LatLon}[] or C{other}[]).
-           @keyword early: Enable or disable U{early breaking<https://
-                           Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
-                           (C{bool}).
+           @arg points: Second set of points, aka the C{target} (C{LatLon}[],
+                        C{Numpy2LatLon}[], C{Tuple2LatLon}[] or C{other}[]).
+           @kwarg early: Enable or disable U{early breaking<https://
+                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>} (C{bool}).
 
            @return: A L{Hausdorff6Tuple}C{(hd, i, j, mn, md, units)}.
 
@@ -204,7 +202,7 @@ class Hausdorff(_Named):
         return _hausdorff_(self._model, ps2, True, early, self.seed,
                            self.units, self.distance, self.point)
 
-    @property_doc_(' the distance units (C{str}).')
+    @property_doc_(''' the distance units (C{str}).''')
     def units(self):
         '''Get the distance units (C{str} or C{""}).
         '''
@@ -214,7 +212,7 @@ class Hausdorff(_Named):
     def units(self, units):
         '''Set the distance units.
 
-           @param units: New units name (C{str}).
+           @arg units: New units name (C{str}).
         '''
         self._units = str(units or "")
 
@@ -260,16 +258,16 @@ class HausdorffEquirectangular(HausdorffRadians):
     def __init__(self, points, adjust=True, wrap=False, seed=None, name=''):
         '''New L{HausdorffEquirectangular} calculator.
 
-           @param points: Initial set of points, aka the C{model} or
-                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
-                          C{Tuple2LatLon}[] or C{other}[]).
-           @keyword adjust: Adjust the wrapped, unrolled longitudinal
-                            delta by the cosine of the mean latitude (C{bool}).
-           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
-           @keyword seed: Random seed (C{any}) or C{None}, C{0} or
-                          C{False} for no U{random sampling<https://
-                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @keyword name: Optional calculator name (C{str}).
+           @arg points: Initial set of points, aka the C{model} or
+                        C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                        C{Tuple2LatLon}[] or C{other}[]).
+           @kwarg adjust: Adjust the wrapped, unrolled longitudinal
+                          delta by the cosine of the mean latitude (C{bool}).
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
+                        C{False} for no U{random sampling<https://
+                        Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @kwarg name: Optional calculator name (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{adjust}} or B{C{seed}}.
@@ -304,15 +302,15 @@ class HausdorffEuclidean(HausdorffRadians):
     def __init__(self, points, adjust=True, seed=None, name=''):
         '''New L{HausdorffEuclidean} calculator.
 
-           @param points: Initial set of points, aka the C{model} or
-                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
-                          C{Tuple2LatLon}[] or C{other}[]).
-           @keyword adjust: Adjust the wrapped, unrolled longitudinal
-                            delta by the cosine of the mean latitude (C{bool}).
-           @keyword seed: Random sampling seed (C{any}) or C{None}, C{0}
-                          or C{False} for no U{random sampling<https://
-                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @keyword name: Optional calculator name (C{str}).
+           @arg points: Initial set of points, aka the C{model} or
+                        C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                        C{Tuple2LatLon}[] or C{other}[]).
+           @kwarg adjust: Adjust the wrapped, unrolled longitudinal
+                          delta by the cosine of the mean latitude (C{bool}).
+           @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
+                        or C{False} for no U{random sampling<https://
+                        Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @kwarg name: Optional calculator name (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
@@ -344,14 +342,14 @@ class HausdorffHaversine(HausdorffRadians):
     def __init__(self, points, wrap=False, seed=None, name=''):
         '''New L{HausdorffHaversine} calculator.
 
-           @param points: Initial set of points, aka the C{model} or
-                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
-                          C{Tuple2LatLon}[] or C{other}[]).
-           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
-           @keyword seed: Random sampling seed (C{any}) or C{None}, C{0}
-                          or C{False} for no U{random sampling<https://
-                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @keyword name: Optional calculator name (C{str}).
+           @arg points: Initial set of points, aka the C{model} or
+                        C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                        C{Tuple2LatLon}[] or C{other}[]).
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
+                        or C{False} for no U{random sampling<https://
+                        Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @kwarg name: Optional calculator name (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
@@ -387,16 +385,16 @@ class HausdorffKarney(HausdorffDegrees):
     def __init__(self, points, datum=None, wrap=False, seed=None, name=''):
         '''New L{HausdorffKarney} calculator.
 
-           @param points: Initial set of points, aka the C{model} or
-                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
-                          C{Tuple2LatLon}[] or C{other}[]).
-           @keyword datum: Optional datum (L{Datum} to use, overriding
-                           the default C{I{model} points[0].datum}.
-           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
-           @keyword seed: Random sampling seed (C{any}) or C{None}, C{0}
-                          or C{False} for no U{random sampling<https://
-                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @keyword name: Optional calculator name (C{str}).
+           @arg points: Initial set of points, aka the C{model} or
+                        C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                        C{Tuple2LatLon}[] or C{other}[]).
+           @kwarg datum: Optional datum (L{Datum} to use, overriding
+                         the default C{I{model} points[0].datum}.
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
+                        or C{False} for no U{random sampling<https://
+                        Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @kwarg name: Optional calculator name (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
@@ -414,7 +412,7 @@ class HausdorffKarney(HausdorffDegrees):
             if not isinstance(self.datum, Datum):
                 raise TypeError
         except (AttributeError, TypeError):
-            raise _IsNotError('valid', datum=self.datum or datum)
+            raise _isnotError('valid', datum=self.datum or datum)
         self._Inverse = self.datum.ellipsoid.geodesic.Inverse
 
     @property_RO
@@ -449,14 +447,14 @@ class HausdorffVincentys(HausdorffRadians):
     def __init__(self, points, wrap=False, seed=None, name=''):
         '''New L{HausdorffVincentys} calculator.
 
-           @param points: Initial set of points, aka the C{model} or
-                          C{template} (C{LatLon}[], C{Numpy2LatLon}[],
-                          C{Tuple2LatLon}[] or C{other}[]).
-           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
-           @keyword seed: Random sampling seed (C{any}) or C{None}, C{0}
-                          or C{False} for no U{random sampling<https://
-                          Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @keyword name: Optional calculator name (C{str}).
+           @arg points: Initial set of points, aka the C{model} or
+                        C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                        C{Tuple2LatLon}[] or C{other}[]).
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
+                        or C{False} for no U{random sampling<https://
+                        Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @kwarg name: Optional calculator name (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
@@ -520,7 +518,7 @@ def _hausdorff_(ps1, ps2, both, early, seed, units, distance, point):
 def _point(p):
     '''Default B{C{point}} callable for function L{hausdorff_}.
 
-       @param p: The original C{model} or C{target} point (C{any}).
+       @arg p: The original C{model} or C{target} point (C{any}).
 
        @return: The point, suitable for the L{hausdorff_}
                 B{C{distance}} callable.
@@ -535,21 +533,21 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units='',
        without U{early breaking<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
        and U{random sampling<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
 
-       @param model: First set of points (C{LatLon}[], C{Numpy2LatLon}[],
-                     C{Tuple2LatLon}[] or C{other}[]).
-       @param target: Second set of points (C{LatLon}[], C{Numpy2LatLon}[],
-                      C{Tuple2LatLon}[] or C{other}[]).
-       @keyword both: Return the C{directed} (forward only) or the C{symmetric}
-                      (combined forward and reverse) C{Hausdorff} distance (C{bool}).
-       @keyword early: Enable or disable U{early breaking<https://Publik.TUWien.ac.AT/
-                       files/PubDat_247739.pdf>} (C{bool}).
-       @keyword seed: Random sampling seed (C{any}) or C{None}, C{0} or C{False} for no
-                      U{random sampling<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-       @keyword units: Optional, name of the distance units (C{str}).
-       @keyword distance: Callable returning the distance between a B{C{model}}
-                          and B{C{target}} point (signature C{(point1, point2)}).
-       @Keyword point: Callable returning the B{C{model}} or B{C{target}} point
-                       suitable for B{C{distance}} (signature C{(point)}).
+       @arg model: First set of points (C{LatLon}[], C{Numpy2LatLon}[],
+                   C{Tuple2LatLon}[] or C{other}[]).
+       @arg target: Second set of points (C{LatLon}[], C{Numpy2LatLon}[],
+                    C{Tuple2LatLon}[] or C{other}[]).
+       @kwarg both: Return the C{directed} (forward only) or the C{symmetric}
+                    (combined forward and reverse) C{Hausdorff} distance (C{bool}).
+       @kwarg early: Enable or disable U{early breaking<https://Publik.TUWien.ac.AT/
+                     files/PubDat_247739.pdf>} (C{bool}).
+       @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0} or C{False} for no
+                    U{random sampling<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+       @kwarg units: Optional, name of the distance units (C{str}).
+       @kwarg distance: Callable returning the distance between a B{C{model}}
+                        and B{C{target}} point (signature C{(point1, point2)}).
+       @kwarg point: Callable returning the B{C{model}} or B{C{target}} point
+                     suitable for B{C{distance}} (signature C{(point)}).
 
        @return: A L{Hausdorff6Tuple}C{(hd, i, j, mn, md, units)}.
 
@@ -558,9 +556,9 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units='',
        @raise TypeError: If B{C{distance}} or B{C{point}} is not callable.
     '''
     if not callable(distance):
-        raise _IsNotError(callable.__name__, distance=distance)
+        raise _isnotError(callable.__name__, distance=distance)
     if not callable(point):
-        raise _IsNotError(callable.__name__, point=point)
+        raise _isnotError(callable.__name__, point=point)
 
     _, ps1 = points2(model,  closed=False, Error=HausdorffError)
     _, ps2 = points2(target, closed=False, Error=HausdorffError)
@@ -570,7 +568,7 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units='',
 def randomrangenerator(seed):
     '''Return a C{seed}ed random range function generator.
 
-       @param seed: Initial, internal L{Random} state (C{hashable}).
+       @arg seed: Initial, internal L{Random} state (C{hashable}).
 
        @note: L{Random} B{C{seed}} C{None} seeds from the
               current time or from a platform-specific

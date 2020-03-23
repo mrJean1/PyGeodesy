@@ -3,7 +3,7 @@
 PyGeodesy
 =========
 
-A pure Python implementation of geodesy tools for various ellipsoidal
+A pure Python implementation of ``geodesy`` tools for various ellipsoidal
 and spherical earth models using precision trigonometric, vector-based,
 elliptic and approximate methods for geodetic (lat-/longitude) and
 geocentric (ECEF_ cartesian) coordinates.
@@ -121,7 +121,7 @@ High Sierra.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: March 15, 2020.*
+*Last updated: March 23, 2020.*
 
 License
 =======

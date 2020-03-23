@@ -292,7 +292,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Cartesian_datum_kwds</span>)</span><br />
       Convert this point to <code>Vincenty</code>-based cartesian (ECEF) 
       coordinates.</td>
           <td align="right" valign="top">
@@ -405,8 +405,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iteration" class="summary-name">iteration</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#iteration" class="summary-name">iteration</a>
     </td>
   </tr>
 <tr>
@@ -497,7 +496,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.Bearing2Tuple-class.html" 
-          class="link">Bearing2Tuple</a><code>(initial, final)</code>..</dd>
+          class="link">Bearing2Tuple</a><code>(initial, final)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
@@ -555,9 +554,6 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
-        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
-        ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
@@ -593,12 +589,12 @@
   after having travelled for the given distance from this point along a 
   geodesic given by an initial bearing, using Vincenty's direct method.</p>
   <p>The distance must be in the same units as this point's datum axes, 
-  conventionally meter.  The distance is measured on the surface of the 
-  ellipsoid, ignoring this point's height.</p>
+  conventionally <code>meter</code>.  The distance is measured on the 
+  surface of the ellipsoid, ignoring this point's height.</p>
   <p>The initial and final bearing (forward and reverse azimuth) are in 
-  compass degrees.</p>
+  compass <code>degrees360</code>.</p>
   <p>The destination point's height and datum are set to this point's 
-  height and datum.</p>
+  height and datum, unless the former is overridden.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -616,9 +612,6 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - If this and the <b><code>other</code></b> point's <a 
-        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a> 
-        ellipsoids are not compatible.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">VincentyError</a></strong></code> - Vincenty fails to converge for the current <a 
         href="pygeodesy.ellipsoidalVincenty.LatLon-class.html#epsilon" 
         class="link">LatLon.epsilon</a> and <a 
@@ -630,7 +623,11 @@
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(-37.95103, 144.42487)
 <span class="py-prompt">&gt;&gt;&gt; </span>b = 306.86816
-<span class="py-prompt">&gt;&gt;&gt; </span>d, f = p.destination2(54972.271, b)  <span class="py-comment"># 37.652818&#176;S, 143.926498&#176;E, 307.1736</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>d, f = p.destination2(54972.271, b)
+<span class="py-prompt">&gt;&gt;&gt; </span>d
+<span class="py-output">LatLon(37&#176;39&#8242;10.14&#8243;S, 143&#176;55&#8242;35.39&#8243;E)  # 37.652818&#176;S, 143.926498&#176;E</span>
+<span class="py-output"></span><span class="py-prompt">&gt;&gt;&gt; </span>f
+<span class="py-output">307.1736313846706</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -710,7 +707,7 @@
   conventially meter.  The distance is measured on the surface of the 
   ellipsoid, ignoring this point's height.</p>
   <p>The initial and final bearing (forward and reverse azimuth) are in 
-  compass degrees from North.</p>
+  compass <code>degrees360</code> from North.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -922,7 +919,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">**Cartesian_datum_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -934,18 +931,20 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
-          arguments, ignored if <code><b>Cartesian</b>=None</code>. For 
-          example, use <code>Cartesian=...</code> to override the <a 
+        <li><strong class="pname"><code>Cartesian_datum_kwds</code></strong> - Optional <a 
           href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-          class="link">Cartesian</a> (sub-)class or specify 
-          <code><b>Cartesian</b>=None</code>.</li>
+          class="link">Cartesian</a>, <b><code>datum</code></b> and other 
+          keyword arguments, ignored if <b><code>Cartesian=None</code></b>.
+          Use <b><code>Cartesian=...</code></b> to override this <a 
+          href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+          class="link">Cartesian</a> class or specify 
+          <b><code>Cartesian=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The <b><code>Cartesian</code></b> point (<a 
+        <dd>The cartesian point (<a 
           href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-          class="link">Cartesian</a>) or if 
-          <code><b>Cartesian</b>=None</code>, an <a 
+          class="link">Cartesian</a>) or if <b><code>Cartesian</code></b> 
+          is <code>None</code>, an <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
           M, datum)</code> with <code>C</code> and <code>M</code> if 
@@ -953,7 +952,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b>, <b><code>datum</code></b> or
-        <b><code>kwds</code></b>.</li>
+        other <b><code>Cartesian_datum_kwds</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian">latlonBase.LatLonBase.toCartesian</a>
@@ -980,11 +979,11 @@
   <p>Property to get and set the convergence epsilon 
   (<code>scalar</code>).</p>
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>)</span>
         - Get the convergence epsilon (<code>scalar</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">epsilon(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">eps</span>)</span>
         - Set the convergence epsilon.
@@ -998,14 +997,14 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">iteration</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">iteration(<span class="summary-sig-arg">self</span>)</span>
-        - Get the iteration number (<code>int</code> or <code>None</code> if not 
+        - Get the iteration number (<code>int</code> or <code>0</code> if not 
 available/applicable).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -1021,11 +1020,11 @@ available/applicable).
   <h3 class="epydoc">iterations</h3>
   <p>Property to get and set the iteration limit (<code>int</code>).</p>
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">iterations(<span class="summary-sig-arg">self</span>)</span>
         - Get the iteration limit (<code>int</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">iterations(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">limit</span>)</span>
         - Set the iteration limit.
@@ -1065,7 +1064,7 @@ available/applicable).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:50 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:40 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

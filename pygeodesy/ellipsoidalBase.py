@@ -12,7 +12,7 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _IsNotError, property_doc_, \
+from pygeodesy.basics import EPS, _isnotError, property_doc_, \
                              property_RO, _TypeError
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import Datum, Datums
@@ -23,7 +23,7 @@ from pygeodesy.named import Vector3Tuple
 from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 
 __all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '20.03.15'
+__version__ = '20.03.23'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -35,10 +35,10 @@ class CartesianEllipsoidalBase(CartesianBase):
     def convertRefFrame(self, reframe2, reframe, epoch=None):
         '''Convert this cartesian point from one to an other reference frame.
 
-           @param reframe2: Reference frame to convert I{to} (L{RefFrame}).
-           @param reframe: Reference frame to convert I{from} (L{RefFrame}).
-           @keyword epoch: Optional epoch to observe for B{C{reframe}}, a
-                           fractional calendar year (C{scalar}).
+           @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
+           @arg reframe: Reference frame to convert I{from} (L{RefFrame}).
+           @kwarg epoch: Optional epoch to observe for B{C{reframe}}, a
+                         fractional calendar year (C{scalar}).
 
            @return: The converted point (C{Cartesian}) or this point if
                     conversion is C{nil}.
@@ -81,16 +81,15 @@ class LatLonEllipsoidalBase(LatLonBase):
            lat-, longitude and height on the given datum and with
            the given reference frame and epoch.
 
-           @param lat: Latitude (C{degrees} or DMS C{[N|S]}).
-           @param lon: Longitude (C{degrees} or DMS C{str[E|W]}).
-           @keyword height: Optional elevation (C{meter}, the same units
-                            as the datum's half-axes).
-           @keyword datum: Optional, ellipsoidal datum to use (L{Datum}).
-           @keyword reframe: Optional reference frame (L{RefFrame}).
-           @keyword epoch: Optional epoch to observe for B{C{reframe}}
-                           (C{scalar}), a non-zero, fractional calendar
-                           year.
-           @keyword name: Optional name (string).
+           @arg lat: Latitude (C{degrees} or DMS C{[N|S]}).
+           @arg lon: Longitude (C{degrees} or DMS C{str[E|W]}).
+           @kwarg height: Optional elevation (C{meter}, the same units
+                          as the datum's half-axes).
+           @kwarg datum: Optional, ellipsoidal datum to use (L{Datum}).
+           @kwarg reframe: Optional reference frame (L{RefFrame}).
+           @kwarg epoch: Optional epoch to observe for B{C{reframe}}
+                         (C{scalar}), a non-zero, fractional calendar year.
+           @kwarg name: Optional name (string).
 
            @raise TypeError: B{C{datum}} is not a L{datum}, B{C{reframe}}
                              is not a L{RefFrame} or B{C{epoch}} is not
@@ -140,8 +139,8 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''Return the antipode, the point diametrically opposite
            to this point.
 
-           @keyword height: Optional height of the antipode, height
-                            of this point otherwise (C{meter}).
+           @kwarg height: Optional height of the antipode, height
+                          of this point otherwise (C{meter}).
 
            @return: The antipodal point (C{LatLon}).
         '''
@@ -160,7 +159,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def convertDatum(self, datum2):
         '''Convert this point to an other datum.
 
-           @param datum2: Datum to convert I{to} (L{Datum}).
+           @arg datum2: Datum to convert I{to} (L{Datum}).
 
            @return: The converted point (ellipsoidal C{LatLon}).
 
@@ -180,7 +179,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def convertRefFrame(self, reframe2):
         '''Convert this point to an other reference frame.
 
-           @param reframe2: Reference frame to convert I{to} (L{RefFrame}).
+           @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
 
            @return: The converted point (ellipsoidal C{LatLon}) or
                     this point if conversion is C{nil}.
@@ -213,7 +212,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             ll = self
         return ll
 
-    @property_doc_(" this points's datum (L{Datum}).")
+    @property_doc_(''' this points's datum (L{Datum}).''')
     def datum(self):
         '''Get this point's datum (L{Datum}).
         '''
@@ -223,14 +222,14 @@ class LatLonEllipsoidalBase(LatLonBase):
     def datum(self, datum):
         '''Set this point's datum I{without conversion}.
 
-           @param datum: New datum (L{Datum}).
+           @arg datum: New datum (L{Datum}).
 
            @raise TypeError: The B{C{datum}} is not a L{Datum}
                              or not ellipsoidal.
         '''
         _TypeError(Datum, datum=datum)
         if not datum.isEllipsoidal:
-            raise _IsNotError('ellipsoidal', datum=datum)
+            raise _isnotError('ellipsoidal', datum=datum)
         self._update(datum != self._datum)
         self._datum = datum
 
@@ -241,7 +240,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            Suitable only for short distances up to a few hundred Km
            or Miles and only between non-near-polar points.
 
-           @param other: The other point (C{LatLon}).
+           @arg other: The other point (C{LatLon}).
 
            @return: An L{Distance2Tuple}C{(distance, initial)}.
 
@@ -258,10 +257,10 @@ class LatLonEllipsoidalBase(LatLonBase):
     def elevation2(self, adjust=True, datum=Datums.WGS84, timeout=2):
         '''Return elevation of this point for its or the given datum.
 
-           @keyword adjust: Adjust the elevation for a B{C{datum}} other
-                            than C{NAD83}.
-           @keyword datum: Optional datum (L{Datum}).
-           @keyword timeout: Optional query timeout (seconds).
+           @kwarg adjust: Adjust the elevation for a B{C{datum}} other
+                          than C{NAD83}.
+           @kwarg datum: Optional datum (L{Datum}).
+           @kwarg timeout: Optional query timeout (seconds).
 
            @return: An L{Elevation2Tuple}C{(elevation, data_source)}
                     or C{(None, error)} in case of errors.
@@ -287,7 +286,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def ellipsoid(self, datum=Datums.WGS84):
         '''Return the ellipsoid of this point's datum or the given datum.
 
-           @keyword datum: Default datum (L{Datum}).
+           @kwarg datum: Default datum (L{Datum}).
 
            @return: The ellipsoid (L{Ellipsoid}).
         '''
@@ -296,7 +295,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def ellipsoids(self, other):
         '''Check the type and ellipsoid of this and an other point's datum.
 
-           @param other: The other point (C{LatLon}).
+           @arg other: The other point (C{LatLon}).
 
            @return: This point's datum ellipsoid (L{Ellipsoid}).
 
@@ -320,7 +319,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                              ('other', c, c, e.name, c, E.name))
         return E
 
-    @property_doc_(" this point's observed epoch (C{float}).")
+    @property_doc_(''' this point's observed epoch (C{float}).''')
     def epoch(self):
         '''Get this point's observed epoch (C{float}) or C{None}.
         '''
@@ -330,8 +329,8 @@ class LatLonEllipsoidalBase(LatLonBase):
     def epoch(self, epoch):
         '''Set or clear this point's observed epoch.
 
-           @param epoch: Observed epoch, a fractional calendar
-                         year (C{scalar}) or C{None}.
+           @arg epoch: Observed epoch, a fractional calendar year
+                       (C{scalar}) or C{None}.
 
            @raise TypeError: The B{C{epoch}} is not C{scalar}.
         '''
@@ -340,10 +339,10 @@ class LatLonEllipsoidalBase(LatLonBase):
     def geoidHeight2(self, adjust=False, datum=Datums.WGS84, timeout=2):
         '''Return geoid height of this point for its or the given datum.
 
-           @keyword adjust: Adjust the geoid height for a B{C{datum}} other
-                            than C{NAD83/NADV88}.
-           @keyword datum: Optional datum (L{Datum}).
-           @keyword timeout: Optional query timeout (seconds).
+           @kwarg adjust: Adjust the geoid height for a B{C{datum}} other
+                          than C{NAD83/NADV88}.
+           @kwarg datum: Optional datum (L{Datum}).
+           @kwarg timeout: Optional query timeout (seconds).
 
            @return: An L{GeoidHeight2Tuple}C{(height, model_name)} or
                     C{(None, error)} in case of errors.
@@ -380,7 +379,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @property_RO
     def iteration(self):
-        '''Get the iteration number (C{int} or C{None} if not available/applicable).
+        '''Get the iteration number (C{int}) or C{None} if not available/applicable.
         '''
         return None
 
@@ -396,10 +395,10 @@ class LatLonEllipsoidalBase(LatLonBase):
            For more details, see functions L{parse3llh} and L{parseDMS}
            in sub-module L{dms}.
 
-           @param strll: Lat, lon [, height] (string).
-           @keyword height: Optional, default height (C{meter} or C{None}).
-           @keyword datum: Optional, default datum (L{Datum}).
-           @keyword sep: Optional separator (string).
+           @arg strll: Lat, lon [, height] (string).
+           @kwarg height: Optional, default height (C{meter} or C{None}).
+           @kwarg datum: Optional, default datum (L{Datum}).
+           @kwarg sep: Optional separator (string).
 
            @return: The point (L{LatLonEllipsoidalBase}).
 
@@ -409,7 +408,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         a, b, h = parse3llh(strll, height=height, sep=sep)
         return self.classof(a, b, height=h, datum=datum or self.datum)
 
-    @property_doc_(" this point's reference frame (L{RefFrame}).")
+    @property_doc_(''' this point's reference frame (L{RefFrame}).''')
     def reframe(self):
         '''Get this point's reference frame (L{RefFrame}) or C{None}.
         '''
@@ -419,7 +418,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def reframe(self, reframe):
         '''Set or clear this point's reference frame.
 
-           @param reframe: Reference frame (L{RefFrame}) or C{None}.
+           @arg reframe: Reference frame (L{RefFrame}) or C{None}.
 
            @raise TypeError: The B{C{reframe}} is not a L{RefFrame}.
         '''
@@ -488,9 +487,9 @@ class LatLonEllipsoidalBase(LatLonBase):
     def toUps(self, pole='N', falsed=True):
         '''Convert this C{LatLon} point to a UPS coordinate.
 
-           @keyword pole: Optional top/center of (stereographic)
-                          projection (C{str}, 'N[orth]' or 'S[outh]').
-           @keyword falsed: False easting and northing (C{bool}).
+           @kwarg pole: Optional top/center of (stereographic)
+                        projection (C{str}, 'N[orth]' or 'S[outh]').
+           @kwarg falsed: False easting and northing (C{bool}).
 
            @return: The UPS coordinate (L{Ups}).
 
@@ -517,8 +516,8 @@ class LatLonEllipsoidalBase(LatLonBase):
     def toUtmUps(self, pole=''):
         '''Convert this C{LatLon} point to a UTM or UPS coordinate.
 
-           @keyword pole: Optional top/center of UPS (stereographic)
-                          projection (C{str}, 'N[orth]' or 'S[outh]').
+           @kwarg pole: Optional top/center of UPS (stereographic)
+                        projection (C{str}, 'N[orth]' or 'S[outh]').
 
            @return: The UTM or UPS coordinate (L{Utm} or L{Ups}).
 

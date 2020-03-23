@@ -23,7 +23,7 @@ from pygeodesy.named import Elevation2Tuple, GeoidHeight2Tuple
 from pygeodesy.streprs import fstr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '20.03.10'
+__version__ = '20.03.19'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -125,9 +125,9 @@ def _xml(tag, xml):
 def elevation2(lat, lon, timeout=2.0):
     '''Get the geoid elevation at an C{NAD83} to C{NAVD88} location.
 
-       @param lat: Latitude (C{degrees}).
-       @param lon: Longitude (C{degrees}).
-       @keyword timeout: Optional, query timeout (seconds).
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
+       @kwarg timeout: Optional, query timeout (seconds).
 
        @return: An L{Elevation2Tuple}C{(elevation, data_source)}
                 or (C{None, "error"}) in case of errors.
@@ -171,10 +171,10 @@ def elevation2(lat, lon, timeout=2.0):
 def geoidHeight2(lat, lon, model=0, timeout=2.0):
     '''Get the C{NAVD88} geoid height at an C{NAD83} location.
 
-       @param lat: Latitude (C{degrees}).
-       @param lon: Longitude (C{degrees}).
-       @keyword model: Optional, geoid model ID (C{int}).
-       @keyword timeout: Optional, query timeout (seconds).
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
+       @kwarg model: Optional, geoid model ID (C{int}).
+       @kwarg timeout: Optional, query timeout (seconds).
 
        @return: An L{GeoidHeight2Tuple}C{(height, model_name)}
                 or C{(None, "error"}) in case of errors.

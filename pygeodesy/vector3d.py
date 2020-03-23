@@ -11,7 +11,7 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _IsNotError, isscalar, len2, \
+from pygeodesy.basics import EPS, _isnotError, isscalar, len2, \
                              map1, property_doc_, property_RO
 from pygeodesy.fmath import fdot, fsum, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
@@ -23,7 +23,7 @@ from math import atan2, cos, sin
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '20.03.15'
+__version__ = '20.03.23'
 
 
 def _xyzn4(xyz, y, z, Error=TypeError):  # imported by .ecef.py
@@ -66,9 +66,9 @@ class CrossError(ValueError):
 def crosserrors(raiser=None):
     '''Report or ignore vectorial cross product errors.
 
-       @keyword raiser: Use C{True} to throw or C{False} to ignore
-                        L{CrossError} exceptions.  Use C{None} to
-                        leave the setting unchanged.
+       @kwarg raiser: Use C{True} to throw or C{False} to ignore
+                      L{CrossError} exceptions.  Use C{None} to
+                      leave the setting unchanged.
 
        @return: Previous setting (C{bool}).
     '''
@@ -112,11 +112,11 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            height relative to the surface of the sphere or ellipsoid,
            distance from earth centre, etc.
 
-           @param x: X component of vector (C{scalar}).
-           @param y: Y component of vector (C{scalar}).
-           @param z: Z component of vector (C{scalar}).
-           @keyword ll: Optional, original latlon (C{LatLon}).
-           @keyword name: Optional name (C{str}).
+           @arg x: X component of vector (C{scalar}).
+           @arg y: Y component of vector (C{scalar}).
+           @arg z: Z component of vector (C{scalar}).
+           @kwarg ll: Optional, original latlon (C{LatLon}).
+           @kwarg name: Optional name (C{str}).
         '''
         self._x = x
         self._y = y
@@ -147,7 +147,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __cmp__(self, other):  # Python 2-
         '''Compare this and an other vector
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: -1, 0 or +1 (C{int}).
 
@@ -162,7 +162,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __div__(self, scalar):
         '''Divide this vector by a scalar.
 
-           @param scalar: The divisor (C{scalar}).
+           @arg scalar: The divisor (C{scalar}).
 
            @return: Quotient (L{Vector3d}).
 
@@ -175,7 +175,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __eq__(self, other):
         '''Is this vector equal to an other vector?
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: C{True} if equal, C{False} otherwise.
 
@@ -187,7 +187,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __ge__(self, other):
         '''Is this vector longer than or equal to an other vector?
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: C{True} if so, C{False} otherwise.
 
@@ -199,7 +199,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __gt__(self, other):
         '''Is this vector longer than an other vector?
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: C{True} if so, C{False} otherwise.
 
@@ -211,7 +211,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __le__(self, other):  # Python 3+
         '''Is this vector shorter than or equal to an other vector?
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: C{True} if so, C{False} otherwise.
 
@@ -223,7 +223,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __lt__(self, other):  # Python 3+
         '''Is this vector shorter than an other vector?
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: C{True} if so, C{False} otherwise.
 
@@ -236,7 +236,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __matmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
         '''Compute the cross product of this and an other vector.
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: Cross product (L{Vector3d}).
 
@@ -248,7 +248,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __mul__(self, scalar):
         '''Multiply this vector by a scalar
 
-           @param scalar: Factor (C{scalar}).
+           @arg scalar: Factor (C{scalar}).
 
            @return: Product (L{Vector3d}).
         '''
@@ -259,7 +259,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __ne__(self, other):
         '''Is this vector not equal to an other vector?
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: C{True} if so, C{False} otherwise.
 
@@ -286,7 +286,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __rmatmul__(self, other):  # PYCHOK Python 3.5+ ... c = a @ b
         '''Compute the cross product of an other and this vector.
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: Cross product (L{Vector3d}).
 
@@ -298,7 +298,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __rsub__(self, other):
         '''Subtract this vector from an other vector.
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: Difference (L{Vector3d}).
 
@@ -310,7 +310,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def __sub__(self, other):
         '''Subtract an other vector from this vector.
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: Difference (L{Vector3d}).
 
@@ -329,12 +329,12 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def angleTo(self, other, vSign=None):
         '''Compute the angle between this and an other vector.
 
-           @param other: The other vector (L{Vector3d}).
-           @keyword vSign: Optional vector, if supplied (and out of the
-                           plane of this and the other), angle is signed
-                           positive if this->other is clockwise looking
-                           along vSign or negative in opposite direction,
-                           otherwise angle is unsigned.
+           @arg other: The other vector (L{Vector3d}).
+           @kwarg vSign: Optional vector, if supplied (and out of the
+                         plane of this and the other), angle is signed
+                         positive if this->other is clockwise looking
+                         along vSign or negative in opposite direction,
+                         otherwise angle is unsigned.
 
            @return: Angle (C{radians}).
 
@@ -352,8 +352,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def cross(self, other, raiser=None):
         '''Compute the cross product of this and an other vector.
 
-           @param other: The other vector (L{Vector3d}).
-           @keyword raiser: Optional, L{CrossError} label if raised (C{str}).
+           @arg other: The other vector (L{Vector3d}).
+           @kwarg raiser: Optional, L{CrossError} label if raised (C{str}).
 
            @return: Cross product (L{Vector3d}).
 
@@ -375,7 +375,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
         return self.classof(x, y, z)
 
-    @property_doc_('raise or ignore L{CrossError} exceptions (C{bool}).')
+    @property_doc_('''raise or ignore L{CrossError} exceptions (C{bool}).''')
     def crosserrors(self):
         '''Get L{CrossError} exceptions (C{bool}).
         '''
@@ -390,7 +390,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def dividedBy(self, factor):
         '''Divide this vector by a scalar.
 
-           @param factor: The divisor (C{scalar}).
+           @arg factor: The divisor (C{scalar}).
 
            @return: New, scaled vector (L{Vector3d}).
 
@@ -399,7 +399,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise VectorError: Invalid or zero B{C{factor}}.
         '''
         if not isscalar(factor):
-            raise _IsNotError('scalar', factor=factor)
+            raise _isnotError('scalar', factor=factor)
         try:
             return self.times(1.0 / factor)
         except (ValueError, ZeroDivisionError):
@@ -408,7 +408,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def dot(self, other):
         '''Compute the dot (scalar) product of this and an other vector.
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: Dot product (C{float}).
 
@@ -426,10 +426,10 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def isequalTo(self, other, units=False, eps=EPS):
         '''Check if this and an other vector are equal or equivalent.
 
-           @param other: The other vector (L{Vector3d}).
-           @keyword units: Optionally, compare the normalized,
-                           unit version of both vectors.
-           @keyword eps: Tolerance for equality (C{scalar}).
+           @arg other: The other vector (L{Vector3d}).
+           @kwarg units: Optionally, compare the normalized, unit
+                         version of both vectors.
+           @kwarg eps: Tolerance for equality (C{scalar}).
 
            @return: C{True} if vectors are identical, C{False} otherwise.
 
@@ -460,7 +460,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def minus(self, other):
         '''Subtract an other vector from this vector.
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: New vector difference (L{Vector3d}).
 
@@ -489,8 +489,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def others(self, other, name='other'):
         '''Refined class comparison.
 
-           @param other: The other vector (L{Vector3d}).
-           @keyword name: Optional, other's name (C{str}).
+           @arg other: The other vector (L{Vector3d}).
+           @kwarg name: Optional, other's name (C{str}).
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
@@ -503,8 +503,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def parse(self, str3d, sep=','):
         '''Parse an C{"x, y, z"} string.
 
-           @param str3d: X, y and z values (C{str}).
-           @keyword sep: Optional separator (C{str}).
+           @arg str3d: X, y and z values (C{str}).
+           @kwarg sep: Optional separator (C{str}).
 
            @return: New vector (L{Vector3d}).
 
@@ -522,7 +522,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def plus(self, other):
         '''Add this vector and an other vector.
 
-           @param other: The other vector (L{Vector3d}).
+           @arg other: The other vector (L{Vector3d}).
 
            @return: Vectorial sum (L{Vector3d}).
 
@@ -544,8 +544,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            and U{Quaternion-derived rotation matrix
            <https://WikiPedia.org/wiki/Quaternions_and_spatial_rotation#Quaternion-derived_rotation_matrix>}.
 
-           @param axis: The axis being rotated around (L{Vector3d}).
-           @param theta: The angle of rotation (C{radians}).
+           @arg axis: The axis being rotated around (L{Vector3d}).
+           @arg theta: The angle of rotation (C{radians}).
 
            @return: New, rotated vector (L{Vector3d}).
 
@@ -573,14 +573,14 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def times(self, factor):
         '''Multiply this vector by a scalar.
 
-           @param factor: Scale factor (C{scalar}).
+           @arg factor: Scale factor (C{scalar}).
 
            @return: New, scaled vector (L{Vector3d}).
 
            @raise TypeError: Non-scalar B{C{factor}}.
         '''
         if not isscalar(factor):
-            raise _IsNotError('scalar', factor=factor)
+            raise _isnotError('scalar', factor=factor)
         return self.classof(self.x * factor,
                             self.y * factor,
                             self.z * factor)
@@ -609,9 +609,9 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
         '''Return a string representation of this vector.
 
-           @keyword prec: Optional number of decimal places (C{int}).
-           @keyword fmt: Optional, enclosing format to use (C{str}).
-           @keyword sep: Optional separator between components (C{str}).
+           @kwarg prec: Optional number of decimal places (C{int}).
+           @kwarg fmt: Optional, enclosing format to use (C{str}).
+           @kwarg sep: Optional separator between components (C{str}).
 
            @return: Vector as "(x, y, z)" (C{str}).
         '''
@@ -620,7 +620,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     def unit(self, ll=None):
         '''Normalize this vector to unit length.
 
-           @keyword ll: Optional, original location (C{LatLon}).
+           @kwarg ll: Optional, original location (C{LatLon}).
 
            @return: Normalized vector (L{Vector3d}).
         '''
@@ -662,13 +662,13 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return self._z
 
 
-def sumOf(vectors, Vector=Vector3d, **kwds):
+def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
     '''Compute the vectorial sum of several vectors.
 
-       @param vectors: Vectors to be added (L{Vector3d}[]).
-       @keyword Vector: Optional class for the vectorial sum (L{Vector3d}).
-       @keyword kwds: Optional, additional B{C{Vector}} keyword arguments,
-                      ignored if C{B{Vector}=None}.
+       @arg vectors: Vectors to be added (L{Vector3d}[]).
+       @kwarg Vector: Optional class for the vectorial sum (L{Vector3d}).
+       @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
+                           ignored if B{C{Vector=None}}.
 
        @return: Vectorial sum (B{C{Vector}}).
 
@@ -682,7 +682,7 @@ def sumOf(vectors, Vector=Vector3d, **kwds):
                      fsum(v.y for v in vectors),
                      fsum(v.z for v in vectors))
     if Vector is not None:
-        r = Vector(r.x, r.y, r.z, **kwds)  # PYCHOK x, y, z
+        r = Vector(r.x, r.y, r.z, **Vector_kwds)  # PYCHOK x, y, z
     return r
 
 # **) MIT License

@@ -22,7 +22,7 @@ from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.03.09'
+__version__ = '20.03.23'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -73,7 +73,7 @@ def _2fll(lat, lon, *unused):
 #         try:
 #             garef = Garef(garef)
 #         except (TypeError, ValueError):
-#             raise _IsNotError(Garef.__name__, str.__name__, 'LatLon', garef=garef)
+#             raise _isnotError(Garef.__name__, str.__name__, 'LatLon', garef=garef)
 #     return garef
 
 
@@ -109,12 +109,12 @@ class Garef(_NamedStr):
         '''New L{Garef} from an other L{Garef} instance or garef
            C{str} or from a C{LatLon} instance or lat-/longitude C{str}.
 
-           @param cll: Cell or location (L{Garef} or C{str}, C{LatLon}
-                       or C{str}).
-           @keyword precision: Optional, the desired garef resolution
-                               and length (C{int} 0..2), see function
-                               L{gars.encode} for more details.
-           @keyword name: Optional name (C{str}).
+           @arg cll: Cell or location (L{Garef} or C{str}, C{LatLon}
+                     or C{str}).
+           @kwarg precision: Optional, the desired garef resolution
+                             and length (C{int} 0..2), see function
+                             L{gars.encode} for more details.
+           @kwarg name: Optional name (C{str}).
 
            @return: New L{Garef}.
 
@@ -184,8 +184,8 @@ class Garef(_NamedStr):
         '''Return (the center of) this garef cell as an instance
            of the supplied C{LatLon} class.
 
-           @param LatLon: Class to use (C{LatLon}).
-           @keyword kwds: Optional keyword arguments for B{C{LatLon}}.
+           @arg LatLon: Class to use (C{LatLon}).
+           @kwarg kwds: Optional keyword arguments for B{C{LatLon}}.
 
            @return: This garef location (B{C{LatLon}}).
 
@@ -200,9 +200,9 @@ class Garef(_NamedStr):
 def decode3(garef, center=True):
     '''Decode a C{garef} to lat-, longitude and precision.
 
-       @param garef: To be decoded (L{Garef} or C{str}).
-       @keyword center: If C{True} the center, otherwise the south-west,
-                        lower-left corner (C{bool}).
+       @arg garef: To be decoded (L{Garef} or C{str}).
+       @kwarg center: If C{True} the center, otherwise the south-west,
+                      lower-left corner (C{bool}).
 
        @return: A L{LatLonPrec3Tuple}C{(lat, lon, precision)}.
 
@@ -254,10 +254,10 @@ def decode3(garef, center=True):
 def encode(lat, lon, precision=1):  # MCCABE 14
     '''Encode a lat-/longitude as a C{garef} of the given precision.
 
-       @param lat: Latitude (C{degrees}).
-       @param lon: Longitude (C{degrees}).
-       @keyword precision: Optional, the desired C{garef} resolution
-                           and length (C{int} 0..2).
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
+       @kwarg precision: Optional, the desired C{garef} resolution
+                         and length (C{int} 0..2).
 
        @return: The C{garef} (C{str}).
 
@@ -308,7 +308,7 @@ def precision(res):
     '''Determine the L{Garef} precision to meet a required (geographic)
        resolution.
 
-       @param res: The required resolution (C{degrees}).
+       @arg res: The required resolution (C{degrees}).
 
        @return: The L{Garef} precision (C{int} 0..2).
 
@@ -324,7 +324,7 @@ def precision(res):
 def resolution(prec):
     '''Determine the (geographic) resolution of a given L{Garef} precision.
 
-       @param prec: The given precision (C{int}).
+       @arg prec: The given precision (C{int}).
 
        @return: The (geographic) resolution (C{degrees}).
 

@@ -28,7 +28,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.03.15'
+__version__ = '20.03.20'
 
 
 class LatLonBase(_NamedBase):
@@ -51,10 +51,10 @@ class LatLonBase(_NamedBase):
     def __init__(self, lat, lon, height=0, name=''):
         '''New C{LatLon}.
 
-           @param lat: Latitude (C{degrees} or DMS C{str} with N or S suffix).
-           @param lon: Longitude (C{degrees} or DMS C{str} with E or W suffix).
-           @keyword height: Optional height (C{meter} above or below the earth surface).
-           @keyword name: Optional name (C{str}).
+           @arg lat: Latitude (C{degrees} or DMS C{str} with N or S suffix).
+           @arg lon: Longitude (C{degrees} or DMS C{str} with E or W suffix).
+           @kwarg height: Optional height (C{meter} above or below the earth surface).
+           @kwarg name: Optional name (C{str}).
 
            @return: New instance (C{LatLon}).
 
@@ -86,8 +86,8 @@ class LatLonBase(_NamedBase):
     def _havg(self, other, f=0.5):
         '''(INTERNAL) Weighted, average height.
 
-           @param other: An other point (C{LatLon}).
-           @keyword f: Optional fraction (C{float}).
+           @arg other: An other point (C{LatLon}).
+           @kwarg f: Optional fraction (C{float}).
 
            @return: Average, fractional height (C{float}).
         '''
@@ -104,7 +104,7 @@ class LatLonBase(_NamedBase):
         '''Return the antipode, the point diametrically opposite
            to this point.
 
-           @keyword height: Optional height of the antipode, height
+           @kwarg height: Optional height of the antipode, height
                             of this point otherwise (C{meter}).
 
            @return: The antipodal point (C{LatLon}).
@@ -122,11 +122,11 @@ class LatLonBase(_NamedBase):
         '''Return the SE and NW lat-/longitude of a great circle
            bounding box centered at this location.
 
-           @param wide: Longitudinal box width (C{meter}, same units as
-                        B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
-           @param high: Latitudinal box height (C{meter}, same units as
-                        B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
-           @keyword radius: Mean earth radius (C{meter}).
+           @arg wide: Longitudinal box width (C{meter}, same units as
+                      B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
+           @arg high: Latitudinal box height (C{meter}, same units as
+                      B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
+           @kwarg radius: Mean earth radius (C{meter}).
 
            @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)}, the
                     lower-left and upper-right corner (C{LatLon}).
@@ -161,11 +161,11 @@ class LatLonBase(_NamedBase):
            hundred Km or Miles.  Use method C{initialBearingTo} for
            larger distances.
 
-           @param other: The other point (C{LatLon}).
-           @keyword adjust: Adjust the longitudinal delta by the
-                            cosine of the mean latitude (C{bool}).
-           @keyword wrap: Wrap and L{unroll180} longitudes and longitudinal
-                          delta (C{bool}).
+           @arg other: The other point (C{LatLon}).
+           @kwarg adjust: Adjust the longitudinal delta by the
+                          cosine of the mean latitude (C{bool}).
+           @kwarg wrap: Wrap and L{unroll180} longitudes and longitudinal
+                       delta (C{bool}).
 
            @return: Compass angle from North (C{degrees360}).
 
@@ -223,12 +223,11 @@ class LatLonBase(_NamedBase):
            See function L{equirectangular_} for more details, the
            available B{C{options}} and errors raised.
 
-           @param other: The other point (C{LatLon}).
-           @keyword radius: Mean earth radius (C{meter}) or C{None}
-                            for the mean radius of this point's datum
-                            ellipsoid.
-           @keyword options: Optional keyword arguments for function
-                             L{equirectangular}.
+           @arg other: The other point (C{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None} for
+                          the mean radius of this point's datum ellipsoid.
+           @kwarg options: Optional keyword arguments for function
+                           L{equirectangular}.
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -245,11 +244,10 @@ class LatLonBase(_NamedBase):
 
            See function L{euclidean} for the available B{C{options}}.
 
-           @param other: The other point (C{LatLon}).
-           @keyword radius: Mean earth radius (C{meter}) or C{None}
-                            for the mean radius of this point's datum
-                            ellipsoid.
-           @keyword options: Optional keyword arguments for function
+           @arg other: The other point (C{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None} for
+                          the mean radius of this point's datum ellipsoid.
+           @kwarg options: Optional keyword arguments for function
                              L{euclidean}.
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
@@ -266,11 +264,10 @@ class LatLonBase(_NamedBase):
            U{Haversine<https://www.Movable-Type.co.UK/scripts/latlong.html>}
            formula.
 
-           @param other: The other point (C{LatLon}).
-           @keyword radius: Mean earth radius (C{meter}) or C{None}
-                            for the mean radius of this point's datum
-                            ellipsoid.
-           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @arg other: The other point (C{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None} for
+                          the mean radius of this point's datum ellipsoid.
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -281,7 +278,7 @@ class LatLonBase(_NamedBase):
         '''
         return self._distanceTo(haversine, other, radius, wrap=wrap)
 
-    @property_doc_(' the height (C{meter}).')
+    @property_doc_(''' the height (C{meter}).''')
     def height(self):
         '''Get the height (C{meter}).
         '''
@@ -291,7 +288,7 @@ class LatLonBase(_NamedBase):
     def height(self, height):
         '''Set the height.
 
-           @param height: New height (C{meter}).
+           @arg height: New height (C{meter}).
 
            @raise TypeError: Invalid B{C{height}} C{type}.
 
@@ -305,8 +302,8 @@ class LatLonBase(_NamedBase):
         '''Check whether this and an other point are antipodal,
            on diametrically opposite sides of the earth.
 
-           @param other: The other point (C{LatLon}).
-           @keyword eps: Tolerance for near-equality (C{degrees}).
+           @arg other: The other point (C{LatLon}).
+           @kwarg eps: Tolerance for near-equality (C{degrees}).
 
            @return: C{True} if points are antipodal within the given
                     tolerance, C{False} otherwise.
@@ -328,8 +325,8 @@ class LatLonBase(_NamedBase):
     def isequalTo(self, other, eps=None):
         '''Compare this point with an other point.
 
-           @param other: The other point (C{LatLon}).
-           @keyword eps: Tolerance for equality (C{degrees}).
+           @arg other: The other point (C{LatLon}).
+           @kwarg eps: Tolerance for equality (C{degrees}).
 
            @return: C{True} if both points are identical,
                     I{ignoring} height, C{False} otherwise.
@@ -356,8 +353,8 @@ class LatLonBase(_NamedBase):
     def isequalTo3(self, other, eps=None):
         '''Compare this point with an other point.
 
-           @param other: The other point (C{LatLon}).
-           @keyword eps: Tolerance for equality (C{degrees}).
+           @arg other: The other point (C{LatLon}).
+           @kwarg eps: Tolerance for equality (C{degrees}).
 
            @return: C{True} if both points are identical
                     I{including} height, C{False} otherwise.
@@ -386,7 +383,7 @@ class LatLonBase(_NamedBase):
         '''
         return self.philam.lam if self._philam is None else self._philam.lam
 
-    @property_doc_(' the latitude (C{degrees90}).')
+    @property_doc_(''' the latitude (C{degrees90}).''')
     def lat(self):
         '''Get the latitude (C{degrees90}).
         '''
@@ -396,7 +393,7 @@ class LatLonBase(_NamedBase):
     def lat(self, lat):
         '''Set the latitude.
 
-           @param lat: New latitude (C{str[N|S]} or C{degrees}).
+           @arg lat: New latitude (C{str[N|S]} or C{degrees}).
 
            @raise ValueError: Invalid B{C{lat}}.
         '''
@@ -404,7 +401,7 @@ class LatLonBase(_NamedBase):
         self._update(lat != self._lat)
         self._lat = lat
 
-    @property_doc_(' the lat- and longitude, optionally height.')
+    @property_doc_(''' the lat- and longitude, optionally height.''')
     def latlon(self):
         '''Get the lat- and longitude (L{LatLon2Tuple}C{(lat, lon)}).
         '''
@@ -416,8 +413,8 @@ class LatLonBase(_NamedBase):
     def latlon(self, latlonh):
         '''Set the lat- and longitude and optionally the height.
 
-           @param latlonh: New lat-, longitude and height (2- or
-                           3-tuple of C{degrees} and C{meter}).
+           @arg latlonh: New lat-, longitude and height (2- or
+                        3-tuple of C{degrees} and C{meter}).
 
            @raise TypeError: Height of B{C{latlonh}} not C{scalar} or
                              B{C{latlonh}} not C{list} or C{tuple}.
@@ -449,7 +446,7 @@ class LatLonBase(_NamedBase):
     def latlon2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{degrees}, rounded.
 
-           @keyword ndigits: Number of decimal digits (C{int}).
+           @kwarg ndigits: Number of decimal digits (C{int}).
 
            @return: A L{LatLon2Tuple}C{(lat, lon)}, both C{float}
                     and rounded away from zero.
@@ -472,7 +469,7 @@ class LatLonBase(_NamedBase):
         '''
         return self.latlon.to3Tuple(self.height)
 
-    @property_doc_(' the longitude (C{degrees180}).')
+    @property_doc_(''' the longitude (C{degrees180}).''')
     def lon(self):
         '''Get the longitude (C{degrees180}).
         '''
@@ -482,7 +479,7 @@ class LatLonBase(_NamedBase):
     def lon(self, lon):
         '''Set the longitude.
 
-           @param lon: New longitude (C{str[E|W]} or C{degrees}).
+           @arg lon: New longitude (C{str[E|W]} or C{degrees}).
 
            @raise ValueError: Invalid B{C{lon}}.
         '''
@@ -515,7 +512,7 @@ class LatLonBase(_NamedBase):
     def philam2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{radians}, rounded.
 
-           @keyword ndigits: Number of decimal digits (C{int}).
+           @kwarg ndigits: Number of decimal digits (C{int}).
 
            @return: A L{PhiLam2Tuple}C{(phi, lam)}, both C{float}
                     and rounded away from zero.
@@ -541,10 +538,10 @@ class LatLonBase(_NamedBase):
     def points2(self, points, closed=True):
         '''Check a path or polygon represented by points.
 
-           @param points: The path or polygon points (C{LatLon}[])
-           @keyword closed: Optionally, consider the polygon closed,
-                            ignoring any duplicate or closing final
-                            B{C{points}} (C{bool}).
+           @arg points: The path or polygon points (C{LatLon}[])
+           @kwarg closed: Optionally, consider the polygon closed,
+                          ignoring any duplicate or closing final
+                          B{C{points}} (C{bool}).
 
            @return: A L{Points2Tuple}C{(number, points)}, C{int}
                     and C{list} or C{tuple}.
@@ -563,7 +560,7 @@ class LatLonBase(_NamedBase):
         return self.philam
 
     def to3llh(self, height=None):  # PYCHOK no cover
-        '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple(B{height})}.
+        '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple}C{(}B{C{height}}C{)}.
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
         '''
@@ -578,24 +575,24 @@ class LatLonBase(_NamedBase):
         '''
         return self.xyz  # self.toVector()
 
-    def toCartesian(self, Cartesian=None, **kwds):
+    def toCartesian(self, Cartesian=None, **Cartesian_kwds):
         '''Convert this point to cartesian (ECEF) coordinates.
 
-           @keyword Cartesian: Optional (sub-)class to return the
-                               geocentric coordinates (C{Cartesian})
-                               or C{None}.
-           @keyword kwds: Optional, additional B{C{Cartesian}} keyword
-                          arguments, ignored if C{B{Cartesian}=None}.
+           @kwarg Cartesian: Optional class to return the geocentric
+                             coordinates (C{Cartesian}) or C{None}.
+           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
+                                  keyword arguments, ignored if
+                                  B{C{Cartesian=None}}.
 
-           @return: A B{C{Cartesian}} or if C{B{Cartesian}=None}, an
-                    L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
-                    datum)} with C{C} 0 and C{M} if available.
+           @return: A B{C{Cartesian}} or if B{C{Cartesian}} is C{None},
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
+                    datum)} with C{C=0} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
         '''
         r = self.toEcef()
         if Cartesian is not None:  # class or .classof
-            r = Cartesian(r, **kwds)
+            r = Cartesian(r, **Cartesian_kwds)
             r = self._xnamed(r)
         return r
 
@@ -614,36 +611,36 @@ class LatLonBase(_NamedBase):
             self._e9t = self._xnamed(e)
         return self._e9t
 
-    def toNvector(self, h=None, Nvector=None, **kwds):
+    def toNvector(self, h=None, Nvector=None, **Nvector_kwds):
         '''Convert this point to C{n-vector} (normal to the earth's
            surface) components, I{including height}.
 
-           @keyword h: Optional height, overriding this point's
-                       height (C{meter}).
-           @keyword Nvector: Optional (sub-)class to return the
-                             C{n-vector} components (C{Nvector})
-                             or C{None}.
-           @keyword kwds: Optional, additional B{C{Nvector}} keyword
-                          arguments, ignored if C{B{Nvector}=None}.
+           @kwarg h: Optional height, overriding this point's
+                     height (C{meter}).
+           @kwarg Nvector: Optional class to return the C{n-vector}
+                           components (C{Nvector}) or C{None}.
+           @kwarg Nvector_kwds: Optional, additional B{C{Nvector}}
+                                keyword arguments, ignored if
+                                B{C{Nvector=None}}.
 
            @return: A B{C{Nvector}} or an L{Vector4Tuple}C{(x, y, z, h)}
-                    if C{B{Nvector}=None}.
+                    if B{C{Nvector}} is C{None}.
 
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}.
         '''
         return self.toVector(Vector=Nvector, h=self.height if h is None else h,
-                                            ll=self, **kwds)
+                                            ll=self, **Nvector_kwds)
 
     def toStr(self, form=F_DMS, prec=None, m='m', sep=', '):  # PYCHOK expected
         '''Convert this point to a "lat, lon [+/-height]" string,
            formatted in the given form.
 
-           @keyword form: Optional format, F_D, F_DM, F_DMS for
-                          deg°, deg°min′, deg°min′sec″ (C{str}).
-           @keyword prec: Optional number of decimal digits (0..8 or C{None}).
-           @keyword m: Optional unit of the height (C{str}), use C{None}
-                       to exclude height from the returned string.
-           @keyword sep: Optional separator to join (C{str}).
+           @kwarg form: Optional format, F_D, F_DM, F_DMS for
+                        deg°, deg°min′, deg°min′sec″ (C{str}).
+           @kwarg prec: Optional number of decimal digits (0..8 or C{None}).
+           @kwarg m: Optional unit of the height (C{str}), use C{None} to
+                     exclude height from the returned string.
+           @kwarg sep: Optional separator to join (C{str}).
 
            @return: Point in the specified form (C{str}).
 
@@ -660,27 +657,27 @@ class LatLonBase(_NamedBase):
             t += ['%+.2f%s' % (self.height, m)]
         return sep.join(t)
 
-    def toVector(self, Vector=None, **kwds):
+    def toVector(self, Vector=None, **Vector_kwds):
         '''Convert this point to C{n-vector} (normal to the earth's
            surface) components, I{ignoring height}.
 
-           @keyword Vector: Optional (sub-)class to return the
-                            C{n-vector} components (L{Vector3d})
-                            or C{None}.
-           @keyword kwds: Optional, additional B{C{Vector}} keyword
-                          arguments, ignored if C{B{Vector}=None}.
+           @kwarg Vector: Optional class to return the C{n-vector}
+                          components (L{Vector3d}) or C{None}.
+           @kwarg Vector_kwds: Optional, additional B{C{Vector}}
+                               keyword arguments, ignored if
+                               B{C{Vector=None}}.
 
-           @return: A B{C{Vector}} or an L{Vector3Tuple}C{(x, y, z)}
-                    if C{B{Vector}=None}.
+           @return: A B{C{Vector}} or a L{Vector3Tuple}C{(x, y, z)}
+                    if B{C{Vector}} is C{None}.
 
            @raise TypeError: Invalid B{C{Vector}} or B{C{kwds}}.
 
            @note: These are C{n-vector} x, y and z components,
-                  I{NOT} (geocentric) ECEF x, y and z coordinates!
+                  I{NOT} geocentric (ECEF) x, y and z coordinates!
         '''
         r = latlon2n_xyz(self.lat, self.lon)
         if Vector is not None:
-            r = Vector(r.x, r.y, r.z, **kwds)
+            r = Vector(r.x, r.y, r.z, **Vector_kwds)
         return self._xnamed(r)
 
     def toVector3d(self):
@@ -690,7 +687,7 @@ class LatLonBase(_NamedBase):
            @return: Unit vector (L{Vector3d}).
 
            @note: These are C{n-vector} x, y and z components,
-                  I{NOT} (geocentric) ECEF x, y and z coordinates!
+                  I{NOT} geocentric (ECEF) x, y and z coordinates!
         '''
         if self._v3d is None:
             self._v3d = self.toVector(Vector=Vector3d)  # XXX .unit()
@@ -701,11 +698,11 @@ class LatLonBase(_NamedBase):
            U{Vincenty's<https://WikiPedia.org/wiki/Great-circle_distance>}
            spherical formula.
 
-           @param other: The other point (C{LatLon}).
-           @keyword radius: Mean earth radius (C{meter}) or C{None}
-                            for the mean radius of this point's datum
-                            ellipsoid.
-           @keyword wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @arg other: The other point (C{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}
+                          for the mean radius of this point's datum
+                          ellipsoid.
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -720,8 +717,8 @@ class LatLonBase(_NamedBase):
     def xyz(self):
         '''Get the C{n-vector} X, Y and Z components (L{Vector3Tuple}C{(x, y, z)})
 
-           @note: These are C{n-vector} x, y and z components,
-                  I{NOT} (geocentric) ECEF x, y and z coordinates!
+           @note: These are C{n-vector} x, y and z components, I{NOT}
+                  geocentric (ECEF) x, y and z coordinates!
         '''
         if self._xyz is None:
             self._xyz = self.toVector(Vector=Vector3Tuple)
@@ -731,8 +728,8 @@ class LatLonBase(_NamedBase):
     def xyzh(self):
         '''Get the C{n-vector} X, Y, Z and H components (L{Vector4Tuple}C{(x, y, z, h)})
 
-           @note: These are C{n-vector} x, y and z components,
-                  I{NOT} (geocentric) ECEF x, y and z coordinates!
+           @note: These are C{n-vector} x, y and z components, I{NOT}
+                  geocentric (ECEF) x, y and z coordinates!
         '''
         if self._xyzh is None:
             self._xyzh = self.xyz.to4Tuple(self.height)

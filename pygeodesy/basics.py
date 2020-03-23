@@ -13,7 +13,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.basics
-__version__ = '20.03.15'
+__version__ = '20.03.23'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -65,9 +65,9 @@ EPS1   = 1.0 - EPS    #: M{1 - EPS}   ≈0.9999999999999998 (C{float})
 EPS1_2 = 1.0 - EPS_2  #: M{1 - EPS_2} ≈0.9999999999999999 (C{float})
 # _1EPS  = 1.0 + EPS  #: M{1 + EPS}   ≈1.0000000000000002 (C{float})
 
-INF  = float('inf')  #: Infinity (C{float}), see C{isinf}, C{isfinite}
-NAN  = float('nan')  #: Not-A-Number (C{float}), see C{isnan}
-NEG0 = -0.0          #: Negative 0.0 (C{float}), see C{isneg0}
+INF  = float('inf')  #: Infinity (C{float}), see function C{isinf}, C{isfinite}
+NAN  = float('nan')  #: Not-A-Number (C{float}), see function C{isnan}
+NEG0 = -0.0          #: Negative 0.0 (C{float}), see function C{isneg0}
 
 OK = 'OK'  # OK for test like I{if ... is OK: ...}
 
@@ -78,16 +78,20 @@ _limiterrors = True      # imported by .formy
 _MISSING     = object()  # singleton, imported by .wgrs
 
 
-def _IsNotError(*names, **pair):  # Error=TypeError, name=value
-    '''(INTERNAL) Format a C{TypeError} for a C{name=value} pair.
+class LenError(ValueError):
+    '''Error raised for mis-matching C{len} values.
     '''
-    Error = pair.pop('Error', TypeError)
-    for n, v in pair.items():
-        break
-    else:
-        n, v = 'pair', 'N/A'
-    t = ' or ' .join(names)
-    return Error('%s not %s: %r' % (n, t, v))
+    def __init__(self, where, **lens):  # Error=ValueError
+        '''New L{LenError}.
+
+           @arg where: Object with C{.__name__} attribute (C{class}, C{method}, or C{function}).
+           @kwarg lens: Two or more C{name=len(name)} pairs (C{keyword arguments}).
+        '''
+        ns, vs = zip(*sorted(lens.items()))
+        ns = ', '.join(ns)
+        vs = ' vs '.join(map(str, vs))
+        t  = where.__name__, ns, 'len', vs
+        ValueError.__init__(self, '%s(%s) %s: %s' % t)
 
 
 class LimitError(ValueError):
@@ -99,25 +103,14 @@ class LimitError(ValueError):
     pass
 
 
-def _TypeError(*Types, **pairs):
-    '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
-    '''
-    for n, v in pairs.items():
-        if not isinstance(v, Types):
-            t = ' or '.join(t.__name__ for t in Types)
-            # first letter of Type name I{pronounced} as vowel
-            a = 'an' if t[:1].lower() in 'aeinoux' else 'a'
-            raise TypeError('%s not %s %s: %r' % (n, a, t, v))
-
-
 def clips(bstr, limit=50, white=''):
     '''Clip a string to the given length limit.
 
-       @param bstr: String (C{bytes} or C{str}).
-       @keyword limit: Length limit (C{int}).
-       @keyword white: Whitespace replacement (C{str}).
+       @arg bstr: String (C{bytes} or C{str}).
+       @kwarg limit: Length limit (C{int}).
+       @kwarg white: Whitespace replacement (C{str}).
 
-       @return: Un/-clipped B{C{bstr}}.
+       @return: Un-/clipped B{C{bstr}}.
     '''
     if len(bstr) > limit > 8:
         h = limit // 2
@@ -130,7 +123,7 @@ def clips(bstr, limit=50, white=''):
 def halfs2(str2):
     '''Split a string in 2 halfs.
 
-       @param str2: String to split (C{str}).
+       @arg str2: String to split (C{str}).
 
        @return: 2-Tuple (1st, 2nd) half (C{str}).
 
@@ -149,7 +142,7 @@ except ImportError:
     def isfinite(obj):
         '''Check for C{Inf} and C{NaN} values.
 
-           @param obj: Value (C{scalar}).
+           @arg obj: Value (C{scalar}).
 
            @return: C{False} if B{C{obj}} is C{INF} or C{NAN},
                     C{True} otherwise.
@@ -157,15 +150,15 @@ except ImportError:
            @raise TypeError: Non-scalar B{C{obj}}.
         '''
         if not isscalar(obj):
-            raise _IsNotError(isscalar.__name__, obj=obj)
+            raise _isnotError(isscalar.__name__, obj=obj)
         return not (isinf(obj) or isnan(obj))
 
 
 def isint(obj, both=False):
     '''Check for integer type or an integer C{float}.
 
-       @param obj: The object (any C{type}).
-       @keyword both: Optionally, check both type and value (C{bool}).
+       @arg obj: The object (any C{type}).
+       @kwarg both: Optionally, check both type and value (C{bool}).
 
        @return: C{True} if B{C{obj}} is C{int}, C{False} otherwise.
     '''
@@ -180,7 +173,7 @@ def isint(obj, both=False):
 def isneg0(obj):
     '''Check for L{NEG0}, negative 0.0.
 
-       @param obj: Value (C{scalar}).
+       @arg obj: Value (C{scalar}).
 
        @return: C{True} if B{C{obj}} is C{NEG0} or -0.0,
                 C{False} otherwise.
@@ -189,10 +182,22 @@ def isneg0(obj):
 #                             and str(obj).rstrip('0') == '-0.'
 
 
+def _isnotError(*names, **pair):  # Error=TypeError, name=value
+    '''(INTERNAL) Format a C{TypeError} for a C{name=value} pair.
+    '''
+    Error = pair.pop('Error', TypeError)
+    for n, v in pair.items():
+        break
+    else:
+        n, v = 'pair', 'N/A'
+    t = ' or ' .join(names)
+    return Error('%s not %s: %r' % (n, t, v))
+
+
 def isscalar(obj):
     '''Check for scalar types.
 
-       @param obj: The object (any C{type}).
+       @arg obj: The object (any C{type}).
 
        @return: C{True} if B{C{obj}} is C{scalar}, C{False} otherwise.
     '''
@@ -202,8 +207,8 @@ def isscalar(obj):
 def issequence(obj, *excluded):
     '''Check for sequence types.
 
-       @param obj: The object (any C{type}).
-       @param excluded: Optional, exclusions (C{type}).
+       @arg obj: The object (any C{type}).
+       @arg excluded: Optional, exclusions (C{type}).
 
        @note: Excluding C{tuple} implies excluding C{namedtuple}.
 
@@ -219,7 +224,7 @@ def issequence(obj, *excluded):
 def isstr(obj):
     '''Check for string types.
 
-       @param obj: The object (any C{type}).
+       @arg obj: The object (any C{type}).
 
        @return: C{True} if B{C{obj}} is C{str}, C{False} otherwise.
     '''
@@ -229,8 +234,8 @@ def isstr(obj):
 def issubclassof(sub, sup):
     '''Check whether a class is a subclass of a super class.
 
-       @param sub: The subclass (C{class}).
-       @param sup: The super class (C{class}).
+       @arg sub: The subclass (C{class}).
+       @arg sup: The super class (C{class}).
 
        @return: C{True} if B{C{sub}} is a subclass of B{C{sup}}.
     '''
@@ -241,7 +246,7 @@ def len2(items):
     '''Make built-in function L{len} work for generators, iterators,
        etc. since those can only be started exactly once.
 
-       @param items: Generator, iterator, list, range, tuple, etc.
+       @arg items: Generator, iterator, list, range, tuple, etc.
 
        @return: 2-Tuple C{(n, items)} of the number of items (C{int})
                 and the items (C{list} or C{tuple}).
@@ -254,9 +259,9 @@ def len2(items):
 def limiterrors(raiser=None):
     '''Get/set the raising of limit errors.
 
-       @keyword raiser: Choose C{True} to throw or C{False} to
-                        ignore L{LimitError} exceptions.  Use
-                        C{None} to leave the setting unchanged.
+       @kwarg raiser: Choose C{True} to throw or C{False} to
+                      ignore L{LimitError} exceptions.  Use
+                      C{None} to leave the setting unchanged.
 
        @return: Previous setting (C{bool}).
     '''
@@ -271,8 +276,8 @@ def map1(func, *xs):  # XXX map_
     '''Apply each argument to a single-argument function and
        return a C{tuple} of results.
 
-       @param func: Function to apply (C{callable}).
-       @param xs: Arguments to apply (C{any positional}).
+       @arg func: Function to apply (C{callable}).
+       @arg xs: Arguments to apply (C{any positional}).
 
        @return: Function results (C{tuple}).
     '''
@@ -287,8 +292,8 @@ def map2(func, *xs):
        results only once.  Converting the L{map} object to a tuple
        maintains Python 2 behavior.
 
-       @param func: Function to apply (C{callable}).
-       @param xs: Arguments to apply (C{list, tuple, ...}).
+       @arg func: Function to apply (C{callable}).
+       @arg xs: Arguments to apply (C{list, tuple, ...}).
 
        @return: Function results (C{tuple}).
     '''
@@ -298,11 +303,11 @@ def map2(func, *xs):
 def property_doc_(doc):
     '''Decorator for a property with documentation.
 
-       @param doc: The property documentation (C{str}).
+       @arg doc: The property documentation (C{str}).
 
        @example:
 
-       >>> @property_doc_('documentation text.')
+       >>> @property_doc_("documentation text.")
        >>> def name(self):
        >>>     ...
        >>>
@@ -323,55 +328,52 @@ def property_doc_(doc):
     return _property
 
 
-if True:  # preferred 20.03.15
+class property_RO(property):
+    # No __doc__ on purpose
 
-    class property_RO(property):
-        '''An immutable property (C{Read Only}).
+    def __init__(self, method):  # PYCHOK signature
+        '''New immutable, read-only L{property_RO}.
+
+           @arg method: The callable to be decorated as C{property.getter}.
+
+           @note: Like standard Python C{property} without a C{property.setter},
+                  but with a more descriptive error message when set.
         '''
-        def __init__(self, method):  # PYCHOK signature
-            '''New L{property_RO}.
-
-               @param method: The callable to be decorated as C{property.getter}.
-
-               @note: Like standard Python C{property} without a C{property.setter}
-                      and with a more descriptive error message when set.
-            '''
-            # U{Descriptor HowTo Guide<https://docs.Python.org/3/howto/descriptor.html>}
-            def immutable(inst, value):
-                '''Throws an C{AttributeError}, always.
-                '''
-                t = immutable.__name__, inst, method.__name__, value
-                raise AttributeError('%s property: %r.%s = %r' % t)
-
-            property.__init__(self, method, immutable, None, method.__doc__ or 'N/A')
-
-else:  # PYCHOK no cover
-
-    def property_RO(method):  # PYCHOK expected
-        '''An immutable property (C{Read Only}).
-
-           @param method: The callable to be decorated as C{property.getter}.
-
-           @note: Like standard Python C{property} without a C{property.setter}
-                  and with a more descriptive error message when set.
-        '''
-        def Read_Only(inst, value):
+        # U{Descriptor HowTo Guide<https://docs.Python.org/3/howto/descriptor.html>}
+        def immutable(inst, value):
             '''Throws an C{AttributeError}, always.
             '''
-            t = Read_Only.__name__, inst, method.__name__, value
+            t = immutable.__name__, inst, method.__name__, value
             raise AttributeError('%s property: %r.%s = %r' % t)
 
-        return property(method, Read_Only, None, method.__doc__ or 'N/A')
+        property.__init__(self, method, immutable, None,  method.__doc__ or 'N/A')
+
+
+# def property_RO(method):  # OBSOLETE
+#     '''An immutable property (C{Read Only}).
+#
+#        @arg method: The callable to be decorated as C{property.getter}.
+#
+#        @note: Like standard Python C{property} without a C{property.setter},
+#               but with a more descriptive error message when set.
+#     '''
+#     def Read_Only(inst, value):
+#         '''Throws an C{AttributeError}, always.
+#         '''
+#         t = Read_Only.__name__, inst, method.__name__, value
+#         raise AttributeError('%s property: %r.%s = %r' % t)
+#
+#     return property(method, Read_Only, None, method.__doc__ or 'N/A')
 
 
 def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
     '''Validate a scalar.
 
-       @param value: The value (C{scalar}).
-       @keyword low: Optional lower bound (C{scalar}).
-       @keyword high: Optional upper bound (C{scalar}).
-       @keyword name: Optional name of value (C{str}).
-       @keyword Error: Exception to raise (C{ValueError}).
+       @arg value: The value (C{scalar}).
+       @kwarg low: Optional lower bound (C{scalar}).
+       @kwarg high: Optional upper bound (C{scalar}).
+       @kwarg name: Optional name of value (C{str}).
+       @kwarg Error: Exception to raise (C{ValueError}).
 
        @return: New value (C{type} of B{C{low}}).
 
@@ -380,7 +382,7 @@ def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
        @raise Error: Out-of-bounds B{C{value}}.
     '''
     if not isscalar(value):
-        raise _IsNotError(scalar.__name__, **{name: value})
+        raise _isnotError(scalar.__name__, **{name: value})
     try:
         if low is None:
             v = float(value)
@@ -389,16 +391,16 @@ def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
             if low > v or v > high:
                 raise ValueError
     except (TypeError, ValueError):
-        raise _IsNotError('valid', Error=Error, **{name: value})
+        raise _isnotError('valid', Error=Error, **{name: value})
     return v
 
 
 def splice(iterable, n=2, fill=_MISSING):
     '''Split an iterable into C{n} slices.
 
-       @param iterable: Items to be spliced (C{list}, C{tuple}, ...).
-       @keyword n: Number of slices to generate (C{int}).
-       @keyword fill: Fill value for missing items.
+       @arg iterable: Items to be spliced (C{list}, C{tuple}, ...).
+       @kwarg n: Number of slices to generate (C{int}).
+       @kwarg fill: Fill value for missing items.
 
        @return: Generator of B{C{n}} slices M{iterable[i::n] for i=0..n}.
 
@@ -446,12 +448,23 @@ def splice(iterable, n=2, fill=_MISSING):
         yield t
 
 
+def _TypeError(*Types, **pairs):
+    '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
+    '''
+    for n, v in pairs.items():
+        if not isinstance(v, Types):
+            t = ' or '.join(t.__name__ for t in Types)
+            # first letter of Type name I{pronounced} as vowel
+            a = 'an' if t[:1].lower() in 'aeinoux' else 'a'
+            raise TypeError('%s not %s %s: %r' % (n, a, t, v))
+
+
 def _xcopy(inst, deep=False):
     '''(INTERNAL) Copy an instance, shallow or deep.
 
-       @param inst: The instance to copy (C{_Named}).
-       @keyword deep: If C{True} make a deep, otherwise
-                      shallow copy (C{bool}).
+       @arg inst: The instance to copy (C{_Named}).
+       @kwarg deep: If C{True} make a deep, otherwise
+                    shallow copy (C{bool}).
 
        @return: The copy (C{This class} or subclass thereof).
     '''

@@ -56,7 +56,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.03.15'
+__version__ = '20.03.20'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -64,44 +64,43 @@ class Cartesian(CartesianSphericalBase):
        L{Nvector} and n-vector-based, spherical L{LatLon}.
     '''
 
-    def toLatLon(self, **kwds):  # PYCHOK LatLon=LatLon
+    def toLatLon(self, **LatLon_datum_kwds):  # PYCHOK LatLon=LatLon
         '''Convert this cartesian to an C{Nvector}-based geodetic point.
 
-           @keyword kwds: Optional, additional B{C{LatLon}} keyword
-                          arguments, ignored if C{B{LatLon}=None}.
-                          For example, use C{LatLon=...} to override
-                          the L{LatLon} (sub-)class or specify
-                          C{B{LatLon}=None}.
+           @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
+                  other keyword arguments, ignored if B{C{LatLon=None}}.
+                  Use B{C{LatLon=...}} to override the L{LatLon} class
+                  or specify B{C{LatLon=None}}.
 
-           @return: The B{C{LatLon}} point (L{LatLon}) or if
-                    C{B{LatLon}=None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and
-                    C{M} if available.
+           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is
+                    C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
+                    C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon}} or other B{C{kwds}}.
+           @raise TypeError: Invalid B{C{LatLon_datum_kwds}}.
         '''
-        kwds = _xkwds(kwds, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(LatLon_datum_kwds, LatLon=LatLon, datum=self.datum)
         return CartesianSphericalBase.toLatLon(self, **kwds)
 
-    def toNvector(self, **kwds):  # PYCHOK Datums.WGS84
+    def toNvector(self, **Nvector_datum_kwds):  # PYCHOK Datums.WGS84
         '''Convert this cartesian to L{Nvector} components,
            I{including height}.
 
-           @keyword kwds: Optional, additional B{C{Nvector}} keyword
-                          arguments, ignored if C{B{Nvector}=None}.
-                          For example, use C{Nvector=...} to override
-                          the L{Nvector} (sub-)class or specify
+           @kwarg Nvector_datum_kwds: Optional L{Nvector}, B{C{datum}} and
+                  other keyword arguments, ignored if B{C{Nvector=None}}.
+                  Use B{C{Nvector=...}} to override the L{Nvector} class
+                  or specify B{C{Nvector=None}}.
 
-           @return: The B{C{Nvector}} components (L{Nvector}) or a
-                    L{Vector4Tuple}C{(x, y, z, h)} if C{B{Nvector}=None}.
+           @return: The C{n-vector} components (L{Nvector}) or a
+                    L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}}
+                    is C{None}.
 
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Nvector_datum_kwds}}.
         '''
         # ll = CartesianBase.toLatLon(self, LatLon=LatLon,
         #                                    datum=datum or self.datum)
         # kwds = _xkwds(kwds, Nvector=Nvector)
         # return ll.toNvector(**kwds)
-        kwds = _xkwds(kwds, Nvector=Nvector, datum=self.datum)
+        kwds = _xkwds(Nvector_datum_kwds, Nvector=Nvector, datum=self.datum)
         return CartesianSphericalBase.toNvector(self, **kwds)
 
 
@@ -148,11 +147,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            from the start point to the point where the perpendicular
            crosses the path.
 
-           @param start: Start point of great circle path (L{LatLon}).
-           @param end: End point of great circle path (L{LatLon}) or
-                       initial bearing from start point (compass
-                       C{degrees360}).
-           @keyword radius: Mean earth radius (C{meter}).
+           @arg start: Start point of great circle path (L{LatLon}).
+           @arg end: End point of great circle path (L{LatLon}) or
+                     initial bearing from start point (compass
+                     C{degrees360}).
+           @kwarg radius: Mean earth radius (C{meter}).
 
            @return: Distance along the great circle path (positive if
                     after the start toward the end point of the path
@@ -186,11 +185,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Compute the (signed) distance from this point to great circle
            defined by a start and end point.
 
-           @param start: Start point of great circle path (L{LatLon}).
-           @param end: End point of great circle path (L{LatLon}) or
-                       initial bearing from start point (compass
-                       C{degrees360}).
-           @keyword radius: Mean earth radius (C{meter}).
+           @arg start: Start point of great circle path (L{LatLon}).
+           @arg end: End point of great circle path (L{LatLon}) or
+                     initial bearing from start point (compass
+                     C{degrees360}).
+           @kwarg radius: Mean earth radius (C{meter}).
 
            @return: Distance to great circle (negative if to the
                     left or positive if to the right of the path).
@@ -219,13 +218,12 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Locate the destination from this point after having
            travelled the given distance on the given bearing.
 
-           @param distance: Distance travelled (C{meter}, same units
-                            as B{C{radius}}).
-           @param bearing: Bearing from this point (compass C{degrees360}).
-           @keyword radius: Mean earth radius (C{meter}).
-           @keyword height: Optional height at destination, overriding
-                            the default height (C{meter}, same units as
-                            B{C{radius}}).
+           @arg distance: Distance travelled (C{meter}, same units
+                          as B{C{radius}}).
+           @arg bearing: Bearing from this point (compass C{degrees360}).
+           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg height: Optional height at destination, overriding the
+                          default height (C{meter}, same units as B{C{radius}}).
 
            @return: Destination point (L{LatLon}).
 
@@ -254,8 +252,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def distanceTo(self, other, radius=R_M):
         '''Compute the distance from this to an other point.
 
-           @param other: The other point (L{LatLon}).
-           @keyword radius: Mean earth radius (C{meter}).
+           @arg other: The other point (L{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}).
 
            @return: Distance between this and the B{C{other}} point
                     (C{meter}, same units as B{C{radius}}).
@@ -279,7 +277,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            Direction of vector is such that initial bearing vector
            b = c × n, where n is an n-vector representing this point.
 
-           @param bearing: Bearing from this point (compass C{degrees360}).
+           @arg bearing: Bearing from this point (compass C{degrees360}).
 
            @return: N-vector representing the great circle (L{Nvector}).
         '''
@@ -298,8 +296,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            Direction of vector is such that initial bearing vector
            b = c × n, where n is an n-vector representing this point.
 
-           @param other: The other point (L{LatLon}) or the bearing
-                         from this point (compass C{degrees360}).
+           @arg other: The other point (L{LatLon}) or the bearing from
+                       this point (compass C{degrees360}).
 
            @return: N-vector representing the great circle (L{Nvector}).
 
@@ -324,8 +322,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Compute the initial bearing (forward azimuth) from this
            to an other point.
 
-           @param other: The other point (L{LatLon}).
-           @param unused: Optional keyword argument B{C{wrap}} ignored.
+           @arg other: The other point (L{LatLon}).
+           @arg unused: Optional keyword argument B{C{wrap}} ignored.
 
            @return: Initial bearing (compass C{degrees360}).
 
@@ -356,11 +354,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Locate the point projected from the point at given fraction
            on a straight line (chord) between this and an other point.
 
-           @param other: The other point (L{LatLon}).
-           @param fraction: Fraction between both points (float, 0.0 =
-                            this point, 1.0 = other point).
-           @keyword height: Optional height at the intermediate point,
-                            overriding the fractional height (C{meter}).
+           @arg other: The other point (L{LatLon}).
+           @arg fraction: Fraction between both points (float, between
+                          0.0 for this and 1.0 for the other point).
+           @kwarg height: Optional height at the intermediate point,
+                          overriding the fractional height (C{meter}).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -388,11 +386,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Locate the point at a given fraction between this and an
            other point.
 
-           @param other: The other point (L{LatLon}).
-           @param fraction: Fraction between both points (float, 0.0 =
-                            this point, 1.0 = the other point).
-           @keyword height: Optional height at the intermediate point,
-                            overriding the fractional height (C{meter}).
+           @arg other: The other point (L{LatLon}).
+           @arg fraction: Fraction between both points (float, between
+                          0.0 for this and 1.0 for the other point).
+           @kwarg height: Optional height at the intermediate point,
+                          overriding the fractional height (C{meter}).
 
            @return: Intermediate point (L{LatLon}).
 
@@ -426,15 +424,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Locate the intersection point of two paths each defined
            by two points or a start point and bearing from North.
 
-           @param end1: End point of the first path (L{LatLon}) or
-                        the initial bearing at this point (compass
-                        C{degrees360}).
-           @param start2: Start point of the second path (L{LatLon}).
-           @param end2: End point of the second path (L{LatLon}) or
-                        the initial bearing at the second point (compass
-                        C{degrees}).
-           @keyword height: Optional height at the intersection point,
-                            overriding the mean height (C{meter}).
+           @arg end1: End point of the first path (L{LatLon}) or the
+                      initial bearing at this point (compass C{degrees360}).
+           @arg start2: Start point of the second path (L{LatLon}).
+           @arg end2: End point of the second path (L{LatLon}) or the
+                      initial bearing at the second point (compass
+                      C{degrees}).
+           @kwarg height: Optional height at the intersection point,
+                          overriding the mean height (C{meter}).
 
            @return: The intersection point (L{LatLon}) or C{None}
                     if no unique intersection exists.
@@ -457,7 +454,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def isenclosedBy(self, points):
         '''Check whether this point is enclosed by a (convex) polygon.
 
-           @param points: The polygon points (L{LatLon}[]).
+           @arg points: The polygon points (L{LatLon}[]).
 
            @return: C{True} if the polygon encloses this point,
                     C{False} otherwise.
@@ -523,8 +520,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            by perpendiculars to the great circle at each point (in
            the same hemispere).
 
-           @param point1: Start point of the arc (L{LatLon}).
-           @param point2: End point of the arc (L{LatLon}).
+           @arg point1: Start point of the arc (L{LatLon}).
+           @arg point2: End point of the arc (L{LatLon}).
 
            @return: C{True} if this point is within the arc,
                     C{False} otherwise.
@@ -563,9 +560,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
     def midpointTo(self, other, height=None):
         '''Find the midpoint between this and an other point.
 
-           @param other: The other point (L{LatLon}).
-           @keyword height: Optional height at the midpoint,
-                            overriding the mean height (C{meter}).
+           @arg other: The other point (L{LatLon}).
+           @kwarg height: Optional height at the midpoint, overriding
+                          the mean height (C{meter}).
 
            @return: Midpoint (L{LatLon}).
 
@@ -591,10 +588,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            end points, return the closest point on the arc.  Otherwise,
            return the closest of the arc's end points.
 
-           @param point1: Start point of the arc (L{LatLon}).
-           @param point2: End point of the arc (L{LatLon}).
-           @keyword height: Optional height, overriding the mean height
-                            for the point within the arc (C{meter}).
+           @arg point1: Start point of the arc (L{LatLon}).
+           @arg point2: End point of the arc (L{LatLon}).
+           @kwarg height: Optional height, overriding the mean height
+                          for the point within the arc (C{meter}).
 
            @return: Closest point on the arc (L{LatLon}).
 
@@ -652,11 +649,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            arc, the closest point is on that arc.  Otherwise,
            the closest is the nearest of the arc's end points.
 
-           @param points: The polygon points (L{LatLon}[]).
-           @keyword closed: Optionally, close the polygon (C{bool}).
-           @keyword radius: Mean earth radius (C{meter}).
-           @keyword height: Optional height, overriding the mean height
-                            for a point within the arc (C{meter}).
+           @arg points: The polygon points (L{LatLon}[]).
+           @kwarg closed: Optionally, close the polygon (C{bool}).
+           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg height: Optional height, overriding the mean height
+                          for a point within the arc (C{meter}).
 
            @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of
                     the C{closest} point (L{LatLon}), the C{distance}
@@ -682,38 +679,42 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         return NearestOn3Tuple(c, r * radius, degrees360(r))
 
-    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian
+    def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Nvector}-based cartesian (ECEF)
            coordinates.
 
-           @keyword kwds: Optional, additional B{C{Cartesian}} keyword
-                          arguments, ignored if C{B{Cartesian}=None}.
-                          For example, use C{Cartesian=...} to override
-                          the L{Cartesian} (sub-)class or specify
+           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}} or
+                                        other keyword arguments, ignored if
+                                        B{C{Cartesian=None}}.  Use
+                                        B{C{Cartesian=...}} to override this
+                                        L{Cartesian} class or specify
+                                        B{C{Cartesian=None}}.
 
-           @return: The B{C{Cartesian}} point (L{Cartesian}) or if
-                    C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and C{M}
-                    if available.
+           @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
+                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
+                    C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian}} or B{C{attrs}}.
+           @raise TypeError: Invalid B{C{Cartesian_datum_kwds}}.
         '''
-        kwds = _xkwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian,
+                                                datum=self.datum)
         return LatLonSphericalBase.toCartesian(self, **kwds)
 
-    def toNvector(self, **kwds):  # PYCHOK signature
+    def toNvector(self, **Nvector_kwds):  # PYCHOK signature
         '''Convert this point to L{Nvector} components, I{including
            height}.
 
-           @keyword kwds: Optional, additional B{C{Nvector}} keyword
-                          arguments, ignored if C{B{Nvector}=None}.
-                          For example, use C{Nvector=...} to override
-                          the L{Nvector} (sub-)class or specify
+           @kwarg Nvector_kwds: Optional L{Nvector} keyword arguments,
+                                ignored if B{C{Nvector=None}}.  Use
+                                B{C{Nvector=...}} to override this
+                                L{Nvector} class or specify
+                                B{C{Nvector=None}}
 
-           @return: The B{C{Nvector}} components (L{Nvector}) or a
-                    L{Vector4Tuple}C{(x, y, z, h)} if C{B{Nvector}=None}.
+           @return: The C{n-vector} components (L{Nvector}) or a
+                    L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}}
+                    is C{None}.
 
-           @raise TypeError: Invalid B{C{Nvector}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Nvector_kwds}}.
 
            @example:
 
@@ -723,19 +724,18 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{toVector}.
         '''
-        kwds = _xkwds(kwds, Nvector=Nvector)
+        kwds = _xkwds(Nvector_kwds, Nvector=Nvector)
         return LatLonNvectorBase.toNvector(self, **kwds)
 
     def triangulate(self, bearing1, other, bearing2, height=None):
         '''Locate a point given this and an other point and a bearing
            at this and the other point.
 
-           @param bearing1: Bearing at this point (compass C{degrees360}).
-           @param other: The other point (L{LatLon}).
-           @param bearing2: Bearing at the other point (compass
-                            C{degrees360}).
-           @keyword height: Optional height at the triangulated point,
-                            overriding the mean height (C{meter}).
+           @arg bearing1: Bearing at this point (compass C{degrees360}).
+           @arg other: The other point (L{LatLon}).
+           @arg bearing2: Bearing at the other point (compass C{degrees360}).
+           @kwarg height: Optional height at the triangulated point,
+                          overriding the mean height (C{meter}).
 
            @return: Triangulated point (L{LatLon}).
 
@@ -757,19 +757,18 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''Locate a point at given distances from this and two other points.
            See also U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}.
 
-           @param distance1: Distance to this point (C{meter}, same units
-                             as B{C{radius}}).
-           @param point2: Second reference point (L{LatLon}).
-           @param distance2: Distance to point2 (C{meter}, same units as
-                             B{C{radius}}).
-           @param point3: Third reference point (L{LatLon}).
-           @param distance3: Distance to point3 (C{meter}, same units as
-                             B{C{radius}}).
-           @keyword radius: Mean earth radius (C{meter}).
-           @keyword height: Optional height at trilaterated point,
-                            overriding the mean height (C{meter}, same
-                            units as B{C{radius}}).
-           @keyword useZ: Include Z component iff non-NaN, non-zero (C{bool}).
+           @arg distance1: Distance to this point (C{meter}, same units
+                           as B{C{radius}}).
+           @arg point2: Second reference point (L{LatLon}).
+           @arg distance2: Distance to point2 (C{meter}, same units as
+                           B{C{radius}}).
+           @arg point3: Third reference point (L{LatLon}).
+           @arg distance3: Distance to point3 (C{meter}, same units as
+                           B{C{radius}}).
+           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg height: Optional height at trilaterated point, overriding
+                          the mean height (C{meter}, same units as B{C{radius}}).
+           @kwarg useZ: Include Z component iff non-NaN, non-zero (C{bool}).
 
            @return: Trilaterated point (L{LatLon}).
 
@@ -801,42 +800,44 @@ class Nvector(NvectorBase):
     _datum = Datums.Sphere  #: (INTERNAL) Default datum (L{Datum}).
     _Ecef  = EcefKarney     #: (INTERNAL) Preferred C{Ecef...} class.
 
-    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian
+    def toCartesian(self, **Cartesian_h_kwds):  # PYCHOK Cartesian=Cartesian
         '''Convert this n-vector to C{Nvector}-based cartesian
            (ECEF) coordinates.
 
-           @keyword kwds: Optional, additional B{C{Cartesian}} keyword
-                          arguments, ignored if C{B{Cartesian}=None}.
-                          For example, use C{Cartesian=...} to override
-                          the L{Cartesian} (sub-)class or specify
+           @kwarg Cartesian_h_kwds: Optional L{Cartesian}, B{C{h}} and
+                                    other keyword arguments, ignored if
+                                    B{C{Cartesian=None}}.  Use
+                                    B{C{Cartesian=...}} to override this
+                                    L{Cartesian} class or specify
+                                    B{C{Cartesian=None}}.
 
-           @return: The B{C{Cartesian}} point (L{Cartesian}) or if
-                    C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and C{M}
-                    if available.
+           @return: The cartesian point (L{Cartesian}) or if B{C{Cartesian}}
+                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
+                    C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
-                             or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian}}, B{C{h}} or other
+                             B{C{Cartesian_h_kwds}}.
         '''
-        kwds = _xkwds(kwds, h=self.h, Cartesian=Cartesian)
+        kwds = _xkwds(Cartesian_h_kwds, h=self.h, Cartesian=Cartesian)
         return NvectorBase.toCartesian(self, **kwds)  # class or .classof
 
-    def toLatLon(self, **kwds):  # PYCHOK height=None, LatLon=LatLon
+    def toLatLon(self, **LatLon_height_kwds):  # PYCHOK height=None, LatLon=LatLon
         '''Convert this n-vector to an C{Nvector}-based geodetic point.
 
-           @keyword kwds: Optional, additional B{C{LatLon}} keyword
-                          arguments, ignored if C{B{LatLon}=None}.
-                          For example, use C{LatLon=...} to override
-                          the L{LatLon} (sub-)class or specify
-                          C{B{LatLon}=None}.
+           @kwarg LatLon_height_kwds: Optional L{LatLon}, B{C{height}} and
+                                      other keyword arguments, ignored if
+                                      B{C{LatLon=None}}.  Use
+                                      B{C{LatLon=...}} to override this
+                                      L{LatLon} class or specify
+                                      B{C{LatLon=None}}.
 
-           @return: The B{C{LatLon}} point (L{LatLon}) or if
-                    C{B{LatLon}=None} or a L{LatLon3Tuple}C{(lat,
-                    lon, height)} if B{C{LatLon}} is C{None}.
+           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
+                    is C{None}, a L{LatLon3Tuple}C{(lat, lon, height)}.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}}, B{C{height}} or
+                             other B{C{LatLon_height_kwds}}.
         '''
-        kwds = _xkwds(kwds, height=self.h, LatLon=LatLon)
+        kwds = _xkwds(LatLon_height_kwds, height=self.h, LatLon=LatLon)
         return NvectorBase.toLatLon(self, **kwds)  # class or .classof
 
     def greatCircle(self, bearing):
@@ -847,7 +848,7 @@ class Nvector(NvectorBase):
            Direction of vector is such that initial bearing vector
            b = c × p.
 
-           @param bearing: Initial compass bearing (C{degrees}).
+           @arg bearing: Initial compass bearing (C{degrees}).
 
            @return: N-vector representing great circle (L{Nvector}).
 
@@ -875,8 +876,8 @@ def areaOf(points, radius=R_M):
     '''Calculate the area of a (spherical) polygon (with great circle
        arcs joining consecutive points).
 
-       @param points: The polygon points (L{LatLon}[]).
-       @keyword radius: Mean earth radius (C{meter}).
+       @arg points: The polygon points (L{LatLon}[]).
+       @kwarg radius: Mean earth radius (C{meter}).
 
        @return: Polygon area (C{meter}, same units as B{C{radius}}, squared).
 
@@ -935,22 +936,24 @@ def areaOf(points, radius=R_M):
 
 
 def intersection(start1, end1, start2, end2,
-                 height=None, LatLon=LatLon):
+                 height=None, LatLon=LatLon, **LatLon_kwds):
     '''Locate the intersection of two paths each defined by two
        points or by a start point and an initial bearing.
 
-       @param start1: Start point of the first path (L{LatLon}).
-       @param end1: End point of the first path (L{LatLon}) or
-                    the initial bearing at the first start point
-                    (compass C{degrees360}).
-       @param start2: Start point of the second path (L{LatLon}).
-       @param end2: End point of the second path (L{LatLon}) or
-                    the initial bearing at the second start point
-                    (compass C{degrees360}).
-       @keyword height: Optional height at the intersection point,
-                        overriding the mean height (C{meter}).
-       @keyword LatLon: Optional (sub-)class to return the
-                        intersection point (L{LatLon}).
+       @arg start1: Start point of the first path (L{LatLon}).
+       @arg end1: End point of the first path (L{LatLon}) or the
+                  initial bearing at the first start point
+                  (compass C{degrees360}).
+       @arg start2: Start point of the second path (L{LatLon}).
+       @arg end2: End point of the second path (L{LatLon}) or the
+                  initial bearing at the second start point
+                  (compass C{degrees360}).
+       @kwarg height: Optional height at the intersection point,
+                      overriding the mean height (C{meter}).
+       @kwarg LatLon: Optional class to return the intersection
+                      point (L{LatLon}).
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if B{C{LatLon=None}}.
 
        @return: The intersection point (B{C{LatLon}}) or 3-tuple
                 (C{degrees90}, C{degrees180}, height) if B{C{LatLon}}
@@ -1015,19 +1018,23 @@ def intersection(start1, end1, start2, end2,
             # point of v1 and v2 [is this always true?]
             d = -s1.plus(s2).dot(i1)
 
-    h = fmean(hs) if height is None else height
     i = i1 if d > 0 else gc2.cross(gc1, raiser='paths')
-    return i.toLatLon(height=h, LatLon=LatLon)  # Nvector(i.x, i.y, i.z).toLatLon(...)
+
+    h = fmean(hs) if height is None else height
+    kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
+    return i.toLatLon(**kwds)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
 
-def meanOf(points, height=None, LatLon=LatLon):
+def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
     '''Compute the geographic mean of the supplied points.
 
-       @param points: Array of points to be averaged (L{LatLon}[]).
-       @keyword height: Optional height, overriding the mean height
-                        (C{meter}).
-       @keyword LatLon: Optional (sub-)class to return the mean point
-                        (L{LatLon}).
+       @arg points: Array of points to be averaged (L{LatLon}[]).
+       @kwarg height: Optional height, overriding the mean height
+                      (C{meter}).
+       @kwarg LatLon: Optional class to return the mean point
+                      (L{LatLon}).
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if B{C{LatLon=None}}.
 
        @return: Point at geographic mean and mean height (B{C{LatLon}}).
 
@@ -1036,7 +1043,8 @@ def meanOf(points, height=None, LatLon=LatLon):
     n, points = _Nvll.points2(points, closed=False)
     # geographic mean
     m = sumOf(points[i]._N_vector for i in range(n))
-    return m.toLatLon(height=height, LatLon=LatLon)
+    kwds = _xkwds(LatLon_kwds, height=height, LatLon=LatLon)
+    return m.toLatLon(**kwds)
 
 
 def nearestOn2(point, points, **closed_radius_height):
@@ -1058,12 +1066,12 @@ def nearestOn3(point, points, closed=False, radius=R_M, height=None):
        arc, the closest point is on that arc.  Otherwise, the
        closest is the nearest of the arc's end points.
 
-       @param point: The other, reference point (L{LatLon}).
-       @param points: The polygon points (L{LatLon}[]).
-       @keyword closed: Optionally, close the polygon (C{bool}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword height: Optional height, overriding the mean height
-                        for a point within the arc (C{meter}).
+       @arg point: The other, reference point (L{LatLon}).
+       @arg points: The polygon points (L{LatLon}[]).
+       @kwarg closed: Optionally, close the polygon (C{bool}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg height: Optional height, overriding the mean height
+                      for a point within the arc (C{meter}).
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of
                 the C{closest} point (L{LatLon}) on the polygon, the
@@ -1085,9 +1093,9 @@ def perimeterOf(points, closed=False, radius=R_M):
     '''Compute the perimeter of a (spherical) polygon (with great circle
        arcs joining consecutive points).
 
-       @param points: The polygon points (L{LatLon}[]).
-       @keyword closed: Optionally, close the polygon (C{bool}).
-       @keyword radius: Mean earth radius (C{meter}).
+       @arg points: The polygon points (L{LatLon}[]).
+       @kwarg closed: Optionally, close the polygon (C{bool}).
+       @kwarg radius: Mean earth radius (C{meter}).
 
        @return: Polygon perimeter (C{meter}, same units as B{C{radius}}).
 
@@ -1112,34 +1120,36 @@ def perimeterOf(points, closed=False, radius=R_M):
     return r * float(radius)
 
 
-def sumOf(nvectors, Vector=Nvector, h=None, **kwds):
+def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
     '''Return the vectorial sum of two or more n-vectors.
 
-       @param nvectors: Vectors to be added (L{Nvector}[]).
-       @keyword Vector: Optional class for the vectorial sum (L{Nvector}).
-       @keyword h: Optional height, overriding the mean height (C{meter}).
-       @keyword kwds: Optional, additional B{C{Vector}} keyword arguments.
+       @arg nvectors: Vectors to be added (L{Nvector}[]).
+       @kwarg Vector: Optional class for the vectorial sum (L{Nvector}).
+       @kwarg h: Optional height, overriding the mean height (C{meter}).
+       @kwarg kwds: Optional, additional B{C{Vector}} keyword arguments.
 
        @return: Vectorial sum (B{C{Vector}}).
 
        @raise VectorError: No B{C{nvectors}}.
     '''
-    return _sumOf(nvectors, Vector=Vector, h=h, **kwds)
+    return _sumOf(nvectors, Vector=Vector, h=h, **Vector_kwds)
 
 
 def triangulate(point1, bearing1, point2, bearing2,
-                height=None, LatLon=LatLon):
+                height=None, LatLon=LatLon, **LatLon_kwds):
     '''Locate a point given two known points and initial bearings
        from those points.
 
-       @param point1: First reference point (L{LatLon}).
-       @param bearing1: Bearing at the first point (compass C{degrees360}).
-       @param point2: Second reference point (L{LatLon}).
-       @param bearing2: Bearing at the second point (compass C{degrees360}).
-       @keyword height: Optional height at the triangulated point,
-                        overriding the mean height (C{meter}).
-       @keyword LatLon: Optional (sub-)class to return the triangulated
-                        point (L{LatLon}).
+       @arg point1: First reference point (L{LatLon}).
+       @arg bearing1: Bearing at the first point (compass C{degrees360}).
+       @arg point2: Second reference point (L{LatLon}).
+       @arg bearing2: Bearing at the second point (compass C{degrees360}).
+       @kwarg height: Optional height at the triangulated point, overriding
+                      the mean height (C{meter}).
+       @kwarg LatLon: Optional class to return the triangulated point
+                      (L{LatLon}).
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if B{C{LatLon=None}}.
 
        @return: Triangulated point (B{C{LatLon}}).
 
@@ -1175,29 +1185,31 @@ def triangulate(point1, bearing1, point2, bearing2,
     n = gc1.cross(gc2, raiser='points')  # n-vector of intersection point
 
     h = point1._havg(point2) if height is None else height
-    return n.toLatLon(height=h, LatLon=LatLon)  # Nvector(n.x, n.y, n.z).toLatLon(...)
+    kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
+    return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
 
 def trilaterate(point1, distance1, point2, distance2, point3, distance3,
-                radius=R_M, height=None, LatLon=LatLon, useZ=False):
+                radius=R_M, height=None, useZ=False, LatLon=LatLon, **LatLon_kwds):
     '''Locate a point at given distances from three other points.
        See also U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}.
 
-       @param point1: First point (L{LatLon}).
-       @param distance1: Distance to the first point (C{meter}, same units
-                         as B{C{radius}}).
-       @param point2: Second point (L{LatLon}).
-       @param distance2: Distance to the second point (C{meter}, same units
-                         as B{C{radius}}).
-       @param point3: Third point (L{LatLon}).
-       @param distance3: Distance to the third point (C{meter}, same units
-                         as B{C{radius}}).
-       @keyword radius: Mean earth radius (C{meter}).
-       @keyword height: Optional height at the trilaterated point, overriding
-                        the IDW height (C{meter}, same units as B{C{radius}}).
-       @keyword LatLon: Optional (sub-)class to return the trilaterated
-                        point (L{LatLon}).
-       @keyword useZ: Include Z component iff non-NaN, non-zero (C{bool}).
+       @arg point1: First point (L{LatLon}).
+       @arg distance1: Distance to the first point (C{meter}, same units
+                       as B{C{radius}}).
+       @arg point2: Second point (L{LatLon}).
+       @arg distance2: Distance to the second point (C{meter}, same units
+                       as B{C{radius}}).
+       @arg point3: Third point (L{LatLon}).
+       @arg distance3: Distance to the third point (C{meter}, same units
+                       as B{C{radius}}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg height: Optional height at the trilaterated point, overriding
+                      the IDW height (C{meter}, same units as B{C{radius}}).
+       @kwarg useZ: Include Z component iff non-NaN, non-zero (C{bool}).
+       @kwarg LatLon: Optional class to return the trilaterated
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if B{C{LatLon=None}}.
 
        @return: Trilaterated point (B{C{LatLon}}).
 
@@ -1249,7 +1261,8 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
                          map1(fabs, distance1, distance2, distance3))
             else:
                 h = height
-            return n.toLatLon(height=h, LatLon=LatLon)  # Nvector(n.x, n.y, n.z).toLatLon(...)
+            kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
+            return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
     # no intersection, d < EPS_2 or j < EPS_2
     raise ValueError('no %s for %r, %r, %r at %r, %r, %r' %

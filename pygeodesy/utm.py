@@ -52,7 +52,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '20.03.09'
+__version__ = '20.03.20'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -78,10 +78,10 @@ class _Kseries(object):
     def __init__(self, AB, x, y):
         '''(INTERNAL) New Alpha or Beta Krüger series
 
-           @param AB: Krüger Alpha or Beta series coefficients
+           @arg AB: Krüger Alpha or Beta series coefficients
                       (C{4-, 6- or 8-tuple}).
-           @param x: Eta angle (C{radians}).
-           @param y: Ksi angle (C{radians}).
+           @arg x: Eta angle (C{radians}).
+           @arg y: Ksi angle (C{radians}).
         '''
         n, j2 = len2(range(2, len(AB) * 2 + 1, 2))
 
@@ -142,9 +142,9 @@ def _false2(e, n, h):
 def _to3zBlat(zone, band, Error=UTMError):  # imported by .mgrs.py
     '''(INTERNAL) Check and return zone, Band and band latitude.
 
-       @param zone: Zone number or string.
-       @param band: Band letter.
-       @param Error: Exception to raise (L{UTMError}).
+       @arg zone: Zone number or string.
+       @arg band: Band letter.
+       @arg Error: Exception to raise (L{UTMError}).
 
        @return: 3-Tuple (zone, Band, latitude).
     '''
@@ -170,13 +170,13 @@ def _to3zBlat(zone, band, Error=UTMError):  # imported by .mgrs.py
 def _to3zBll(lat, lon, cmoff=True):
     '''(INTERNAL) Return zone, Band and lat- and (central) longitude in degrees.
 
-       @param lat: Latitude (C{degrees}).
-       @param lon: Longitude (C{degrees}).
-       @keyword cmoff: Offset B{C{lon}} from zone's central meridian.
+       @arg lat: Latitude (C{degrees}).
+       @arg lon: Longitude (C{degrees}).
+       @kwarg cmoff: Offset B{C{lon}} from zone's central meridian.
 
        @return: 4-Tuple (zone, Band, lat, lon).
     '''
-    z, lat, lon = _to3zll(lat, lon)  # in .ellipsoidalBase
+    z, lat, lon = _to3zll(lat, lon)  # in .utmupsBase
 
     if _UTM_LAT_MIN > lat or lat >= _UTM_LAT_MAX:  # [-80, 84)
         x = '%s [%s, %s)' % ('range', _UTM_LAT_MIN, _UTM_LAT_MAX)
@@ -233,26 +233,24 @@ class Utm(UtmUpsBase):
                              convergence=None, scale=None, name=''):
         '''New L{Utm} UTM coordinate.
 
-           @param zone: Longitudinal UTM zone (C{int}, 1..60) or zone
-                        with/-out (latitudinal) Band letter (C{str},
-                        '01C'..'60X').
-           @param hemisphere: Northern or southern hemisphere (C{str},
-                              C{'N[orth]'} or C{'S[outh]'}).
-           @param easting: Easting, see B{C{falsed}} (C{meter}).
-           @param northing: Northing, see B{C{falsed}} (C{meter}).
-           @keyword band: Optional, (latitudinal) band (C{str}, 'C'..'X').
-           @keyword datum: Optional, this coordinate's datum (L{Datum}).
-           @keyword falsed: Both B{C{easting}} and B{C{northing}} are
-                            falsed (C{bool}).
-           @keyword convergence: Optional meridian convergence, bearing
-                                 off grid North, clockwise from true
-                                 North (C{degrees}) or C{None}.
-           @keyword scale: Optional grid scale factor (C{scalar}) or
-                           C{None}.
-           @keyword name: Optional name (C{str}).
+           @arg zone: Longitudinal UTM zone (C{int}, 1..60) or zone
+                      with/-out (latitudinal) Band letter (C{str},
+                      '01C'..'60X').
+           @arg hemisphere: Northern or southern hemisphere (C{str},
+                            C{'N[orth]'} or C{'S[outh]'}).
+           @arg easting: Easting, see B{C{falsed}} (C{meter}).
+           @arg northing: Northing, see B{C{falsed}} (C{meter}).
+           @kwarg band: Optional, (latitudinal) band (C{str}, 'C'..'X').
+           @kwarg datum: Optional, this coordinate's datum (L{Datum}).
+           @kwarg falsed: Both B{C{easting}} and B{C{northing}} are
+                          falsed (C{bool}).
+           @kwarg convergence: Optional meridian convergence, bearing
+                               off grid North, clockwise from true North
+                               (C{degrees}) or C{None}.
+           @kwarg scale: Optional grid scale factor (C{scalar}) or C{None}.
+           @kwarg name: Optional name (C{str}).
 
-           @raise UTMError: Invalid B{C{zone}}, B{C{hemishere}} or
-                            B{C{band}}.
+           @raise UTMError: Invalid B{C{zone}}, B{C{hemishere}} or B{C{band}}.
 
            @example:
 
@@ -306,8 +304,8 @@ class Utm(UtmUpsBase):
     def _xcopy2(self, Xtm):
         '''(INTERNAL) Make copy as an B{C{Xtm}} instance.
 
-           @param Xtm: Class to return the copy (C{Xtm=Etm},
-                       C{Xtm=Utm} or C{self.classof}).
+           @arg Xtm: Class to return the copy (C{Xtm=Etm},
+                     C{Xtm=Utm} or C{self.classof}).
         '''
         return Xtm(self.zone, self.hemisphere,
                    self.easting, self.northing,
@@ -355,19 +353,21 @@ class Utm(UtmUpsBase):
         from pygeodesy.etm import Etm  # PYCHOK recursive import
         return self._xnamed(self._xcopy2(Etm))
 
-    def toLatLon(self, LatLon=None, eps=EPS, unfalse=True):
+    def toLatLon(self, LatLon=None, eps=EPS, unfalse=True, **LatLon_kwds):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
 
-           @keyword LatLon: Optional, ellipsoidal (sub-)class to return
-                            the point (C{LatLon}) or C{None}.
-           @keyword eps: Optional convergence limit, L{EPS} or above
-                         (C{float}).
-           @keyword unfalse: Unfalse B{C{easting}} and B{C{northing}}
-                             if falsed (C{bool}).
+           @kwarg LatLon: Optional, ellipsoidal class to return the
+                          geodetic point (C{LatLon}) or C{None}.
+           @kwarg eps: Optional convergence limit, L{EPS} or above
+                       (C{float}).
+           @kwarg unfalse: Unfalse B{C{easting}} and B{C{northing}}
+                           if falsed (C{bool}).
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if B{C{LatLon=None}}.
 
-           @return: This UTM coordinate as (B{C{LatLon}}) or a
-                    L{LatLonDatum5Tuple}C{(lat, lon, datum,
-                    convergence, scale)} if B{C{LatLon}} is C{None}.
+           @return: This UTM coordinate (B{C{LatLon}}) or if B{C{LatLon}}
+                    is C{None}, a L{LatLonDatum5Tuple}C{(lat, lon, datum,
+                    convergence, scale)}.
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal.
 
@@ -439,7 +439,7 @@ class Utm(UtmUpsBase):
         ll._scale = E.e2s(sin(a)) * hypot1(T) * H * (A0 / E.a / hypot(p, q))
 
         self._latlon_to(ll, eps, unfalse)
-        return self._latlon5(LatLon)
+        return self._latlon5(LatLon, **LatLon_kwds)
 
     def _latlon_to(self, ll, eps, unfalse):
         '''(INTERNAL) See C{.toLatLon}, C{toUtm8}, C{_toXtm8}.
@@ -467,11 +467,11 @@ class Utm(UtmUpsBase):
            Note that UTM coordinates are rounded, not truncated
            (unlike MGRS grid references).
 
-           @keyword prec: Optional number of decimals, unstripped (C{int}).
-           @keyword sep: Optional separator to join (C{str}).
-           @keyword B: Optionally, include latitudinal band (C{bool}).
-           @keyword cs: Optionally, include meridian convergence and
-                        grid scale factor (C{bool}).
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg B: Optionally, include latitudinal band (C{bool}).
+           @kwarg cs: Optionally, include meridian convergence and grid
+                      scale factor (C{bool}).
 
            @return: This UTM as a string with C{zone[band], hemisphere,
                     easting, northing, [convergence, scale]} in
@@ -493,12 +493,12 @@ class Utm(UtmUpsBase):
            Note that UTM coordinates are rounded, not truncated
            (unlike MGRS grid references).
 
-           @keyword prec: Optional number of decimals, unstripped (C{int}).
-           @keyword fmt: Optional, enclosing backets format (C{str}).
-           @keyword sep: Optional separator between name:value pairs (C{str}).
-           @keyword B: Optionally, include latitudinal band (C{bool}).
-           @keyword cs: Optionally, include meridian convergence and
-                        grid scale factor (C{bool}).
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg fmt: Optional, enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between name:value pairs (C{str}).
+           @kwarg B: Optionally, include latitudinal band (C{bool}).
+           @kwarg cs: Optionally, include meridian convergence and grid
+                      scale factor (C{bool}).
 
            @return: This UTM as a string C{"[Z:09[band], H:N|S, E:meter,
                     N:meter]"} plus C{", C:degrees, S:float"} if B{C{cs}} is
@@ -509,11 +509,11 @@ class Utm(UtmUpsBase):
     def toUps(self, pole='', eps=EPS, falsed=True, **unused):
         '''Convert this UTM coordinate to a UPS coordinate.
 
-           @keyword pole: Optional top/center of the UPS projection,
-                          (C{str}, 'N[orth]'|'S[outh]').
-           @keyword eps: Optional convergence limit, L{EPS} or above
-                         (C{float}), see method L{Utm.toLatLon}.
-           @keyword falsed: False both easting and northing (C{bool}).
+           @kwarg pole: Optional top/center of the UPS projection,
+                        (C{str}, 'N[orth]'|'S[outh]').
+           @kwarg eps: Optional convergence limit, L{EPS} or above
+                       (C{float}), see method L{Utm.toLatLon}.
+           @kwarg falsed: False both easting and northing (C{bool}).
 
            @return: The UPS coordinate (L{Ups}).
         '''
@@ -527,10 +527,10 @@ class Utm(UtmUpsBase):
     def toUtm(self, zone, eps=EPS, falsed=True, **unused):
         '''Convert this UTM coordinate to a different zone.
 
-           @param zone: New UTM zone (C{int}).
-           @keyword eps: Optional convergence limit, L{EPS} or above
-                         (C{float}), see method L{Utm.toLatLon}.
-           @keyword falsed: False both easting and northing (C{bool}).
+           @arg zone: New UTM zone (C{int}).
+           @kwarg eps: Optional convergence limit, L{EPS} or above
+                       (C{float}), see method L{Utm.toLatLon}.
+           @kwarg falsed: False both easting and northing (C{bool}).
 
            @return: The UTM coordinate (L{Utm}).
         '''
@@ -571,17 +571,17 @@ def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=''):
     '''Parse a string representing a UTM coordinate, consisting
        of C{"zone[band] hemisphere easting northing"}.
 
-       @param strUTM: A UTM coordinate (C{str}).
-       @keyword datum: Optional datum to use (L{Datum}).
-       @keyword Utm: Optional (sub-)class to return the UTM
-                     coordinate (L{Utm}) or C{None}.
-       @keyword falsed: Both easting and northing are falsed (C{bool}).
-       @keyword name: Optional B{C{Utm}} name (C{str}).
+       @arg strUTM: A UTM coordinate (C{str}).
+       @kwarg datum: Optional datum to use (L{Datum}).
+       @kwarg Utm: Optional class to return the UTM coordinate
+                   (L{Utm}) or C{None}.
+       @kwarg falsed: Both easting and northing are falsed (C{bool}).
+       @kwarg name: Optional B{C{Utm}} name (C{str}).
 
-       @return: The UTM coordinate (B{C{Utm}}) or a
-                L{UtmUps5Tuple}C{(zone, hemipole, easting,
-                northing, band)} if B{C{Utm}} is C{None}.  The
-                C{hemipole} is the C{'N'|'S'} hemisphere.
+       @return: The UTM coordinate (B{C{Utm}}) or if B{C{Utm}}
+                is C{None}, a L{UtmUps5Tuple}C{(zone, hemipole,
+                easting, northing, band)}.  The C{hemipole} is
+                the C{'N'|'S'} hemisphere.
 
        @raise UTMError: Invalid B{C{strUTM}}.
 
@@ -603,24 +603,23 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name='',
                                          zone=None, **cmoff):
     '''Convert a lat-/longitude point to a UTM coordinate.
 
-       @param latlon: Latitude (C{degrees}) or an (ellipsoidal)
-                      geodetic C{LatLon} point.
-       @keyword lon: Optional longitude (C{degrees}) or C{None}.
-       @keyword datum: Optional datum for this UTM coordinate,
-                       overriding B{C{latlon}}'s datum (C{Datum}).
-       @keyword Utm: Optional (sub-)class to return the UTM
-                     coordinate (L{Utm}) or C{None}.
-       @keyword falsed: False both easting and northing (C{bool}).
-       @keyword name: Optional B{C{Utm}} name (C{str}).
-       @keyword zone: Optional UTM zone to enforce (C{int} or C{str}).
-       @keyword cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
-                       from the zone's central meridian (C{bool}).
+       @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
+                    geodetic C{LatLon} point.
+       @kwarg lon: Optional longitude (C{degrees}) or C{None}.
+       @kwarg datum: Optional datum for this UTM coordinate,
+                     overriding B{C{latlon}}'s datum (C{Datum}).
+       @kwarg Utm: Optional class to return the UTM coordinate
+                   (L{Utm}) or C{None}.
+       @kwarg falsed: False both easting and northing (C{bool}).
+       @kwarg name: Optional B{C{Utm}} name (C{str}).
+       @kwarg zone: Optional UTM zone to enforce (C{int} or C{str}).
+       @kwarg cmoff: DEPRECATED, use B{C{falsed}}.  Offset longitude
+                     from the zone's central meridian (C{bool}).
 
-       @return: The UTM coordinate (B{C{Utm}}) or a
-                L{UtmUps8Tuple}C{(zone, hemipole, easting, northing,
-                band, datum, convergence, scale)} if B{C{Utm}} is
-                C{None} or not B{C{falsed}}.  The C{hemipole} is the
-                C{'N'|'S'} hemisphere.
+       @return: The UTM coordinate (B{C{Utm}}) or if B{C{Utm}} is
+                C{None} or not B{C{falsed}}, a L{UtmUps8Tuple}C{(zone,
+                hemipole, easting, northing, band, datum, convergence,
+                scale)}.  The C{hemipole} is the C{'N'|'S'} hemisphere.
 
        @raise TypeError: If B{C{latlon}} is not ellipsoidal.
 
@@ -703,10 +702,10 @@ def utmZoneBand5(lat, lon, cmoff=False):
     '''Return the UTM zone number, Band letter, hemisphere and
        (clipped) lat- and longitude for a given location.
 
-       @param lat: Latitude in degrees (C{scalar} or C{str}).
-       @param lon: Longitude in degrees (C{scalar} or C{str}).
-       @keyword cmoff: Offset longitude from the zone's central
-                       meridian (C{bool}).
+       @arg lat: Latitude in degrees (C{scalar} or C{str}).
+       @arg lon: Longitude in degrees (C{scalar} or C{str}).
+       @kwarg cmoff: Offset longitude from the zone's central
+                     meridian (C{bool}).
 
        @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
                 lat, lon)} where C{hemipole} is the C{'N'|'S'}

@@ -43,7 +43,7 @@ from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
-__version__ = '20.03.14'
+__version__ = '20.03.20'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -52,25 +52,23 @@ class Cartesian(CartesianEllipsoidalBase):
     '''
     _Ecef = EcefKarney  #: (INTERNAL) Preferred C{Ecef...} class.
 
-    def toLatLon(self, **kwds):  # PYCHOK LatLon=LatLon, datum=None
+    def toLatLon(self, **LatLon_datum_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to a C{Karney}-based
            geodetic point.
 
-           @keyword kwds: Optional, additional B{C{LatLon}} keyword
-                          arguments, ignored if C{B{LatLon}=None}.
-                          For example, use C{LatLon=...} to override
-                          the L{LatLon} (sub-)class or specify
-                          C{B{LatLon}=None}.
+           @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
+                  other keyword arguments, ignored if B{C{LatLon=None}}.
+                  Use B{C{LatLon=...}} to override this L{LatLon} class
+                  or specify B{C{LatLon=None}}.
 
-           @return: The B{C{LatLon}} point (L{LatLon}) or if
-                    C{B{LatLon}=None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and
-                    C{M} if available.
+           @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
+                    is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
+                    height, C, M, datum)} with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}}
-                             or other B{C{kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}}, B{C{datum}} or other
+                             B{C{LatLon_datum_kwds}}.
         '''
-        kwds = _xkwds(kwds, LatLon=LatLon, datum=self.datum)
+        kwds = _xkwds(LatLon_datum_kwds, LatLon=LatLon, datum=self.datum)
         return CartesianEllipsoidalBase.toLatLon(self, **kwds)
 
 
@@ -98,8 +96,8 @@ class LatLon(LatLonEllipsoidalBase):
            C{Inverse} method.  See methods L{initialBearingTo} and
            L{finalBearingTo} for more details.
 
-           @param other: The other point (L{LatLon}).
-           @keyword wrap: Wrap and unroll longitudes (C{bool}).
+           @arg other: The other point (L{LatLon}).
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: A L{Bearing2Tuple}C{(initial, final)}.
 
@@ -112,8 +110,8 @@ class LatLon(LatLonEllipsoidalBase):
            @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
         '''
-        r = Bearing2Tuple(*self._inverse(other, True, wrap)[1:])
-        return self._xnamed(r)
+        r = self._inverse(other, True, wrap)
+        return self._xnamed(Bearing2Tuple(r.initial, r.final))
 
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
@@ -121,10 +119,10 @@ class LatLon(LatLonEllipsoidalBase):
            given by an initial bearing, using Karney's C{Direct}
            method.  See method L{destination2} for more details.
 
-           @param distance: Distance (C{meter}).
-           @param bearing: Initial bearing in (compass C{degrees360}).
-           @keyword height: Optional height, overriding the default
-                            height (C{meter}, same units as C{distance}).
+           @arg distance: Distance (C{meter}).
+           @arg bearing: Initial bearing in (compass C{degrees360}).
+           @kwarg height: Optional height, overriding the default
+                          height (C{meter}, same units as C{distance}).
 
            @return: The destination point (L{LatLon}).
 
@@ -139,7 +137,8 @@ class LatLon(LatLonEllipsoidalBase):
            >>> d
            LatLon(37°39′10.14″S, 143°55′35.39″E)  # 37.652818°S, 143.926498°E
         '''
-        return self._direct(distance, bearing, True, height=height)[0]
+        r = self._direct(distance, bearing, True, height=height)
+        return self._xnamed(r.destination)
 
     def destination2(self, distance, bearing, height=None):
         '''Compute the destination point and the final bearing (reverse
@@ -148,19 +147,19 @@ class LatLon(LatLonEllipsoidalBase):
            using Karney's C{Direct} method.
 
            The distance must be in the same units as this point's datum
-           axes, conventionally meter.  The distance is measured on the
-           surface of the ellipsoid, ignoring this point's height.
+           axes, conventionally C{meter}.  The distance is measured on
+           the surface of the ellipsoid, ignoring this point's height.
 
            The initial and final bearing (forward and reverse azimuth)
-           are in compass degrees.
+           are in compass C{degrees360}.
 
            The destination point's height and datum are set to this
-           point's height and datum.
+           point's height and datum, unless the former is overridden.
 
-           @param distance: Distance (C{meter}).
-           @param bearing: Initial bearing (compass C{degrees360}).
-           @keyword height: Optional height, overriding the default
-                            height (C{meter}, same units as C{distance}).
+           @arg distance: Distance (C{meter}).
+           @arg bearing: Initial bearing (compass C{degrees360}).
+           @kwarg height: Optional height, overriding the default
+                          height (C{meter}, same units as C{distance}).
 
            @return: A L{Destination2Tuple}C{(destination, final)}.
 
@@ -177,8 +176,7 @@ class LatLon(LatLonEllipsoidalBase):
            >>> f
            307.1736313846665
         '''
-        r = Destination2Tuple(*self._direct(distance, bearing, True,
-                                            height=height)[:2])
+        r = self._direct(distance, bearing, True, height=height)
         return self._xnamed(r)
 
     def distanceTo(self, other, wrap=False):
@@ -186,8 +184,8 @@ class LatLon(LatLonEllipsoidalBase):
            along a geodesic, using Karney's C{Inverse} method.
            See method L{distanceTo3} for more details.
 
-           @param other: The other point (L{LatLon}).
-           @keyword wrap: Wrap and unroll longitudes (C{bool}).
+           @arg other: The other point (L{LatLon}).
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance (C{meter}).
 
@@ -206,7 +204,7 @@ class LatLon(LatLonEllipsoidalBase):
            >>> q = LatLon(58.64402, -3.07009)
            >>> d = p.distanceTo(q)  # 969,954.1663142084 m
         '''
-        return self._inverse(other, False, wrap)
+        return self._inverse(other, False, wrap).distance
 
     def distanceTo3(self, other, wrap=False):
         '''Compute the distance, the initial and final bearing along a
@@ -214,14 +212,14 @@ class LatLon(LatLonEllipsoidalBase):
            C{Inverse} method.
 
            The distance is in the same units as this point's datum axes,
-           conventially meter.  The distance is measured on the surface
+           conventionally meter.  The distance is measured on the surface
            of the ellipsoid, ignoring this point's height.
 
            The initial and final bearing (forward and reverse azimuth)
-           are in compass degrees from North.
+           are in compass C{degrees360} from North.
 
-           @param other: Destination point (L{LatLon}).
-           @keyword wrap: Wrap and unroll longitudes (C{bool}).
+           @arg other: Destination point (L{LatLon}).
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: A L{Distance3Tuple}C{(distance, initial, final)}.
 
@@ -234,8 +232,7 @@ class LatLon(LatLonEllipsoidalBase):
            @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
         '''
-        r = Distance3Tuple(*self._inverse(other, True, wrap))
-        return self._xnamed(r)
+        return self._xnamed(self._inverse(other, True, wrap))
 
     def finalBearingOn(self, distance, bearing):
         '''Compute the final bearing (reverse azimuth) after having
@@ -243,8 +240,8 @@ class LatLon(LatLonEllipsoidalBase):
            by an initial bearing from this point, using Karney's
            C{Direct} method.  See method L{destination2} for more details.
 
-           @param distance: Distance (C{meter}).
-           @param bearing: Initial bearing (compass C{degrees360}).
+           @arg distance: Distance (C{meter}).
+           @arg bearing: Initial bearing (compass C{degrees360}).
 
            @return: Final bearing (compass C{degrees360}).
 
@@ -258,7 +255,7 @@ class LatLon(LatLonEllipsoidalBase):
            >>> b = 306.86816
            >>> f = p.finalBearingOn(54972.271, b)  # 307.1736313846665°
         '''
-        return self._direct(distance, bearing, False)
+        return self._direct(distance, bearing, False).final
 
     def finalBearingTo(self, other, wrap=False):
         '''Compute the final bearing (reverse azimuth) after having
@@ -266,8 +263,8 @@ class LatLon(LatLonEllipsoidalBase):
            point, using Karney's C{Inverse} method.  See method
            L{distanceTo3} for more details.
 
-           @param other: The other point (L{LatLon}).
-           @keyword wrap: Wrap and unroll longitudes (C{bool}).
+           @arg other: The other point (L{LatLon}).
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Final bearing (compass C{degrees360}).
 
@@ -290,7 +287,7 @@ class LatLon(LatLonEllipsoidalBase):
            >>> q = LatLon(48.857, 2.351)
            >>> f = p.finalBearingTo(q)  # 157.83449958372714°
         '''
-        return self._inverse(other, True, wrap)[2]
+        return self._inverse(other, True, wrap).final
 
     @property_RO
     def geodesic(self):
@@ -307,8 +304,8 @@ class LatLon(LatLonEllipsoidalBase):
            using Karney's C{Inverse} method.  See method
            L{distanceTo3} for more details.
 
-           @param other: The other point (L{LatLon}).
-           @keyword wrap: Wrap and unroll longitudes (C{bool}).
+           @arg other: The other point (L{LatLon}).
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Initial bearing (compass C{degrees360}).
 
@@ -333,27 +330,26 @@ class LatLon(LatLonEllipsoidalBase):
 
            @JSname: I{bearingTo}.
         '''
-        return self._inverse(other, True, wrap)[1]
+        return self._inverse(other, True, wrap).initial
 
-    def toCartesian(self, **kwds):  # PYCHOK Cartesian=Cartesian, datum=None
-        '''Convert this point to C{Karney}-based cartesian (ECEF)
-           coordinates.
+    def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
+        '''Convert this point to C{Karney}-based cartesian (ECEF) coordinates.
 
-           @keyword kwds: Optional, additional B{C{Cartesian}} keyword
-                          arguments, ignored if C{B{Cartesian}=None}.
-                          For example, use C{Cartesian=...} to override
-                          the L{Cartesian} (sub-)class or specify
-                          C{B{Cartesian}=None}.
+           @kwarg Cartesian_datum_kwds: Optional L{Cartesian}, B{C{datum}}
+                  and other keyword arguments, ignored if B{C{Cartesian=None}}.
+                  Use B{C{Cartesian=...}} to override this L{Cartesian} class
+                  or set B{C{Cartesian=None}}.
 
-           @return: The B{C{Cartesian}} point (L{Cartesian}) or if
-                    C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and C{M}
-                    if available.
+           @return: The cartesian (ECEF) coordinates (L{Cartesian}) or if
+                    B{C{Cartesian}} is C{None}, an L{Ecef9Tuple}C{(x, y, z,
+                    lat, lon, height, C, M, datum)} with C{C} and C{M} if
+                    available.
 
-           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}}
-                             or B{C{kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}} or other
+                             B{C{Cartesian_datum_kwds}}.
         '''
-        kwds = _xkwds(kwds, Cartesian=Cartesian, datum=self.datum)
+        kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian,
+                                                datum=self.datum)
         return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
     def _direct(self, distance, bearing, llr, height=None):
@@ -368,8 +364,10 @@ class LatLon(LatLonEllipsoidalBase):
         if llr:
             a, b = wrap90(r['lat2']), wrap180(r['lon2'])
             h = self.height if height is None else height
-            t = self.classof(a, b, height=h, datum=self.datum), t
-        return t
+            d = self.classof(a, b, height=h, datum=self.datum)
+        else:
+            d = None
+        return Destination2Tuple(d, t)
 
     def _inverse(self, other, azis, wrap):
         '''(INTERNAL) Karney's C{Inverse} method.
@@ -385,10 +383,12 @@ class LatLon(LatLonEllipsoidalBase):
             m |= g.AZIMUTH
         _, lon = unroll180(self.lon, other.lon, wrap=wrap)
         r = g.Inverse(self.lat, self.lon, other.lat, lon, m)
-        t = r['s12']
+        d = r['s12']
         if azis:  # forward and reverse azimuth
-            t = t, wrap360(r['azi1']), wrap360(r['azi2'])
-        return t
+            f, r = wrap360(r['azi1']), wrap360(r['azi2'])
+        else:
+            f = r = 0
+        return Distance3Tuple(d, f, r)
 
 
 def _geodesic(datum, points, closed, line, wrap):
@@ -406,7 +406,7 @@ def _geodesic(datum, points, closed, line, wrap):
     # note, lon deltas are unrolled, by default
     for p in points:
         g.AddPoint(p.lat, p.lon)
-    if line and closed:
+    if closed and line:
         p = points[0]
         g.AddPoint(p.lat, p.lon)
 
@@ -417,9 +417,9 @@ def _geodesic(datum, points, closed, line, wrap):
 def areaOf(points, datum=Datums.WGS84, wrap=True):
     '''Compute the area of a (n ellipsoidal) polygon.
 
-       @param points: The polygon points (L{LatLon}[]).
-       @keyword datum: Optional datum (L{Datum}).
-       @keyword wrap: Wrap and unroll longitudes (C{bool}).
+       @arg points: The polygon points (L{LatLon}[]).
+       @kwarg datum: Optional datum (L{Datum}).
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
        @return: Area (C{meter}, same as units of the B{C{datum}}
                 ellipsoid, squared).
@@ -444,9 +444,9 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
 def isclockwise(points, datum=Datums.WGS84, wrap=True):
     '''Determine the direction of a path or polygon.
 
-       @param points: The path or polygon points (C{LatLon}[]).
-       @keyword datum: Optional datum (L{Datum}).
-       @keyword wrap: Wrap and unroll longitudes (C{bool}).
+       @arg points: The path or polygon points (C{LatLon}[]).
+       @kwarg datum: Optional datum (L{Datum}).
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
        @return: C{True} if B{C{points}} are clockwise, C{False} otherwise.
 
@@ -471,10 +471,10 @@ def isclockwise(points, datum=Datums.WGS84, wrap=True):
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
     '''Compute the perimeter of a (n ellipsoidal) polygon.
 
-       @param points: The polygon points (L{LatLon}[]).
-       @keyword closed: Optionally, close the polygon (C{bool}).
-       @keyword datum: Optional datum (L{Datum}).
-       @keyword wrap: Wrap and unroll longitudes (C{bool}).
+       @arg points: The polygon points (L{LatLon}[]).
+       @kwarg closed: Optionally, close the polygon (C{bool}).
+       @kwarg datum: Optional datum (L{Datum}).
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
        @return: Perimeter (C{meter}, same as units of the B{C{datum}}
                 ellipsoid).

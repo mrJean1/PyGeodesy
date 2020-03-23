@@ -179,7 +179,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ups.Ups-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">unfalse</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">unfalse</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Convert this UPS coordinate to an (ellipsoidal) geodetic point.</td>
           <td align="right" valign="top">
             
@@ -294,6 +295,7 @@
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html">utmupsBase.UtmUpsBase</a></code></b>:
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#__repr__">__repr__</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#eastingnorthing2">eastingnorthing2</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#to2en">to2en</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#toEpsg">toEpsg</a></code>
       </p>
@@ -333,40 +335,35 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ups.Ups-class.html#band" class="summary-name">band</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ups.Ups-class.html#band" class="summary-name">band</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ups.Ups-class.html#falsed2" class="summary-name">falsed2</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ups.Ups-class.html#falsed2" class="summary-name">falsed2</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ups.Ups-class.html#hemisphere" class="summary-name">hemisphere</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ups.Ups-class.html#hemisphere" class="summary-name">hemisphere</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ups.Ups-class.html#pole" class="summary-name">pole</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ups.Ups-class.html#pole" class="summary-name">pole</a>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ups.Ups-class.html#zone" class="summary-name">zone</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.ups.Ups-class.html#zone" class="summary-name">zone</a>
     </td>
   </tr>
   <tr>
@@ -375,6 +372,7 @@
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#convergence">convergence</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#datum">datum</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#easting">easting</a></code>,
+      <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#eastingnorthing">eastingnorthing</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#falsed">falsed</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#northing">northing</a></code>,
       <code><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#scale">scale</a></code>,
@@ -530,7 +528,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">unfalse</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">unfalse</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -541,17 +540,19 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional, ellipsoidal (sub-)class to return the point 
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional, ellipsoidal class to return the geodetic point 
           (<code>LatLon</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>unfalse</code></strong> - Unfalse <b><code>easting</code></b> and 
           <b><code>northing</code></b> if falsed (<code>bool</code>).</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <b><code>LatLon=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>This UPS coordinate as (<b><code>LatLon</code></b>) or A <a 
+        <dd>This UPS coordinate (<b><code>LatLon</code></b>) or if 
+          <b><code>LatLon</code></b> is <code>None</code>, a <a 
           href="pygeodesy.named.LatLonDatum5Tuple-class.html" 
           class="link">LatLonDatum5Tuple</a><code>(lat, lon, datum, 
-          convergence, scale)</code> if <b><code>LatLon</code></b> is 
-          <code>None</code>.</dd>
+          convergence, scale)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>LatLon</code></b> is not ellipsoidal.</li>
@@ -779,13 +780,13 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">band</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
         - Get the polar band letter ('A', 'B', 'Y' or 'Z').
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -799,15 +800,15 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">falsed2</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">falsed2(<span class="summary-sig-arg">self</span>)</span>
         - Get the easting and northing falsing (<a 
 href="pygeodesy.named.EasNor2Tuple-class.html" 
 class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -821,13 +822,13 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">hemisphere</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">hemisphere(<span class="summary-sig-arg">self</span>)</span>
         - Get the hemisphere (<code>str</code>, 'N'|'S').
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -841,14 +842,14 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">pole</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">pole(<span class="summary-sig-arg">self</span>)</span>
         - Get the top/center of (stereographic) projection (<code>'N'|'S'</code> or 
 <code>&quot;&quot;</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -862,15 +863,15 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">zone</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">zone(<span class="summary-sig-arg">self</span>)</span>
         - Get the polar pseudo zone (<code>0</code>), like Karney's <a 
 href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
 target="_top">zone UPS</a>.
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -910,7 +911,7 @@ target="_top">zone UPS</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:54 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:43 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

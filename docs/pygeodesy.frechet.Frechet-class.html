@@ -174,8 +174,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.frechet.Frechet-class.html#points_" class="summary-sig-name">points_</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">i</span>)</span><br />
-      Get and convert <b><code>points</code></b>[<b><code>i</code></b>] for
-      the <code>.distance</code> method.</td>
+      Get and convert a point for the <code>.distance</code> method.</td>
           <td align="right" valign="top">
             
             
@@ -194,8 +193,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.frechet.Frechet-class.html#points_fraction" class="summary-sig-name">points_fraction</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">fi</span>)</span><br />
-      Get and convert <i>fractional</i> 
-      <b><code>points</code></b>[<b><code>fi</code></b>] for the 
+      Get and convert <i>fractional</i> index point for the 
       <code>.distance</code> method.</td>
           <td align="right" valign="top">
             
@@ -245,8 +243,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.frechet.Frechet-class.html#adjust" class="summary-name">adjust</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.frechet.Frechet-class.html#adjust" class="summary-name">adjust</a>
     </td>
   </tr>
 <tr>
@@ -269,8 +266,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.frechet.Frechet-class.html#wrap" class="summary-name">wrap</a><br />
-      An immutable property (<code>Read Only</code>).
+        <a href="pygeodesy.frechet.Frechet-class.html#wrap" class="summary-name">wrap</a>
     </td>
   </tr>
   <tr>
@@ -321,17 +317,19 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - First set of points (<code>LatLon</code>[], 
-          <code>Numpy2LatLon</code>[], <code>Tuple2LatLon</code>[] or 
-          <code>other</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - First set of points (<code>LatLon</code>[], <a 
+          href="pygeodesy.points.Numpy2LatLon-class.html" 
+          class="link">Numpy2LatLon</a>[], <a 
+          href="pygeodesy.points.Tuple2LatLon-class.html" 
+          class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Index fraction (<code>float</code> in <a 
           href="pygeodesy.frechet-module.html#EPS" class="link" 
           onclick="show_private();">EPS</a>..<a 
           href="pygeodesy.frechet-module.html#EPS1" class="link" 
           onclick="show_private();">EPS1</a>) to interpolate intermediate 
-          <b><code>points</code></b> or <code>None</code> or <code>1</code>
-          for no intermediate <b><code>points</code></b> and no 
-          <i>fractional</i> indices.</li>
+          <b><code>points</code></b> or use <code>None</code>, 
+          <code>0</code> or <code>1</code> for no intermediate 
+          <b><code>points</code></b> and no <i>fractional</i> indices.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional calculator/interpolator name (<code>str</code>).</li>
         <li><strong class="pname"><code>units</code></strong> - Optional, distance units (<code>str</code>).</li>
     </ul></dd>
@@ -366,17 +364,19 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Second set of points (<code>LatLon</code>[], 
-          <code>Numpy2LatLon</code>[], <code>Tuple2LatLon</code>[] or 
-          <code>other</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - Second set of points (<code>LatLon</code>[], <a 
+          href="pygeodesy.points.Numpy2LatLon-class.html" 
+          class="link">Numpy2LatLon</a>[], <a 
+          href="pygeodesy.points.Tuple2LatLon-class.html" 
+          class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
         <li><strong class="pname"><code>fraction</code></strong> - Index fraction (<code>float</code> in <a 
           href="pygeodesy.frechet-module.html#EPS" class="link" 
           onclick="show_private();">EPS</a>..<a 
           href="pygeodesy.frechet-module.html#EPS1" class="link" 
           onclick="show_private();">EPS1</a>) to interpolate intermediate 
-          <b><code>points</code></b> or <code>None</code> or <code>1</code>
-          for no intermediate <b><code>points</code></b> and no 
-          <i>fractional</i> indices.</li>
+          <b><code>points</code></b> or use <code>None</code>, 
+          <code>0</code> or <code>1</code> for no intermediate 
+          <b><code>points</code></b> and no <i>fractional</i> indices.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.frechet.Frechet6Tuple-class.html" 
@@ -412,9 +412,11 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>point</code></strong> - The point to convert ((<code>LatLon</code>, 
-          <code>Numpy2LatLon</code>, <code>Tuple2LatLon</code> or 
-          <code>other</code>).</li>
+        <li><strong class="pname"><code>point</code></strong> - The point to convert ((<code>LatLon</code>, <a 
+          href="pygeodesy.points.Numpy2LatLon-class.html" 
+          class="link">Numpy2LatLon</a>, <a 
+          href="pygeodesy.points.Tuple2LatLon-class.html" 
+          class="link">Tuple2LatLon</a> or <code>other</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The converted <b><code>point</code></b>.</dd>
@@ -437,18 +439,20 @@
     </td>
   </tr></table>
   
-  <p>Get and convert <b><code>points</code></b>[<b><code>i</code></b>] for 
-  the <code>.distance</code> method.</p>
+  <p>Get and convert a point for the <code>.distance</code> method.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The orignal <b><code>points</code></b> to convert 
-          ((<code>LatLon</code>[], <code>Numpy2LatLon</code>[], 
-          <code>Tuple2LatLon</code>[] or <code>other</code>[]).</li>
+          ((<code>LatLon</code>[], <a 
+          href="pygeodesy.points.Numpy2LatLon-class.html" 
+          class="link">Numpy2LatLon</a>[], <a 
+          href="pygeodesy.points.Tuple2LatLon-class.html" 
+          class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
         <li><strong class="pname"><code>i</code></strong> - The <b><code>points</code></b> index (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The converted <b><code>points</code>[<b><code>i</code></b>]</b>.</dd>
+        <dd>The converted <b><code>points[i]</code></b>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -468,21 +472,23 @@
     </td>
   </tr></table>
   
-  <p>Get and convert <i>fractional</i> 
-  <b><code>points</code></b>[<b><code>fi</code></b>] for the 
+  <p>Get and convert <i>fractional</i> index point for the 
   <code>.distance</code> method.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The orignal <b><code>points</code></b> to convert 
-          ((<code>LatLon</code>[], <code>Numpy2LatLon</code>[], 
-          <code>Tuple2LatLon</code>[] or <code>other</code>[]).</li>
+          ((<code>LatLon</code>[], <a 
+          href="pygeodesy.points.Numpy2LatLon-class.html" 
+          class="link">Numpy2LatLon</a>[], <a 
+          href="pygeodesy.points.Tuple2LatLon-class.html" 
+          class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
         <li><strong class="pname"><code>fi</code></strong> - The <i>fractional</i> index in <b><code>points</code></b> 
           (<code>float</code> or <code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The interpolated, converted, intermediate 
-          <b><code>points</code>[<b><code>fi</code></b>]</b>.</dd>
+          <b><code>points[fi]</code></b>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -502,14 +508,14 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">adjust</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">adjust(<span class="summary-sig-arg">self</span>)</span>
         - Get the adjust setting (<code>bool</code> or <code>None</code> if not 
 applicable).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -525,11 +531,11 @@ applicable).
   <h3 class="epydoc">fraction</h3>
   <p>Property to get and set the index fraction (<code>float</code>).</p>
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">fraction(<span class="summary-sig-arg">self</span>)</span>
         - Get the index fraction (<code>float</code> or <code>1</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">fraction(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">fraction</span>)</span>
         - Set the the index fraction (<code>float</code> or <code>1</code>).
@@ -545,11 +551,11 @@ applicable).
   <h3 class="epydoc">units</h3>
   <p>Property to get and set the distance units (<code>str</code>).</p>
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">units(<span class="summary-sig-arg">self</span>)</span>
         - Get the distance units (<code>str</code> or <code>&quot;&quot;</code>).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">units(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">units</span>)</span>
         - Set the distance units.
@@ -563,14 +569,14 @@ applicable).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">wrap</h3>
-  <p>An immutable property (<code>Read Only</code>).</p>
+  
   <dl class="fields">
-    <dt>Get Method:</dt>
+    <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">wrap(<span class="summary-sig-arg">self</span>)</span>
         - Get the wrap setting (<code>bool</code> or <code>None</code> if not 
 applicable).
     </dd>
-    <dt>Set Method:</dt>
+    <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
@@ -610,7 +616,7 @@ applicable).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 16 12:12:51 2020
+    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:40 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -144,7 +144,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '20.03.15'
+__version__ = '20.03.19'
 
 _floats = {}  # cache, deleted below
 _TOL    = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -221,10 +221,10 @@ class Ellipsoid(_NamedEnumItem):
     def __init__(self, a, b, f_, name=''):
         '''New L{Ellipsoid}.
 
-           @param a: Semi-major, equatorial axis (C{meter}).
-           @param b: Semi-minor, polar axis (C{meter}).
-           @param f_: Inverse flattening: a / (a - b) (C{float} >>> 1.0).
-           @keyword name: Optional, unique name (C{str}).
+           @arg a: Semi-major, equatorial axis (C{meter}).
+           @arg b: Semi-minor, polar axis (C{meter}).
+           @arg f_: Inverse flattening: a / (a - b) (C{float} >>> 1.0).
+           @kwarg name: Optional, unique name (C{str}).
 
            @raise NameError: Ellipsoid with that B{C{name}} already exists.
         '''
@@ -267,7 +267,7 @@ class Ellipsoid(_NamedEnumItem):
     def __eq__(self, other):
         '''Compare this and an other ellipsoid.
 
-           @param other: The other ellipsoid (L{Ellipsoid}).
+           @arg other: The other ellipsoid (L{Ellipsoid}).
 
            @return: C{True} if equal, C{False} otherwise.
         '''
@@ -282,8 +282,8 @@ class Ellipsoid(_NamedEnumItem):
            Mercator with an accuracy of a few nanometers', U{page 7,
            equations 35 and 36<https://Arxiv.org/pdf/1002.1417v3.pdf>}.
 
-           @param AB8Ks: 8-Tuple of 8-th order Krüger Alpha or Beta
-                         series coefficient tuples.
+           @arg AB8Ks: 8-Tuple of 8-th order Krüger Alpha or Beta series
+                       coefficient tuples.
 
            @return: Krüger series coefficients (C{.KsOrder}-tuple).
 
@@ -434,10 +434,10 @@ class Ellipsoid(_NamedEnumItem):
            Suitable only for short distances up to a few hundred Km
            or Miles and only between points not near-polar.
 
-           @param lat0: From latitude (C{degrees}).
-           @param lon0: From longitude (C{degrees}).
-           @param lat1: To latitude (C{degrees}).
-           @param lon1: To longitude (C{degrees}).
+           @arg lat0: From latitude (C{degrees}).
+           @arg lon0: From longitude (C{degrees}).
+           @arg lat1: To latitude (C{degrees}).
+           @arg lon1: To longitude (C{degrees}).
 
            @return: A L{Distance2Tuple}C{(distance, initial)}.
 
@@ -500,8 +500,8 @@ class Ellipsoid(_NamedEnumItem):
     def ecef(self, Ecef=None):
         '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.
 
-           @keyword Ecef: ECEF class to use (L{EcefKarney}, L{EcefVeness}
-                          or L{EcefYou}).
+           @kwarg Ecef: ECEF class to use (L{EcefKarney}, L{EcefVeness}
+                        or L{EcefYou}).
 
            @return: An ECEF converter for this C{ellipsoid} (L{EcefKarney},
                     L{EcefVeness} or L{EcefYou}).
@@ -513,7 +513,7 @@ class Ellipsoid(_NamedEnumItem):
     def e2s(self, s):
         '''Compute norm M{sqrt(1 - e2 * s**2)}.
 
-           @param s: S value (C{scalar}).
+           @arg s: S value (C{scalar}).
 
            @return: Norm (C{float}).
 
@@ -527,7 +527,7 @@ class Ellipsoid(_NamedEnumItem):
     def e2s2(self, s):
         '''Compute M{1 - e2 * s**2}.
 
-           @param s: S value (C{scalar}).
+           @arg s: S value (C{scalar}).
 
            @return: Result (C{float}).
 
@@ -624,7 +624,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def geodesic(self):
-        '''Get this ellipsoid's U{Karney Geodesic
+        '''Get this ellipsoid's I{wrapped} U{Karney Geodesic
            <https://GeographicLib.SourceForge.io/html/python/code.html>},
            provided the U{GeographicLib
            <https://PyPI.org/project/geographiclib>} package is installed.
@@ -657,7 +657,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return self.a == self.R1 == self.b
 
-    @property_doc_(" the Krüger series' order (C{int}).")
+    @property_doc_(''' the Krüger series' order (C{int}).''')
     def KsOrder(self):
         '''Get the Krüger series order (C{int} 4, 6 or 8).
         '''
@@ -667,7 +667,7 @@ class Ellipsoid(_NamedEnumItem):
     def KsOrder(self, order):
         '''Set the Krüger series' order.
 
-           @param order: New Krüger series' order (C{int} 4, 6 or 8).
+           @arg order: New Krüger series' order (C{int} 4, 6 or 8).
 
            @raise ValueError: Invalid B{C{order}}.
         '''
@@ -683,7 +683,7 @@ class Ellipsoid(_NamedEnumItem):
     def m2degrees(self, meter):
         '''Convert distance to angle along equator.
 
-           @param meter: Distance (C{meter}).
+           @arg meter: Distance (C{meter}).
 
            @return: Angle (C{degrees}).
         '''
@@ -753,7 +753,7 @@ class Ellipsoid(_NamedEnumItem):
     def Rgeocentric(self, lat):
         '''Compute the geocentric earth radius at the given latitude.
 
-           @param lat: Latitude (C{degrees90}).
+           @arg lat: Latitude (C{degrees90}).
 
            @return: Geocentric earth radius (C{meter}).
 
@@ -787,7 +787,7 @@ class Ellipsoid(_NamedEnumItem):
     def Rlat(self, lat):
         '''Approximate the earth radius at the given latitude.
 
-           @param lat: Latitude (C{degrees90}).
+           @arg lat: Latitude (C{degrees90}).
 
            @return: Approximate earth radius (C{meter}).
         '''
@@ -800,7 +800,7 @@ class Ellipsoid(_NamedEnumItem):
         '''Compute the meridional and prime-vertical radii of curvature
            at the given latitude.
 
-           @param lat: Latitude (C{degrees90}).
+           @arg lat: Latitude (C{degrees90}).
 
            @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)}
                     radii of curvature.
@@ -825,8 +825,8 @@ class Ellipsoid(_NamedEnumItem):
         '''Compute the directional radius of curvature at the
            given latitude and compass direction.
 
-           @param lat: Latitude (C{degrees90}).
-           @param bearing: Direction (compass C{degrees360}).
+           @arg lat: Latitude (C{degrees90}).
+           @arg bearing: Direction (compass C{degrees360}).
 
            @return: Directional radius of curvature (C{meter}).
 
@@ -846,7 +846,7 @@ class Ellipsoid(_NamedEnumItem):
     def rocGauss(self, lat):
         '''Compute the Gaussian radius of curvature at the given latitude.
 
-           @param lat: Latitude (C{degrees90}).
+           @arg lat: Latitude (C{degrees90}).
 
            @return: Gaussian radius of curvature (C{meter}).
 
@@ -863,7 +863,7 @@ class Ellipsoid(_NamedEnumItem):
     def rocMean(self, lat):
         '''Compute the mean radius of curvature at the given latitude.
 
-           @param lat: Latitude (C{degrees90}).
+           @arg lat: Latitude (C{degrees90}).
 
            @return: Mean radius of curvature (C{meter}).
 
@@ -876,7 +876,7 @@ class Ellipsoid(_NamedEnumItem):
     def rocMeridional(self, lat):
         '''Compute the meridional radius of curvature at the given latitude.
 
-           @param lat: Latitude (C{degrees90}).
+           @arg lat: Latitude (C{degrees90}).
 
            @return: Meridional radius of curvature (C{meter}).
 
@@ -890,7 +890,7 @@ class Ellipsoid(_NamedEnumItem):
     def rocPrimeVertical(self, lat):
         '''Compute the prime-vertical radius of curvature at the given latitude.
 
-           @param lat: Latitude (C{degrees90}).
+           @arg lat: Latitude (C{degrees90}).
 
            @return: Prime-vertical radis of curvature (C{meter}).
 
@@ -904,7 +904,7 @@ class Ellipsoid(_NamedEnumItem):
     def toStr(self, prec=9):  # PYCHOK expected
         '''Return this ellipsoid as a text string.
 
-           @keyword prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
 
            @return: Ellipsoid attributes (C{str}).
         '''
@@ -1001,14 +1001,14 @@ class Transform(_NamedEnumItem):
                                 sx=0, sy=0, sz=0, s=0):
         '''New L{Transform}.
 
-           @keyword name: Optional, unique name (C{str}).
-           @keyword tx: Optional X translation (C{meter}).
-           @keyword ty: Optional Y translation (C{meter}).
-           @keyword tz: Optional Z translation (C{meter}).
-           @keyword s: Optional scale ppm (C{float}).
-           @keyword sx: Optional X rotation (C{degree seconds}).
-           @keyword sy: Optional Y rotation (C{degree seconds}).
-           @keyword sz: Optional Z rotation (C{degree seconds}).
+           @kwarg name: Optional, unique name (C{str}).
+           @kwarg tx: Optional X translation (C{meter}).
+           @kwarg ty: Optional Y translation (C{meter}).
+           @kwarg tz: Optional Z translation (C{meter}).
+           @kwarg s: Optional scale ppm (C{float}).
+           @kwarg sx: Optional X rotation (C{degree seconds}).
+           @kwarg sy: Optional Y rotation (C{degree seconds}).
+           @kwarg sz: Optional Z rotation (C{degree seconds}).
 
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
@@ -1033,7 +1033,7 @@ class Transform(_NamedEnumItem):
     def __eq__(self, other):
         '''Compare this and an other transform.
 
-           @param other: The other transform (L{Transform}).
+           @arg other: The other transform (L{Transform}).
 
            @return: C{True} if equal, C{False} otherwise.
         '''
@@ -1049,7 +1049,7 @@ class Transform(_NamedEnumItem):
     def inverse(self, name=''):
         '''Return the inverse of this transform.
 
-           @keyword name: Optional, unique name (C{str}).
+           @kwarg name: Optional, unique name (C{str}).
 
            @return: Inverse (Transform).
 
@@ -1062,7 +1062,7 @@ class Transform(_NamedEnumItem):
     def toStr(self, prec=5):  # PYCHOK expected
         '''Return this transform as a string.
 
-           @keyword prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
 
            @return: Transform attributes (C{str}).
         '''
@@ -1073,10 +1073,10 @@ class Transform(_NamedEnumItem):
     def transform(self, x, y, z, inverse=False):
         '''Transform a (geocentric) Cartesian point, forward or inverse.
 
-           @param x: X coordinate (C{meter}).
-           @param y: Y coordinate (C{meter}).
-           @param z: Z coordinate (C{meter}).
-           @keyword inverse: Optional direction, forward or inverse (C{bool}).
+           @arg x: X coordinate (C{meter}).
+           @arg y: Y coordinate (C{meter}).
+           @arg z: Z coordinate (C{meter}).
+           @kwarg inverse: Optional direction, forward or inverse (C{bool}).
 
            @return: A L{Vector3Tuple}C{(x, y, z)}, transformed.
         '''
@@ -1155,9 +1155,9 @@ class Datum(_NamedEnumItem):
     def __init__(self, ellipsoid, transform=None, name=''):
         '''New L{Datum}.
 
-           @param ellipsoid: The ellipsoid (L{Ellipsoid}).
-           @keyword transform: Optional transform (L{Transform}).
-           @keyword name: Optional, unique name (C{str}).
+           @arg ellipsoid: The ellipsoid (L{Ellipsoid}).
+           @kwarg transform: Optional transform (L{Transform}).
+           @kwarg name: Optional, unique name (C{str}).
 
            @raise NameError: Datum with that B{C{name}} already exists.
 
@@ -1175,7 +1175,7 @@ class Datum(_NamedEnumItem):
     def __eq__(self, other):
         '''Compare this and an other datum.
 
-           @param other: The other datum (L{Datum}).
+           @arg other: The other datum (L{Datum}).
 
            @return: C{True} if equal, C{False} otherwise.
         '''
@@ -1186,8 +1186,8 @@ class Datum(_NamedEnumItem):
     def ecef(self, Ecef=None):
         '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.
 
-           @keyword Ecef: ECEF class to use (L{EcefKarney}, L{EcefVeness}
-                          or L{EcefYou}).
+           @kwarg Ecef: ECEF class to use (L{EcefKarney}, L{EcefVeness}
+                        or L{EcefYou}).
 
            @return: An ECEF converter for this C{datum} (L{EcefKarney},
                     L{EcefVeness} or L{EcefYou}).
