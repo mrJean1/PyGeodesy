@@ -379,7 +379,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @property_RO
     def iteration(self):
-        '''Get the iteration number (C{int}) or C{None} if not available/applicable.
+        '''Get the iteration number (C{int} or C{None} if not available/applicable).
         '''
         return None
 

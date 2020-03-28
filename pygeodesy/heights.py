@@ -51,11 +51,12 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import EPS, _isnotError, isscalar, \
-                             len2, map1, map2, property_RO
-from pygeodesy.datum import Datum
+from pygeodesy.basics import EPS, isscalar, len2, map1, map2, \
+                             property_RO, _TypeError
+from pygeodesy.datum import Datum, Datums
 from pygeodesy.fmath import fidw, hypot2
-from pygeodesy.formy import euclidean_, haversine_, _scaler, vincentys_
+from pygeodesy.formy import euclidean_, flatPolar_, haversine_, \
+                           _scaler, vincentys_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
@@ -63,7 +64,7 @@ from pygeodesy.utily import PI, PI2, PI_2, radiansPI, radiansPI2, \
                             unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.03.23'
+__version__ = '20.03.29'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -188,6 +189,7 @@ class _HeightBase(_Named):  # imported by .geoids
     '''(INTERNAL) Interpolator base class.
     '''
     _adjust = None  # not applicable
+    _datum  = None  # not applicable
     _kmin   = 2     # min number of knots
     _np     = None  # numpy
     _np_v   = None  # version
@@ -208,6 +210,12 @@ class _HeightBase(_Named):  # imported by .geoids
 
     def _axyllis4(self, llis):
         return _axyllis4(self._np.array, llis)
+
+    @property_RO
+    def datum(self):
+        '''Get the datum (L{Datum} or C{None} if not applicable).
+        '''
+        return self._datum
 
     def _ev(self, *args):
         '''(INTERNAL) I{Must be overloaded}.
@@ -274,9 +282,9 @@ class HeightCubic(_HeightBase):
        doc/scipy/reference/generated/scipy.interpolate.interp2d.html>}
        C{kind='cubic'}.
     '''
-    _interp2d = None
+    _interp2d =  None
     _kind     = 'cubic'
-    _kmin     = 16
+    _kmin     =  16
 
     def __init__(self, knots, name=''):
         '''New L{HeightCubic} interpolator.
@@ -356,7 +364,7 @@ class HeightLinear(HeightCubic):
        C{kind='linear}.
     '''
     _kind = 'linear'
-    _kmin = 2
+    _kmin =  2
 
     def __init__(self, knots, name=''):
         '''New L{HeightLinear} interpolator.
@@ -415,6 +423,14 @@ class _HeightIDW(_HeightBase):
         _as, xis, yis, _ = _axyllis4(tuple, llis, off=False)
         return _as(map(self._hIDW, xis, yis))
 
+    def _datum_setter(self, datum, knots):
+        '''(INTERNAL) Set the datum.
+        '''
+        d = datum or getattr(knots[0], 'datum', datum)
+        if d and d != self.datum:
+            _TypeError(Datum, datum=d)
+            self._datum = d
+
     def _distances(self, x, y):  # PYCHOK unused (x, y) radians
         '''Must be overloaded.
         '''
@@ -469,12 +485,13 @@ class _HeightIDW(_HeightBase):
 class HeightIDWequirectangular(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
-       and the C{equirectangular} distance (in radians squared) like
+       and the C{equirectangular} distance in C{radians squared} like
        function L{equirectangular_}.
 
-       @see: L{HeightIDWeuclidean}, L{HeightIDWhaversine},
-             L{HeightIDWvincentys}, U{Inverse distance weighting
-             <https://WikiPedia.org/wiki/Inverse_distance_weighting>},
+       @see: L{HeightIDWeuclidean}, L{HeightIDWflatLocal},
+             L{HeightIDWflatPolar}, L{HeightIDWhaversine},
+             L{HeightIDWkarney}, L{HeightIDWvincentys}, U{Inverse distance
+             weighting<https://WikiPedia.org/wiki/Inverse_distance_weighting>},
              U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
              geostatistics/Inverse-Distance-Weighting/index.html>} and
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
@@ -501,10 +518,10 @@ class HeightIDWequirectangular(_HeightIDW):
             self._wrap = True
         _HeightIDW.__init__(self, knots, beta=1, name=name)  # distance**2
 
-    def _distances(self, x, y):  # (x, y) radians
+    def _distances(self, x, y):  # (x, y) radians**2
         for xk, yk in zip(self._xs, self._ys):
             d, _ = unrollPI(xk, x, wrap=self._wrap)
-            if self.adjust:
+            if self._adjust:
                 d *= _scaler(yk, y)
             yield hypot2(d, yk - y)  # like equirectangular_ distance2
 
@@ -514,10 +531,12 @@ class HeightIDWequirectangular(_HeightIDW):
 
 class HeightIDWeuclidean(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
-       and the C{Euclidean} distance from function L{euclidean_}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>}
+       (IDW) and the C{Euclidean} distance in C{radians} from
+       function L{euclidean_}.
 
-       @see: L{HeightIDWequirectangular}, L{HeightIDWhaversine},
+       @see: L{HeightIDWequirectangular}, L{HeightIDWflatLocal},
+             L{HeightIDWflatPolar}, L{HeightIDWhaversine},
              L{HeightIDWkarney}, L{HeightIDWvincentys}, U{Inverse distance
              weighting<https://WikiPedia.org/wiki/Inverse_distance_weighting>},
              U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
@@ -545,7 +564,97 @@ class HeightIDWeuclidean(_HeightIDW):
 
     def _distances(self, x, y):  # (x, y) radians
         for xk, yk in zip(self._xs, self._ys):
-            yield euclidean_(yk, y, xk - x, adjust=self.adjust)
+            yield euclidean_(yk, y, xk - x, adjust=self._adjust)
+
+    __call__ = _HeightIDW.__call__  # for __doc__
+    height   = _HeightIDW.height    # for __doc__
+
+
+class HeightIDWflatLocal(_HeightIDW):
+    '''Height interpolator using U{Inverse Distance Weighting
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>}
+       (IDW) and the I{angular} distance in C{radians squared}
+       like function L{flatLocal_}.
+
+       @see: L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
+             L{HeightIDWflatPolar}, L{HeightIDWhaversine},
+             L{HeightIDWkarney}, L{HeightIDWvincentys}, U{Inverse distance
+             weighting<https://WikiPedia.org/wiki/Inverse_distance_weighting>},
+             U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
+             geostatistics/Inverse-Distance-Weighting/index.html>} and
+             U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
+             shepard_interp_2d/shepard_interp_2d.html>}.
+    '''
+    _datum = Datums.WGS84
+    _Rad2_ = None
+    _wrap  = False
+
+    def __init__(self, knots, datum=None, beta=2, wrap=False, name=''):
+        '''New L{HeightIDWflatLocal} interpolator.
+
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
+                         and first B{C{knots}}' datum (L{Datum}).
+           @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg name: Optional height interpolator name (C{str}).
+
+           @raise HeightError: Insufficient number of B{C{knots}} or
+                               invalid B{C{knot}} or B{C{beta}}.
+
+           @raise TypeError: Invalid B{C{datum}}.
+        '''
+        if wrap:
+            self._wrap = True
+        _HeightIDW.__init__(self, knots, beta=beta, name=name)
+        self._datum_setter(datum, knots)
+        self._Rad2_ = self.datum.ellipsoid._flatRad2_
+
+    def _distances(self, x, y):  # (x, y) radians
+        for xk, yk in zip(self._xs, self._ys):
+            d, _ = unrollPI(xk, x, wrap=self._wrap)
+            yield self._Rad2_(yk, y, d)  # radians**2
+
+    __call__ = _HeightIDW.__call__  # for __doc__
+    height   = _HeightIDW.height    # for __doc__
+
+
+class HeightIDWflatPolar(_HeightIDW):
+    '''Height interpolator using U{Inverse Distance Weighting
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>}
+       (IDW) and the I{angular} distance in C{radians} from
+       function L{flatPolar_}.
+
+       @see: L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
+             L{HeightIDWflatLocal}, L{HeightIDWhaversine},
+             L{HeightIDWkarney}, L{HeightIDWvincentys}, U{Inverse distance
+             weighting<https://WikiPedia.org/wiki/Inverse_distance_weighting>},
+             U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
+             geostatistics/Inverse-Distance-Weighting/index.html>} and
+             U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
+             shepard_interp_2d/shepard_interp_2d.html>}.
+    '''
+    _wrap = False
+
+    def __init__(self, knots, beta=2, wrap=False, name=''):
+        '''New L{HeightIDWflatPolar} interpolator.
+
+           @arg knots: The points with known height (C{LatLon}s).
+           @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg name: Optional height interpolator name (C{str}).
+
+           @raise HeightError: Insufficient number of B{C{knots}} or
+                               invalid B{C{knot}} or B{C{beta}}.
+        '''
+        if wrap:
+            self._wrap = True
+        _HeightIDW.__init__(self, knots, beta=beta, name=name)
+
+    def _distances(self, x, y):  # (x, y) radians
+        for xk, yk in zip(self._xs, self._ys):
+            d, _ = unrollPI(xk, x, wrap=self._wrap)
+            yield flatPolar_(yk, y, d)  # radians
 
     __call__ = _HeightIDW.__call__  # for __doc__
     height   = _HeightIDW.height    # for __doc__
@@ -553,12 +662,14 @@ class HeightIDWeuclidean(_HeightIDW):
 
 class HeightIDWhaversine(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
-       the I{angular} C{Haversine} distance from function L{haversine_}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>}
+       (IDW) and the I{angular} C{Haversine} distance in C{radians}
+       from function L{haversine_}.
 
        @note: See note under L{HeightIDWvincentys}.
 
        @see: L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
+             L{HeightIDWflatLocal}, L{HeightIDWflatPolar},
              L{HeightIDWkarney}, L{HeightIDWvincentys}, U{Inverse distance
              weighting<https://WikiPedia.org/wiki/Inverse_distance_weighting>},
              U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
@@ -595,12 +706,13 @@ class HeightIDWhaversine(_HeightIDW):
 class HeightIDWkarney(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
-       the I{angular} distance from I{Charles F. F. Karney's}
+       the I{angular} distance in C{degrees} from I{Charles F. F. Karney's}
        U{GeographicLib<https://PyPI.org/project/geographiclib>} U{Geodesic
        <https://geographiclib.sourceforge.io/1.49/python/code.html>}
        Inverse method.
 
        @see: L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
+             L{HeightIDWflatLocal}, L{HeightIDWflatPolar},
              L{HeightIDWhaversine}, L{HeightIDWvincentys}, U{Inverse distance
              weighting<https://WikiPedia.org/wiki/Inverse_distance_weighting>},
              U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
@@ -608,16 +720,16 @@ class HeightIDWkarney(_HeightIDW):
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
     '''
-    _datum    = None
-    _geodesic = None
-    _wrap     = False
+    _datum   = Datums.WGS84
+    _Inverse = None
+    _wrap    = False
 
     def __init__(self, knots, datum=None, beta=2, wrap=False, name=''):
-        '''New L{HeightIDWhaversine} interpolator.
+        '''New L{HeightIDWkarney} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
-           @kwarg datum: Optional datum (L{Datum} to use, overriding
-                         the default B{C{knots[0].datum}}
+           @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
+                         and first B{C{knots}}' datum (L{Datum}).
            @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
            @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
            @kwarg name: Optional height interpolator name (C{str}).
@@ -634,13 +746,8 @@ class HeightIDWkarney(_HeightIDW):
         n, self._lls = len2(knots)
         if n < self._kmin:
             raise HeightError('insufficient %s: %s, need %s' % ('knots', n, self._kmin))
-        try:
-            self._datum = self._lls[0].datum if datum is None else datum
-            if not isinstance(self.datum, Datum):
-                raise TypeError
-        except (AttributeError, TypeError):
-            raise _isnotError('valid', datum=self.datum or datum)
-        self._geodesic = self.datum.ellipsoid.geodesic
+        self._datum_setter(datum, self._lls)
+        self._Inverse = self.datum.ellipsoid.geodesic.Inverse
 
         self.beta = beta
         if wrap:
@@ -649,12 +756,11 @@ class HeightIDWkarney(_HeightIDW):
             self.name = name
 
     def _distances(self, x, y):  # (x, y) degrees
-        g = self._geodesic
         for ll in self._lls:
             # see .ellipsoidalKarney.LatLon._inverse
             _, lon = unroll180(x, ll.lon, wrap=self._wrap)  # g.LONG_UNROLL
             # XXX g.DISTANCE needed for 's12', distance in meters?
-            yield abs(g.Inverse(y, x, ll.lat, lon)['a12'])
+            yield abs(self._Inverse(y, x, ll.lat, lon)['a12'])
 
     @property_RO
     def _hs(self):
@@ -684,25 +790,21 @@ class HeightIDWkarney(_HeightIDW):
         _as, llis = _allis2(llis)
         return _as(map(self._hIDW, *zip(*_xy2(llis))))
 
-    @property_RO
-    def datum(self):
-        '''Get the datum of this interpolator (L{Datum}).
-        '''
-        return self._datum
-
     height = _HeightIDW.height  # for __doc__
 
 
 class HeightIDWvincentys(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
-       and the I{angular} C{Vincenty} distance from function L{vincentys_}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>}
+       (IDW) and the I{angular} C{Vincenty} distance in C{radians}
+       from function L{vincentys_}.
 
        @note: See note under L{vincentys_}.
 
        @see: L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
-             L{HeightIDWhaversine}, L{HeightIDWkarney}, U{Inverse distance
-             weighting<https://WikiPedia.org/wiki/Inverse_distance_weighting>},
+             L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
+             L{HeightIDWkarney}, U{Inverse distance weighting
+             <https://WikiPedia.org/wiki/Inverse_distance_weighting>},
              U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
              geostatistics/Inverse-Distance-Weighting/index.html>} and
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/

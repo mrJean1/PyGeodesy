@@ -61,7 +61,7 @@ in U{B. C. Carlson, Computation of real or complex elliptic integrals
 
 The computation of the Jacobi elliptic functions uses the algorithm
 given in U{R. Bulirsch, Numerical Calculation of Elliptic Integrals
-and Elliptic Functions <https://DOI.org/10.1007/BF01397975>},
+and Elliptic Functions<https://DOI.org/10.1007/BF01397975>},
 Numerische Mathematik 7, 78--90 (1965).
 
 The notation follows U{NIST Digital Library of Mathematical Functions
@@ -85,7 +85,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic + _ALL_DOCS('Elliptic3Tuple')
-__version__ = '20.03.23'
+__version__ = '20.03.27'
 
 _TolJAC = sqrt(EPS * 0.01)
 _TolRD  =  pow(EPS * 0.002, 0.125)

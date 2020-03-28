@@ -249,13 +249,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geoids.GeoidKarney-class.html#pgm" class="summary-name">pgm</a>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.geoids.GeoidKarney-class.html#u2B" class="summary-name">u2B</a>
     </td>
   </tr>
@@ -271,6 +264,7 @@
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#nBytes">nBytes</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#name">name</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#numpy">numpy</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#pgm">pgm</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#scipy">scipy</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#sizeB">sizeB</a></code>,
       <code><a href="pygeodesy.geoids._GeoidBase-class.html#smooth">smooth</a></code>,
@@ -278,6 +272,7 @@
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightBase-class.html">heights._HeightBase</a></code></b>:
       <code><a href="pygeodesy.heights._HeightBase-class.html#adjust">adjust</a></code>,
+      <code><a href="pygeodesy.heights._HeightBase-class.html#datum">datum</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#kmin">kmin</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#wrap">wrap</a></code>
       </p>
@@ -309,7 +304,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">egm_pgm</span>,
         <span class="sig-arg">crop</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
@@ -326,7 +321,7 @@
   <p>New <a href="pygeodesy.geoids.GeoidKarney-class.html" 
   class="link">GeoidKarney</a> interpolator.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>egm_pgm</code></strong> - An <a 
           href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst"
@@ -369,7 +364,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*llis</span>)</span>
     <br /><em class="fname">(Call operator)</em>
   </h3>
@@ -380,7 +375,7 @@
   
   <p>Interpolate the geoid height for one or several locations.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>llis</code></strong> - The location or locations (<code>LatLon</code>, ... or 
           <code>LatLon</code>s).</li>
@@ -408,7 +403,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lats</span>,
         <span class="sig-arg">lons</span>)</span>
   </h3>
@@ -419,7 +414,7 @@
   
   <p>Interpolate the geoid height for one or several lat-/longitudes.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lats</code></strong> - Latitude or latitudes (<code>degrees</code> or 
           <code>degrees</code>s).</li>
@@ -449,7 +444,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">highest</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">highest</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">full</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -460,7 +455,7 @@
   
   <p>Return the location and largest height of this geoid.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -485,7 +480,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">lowest</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">lowest</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">full</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -496,7 +491,7 @@
   
   <p>Return the location and the lowest height of this geoid.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -535,26 +530,6 @@
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">dtype(<span class="summary-sig-arg">self</span>)</span>
         - Get the geoid's grid data type (<code>str</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="pgm"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">pgm</h3>
-  
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">pgm(<span class="summary-sig-arg">self</span>)</span>
-        - Get the PGM attributes (<code>_PGM</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
@@ -616,7 +591,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:40 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:04 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

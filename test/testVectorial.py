@@ -4,11 +4,11 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.02.27'
+__version__ = '20.03.24'
 
 from base import coverage, TestsBase
 
-from pygeodesy import F_D, fStr, sphericalNvector
+from pygeodesy import F_D, fstr, sphericalNvector
 
 
 class Tests(TestsBase):
@@ -29,13 +29,22 @@ class Tests(TestsBase):
 
         p = v.toLatLon(LatLon=None)
         c = v.toCartesian(Cartesian=None)
-        self.test('ecef.x, .y, .z', fStr(p[:3],  prec=5), fStr(c[:3],  prec=5))
-        self.test('ecef.lat, .lon', fStr(p[3:5], prec=6), fStr(c[3:5], prec=6))
-        self.test('ecef.height', fStr(p.height, prec=6), fStr(c.height, prec=6), known=True)
+        self.test('ecef.x, .y, .z', fstr(p[:3],  prec=5), fstr(c[:3],  prec=5))
+        self.test('ecef.lat, .lon', fstr(p[3:5], prec=6), fstr(c[3:5], prec=6))
+        self.test('ecef.height', fstr(p.height, prec=6), fstr(c.height, prec=6), known=True)
         if c.M is not None:
-            self.test('ecef.M', fStr(p.M, prec=9), fStr(c.M, prec=9))
+            self.test('ecef.M', fstr(p.M, prec=9), fstr(c.M, prec=9))
 
         if coverage:
+            from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, \
+                                        PhiLam2Tuple, PhiLam3Tuple
+
+            self.test('.latlon', v.latlon, LatLon2Tuple(v.lat, v.lon))
+            self.test('.philam', v.philam, PhiLam2Tuple(v.phi, v.lam))
+
+            self.test('.latlonheight', v.latlonheight, LatLon3Tuple(v.lat, v.lon, float(v.h)))
+            self.test('.philamheight', v.philamheight, PhiLam3Tuple(v.phi, v.lam, float(v.h)))
+
             t = v.parse('0.5, 0.5, 0.707')
             self.test('parse', t, v)
             self.test('cmp', t.cmp(v), 0)

@@ -76,7 +76,7 @@
 <p>Height interpolator using <a 
   href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
   target="_top">Inverse Distance Weighting</a> (IDW) and the <i>angular</i>
-  distance from <i>Charles F. F. Karney's</i> <a 
+  distance in <code>degrees</code> from <i>Charles F. F. Karney's</i> <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">GeographicLib</a> <a 
   href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
@@ -88,6 +88,10 @@
         class="link">HeightIDWequirectangular</a>, <a 
         href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
         class="link">HeightIDWeuclidean</a>, <a 
+        href="pygeodesy.heights.HeightIDWflatLocal-class.html" 
+        class="link">HeightIDWflatLocal</a>, <a 
+        href="pygeodesy.heights.HeightIDWflatPolar-class.html" 
+        class="link">HeightIDWflatPolar</a>, <a 
         href="pygeodesy.heights.HeightIDWhaversine-class.html" 
         class="link">HeightIDWhaversine</a>, <a 
         href="pygeodesy.heights.HeightIDWvincentys-class.html" 
@@ -119,8 +123,8 @@
         <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      New <a href="pygeodesy.heights.HeightIDWhaversine-class.html" 
-      class="link">HeightIDWhaversine</a> interpolator.</td>
+      New <a href="pygeodesy.heights.HeightIDWkarney-class.html" 
+      class="link">HeightIDWkarney</a> interpolator.</td>
           <td align="right" valign="top">
             
             
@@ -202,13 +206,6 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.heights.HeightIDWkarney-class.html#datum" class="summary-name">datum</a>
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code>_HeightIDW</code></b>:
@@ -216,6 +213,7 @@
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightBase-class.html">_HeightBase</a></code></b>:
       <code><a href="pygeodesy.heights._HeightBase-class.html#adjust">adjust</a></code>,
+      <code><a href="pygeodesy.heights._HeightBase-class.html#datum">datum</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#kmin">kmin</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#wrap">wrap</a></code>
       </p>
@@ -248,7 +246,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">knots</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">beta</span>=<span class="sig-default">2</span>,
@@ -261,15 +259,15 @@
     </td>
   </tr></table>
   
-  <p>New <a href="pygeodesy.heights.HeightIDWhaversine-class.html" 
-  class="link">HeightIDWhaversine</a> interpolator.</p>
+  <p>New <a href="pygeodesy.heights.HeightIDWkarney-class.html" 
+  class="link">HeightIDWkarney</a> interpolator.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>knots</code></strong> - The points with known height (<code>LatLon</code>s).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
-          class="link">Datum</a> to use, overriding the default 
-          <b><code>knots[0].datum</code></b></li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum overriding the default <code>Datums.WGS84</code> 
+          and first <b><code>knots</code></b>' datum (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>beta</code></strong> - Inverse distance power (<code>int</code> 1, 2, or 3).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
@@ -297,7 +295,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*llis</span>)</span>
     <br /><em class="fname">(Call operator)</em>
   </h3>
@@ -308,7 +306,7 @@
   
   <p>Interpolate the height for one or several locations.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>llis</code></strong> - The location or locations (<code>LatLon</code>, ... or 
           <code>LatLon</code>s).</li>
@@ -336,7 +334,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lats</span>,
         <span class="sig-arg">lons</span>)</span>
   </h3>
@@ -347,7 +345,7 @@
   
   <p>Interpolate the height for one or several lat-/longitudes.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lats</code></strong> - Latitude or latitudes (<code>degrees</code> or 
           <code>degrees</code>s).</li>
@@ -367,37 +365,6 @@
     <dt>Overrides:
         _HeightIDW.height
     </dt>
-  </dl>
-</td></tr></table>
-</div>
-<br />
-<!-- ==================== PROPERTY DETAILS ==================== -->
-<a name="section-PropertyDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Property Details</span></td>
-</tr>
-</table>
-<a name="datum"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">datum</h3>
-  
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
-        - Get the datum of this interpolator (<a 
-href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -433,7 +400,7 @@ href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:41 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:05 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

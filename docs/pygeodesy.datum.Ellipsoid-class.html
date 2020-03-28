@@ -136,7 +136,7 @@
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>)</span><br />
       Approximate the distance and (initial) bearing between two points 
-      based on the radii of curvature.</td>
+      based on the radii of curvature at the initial point.</td>
           <td align="right" valign="top">
             
             
@@ -264,6 +264,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="_flatRad2_"></a><span class="summary-sig-name">_flatRad2_</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>)</span><br />
+      (INTERNAL) like function <a 
+      href="pygeodesy.formy-module.html#flatLocal_" 
+      class="link">flatLocal_</a> but returning the <i>angular</i> distance
+      in <code>radians squared</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">meter</span>)</span><br />
       Convert distance to angle along equator.</td>
@@ -319,9 +342,30 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#roc2" class="summary-sig-name">roc2</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat</span>)</span><br />
-      Compute the meridional and prime-vertical radii of curvature at the 
-      given latitude.</td>
+        <span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">scaled</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the meridional and prime-vertical, <i>normal</i> radii of 
+      curvature at the given latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#roc2_" class="summary-sig-name">roc2_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">phi</span>,
+        <span class="summary-sig-arg">scaled</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the meridional and prime-vertical, <i>normal</i> radii of 
+      curvature at the given latitude.</td>
           <td align="right" valign="top">
             
             
@@ -413,7 +457,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#rocPrimeVertical" class="summary-sig-name">rocPrimeVertical</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
-      Compute the prime-vertical radius of curvature at the given latitude.</td>
+      Compute the prime-vertical, <i>normal</i> radius of curvature at the 
+      given latitude.</td>
           <td align="right" valign="top">
             
             
@@ -786,7 +831,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">a</span>,
         <span class="sig-arg">b</span>,
         <span class="sig-arg">f_</span>,
@@ -801,7 +846,7 @@
   <p>New <a href="pygeodesy.datum.Ellipsoid-class.html" 
   class="link">Ellipsoid</a>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>a</code></strong> - Semi-major, equatorial axis (<code>meter</code>).</li>
         <li><strong class="pname"><code>b</code></strong> - Semi-minor, polar axis (<code>meter</code>).</li>
@@ -826,7 +871,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__eq__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__eq__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>)</span>
     <br /><em class="fname">(Equality operator)</em>
   </h3>
@@ -837,7 +882,7 @@
   
   <p>Compare this and an other ellipsoid.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other ellipsoid (<a 
           href="pygeodesy.datum.Ellipsoid-class.html" 
@@ -855,7 +900,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance2</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat0</span>,
         <span class="sig-arg">lon0</span>,
         <span class="sig-arg">lat1</span>,
@@ -867,11 +912,11 @@
   </tr></table>
   
   <p>Approximate the distance and (initial) bearing between two points 
-  based on the radii of curvature.</p>
-  <p>Suitable only for short distances up to a few hundred Km or Miles and 
-  only between points not near-polar.</p>
+  based on the radii of curvature at the initial point.</p>
+  <p>Suitable only for distances of several hundred Km or Miles and only 
+  between points not near-polar.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat0</code></strong> - From latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon0</code></strong> - From longitude (<code>degrees</code>).</li>
@@ -880,11 +925,18 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.named.Distance2Tuple-class.html" 
-          class="link">Distance2Tuple</a><code>(distance, initial)</code>.</dd>
+          class="link">Distance2Tuple</a><code>(distance, initial)</code> 
+          with <code>distance</code> in same units as this ellipsoid's 
+          axes.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://www.EdWilliams.org/avform.htm#flat" 
-        target="_top">Local, flat earth approximation</a>.
+        Function <a href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">flatLocal</a>, <a 
+        href="https://www.EdWilliams.org/avform.htm#flat" 
+        target="_top">local, flat earth approximation</a> and meridional 
+        and prime vertical <a 
+        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
+        target="_top">Radii of Curvature</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -895,7 +947,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">ecef</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ecef</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">Ecef</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -906,7 +958,7 @@
   <p>Return <a href="https://WikiPedia.org/wiki/ECEF" 
   target="_top">ECEF</a> converter.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>Ecef</code></strong> - ECEF class to use (<a href="pygeodesy.ecef.EcefKarney-class.html"
           class="link">EcefKarney</a>, <a 
@@ -937,7 +989,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">e2s</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">e2s</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">s</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -947,7 +999,7 @@
   
   <p>Compute norm <i class="math">sqrt(1 - e2 * s**2)</i>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>s</code></strong> - S value (<code>scalar</code>).</li>
     </ul></dd>
@@ -967,7 +1019,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">e2s2</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">e2s2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">s</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -977,7 +1029,7 @@
   
   <p>Compute <i class="math">1 - e2 * s**2</i>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>s</code></strong> - S value (<code>scalar</code>).</li>
     </ul></dd>
@@ -997,7 +1049,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">es_atanh</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">es_atanh</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">x</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1023,7 +1075,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">es_tauf</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">es_tauf</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">taup</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1049,7 +1101,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">es_taupf</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">es_taupf</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">tau</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1075,7 +1127,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">meter</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1085,7 +1137,7 @@
   
   <p>Convert distance to angle along equator.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>meter</code></strong> - Distance (<code>meter</code>).</li>
     </ul></dd>
@@ -1101,7 +1153,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">Rgeocentric</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Rgeocentric</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1111,7 +1163,7 @@
   
   <p>Compute the geocentric earth radius at the given latitude.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
@@ -1131,7 +1183,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">Rlat</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Rlat</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1141,7 +1193,7 @@
   
   <p>Approximate the earth radius at the given latitude.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
@@ -1157,29 +1209,73 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">roc2</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">lat</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">roc2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>,
+        <span class="sig-arg">scaled</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the meridional and prime-vertical radii of curvature at the 
-  given latitude.</p>
+  <p>Compute the meridional and prime-vertical, <i>normal</i> radii of 
+  curvature at the given latitude.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>scaled</code></strong> - Scale prime_vertical by <b><code>cos(phi)</code></b> 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.named.Curvature2Tuple-class.html" 
           class="link">Curvature2Tuple</a><code>(meridional, 
-          prime_vertical)</code> radii of curvature.</dd>
+          prime_vertical)</code> with the radii of curvature.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://www.EdWilliams.org/avform.htm#flat" 
+        Method <code>.roc2_</code>, <a 
+        href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a> and <a 
+        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
+        target="_top">Radii of Curvature</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="roc2_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">roc2_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">phi</span>,
+        <span class="sig-arg">scaled</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the meridional and prime-vertical, <i>normal</i> radii of 
+  curvature at the given latitude.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>scaled</code></strong> - Scale prime_vertical by <b><code>cos(phi)</code></b> 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.named.Curvature2Tuple-class.html" 
+          class="link">Curvature2Tuple</a><code>(meridional, 
+          prime_vertical)</code> with the radii of curvature.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <code>.roc2</code>, <a 
+        href="https://www.EdWilliams.org/avform.htm#flat" 
+        target="_top">Local, flat earth approximation</a> and meridional 
+        and prime vertical <a 
         href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
         target="_top">Radii of Curvature</a>.
       </p>
@@ -1192,7 +1288,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocBearing</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocBearing</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">bearing</span>)</span>
   </h3>
@@ -1204,7 +1300,7 @@
   <p>Compute the directional radius of curvature at the given latitude and 
   compass direction.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
         <li><strong class="pname"><code>bearing</code></strong> - Direction (compass <code>degrees360</code>).</li>
@@ -1226,7 +1322,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocGauss</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocGauss</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1236,7 +1332,7 @@
   
   <p>Compute the Gaussian radius of curvature at the given latitude.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
@@ -1257,7 +1353,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocMean</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocMean</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1267,7 +1363,7 @@
   
   <p>Compute the mean radius of curvature at the given latitude.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
@@ -1288,7 +1384,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocMeridional</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocMeridional</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1298,7 +1394,7 @@
   
   <p>Compute the meridional radius of curvature at the given latitude.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
@@ -1320,7 +1416,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocPrimeVertical</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rocPrimeVertical</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1328,15 +1424,15 @@
     </td>
   </tr></table>
   
-  <p>Compute the prime-vertical radius of curvature at the given 
-  latitude.</p>
+  <p>Compute the prime-vertical, <i>normal</i> radius of curvature at the 
+  given latitude.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Prime-vertical radis of curvature (<code>meter</code>).</dd>
+        <dd>Prime-vertical radius of curvature (<code>meter</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://www.EdWilliams.org/avform.htm#flat" 
@@ -1353,7 +1449,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">9</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1363,7 +1459,7 @@
   
   <p>Return this ellipsoid as a text string.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
     </ul></dd>
@@ -1712,8 +1808,8 @@ target="_top">Kr&#252;ger Beta series coefficients</a>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the (1st) Eccentricity squared (<code>float</code>), <i class="math">f 
-* (2 - f) == 1 - (b / a)**2</i>.
+        - Get the (1st) Eccentricity <i>squared</i> (<code>float</code>), <i 
+class="math">f * (2 - f) == 1 - (b / a)**2</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
@@ -2151,7 +2247,7 @@ PI * a**2 * b</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:39 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:02 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

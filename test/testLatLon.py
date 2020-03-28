@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.03.05'
+__version__ = '20.03.28'
 
 from base import geographiclib, TestsBase
 
@@ -248,6 +248,9 @@ class Tests(TestsBase):
         self.test('equirectangularTo', q.equirectangularTo(p), '124804.754', fmt='%.3f')
         self.test('euclideanTo',       p.euclideanTo(q),       '131273.287', fmt='%.3f')
         self.test('euclideanTo',       q.euclideanTo(p),       '131273.287', fmt='%.3f')
+        self.test('flatLocalTo',       q.flatLocalTo(p),       '124804.754' if Sph else
+                                                               '125209.633', fmt='%.3f')
+        self.test('flatPolarTo',       q.flatPolarTo(p),       '133663.257', fmt='%.3f')
         self.test('haversineTo',       p.haversineTo(q),       '124801.098', fmt='%.3f')
         self.test('haversineTo',       q.haversineTo(p),       '124801.098', fmt='%.3f')
 
@@ -371,7 +374,9 @@ class Tests(TestsBase):
         self.testReturnType(p.compassAngleTo(q),    float, 'compassAngleTo')
         self.testReturnType(p.equirectangularTo(q), float, 'equirectangularTo')
         self.testReturnType(p.euclideanTo(q),       float, 'euclideanTo')
-        self.testReturnType(p.euclideanTo(q),       float, 'euclideanTo')
+        self.testReturnType(p.flatLocalTo(q),       float, 'flatLocalTo')
+        self.testReturnType(p.flatPolarTo(q),       float, 'flatPolarTo')
+        self.testReturnType(p.haversineTo(q),       float, 'haversineTo')
         self.testReturnType(p.vincentysTo(q),       float, 'vincentysTo')
 
     def testReturnType(self, inst, clas, name):

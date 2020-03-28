@@ -86,7 +86,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.03.23
+        20.03.26
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -373,7 +373,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">areaOf</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">areaOf</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
@@ -385,7 +385,7 @@
   
   <p>Approximate the area of a polygon.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
@@ -424,7 +424,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">boundsOf</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">boundsOf</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -436,7 +436,7 @@
   <p>Determine the lower-left SW and upper-right NE corners of a path or 
   polygon.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat- and longitudes (<code>bool</code>).</li>
@@ -472,7 +472,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">centroidOf</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">centroidOf</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -483,7 +483,7 @@
   
   <p>Determine the centroid of a polygon.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
@@ -517,7 +517,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isclockwise</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isclockwise</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
@@ -528,7 +528,7 @@
   
   <p>Determine the direction of a path or polygon.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
@@ -560,7 +560,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isconvex</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isconvex</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
@@ -571,7 +571,7 @@
   
   <p>Determine whether a polygon is convex.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
@@ -605,7 +605,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isconvex_</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isconvex_</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>)</span>
   </h3>
@@ -616,7 +616,7 @@
   
   <p>Determine whether a polygon is convex and clockwise.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
@@ -651,7 +651,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedBy</span>(<span class="sig-arg">point</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedBy</span>&nbsp;(<span class="sig-arg">point</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -662,7 +662,7 @@
   
   <p>Determine whether a point is enclosed by a polygon.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point</code></strong> - The point (<code>LatLon</code> or 2-tuple <code>(lat, 
           lon)</code>).</li>
@@ -700,7 +700,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">ispolar</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ispolar</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -710,7 +710,7 @@
   
   <p>Check whether a polygon encloses a pole.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
@@ -735,7 +735,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn5</span>(<span class="sig-arg">point</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn5</span>&nbsp;(<span class="sig-arg">point</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
@@ -756,7 +756,7 @@
   class="link">equirectangular_</a>, subject to the supplied 
   <b><code>options</code></b>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point</code></strong> - The other, reference point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
@@ -813,7 +813,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterOf</span>(<span class="sig-arg">points</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">perimeterOf</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">adjust</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
@@ -826,7 +826,7 @@
   
   <p>Approximate the perimeter of a path or polygon.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The path or polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path or polygon (<code>bool</code>).</li>
@@ -891,7 +891,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:38 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:01 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

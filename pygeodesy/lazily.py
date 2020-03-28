@@ -106,23 +106,29 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'parseETM5', 'toEtm8'),
                           fmath=('Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
                                  'acos1', 'cbrt', 'cbrt2',
-                                 'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial', 'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
+                                 'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial',
+                                 'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'sqrt3'),
-                          formy=('antipode', 'antipode_', 'bearing', 'bearing_', 'compassAngle', 'euclidean', 'euclidean_',
-                                 'equirectangular', 'equirectangular_', 'haversine', 'haversine_', 'heightOf', 'horizon',
-                                 'isantipode', 'isantipode_', 'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam', 'philam2n_xyz',
-                                 'points2', 'vincentys', 'vincentys_'),
-                        frechet=('Frechet', 'FrechetDegrees', 'FrechetRadians', 'FrechetError',
-                                 'FrechetEquirectangular', 'FrechetEuclidean', 'FrechetHaversine', 'FrechetVincentys',
+                          formy=('antipode', 'antipode_', 'bearing', 'bearing_', 'compassAngle',
+                                 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
+                                 'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
+                                 'haversine', 'haversine_', 'heightOf', 'horizon',
+                                 'isantipode', 'isantipode_', 'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
+                                 'philam2n_xyz', 'points2', 'vincentys', 'vincentys_'),
+                        frechet=('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
+                                 'FrechetEquirectangular', 'FrechetEuclidean', 'FrechetFlatLocal', 'FrechetFlatPolar',
+                                 'FrechetHaversine', 'FrechetKarney', 'FrechetVincentys',
                                  'fractional', 'frechet_'),
                            gars=('Garef', 'GARSError'),
                         geohash=('Geohash', 'GeohashError'),
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
-                      hausdorff=('Hausdorff', 'HausdorffDegrees', 'HausdorffRadians', 'HausdorffError',
-                                 'HausdorffEquirectangular', 'HausdorffEuclidean', 'HausdorffHaversine', 'HausdorffKarney', 'HausdorffVincentys',
+                      hausdorff=('Hausdorff', 'HausdorffDegrees', 'HausdorffError', 'HausdorffRadians',
+                                 'HausdorffEquirectangular', 'HausdorffEuclidean', 'HausdorffFlatLocal', 'HausdorffFlatPolar',
+                                 'HausdorffHaversine', 'HausdorffKarney', 'HausdorffVincentys',
                                  'hausdorff_', 'randomrangenerator'),
                         heights=('HeightError', 'SciPyError', 'SciPyWarning',
-                                 'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWhaversine', 'HeightIDWkarney', 'HeightIDWvincentys',
+                                 'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWflatLocal', 'HeightIDWflatPolar',
+                                 'HeightIDWhaversine', 'HeightIDWkarney', 'HeightIDWvincentys',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
@@ -150,7 +156,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'unroll180', 'unrollPI',
                                  'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2'),
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
-                         utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8', 'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
+                         utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
+                                 'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
                        vector3d=('CrossError', 'crosserrors', 'VectorError'),  # nothing else
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm'),
                            wgrs=('Georef', 'WGRSError'))
@@ -161,14 +168,16 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                basics=('clips as clipStr',),
                                 fmath=('hypot_ as hypot3',),
                                 formy=('points2 as polygon',),
-                              heights=('HeightIDWequirectangular as HeightIDW2', 'HeightIDWeuclidean as HeightIDW', 'HeightIDWhaversine as HeightIDW3'),
+                              heights=('HeightIDWequirectangular as HeightIDW2', 'HeightIDWeuclidean as HeightIDW',
+                                       'HeightIDWhaversine as HeightIDW3'),
                                points=('areaOf as areaof',
                                        'isenclosedBy as isenclosedby', 'perimeterOf as perimeterof'),
                              simplify=('simplifyRW as simplify2',),
-                              streprs=('anstr as anStr', 'enstr2 as enStr2', 'fstr as fStr', 'fstrzs as fStrzs', 'instr as inStr', 'unstr as unStr'))
+                              streprs=('anstr as anStr', 'enstr2 as enStr2', 'fstr as fStr', 'fstrzs as fStrzs',
+                                       'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.03.22'
+__version__ = '20.03.28'
 
 
 def _all_imports(**more):
@@ -294,7 +303,7 @@ def _lazy_import2(_package_):  # MCCABE 16
                     if cwdir and n.startswith(cwdir):
                         n = n[len(cwdir):]
                     z = '%s by %s line %d' % (z, n, f.f_lineno)
-                except ValueError:
+                except ValueError:  # PYCHOK no cover
                     pass
             print('# lazily imported %s%s' % (_dot_(parent, name), z))
 
@@ -341,7 +350,7 @@ def _lazy_init3(_package_):
         parent = package.__spec__.parent  # __spec__ only in Python 3.7+
         if parent != _package_:  # assertion
             raise AttributeError('parent %r vs %r' % (parent, _package_))
-    except (AttributeError, ImportError) as x:
+    except (AttributeError, ImportError) as x:  # PYCHOK no cover
         isLazy = False  # failed
         raise LazyImportError('%s failed: %s' % (_lazy_init3.__name__, x))
 

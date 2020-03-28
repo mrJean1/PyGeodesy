@@ -61,7 +61,7 @@ from math import atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '20.03.23'
+__version__ = '20.03.27'
 
 
 class EcefError(ValueError):
@@ -328,8 +328,8 @@ class EcefKarney(_EcefBase):
 
         sb, cb, d = _sch3(y, x)
         h = hypot(d, z)  # distance to earth center
-        if h > self._hmax:
-            # We really far away (> 12 million light years).  Treat the earth
+        if h > self._hmax:  # PYCHOK no cover
+            # We are really far away (> 12M light years).  Treat the earth
             # as a point and h, above, is an acceptable approximation to the
             # height.  This avoids overflow, e.g., in the computation of d
             # below.  It's possible that h has overflowed to INF, that's OK.
@@ -425,8 +425,8 @@ class EcefKarney(_EcefBase):
 
 class EcefCartesian(_NamedBase):
     '''Conversion between geodetic C{(lat, lon, height)} and local cartesian
-       C{(x, y, z)} coordinates with a local cartesian origin at C{(lat0,
-       lon0, height0)} transcibed from on I{Karney}'s C++ class U{LocalCartesian
+       C{(x, y, z)} coordinates with a local cartesian origin at C{(lat0, lon0,
+       height0)}, transcibed from I{Karney}'s C++ class U{LocalCartesian
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}.
 
        The C{z} axis is normal to the ellipsoid, the C{y} axis points due
@@ -447,7 +447,7 @@ class EcefCartesian(_NamedBase):
                         in C{degrees} for C{scalar} B{C{latlonh0}}.
            @kwarg height0: Optional height of the cartesian origin in C{meter},
                            vertically above (or below) the surface of the ellipsoid.
-           @kwarg ecef: An EXEC converter (L{EcefKarney}).
+           @kwarg ecef: An ECEF converter (L{EcefKarney}).
            @kwarg name: Optional name (C{str}).
 
            @raise EcefError: If B{C{latlonh0}} not C{LatLon}, L{Ecef9Tuple} or
@@ -605,7 +605,7 @@ class EcefMatrix(_NamedTuple):
             t += _m  # ... from .multiply
 
         elif max(map(abs, t)) > 1:
-            raise EcefError('%s invalid: %r' % ('sa, ca, sb or cb', t))
+            raise EcefError('%s invalid: %r' % (EcefMatrix.__name__, t))
 
         else:  # build matrix
             t = (-sb, -cb * sa, cb * ca,

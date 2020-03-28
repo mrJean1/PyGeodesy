@@ -115,15 +115,16 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, EPS1, R_M, property_doc_, property_RO, \
-                            _TypeError
+from pygeodesy.basics import EPS, EPS1, R_M, property_doc_, \
+                             property_RO, _TypeError
 from pygeodesy.fmath import _2_3rd, cbrt, cbrt2, fdot, fpowers, \
-                             Fsum, fsum_, hypot1, sqrt3
+                             Fsum, fsum_, hypot1, hypot2, sqrt3
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Curvature2Tuple, Distance2Tuple, \
                            _NamedEnum, _NamedEnumItem, Vector3Tuple
 from pygeodesy.streprs import instr, fstr
-from pygeodesy.utily import PI2, degrees360, m2degrees, m2km, m2NM, m2SM
+from pygeodesy.utily import PI2, PI_2, degrees360, \
+                            m2degrees, m2km, m2NM, m2SM
 
 from math import atan, atan2, atanh, copysign, cos, exp, hypot, \
                  radians, sin, sinh, sqrt
@@ -144,7 +145,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '20.03.19'
+__version__ = '20.03.29'
 
 _floats = {}  # cache, deleted below
 _TOL    = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -194,8 +195,8 @@ class Ellipsoid(_NamedEnumItem):
     _e    = None  #: 1st Eccentricity: sqrt(1 - (b / a)**2))  # for utm
     _es_c = None  #: M{(1 - f) * exp(es_atanh(1))}
     _e2   = None  #: 1st Eccentricity squared: f * (2 - f) = 1 - (b / a)**2
-    _e4   = None  #: e2**2  # for ellipsoidalNvector.Cartesian.toNvector, ecef
-    _e12  = None  #: 1 - e2 = (1 - f)**2 # for ellipsoidalNvector.Cartesian.toNvector, ecef utm
+    _e4   = None  #: e2**2 = e**4 for ellipsoidalNvector.Cartesian.toNvector, ecef
+    _e12  = None  #: 1 - e2 = (1 - f)**2 for ellipsoidalNvector.Cartesian.toNvector, ecef utm
     _e22  = None  #: 2nd Eccentricity squared: e2 / (1 - e2) = (a / b)**2 - 1
 
     # fixed earth radii from <https://WikiPedia.org/wiki/Earth_radius>
@@ -429,24 +430,27 @@ class Ellipsoid(_NamedEnumItem):
 
     def distance2(self, lat0, lon0, lat1, lon1):
         '''Approximate the distance and (initial) bearing between two
-           points based on the radii of curvature.
+           points based on the radii of curvature at the initial point.
 
-           Suitable only for short distances up to a few hundred Km
-           or Miles and only between points not near-polar.
+           Suitable only for distances of several hundred Km or Miles
+           and only between points not near-polar.
 
            @arg lat0: From latitude (C{degrees}).
            @arg lon0: From longitude (C{degrees}).
            @arg lat1: To latitude (C{degrees}).
            @arg lon1: To longitude (C{degrees}).
 
-           @return: A L{Distance2Tuple}C{(distance, initial)}.
+           @return: A L{Distance2Tuple}C{(distance, initial)} with C{distance}
+                    in same units as this ellipsoid's axes.
 
-           @see: U{Local, flat earth approximation
-                 <https://www.EdWilliams.org/avform.htm#flat>}.
+           @see: Function L{flatLocal}, U{local, flat earth approximation
+                 <https://www.EdWilliams.org/avform.htm#flat>} and meridional
+                 and prime vertical U{Radii of Curvature
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        m, n = self.roc2(lat0)
+        m, n = self.roc2(lat0, scaled=True)
         m *= radians(lat1 - lat0)
-        n *= radians(lon1 - lon0) * cos(radians(lat0))
+        n *= radians(lon1 - lon0)
         return Distance2Tuple(hypot(m, n), degrees360(atan2(n, m)))
 
     @property_RO
@@ -467,7 +471,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def e2(self):
-        '''Get the (1st) Eccentricity squared (C{float}), M{f * (2 - f) == 1 - (b / a)**2}.
+        '''Get the (1st) Eccentricity I{squared} (C{float}), M{f * (2 - f) == 1 - (b / a)**2}.
         '''
         if self._e2 is None:
             self._e2 = e2 = self.f * (2 - self.f)
@@ -622,6 +626,13 @@ class Ellipsoid(_NamedEnumItem):
             self._f2 = (self.a - self.b) / self.b
         return self._f2
 
+    def _flatRad2_(self, phi2, phi1, lam21):
+        '''(INTERNAL) like function L{flatLocal_} but returning the
+           I{angular} distance in C{radians squared}.
+        '''
+        m, n = self.roc2_((phi2 + phi1) * 0.5, scaled=True)
+        return hypot2(m * (phi2 - phi1), n * lam21) * self.a2_
+
     @property_RO
     def geodesic(self):
         '''Get this ellipsoid's I{wrapped} U{Karney Geodesic
@@ -630,6 +641,8 @@ class Ellipsoid(_NamedEnumItem):
            <https://PyPI.org/project/geographiclib>} package is installed.
         '''
         if self._geodesic is None:
+            # if not self.isEllipsoidal:
+            #     raise _isnotError('ellipsoidal', ellipsoid=self)
             try:
                 from geographiclib.geodesic import Geodesic
                 self._geodesic = Geodesic(self.a, self.f)
@@ -796,29 +809,50 @@ class Ellipsoid(_NamedEnumItem):
         # r = major - (major - minor) * |lat| / 90
         return self.a - self._ab_90 * min(abs(lat), 90)
 
-    def roc2(self, lat):
-        '''Compute the meridional and prime-vertical radii of curvature
+    def roc2(self, lat, scaled=False):
+        '''Compute the meridional and prime-vertical, I{normal} radii of curvature
            at the given latitude.
 
            @arg lat: Latitude (C{degrees90}).
+           @kwarg scaled: Scale prime_vertical by B{C{cos(phi)}} (C{bool}).
 
-           @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)}
-                    radii of curvature.
+           @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)} with
+                    the radii of curvature.
 
-           @see: U{Local, flat earth approximation
+           @see: Method C{.roc2_}, U{Local, flat earth approximation
                  <https://www.EdWilliams.org/avform.htm#flat>} and
                  U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        r = self.e2s2(sin(radians(lat)))
+        return self.roc2_(radians(lat), scaled=scaled)
+
+    def roc2_(self, phi, scaled=False):
+        '''Compute the meridional and prime-vertical, I{normal} radii of curvature
+           at the given latitude.
+
+           @arg phi: Latitude (C{radians}).
+           @kwarg scaled: Scale prime_vertical by B{C{cos(phi)}} (C{bool}).
+
+           @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)} with
+                    the radii of curvature.
+
+           @see: Method C{.roc2}, U{Local, flat earth approximation
+                 <https://www.EdWilliams.org/avform.htm#flat>} and meridional
+                 and prime vertical U{Radii of Curvature
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+        '''
+        a = abs(phi)
+        r = self.e2s2(sin(a) if a < PI_2 else 1)
         if r < EPS:
-            m = n = 0
+            m = n = 0  # PYCHOK e2s2 attr?
         elif r < EPS1:
             n = self.a / sqrt(r)
-            m = n * self.e12 / r
+            m = n * self.e12 / r  # PYCHOK e2s2 attr?
         else:
             n = self.a
             m = n * self.e12
+        if scaled:
+            n *= cos(a) if a < PI_2 else 0
         return Curvature2Tuple(m, n)
 
     def rocBearing(self, lat, bearing):
@@ -888,11 +922,11 @@ class Ellipsoid(_NamedEnumItem):
         return self.roc2(lat).meridional
 
     def rocPrimeVertical(self, lat):
-        '''Compute the prime-vertical radius of curvature at the given latitude.
+        '''Compute the prime-vertical, I{normal} radius of curvature at the given latitude.
 
            @arg lat: Latitude (C{degrees90}).
 
-           @return: Prime-vertical radis of curvature (C{meter}).
+           @return: Prime-vertical radius of curvature (C{meter}).
 
            @see: U{Local, flat earth approximation
                  <https://www.EdWilliams.org/avform.htm#flat>} and

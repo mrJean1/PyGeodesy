@@ -49,7 +49,7 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
 @see: Charles Karney's U{GeographicLib<https://GeographicLib.SourceForge.io/
       html/index.html>}, U{Geoid height<https://GeographicLib.SourceForge.io/
-      html/geoid.html>} and U{Installing the Geoid datasets <https://
+      html/geoid.html>} and U{Installing the Geoid datasets<https://
       GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}, U{SciPy
       <https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
       interpolation U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
@@ -68,7 +68,7 @@ from pygeodesy.heights import _allis2, _ascalar, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import GeoidHeight5Tuple, LatLon3Tuple, \
                            _Named, notOverloaded
-from pygeodesy.streprs import attrs, fstr
+from pygeodesy.streprs import attrs, fstr, pairs
 
 from math import floor
 import os.path as _os_path
@@ -86,7 +86,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '20.03.20'
+__version__ = '20.03.27'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -121,6 +121,7 @@ class _GeoidBase(_HeightBase):
     _mean     = None
 #   _name     = '' # _Named
     _nBytes   = 0  # numpy size in bytes, float64
+    _pgm      = None
     _sizeB    = 0  # geoid file size in bytes
     _smooth   = 0  # used only for RectBivariateSpline
     _stdev    = None
@@ -267,7 +268,7 @@ class _GeoidBase(_HeightBase):
                 raise GeoidError('%s[%s]: %.12F' % (name, i, e))
         return self._np.array(a), d
 
-    def _g2ll2(self, lat, lon):
+    def _g2ll2(self, lat, lon):  # PYCHOK no cover
         notOverloaded(self, self._g2ll2.__name__, lat, lon)
 
     def _gyx2g2(self, y, x):
@@ -281,7 +282,7 @@ class _GeoidBase(_HeightBase):
             raise RangeError('outside on %s' % (out,))
         return float(self._ev(*self._ll2g2(lat, lon)))
 
-    def _ll2g2(self, lat, lon):
+    def _ll2g2(self, lat, lon):  # PYCHOK no cover
         notOverloaded(self, self._ll2g2.__name__, lat, lon)
 
     def _llh3(self, lat, lon):
@@ -525,6 +526,12 @@ class _GeoidBase(_HeightBase):
                ('E' if lon > self._lon_hi else ''))
 
     @property_RO
+    def pgm(self):
+        '''Get the PGM attributes (C{_PGM} or C{None} if not available/applicable).
+        '''
+        return self._pgm
+
+    @property_RO
     def scipy(self):
         '''Get the imported C{scipy} version (C{str}).
         '''
@@ -699,7 +706,7 @@ class GeoidG2012B(_GeoidBase):
 def _I(i):
     '''(INTERNAL) Cache a single C{int} constant.
     '''
-    return _intCs.setdefault(i, i)  # PYCHOK undefined by del _intCs
+    return _intCs.setdefault(i, i)  # PYCHOK undefined due to del _intCs
 
 
 def _T(*cs):
@@ -757,6 +764,24 @@ class GeoidKarney(_GeoidBase):
           _T(-84,   84,   18,   12,  -12, -18,    0,   0,   0,   0, -102, 102),
           _T(-31,  -31,    0,   93,   93,   0,  -31, -62, -62, -31,   31,  31)))
 
+    _BT = (_T(0, 0),  # bilinear 4-tuple [i, j] indices
+           _T(1, 0),
+           _T(0, 1),
+           _T(1, 1))
+
+    _CM = (_T( 0, -1),  # 10x12 cubic matrix [i, j] indices
+           _T( 1, -1),
+           _T(-1,  0),
+           _T( 0,  0),
+           _T( 1,  0),
+           _T( 2,  0),
+           _T(-1,  1),
+           _T( 0,  1),
+           _T( 1,  1),
+           _T( 2,  1),
+           _T( 0,  2),
+           _T( 1,  2))
+
     _egm     = None   # open geoid file
     _endian  = '>H'   # struct.unpack 1 ushort (big endian, unsigned short)
     _4endian = '>4H'  # struct.unpack 4 ushorts
@@ -770,7 +795,6 @@ class GeoidKarney(_GeoidBase):
     _mean    = -1.317  # from egm2008-1, -1.438 egm96-5, -0.855 egm84-15
     _nBytes  = None  # not applicable
     _nterms  = len(_C3[0])  # columns length, number of row
-    _pgm     = None
     _smooth  = None  # not applicable
     _stdev   = 29.244  # from egm2008-1, 29.227 egm96-5, 29.183 egm84-15
     _u2B     = _calcsize(_endian)  # pixelsize_ in bytes
@@ -869,21 +893,10 @@ class GeoidKarney(_GeoidBase):
             j = 1
 
         else:  # likely some wrapped y and/or x's
-            v = [self._raw(y + j, x + i) for i, j in (( 0, -1),
-                                                      ( 1, -1),
-                                                      (-1,  0),
-                                                      ( 0,  0),
-                                                      ( 1,  0),
-                                                      ( 2,  0),
-                                                      (-1,  1),
-                                                      ( 0,  1),
-                                                      ( 1,  1),
-                                                      ( 2,  1),
-                                                      ( 0,  2),
-                                                      ( 1,  2))]
+            v = self._raws(y, x, GeoidKarney._CM)
             j = 0 if y < 1 else (1 if y < (p.nlat - 2) else 2)
 
-        return self._C0[j], self._C3[j], v
+        return GeoidKarney._C0[j], GeoidKarney._C3[j], v
 
     def _ev(self, lat, lon):  # PYCHOK expected
         # interpolate the geoid height at grid (lat, lon)
@@ -903,11 +916,7 @@ class GeoidKarney(_GeoidBase):
             self._yx_hits += 1
         else:
             y, x = self._yxH = yx
-            t = [self._raw(y + j, x + i) for i, j in ((0, 0),
-                                                      (1, 0),
-                                                      (0, 1),
-                                                      (1, 1))]
-            self._yxHt = t = tuple(t)
+            self._yxHt = t = self._raws(y, x, GeoidKarney._BT)
         v = 1.0, -fx, fx
         H = Fdot(v, t[0], t[0], t[1])  # a
         H -= H * fy  # c = (1 - fy) * a
@@ -975,16 +984,12 @@ class GeoidKarney(_GeoidBase):
             for j, r in self._raw2(*lat2):
                 m = max(r)
                 if m > h:
-                    h, y, x = m, j, r
+                    h, y, x = m, j, r.index(m)
         else:  # lowest
             for j, r in self._raw2(*lat2):
                 m = min(r)
                 if m < h:
-                    h, y, x = m, j, r
-        try:  # min/max index
-            x = x.index(h)
-        except AttributeError:
-            x = 0
+                    h, y, x = m, j, r.index(m)
         h *= self._pgm.Scale
         h += self._pgm.Offset
         return self._g2ll2(*self._gyx2g2(y, x)) + (h,)
@@ -1008,6 +1013,10 @@ class GeoidKarney(_GeoidBase):
         self._seek(y, x)
         h = _unpack(self._endian, self._egm.read(self._u2B))
         return h[0]
+
+    def _raws(self, y, x, ijs):
+        # get bilinear 4-tuple or 10x12 cubic matrix
+        return tuple(self._raw(y + j, x + i) for i, j in ijs)
 
     def _raw2(self, *lat2):
         # yield a 2-tuple (y, ushorts) for each row or for
@@ -1087,12 +1096,6 @@ class GeoidKarney(_GeoidBase):
         return self._llh3LL(self._lowest, LatLon)
 
     @property_RO
-    def pgm(self):
-        '''Get the PGM attributes (C{_PGM}).
-        '''
-        return self._pgm
-
-    @property_RO
     def u2B(self):
         '''Get the PGM itemsize in bytes (C{int}).
         '''
@@ -1122,7 +1125,6 @@ class GeoidPGM(_GeoidBase):
        especially with 32-bit Python, see properties C{.nBytes} and C{.sizeB}.
     '''
     _endian = '>u2'
-    _pgm    = None
     _u2B    = 0  # np.itemsize
 
     def __init__(self, egm_pgm, crop=None, datum=None,  # WGS84
@@ -1223,12 +1225,6 @@ class GeoidPGM(_GeoidBase):
         return lat, lon + self._lon_of
 
     @property_RO
-    def pgm(self):
-        '''Get the PGM attributes (C{_PGM}).
-        '''
-        return self._pgm
-
-    @property_RO
     def u2B(self):
         '''Get the PGM itemsize in bytes (C{int}).
         '''
@@ -1255,9 +1251,9 @@ class _Gpars(_Named):
     skip  = 0  # header bytes to skip (C{int}).
 
     def __repr__(self):
-        t = ', '.join('%s=%r' % (a, getattr(self, a)) for a in
-                                 sorted(dir(self.__class__))
-                                 if not a.startswith('_'))
+        t = ', '.join(pairs((a, getattr(self, a)) for a in
+                                    dir(self.__class__) if
+                             a[:1].isupper()))
         return '%s: %s' % (self, t)
 
     def __str__(self):
@@ -1510,7 +1506,7 @@ def egmGeoidHeights(GeoidHeights_dat):
     '''Generate geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
        html/geoid.html#geoidinst>} height tests from U{GeoidHeights.dat
        <https://SourceForge.net/projects/geographiclib/files/testdata/>}
-       U{Test data for Geoids <https://GeographicLib.SourceForge.io/html/
+       U{Test data for Geoids<https://GeographicLib.SourceForge.io/html/
        geoid.html#testgeoid>}.
 
        @arg GeoidHeights_dat: The un-gz-ed C{GeoidHeights.dat} file

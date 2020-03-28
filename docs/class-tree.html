@@ -91,7 +91,7 @@
         occurring for coincident or colinear points, paths or bearings.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.epsg.EPSGError-class.html">pygeodesy.epsg.EPSGError</a></strong>:
-      <em class="summary">European Petroleum Survey Group (EPSG) encode, decode or other <a 
+      <em class="summary">EPSG encode, decode or other <a 
         href="pygeodesy.epsg.Epsg-class.html" class="link">Epsg</a> issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefError-class.html">pygeodesy.ecef.EcefError</a></strong>:
@@ -361,6 +361,16 @@
         class="link">Frechet</a> base class for distances in 
         <code>degrees</code> from <code>LatLon</code> points in 
         <code>degrees</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetKarney-class.html">pygeodesy.frechet.FrechetKarney</a></strong>:
+      <em class="summary">Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>degrees</code> from <i>Charles 
+        Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">GeographicLib</a> <a 
+        href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
+        target="_top">Geodesic</a> Inverse method.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetRadians-class.html">pygeodesy.frechet.FrechetRadians</a></strong>:
       <em class="summary"><a href="pygeodesy.frechet.Frechet-class.html" 
@@ -370,26 +380,41 @@
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetEquirectangular-class.html">pygeodesy.frechet.FrechetEquirectangular</a></strong>:
       <em class="summary">Compute the <code>Frechet</code> distance based on the 
-        <code>equirectangular</code> distance (in radians squared) like 
-        function <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <code>equirectangular</code> distance in <code>radians 
+        squared</code> like function <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetEuclidean-class.html">pygeodesy.frechet.FrechetEuclidean</a></strong>:
       <em class="summary">Compute the <code>Frechet</code> distance based on the 
-        <code>Euclidean</code> distance (in radians) from function <a 
-        href="pygeodesy.formy-module.html#euclidean_" 
+        <code>Euclidean</code> distance in <code>radians</code> from 
+        function <a href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetFlatLocal-class.html">pygeodesy.frechet.FrechetFlatLocal</a></strong>:
+      <em class="summary">Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>radians squared</code> from 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetFlatPolar-class.html">pygeodesy.frechet.FrechetFlatPolar</a></strong>:
+      <em class="summary">Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetHaversine-class.html">pygeodesy.frechet.FrechetHaversine</a></strong>:
       <em class="summary">Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> <code>Haversine</code> distance (in radians) from 
-        function <a href="pygeodesy.formy-module.html#haversine_" 
+        <i>angular</i> <code>Haversine</code> distance in 
+        <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.frechet.FrechetVincentys-class.html">pygeodesy.frechet.FrechetVincentys</a></strong>:
       <em class="summary">Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> <code>Vincenty</code> distance (in radians) from 
-        function <a href="pygeodesy.formy-module.html#vincentys_" 
+        <i>angular</i> <code>Vincenty</code> distance in 
+        <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.</em>
     </li>
     </ul>
@@ -403,14 +428,13 @@
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffDegrees-class.html">pygeodesy.hausdorff.HausdorffDegrees</a></strong>:
       <em class="summary"><a href="pygeodesy.hausdorff.Hausdorff-class.html" 
-        class="link">Hausdorff</a> base class for distances in 
-        <code>degrees</code> from <code>LatLon</code> points in 
-        <code>degrees</code>.</em>
+        class="link">Hausdorff</a> base class for distances from 
+        <code>LatLon</code> points in <code>degrees</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffKarney-class.html">pygeodesy.hausdorff.HausdorffKarney</a></strong>:
       <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
-        <i>angular</i> distance (in degrees) from <i>Charles Karney's</i> 
-        <a href="https://PyPI.org/project/geographiclib" 
+        <i>angular</i> distance in <code>degrees</code> from <i>Charles 
+        Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> <a 
         href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
         target="_top">Geodesic</a> Inverse method.</em>
@@ -419,32 +443,47 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffRadians-class.html">pygeodesy.hausdorff.HausdorffRadians</a></strong>:
       <em class="summary"><a href="pygeodesy.hausdorff.Hausdorff-class.html" 
-        class="link">Hausdorff</a> base class for distances in 
-        <code>radians</code> from <code>LatLon</code> points converted from
-        <code>degrees</code> to <code>radians</code>.</em>
+        class="link">Hausdorff</a> base class for distances from 
+        <code>LatLon</code> points converted from <code>degrees</code> to 
+        <code>radians</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffEquirectangular-class.html">pygeodesy.hausdorff.HausdorffEquirectangular</a></strong>:
       <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
-        <code>equirectangular</code> distance (in radians squared) like 
-        function <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <code>equirectangular</code> distance in <code>radians 
+        squared</code> like function <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffEuclidean-class.html">pygeodesy.hausdorff.HausdorffEuclidean</a></strong>:
       <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
-        <code>Euclidean</code> distance (in radians) from function <a 
-        href="pygeodesy.formy-module.html#euclidean_" 
+        <code>Euclidean</code> distance in <code>radians</code> from 
+        function <a href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffFlatLocal-class.html">pygeodesy.hausdorff.HausdorffFlatLocal</a></strong>:
+      <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians squared</code> from 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffFlatPolar-class.html">pygeodesy.hausdorff.HausdorffFlatPolar</a></strong>:
+      <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffHaversine-class.html">pygeodesy.hausdorff.HausdorffHaversine</a></strong>:
       <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
-        <i>angular</i> <code>Haversine</code> distance (in radians) from 
-        function <a href="pygeodesy.formy-module.html#haversine_" 
+        <i>angular</i> <code>Haversine</code> distance in 
+        <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff.HausdorffVincentys-class.html">pygeodesy.hausdorff.HausdorffVincentys</a></strong>:
       <em class="summary">Compute the <code>Hausdorff</code> distance based on the 
-        <i>angular</i> <code>Vincenty</code> distance (in radians) from 
-        function <a href="pygeodesy.formy-module.html#vincentys_" 
+        <i>angular</i> <code>Vincenty</code> distance in 
+        <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.</em>
     </li>
     </ul>
@@ -544,8 +583,9 @@
       <em class="summary">Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <code>equirectangular</code> distance (in radians squared) like 
-        function <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <code>equirectangular</code> distance in <code>radians 
+        squared</code> like function <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.HeightIDW2-class.html">pygeodesy.deprecated.HeightIDW2</a></strong>:
@@ -559,8 +599,8 @@
       <em class="summary">Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <code>Euclidean</code> distance from function <a 
-        href="pygeodesy.formy-module.html#euclidean_" 
+        <code>Euclidean</code> distance in <code>radians</code> from 
+        function <a href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.HeightIDW-class.html">pygeodesy.deprecated.HeightIDW</a></strong>:
@@ -570,11 +610,28 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWflatLocal-class.html">pygeodesy.heights.HeightIDWflatLocal</a></strong>:
+      <em class="summary">Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWflatPolar-class.html">pygeodesy.heights.HeightIDWflatPolar</a></strong>:
+      <em class="summary">Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights.HeightIDWhaversine-class.html">pygeodesy.heights.HeightIDWhaversine</a></strong>:
       <em class="summary">Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> <code>Haversine</code> distance from function <a 
+        <i>angular</i> <code>Haversine</code> distance in 
+        <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.</em>
     <ul>
@@ -589,8 +646,8 @@
       <em class="summary">Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> distance from <i>Charles F. F. Karney's</i> <a 
-        href="https://PyPI.org/project/geographiclib" 
+        <i>angular</i> distance in <code>degrees</code> from <i>Charles F. 
+        F. Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> <a 
         href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
         target="_top">Geodesic</a> Inverse method.</em>
@@ -599,7 +656,8 @@
       <em class="summary">Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> <code>Vincenty</code> distance from function <a 
+        <i>angular</i> <code>Vincenty</code> distance in 
+        <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.</em>
     </li>
@@ -622,8 +680,8 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefCartesian-class.html">pygeodesy.ecef.EcefCartesian</a></strong>:
       <em class="summary">Conversion between geodetic <code>(lat, lon, height)</code> and 
         local cartesian <code>(x, y, z)</code> coordinates with a local 
-        cartesian origin at <code>(lat0, lon0, height0)</code> transcibed 
-        from on <i>Karney</i>'s C++ class <a 
+        cartesian origin at <code>(lat0, lon0, height0)</code>, transcibed 
+        from <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
         target="_top">LocalCartesian</a>.</em>
     </li>
@@ -1628,7 +1686,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:36 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:57:59 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

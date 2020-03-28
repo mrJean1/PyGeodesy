@@ -4,34 +4,38 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '20.03.23'
+__version__ = '20.03.28'
 
 from base import TestsBase
 
 from pygeodesy import R_M, antipode, bearing, equirectangular, euclidean, \
-                      haversine, heightOf, horizon, isantipode, isantipode_, \
-                      map1, vincentys
+                      flatLocal, flatPolar, haversine, heightOf, horizon, \
+                      isantipode, isantipode_, map1, vincentys
 
 from math import radians
 
 
 class Tests(TestsBase):
 
-    def testDistances(self, a1, b1, a2, b2, x):
-        k = x * 0.003  # allow 0.3% margin
-        d = haversine(a1, b1, a2, b2)
-        self.test('haversine', d, x, fmt='%.3f', known=abs(d - x) < k)
+    def testDistance(self, t, f, lat1, lon1, lat2, lon2, x, m, **kwds):
+        d = f(lat1, lon1, lat2, lon2, wrap=True, **kwds)
+        e = 100.0 * abs(d - x) / x
+        t = '%s%s (%.1f%%)' % (f.__name__, t, e)
+        self.test(t, d, x, fmt='%.3f', known=e < m)
 
-        d = vincentys(a1, b1, a2, b2)
-        self.test('vincentys', d, x, fmt='%.3f', known=abs(d - x) < k)
-
-        k = x * 0.02  # allow 2% margin
-        d = equirectangular(a1, b1, a2, b2, limit=90)
-        self.test('equirectangular', d, x, fmt='%.3f', known=abs(d - x) < k)
-
-        k = x * 0.11  # allow 11% margin
-        d = euclidean(a1, b1, a2, b2)
-        self.test('euclidean', d, x, fmt='%.3f', known=abs(d - x) < k)
+    def testDistances(self, t, lat1, lon1, lat2, lon2, x=0):
+        # allow 0.1% margin
+        self.testDistance(t, haversine,       lat1, lon1, lat2, lon2, x, 0.1)
+        # assumed as reference
+        self.testDistance(t, vincentys,       lat1, lon1, lat2, lon2, x, 0.0)
+        # allow 3% margin, 10% for Auckland-Santiago
+        self.testDistance(t, equirectangular, lat1, lon1, lat2, lon2, x, 10, limit=None)  # =90)
+        # allow 13% margin
+        self.testDistance(t, euclidean,       lat1, lon1, lat2, lon2, x, 13)
+        # allow .3% margin, 8% for long distances
+        self.testDistance(t, flatLocal,       lat1, lon1, lat2, lon2, x, 8.1)
+        # allow 21% margin, 57% for Auckland-Santiago
+        self.testDistance(t, flatPolar,       lat1, lon1, lat2, lon2, x, 57)
 
     def testFormy(self):
 
@@ -61,18 +65,24 @@ class Tests(TestsBase):
         self.test('horizon30Kft', horizon(10000, refraction=True), '392310.704', fmt='%.3f')
         self.test('horizon10Kft', horizon( 3000, refraction=True), '214877.422', fmt='%.3f')
 
-        Boston    = 42.3541165, -71.0693514
-        Cleveland = 41.499498, -81.695391
-        MtDiablo  = 37.8816, -121.9142
-        Newport   = 41.49008, -71.312796
-        NewYork   = 40.7791472, -73.9680804
-        # <https://GeographicLib.SourceForge.io/cgi-bin/GeodSolve>
-        for ll1, ll2, x in ((Boston, NewYork,    298396.057),
-                            (Boston, Newport,     98071.559),
-                            (Cleveland, NewYork, 653456.173),
-                            (NewYork, MtDiablo, 4094953.628)):
-            abx = ll1 + ll2 + (x,)
-            self.testDistances(*abx)
+        Auckland   = -36.8485, 174.7633
+        Boston     = 42.3541165, -71.0693514
+        Cleveland  = 41.499498, -81.695391
+        LosAngeles = 34.0522, -118.2437
+        MtDiablo   = 37.8816, -121.9142
+        Newport    = 41.49008, -71.312796
+        NewYork    = 40.7791472, -73.9680804
+        Santiago   = -33.4489, -70.6693
+        # <https://GeographicLib.SourceForge.io/cgi-bin/GeodSolve>, <https://www.Distance.to>
+        for i,  (ll1,        ll2,        expected) in enumerate((
+                (Boston,     NewYork,      298009.404),    # ..328,722.580        370 km
+                (Boston,     Newport,       98164.988),    # ..106,147.318         99 km
+                (Cleveland,  NewYork,      651816.987),    # ..736,534.840        536 km
+                (NewYork,    MtDiablo,    4084985.780),    # ..4,587,896.452    3,952 km
+                (Auckland,   Santiago,    9670051.606),    # ..15,045,906.074   9,665 km
+                (Auckland,   LosAngeles, 10496496.577),    # ..13,002,288.857  10,940 km
+                (LosAngeles, Santiago,    8998396.669))):  # ..10,578,638.162   8,993 km
+            self.testDistances(str(i + 1), *(ll1 + ll2), x=expected)
 
 
 if __name__ == '__main__':

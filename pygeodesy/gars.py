@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Classes L{Garef} and L{GARSError} and several functions to encode,
-decode and inspect I{Global Area Reference System (GARS)} references.
+decode and inspect I{Global Area Reference System} (GARS) references.
 
 Transcribed from C++ class U{GARS
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1GARS.html>}
@@ -22,7 +22,7 @@ from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.03.23'
+__version__ = '20.03.25'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -242,10 +242,9 @@ def decode3(garef, center=True):
             lon, lat = _ll2(lon, lat, g, _MinLen + 1, _M3)
 
     r = _Resolutions[precision]  # == 1.0 / unit
-    if center:
-        lon = lon * 2 + 1
-        lat = lat * 2 + 1
-        r *= 0.5
+    if center:  # ll = (ll * 2 + 1) / 2
+        lon += 0.5
+        lat += 0.5
     lon *= r
     lat *= r
     return _xnamed(LatLonPrec3Tuple(lat, lon, precision), nameof(garef))

@@ -74,8 +74,8 @@
 
 <hr />
 <p>Compute the <code>Hausdorff</code> distance based on the 
-  <i>angular</i> <code>Vincenty</code> distance (in radians) from function 
-  <a href="pygeodesy.formy-module.html#vincentys_" 
+  <i>angular</i> <code>Vincenty</code> distance in <code>radians</code> 
+  from function <a href="pygeodesy.formy-module.html#vincentys_" 
   class="link">vincentys_</a>.</p>
 
 <hr />
@@ -88,6 +88,10 @@
         class="link">HausdorffEquirectangular</a>, <a 
         href="pygeodesy.hausdorff.HausdorffEuclidean-class.html" 
         class="link">HausdorffEuclidean</a>, <a 
+        href="pygeodesy.hausdorff.HausdorffFlatLocal-class.html" 
+        class="link">HausdorffFlatLocal</a>, <a 
+        href="pygeodesy.hausdorff.HausdorffFlatPolar-class.html" 
+        class="link">HausdorffFlatPolar</a>, <a 
         href="pygeodesy.hausdorff.HausdorffHaversine-class.html" 
         class="link">HausdorffHaversine</a> and <a 
         href="pygeodesy.hausdorff.HausdorffKarney-class.html" 
@@ -223,8 +227,11 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.hausdorff.Hausdorff-class.html">Hausdorff</a></code></b>:
+      <code><a href="pygeodesy.hausdorff.Hausdorff-class.html#adjust">adjust</a></code>,
+      <code><a href="pygeodesy.hausdorff.Hausdorff-class.html#datum">datum</a></code>,
       <code><a href="pygeodesy.hausdorff.Hausdorff-class.html#seed">seed</a></code>,
-      <code><a href="pygeodesy.hausdorff.Hausdorff-class.html#units">units</a></code>
+      <code><a href="pygeodesy.hausdorff.Hausdorff-class.html#units">units</a></code>,
+      <code><a href="pygeodesy.hausdorff.Hausdorff-class.html#wrap">wrap</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -255,7 +262,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
@@ -270,7 +277,7 @@
   <p>New <a href="pygeodesy.hausdorff.HausdorffVincentys-class.html" 
   class="link">HausdorffVincentys</a> calculator.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Initial set of points, aka the <code>model</code> or 
           <code>template</code> (<code>LatLon</code>[], 
@@ -302,7 +309,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distance</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">p1</span>,
         <span class="sig-arg">p2</span>)</span>
   </h3>
@@ -327,7 +334,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">directed</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">directed</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">early</span>=<span class="sig-default">True</span>)</span>
   </h3>
@@ -338,7 +345,7 @@
   
   <p>Compute only the <code>forward Hausdorff</code> distance.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Second set of points, aka the <code>target</code> 
           (<code>LatLon</code>[], <code>Numpy2LatLon</code>[], 
@@ -368,7 +375,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">symmetric</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">symmetric</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">early</span>=<span class="sig-default">True</span>)</span>
   </h3>
@@ -380,7 +387,7 @@
   <p>Compute the combined <code>forward and reverse Hausdorff</code> 
   distance.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Second set of points, aka the <code>target</code> 
           (<code>LatLon</code>[], <code>Numpy2LatLon</code>[], 
@@ -435,7 +442,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:41 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:04 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

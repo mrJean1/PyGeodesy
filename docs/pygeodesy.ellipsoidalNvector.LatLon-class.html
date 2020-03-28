@@ -291,6 +291,8 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals3">equals3</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo">equirectangularTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo">euclideanTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo">flatLocalTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo">flatPolarTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo">haversineTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo">isantipodeTo</a></code>,
@@ -397,7 +399,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">deltaTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">deltaTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -410,7 +412,7 @@
   <p>Note, this is a linear delta, unrelated to a geodesic on the 
   ellipsoid.  The points need not be defined on the same datum.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
@@ -446,7 +448,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">destinationNed</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">destinationNed</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">delta</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -457,7 +459,7 @@
   <p>Calculate the destination point using the supplied NED delta from this
   point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>delta</code></strong> - Delta from this to the other point in the local tangent plane 
           (LTP) of this point (<a 
@@ -493,7 +495,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -504,7 +506,7 @@
   
   <p>Approximate the distance from this to an other point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
@@ -536,7 +538,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">equals</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equals</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -560,7 +562,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isequalTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isequalTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">eps</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -571,7 +573,7 @@
   
   <p>Compare this point with an other point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
@@ -611,7 +613,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">fraction</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
@@ -624,7 +626,7 @@
   <p>Return the point at given fraction between this and an other 
   point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
@@ -663,7 +665,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">**Cartesian_datum_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -674,7 +676,7 @@
   <p>Convert this point to an <code>Nvector</code>-based geodetic 
   point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>Cartesian_datum_kwds</code></strong> - Optional <a 
           href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -712,7 +714,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">**Nvector_datum_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -724,7 +726,7 @@
   href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
   class="link">Nvector</a> components, <i>including height</i>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>Nvector_datum_kwds</code></strong> - Optional <a 
           href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
@@ -791,7 +793,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:39 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:03 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

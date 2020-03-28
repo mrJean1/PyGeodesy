@@ -347,6 +347,8 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals3">equals3</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo">equirectangularTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo">euclideanTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo">flatLocalTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo">flatPolarTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo">haversineTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo">isantipodeTo</a></code>,
@@ -470,7 +472,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
@@ -486,7 +488,7 @@
   <p>Create a spherical <code>LatLon</code> point frome the given lat-, 
   longitude and height on the given datum.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code> or DMS <code>[N|S]</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code> or DMS <code>str[E|W]</code>).</li>
@@ -521,7 +523,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo2</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingTo2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>)</span>
@@ -534,7 +536,7 @@
   <p>Return the initial and final bearing (forward and reverse azimuth) 
   from this to an other point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
@@ -563,7 +565,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">finalBearingTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">finalBearingTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">raiser</span>=<span class="sig-default">False</span>)</span>
@@ -576,7 +578,7 @@
   <p>Return the final bearing (reverse azimuth) from this to an other 
   point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
@@ -606,7 +608,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">maxLat</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">maxLat</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">bearing</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -621,7 +623,7 @@
   <p>Negate the result for the minimum latitude (on the Southern 
   hemisphere).</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass <code>degrees360</code>).</li>
     </ul></dd>
@@ -640,7 +642,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">minLat</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">minLat</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">bearing</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -651,7 +653,7 @@
   <p>Return the minimum latitude reached when travelling on a great circle 
   on given bearing from this point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Initial bearing (compass <code>degrees360</code>).</li>
     </ul></dd>
@@ -675,7 +677,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">parse</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parse</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">strll</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span>
@@ -696,7 +698,7 @@
   <a href="pygeodesy.dms-module.html#parseDMS" class="link">parseDMS</a> in
   module <a href="pygeodesy.dms-module.html" class="link">dms</a>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strll</code></strong> - Lat, lon [, height] (<code>str</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional , default height (<code>meter</code>).</li>
@@ -718,7 +720,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbBearingTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbBearingTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -729,7 +731,7 @@
   <p>Return the initial bearing (forward azimuth) from this to an other 
   point along a rhumb (loxodrome) line.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
     </ul></dd>
@@ -755,7 +757,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDestination</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDestination</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">bearing</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
@@ -770,7 +772,7 @@
   (loxodrome) line from this point the given distance on the given 
   bearing.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as 
           <i>radius</i>).</li>
@@ -799,7 +801,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDistanceTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbDistanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
   </h3>
@@ -811,7 +813,7 @@
   <p>Return the distance from this to an other point along a rhumb 
   (loxodrome) line.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical <code>LatLon</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
@@ -838,7 +840,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbMidpointTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rhumbMidpointTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -849,7 +851,7 @@
   
   <p>Return the (loxodromic) midpoint between this and an other point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (spherical LatLon).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
@@ -877,7 +879,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">Nvector</span>=<span class="sig-default">&lt;class 'pygeodesy.nvectorBase.NvectorBase'&gt;</span>,
         <span class="sig-arg">**Nvector_kwds</span>)</span>
   </h3>
@@ -889,7 +891,7 @@
   <p>Convert this point to <code>Nvector</code> components, <i>including 
   height</i>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>Nvector_kwds</code></strong> - Optional, additional <b><code>Nvector</code></b> keyword 
           arguments, ignored if <b><code>Nvector=None</code></b>.</li>
@@ -917,7 +919,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toWm</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toWm</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -927,7 +929,7 @@
   
   <p>Convert this point to a <i>WM</i> coordinate.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>radius</code></strong> - Optional earth radius (<code>meter</code>).</li>
     </ul></dd>
@@ -1048,7 +1050,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:42 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:07 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

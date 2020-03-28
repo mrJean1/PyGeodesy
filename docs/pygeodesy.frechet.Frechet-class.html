@@ -250,6 +250,13 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.frechet.Frechet-class.html#datum" class="summary-name">datum</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.frechet.Frechet-class.html#fraction" class="summary-name">fraction</a><br />
       Property to get and set the index fraction (<code>float</code>).
     </td>
@@ -300,7 +307,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">fraction</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
@@ -315,7 +322,7 @@
   <p>New <a href="pygeodesy.frechet.Frechet-class.html" 
   class="link">Frechet</a> calculator/interpolator.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - First set of points (<code>LatLon</code>[], <a 
           href="pygeodesy.points.Numpy2LatLon-class.html" 
@@ -351,7 +358,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">discrete</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">discrete</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">fraction</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -362,7 +369,7 @@
   
   <p>Compute the <code>forward, discrete Fr&#233;chet</code> distance.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - Second set of points (<code>LatLon</code>[], <a 
           href="pygeodesy.points.Numpy2LatLon-class.html" 
@@ -400,7 +407,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">point</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">point</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">point</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -410,7 +417,7 @@
   
   <p>Convert a point for the <code>.distance</code> method.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point</code></strong> - The point to convert ((<code>LatLon</code>, <a 
           href="pygeodesy.points.Numpy2LatLon-class.html" 
@@ -430,7 +437,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">points_</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">points_</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">i</span>)</span>
   </h3>
@@ -441,7 +448,7 @@
   
   <p>Get and convert a point for the <code>.distance</code> method.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The orignal <b><code>points</code></b> to convert 
           ((<code>LatLon</code>[], <a 
@@ -463,7 +470,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">points_fraction</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">points_fraction</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">fi</span>)</span>
   </h3>
@@ -475,7 +482,7 @@
   <p>Get and convert <i>fractional</i> index point for the 
   <code>.distance</code> method.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The orignal <b><code>points</code></b> to convert 
           ((<code>LatLon</code>[], <a 
@@ -514,6 +521,27 @@
     <dd class="value"><span class="summary-sig">adjust(<span class="summary-sig-arg">self</span>)</span>
         - Get the adjust setting (<code>bool</code> or <code>None</code> if not 
 applicable).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="datum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">datum</h3>
+  
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
+        - Get the datum (<a href="pygeodesy.datum.Datum-class.html" 
+class="link">Datum</a> or <code>None</code> if not applicable).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
@@ -616,7 +644,7 @@ applicable).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:40 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:04 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

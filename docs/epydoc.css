@@ -25,7 +25,7 @@ h1                          { font-size: +140%; font-style: italic;
                               font-weight: bold; }
 h2                          { font-size: +125%; font-style: italic;
                               font-weight: bold; }
-h3                          { font-size: +110%; font-style: italic;
+h3                          { font-size: +110%;
                               font-weight: normal; }
 code                        { font-size: 100%; }
 /* N.B.: class, not pseudoclass */

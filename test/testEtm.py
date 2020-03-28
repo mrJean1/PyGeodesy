@@ -5,7 +5,7 @@ u'''Test projection L{ExactTransverseMercator}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.02.17'
+__version__ = '20.03.24'
 
 from base import isiOS, isNix, isWindows, TestsBase
 
@@ -111,12 +111,12 @@ class Tests(TestsBase):
                 x, _ = _diff(b, a)
                 self.test(n % (a, b), d, -x, known=d in (0, 180))
 
-        # compare geomath.Math.AngNormalize with mimicked etm._wrap180
-        _wrap = etm._wrap180
-        n = '%s.%s(%%s)' % (_wrap.__module__, _wrap.__name__)
+        # compare geomath.Math.AngNormalize with mimicked etm._norm180
+        _norm = etm._norm180
+        n = '%s.%s(%%s)' % (_norm.__module__, _norm.__name__)
         for a, x in zip((-361, -360, -180,   -90,   -0,   0,   90,   180,   360, 361),
                         (-1.0, -0.0,  180.0, -90.0,  0.0, 0.0, 90.0, 180.0, 0.0, 1.0)):
-            w = _wrap(a)
+            w = _norm(a)
             self.test(n % (a), float(w), float(x), known=w in (0, -180))
             w = wrap180(a)
             self.test('pygeodesy.wrap180(%s)' % (a), float(w), float(x), known=w in (0, -180))

@@ -4,13 +4,14 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '20.01.18'
+__version__ = '20.03.29'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
 from pygeodesy import Datums, fStr, hausdorff_, \
                       HausdorffDegrees, HausdorffRadians, \
                       HausdorffEquirectangular, HausdorffEuclidean, \
+                      HausdorffFlatLocal, HausdorffFlatPolar, \
                       HausdorffHaversine, HausdorffKarney, \
                       HausdorffVincentys, \
                       LatLon_, randomrangenerator
@@ -56,12 +57,13 @@ class Tests(TestsBase):
 
         for s, e, x, y in tests:
             h = Hausdorff(_ms, seed=s, **kwds)
+            n = '%s (%s)' % (h.named, h.units)
 
             t = _tstr(h.directed(_ps, early=e))
-            self.test(h.named, t, x)  # + (h.units,)
+            self.test(n, t, x)  # + (h.units,)
 
             t = _tstr(h.symmetric(_ps, early=e))
-            self.test(h.named, t, y)  # + (h.units,)
+            self.test(n, t, y)  # + (h.units,)
 
         self.testCopy(h)
 
@@ -113,6 +115,12 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffEuclidean, *_4((0.5434, 56, 51,  90, 0.23356),  # XXX different i, j?
                                         (0.5434, 56, 51, 150, 0.22296)))
 
+        t.test4(HausdorffFlatLocal, *_4((0.25116, 35, 3,  90, 0.05951),
+                                        (0.25116, 35, 3, 150, 0.0552)))
+
+        t.test4(HausdorffFlatPolar, *_4((0.69043, 4, 31,  90, 0.22286),
+                                        (0.69043, 4, 31, 150, 0.21318)))
+
         t.test4(HausdorffHaversine, *_4((0.50097, 35, 3,  90, 0.212),
                                         (0.50097, 35, 3, 150, 0.20099)))
 
@@ -140,6 +148,12 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffEuclidean, *_4((0.60207, 69, 13,  90, 0.20222),
                                         (0.60207, 69, 13, 150, 0.18415)))
 
+        t.test4(HausdorffFlatLocal, *_4((0, 74, 45,  90, 0),
+                                        (0, 74, 45, 150, 0)))
+
+        t.test4(HausdorffFlatPolar, *_4((0, 74, 45,  90, 0),
+                                        (0, 74, 45, 150, 0)))
+
         t.test4(HausdorffHaversine, *_4((0.52674, 74, 45,  90, 0.18192),
                                         (0.52674, 74, 45, 150, 0.16555)))
 
@@ -166,6 +180,12 @@ if __name__ == '__main__':  # MCCABE 13
 
         t.test4(HausdorffEuclidean, *_4((0.6418, 49, 29,  90, 0.22056),
                                         (0.6418, 49, 29, 150, 0.19676)))
+
+        t.test4(HausdorffFlatLocal, *_4((0.33092, 49, 29,  90, 0.06067),
+                                        (0.33092, 49, 29, 150, 0.04912)))
+
+        t.test4(HausdorffFlatPolar, *_4((0.96853, 20, 46,  90, 0.24569),
+                                        (0.96853, 20, 46, 150, 0.21335)))
 
         t.test4(HausdorffHaversine, *_4((0.56202, 49, 29,  90, 0.19776),
                                         (0.56202, 49, 29, 150, 0.176)))

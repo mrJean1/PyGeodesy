@@ -600,6 +600,8 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals3">equals3</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo">equirectangularTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo">euclideanTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo">flatLocalTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo">flatPolarTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo">haversineTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo">isantipodeTo</a></code>,
@@ -703,7 +705,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">alongTrackDistanceTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">alongTrackDistanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">start</span>,
         <span class="sig-arg">end</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
@@ -719,7 +721,7 @@
   circle path, the along-track distance is the distance from the start 
   point to the point where the perpendicular crosses the path.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>start</code></strong> - Start point of great circle path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -759,7 +761,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">crossTrackDistanceTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">crossTrackDistanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">start</span>,
         <span class="sig-arg">end</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
@@ -772,7 +774,7 @@
   <p>Compute the (signed) distance from this point to great circle defined 
   by a start and end point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>start</code></strong> - Start point of great circle path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -813,7 +815,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">destination</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">destination</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">distance</span>,
         <span class="sig-arg">bearing</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
@@ -827,7 +829,7 @@
   <p>Locate the destination from this point after having travelled the 
   given distance on the given bearing.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance travelled (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
@@ -863,7 +865,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
   </h3>
@@ -874,7 +876,7 @@
   
   <p>Compute the distance from this to an other point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -906,7 +908,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">greatCircle</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">greatCircle</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">bearing</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -919,7 +921,7 @@
   <p>Direction of vector is such that initial bearing vector b = c &#215; n, 
   where n is an n-vector representing this point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing</code></strong> - Bearing from this point (compass <code>degrees360</code>).</li>
     </ul></dd>
@@ -937,7 +939,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">greatCircleTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">greatCircleTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -950,7 +952,7 @@
   <p>Direction of vector is such that initial bearing vector b = c &#215; n, 
   where n is an n-vector representing this point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -988,7 +990,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">initialBearingTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">initialBearingTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">**unused</span>)</span>
   </h3>
@@ -1000,7 +1002,7 @@
   <p>Compute the initial bearing (forward azimuth) from this to an other 
   point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1038,7 +1040,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateChordTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateChordTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">fraction</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
@@ -1051,7 +1053,7 @@
   <p>Locate the point projected from the point at given fraction on a 
   straight line (chord) between this and an other point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1091,7 +1093,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intermediateTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">fraction</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
@@ -1104,7 +1106,7 @@
   <p>Locate the point at a given fraction between this and an other 
   point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1144,7 +1146,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersection</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">end1</span>,
         <span class="sig-arg">start2</span>,
         <span class="sig-arg">end2</span>,
@@ -1158,7 +1160,7 @@
   <p>Locate the intersection point of two paths each defined by two points 
   or a start point and bearing from North.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>end1</code></strong> - End point of the first path (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1204,7 +1206,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedBy</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isenclosedBy</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1214,7 +1216,7 @@
   
   <p>Check whether this point is enclosed by a (convex) polygon.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1249,7 +1251,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">iswithin</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iswithin</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">point1</span>,
         <span class="sig-arg">point2</span>)</span>
   </h3>
@@ -1263,7 +1265,7 @@
   return whether it is within the area bound by perpendiculars to the great
   circle at each point (in the same hemispere).</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point1</code></strong> - Start point of the arc (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1294,7 +1296,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">midpointTo</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">midpointTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
   </h3>
@@ -1305,7 +1307,7 @@
   
   <p>Find the midpoint between this and an other point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1338,7 +1340,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">point1</span>,
         <span class="sig-arg">point2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
@@ -1354,7 +1356,7 @@
   return the closest point on the arc.  Otherwise, return the closest of 
   the arc's end points.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>point1</code></strong> - Start point of the arc (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1401,7 +1403,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn2</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">**closed_radius_height</span>)</span>
   </h3>
@@ -1430,7 +1432,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn3</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn3</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
@@ -1447,7 +1449,7 @@
   closest point is on that arc.  Otherwise, the closest is the nearest of 
   the arc's end points.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
@@ -1482,7 +1484,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">**Cartesian_datum_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1493,7 +1495,7 @@
   <p>Convert this point to <code>Nvector</code>-based cartesian (ECEF) 
   coordinates.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>Cartesian_datum_kwds</code></strong> - Optional <a 
           href="pygeodesy.sphericalNvector.Cartesian-class.html" 
@@ -1530,7 +1532,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNvector</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">**Nvector_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1542,7 +1544,7 @@
   href="pygeodesy.sphericalNvector.Nvector-class.html" 
   class="link">Nvector</a> components, <i>including height</i>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>Nvector_kwds</code></strong> - Optional <a href="pygeodesy.sphericalNvector.Nvector-class.html" 
           class="link">Nvector</a> keyword arguments, ignored if 
@@ -1585,7 +1587,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">triangulate</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triangulate</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">bearing1</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">bearing2</span>,
@@ -1599,7 +1601,7 @@
   <p>Locate a point given this and an other point and a bearing at this and
   the other point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bearing1</code></strong> - Bearing at this point (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
@@ -1636,7 +1638,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">distance1</span>,
         <span class="sig-arg">point2</span>,
         <span class="sig-arg">distance2</span>,
@@ -1655,7 +1657,7 @@
   also <a href="https://WikiPedia.org/wiki/Trilateration" 
   target="_top">Trilateration</a>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance1</code></strong> - Distance to this point (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
@@ -1721,7 +1723,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:42 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:07 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

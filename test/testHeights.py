@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.02.27'
+__version__ = '20.03.29'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -14,20 +14,21 @@ warnings.filterwarnings('ignore')  # or 'error'
 
 from base import coverage, geographiclib, scipy, TestsBase
 
-from pygeodesy import Datums, fStr, HeightError, \
+from pygeodesy import Datums, fstr, HeightError, \
                       HeightCubic, HeightLinear, \
                       HeightIDW, HeightIDW2, HeightIDW3, \
                       HeightIDWequirectangular, HeightIDWeuclidean, \
+                      HeightIDWflatLocal, HeightIDWflatPolar, \
                       HeightIDWhaversine, HeightIDWkarney, \
                       HeightIDWvincentys, \
                       HeightLSQBiSpline, HeightSmoothBiSpline
 from pygeodesy.sphericalTrigonometry import LatLon
 
 
-def _fStrs(floats):
+def _fstr(floats):
     fmt = '[%s]'  if isinstance(floats, list)  else \
           '(%s,)' if isinstance(floats, tuple) else '%s'
-    return fmt % (fStr(floats, prec=9),)
+    return fmt % (fstr(floats, prec=9),)
 
 
 def _kwdstr(kwds):
@@ -85,12 +86,12 @@ class Tests(TestsBase):
         h2 = interpolator.height(kt.lat, kt.lon)
         self.test(IDW.__name__+'(latlon)', h2 == h, True)
         hs = interpolator(lli, kt)  # return tuple
-        self.test(IDW.__name__+kwdstr, _fStrs(hs), '(%s, %s,)' % (expected, expected1))
+        self.test(IDW.__name__+kwdstr, _fstr(hs), '(%s, %s,)' % (expected, expected1))
         self.test(IDW.__name__+'(tuple)', type(hs), tuple)
         self.test(IDW.__name__+'(tuple-float)', type(hs[0]), float)
         self.test(IDW.__name__+'(tuple-float)', type(hs[1]), float)
         hs = interpolator([lli, kt])  # return list
-        self.test(IDW.__name__+kwdstr, _fStrs(hs), '[%s, %s]' % (expected, expected1))
+        self.test(IDW.__name__+kwdstr, _fstr(hs), '[%s, %s]' % (expected, expected1))
         self.test(IDW.__name__+'(list', type(hs), list)
         self.test(IDW.__name__+'(list-float)', type(hs[0]), float)
         self.test(IDW.__name__+'(list-float)', type(hs[1]), float)
@@ -111,6 +112,8 @@ class Tests(TestsBase):
         self.testIDW(HeightIDWequirectangular, kts, lli, '6.108538529', adjust=True, wrap=True)
         self.testIDW(HeightIDW2,               kts, lli, '6.108614369', adjust=False, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '6.108614369', adjust=False, wrap=True)
+        self.testIDW(HeightIDWflatLocal,       kts, lli, '6.860459007', wrap=False)
+        self.testIDW(HeightIDWflatPolar,       kts, lli, '6.261469975', wrap=False)
         self.testIDW(HeightIDW3,               kts, lli, '6.108538037', wrap=True)
         self.testIDW(HeightIDWhaversine,       kts, lli, '6.108538037', wrap=False)
         if geographiclib:
@@ -131,6 +134,8 @@ class Tests(TestsBase):
         self.testIDW(HeightIDWequirectangular, kts, lli, '2.592743455', adjust=True, wrap=True)
         self.testIDW(HeightIDW2,               kts, lli, '2.592732915', adjust=False, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '2.592732915', adjust=False, wrap=True)
+        self.testIDW(HeightIDWflatLocal,       kts, lli, '2.689429914', wrap=False)
+        self.testIDW(HeightIDWflatPolar,       kts, lli, '2.592973059', wrap=False)
         self.testIDW(HeightIDW3,               kts, lli, '2.592742938', wrap=True)
         self.testIDW(HeightIDWhaversine,       kts, lli, '2.592742938', wrap=False)
         if geographiclib:
@@ -160,6 +165,8 @@ class Tests(TestsBase):
             self.testHeight(HeightCubic,              kts, lli, '3.000000000', lats, lons)
             self.testHeight(HeightIDWeuclidean,       kts, lli, '2.408053308', lats, lons)
             self.testHeight(HeightIDWequirectangular, kts, lli, '2.402157181', lats, lons)
+            self.testHeight(HeightIDWflatLocal,       kts, lli, '2.469718302', lats, lons)
+            self.testHeight(HeightIDWflatPolar,       kts, lli, '2.370266641', lats, lons)
             self.testHeight(HeightIDWhaversine,       kts, lli, '2.402157442', lats, lons)
             if geographiclib:
                 self.testHeight(HeightIDWkarney,      kts, lli, '2.402157442', lats, lons)  # datum=Datums.Sphere

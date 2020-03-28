@@ -452,6 +452,13 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.geoids._GeoidBase-class.html#pgm" class="summary-name">pgm</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#scipy" class="summary-name">scipy</a>
     </td>
   </tr>
@@ -480,6 +487,7 @@
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightBase-class.html">heights._HeightBase</a></code></b>:
       <code><a href="pygeodesy.heights._HeightBase-class.html#adjust">adjust</a></code>,
+      <code><a href="pygeodesy.heights._HeightBase-class.html#datum">datum</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#kmin">kmin</a></code>,
       <code><a href="pygeodesy.heights._HeightBase-class.html#wrap">wrap</a></code>
       </p>
@@ -511,7 +519,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">hs</span>,
         <span class="sig-arg">p</span>)</span>
     <br /><em class="fname">(Constructor)</em>
@@ -524,7 +532,7 @@
   <p>(INTERNAL) Set up the grid axes, the <code>SciPy</code> interpolator 
   and several internal geoid attributes.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>hs</code></strong> - Grid knots with known height (<code>numpy 2darray</code>).</li>
         <li><strong class="pname"><code>p</code></strong> - The <code>slat, wlon, nlat, nlon, dlat, dlon</code> and other 
@@ -551,7 +559,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">*llis</span>)</span>
     <br /><em class="fname">(Call operator)</em>
   </h3>
@@ -562,7 +570,7 @@
   
   <p>Interpolate the geoid height for one or several locations.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>llis</code></strong> - The location or locations (<code>LatLon</code>, ... or 
           <code>LatLon</code>s).</li>
@@ -594,7 +602,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__repr__</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__repr__</span>&nbsp;(<span class="sig-arg">self</span>)</span>
     <br /><em class="fname">(Representation operator)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -618,7 +626,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__str__</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__str__</span>&nbsp;(<span class="sig-arg">self</span>)</span>
     <br /><em class="fname">(Informal representation operator)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -642,7 +650,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">center</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">center</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -652,7 +660,7 @@
   
   <p>Return the center location and height of this geoid.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -673,7 +681,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lats</span>,
         <span class="sig-arg">lons</span>)</span>
   </h3>
@@ -684,7 +692,7 @@
   
   <p>Interpolate the geoid height for one or several lat-/longitudes.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lats</code></strong> - Latitude or latitudes (<code>degrees</code> or 
           <code>degrees</code>s).</li>
@@ -715,7 +723,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">highest</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">highest</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**unused</span>)</span>
   </h3>
@@ -726,7 +734,7 @@
   
   <p>Return the location and largest height of this geoid.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -747,7 +755,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">lowerleft</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">lowerleft</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -757,7 +765,7 @@
   
   <p>Return the lower-left location and height of this geoid.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location (<code>LatLon</code>) and 
           height or <code>None</code>.</li>
@@ -778,7 +786,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">lowerright</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">lowerright</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -788,7 +796,7 @@
   
   <p>Return the lower-right location and height of this geoid.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -809,7 +817,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">lowest</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">lowest</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**unused</span>)</span>
   </h3>
@@ -820,7 +828,7 @@
   
   <p>Return the location and the lowest height of this geoid.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -841,7 +849,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">outside</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">outside</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>)</span>
   </h3>
@@ -853,7 +861,7 @@
   <p>Check whether a location is outside this geoid's lat-/longitude or 
   crop range.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - The latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - The longitude (<code>degrees</code>).</li>
@@ -871,7 +879,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">3</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span>
   </h3>
@@ -882,7 +890,7 @@
   
   <p>This geoid and all geoid attributes as a string.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
           default).  Trailing zero decimals are stripped for 
@@ -905,7 +913,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">upperleft</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">upperleft</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -915,7 +923,7 @@
   
   <p>Return the upper-left location and height of this geoid.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -936,7 +944,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">upperright</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">upperright</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -946,7 +954,7 @@
   
   <p>Return the upper-right location and height of this geoid.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -1175,6 +1183,27 @@ target="_top">dtype</a> (<code>str</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="pgm"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">pgm</h3>
+  
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">pgm(<span class="summary-sig-arg">self</span>)</span>
+        - Get the PGM attributes (<code>_PGM</code> or <code>None</code> if not 
+available/applicable).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="scipy"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1287,7 +1316,7 @@ target="_top">dtype</a> (<code>str</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:40 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:04 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

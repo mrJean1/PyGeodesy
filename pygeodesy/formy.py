@@ -5,8 +5,9 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.basics import EPS, R_M, LimitError, \
-                            _limiterrors, len2, map1
+from pygeodesy.basics import EPS, R_M, len2, LimitError, \
+                            _limiterrors, map1, _TypeError
+from pygeodesy.datum import Datum, Datums
 from pygeodesy.fmath import fsum_, hypot, hypot2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Distance4Tuple, LatLon2Tuple, PhiLam2Tuple, \
@@ -21,19 +22,19 @@ from math import atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.03.19'
+__version__ = '20.03.29'
 
 
 def _scaled(lat1, lat2):  # degrees
-    # scale delta lon by cos(mean of lats)
-    m = (lat1 + lat2) * 0.5
-    return cos(radians(m)) if abs(m) < 90 else 0
+    # scale factor cos(mean of lats) for delta lon
+    m = abs(lat1 + lat2) * 0.5
+    return cos(radians(m)) if m < 90 else 0
 
 
-def _scaler(rad1, rad2):  # radians, imported by heights.HeighIDW2
-    # scale delta lon by cos(mean of lats)
-    m = (rad1 + rad2) * 0.5
-    return cos(m) if abs(m) < PI_2 else 0
+def _scaler(phi1,  phi2):  # radians, imported by .frechet, .hausdorff, .heights
+    # scale factor cos(mean of phis) for delta lam
+    m = abs(phi1 + phi2) * 0.5
+    return cos(m) if m < PI_2 else 0
 
 
 def antipode(lat, lon):
@@ -82,14 +83,14 @@ def bearing(lat1, lon1, lat2, lon2, **options):
     return degrees(bearing_(*ab4, **options))
 
 
-def bearing_(a1, b1, a2, b2, final=False, wrap=False):
+def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
     '''Compute the initial or final bearing (forward or reverse
        azimuth) between a (spherical) start and end point.
 
-       @arg a1: Start latitude (C{radians}).
-       @arg b1: Start longitude (C{radians}).
-       @arg a2: End latitude (C{radians}).
-       @arg b2: End longitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam1: Start longitude (C{radians}).
+       @arg phi2: End latitude (C{radians}).
+       @arg lam2: End longitude (C{radians}).
        @kwarg final: Return final bearing if C{True}, initial
                      otherwise (C{bool}).
        @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
@@ -98,18 +99,17 @@ def bearing_(a1, b1, a2, b2, final=False, wrap=False):
                 zero if start and end point coincide.
     '''
     if final:
-        a1, b1, a2, b2 = a2, b2, a1, b1
-        r = PI + PI2
+        phi1, lam1, phi2, lam2 = phi2, lam2, phi1, lam1
+        r = PI2 + PI
     else:
         r = PI2
 
-    db, _ = unrollPI(b1, b2, wrap=wrap)
-    sa1, ca1, sa2, ca2, sdb, cdb = sincos2(a1, a2, db)
+    db, _ = unrollPI(lam1, lam2, wrap=wrap)
+    sa1, ca1, sa2, ca2, sdb, cdb = sincos2(phi1, phi2, db)
 
     # see <https://MathForum.org/library/drmath/view/55417.html>
     x = ca1 * sa2 - sa1 * ca2 * cdb
     y = sdb * ca2
-
     return (atan2(y, x) + r) % PI2  # wrapPI2
 
 
@@ -194,9 +194,10 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
        @see: U{Local, flat earth approximation
              <https://www.EdWilliams.org/avform.htm#flat>}, functions
-             L{equirectangular}, L{euclidean}, L{haversine} and
-             L{vincentys} and methods L{Ellipsoid.distance2},
-             C{LatLon.distanceTo*} and C{LatLon.equirectangularTo}.
+             L{equirectangular}, L{euclidean}, L{haversine}, L{vincentys},
+             L{flatLocal} and L{flatPolar} and methods
+             L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
+             C{LatLon.equirectangularTo}.
     '''
     d_lat = lat2 - lat1
     d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
@@ -230,9 +231,10 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
 
        @see: U{Distance between two (spherical) points
              <https://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{equirectangular}, L{haversine} and L{vincentys} and
-             methods L{Ellipsoid.distance2}, C{LatLon.distanceTo*}
-             and C{LatLon.equirectangularTo}.
+             L{equirectangular}, L{haversine}, L{vincentys},
+             L{flatLocal} and L{flatPolar} and methods
+             L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
+             C{LatLon.equirectangularTo}.
     '''
     r = float(radius)
     if r:
@@ -241,27 +243,139 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
     return r
 
 
-def euclidean_(a2, a1, b21, adjust=True):
+def euclidean_(phi2, phi1, lam21, adjust=True):
     '''Approximate the I{angular} C{Euclidean} distance between two
        (spherical) points.
 
-       @arg a2: End latitude (C{radians}).
-       @arg a1: Start latitude (C{radians}).
-       @arg b21: Longitudinal delta, M{end-start} (C{radians}).
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
        @kwarg adjust: Adjust the longitudinal delta by the cosine
                       of the mean latitude (C{bool}).
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{euclidean}, L{equirectangular_}, L{haversine_}
-             and L{vincentys_}.
+       @see: Functions L{euclidean}, L{equirectangular_}, L{haversine_},
+             L{vincentys_}, L{flatLocal_} and L{flatPolar_}.
     '''
-    a, b = abs(a2 - a1), abs(b21)
+    a, b = abs(phi2 - phi1), abs(lam21)
     if adjust:
-        b *= _scaler(a2, a1)
+        b *= _scaler(phi2, phi1)
     if a < b:
         a, b = b, a
     return a + b * 0.5  # 0.4142135623731
+
+
+def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
+    '''Compute the distance between two (ellipsoidal) points using
+       the U{ellipsoidal Earth to plane projection
+       <https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
+       fromula.
+
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg datum: Optional, (ellipsoidal) datum to use (L{Datum}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Distance (C{meter}, same units as the B{C{datum}}'s
+                ellipsoid axes).
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @note: The meridional and prime_vertical radii of curvature
+              are taken and scaled at the mean latitude.
+
+       @see: Functions L{flatLocal_}, L{flatPolar},
+             L{equirectangular}, L{euclidean}, L{haversine} and
+             L{vincentys} and method L{Ellipsoid.distance2} and
+             U{local, flat earth approximation
+             <https://www.edwilliams.org/avform.htm#flat>}.
+    '''
+    d, _ = unroll180(lon1, lon2, wrap=wrap)
+    return flatLocal_(radians(lat2), radians(lat1), radians(d), datum=datum)
+
+
+def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
+    '''Compute the distance between two (ellipsoidal) points using
+       the U{ellipsoidal Earth to plane projection
+       <https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
+       fromula.
+
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
+       @kwarg datum: Optional, (ellipsoidal) datum to use (L{Datum}).
+
+       @return: Distance (C{meter}, same units as the B{C{datum}}'s
+                ellipsoid axes).
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @note: The meridional and prime_vertical radii of curvature
+              are taken and scaled at the mean latitude.
+
+       @see: Functions L{flatLocal}, L{flatPolar_},
+             L{equirectangular_}, L{euclidean_}, L{haversine_} and
+             L{vincentys_} and U{local, flat earth approximation
+             <https://www.edwilliams.org/avform.htm#flat>}.
+    '''
+    _TypeError(Datum, datum=datum)
+    m, n = datum.ellipsoid.roc2_((phi2 + phi1) * 0.5, scaled=True)
+    return hypot(m * (phi2 - phi1), n * lam21)
+
+
+def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
+    '''Compute the distance between two (spherical) points using
+       the U{polar coordinate flat-Earth
+       <https://WikiPedia.org/wiki/Geographical_distance#Polar_coordinate_flat-Earth_formula>}
+       formula.
+
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Distance (C{meter}, same units as B{C{radius}}).
+
+       @see: Functions L{flatPolar_}, L{flatLocal},
+             L{equirectangular}, L{euclidean}, L{haversine} and
+             L{vincentys}.
+    '''
+    r = float(radius)
+    if r:
+        d, _ = unroll180(lon1, lon2, wrap=wrap)
+        r *= flatPolar_(radians(lat2), radians(lat1), radians(d))
+    return r
+
+
+def flatPolar_(phi2, phi1, lam21):
+    '''Compute the I{angular} distance between two (spherical) points
+       using the U{polar coordinate flat-Earth
+       <https://WikiPedia.org/wiki/Geographical_distance#Polar_coordinate_flat-Earth_formula>}
+       formula.
+
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
+
+       @return: Angular distance (C{radians}).
+
+       @see: Functions L{flatPolar}, L{flatLocal_},
+             L{equirectangular_}, L{euclidean_}, L{haversine_}
+             and L{vincentys_}.
+    '''
+    a1 = abs(PI_2 - phi1)  # co-latitude
+    a2 = abs(PI_2 - phi2)  # co-latitude
+    ab = abs(2 * a1 * a2 * cos(lam21))
+    a = max(a1, a2, ab)
+    if a > EPS:
+        s = fsum_((a1 / a)**2, (a2 / a)**2, -ab / a**2)
+        a *= sqrt(s) if s > 0 else 0
+    return a
 
 
 def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
@@ -280,9 +394,10 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @see: U{Distance between two (spherical) points
              <https://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{equirectangular}, L{euclidean} and L{vincentys} and
-             methods L{Ellipsoid.distance2}, C{LatLon.distanceTo*}
-             and C{LatLon.equirectangularTo}.
+             L{equirectangular}, L{euclidean}, L{vincentys},
+             L{flatLocal} and L{flatPolar} and methods
+             L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
+             C{LatLon.equirectangularTo}.
 
        @note: See note under L{vincentys_}.
     '''
@@ -293,26 +408,26 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     return r
 
 
-def haversine_(a2, a1, b21):
+def haversine_(phi2, phi1, lam21):
     '''Compute the I{angular} distance between two (spherical) points
        using the U{Haversine<https://www.Movable-Type.co.UK/scripts/latlong.html>}
        formula.
 
-       @arg a2: End latitude (C{radians}).
-       @arg a1: Start latitude (C{radians}).
-       @arg b21: Longitudinal delta, M{end-start} (C{radians}).
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{haversine}, L{equirectangular_}, L{euclidean_}
-             and L{vincentys_}.
+       @see: Functions L{haversine}, L{equirectangular_}, L{euclidean_},
+             L{vincentys_}, L{flatLocal_} and L{flatPolar_}.
 
        @note: See note under L{vincentys_}.
     '''
     def _hsin(rad):
         return sin(rad * 0.5)**2
 
-    h = _hsin(a2 - a1) + cos(a1) * cos(a2) * _hsin(b21)  # haversine
+    h = _hsin(phi2 - phi1) + cos(phi1) * cos(phi2) * _hsin(lam21)  # haversine
     try:
         r = atan2(sqrt(h), sqrt(1 - h)) * 2  # == asin(sqrt(h)) * 2
     except ValueError:
@@ -427,7 +542,7 @@ def latlon2n_xyz(lat, lon):
        @see: Function L{philam2n_xyz}.
 
        @note: These are C{n-vector} x, y and z components,
-              I{NOT} (geocentric) ECEF x, y and z coordinates!
+              I{NOT} geocentric ECEF x, y and z coordinates!
     '''
     return philam2n_xyz(radians(lat), radians(lon))
 
@@ -439,7 +554,7 @@ def n_xyz2latlon(x, y, z):
        @arg y: Y component (C{scalar}).
        @arg z: Z component (C{scalar}).
 
-       @return: A L{LatLon2Tuple}C{(lat, lon)} in C{degrees}.
+       @return: A L{LatLon2Tuple}C{(lat, lon)}.
 
        @see: Function L{n_xyz2philam}.
     '''
@@ -454,7 +569,7 @@ def n_xyz2philam(x, y, z):
        @arg y: Y component (C{scalar}).
        @arg z: Z component (C{scalar}).
 
-       @return: A L{PhiLam2Tuple}C{(phi, lam)} in C{radian}.
+       @return: A L{PhiLam2Tuple}C{(phi, lam)}.
 
        @see: Function L{n_xyz2latlon}.
     '''
@@ -473,7 +588,7 @@ def philam2n_xyz(phi, lam):
        @see: Function L{latlon2n_xyz}.
 
        @note: These are C{n-vector} x, y and z components,
-              I{NOT} (geocentric) ECEF x, y and z coordinates!
+              I{NOT} geocentric ECEF x, y and z coordinates!
     '''
     # Kenneth Gade eqn 3, but using right-handed
     # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
@@ -503,8 +618,7 @@ def points2(points, closed=True, base=None, Error=ValueError):
 
     if closed:
         # remove duplicate or closing final points
-        while n > 1 and (points[n-1] == points[0] or
-                         points[n-1] == points[n-2]):
+        while n > 1 and points[n-1] in (points[0], points[n-2]):
             n -= 1
         # XXX following line is unneeded if points
         # are always indexed as ... i in range(n)
@@ -534,43 +648,46 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
-       @see: Functions L{equirectangular}, L{euclidean} and L{haversine}
-             and methods L{Ellipsoid.distance2}, C{LatLon.distanceTo*}
-             and C{LatLon.equirectangularTo}.
+       @see: Functions L{vincentys_}, L{equirectangular}, L{euclidean},
+             L{haversine}, L{flatLocal} and L{flatPolar} and
+             methods L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
+             C{LatLon.equirectangularTo}.
 
        @note: See note under L{vincentys_}.
     '''
-    d, _ = unroll180(lon1, lon2, wrap=wrap)
-    r = vincentys_(radians(lat2), radians(lat1), radians(d))
-    return r * float(radius)
+    r = float(radius)
+    if r:
+        d, _ = unroll180(lon1, lon2, wrap=wrap)
+        r *= vincentys_(radians(lat2), radians(lat1), radians(d))
+    return r
 
 
-def vincentys_(a2, a1, b21):
+def vincentys_(phi2, phi1, lam21):
     '''Compute the I{angular} distance between two (spherical) points using
        U{Vincenty's<https://WikiPedia.org/wiki/Great-circle_distance>}
        spherical formula.
 
-       @arg a2: End latitude (C{radians}).
-       @arg a1: Start latitude (C{radians}).
-       @arg b21: Longitudinal delta, M{end-start} (C{radians}).
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{vincentys}, L{equirectangular_}, L{euclidean_}
-             and L{haversine_}.
+       @see: Functions L{vincentys}, L{equirectangular_}, L{euclidean_},
+             L{haversine_}, L{flatLocal_} and L{flatPolar_}.
 
        @note: Functions L{vincentys_} and L{haversine_} produce equivalent
               results, but L{vincentys_} is suitable for antipodal points
               and slightly more expensive than L{haversine_} (M{3 cos,
-              3 sin, 1 hypot, 1 atan2, 7 mul, 2 add} versus M{2 cos, 2
+              3 sin, 1 hypot, 1 atan2, 6 mul, 2 add} versus M{2 cos, 2
               sin, 2 sqrt, 1 atan2, 5 mul, 1 add}).
     '''
-    sa1, ca1, sa2, ca2, sb21, cb21 = sincos2(a1, a2, b21)
+    sa1, ca1, sa2, ca2, sb21, cb21 = sincos2(phi1, phi2, lam21)
 
-    x = sa1 * sa2 + ca1 * ca2 * cb21
-    y = ca1 * sa2 - sa1 * ca2 * cb21
-    y = hypot(ca2 * sb21, y)
-    return atan2(y, x)
+    c = ca2 * cb21
+    x = sa1 * sa2 + ca1 * c
+    y = ca1 * sa2 - sa1 * c
+    return atan2(hypot(ca2 * sb21, y), x)
 
 # **) MIT License
 #

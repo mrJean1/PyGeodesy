@@ -82,7 +82,7 @@ from math import asinh, atan, atan2, copysign, degrees, \
                  fmod, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.03.20'
+__version__ = '20.03.25'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -95,8 +95,8 @@ try:
 
     _diff182 = Math.AngDiff  # returns 2-tuple
     _fix90   = Math.LatFix
+    _norm180 = Math.AngNormalize  # PYCHOK for testEtm.py
     _sum2    = Math.sum  # PYCHOK for testEtm.py
-    _wrap180 = Math.AngNormalize
 
     del Math
 
@@ -107,8 +107,8 @@ except ImportError:  # no geographiclib
     def _diff182(deg0, deg):  # mimick Math.AngDiff
         '''Compute C{deg - deg0}, reduced to C{[-180,180]} accurately.
         '''
-        d, t = _sum2(_wrap180(-deg0), _wrap180(deg))
-        d = _wrap180(d)
+        d, t = _sum2(_norm180(-deg0), _norm180(deg))
+        d = _norm180(d)
         if d == 180 and t > 0:
             d = -180
         return _sum2(d, t)
@@ -118,25 +118,7 @@ except ImportError:  # no geographiclib
         '''
         return NAN if abs(deg) > 90 else deg
 
-    def _sum2(u, v):  # mimick Math::sum, actually sum2
-        '''Error free transformation of a C{sum}.
-
-           @return: 2-Tuple C{(sum_u_plus_v, residual)}.
-
-           @note: The C{residual} can be the same as one
-                  of the first two arguments.
-        '''
-        s = u + v
-        r = s - v
-        t = s - r
-        r -= u
-        t -= v
-        t = -(r + t)
-        # u + v =       s      + t
-        #       = round(u + v) + t
-        return s, t
-
-    def _wrap180(deg):  # mimick Math.AngNormalize
+    def _norm180(deg):  # mimick Math.AngNormalize
         '''Reduce angle to (-180,180]
         '''
         # with Python 2.7.16 and 3.7.3 on macOS 10.13.6
@@ -160,6 +142,24 @@ except ImportError:  # no geographiclib
         d = fmod(deg, 360) if deg else deg
         return (d + 360) if d <= -180 else (
                        d if d <=  180 else (d - 360))
+
+    def _sum2(u, v):  # mimick Math::sum, actually sum2
+        '''Error free transformation of a C{sum}.
+
+           @return: 2-Tuple C{(sum_u_plus_v, residual)}.
+
+           @note: The C{residual} can be the same as one
+                  of the first two arguments.
+        '''
+        s = u + v
+        r = s - v
+        t = s - r
+        r -= u
+        t -= v
+        t = -(r + t)
+        # u + v =       s      + t
+        #       = round(u + v) + t
+        return s, t
 
 
 class ETMError(UTMError):
@@ -510,7 +510,7 @@ class ExactTransverseMercator(_NamedBase):
     def lon0(self, lon0):
         '''Set the central meridian (C{degrees180}).
         '''
-        self._lon0 = _wrap180(lon0)
+        self._lon0 = _norm180(lon0)
 
     @property_RO
     def majoradius(self):
@@ -600,8 +600,8 @@ class ExactTransverseMercator(_NamedBase):
         if _lon:
             lon, g = -lon, -g
 
-        lat = _wrap180(lat)
-        lon = _wrap180(lon + (self._lon0 if lon0 is None else _wrap180(lon0)))
+        lat = _norm180(lat)
+        lon = _norm180(lon + (self._lon0 if lon0 is None else _norm180(lon0)))
         return LatLonExact4Tuple(lat, lon, g, k)
 
     def _scaled(self, tau, d2, snu, cnu, dnu, snv, cnv, dnv):

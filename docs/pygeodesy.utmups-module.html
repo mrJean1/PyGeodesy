@@ -266,7 +266,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUTMUPS5</span>(<span class="sig-arg">strUTMUPS</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUTMUPS5</span>&nbsp;(<span class="sig-arg">strUTMUPS</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
@@ -280,7 +280,7 @@
   <p>Parse a string representing a UTM or UPS coordinate, consisting of 
   <code>&quot;zone[band] hemisphere/pole easting northing&quot;</code>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strUTMUPS</code></strong> - A UTM or UPS coordinate (<code>str</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
@@ -322,7 +322,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtmUps8</span>(<span class="sig-arg">latlon</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtmUps8</span>&nbsp;(<span class="sig-arg">latlon</span>,
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
@@ -339,7 +339,7 @@
   
   <p>Convert a lat-/longitude point to a UTM or UPS coordinate.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
           <code>LatLon</code> point.</li>
@@ -395,7 +395,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">UtmUps</span>(<span class="sig-arg">zone</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">UtmUps</span>&nbsp;(<span class="sig-arg">zone</span>,
         <span class="sig-arg">hemipole</span>,
         <span class="sig-arg">easting</span>,
         <span class="sig-arg">northing</span>,
@@ -411,7 +411,7 @@
   
   <p>Class-like function to create a UTM/UPS coordinate.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>zone</code></strong> - The UTM (longitudinal) zone with/-out Band letter for UTM or for 
           UPS zone <code>&quot;00&quot;</code> or <code>0</code> 
@@ -454,7 +454,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">utmupsValidate</span>(<span class="sig-arg">coord</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">utmupsValidate</span>&nbsp;(<span class="sig-arg">coord</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">MGRS</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -465,7 +465,7 @@
   
   <p>Check a UTM or UPS coordinate.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>coord</code></strong> - The UTM or UPS coordinate (<a href="pygeodesy.utm.Utm-class.html"
           class="link">Utm</a>, <a href="pygeodesy.ups.Ups-class.html" 
@@ -494,7 +494,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">utmupsValidateOK</span>(<span class="sig-arg">coord</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">utmupsValidateOK</span>&nbsp;(<span class="sig-arg">coord</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">ok</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">OK</code><code class="variable-quote">'</code></span>)</span>
   </h3>
@@ -505,7 +505,7 @@
   
   <p>Check a UTM or UPS coordinate.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>coord</code></strong> - The UTM or UPS coordinate (<a href="pygeodesy.utm.Utm-class.html"
           class="link">Utm</a>, <a href="pygeodesy.ups.Ups-class.html" 
@@ -532,7 +532,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">utmupsZoneBand5</span>(<span class="sig-arg">lat</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">utmupsZoneBand5</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
         <span class="sig-arg">cmoff</span>=<span class="sig-default">False</span>)</span>
   </h3>
@@ -544,7 +544,7 @@
   <p>Return the UTM/UPS zone number, Band letter, hemisphere/pole and 
   clipped lat- and longitude for a given location.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude in degrees (<code>scalar</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (<code>scalar</code> or <code>str</code>).</li>
@@ -606,7 +606,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:39 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:02 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

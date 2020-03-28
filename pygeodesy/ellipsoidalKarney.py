@@ -4,7 +4,7 @@
 u'''Ellipsoidal geodetic (lat-/longitude) L{LatLon} and geocentric (ECEF)
 L{Cartesian} classed and functions L{areaOf}, L{isclockwise} and
 L{perimeterOf}, all based on I{Charles Karney's} Python implementation
-of U{GeographicLib <https://PyPI.org/project/geographiclib>}.
+of U{GeographicLib<https://PyPI.org/project/geographiclib>}.
 
 Here's an example usage of C{ellipsoidalKarney}:
 
@@ -43,7 +43,7 @@ from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
-__version__ = '20.03.20'
+__version__ = '20.03.27'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -387,7 +387,7 @@ class LatLon(LatLonEllipsoidalBase):
         if azis:  # forward and reverse azimuth
             f, r = wrap360(r['azi1']), wrap360(r['azi2'])
         else:
-            f = r = 0
+            f = r = None
         return Distance3Tuple(d, f, r)
 
 

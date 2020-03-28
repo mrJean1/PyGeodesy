@@ -69,6 +69,10 @@
   class="link">HausdorffEquirectangular</a>, <a 
   href="pygeodesy.hausdorff.HausdorffEuclidean-class.html" 
   class="link">HausdorffEuclidean</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffFlatLocal-class.html" 
+  class="link">HausdorffFlatLocal</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffFlatPolar-class.html" 
+  class="link">HausdorffFlatPolar</a>, <a 
   href="pygeodesy.hausdorff.HausdorffHaversine-class.html" 
   class="link">HausdorffHaversine</a>, <a 
   href="pygeodesy.hausdorff.HausdorffKarney-class.html" 
@@ -80,8 +84,8 @@
   <code>LatLon</code>, <code>NumPy</code>, <code>tuples</code> or other 
   types of points.</p>
   <p>Only <a href="pygeodesy.hausdorff.HausdorffKarney-class.html" 
-  class="link">HausdorffKarney</a> depends on an external package, Charles 
-  Karney's <a href="https://PyPI.org/project/geographiclib" 
+  class="link">HausdorffKarney</a> requires installation of <i>Charles 
+  Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a>.</p>
   <p>Typical usage is as follows.  First, create a <code>Hausdorff</code> 
   calculator from a given set of <code>LatLon</code> points, called the 
@@ -142,7 +146,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.03.23
+        20.03.29
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -189,9 +193,8 @@
     </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffDegrees-class.html" class="summary-name">HausdorffDegrees</a><br />
       <a href="pygeodesy.hausdorff.Hausdorff-class.html" 
-        class="link">Hausdorff</a> base class for distances in 
-        <code>degrees</code> from <code>LatLon</code> points in 
-        <code>degrees</code>.
+        class="link">Hausdorff</a> base class for distances from 
+        <code>LatLon</code> points in <code>degrees</code>.
     </td>
   </tr>
 <tr>
@@ -200,9 +203,9 @@
     </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffRadians-class.html" class="summary-name">HausdorffRadians</a><br />
       <a href="pygeodesy.hausdorff.Hausdorff-class.html" 
-        class="link">Hausdorff</a> base class for distances in 
-        <code>radians</code> from <code>LatLon</code> points converted from
-        <code>degrees</code> to <code>radians</code>.
+        class="link">Hausdorff</a> base class for distances from 
+        <code>LatLon</code> points converted from <code>degrees</code> to 
+        <code>radians</code>.
     </td>
   </tr>
 <tr>
@@ -211,8 +214,9 @@
     </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffEquirectangular-class.html" class="summary-name">HausdorffEquirectangular</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
-        <code>equirectangular</code> distance (in radians squared) like 
-        function <a href="pygeodesy.formy-module.html#equirectangular_" 
+        <code>equirectangular</code> distance in <code>radians 
+        squared</code> like function <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.
     </td>
   </tr>
@@ -222,9 +226,31 @@
     </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffEuclidean-class.html" class="summary-name">HausdorffEuclidean</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
-        <code>Euclidean</code> distance (in radians) from function <a 
-        href="pygeodesy.formy-module.html#euclidean_" 
+        <code>Euclidean</code> distance in <code>radians</code> from 
+        function <a href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffFlatLocal-class.html" class="summary-name">HausdorffFlatLocal</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians squared</code> from 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffFlatPolar-class.html" class="summary-name">HausdorffFlatPolar</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>.
     </td>
   </tr>
 <tr>
@@ -233,8 +259,9 @@
     </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffHaversine-class.html" class="summary-name">HausdorffHaversine</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
-        <i>angular</i> <code>Haversine</code> distance (in radians) from 
-        function <a href="pygeodesy.formy-module.html#haversine_" 
+        <i>angular</i> <code>Haversine</code> distance in 
+        <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.
     </td>
   </tr>
@@ -244,8 +271,8 @@
     </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffKarney-class.html" class="summary-name">HausdorffKarney</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
-        <i>angular</i> distance (in degrees) from <i>Charles Karney's</i> 
-        <a href="https://PyPI.org/project/geographiclib" 
+        <i>angular</i> distance in <code>degrees</code> from <i>Charles 
+        Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> <a 
         href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
         target="_top">Geodesic</a> Inverse method.
@@ -257,8 +284,9 @@
     </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffVincentys-class.html" class="summary-name">HausdorffVincentys</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
-        <i>angular</i> <code>Vincenty</code> distance (in radians) from 
-        function <a href="pygeodesy.formy-module.html#vincentys_" 
+        <i>angular</i> <code>Vincenty</code> distance in 
+        <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
     </td>
   </tr>
@@ -284,7 +312,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10c728bd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x1050f05d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -335,14 +363,14 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">hausdorff_</span>(<span class="sig-arg">model</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hausdorff_</span>&nbsp;(<span class="sig-arg">model</span>,
         <span class="sig-arg">target</span>,
         <span class="sig-arg">both</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">early</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10c728bd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x1050f05d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -357,7 +385,7 @@
   href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
   target="_top">random sampling</a>.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>model</code></strong> - First set of points (<code>LatLon</code>[], 
           <code>Numpy2LatLon</code>[], <code>Tuple2LatLon</code>[] or 
@@ -404,7 +432,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">randomrangenerator</span>(<span class="sig-arg">seed</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">randomrangenerator</span>&nbsp;(<span class="sig-arg">seed</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -413,7 +441,7 @@
   
   <p>Return a <code>seed</code>ed random range function generator.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>seed</code></strong> - Initial, internal Random state (<code>hashable</code>).</li>
     </ul></dd>
@@ -465,7 +493,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:38 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:01 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -46,7 +46,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.03.23'
+__version__ = '20.03.26'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -162,10 +162,10 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         return self.philam.to3Tuple(self.height)
 
-    def points(self, points, closed=False, base=None):
+    def points(self, points, closed=False, base=None):  # PYCHOK no cover
         '''DEPRECATED, use method C{points2}.
         '''
-        return points2(points, closed=closed, base=base)  # PYCHOK no cover
+        return points2(points, closed=closed, base=base)
 
     def points2(self, points, closed=False, base=None):
         '''Check a path or polygon represented by points.
@@ -279,6 +279,24 @@ class _Basequence(_Sequence):  # immutable, on purpose
             n += 1
         return n
 
+    @property_doc_(''' the equality tolerance (C{float}).''')
+    def epsilon(self):
+        '''Get the tolerance for equality tests (C{float}).
+        '''
+        return self._epsilon
+
+    @epsilon.setter  # PYCHOK setter!
+    def epsilon(self, tol):
+        '''Set the tolerance for equality tests.
+
+           @arg tol: New tolerance (C{scalar}).
+
+           @raise TypeError: Non-scalar B{C{tol}}.
+
+           @raise ValueError: Out-of-bounds B{C{tol}}.
+        '''
+        self._epsilon = scalar(tol, 0.0, name='tolerance')
+
     def _find(self, point, start_end):
         '''(INTERNAL) Find the first matching point index.
         '''
@@ -286,7 +304,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
             return i
         return -1
 
-    def _findall(self, unused, start_end):  # PYCHOK unused
+    def _findall(self, unused, start_end):  # PYCHOK no cover
         '''Must be overloaded.
         '''
         raise NotImplementedError('method: %s' % ('_findall',))
@@ -308,13 +326,31 @@ class _Basequence(_Sequence):  # immutable, on purpose
             return i
         raise ValueError('%s not found: %r' % (self._itemname, point))
 
+    @property_RO
+    def isNumpy2(self):  # PYCHOK no cover
+        '''Is this a Numpy2 wrapper?
+        '''
+        return False  # isinstance(self, (Numpy2LatLon, ...))
+
+    @property_RO
+    def isPoints2(self):  # PYCHOK no cover
+        '''Is this a LatLon2 wrapper/converter?
+        '''
+        return False  # isinstance(self, (LatLon2psxy, ...))
+
+    @property_RO
+    def isTuple2(self):  # PYCHOK no cover
+        '''Is this a Tuple2 wrapper?
+        '''
+        return False  # isinstance(self, (Tuple2LatLon, ...))
+
     def _iter(self):
         '''(INTERNAL) Yield all points.
         '''
         for i in range(len(self)):
             yield self.point(self._array[i])
 
-    def point(self, *attrs):
+    def point(self, *attrs):  # PYCHOK no cover
         '''(INTERNAL) Must be overloaded.
 
            @arg attrs: Optional arguments.
@@ -350,7 +386,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _reversed(self):  # PYCHOK false
         '''(INTERNAL) Yield all points in reverse order.
         '''
-        for i in range(len(self) - 1, -1):
+        for i in range(len(self) - 1, -1, -1):
             yield self.point(self._array[i])
 
     def _rfind(self, point, start_end):
@@ -372,42 +408,6 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''(INTERNAL) Check for near-zero values.
         '''
         return all(abs(z) <= self._epsilon for z in zeros)
-
-    @property_doc_(''' the equality tolerance (C{float}).''')
-    def epsilon(self):
-        '''Get the tolerance for equality tests (C{float}).
-        '''
-        return self._epsilon
-
-    @epsilon.setter  # PYCHOK setter!
-    def epsilon(self, tol):
-        '''Set the tolerance for equality tests.
-
-           @arg tol: New tolerance (C{scalar}).
-
-           @raise TypeError: Non-scalar B{C{tol}}.
-
-           @raise ValueError: Out-of-bounds B{C{tol}}.
-        '''
-        self._epsilon = scalar(tol, 0.0, name='tolerance')
-
-    @property_RO
-    def isNumpy2(self):  # PYCHOK no cover
-        '''Is this a Numpy2 wrapper?
-        '''
-        return False  # isinstance(self, (Numpy2LatLon, ...))
-
-    @property_RO
-    def isPoints2(self):  # PYCHOK no cover
-        '''Is this a LatLon2 wrapper/converter?
-        '''
-        return False  # isinstance(self, (LatLon2psxy, ...))
-
-    @property_RO
-    def isTuple2(self):  # PYCHOK no cover
-        '''Is this a Tuple2 wrapper?
-        '''
-        return False  # isinstance(self, (Tuple2LatLon, ...))
 
 
 class _Array2LatLon(_Basequence):  # immutable, on purpose
@@ -753,7 +753,7 @@ class LatLon2psxy(_Basequence):
 
         except AttributeError:
             try:
-                x, y = xy
+                x, y = xy[:2]
             except (TypeError, ValueError):
                 raise _isnotError('valid', xy=xy)
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Classes L{Epsg} and L{EPSGError} and functions to L{encode} and L{decode2}
-European Petroleum Survey Group (U{EPSG<https://www.EPSG-Registry.org>}) codes
+I{European Petroleum Survey Group} (U{EPSG<https://www.EPSG-Registry.org>}) codes
 from and to U{UTM
 <https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system>} and
 U{UPS<https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system>}
@@ -24,7 +24,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.epsg + ('decode2', 'encode')
-__version__ = '20.03.19'
+__version__ = '20.03.27'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -37,7 +37,7 @@ _EPSG_S    = 32761  # EPSG code for UPS pole S
 
 
 class EPSGError(ValueError):
-    '''European Petroleum Survey Group (EPSG) encode, decode or other L{Epsg} issue.
+    '''EPSG encode, decode or other L{Epsg} issue.
     '''
     pass
 
@@ -52,10 +52,10 @@ class Epsg(_NamedInt):
     _zone       = _UTMUPS_ZONE_INVALID
 
     def __new__(cls, eisu):
-        '''New L{Epsg} European Petroleum Survey Group (EPSG) code from
-           a UTM/USP coordinate or other EPSG code.
+        '''New L{Epsg} (I{European Petroleum Survey Group}) code from a
+           UTM/USP coordinate or other EPSG code.
 
-           @arg eisu: Other (L{Epsg}, C{int}, C{str}, L{Utm} or L{Ups}).
+           @arg eisu: Other code (L{Epsg}, C{int}, C{str}, L{Utm} or L{Ups}).
 
            @return: New L{Epsg}.
 
@@ -99,24 +99,24 @@ class Epsg(_NamedInt):
 
     @property_RO
     def band(self):
-        '''Get the UTM/UPS Band (C{'A'|'B'|'C'|'D'..'W'|'X'|'Y'|'Z'} or C{""}).
+        '''Get the (latitudinal) UTM/UPS Band (C{'A'|'B'|'C'|'D'..'W'|'X'|'Y'|'Z'} or C{""}).
         '''
         return self._band
 
     @property_RO
     def hemisphere(self):
-        '''Get the UTM/UPS hemisphere (C{'N'|'S'}).
+        '''Get the UTM/UPS hemisphere/-pole (C{'N'|'S'}).
         '''
         return self._hemisphere
 
     @property_RO
     def utmups(self):
-        '''Get the UTM/TMP original (L{Utm}, L{Ups}).
+        '''Get the UTM/UPS original (L{Utm}, L{Ups}).
         '''
         return self._utmups
 
     def utmupsStr(self, B=False):
-        '''Get the UTM/TMP zone, band and hemisphere (C{str}).
+        '''Get the UTM/UPS zone, band and hemisphere/-pole (C{str}).
         '''
         z = '%02d' % (self.zone,)
         b = self.band if B else ''
@@ -127,7 +127,7 @@ class Epsg(_NamedInt):
 
     @property_RO
     def zone(self):
-        '''Get the UTM/UPS zone (C{int}, C{1..60} for UTM, C{0} for UPS).
+        '''Get the (longitudinal) UTM/UPS zone (C{int}, C{1..60} for UTM, C{0} for UPS).
         '''
         return self._zone
 

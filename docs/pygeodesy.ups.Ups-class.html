@@ -407,7 +407,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">zone</span>,
         <span class="sig-arg">pole</span>,
         <span class="sig-arg">easting</span>,
@@ -428,7 +428,7 @@
   <p>New <a href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> UPS 
   coordinate.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>zone</code></strong> - UPS zone (<code>int</code>, zero) or zone with/-out Band letter 
           (<code>str</code>, '00', '00A', '00B', '00Y' or '00Z').</li>
@@ -464,7 +464,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUPS</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUPS</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">strUPS</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -492,7 +492,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rescale0</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rescale0</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">scale0</span>=<span class="sig-default">0.994</span>)</span>
   </h3>
@@ -503,7 +503,7 @@
   
   <p>Set the central scale factor for this UPS projection.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Northern latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>scale0</code></strong> - UPS k0 scale at <b><code>lat</code></b> latitude 
@@ -526,7 +526,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">unfalse</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">**LatLon_kwds</span>)</span>
@@ -538,7 +538,7 @@
   
   <p>Convert this UPS coordinate to an (ellipsoidal) geodetic point.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Optional, ellipsoidal class to return the geodetic point 
           (<code>LatLon</code>) or <code>None</code>.</li>
@@ -568,7 +568,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>&nbsp;(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -596,7 +596,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">B</span>=<span class="sig-default">False</span>,
@@ -611,7 +611,7 @@
   <p>Note that UPS coordinates are rounded, not truncated (unlike MGRS grid
   references).</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator to join (<code>str</code>).</li>
@@ -653,7 +653,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
@@ -669,7 +669,7 @@
   <p>Note that UPS coordinates are rounded, not truncated (unlike MGRS grid
   references).</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
         <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing backets format (<code>str</code>).</li>
@@ -707,7 +707,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUps</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUps</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">pole</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">**unused</span>)</span>
   </h3>
@@ -718,7 +718,7 @@
   
   <p>Duplicate this UPS coordinate.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>pole</code></strong> - Optional top/center of the UPS projection, (<code>str</code>, 
           'N[orth]'|'S[outh]').</li>
@@ -741,7 +741,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtm</span>(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtm</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">zone</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">**unused</span>)</span>
@@ -753,7 +753,7 @@
   
   <p>Convert this UPS coordinate to a UTM coordinate.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
+    <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>zone</code></strong> - The UTM zone (<code>int</code>).</li>
         <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
@@ -911,7 +911,7 @@ target="_top">zone UPS</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar 23 15:10:43 2020
+    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:07 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

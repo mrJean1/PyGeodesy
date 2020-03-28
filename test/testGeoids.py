@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.01.27'
+__version__ = '20.03.24'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -16,7 +16,7 @@ from base import coverage, scipy, PyGeodesy_dir, TestsBase
 
 from pygeodesy import fStr, len2, egmGeoidHeights, GeoidError, \
                       GeoidG2012B, GeoidKarney, GeoidPGM, \
-                      LatLon_, RangeError
+                      LatLon_, RangeError, reprs
 
 import os.path as _os_path
 from os import SEEK_SET as _SEEK_SET
@@ -311,10 +311,13 @@ class Tests(TestsBase):
             if coverage:
                 for a in ('highest', 'lowerleft', 'lowerright', 'lowest', 'upperleft', 'upperright'):
                     t = fStr(getattr(g, a)(), prec=3)
-                    self.test('%s.%s' % (g, a), t, t, known=True)
+                    self.test('%s.%s()' % (g, a), t, t, known=True)
+                for p in ('dtype', 'knots', 'mean', 'nBytes', 'scipy', 'smooth', 'stdev'):  # , 'pgm'
+                    t = ''.join(reprs((getattr(g, p),), prec=3))
+                    self.test('%s.%s' % (g, p), t, t, known=True)
                 for a in ('_g2ll2', '_ll2g2'):
                     t = getattr(g, a)(180, 360)
-                    self.test('%s.%s' % (g, a), t, t, known=True)
+                    self.test('%s.%s(180, 360)' % (g, a), t, t, known=True)
                 for t in ((LatLon_(-10, -100), LatLon_(10, 100)),
                           (       (-10, -100),        (10, 100))):
                     t = g._swne(t)
