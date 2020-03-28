@@ -113,11 +113,11 @@ if __name__ == '__main__':  # MCCABE 13
         t.test2(FrechetEuclidean, (2.6207,  49, 26, 74,  5400),
                                   (2.53749, 67, 34, 73, 10710))
 
-        t.test2(FrechetFlatLocal, (0, 49, 27,  73,  5400),
-                                  (0, 49, 27, 105, 10710))
+        t.test2(FrechetFlatLocal, (5.85735, 42, 19,    88,  5400),
+                                  (5.89746, 40, 15.5, 137, 10710))
 
-        t.test2(FrechetFlatPolar, (0, 49, 27,  73,  5400),
-                                  (0, 49, 27, 105, 10710))
+        t.test2(FrechetFlatPolar, (2.10357, 84, 40,   25,  5400),
+                                  (2.00246, 57, 40.5, 70, 10710))
 
         t.test2(FrechetHaversine, (1.75068, 49, 27,  73,  5400),
                                   (1.75068, 49, 27, 105, 10710))
@@ -126,8 +126,8 @@ if __name__ == '__main__':  # MCCABE 13
                                   (1.75068, 49, 27, 105, 10710))
 
         if geographiclib:
-            t.test2(FrechetKarney, (0, 49, 27,  73,  5400),
-                                   (0, 49, 27, 105, 10710))
+            t.test2(FrechetKarney, (100.27538, 49, 27,  73,  5400),
+                                   (100.27538, 49, 27, 105, 10710))
 
     else:  # Python 2, elsewhere
         t.test2(FrechetDegrees_, (288.0, 1, 1, 147,  5400),
