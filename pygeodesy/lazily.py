@@ -109,26 +109,27 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'sqrt3'),
-                          formy=('antipode', 'antipode_', 'bearing', 'bearing_', 'compassAngle',
+                          formy=('antipode', 'antipode_', 'bearing', 'bearing_',
+                                 'compassAngle', 'cosineLaw', 'cosineLaw_',
                                  'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
                                  'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
                                  'haversine', 'haversine_', 'heightOf', 'horizon',
                                  'isantipode', 'isantipode_', 'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
                                  'philam2n_xyz', 'points2', 'vincentys', 'vincentys_'),
-                        frechet=('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
+                        frechet=('Frechet', 'FrechetCosineLaw', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                  'FrechetEquirectangular', 'FrechetEuclidean', 'FrechetFlatLocal', 'FrechetFlatPolar',
                                  'FrechetHaversine', 'FrechetKarney', 'FrechetVincentys',
                                  'fractional', 'frechet_'),
                            gars=('Garef', 'GARSError'),
                         geohash=('Geohash', 'GeohashError'),
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
-                      hausdorff=('Hausdorff', 'HausdorffDegrees', 'HausdorffError', 'HausdorffRadians',
+                      hausdorff=('Hausdorff', 'HausdorffDegrees', 'HausdorffError', 'HausdorffRadians', 'HausdorffCosineLaw',
                                  'HausdorffEquirectangular', 'HausdorffEuclidean', 'HausdorffFlatLocal', 'HausdorffFlatPolar',
                                  'HausdorffHaversine', 'HausdorffKarney', 'HausdorffVincentys',
                                  'hausdorff_', 'randomrangenerator'),
                         heights=('HeightError', 'SciPyError', 'SciPyWarning',
-                                 'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWflatLocal', 'HeightIDWflatPolar',
-                                 'HeightIDWhaversine', 'HeightIDWkarney', 'HeightIDWvincentys',
+                                 'HeightIDWcosineLaw', 'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWflatLocal',
+                                 'HeightIDWflatPolar', 'HeightIDWhaversine', 'HeightIDWkarney', 'HeightIDWvincentys',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
@@ -144,7 +145,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
                         streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
-                            trf=('RefFrame', 'RefFrames', 'TRFError', 'date2epoch'),
+                            trf=('RefFrame', 'RefFrames', 'TRFError', 'date2epoch', 'epoch2date'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
                           utily=('PI', 'PI2', 'PI_2', 'PI_4',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
@@ -177,7 +178,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.03.28'
+__version__ = '20.03.31'
 
 
 def _all_imports(**more):

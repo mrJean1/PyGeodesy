@@ -18,11 +18,11 @@ from pygeodesy.utily import PI, PI2, PI_2, degrees2m, \
                             isNumpy2, isTuple2, sincos2, unroll180, unrollPI, \
                             wrap90, wrap180, wrapPI, wrapPI_2
 
-from math import atan2, cos, degrees, radians, sin, sqrt  # pow
+from math import acos, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.03.29'
+__version__ = '20.03.30'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -142,10 +142,61 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     return degrees360(atan2(d_lon, lat2 - lat1))
 
 
+def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
+    '''Compute the distance between two points using the
+       U{spherical Law of Cosines
+       <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
+       fromula.
+
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Distance (C{meter}, same units as B{C{radius}}).
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @see: Functions L{cosineLaw_}, L{equirectangular}, L{euclidean},
+             L{flatLocal}, L{flatPolar}, L{haversine}, L{vincentys} and
+             method L{Ellipsoid.distance2}.
+
+       @note: See note at function L{vincentys_}.
+    '''
+    r = float(radius)
+    if r:
+        d, _ = unroll180(lon1, lon2, wrap=wrap)
+        r *= cosineLaw_(radians(lat2), radians(lat1), radians(d))
+    return r
+
+
+def cosineLaw_(phi2, phi1, lam21):
+    '''Compute the I{angular} distance between two points using
+       the U{spherical Law of Cosines
+       <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
+       fromula.
+
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
+
+       @return: Angular distance (C{radians}).
+
+       @see: Functions L{cosineLaw}, L{equirectangular_}, L{euclidean_},
+             L{flatLocal_}, L{flatPolar_}, L{haversine_} and L{vincentys_}.
+
+       @note: See note at function L{vincentys_}.
+    '''
+    s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
+    return acos(s1 * s2 + c1 * c2 * c21)
+
+
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
     '''Compute the distance between two points using
        the U{Equirectangular Approximation / Projection
-       <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
+       <https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
@@ -169,7 +220,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
                      adjust=True, limit=45, wrap=False):
     '''Compute the distance between two points using
        the U{Equirectangular Approximation / Projection
-       <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
+       <https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
 
        This approximation is valid for short distance of several
        hundred Km or Miles, see the B{C{limit}} keyword argument and
@@ -194,8 +245,8 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
        @see: U{Local, flat earth approximation
              <https://www.EdWilliams.org/avform.htm#flat>}, functions
-             L{equirectangular}, L{euclidean}, L{haversine}, L{vincentys},
-             L{flatLocal} and L{flatPolar} and methods
+             L{equirectangular}, L{cosineLaw}, L{euclidean}, L{flatLocal},
+             L{flatPolar}, L{haversine}, L{vincentys} and methods
              L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
              C{LatLon.equirectangularTo}.
     '''
@@ -231,8 +282,8 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
 
        @see: U{Distance between two (spherical) points
              <https://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{equirectangular}, L{haversine}, L{vincentys},
-             L{flatLocal} and L{flatPolar} and methods
+             L{euclidean_}, L{cosineLaw}, L{equirectangular}, L{flatLocal},
+             L{flatPolar}, L{haversine}, L{vincentys} and methods
              L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
              C{LatLon.equirectangularTo}.
     '''
@@ -255,8 +306,8 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{euclidean}, L{equirectangular_}, L{haversine_},
-             L{vincentys_}, L{flatLocal_} and L{flatPolar_}.
+       @see: Functions L{euclidean}, L{cosineLaw_}, L{equirectangular_},
+             L{flatLocal_}, L{flatPolar_}, L{haversine_} and L{vincentys_}.
     '''
     a, b = abs(phi2 - phi1), abs(lam21)
     if adjust:
@@ -287,9 +338,9 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
        @note: The meridional and prime_vertical radii of curvature
               are taken and scaled at the mean latitude.
 
-       @see: Functions L{flatLocal_}, L{flatPolar},
-             L{equirectangular}, L{euclidean}, L{haversine} and
-             L{vincentys} and method L{Ellipsoid.distance2} and
+       @see: Functions L{flatLocal_}, L{cosineLaw}, L{flatPolar},
+             L{equirectangular}, L{euclidean}, L{haversine},
+             L{vincentys}, method L{Ellipsoid.distance2} and
              U{local, flat earth approximation
              <https://www.edwilliams.org/avform.htm#flat>}.
     '''
@@ -316,7 +367,7 @@ def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
        @note: The meridional and prime_vertical radii of curvature
               are taken and scaled at the mean latitude.
 
-       @see: Functions L{flatLocal}, L{flatPolar_},
+       @see: Functions L{flatLocal}, L{cosineLaw_}, L{flatPolar_},
              L{equirectangular_}, L{euclidean_}, L{haversine_} and
              L{vincentys_} and U{local, flat earth approximation
              <https://www.edwilliams.org/avform.htm#flat>}.
@@ -341,7 +392,7 @@ def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
-       @see: Functions L{flatPolar_}, L{flatLocal},
+       @see: Functions L{flatPolar_}, L{cosineLaw}, L{flatLocal},
              L{equirectangular}, L{euclidean}, L{haversine} and
              L{vincentys}.
     '''
@@ -364,9 +415,8 @@ def flatPolar_(phi2, phi1, lam21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{flatPolar}, L{flatLocal_},
-             L{equirectangular_}, L{euclidean_}, L{haversine_}
-             and L{vincentys_}.
+       @see: Functions L{flatPolar}, L{cosineLaw_}, L{equirectangular_},
+             L{euclidean_}, L{flatLocal_}, L{haversine_} and L{vincentys_}.
     '''
     a1 = abs(PI_2 - phi1)  # co-latitude
     a2 = abs(PI_2 - phi2)  # co-latitude
@@ -394,12 +444,12 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @see: U{Distance between two (spherical) points
              <https://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{equirectangular}, L{euclidean}, L{vincentys},
-             L{flatLocal} and L{flatPolar} and methods
+             L{cosineLaw}, L{equirectangular}, L{euclidean},
+             L{flatLocal}, L{flatPolar}, L{vincentys} and methods
              L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
              C{LatLon.equirectangularTo}.
 
-       @note: See note under L{vincentys_}.
+       @note: See note at function L{vincentys_}.
     '''
     r = float(radius)
     if r:
@@ -419,10 +469,10 @@ def haversine_(phi2, phi1, lam21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{haversine}, L{equirectangular_}, L{euclidean_},
-             L{vincentys_}, L{flatLocal_} and L{flatPolar_}.
+       @see: Functions L{haversine}, L{cosineLaw_}, L{equirectangular_},
+             L{euclidean_}, L{flatLocal_}, L{flatPolar_} and L{vincentys_}.
 
-       @note: See note under L{vincentys_}.
+       @note: See note at function L{vincentys_}.
     '''
     def _hsin(rad):
         return sin(rad * 0.5)**2
@@ -648,12 +698,12 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
-       @see: Functions L{vincentys_}, L{equirectangular}, L{euclidean},
-             L{haversine}, L{flatLocal} and L{flatPolar} and
+       @see: Functions L{vincentys_}, L{cosineLaw}, L{equirectangular},
+             L{euclidean}, L{flatLocal}, L{flatPolar}, L{haversine} and
              methods L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
              C{LatLon.equirectangularTo}.
 
-       @note: See note under L{vincentys_}.
+       @note: See note at function L{vincentys_}.
     '''
     r = float(radius)
     if r:
@@ -673,14 +723,15 @@ def vincentys_(phi2, phi1, lam21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{vincentys}, L{equirectangular_}, L{euclidean_},
-             L{haversine_}, L{flatLocal_} and L{flatPolar_}.
+       @see: Functions L{vincentys}, L{cosineLaw_}, L{equirectangular_},
+             L{euclidean_}, L{flatLocal_}, L{flatPolar_} and L{haversine_}.
 
-       @note: Functions L{vincentys_} and L{haversine_} produce equivalent
-              results, but L{vincentys_} is suitable for antipodal points
-              and slightly more expensive than L{haversine_} (M{3 cos,
-              3 sin, 1 hypot, 1 atan2, 6 mul, 2 add} versus M{2 cos, 2
-              sin, 2 sqrt, 1 atan2, 5 mul, 1 add}).
+       @note: Functions L{vincentys_}, L{haversine_} and L{cosineLaw_}
+              produce equivalent results, but L{vincentys_} is suitable
+              for antipodal points but slightly more expensive (M{3 cos,
+              3 sin, 1 hypot, 1 atan2, 6 mul, 2 add}) than L{haversine_}
+              (M{2 cos, 2 sin, 2 sqrt, 1 atan2, 5 mul, 1 add}) and
+              L{cosineLaw_} (M{3 cos, 3 sin, 1 acos, 3 mul, 1 add}).
     '''
     sa1, ca1, sa2, ca2, sb21, cb21 = sincos2(phi1, phi2, lam21)
 

@@ -71,7 +71,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.frechet.FrechetDegrees-class.html">FrechetDegrees</a></li><li>, <a href="pygeodesy.frechet.FrechetRadians-class.html">FrechetRadians</a></li>  </ul>
+<li><a href="pygeodesy.frechet.FrechetRadians-class.html">FrechetRadians</a></li><li>, <a href="pygeodesy.frechet.FrechetDegrees-class.html">FrechetDegrees</a></li>  </ul>
 </dd></dl>
 
 <hr />
@@ -97,9 +97,9 @@
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">fraction</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      New <a href="pygeodesy.frechet.Frechet-class.html" 
-      class="link">Frechet</a> calculator/interpolator.</td>
+        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">**wrap_adjust</span>)</span><br />
+      New <code>Frechet...</code> calculator/interpolator.</td>
           <td align="right" valign="top">
             
             
@@ -193,7 +193,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.frechet.Frechet-class.html#points_fraction" class="summary-sig-name">points_fraction</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">fi</span>)</span><br />
-      Get and convert <i>fractional</i> index point for the 
+      Get and convert a <i>fractional</i> point for the 
       <code>.distance</code> method.</td>
           <td align="right" valign="top">
             
@@ -311,7 +311,8 @@
         <span class="sig-arg">points</span>,
         <span class="sig-arg">fraction</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">**wrap_adjust</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -319,8 +320,7 @@
     </td>
   </tr></table>
   
-  <p>New <a href="pygeodesy.frechet.Frechet-class.html" 
-  class="link">Frechet</a> calculator/interpolator.</p>
+  <p>New <code>Frechet...</code> calculator/interpolator.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -338,12 +338,17 @@
           <code>0</code> or <code>1</code> for no intermediate 
           <b><code>points</code></b> and no <i>fractional</i> indices.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional calculator/interpolator name (<code>str</code>).</li>
-        <li><strong class="pname"><code>units</code></strong> - Optional, distance units (<code>str</code>).</li>
+        <li><strong class="pname"><code>units</code></strong> - Optional distance units (<code>str</code>).</li>
+        <li><strong class="pname"><code>wrap_adjust</code></strong> - Optionally, <code>wrap</code> and unroll longitudes, iff 
+          applicable (<code>bool</code>) and <code>adjust</code> wrapped, 
+          unrolled longitudinal delta by the cosine of the mean latitude, 
+          iff applicable.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.frechet.FrechetError-class.html">FrechetError</a></strong></code> - Insufficient number of <b><code>points</code></b> or invalid 
-        <b><code>fraction</code></b>.</li>
+        <b><code>fraction</code></b> or <b>{wrap}</b> or 
+        <b><code>ajust</code></b> not applicable.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -479,7 +484,7 @@
     </td>
   </tr></table>
   
-  <p>Get and convert <i>fractional</i> index point for the 
+  <p>Get and convert a <i>fractional</i> point for the 
   <code>.distance</code> method.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -644,7 +649,7 @@ applicable).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:04 2020
+    Generated by Epydoc 3.0.1 on Tue Mar 31 15:47:42 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -4,13 +4,13 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '20.03.28'
+__version__ = '20.03.30'
 
 from base import TestsBase
 
-from pygeodesy import R_M, antipode, bearing, equirectangular, euclidean, \
-                      flatLocal, flatPolar, haversine, heightOf, horizon, \
-                      isantipode, isantipode_, map1, vincentys
+from pygeodesy import R_M, antipode, bearing, cosineLaw, equirectangular, \
+                      euclidean, flatLocal, flatPolar, haversine, heightOf, \
+                      horizon, isantipode, isantipode_, map1, vincentys
 
 from math import radians
 
@@ -28,6 +28,8 @@ class Tests(TestsBase):
         self.testDistance(t, haversine,       lat1, lon1, lat2, lon2, x, 0.1)
         # assumed as reference
         self.testDistance(t, vincentys,       lat1, lon1, lat2, lon2, x, 0.0)
+        # allow 0.1% margin
+        self.testDistance(t, cosineLaw,       lat1, lon1, lat2, lon2, x, 0.1)
         # allow 3% margin, 10% for Auckland-Santiago
         self.testDistance(t, equirectangular, lat1, lon1, lat2, lon2, x, 10, limit=None)  # =90)
         # allow 13% margin

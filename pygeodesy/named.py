@@ -45,7 +45,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS('_Named', '_NamedBase',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple',
          'notOverloaded')
-__version__ = '20.03.23'
+__version__ = '20.03.31'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
@@ -290,12 +290,12 @@ class _NamedBase(_Named):
             raise TypeError('type(%s) mismatch: %s vs %s' % (name,
                              classname(other), self.classname))
 
-    def toStr(self, **kwds):  # PYCHOK
+    def toStr(self, **kwds):  # PYCHOK no cover
         '''(INTERNAL) Must be overloaded.
 
            @raise AssertionError: Always, see function L{notOverloaded}.
         '''
-        notOverloaded(self, self.toStr.__name__, **kwds)
+        notOverloaded(self, self.toStr, **kwds)
 
 #   def toStr(self, **kwds):
 #       if kwds:
@@ -1249,11 +1249,12 @@ def nameof(inst):
 def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
     '''Raise an C{AssertionError} for a method or property not overloaded.
 
-       @arg name: Method or property name (C{str}).
+       @arg name: Method, property or name (C{str}).
        @arg args: Method or property positional arguments (any C{type}s).
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
-    n = '%s %s' % (notOverloaded.__name__, _dot_(classname(inst, prefixed=True), name))
+    n = getattr(name, '__name__', name)
+    n = '%s %s' % (notOverloaded.__name__, _dot_(classname(inst, prefixed=True), n))
     m = ', '.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
     raise AssertionError('%s, MRO(%s)' % (unstr(n, *args, **kwds), m))
 
@@ -1263,19 +1264,20 @@ if __name__ == '__main__':
     import sys
 
     from pygeodesy.lazily import _FOR_DOCS
+
     if not _FOR_DOCS:
         sys.exit('%s\n' % (' '.join('usage: env PYGEODESY_FOR_DOCS=1 python -m'.split() + sys.argv),))
 
-    ls = set(locals().keys()) - set(('fstr', 'isscalar', 'isstr', 'issubclassof', 'ls',
-                                     'n', 'pairs', 'property_RO', 'reprs', 'sys', 'unstr'))
+    ls = locals()
     for n in __all__:
         if n not in ls:
             raise NameError('%s %r not in %s' % ('__all__', n, _dot_('named', 'locals')))
-    for n in ls:
-        if n not in __all__ and not n.startswith('_'):
+    for n, o in ls.items():
+        if n not in __all__ and not n.startswith('_') \
+                            and getattr(o, '__module__', '') == __name__:
             raise NameError('%s %r not in %s' % ('locals', n, _dot_('named', '__all__')))
 
-    print('%s: all %s %s OK' % (sys.argv[0], len(ls), 'locals'))
+    print('%s: %s vs %s OK' % (sys.argv[0], '__all__', 'locals'))
 
 # **) MIT License
 #

@@ -24,7 +24,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '20.03.19'
+__version__ = '20.03.21'
 
 F_D   = 'd'    #: Format degrees as unsigned "deg°" plus suffix (C{str}).
 F_DM  = 'dm'   #: Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -549,7 +549,7 @@ def precision(form, prec=None):
 
 
 def rangerrors(raiser=None):
-    '''Gert/set raising of range errors.
+    '''Get/set raising of range errors.
 
        @kwarg raiser: Choose C{True} to raise or C{False} to ignore
                       L{RangeError} exceptions.  Use C{None} to leave

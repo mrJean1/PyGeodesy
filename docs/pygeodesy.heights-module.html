@@ -61,6 +61,8 @@
 <h1 class="epydoc">Module heights</h1><p class="nomargin-top"></p>
 <p>Classes <a href="pygeodesy.heights.HeightCubic-class.html" 
   class="link">HeightCubic</a>, <a 
+  href="pygeodesy.heights.HeightIDWcosineLaw-class.html" 
+  class="link">HeightIDWcosineLaw</a>, <a 
   href="pygeodesy.heights.HeightIDWequirectangular-class.html" 
   class="link">HeightIDWequirectangular</a>, <a 
   href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
@@ -79,18 +81,18 @@
   class="link">HeightSmoothBiSpline</a> to interpolate the height of 
   <code>LatLon</code> locations or separate lat-/longitudes from a set of 
   <code>LatLon</code> points with known heights.</p>
-  <p>Except for <a 
-  href="pygeodesy.heights.HeightIDWequirectangular-class.html" 
-  class="link">HeightIDWequirectangular</a>, <a 
-  href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
-  class="link">HeightIDWeuclidean</a>, <a 
-  href="pygeodesy.heights.HeightIDWhaversine-class.html" 
-  class="link">HeightIDWhaversine</a> and <a 
-  href="pygeodesy.heights.HeightIDWvincentys-class.html" 
-  class="link">HeightIDWvincentys</a>, the height interpolators in this 
-  module require the packages <a href="https://PyPI.org/project/numpy" 
-  target="_top">numpy</a> and <a href="https://SciPy.org" 
-  target="_top">scipy</a> or <a 
+  <p>Classes <a href="pygeodesy.heights.HeightCubic-class.html" 
+  class="link">HeightCubic</a> and <a 
+  href="pygeodesy.heights.HeightLinear-class.html" 
+  class="link">HeightLinear</a> require package <a 
+  href="https://PyPI.org/project/numpy" target="_top">numpy</a>, classes <a
+  href="pygeodesy.heights.HeightLSQBiSpline-class.html" 
+  class="link">HeightLSQBiSpline</a> and <a 
+  href="pygeodesy.heights.HeightSmoothBiSpline-class.html" 
+  class="link">HeightSmoothBiSpline</a> require package <a 
+  href="https://SciPy.org" target="_top">scipy</a> and class <a 
+  href="pygeodesy.heights.HeightIDWkarney-class.html" 
+  class="link">HeightIDWkarney</a> requires <i>Charles Karney's</i> <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> to be installed.</p>
   <p>Typical usage is as follows.  First create an interpolator from a 
@@ -129,7 +131,7 @@
         target="_top">SciPy</a>.
       </p>
       <p><strong>Version:</strong>
-        20.03.29
+        20.03.31
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -195,12 +197,24 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWcosineLaw-class.html" class="summary-name">HeightIDWcosineLaw</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">cosineLaw_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.heights.HeightIDWequirectangular-class.html" class="summary-name">HeightIDWequirectangular</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <code>equirectangular</code> distance in <code>radians 
-        squared</code> like function <a 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        in <code>radians squared</code> like function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.
     </td>
@@ -212,9 +226,9 @@
         <a href="pygeodesy.heights.HeightIDWeuclidean-class.html" class="summary-name">HeightIDWeuclidean</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <code>Euclidean</code> distance in <code>radians</code> from 
-        function <a href="pygeodesy.formy-module.html#euclidean_" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>.
     </td>
   </tr>
@@ -225,9 +239,9 @@
         <a href="pygeodesy.heights.HeightIDWflatLocal-class.html" class="summary-name">HeightIDWflatLocal</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> distance in <code>radians squared</code> like 
-        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        in <code>radians squared</code> like function <a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
         class="link">flatLocal_</a>.
     </td>
   </tr>
@@ -238,8 +252,8 @@
         <a href="pygeodesy.heights.HeightIDWflatPolar-class.html" class="summary-name">HeightIDWflatPolar</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> distance in <code>radians</code> from function <a 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#flatPolar_" 
         class="link">flatPolar_</a>.
     </td>
@@ -251,9 +265,8 @@
         <a href="pygeodesy.heights.HeightIDWhaversine-class.html" class="summary-name">HeightIDWhaversine</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> <code>Haversine</code> distance in 
-        <code>radians</code> from function <a 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.
     </td>
@@ -265,9 +278,9 @@
         <a href="pygeodesy.heights.HeightIDWkarney-class.html" class="summary-name">HeightIDWkarney</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> distance in <code>degrees</code> from <i>Charles F. 
-        F. Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        in <code>degrees</code> from <i>Charles F. F. Karney's</i> <a 
+        href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> <a 
         href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
         target="_top">Geodesic</a> Inverse method.
@@ -280,9 +293,8 @@
         <a href="pygeodesy.heights.HeightIDWvincentys-class.html" class="summary-name">HeightIDWvincentys</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> <code>Vincenty</code> distance in 
-        <code>radians</code> from function <a 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
     </td>
@@ -339,7 +351,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:01 2020
+    Generated by Epydoc 3.0.1 on Tue Mar 31 15:47:40 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

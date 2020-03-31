@@ -13,7 +13,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.basics
-__version__ = '20.03.23'
+__version__ = '20.03.31'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -101,6 +101,18 @@ class LimitError(ValueError):
        functions or methods.
     '''
     pass
+
+
+def _bkwds(inst, kwds, Error):
+    '''(INTERNAL) Set applicable C{bool} attributes.
+    '''
+    for k, v in kwds.items():
+        b = getattr(inst, k, None)
+        if b is None:
+            t = k, v, inst.__class__.__name__
+            raise Error('not applicable: %s=%r for %s' % t)
+        if v in (False, True) and v != b:
+            setattr(inst, '_' + k, v)
 
 
 def clips(bstr, limit=50, white=''):

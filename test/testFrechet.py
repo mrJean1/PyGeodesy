@@ -4,7 +4,7 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '20.03.29'
+__version__ = '20.03.30'
 
 from base import coverage, geographiclib, isPython3, isWindows, \
                  TestsBase
@@ -44,7 +44,7 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':  # MCCABE 13
 
-    from pygeodesy import fractional, frechet_, \
+    from pygeodesy import fractional, frechet_, FrechetCosineLaw, \
                           FrechetDegrees, FrechetRadians, \
                           FrechetEquirectangular, FrechetEuclidean, \
                           FrechetFlatLocal, FrechetFlatPolar, \
@@ -78,6 +78,9 @@ if __name__ == '__main__':  # MCCABE 13
         t.test2(FrechetRadians_, (3.11541, 74, 56,   19,  5400),
                                  (3.06305, 74, 52.5, 29, 10710))
 
+        t.test2(FrechetCosineLaw, (2.63867, 0, 0, 149,  5400),
+                                  (2.63867, 0, 0, 208, 10710))
+
         t.test2(FrechetEquirectangular, (7.1331,  8, 3, 138,  5400),
                                         (7.01295, 0, 0, 208, 10710))
 
@@ -107,6 +110,9 @@ if __name__ == '__main__':  # MCCABE 13
         t.test2(FrechetRadians_, (3.18523, 83, 45,   21,  5400),
                                  (3.06742, 83, 56.5, 12, 10710))
 
+        t.test2(FrechetCosineLaw, (1.75068, 49, 27,  73,  5400),
+                                  (1.75068, 49, 27, 105, 10710))
+
         t.test2(FrechetEquirectangular, (5.88254, 41, 18,    90,  5400),
                                         (5.90078, 40, 15.5, 137, 10710))
 
@@ -135,6 +141,9 @@ if __name__ == '__main__':  # MCCABE 13
 
         t.test2(FrechetRadians_, (5.02655, 1, 1, 147,  5400),
                                  (5.02655, 1, 1, 205, 10710))
+
+        t.test2(FrechetCosineLaw, (1.81341, 18, 14,   117,  5400),
+                                  (1.83289,  3,  4.5, 196, 10710))
 
         t.test2(FrechetEquirectangular, ( 7.53702, 1, 3,   145,  5400),
                                         (12.58507, 0, 2.5, 203, 10710))

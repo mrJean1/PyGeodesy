@@ -16,8 +16,9 @@ from pygeodesy.basics import EPS, map1, R_M, property_doc_, property_RO, \
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.fmath import favg
-from pygeodesy.formy import antipode, compassAngle, equirectangular, euclidean, \
-                            flatLocal, flatPolar, haversine, isantipode, \
+from pygeodesy.formy import antipode, compassAngle, cosineLaw, \
+                            equirectangular, euclidean, flatLocal, \
+                            flatPolar, haversine, isantipode, \
                             latlon2n_xyz,points2, vincentys
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Bounds2Tuple, LatLon2Tuple, _NamedBase, \
@@ -29,7 +30,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.03.27'
+__version__ = '20.03.31'
 
 
 class LatLonBase(_NamedBase):
@@ -181,11 +182,33 @@ class LatLonBase(_NamedBase):
         return compassAngle(self.lat, self.lon, other.lat, other.lon,
                             adjust=adjust, wrap=wrap)
 
+    def cosineLawTo(self, other, radius=None, wrap=False):
+        '''Compute the distance between this and an other point using the
+           U{spherical Law of Cosines
+           <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
+           formula.
+
+           @arg other: The other point (C{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}
+                          for the mean radius of this point's datum
+                          ellipsoid.
+           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+           @return: Distance (C{meter}, same units as B{C{radius}}).
+
+           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+
+           @see: Function L{cosineLaw} and methods C{distanceTo*},
+                 C{equirectangularTo}, C{euclideanTo}, C{flatLocalTo},
+                 C{flatPolarTo}, C{haversineTo} and C{vincentysTo}.
+        '''
+        return self._distanceTo(cosineLaw, other, radius, wrap=wrap)
+
     @property_RO
-    def datum(self):
+    def datum(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.
         '''
-        notOverloaded(self, self.datum.__name__)
+        notOverloaded(self, self.datum)
 
     def _distanceTo(self, func, other, radius, **options):
         '''(INTERNAL) Helper for methods C{<func>To}.
@@ -234,9 +257,9 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{equirectangular}, methods C{distanceTo*},
-                 C{euclideanTo}, C{flatLocalTo}, C{flatPolarTo},
-                 C{haversineTo} and C{vincentysTo}.
+           @see: Function L{equirectangular} and methods C{cosineLawTo},
+                 C{distanceTo*}, C{euclideanTo}, C{flatLocalTo},
+                 C{flatPolarTo}, C{haversineTo} and C{vincentysTo}.
         '''
         return self._distanceTo(equirectangular, other, radius, **options)
 
@@ -256,19 +279,22 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{euclidean}, methods C{distanceTo*},
-                 C{equirectangularTo}, C{flat_localrTo}, C{flatPolarTo},
-                 C{haversineTo} and C{vincentysTo}.
+           @see: Function L{euclidean} and methods C{cosineLawTo},
+                 C{distanceTo*}, C{equirectangularTo}, C{flatLocalTo},
+                 C{flatPolarTo}, C{haversineTo} and C{vincentysTo}.
         '''
         return self._distanceTo(euclidean, other, radius, **options)
 
-    def flatLocalTo(self, other, wrap=False):
+    def flatLocalTo(self, other, radius=None, wrap=False):
         '''Compute the distance between this and an other point using the
            U{ellipsoidal Earth to plane projection
            <https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
            formula.
 
            @arg other: The other point (C{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}
+                          for the mean radius of this point's datum
+                          ellipsoid.
            @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
            @return: Distance (C{meter}, same units as this B{C{datum}}'s
@@ -276,15 +302,19 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{flatLocal}, methods C{distanceTo*},
-                 C{equirectangularTo}, C{euclideanTo}, C{flatPolarTo},
-                 C{haversineTo}, and C{vincentysTo} and U{local, flat
-                 Earth approximation
+           @see: Function L{flatLocal}, methods C{cosineLawTo},
+                 C{distanceTo*}, C{equirectangularTo}, C{euclideanTo},
+                 C{flatPolarTo}, C{haversineTo} and C{vincentysTo}
+                 and U{local, flat Earth approximation
                  <https://www.edwilliams.org/avform.htm#flat>}.
         '''
-        self.others(other)
-        return flatLocal(self.lat, self.lon, other.lat, other.lon,
-                                             datum=self.datum, wrap=wrap)
+        if radius is None:
+            self.others(other)
+            r = 1
+        else:
+            r = float(radius) / self.datum.ellipsoid.a
+        return r * flatLocal(self.lat, self.lon, other.lat, other.lon,
+                             datum=self.datum, wrap=wrap)
 
     def flatPolarTo(self, other, radius=None, wrap=False):
         '''Compute the distance between this and an other point using
@@ -302,9 +332,9 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{flatPolar}, methods C{distanceTo*},
-                 C{equirectangularTo}, C{euclideanTo}, C{flatLocalTo},
-                 C{haversineTo}, and C{vincentysTo}.
+           @see: Function L{flatPolar} and methods C{cosineLawTo},
+                 C{distanceTo*}, C{equirectangularTo}, C{euclideanTo},
+                 C{flatLocalTo}, C{haversineTo}, and C{vincentysTo}.
         '''
         return self._distanceTo(flatPolar, other, radius, wrap=wrap)
 
@@ -322,9 +352,9 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{haversine}, methods C{distanceTo*},
-                 C{equirectangularTo}, C{euclideanTo}, C{flatLocalTo},
-                 C{flatPolarTo} and C{vincentysTo}.
+           @see: Function L{haversine} and methods C{cosineLawTo},
+                 C{distanceTo*}, C{equirectangularTo}, C{euclideanTo},
+                 C{flatLocalTo}, C{flatPolarTo} and C{vincentysTo}.
         '''
         return self._distanceTo(haversine, other, radius, wrap=wrap)
 
@@ -758,9 +788,9 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
-           @see: Function L{vincentys}, methods C{distanceTo*},
-                 C{equirectangularTo}, C{euclideanTo}, C{flatLocalTo},
-                 C{flatPolarTo} and C{haversineTo}.
+           @see: Function L{vincentys} and methods C{cosineLawTo},
+                 C{distanceTo*}, C{equirectangularTo}, C{euclideanTo},
+                 C{flatLocalTo}, C{flatPolarTo} and C{haversineTo}.
         '''
         return self._distanceTo(vincentys, other, radius, wrap=wrap)
 

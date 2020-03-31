@@ -51,8 +51,8 @@ from pygeodesy.basics import EPS, EPS1, EPS_2, _isnotError, isscalar, \
 from pygeodesy.datum import Datum, Datums, Ellipsoid
 from pygeodesy.fmath import cbrt, fdot, fsum_, hypot1
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, _NamedBase, \
-                           _NamedTuple, PhiLam2Tuple, Vector3Tuple, _xnamed
+from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, _NamedBase, _NamedTuple, \
+                            notOverloaded, PhiLam2Tuple, Vector3Tuple, _xnamed
 from pygeodesy.streprs import unstr
 from pygeodesy.utily import degrees90, degrees180, sincos2, sincos2d
 from pygeodesy.vector3d import _xyzn4
@@ -61,7 +61,7 @@ from math import atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '20.03.27'
+__version__ = '20.03.31'
 
 
 class EcefError(ValueError):
@@ -166,26 +166,28 @@ class _EcefBase(_NamedBase):
 
     flattening = f  # Karney property
 
+    def forward(self, latlonh, lon=None, height=0, M=False):  # PYCHOK no cover
+        '''(INTERNAL) I{must be overloaded}.
+        '''
+        notOverloaded(self, self.forward, latlonh, lon=lon,
+                                      height=height, M=M)
+
     def _Matrix(self, sa, ca, sb, cb):
         '''Creation a rotation matrix.
 
+           @arg sa: C{sin(phi)} (C{float}).
+           @arg ca: C{cos(phi)} (C{float}).
+           @arg sb: C{sin(lambda)} (C{float}).
+           @arg cb: C{cos(lambda)} (C{float}).
+
            @return: A L{EcefMatrix}.
         '''
-        # This matrix is given by the following quaternion operations
-        #   qrot(lam, [0,0,1]) * qrot(phi, [0,-1,0]) * [1,1,1,1]/2
-        # or
-        #   qrot(pi/2 + lam, [0,0,1]) * qrot(-pi/2 + phi, [-1,0,0])
-        # where
-        #   qrot(t,v) = [cos(t/2), sin(t/2)*v[1], sin(t/2)*v[2], sin(t/2)*v[3]]
-
-        # Local X axis (east) in geocentric coords
-        #  M[0] = -slam;        M[3] =  clam;        M[6] = 0;
-        # Local Y axis (north) in geocentric coords
-        #  M[1] = -clam * sphi; M[4] = -slam * sphi; M[7] = cphi;
-        # Local Z axis (up) in geocentric coords
-        #  M[2] =  clam * cphi; M[5] =  slam * cphi; M[8] = sphi;
-
         return self._xnamed(EcefMatrix(sa, ca, sb, cb))
+
+    def reverse(self, xyz, y=None, z=None, M=False):  # PYCHOK no cover
+        '''(INTERNAL) I{must be overloaded}.
+        '''
+        notOverloaded(self, self.reverse, xyz, y=y, z=z, M=M)
 
     def toStr(self, prec=9):  # PYCHOK signature
         '''Return this C{Ecef*} as a string.
@@ -607,7 +609,19 @@ class EcefMatrix(_NamedTuple):
         elif max(map(abs, t)) > 1:
             raise EcefError('%s invalid: %r' % (EcefMatrix.__name__, t))
 
-        else:  # build matrix
+        else:  # build matrix from the following quaternion operations
+            #   qrot(lam, [0,0,1]) * qrot(phi, [0,-1,0]) * [1,1,1,1]/2
+            # or
+            #   qrot(pi/2 + lam, [0,0,1]) * qrot(-pi/2 + phi, [-1,0,0])
+            # where
+            #   qrot(t,v) = [cos(t/2), sin(t/2)*v[1], sin(t/2)*v[2], sin(t/2)*v[3]]
+
+            # Local X axis (east) in geocentric coords
+            #  M[0] = -slam;        M[3] =  clam;        M[6] = 0;
+            # Local Y axis (north) in geocentric coords
+            #  M[1] = -clam * sphi; M[4] = -slam * sphi; M[7] = cphi;
+            # Local Z axis (up) in geocentric coords
+            #  M[2] =  clam * cphi; M[5] =  slam * cphi; M[8] = sphi;
             t = (-sb, -cb * sa, cb * ca,
                   cb, -sb * sa, sb * ca,
                    0,       ca,      sa)

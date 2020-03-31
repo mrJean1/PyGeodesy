@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 u'''Classes L{Hausdorff}, L{HausdorffDegrees}, L{HausdorffRadians},
-L{HausdorffEquirectangular}, L{HausdorffEuclidean}, L{HausdorffFlatLocal},
-L{HausdorffFlatPolar}, L{HausdorffHaversine}, L{HausdorffKarney} and
-L{HausdorffVincentys} to compute U{Hausdorff
+L{HausdorffCosineLaw}, L{HausdorffEquirectangular}, L{HausdorffEuclidean},
+L{HausdorffFlatLocal}, L{HausdorffFlatPolar}, L{HausdorffHaversine},
+L{HausdorffKarney} and L{HausdorffVincentys} to compute U{Hausdorff
 <https://WikiPedia.org/wiki/Hausdorff_distance>} distances between two
 sets of C{LatLon}, C{NumPy}, C{tuples} or other types of points.
 
@@ -62,22 +62,21 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.basics import INF, _isnotError, property_doc_, property_RO, \
-                            _TypeError
+from pygeodesy.basics import INF, _bkwds, _isnotError, property_doc_, \
+                             property_RO, _TypeError
 from pygeodesy.datum import Datums, Datum
 from pygeodesy.fmath import hypot2
-from pygeodesy.formy import euclidean_, flatPolar_, haversine_, points2, \
-                           _scaler, vincentys_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS
-from pygeodesy.named import _Named, _NamedTuple, notOverloaded, \
-                             PhiLam2Tuple
+from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
+                            points2, _scaler, vincentys_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _FOR_DOCS
+from pygeodesy.named import _Named, _NamedTuple, notOverloaded, PhiLam2Tuple
 from pygeodesy.utily import unroll180, unrollPI
 
 from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.03.29'
+__version__ = '20.03.31'
 
 
 class HausdorffError(ValueError):
@@ -117,8 +116,8 @@ class Hausdorff(_Named):
     _units  = ''
     _wrap   = None  # not applicable
 
-    def __init__(self, points, seed=None, name='', units=''):
-        '''New L{Hausdorff} calculator.
+    def __init__(self, points, seed=None, name='', units='', **wrap_adjust):
+        '''New C{Hausdorff...} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
@@ -126,19 +125,26 @@ class Hausdorff(_Named):
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @kwarg name: Optional calculator name (C{str}).
+           @kwarg name: Optional name for this interpolator (C{str}).
            @kwarg units: Optional, distance units (C{str}).
+           @kwarg wrap_adjust: Optionally, C{wrap} and unroll longitudes, iff
+                               applicable (C{bool}) and C{adjust} wrapped,
+                               unrolled longitudinal delta by the cosine
+                               of the mean latitude, iff applicable.
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
-                                  invalid B{C{seed}}.
+                                  invalid B{C{seed}} or B{{wrap}} or
+                                  B{C{ajust}} not applicable.
         '''
         _, self._model = points2(points, closed=False, Error=HausdorffError)
         if seed:
             self.seed = seed
         if name:
             self.name = name
-        if units:
+        if units and not self.units:
             self.units = units
+        if wrap_adjust:
+            _bkwds(self, wrap_adjust, HausdorffError)
 
     @property_RO
     def adjust(self):
@@ -179,7 +185,7 @@ class Hausdorff(_Named):
     def distance(self, point1, point2):
         '''(INTERNAL) I{must be overloaded}.
         '''
-        notOverloaded(self, self.distance.__name__, point1, point2)
+        notOverloaded(self, self.distance, point1, point2)  # PYCHOK no cover
 
     def point(self, point):
         '''Convert a C{model} or C{target} point for the C{.distance} method.
@@ -252,20 +258,24 @@ class HausdorffDegrees(Hausdorff):
     '''L{Hausdorff} base class for distances from C{LatLon}
        points in C{degrees}.
     '''
-    _units    = 'degrees'
+    _units = 'degrees'
 
-    directed  = Hausdorff.directed   # for __doc__
-    symmetric = Hausdorff.symmetric  # for __doc__
+    if _FOR_DOCS:  # PYCHOK no cover
+        __init__  = Hausdorff.__init__
+        directed  = Hausdorff.directed
+        symmetric = Hausdorff.symmetric
 
 
 class HausdorffRadians(Hausdorff):
     '''L{Hausdorff} base class for distances from C{LatLon}
        points converted from C{degrees} to C{radians}.
     '''
-    _units    = 'radians'
+    _units = 'radians'
 
-    directed  = Hausdorff.directed   # for __doc__
-    symmetric = Hausdorff.symmetric  # for __doc__
+    if _FOR_DOCS:  # PYCHOK no cover
+        __init__  = Hausdorff.__init__
+        directed  = Hausdorff.directed
+        symmetric = Hausdorff.symmetric
 
     def point(self, point):
         '''Convert C{(lat, lon)} point in degrees to C{(a, b)}
@@ -279,13 +289,56 @@ class HausdorffRadians(Hausdorff):
             return PhiLam2Tuple(radians(point.lat), radians(point.lon))
 
 
+class HausdorffCosineLaw(HausdorffRadians):
+    '''Compute the C{Hausdorff} distance based on the I{angular}
+       distance in C{radians} from function L{cosineLaw_}.
+
+       @note: See note at function L{vincentys_}.
+
+       @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
+             L{HausdorffFlatLocal}, L{HausdorffFlatPolar},
+             L{HausdorffHaversine}, L{HausdorffKarney} and
+             L{HausdorffVincentys}.
+    '''
+    _wrap = False
+
+    def __init__(self, points, wrap=False, seed=None, name=''):
+        '''New L{HausdorffCosineLaw} calculator.
+
+           @arg points: Initial set of points, aka the C{model} or
+                        C{template} (C{LatLon}[], C{Numpy2LatLon}[],
+                        C{Tuple2LatLon}[] or C{other}[]).
+           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
+                        C{False} for no U{random sampling<https://
+                        Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
+           @kwarg name: Optional name for this interpolator (C{str}).
+
+           @raise HausdorffError: Insufficient number of B{C{points}} or
+                                  invalid B{C{seed}}.
+        '''
+        HausdorffRadians.__init__(self, points, seed=seed, name=name,
+                                                           wrap=wrap)
+
+    if _FOR_DOCS:  # PYCHOK no cover
+        directed  = Hausdorff.directed
+        symmetric = Hausdorff.symmetric
+
+    def distance(self, p1, p2):
+        '''Return the L{cosineLaw_} distance in C{radians}.
+        '''
+        d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
+        return cosineLaw_(p2.phi, p1.phi, d)
+
+
 class HausdorffEquirectangular(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the C{equirectangular}
        distance in C{radians squared} like function L{equirectangular_}.
 
-       @see: L{HausdorffEuclidean}, L{HausdorffFlatLocal},
-             L{HausdorffFlatPolar}, L{HausdorffHaversine},
-             L{HausdorffKarney} and L{HausdorffVincentys}.
+       @see: L{HausdorffCosineLaw}, L{HausdorffEuclidean},
+             L{HausdorffFlatLocal}, L{HausdorffFlatPolar},
+             L{HausdorffHaversine}, L{HausdorffKarney} and
+             L{HausdorffVincentys}.
     '''
     _adjust =  True
     _units  = 'radians**2'
@@ -299,20 +352,21 @@ class HausdorffEquirectangular(HausdorffRadians):
                         C{Tuple2LatLon}[] or C{other}[]).
            @kwarg adjust: Adjust the wrapped, unrolled longitudinal
                           delta by the cosine of the mean latitude (C{bool}).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
                         C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @kwarg name: Optional calculator name (C{str}).
+           @kwarg name: Optional name for this interpolator (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
-                                  invalid B{C{adjust}} or B{C{seed}}.
+                                  invalid B{C{seed}}.
         '''
-        if not adjust:
-            self._adjust = False
-        if wrap:
-            self._wrap = True
-        super(HausdorffRadians, self).__init__(points, seed=seed, name=name)  # distance**2
+        HausdorffRadians.__init__(self, points, seed=seed,   name=name,
+                                              adjust=adjust, wrap=wrap)
+
+    if _FOR_DOCS:  # PYCHOK no cover
+        directed  = Hausdorff.directed
+        symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
         '''Return the L{equirectangular_} distance in C{radians squared}.
@@ -322,19 +376,18 @@ class HausdorffEquirectangular(HausdorffRadians):
             d *= _scaler(p1.phi, p2.phi)
         return hypot2(d, p2.phi - p1.phi)  # like equirectangular_ d2
 
-    directed  = Hausdorff.directed   # for __doc__
-    symmetric = Hausdorff.symmetric  # for __doc__
-
 
 class HausdorffEuclidean(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the C{Euclidean}
        distance in C{radians} from function L{euclidean_}.
 
-       @see: L{HausdorffEquirectangular}, L{HausdorffFlatLocal},
-             L{HausdorffFlatPolar}, L{HausdorffHaversine},
-             L{HausdorffKarney} and L{HausdorffVincentys}.
+       @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
+             L{HausdorffFlatLocal}, L{HausdorffFlatPolar},
+             L{HausdorffHaversine}, L{HausdorffKarney} and
+             L{HausdorffVincentys}.
     '''
     _adjust = True
+    _wrap   = True
 
     def __init__(self, points, adjust=True, seed=None, name=''):
         '''New L{HausdorffEuclidean} calculator.
@@ -347,22 +400,24 @@ class HausdorffEuclidean(HausdorffRadians):
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @kwarg name: Optional calculator name (C{str}).
+           @kwarg name: Optional name for this interpolator (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
         '''
+        HausdorffRadians.__init__(self, points, seed=seed, name=name,
+                                                           wrap=True)
         if not adjust:
             self._adjust = False
-        super(HausdorffRadians, self).__init__(points, seed=seed, name=name)
+
+    if _FOR_DOCS:  # PYCHOK no cover
+        directed  = Hausdorff.directed
+        symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
         '''Return the L{euclidean_} distance in C{radians}.
         '''
         return euclidean_(p2.phi, p1.phi, p2.lam - p1.lam, adjust=self._adjust)
-
-    directed  = Hausdorff.directed   # for __doc__
-    symmetric = Hausdorff.symmetric  # for __doc__
 
 
 class HausdorffFlatLocal(HausdorffRadians):
@@ -386,22 +441,25 @@ class HausdorffFlatLocal(HausdorffRadians):
                         C{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @kwarg name: Optional calculator name (C{str}).
+           @kwarg name: Optional name for this interpolator (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
-        if wrap:
-            self._wrap = True
-        super(HausdorffRadians, self).__init__(points, seed=seed, name=name)
+        HausdorffRadians.__init__(self, points, seed=seed, name=name,
+                                                           wrap=wrap)
         self._datum_setter(datum)
         self._Rad2_ = self.datum.ellipsoid._flatRad2_
+
+    if _FOR_DOCS:  # PYCHOK no cover
+        directed  = Hausdorff.directed
+        symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
         '''Return the L{flatLocal_} distance in C{radians squared}.
@@ -409,17 +467,15 @@ class HausdorffFlatLocal(HausdorffRadians):
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return self._Rad2_(p2.phi, p1.phi, d)
 
-    directed  = Hausdorff.directed   # for __doc__
-    symmetric = Hausdorff.symmetric  # for __doc__
-
 
 class HausdorffFlatPolar(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular}
        distance in C{radians} from function L{flatPolar_}.
 
-       @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
-             L{HausdorffFlatLocal}, L{HausdorffHaversine},
-             L{HausdorffKarney} and L{HausdorffVincentys}.
+       @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
+             L{HausdorffEuclidean}, L{HausdorffFlatLocal},
+             L{HausdorffHaversine}, L{HausdorffKarney} and
+             L{HausdorffVincentys}.
     '''
     _wrap = False
 
@@ -429,20 +485,21 @@ class HausdorffFlatPolar(HausdorffRadians):
            @arg points: Initial set of points, aka the C{model} or
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
-           @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
-                        or C{False} for no U{random sampling<https://
+           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
+           @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
+                        C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @kwarg name: Optional calculator name (C{str}).
+           @kwarg name: Optional name for this interpolator (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
-
-           @raise TypeError: Invalid B{C{datum}}.
         '''
-        if wrap:
-            self._wrap = True
-        super(HausdorffRadians, self).__init__(points, seed=seed, name=name)
+        HausdorffRadians.__init__(self, points, seed=seed, name=name,
+                                                           wrap=wrap)
+
+    if _FOR_DOCS:  # PYCHOK no cover
+        directed  = Hausdorff.directed
+        symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
         '''Return the L{flatPolar_} distance in C{radians}.
@@ -450,13 +507,10 @@ class HausdorffFlatPolar(HausdorffRadians):
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return flatPolar_(p2.phi, p1.phi, d)
 
-    directed  = Hausdorff.directed   # for __doc__
-    symmetric = Hausdorff.symmetric  # for __doc__
-
 
 class HausdorffHaversine(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular}
-       C{Haversine} distance in C{radians} from function L{haversine_}.
+       distance in C{radians} from function L{haversine_}.
 
        @note: See note under L{HausdorffVincentys}.
 
@@ -472,27 +526,27 @@ class HausdorffHaversine(HausdorffRadians):
            @arg points: Initial set of points, aka the C{model} or
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @kwarg name: Optional calculator name (C{str}).
+           @kwarg name: Optional name for this interpolator (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
         '''
-        if wrap:
-            self._wrap = True
-        super(HausdorffRadians, self).__init__(points, seed=seed, name=name)
+        HausdorffRadians.__init__(self, points, seed=seed, name=name,
+                                                           wrap=wrap)
+
+    if _FOR_DOCS:  # PYCHOK no cover
+        directed  = Hausdorff.directed
+        symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
         '''Return the L{haversine_} distance in C{radians}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return haversine_(p2.phi, p1.phi, d)
-
-    directed  = Hausdorff.directed   # for __doc__
-    symmetric = Hausdorff.symmetric  # for __doc__
 
 
 class HausdorffKarney(HausdorffDegrees):
@@ -502,9 +556,10 @@ class HausdorffKarney(HausdorffDegrees):
        <https://geographiclib.sourceforge.io/1.49/python/code.html>}
        Inverse method.
 
-       @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
-             L{HausdorffFlatLocal}, L{HausdorffFlatPolar},
-             L{HausdorffHaversine} and L{HausdorffVincentys}.
+       @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
+             L{HausdorffEuclidean}, L{HausdorffFlatLocal},
+             L{HausdorffFlatPolar}, L{HausdorffHaversine} and
+             L{HausdorffVincentys}.
     '''
     _datum   =  Datums.WGS84
     _Inverse =  None
@@ -519,11 +574,11 @@ class HausdorffKarney(HausdorffDegrees):
                         C{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{unroll180} longitudes (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @kwarg name: Optional calculator name (C{str}).
+           @kwarg name: Optional name for this interpolator (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
@@ -533,11 +588,14 @@ class HausdorffKarney(HausdorffDegrees):
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
-        if wrap:
-            self._wrap = True
-        super(HausdorffDegrees, self).__init__(points, seed=seed, name=name)
+        HausdorffDegrees.__init__(self, points, seed=seed, name=name,
+                                                           wrap=wrap)
         self._datum_setter(datum)
         self._Inverse = self.datum.ellipsoid.geodesic.Inverse
+
+    if _FOR_DOCS:  # PYCHOK no cover
+        directed  = Hausdorff.directed
+        symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
         '''Return the non-negative I{angular} distance in C{degrees}.
@@ -547,19 +605,17 @@ class HausdorffKarney(HausdorffDegrees):
         # XXX g.DISTANCE needed for 's12', distance in meters?
         return abs(self._Inverse(p1.lat, p1.lon, p2.lat, lon2)['a12'])
 
-    directed  = Hausdorff.directed   # for __doc__
-    symmetric = Hausdorff.symmetric  # for __doc__
-
 
 class HausdorffVincentys(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular}
-       C{Vincenty} distance in C{radians} from function L{vincentys_}.
+       distance in C{radians} from function L{vincentys_}.
 
-       @note: See note under L{vincentys_}.
+       @note: See note at function L{vincentys_}.
 
-       @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
-             L{HausdorffFlatLocal}, L{HausdorffFlatPolar},
-             L{HausdorffHaversine} and L{HausdorffKarney}.
+       @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
+             L{HausdorffEuclidean}, L{HausdorffFlatLocal},
+             L{HausdorffFlatPolar}, L{HausdorffHaversine} and
+             L{HausdorffKarney}.
     '''
     _wrap = False
 
@@ -569,27 +625,27 @@ class HausdorffVincentys(HausdorffRadians):
            @arg points: Initial set of points, aka the C{model} or
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-           @kwarg name: Optional calculator name (C{str}).
+           @kwarg name: Optional name for this interpolator (C{str}).
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
         '''
-        if wrap:
-            self._wrap = True
-        super(HausdorffRadians, self).__init__(points, seed=seed, name=name)
+        HausdorffRadians.__init__(self, points, seed=seed, name=name,
+                                                           wrap=wrap)
+
+    if _FOR_DOCS:  # PYCHOK no cover
+        directed  = Hausdorff.directed
+        symmetric = Hausdorff.symmetric
 
     def distance(self, p1, p2):
         '''Return the L{vincentys_} distance in C{radians}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         return vincentys_(p2.phi, p1.phi, d)
-
-    directed  = Hausdorff.directed   # for __doc__
-    symmetric = Hausdorff.symmetric  # for __doc__
 
 
 def _hausdorff_(ps1, ps2, both, early, seed, units, distance, point):

@@ -46,7 +46,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.03.26'
+__version__ = '20.03.31'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -355,7 +355,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
 
            @arg attrs: Optional arguments.
         '''
-        notOverloaded(self, self.point.__name__, *attrs)
+        notOverloaded(self, self.point, *attrs)
 
     def _range(self, start=None, end=None, step=1):
         '''(INTERNAL) Return the range.

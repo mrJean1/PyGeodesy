@@ -264,6 +264,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo" class="summary-sig-name">cosineLawTo</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance between this and an other point using the <a 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
+      target="_top">spherical Law of Cosines</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="equals"></a><span class="summary-sig-name">equals</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -347,6 +369,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo" class="summary-sig-name">flatLocalTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between this and an other point using the <a 
       href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
@@ -1150,6 +1173,52 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="cosineLawTo"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cosineLawTo</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between this and an other point using the <a 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
+  target="_top">spherical Law of Cosines</a> formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
+          the mean radius of this point's datum ellipsoid.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <code>LatLon</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#cosineLaw" 
+        class="link">cosineLaw</a> and methods <code>distanceTo*</code>, 
+        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
+        <code>flatLocalTo</code>, <code>flatPolarTo</code>, 
+        <code>haversineTo</code> and <code>vincentysTo</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="equirectangularTo"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1196,7 +1265,8 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#equirectangular" 
-        class="link">equirectangular</a>, methods <code>distanceTo*</code>,
+        class="link">equirectangular</a> and methods 
+        <code>cosineLawTo</code>, <code>distanceTo*</code>, 
         <code>euclideanTo</code>, <code>flatLocalTo</code>, 
         <code>flatPolarTo</code>, <code>haversineTo</code> and 
         <code>vincentysTo</code>.
@@ -1245,10 +1315,10 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#euclidean" 
-        class="link">euclidean</a>, methods <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>flat_localrTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code> and 
-        <code>vincentysTo</code>.
+        class="link">euclidean</a> and methods <code>cosineLawTo</code>, 
+        <code>distanceTo*</code>, <code>equirectangularTo</code>, 
+        <code>flatLocalTo</code>, <code>flatPolarTo</code>, 
+        <code>haversineTo</code> and <code>vincentysTo</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1261,6 +1331,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">flatLocalTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1275,6 +1346,8 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code> for 
+          the mean radius of this point's datum ellipsoid.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
@@ -1288,10 +1361,10 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">flatLocal</a>, methods <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatPolarTo</code>, <code>haversineTo</code>, and 
-        <code>vincentysTo</code> and <a 
+        class="link">flatLocal</a>, methods <code>cosineLawTo</code>, 
+        <code>distanceTo*</code>, <code>equirectangularTo</code>, 
+        <code>euclideanTo</code>, <code>flatPolarTo</code>, 
+        <code>haversineTo</code> and <code>vincentysTo</code> and <a 
         href="https://www.edwilliams.org/avform.htm#flat" 
         target="_top">local, flat Earth approximation</a>.
       </p>
@@ -1336,10 +1409,10 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#flatPolar" 
-        class="link">flatPolar</a>, methods <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>, <code>haversineTo</code>, and 
-        <code>vincentysTo</code>.
+        class="link">flatPolar</a> and methods <code>cosineLawTo</code>, 
+        <code>distanceTo*</code>, <code>equirectangularTo</code>, 
+        <code>euclideanTo</code>, <code>flatLocalTo</code>, 
+        <code>haversineTo</code>, and <code>vincentysTo</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1382,10 +1455,10 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#haversine" 
-        class="link">haversine</a>, methods <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>, <code>flatPolarTo</code> and 
-        <code>vincentysTo</code>.
+        class="link">haversine</a> and methods <code>cosineLawTo</code>, 
+        <code>distanceTo*</code>, <code>equirectangularTo</code>, 
+        <code>euclideanTo</code>, <code>flatLocalTo</code>, 
+        <code>flatPolarTo</code> and <code>vincentysTo</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1951,10 +2024,10 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#vincentys" 
-        class="link">vincentys</a>, methods <code>distanceTo*</code>, 
-        <code>equirectangularTo</code>, <code>euclideanTo</code>, 
-        <code>flatLocalTo</code>, <code>flatPolarTo</code> and 
-        <code>haversineTo</code>.
+        class="link">vincentys</a> and methods <code>cosineLawTo</code>, 
+        <code>distanceTo*</code>, <code>equirectangularTo</code>, 
+        <code>euclideanTo</code>, <code>flatLocalTo</code>, 
+        <code>flatPolarTo</code> and <code>haversineTo</code>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2317,7 +2390,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Mar 28 12:58:05 2020
+    Generated by Epydoc 3.0.1 on Tue Mar 31 15:47:43 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

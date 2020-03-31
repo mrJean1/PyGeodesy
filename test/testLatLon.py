@@ -244,15 +244,19 @@ class Tests(TestsBase):
 
         p = LatLon(53.3206, -1.7297)
         q = LatLon(53.1887, 0.1334)
+        self.test('cosineLawTo',       p.cosineLawTo(q),       '124801.098', fmt='%.3f')
+        self.test('cosineLawTo',       q.cosineLawTo(p),       '124801.098', fmt='%.3f')
         self.test('equirectangularTo', p.equirectangularTo(q), '124804.754', fmt='%.3f')
         self.test('equirectangularTo', q.equirectangularTo(p), '124804.754', fmt='%.3f')
         self.test('euclideanTo',       p.euclideanTo(q),       '131273.287', fmt='%.3f')
         self.test('euclideanTo',       q.euclideanTo(p),       '131273.287', fmt='%.3f')
-        self.test('flatLocalTo',       q.flatLocalTo(p),       '124804.754' if Sph else
+        self.test('flatLocalTo',       p.flatLocalTo(q),       '124804.754' if Sph else
                                                                '125209.633', fmt='%.3f')
         self.test('flatPolarTo',       q.flatPolarTo(p),       '133663.257', fmt='%.3f')
         self.test('haversineTo',       p.haversineTo(q),       '124801.098', fmt='%.3f')
         self.test('haversineTo',       q.haversineTo(p),       '124801.098', fmt='%.3f')
+        self.test('vincentysTo',       p.vincentysTo(q),       '124801.098', fmt='%.3f')
+        self.test('vincentysTo',       q.vincentysTo(p),       '124801.098', fmt='%.3f')
 
         if hasattr(LatLon, 'greatCircleTo'):
             gc = p.greatCircleTo(q)
@@ -372,7 +376,7 @@ class Tests(TestsBase):
         self.testReturnType(p.xyzh,                 Vector4Tuple, 'xyzh')
 
         self.testReturnType(p.compassAngleTo(q),    float, 'compassAngleTo')
-        self.testReturnType(p.equirectangularTo(q), float, 'equirectangularTo')
+        self.testReturnType(p.cosineLawTo(q),       float, 'cosineLawTo')
         self.testReturnType(p.euclideanTo(q),       float, 'euclideanTo')
         self.testReturnType(p.flatLocalTo(q),       float, 'flatLocalTo')
         self.testReturnType(p.flatPolarTo(q),       float, 'flatPolarTo')

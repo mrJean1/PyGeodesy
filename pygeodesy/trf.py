@@ -48,10 +48,12 @@ from pygeodesy.named import classname, _NamedDict as _X, \
                            _NamedEnum, _NamedEnumItem
 from pygeodesy.streprs import fstrzs
 
-__all__ = _ALL_LAZY.trf
-__version__ = '20.03.23'
+from math import ceil
 
-_mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+__all__ = _ALL_LAZY.trf
+__version__ = '20.03.31'
+
+_mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
 # temporarily hold a single instance for each float value and name
 _trfFs = {}  # trashed below
 _trfSs = {}  # trashed below
@@ -182,6 +184,26 @@ def date2epoch(year, month, day):
     except (ValueError, TypeError):
         pass
     raise TRFError('%s invalid: %s-%s-%s' % ('date', year, month, day))
+
+
+def epoch2date(epoch):
+    '''Return the date for a reference frame C{epoch}.
+
+       @arg epoch: Fractional year (C{scalar}).
+
+       @return: 3-Tuple C{(year, month, day)}.
+
+       @note: Any B{C{year}} is considered a leap year, i.e. having
+              29 days in February.
+    '''
+    y = int(epoch)
+    d = int(ceil(366 * (epoch - y)))
+    for m, n in enumerate(_mDays[1:]):
+        if d > n:
+            d -= n
+        else:
+            break
+    return y, (m + 1), max(1, d)
 
 
 # TRF conversions specified as 7-parameter Helmert transforms and an epoch.  Most

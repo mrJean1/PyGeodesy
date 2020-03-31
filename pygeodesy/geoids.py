@@ -65,7 +65,7 @@ from pygeodesy.dms import parseDMS2, RangeError
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError, _SciPyIssue
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import GeoidHeight5Tuple, LatLon3Tuple, \
                            _Named, notOverloaded
 from pygeodesy.streprs import attrs, fstr, pairs
@@ -86,7 +86,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '20.03.27'
+__version__ = '20.03.31'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -269,7 +269,7 @@ class _GeoidBase(_HeightBase):
         return self._np.array(a), d
 
     def _g2ll2(self, lat, lon):  # PYCHOK no cover
-        notOverloaded(self, self._g2ll2.__name__, lat, lon)
+        notOverloaded(self, self._g2ll2, lat, lon)
 
     def _gyx2g2(self, y, x):
         # convert grid (y, x) indices to grid (lat, lon)
@@ -283,7 +283,7 @@ class _GeoidBase(_HeightBase):
         return float(self._ev(*self._ll2g2(lat, lon)))
 
     def _ll2g2(self, lat, lon):  # PYCHOK no cover
-        notOverloaded(self, self._ll2g2.__name__, lat, lon)
+        notOverloaded(self, self._ll2g2, lat, lon)
 
     def _llh3(self, lat, lon):
         r = LatLon3Tuple(lat, lon, self._hGeoid(lat, lon))
@@ -701,6 +701,10 @@ class GeoidG2012B(_GeoidBase):
     def _ll2g2(self, lat, lon):
         # convert earth (lat, lon) to grid (lat, lon)
         return lat, lon
+
+    if _FOR_DOCS:  # PYCHOK no cover
+        __call__ = _GeoidBase.__call__
+        height   = _GeoidBase.height
 
 
 def _I(i):
@@ -1223,6 +1227,10 @@ class GeoidPGM(_GeoidBase):
     def _ll2g2_cropped(self, lat, lon):
         # convert earth (lat, lon) to cropped grid (lat, lon)
         return lat, lon + self._lon_of
+
+    if _FOR_DOCS:  # PYCHOK no cover
+        __call__ = _GeoidBase.__call__
+        height   = _GeoidBase.height
 
     @property_RO
     def u2B(self):

@@ -19,7 +19,7 @@ from pygeodesy.streprs import fstr
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '20.03.23'
+__version__ = '20.03.31'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -203,7 +203,7 @@ class UtmUpsBase(_NamedBase):
     def falsed2(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.
         '''
-        notOverloaded(self, self.falsed2.__name__)
+        notOverloaded(self, self.falsed2)
 
     @property_RO
     def hemisphere(self):

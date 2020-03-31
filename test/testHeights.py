@@ -17,10 +17,10 @@ from base import coverage, geographiclib, scipy, TestsBase
 from pygeodesy import Datums, fstr, HeightError, \
                       HeightCubic, HeightLinear, \
                       HeightIDW, HeightIDW2, HeightIDW3, \
-                      HeightIDWequirectangular, HeightIDWeuclidean, \
-                      HeightIDWflatLocal, HeightIDWflatPolar, \
-                      HeightIDWhaversine, HeightIDWkarney, \
-                      HeightIDWvincentys, \
+                      HeightIDWcosineLaw, HeightIDWequirectangular, \
+                      HeightIDWeuclidean, HeightIDWflatLocal, \
+                      HeightIDWflatPolar, HeightIDWhaversine, \
+                      HeightIDWkarney, HeightIDWvincentys, \
                       HeightLSQBiSpline, HeightSmoothBiSpline
 from pygeodesy.sphericalTrigonometry import LatLon
 
@@ -107,6 +107,8 @@ class Tests(TestsBase):
               LatLon(1, 0.5, 5), LatLon(0.5, 1.4, 7), LatLon(1.2, 1, 7)
         lli = LatLon(1, 1)
         self.testIDW(HeightIDW,                kts, lli, '6.166852765', adjust=True)
+        self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.108538037', wrap=True)
+        self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.108538037', wrap=False)
         self.testIDW(HeightIDWeuclidean,       kts, lli, '6.166920194', adjust=False)
         self.testIDW(HeightIDW2,               kts, lli, '6.108538529', adjust=True, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '6.108538529', adjust=True, wrap=True)
@@ -129,6 +131,8 @@ class Tests(TestsBase):
         lli = kts[0].intersection(*kts[1:])
         self.test('intersection', lli, '02.64932°N, 002.550079°E, +2.50m')  # mean height
         self.testIDW(HeightIDW,                kts, lli, '2.592747784', adjust=True)
+        self.testIDW(HeightIDWcosineLaw,       kts, lli, '2.592742938', wrap=True)
+        self.testIDW(HeightIDWcosineLaw,       kts, lli, '2.592742938', wrap=False)
         self.testIDW(HeightIDWeuclidean,       kts, lli, '2.592735027', adjust=False)
         self.testIDW(HeightIDW2,               kts, lli, '2.592743455', adjust=True, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '2.592743455', adjust=True, wrap=True)
@@ -163,6 +167,7 @@ class Tests(TestsBase):
             lats, lons = zip(*[(ll.lat, ll.lon) for ll in kts])
 
             self.testHeight(HeightCubic,              kts, lli, '3.000000000', lats, lons)
+            self.testHeight(HeightIDWcosineLaw,       kts, lli, '2.402157442', lats, lons)
             self.testHeight(HeightIDWeuclidean,       kts, lli, '2.408053308', lats, lons)
             self.testHeight(HeightIDWequirectangular, kts, lli, '2.402157181', lats, lons)
             self.testHeight(HeightIDWflatLocal,       kts, lli, '2.469718302', lats, lons)

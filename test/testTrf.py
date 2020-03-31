@@ -9,11 +9,11 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.01.18'
+__version__ = '20.03.31'
 
 from base import TestsBase
 
-from pygeodesy import date2epoch, F_D, F_DMS, RefFrames, TRFError
+from pygeodesy import date2epoch, epoch2date, F_D, F_DMS, RefFrames, TRFError
 
 
 class Tests(TestsBase):
@@ -130,16 +130,32 @@ class Tests(TestsBase):
             t = str(x)
         self.test('TypeError', t, "epoch not scalar: '2000'")
 
-        e = date2epoch(2020, 1, 1)
-        self.test('epoch', e, 2020.003, fmt='%.3f')
-        e = date2epoch(2020, 4, 1)
-        self.test('epoch', e, 2020.251, fmt='%.3f')
-        e = date2epoch(2020, 7, 1)
-        self.test('epoch', e, 2020.5, fmt='%.3f')
-        e = date2epoch(2020, 10, 1)
-        self.test('epoch', e, 2020.751, fmt='%.3f')
-        e = date2epoch(2020, 12, 31)
-        self.test('epoch', e, 2021.0, fmt='%.3f')
+    def testEpoch(self):
+
+        try:  # coverage
+            e = date2epoch(None, 1, 2)
+            self.test('epoch', e, TRFError)
+        except TRFError as x:
+            t = str(x)
+            self.test('TRFError', t, 'date invalid: None-1-2')
+
+        r = RefFrames.GDA94
+        t = r.toStr()
+        self.test('toStr', t, "name='GDA94', epoch=1994.0, ellipsoid=Ellipsoid(name='GRS80')")
+        self.test('str', str(r),t)
+        t = r.toStr2()
+        self.test('toStr2', t, "RefFrame(name='GDA94', epoch=1994.0, ellipsoid=Ellipsoid(name='GRS80')")
+        self.test('repr', repr(r), t)
+
+        for y, m, d, x in ((2020,  1,  1, 2020.003),
+                           (2020,  4,  1, 2020.251),
+                           (2020,  7,  1, 2020.5),
+                           (2020, 10,  1, 2020.751),
+                           (2020, 12, 31, 2021.0)):
+            e = date2epoch(y, m, d)
+            self.test('epoch', e, x, fmt='%.3f')
+            t = epoch2date(e)
+            self.test('y-m-d', t, (y, m, d), known=t[0] == 2021)
 
 
 if __name__ == '__main__':
@@ -152,5 +168,6 @@ if __name__ == '__main__':
     t.testTrf(K.Cartesian, K.LatLon, 'Karney')
     t.testTrf(N.Cartesian, N.LatLon, 'Nvector')
     t.testTrf(V.Cartesian, V.LatLon, 'Vincenty')
+    t.testEpoch()
     t.results()
     t.exit()
