@@ -154,7 +154,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
   :target: https://Cirrus-CI.com/github/mrJean1/PyGeodesy
 .. image:: https://Img.Shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
   :target: https://Travis-CI.org/mrJean1/PyGeodesy
-.. image:: https://Img.Shields.io/badge/coverage-96%25-brightgreen :alt: coverage 96%
+.. image:: https://Img.Shields.io/badge/coverage-96%25-brightgreen
   :target: https://GitHub.com/mrJean1/PyGeodesy/blob/master/testcoverage.pdf
 .. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
   :target: https://PyPI.org/project/PyGeodesy
