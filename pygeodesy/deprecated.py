@@ -10,7 +10,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.trf import TRFError as _TRFError
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '20.02.10'
+__version__ = '20.04.02'
 
 _R_M = _WGS84 = _UTM = object()
 
@@ -115,7 +115,7 @@ def fStr(floats, prec=6, fmt='%.*f', ints=False, sep=', '):
     return fstr(floats, prec=prec, fmt=fmt, ints=ints, sep=sep)
 
 
-def fStrzs(floatstr):
+def fStrzs(floatstr):  # PYCHOK no cover
     '''DEPRECATED, use function L{fstrzs}.
     '''
     from pygeodesy.streprs import fstrzs
@@ -129,7 +129,7 @@ def hypot3(x, y, z):
     return hypot_(x, y, z)
 
 
-def inStr(inst, *args, **kwds):
+def inStr(inst, *args, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use function L{instr}.
     '''
     from pygeodesy.streprs import instr

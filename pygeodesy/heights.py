@@ -64,7 +64,7 @@ from pygeodesy.utily import PI, PI2, PI_2, radiansPI, radiansPI2, \
                             unroll180, unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.03.31'
+__version__ = '20.04.02'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -790,7 +790,8 @@ class HeightIDWkarney(_HeightIDW):
 
     def _distances(self, x, y):  # (x, y) degrees
         for ll in self._lls:
-            # see .ellipsoidalKarney.LatLon._inverse
+            # see .ellipsoidalKarney.LatLon._inverse and similar methods
+            # .FrechetKarney.distance and .HausdorffKarney._distances
             _, lon = unroll180(x, ll.lon, wrap=self._wrap)  # g.LONG_UNROLL
             # XXX g.DISTANCE needed for 's12', distance in meters?
             yield abs(self._Inverse(y, x, ll.lat, lon)['a12'])

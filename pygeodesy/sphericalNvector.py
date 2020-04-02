@@ -56,7 +56,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.03.20'
+__version__ = '20.04.02'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -176,10 +176,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         a = gc.cross(p).cross(gc)  # along-track point gc × p × gc
         return start.toNvector().angleTo(a, vSign=gc) * radius
 
-    def bearingTo(self, other, **unused):
+    def bearingTo(self, other, **unused):  # PYCHOK no cover
         '''DEPRECATED, use method C{initialBearingTo}.
         '''
-        return self.initialBearingTo(other)  # PYCHOK no cover
+        return self.initialBearingTo(other)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M):
         '''Compute the (signed) distance from this point to great circle
@@ -507,10 +507,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         # spherical surface?
         return abs(s) > PI
 
-    def isEnclosedBy(self, points):
+    def isEnclosedBy(self, points):  # PYCHOK no cover
         '''DEPRECATED, use method C{isenclosedBy}.
         '''
-        return self.isenclosedBy(points)  # PYCHOK no cover
+        return self.isenclosedBy(points)
 
     def iswithin(self, point1, point2):
         '''Check whether this point is between two other points.
@@ -552,10 +552,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return n0.minus(n1).dot(n2.minus(n1)) >= 0 and \
                n0.minus(n2).dot(n1.minus(n2)) >= 0
 
-    def isWithin(self, point1, point2):
+    def isWithin(self, point1, point2):  # PYCHOK no cover
         '''DEPRECATED, use method C{iswithin}.
         '''
-        return self.iswithin(point1, point2)  # PYCHOK no cover
+        return self.iswithin(point1, point2)
 
     def midpointTo(self, other, height=None):
         '''Find the midpoint between this and an other point.
@@ -631,7 +631,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         return p
 
-    def nearestOn2(self, points, **closed_radius_height):
+    def nearestOn2(self, points, **closed_radius_height):  # PYCHOK no cover
         '''DEPRECATED, use method L{sphericalNvector.LatLon.nearestOn3}.
 
            @return: ... 2-Tuple C{(closest, distance)} of the C{closest}
@@ -1047,7 +1047,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
     return m.toLatLon(**kwds)
 
 
-def nearestOn2(point, points, **closed_radius_height):
+def nearestOn2(point, points, **closed_radius_height):  # PYCHOK no cover
     '''DEPRECATED, use method L{sphericalNvector.nearestOn3}.
 
        @return: ... 2-Tuple C{(closest, distance)} of the C{closest}

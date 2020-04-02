@@ -39,7 +39,7 @@ import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.03.20'
+__version__ = '20.04.02'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -235,10 +235,8 @@ class Mgrs(_NamedBase):
             n += _2000km
 
         h = _hemi(self.bandLatitude)  # if self._band < 'N'
-        if Utm is None:
-            r = UtmUps4Tuple(self.zone, h, e, n)
-        else:
-            r = Utm(self.zone, h, e, n, band=self.band, datum=self.datum)
+        r = UtmUps4Tuple(self.zone, h, e, n) if Utm is None else \
+            Utm(self.zone, h, e, n, band=self.band, datum=self.datum)
         return self._xnamed(r)
 
     @property_RO

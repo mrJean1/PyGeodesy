@@ -10,13 +10,13 @@ against a rectangular box or clip region.
 from pygeodesy.basics import EPS, len2
 from pygeodesy.fmath import fsum_
 from pygeodesy.formy import points2
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _dot_
 from pygeodesy.named import ClipCS3Tuple, ClipSH3Tuple
 from pygeodesy.points import _imdex2, boundsOf, isclockwise, isconvex_, \
                               LatLon_ as LL_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '20.03.19'
+__version__ = '20.04.02'
 
 
 def _eq(p1, p2):  # near-equal points
@@ -97,9 +97,9 @@ class _CS(object):
         else:  # inside
             return _CS._IN, self.nop4, None, p.classof(y, x)
 
-    def nop4(self, b, p):
+    def nop4(self, b, p):  # PYCHOK no cover
         if p:  # should never get here
-            raise AssertionError('clipCS3.nop4')
+            raise AssertionError(_dot_(__name__, self.nop4.__name__))
         return _CS._IN, self.nop4, b, p
 
 
@@ -151,8 +151,8 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE
                 break
             if c1 & c2:  # edge outside
                 break
-        else:  # should never get here
-            raise AssertionError('clipCS3.for _')
+        else:  # PYCHOK no cover
+            raise AssertionError(_dot_(__name__, clipCS3.__name__))
 
 
 class _LLi_(LL_):
@@ -286,8 +286,8 @@ class _SH(object):
         fy = float(p2.lat - p1.lat)
         fx = float(p2.lon - p1.lon)
         fp = fy * self._dx - fx * self._dy
-        if abs(fp) < EPS:
-            raise AssertionError('clipSH.intersect')
+        if abs(fp) < EPS:  # PYCHOK no cover
+            raise AssertionError(_dot_(__name__, self.intersect.__name__))
         h = fsum_(self._xy, -p1.lat * self._dx, p1.lon * self._dy) / fp
         y = p1.lat + h * fy
         x = p1.lon + h * fx

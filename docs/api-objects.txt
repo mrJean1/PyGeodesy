@@ -337,6 +337,7 @@ pygeodesy.clipy.__all__	pygeodesy.clipy-module.html#__all__
 pygeodesy.clipy.points2	pygeodesy.formy-module.html#points2
 pygeodesy.clipy.isconvex_	pygeodesy.points-module.html#isconvex_
 pygeodesy.clipy.__package__	pygeodesy.clipy-module.html#__package__
+pygeodesy.clipy._dot_	pygeodesy.lazily-module.html#_dot_
 pygeodesy.clipy.fsum_	pygeodesy.fmath-module.html#fsum_
 pygeodesy.clipy._neq	pygeodesy.clipy-module.html#_neq
 pygeodesy.clipy._eq	pygeodesy.clipy-module.html#_eq

@@ -77,7 +77,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '20.03.20'
+__version__ = '20.04.02'
 
 
 class VincentyError(ValueError):
@@ -135,10 +135,10 @@ class LatLon(LatLonEllipsoidalBase):
     _iteration  = -1  # index, see C{.iteration}
     _iterations = 100  # vs Veness' 500
 
-    def bearingTo(self, other, wrap=False):
+    def bearingTo(self, other, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{initialBearingTo}.
         '''
-        return self.initialBearingTo(other, wrap=wrap)  # PYCHOK no cover
+        return self.initialBearingTo(other, wrap=wrap)
 
     def bearingTo2(self, other, wrap=False):
         '''Compute the initial and final bearing (forward and reverse

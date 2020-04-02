@@ -23,7 +23,7 @@ from math import atan2, cos, sin
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '20.03.23'
+__version__ = '20.04.02'
 
 
 def _xyzn4(xyz, y, z, Error=TypeError):  # imported by .ecef.py
@@ -418,10 +418,10 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
         return fdot(self.xyz, *other.xyz)
 
-    def equals(self, other, units=False):
+    def equals(self, other, units=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{isequalTo}.
         '''
-        return self.isequalTo(other, units=units)  # PYCHOK no cover
+        return self.isequalTo(other, units=units)
 
     def isequalTo(self, other, units=False, eps=EPS):
         '''Check if this and an other vector are equal or equivalent.
@@ -565,10 +565,10 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                             fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
                             fdot(p, a.z * b.x - s.y, a.z * b.y + s.x, a.z * b.z + c))
 
-    def rotateAround(self, axis, theta):
+    def rotateAround(self, axis, theta):  # PYCHOK no cover
         '''DEPRECATED, use method C{rotate}.
         '''
-        return self.rotate(axis, theta)  # PYCHOK no cover
+        return self.rotate(axis, theta)
 
     def times(self, factor):
         '''Multiply this vector by a scalar.

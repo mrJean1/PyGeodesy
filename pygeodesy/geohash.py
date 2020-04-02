@@ -33,7 +33,7 @@ from math import ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash + ('bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '20.03.23'
+__version__ = '20.04.02'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -230,10 +230,10 @@ class Geohash(_NamedStr):
             self._bounds = bounds(self)
         return _2bounds(LatLon, LatLon_kwds, *self._bounds)
 
-    def distance1(self, other):
+    def distance1(self, other):  # PYCHOK no cover
         '''DEPRECATED, use method C{distance1To}.
         '''
-        return self.distance1To(other)  # PYCHOK no cover
+        return self.distance1To(other)
 
     def distance1To(self, other):
         '''Estimate the distance between this and an other geohash
@@ -254,10 +254,10 @@ class Geohash(_NamedStr):
                 break
         return float(_Sizes[n][2])
 
-    def distance2(self, other, radius=R_M, adjust=False, wrap=False):
+    def distance2(self, other, radius=R_M, adjust=False, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{distance2To}.
         '''
-        return self.distance2To(other, radius=radius, adjust=adjust, wrap=wrap)  # PYCHOK no cover
+        return self.distance2To(other, radius=radius, adjust=adjust, wrap=wrap)
 
     def distance2To(self, other, radius=R_M, adjust=False, wrap=False):
         '''Compute the distance between this and an other geohash
@@ -292,10 +292,10 @@ class Geohash(_NamedStr):
             return equirectangular_(a1, b1, a2, b2,
                                     adjust=adjust, limit=None, wrap=wrap)[0]
 
-    def distance3(self, other, radius=R_M, wrap=False):
+    def distance3(self, other, radius=R_M, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{distance3To}.
         '''
-        return self.distance3To(other, radius=radius, wrap=wrap)  # PYCHOK no cover
+        return self.distance3To(other, radius=radius, wrap=wrap)
 
     def distance3To(self, other, radius=R_M, wrap=False):
         '''Compute the great-circle distance between this and an other

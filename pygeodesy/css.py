@@ -21,7 +21,7 @@ from pygeodesy.utily import false2f
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css
-__version__ = '20.03.23'
+__version__ = '20.04.02'
 
 _CassiniSoldner0 = None  # default projection
 

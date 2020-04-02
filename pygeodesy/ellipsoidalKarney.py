@@ -43,7 +43,7 @@ from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
-__version__ = '20.03.27'
+__version__ = '20.04.02'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -85,10 +85,10 @@ class LatLon(LatLonEllipsoidalBase):
     '''
     _Ecef = EcefKarney  #: (INTERNAL) Preferred C{Ecef...} class.
 
-    def bearingTo(self, other, wrap=False):
+    def bearingTo(self, other, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{initialBearingTo}.
         '''
-        return self.initialBearingTo(other, wrap=wrap)  # PYCHOK no cover
+        return self.initialBearingTo(other, wrap=wrap)
 
     def bearingTo2(self, other, wrap=False):
         '''Compute the initial and final bearing (forward and reverse

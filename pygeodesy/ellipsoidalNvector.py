@@ -41,7 +41,7 @@ from math import asin, atan2, cos, radians, sin
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.03.20'
+__version__ = '20.04.02'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -299,10 +299,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         r = self.datum.ellipsoid.R1 if radius is None else radius
         return v1.angleTo(v2) * float(r)
 
-    def equals(self, other, eps=None):
+    def equals(self, other, eps=None):  # PYCHOK no cover
         '''DEPRECATED, use method C{isequalTo}.
         '''
-        return self.isequalTo(other, eps=eps)  # PYCHOK no cover
+        return self.isequalTo(other, eps=eps)
 
     def isequalTo(self, other, eps=None):
         '''Compare this point with an other point.

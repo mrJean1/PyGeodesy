@@ -76,7 +76,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.03.31'
+__version__ = '20.04.02'
 
 
 class HausdorffError(ValueError):
@@ -600,7 +600,8 @@ class HausdorffKarney(HausdorffDegrees):
     def distance(self, p1, p2):
         '''Return the non-negative I{angular} distance in C{degrees}.
         '''
-        # see .ellipsoidalKarney.LatLon._inverse, FrechetKarney.distance
+        # see .ellipsoidalKarney.LatLon._inverse and similar methods
+        # .FrechetKarney.distance and .HeightIDWkarney._distances
         _, lon2 = unroll180(p1.lon, p2.lon, wrap=self._wrap)  # g.LONG_UNROLL
         # XXX g.DISTANCE needed for 's12', distance in meters?
         return abs(self._Inverse(p1.lat, p1.lon, p2.lat, lon2)['a12'])

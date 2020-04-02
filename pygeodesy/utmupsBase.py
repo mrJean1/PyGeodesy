@@ -19,7 +19,7 @@ from pygeodesy.streprs import fstr
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '20.03.31'
+__version__ = '20.04.02'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -244,7 +244,7 @@ class UtmUpsBase(_NamedBase):
         '''
         return self._scale0
 
-    def to2en(self, falsed=True):
+    def to2en(self, falsed=True):  # PYCHOK no cover
         '''DEPRECATED, use method C{eastingnorthing2}.
 
            @return: An L{EasNor2Tuple}C{(easting, northing)}.

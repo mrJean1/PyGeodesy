@@ -31,7 +31,7 @@ from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.03.23'
+__version__ = '20.04.01'
 
 
 class Conic(_NamedEnumItem):
@@ -346,7 +346,7 @@ class Lcc(_NamedBase):
     _easting  = 0  #: (INTERNAL) Easting (C{float}).
     _height   = 0  #: (INTERNAL) Height (C{meter}).
     _northing = 0  #: (INTERNAL) Northing (C{float}).
-    _conic = None  #: (INTERNAL) Lamber projection (L{Conic}).
+    _conic = None  #: (INTERNAL) Lambert projection (L{Conic}).
 
     def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, name=''):
         '''New L{Lcc} Lamber conformal conic position.

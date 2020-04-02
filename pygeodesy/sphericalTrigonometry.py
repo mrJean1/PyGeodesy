@@ -39,7 +39,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'nearestOn2', 'nearestOn3',
           'perimeterOf',
           'sumOf')  # == vector3d.sumOf
-__version__ = '20.03.20'
+__version__ = '20.04.02'
 
 
 def _destination2(a, b, r, t):
@@ -148,10 +148,10 @@ class LatLon(LatLonSphericalBase):
         else:
             return 0.0
 
-    def bearingTo(self, other, wrap=False, raiser=False):
+    def bearingTo(self, other, wrap=False, raiser=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{initialBearingTo}.
         '''
-        return self.initialBearingTo(other, wrap=wrap, raiser=raiser)  # PYCHOK no cover
+        return self.initialBearingTo(other, wrap=wrap, raiser=raiser)
 
     def crossingParallels(self, other, lat, wrap=False):
         '''Return the pair of meridians at which a great circle defined
@@ -491,10 +491,10 @@ class LatLon(LatLonSphericalBase):
 
         return True  # inside
 
-    def isEnclosedBy(self, points):
+    def isEnclosedBy(self, points):  # PYCHOK no cover
         '''DEPRECATED, use method C{isenclosedBy}.
         '''
-        return self.isenclosedBy(points)  # PYCHOK no cover
+        return self.isenclosedBy(points)
 
     def midpointTo(self, other, height=None, wrap=False):
         '''Find the midpoint between this and an other point.
@@ -833,10 +833,10 @@ def intersection(start1, end1, start2, end2,
                     intersection, LatLon, **LatLon_kwds)
 
 
-def isPoleEnclosedBy(points, wrap=False):
+def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover
     '''DEPRECATED, use function L{ispolar}.
     '''
-    return ispolar(points, wrap=wrap)  # PYCHOK no cover
+    return ispolar(points, wrap=wrap)
 
 
 def _latlon3(lat, lon, height, func, LatLon, **LatLon_kwds):

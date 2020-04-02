@@ -92,7 +92,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.03.31'
+__version__ = '20.04.02'
 
 if not 0 < EPS < EPS1 < 1:
     raise AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
@@ -639,7 +639,8 @@ class FrechetKarney(FrechetDegrees):
     def distance(self, p1, p2):
         '''Return the non-negative I{angular} distance in C{degrees}.
         '''
-        # see .ellipsoidalKarney.LatLon._inverse, HausdorffKarney.distance
+        # see .ellipsoidalKarney.LatLon._inverse and similar methods
+        # .HausdorffKarney.distance and .HeightIDWkarney._distances
         _, lon2 = unroll180(p1.lon, p2.lon, wrap=self._wrap)  # g.LONG_UNROLL
         # XXX g.DISTANCE needed for 's12', distance in meters?
         return abs(self._Inverse(p1.lat, p1.lon, p2.lat, lon2)['a12'])
