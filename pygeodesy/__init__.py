@@ -267,7 +267,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.04.02'
+__version__ = '20.04.05'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -318,6 +318,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.geoids                as geoids                 # PYCHOK exported
     import pygeodesy.hausdorff             as hausdorff              # PYCHOK exported
     import pygeodesy.heights               as heights                # PYCHOK exported
+    import pygeodesy.karney                as karney                 # PYCHOK exported
     import pygeodesy.lazily                as lazily                 # PYCHOK exported
     import pygeodesy.lcc                   as lcc                    # PYCHOK exported
     import pygeodesy.mgrs                  as mgrs                   # PYCHOK exported
@@ -366,6 +367,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.geoids                import *  # PYCHOK __all__
     from pygeodesy.hausdorff             import *  # PYCHOK __all__
     from pygeodesy.heights               import *  # PYCHOK __all__
+#   from pygeodesy.karney                import *  # MODULE O_N_L_Y
     from pygeodesy.lazily                import *  # PYCHOK __all__
     from pygeodesy.lcc                   import *  # PYCHOK __all__
     from pygeodesy.mgrs                  import *  # PYCHOK __all__

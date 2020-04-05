@@ -103,6 +103,17 @@ class LimitError(ValueError):
     pass
 
 
+class _Adict(dict):
+    '''(INTERNAL) Basic C{dict} with key I{and} attribute
+       access to the items.
+    '''
+    def __getattr__(self, name):
+        try:
+            return self[name]
+        except KeyError:
+            return dict.__getattr__(self, name)
+
+
 def _bkwds(inst, kwds, Error):
     '''(INTERNAL) Set applicable C{bool} attributes.
     '''

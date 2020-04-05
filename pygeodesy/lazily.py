@@ -131,6 +131,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'HeightIDWcosineLaw', 'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWflatLocal',
                                  'HeightIDWflatPolar', 'HeightIDWhaversine', 'HeightIDWkarney', 'HeightIDWvincentys',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
+                         karney=(),  # module only
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                            mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs'),
@@ -178,7 +179,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.03.31'
+__version__ = '20.04.04'
 
 
 def _all_imports(**more):

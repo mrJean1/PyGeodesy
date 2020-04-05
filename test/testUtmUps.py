@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.02.14'
+__version__ = '20.04.04'
 
 from base import TestsBase
 
@@ -70,7 +70,7 @@ class Tests(TestsBase):
         u = UtmUps(0, 'N', '3320416.75', '632668.43')
         self.test('UtmUps.ValidateOK', utmupsValidateOK(u), OK, known=True)
         ll = u.toLatLon(LL)
-        self.test('UtmUps.toLatLonID5', ll.toStr(form=F_DMS), '72°59′60.0″N, 044°00′00.0″E')  # 73°00′00.0″N
+        self.test('UtmUps.toLatLonID5', ll.toStr(form=F_DMS), '73°00′00.0″N, 044°00′00.0″E')  # 72°59′60.0″N, ...
         self.test('UtmUps.toLatLonID5', ll, '73.0°N, 044.0°E')
 
         # TM8358-2 pg 3-7 ID 6

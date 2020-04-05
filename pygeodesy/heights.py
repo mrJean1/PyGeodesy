@@ -61,10 +61,10 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
 from pygeodesy.utily import PI, PI2, PI_2, radiansPI, radiansPI2, \
-                            unroll180, unrollPI
+                            unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.04.02'
+__version__ = '20.04.04'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -753,9 +753,9 @@ class HeightIDWkarney(_HeightIDW):
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
     '''
-    _datum   = Datums.WGS84
-    _Inverse = None
-    _wrap    = False
+    _datum    = Datums.WGS84
+    _Inverse1 = None
+    _wrap     = False
 
     def __init__(self, knots, datum=None, beta=2, wrap=False, name=''):
         '''New L{HeightIDWkarney} interpolator.
@@ -780,7 +780,7 @@ class HeightIDWkarney(_HeightIDW):
         if n < self._kmin:
             raise HeightError('insufficient %s: %s, need %s' % ('knots', n, self._kmin))
         self._datum_setter(datum, self._lls)
-        self._Inverse = self.datum.ellipsoid.geodesic.Inverse
+        self._Inverse1 = self.datum.ellipsoid.geodesic.Inverse1
 
         self.beta = beta
         if wrap:
@@ -790,11 +790,8 @@ class HeightIDWkarney(_HeightIDW):
 
     def _distances(self, x, y):  # (x, y) degrees
         for ll in self._lls:
-            # see .ellipsoidalKarney.LatLon._inverse and similar methods
-            # .FrechetKarney.distance and .HausdorffKarney._distances
-            _, lon = unroll180(x, ll.lon, wrap=self._wrap)  # g.LONG_UNROLL
-            # XXX g.DISTANCE needed for 's12', distance in meters?
-            yield abs(self._Inverse(y, x, ll.lat, lon)['a12'])
+            # non-negative I{angular} distance in C{degrees}
+            yield self._Inverse1(y, x, ll.lat, ll.lon, wrap=self._wrap)
 
     @property_RO
     def _hs(self):

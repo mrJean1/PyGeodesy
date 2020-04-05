@@ -145,7 +145,7 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '20.03.29'
+__version__ = '20.04.04'
 
 _floats = {}  # cache, deleted below
 _TOL    = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -217,7 +217,8 @@ class Ellipsoid(_NamedEnumItem):
     _KsOrder = 8     #: (INTERNAL) Krüger series order (4, 6 or 8)
     _Mabcd   = None  #: (INTERNAL) OSGB meridional coefficients
 
-    _geodesic = None  #: (INTERNAL) Cached C{geographiclib.geodesic.Geodesic}
+    _geodesic = None  #: (INTERNAL) Cached C{karney._wrapped_.Geodesic} instance
+    _Math     = None  #: (INTERNAL) Cached C{geographiclib.geomath.Math} module
 
     def __init__(self, a, b, f_, name=''):
         '''New L{Ellipsoid}.
@@ -643,20 +644,19 @@ class Ellipsoid(_NamedEnumItem):
         if self._geodesic is None:
             # if not self.isEllipsoidal:
             #     raise _isnotError('ellipsoidal', ellipsoid=self)
-            try:
-                from geographiclib.geodesic import Geodesic
-                self._geodesic = Geodesic(self.a, self.f)
-            except ImportError:
-                raise  # ImportError('no %s' % ('geographiclib',))
+            from pygeodesy.karney import _wrapped
+            self._geodesic = _wrapped.Geodesic(self.a, self.f)
         return self._geodesic
 
     @property_RO
-    def _geodesic2(self):
-        '''(INTERNAL) Get this ellipsoid's C{Geodesic} and C{Math} module.
+    def _geodesic_Math2(self):
+        '''(INTERNAL) Get this ellipsoid's C{Geodesic} and Karney's
+           C{Math} class.
         '''
-        g = self.geodesic
-        from geographiclib.geomath import Math
-        return g, Math
+        if Ellipsoid._Math is None:
+            from pygeodesy.karney import _wrapped
+            Ellipsoid._Math = _wrapped.Math
+        return self.geodesic, Ellipsoid._Math
 
     @property_RO
     def isEllipsoidal(self):

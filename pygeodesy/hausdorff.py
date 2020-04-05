@@ -70,13 +70,13 @@ from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, PhiLam2Tuple
-from pygeodesy.utily import unroll180, unrollPI
+from pygeodesy.utily import unrollPI
 
 from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.04.02'
+__version__ = '20.04.04'
 
 
 class HausdorffError(ValueError):
@@ -561,10 +561,10 @@ class HausdorffKarney(HausdorffDegrees):
              L{HausdorffFlatPolar}, L{HausdorffHaversine} and
              L{HausdorffVincentys}.
     '''
-    _datum   =  Datums.WGS84
-    _Inverse =  None
-    _units   = 'degrees'
-    _wrap    =  False
+    _datum    =  Datums.WGS84
+    _Inverse1 =  None
+    _units    = 'degrees'
+    _wrap     =  False
 
     def __init__(self, points, datum=None, wrap=False, seed=None, name=''):
         '''New L{HausdorffKarney} calculator.
@@ -591,7 +591,7 @@ class HausdorffKarney(HausdorffDegrees):
         HausdorffDegrees.__init__(self, points, seed=seed, name=name,
                                                            wrap=wrap)
         self._datum_setter(datum)
-        self._Inverse = self.datum.ellipsoid.geodesic.Inverse
+        self._Inverse1 = self.datum.ellipsoid.geodesic.Inverse1
 
     if _FOR_DOCS:  # PYCHOK no cover
         directed  = Hausdorff.directed
@@ -600,11 +600,7 @@ class HausdorffKarney(HausdorffDegrees):
     def distance(self, p1, p2):
         '''Return the non-negative I{angular} distance in C{degrees}.
         '''
-        # see .ellipsoidalKarney.LatLon._inverse and similar methods
-        # .FrechetKarney.distance and .HeightIDWkarney._distances
-        _, lon2 = unroll180(p1.lon, p2.lon, wrap=self._wrap)  # g.LONG_UNROLL
-        # XXX g.DISTANCE needed for 's12', distance in meters?
-        return abs(self._Inverse(p1.lat, p1.lon, p2.lat, lon2)['a12'])
+        return self._Inverse1(p1.lat, p1.lon, p2.lat, p2.lon, wrap=self._wrap)
 
 
 class HausdorffVincentys(HausdorffRadians):

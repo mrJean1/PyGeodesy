@@ -21,7 +21,7 @@ from pygeodesy.utily import false2f
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css
-__version__ = '20.04.02'
+__version__ = '20.04.04'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -126,12 +126,12 @@ class CassiniSoldner(_NamedBase):
            @see: Method L{CassiniSoldner.forward}, L{CassiniSoldner.reverse}
                  and L{CassiniSoldner.reverse4}.
         '''
-        g, M = self.datum.ellipsoid._geodesic2
+        g, M = self.datum.ellipsoid._geodesic_Math2
 
         d = M.AngDiff(self.lon0, lon)[0]  # _2sum
         r = g.Inverse(lat, -abs(d), lat, abs(d))
-        z1, a = r['azi1'], (r['a12'] * 0.5)
-        z2, s = r['azi2'], (r['s12'] * 0.5)
+        z1, a = r.azi1, (r.a12 * 0.5)
+        z2, s = r.azi2, (r.s12 * 0.5)
         if s == 0:
             z = M.AngDiff(z1, z2)[0] * 0.5  # _2sum
             c = -90 if abs(d) > 90 else 90
@@ -143,7 +143,7 @@ class CassiniSoldner(_NamedBase):
         e, z = s, M.AngNormalize(z2)
         p = g.Line(lat, d, z, g.DISTANCE | g.GEODESICSCALE)
         # rk: reciprocal of azimuthal northing scale
-        rk = p.ArcPosition(-a, g.GEODESICSCALE)['M21']
+        rk = p.ArcPosition(-a, g.GEODESICSCALE).M21
         # rk = p._GenPosition(True, -a, g.DISTANCE)[7]
 
         # s, c = M.sincosd(p.EquatorialAzimuth())
@@ -152,14 +152,14 @@ class CassiniSoldner(_NamedBase):
         cb1 = -abs(s) if abs(d) > 90 else abs(s)  # copysign(s, 90 - abs(d))
         d = M.atan2d(sb1 * self._cb0 - cb1 * self._sb0,
                      cb1 * self._cb0 + sb1 * self._sb0)
-        n = self._meridian.ArcPosition(d, g.DISTANCE)['s12']
+        n = self._meridian.ArcPosition(d, g.DISTANCE).s12
         # n = self._meridian._GenPosition(True, d, g.DISTANCE)[4]
         r = EasNorAziRk4Tuple(e, n, z, rk)
         return self._xnamed(r)
 
     @property_RO
     def geodesic(self):
-        '''Get this projection's U{Geodesic
+        '''Get this projection's I{wrapped} U{Karney Geodesic
            <https://GeographicLib.SourceForge.io/html/python/code.html>},
            provided package U{geographiclib
            <https://PyPI.org/project/geographiclib>} is installed.
@@ -209,7 +209,7 @@ class CassiniSoldner(_NamedBase):
            @arg lat0: Center point latitude (C{degrees90}).
            @arg lon0: Center point longitude (C{degrees180}).
         '''
-        g, M = self.datum.ellipsoid._geodesic2
+        g, M = self.datum.ellipsoid._geodesic_Math2
 
         self._meridian = m = g.Line(lat0, lon0, 0.0, g.STANDARD | g.DISTANCE_IN)
         self._latlon0 = LatLon2Tuple(m.lat1, m.lon1)
@@ -264,13 +264,12 @@ class CassiniSoldner(_NamedBase):
         '''
         g = self.geodesic
 
-        r = self._meridian.Position(northing)
-        lat, lon, z = r['lat2'], r['lon2'], r['azi2']
-        r = g.Direct(lat, lon, z + 90, easting, g.STANDARD | g.GEODESICSCALE)
+        n = self._meridian.Position(northing)
+        r = g.Direct(n.lat2, n.lon2, n.azi2 + 90, easting, g.STANDARD | g.GEODESICSCALE)
         # include azimuth of easting direction and reciprocal of
         # azimuthal northing scale (see C++ member Direct() 5/6
         # <https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1Geodesic.html>)
-        r = LatLonAziRk4Tuple(r['lat2'], r['lon2'], r['azi2'], r['M12'])
+        r = LatLonAziRk4Tuple(r.lat2, r.lon2, r.azi2, r.M12)
         return self._xnamed(r)
 
     def toStr(self, prec=6, sep=' '):  # PYCHOK expected
@@ -307,13 +306,11 @@ class CSSError(ValueError):
 class Css(_NamedBase):
     '''Cassini-Soldner East-/Northing location.
     '''
-    _azi      = None  #: (INTERNAL) azimuth of easting direction (C{degrees})
     _cs0      = None  #: (INTERNAL) projection (L{CassiniSoldner})
     _easting  = 0     #: (INTERNAL) Easting (C{float})
     _height   = 0     #: (INTERNAL) Height (C{meter})
-    _latlon   = None  #: (INTERNAL) Geodetic (lat, lon)
     _northing = 0     #: (INTERNAL) Northing (C{float})
-    _rk       = None  #: (INTERNAL) reciprocal of azimuthal northing scale (C{float})
+    _reverse4 = None  #: (INTERNAL) Cached reverse4 (L{LatLonAziRk4Tuple})
 
     def __init__(self, e, n, h=0, cs0=_CassiniSoldner0, name=''):
         '''New L{Css} Cassini-Soldner position.
@@ -346,21 +343,11 @@ class Css(_NamedBase):
         if name:
             self.name = name
 
-    def _reverse4(self):
-        '''(INTERNAL) Convert to geodetic location.
-        '''
-        r = self.cs0.reverse4(self.easting, self.northing)
-        self._latlon = LatLon2Tuple(r.lat, r.lon)
-        self._azi, self._rk = r.azimuth, r.reciprocal
-        return r  # LatLonAziRk4Tuple
-
     @property_RO
     def azi(self):
         '''Get the azimuth of easting direction (C{degrees}).
         '''
-        if self._azi is None:
-            self._reverse4()
-        return self._azi
+        return self.reverse4.azimuth
 
     azimuth = azi
 
@@ -386,9 +373,8 @@ class Css(_NamedBase):
     def latlon(self):
         '''Get the lat- and longitude (L{LatLon2Tuple}).
         '''
-        if self._latlon is None:
-            self._reverse4()
-        return self._latlon
+        r = LatLon2Tuple(self.reverse4.lat, self.reverse4.lon)
+        return self._xnamed(r)
 
     @property_RO
     def northing(self):
@@ -397,12 +383,18 @@ class Css(_NamedBase):
         return self._northing
 
     @property_RO
+    def reverse4(self):
+        '''Get the lat, lon, azimuth and reciprocal (L{LatLonAziRk4Tuple}).
+        '''
+        if self._reverse4 is None:
+            self._reverse4 = self.cs0.reverse4(self.easting, self.northing)
+        return self._reverse4
+
+    @property_RO
     def rk(self):
         '''Get the reciprocal of azimuthal northing scale (C{degrees}).
         '''
-        if self._rk is None:
-            self._reverse4()
-        return self._rk
+        return self.reverse4.reciprocal
 
     reciprocal = rk
 

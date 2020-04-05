@@ -61,7 +61,7 @@ from math import atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '20.03.31'
+__version__ = '20.04.04'
 
 
 class EcefError(ValueError):
@@ -286,7 +286,7 @@ class EcefKarney(_EcefBase):
         lat, lon, h, name = _llhn4(latlonh, lon, height, '')
         sa, ca, sb, cb = sincos2d(lat, lon)
 
-        n = self.a / sqrt(1 - self.e2 * sa**2)
+        n = self.a / self.ellipsoid.e2s(sa)  # ... / sqrt(1 - self.e2 * sa**2)
         z = (self.e2m * n + h) * sa
         x = (n + h) * ca
 

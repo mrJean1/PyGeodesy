@@ -4,7 +4,7 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '20.03.31'
+__version__ = '20.04.04'
 
 from base import TestsBase
 
@@ -45,6 +45,14 @@ class Tests(TestsBase):
         self.test('parse3llh', fStr(x, prec=6), '51.477811, -0.001475, 0.0')
 
         t = 'toDMS(%s)' % ('',)
+        self.test(t, toDMS(45.99999, F_DM,  prec=1), '46°00.0′')  # not 45°60.0′
+        self.test(t, toDMS(45.99999, F_DM,  prec=2), '46°00.0′')
+        self.test(t, toDMS(45.9999,  F_DM,  prec=2), '45°59.99′')
+        self.test(t, toDMS(45.99999, F_DM,  prec=3), '45°59.999′')
+        self.test(t, toDMS(45.99999, F_DMS, prec=1), '46°00′00.0″')
+        self.test(t, toDMS(45.99999, F_DMS, prec=2), '45°59′59.96″')
+        self.test(t, toDMS(45.99999, F_DMS, prec=3), '45°59′59.964″')
+
         self.test(t, toDMS(45.76260),   '45°45′45.36″')
 
         for F, p, x in ((F_D,   None,   '45.7626°'),

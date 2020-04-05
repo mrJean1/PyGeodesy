@@ -45,7 +45,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS('_Named', '_NamedBase',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple',
          'notOverloaded')
-__version__ = '20.03.31'
+__version__ = '20.04.05'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
@@ -328,13 +328,14 @@ class _NamedDict(dict, _Named):
     '''
 
     def __init__(self, *args, **kwds):
-        if kwds:
-            if _NAME_ in kwds:
-                _Named.name.fset(self, kwds.pop(_NAME_))  # see _Named.name
-            dict.__init__(self, kwds)
-        if args:
-            raise ValueError('%s(%s) invalid: %r' %
-                             (self.classname, 'args', args,))
+        if args:  # args override kwds
+            if len(args) != 1:
+                t = unstr(self.classname, *args, **kwds)
+                raise ValueError('invalid: ' + t)
+            kwds.update(dict(args[0]))
+        if _NAME_ in kwds:
+            _Named.name.fset(self, kwds.pop(_NAME_))  # see _Named.name
+        dict.__init__(self, kwds)
 
     def __delattr__(self, name):
         if name in dict.keys(self):
@@ -377,14 +378,14 @@ class _NamedDict(dict, _Named):
     def toStr(self, prec=6, fmt='F'):  # PYCHOK _Named
         '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
         '''
-        t = pairs(sorted(self.items()), prec=prec, fmt=fmt, sep=': ')
-        return '{%s}' % (', '.join(t,),)
+        t = pairs(self.items(), prec=prec, fmt=fmt, sep=': ')
+        return '{%s}' % (', '.join(sorted(t)),)
 
     def toStr2(self, prec=6, fmt='F'):  # PYCHOK _Named
         '''Like C{repr(dict)} but with C{name} and  C{floats} formatting by C{fstr}.
         '''
-        t = pairs(sorted(self.items()), prec=prec, fmt=fmt, sep='=')
-        return '%s(%s)' % (self.name, ', '.join(t,))
+        t = pairs(self.items(), prec=prec, fmt=fmt, sep='=')
+        return '%s(%s)' % (self.name, ', '.join(sorted(t)))
 
 
 class Neighbors8Dict(_NamedDict):  # replacing Neighbors8Dict
@@ -505,7 +506,7 @@ class _NamedEnum(_NamedDict):
     def toStr2(self, prec=6, fmt='F', sep=',\n'):  # PYCHOK _NamedDict
         '''Like C{repr(dict)} but with C{name} and C{floats} formatting by C{fstr}.
         '''
-        t = ((self._dot_(n), v) for n, v in sorted(self.items()))
+        t = sorted((self._dot_(n), v) for n, v in self.items())
         return sep.join(pairs(t, prec=prec, fmt=fmt, sep=': '))
 
 
@@ -529,7 +530,7 @@ class _NamedEnumItem(_NamedBase):
             t += pairs(((a, getattr(self, a)) for a in attrs),
                        prec=prec, ints=True)
         if kwds:
-            t += pairs(sorted(kwds.items()), prec=prec)
+            t += pairs(kwds, prec=prec)
         return ', '.join(t)
 
     @property_doc_(''' the I{registered} name (C{str}).''')
@@ -777,6 +778,13 @@ class Destination2Tuple(_NamedTuple):  # .ellipsoidalKarney.py, -Vincenty.py
        and C{final} bearing in compass C{degrees360}.
     '''
     _Names_ = ('destination', 'final')
+
+
+class Destination3Tuple(_NamedTuple):  # .karney.py
+    '''3-Tuple C{(lat, lon, final)}, destination C{lat}, C{lon} in
+       and C{final} bearing in C{degrees}.
+    '''
+    _Names_ = ('lat', 'lon', 'final')
 
 
 class Distance2Tuple(_NamedTuple):  # .datum.py, .ellipsoidalBase.py

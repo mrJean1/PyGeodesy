@@ -35,7 +35,7 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
+from pygeodesy.named import Bearing2Tuple, Destination2Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
@@ -43,7 +43,7 @@ from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
-__version__ = '20.04.02'
+__version__ = '20.04.04'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -110,7 +110,7 @@ class LatLon(LatLonEllipsoidalBase):
            @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
         '''
-        r = self._inverse(other, True, wrap)
+        r = self._inverse(other, wrap)
         return self._xnamed(Bearing2Tuple(r.initial, r.final))
 
     def destination(self, distance, bearing, height=None):
@@ -137,8 +137,8 @@ class LatLon(LatLonEllipsoidalBase):
            >>> d
            LatLon(37°39′10.14″S, 143°55′35.39″E)  # 37.652818°S, 143.926498°E
         '''
-        r = self._direct(distance, bearing, True, height=height)
-        return self._xnamed(r.destination)
+        r = self._direct(distance, bearing, self.classof, height)
+        return r.destination
 
     def destination2(self, distance, bearing, height=None):
         '''Compute the destination point and the final bearing (reverse
@@ -176,7 +176,7 @@ class LatLon(LatLonEllipsoidalBase):
            >>> f
            307.1736313846665
         '''
-        r = self._direct(distance, bearing, True, height=height)
+        r = self._direct(distance, bearing, self.classof, height)
         return self._xnamed(r)
 
     def distanceTo(self, other, wrap=False):
@@ -204,7 +204,7 @@ class LatLon(LatLonEllipsoidalBase):
            >>> q = LatLon(58.64402, -3.07009)
            >>> d = p.distanceTo(q)  # 969,954.1663142084 m
         '''
-        return self._inverse(other, False, wrap).distance
+        return self._inverse(other, wrap).distance
 
     def distanceTo3(self, other, wrap=False):
         '''Compute the distance, the initial and final bearing along a
@@ -232,7 +232,7 @@ class LatLon(LatLonEllipsoidalBase):
            @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
         '''
-        return self._xnamed(self._inverse(other, True, wrap))
+        return self._xnamed(self._inverse(other, wrap))
 
     def finalBearingOn(self, distance, bearing):
         '''Compute the final bearing (reverse azimuth) after having
@@ -255,7 +255,7 @@ class LatLon(LatLonEllipsoidalBase):
            >>> b = 306.86816
            >>> f = p.finalBearingOn(54972.271, b)  # 307.1736313846665°
         '''
-        return self._direct(distance, bearing, False).final
+        return self._direct(distance, bearing, None, None).final
 
     def finalBearingTo(self, other, wrap=False):
         '''Compute the final bearing (reverse azimuth) after having
@@ -287,11 +287,11 @@ class LatLon(LatLonEllipsoidalBase):
            >>> q = LatLon(48.857, 2.351)
            >>> f = p.finalBearingTo(q)  # 157.83449958372714°
         '''
-        return self._inverse(other, True, wrap).final
+        return self._inverse(other, wrap).final
 
     @property_RO
     def geodesic(self):
-        '''Get this C{LatLon}'s U{Geodesic
+        '''Get this C{LatLon}'s I{wrapped} U{Karney Geodesic
            <https://GeographicLib.SourceForge.io/html/python/code.html>},
            provided package U{geographiclib
            <https://PyPI.org/project/geographiclib>} is installed.
@@ -330,7 +330,7 @@ class LatLon(LatLonEllipsoidalBase):
 
            @JSname: I{bearingTo}.
         '''
-        return self._inverse(other, True, wrap).initial
+        return self._inverse(other, wrap).initial
 
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Karney}-based cartesian (ECEF) coordinates.
@@ -352,25 +352,25 @@ class LatLon(LatLonEllipsoidalBase):
                                                 datum=self.datum)
         return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
-    def _direct(self, distance, bearing, llr, height=None):
+    def _direct(self, distance, bearing, LL, height):
         '''(INTERNAL) Karney's C{Direct} method.
+
+           @return: A L{Destination2Tuple}C{(destination, final)} or
+                    a L{Destination3Tuple}C{(lat, lon, final)} if
+                    B{C{LL}} is C{None}.
         '''
         g = self.datum.ellipsoid.geodesic
-        m = g.AZIMUTH
-        if llr:
-            m |= g.LATITUDE | g.LONGITUDE
-        r = g.Direct(self.lat, self.lon, bearing, distance, m)
-        t = wrap360(r['azi2'])
-        if llr:
-            a, b = wrap90(r['lat2']), wrap180(r['lon2'])
+        r = g.Direct3(self.lat, self.lon, bearing, distance)
+        if LL:
             h = self.height if height is None else height
-            d = self.classof(a, b, height=h, datum=self.datum)
-        else:
-            d = None
-        return Destination2Tuple(d, t)
+            d = LL(wrap90(r.lat), wrap180(r.lon), height=h, datum=self.datum)
+            r = Destination2Tuple(self._xnamed(d), wrap360(r.final))
+        return r
 
-    def _inverse(self, other, azis, wrap):
+    def _inverse(self, other, wrap):
         '''(INTERNAL) Karney's C{Inverse} method.
+
+           @return: A L{Distance3Tuple}C{(distance, initial, final)}.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
@@ -378,17 +378,8 @@ class LatLon(LatLonEllipsoidalBase):
                               L{Datum} ellipsoids are not compatible.
         '''
         g = self.ellipsoids(other).geodesic
-        m = g.DISTANCE
-        if azis:
-            m |= g.AZIMUTH
         _, lon = unroll180(self.lon, other.lon, wrap=wrap)
-        r = g.Inverse(self.lat, self.lon, other.lat, lon, m)
-        d = r['s12']
-        if azis:  # forward and reverse azimuth
-            f, r = wrap360(r['azi1']), wrap360(r['azi2'])
-        else:
-            f = r = None
-        return Distance3Tuple(d, f, r)
+        return g.Inverse3(self.lat, self.lon, other.lat, lon)
 
 
 def _geodesic(datum, points, closed, line, wrap):

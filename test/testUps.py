@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.03.09'
+__version__ = '20.04.04'
 
 from base import TestsBase
 
@@ -56,19 +56,19 @@ class Tests(TestsBase):
         # TM8358-2 pg 3-7 ID 4
         u = Ups(0, 'N', '1530125.78', '2426773.6')
         ll = u.toLatLon(LL)
-        self.test('Ups.toLatLonID4', ll.toStr(form=F_DMS),  '84°17′14.04″N, 132°14′52.76″W')
+        self.test('Ups.toLatLonID4', ll.toStr(form=F_DMS), '84°17′14.04″N, 132°14′52.76″W')
         self.test('Ups.toLatLonID4', ll, '84.287234°N, 132.247989°W')
 
         # TM8358-2 pg 3-7 ID 5
         u = Ups(0, 'N', '3320416.75', '632668.43')
         ll = u.toLatLon(LL)
-        self.test('Ups.toLatLonID5', ll.toStr(form=F_DMS),  '72°59′60.0″N, 044°00′00.0″E')  # 73°00′00.0″N
+        self.test('Ups.toLatLonID5', ll.toStr(form=F_DMS), '73°00′00.0″N, 044°00′00.0″E')  # '72°59′60.0″N, ...
         self.test('Ups.toLatLonID5', ll, '73.0°N, 044.0°E')
 
         # TM8358-2 pg 3-7 ID 6
         u = Ups(0, 'S', '2222979.47', '1797474.9')
         ll = u.toLatLon(LL)
-        self.test('Ups.toLatLonID6', ll.toStr(form=F_DMS),  '87°17′14.4″S, 132°14′52.3″E')
+        self.test('Ups.toLatLonID6', ll.toStr(form=F_DMS), '87°17′14.4″S, 132°14′52.3″E')
         self.test('Ups.toLatLonID6', ll, '87.287333°S, 132.247861°E')
 
         # <https://GeographicLib.SourceForge.io/cgi-bin/GeoConvert>

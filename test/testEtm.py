@@ -5,11 +5,11 @@ u'''Test projection L{ExactTransverseMercator}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.03.24'
+__version__ = '20.04.04'
 
 from base import isiOS, isNix, isWindows, TestsBase
 
-from pygeodesy import etm, ExactTransverseMercator, wrap180
+from pygeodesy import etm, ExactTransverseMercator
 
 
 class Tests(TestsBase):
@@ -99,38 +99,6 @@ class Tests(TestsBase):
 
         self.testCopy(xtm)
 
-    def testMath(self):
-        self.subtitle(etm, 'Math')
-
-        # compare geomath.Math.AngDiff with mimicked etm._diff182
-        _diff = etm._diff182
-        n = '%s.%s(%%d, %%d)' % (_diff.__module__, _diff.__name__)
-        for a in range(-180, 181, 90):
-            for b in range(-180, 181, 90):
-                d, _ = _diff(a, b)
-                x, _ = _diff(b, a)
-                self.test(n % (a, b), d, -x, known=d in (0, 180))
-
-        # compare geomath.Math.AngNormalize with mimicked etm._norm180
-        _norm = etm._norm180
-        n = '%s.%s(%%s)' % (_norm.__module__, _norm.__name__)
-        for a, x in zip((-361, -360, -180,   -90,   -0,   0,   90,   180,   360, 361),
-                        (-1.0, -0.0,  180.0, -90.0,  0.0, 0.0, 90.0, 180.0, 0.0, 1.0)):
-            w = _norm(a)
-            self.test(n % (a), float(w), float(x), known=w in (0, -180))
-            w = wrap180(a)
-            self.test('pygeodesy.wrap180(%s)' % (a), float(w), float(x), known=w in (0, -180))
-
-        # compare geomath.Math.sum with mimicked etm._sum2
-        _sum2 = etm._sum2
-        n = '%s.%s' % (_sum2.__module__, _sum2.__name__)
-        s = t = 0  # see test.Fmath.py
-        for x in (7, 1e100, -7, -1e100, 9e-20, -8e-20):
-            s, x = _sum2(s, x)
-            t, _ = _sum2(t, x)
-        self.test(n, s, '1.0e-20', fmt='%.1e')
-        self.test(n, t, '0.0e+00', fmt='%.1e')
-
 
 if __name__ == '__main__':
 
@@ -141,6 +109,5 @@ if __name__ == '__main__':
     t.testExactTM(False)
     t.testEtm(ellipsoidalNvector.LatLon)
     t.testEtm(ellipsoidalVincenty.LatLon)
-    t.testMath()
     t.results()
     t.exit()

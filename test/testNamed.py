@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.03.22'
+__version__ = '20.04.05'
 
 from base import PyGeodesy_dir, TestsBase
 from pygeodesy import Datums, named
@@ -187,6 +187,25 @@ if __name__ == '__main__':
         e.unregister()  # coverage _NamedEnumItem.unregister
         t.test(n + '.unregister', getattr(Transforms, n, None), None)
     t.test('Transforms', len(Transforms), 0)
+
+    nd = named._NamedDict({'1': 1, '2': 2}, name='test')
+    t.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
+    t.test('nd.name', nd.name, 'test')
+    nd = named._NamedDict({'1': 1, '2': 2, 'name': 'test'})
+    t.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
+    t.test('nd.name', nd.name, 'test')
+    nd = named._NamedDict(one=1, two=2, name='test')
+    t.test('nd.kwds', nd.toStr2(), 'test(one=1, two=2)')
+    t.test('nd.name', nd.name, 'test')
+    nd = named._NamedDict({'1': 1, '2': 2, 'name': 'test'}, name='kwds')
+    t.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
+    t.test('nd.name', nd.name, 'test')
+    nd = named._NamedDict([('1', 1), ('2', 2), ('name', 'test')], name='kwds')
+    t.test('nd.list', nd.toStr2(), 'test(1=1, 2=2)')
+    t.test('nd.name', nd.name, 'test')
+    nd.update(dict(name='kwds'))
+    t.test('nd.updated', nd.toStr2(), "test(1=1, 2=2, name='kwds')")
+    t.test('nd.name', nd.name, 'test')
 
     t.subtitle(named, 'ing %s ' % ('coverage',))
     Nd = named.Neighbors8Dict  # coverage

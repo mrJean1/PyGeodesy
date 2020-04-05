@@ -69,6 +69,7 @@ from pygeodesy.basics import EPS, property_doc_, property_RO, _TypeError
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.fmath import cbrt, Fsum, hypot, hypot1, hypot2
+from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNorExact4Tuple, LatLonExact4Tuple, \
                            _NamedBase, _xnamed
@@ -78,88 +79,17 @@ from pygeodesy.utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
                           _toXtm8, _to7zBlldfn
 from pygeodesy.utmupsBase import _LLEB
 
-from math import asinh, atan, atan2, copysign, degrees, \
-                 fmod, radians, sinh, sqrt, tan
+from math import asinh, atan, atan2, copysign, degrees, radians, \
+                 sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.03.25'
+__version__ = '20.04.05'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
 _TOL_10   = 0.1 * _TOL
 _TAYTOL   = pow(_TOL, 0.6)
 _TAYTOL2  = 2.0 * _TAYTOL
-
-try:
-    from geographiclib.geomath import Math
-
-    _diff182 = Math.AngDiff  # returns 2-tuple
-    _fix90   = Math.LatFix
-    _norm180 = Math.AngNormalize  # PYCHOK for testEtm.py
-    _sum2    = Math.sum  # PYCHOK for testEtm.py
-
-    del Math
-
-except ImportError:  # no geographiclib
-
-    from pygeodesy.basics import NAN
-
-    def _diff182(deg0, deg):  # mimick Math.AngDiff
-        '''Compute C{deg - deg0}, reduced to C{[-180,180]} accurately.
-        '''
-        d, t = _sum2(_norm180(-deg0), _norm180(deg))
-        d = _norm180(d)
-        if d == 180 and t > 0:
-            d = -180
-        return _sum2(d, t)
-
-    def _fix90(deg):  # mimick Math.LatFix
-        '''Replace angles outside [-90,90] by NaN.
-        '''
-        return NAN if abs(deg) > 90 else deg
-
-    def _norm180(deg):  # mimick Math.AngNormalize
-        '''Reduce angle to (-180,180]
-        '''
-        # with Python 2.7.16 and 3.7.3 on macOS 10.13.6
-        #  fmod( 0,   360) ==  0.0
-        #  fmod( 360, 360) ==  0.0
-        #  fmod(-0,   360) ==  0.0
-        #  fmod(-0.0, 360) == -0.0
-        #  fmod(-360, 360) == -0.0
-        # however, using the % operator ...
-        #    0   % 360 == 0
-        #  360   % 360 == 0
-        #  360.0 % 360 == 0.0
-        #   -0   % 360 == 0
-        # -360   % 360 == 0
-        #   -0.0 % 360 == 0.0
-        # -360.0 % 360 == 0.0
-
-        # On Windows 32-bit with Python 2.7, math.fmod(-0.0, 360)
-        # == +0.0.  This fixes this bug.  See also Math::AngNormalize
-        # in the C++ library.  Math::sincosd has a similar fix.
-        d = fmod(deg, 360) if deg else deg
-        return (d + 360) if d <= -180 else (
-                       d if d <=  180 else (d - 360))
-
-    def _sum2(u, v):  # mimick Math::sum, actually sum2
-        '''Error free transformation of a C{sum}.
-
-           @return: 2-Tuple C{(sum_u_plus_v, residual)}.
-
-           @note: The C{residual} can be the same as one
-                  of the first two arguments.
-        '''
-        s = u + v
-        r = s - v
-        t = s - r
-        r -= u
-        t -= v
-        t = -(r + t)
-        # u + v =       s      + t
-        #       = round(u + v) + t
-        return s, t
 
 
 class ETMError(UTMError):

@@ -86,13 +86,13 @@ from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, \
                             notOverloaded, PhiLam2Tuple
-from pygeodesy.utily import unroll180, unrollPI
+from pygeodesy.utily import unrollPI
 
 from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.04.02'
+__version__ = '20.04.04'
 
 if not 0 < EPS < EPS1 < 1:
     raise AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
@@ -406,7 +406,7 @@ class FrechetEquirectangular(FrechetRadians):
                         L{Tuple2LatLon}[] or C{other}[]).
            @kwarg adjust: Adjust the wrapped, unrolled longitudinal
                           delta by the cosine of the mean latitude (C{bool}).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
                             interpolate intermediate B{C{points}} or use
                             C{None}, C{0} or C{1} for no intermediate
@@ -488,7 +488,7 @@ class FrechetFlatLocal(FrechetRadians):
                         L{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
                          and first B{C{points}}' datum (L{Datum}).
-           @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool})
+           @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool})
            @kwarg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
                             interpolate intermediate B{C{points}} or use
                             C{None}, C{0} or C{1} for no intermediate
@@ -602,9 +602,9 @@ class FrechetKarney(FrechetDegrees):
              L{FrechetFlatLocal}, L{FrechetFlatPolar},
              L{FrechetHaversine} and L{FrechetVincentys}.
     '''
-    _datum   = Datums.WGS84
-    _Inverse = None
-    _wrap    = False
+    _datum    = Datums.WGS84
+    _Inverse1 = None
+    _wrap     = False
 
     def __init__(self, points, datum=None, wrap=False, fraction=None, name=''):
         '''New L{FrechetFlatLocal} calculator/interpolator.
@@ -631,7 +631,7 @@ class FrechetKarney(FrechetDegrees):
         FrechetDegrees.__init__(self, points, fraction=fraction, name=name,
                                                                  wrap=wrap)
         self._datum_setter(datum)
-        self._Inverse = self.datum.ellipsoid.geodesic.Inverse
+        self._Inverse1 = self.datum.ellipsoid.geodesic.Inverse1
 
     if _FOR_DOCS:  # PYCHOK no cover
         discrete = Frechet.discrete
@@ -639,11 +639,7 @@ class FrechetKarney(FrechetDegrees):
     def distance(self, p1, p2):
         '''Return the non-negative I{angular} distance in C{degrees}.
         '''
-        # see .ellipsoidalKarney.LatLon._inverse and similar methods
-        # .HausdorffKarney.distance and .HeightIDWkarney._distances
-        _, lon2 = unroll180(p1.lon, p2.lon, wrap=self._wrap)  # g.LONG_UNROLL
-        # XXX g.DISTANCE needed for 's12', distance in meters?
-        return abs(self._Inverse(p1.lat, p1.lon, p2.lat, lon2)['a12'])
+        return self._Inverse1(p1.lat, p1.lon, p2.lat, p2.lon, wrap=self._wrap)
 
 
 class FrechetVincentys(FrechetRadians):

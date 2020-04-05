@@ -24,7 +24,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '20.03.21'
+__version__ = '20.04.04'
 
 F_D   = 'd'    #: Format degrees as unsigned "deg°" plus suffix (C{str}).
 F_DM  = 'dm'   #: Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -114,15 +114,26 @@ def _toDMS(deg, form, prec, sep, ddd, suff):  # MCCABE 14
 
     elif form in (F_DM, F_MIN, 'deg+min'):
         d, m = divmod(d * 60, 60)
-        t = "%0*d%s%s%0*.*f" % (ddd,int(d),s_deg, sep, w+2,p,m)
+        d, m = int(d), round(m, p)
+        if m >= 60:  # corner case
+            m -= 60
+            d += 1
+        t = "%0*d%s%s%0*.*f" % (ddd,d,s_deg, sep, w+2,p,m)
         s = s_min
 
     else:  # F_DMS, F_SEC, 'deg+min+sec'
         d, s = divmod(d * 3600, 3600)
         m, s = divmod(s, 60)
-        t = "%0*d%s%s%02d%s%s%0*.*f" % (ddd,int(d),s_deg, sep,
-                                            int(m),s_min, sep,
-                                          w+2,p,s)
+        d, m, s = int(d), int(m), round(s, p)
+        if s >= 60:  # corner case
+            s -= 60
+            m += 1
+            if m >= 60:
+                m -= 60
+                d += 1
+        t = "%0*d%s%s%02d%s%s%0*.*f" % (ddd,d,s_deg, sep,
+                                            m,s_min, sep,
+                                      w+2,p,s)
         s = s_sec
 
     if z > 1:

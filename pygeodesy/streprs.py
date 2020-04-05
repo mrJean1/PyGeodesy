@@ -10,7 +10,7 @@ from pygeodesy.lazily import _ALL_LAZY
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.03.23'
+__version__ = '20.04.05'
 
 _EeFfGg = ('F', 'f', 'E', 'e', 'G', 'g')  # float formats
 
@@ -176,11 +176,12 @@ def pairs(items, prec=6, fmt='F', ints=False, sep='='):
             items = sorted(items.items())
         elif not isinstance(items, (list, tuple)):
             items = tuple(items)
+        # can't unzip empty items tuple, list, etc.
         n, v = zip(*items) if items else ((), ())
     except (TypeError, ValueError):
         raise _isnotError('dict', '2-tuples', items=items)
     v = _streprs(prec, v, fmt, ints, False, repr)
-    return tuple(sep.join(t) for t in zip(n, v))
+    return tuple(sep.join(t) for t in zip(map(str, n), v))
 
 
 def reprs(objs, prec=6, fmt='F', ints=False):

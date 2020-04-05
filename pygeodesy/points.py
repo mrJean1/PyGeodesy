@@ -46,7 +46,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.03.31'
+__version__ = '20.04.05'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -234,7 +234,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         if self.name:
             t += (repr(self.name),)
         if kwds:
-            t += pairs(kwds.items(), prec=prec)
+            t += pairs(kwds, prec=prec)
         return sep.join(t)
 
     def toStr2(self, **kwds):
