@@ -25,9 +25,9 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, isint, _isnotError, issequence, \
-                             map1, property_doc_, property_RO, scalar, \
-                             _Sequence, _TypeError, _xcopy, _xkwds
+from pygeodesy.basics import EPS, R_M, _float, isint, InvalidError, IsnotError, \
+                             issequence, map1, property_doc_, property_RO, \
+                             scalar, _Sequence, _xcopy, _xinstanceof, _xkwds
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
@@ -46,7 +46,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.04.05'
+__version__ = '20.04.11'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -371,7 +371,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
             if end is None:
                 end = -1
         else:
-            raise ValueError('%s invalid: %r' % ('step', step))
+            raise InvalidError(step=step)
         return range(start, end, step)
 
     def _repr(self):
@@ -425,7 +425,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         ais = ('ilat', ilat), ('ilon', ilon)
 
         if len(shape) != 2 or shape[0] < 1 or shape[1] < len(ais):
-            raise IndexError('%s invalid: %r' % ('array shape', shape))
+            raise InvalidError(array_shape=shape, Error=IndexError)
 
         self._array = array
         self._shape = Shape2Tuple(*shape)
@@ -435,15 +435,15 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             if isclass(LatLon) and all(hasattr(LatLon, a) for a in LatLon_.__slots__):
                 self._LatLon = LatLon
             else:
-                raise _isnotError('valid', LatLon=LatLon)
+                raise IsnotError('valid', LatLon=LatLon)
 
         # check the attr indices
         for n, (ai, i) in enumerate(ais):
             if not isint(i):
-                raise _isnotError(int.__name__, **{ai: i})
+                raise IsnotError(int.__name__, **{ai: i})
             i = int(i)
             if not 0 <= i < shape[1]:
-                raise _isnotError('valid', Error=ValueError, **{ai: i})
+                raise IsnotError('valid', Error=ValueError, **{ai: i})
             for aj, j in ais[:n]:
                 if int(j) == i:
                     raise ValueError('%s == %s == %s' % (ai, aj, i))
@@ -521,7 +521,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             try:
                 lat, lon = latlon
             except (TypeError, ValueError):
-                raise _isnotError('valid', latlon=latlon)
+                raise IsnotError('valid', latlon=latlon)
 
         for i in self._range(*start_end):
             row = self._array[i]
@@ -632,7 +632,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''
         if not issequence(indices, tuple):  # NO tuple, only list
             # and range work properly to get Numpy array sub-sets
-            raise _isnotError('valid', indices=type(indices))
+            raise IsnotError('valid', indices=type(indices))
 
         n = len(self)
         for i, v in enumerate(indices):
@@ -755,7 +755,7 @@ class LatLon2psxy(_Basequence):
             try:
                 x, y = xy[:2]
             except (TypeError, ValueError):
-                raise _isnotError('valid', xy=xy)
+                raise IsnotError('valid', xy=xy)
 
             def _3xyll(ll):  # PYCHOK expected
                 return self.point(ll)
@@ -869,7 +869,7 @@ class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
         try:  # get shape and check some other numpy.array attrs
             s, _, _ = array.shape, array.nbytes, array.ndim  # PYCHOK expected
         except AttributeError:
-            raise _isnotError('NumPy', array=type(array))
+            raise IsnotError('NumPy', array=type(array))
 
         _Array2LatLon.__init__(self, array, ilat=ilat, ilon=ilon,
                                      LatLon=LatLon, shape=s)
@@ -932,7 +932,7 @@ class Tuple2LatLon(_Array2LatLon):
            >>> closest
            LatLon_(lat=2.001162, lon=3.001162)
         '''
-        _TypeError(list, tuple, tuples=tuples)
+        _xinstanceof(list, tuple, tuples=tuples)
         s = len(tuples), min(len(_) for _ in tuples)
         _Array2LatLon.__init__(self, tuples, ilat=ilat, ilon=ilon,
                                      LatLon=LatLon, shape=s)
@@ -986,7 +986,8 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise ValueError: Insufficient number of B{C{points}}
+                          on invalid B{C{radius}}.
 
        @note: This area approximation has limited accuracy and is
               ill-suited for regions exceeding several hundred Km
@@ -996,7 +997,7 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
              and L{ellipsoidalKarney.areaOf}.
     '''
     a, _ = _area2(points, adjust, wrap)
-    return abs(a) * float(radius)**2
+    return abs(a) * _float(radius=radius)**2
 
 
 def boundsOf(points, wrap=True, LatLon=None):
@@ -1252,7 +1253,7 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
         try:
             y0, x0 = map1(float, *point[:2])
         except (IndexError, TypeError, ValueError):
-            raise ValueError('%s invalid: %r' % ('point', point))
+            raise InvalidError(point=point)
 
     pts = LatLon2psxy(points, closed=True, radius=None, wrap=wrap)
     n = len(pts)
@@ -1328,7 +1329,7 @@ def ispolar(points, wrap=False):
         try:  # LatLon must have initial- and finalBearingTo
             b1, _ = p1.bearingTo2(points[0], wrap=wrap)
         except AttributeError:
-            raise _isnotError('.bearingTo2', points=p1)
+            raise IsnotError('.bearingTo2', points=p1)
 
         for i in range(n):
             p2 = points[i]
@@ -1473,7 +1474,8 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise ValueError: Insufficient number of B{C{points}}
+                          or invalid B{C{radius}}.
 
        @note: This perimeter is based on the L{equirectangular_}
               distance approximation and is ill-suited for regions
@@ -1501,7 +1503,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
             x1, y1 = x2, y2
 
     d = fsum(_degs(len(pts), pts, closed))
-    return degrees2m(d, radius)
+    return degrees2m(d, _float(radius=radius))
 
 # **) MIT License
 #

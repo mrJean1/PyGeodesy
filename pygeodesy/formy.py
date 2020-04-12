@@ -5,8 +5,8 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.basics import EPS, R_M, len2, LimitError, \
-                            _limiterrors, map1, _TypeError
+from pygeodesy.basics import EPS, R_M, _float, len2, LimitError, \
+                            _limiterrors, map1, _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.fmath import fsum_, hypot, hypot2
 from pygeodesy.lazily import _ALL_LAZY
@@ -22,7 +22,7 @@ from math import acos, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.03.30'
+__version__ = '20.04.11'
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -372,7 +372,7 @@ def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
              L{vincentys_} and U{local, flat earth approximation
              <https://www.edwilliams.org/avform.htm#flat>}.
     '''
-    _TypeError(Datum, datum=datum)
+    _xinstanceof(Datum, datum=datum)
     m, n = datum.ellipsoid.roc2_((phi2 + phi1) * 0.5, scaled=True)
     return hypot(m * (phi2 - phi1), n * lam21)
 
@@ -504,13 +504,13 @@ def heightOf(angle, distance, radius=R_M):
              and U{Potvin et al. 2012, JTECH
              <https://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
     '''
-    d, r = distance, radius
+    d, r = _float(distance=distance), _float(radius=radius)
     if d > r:
         d, r = r, d
 
     if d > EPS:
-        d = d / float(r)
-        s = sin(radians(angle))
+        d = d / r
+        s = sin(radians(_float(angle=angle)))
         s = fsum_(1, 2 * s * d, d**2)
         if s > 0:
             return r * sqrt(s) - float(radius)

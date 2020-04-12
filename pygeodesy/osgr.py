@@ -31,8 +31,8 @@ U{Transverse Mercator: Redfearn series
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import halfs2, _isnotError, issubclassof, \
-                             map1, property_RO
+from pygeodesy.basics import InvalidError, halfs2, map1, \
+                             property_RO, _xsubclassof
 from pygeodesy.datum import Datums
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -41,13 +41,13 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, LatLonDatum3Tuple, \
                            _NamedBase, nameof, _xnamed
 from pygeodesy.streprs import enstr2
-from pygeodesy.utily import degrees90, degrees180, false2f, sincos2
+from pygeodesy.utily import degrees90, degrees180, falsed2f, sincos2
 
 from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.03.23'
+__version__ = '20.04.11'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -102,7 +102,8 @@ class Osgr(_NamedBase):
            @arg northing: Northing from from OS false northing (C{meter}).
            @kwarg name: Optional name (C{str}).
 
-           @raise OSGRError: Invalid B{C{easting}} or B{C{northing}}.
+           @raise OSGRError: Invalid or negative B{C{easting}} or
+                             B{C{northing}}.
 
            @example:
 
@@ -112,8 +113,8 @@ class Osgr(_NamedBase):
         if name:
             self.name = name
 
-        self._easting  = false2f(easting, 'easting',   Error=OSGRError)
-        self._northing = false2f(northing, 'northing', Error=OSGRError)
+        self._easting  = falsed2f(easting=easting,   Error=OSGRError)
+        self._northing = falsed2f(northing=northing, Error=OSGRError)
 
     @property_RO
     def datum(self):
@@ -231,10 +232,10 @@ class Osgr(_NamedBase):
             if datum and datum != ll.datum:
                 raise TypeError('no %s.convertDatum: %r' % (LatLon, ll))
             return _xnamed(LatLonDatum3Tuple(ll.lat, ll.lon, ll.datum), ll.name)
-        elif issubclassof(LatLon, _LLEB):
+        else:
+            _xsubclassof(_LLEB, LatLon=LatLon)
             ll = _xnamed(LatLon(ll.lat, ll.lon, datum=ll.datum), ll.name)
             return _ll2datum(ll, datum, 'LatLon')
-        raise _isnotError(_LLEB.__name__, LatLon=LatLon)
 
     def toStr(self, prec=10, sep=' '):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
@@ -379,7 +380,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
             n = _s2i(N, n)
 
     except ValueError:
-        raise OSGRError('%s invalid: %r' % ('strOSGR', strOSGR))
+        raise InvalidError(strOSGR=strOSGR, Error=OSGRError)
 
     r = EasNor2Tuple(e, n) if Osgr is None else Osgr(e, n)
     return _xnamed(r, name)

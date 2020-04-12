@@ -4,15 +4,15 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.03.10'
+__version__ = '20.04.06'
 
 from base import coverage, geographiclib
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
 from pygeodesy import EPS, F_D, F_D__, F_DMS, bearingDMS, compassDMS, \
-                      Datums, ellipsoidalVincenty as V, \
-                      fstr, m2SM, normDMS, VincentyError, wrap360
+                      Datums, ellipsoidalVincenty as V, fstr, \
+                      m2SM, normDMS, VincentyError, wrap360
 
 
 class Tests(_TestsLL, _TestsV):
@@ -47,10 +47,22 @@ class Tests(_TestsLL, _TestsV):
             self.test('toEtm',       p.toEtm(), '30 N 916396 5720041')
             self.test('toLcc',       p.toLcc(), '5639901 4612638')
             self.test('toOsgr',      p.toOsgr(), 'TQ 38876 77320')
-            self.test('toUps',       LatLon(84, 0).toUps(), '00 N 2000000 1333272')
-            self.test('toUtm',       p.toUtm(), '30 N 708207 5707224')
             self.test('toUtmUps',    p.toUtmUps(), '30 N 708207 5707224')
+            self.test('toUtm',       p.toUtm(),    '30 N 708207 5707224')
             self.test('toWm',        p.toWm(), '-178.111 6672799.209')
+
+            self.test('toUtmUps',    p.toUtmUps(), '30 N 708207 5707224')
+            self.test('toUtmUps',    p.toUtmUps(), '30 N 708207 5707224')
+            p = p.copy()
+            self.test('toUtm',       p.toUtm(),    '30 N 708207 5707224')
+            self.test('toUtm',       p.toUtm(),    '30 N 708207 5707224')
+
+            p = LatLon(84, 0)
+            self.test('toUtmUps',    p.toUtmUps(), '00 N 2000000 1333272')
+            self.test('toUtmUps',    p.toUtmUps(), '00 N 2000000 1333272')
+            p = p.copy()
+            self.test('toUps',       p.toUps(),    '00 N 2000000 1333272')
+            self.test('toUps',       p.toUps(),    '00 N 2000000 1333272')
 
         if Cartesian and Nvector:
             c = Cartesian(3980581, 97, 4966825)
@@ -142,13 +154,13 @@ class Tests(_TestsLL, _TestsV):
         ll1 = module.LatLon(-41.32, 174.81)
         # <https://GeographicLib.SourceForge.io/1.49/python>
         d = ll1.geodesic.Inverse(-41.32, 174.81, 40.96, -5.50)
-        self.test('lat1', d['lat1'], -41.320, fmt='%.3f')
-        self.test('lon1', d['lon1'], 174.810, fmt='%.3f')
-        self.test('azi1', d['azi1'], 161.067669986160, fmt='%.12f')
-        self.test('lat2', d['lat2'],  40.960, fmt='%.3f')
-        self.test('lon2', d['lon2'],  -5.500, fmt='%.3f')
-        self.test('azi2', d['azi2'],  18.825195123247, fmt='%.12f')
-        self.test('s12',  d['s12'], 19959679.267353821546, fmt='%.12f', known=True)
+        self.test('.lat1', d.lat1, -41.320, fmt='%.3f')
+        self.test('.lon1', d.lon1, 174.810, fmt='%.3f')
+        self.test('.azi1', d.azi1, 161.067669986160, fmt='%.12f')
+        self.test('.lat2', d.lat2,  40.960, fmt='%.3f')
+        self.test('.lon2', d.lon2,  -5.500, fmt='%.3f')
+        self.test('.azi2', d.azi2,  18.825195123247, fmt='%.12f')
+        self.test('.s12',  d.s12, 19959679.267353821546, fmt='%.12f', known=True)
 
         d3 = ll1.distanceTo3(module.LatLon(40.96, -5.50))
         self.test('distanceTo3', fstr(d3, prec=12), '19959679.267353821546, 161.06766998616, 18.825195123247', known=True)
@@ -166,6 +178,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('areaOf', module.areaOf(p), '1.366270368e+13', fmt='%.9e')  # 1.366270368002013e+13'
         self.test('perimeterOf', module.perimeterOf(p, closed=True), '1.683106789e+07', fmt='%.9e')  # 1.683106789279071e+07
         self.test('isclockwise', module.isclockwise(p), True)  # polar
+        self.test('isclockwise', module.isclockwise(reversed(p)), False)  # polar
 
     def testVincenty(self, module, datum):
 

@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.03.09'
+__version__ = '20.04.06'
 
 from base import TestsBase
 
@@ -30,6 +30,11 @@ class Tests(TestsBase):
         c = c.toDatum(Datums.NAD83)
         self.test(n, c, "name='%s', lat0=23, lon0=-96, par1=33, E0=0, N0=0, k0=1, SP=1, datum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83)" % (n,))
 
+        self.test(n + ' .auth', repr(c.auth), "''")
+        self.test(n + ' .opt3', c.opt3, '0.0')
+        self.test(n + ' .latlon0', c.latlon0, '(23.0, -96.0)')
+        self.test(n + ' .philam0', c.philam0, '(0.401426, -1.675516)')
+
     def testLcc(self, module):
 
         self.subtitle(module, 'Lcc')
@@ -42,6 +47,8 @@ class Tests(TestsBase):
         self.test('lb1', lb.toStr2(), '[E:448251, N:5411932]')
         self.test('lb1', lb.conic.name2, 'WRF_Lb.WGS84')
         self.test('lb1', lb.name, 'lb1')
+        self.test('lb1', lb.latlon, '(81.929348, -79.558697)')
+        self.test('lb1', lb.philam, '(1.429937, -1.388561)')
 
         ll = LatLon(46.5, 3)
         self.test('LatLon', ll, '46.5°N, 003.0°E')

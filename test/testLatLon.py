@@ -383,6 +383,13 @@ class Tests(TestsBase):
         self.testReturnType(p.haversineTo(q),       float, 'haversineTo')
         self.testReturnType(p.vincentysTo(q),       float, 'vincentysTo')
 
+        if not Nv:
+            # XXX prec=5 for NvectorBase.toStr vs prec=6 for Vector3Tuple.toStr
+            self.test('toNvector', p.toNvector(), '(0.61566, 0.0, 0.78801)' if Sph
+                                             else '(0.615661, 0.0, 0.788011)')  # PYCHOK test
+        self.test('toVector',   p.toVector(), '(0.615661, 0.0, 0.788011)')
+        self.test('toVector3d', p.toVector3d(), '(0.61566, 0.0, 0.78801)')
+
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__
 

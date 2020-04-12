@@ -14,13 +14,14 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import len2, scalar, property_doc_, property_RO
+from pygeodesy.basics import _float, len2, scalar, property_doc_, \
+                              property_RO, _xattrs
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.fmath import fsum, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import Vector3Tuple, Vector4Tuple, _xattrs
+from pygeodesy.named import Vector3Tuple, Vector4Tuple
 from pygeodesy.vector3d import Vector3d, VectorError, \
                                sumOf as _sumOf, _xyzhdn6
 
@@ -31,7 +32,7 @@ __all__ = _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'NvectorBase',  # classes
           'sumOf')  # functions
-__version__ = '20.03.20'
+__version__ = '20.04.11'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -41,7 +42,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     _Ecef   = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
     _h      = 0           #: (INTERNAL) Height (C{meter}).
     _H      = ''          #: Heigth prefix (C{str}), '↑' in JS version
-    _latlon = None        #: (INTERNAL) Cached latlon (L{Latlon2Tuple}).
+    _latlon = None        #: (INTERNAL) Cached latlon (L{LatlLon2Tuple}).
     _philam = None        #: (INTERNAL) Cached philam (L{PhiLam2Tuple}).
 
     def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=''):
@@ -203,6 +204,8 @@ class NvectorBase(Vector3d):  # XXX kept private
                           n-vector's height (C{meter}).
 
            @return: A L{PhiLam3Tuple}C{(phi, lam, height)}.
+
+           @raise ValueError: Invalid B{C{height}}.
         '''
         return self.philamheight if height in (None, self.h) else \
                self.philam.to3Tuple(height)
@@ -211,8 +214,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''Convert this n-vector to C{Nvector}-based cartesian (ECEF)
            coordinates.
 
-           @kwarg height: Optional height, overriding this n-vector's
-                          height (C{meter}).
+           @kwarg h: Optional height, overriding this n-vector's height (C{meter}).
            @kwarg Cartesian: Optional class to return the (ECEF)
                              coordinates (L{Cartesian}).
            @kwarg datum: Optional, spherical datum (C{Datum}).
@@ -227,6 +229,8 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @raise TypeError: Invalid B{C{Cartesian}}.
 
+           @raise ValueError: Invalid B{C{h}}.
+
            @example:
 
            >>> v = Nvector(0.5, 0.5, 0.7071)
@@ -234,8 +238,8 @@ class NvectorBase(Vector3d):  # XXX kept private
            >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
         x, y, z = self.x, self.y, self.z
-        if h is None:
-            h = self.h
+
+        h = self.h if h is None else _float(h=h)
         d = datum or self.datum
 
         E = d.ellipsoid
@@ -262,6 +266,8 @@ class NvectorBase(Vector3d):  # XXX kept private
                           n-vector's height (C{meter}).
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
+
+           @raise ValueError: Invalid B{C{height}}.
         '''
         return self.latlonheight if height in (None, self.h) else \
                self.latlon.to3Tuple(height)
@@ -283,6 +289,8 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @raise TypeError: Invalid B{C{LatLon}}.
 
+           @raise ValueError: Invalid B{C{height}}.
+
            @example:
 
            >>> v = Nvector(0.5, 0.5, 0.7071)
@@ -290,7 +298,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         # use self.Cartesian(Cartesian=None) if h == self.h and
         # d == self.datum, for better accuracy of the height
-        h = self.h if height is None else height
+        h = self.h if height is None else _float(height=height)
         r = self.Ecef(datum or self.datum).forward(self.latlon, height=h, M=True)
         if LatLon is not None:  # class or .classof
             r = LatLon(r.lat, r.lon, r.height, datum=r.datum, **LatLon_kwds)

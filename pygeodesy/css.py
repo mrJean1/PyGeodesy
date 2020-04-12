@@ -8,8 +8,8 @@ L{CSSError} requiring I{Charles Karney's} U{geographiclib
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import _isnotError, issubclassof, property_RO, \
-                             _TypeError, _xkwds
+from pygeodesy.basics import _float, property_RO, _xinstanceof, \
+                             _xkwds, _xsubclassof
 from pygeodesy.datum import Datums
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.lazily import _ALL_LAZY
@@ -17,11 +17,11 @@ from pygeodesy.named import EasNor2Tuple, EasNor3Tuple, EasNorAziRk4Tuple, \
                             LatLon2Tuple, LatLon4Tuple, LatLonAziRk4Tuple, \
                             _NamedBase, nameof, _xnamed
 from pygeodesy.streprs import fstr, strs
-from pygeodesy.utily import false2f
+from pygeodesy.utily import falsed2f
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css
-__version__ = '20.04.04'
+__version__ = '20.04.11'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -35,7 +35,7 @@ def _CassiniSoldner(cs0):
             _CassiniSoldner0 = CassiniSoldner(0, 0, name='Default')
         cs0 = _CassiniSoldner0
     else:
-        _TypeError(CassiniSoldner, cs0=cs0)
+        _xinstanceof(CassiniSoldner, cs0=cs0)
     return cs0
 
 
@@ -186,7 +186,7 @@ class CassiniSoldner(_NamedBase):
 
            @raise TypeError: Invalid B{C{latlon0}}.
         '''
-        _TypeError(_LLEB, LatLon4Tuple, LatLon2Tuple, latlon0=latlon0)
+        _xinstanceof(_LLEB, LatLon4Tuple, LatLon2Tuple, latlon0=latlon0)
         if hasattr(latlon0, 'datum'):
             self._datumatch(latlon0)
         self.reset(latlon0.lat, latlon0.lon)
@@ -240,12 +240,11 @@ class CassiniSoldner(_NamedBase):
         r = self.reverse4(easting, northing)
         if LatLon is None:
             r = LatLon2Tuple(r.lat, r.lon)  # PYCHOK expected
-        elif issubclassof(LatLon, _LLEB):
+        else:
+            _xsubclassof(_LLEB, LatLon=LatLon)
             kwds = _xkwds(LatLon_kwds, datum=self.datum)
             r = LatLon(r.lat, r.lon, **kwds)  # PYCHOK expected
             self._datumatch(r)
-        else:
-            raise _isnotError(_LLEB.__name__, LatLon=LatLon)
         return self._xnamed(r)
 
     toLatLon = reverse
@@ -331,15 +330,17 @@ class Css(_NamedBase):
 
            @raise TypeError: If B{C{cs0}} is not L{CassiniSoldner}.
 
+           @raise ValueError: Invalid B{C{h}}.
+
            @example:
 
            >>> cs = Css(448251, 5411932.0001)
         '''
         self._cs0 = _CassiniSoldner(cs0)
-        self._easting  = false2f(e, 'easting',  false=False, Error=CSSError)
-        self._northing = false2f(n, 'northing', false=False, Error=CSSError)
+        self._easting  = falsed2f(easting=e,  falsed=False, Error=CSSError)
+        self._northing = falsed2f(northing=n, falsed=False, Error=CSSError)
         if h:
-            self._height = float(h)
+            self._height = _float(h=h)
         if name:
             self.name = name
 
@@ -413,14 +414,15 @@ class Css(_NamedBase):
                     datum)}.
 
            @raise TypeError: If B{C{LatLon}} or B{C{datum}} is not
-                             ellipsoidal or invalid B{C{LatLon_kwds}}.
+                             ellipsoidal or invalid B{C{height}} or
+                             B{C{LatLon_kwds}}.
         '''
-        if LatLon and not issubclassof(LatLon, _LLEB):
-            raise _isnotError(_LLEB.__name__, LatLon=LatLon)
+        if LatLon:
+            _xsubclassof(_LLEB, LatLon=LatLon)
 
         lat, lon = self.latlon
         d = self.cs0.datum
-        h = self.height if height is None else height
+        h = self.height if height is None else _float(height=height)
 
         r = LatLon4Tuple(lat, lon, h, d) if LatLon is None else \
                   LatLon(lat, lon, height=h, datum=d, **LatLon_kwds)
@@ -489,7 +491,7 @@ def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=''):
 
        @raise TypeError: If B{C{latlon}} is not ellipsoidal.
     '''
-    _TypeError(_LLEB, LatLon4Tuple, latlon=latlon)
+    _xinstanceof(_LLEB, LatLon4Tuple, latlon=latlon)
 
     cs = _CassiniSoldner(cs0)
     cs._datumatch(latlon)

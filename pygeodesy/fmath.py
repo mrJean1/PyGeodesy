@@ -12,8 +12,9 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, isfinite, isint, _isnotError, \
-                             isscalar, len2, LenError, _xcopy
+from pygeodesy.basics import EPS, InvalidError, isfinite, isint, \
+                            IsnotError, isscalar, len2, LenError, \
+                            _xcopy
 from pygeodesy.lazily import _ALL_LAZY
 
 from math import acos, copysign, hypot, sqrt  # pow
@@ -21,7 +22,7 @@ from operator import mul as _mul_
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.03.23'
+__version__ = '20.04.09'
 
 _1_3rd = 1 / 3.0  #: (INTERNAL) One third (C{float})
 _2_3rd = 2 / 3.0  #: (INTERNAL) Two thirds (C{float})
@@ -508,7 +509,7 @@ def favg(v1, v2, f=0.5):
 #      @raise ValueError: Fraction out of range.
 #   '''
 #   if not 0 <= f <= 1:  # XXX restrict fraction?
-#       raise ValueError('%s invalid: %r' % ('fraction', f))
+#       raise InvalidError(fraction=f)
     return v1 + f * (v2 - v1)  # v1 * (1 - f) + v2 * f
 
 
@@ -678,9 +679,9 @@ def fpowers(x, n, alts=0):
     if not isfinite(x):
         raise ValueError('not %s: %r' %('finite', x))
     if not isint(n):
-        raise _isnotError(int.__name_, n=n)
+        raise IsnotError(int.__name_, n=n)
     elif n < 1:
-        raise ValueError('%s invalid: %r' % ('n', n))
+        raise InvalidError(n=n)
 
     xs = [x]
     for _ in range(1, n):
@@ -726,7 +727,7 @@ def frange(start, number, step=1):
              numpy/reference/generated/numpy.arange.html>}.
     '''
     if not isint(number):
-        raise _isnotError(int.__name_, number=number)
+        raise IsnotError(int.__name_, number=number)
     for i in range(number):
         yield start + i * step
 
@@ -855,7 +856,7 @@ def hypot1(x):
 
 
 def hypot2(x, y):
-    '''Compute the norm, squared M{x**2 + y**2}.
+    '''Compute the norm, I{squared} M{x**2 + y**2}.
 
        @arg x: Argument (C{scalar}).
        @arg y: Argument (C{scalar}).
@@ -865,7 +866,7 @@ def hypot2(x, y):
     x, y = x**2, y**2
     if x < y:
         x, y = y, x
-    if x:  # and y
+    if y:  # and x
         x *= 1 + y / x
     return x
 

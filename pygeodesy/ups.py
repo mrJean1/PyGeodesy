@@ -18,9 +18,9 @@ each end).
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, property_RO
+from pygeodesy.basics import EPS, InvalidError, property_RO, RangeError
 from pygeodesy.datum import Datums, _TOL
-from pygeodesy.dms import clipDMS, degDMS, parseDMS2, _parseUTMUPS, RangeError
+from pygeodesy.dms import clipDMS, degDMS, parseDMS2, _parseUTMUPS
 from pygeodesy.fmath import hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
@@ -34,7 +34,7 @@ from math import atan, atan2, radians, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '20.03.20'
+__version__ = '20.04.09'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = 2000e3  #: (INTERNAL) False easting and northing (C{meter}).
@@ -63,6 +63,7 @@ class Ups(UtmUpsBase):
     '''Universal Polar Stereographic (UPS) coordinate.
     '''
     _band        = ''    #: (INTERNAL) Polar band ('A', 'B', 'Y' or 'Z').
+    _Error       = UPSError  # (INTERNAL) Error
     _latlon_args = True  #: (INTERNAL) unfalse from _latlon (C{bool}).
     _pole        = ''    #: (INTERNAL) UPS projection top/center ('N' or 'S').
     _scale       = None  #: (INTERNAL) Point scale factor (C{scalar}).
@@ -90,7 +91,9 @@ class Ups(UtmUpsBase):
                          (C{scalar}).
            @kwarg name: Optional name (C{str}).
 
-           @raise UPSError: Invalid B{C{zone}}, B{C{pole}} or B{C{band}}.
+           @raise UPSError: Invalid B{C{zone}}, B{C{pole}}, B{C{easting}},
+                            B{C{northing}}, B{C{band}}, B{C{convergence}}
+                            or B{C{scale}}.
         '''
         if name:
             self.name = name
@@ -102,15 +105,9 @@ class Ups(UtmUpsBase):
         except ValueError:
             raise UPSError('%s, %s or %s invalid: %r' %
                            ('zone', 'pole', 'band', (zone, pole, band)))
-
-        self._band        = B
-        self._convergence = convergence
-        self._easting     = float(easting)
-        self._falsed      = falsed
-        self._northing    = float(northing)
-        self._pole        = p
-        self._datum       = datum
-        self._scale       = scale
+        self._pole = p
+        UtmUpsBase.__init__(self, easting, northing, band=B, datum=datum, falsed=falsed,
+                                                     convergence=convergence, scale=scale)
 
     def __eq__(self, other):
         return isinstance(other, Ups) and other.zone     == self.zone \
@@ -167,14 +164,14 @@ class Ups(UtmUpsBase):
            @raise RangeError: If B{C{lat}} outside the valid range
                               and L{rangerrors} set to C{True}.
 
-           @raise ValueError: Invalid B{C{scale}}.
+           @raise UPSError: Invalid B{C{scale}}.
         '''
         try:
             s0 = float(scale0)
             if not 0 < s0:  # <= 1.003 or 1.0016?
                 raise ValueError
         except (TypeError, ValueError):
-            raise ValueError('%s invalid: %r' % ('scale', scale0))
+            raise InvalidError(scale0=scale0, Error=UPSError)
 
         lat = clipDMS(lat, 90)  # clip and force N
         u = toUps8(abs(lat), 0, datum=self.datum, Ups=_UpsK1)
@@ -369,12 +366,10 @@ def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=''):
         if z != _UPS_ZONE or (B and B not in _Bands):
             raise ValueError
     except (AttributeError, TypeError, ValueError):
-        raise UPSError('%s invalid: %r' % ('strUPS', strUPS))
+        raise InvalidError(strUPS=strUPS, Error=UPSError)
 
-    if Ups is None:
-        r = UtmUps5Tuple(z, p, e, n, B)
-    else:
-        r = Ups(z, p, e, n, band=B, falsed=falsed, datum=datum)
+    r = UtmUps5Tuple(z, p, e, n, B) if Ups is None else \
+                 Ups(z, p, e, n, band=B, falsed=falsed, datum=datum)
     return _xnamed(r, name)
 
 

@@ -12,8 +12,8 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _isnotError, property_doc_, \
-                             property_RO, _TypeError
+from pygeodesy.basics import EPS, IsnotError, property_doc_, \
+                             property_RO, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
@@ -23,7 +23,7 @@ from pygeodesy.named import Vector3Tuple
 from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 
 __all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '20.03.23'
+__version__ = '20.04.10'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -49,7 +49,7 @@ class CartesianEllipsoidalBase(CartesianBase):
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a
                              L{RefFrame} or B{C{epoch}} not C{scalar}.
         '''
-        _TypeError(RefFrame, reframe2=reframe2, reframe=reframe)
+        _xinstanceof(RefFrame, reframe2=reframe2, reframe=reframe)
 
         c, d = self, self.datum
         for t in _reframeTransforms(reframe2, reframe, reframe.epoch if
@@ -195,7 +195,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            >>> p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  # default Datums.WGS84
            >>> p.convertRefFrame(RefFrames.ITRF2014)  # 51.477803°N, 000.001597°W, +0.01m
         '''
-        _TypeError(RefFrame, reframe2=reframe2)
+        _xinstanceof(RefFrame, reframe2=reframe2)
 
         if not self.reframe:
             raise TRFError('no %r.%s' % (self, 'reframe'))
@@ -227,9 +227,9 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise TypeError: The B{C{datum}} is not a L{Datum}
                              or not ellipsoidal.
         '''
-        _TypeError(Datum, datum=datum)
+        _xinstanceof(Datum, datum=datum)
         if not datum.isEllipsoidal:
-            raise _isnotError('ellipsoidal', datum=datum)
+            raise IsnotError('ellipsoidal', datum=datum)
         self._update(datum != self._datum)
         self._datum = datum
 
@@ -258,16 +258,16 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''Return elevation of this point for its or the given datum.
 
            @kwarg adjust: Adjust the elevation for a B{C{datum}} other
-                          than C{NAD83}.
+                          than C{NAD83} (C{bool}).
            @kwarg datum: Optional datum (L{Datum}).
-           @kwarg timeout: Optional query timeout (seconds).
+           @kwarg timeout: Optional query timeout (C{seconds}).
 
            @return: An L{Elevation2Tuple}C{(elevation, data_source)}
                     or C{(None, error)} in case of errors.
 
            @note: The adjustment applied is the difference in geocentric
-                  earth radius for the B{C{datum}} used and the C{NAV83}
-                  datum upon which L{elevations.elevation2} is based.
+                  earth radius between the B{C{datum}} and C{NAV83}
+                  upon which the L{elevations.elevation2} is based.
 
            @note: NED elevation is only available for locations within
                   the U{Conterminous US (CONUS)
@@ -339,17 +339,17 @@ class LatLonEllipsoidalBase(LatLonBase):
     def geoidHeight2(self, adjust=False, datum=Datums.WGS84, timeout=2):
         '''Return geoid height of this point for its or the given datum.
 
-           @kwarg adjust: Adjust the geoid height for a B{C{datum}} other
-                          than C{NAD83/NADV88}.
+           @kwarg adjust: Adjust the geoid height for a B{C{datum}}
+                          other than C{NAD83/NADV88} (C{bool}).
            @kwarg datum: Optional datum (L{Datum}).
-           @kwarg timeout: Optional query timeout (seconds).
+           @kwarg timeout: Optional query timeout (C{seconds}).
 
            @return: An L{GeoidHeight2Tuple}C{(height, model_name)} or
                     C{(None, error)} in case of errors.
 
            @note: The adjustment applied is the difference in geocentric
-                  earth radius for the given B{C{datum}} and the C{NAV83/NADV88}
-                  datum of the L{elevations.geoidHeight2}.
+                  earth radius between the B{C{datum}} and C{NAV83/NADV88}
+                  upon which the L{elevations.geoidHeight2} is based.
 
            @note: The geoid height is only available for locations within
                   the U{Conterminous US (CONUS)
@@ -364,18 +364,6 @@ class LatLonEllipsoidalBase(LatLonBase):
             self._geoidHeight2 = geoidHeight2(self.lat, self.lon,
                                               model=0, timeout=timeout)
         return self._Radjust2(adjust, datum, self._geoidHeight2)
-
-    @property_RO
-    def isEllipsoidal(self):
-        '''Check whether this C{LatLon} point is ellipsoidal (C{bool}).
-        '''
-        return self.datum.isEllipsoidal
-
-    @property_RO
-    def isSpherical(self):
-        '''Check whether this C{LatLon} point is spherical (C{bool}).
-        '''
-        return self.datum.isSpherical
 
     @property_RO
     def iteration(self):
@@ -422,10 +410,9 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: The B{C{reframe}} is not a L{RefFrame}.
         '''
-        if isinstance(reframe, RefFrame):
+        if reframe is not None:
+            _xinstanceof(RefFrame, reframe=reframe)
             self._reframe = reframe
-        elif reframe is not None:
-            _TypeError(RefFrame, reframe=reframe)
         elif self.reframe is not None:
             self._reframe = None
 
@@ -527,7 +514,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         if self._utm:
             u = self._utm
-        elif self._ups and (self._utm.pole == pole or not pole):
+        elif self._ups and (self._ups.pole == pole or not pole):
             u = self._ups
         else:
             from pygeodesy.utmups import toUtmUps8, Utm, Ups  # PYCHOK recursive import
@@ -537,7 +524,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             elif isinstance(u, Ups):
                 self._ups = u
             else:
-                _TypeError(Utm, Ups, toUtmUps8=u)
+                _xinstanceof(Utm, Ups, toUtmUps8=u)
         return u
 
     def toWm(self):

@@ -4,7 +4,7 @@
 u'''Basic constants, definitions and functions.
 
 '''
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from inspect import isclass
@@ -12,8 +12,8 @@ from math import copysign, isinf, isnan
 from sys import float_info as _float_info
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.basics
-__version__ = '20.04.02'
+__all__ = _ALL_LAZY.basics + _ALL_DOCS('InvalidError', 'IsnotError')
+__version__ = '20.04.11'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -69,13 +69,11 @@ INF  = float('inf')  #: Infinity (C{float}), see function C{isinf}, C{isfinite}
 NAN  = float('nan')  #: Not-A-Number (C{float}), see function C{isnan}
 NEG0 = -0.0          #: Negative 0.0 (C{float}), see function C{isneg0}
 
-OK = 'OK'  # OK for test like I{if ... is OK: ...}
-
-# R_M moved here to avoid circular imports
-R_M = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
+R_M  = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
 
 _limiterrors = True      # imported by .formy
 _MISSING     = object()  # singleton, imported by .wgrs
+_rangerrors  = True      # imported by .dms
 
 
 class LenError(ValueError):
@@ -84,8 +82,10 @@ class LenError(ValueError):
     def __init__(self, where, **lens):  # Error=ValueError
         '''New L{LenError}.
 
-           @arg where: Object with C{.__name__} attribute (C{class}, C{method}, or C{function}).
-           @kwarg lens: Two or more C{name=len(name)} pairs (C{keyword arguments}).
+           @arg where: Object with C{.__name__} attribute
+                       (C{class}, C{method}, or C{function}).
+           @kwarg lens: Two or more C{name=len(name)} pairs
+                        (C{keyword arguments}).
         '''
         ns, vs = zip(*sorted(lens.items()))
         ns = ', '.join(ns)
@@ -103,27 +103,33 @@ class LimitError(ValueError):
     pass
 
 
-class _Adict(dict):
-    '''(INTERNAL) Basic C{dict} with key I{and} attribute
-       access to the items.
+class RangeError(ValueError):
+    '''Error raised for lat- or longitude values outside the B{C{clip}},
+       B{C{clipLat}}, B{C{clipLon}} or B{C{limit}} range in function L{clipDMS},
+       L{parse3llh}, L{parseDMS} or L{parseDMS2}.
+
+       @see: Function L{rangerrors}.
     '''
-    def __getattr__(self, name):
-        try:
-            return self[name]
-        except KeyError:
-            return dict.__getattr__(self, name)
+    pass
 
 
-def _bkwds(inst, kwds, Error):
+def _an(noun):
+    '''(INTERNAL) Prepend an article to a noun based
+       on the pronounciation of the first letter.
+    '''
+    return ('an ' if noun[:1].lower() in 'aeinoux' else 'a ') + noun
+
+
+def _bkwds(inst, Error=AttributeError, **n_v_s):  # in .frechet, .hausdorff, .heights
     '''(INTERNAL) Set applicable C{bool} attributes.
     '''
-    for k, v in kwds.items():
-        b = getattr(inst, k, None)
-        if b is None:
-            t = k, v, inst.__class__.__name__
+    for n, v in n_v_s.items():
+        b = getattr(inst, n, None)
+        if b is None:  # invalid bool attr
+            t = n, v, inst.__class__.__name__  # XXX .classname
             raise Error('not applicable: %s=%r for %s' % t)
         if v in (False, True) and v != b:
-            setattr(inst, '_' + k, v)
+            setattr(inst, '_' + n, v)
 
 
 def clips(bstr, limit=50, white=''):
@@ -143,19 +149,52 @@ def clips(bstr, limit=50, white=''):
     return bstr
 
 
+def _float(*value, **name_value_Error):  # name=value [, Error=ValueError]
+    '''(INTERNAL) Convert a single C{value} or C{name=value} to C{float}.
+    '''
+    nv, Error = _nv_Error2(ValueError, **name_value_Error)
+
+    if (len(value) + len(nv)) == 1:
+        try:
+            for f in nv.values():
+                break
+            else:
+                f = value[0]
+            return float(f)
+        except (IndexError, ValueError, TypeError):
+            pass
+
+    from pygeodesy.streprs import unstr
+    f = unstr(_float.__name__.lstrip('_'), *value, **nv)
+    raise Error('invalid, single ' + f)
+
+
 def halfs2(str2):
     '''Split a string in 2 halfs.
 
        @arg str2: String to split (C{str}).
 
-       @return: 2-Tuple (1st, 2nd) half (C{str}).
+       @return: 2-Tuple (_1st, _2nd) half (C{str}).
 
-       @raise ValueError: Zero or odd C{len}(B{str2}).
+       @raise ValueError: Zero or odd C{len}(B{C{str2}}).
     '''
     h, r = divmod(len(str2), 2)
     if r or not h:
-        raise ValueError('%s invalid: %r' % ('str2', str2))
+        raise InvalidError(str2=str2)
     return str2[:h], str2[h:]
+
+
+def InvalidError(**name_value_Error):  # name=value [, Error=ValueError]
+    '''Create a C{ValueError} for an invalid C{name=value}.
+
+       @kwarg name_value_Error: One B{C{name=value}} pair and optionally
+                                an C{Error=...} keyword argument to
+                                override the default C{Error=ValueError}.
+
+       @return: An instance of C{ValueError} or B{C{Error=...}}.
+    '''
+    n, v, Error = _n_v_Error3(ValueError, **name_value_Error)
+    return Error('%s invalid: %r' % (n, v))
 
 
 try:
@@ -173,7 +212,7 @@ except ImportError:
            @raise TypeError: Non-scalar B{C{obj}}.
         '''
         if not isscalar(obj):
-            raise _isnotError(isscalar.__name__, obj=obj)
+            raise IsnotError(isscalar.__name__, obj=obj)
         return not (isinf(obj) or isnan(obj))
 
 
@@ -205,16 +244,22 @@ def isneg0(obj):
 #                             and str(obj).rstrip('0') == '-0.'
 
 
-def _isnotError(*names, **pair):  # Error=TypeError, name=value
-    '''(INTERNAL) Format a C{TypeError} for a C{name=value} pair.
+def IsnotError(*noun_s, **name_value_Error):  # name=value [, Error=TypeeError]
+    '''Create a C{TypeError} for an invalid C{name=value} type.
+
+       @arg noun_s: One or more expected class or type names, usually
+                    nouns (C{str}).
+       @kwarg name_value_Error: One B{C{name=value}} pair and optionally
+                                an C{Error=...} keyword argument to
+                                override the default C{Error=TypeError}.
+
+       @return: An instance of C{TypeError} or B{C{Error=...}}.
     '''
-    Error = pair.pop('Error', TypeError)
-    for n, v in pair.items():
-        break
-    else:
-        n, v = 'pair', 'N/A'
-    t = ' or ' .join(names)
-    return Error('%s not %s: %r' % (n, t, v))
+    n, v, Error = _n_v_Error3(TypeError, **name_value_Error)
+    t = ' or ' .join(noun_s) or 'specified'
+    if len(noun_s) > 1:
+        t = _an(t)
+    return Error('%s is not %s: %r' % (n, t, v))
 
 
 def isscalar(obj):
@@ -254,15 +299,16 @@ def isstr(obj):
     return isinstance(obj, _Strs)
 
 
-def issubclassof(sub, sup):
-    '''Check whether a class is a subclass of a super class.
+def issubclassof(Sub, Super):
+    '''Check whether a class is a sub-class of a super class.
 
-       @arg sub: The subclass (C{class}).
-       @arg sup: The super class (C{class}).
+       @arg Sub: The sub-class (C{class}).
+       @arg Super: The super class (C{class}).
 
-       @return: C{True} if B{C{sub}} is a subclass of B{C{sup}}.
+       @return: C{True} iff B{C{Sub}} is a sub-class of B{C{Super}},
+                C{False} otherwise (C{bool}).
     '''
-    return isclass(sub) and isclass(sup) and issubclass(sub, sup)
+    return isclass(Sub) and isclass(Super) and issubclass(Sub, Super)
 
 
 def len2(items):
@@ -321,6 +367,22 @@ def map2(func, *xs):
        @return: Function results (C{tuple}).
     '''
     return tuple(map(func, *xs))
+
+
+def _nv_Error2(DefaultError, Error=None, **name_value):
+    '''(INTERNAL) Helper for C{_float}.
+    '''
+    return name_value, (DefaultError if Error is None else Error)
+
+
+def _n_v_Error3(DefaultError, Error=None, **name_value):  # imported by .utily
+    '''(INTERNAL) Helper for L{InvalidError}, L{IsnotError} and C{falsed2f}.
+    '''
+    for n, v in name_value.items():
+        break
+    else:
+        n, v = 'name=value', name_value
+    return n, v, (DefaultError if Error is None else Error)
 
 
 def property_doc_(doc):
@@ -389,6 +451,25 @@ class property_RO(property):
 #     return property(method, Read_Only, None, method.__doc__ or 'N/A')
 
 
+def rangerrors(raiser=None):
+    '''Get/set raising of range errors.
+
+       @kwarg raiser: Choose C{True} to raise or C{False} to ignore
+                      L{RangeError} exceptions.  Use C{None} to leave
+                      the setting unchanged.
+
+       @return: Previous setting (C{bool}).
+
+       @note: Out-of-range lat- and longitude values are always
+              clipped to the nearest range limit.
+    '''
+    global _rangerrors
+    t = _rangerrors
+    if raiser in (True, False):
+        _rangerrors = raiser
+    return t
+
+
 def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
     '''Validate a scalar.
 
@@ -405,7 +486,7 @@ def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
        @raise Error: Out-of-bounds B{C{value}}.
     '''
     if not isscalar(value):
-        raise _isnotError(scalar.__name__, **{name: value})
+        raise IsnotError(scalar.__name__, **{name: value})
     try:
         if low is None:
             v = float(value)
@@ -414,7 +495,7 @@ def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
             if low > v or v > high:
                 raise ValueError
     except (TypeError, ValueError):
-        raise _isnotError('valid', Error=Error, **{name: value})
+        raise IsnotError('valid', Error=Error, **{name: value})
     return v
 
 
@@ -471,27 +552,57 @@ def splice(iterable, n=2, fill=_MISSING):
         yield t
 
 
-def _TypeError(*Types, **pairs):
-    '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
+def _xattrs(insto, other, *attrs):
+    '''(INTERNAL) Copy attribute values from B{C{other}} to B{C{insto}}.
+
+       @arg insto: Object to copy attribute values to (any C{type}).
+       @arg other: Object to copy attribute values from (any C{type}).
+       @arg attrs: One or more attribute names (C{str}s).
+
+       @return: Object B{C{insto}}, updated.
+
+       @raise AttributeError: An B{C{attrs}} doesn't exist
+                              or is not settable.
     '''
-    for n, v in pairs.items():
-        if not isinstance(v, Types):
-            t = ' or '.join(t.__name__ for t in Types)
-            # first letter of Type name I{pronounced} as vowel
-            a = 'an' if t[:1].lower() in 'aeinoux' else 'a'
-            raise TypeError('%s not %s %s: %r' % (n, a, t, v))
+    def _getattr(o, a):
+        if hasattr(o, a):
+            return getattr(o, a)
+        raise AttributeError('.%s invalid: %r' % (a, o))
+
+    for a in attrs:
+        s = _getattr(other, a)
+        g = _getattr(insto, a)
+        if (g is None and s is not None) or g != s:
+            setattr(insto, a, s)  # not settable?
+    return insto
 
 
 def _xcopy(inst, deep=False):
-    '''(INTERNAL) Copy an instance, shallow or deep.
+    '''(INTERNAL) Copy an object, shallow or deep.
 
-       @arg inst: The instance to copy (C{_Named}).
+       @arg inst: The object to copy (any C{type}).
        @kwarg deep: If C{True} make a deep, otherwise
-                    shallow copy (C{bool}).
+                    a shallow copy (C{bool}).
 
-       @return: The copy (C{This class} or subclass thereof).
+       @return: The copy of B{C{inst}}.
     '''
     return _deepcopy(inst) if deep else _copy(inst)
+
+
+def _xinstanceof(*Types, **name_value_s):
+    '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
+
+       @arg Types: One or more classes or types (C{class}).
+       @kwarg name_value_s: One or more B{C{name=value}} pairs
+                            with the C{value} to be checked.
+
+       @raise TypeError: At least one B{C{name_value_s}} is
+                         not any of the B{C{Types}}.
+    '''
+    for n, v in name_value_s.items():
+        if not isinstance(v, Types):
+            t = _an(' or '.join(t.__name__ for t in Types))
+            raise TypeError('%s is not %s: %r' % (n, t, v))
 
 
 def _xkwds(kwds, **dflts):
@@ -499,9 +610,25 @@ def _xkwds(kwds, **dflts):
     '''
     d = dflts
     if kwds:
-        d = d.copy()
+        d = _copy(d)
         d.update(kwds)
     return d
+
+
+def _xsubclassof(Class, **name_value_s):
+    '''(INTERNAL) Check super C{Class} of all C{name=value} pairs.
+
+       @arg Class: A class or type (C{class}).
+       @kwarg name_value_s: One or more B{C{name=value}} pairs with
+                            the C{value} to be checked.
+
+       @raise TypeError: At least one B{C{name_value_s}} is not a
+                         sub-class of B{C{Class}}.
+    '''
+    for n, v in name_value_s.items():
+        if not issubclassof(v, Class):
+            t = _an(Class.__name__)
+            raise TypeError('%s is not %s: %r' % (n, t, v))
 
 # **) MIT License
 #

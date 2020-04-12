@@ -16,8 +16,8 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, _isnotError, isstr, map2, \
-                             property_RO
+from pygeodesy.basics import EPS, R_M, _float, InvalidError, IsnotError, \
+                             isstr, map2, property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
 from pygeodesy.fmath import favg
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
@@ -33,7 +33,7 @@ from math import ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash + ('bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '20.04.02'
+__version__ = '20.04.11'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -95,7 +95,7 @@ def _2Geohash(geohash):
         try:
             geohash = Geohash(geohash)
         except (TypeError, ValueError):
-            raise _isnotError(Geohash.__name__, str.__name__, 'LatLon', geohash=geohash)
+            raise IsnotError(Geohash.__name__, str.__name__, 'LatLon', geohash=geohash)
     return geohash
 
 
@@ -310,6 +310,8 @@ class Geohash(_NamedStr):
 
            @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
                              or C{str}.
+
+           @raise ValueError: Invalid B{C{radius}}.
         '''
         other = _2Geohash(other)
 
@@ -317,7 +319,7 @@ class Geohash(_NamedStr):
         a2, b2 = other.ab
 
         db, _ = unrollPI(b1, b2, wrap=wrap)
-        return haversine_(a2, a1, db) * float(radius)
+        return haversine_(a2, a1, db) * _float(radius=radius)
 
     @property_RO
     def latlon(self):
@@ -639,7 +641,7 @@ def encode(lat, lon, precision=None):
             if not 0 < p <= _MaxPrec:
                 raise ValueError
         except (TypeError, ValueError):
-            raise GeohashError('%s invalid: %r' % ('precision', precision))
+            raise InvalidError(precision=precision, Error=GeohashError)
     else:
         # Infer precision by refining geohash until
         # it matches precision of supplied lat/lon.

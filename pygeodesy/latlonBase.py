@@ -11,8 +11,8 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, map1, R_M, property_doc_, property_RO, \
-                             scalar, _TypeError
+from pygeodesy.basics import EPS, _float, InvalidError, map1, R_M, \
+                             property_doc_, property_RO, scalar, _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.fmath import favg
@@ -30,7 +30,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.04.02'
+__version__ = '20.04.11'
 
 
 class LatLonBase(_NamedBase):
@@ -302,6 +302,8 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
+           @raise ValueError: Invalid B{C{radius}}.
+
            @see: Function L{flatLocal}, methods C{cosineLawTo},
                  C{distanceTo*}, C{equirectangularTo}, C{euclideanTo},
                  C{flatPolarTo}, C{haversineTo} and C{vincentysTo}
@@ -312,7 +314,7 @@ class LatLonBase(_NamedBase):
             self.others(other)
             r = 1
         else:
-            r = float(radius) / self.datum.ellipsoid.a
+            r = _float(radius=radius) / self.datum.ellipsoid.a
         return r * flatLocal(self.lat, self.lon, other.lat, other.lon,
                              datum=self.datum, wrap=wrap)
 
@@ -413,6 +415,8 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
+           @raise ValueError: Invalid B{C{eps}}.
+
            @see: Method L{isequalTo3}.
 
            @example:
@@ -423,9 +427,10 @@ class LatLonBase(_NamedBase):
         '''
         self.others(other)
 
-        if eps and eps > 0:
+        e = 0 if eps in (None, 0, 0.0) else _float(eps=eps)
+        if e > 0:
             return max(map1(abs, self.lat - other.lat,
-                                 self.lon - other.lon)) < eps
+                                 self.lon - other.lon)) < e
         else:
             return self.lat == other.lat and \
                    self.lon == other.lon
@@ -504,12 +509,12 @@ class LatLonBase(_NamedBase):
            @see: Function L{parse3llh} to parse a B{C{latlonh}} string
                  into a 3-tuple (lat, lon, h).
         '''
-        _TypeError(list, tuple, latlonh=latlonh)
+        _xinstanceof(list, tuple, latlonh=latlonh)
 
         if len(latlonh) == 3:
             h = scalar(latlonh[2], None, name='latlonh')
         elif len(latlonh) != 2:
-            raise ValueError('%s invalid: %r' % ('latlonh', latlonh))
+            raise InvalidError(latlonh=latlonh)
         else:
             h = self._height
 
@@ -771,7 +776,7 @@ class LatLonBase(_NamedBase):
         '''
         if self._v3d is None:
             self._v3d = self.toVector(Vector=Vector3d)  # XXX .unit()
-        return  self._xnamed(self._v3d)
+        return self._xnamed(self._v3d)
 
     def vincentysTo(self, other, radius=None, wrap=False):
         '''Compute the distance between this and an other point using

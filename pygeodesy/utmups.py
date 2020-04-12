@@ -13,9 +13,8 @@ A pure Python implementation, partially transcribed from C++ class U{UTMUPS
 by I{Charles Karney}.
 '''
 
-from pygeodesy.basics import OK
+from pygeodesy.basics import InvalidError, RangeError
 from pygeodesy.datum import Datums
-from pygeodesy.dms import RangeError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import UtmUps5Tuple, UtmUps8Tuple
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
@@ -26,7 +25,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.03.20'
+__version__ = '20.04.10'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -94,7 +93,7 @@ def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=''):
         except UTMError:
             u = parseUPS5(strUTMUPS, datum=datum, Ups=Ups, name=name)
     except (UTMError, UPSError):
-        raise UTMUPSError('%s invalid: %r' % ('strUTMUPS', strUTMUPS))
+        raise InvalidError(strUTMUPS=strUTMUPS, Error=UTMUPSError)
     return u
 
 
@@ -213,7 +212,7 @@ def utmupsValidate(coord, falsed=False, MGRS=False):
         band = coord.band
         enMM = falsed
     else:
-        raise UTMUPSError('%s invalid: %r' % ('coord', coord))
+        raise InvalidError(coord=coord, Error=UTMUPSError)
 
     z, B, h = _to3zBhp(zone, band, hemipole=hemi)
 
@@ -243,7 +242,7 @@ def utmupsValidate(coord, falsed=False, MGRS=False):
         _en(n, M.nMin[i] - s, M.nMax[i] + s, 'northing')  # PYCHOK .nMax .nMin
 
 
-def utmupsValidateOK(coord, falsed=False, ok=OK):
+def utmupsValidateOK(coord, falsed=False, ok=True):
     '''Check a UTM or UPS coordinate.
 
        @arg coord: The UTM or UPS coordinate (L{Utm}, L{Ups} or C{5+Tuple}).

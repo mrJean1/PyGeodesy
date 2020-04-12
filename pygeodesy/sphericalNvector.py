@@ -30,8 +30,8 @@ to a normalised version of an (ECEF) cartesian coordinate.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, EPS_2, R_M, isscalar, map1, \
-                     _TypeError, _xkwds
+from pygeodesy.basics import EPS, EPS_2, R_M, _float, InvalidError, \
+                             isscalar, map1, _xinstanceof, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.fmath import fidw, fmean, fsum, fsum_
@@ -40,7 +40,8 @@ from pygeodesy.named import NearestOn3Tuple
 from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
                                   sumOf as _sumOf
 from pygeodesy.points import _imdex2, ispolar  # PYCHOK exported
-from pygeodesy.sphericalBase import CartesianSphericalBase, LatLonSphericalBase
+from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
+                                     LatLonSphericalBase
 from pygeodesy.utily import PI, PI2, PI_2, degrees360, iterNumpy2, \
                             sincos2, sincos2d
 
@@ -56,7 +57,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.04.02'
+__version__ = '20.04.11'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -227,7 +228,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Destination point (L{LatLon}).
 
-           @raise Valuerror: Polar coincidence.
+           @raise Valuerror: Polar coincidence ior invalid B{C{distance}},
+                             B{C{bearing}}, B{C{radius}} or B{C{height}}.
 
            @example:
 
@@ -237,16 +239,15 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{destinationPoint}.
         '''
-        p = self.toNvector()
+        a = _angular(distance, radius)
+        b = _float(bearing=bearing)
+        sa, ca, sb, cb = sincos2(a, radians(b))
 
+        p = self.toNvector()
         e = NorthPole.cross(p, raiser='pole').unit()  # east vector at p
         n = p.cross(e)  # north vector at p
-
-        s, c = sincos2d(bearing)
-        q = n.times(c).plus(e.times(s))  # direction vector @ p
-
-        s, c = sincos2(float(distance) / float(radius))  # angular distance in radians
-        n = p.times(c).plus(q.times(s))
+        q = n.times(cb).plus(e.times(sb))  # direction vector @ p
+        n = p.times(ca).plus(q.times(sa))
         return n.toLatLon(height=height, LatLon=self.classof)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
     def distanceTo(self, other, radius=R_M):
@@ -396,7 +397,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
-           @raise Valuerror: Points coincide.
+           @raise Valuerror: Points coincide or invalid B{C{height}}.
 
            @example:
 
@@ -417,7 +418,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         s, c = sincos2(atan2(x.length, p.dot(q)) * fraction)  # interpolated
         i = p.times(c).plus(d.times(s))  # p * cosα + d * sinα
 
-        h = self._havg(other, f=fraction) if height is None else height
+        h = self._havg(other, f=fraction) if height is None else _float(height=height)
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intersection(self, end1, start2, end2, height=None):
@@ -836,6 +837,8 @@ class Nvector(NvectorBase):
 
            @raise TypeError: Invalid B{C{LatLon}}, B{C{height}} or
                              other B{C{LatLon_height_kwds}}.
+
+           @raise ValueError: Invalid B{C{height}}.
         '''
         kwds = _xkwds(LatLon_height_kwds, height=self.h, LatLon=LatLon)
         return NvectorBase.toLatLon(self, **kwds)  # class or .classof
@@ -1084,7 +1087,7 @@ def nearestOn3(point, points, closed=False, radius=R_M, height=None):
 
        @raise ValueError: No B{C{points}}.
     '''
-    _TypeError(LatLon, point=point)
+    _xinstanceof(LatLon, point=point)
 
     return point.nearestOn3(points, closed=closed, radius=radius, height=height)
 
@@ -1117,7 +1120,7 @@ def perimeterOf(points, closed=False, radius=R_M):
             v1 = v2
 
     r = fsum(_rads(n, points, closed))
-    return r * float(radius)
+    return r * _float(radius=radius)
 
 
 def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
@@ -1216,23 +1219,26 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
        @raise TypeError: If B{C{point1}}, B{C{point2}} or B{C{point3}}
                          is not L{LatLon}.
 
-       @raise ValueError: Invalid B{C{radius}}, some B{C{distances}} exceed
-                          trilateration or some B{C{points}} coincide.
+       @raise ValueError: Invalid B{C{distance1}}, B{C{distance2}},
+                          B{C{distance3}} or B{C{radius}}, or some
+                          B{C{distances}} exceed trilateration or
+                          some B{C{points}} coincide.
     '''
-    def _nd2(p, d, name, *qs):
-        # return Nvector and radial distance squared
+    def _nd2(p, d, r, name, *qs):
+        # return Nvector and angular distance squared
         _Nvll.others(p, name=name)
         for q in qs:
             if p.isequalTo(q, EPS):
                 raise ValueError('%s %s: %r' % ('coincident', 'points', p))
-        return p.toNvector(), (float(d) / radius)**2
+        return p.toNvector(), (d / r)**2
 
-    if float(radius or 0) < EPS:
-        raise ValueError('%s %s: %r' % ('radius', 'invalid', radius))
+    r = _float(radius=radius)
+    if r < EPS:
+        raise InvalidError(radius=radius)
 
-    n1, d12 = _nd2(point1, distance1, 'point1')
-    n2, d22 = _nd2(point2, distance2, 'point2', point1)
-    n3, d32 = _nd2(point3, distance3, 'point3', point1, point2)
+    n1, d12 = _nd2(point1, _float(distance1=distance1), r, 'point1')
+    n2, d22 = _nd2(point2, _float(distance2=distance2), r, 'point2', point1)
+    n3, d32 = _nd2(point3, _float(distance3=distance3), r, 'point3', point1, point2)
 
     # the following uses x,y coordinate system with origin at n1, x axis n1->n2
     y = n3.minus(n1)

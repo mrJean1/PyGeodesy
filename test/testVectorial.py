@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.03.24'
+__version__ = '20.04.06'
 
 from base import coverage, TestsBase
 
@@ -38,6 +38,9 @@ class Tests(TestsBase):
         if coverage:
             from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, \
                                         PhiLam2Tuple, PhiLam3Tuple
+
+            self.test('.isEllipsoidal', v.isEllipsoidal, not v.isSpherical)
+            self.test('.isSpherical',   v.isSpherical,   not v.isEllipsoidal)
 
             self.test('.latlon', v.latlon, LatLon2Tuple(v.lat, v.lon))
             self.test('.philam', v.philam, PhiLam2Tuple(v.phi, v.lam))

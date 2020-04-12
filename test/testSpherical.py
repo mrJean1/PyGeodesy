@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.02.19'
+__version__ = '20.04.06'
 
 from base import isWindows
 from testLatLon import Tests as _TestsLL
@@ -112,6 +112,11 @@ class Tests(_TestsLL, _TestsV):
         self.test('maxLat0',  p.maxLat( 0), '90.0')
         self.test('maxLat1',  p.maxLat( 1), '89.0')
         self.test('maxLat90', p.maxLat(90),  '0.0')
+        self.test('minLat0',  p.minLat( 0), '-90.0')
+        self.test('minLat1',  p.minLat( 1), '-89.0')
+        self.test('minLat90', p.minLat(90),  '-0.0', known=True)
+
+        self.test('parse', p.parse('0, 0'), p)  # coverage
 
         if hasattr(LatLon, 'crossingParallels'):
             ps = p.crossingParallels(LatLon(60, 30), 30)

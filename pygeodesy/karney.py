@@ -6,7 +6,8 @@ of U{GeographicLib <https://PyPI.org/project/geographiclib>},
 provided that package is installed.
 
 '''
-from pygeodesy.basics import NAN, _Adict, property_RO
+from pygeodesy.basics import NAN, property_RO
+from pygeodesy.datum import Datums
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Destination3Tuple, Distance3Tuple
 from pygeodesy.utily import unroll180, wrap360
@@ -14,7 +15,18 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.04.05'
+__version__ = '20.04.09'
+
+
+class _Adict(dict):
+    '''(INTERNAL) Basic C{dict} with key I{and} attribute
+       access to the items (minimal version of _NamedDict).
+    '''
+    def __getattr__(self, name):
+        try:
+            return self[name]
+        except KeyError:
+            return dict.__getattr__(self, name)
 
 
 class _Wrapped(object):
@@ -40,7 +52,6 @@ class _Wrapped(object):
                 '''Karney U{Geodesic <https://geographiclib.SourceForge.io/html/
                    python/code.html#geographiclib.geodesic.Geodesic>} wrapper.
                 '''
-                WGS84 = None
 
                 def Direct(self, lat1, lon1, azi1, s12, *outmask):
                     '''Return the C{Direct} result.
@@ -89,8 +100,6 @@ class _Wrapped(object):
 
             _Wrapped._Geodesic = Geodesic
 
-            Geodesic.WGS84 = Geodesic(_Geodesic.WGS84.a, _Geodesic.WGS84.f)
-
         return _Wrapped._Geodesic
 
     @property_RO
@@ -121,6 +130,14 @@ class _Wrapped(object):
             _Wrapped._GeodesicLine = GeodesicLine
 
         return _Wrapped._GeodesicLine
+
+    @property_RO
+    def Geodesic_WGS84(self):
+        '''(INTERNAL) Get the wrapped C{Geodesic.WGS84} I{instance} iff
+           the U{GeographicLib<https://PyPI.org/project/geographiclib>}
+           package is installed, an C{ImportError} otherwise.
+        '''
+        return Datums.WGS84.ellipsoid.geodesic
 
     @property_RO
     def geoMath(self):

@@ -65,10 +65,11 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, property_doc_, property_RO, _TypeError
+from pygeodesy.basics import EPS, _float, InvalidError, property_doc_, \
+                             property_RO, _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
-from pygeodesy.fmath import cbrt, Fsum, hypot, hypot1, hypot2
+from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNorExact4Tuple, LatLonExact4Tuple, \
@@ -83,7 +84,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.04.05'
+__version__ = '20.04.11'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -159,7 +160,7 @@ class Etm(Utm):
     def exactTM(self, exactTM):
         '''Set the ETM projection (L{ExactTransverseMercator}).
         '''
-        _TypeError(ExactTransverseMercator, exactTM=exactTM)
+        _xinstanceof(ExactTransverseMercator, exactTM=exactTM)
 
         E = self.datum.ellipsoid
         if exactTM._E != E or exactTM.majoradius != E.a \
@@ -298,6 +299,8 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise TypeError: Invalid B{C{datum}}.
 
+           @raise ValueError: Invalid B{C{lon0}} or B{C{k0}}.
+
            @note: The maximum error for all 255.5K U{TMcoords.dat
                   <https://Zenodo.org/record/32470>} tests (with
                   C{0 <= lat <= 84} and C{0 <= lon}) is C{5.2e-08
@@ -330,7 +333,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
-        _TypeError(Datum, datum=datum)
+        _xinstanceof(Datum, datum=datum)
 
         E = datum.ellipsoid
         self._reset(E.e, E.e2)
@@ -423,11 +426,11 @@ class ExactTransverseMercator(_NamedBase):
     def k0(self, k0):
         '''Set the central scale factor (C{float}), aka I{C{scale0}}.
 
-           @raise EllipticError: Invalid B{C{k0}}.
+           @raise ETMError: Invalid B{C{k0}}.
         '''
-        self._k0 = float(k0)
+        self._k0 = _float(k0=k0, Error=ETMError)
         if not 0 < self._k0 <= 1:
-            raise ETMError('%s invalid: %r' % ('k0', k0))
+            raise InvalidError(k0=k0, Error=ETMError)
         self._k0_a = self._k0 * self._a
 
     @property_doc_(''' the central meridian (C{degrees180}).''')
@@ -439,8 +442,10 @@ class ExactTransverseMercator(_NamedBase):
     @lon0.setter  # PYCHOK setter!
     def lon0(self, lon0):
         '''Set the central meridian (C{degrees180}).
+
+           @raise ValueError: Invalid B{C{lon0}}.
         '''
-        self._lon0 = _norm180(lon0)
+        self._lon0 = _norm180(_float(lon0=lon0))
 
     @property_RO
     def majoradius(self):
@@ -509,8 +514,8 @@ class ExactTransverseMercator(_NamedBase):
             if x < 0:
                 _lon, eta = True, -eta
             if xi > self._Eu.cE:
-                backside = True
                 xi = 2 * self._Eu.cE - xi
+                backside = True
 
         # u,v = coordinates for the Thompson TM, Lee 54
         if xi != 0 or eta != self._Ev.cKE:
@@ -530,9 +535,8 @@ class ExactTransverseMercator(_NamedBase):
         if _lon:
             lon, g = -lon, -g
 
-        lat = _norm180(lat)
-        lon = _norm180(lon + (self._lon0 if lon0 is None else _norm180(lon0)))
-        return LatLonExact4Tuple(lat, lon, g, k)
+        lon += self._lon0 if lon0 is None else _norm180(lon0)
+        return LatLonExact4Tuple(_norm180(lat), _norm180(lon), g, k)
 
     def _scaled(self, tau, d2, snu, cnu, dnu, snv, cnv, dnv):
         '''(INTERNAL) C{scaled}.
@@ -565,9 +569,11 @@ class ExactTransverseMercator(_NamedBase):
         # Similarly rewrite sqrt term in 9.1 as
         #
         #  _mv + _mu * c^2 instead of 1 - _mu * sin(phi)^2
-        sec2 = 1 + tau**2  # sec(phi)^2
         q2 = (mv * snv**2 + cnudnv**2) / d2
-        k = sqrt(mv + mu / sec2) * sqrt(sec2) * sqrt(q2)
+        # originally: sec2 = 1 + tau**2  # sec(phi)^2
+        # k = sqrt(mv + mu / sec2) * sqrt(sec2) * sqrt(q2)
+        #   = sqrt(mv + mv * tau**2 + mu) * sqrt(q2)
+        k = sqrt(fsum_(mu, mv, mv * tau**2)) * sqrt(q2)
         return degrees(g), k * self._k0
 
     def _sigma3(self, v, snu, cnu, dnu, snv, cnv, dnv):  # PYCHOK unused
@@ -685,6 +691,7 @@ class ExactTransverseMercator(_NamedBase):
         else:  # use w = sigma * Eu.K/Eu.E (correct in the limit _e -> 0)
             u = xi  * self._Eu_cK_cE
             v = eta * self._Eu_cK_cE
+
         return u, v, trip
 
     def _sncndn6(self, u, v):
@@ -699,12 +706,10 @@ class ExactTransverseMercator(_NamedBase):
 
            @arg kwds: Optional, keyword arguments.
         '''
-        d = dict(datum=self.datum.name, lon0=self.lon0, k0=self.k0, extendp=self.extendp)
-        if self.name:
-            d['name'] = self.name
-        if kwds:
-            d.update(kwds)
-        return ', '.join(pairs(d))
+        d = dict(name=self.name) if self.name else {}
+        d = dict(datum=self.datum.name, lon0=self.lon0,
+                 k0=self.k0, extendp=self.extendp, **d)
+        return ', '.join(pairs(d, **kwds))
 
     def _zeta3(self, snu, cnu, dnu, snv, cnv, dnv):
         '''(INTERNAL) C{zeta}.
@@ -857,6 +862,7 @@ class ExactTransverseMercator(_NamedBase):
             # But scale to put 90, 0 on the right place
             u = r * atan2(h, c)
             v = r * asinh(s / hypot(c, h))
+
         return u, v, trip
 
     def _zetaScaled(self, sncndn6, ll=True):

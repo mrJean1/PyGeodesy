@@ -10,7 +10,9 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.trf import TRFError as _TRFError
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '20.04.02'
+__version__ = '20.04.10'
+
+OK = 'OK'  # OK for test like I{if ... is OK: ...}
 
 _R_M = _WGS84 = _UTM = object()
 
@@ -106,6 +108,13 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
     '''
     from pygeodesy.formy import equirectangular_
     return tuple(equirectangular_(lat1, lon1, lat2, lon2, **options)[:3])
+
+
+def false2f(value, name='value', false=True, Error=ValueError):
+    '''DEPRECATED, use function L{falsed2f}.
+    '''
+    from pygeodesy.utily import falsed2f
+    return falsed2f(falsed=false, Error=Error, **{name: value})
 
 
 def fStr(floats, prec=6, fmt='%.*f', ints=False, sep=', '):

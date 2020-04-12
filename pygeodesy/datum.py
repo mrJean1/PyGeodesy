@@ -115,8 +115,8 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, EPS1, R_M, property_doc_, \
-                             property_RO, _TypeError
+from pygeodesy.basics import EPS, EPS1, R_M, InvalidError, property_doc_, \
+                             property_RO, _xinstanceof
 from pygeodesy.fmath import _2_3rd, cbrt, cbrt2, fdot, fpowers, \
                              Fsum, fsum_, hypot1, hypot2, sqrt3
 from pygeodesy.lazily import _ALL_LAZY
@@ -145,10 +145,10 @@ R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum
-__version__ = '20.04.04'
+__version__ = '20.04.09'
 
-_floats = {}  # cache, deleted below
-_TOL    = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
+_Flts = {}  # cache, deleted below
+_TOL  = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
 
 
 def _4Ecef(this, Ecef):
@@ -159,15 +159,15 @@ def _4Ecef(this, Ecef):
     if Ecef is None:
         Ecef = EcefKarney
     else:
-        _TypeError(EcefKarney, EcefVeness, EcefYou, Ecef=Ecef)
+        _xinstanceof(EcefKarney, EcefVeness, EcefYou, Ecef=Ecef)
     return Ecef(this, name=this.name)  # datum or ellipsoid
 
 
-def _float(f):
+def _flt(f):
     '''(INTERNAL) cache initial C{float}s.
     '''
     f = float(f)
-    return _floats.setdefault(f, f)  # PYCHOK del _floats
+    return _Flts.setdefault(f, f)  # PYCHOK del _Flts
 
 
 class Ellipsoid(_NamedEnumItem):
@@ -230,17 +230,17 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise NameError: Ellipsoid with that B{C{name}} already exists.
         '''
-        self._a = a = _float(a)  # major half-axis in meter
+        self._a = a = _flt(a)  # major half-axis in meter
         if not b:  # get b from a and f_, minor half-axis in meter
-            self._b = b = _float(a * (f_ - 1) / _float(f_))
+            self._b = b = _flt(a * (f_ - 1) / _flt(f_))
         else:  # get f_ from a and b if not spherical
-            self._b = b = _float(b)
+            self._b = b = _flt(b)
             if not f_ and a > b:
                 f_ = a / (a - b)
 
         if f_ > 0 and a > b > 0:
-            self._f_ = f_ = _float(f_)  # inverse flattening
-            self._f  = f  = _float(1 / f_)  # flattening
+            self._f_ = f_ = _flt(f_)  # inverse flattening
+            self._f  = f  = _flt(1 / f_)  # flattening
         elif a > 0:  # sphere
             self._b = b = self._a2b = self._b2a = a
             self._f2 = self._n = f_ = f = 0
@@ -527,7 +527,7 @@ class Ellipsoid(_NamedEnumItem):
         try:
             return sqrt(self.e2s2(s))
         except (TypeError, ValueError):
-            raise ValueError('%s invalid: %r' % (self._dot_('e2s'), s))
+            raise InvalidError(**{self._dot_('e2s'): s})
 
     def e2s2(self, s):
         '''Compute M{1 - e2 * s**2}.
@@ -538,13 +538,10 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{s}}.
         '''
-        try:
-            r = 1 - self.e2 * s**2
-            if r >= 0:
-                return r
-        except (TypeError, ValueError):
-            pass
-        raise ValueError('%s invalid: %r' % (self._dot_('e2s2'), s))
+        r = 1 - self.e2 * s**2
+        if r < 0:
+            raise InvalidError(**{self._dot_('e2s2'): s})
+        return r
 
     @property_RO
     def es(self):
@@ -643,7 +640,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self._geodesic is None:
             # if not self.isEllipsoidal:
-            #     raise _isnotError('ellipsoidal', ellipsoid=self)
+            #     raise IsnotError('ellipsoidal', ellipsoid=self)
             from pygeodesy.karney import _wrapped
             self._geodesic = _wrapped.Geodesic(self.a, self.f)
         return self._geodesic
@@ -685,7 +682,7 @@ class Ellipsoid(_NamedEnumItem):
            @raise ValueError: Invalid B{C{order}}.
         '''
         if order not in (4, 6, 8):
-            raise ValueError('%s invalid: %r' % ('order', order))
+            raise InvalidError(order=order)
         if order != self._KsOrder:
             if self._AlphaKs:
                 self._AlphaKs = None
@@ -1010,7 +1007,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
 def _r_s2(s):
     '''(INTERNAL) rotation in C{radians} and C{degree seconds}.
     '''
-    return _float(radians(s / 3600.0)), _float(s)
+    return _flt(radians(s / 3600.0)), _flt(s)
 
 
 class Transform(_NamedEnumItem):
@@ -1047,11 +1044,11 @@ class Transform(_NamedEnumItem):
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
         if tx:
-            self.tx = _float(tx)
+            self.tx = _flt(tx)
         if ty:
-            self.ty = _float(ty)
+            self.ty = _flt(ty)
         if tz:
-            self.tz = _float(tz)
+            self.tz = _flt(tz)
         if sx:  # secs to rads
             self.rx, self.sx = _r_s2(sx)
         if sy:
@@ -1059,8 +1056,8 @@ class Transform(_NamedEnumItem):
         if sz:
             self.rz, self.sz = _r_s2(sz)
         if s:
-            self.s = _float(s)
-            self.s1 = _float(s * 1.e-6 + 1)  # normalize ppm to (s + 1)
+            self.s = _flt(s)
+            self.s1 = _flt(s * 1.e-6 + 1)  # normalize ppm to (s + 1)
 
         self._register(Transforms, name)
 
@@ -1199,10 +1196,10 @@ class Datum(_NamedEnumItem):
                              or B{C{transform}} is not a L{Transform}.
         '''
         self._ellipsoid = ellipsoid or Datum._ellipsoid
-        _TypeError(Ellipsoid, ellipsoid=self.ellipsoid)
+        _xinstanceof(Ellipsoid, ellipsoid=self.ellipsoid)
 
         self._transform = transform or Datum._transform
-        _TypeError(Transform, transform=self.transform)
+        _xinstanceof(Transform, transform=self.transform)
 
         self._register(Datums, name or self.transform.name or self.ellipsoid.name)
 
@@ -1366,8 +1363,8 @@ if __name__ == '__main__':
         print('\n@var '.join(i.strip(',') for i in t))
 
 # zap floats cache
-_float = float  # PYCHOK expected
-del _floats
+_flt = float  # PYCHOK expected
+del _Flts
 
 # **) MIT License
 #

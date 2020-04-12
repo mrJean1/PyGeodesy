@@ -33,9 +33,10 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, len2, map2, property_RO
+from pygeodesy.basics import EPS, InvalidError, len2, map2, \
+                             property_RO, RangeError
 from pygeodesy.datum import Datums
-from pygeodesy.dms import degDMS, parseDMS2, _parseUTMUPS, RangeError
+from pygeodesy.dms import degDMS, parseDMS2, _parseUTMUPS
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
@@ -52,7 +53,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '20.03.20'
+__version__ = '20.04.11'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -153,13 +154,13 @@ def _to3zBlat(zone, band, Error=UTMError):  # imported by .mgrs.py
         if _UTM_ZONE_MIN > z or z > _UTM_ZONE_MAX:
             raise ValueError
     except ValueError:
-        raise Error('%s invalid: %r' % ('zone', zone))
+        raise InvalidError(zone=zone, Error=Error)
 
     b = None
     if B:
         b = _Bands.find(B)
         if b < 0:
-            raise Error('%s invalid: %r' % ('band', band or B))
+            raise InvalidError(band=band or B, Error=Error)
         b = (b << 3) - 80
     elif Error is not UTMError:
         raise Error('%s missing: %r' % ('band', band))
@@ -211,7 +212,7 @@ def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, Error, **cmoff):
         r, _, _ = _to3zBhp(zone, band=B)
         if r != z:
             if not _UTM_ZONE_MIN <= r <= _UTM_ZONE_MAX:
-                raise Error('%s invalid: %r' % ('zone', zone))
+                raise InvalidError(zone=zone, Error=Error)
             if f:  # re-offset from central meridian
                 lon += _cmlon(z) - _cmlon(r)
             z = r
@@ -250,7 +251,9 @@ class Utm(UtmUpsBase):
            @kwarg scale: Optional grid scale factor (C{scalar}) or C{None}.
            @kwarg name: Optional name (C{str}).
 
-           @raise UTMError: Invalid B{C{zone}}, B{C{hemishere}} or B{C{band}}.
+           @raise UTMError: Invalid B{C{zone}}, B{C{hemishere}}, B{C{easting}},
+                            B{C{northing}}, B{C{band}}, B{C{convergence}} or
+                            B{C{scale}}.
 
            @example:
 
@@ -264,9 +267,9 @@ class Utm(UtmUpsBase):
 
         h = str(hemisphere)[:1].upper()
         if h not in ('N', 'S'):
-            raise self._Error('%s invalid: %r' % ('hemisphere', hemisphere))
+            raise InvalidError(hemisphere=hemisphere, Error=self._Error)
 
-        e, n = float(easting), float(northing)
+        e, n = easting, northing  # _float(easting=easting), ...
 #       if not falsed:
 #           e, n = _false2(e, n, h)
 #       # check easting/northing (with 40km overlap
@@ -274,18 +277,13 @@ class Utm(UtmUpsBase):
 #       @raise RangeError: If B{C{easting}} or B{C{northing}} outside
 #                          the valid UTM range.
 #       if 120e3 > e or e > 880e3:
-#           raise RangeError('%s invalid: %r' % ('easting', easting))
+#           raise InvalidError(easting=easting, Error=RangeError)
 #       if 0 > n or n > _FalseNorthing:
-#           raise RangeError('%s invalid: %r' % ('northing', northing))
+#           raise InvalidError(northing=northing, Error=RangeError)
 
-        self._band        = B
-        self._convergence = convergence
-        self._datum       = datum
-        self._easting     = e
-        self._falsed      = falsed
-        self._hemisphere  = h
-        self._northing    = n
-        self._scale       = scale
+        self._hemisphere = h
+        UtmUpsBase.__init__(self, e, n, band=B, datum=datum, falsed=falsed,
+                                        convergence=convergence, scale=scale)
 
     def __eq__(self, other):
         return isinstance(other, Utm) and other.zone       == self.zone \
@@ -392,7 +390,7 @@ class Utm(UtmUpsBase):
         # from Karney 2011 Eq 15-22, 36
         A0 = self.scale0 * E.A
         if A0 < EPS:
-            raise self._Error('%s invalid: %r' % ('meridional', E.A))
+            raise InvalidError(meridional=A0, Error=self._Error)
         x /= A0  # η eta
         y /= A0  # ξ ksi
 
@@ -405,7 +403,7 @@ class Utm(UtmUpsBase):
 
         H = hypot(shx, cy)
         if H < EPS:
-            raise self._Error('%s invalid: %r' % ('H', H))
+            raise InvalidError(H=H, Error=self._Error)
 
         T = t0 = sy / H  # τʹ
         S = Fsum(T)
@@ -543,7 +541,7 @@ class Utm(UtmUpsBase):
                 self._utm = u = toUtm8(ll, Utm=self.classof, falsed=falsed,
                                            name=self.name, zone=zone)
             return u
-        raise self._Error('%s invalid: %r' % ('zone', zone))
+        raise InvalidError(zone=zone, Error=self._Error)
 
     @property_RO
     def zone(self):
@@ -564,7 +562,7 @@ def _parseUTM5(strUTM, Error):
             return UtmUps5Tuple(z, h, e, n, B)
     except ValueError:
         pass
-    raise Error('%s invalid: %r' % ('strUTM', strUTM))
+    raise InvalidError(strUTM=strUTM, Error=Error)
 
 
 def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=''):

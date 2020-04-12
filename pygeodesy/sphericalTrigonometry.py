@@ -14,14 +14,15 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, isscalar, map1, _xkwds
+from pygeodesy.basics import EPS, R_M, _float, InvalidError, isscalar, map1, _xkwds
 from pygeodesy.fmath import acos1, favg, fdot, fmean, fsum
 from pygeodesy.formy import antipode_, bearing_, haversine_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, _xnamed
 from pygeodesy.nvectorBase import NvectorBase as _Nvector
 from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
-from pygeodesy.sphericalBase import CartesianSphericalBase, LatLonSphericalBase
+from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
+                                     LatLonSphericalBase
 from pygeodesy.utily import PI2, PI_2, PI_4, degrees90, degrees180, \
                             degrees2m, iterNumpy2, radiansPI2, \
                             sincos2, tan_2, unrollPI, wrapPI
@@ -39,7 +40,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'nearestOn2', 'nearestOn3',
           'perimeterOf',
           'sumOf')  # == vector3d.sumOf
-__version__ = '20.04.02'
+__version__ = '20.04.11'
 
 
 def _destination2(a, b, r, t):
@@ -101,9 +102,9 @@ class LatLon(LatLonSphericalBase):
         self.others(start, name='start')
         self.others(end, name='end')
 
-        r = float(radius)
+        r = _float(radius=radius)
         if r < EPS:
-            raise ValueError('%s invalid: %r' % ('radius', radius))
+            raise InvalidError(radius=radius)
 
         r = start.distanceTo(self, r, wrap=wrap) / r
         b = radians(start.initialBearingTo(self, wrap=wrap))
@@ -132,6 +133,8 @@ class LatLon(LatLonSphericalBase):
                     negative if before the B{C{start}} point.
 
            @raise TypeError: The B{C{start}} or B{C{end}} point is not L{LatLon}.
+
+           @raise ValueError: Invalid B{C{radius}}.
 
            @example:
 
@@ -201,6 +204,8 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: The B{C{start}} or B{C{end}} point is not L{LatLon}.
 
+           @raise ValueError: Invalid B{C{radius}}.
+
            @example:
 
            >>> p = LatLon(53.2611, -0.7972)
@@ -225,6 +230,9 @@ class LatLon(LatLonSphericalBase):
 
            @return: Destination point (L{LatLon}).
 
+           @raise ValueError: Invalid B{C{distance}}, B{C{bearing}},
+                              B{C{radius}} or B{C{height}}.
+
            @example:
 
            >>> p1 = LatLon(51.4778, -0.0015)
@@ -235,10 +243,10 @@ class LatLon(LatLonSphericalBase):
         '''
         a, b = self.philam
 
-        r = float(distance) / float(radius)  # angular distance in radians
+        t = radians(_float(bearing=bearing))
 
-        a, b = _destination2(a, b, r, radians(bearing))
-        h = self.height if height is None else height
+        a, b = _destination2(a, b, _angular(distance, radius), t)
+        h = self.height if height is None else _float(height=height)
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def distanceTo(self, other, radius=R_M, wrap=False):
@@ -253,6 +261,8 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
+           @raise ValueError: Invalid B{C{radius}}.
+
            @example:
 
            >>> p1 = LatLon(52.205, 0.119)
@@ -264,9 +274,9 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.philam
         a2, b2 = other.philam
 
-        db, b2 = unrollPI(b1, b2, wrap=wrap)
+        db, _ = unrollPI(b1, b2, wrap=wrap)
         r = haversine_(a2, a1, db)
-        return r * float(radius)
+        return r * _float(radius=radius)
 
     def greatCircle(self, bearing):
         '''Compute the vector normal to great circle obtained by heading
@@ -279,6 +289,8 @@ class LatLon(LatLonSphericalBase):
 
            @return: Vector representing great circle (L{Vector3d}).
 
+           @raise ValueError: Invalid B{C{bearing}}.
+
            @example:
 
            >>> p = LatLon(53.3206, -1.7297)
@@ -286,7 +298,7 @@ class LatLon(LatLonSphericalBase):
            >>> g.toStr()  # (-0.794, 0.129, 0.594)
         '''
         a, b = self.philam
-        t = radians(bearing)
+        t = radians(_float(bearing=bearing))
 
         sa, ca, sb, cb, st, ct = sincos2(a, b, t)
 
@@ -346,6 +358,8 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
+           @raise ValueError: Invalid B{C{fraction}} or B{C{height}}.
+
            @example:
 
            >>> p1 = LatLon(52.205, 0.119)
@@ -355,6 +369,8 @@ class LatLon(LatLonSphericalBase):
            @JSname: I{intermediatePointTo}.
         '''
         self.others(other)
+
+        f = _float(fraction=fraction)
 
         a1, b1 = self.philam
         a2, b2 = other.philam
@@ -366,8 +382,8 @@ class LatLon(LatLonSphericalBase):
             sa1, ca1, sa2, ca2, \
             sb1, cb1, sb2, cb2 = sincos2(a1, a2, b1, b2)
 
-            A = sin((1 - fraction) * r) / sr
-            B = sin(     fraction  * r) / sr
+            A = sin((1 - f) * r) / sr
+            B = sin(     f  * r) / sr
 
             x = A * ca1 * cb1 + B * ca2 * cb2
             y = A * ca1 * sb1 + B * ca2 * sb2
@@ -377,13 +393,13 @@ class LatLon(LatLonSphericalBase):
             b = atan2(y, x)
 
         else:  # points too close
-            a = favg(a1, a2, f=fraction)
-            b = favg(b1, b2, f=fraction)
+            a = favg(a1, a2, f=f)
+            b = favg(b1, b2, f=f)
 
         if height is None:
-            h = self._havg(other, f=fraction)
+            h = self._havg(other, f=f)
         else:
-            h = height
+            h = _float(height=height)
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def intersection(self, end1, start2, end2, height=None, wrap=False):
@@ -409,7 +425,8 @@ class LatLon(LatLonSphericalBase):
                              not L{LatLon}.
 
            @raise ValueError: Intersection is ambiguous or infinite or
-                              the paths are parallel, coincident or null.
+                              the paths are parallel, coincident or null
+                              or invalid B{C{height}}.
 
            @example:
 
@@ -429,10 +446,10 @@ class LatLon(LatLonSphericalBase):
            @return: C{True} if the polygon encloses this point,
                     C{False} otherwise.
 
+           @raise TypeError: Some B{C{points}} are not L{LatLon}.
+
            @raise ValueError: Insufficient number of B{C{points}} or
                               non-convex polygon.
-
-           @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
            @example:
 
@@ -508,6 +525,8 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
+           @raise ValueError: Invalid B{C{height}}.
+
            @example:
 
            >>> p1 = LatLon(52.205, 0.119)
@@ -530,7 +549,10 @@ class LatLon(LatLonSphericalBase):
         a = atan2(sa1 + sa2, hypot(x, y))
         b = atan2(y, x) + b1
 
-        h = self._havg(other) if height is None else height
+        if height is None:
+            h = self._havg(other)
+        else:
+            h = _float(height=height)
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def nearestOn(self, point1, point2, radius=R_M, **options):
@@ -551,6 +573,8 @@ class LatLon(LatLonSphericalBase):
                               B{C{limit}}, see function L{equirectangular_}.
 
            @raise TypeError: If B{C{point1}} or B{C{point2}} is not L{LatLon}.
+
+           @raise ValueError: Invalid B{C{radius}}.
 
            @see: Functions L{equirectangular_} and L{nearestOn5} and
                  method L{sphericalTrigonometry.LatLon.nearestOn3}.
@@ -593,7 +617,8 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-           @raise ValueError: Insufficient number of B{C{points}}.
+           @raise ValueError: Insufficient number of B{C{points}} or
+                              invalid B{C{radius}}.
 
            @see: Functions L{compassAngle}, L{equirectangular_} and
                  L{nearestOn5}.
@@ -638,7 +663,8 @@ def areaOf(points, radius=R_M, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise ValueError: Insufficient number of B{C{points}}
+                          or invalid B{C{radius}}.
 
        @note: The area is based on Karney's U{'Area of a spherical polygon'
               <https://OSGeo-org.1560.x6.nabble.com/
@@ -681,7 +707,7 @@ def areaOf(points, radius=R_M, wrap=True):
     if isPoleEnclosedBy(points):
         s = abs(s) - PI2
 
-    return abs(s * radius**2)
+    return abs(s * _float(radius=radius)**2)
 
 
 def _x3d2(start, end, wrap, n, hs):
@@ -753,7 +779,8 @@ def intersection(start1, end1, start2, end2,
        @raise TypeError: A B{C{start}} or B{C{end}} point not L{LatLon}.
 
        @raise ValueError: Intersection is ambiguous or infinite or
-                          the paths are parallel, coincident or null.
+                          the paths are parallel, coincident or null
+                          or invalid B{C{height}}.
 
        @example:
 
@@ -764,7 +791,7 @@ def intersection(start1, end1, start2, end2,
     _Trll.others(start1, name='start1')
     _Trll.others(start2, name='start2')
 
-    hs = [start1.height, start2. height]
+    hs = [start1.height, start2.height]
 
     a1, b1 = start1.philam
     a2, b2 = start2.philam
@@ -828,7 +855,7 @@ def intersection(start1, end1, start2, end2,
             if (d2 < 0 and d1 > 0) or (d2 > 0 and d1 < 0):
                 a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
 
-    h = fmean(hs) if height is None else height
+    h = fmean(hs) if height is None else _float(height=height)
     return _latlon3(degrees90(a), degrees180(b), h,
                     intersection, LatLon, **LatLon_kwds)
 
@@ -868,7 +895,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: No B{C{points}}.
+       @raise ValueError: No B{C{points}} or invalid B{C{height}}.
     '''
     # geographic mean
     n, points = _Trll.points2(points, closed=False)
@@ -879,7 +906,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
     if height is None:
         h = fmean(points[i].height for i in range(n))
     else:
-        h = height
+        h = _float(height=height)
     return _latlon3(lat, lon, h, meanOf, LatLon, **LatLon_kwds)
 
 
@@ -929,7 +956,8 @@ def nearestOn3(point, points, closed=False, radius=R_M,
 
        @raise TypeError: Some I{points} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise ValueError: Insufficient number of B{C{points}}
+                          or invalid B{C{radius}}.
 
        @see: Functions L{equirectangular_} and L{nearestOn5}.
     '''
@@ -954,7 +982,8 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise ValueError: Insufficient number of B{C{points}}
+                          or invalid B{C{radius}}.
 
        @note: This perimeter is based on the L{haversine} formula.
 
@@ -973,7 +1002,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
             a1, b1 = a2, b2
 
     r = fsum(_rads(n, points, closed))
-    return r * float(radius)
+    return r * _float(radius=radius)
 
 # **) MIT License
 #

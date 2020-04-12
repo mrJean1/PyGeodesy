@@ -17,7 +17,7 @@ sub-classes of C{_NamedTuple} defined here.
 '''
 
 # update imported names under if __name__ == '__main__':
-from pygeodesy.basics import _isnotError, isscalar, isstr, issubclassof, \
+from pygeodesy.basics import _float, IsnotError, isstr, issubclassof, \
                               property_doc_, property_RO, _xcopy
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _dot_
 from pygeodesy.streprs import attrs, fstr, pairs, reprs, unstr
@@ -25,7 +25,7 @@ from pygeodesy.streprs import attrs, fstr, pairs, reprs, unstr
 # XXX 'FsumDelta2Tuple' is in _ALL_LAZY.named
 __all__ = _ALL_LAZY.named + _ALL_DOCS('_Named', '_NamedBase',
          '_NamedEnum', '_NamedEnumItem',  # '_NamedDict',
-         # '_NamedFloat', '_NamedInt', '_NamedStr', '_NamedTuple',
+         # '_NamedFloat',  '_NamedInt',  '_NamedStr', '_NamedTuple',
          'Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
          'ClipCS3Tuple', 'ClipSH3Tuple', 'Curvature2Tuple',
          'Destination2Tuple',
@@ -45,40 +45,10 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS('_Named', '_NamedBase',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple',
          'notOverloaded')
-__version__ = '20.04.05'
+__version__ = '20.04.11'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
-
-
-def _n_v_(name, value):
-    '''(INTERNAL) Pair C{name=value}.
-    '''
-    return '%s=%s' % (name, value)
-
-
-def _xattrs(inst, other, *attrs):
-    '''(INTERNAL) Copy attribute values from B{C{other}} to B{C{inst}}.
-
-       @arg inst: Instance to copy attribute values to.
-       @arg other: Instance to copy attribute values from.
-       @arg attrs: Attribute names (C{str}s).
-
-       @return: The B{C{inst}}, updated.
-
-       @raise AttributeError: An B{C{attr}} doesn't exist or is not settable.
-    '''
-    def _getattr(o, a):
-        if hasattr(o, a):
-            return getattr(o, a)
-        raise AttributeError('.%s invalid: %r' % (a, o))
-
-    for a in attrs:
-        s = _getattr(other, a)
-        g = _getattr(inst, a)
-        if (g is None and s is not None) or g != s:
-            setattr(inst, a, s)  # not settable?
-    return inst
 
 
 def _xnamed(inst, name):
@@ -92,22 +62,6 @@ def _xnamed(inst, name):
     if name and isinstance(inst, _Named) and not inst.name:
         inst.name = name
     return inst
-
-
-def _zattrs(inst, dflt, *attrs):
-    '''(INTERNAL) Zap instance attributes.
-
-       @arg inst: The instance (C{_NamedBase}).
-       @arg dflt: The original, default value (typically C{None}).
-       @arg attrs: Attribute names (C{str}s).
-
-       @raise AttributeError: An B{C{attr}} doesn't exist.
-    '''
-    for a in attrs:
-        if getattr(inst, a, dflt) is not dflt:
-            setattr(inst, a, dflt)
-        elif not hasattr(inst, a):
-            raise AttributeError('.%s invalid: %r' % (a, inst))
 
 
 class _Named(object):
@@ -242,7 +196,7 @@ class _Named(object):
            @return: The B{C{inst}}, named if not named before.
         '''
         if not isinstance(inst, _Named):
-            raise _isnotError('valid', inst=inst)
+            raise IsnotError('valid', inst=inst)
 
         if inst.name != self.name:
             inst.name = self.name
@@ -262,8 +216,12 @@ class _NamedBase(_Named):
     def _update(self, updated, *attrs):
         '''(INTERNAL) Zap cached instance attributes.
         '''
-        if updated:
-            _zattrs(self, None, *attrs)
+        if updated and attrs:
+            for a in attrs:  # zap attrs to None
+                if getattr(self, a, None) is not None:
+                    setattr(self, a, None)
+                elif not hasattr(self, a):
+                    raise AttributeError('.%s invalid: %r' % (a, self))
 
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
@@ -300,7 +258,7 @@ class _NamedBase(_Named):
 #   def toStr(self, **kwds):
 #       if kwds:
 #           s = ''.join(strs((self,), **kwds))
-#       else:
+#       else:  # super().__str__ only for Python 3+
 #           s = super(self.__class__, self).__str__()
 #       return s
 
@@ -317,7 +275,7 @@ class _NamedBase(_Named):
 #   def toStr2(self, **kwds)
 #       if kwds:
 #           s = ''.join(reprs((self,), **kwds))
-#       else:
+#       else:  # super().__repr__ only for Python 3+
 #           s = super(self.__class__, self).__repr__()
 #       return '%s(%s)' % (self.named, s)  # clips(s)
 
@@ -397,7 +355,7 @@ class Neighbors8Dict(_NamedDict):  # replacing Neighbors8Dict
     def __init__(self, **kwds):  # PYCHOK no *args
         d = dict((k, None) for k in self._Keys_)
         d.update(kwds)
-        _NamedDict.__init__(self, **d)
+        _NamedDict.__init__(self, **d)  # name=...
 
 
 class _NamedEnum(_NamedDict):
@@ -578,6 +536,12 @@ class _NamedEnumItem(_NamedBase):
 class _NamedFloat(float, _Named):
     '''(INTERNAL) Named C{float}.
     '''
+    def __new__(cls, arg, name=''):
+        self = float.__new__(cls, arg)
+        if name:
+            _Named.name.fset(self, name)  # see _Named.name
+        return self
+
     def __repr__(self):  # to avoid MRO(float)
         return self.toStr2()
 
@@ -594,6 +558,12 @@ class _NamedFloat(float, _Named):
 class _NamedInt(int, _Named):
     '''(INTERNAL) Named C{int}.
     '''
+    def __new__(cls, arg, name=''):
+        self = int.__new__(cls, arg)
+        if name:
+            _Named.name.fset(self, name)  # see _Named.name
+        return self
+
     def __repr__(self):  # to avoid MRO(int)
         return self.toStr2()
 
@@ -601,15 +571,23 @@ class _NamedInt(int, _Named):
         return self.toStr()
 
     def toStr(self, **unused):  # PYCHOK **unused
-        return int.__str__(self)
+        # XXX must use '%d' % (self,) since
+        # int.__str__(self) fails with 3.8+
+        return '%d' % (self,)
 
     def toStr2(self, **unused):  # PYCHOK **unused
-        return '%s(%s)' % (self.named, int.__repr__(self))
+        return '%s(%d)' % (self.named, self)  # see .toStr()
 
 
 class _NamedStr(str, _Named):
     '''(INTERNAL) Named C{str}.
     '''
+    def __new__(cls, arg, name=''):
+        self = str.__new__(cls, arg)
+        if name:
+            _Named.name.fset(self, name)  # see _Named.name
+        return self
+
     def __repr__(self):  # to avoid MRO(str)
         return self.toStr2()
 
@@ -617,10 +595,13 @@ class _NamedStr(str, _Named):
         return self.toStr()
 
     def toStr(self, **unused):  # PYCHOK **unused
-        return str.__str__(self)
+        # must used super(__NamedStr, self)... since
+        # super()... only work for Python 3+ and
+        # str.__str__(self) fails with 3.8+
+        return super(_NamedStr, self).__str__()
 
     def toStr2(self, **unused):  # PYCHOK **unused
-        return '%s(%s)' % (self.named, str.__repr__(self))
+        return '%s(%s)' % (self.named, super(_NamedStr, self).__repr__())  # see .toStr()
 
 
 class _NamedTuple(tuple, _Named):
@@ -885,11 +866,9 @@ class LatLon2Tuple(_NamedTuple):
 
            @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
 
-           @raise TypeError: If B{C{height}} not scalar.
+           @raise ValueError: Invalid B{C{height}}.
         '''
-        if not isscalar(height):
-            raise _isnotError('scalar', height=height)
-        return self._xtend(LatLon3Tuple, float(height))
+        return self._xtend(LatLon3Tuple, _float(height=height))
 
     def to4Tuple(self, height, datum):
         '''Extend this L{LatLon2Tuple} to a L{LatLon4Tuple}.
@@ -899,8 +878,9 @@ class LatLon2Tuple(_NamedTuple):
 
            @return: A L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
-           @raise TypeError: If B{C{height}} not scalar or
-                             B{C{datum}} not a C{Datum}.
+           @raise TypeError: If B{C{datum}} not a C{Datum}.
+
+           @raise ValueError: Invalid B{C{height}}.
         '''
         return self.to3Tuple(height).to4Tuple(datum)
 
@@ -922,7 +902,7 @@ class LatLon3Tuple(_NamedTuple):
         '''
         from pygeodesy.datum import Datum
         if not isinstance(datum, Datum):
-            raise _isnotError(Datum.__name__, datum=datum)
+            raise IsnotError(Datum.__name__, datum=datum)
         return self._xtend(LatLon4Tuple, datum)
 
 
@@ -1038,11 +1018,9 @@ class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, 
 
            @return: A L{PhiLam3Tuple}C{(phi, lam, height)}.
 
-           @raise TypeError: If B{C{height}} not scalar.
+           @raise ValueError: Invalid B{C{height}}.
         '''
-        if not isscalar(height):
-            raise _isnotError('scalar', height=height)
-        return self._xtend(PhiLam3Tuple, float(height))
+        return self._xtend(PhiLam3Tuple, _float(height=height))
 
     def to4Tuple(self, height, datum):
         '''Extend this L{PhiLam2Tuple} to a L{PhiLam4Tuple}.
@@ -1052,8 +1030,9 @@ class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, 
 
            @return: A L{PhiLam4Tuple}C{(phi, lam, height, datum)}.
 
-           @raise TypeError: If B{C{height}} not scalar or
-                             B{C{datum}} not a C{Datum}.
+           @raise TypeError: If B{C{datum}} not a C{Datum}.
+
+           @raise ValueError: Invalid B{C{height}}.
         '''
         return self.to3Tuple(height).to4Tuple(datum)
 
@@ -1080,7 +1059,7 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py
         '''
         from pygeodesy.datum import Datum
         if not isinstance(datum, Datum):
-            raise _isnotError(Datum.__name__, datum=datum)
+            raise IsnotError(Datum.__name__, datum=datum)
         return self._xtend(PhiLam4Tuple, datum)
 
 
@@ -1179,11 +1158,9 @@ class Vector3Tuple(_NamedTuple):
 
            @return: A L{Vector4Tuple}C{(x, y, z, h)}.
 
-           @raise TypeError: If B{C{h}} not scalar.
+           @raise ValueError: Invalid B{C{h}}.
         '''
-        if not isscalar(h):
-            raise _isnotError('scalar', h=h)
-        return self._xtend(Vector4Tuple, float(h))
+        return self._xtend(Vector4Tuple, _float(h=h))
 
 
 class Vector4Tuple(_NamedTuple):  # .nvector.py

@@ -22,7 +22,7 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _TypeError, _xkwds
+from pygeodesy.basics import _float, property_RO, _xinstanceof, _xkwds
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
@@ -33,15 +33,15 @@ from pygeodesy.named import LatLon3Tuple, _Named, Ned3Tuple, _xnamed
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
 from pygeodesy.streprs import fstr, strs
-from pygeodesy.utily import degrees90, degrees360
+from pygeodesy.utily import degrees90, degrees360, sincos2d
 
-from math import asin, atan2, cos, radians, sin
+from math import asin, atan2
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ellipsoidalNvector + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.04.02'
+__version__ = '20.04.11'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -229,7 +229,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            >>> q = p.destination(7794, 300.7)
 #            >>> q.toStr()  # '51.5135°N, 000.0983°W' ?
 #         '''
-#         r = float(distance) / float(radius)  # angular distance in radians
+#         r = _angular(distance, radius)  # angular distance in radians
 #         # great circle by starting from this point on given bearing
 #         gc = self.greatCircle(bearing)
 #
@@ -259,7 +259,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @JSname: I{destinationPoint}.
         '''
-        _TypeError(Ned, delta=delta)
+        _xinstanceof(Ned, delta=delta)
 
         n, e, d = self._rotation3()
         # convert NED delta to standard coordinate frame of n-vector
@@ -286,6 +286,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
+           @raise ValueError: Invalid B{C{radius}}.
+
            @example:
 
            >>> p = LatLon(52.205, 0.119)
@@ -296,8 +298,12 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
         v1 = self._N_vector
         v2 = other._N_vector
-        r = self.datum.ellipsoid.R1 if radius is None else radius
-        return v1.angleTo(v2) * float(r)
+
+        if radius is None:
+            r = self.datum.ellipsoid.R1
+        else:
+            r = _float(radius=radius)
+        return v1.angleTo(v2) * r
 
     def equals(self, other, eps=None):  # PYCHOK no cover
         '''DEPRECATED, use method C{isequalTo}.
@@ -314,6 +320,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
                     datum, I{ignoring height}, C{False} otherwise.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
+
+           @raise ValueError: Invalid B{C{eps}}.
 
            @see: Use method L{isequalTo3} to include I{height}.
 
@@ -481,15 +489,17 @@ class Ned(_Named):
                       the ellipsoid (C{meter}).
            @kwarg name: Optional name (C{str}).
 
+           @raise ValueError: Invalid B{C{north}}, B{C{east}}
+                              or B{C{down}}.
            @example:
 
            >>> from ellipsiodalNvector import Ned
            >>> delta = Ned(110569, 111297, 1936)
            >>> delta.toStr(prec=0)  #  [N:110569, E:111297, D:1936]
         '''
-        self._north = float(north or 0)
-        self._east  = float(east or 0)
-        self._down  = float(down or 0)
+        self._north = _float(north=north or 0)
+        self._east  = _float(east=east or 0)
+        self._down  = _float(down=down or 0)
         if name:
             self.name = name
 
@@ -535,7 +545,7 @@ class Ned(_Named):
 
     @property_RO
     def ned(self):
-        '''Get this NED vector as north/east/down components (L{Ned3Tuple}C{(north, east, down)}).
+        '''Get the C{(north, east, down)} components of the NED vector (L{Ned3Tuple}).
         '''
         r = Ned3Tuple(self.north, self.east, self.down)
         return self._xnamed(r)
@@ -629,7 +639,7 @@ class Nvector(NvectorBase):
         '''
         NvectorBase.__init__(self, x, y, z, h=h, ll=ll, name=name)
         if datum:
-            _TypeError(Datum, datum=datum)
+            _xinstanceof(Datum, datum=datum)
             self._datum = datum
 
     @property_RO
@@ -756,7 +766,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
     return _sumOf(nvectors, Vector=Vector, h=h, **Vector_kwds)
 
 
-def toNed(distance, bearing, elevation, name=''):
+def toNed(distance, bearing, elevation, Ned=Ned, name=''):
     '''Create an NED vector from distance, bearing and elevation
        (in local coordinate system).
 
@@ -764,21 +774,31 @@ def toNed(distance, bearing, elevation, name=''):
        @arg bearing: NED vector bearing (compass C{degrees360}).
        @arg elevation: NED vector elevation from local coordinate
                        frame horizontal (C{degrees}).
+       @kwarg Ned: Optional class to return the NED (L{Ned}) or
+                   C{None}.
        @kwarg name: Optional name (C{str}).
 
-       @return: NED vector equivalent to this B{C{distance}},
-                B{C{bearing}} and B{C{elevation}} (L{Ned}).
+       @return: An NED vector equivalent to this B{C{distance}},
+                B{C{bearing}} and B{C{elevation}} (L{Ned}) or
+                if B{C{Ned=None}}, an L{Ned3Tuple}C{(north, east,
+                down)}.
+
+       @raise ValueError: Invalid B{C{distance}}, B{C{bearing}}
+                          or B{C{elevation}}.
 
        @JSname: I{fromDistanceBearingElevation}.
     '''
-    b, e = radians(bearing), radians(elevation)
+    d = _float(distance=distance)
 
-    d = float(distance)
-    dce = d * cos(e)
+    sb, cb, se, ce = sincos2d(_float(bearing=bearing),
+                              _float(elevation=elevation))
+    n  = cb * d * ce
+    e  = sb * d * ce
+    d *= se
 
-    return Ned(cos(b) * dce,
-               sin(b) * dce,
-              -sin(e) * d, name=name)
+    r = Ned3Tuple(n, e, -d) if Ned is None else \
+              Ned(n, e, -d)
+    return _xnamed(r, name)
 
 # **) MIT License
 #

@@ -51,8 +51,8 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import EPS, _bkwds, isscalar, len2, map1, map2, \
-                             property_RO, _TypeError
+from pygeodesy.basics import EPS, _bkwds, InvalidError, isscalar, len2, \
+                             map1, map2, property_RO, _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, \
@@ -64,7 +64,7 @@ from pygeodesy.utily import PI, PI2, PI_2, radiansPI, radiansPI2, \
                             unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.04.04'
+__version__ = '20.04.10'
 
 
 class HeightError(ValueError):  # imported by .geoids
@@ -408,7 +408,7 @@ class _HeightIDW(_HeightBase):
         if name:
             self.name = name
         if wrap_adjust:
-            _bkwds(self, wrap_adjust, HeightError)
+            _bkwds(self, Error=HeightError, **wrap_adjust)
 
     def __call__(self, *llis):
         '''Interpolate the height for one or several locations.
@@ -431,7 +431,7 @@ class _HeightIDW(_HeightBase):
         '''
         d = datum or getattr(knots[0], 'datum', datum)
         if d and d != self.datum:
-            _TypeError(Datum, datum=d)
+            _xinstanceof(Datum, datum=d)
             self._datum = d
 
     def _distances(self, x, y):  # PYCHOK unused (x, y) radians
@@ -466,7 +466,7 @@ class _HeightIDW(_HeightBase):
             if b != beta or 1 > b or b > 3:
                 raise ValueError
         except (TypeError, ValueError):
-            raise HeightError('%s invalid: %r' % ('beta', beta))
+            raise InvalidError(beta=beta, Error=HeightError)
         self._beta = b
 
     def height(self, lats, lons):

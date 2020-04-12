@@ -26,7 +26,8 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import halfs2, property_RO, _TypeError, _xkwds
+from pygeodesy.basics import _float, InvalidError, halfs2, property_RO, \
+                             _xkwds, _xinstanceof
 from pygeodesy.datum import Datums
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, Mgrs4Tuple, Mgrs6Tuple, \
@@ -39,7 +40,7 @@ import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.04.02'
+__version__ = '20.04.11'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -51,7 +52,7 @@ _Ln100k = 'ABCDEFGHJKLMNPQRSTUV', 'FGHJKLMNPQRSTUVABCDE'  #: (INTERNAL) Grid N r
 
 # split an MGRS string "12ABC1235..." into 3 parts
 _MGRSre = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)  #: (INTERNAL) Regex.
-_GZDre  = re.compile('([0-9]{1,2}[C-X]{1})', re.IGNORECASE)  #: (INTERNAL) Regex.
+_ZBGre  = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})', re.IGNORECASE)  #: (INTERNAL) Regex.
 
 
 class MGRSError(ValueError):
@@ -84,8 +85,8 @@ class Mgrs(_NamedBase):
            @kwarg datum: Optional this reference's datum (L{Datum}).
            @kwarg name: Optional name (C{str}).
 
-           @raise MGRSError: Invalid MGRS grid reference, B{C{zone}}, B{C{en100k}}
-                             or B{C{band}}.
+           @raise MGRSError: Invalid MGRS grid reference, B{C{zone}}, B{C{en100k}},
+                             B{C{easting}}, B{C{northing}} or B{C{band}}.
 
            @example:
 
@@ -104,10 +105,10 @@ class Mgrs(_NamedBase):
             self._en100k = en
             self._en100k2m()
         except IndexError:
-            raise MGRSError('%s invalid: %r' % ('en100k', en100k))
+            raise InvalidError(en100k=en100k, Error=MGRSError)
 
-        self._easting, self._northing = float(easting), float(northing)
-
+        self._easting  = _float(easting=easting,   Error=MGRSError)
+        self._northing = _float(northing=northing, Error=MGRSError)
         if self._datum != datum:
             self._datum = datum
 
@@ -290,14 +291,14 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
             m = _mg(_MGRSre, m[0])
             m = m[:2] + halfs2(m[2])
         elif len(m) == 2:  # 01ABC 1234512345'
-            m = _mg(_GZDre, m[0]) + halfs2(m[1])
+            m = _mg(_ZBGre, m[0]) + halfs2(m[1])
         elif len(m) == 3:  # 01ABC 12345 12345'
-            m = _mg(_GZDre, m[0]) + m[1:]
+            m = _mg(_ZBGre, m[0]) + m[1:]
         if len(m) != 4:  # 01A BC 1234 12345
             raise ValueError
         e, n = map(_s2m, m[2:])
     except (TypeError, ValueError):
-        raise MGRSError('%s invalid: %r' % ('strMGRS', strMGRS))
+        raise InvalidError(strMGRS=strMGRS, Error=MGRSError)
 
     z, EN = m[0], m[1].upper()
     r = Mgrs4Tuple(z, EN, e, n) if Mgrs is None else \
@@ -328,7 +329,7 @@ def toMgrs(utm, Mgrs=Mgrs, name='', **Mgrs_kwds):
        >>> u = Utm(31, 'N', 448251, 5411932)
        >>> m = u.toMgrs()  # 31U DQ 48251 11932
     '''
-    _TypeError(Utm, utm=utm)  # Utm, Etm
+    _xinstanceof(Utm, utm=utm)  # Utm, Etm
 
     e, n = utm.to2en(falsed=True)
     # truncate east-/northing to within 100 km grid square

@@ -530,13 +530,13 @@
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a></code></b>:
-      <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#datum">datum</a></code>,
-      <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#isEllipsoidal">isEllipsoidal</a></code>,
-      <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#isSpherical">isSpherical</a></code>
+      <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#datum">datum</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></code></b>:
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#Ecef">Ecef</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isEllipsoidal">isEllipsoidal</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isSpherical">isSpherical</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lam">lam</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#lat">lat</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon">latlon</a></code>,
@@ -616,6 +616,7 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>start</code></b> or <b><code>end</code></b> point is 
         not <a href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -703,6 +704,7 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>start</code></b> or <b><code>end</code></b> point is 
         not <a href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -749,6 +751,11 @@
         <dd>Destination point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>bearing</code></b>, 
+        <b><code>radius</code></b> or <b><code>height</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -796,6 +803,7 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -834,6 +842,10 @@
         <dd>Vector representing great circle (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>bearing</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -940,6 +952,7 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>fraction</code></b> or <b><code>height</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1006,7 +1019,7 @@
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the paths are parallel, 
-        coincident or null.</li>
+        coincident or null or invalid <b><code>height</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1045,11 +1058,11 @@
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or non-convex 
-        polygon.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or non-convex 
+        polygon.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1097,6 +1110,7 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1156,6 +1170,7 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>point1</code></b> or <b><code>point2</code></b> is not 
         <a href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1254,7 +1269,8 @@
         see function <a href="pygeodesy.formy-module.html#equirectangular_"
         class="link">equirectangular_</a>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or invalid 
+        <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1348,7 +1364,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr  5 14:12:22 2020
+    Generated by Epydoc 3.0.1 on Sat Apr 11 17:25:06 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

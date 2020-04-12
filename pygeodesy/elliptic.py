@@ -75,7 +75,8 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, INF, map2, property_RO
+from pygeodesy.basics import EPS, INF, _float, InvalidError, \
+                             map2, property_RO
 from pygeodesy.fmath import fdot, Fsum, fsum_, hypot1
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
@@ -85,7 +86,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic + _ALL_DOCS('Elliptic3Tuple')
-__version__ = '20.03.27'
+__version__ = '20.04.11'
 
 _TolJAC = sqrt(EPS * 0.01)
 _TolRD  =  pow(EPS * 0.002, 0.125)
@@ -555,25 +556,25 @@ class Elliptic(_Named):
                   accuracy to be maintained, e.g., when C{k} is very
                   close to unity.
         '''
+        self._k2 = k2 = _float(k2=k2, Error=EllipticError)
         if 0 > k2 or k2 > 1:
-            raise EllipticError('%s invalid: %r' % ('k2', k2))
-        self._k2 = k2 = float(k2)
+            raise InvalidError(k2=k2, Error=EllipticError)
 
+        self._alpha2 = alpha2 = _float(alpha2=alpha2, Error=EllipticError)
         if 0 > alpha2 or alpha2 > 1:
-            raise EllipticError('%s invalid: %r' % ('alpha2', alpha2))
-        self._alpha2 = alpha2 = float(alpha2)
+            raise InvalidError(alpha2=alpha2, Error=EllipticError)
 
         if kp2 is None:
             kp2 = 1 - k2
-        elif kp2 < 0:
-            raise EllipticError('%s invalid: %r' % ('kp2', kp2))
-        self._kp2 = kp2 = float(kp2)
+        self._kp2 = kp2 = _float(kp2=kp2, Error=EllipticError)
+        if kp2 < 0:
+            raise InvalidError(kp2=kp2, Error=EllipticError)
 
         if alphap2 is None:
             alphap2 = 1 - alpha2
-        elif alphap2 < 0:
-            raise EllipticError('%s invalid: %r' % ('alphap2', alphap2))
-        self._alphap2 = alphap2 = float(alphap2)
+        self._alphap2 = alphap2 = _float(alphap2=alphap2, Error=EllipticError)
+        if alphap2 < 0:
+            raise InvalidError(alphap2=alphap2, Error=EllipticError)
 
         # Values of complete elliptic integrals for k = 0,1 and alpha = 0,1
         #         K     E     D
@@ -709,13 +710,13 @@ class Elliptic(_Named):
         return Elliptic3Tuple(sn, cn, self.fDelta(sn, cn))
 
 
-class Elliptic3Tuple(_NamedTuple):  # .elliptic.py
+class Elliptic3Tuple(_NamedTuple):
     '''3-Tuple C{(sn, cn, dn)} all C{float}.
     '''
     _Names_ = ('sn', 'cn', 'dn')
 
 
-def _convergenceError(where, *args):
+def _convergenceError(where, *args):  # PYCHOK no cover
     '''(INTERNAL) Return an L{EllipticError}.
     '''
     return EllipticError('no %s%r convergence' % (where.__name__, args))
@@ -743,7 +744,7 @@ def _Q(A, T, tol):
     return max(abs(A - t) for t in T[1:]) / tol
 
 
-def _RC(x, y):
+def _RC(x, y):  # used by testElliptic.py
     '''Degenerate symmetric integral of the first kind C{_RC}.
 
        @return: C{_RC(x, y) = _RF(x, y, y)}.
@@ -773,7 +774,7 @@ def _RD_3(x, y, z):
     return _RD(x, y, z) / 3.0
 
 
-def _RD(x, y, z):
+def _RD(x, y, z):  # used by testElliptic.py
     '''Degenerate symmetric integral of the third kind C{_RD}.
 
        @return: C{_RD(x, y, z) = _RJ(x, y, z, z)}.
@@ -820,12 +821,15 @@ def _RF_(x, y):
     a, b = sqrt(x), sqrt(y)
     if a < b:
         a, b = b, a
-    while abs(a - b) > (_TolRG0 * a):  # max 4 trips
+    for _ in range(_TRIPS):
+        if abs(a - b) <= (_TolRG0 * a):  # max 4 trips
+            return PI / (a + b)
         b, a = sqrt(a * b), (a + b) * 0.5
-    return PI / (a + b)
+
+    raise _convergenceError(_RF_, x, y)
 
 
-def _RF(x, y, z):
+def _RF(x, y, z):  # used by testElliptic.py
     '''Symmetric integral of the first kind C{_RF}.
 
        @return: C{_RF(x, y, z)}.
@@ -882,7 +886,7 @@ def _RG_(x, y):
     return S.fsum() * PI_2 / (a + b)
 
 
-def _RG(x, y, z):  # used by testElleiptic.py
+def _RG(x, y, z):  # used by testElliptic.py
     '''Symmetric integral of the second kind C{_RG}.
 
        @return: C{_RG(x, y, z)}.
@@ -904,7 +908,7 @@ def _RJ_3(x, y, z, p):
     return _RJ(x, y, z, p) / 3.0
 
 
-def _RJ(x, y, z, p):
+def _RJ(x, y, z, p):  # used by testElliptic.py
     '''Symmetric integral of the third kind C{_RJ}.
 
        @return: C{_RJ(x, y, z, p)}.

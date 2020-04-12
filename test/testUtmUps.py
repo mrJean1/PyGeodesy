@@ -4,17 +4,19 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.04'
+__version__ = '20.04.10'
 
 from base import TestsBase
 
-from pygeodesy import F_DMS, OK, parseUTMUPS5, toUps8, toUtmUps8, \
+from pygeodesy import F_DMS, parseUTMUPS5, toUps8, toUtmUps8, \
                       utmups, UtmUps, utmupsValidateOK
 
 
 class Tests(TestsBase):
 
     def testUtmUps(self, LL):
+        OK = True  # deprecated, was ok='OK', OK='OK'
+
         u = UtmUps(0, 'N', 448251, 5411932.0001, falsed=False)
         self.test('UtmUps', u.toStr(4), '00 N 448251.0 5411932.0001')
         self.test('UtmUps.ValidateOK', utmupsValidateOK(u), OK)

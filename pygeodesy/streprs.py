@@ -5,12 +5,12 @@ u'''Floating point and other formatting utilities.
 
 '''
 
-from pygeodesy.basics import isint, _isnotError, isscalar
+from pygeodesy.basics import isint, InvalidError, IsnotError, isscalar
 from pygeodesy.lazily import _ALL_LAZY
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.04.05'
+__version__ = '20.04.11'
 
 _EeFfGg = ('F', 'f', 'E', 'e', 'G', 'g')  # float formats
 
@@ -23,8 +23,8 @@ def _streprs(prec, objs, fmt, ints, floats, strepr):
     elif fmt.startswith('%'):
         fmt = fmt.replace('*', str(abs(prec)))
     else:
-        t = '[%s]%s' % ('%.*', '|'.join(_EeFfGg))
-        raise _isnotError(t, fmt=fmt, Error=ValueError)
+        t = repr('[%s]%s' % ('%.*', '|'.join(_EeFfGg)))
+        raise ValueError('%s not %s: %r' % ('fmt', t, fmt))
 
     for o in objs:
         if floats or isinstance(o, float):
@@ -38,7 +38,7 @@ def _streprs(prec, objs, fmt, ints, floats, strepr):
         elif strepr:
             t = strepr(o)
         else:
-            raise _isnotError('scalar', floats=o)
+            raise IsnotError('scalar', floats=o)
         yield t
 
 
@@ -101,7 +101,7 @@ def enstr2(easting, northing, prec, *extras):
     try:
         p10 = (1e-4, 1e-3, 1e-2, 1e-1, 1)[w - 1]  # 10**(5 - w)
     except IndexError:
-        raise ValueError('%s invalid: %r' % ('prec', prec))
+        raise InvalidError(prec=prec)
     return extras + ('%0*d' % (w, int(easting * p10)),
                      '%0*d' % (w, int(northing * p10)))
 
@@ -179,7 +179,7 @@ def pairs(items, prec=6, fmt='F', ints=False, sep='='):
         # can't unzip empty items tuple, list, etc.
         n, v = zip(*items) if items else ((), ())
     except (TypeError, ValueError):
-        raise _isnotError('dict', '2-tuples', items=items)
+        raise IsnotError('dict', '2-tuples', items=items)
     v = _streprs(prec, v, fmt, ints, False, repr)
     return tuple(sep.join(t) for t in zip(map(str, n), v))
 

@@ -59,9 +59,10 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
 
-from pygeodesy.basics import EPS, len2, map1, map2, property_RO
+from pygeodesy.basics import EPS, InvalidError, len2, map1, map2, \
+                             property_RO, RangeError
 from pygeodesy.datum import Datum, Datums
-from pygeodesy.dms import parseDMS2, RangeError
+from pygeodesy.dms import parseDMS2
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError, _SciPyIssue
@@ -86,7 +87,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '20.03.31'
+__version__ = '20.04.09'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -185,7 +186,7 @@ class _GeoidBase(_HeightBase):
                                                                  ky=k, kx=k,
                                                                  s=self._smooth).ev
         else:
-            raise GeoidError('%s invalid: %r' % ('kind', k))
+            raise InvalidError(kind=k, Error=GeoidError)
 
         self._hs_y_x = hs  # numpy 2darray, row-major
         self._nBytes = hs.nbytes  # numpy size in bytes
@@ -321,7 +322,7 @@ class _GeoidBase(_HeightBase):
             _HeightBase.name.fset(self, name)  # recursion
         if smooth:
             if int(smooth) < 0:
-                raise GeoidError('%s invalid: %r' % ('smooth', smooth))
+                raise InvalidError(smooth=smooth, Error=GeoidError)
             self._smooth = int(smooth)
 
         return g
@@ -344,7 +345,7 @@ class _GeoidBase(_HeightBase):
                     return s, w, n, e
         except (IndexError, TypeError, ValueError):
             pass
-        raise GeoidError('%s invalid: %r' % ('crop', crop))
+        raise InvalidError(crop=crop, Error=GeoidError)
 
     def center(self, LatLon=None):
         '''Return the center location and height of this geoid.
@@ -836,7 +837,7 @@ class GeoidKarney(_GeoidBase):
         if kind in (2,):
             self._evH = self._ev2H
         elif kind not in (3,):
-            raise GeoidError('%s invalid: %r' % ('kind', kind))
+            raise InvalidError(kind=kind, Error=GeoidError)
 
         self._egm = g = self._open(egm_pgm, datum, kind, name, smooth)
         self._pgm = p = _PGM(g, pgm=egm_pgm, itemsize=self.u2B, sizeB=self.sizeB)

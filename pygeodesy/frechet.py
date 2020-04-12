@@ -77,8 +77,9 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-from pygeodesy.basics import EPS, EPS1, INF, _bkwds, _isnotError, isscalar, \
-                             property_doc_, property_RO, _TypeError
+from pygeodesy.basics import EPS, EPS1, INF, _bkwds, InvalidError, \
+                             IsnotError, isscalar, property_doc_, \
+                             property_RO, _xinstanceof
 from pygeodesy.datum import Datums, Datum
 from pygeodesy.fmath import favg, hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
@@ -92,7 +93,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.04.04'
+__version__ = '20.04.10'
 
 if not 0 < EPS < EPS1 < 1:
     raise AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
@@ -110,7 +111,7 @@ def _fraction(fraction, n):
         pass
     elif not (isscalar(fraction) and EPS < fraction < EPS1
                                  and (float(n) - fraction) < n):
-        raise FrechetError('%s invalid: %r' % ('fraction', fraction))
+        raise InvalidError(fraction=fraction, Error=FrechetError)
     elif fraction < EPS1:
         f = float(fraction)
     return f
@@ -136,11 +137,11 @@ class Frechet6Tuple(_NamedTuple):
     _Names_ = ('fd', 'fi1', 'fi2', 'r', 'n', 'units')
 
 #   def __gt__(self, other):
-#       _TypeError(Frechet6Tuple, other=other)
+#       _xinstanceof(Frechet6Tuple, other=other)
 #       return self if self.fd > other.fd else other  # PYCHOK .fd=[0]
 #
 #   def __lt__(self, other):
-#       _TypeError(Frechet6Tuple, other=other)
+#       _xinstanceof(Frechet6Tuple, other=other)
 #       return self if self.fd < other.fd else other  # PYCHOK .fd=[0]
 
 
@@ -185,7 +186,7 @@ class Frechet(_Named):
         if units and not self.units:
             self.units = units
         if wrap_adjust:
-            _bkwds(self, wrap_adjust, FrechetError)
+            _bkwds(self, Error=FrechetError, **wrap_adjust)
 
     @property_RO
     def adjust(self):
@@ -203,8 +204,8 @@ class Frechet(_Named):
         '''(INTERNAL) Set the datum.
         '''
         d = datum or getattr(self._ps1[0], 'datum', datum)
-        if d and d != self.datum:
-            _TypeError(Datum, datum=d)
+        if d and d != self.datum:  # PYCHOK no cover
+            _xinstanceof(Datum, datum=d)
             self._datum = d
 
     def discrete(self, points, fraction=None):
@@ -810,7 +811,7 @@ def frechet_(points1, points2, distance=None, units=''):
               L{frechet_} function.
     '''
     if not callable(distance):
-        raise _isnotError(callable.__name__, distance=distance)
+        raise IsnotError(callable.__name__, distance=distance)
 
     n1, ps1 = _points2(points1, closed=False, Error=FrechetError)
     n2, ps2 = _points2(points2, closed=False, Error=FrechetError)

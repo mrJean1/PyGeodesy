@@ -17,13 +17,13 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import clips
+from pygeodesy.basics import clips, _float
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Elevation2Tuple, GeoidHeight2Tuple
 from pygeodesy.streprs import fstr
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '20.03.31'
+__version__ = '20.04.11'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -132,6 +132,8 @@ def elevation2(lat, lon, timeout=2.0):
        @return: An L{Elevation2Tuple}C{(elevation, data_source)}
                 or (C{None, "error"}) in case of errors.
 
+       @raise ValueError: Invalid B{C{timeout}}.
+
        @note: The returned C{elevation} is C{None} if B{C{lat}} or B{C{lon}}
               is invalid or outside the C{Conterminous US (CONUS)},
               if conversion failed or if the query timed out.  The
@@ -151,7 +153,7 @@ def elevation2(lat, lon, timeout=2.0):
                          'y=%.6F' % (lat,),
                          'units=Meters',  # Feet
                          'output=xml'),
-                          timeout=float(timeout))
+                          timeout=_float(timeout=timeout))
         if x[:6] == '<?xml ':
             e = _xml('Elevation', x)
             try:
@@ -179,6 +181,8 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
        @return: An L{GeoidHeight2Tuple}C{(height, model_name)}
                 or C{(None, "error"}) in case of errors.
 
+       @raise ValueError: Invalid B{C{timeout}}.
+
        @note: The returned C{height} is C{None} if B{C{lat}} or B{C{lon}} is
               invalid or outside the C{Conterminous US (CONUS)}, if the
               B{C{model}} was invalid, if conversion failed or if the
@@ -197,7 +201,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
                         ('lat=%.6F' % (lat,),
                          'lon=%.6F' % (lon,),
                          'model=%s' % (model,) if model else ''),
-                          timeout=float(timeout))  # PYCHOK 5
+                          timeout=_float(timeout=timeout))  # PYCHOK 5
         if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
             d = _json(j)
             if isinstance(d.get('error', 'N/A'), float):

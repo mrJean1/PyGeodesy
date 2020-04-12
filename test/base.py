@@ -49,7 +49,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.03.15'
+__version__ = '20.04.10'
 
 try:
     _Ints = int, long
@@ -305,11 +305,20 @@ else:  # non-iOS
 def secs2str(secs):
     '''Convert a seconds value to string.
     '''
-    unit = len(_SIsecs) - 1
-    while 0 < secs < 1 and unit > 0:
-        secs *= 1000.0
-        unit -= 1
-    return '%.3f %s' % (secs, _SIsecs[unit])
+    if secs < 100:
+        unit = len(_SIsecs) - 1
+        while 0 < secs < 1 and unit > 0:
+            secs *= 1000.0
+            unit -= 1
+        t = '%.3f %s' % (secs, _SIsecs[unit])
+    else:
+        m, s = divmod(secs, 60)
+        if m < 60:
+            t = '%d:%06.3f' % (int(m), s)
+        else:
+            h, m = divmod(int(m), 60)
+            t = '%d:%02d:%06.3f' % (h, m, s)
+    return t
 
 
 def tilde(path):

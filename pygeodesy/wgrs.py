@@ -11,8 +11,8 @@ C{height} and C{radius}.  See also U{World Geographic Reference System
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 '''
 
-from pygeodesy.basics import EPS1_2, _isnotError, isstr, \
-                            _MISSING, property_RO
+from pygeodesy.basics import EPS1_2, InvalidError, IsnotError,\
+                             isstr, _MISSING, property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
@@ -22,7 +22,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.03.23'
+__version__ = '20.04.09'
 
 _Base    = 10
 _BaseLen = 4
@@ -136,7 +136,7 @@ class Georef(_NamedStr):
                 lat, lon, h = _2fllh(cll.lat, cll.lon)
                 h = getattr(cll, 'height', h)
             except AttributeError:
-                raise _isnotError('valid', **{Georef.__name__: cll})
+                raise IsnotError('valid', **{Georef.__name__: cll})
             g = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
             self = str.__new__(cls, g)
             self._latlon = LatLon2Tuple(lat, lon)
@@ -292,13 +292,13 @@ def decode5(georef, center=True):
             try:
                 return g[:i], _2m(int(g[i+1:]))
             except (IndexError, ValueError):
-                raise WGRSError('%s invalid: %r' % (name, georef))
+                raise InvalidError(Error=WGRSError, **{name: georef})
         return g, None
 
     try:
         g = str(georef)
     except (TypeError, ValueError):
-        raise WGRSError('%s invalid: %r' % ('georef', georef))
+        raise InvalidError(georef=georef, Error=WGRSError)
 
     g, h = _split2(g, 'Height', _h2m)  # H is last
     g, r = _split2(g, 'Radius', _r2m)  # R before H
@@ -338,7 +338,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
             if f < 0:
                 raise ValueError
         except (TypeError, ValueError):
-            raise WGRSError('%s invalid: %r' % (name, m))
+            raise InvalidError(Error=WGRSError, **{name: m})
         return '%s%d' % (name[0], int(f + 0.5))
 
     def _pstr(p, x):
@@ -349,7 +349,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
         if p < 0 or p > _MaxPrec:
             raise ValueError
     except (TypeError, ValueError):
-        raise WGRSError('%s invalid: %r' % ('precision', precision))
+        raise InvalidError(precision=precision, Error=WGRSError)
 
     lat, lon, _ = _2fllh(lat, lon)
     if lat == 90:

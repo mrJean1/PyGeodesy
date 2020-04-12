@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.03.19
+        20.04.11
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -190,11 +190,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#false2f" class="summary-sig-name">false2f</a>(<span class="summary-sig-arg">value</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">value</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">false</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span><br />
-      Convert a false east-/northing to non-negative float.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#falsed2f" class="summary-sig-name">falsed2f</a>(<span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">**name_value_Error</span>)</span><br />
+      Convert a falsed east-/northing to non-negative <code>float</code>.</td>
           <td align="right" valign="top">
             
             
@@ -823,44 +821,45 @@
           <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.dms.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
-        href="pygeodesy.dms-module.html#rangerrors" 
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.basics-module.html#rangerrors" 
         class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>deg</code></b>, <b><code>radius</code></b> or 
+        <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="false2f"></a>
+<a name="falsed2f"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">false2f</span>&nbsp;(<span class="sig-arg">value</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">value</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">false</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">falsed2f</span>&nbsp;(<span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">**name_value_Error</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert a false east-/northing to non-negative float.</p>
+  <p>Convert a falsed east-/northing to non-negative 
+  <code>float</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>value</code></strong> - Value to convert (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name of the value (<code>str</code>).</li>
-        <li><strong class="pname"><code>false</code></strong> - Optionally, value includes false origin (<code>bool</code>).</li>
-        <li><strong class="pname"><code>Error</code></strong> - Exception to raise (<code>ValueError</code>).</li>
+        <li><strong class="pname"><code>falsed</code></strong> - Value includes false origin (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name_value_Error</code></strong> - One <b><code>name=value</code></b> pair and optionally an 
+          <code>Error=...</code> keyword argument to override the default 
+          <code>Error=ValueError</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The value (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Error</strong></code> - Invalid or negative <b><code>value</code></b>.</li>
+        <li><code><strong class='fraise'>Error</strong></code> - Invalid or negative <b><code>name=value</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -890,6 +889,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in <code>meter</code> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>feet</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1057,7 +1060,7 @@
         <dd>Angle (<code>degrees</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b> or <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1088,6 +1091,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in <code>feet</code> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1113,6 +1120,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in km (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1138,6 +1149,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in NM (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1163,6 +1178,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Value in SM (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1619,7 +1638,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Apr  5 14:12:17 2020
+    Generated by Epydoc 3.0.1 on Sat Apr 11 17:25:00 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

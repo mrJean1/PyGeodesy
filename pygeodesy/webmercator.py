@@ -17,14 +17,14 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _isnotError, isscalar, issubclassof, \
-                             map1, property_RO, _TypeError, _xkwds
+from pygeodesy.basics import EPS, _float, InvalidError, IsnotError, isscalar, \
+                             issubclassof, map1, property_RO, _xinstanceof, _xkwds
 from pygeodesy.datum import Datum, R_MA
 from pygeodesy.dms import clipDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.lazily import _ALL_LAZY, _dot_
-from pygeodesy.named import EasNorRadius3Tuple, LatLon2Tuple, \
-                           _NamedBase, nameof, PhiLam2Tuple, _xnamed
+from pygeodesy.named import EasNorRadius3Tuple, LatLon2Tuple, _NamedBase, nameof, \
+                            PhiLam2Tuple, _xnamed
 from pygeodesy.streprs import strs
 from pygeodesy.utily import PI_2, degrees90, degrees180
 
@@ -32,7 +32,7 @@ from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.03.23'
+__version__ = '20.04.11'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -76,11 +76,11 @@ class Wm(_NamedBase):
         try:
             self._x, self._y, r = map1(float, x, y, radius)
         except (TypeError, ValueError):
-            raise WebMercatorError('%s invalid: %r' % (Wm.__name__, (x, y, radius)))
+            raise InvalidError(Error=WebMercatorError, **{Wm.__name__: (x, y, radius)})
 
         if r < EPS:  # check radius
             t = _dot_(self.classname, 'radius')
-            raise WebMercatorError('%s invalid: %r' % (t, r))
+            raise InvalidError(Error=WebMercatorError, **{t: r})
         self._radius = r
 
     @property_RO
@@ -106,12 +106,12 @@ class Wm(_NamedBase):
         x = self._x / r
         y = 2 * atan(exp(self._y / r)) - PI_2
         if datum:
-            _TypeError(Datum, datum=datum)
+            _xinstanceof(Datum, datum=datum)
             E = datum.ellipsoid
             if not E.isEllipsoidal:
-                raise _isnotError('ellipsoidal', datum=datum)
+                raise IsnotError('ellipsoidal', datum=datum)
             # <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
-            #       %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
+            #        %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
             y = y / r
             if E.e:
                 y -= E.e * atanh(E.e * tanh(y))  # == E.es_atanh(tanh(y))
@@ -274,7 +274,7 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
         x, y, r = map(float, w)
 
     except (TypeError, ValueError):
-        raise WebMercatorError('%s invalid: %r' % ('strWM', strWM))
+        raise InvalidError(strWM=strWM, Error=WebMercatorError)
 
     r = EasNorRadius3Tuple(x, y, r) if Wm is None else \
                         Wm(x, y, radius=r)
@@ -310,7 +310,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name='', **Wm_kwds):
        >>> p = LatLon(13.4125, 103.8667)  # 377302.4 1483034.8
        >>> w = toWm(p)  # 377302 1483035
     '''
-    r, e = radius, None
+    e, r = None, _float(radius=radius)
     try:
         lat, lon = latlon.lat, latlon.lon
         if isinstance(latlon, _LLEB):

@@ -11,7 +11,8 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isint
+from pygeodesy.basics import _float, isint, InvalidError, \
+                              RangeError, rangerrors
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple
 from pygeodesy.streprs import fstr, fstrzs
@@ -24,7 +25,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '20.04.04'
+__version__ = '20.04.11'
 
 F_D   = 'd'    #: Format degrees as unsigned "deg°" plus suffix (C{str}).
 F_DM  = 'dm'   #: Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -64,26 +65,11 @@ _S_norm = {'^': S_DEG, '˚': S_DEG,  #: (INTERNAL) normalized DMS.
            '"': S_SEC, '″': S_SEC, '”': S_SEC}
 _S_ALL  = (S_DEG, S_MIN, S_SEC) + tuple(_S_norm.keys())  #: (INTERNAL) alternates.
 
-_rangerrors = True
-
-
-class RangeError(ValueError):
-    '''Error raised for lat- or longitude values outside the B{C{clip}},
-       B{C{clipLat}}, B{C{clipLon}} or B{C{limit}} range in function L{clipDMS},
-       L{parse3llh}, L{parseDMS} or L{parseDMS2}.
-
-       @see: Function L{rangerrors}.
-    '''
-    pass
-
 
 def _toDMS(deg, form, prec, sep, ddd, suff):  # MCCABE 14
     '''(INTERNAL) Convert degrees to C{str}, with/-out sign and/or suffix.
     '''
-    try:
-        d = abs(float(deg))
-    except ValueError:
-        raise ValueError('%s invalid: %r' % ('deg', deg))
+    deg  = _float(deg=deg)
 
     form = form.lower()
     sign = form[:1]
@@ -98,6 +84,7 @@ def _toDMS(deg, form, prec, sep, ddd, suff):  # MCCABE 14
         z = int(prec)
         p = abs(z)
     w = p + (1 if p else 0)
+    d = abs(deg)
 
     if form in (F_DEG, F_MIN, F_SEC):
         s_deg = s_min = s_sec = ''  # no symbols
@@ -185,7 +172,7 @@ def clipDMS(deg, limit):
     '''
     if limit > 0:
         c = min(limit, max(-limit, deg))
-        if _rangerrors and deg != c:
+        if c != deg and rangerrors():
             raise RangeError('%s beyond %s degrees' % (fstr(deg, prec=6),
                              fstr(copysign(limit, deg), prec=3, ints=True)))
         deg = c
@@ -247,7 +234,7 @@ def compassPoint(bearing, prec=3):
     try:  # m = 2 << prec; x = 32 // m
         m, x = _MOD_X[prec]
     except KeyError:
-        raise ValueError('%s invalid: %r' % ('prec', prec))
+        raise InvalidError(prec=prec)
     # not round(), i.e. half-even rounding in Python 3,
     # but round-away-from-zero as int(b + 0.5) iff b is
     # non-negative, otherwise int(b + copysign(0.5, b))
@@ -380,7 +367,7 @@ def parse3llh(strll, height=0, sep=',', clipLat=90, clipLon=180):
        one ends with the proper compass point.
 
        @arg strll: Latitude, longitude[, height] (C{str}, ...).
-       @kwarg height: Optional, default height (C{meter}).
+       @kwarg height: Optional, default height (C{meter}) or C{None}.
        @kwarg sep: Optional separator (C{str}).
        @kwarg clipLat: Keep latitude in B{C{-clipLat..+clipLat}} (C{degrees}).
        @kwarg clipLon: Keep longitude in B{C{-clipLon..+clipLon}} range (C{degrees}).
@@ -391,7 +378,7 @@ def parse3llh(strll, height=0, sep=',', clipLat=90, clipLon=180):
        @raise RangeError: Lat- or longitude value of B{C{strll}} outside
                           valid range and L{rangerrors} set to C{True}.
 
-       @raise ValueError: Invalid B{C{strll}}.
+       @raise ValueError: Invalid B{C{strll}} or B{C{height}}.
 
        @see: Functions L{parseDMS} and L{parseDMS2} for more details
              on the forms and symbols accepted.
@@ -406,7 +393,7 @@ def parse3llh(strll, height=0, sep=',', clipLat=90, clipLon=180):
         if len(ll) > 2:  # XXX interpret height unit
             h = float(ll.pop(2).strip().rstrip(_LETTERS).rstrip())
         else:
-            h = height
+            h = height  # None from wgrs.Georef.__new__
         if len(ll) != 2:
             raise ValueError
     except (AttributeError, TypeError, ValueError):
@@ -439,7 +426,7 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
        @raise RangeError: Value of B{C{strDMS}} outside the valid range
                           and L{rangerrors} set to C{True}.
 
-       @raise ValueError: Invalid B{C{strDMS}}.
+       @raise ValueError: Invalid B{C{strDMS}} or B{C{clip}}.
 
        @see: Function L{parse3llh} to parse a string with lat-,
              longitude and height values.
@@ -467,7 +454,7 @@ def parseDMS(strDMS, suffix='NSEW', sep=S_SEP, clip=0):
         except (AttributeError, IndexError, TypeError, ValueError):
             raise ValueError('parsing %r failed' % (strDMS,))
 
-    return clipDMS(d, float(clip))
+    return clipDMS(d, _float(clip=clip)) if clip else d
 
 
 def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180):
@@ -529,7 +516,7 @@ def _parseUTMUPS(strUTMUPS, band=''):  # see .utm.py
         e, n = map(float, u[2:4])
 
     except (AttributeError, TypeError, ValueError):
-        raise ValueError('%s invalid: %r' % ('strUTMUPS', strUTMUPS))
+        raise InvalidError(strUTMUPS=strUTMUPS)
 
     return z, h.upper(), e, n, B.upper()
 
@@ -557,25 +544,6 @@ def precision(form, prec=None):
             raise ValueError('%s invalid: %s' % ('prec', prec))
         _F_prec[form] = prec
     return p
-
-
-def rangerrors(raiser=None):
-    '''Get/set raising of range errors.
-
-       @kwarg raiser: Choose C{True} to raise or C{False} to ignore
-                      L{RangeError} exceptions.  Use C{None} to leave
-                      the setting unchanged.
-
-       @return: Previous setting (C{bool}).
-
-       @note: Out-of-range lat- and longitude values are always
-              clipped to the nearest range limit.
-    '''
-    global _rangerrors
-    t = _rangerrors
-    if raiser in (True, False):
-        _rangerrors = raiser
-    return t
 
 
 def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg='-', pos=''):

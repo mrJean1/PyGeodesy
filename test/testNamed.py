@@ -4,9 +4,9 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.04.05'
+__version__ = '20.04.07'
 
-from base import PyGeodesy_dir, TestsBase
+from base import PyGeodesy_dir, isiOS, TestsBase
 from pygeodesy import Datums, named
 
 from os import linesep
@@ -27,10 +27,47 @@ def _mod_line(m, py):
 
 class Tests(TestsBase):
 
+    def testBases(self):
+        self.subtitle(named, 'ing %s ' % ('bases',))
+
+        nf = named._NamedFloat(3.14, name='Float')
+        self.test('nf.name', nf.name, 'Float')
+        self.test('nf.str ', str(nf), '3.14')
+        self.test('nf.repr', repr(nf), 'Float(3.14)')
+
+        ni = named._NamedInt(0, name='Int')
+        self.test('ni.name', ni.name, 'Int')
+        self.test('ni.str ', str(ni), '0')
+        self.test('ni.repr', repr(ni), 'Int(0)')
+
+        ns = named._NamedStr('test', name='Str')
+        self.test('ns.name', ns.name, 'Str')
+        self.test('ns.str ', str(ns), 'test')
+        self.test('ns.repr', repr(ns), "Str('test')")
+
+        nd = named._NamedDict({'1': 1, '2': 2}, name='test')
+        self.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
+        self.test('nd.name', nd.name, 'test')
+        nd = named._NamedDict({'1': 1, '2': 2, 'name': 'test'})
+        self.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
+        self.test('nd.name', nd.name, 'test')
+        nd = named._NamedDict(one=1, two=2, name='test')
+        self.test('nd.kwds', nd.toStr2(), 'test(one=1, two=2)')
+        self.test('nd.name', nd.name, 'test')
+        nd = named._NamedDict({'1': 1, '2': 2, 'name': 'test'}, name='kwds')
+        self.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
+        self.test('nd.name', nd.name, 'test')
+        nd = named._NamedDict([('1', 1), ('2', 2), ('name', 'test')], name='kwds')
+        self.test('nd.list', nd.toStr2(), 'test(1=1, 2=2)')
+        self.test('nd.name', nd.name, 'test')
+        nd.update(dict(name='kwds'))
+        self.test('nd.updated', nd.toStr2(), "test(1=1, 2=2, name='kwds')")
+        self.test('nd.name', nd.name, 'test')
+
     def testNamed(self, N, *args, **kwds):
         self.subtitle(named, 'ing %s%s ' % (N.__name__, args))
-        n = N(*args)
         k = kwds.pop('known', False)
+        n = N(*args)
         self.test(n.named, n.classname, N.__name__)
         self.test(n.named, isinstance(n, N), True)
         self.test(n.named, repr(n.name), "''", known=k)
@@ -140,14 +177,47 @@ class Tests(TestsBase):
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
+    def testUnregister(self):
+        self.subtitle(named, 'ing %s ' % ('unregister',))
+        from pygeodesy import Conics, Ellipsoids, RefFrames, Transforms
+
+        self.test('Conics', len(Conics), 8)
+        for n, c in tuple(Conics.items()):
+            c.unregister()  # coverage _NamedEnum.unregister
+            self.test('Conics.' + n + '.unregister', getattr(Conics, n, None), None)
+        self.test('Conics', len(Conics), 0)
+
+        self.test('Datums', len(Datums), 18)
+        for n, d in tuple(Datums.items()):
+            Datums.unregister(d)  # coverage _NamedEnum.unregister
+            self.test('Datums.unregister(%s)' % (n,), getattr(Datums, n, None), None)
+        self.test('Datums', len(Datums), 0)
+
+        self.test('Ellipsoids', len(Ellipsoids), 41)
+        for n, e in tuple(Ellipsoids.items()):
+            e.unregister()  # coverage _NamedEnum.unregister
+            self.test('Ellipsoids.' + n + '.unregister', getattr(Ellipsoids, n, None), None)
+        self.test('Ellipsoids', len(Ellipsoids), 0)
+
+        self.test('RefFrames', len(RefFrames), 12)
+        for n, r in tuple(RefFrames.items()):
+            r.unregister()  # coverage _NamedEnum.unregister
+            self.test('RefFrames.' + n + '.unregister', getattr(RefFrames, n, None), None)
+        self.test('RefFrames', len(RefFrames), 0)
+
+        self.test('Transforms', len(Transforms), 17)
+        for n, x in tuple(Transforms.items()):
+            x.unregister()  # coverage _NamedEnumItem.unregister
+            self.test('Transforms.' + n + '.unregister', getattr(Transforms, n, None), None)
+        self.test('Transforms', len(Transforms), 0)
+
 
 if __name__ == '__main__':
 
     from glob import glob
     import os.path as os_path
 
-    from pygeodesy import ecef, elliptic, frechet, hausdorff, \
-                          Transforms
+    from pygeodesy import ecef, elliptic, frechet, hausdorff
 
     t = Tests(__file__, __version__)
     t.testNamed(named._Named)
@@ -155,11 +225,13 @@ if __name__ == '__main__':
     t.testNamed(named._NamedDict)
     t.testNamed(named._NamedEnum, 'Test', known=True)
     t.testNamed(named._NamedEnumItem)
+    t.testNamed(named._NamedFloat, 0.0)
     t.testNamed(named._NamedInt, 0)
     t.testNamed(named._NamedStr, '')
     t.testNamed(named.LatLon2Tuple, 0, 0)  # _NamedTuple
 
-    # find all _NamedDict and _NamedTuple (sub)classes
+    # find _NamedDict and _NamedTuple (sub)classes
+    # defined in all pygeodesy modules
     t.testNamedDicts(named)
     t.testNamedTuples(named)
     t.testNamedTuples(ecef)
@@ -177,35 +249,7 @@ if __name__ == '__main__':
 
     t.testNamed_xtend(named)
 
-    t.subtitle(named, 'ing %s ' % ('unregister',))
-    for n, d in tuple(Datums.items()):
-        Datums.unregister(d)  # coverage _NamedEnum.unregister
-        t.test('unregister(%s)' % (n,), getattr(Datums, n, None), None)
-    t.test('Datums', len(Datums), 0)
-
-    for n, e in tuple(Transforms.items()):
-        e.unregister()  # coverage _NamedEnumItem.unregister
-        t.test(n + '.unregister', getattr(Transforms, n, None), None)
-    t.test('Transforms', len(Transforms), 0)
-
-    nd = named._NamedDict({'1': 1, '2': 2}, name='test')
-    t.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
-    t.test('nd.name', nd.name, 'test')
-    nd = named._NamedDict({'1': 1, '2': 2, 'name': 'test'})
-    t.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
-    t.test('nd.name', nd.name, 'test')
-    nd = named._NamedDict(one=1, two=2, name='test')
-    t.test('nd.kwds', nd.toStr2(), 'test(one=1, two=2)')
-    t.test('nd.name', nd.name, 'test')
-    nd = named._NamedDict({'1': 1, '2': 2, 'name': 'test'}, name='kwds')
-    t.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
-    t.test('nd.name', nd.name, 'test')
-    nd = named._NamedDict([('1', 1), ('2', 2), ('name', 'test')], name='kwds')
-    t.test('nd.list', nd.toStr2(), 'test(1=1, 2=2)')
-    t.test('nd.name', nd.name, 'test')
-    nd.update(dict(name='kwds'))
-    t.test('nd.updated', nd.toStr2(), "test(1=1, 2=2, name='kwds')")
-    t.test('nd.name', nd.name, 'test')
+    t.testBases()
 
     t.subtitle(named, 'ing %s ' % ('coverage',))
     Nd = named.Neighbors8Dict  # coverage
@@ -234,6 +278,9 @@ if __name__ == '__main__':
 
     t.test('classnaming', named.classnaming(True), False)
     t.test('classnaming', named.classnaming(False), True)
+
+    if not isiOS:  # Pythonista runs in single process
+        t.testUnregister()
 
     t.results()
     t.exit()

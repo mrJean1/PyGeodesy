@@ -12,8 +12,8 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _isnotError, property_doc_, \
-                             property_RO, _TypeError
+from pygeodesy.basics import EPS, IsnotError, property_doc_, \
+                             property_RO, _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
@@ -26,7 +26,7 @@ from math import sqrt  # hypot
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.03.23'
+__version__ = '20.04.09'
 
 
 class CartesianBase(Vector3d):
@@ -92,7 +92,7 @@ class CartesianBase(Vector3d):
            @raise TypeError: B{C{datum2}} or B{C{datum}} not a
                              L{Datum}.
         '''
-        _TypeError(Datum, datum2=datum2)
+        _xinstanceof(Datum, datum2=datum2)
 
         if datum and self.datum != datum:
             c = self.convertDatum(datum)
@@ -129,13 +129,13 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: The B{C{datum}} is not a L{Datum}.
         '''
-        _TypeError(Datum, datum=datum)
+        _xinstanceof(Datum, datum=datum)
         d = self.datum
         if d is not None:
             if d.isEllipsoidal and not datum.isEllipsoidal:
-                raise _isnotError('ellipsoidal', datum=datum)
+                raise IsnotError('ellipsoidal', datum=datum)
             elif d.isSpherical and not datum.isSpherical:
-                raise _isnotError('spherical', datum=datum)
+                raise IsnotError('spherical', datum=datum)
         self._update(datum != d)
         self._datum = datum
 
@@ -256,7 +256,7 @@ class CartesianBase(Vector3d):
         if datum in (None, self.datum):
             r = self.toEcef()
         else:
-            _TypeError(Datum, datum=datum)
+            _xinstanceof(Datum, datum=datum)
             c = self.convertDatum(datum)
             r = c.Ecef(c.datum).reverse(c, M=True)
 
@@ -286,7 +286,7 @@ class CartesianBase(Vector3d):
            >>> n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
         '''
         d = datum or self.datum
-        _TypeError(Datum, datum=d)
+        _xinstanceof(Datum, datum=d)
 
         r = self._v4t
         if r is None or d != self.datum:

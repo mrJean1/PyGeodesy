@@ -46,8 +46,8 @@ See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/html/geocentri
 for further information on the errors.
 '''
 
-from pygeodesy.basics import EPS, EPS1, EPS_2, _isnotError, isscalar, \
-                             LenError, map1, property_RO, _TypeError, _xkwds
+from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, LenError, map1, \
+                             property_RO, _xinstanceof, _xkwds, _xsubclassof
 from pygeodesy.datum import Datum, Datums, Ellipsoid
 from pygeodesy.fmath import cbrt, fdot, fsum_, hypot1
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
@@ -61,7 +61,7 @@ from math import atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '20.04.04'
+__version__ = '20.04.09'
 
 
 class EcefError(ValueError):
@@ -118,18 +118,21 @@ class _EcefBase(_NamedBase):
                     E = E.ellipsoid
                 elif not isinstance(E, Ellipsoid):
                     raise TypeError
-                self.name = E.name
+                if not name:
+                    name = E.name
 
             elif isscalar(E) and isscalar(f):
                 a  = float(E)
                 f_ = (1.0 / f) if f else 0  # sphere
                 b  = None if f_ else a
-                E = Ellipsoid(a, b, f_, name='_' + name)
+                E  = Ellipsoid(a, b, f_, name='_' + name)
+
             else:
                 raise ValueError
 
             if not (E.a > 0 and E.f < 1):
                 raise ValueError
+
         except (TypeError, ValueError):
             t = unstr(self.classname, a=E, f=f)
             raise EcefError('%s invalid: %s' % ('ellipsoid', t))
@@ -148,7 +151,7 @@ class _EcefBase(_NamedBase):
 
     @property_RO
     def datum(self):
-        '''Get the datum (L{Datum}) or C{None}.
+        '''Get the datum (L{Datum} or C{None} if not available).
         '''
         return self._datum
 
@@ -211,7 +214,7 @@ class EcefKarney(_EcefBase):
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>}
        methods.
     '''
-    _hmax = 0
+    _hmax = 0  # 12M light years
 
     def __init__(self, a_ellipsoid, f=None, name=''):
         '''New L{EcefKarney} converter.
@@ -220,7 +223,7 @@ class EcefKarney(_EcefBase):
                              C{scalar} for the major, equatorial radius of the
                              ellipsoid (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_datum_ellipsoid}}, B{C{f}}=0 represents
+                     for C{scalar} B{C{a_datum_ellipsoid}}, B{C{f=0}} represents
                      a sphere, negative B{C{f}} a prolate ellipsoid.
            @kwarg name: Optional name (C{str}).
 
@@ -293,6 +296,12 @@ class EcefKarney(_EcefBase):
         m = self._Matrix(sa, ca, sb, cb) if M else None
         r = Ecef9Tuple(x * cb, x * sb, z, lat, lon, h, 0, m, self.datum)
         return self._xnamed(r, name)
+
+    @property_RO
+    def hmax(self):
+        '''Get the distance limit (C{float}).
+        '''
+        return self._hmax
 
     def reverse(self, xyz, y=None, z=None, M=False):
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}.
@@ -437,10 +446,10 @@ class EcefCartesian(_NamedBase):
        The conversions all take place via geocentric coordinates using a
        geocentric L{EcefKarney}, by default the WGS84 datum/ellipsoid.
     '''
-    _ecef = None
+    _ecef = EcefKarney(Datums.WGS84)
     _t0   = None
 
-    def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=EcefKarney(Datums.WGS84), name=''):
+    def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=''):
         '''New L{EcefCartesian} converter.
 
            @kwarg latlonh0: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
@@ -458,8 +467,9 @@ class EcefCartesian(_NamedBase):
 
            @raise TypeError: Invalid B{C{ecef}}, not L{EcefKarney}.
         '''
-        _TypeError(EcefKarney, ecef=ecef)
-        self._ecef = ecef
+        if ecef:
+            _xinstanceof(EcefKarney, ecef=ecef)
+            self._ecef = ecef
         self.reset(latlonh0, lon0, height0, name=name)
 
     @property_RO
@@ -647,7 +657,7 @@ class EcefMatrix(_NamedTuple):
 
            @raise TypeError: If B{C{other}} is not L{EcefMatrix}.
         '''
-        _TypeError(EcefMatrix, other=other)
+        _xinstanceof(EcefMatrix, other=other)
 
         # like LocalCartesian.MatrixMultiply, transposed(self) x other
         # <https://GeographicLib.SourceForge.io/html/LocalCartesian_8cpp_source.html>
@@ -776,9 +786,8 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
 
            @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
         '''
-        from pygeodesy.cartesianBase import CartesianBase as _CB
-        if not issubclass(Cartesian, _CB):
-            raise _isnotError(_CB.__name__, Cartesian=Cartesian)
+        from pygeodesy.cartesianBase import CartesianBase
+        _xsubclassof(CartesianBase, Cartesian=Cartesian)
         r = Cartesian(self, **Cartesian_kwds)
         return self._xnamed(r)
 
@@ -857,7 +866,7 @@ class EcefVeness(_EcefBase):
                              C{scalar} for the major, equatorial radius of the
                              ellipsoid (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_datum_ellipsoid}}, B{C{f}}=0 represents
+                     for C{scalar} B{C{a_datum_ellipsoid}}, B{C{f=0}} represents
                      a sphere, negative B{C{f}} a prolate ellipsoid.
            @kwarg name: Optional name (C{str}).
 
@@ -990,7 +999,7 @@ class EcefYou(_EcefBase):
                              C{scalar} for the major, equatorial radius of the
                              ellipsoid (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_datum_ellipsoid}}, B{C{f}}=0 represents
+                     for C{scalar} B{C{a_datum_ellipsoid}}, B{C{f=0}} represents
                      a sphere, negative B{C{f}} a prolate ellipsoid.
            @kwarg name: Optional name (C{str}).
 
@@ -1077,7 +1086,9 @@ class EcefYou(_EcefBase):
             h = -h  # inside ellipsoid
 
         r = Ecef9Tuple(x, y, z, degrees(atan2(E.a * sB, E.b * cB)),  # atan(E.a_b * tan(B))
-                                degrees(atan2(y, x)), h, 1, None, self.datum)
+                                degrees(atan2(y, x)), h, 1,  # C=1
+                                None,  # M=None
+                                self.datum)
         return self._xnamed(r, name)
 
 # **) MIT License

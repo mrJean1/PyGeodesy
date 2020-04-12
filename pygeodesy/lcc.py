@@ -17,7 +17,8 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _isnotError, issubclassof, property_RO, _TypeError
+from pygeodesy.basics import EPS, _float, IsnotError, property_RO, \
+                                  _xinstanceof, _xsubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datums
 from pygeodesy.lazily import _ALL_LAZY
@@ -25,13 +26,13 @@ from pygeodesy.named import EasNor3Tuple, LatLon2Tuple, LatLon4Tuple, LatLonDatu
                            _NamedBase, _NamedEnum, _NamedEnumItem, nameof, PhiLam2Tuple, \
                            _xnamed
 from pygeodesy.streprs import fstr
-from pygeodesy.utily import PI_2, degrees90, degrees180, false2f, sincos2, tanPI_2_2
+from pygeodesy.utily import PI_2, degrees90, degrees180, falsed2f, sincos2, tanPI_2_2
 
 from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.04.01'
+__version__ = '20.04.11'
 
 
 class Conic(_NamedEnumItem):
@@ -76,6 +77,10 @@ class Conic(_NamedEnumItem):
 
            @raise TypeError: Non-ellipsoidal B{C{latlon0}}.
 
+           @raise ValueError: Invalid B{C{par1}}, B{C{par2}},
+                              B{C{E0}}, B{C{N0}}, B{C{k0}}
+                              or B{C{opt3}}.
+
            @example:
 
            >>> from pygeodesy import Conic, Datums, ellipsoidalNvector
@@ -83,19 +88,20 @@ class Conic(_NamedEnumItem):
            >>> Snyder = Conic(ll0, 33, 45, E0=0, N0=0, name='Snyder')
         '''
         if latlon0 is not None:
-            _TypeError(_LLEB, latlon0=latlon0)
-
-            self._opt3 = radians(opt3)
-            self._par1 = radians(par1)
-            self._par2 = self._par1 if par2 is None else radians(par2)
+            _xinstanceof(_LLEB, latlon0=latlon0)
             self._phi0, self._lam0 = latlon0.philam
 
+            self._par1 = radians(_float(par1=par1))
+            self._par2 = self._par1 if par2 is None else radians(_float(par2=par2))
+
             if k0 != 1:
-                self._k0 = float(k0)
+                self._k0 = _float(k0=k0)
             if N0:
-                self._N0 = float(N0)
+                self._N0 = _float(N0=N0)
             if E0:
-                self._E0 = float(E0)
+                self._E0 = _float(E0=E0)
+            if opt3:
+                self._opt3 = radians(_float(opt3=opt3))
 
             self.toDatum(latlon0.datum)._dup2(self)
             self._register(Conics, name)
@@ -138,7 +144,7 @@ class Conic(_NamedEnumItem):
     def latlon0(self):
         '''Get the central origin (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        return LatLon2Tuple(self.lat0, self.lon0)
+        return self._xnamed(LatLon2Tuple(self.lat0, self.lon0))
 
     @property_RO
     def lam0(self):
@@ -192,7 +198,7 @@ class Conic(_NamedEnumItem):
     def philam0(self):
         '''Get the central origin (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        return PhiLam2Tuple(self.phi0, self.lam0)
+        return self._xnamed(PhiLam2Tuple(self.phi0, self.lam0))
 
     @property_RO
     def SP(self):
@@ -211,7 +217,7 @@ class Conic(_NamedEnumItem):
         '''
         E = datum.ellipsoid
         if not E.isEllipsoidal:
-            raise _isnotError('ellipsoidal', datum=datum)
+            raise IsnotError('ellipsoidal', datum=datum)
 
         c = self
         if c._e != E.e or c._datum != datum:
@@ -343,10 +349,12 @@ class LCCError(ValueError):
 class Lcc(_NamedBase):
     '''Lambert conformal conic East-/Northing location.
     '''
-    _easting  = 0  #: (INTERNAL) Easting (C{float}).
-    _height   = 0  #: (INTERNAL) Height (C{meter}).
-    _northing = 0  #: (INTERNAL) Northing (C{float}).
-    _conic = None  #: (INTERNAL) Lambert projection (L{Conic}).
+    _conic    = None  #: (INTERNAL) Lambert projection (L{Conic}).
+    _easting  = 0     #: (INTERNAL) Easting (C{float}).
+    _height   = 0     #: (INTERNAL) Height (C{meter}).
+    _latlon   = None  #: (INTERNAL) latlon cache (L{LatLon2Tuple}).
+    _northing = 0     #: (INTERNAL) Northing (C{float}).
+    _philam   = None  #: (INTERNAL) philam cache (L{PhiLam2Tuple}).
 
     def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, name=''):
         '''New L{Lcc} Lamber conformal conic position.
@@ -359,20 +367,21 @@ class Lcc(_NamedBase):
 
            @return: The Lambert location (L{Lcc}).
 
-           @raise TypeError: If B{C{conic}} is not L{Conic}.
+           @raise LCCError: Invalid B{C{h}} or invalid or
+                            negative B{C{e}} or B{C{n}}.
 
-           @raise LCCError: Invalid or negative B{C{e}} or B{C{n}}.
+           @raise TypeError: If B{C{conic}} is not L{Conic}.
 
            @example:
 
            >>> lb = Lcc(448251, 5411932.0001)
         '''
-        _TypeError(Conic, conic=conic)
+        _xinstanceof(Conic, conic=conic)
         self._conic = conic
-        self._easting  = false2f(e, 'easting',  false=conic.E0 > 0, Error=LCCError)
-        self._northing = false2f(n, 'northing', false=conic.N0 > 0, Error=LCCError)
+        self._easting  = falsed2f(easting=e,  falsed=conic.E0 > 0, Error=LCCError)
+        self._northing = falsed2f(northing=n, falsed=conic.N0 > 0, Error=LCCError)
         if h:
-            self._height = float(h)
+            self._height = _float(h=h, Error=LCCError)
         if name:
             self.name = name
 
@@ -395,13 +404,31 @@ class Lcc(_NamedBase):
         return self._height
 
     @property_RO
+    def latlon(self):
+        '''Get the lat- and longitude in C{degrees} (L{LatLon2Tuple}).
+        '''
+        if self._latlon is None:
+            r = self.toLatLon(LatLon=None, datum=None)
+            self._latlon = LatLon2Tuple(r.lat, r.lon)
+        return self._xnamed(self._latlon)
+
+    @property_RO
     def northing(self):
         '''Get the northing (C{meter}).
         '''
         return self._northing
 
-    def to3lld(self, datum=None):
-        '''Convert this L{Lcc} to a geodetic lat- and longitude.
+    @property_RO
+    def philam(self):
+        '''Get the lat- and longitude in C{radians} (L{PhiLam2Tuple}).
+        '''
+        if self._philam is None:
+            self._philam = PhiLam2Tuple(radians(self.latlon.lat),
+                                        radians(self.latlon.lon))
+        return self._xnamed(self._philam)
+
+    def to3lld(self, datum=None):  # PYCHOK no cover
+        '''DEPRECATED, use method C{toLatLon}.
 
            @kwarg datum: Optional datum to use, otherwise use this
                          B{C{Lcc}}'s conic.datum (C{Datum}).
@@ -410,26 +437,14 @@ class Lcc(_NamedBase):
 
            @raise TypeError: If B{C{datum}} is not ellipsoidal.
         '''
-        c = self.conic
-        if datum:
-            c = c.toDatum(datum)
-
-        e =         self.easting  - c._E0
-        n = c._r0 - self.northing + c._N0
-
-        r_ = copysign(hypot(e, n), c._n)
-        t_ = pow(r_ / c._aF, c._n_)
-
-        x = c._xdef(t_)  # XXX c._lam0
-        while True:
-            p, x = x, c._xdef(t_ * c._pdef(x))
-            if abs(x - p) < 1e-9:  # XXX EPS too small?
-                break
-        # x, y == lon, lat
-        a = degrees90(x)
-        b = degrees180((atan(e / n) + c._opt3) * c._n_ + c._lam0)
-
-        return LatLonDatum3Tuple(a, b, c.datum)
+        if datum in (None, self.conic.datum):
+            r = LatLonDatum3Tuple(self.latlon.lat,
+                                  self.latlon.lon,
+                                  self.conic.datum)
+        else:
+            r = self.toLatLon(LatLon=None, datum=datum)
+            r = LatLonDatum3Tuple(r.lat, r.lon, r.datum)
+        return self._xnamed(r)
 
     def toLatLon(self, LatLon=None, datum=None, height=None):
         '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
@@ -445,16 +460,35 @@ class Lcc(_NamedBase):
                     L{LatLon4Tuple}C{(lat, lon, height, datum)}
                     if B{C{LatLon}} is C{None}.
 
-           @raise TypeError: If B{C{LatLon}} or B{C{datum}} is not ellipsoidal.
+           @raise TypeError: If B{C{LatLon}} or B{C{datum}} is
+                             not ellipsoidal.
         '''
-        if LatLon and not issubclassof(LatLon, _LLEB):
-            raise _isnotError(_LLEB.__name__, LatLon=LatLon)
+        if LatLon:
+            _xsubclassof(_LLEB, LatLon=LatLon)
 
-        a, b, d = self.to3lld(datum=datum)
+        c = self.conic
+        if datum:
+            c = c.toDatum(datum)
+
+        e =         self.easting  - c._E0
+        n = c._r0 - self.northing + c._N0
+
+        r_ = copysign(hypot(e, n), c._n)
+        t_ = pow(r_ / c._aF, c._n_)
+
+        x = c._xdef(t_)  # XXX c._lam0
+        while True:
+            p, x = x, c._xdef(t_ * c._pdef(x))
+            if abs(x - p) < 1e-9:  # XXX EPS too small?
+                break
+        lat = degrees90(x)
+        lon = degrees180((atan(e / n) + c._opt3) * c._n_ + c._lam0)
+
         h = self.height if height is None else height
+        d = c.datum
 
-        r = LatLon4Tuple(a, b, h, d) if LatLon is None else \
-                  LatLon(a, b, height=h, datum=d)
+        r = LatLon4Tuple(lat, lon, h, d) if LatLon is None else \
+                  LatLon(lat, lon, height=h, datum=d)
         return self._xnamed(r)
 
     def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
@@ -519,8 +553,7 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name='',
 
        @raise TypeError: If B{C{latlon}} is not ellipsoidal.
     '''
-    if not isinstance(latlon, _LLEB):
-        raise _isnotError(_LLEB.__name__, latlon=latlon)
+    _xinstanceof(_LLEB, latlon=latlon)
 
     a, b = latlon.philam
     c = conic.toDatum(latlon.datum)

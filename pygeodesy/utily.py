@@ -10,14 +10,15 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M  # PYCHOK PI_4
+from pygeodesy.basics import EPS, R_M , _float, InvalidError, \
+                            _n_v_Error3  # PYCHOK PI_4
 from pygeodesy.lazily import _ALL_LAZY
 
 from math import cos, degrees, pi as PI, radians, sin, tan  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '20.03.19'
+__version__ = '20.04.11'
 
 PI2  = PI * 2.0  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
 PI_2 = PI / 2.0  #: Half PI, M{PI / 2} (C{float})
@@ -72,32 +73,36 @@ def degrees2m(deg, radius=R_M, lat=0):
 
        @raise RangeError: Latitude B{C{lat}} outside valid range
                           and L{rangerrors} set to C{True}.
+
+       @raise ValueError: Invalid B{C{deg}}, B{C{radius}} or
+                          B{C{lat}}.
     '''
-    m = radians(deg) * radius
+    m = radians(_float(deg=deg)) * _float(radius=radius)
     if lat:
         from pygeodesy.dms import clipDMS
-        m *= cos(radians(clipDMS(lat, 90)))
+        m *= cos(radians(clipDMS(_float(lat=lat), 90)))
     return m
 
 
-def false2f(value, name='value', false=True, Error=ValueError):
-    '''Convert a false east-/northing to non-negative float.
+def falsed2f(falsed=True, **name_value_Error):  # name=value [, Error=ValueError]
+    '''Convert a falsed east-/northing to non-negative C{float}.
 
-       @arg value: Value to convert (C{scalar}).
-       @kwarg name: Optional name of the value (C{str}).
-       @kwarg false: Optionally, value includes false origin (C{bool}).
-       @kwarg Error: Exception to raise (C{ValueError}).
+       @kwarg falsed: Value includes false origin (C{bool}).
+       @kwarg name_value_Error: One B{C{name=value}} pair and optionally
+                                an C{Error=...} keyword argument to
+                                override the default C{Error=ValueError}.
 
        @return: The value (C{float}).
 
-       @raise Error: Invalid or negative B{C{value}}.
+       @raise Error: Invalid or negative B{C{name=value}}.
     '''
+    n, v, Error = _n_v_Error3(ValueError, **name_value_Error)
     try:
-        f = float(value)
-        if f < 0 and false:
+        f = float(v)
+        if f < 0 and falsed:
             raise ValueError
     except (TypeError, ValueError):
-        raise Error('%s invalid: %r' % (name, value))
+        raise InvalidError(Error=Error, **{n: v})
     return f
 
 
@@ -109,9 +114,12 @@ def ft2m(feet, usurvey=False):
                         I{International} feet otherwise.
 
        @return: Value in C{meter} (C{float}).
+
+       @raise ValueError: Invalid B{C{feet}}.
     '''
+    f = _float(feet=feet)
     # US Survey 1200./3937. == 0.3048006096012192
-    return feet * (0.3048006096012192 if usurvey else 0.3048)
+    return f * (0.3048006096012192 if usurvey else 0.3048)
 
 
 def isNumpy2(obj):
@@ -183,7 +191,7 @@ def iterNumpy2over(n=None):
             else:
                 raise ValueError
         except (TypeError, ValueError):
-            raise ValueError('%s invalid: %r' % ('n', n))
+            raise InvalidError(n=n)
     return p
 
 
@@ -195,11 +203,12 @@ def m2degrees(meter, radius=R_M):
 
        @return: Angle (C{degrees}).
 
-       @raise ValueError: Invalid B{C{radius}}.
+       @raise ValueError: Invalid B{C{meter}} or B{C{radius}}.
     '''
-    if radius < EPS:
-        raise ValueError('%s invalid: %r' % ('radius', radius))
-    return degrees(float(meter) / radius)
+    r = _float(radius=radius)
+    if r < EPS:
+        raise InvalidError(radius=radius)
+    return degrees(_float(meter=meter) / r)
 
 
 def m2ft(meter, usurvey=False):
@@ -210,9 +219,12 @@ def m2ft(meter, usurvey=False):
                         I{International} feet otherwise.
 
        @return: Value in C{feet} (C{float}).
+
+       @raise ValueError: Invalid B{C{meter}}.
     '''
+    m = _float(meter=meter)
     # US Survey == 3937./1200. = 3.2808333333333333
-    return meter * (3.2808333333333333 if usurvey else 3.2808399)
+    return m * (3.2808333333333333 if usurvey else 3.2808399)
 
 
 def m2km(meter):
@@ -221,8 +233,10 @@ def m2km(meter):
        @arg meter: Value in meter (C{scalar}).
 
        @return: Value in km (C{float}).
+
+       @raise ValueError: Invalid B{C{meter}}.
     '''
-    return meter * 1.0e-3
+    return _float(meter=meter) * 1.0e-3
 
 
 def m2NM(meter):
@@ -231,8 +245,10 @@ def m2NM(meter):
        @arg meter: Value in meter (C{scalar}).
 
        @return: Value in NM (C{float}).
+
+       @raise ValueError: Invalid B{C{meter}}.
     '''
-    return meter * 5.39956804e-4  # == * 1.0 / 1852.0
+    return _float(meter=meter) * 5.39956804e-4  # == * 1.0 / 1852.0
 
 
 def m2SM(meter):
@@ -241,8 +257,10 @@ def m2SM(meter):
        @arg meter: Value in meter (C{scalar}).
 
        @return: Value in SM (C{float}).
+
+       @raise ValueError: Invalid B{C{meter}}.
     '''
-    return meter * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
+    return _float(meter=meter) * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
 
 
 def radiansPI(deg):

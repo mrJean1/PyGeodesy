@@ -13,7 +13,8 @@ U{UTMUPS<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.
 including coverage of UPS as zone C{0}.
 '''
 
-from pygeodesy.basics import isint, isstr, property_RO, _TypeError
+from pygeodesy.basics import InvalidError, isint, isstr, property_RO, \
+                            _xinstanceof
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedInt, UtmUps2Tuple
 from pygeodesy.ups import Ups
@@ -24,7 +25,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.epsg + ('decode2', 'encode')
-__version__ = '20.03.27'
+__version__ = '20.04.09'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -83,7 +84,7 @@ class Epsg(_NamedInt):
 
         else:
             u = eisu
-            _TypeError(Utm, Ups, eisu=u)
+            _xinstanceof(Utm, Ups, eisu=u)
             self = encode(u.zone, hemipole=u.hemisphere, band=u.band)  # PYCHOK **kwds
             self._utmups = u
             if u.name:
@@ -166,7 +167,7 @@ def decode2(epsg):
             else:
                 raise ValueError
         except (TypeError, ValueError):
-            raise EPSGError('%s invalid: %r' % ('epsg', epsg))
+            raise InvalidError(epsg=epsg, Error=EPSGError)
 
     return UtmUps2Tuple(z, h)
 
@@ -205,7 +206,7 @@ def encode(zone, hemipole='', band=''):
     elif z == _UPS_ZONE:
         e = _EPSG_N if hp == 'N' else _EPSG_S
     else:
-        raise EPSGError('%s invalid: %r' % ('zone', zone))
+        raise InvalidError(zone=zone, Error=EPSGError)
 
     e = Epsg(e)
     e._band = B

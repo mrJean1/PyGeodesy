@@ -4,7 +4,7 @@
 # Test MGRS functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.02.14'
+__version__ = '20.04.08'
 
 from base import TestsBase
 
@@ -15,35 +15,50 @@ class Tests(TestsBase):
 
     def testMgrs(self, LatLon):
 
-        m = mgrs.Mgrs('31U', 'DQ', 48251, 11932)
-        self.test('Mgrs1', str(m), '31U DQ 48251 11932')
-        self.test('Mgrs1', repr(m), '[Z:31U, G:DQ, E:48251, N:11932]')
-
-        m = mgrs.parseMGRS('31U DQ 48251, 11932')
-        self.test('Mgrs2', str(m), '31U DQ 48251 11932')
-        self.test('Mgrs2', repr(m), '[Z:31U, G:DQ, E:48251, N:11932]')
-
         # courtesy Richard Wright
         m = mgrs.parseMGRS('42SXD0970538646')
-        self.test('Mgrs3', str(m), '42S XD 09705 38646')
-        self.test('Mgrs3', repr(m), '[Z:42S, G:XD, E:09705, N:38646]')
+        self.test('Mgrs1', str(m), '42S XD 09705 38646')
+        self.test('Mgrs1', repr(m), '[Z:42S, G:XD, E:09705, N:38646]')
 
         # courtesy Richard Wright
         m = mgrs.parseMGRS('42SXD1970508646')
-        self.test('Mgrs4', str(m), '42S XD 19705 08646')
-        self.test('Mgrs4', repr(m), '[Z:42S, G:XD, E:19705, N:08646]')
+        self.test('Mgrs2', str(m), '42S XD 19705 08646')
+        self.test('Mgrs2', repr(m), '[Z:42S, G:XD, E:19705, N:08646]')
 
         m = mgrs.parseMGRS('42SXD1938')  # 2 digits means Km
-        self.test('Mgrs5', str(m), '42S XD 19000 38000')  # meter
-        self.test('Mgrs5', repr(m), '[Z:42S, G:XD, E:19000, N:38000]')
+        self.test('Mgrs3', str(m), '42S XD 19000 38000')  # meter
+        self.test('Mgrs3', repr(m), '[Z:42S, G:XD, E:19000, N:38000]')
+
+        s = '31U DQ 48251 11932'
+        r = '[Z:31U, G:DQ, E:48251, N:11932]'
+
+        m = mgrs.Mgrs('31U', 'DQ', 48251, 11932)
+        self.test('Mgrs4', str(m), s)
+        self.test('Mgrs4', repr(m), r)
+
+        m = mgrs.parseMGRS('31U DQ 48251, 11932')
+        self.test('Mgrs5', str(m), s)
+        self.test('Mgrs5', repr(m), r)
 
         m = mgrs.parseMGRS('31UDQ4825111932')
-        self.test('Mgrs6', str(m), '31U DQ 48251 11932')
-        self.test('Mgrs6', repr(m), '[Z:31U, G:DQ, E:48251, N:11932]')
+        self.test('Mgrs6', str(m), s)
+        self.test('Mgrs6', repr(m), r)
+
+        m = mgrs.parseMGRS('31UDQ 4825111932')  # coverage
+        self.test('Mgrs7', str(m), s)
+        self.test('Mgrs7', repr(m), r)
+
+        m = mgrs.parseMGRS('31UDQ 48251 11932')  # coverage
+        self.test('Mgrs8', str(m), s)
+        self.test('Mgrs8', repr(m), r)
 
         u = m.toUtm()
         self.test('toUtm1', str(u), '31 N 448251 5411932')
         self.test('toUtm1', repr(u), '[Z:31U, H:N, E:448251, N:5411932]')
+
+        m = mgrs.toMgrs(u)
+        self.test('toMgrs1', str(m), s)
+        self.test('toMgrs1', repr(m), r)
 
         p = m.parse('31UDQ4825111932')  # coverage
         self.test('toUtm(None)', p.toUtm(None), "(31, 'N', 448251.0, 5411932.0)")

@@ -13,7 +13,7 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS1_2, isstr, property_RO
+from pygeodesy.basics import EPS1_2, InvalidError, isstr, property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
@@ -22,7 +22,7 @@ from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.03.25'
+__version__ = '20.04.09'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -73,7 +73,7 @@ def _2fll(lat, lon, *unused):
 #         try:
 #             garef = Garef(garef)
 #         except (TypeError, ValueError):
-#             raise _isnotError(Garef.__name__, str.__name__, 'LatLon', garef=garef)
+#             raise IsnotError(Garef.__name__, str.__name__, 'LatLon', garef=garef)
 #     return garef
 
 
@@ -101,8 +101,8 @@ class GARSError(ValueError):
 class Garef(_NamedStr):
     '''Garef class, a C{_NamedStr}.
     '''
-    _latlon    =  None  # cached latlon property
-    _precision =  None
+    _latlon    = None  # cached latlon property
+    _precision = None
 
     # no str.__init__ in Python 3
     def __new__(cls, cll, precision=1, name=''):
@@ -192,7 +192,7 @@ class Garef(_NamedStr):
            @raise GARSError: Invalid B{C{LatLon}}.
         '''
         if LatLon is None:
-            raise GARSError('%s invalid: %r' % ('LatLon', LatLon))
+            raise InvalidError(LatLon=LatLon, Error=GARSError)
 
         return self._xnamed(LatLon(*self.latlon, **kwds))
 
@@ -283,7 +283,7 @@ def encode(lat, lon, precision=1):  # MCCABE 14
         if p < 0 or p > _MaxPrec:
             raise ValueError
     except (TypeError, ValueError):
-        raise GARSError('%s invalid: %r' % ('precision', precision))
+        raise InvalidError(precision=precision, Error=GARSError)
 
     lat, lon = _2fll(lat, lon)
     if lat == 90:

@@ -4,7 +4,7 @@
 # Test formatting functions.
 
 __all__ = ('Tests',)
-__version__ = '20.03.10'
+__version__ = '20.04.08'
 
 from base import TestsBase
 
@@ -23,6 +23,10 @@ class Tests(TestsBase):
         self.test('fstr', fstr((0.123, 456.789), prec=+6), '0.123, 456.789')
         self.test('fstr', fstr(0.123, prec=-5, fmt='%.*e'), '1.23000e-01')
         self.test('fstr', fstr(0.123, prec=+5, fmt='%.*e'), '1.23e-01')
+        try:  # coverage
+            self.test('fstr', fstr(1, fmt='X'), ValueError)
+        except ValueError as x:
+            self.test('fstr', str(x), "fmt not '[%.*]F|f|E|e|G|g': 'X'")
 
         for f, x in ((1,      '1.0'),
                      (1.0,    '1.0'),

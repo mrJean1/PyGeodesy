@@ -5,7 +5,7 @@ u'''Test Karney wrappers.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.04.05'
+__version__ = '20.04.06'
 
 from base import geographiclib, TestsBase
 
@@ -44,11 +44,10 @@ class Tests(TestsBase):
     def testDelta(self, n, x, v, e):
         self.test('dict.' + n, v, x, known=abs(v - x) <= e)
 
-    def testDirect(self):
+    def testDirect(self, g):
         self.subtitle(karney, 'Direct')
 
         # from <https://PyPI.org/project/geographiclib>
-        g = karney._wrapped.Geodesic.WGS84
         m = g.ALL | g.LONG_UNROLL
         for (lat1, lon1, azi1, lat2, lon2, azi2,
              s12, a12, m12, M12, M21, S12) in _testCases:
@@ -62,11 +61,10 @@ class Tests(TestsBase):
             self.testDelta('M21',  M21,  d.M21,  1e-15)
             self.testDelta('S12',  S12,  d.S12,  0.1)
 
-    def testInverse(self):
+    def testInverse(self, g):
         self.subtitle(karney, 'Inverse')
 
         # from <https://PyPI.org/project/geographiclib>
-        g = karney._wrapped.Geodesic.WGS84
         m = g.ALL | g.LONG_UNROLL
         for (lat1, lon1, azi1, lat2, lon2, azi2,
              s12, a12, m12, M12, M21, S12) in _testCases:
@@ -130,11 +128,13 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, karney)
     if geographiclib:
-        t.testDirect()
-        t.testInverse()
+        g = karney._wrapped.Geodesic_WGS84
+        t.test('Geodesic', isinstance(g, karney._wrapped.Geodesic), True)
+        t.testDirect(g)
+        t.testInverse(g)
         t.testMask()
     else:
-        t.skip('no geographiclib', n=102)
+        t.skip('no geographiclib', n=103)
     t.testMath()
     t.results()
     t.exit()

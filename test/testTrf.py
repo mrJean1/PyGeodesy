@@ -9,7 +9,7 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.03.31'
+__version__ = '20.04.11'
 
 from base import TestsBase
 
@@ -91,19 +91,19 @@ class Tests(TestsBase):
             t = LatLon(0, 0, reframe='ITRF2000')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "reframe not a RefFrame: 'ITRF2000'")
+        self.test('TypeError', t, "reframe is not a RefFrame: 'ITRF2000'")
 
         try:
             t = LatLon(0, 0, reframe=RefFrames.ITRF2000, epoch='2017')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "epoch not scalar: '2017'")
+        self.test('TypeError', t, "epoch is not scalar: '2017'")
 
         try:
             t = LatLon(0, 0, reframe=RefFrames.ITRF2000).convertRefFrame('ITRF2000')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "reframe2 not a RefFrame: 'ITRF2000'")
+        self.test('TypeError', t, "reframe2 is not a RefFrame: 'ITRF2000'")
 
         try:
             t = LatLon(0, 0).convertRefFrame(RefFrames.ITRF2000)
@@ -116,19 +116,19 @@ class Tests(TestsBase):
             t = c.convertRefFrame('ITRF2000', RefFrames.ITRF2000)
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "reframe2 not a RefFrame: 'ITRF2000'")
+        self.test('TypeError', t, "reframe2 is not a RefFrame: 'ITRF2000'")
 
         try:
             t = c.convertRefFrame(RefFrames.ITRF2000, 'ITRF2000')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "reframe not a RefFrame: 'ITRF2000'")
+        self.test('TypeError', t, "reframe is not a RefFrame: 'ITRF2000'")
 
         try:
             t = c.convertRefFrame(RefFrames.ITRF2000, RefFrames.ITRF2000, '2000')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "epoch not scalar: '2000'")
+        self.test('TypeError', t, "epoch is not scalar: '2000'")
 
     def testEpoch(self):
 

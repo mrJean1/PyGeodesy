@@ -225,8 +225,6 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var NAN:    Not-A-Number (C{float}), see function C{isnan}.
 @var NEG0:   Negative 0.0 (C{float}), see function C{isneg0}.
 
-@var OK:   Unique OK object (C{str}).
-
 @var PI:   Constant M{math.pi} (C{float}).
 @var PI2:  Two PI, M{math.pi * 2} (C{float}).
 @var PI_2: Half PI, M{math.pi / 2} (C{float}).
@@ -267,7 +265,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.04.05'
+__version__ = '20.04.11'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

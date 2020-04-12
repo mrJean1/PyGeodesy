@@ -5,21 +5,20 @@ u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
 for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
-from pygeodesy.basics import _isnotError, isscalar, isstr, \
-                              issubclassof, map1, property_RO, \
-                              _TypeError, _xkwds
+from pygeodesy.basics import _float, isscalar, isstr, map1, property_RO, \
+                             _xattrs, _xinstanceof, _xkwds, _xsubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.datum import Datums
+from pygeodesy.datum import Datum, Datums
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import EasNor2Tuple, LatLonDatum5Tuple, \
                            _NamedBase, nameof, notOverloaded, \
-                           _xattrs, _xnamed
+                           _xnamed
 from pygeodesy.streprs import fstr
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '20.04.02'
+__version__ = '20.04.11'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -62,7 +61,7 @@ def _to4lldn(latlon, lon, datum, name):
         # if lon is not None:
         #     raise AttributeError
         lat, lon = map1(float, latlon.lat, latlon.lon)
-        _TypeError(_LLEB, LatLonDatum5Tuple, latlon=latlon)
+        _xinstanceof(_LLEB, LatLonDatum5Tuple, latlon=latlon)
         d = datum or latlon.datum
     except AttributeError:
         lat, lon = parseDMS2(latlon, lon)
@@ -134,6 +133,7 @@ class UtmUpsBase(_NamedBase):
     _convergence = None  #: (INTERNAL) Meridian conversion (C{degrees}).
     _datum       = Datums.WGS84  #: (INTERNAL) L{Datum}.
     _easting     = 0     #: (INTERNAL) Easting, see B{C{falsed}} (C{meter}).
+    _Error       = None  #: (INTERNAL) must be overloaded.
     _epsg        = None  #: (INTERNAL) toEpsg cache (L{Epsg}).
     _falsed      = True  #: (INTERNAL) Falsed easting and northing (C{bool}).
     _hemisphere  = ''    #: (INTERNAL) Hemisphere ('N' or 'S'), different from pole.
@@ -145,6 +145,34 @@ class UtmUpsBase(_NamedBase):
 #   _scale0      = _K0   #: (INTERNAL) Central scale factor (C{scalar}).
     _ups         = None  #: (INTERNAL) toUps cache (L{Ups}).
     _utm         = None  #: (INTERNAL) toUtm cache (L{Utm}).
+
+    def __init__(self, easting, northing, band='', datum=None, falsed=True,
+                                          convergence=None, scale=None):
+        '''(INTERNAL) New L{UtmUpsBase}.
+        '''
+        E = self._Error
+        if not E:
+            notOverloaded(self, '_Error')
+
+        self._easting  = _float(easting=easting,   Error=E)
+        self._northing = _float(northing=northing, Error=E)
+
+        if band:
+            _xinstanceof(str, band=band)
+            self._band = band
+
+        if datum:
+            _xinstanceof(Datum, datum=datum)
+            if datum != self._datum:
+                self._datum = datum
+
+        if not falsed:
+            self._falsed = False
+
+        if convergence is not self._convergence:
+            self._convergence = _float(convergence=convergence, Error=E)
+        if scale is not self._scale:
+            self._scale = _float(scale=scale, Error=E)
 
     def __repr__(self):
         return self.toStr2(B=True)
@@ -218,12 +246,11 @@ class UtmUpsBase(_NamedBase):
         if LatLon is None:
             r = LatLonDatum5Tuple(ll.lat, ll.lon, ll.datum,
                                   ll.convergence, ll.scale)
-        elif issubclassof(LatLon, _LLEB):
+        else:
+            _xsubclassof(_LLEB, LatLon=LatLon)
             kwds = _xkwds(LatLon_kwds, datum=ll.datum)
             r = _xattrs(LatLon(ll.lat, ll.lon, **kwds),
                                ll, '_convergence', '_scale')
-        else:
-            raise _isnotError(_LLEB.__name__, LatLon=LatLon)
         return _xnamed(r, ll.name)
 
     @property_RO

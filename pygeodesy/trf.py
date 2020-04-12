@@ -40,8 +40,8 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
-from pygeodesy.basics import _isnotError, isscalar, map1, property_RO, \
-                             _TypeError
+from pygeodesy.basics import IsnotError, isscalar, map1, property_RO, \
+                             _xinstanceof
 from pygeodesy.datum import Ellipsoid, Ellipsoids, Transform
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedDict as _X, \
@@ -51,7 +51,7 @@ from pygeodesy.streprs import fstrzs
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.03.31'
+__version__ = '20.04.09'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
 # temporarily hold a single instance for each float value and name
@@ -88,7 +88,7 @@ def _2epoch(epoch):  # imported by .ellipsoidalBase.py
     '''
     if isscalar(epoch) and epoch > 0:  # XXX 1970?
         return _F(epoch)
-    raise _isnotError('scalar', epoch=epoch)
+    raise IsnotError('scalar', epoch=epoch)
 
 
 class TRFError(ValueError):
@@ -116,7 +116,7 @@ class RefFrame(_NamedEnumItem):
            @raise TypeError: If B{C{epoch}} is not C{scalar} or
                              B{C{ellipsoid}} is not an L{Ellipsoid}.
         '''
-        _TypeError(Ellipsoid, ellipsoid=ellipsoid)
+        _xinstanceof(Ellipsoid, ellipsoid=ellipsoid)
         self._ellipsoid = ellipsoid
         self._epoch = _2epoch(epoch)
         self._register(RefFrames, name)

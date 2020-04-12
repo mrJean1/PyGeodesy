@@ -62,8 +62,8 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.basics import INF, _bkwds, _isnotError, property_doc_, \
-                             property_RO, _TypeError
+from pygeodesy.basics import INF, _bkwds, InvalidError, IsnotError, \
+                             property_doc_, property_RO, _xinstanceof
 from pygeodesy.datum import Datums, Datum
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
@@ -76,7 +76,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.04.04'
+__version__ = '20.04.10'
 
 
 class HausdorffError(ValueError):
@@ -144,7 +144,7 @@ class Hausdorff(_Named):
         if units and not self.units:
             self.units = units
         if wrap_adjust:
-            _bkwds(self, wrap_adjust, HausdorffError)
+            _bkwds(self, Error=HausdorffError, **wrap_adjust)
 
     @property_RO
     def adjust(self):
@@ -163,7 +163,7 @@ class Hausdorff(_Named):
         '''
         d = datum or getattr(self._model[0], 'datum', datum)
         if d and d != self.datum:  # PYCHOK no cover
-            _TypeError(Datum, datum=d)
+            _xinstanceof(Datum, datum=d)
             self._datum = d
 
     def directed(self, points, early=True):
@@ -212,7 +212,7 @@ class Hausdorff(_Named):
             try:
                 Random(seed)
             except (TypeError, ValueError):
-                raise HausdorffError('%s invalid: %r' % ('seed', seed))
+                raise InvalidError(seed=seed, Error=HausdorffError)
             self._seed = seed
         else:
             self._seed = None
@@ -728,9 +728,9 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units='',
        @raise TypeError: If B{C{distance}} or B{C{point}} is not callable.
     '''
     if not callable(distance):
-        raise _isnotError(callable.__name__, distance=distance)
+        raise IsnotError(callable.__name__, distance=distance)
     if not callable(point):
-        raise _isnotError(callable.__name__, point=point)
+        raise IsnotError(callable.__name__, point=point)
 
     _, ps1 = points2(model,  closed=False, Error=HausdorffError)
     _, ps2 = points2(target, closed=False, Error=HausdorffError)

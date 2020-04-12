@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.04'
+__version__ = '20.04.07'
 
 from base import TestsBase
 
@@ -79,7 +79,8 @@ class Tests(TestsBase):
         self.test('toUps', u.toStr(prec=6, cs=True), '00 N 2663075.299562 1930307.977716 +84.0° 0.99673')
         # self.test('toMgrs5', u.toMgrs(), 'Z JG 63075 30307')
 
-        self.test('toUps(None)', toUps8(ll, Ups=None)[:5], "(0, 'N', 2663075.299562 1930307.977716, 'Z', ...)", known=True)  # coverage
+        t = ' '.join(toUps8(ll, Ups=None).toStr(prec=6).split()[:5] + ['...)'])
+        self.test('toUps(None)', t, "(0, 'N', 2663075.299562, 1930307.977716, 'Z', ...)", known=True)  # coverage
         self.test('.scale0', u.scale0, '0.994000', fmt='%.6f')
         u.rescale0(84, 1.0)
         self.test('rescale0', u.scale0, '0.997261', fmt='%.6f')

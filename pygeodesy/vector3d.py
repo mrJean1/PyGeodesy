@@ -11,8 +11,8 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _isnotError, isscalar, len2, \
-                             map1, property_doc_, property_RO
+from pygeodesy.basics import EPS, InvalidError, IsnotError, isscalar, \
+                             len2, map1, property_doc_, property_RO
 from pygeodesy.fmath import fdot, fsum, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
 from pygeodesy.lazily import _ALL_LAZY
@@ -23,7 +23,7 @@ from math import atan2, cos, sin
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '20.04.02'
+__version__ = '20.04.09'
 
 
 def _xyzn4(xyz, y, z, Error=TypeError):  # imported by .ecef.py
@@ -399,11 +399,11 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise VectorError: Invalid or zero B{C{factor}}.
         '''
         if not isscalar(factor):
-            raise _isnotError('scalar', factor=factor)
+            raise IsnotError('scalar', factor=factor)
         try:
             return self.times(1.0 / factor)
         except (ValueError, ZeroDivisionError):
-            raise VectorError('%s invalid: %r' % ('factor', factor))
+            raise InvalidError(factor=factor, Error=VectorError)
 
     def dot(self, other):
         '''Compute the dot (scalar) product of this and an other vector.
@@ -515,7 +515,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             if len(v) != 3:
                 raise ValueError
         except (TypeError, ValueError):
-            raise VectorError('%s invalid: %r' % ('str3d', str3d))
+            raise InvalidError(str3d=str3d, Error=VectorError)
 
         return self.classof(*v)
 
@@ -580,7 +580,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Non-scalar B{C{factor}}.
         '''
         if not isscalar(factor):
-            raise _isnotError('scalar', factor=factor)
+            raise IsnotError('scalar', factor=factor)
         return self.classof(self.x * factor,
                             self.y * factor,
                             self.z * factor)

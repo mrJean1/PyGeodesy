@@ -9,7 +9,7 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '19.10.21'
+__version__ = '20.04.06'  # '19.10.21'
 
 if __name__ == '__main__':
 
@@ -128,6 +128,15 @@ if __name__ == '__main__':
     b = sphericalNvector.LatLon(1, 0.1)
     c = b.crossTrackDistanceTo(a1, a2)
     t.test(10, 'crossTrackDistance', c, 11118, fmt='%.0f')  # 11,118 m == 11.12 km
+
+# <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-nvector-ellipsoidal.js>
+    d = ellipsoidalNvector.toNed(116809.178, 222.493, -0.5416)
+    TestsBase.test(t, 'toNed', d.toStr(prec=1), '[N:-86126.6, E:-78901.1, D:1104.1]')
+    TestsBase.test(t, 'bearing',   d.bearing,   '222.493',  fmt='%.3f')
+    TestsBase.test(t, 'elevation', d.elevation,  '-0.5416', fmt='%.4f')
+    TestsBase.test(t, 'length',    d.length, '116809.178',  fmt='%.3f')
+    v = d.toVector3d()
+    TestsBase.test(t, 'toVector3d', v.toStr(prec=1), '(-86126.6, -78901.1, 1104.1)')
 
     t.results()
     t.exit()
