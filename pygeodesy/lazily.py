@@ -78,8 +78,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          basics=('EPS', 'EPS1', 'EPS1_2', 'EPS_2', 'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0', 'R_M',  # constants
                                  'LenError', 'LimitError', 'RangeError', 'clips', 'halfs2',
                                  'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
-                                 'len2', 'limiterrors', 'map1', 'map2', 'property_doc_', 'property_RO', 'rangerrors', 'scalar', 'splice'),
-                          clipy=('clipCS3', 'clipSH', 'clipSH3'),
+                                 'len2', 'limiterrors', 'map1', 'map2', 'property_doc_', 'property_RO', 'rangerrors', 'scalar'),
+                          clipy=('ClipError',
+                                 'clipCS3', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
                           datum=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
                                  'Datum',  'Ellipsoid',  'Transform',
@@ -110,7 +111,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'sqrt3'),
-                          formy=('antipode', 'antipode_', 'bearing', 'bearing_',
+                          formy=('PointsError',
+                                 'antipode', 'antipode_', 'bearing', 'bearing_',
                                  'compassAngle', 'cosineLaw', 'cosineLaw_',
                                  'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
                                  'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
@@ -155,7 +157,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
                                  'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
-                                 'sincos2', 'sincos2d', 'tan_2', 'tanPI_2_2',
+                                 'sincos2', 'sincos2d', 'splice', 'tan_2', 'tanPI_2_2',
                                  'unroll180', 'unrollPI',
                                  'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2'),
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
@@ -180,7 +182,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.04.09'
+__version__ = '20.04.14'
 
 
 def _all_imports(**more):

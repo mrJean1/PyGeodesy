@@ -30,7 +30,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.04.11'
+__version__ = '20.04.12'
 
 
 class LatLonBase(_NamedBase):
@@ -405,7 +405,7 @@ class LatLonBase(_NamedBase):
         return self.datum.isEllipsoidal if self._datum else None
 
     def isequalTo(self, other, eps=None):
-        '''Compare this point with an other point.
+        '''Compare this point with an other point, I{ignoring} height.
 
            @arg other: The other point (C{LatLon}).
            @kwarg eps: Tolerance for equality (C{degrees}).
@@ -413,7 +413,9 @@ class LatLonBase(_NamedBase):
            @return: C{True} if both points are identical,
                     I{ignoring} height, C{False} otherwise.
 
-           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+           @raise TypeError: The B{C{other}} point is not C{LatLon}
+                             or mismatch of the B{C{other}} and
+                             this C{class} or C{type}.
 
            @raise ValueError: Invalid B{C{eps}}.
 
@@ -436,7 +438,7 @@ class LatLonBase(_NamedBase):
                    self.lon == other.lon
 
     def isequalTo3(self, other, eps=None):
-        '''Compare this point with an other point.
+        '''Compare this point with an other point, I{including} height.
 
            @arg other: The other point (C{LatLon}).
            @kwarg eps: Tolerance for equality (C{degrees}).
@@ -444,7 +446,9 @@ class LatLonBase(_NamedBase):
            @return: C{True} if both points are identical
                     I{including} height, C{False} otherwise.
 
-           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+           @raise TypeError: The B{C{other}} point is not C{LatLon}
+                             or mismatch of the B{C{other}} and
+                             this C{class} or C{type}.
 
            @see: Method L{isequalTo}.
 
@@ -631,9 +635,9 @@ class LatLonBase(_NamedBase):
            @return: A L{Points2Tuple}C{(number, points)}, C{int}
                     and C{list} or C{tuple}.
 
-           @raise TypeError: Some B{C{points}} are not C{LatLon}.
+           @raise PointsError: Insufficient number of B{C{points}}.
 
-           @raise ValueError: Insufficient number of B{C{points}}.
+           @raise TypeError: Some B{C{points}} are not C{LatLon}.
         '''
         return points2(points, closed=closed, base=self)
 

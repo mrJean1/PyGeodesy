@@ -57,7 +57,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.04.11'
+__version__ = '20.04.12'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -460,9 +460,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: C{True} if the polygon encloses this point,
                     C{False} otherwise.
 
-           @raise TypeError: Some B{C{points}} are not L{LatLon}.
+           @raise PointsError: Insufficient number of B{C{points}}.
 
-           @raise ValueError: Insufficient number of B{C{points}}.
+           @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
            @example:
 
@@ -884,9 +884,9 @@ def areaOf(points, radius=R_M):
 
        @return: Polygon area (C{meter}, same units as B{C{radius}}, squared).
 
-       @raise TypeError: Some B{C{points}} are not L{LatLon}.
+       @raise PointsError: Insufficient number of B{C{points}}.
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
        @see: L{pygeodesy.areaOf}, L{sphericalTrigonometry.areaOf} and
              L{ellipsoidalKarney.areaOf}.
@@ -1041,7 +1041,9 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
 
        @return: Point at geographic mean and mean height (B{C{LatLon}}).
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise PointsError: Insufficient number of B{C{points}}.
+
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
     '''
     n, points = _Nvll.points2(points, closed=False)
     # geographic mean
@@ -1083,9 +1085,9 @@ def nearestOn3(point, points, closed=False, radius=R_M, height=None):
                 C{meter}, same units as B{C{radius}}, the C{angle}
                 is in compass C{degrees360}.
 
-       @raise TypeError: Some B{C{points}} or B{C{point}} not C{LatLon}.
+       @raise PointsError: Insufficient number of B{C{points}}.
 
-       @raise ValueError: No B{C{points}}.
+       @raise TypeError: Some B{C{points}} or B{C{point}} not C{LatLon}.
     '''
     _xinstanceof(LatLon, point=point)
 
@@ -1102,9 +1104,9 @@ def perimeterOf(points, closed=False, radius=R_M):
 
        @return: Polygon perimeter (C{meter}, same units as B{C{radius}}).
 
-       @raise TypeError: Some B{C{points}} are not L{LatLon}.
+       @raise PointsError: Insufficient number of B{C{points}}.
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
        @see: L{pygeodesy.perimeterOf}, L{sphericalTrigonometry.perimeterOf}
              and L{ellipsoidalKarney.perimeterOf}.

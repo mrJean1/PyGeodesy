@@ -9,43 +9,102 @@ against a rectangular box or clip region.
 
 from pygeodesy.basics import EPS, len2
 from pygeodesy.fmath import fsum_
-from pygeodesy.formy import points2
-from pygeodesy.lazily import _ALL_LAZY, _dot_
-from pygeodesy.named import ClipCS3Tuple, ClipSH3Tuple
+from pygeodesy.formy import points2, PointsError
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _dot_
+from pygeodesy.named import _NamedTuple
 from pygeodesy.points import _imdex2, boundsOf, isclockwise, isconvex_, \
                               LatLon_ as LL_
 
-__all__ = _ALL_LAZY.clipy
-__version__ = '20.04.02'
+__all__ = _ALL_LAZY.clipy + _ALL_DOCS('ClipCS3Tuple', 'ClipSH3Tuple')
+__version__ = '20.04.14'
 
 
-def _eq(p1, p2):  # near-equal points
+class ClipError(ValueError):
+    '''Clip box or clip region invalid.
+    '''
+    def __init__(self, n, corners, name):
+        t = name, ('box' if n == 2 else 'region'), corners
+        ValueError.__init__(self, '%s clip %s invalid: %r' % t)
+
+
+class ClipCS3Tuple(_NamedTuple):  # .clipy.py
+    '''3-Tuple C{(start, end, index)} for each edge of a I{clipped}
+       path with the C{start} and C{end} points (C{LatLon}) of the
+       portion of the edge inside or on the clip box and the C{index}
+       (C{int}) of the edge in the original path.
+    '''
+    _Names_ = ('start', 'end', 'index')
+
+
+class ClipSH3Tuple(_NamedTuple):
+    '''3-Tuple C{(start, end, original)} for each edge of a I{clipped}
+       polygon, the C{start} and C{end} points (C{LatLon}) of the
+       portion of the edge inside or on the clip region and C{original}
+       indicates whether the edge is part of the original polygon or
+       part of the clip region (C{bool}).
+    '''
+    _Names_ = ('start', 'end', 'original')
+
+
+def _eq(p1, p2):
+    '''(INTERNAL) Check for near-equal points.
+    '''
     return not _neq(p1, p2)
 
 
-def _neq(p1, p2):  # not near-equal points
+def _neq(p1, p2):
+    '''(INTERNAL) Check for not near-equal points.
+    '''
     return abs(p1.lat - p2.lat) > EPS or \
            abs(p1.lon - p2.lon) > EPS
+
+
+def _points2(points, closed, inull):
+    '''(INTERNAL) Get the points to clip.
+    '''
+    if closed and inull:
+        n, pts = len2(points)
+        # only remove the final, closing point
+        if n > 1 and _eq(pts[n-1], pts[0]):
+            n -= 1
+            pts = pts[:n]
+        if n < 3:
+            raise PointsError('too few %s: %s' % ('points', n))
+    else:
+        n, pts = points2(points, closed=closed)
+    return n, list(pts)
 
 
 class _CS(object):
     '''(INTERNAL) Cohen-Sutherland line clipping.
     '''
-    # single-bit codes
+    # single-bit clip codes
     _IN   = 0  # inside clip box
     _YMIN = 1  # below lowerleft.lat
     _YMAX = 2  # above upperright.lat
     _XMIN = 4  # left of lowerleft.lon
     _XMAX = 8  # right of upperright.lon
 
-    def __init__(self, lowerleft, upperright):
-        self._ymin, self._ymax = lowerleft.lat, upperright.lat
-        self._xmin, self._xmax = lowerleft.lon, upperright.lon
-        if self._xmin > self._xmax or self._ymin > self._ymax:
-            raise ValueError('%s invalid: %r to %r' % (
-                             'clip box', lowerleft, upperright))
-        self._y1 = self._dy = 0
-        self._x1 = self._dx = 0
+    _dx   = 0  # pts edge delta lon
+    _dy   = 0  # pts edge delta lat
+    _name = ''
+    _x1   = 0  # pts corner
+    _y1   = 0  # pts corner
+
+    _xmax = 0  # clip box upperright.lon
+    _xmin = 0  # clip box lowerleft.lon
+    _ymax = 0  # clip box upperright.lat
+    _ymin = 0  # clip box lowerleft.lat
+
+    def __init__(self, lowerleft, upperright, name):
+        try:
+            self._ymin, self._ymax = lowerleft.lat, upperright.lat
+            self._xmin, self._xmax = lowerleft.lon, upperright.lon
+            if self._xmin > self._xmax or self._ymin > self._ymax:
+                raise ValueError
+        except (AttributeError, TypeError, ValueError):
+            raise ClipError(2, (lowerleft, upperright), name)
+        self._name = name
 
 #   def clip4(self, p, c):  # clip point p for code c
 #       if c & _CS._YMIN:
@@ -57,7 +116,7 @@ class _CS(object):
 #       elif c & _CS._XMAX:
 #           return self.lat4(p, self._xmax)
 #       # should never get here
-#       raise AssertionError('clipCS3.clip2')
+#       raise AssertionError(_dot_(self._name, self.clip4.__name))
 
     def code4(self, p):  # compute code for point p
         if p.lat < self._ymin:
@@ -99,11 +158,11 @@ class _CS(object):
 
     def nop4(self, b, p):  # PYCHOK no cover
         if p:  # should never get here
-            raise AssertionError(_dot_(__name__, self.nop4.__name__))
+            raise AssertionError(_dot_(self._name, self.nop4.__name__))
         return _CS._IN, self.nop4, b, p
 
 
-def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE 25
+def clipCS3(points, lowerleft, upperright, closed=False, inull=False):
     '''Clip a path against a rectangular clip box using the
        U{Cohen-Sutherland
        <https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} algorithm.
@@ -117,18 +176,20 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE
        @return: Yield a L{ClipCS3Tuple}C{(start, end, index)} for each
                 edge of the clipped path.
 
-       @raise ValueError: The B{C{lowerleft}} corner is not below and/or
-                          not to the left of the B{C{upperright}} corner.
+       @raise ClipError: The B{C{lowerleft}} and B{C{upperright}} corners
+                         specify an invalid clip box.
+
+       @raise PointsError: Insufficient number of B{C{points}}.
     '''
 
-    cs = _CS(lowerleft, upperright)
-    n, points = points2(points, closed=closed)
+    cs = _CS(lowerleft, upperright, clipCS3.__name__)
+    n, pts = _points2(points, closed, inull)
 
     i, m = _imdex2(closed, n)
-    cmbp = cs.code4(points[i])
+    cmbp = cs.code4(pts[i])
     for i in range(m, n):
         c1, m1, b1, p1 = cmbp
-        c2, m2, b2, p2 = cmbp = cs.code4(points[i])
+        c2, m2, b2, p2 = cmbp = cs.code4(pts[i])
         if c1 & c2:  # edge outside
             continue
 
@@ -152,7 +213,21 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):  # MCCABE
             if c1 & c2:  # edge outside
                 break
         else:  # PYCHOK no cover
-            raise AssertionError(_dot_(__name__, clipCS3.__name__))
+            raise AssertionError(_dot_(cs._name, 'for_else'))
+
+
+class _List(list):
+    '''(INTERNAL) List of clipped points.
+    '''
+    _inull = False
+
+    def __init__(self, inull):
+        self._inull = inull
+        list.__init__(self)
+
+    def append(self, p):
+        if (not self) or self._inull or _neq(p, self[-1]):
+            list.append(self, p)
 
 
 class _LLi_(LL_):
@@ -171,130 +246,146 @@ class _LLi_(LL_):
 class _SH(object):
     '''(INTERNAL) Sutherland-Hodgman polyon clipping.
     '''
-    def __init__(self, corners):
-        n = ''
-        try:
-            n, cs = len2(corners)
+    _cs   = ()  # clip corners
+    _cw   = 0   # counter-/clockwise
+    _dx   = 0   # clip edge[e] delta lon
+    _dy   = 0   # clip edge[e] delta lat
+    _name = ''
+    _nc   = 0   # len(._cs)
+    _pts  = ()  # points to clip
+    _x1   = 0   # clip edge[e] lon origin
+    _xy   = 0   # see .clipedges
+    _y1   = 0   # clip edge[e] lat origin
+
+    def __init__(self, corners, name):
+        n, cs = 0, corners
+        try:  # check the clip box/region
+            n, cs = len2(cs)
             if n == 2:  # make a box
                 b, l, t, r = boundsOf(cs, wrap=False)
                 cs = LL_(b, l), LL_(t, l), LL_(t, r), LL_(b, r)
             n, cs = points2(cs, closed=True)
-            self._corners = cs = cs[:n]
+            self._cs = cs = cs[:n]
             self._nc = n
             self._cw = 1 if isclockwise(cs, adjust=False, wrap=False) else -1
             if self._cw != isconvex_(cs, adjust=False, wrap=False):
-                raise ValueError
-        except ValueError:
-            raise ValueError('%s[%s] invalid: %r' % ('corners', n, corners))
-        self._clipped = self._points = []
+                raise ClipError
+        except (ClipError, PointsError, TypeError, ValueError):
+            raise ClipError(n, cs, name)
+        self._name = name
 
-    def append(self, p, inull):  # save a clipped point
-        if inull or (not self._clipped) or _neq(p, self._clipped[-1]):
-            self._clipped.append(p)
+    def clip(self, points, closed, inull):  # MCCABE 17, clip points
+        np, pts = _points2(points, closed, inull)
+        pcs = _List(inull)  # clipped points
 
-    def clip(self, points, inull, closed):  # MCCABE 19, clip points
-        np, self._points = len2(points)
-        if np > 0:  # initial points, opened
-            p = self._points[0]
-            while np > 1 and _eq(self._points[np - 1], p):
-                np -= 1
-        if np < 3:
-            raise ValueError('too few %s: %s' % ('points', np))
-
-        no = ni = True  # all out- or inside?
+        ne = 0  # number of non-null clip edges
+        no = ni = True  # all out- and inside?
         for e in self.clipedges():
-            # clip the points, closed
-            d2, p2 = self.dot2(np - 1)
+            ne += 1  # non-null clip edge
+
+            # clip points, closed always
+            d2, p2 = self.dot2(pts[np - 1])
             for i in range(np):
                 d1, p1 = d2, p2
-                d2, p2 = self.dot2(i)
+                d2, p2 = self.dot2(pts[i])
                 if d1 < 0:  # p1 inside, ...
-                    # self.append(p1, False, e)
+                    # pcs.append(p1)
                     if d2 < 0:  # ... p2 inside
-                        self.append(p2, inull)
+                        p = p2
                     else:  # ... p2 outside
                         p = self.intersect(p1, p2, e)
-                        self.append(p, inull)
                         if d2 > 0:
                             no = False
+                    pcs.append(p)
                 elif d2 < 0:  # p1 out-, p2 inside
                     p = self.intersect(p1, p2, e)
-                    self.append(p, inull)
-                    self.append(p2, inull)
+                    pcs.append(p)
+                    pcs.append(p2)
                     if d1 > 0:
                         no = ni = False
-                elif d1 > 0:
+                elif d1 > 0:  # both out
                     ni = False
-            if self._clipped:  # replace points
-                self._points = self._clipped
-                self._clipped = []
-                np = len(self._points)
 
-        # no is True iff all points are on or at one
-        # side (left or right) of each clip edge,
+            if pcs:  # replace points
+                pts[:] = pcs
+                pcs[:] = []
+                np = len(pts)
+
+        if ne < 3:
+            raise ClipError(ne, self._cs, self._name)
+
         # ni is True iff all points are on or on the
-        # right side (i.e. inside) of all clip edges
+        # right side (i.e. inside) of all clip edges,
+        # no is True iff all points are on or at one
+        # side (left or right) of each clip edge: if
+        # none are inside (ni is False) and if all
+        # are on the same side (no is True), then all
+        # must be outside
         if no and not ni:
-            self._points = ()
-            np = 0
+            np, pts = 0, []
         elif np > 1:
-            p = self._points[0]
-            if closed:  # close clipped polygon
-                if _neq(self._points[np - 1], p):
-                    self._points.append(p)
+            p = pts[0]
+            if closed:  # close clipped pts
+                if _neq(pts[np - 1], p):
+                    pts.append(p)
                     np += 1
-            elif not inull:  # open clipped polygon
-                while np > 0 and _eq(self._points[np - 1], p):
+            elif not inull:  # open clipped pts
+                while np > 0 and _eq(pts[np - 1], p):
+                    pts.pop()
                     np -= 1
+
+        self._pts = pts  # for .clipped2
+        # assert len(pts) == np
         return np
 
     def clipedges(self):  # yield clip edge index
-        c2 = self._corners[self._nc - 1]
-        for i in range(self._nc):
-            c1, c2 = c2, self._corners[i]
+        # and set self._x1, ._y1, ._dx, ._dy and
+        # ._xy for each non-null clip edge
+        c2 = self._cs[self._nc - 1]
+        for e in range(self._nc):
+            c1, c2 = c2, self._cs[e]
             self._y1, self._dy = c1.lat, float(c2.lat - c1.lat)
             self._x1, self._dx = c1.lon, float(c2.lon - c1.lon)
             if abs(self._dx) > EPS or abs(self._dy) > EPS:
                 self._xy = self._y1 * self._dx - self._x1 * self._dy
-                yield i + 1
+                yield e + 1
 
     def clipped2(self, i):  # return (clipped point[i], edge)
-        p = self._points[i]
+        p = self._pts[i]
         if isinstance(p, _LLi_):  # intersection point
             return p.classof(p.lat, p.lon), p.edge
         else:  # original point
             return p, 0
 
-    def dot2(self, i):  # dot product of points[i] to the current
+    def dot2(self, p):  # dot product of point p to the current
         # clip corner c1 and clip edge c1 to c2, indicating whether
-        # points[i] is located to the right, to the left or on the
-        # (extended) clip edge from c1 to c2
-        p = self._points[i]
+        # points[i] is located to the right, to the left or on top
+        # of the (extended) clip edge from c1 to c2
         d = self._dx * float(p.lat - self._y1) - \
             self._dy * float(p.lon - self._x1)
         # clockwise corners, +1 means points[i] is to the right
         # of, -1 means on the left of, 0 means on edge c1 to c2
-        d = self._cw if d > 0 else (-self._cw if d < 0 else 0)
+        d = (-self._cw) if d < 0 else (self._cw if d > 0 else 0)
         return d, p
 
     def intersect(self, p1, p2, edge):  # compute intersection
         # of polygon edge p1 to p2 and the current clip edge,
         # where p1 and p2 are known to NOT be located on the
-        # same side of or on the current clip edge
+        # same side or on top of the current clip edge
         # <https://StackOverflow.com/questions/563198/
-        #       how-do-you-detect-where-two-line-segments-intersect>
+        #        how-do-you-detect-where-two-line-segments-intersect>
         fy = float(p2.lat - p1.lat)
         fx = float(p2.lon - p1.lon)
         fp = fy * self._dx - fx * self._dy
         if abs(fp) < EPS:  # PYCHOK no cover
-            raise AssertionError(_dot_(__name__, self.intersect.__name__))
-        h = fsum_(self._xy, -p1.lat * self._dx, p1.lon * self._dy) / fp
-        y = p1.lat + h * fy
-        x = p1.lon + h * fx
+            raise AssertionError(_dot_(self._name, self.intersect.__name__))
+        r = fsum_(self._xy, -p1.lat * self._dx, p1.lon * self._dy) / fp
+        y = p1.lat + r * fy
+        x = p1.lon + r * fx
         return _LLi_(y, x, p1.classof, edge)
 
 
-def clipSH(points, corners, inull=False, closed=False):
+def clipSH(points, corners, closed=False, inull=False):
     '''Clip a polygon against a clip region or box using the
        U{Sutherland-Hodgman
        <https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm>} algorithm.
@@ -303,22 +394,24 @@ def clipSH(points, corners, inull=False, closed=False):
        @arg corners: Three or more points defining a convex clip
                      region (C{LatLon}[]) or two points to specify
                      a rectangular clip box.
-       @kwarg inull: Optionally, include null edges (C{bool}).
        @kwarg closed: Close the clipped points (C{bool}).
+       @kwarg inull: Optionally, include null edges (C{bool}).
 
        @return: Yield the clipped points (C{LatLon}[]).
 
-       @raise ValueError: Insufficient number of B{C{points}} or the
-                          B{C{corners}} specify a polar, zero-area,
-                          non-convex or otherwise invalid clip region.
-    '''
-    sh = _SH(corners)
-    n = sh.clip(points, inull, closed)
+       @raise ClipError: The B{C{corners}} specify a polar, zero-area,
+                         non-convex or otherwise invalid clip box or
+                         region.
+
+       @raise PointsError: Insufficient number of B{C{points}}.
+   '''
+    sh = _SH(corners, clipSH.__name__)
+    n = sh.clip(points, closed, inull)
     for i in range(n):
         yield sh.clipped2(i)[0]
 
 
-def clipSH3(points, corners, inull=False, closed=False):
+def clipSH3(points, corners, closed=False, inull=False):
     '''Clip a polygon against a clip region or box using the
        U{Sutherland-Hodgman
        <https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm>} algorithm.
@@ -327,24 +420,26 @@ def clipSH3(points, corners, inull=False, closed=False):
        @arg corners: Three or more points defining a convex clip
                      region (C{LatLon}[]) or two points to specify
                      a rectangular clip box.
-       @kwarg inull: Optionally, include null edges (C{bool}).
        @kwarg closed: Close the clipped points (C{bool}).
+       @kwarg inull: Optionally, include null edges (C{bool}).
 
        @return: Yield a L{ClipSH3Tuple}C{(start, end, original)} for
                 each edge of the clipped polygon.
 
-       @raise ValueError: Insufficient number of B{C{points}} or the
-                          B{C{corners}} specify a polar, zero-area,
-                          non-convex or otherwise invalid clip region.
+       @raise ClipError: The B{C{corners}} specify a polar, zero-area,
+                         non-convex or otherwise invalid clip box or
+                         region.
+
+       @raise PointsError: Insufficient number of B{C{points}}.
     '''
-    sh = _SH(corners)
-    n = sh.clip(points, inull, closed)
+    sh = _SH(corners, clipSH3.__name__)
+    n = sh.clip(points, closed, inull)
     if n > 0:
         p2, e2 = sh.clipped2(0)
         for i in range(1, n):
             p1, e1 = p2, e2
             p2, e2 = sh.clipped2(i)
-            yield ClipSH3Tuple(p1, p2, not bool(e1 == e2 and e1 and e2))
+            yield ClipSH3Tuple(p1, p2, not bool(e1 and e2 and e1 == e2))
 
 # **) MIT License
 #

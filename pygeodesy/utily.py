@@ -11,14 +11,14 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 '''
 
 from pygeodesy.basics import EPS, R_M , _float, InvalidError, \
-                            _n_v_Error3  # PYCHOK PI_4
+                            _Ints, _n_v_Error3  # PYCHOK PI_4
 from pygeodesy.lazily import _ALL_LAZY
 
 from math import cos, degrees, pi as PI, radians, sin, tan  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '20.04.11'
+__version__ = '20.04.12'
 
 PI2  = PI * 2.0  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
 PI_2 = PI / 2.0  #: Half PI, M{PI / 2} (C{float})
@@ -29,6 +29,7 @@ _1_90 = 1.0 / 90  # 0.011111111111111111111111111111111111111111111111
 _2_PI = 2.0 / PI  # 0.63661977236758134307553505349005744813783858296182
 
 _iterNumpy2len = 1  # adjustable for testing purposes
+_MISSING       = object()  # singleton, imported by .wgrs
 
 
 def degrees90(rad):
@@ -89,8 +90,8 @@ def falsed2f(falsed=True, **name_value_Error):  # name=value [, Error=ValueError
 
        @kwarg falsed: Value includes false origin (C{bool}).
        @kwarg name_value_Error: One B{C{name=value}} pair and optionally
-                                an C{Error=...} keyword argument to
-                                override the default C{Error=ValueError}.
+                                an B{C{Error=...}} keyword argument to
+                                override the default B{C{Error=ValueError}}.
 
        @return: The value (C{float}).
 
@@ -349,6 +350,61 @@ def sincos2d(*deg):
         s, c = _sincos2(q, radians(d - q * 90))  # 0 <= r < PI_2
         yield s
         yield c
+
+
+def splice(iterable, n=2, **fill):
+    '''Split an iterable into C{n} slices.
+
+       @arg iterable: Items to be spliced (C{list}, C{tuple}, ...).
+       @kwarg n: Number of slices to generate (C{int}).
+       @kwarg fill: Optional fill value for missing items.
+
+       @return: A generator for each of B{C{n}} slices,
+                M{iterable[i::n] for i=0..n}.
+
+       @raise ValueError: Invalid B{C{n}}.
+
+       @note: Each generated slice is a C{tuple} or a C{list},
+              the latter only if the B{C{iterable}} is a C{list}.
+
+       @example:
+
+       >>> from pygeodesy import splice
+
+       >>> a, b = splice(range(10))
+       >>> a, b
+       ((0, 2, 4, 6, 8), (1, 3, 5, 7, 9))
+
+       >>> a, b, c = splice(range(10), n=3)
+       >>> a, b, c
+       ((0, 3, 6, 9), (1, 4, 7), (2, 5, 8))
+
+       >>> a, b, c = splice(range(10), n=3, fill=-1)
+       >>> a, b, c
+       ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
+
+       >>> tuple(splice(list(range(9)), n=5))
+       ([0, 5], [1, 6], [2, 7], [3, 8], [4])
+
+       >>> splice(range(9), n=1)
+       <generator object splice at 0x0...>
+    '''
+    if not (isinstance(n, _Ints) and n > 0):
+        raise InvalidError(n=n)
+
+    t = iterable
+    if not isinstance(t, (list, tuple)):
+        t = tuple(t)  # force tuple, also for PyPy3
+    if n > 1:
+        fill = fill.get('fill', _MISSING)
+        if fill is not _MISSING:
+            m = len(t) % n
+            if m > 0:  # fill with same type
+                t += type(t)((fill,)) * (n - m)
+        for i in range(n):
+            yield t[i::n]  # [i:None:n] pychok -Tb ...
+    else:
+        yield t
 
 
 def tan_2(rad):

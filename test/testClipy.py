@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '19.10.14'
+__version__ = '20.04.14'
 
 from base import TestsBase
 
@@ -94,14 +94,14 @@ class Tests(TestsBase):
                 sh = list(clipSH(ps, cs))
             except Exception as x:
                 sh = str(x).split(':')[0]
-            self.test('clipSH.warped' + r, sh, 'corners[4] invalid')
+            self.test('clipSH.warped' + r, sh, 'clipSH clip region invalid')
             try:
                 # use list to force exception, see
                 # <https://RickardLindberg.me/writing/bitten-by-python-generators>
                 sh = list(clipSH3(ps, cs))
             except Exception as x:
                 sh = str(x).split(':')[0]
-            self.test('clipSH3.warped' + r, sh, 'corners[4] invalid')
+            self.test('clipSH3.warped' + r, sh, 'clipSH3 clip region invalid')
             cs = tuple(reversed(cs))
 
     def testClipSH_(self, text, sh, lls):

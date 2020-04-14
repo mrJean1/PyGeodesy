@@ -46,7 +46,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.04.11'
+__version__ = '20.04.12'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -180,9 +180,9 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @return: A L{Points2Tuple}C{(number, points)} with the number
                     of points and the points C{list} or C{tuple}.
 
-           @raise TypeError: Some B{C{points}} are not B{C{base}}.
+           @raise PointsError: Insufficient number of B{C{points}}.
 
-           @raise ValueError: Insufficient number of B{C{points}}.
+           @raise TypeError: Some B{C{points}} are not B{C{base}}.
         '''
         return points2(points, closed=closed, base=base)
 
@@ -667,9 +667,9 @@ class LatLon2psxy(_Basequence):
            @kwarg radius: Mean earth radius (C{meter}).
            @kwarg wrap: Wrap lat- and longitudes (C{bool}).
 
-           @raise TypeError: Some B{C{latlons}} are not C{LatLon}.
+           @raise PointsError: Insufficient number of B{C{latlons}}.
 
-           @raise ValueError: Insufficient number of B{C{latlons}}.
+           @raise TypeError: Some B{C{points}} are not B{C{base}}.
         '''
         self._closed = closed
         self._len, self._array = points2(latlons, closed=closed)
@@ -984,10 +984,11 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
        @return: Approximate area (C{meter}, same units as B{C{radius}},
                 I{squared}).
 
+       @raise PointsError: Insufficient number of B{C{points}}
+
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}}
-                          on invalid B{C{radius}}.
+       @raise ValueError: Invalid B{C{radius}}.
 
        @note: This area approximation has limited accuracy and is
               ill-suited for regions exceeding several hundred Km
@@ -1013,9 +1014,9 @@ def boundsOf(points, wrap=True, LatLon=None):
                 B{C{LatLon}}s if B{C{LatLon}} is C{None} a
                 L{Bounds4Tuple}C{(latS, lonW, latN, lonE)}.
 
-       @raise TypeError: Some B{C{points}} are not C{LatLon}.
+       @raise PointsError: Insufficient number of B{C{points}}
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
        @example:
 
@@ -1038,8 +1039,9 @@ def boundsOf(points, wrap=True, LatLon=None):
         elif hiy < y:
             hiy = y
 
-    return Bounds4Tuple(loy, lox, hiy, hix) if LatLon is None else \
-           Bounds2Tuple(LatLon(loy, lox), LatLon(hiy, hix))  # PYCHOK inconsistent
+    r = Bounds4Tuple(loy, lox, hiy, hix) if LatLon is None else \
+        Bounds2Tuple(LatLon(loy, lox), LatLon(hiy, hix))  # PYCHOK inconsistent
+    return r
 
 
 def centroidOf(points, wrap=True, LatLon=None):
@@ -1054,10 +1056,12 @@ def centroidOf(points, wrap=True, LatLon=None):
                 L{LatLon2Tuple}C{(lat, lon)} if B{C{LatLon}}
                 is C{None}.
 
+       @raise PointsError: Insufficient number of B{C{points}}
+
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}} or
-                          B{C{points}} enclose a pole or zero area.
+       @raise ValueError: The B{C{points}} enclose a pole or
+                          near-zero area.
 
        @see: U{Centroid<https://WikiPedia.org/wiki/Centroid#Of_a_polygon>}
              and U{Calculating The Area And Centroid Of A Polygon
@@ -1109,10 +1113,11 @@ def isclockwise(points, adjust=False, wrap=True):
 
        @return: C{True} if B{C{points}} are clockwise, C{False} otherwise.
 
+       @raise PointsError: Insufficient number of B{C{points}}
+
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}} or the
-                          B{C{points}} enclose a pole or zero area.
+       @raise ValueError: The B{C{points}} enclose a pole or zero area.
 
        @example:
 
@@ -1141,9 +1146,9 @@ def isconvex(points, adjust=False, wrap=True):
 
        @raise CrossError: Some B{C{points}} are colinear.
 
-       @raise TypeError: Some B{C{points}} are not C{LatLon}.
+       @raise PointsError: Insufficient number of B{C{points}}
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
        @example:
 
@@ -1169,9 +1174,9 @@ def isconvex_(points, adjust=False, wrap=True):
 
        @raise CrossError: Some B{C{points}} are colinear.
 
-       @raise TypeError: Some B{C{points}} are not C{LatLon}.
+       @raise PointsError: Insufficient number of B{C{points}}
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
        @example:
 
@@ -1234,10 +1239,11 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
        @return: C{True} if B{C{point}} is inside the polygon, C{False}
                 otherwise.
 
+       @raise PointsError: Insufficient number of B{C{points}}
+
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}} or
-                          invalid B{C{point}}.
+       @raise ValueError: Invalid B{C{point}}, lat- or longitude.
 
        @see: L{sphericalNvector.LatLon.isenclosedBy},
              L{sphericalTrigonometry.LatLon.isenclosedBy} and
@@ -1316,7 +1322,7 @@ def ispolar(points, wrap=False):
        @return: C{True} if the polygon encloses a pole, C{False}
                 otherwise.
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise PointsError: Insufficient number of B{C{points}}
 
        @raise TypeError: Some B{C{points}} are not C{LatLon} or don't
                          have C{bearingTo2}, C{initialBearingTo}
@@ -1378,9 +1384,9 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
        @raise LimitError: Lat- and/or longitudinal delta exceeds the
                           B{C{limit}}, see function L{equirectangular_}.
 
-       @raise TypeError: Some B{C{points}} are not C{LatLon}.
+       @raise PointsError: Insufficient number of B{C{points}}
 
-       @raise ValueError: Insufficient number of B{C{points}}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
        @see: Function L{degrees2m} to convert C{degrees} to C{meter}.
     '''
@@ -1472,10 +1478,11 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
        @return: Approximate perimeter (C{meter}, same units as
                 B{C{radius}}).
 
+       @raise PointsError: Insufficient number of B{C{points}}
+
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}}
-                          or invalid B{C{radius}}.
+       @raise ValueError: Invalid B{C{radius}}.
 
        @note: This perimeter is based on the L{equirectangular_}
               distance approximation and is ill-suited for regions

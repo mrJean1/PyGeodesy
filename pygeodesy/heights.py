@@ -56,7 +56,7 @@ from pygeodesy.basics import EPS, _bkwds, InvalidError, isscalar, len2, \
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, \
-                            haversine_, _scaler, vincentys_
+                            haversine_, PointsError, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
@@ -64,10 +64,10 @@ from pygeodesy.utily import PI, PI2, PI_2, radiansPI, radiansPI2, \
                             unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.04.10'
+__version__ = '20.04.12'
 
 
-class HeightError(ValueError):  # imported by .geoids
+class HeightError(PointsError):  # imported by .geoids
     '''Height interpolator C{Height...} or interpolation issue.
     '''
     pass

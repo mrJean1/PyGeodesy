@@ -27,8 +27,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS('_Named', '_NamedBase',
          '_NamedEnum', '_NamedEnumItem',  # '_NamedDict',
          # '_NamedFloat',  '_NamedInt',  '_NamedStr', '_NamedTuple',
          'Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
-         'ClipCS3Tuple', 'ClipSH3Tuple', 'Curvature2Tuple',
-         'Destination2Tuple',
+         'Curvature2Tuple', 'Destination2Tuple',
          'Distance2Tuple', 'Distance3Tuple', 'Distance4Tuple',
          'EasNor2Tuple', 'EasNor3Tuple',
          'EasNorAziRk4Tuple', 'EasNorExact4Tuple', 'EasNorRadius3Tuple',
@@ -45,7 +44,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS('_Named', '_NamedBase',
          'UtmUpsLatLon5Tuple',
          'Vector3Tuple', 'Vector4Tuple',
          'notOverloaded')
-__version__ = '20.04.11'
+__version__ = '20.04.14'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
@@ -239,13 +238,12 @@ class _NamedBase(_Named):
            @arg other: The other instance (any C{type}).
            @kwarg name: Optional, name for other (C{str}).
 
-           @return: C{None}.
-
-           @raise TypeError: Mismatch of this and B{C{other}} C{type}.
+           @raise TypeError: Mismatch of the B{C{other}} and this
+                             C{class} or C{type}.
         '''
         if not (isinstance(self, other.__class__) or
                 isinstance(other, self.__class__)):
-            raise TypeError('type(%s) mismatch: %s vs %s' % (name,
+            raise TypeError('%s mismatch: %s vs %s' % (name,
                              classname(other), self.classname))
 
     def toStr(self, **kwds):  # PYCHOK no cover
@@ -726,25 +724,6 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
        longitudes.
     '''
     _Names_ = ('latS', 'lonW', 'latN', 'lonE')
-
-
-class ClipCS3Tuple(_NamedTuple):  # .clipy.py
-    '''3-Tuple C{(start, end, index)} for each edge of a I{clipped}
-       path with the C{start} and C{end} points (C{LatLon}) of the
-       portion of the edge inside or on the clip box and the C{index}
-       (C{int}) of the edge in the original path.
-    '''
-    _Names_ = ('start', 'end', 'index')
-
-
-class ClipSH3Tuple(_NamedTuple):  # .clipy.py
-    '''3-Tuple C{(start, end, original)} for each edge of a I{clipped}
-       polygon, the C{start} and C{end} points (C{LatLon}) of the
-       portion of the edge inside or on the clip region and the
-       C{original} indicates whether the edge is part of the original
-       polygon or part of the clip region (C{bool}).
-    '''
-    _Names_ = ('start', 'end', 'original')
 
 
 class Curvature2Tuple(_NamedTuple):  # .datum.py

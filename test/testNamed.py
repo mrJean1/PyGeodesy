@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.04.07'
+__version__ = '20.04.14'
 
 from base import PyGeodesy_dir, isiOS, TestsBase
 from pygeodesy import Datums, named
@@ -217,7 +217,7 @@ if __name__ == '__main__':
     from glob import glob
     import os.path as os_path
 
-    from pygeodesy import ecef, elliptic, frechet, hausdorff
+    from pygeodesy import clipy, ecef, elliptic, frechet, hausdorff
 
     t = Tests(__file__, __version__)
     t.testNamed(named._Named)
@@ -234,6 +234,7 @@ if __name__ == '__main__':
     # defined in all pygeodesy modules
     t.testNamedDicts(named)
     t.testNamedTuples(named)
+    t.testNamedTuples(clipy)
     t.testNamedTuples(ecef)
     t.testNamedTuples(elliptic)
     t.testNamedTuples(frechet)

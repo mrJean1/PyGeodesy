@@ -22,7 +22,13 @@ from math import acos, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.04.11'
+__version__ = '20.04.12'
+
+
+class PointsError(ValueError):
+    '''Insufficient number of points.
+    '''
+    pass
 
 
 def _scaled(lat1, lat2):  # degrees
@@ -451,7 +457,7 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @note: See note at function L{vincentys_}.
     '''
-    r = float(radius)
+    r = float(radius)  # _float(radius=radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
         r *= haversine_(radians(lat2), radians(lat1), radians(d))
@@ -532,13 +538,14 @@ def horizon(height, radius=R_M, refraction=False):
 
        @see: U{Distance to horizon<https://www.EdWilliams.org/avform.htm#Horizon>}.
     '''
-    if min(height, radius) < 0:
-        raise ValueError('%s%r' % (horizon.__name__, (height, radius)))
+    h, r = _float(height=height), _float(radius=radius)
+    if min(h, r) < 0:
+        raise ValueError('%s%r' % (horizon.__name__, (r, r)))
 
     if refraction:
-        d2 = 2.415750694528 * height * radius  # 2.0 / 0.8279
+        d2 = 2.415750694528 * h * r  # 2.0 / 0.8279
     else:
-        d2 = height * fsum_(radius, radius, height)
+        d2 = height * fsum_(r, r, h)
     return sqrt(d2)
 
 
@@ -646,7 +653,7 @@ def philam2n_xyz(phi, lam):
     return Vector3Tuple(ca * cb, ca * sb, sa)
 
 
-def points2(points, closed=True, base=None, Error=ValueError):
+def points2(points, closed=True, base=None, Error=PointsError):
     '''Check a path or polygon represented by points.
 
        @arg points: The path or polygon points (C{LatLon}[])
@@ -660,9 +667,10 @@ def points2(points, closed=True, base=None, Error=ValueError):
        @return: A L{Points2Tuple}C{(number, points)} with the number
                 of points and the points C{list} or C{tuple}.
 
-       @raise TypeError: Some B{C{points}} are not B{C{base}}.
+       @raise PointsError: Insufficient number of B{C{points}}.
 
-       @raise Error: Insufficient number of B{C{points}}.
+       @raise TypeError: Some B{C{points}} are not B{C{base}}
+                         compatible.
     '''
     n, points = len2(points)
 

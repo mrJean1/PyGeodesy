@@ -13,7 +13,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.basics + _ALL_DOCS('InvalidError', 'IsnotError')
-__version__ = '20.04.11'
+__version__ = '20.04.12'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -71,9 +71,8 @@ NEG0 = -0.0          #: Negative 0.0 (C{float}), see function C{isneg0}
 
 R_M  = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
 
-_limiterrors = True      # imported by .formy
-_MISSING     = object()  # singleton, imported by .wgrs
-_rangerrors  = True      # imported by .dms
+_limiterrors = True  # imported by .formy
+_rangerrors  = True  # imported by .dms
 
 
 class LenError(ValueError):
@@ -137,9 +136,9 @@ def clips(bstr, limit=50, white=''):
 
        @arg bstr: String (C{bytes} or C{str}).
        @kwarg limit: Length limit (C{int}).
-       @kwarg white: Whitespace replacement (C{str}).
+       @kwarg white: Optionally, replace all whitespace (C{str}).
 
-       @return: Un-/clipped B{C{bstr}}.
+       @return: The clipped or unclipped B{C{bstr}}.
     '''
     if len(bstr) > limit > 8:
         h = limit // 2
@@ -188,10 +187,10 @@ def InvalidError(**name_value_Error):  # name=value [, Error=ValueError]
     '''Create a C{ValueError} for an invalid C{name=value}.
 
        @kwarg name_value_Error: One B{C{name=value}} pair and optionally
-                                an C{Error=...} keyword argument to
-                                override the default C{Error=ValueError}.
+                                an B{C{Error=...}} keyword argument to
+                                override the default B{C{Error=ValueError}}.
 
-       @return: An instance of C{ValueError} or B{C{Error=...}}.
+       @return: A C{ValueError} or an B{C{Error}} instance.
     '''
     n, v, Error = _n_v_Error3(ValueError, **name_value_Error)
     return Error('%s invalid: %r' % (n, v))
@@ -217,12 +216,13 @@ except ImportError:
 
 
 def isint(obj, both=False):
-    '''Check for integer type or an integer C{float}.
+    '''Check for C{int} type or an integer C{float} value.
 
        @arg obj: The object (any C{type}).
-       @kwarg both: Optionally, check both type and value (C{bool}).
+       @kwarg both: Optionally, check C{float} type and value (C{bool}).
 
-       @return: C{True} if B{C{obj}} is C{int}, C{False} otherwise.
+       @return: C{True} if B{C{obj}} is C{int} or an integer
+                C{float}, C{False} otherwise.
     '''
     if both and isinstance(obj, float):  # NOT _Scalars!
         try:
@@ -250,10 +250,10 @@ def IsnotError(*noun_s, **name_value_Error):  # name=value [, Error=TypeeError]
        @arg noun_s: One or more expected class or type names, usually
                     nouns (C{str}).
        @kwarg name_value_Error: One B{C{name=value}} pair and optionally
-                                an C{Error=...} keyword argument to
-                                override the default C{Error=TypeError}.
+                                an B{C{Error=...}} keyword argument to
+                                override the default B{C{Error=TypeError}}.
 
-       @return: An instance of C{TypeError} or B{C{Error=...}}.
+       @return: A C{TypeError} or an B{C{Error}} instance.
     '''
     n, v, Error = _n_v_Error3(TypeError, **name_value_Error)
     t = ' or ' .join(noun_s) or 'specified'
@@ -305,7 +305,7 @@ def issubclassof(Sub, Super):
        @arg Sub: The sub-class (C{class}).
        @arg Super: The super class (C{class}).
 
-       @return: C{True} iff B{C{Sub}} is a sub-class of B{C{Super}},
+       @return: C{True} if B{C{Sub}} is a sub-class of B{C{Super}},
                 C{False} otherwise (C{bool}).
     '''
     return isclass(Sub) and isclass(Super) and issubclass(Sub, Super)
@@ -326,9 +326,9 @@ def len2(items):
 
 
 def limiterrors(raiser=None):
-    '''Get/set the raising of limit errors.
+    '''Get/set the raising of L{LimitError}s.
 
-       @kwarg raiser: Choose C{True} to throw or C{False} to
+       @kwarg raiser: Choose C{True} to raise or C{False} to
                       ignore L{LimitError} exceptions.  Use
                       C{None} to leave the setting unchanged.
 
@@ -452,16 +452,13 @@ class property_RO(property):
 
 
 def rangerrors(raiser=None):
-    '''Get/set raising of range errors.
+    '''Get/set the raising of L{RangeError}s.
 
        @kwarg raiser: Choose C{True} to raise or C{False} to ignore
                       L{RangeError} exceptions.  Use C{None} to leave
                       the setting unchanged.
 
        @return: Previous setting (C{bool}).
-
-       @note: Out-of-range lat- and longitude values are always
-              clipped to the nearest range limit.
     '''
     global _rangerrors
     t = _rangerrors
@@ -497,59 +494,6 @@ def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
     except (TypeError, ValueError):
         raise IsnotError('valid', Error=Error, **{name: value})
     return v
-
-
-def splice(iterable, n=2, fill=_MISSING):
-    '''Split an iterable into C{n} slices.
-
-       @arg iterable: Items to be spliced (C{list}, C{tuple}, ...).
-       @kwarg n: Number of slices to generate (C{int}).
-       @kwarg fill: Fill value for missing items.
-
-       @return: Generator of B{C{n}} slices M{iterable[i::n] for i=0..n}.
-
-       @note: Each generated slice is a C{tuple} or a C{list},
-              the latter only if the B{C{iterable}} is a C{list}.
-
-       @raise ValueError: Non-C{int} or non-positive B{C{n}}.
-
-       @example:
-
-       >>> from pygeodesy import splice
-
-       >>> a, b = splice(range(10))
-       >>> a, b
-       ((0, 2, 4, 6, 8), (1, 3, 5, 7, 9))
-
-       >>> a, b, c = splice(range(10), n=3)
-       >>> a, b, c
-       ((0, 3, 6, 9), (1, 4, 7], [2, 5, 8))
-
-       >>> a, b, c = splice(range(10), n=3, fill=-1)
-       >>> a, b, c
-       ((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))
-
-       >>> list(splice(range(12), n=5))
-       [(0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9)]
-
-       >>> splice(range(9), n=1)
-       <generator object splice at 0x0...>
-    '''
-    if not (isinstance(n, _Ints) and n > 0):
-        raise ValueError('%s %s=%s' % ('splice', 'n', n))
-
-    t = iterable
-    if not isinstance(t, (list, tuple)):
-        t = tuple(t)  # force tuple, also for PyPy3
-    if n > 1:
-        if fill is not _MISSING:
-            m = len(t) % n
-            if m > 0:  # fill with same type
-                t += type(t)((fill,)) * (n - m)
-        for i in range(n):
-            yield t[i::n]  # [i:None:n] pychok -Tb ...
-    else:
-        yield t
 
 
 def _xattrs(insto, other, *attrs):
@@ -596,8 +540,8 @@ def _xinstanceof(*Types, **name_value_s):
        @kwarg name_value_s: One or more B{C{name=value}} pairs
                             with the C{value} to be checked.
 
-       @raise TypeError: At least one B{C{name_value_s}} is
-                         not any of the B{C{Types}}.
+       @raise TypeError: At least one of the B{C{name_value_s}}
+                         is not any of the B{C{Types}}.
     '''
     for n, v in name_value_s.items():
         if not isinstance(v, Types):
@@ -622,8 +566,8 @@ def _xsubclassof(Class, **name_value_s):
        @kwarg name_value_s: One or more B{C{name=value}} pairs with
                             the C{value} to be checked.
 
-       @raise TypeError: At least one B{C{name_value_s}} is not a
-                         sub-class of B{C{Class}}.
+       @raise TypeError: At least one of the B{C{name_value_s}} is
+                         not a sub-class of B{C{Class}}.
     '''
     for n, v in name_value_s.items():
         if not issubclassof(v, Class):

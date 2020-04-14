@@ -286,7 +286,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.04.11
+        20.04.14
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -803,6 +803,14 @@
         <a 
         href="https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1CassiniSoldner.html"
         target="_top">CassiniSoldner</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.clipy.ClipError-class.html" class="summary-name">ClipError</a><br />
+      Clip box or clip region invalid.
     </td>
   </tr>
 <tr>
@@ -1622,6 +1630,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.formy.PointsError-class.html" class="summary-name">PointsError</a><br />
+      Insufficient number of points.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.basics.RangeError-class.html" class="summary-name">RangeError</a><br />
       Error raised for lat- or longitude values outside the 
         <b><code>clip</code></b>, <b><code>clipLat</code></b>, 
@@ -2214,8 +2230,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#clipSH" class="summary-sig-name">clipSH</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">corners</span>,
-        <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a polygon against a clip region or box using the <a 
       href="https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
       target="_top">Sutherland-Hodgman</a> algorithm.</td>
@@ -2236,8 +2252,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#clipSH3" class="summary-sig-name">clipSH3</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">corners</span>,
-        <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a polygon against a clip region or box using the <a 
       href="https://WikiPedia.org/wiki/Sutherland_Hodgman_algorithm" 
       target="_top">Sutherland-Hodgman</a> algorithm.</td>
@@ -3351,7 +3367,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x102900a50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10cd120d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -3818,7 +3834,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isint" class="summary-sig-name">isint</a>(<span class="summary-sig-arg">obj</span>,
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Check for integer type or an integer <code>float</code>.</td>
+      Check for <code>int</code> type or an integer <code>float</code> 
+      value.</td>
           <td align="right" valign="top">
             
             
@@ -4051,7 +4068,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#limiterrors" class="summary-sig-name">limiterrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Get/set the raising of limit errors.</td>
+      Get/set the raising of <a 
+      href="pygeodesy.basics.LimitError-class.html" 
+      class="link">LimitError</a>s.</td>
           <td align="right" valign="top">
             
             
@@ -4700,7 +4719,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.formy.PointsError'&gt;</span>)</span><br />
       Check a path or polygon represented by points.</td>
           <td align="right" valign="top">
             
@@ -4859,7 +4878,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#rangerrors" class="summary-sig-name">rangerrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Get/set raising of range errors.</td>
+      Get/set the raising of <a 
+      href="pygeodesy.basics.RangeError-class.html" 
+      class="link">RangeError</a>s.</td>
           <td align="right" valign="top">
             
             
@@ -5115,7 +5136,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#splice" class="summary-sig-name">splice</a>(<span class="summary-sig-arg">iterable</span>,
         <span class="summary-sig-arg">n</span>=<span class="summary-sig-default">2</span>,
-        <span class="summary-sig-arg">fill</span>=<span class="summary-sig-default">object()</span>)</span><br />
+        <span class="summary-sig-arg">**fill</span>)</span><br />
       Split an iterable into <code>n</code> slices.</td>
           <td align="right" valign="top">
             
@@ -5815,7 +5836,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.4.11'"><code class="variable-quote">'</code><code class="variable-string">20.4.11</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.4.14'"><code class="variable-quote">'</code><code class="variable-string">20.4.14</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -6556,9 +6577,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <b><code>radius</code></b>, <i>squared</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> on invalid 
-        <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -6817,8 +6838,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           lonE)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -6921,9 +6942,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or 
-        <b><code>points</code></b> enclose a pole or zero area.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>points</code></b> enclose a pole or near-zero area.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -7021,13 +7042,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>inull</code></strong> - Optionally, include null edges if inside (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield a <a href="pygeodesy.named.ClipCS3Tuple-class.html" 
+        <dd>Yield a <a href="pygeodesy.clipy.ClipCS3Tuple-class.html" 
           class="link">ClipCS3Tuple</a><code>(start, end, index)</code> for
           each edge of the clipped path.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>lowerleft</code></b> corner is not below and/or not to
-        the left of the <b><code>upperright</code></b> corner.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - The <b><code>lowerleft</code></b> and 
+        <b><code>upperright</code></b> corners specify an invalid clip box.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -7075,8 +7097,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">clipSH</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">corners</span>,
-        <span class="sig-arg">inull</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">inull</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -7093,16 +7115,16 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>corners</code></strong> - Three or more points defining a convex clip region 
           (<code>LatLon</code>[]) or two points to specify a rectangular 
           clip box.</li>
-        <li><strong class="pname"><code>inull</code></strong> - Optionally, include null edges (<code>bool</code>).</li>
         <li><strong class="pname"><code>closed</code></strong> - Close the clipped points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>inull</code></strong> - Optionally, include null edges (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Yield the clipped points (<code>LatLon</code>[]).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or the 
-        <b><code>corners</code></b> specify a polar, zero-area, non-convex 
-        or otherwise invalid clip region.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - The <b><code>corners</code></b> specify a polar, zero-area, 
+        non-convex or otherwise invalid clip box or region.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -7116,8 +7138,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">clipSH3</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">corners</span>,
-        <span class="sig-arg">inull</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">inull</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -7134,18 +7156,18 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>corners</code></strong> - Three or more points defining a convex clip region 
           (<code>LatLon</code>[]) or two points to specify a rectangular 
           clip box.</li>
-        <li><strong class="pname"><code>inull</code></strong> - Optionally, include null edges (<code>bool</code>).</li>
         <li><strong class="pname"><code>closed</code></strong> - Close the clipped points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>inull</code></strong> - Optionally, include null edges (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield a <a href="pygeodesy.named.ClipSH3Tuple-class.html" 
+        <dd>Yield a <a href="pygeodesy.clipy.ClipSH3Tuple-class.html" 
           class="link">ClipSH3Tuple</a><code>(start, end, original)</code> 
           for each edge of the clipped polygon.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or the 
-        <b><code>corners</code></b> specify a polar, zero-area, non-convex 
-        or otherwise invalid clip region.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - The <b><code>corners</code></b> specify a polar, zero-area, 
+        non-convex or otherwise invalid clip box or region.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -7172,10 +7194,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>bstr</code></strong> - String (<code>bytes</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>limit</code></strong> - Length limit (<code>int</code>).</li>
-        <li><strong class="pname"><code>white</code></strong> - Whitespace replacement (<code>str</code>).</li>
+        <li><strong class="pname"><code>white</code></strong> - Optionally, replace all whitespace (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Un-/clipped <b><code>bstr</code></b>.</dd>
+        <dd>The clipped or unclipped <b><code>bstr</code></b>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -8164,8 +8186,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>falsed</code></strong> - Value includes false origin (<code>bool</code>).</li>
         <li><strong class="pname"><code>name_value_Error</code></strong> - One <b><code>name=value</code></b> pair and optionally an 
-          <code>Error=...</code> keyword argument to override the default 
-          <code>Error=ValueError</code>.</li>
+          <b><code>Error=...</code></b> keyword argument to override the 
+          default <b><code>Error=ValueError</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The value (<code>float</code>).</dd>
@@ -8885,11 +8907,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Keyword arguments <code>fraction</code>, <i>fractional</i> indices,
-        intermediate <b><code>points1</code></b> and 
-        <b><code>points2</code></b> are <i>not</i> supported in this <a 
-        href="pygeodesy.frechet-module.html#frechet_" 
-        class="link">frechet_</a> function.
+        Function <a href="pygeodesy.frechet-module.html#frechet_" 
+        class="link">frechet_</a> does not support <i>fractional</i> 
+        indices for intermediate <b><code>points1</code></b> and 
+        <b><code>points2</code></b>.
       </p>
 </div></td></tr></table>
 </div>
@@ -9176,7 +9197,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x102900a50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10cd120d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -9753,9 +9774,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or the 
-        <b><code>points</code></b> enclose a pole or zero area.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>points</code></b> enclose a pole or zero area.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -9797,8 +9818,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.vector3d.CrossError-class.html">CrossError</a></strong></code> - Some <b><code>points</code></b> are colinear.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -9843,8 +9864,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.vector3d.CrossError-class.html">CrossError</a></strong></code> - Some <b><code>points</code></b> are colinear.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -9887,9 +9908,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           polygon, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or invalid 
-        <b><code>point</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>point</code></b>, lat- or longitude.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -9951,16 +9972,18 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Check for integer type or an integer <code>float</code>.</p>
+  <p>Check for <code>int</code> type or an integer <code>float</code> 
+  value.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
-        <li><strong class="pname"><code>both</code></strong> - Optionally, check both type and value (<code>bool</code>).</li>
+        <li><strong class="pname"><code>both</code></strong> - Optionally, check <code>float</code> type and value 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if <b><code>obj</code></b> is <code>int</code>,
-          <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if <b><code>obj</code></b> is <code>int</code> 
+          or an integer <code>float</code>, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -10018,7 +10041,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code> or 
         don't have <code>bearingTo2</code>, <code>initialBearingTo</code> 
         and <code>finalBearingTo</code> methods.</li>
@@ -10133,7 +10156,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>Super</code></strong> - The super class (<code>class</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> iff <b><code>Sub</code></b> is a sub-class of 
+        <dd><code>True</code> if <b><code>Sub</code></b> is a sub-class of 
           <b><code>Super</code></b>, <code>False</code> otherwise 
           (<code>bool</code>).</dd>
   </dl>
@@ -10340,11 +10363,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Get/set the raising of limit errors.</p>
+  <p>Get/set the raising of <a 
+  href="pygeodesy.basics.LimitError-class.html" 
+  class="link">LimitError</a>s.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>raiser</code></strong> - Choose <code>True</code> to throw or <code>False</code> to ignore
+        <li><strong class="pname"><code>raiser</code></strong> - Choose <code>True</code> to raise or <code>False</code> to ignore
           <a href="pygeodesy.basics.LimitError-class.html" 
           class="link">LimitError</a> exceptions.  Use <code>None</code> to
           leave the setting unchanged.</li>
@@ -10878,8 +10903,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -11554,9 +11579,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Insufficient number of <b><code>points</code></b> or invalid 
-        <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -11621,7 +11646,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">points2</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">base</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span>
+        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.formy.PointsError'&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -11646,8 +11671,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <code>tuple</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <b><code>base</code></b>.</li>
-        <li><code><strong class='fraise'>Error</strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <b><code>base</code></b> 
+        compatible.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -11854,7 +11880,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Get/set raising of range errors.</p>
+  <p>Get/set the raising of <a 
+  href="pygeodesy.basics.RangeError-class.html" 
+  class="link">RangeError</a>s.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -11866,11 +11894,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>Previous setting (<code>bool</code>).</dd>
   </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Out-of-range lat- and longitude values are always clipped to the 
-        nearest range limit.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="reprs"></a>
 <div>
@@ -12349,7 +12373,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">splice</span>&nbsp;(<span class="sig-arg">iterable</span>,
         <span class="sig-arg">n</span>=<span class="sig-default">2</span>,
-        <span class="sig-arg">fill</span>=<span class="sig-default">object()</span>)</span>
+        <span class="sig-arg">**fill</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -12362,14 +12386,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>iterable</code></strong> - Items to be spliced (<code>list</code>, <code>tuple</code>, ...).</li>
         <li><strong class="pname"><code>n</code></strong> - Number of slices to generate (<code>int</code>).</li>
-        <li><strong class="pname"><code>fill</code></strong> - Fill value for missing items.</li>
+        <li><strong class="pname"><code>fill</code></strong> - Optional fill value for missing items.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Generator of <b><code>n</code></b> slices <i 
+        <dd>A generator for each of <b><code>n</code></b> slices, <i 
           class="math">iterable[i::n] for i=0..n</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Non-<code>int</code> or non-positive <b><code>n</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>n</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -12387,14 +12411,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>a, b, c = splice(range(10), n=3)
 <span class="py-prompt">&gt;&gt;&gt; </span>a, b, c
-<span class="py-output">((0, 3, 6, 9), (1, 4, 7], [2, 5, 8))</span></pre>
+<span class="py-output">((0, 3, 6, 9), (1, 4, 7), (2, 5, 8))</span></pre>
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>a, b, c = splice(range(10), n=3, fill=-1)
 <span class="py-prompt">&gt;&gt;&gt; </span>a, b, c
 <span class="py-output">((0, 3, 6, 9), (1, 4, 7, -1), (2, 5, 8, -1))</span></pre>
 <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>list(splice(range(12), n=5))
-<span class="py-output">[(0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9)]</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>tuple(splice(list(range(9)), n=5))
+<span class="py-output">([0, 5], [1, 6], [2, 7], [3, 8], [4])</span></pre>
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>splice(range(9), n=1)
 <span class="py-output">&lt;generator object splice at 0x0...&gt;</span></pre>
@@ -13975,7 +13999,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Apr 11 17:24:59 2020
+    Generated by Epydoc 3.0.1 on Tue Apr 14 11:55:11 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

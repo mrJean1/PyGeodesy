@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.03.28'
+__version__ = '20.04.14'
 
 from base import geographiclib, TestsBase
 
@@ -202,7 +202,7 @@ class Tests(TestsBase):
                 d = p.alongTrackDistanceTo(s, 96)
                 self.test('alongTrackDistanceTo', d, 62331.59, fmt='%.2f')  # 62331
             except TypeError as x:
-                self.test('alongTrackDistanceTo', x, 'type(end) mismatch: int vs ' + classname(p))  # PYCHOK test attr?
+                self.test('alongTrackDistanceTo', x, 'end mismatch: int vs ' + classname(p))  # PYCHOK test attr?
             d = p.alongTrackDistanceTo(s, e)
             self.test('alongTrackDistanceTo', d, 62331.58, fmt='%.2f')
 
@@ -228,7 +228,7 @@ class Tests(TestsBase):
                 d = p.crossTrackDistanceTo(s, 96)
                 self.test('crossTrackDistanceTo', d, -305.67, fmt='%.2f')  # -305.7
             except TypeError as x:
-                self.test('crossTrackDistanceTo', x, 'type(end) mismatch: int vs ' + classname(p))  # PYCHOK test attr?
+                self.test('crossTrackDistanceTo', x, 'end mismatch: int vs ' + classname(p))  # PYCHOK test attr?
             d = p.crossTrackDistanceTo(s, e)
             self.test('crossTrackDistanceTo', d, -307.55, fmt='%.2f')  # -307.5
 

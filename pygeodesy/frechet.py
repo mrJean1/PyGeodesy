@@ -83,7 +83,8 @@ from pygeodesy.basics import EPS, EPS1, INF, _bkwds, InvalidError, \
 from pygeodesy.datum import Datums, Datum
 from pygeodesy.fmath import favg, hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
-                            points2 as _points2, _scaler, vincentys_
+                            points2 as _points2, PointsError, _scaler, \
+                            vincentys_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, \
                             notOverloaded, PhiLam2Tuple
@@ -93,13 +94,13 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.04.10'
+__version__ = '20.04.12'
 
 if not 0 < EPS < EPS1 < 1:
     raise AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
 
 
-class FrechetError(ValueError):
+class FrechetError(PointsError):
     '''Fréchet issue.
     '''
     pass
@@ -806,9 +807,8 @@ def frechet_(points1, points2, distance=None, units=''):
 
        @raise TypeError: If B{C{distance}} is not a callable.
 
-       @note: Keyword arguments C{fraction}, I{fractional} indices, intermediate
-              B{C{points1}} and B{C{points2}} are I{not} supported in this
-              L{frechet_} function.
+       @note: Function L{frechet_} does not support I{fractional} indices for
+              intermediate B{C{points1}} and B{C{points2}}.
     '''
     if not callable(distance):
         raise IsnotError(callable.__name__, distance=distance)

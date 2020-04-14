@@ -12,17 +12,17 @@ C{height} and C{radius}.  See also U{World Geographic Reference System
 '''
 
 from pygeodesy.basics import EPS1_2, InvalidError, IsnotError,\
-                             isstr, _MISSING, property_RO
+                             isstr, property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
                             LatLonPrec5Tuple, _NamedStr
-from pygeodesy.utily import ft2m, m2ft, m2NM
+from pygeodesy.utily import ft2m, m2ft, _MISSING, m2NM
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.04.09'
+__version__ = '20.04.12'
 
 _Base    = 10
 _BaseLen = 4

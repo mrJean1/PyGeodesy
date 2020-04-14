@@ -67,7 +67,7 @@ from pygeodesy.basics import INF, _bkwds, InvalidError, IsnotError, \
 from pygeodesy.datum import Datums, Datum
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
-                            points2, _scaler, vincentys_
+                            points2, PointsError, _scaler, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, PhiLam2Tuple
 from pygeodesy.utily import unrollPI
@@ -76,10 +76,10 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.04.10'
+__version__ = '20.04.12'
 
 
-class HausdorffError(ValueError):
+class HausdorffError(PointsError):
     '''Hausdorff issue.
     '''
     pass

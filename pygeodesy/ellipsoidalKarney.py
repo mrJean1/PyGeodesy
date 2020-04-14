@@ -43,7 +43,7 @@ from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
-__version__ = '20.04.04'
+__version__ = '20.04.12'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -420,8 +420,10 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}} or longitudes
-                          not wrapped, unrolled, B{C{wrap}} is C{False}.
+       @raise PointsError: Insufficient number of B{C{points}}.
+
+       @raise ValueError: Invalid B{C{wrap}}, longitudes not
+                          wrapped, unrolled.
 
        @note: This function requires installation of the U{GeographicLib
               <https://PyPI.org/project/geographiclib>} package.
@@ -443,8 +445,10 @@ def isclockwise(points, datum=Datums.WGS84, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}} or B{C{points}}
-                          enclose a pole or zero area.
+       @raise PointsError: Insufficient number of B{C{points}}.
+
+       @raise ValueError: The B{C{points}} enclose a pole or zero
+                          area.
 
        @note: This function requires installation of the U{GeographicLib
               <https://PyPI.org/project/geographiclib>} package.
@@ -475,8 +479,10 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}} or longitudes
-                          not wrapped, unrolled, B{C{wrap}} is C{False}.
+       @raise PointsError: Insufficient number of B{C{points}}.
+
+       @raise ValueError: Invalid B{C{wrap}}, longitudes not
+                          wrapped, unrolled.
 
        @note: This function requires installation of the U{GeographicLib
               <https://PyPI.org/project/geographiclib>} package.

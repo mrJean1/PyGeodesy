@@ -446,10 +446,11 @@ class LatLon(LatLonSphericalBase):
            @return: C{True} if the polygon encloses this point,
                     C{False} otherwise.
 
+           @raise PointsError: Insufficient number of B{C{points}}.
+
            @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-           @raise ValueError: Insufficient number of B{C{points}} or
-                              non-convex polygon.
+           @raise ValueError: Invalid B{C{points}}, non-convex polygon.
 
            @example:
 
@@ -615,10 +616,11 @@ class LatLon(LatLonSphericalBase):
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               B{C{limit}}, see function L{equirectangular_}.
 
+           @raise PointsError: Insufficient number of B{C{points}}.
+
            @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-           @raise ValueError: Insufficient number of B{C{points}} or
-                              invalid B{C{radius}}.
+           @raise ValueError: Invalid B{C{radius}}.
 
            @see: Functions L{compassAngle}, L{equirectangular_} and
                  L{nearestOn5}.
@@ -661,10 +663,11 @@ def areaOf(points, radius=R_M, wrap=True):
 
        @return: Polygon area (C{meter}, same units as B{C{radius}}, squared).
 
+       @raise PointsError: Insufficient number of B{C{points}}.
+
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}}
-                          or invalid B{C{radius}}.
+       @raise ValueError: Invalid B{C{radius}}.
 
        @note: The area is based on Karney's U{'Area of a spherical polygon'
               <https://OSGeo-org.1560.x6.nabble.com/
@@ -954,10 +957,11 @@ def nearestOn3(point, points, closed=False, radius=R_M,
        @raise LimitError: Lat- and/or longitudinal delta exceeds the
                           B{C{limit}}, see function L{equirectangular_}.
 
-       @raise TypeError: Some I{points} are not C{LatLon}.
+       @raise PointsError: Insufficient number of B{C{points}}.
 
-       @raise ValueError: Insufficient number of B{C{points}}
-                          or invalid B{C{radius}}.
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
+
+       @raise ValueError: Invalid B{C{radius}}.
 
        @see: Functions L{equirectangular_} and L{nearestOn5}.
     '''
@@ -980,10 +984,11 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @return: Polygon perimeter (C{meter}, same units as B{C{radius}}).
 
+       @raise PointsError: Insufficient number of B{C{points}}.
+
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Insufficient number of B{C{points}}
-                          or invalid B{C{radius}}.
+       @raise ValueError: Invalid B{C{radius}}.
 
        @note: This perimeter is based on the L{haversine} formula.
 
