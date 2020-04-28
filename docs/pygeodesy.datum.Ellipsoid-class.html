@@ -130,6 +130,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Convert angle to distance along the equator or along a parallel at an
+      other latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#distance2" class="summary-sig-name">distance2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat0</span>,
         <span class="summary-sig-arg">lon0</span>,
@@ -288,8 +308,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">meter</span>)</span><br />
-      Convert distance to angle along equator.</td>
+        <span class="summary-sig-arg">meter</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Convert distance to angle along equator or along a parallel at an 
+      other latitude.</td>
           <td align="right" valign="top">
             
             
@@ -496,13 +518,14 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
       <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
       <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.named._NamedBase-class.html#toStr2">toStr2</a></code>
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -795,6 +818,13 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#rocPolar" class="summary-name">rocPolar</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#volume" class="summary-name">volume</a>
     </td>
   </tr>
@@ -890,6 +920,42 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if equal, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="degrees2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees2m</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">deg</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert angle to distance along the equator or along a parallel at an 
+  other latitude.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>degrees</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.basics-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>deg</code></b> or <b><code>lat</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1060,6 +1126,10 @@
   <p>Compute <i class="math">es * atanh(es * x)</i> where <i>es</i> is the 
   <i>signed</i> 1st Eccentricity.</p>
   <dl class="fields">
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>x</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a 
@@ -1128,21 +1198,31 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">meter</span>)</span>
+        <span class="sig-arg">meter</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert distance to angle along equator.</p>
+  <p>Convert distance to angle along equator or along a parallel at an 
+  other latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>meter</code></strong> - Distance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angle (<code>degrees</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.basics-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b> or <b><code>lat</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1169,6 +1249,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Geocentric earth radius (<code>meter</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://WikiPedia.org/wiki/Earth_radius#Geocentric_radius"
@@ -1199,6 +1283,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Approximate earth radius (<code>meter</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1228,9 +1316,13 @@
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <a href="pygeodesy.named.Curvature2Tuple-class.html" 
+        <dd>An <a href="pygeodesy.datum.Curvature2Tuple-class.html" 
           class="link">Curvature2Tuple</a><code>(meridional, 
           prime_vertical)</code> with the radii of curvature.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <code>.roc2_</code>, <a 
@@ -1267,9 +1359,13 @@
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <a href="pygeodesy.named.Curvature2Tuple-class.html" 
+        <dd>An <a href="pygeodesy.datum.Curvature2Tuple-class.html" 
           class="link">Curvature2Tuple</a><code>(meridional, 
           prime_vertical)</code> with the radii of curvature.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>phi</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <code>.roc2</code>, <a 
@@ -1307,6 +1403,13 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Directional radius of curvature (<code>meter</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.basics.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.basics-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b> or <b><code>bearing</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
@@ -1338,6 +1441,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Gaussian radius of curvature (<code>meter</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
@@ -1369,6 +1476,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Mean radius of curvature (<code>meter</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
@@ -1400,6 +1511,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Meridional radius of curvature (<code>meter</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://www.EdWilliams.org/avform.htm#flat" 
@@ -1433,6 +1548,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Prime-vertical radius of curvature (<code>meter</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://www.EdWilliams.org/avform.htm#flat" 
@@ -1580,7 +1699,7 @@ class="math">1 / a**2</i>.
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">a2_b(<span class="summary-sig-arg">self</span>)</span>
         - Get the polar meridional radius of curvature (<code>meter</code>), <i 
-class="math">a**2 / b</i>.
+class="math">a**2 / b</i>, see <code>rocPolar</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
@@ -2194,6 +2313,27 @@ class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
   </dl>
 </td></tr></table>
 </div>
+<a name="rocPolar"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">rocPolar</h3>
+  
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">rocPolar(<span class="summary-sig-arg">self</span>)</span>
+        - Get the polar radius of curvature (<code>meter</code>), see 
+<code>a2_b</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="volume"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2247,7 +2387,7 @@ PI * a**2 * b</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr 14 11:55:12 2020
+    Generated by Epydoc 3.0.1 on Mon Apr 27 20:51:14 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -8,12 +8,12 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from inspect import isclass
-from math import copysign, isinf, isnan
+from math import copysign, isinf, isnan, pi as PI
 from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.basics + _ALL_DOCS('InvalidError', 'IsnotError')
-__version__ = '20.04.12'
+__version__ = '20.04.26'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -69,6 +69,10 @@ INF  = float('inf')  #: Infinity (C{float}), see function C{isinf}, C{isfinite}
 NAN  = float('nan')  #: Not-A-Number (C{float}), see function C{isnan}
 NEG0 = -0.0          #: Negative 0.0 (C{float}), see function C{isneg0}
 
+PI2  = PI * 2.0  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
+PI_2 = PI / 2.0  #: Half PI, M{PI / 2} (C{float})
+PI_4 = PI / 4.0  #: Quarter PI, M{PI / 4} (C{float})
+
 R_M  = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
 
 _limiterrors = True  # imported by .formy
@@ -104,8 +108,9 @@ class LimitError(ValueError):
 
 class RangeError(ValueError):
     '''Error raised for lat- or longitude values outside the B{C{clip}},
-       B{C{clipLat}}, B{C{clipLon}} or B{C{limit}} range in function L{clipDMS},
-       L{parse3llh}, L{parseDMS} or L{parseDMS2}.
+       B{C{clipLat}}, B{C{clipLon}} or B{C{limit}} range in function
+       L{clipDegrees}, L{clipRadians}, L{parse3llh}, L{parseDMS},
+       L{parseDMS2} or L{parseRad}.
 
        @see: Function L{rangerrors}.
     '''
@@ -148,26 +153,6 @@ def clips(bstr, limit=50, white=''):
     return bstr
 
 
-def _float(*value, **name_value_Error):  # name=value [, Error=ValueError]
-    '''(INTERNAL) Convert a single C{value} or C{name=value} to C{float}.
-    '''
-    nv, Error = _nv_Error2(ValueError, **name_value_Error)
-
-    if (len(value) + len(nv)) == 1:
-        try:
-            for f in nv.values():
-                break
-            else:
-                f = value[0]
-            return float(f)
-        except (IndexError, ValueError, TypeError):
-            pass
-
-    from pygeodesy.streprs import unstr
-    f = unstr(_float.__name__.lstrip('_'), *value, **nv)
-    raise Error('invalid, single ' + f)
-
-
 def halfs2(str2):
     '''Split a string in 2 halfs.
 
@@ -183,17 +168,22 @@ def halfs2(str2):
     return str2[:h], str2[h:]
 
 
-def InvalidError(**name_value_Error):  # name=value [, Error=ValueError]
-    '''Create a C{ValueError} for an invalid C{name=value}.
+def InvalidError(Error=ValueError, txt='invalid', **name_value_s):  # name=value [, ...]
+    '''Create a C{ValueError} for invalid C{name=value} pairs.
 
-       @kwarg name_value_Error: One B{C{name=value}} pair and optionally
-                                an B{C{Error=...}} keyword argument to
-                                override the default B{C{Error=ValueError}}.
+       @kwarg name_value_s: One or more B{C{name=value}} pairs.
 
        @return: A C{ValueError} or an B{C{Error}} instance.
     '''
-    n, v, Error = _n_v_Error3(ValueError, **name_value_Error)
-    return Error('%s invalid: %r' % (n, v))
+    if len(name_value_s) > 1:
+        t = _or(*('%s (%r)' % t for t in name_value_s.items()))  # XXX sorted
+    else:
+        for t in name_value_s.items():
+            t = '%s (%r)' % t
+            break
+        else:
+            t = 'missing %r' % ('name=value',)
+    return Error('%s: %s' % (t, txt))
 
 
 try:
@@ -227,7 +217,7 @@ def isint(obj, both=False):
     if both and isinstance(obj, float):  # NOT _Scalars!
         try:
             return obj.is_integer()
-        except AttributeError:
+        except AttributeError:  # PYCHOK no cover
             return False  # XXX float(int(obj)) == obj?
     return isinstance(obj, _Ints)
 
@@ -255,8 +245,12 @@ def IsnotError(*noun_s, **name_value_Error):  # name=value [, Error=TypeeError]
 
        @return: A C{TypeError} or an B{C{Error}} instance.
     '''
-    n, v, Error = _n_v_Error3(TypeError, **name_value_Error)
-    t = ' or ' .join(noun_s) or 'specified'
+    Error = name_value_Error.pop('Error', TypeError)
+    for n, v in name_value_Error.items():
+        break
+    else:
+        n, v = repr('name=value'), 'missing'
+    t = _or(*noun_s) or 'specified'
     if len(noun_s) > 1:
         t = _an(t)
     return Error('%s is not %s: %r' % (n, t, v))
@@ -276,17 +270,14 @@ def issequence(obj, *excluded):
     '''Check for sequence types.
 
        @arg obj: The object (any C{type}).
-       @arg excluded: Optional, exclusions (C{type}).
+       @arg excluded: Optional exclusions (C{type}).
 
        @note: Excluding C{tuple} implies excluding C{namedtuple}.
 
        @return: C{True} if B{C{obj}} is a sequence, C{False} otherwise.
     '''
-    if excluded:
-        return isinstance(obj, _Seqs) and not \
-               isinstance(obj, excluded)
-    else:
-        return isinstance(obj, _Seqs)
+    return False if (excluded and isinstance(obj,  excluded)) else \
+                                  isinstance(obj, _Seqs)
 
 
 def isstr(obj):
@@ -369,20 +360,16 @@ def map2(func, *xs):
     return tuple(map(func, *xs))
 
 
-def _nv_Error2(DefaultError, Error=None, **name_value):
-    '''(INTERNAL) Helper for C{_float}.
+def _or(*words):
+    '''(INTERNAL) Join C{words} with C{', '} and C{' or '}.
     '''
-    return name_value, (DefaultError if Error is None else Error)
-
-
-def _n_v_Error3(DefaultError, Error=None, **name_value):  # imported by .utily
-    '''(INTERNAL) Helper for L{InvalidError}, L{IsnotError} and C{falsed2f}.
-    '''
-    for n, v in name_value.items():
-        break
-    else:
-        n, v = 'name=value', name_value
-    return n, v, (DefaultError if Error is None else Error)
+    t, w = '', list(words)
+    if w:
+        t = w.pop()
+        if w:
+            w = ', '.join(w)
+            t = ' or '.join((w, t))
+    return t
 
 
 def property_doc_(doc):
@@ -424,6 +411,8 @@ class property_RO(property):
            @note: Like standard Python C{property} without a C{property.setter},
                   but with a more descriptive error message when set.
         '''
+        self.name = method.__name__  # == self.fget.__name__
+
         # U{Descriptor HowTo Guide<https://docs.Python.org/3/howto/descriptor.html>}
         def immutable(inst, value):
             '''Throws an C{AttributeError}, always.
@@ -465,35 +454,6 @@ def rangerrors(raiser=None):
     if raiser in (True, False):
         _rangerrors = raiser
     return t
-
-
-def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):
-    '''Validate a scalar.
-
-       @arg value: The value (C{scalar}).
-       @kwarg low: Optional lower bound (C{scalar}).
-       @kwarg high: Optional upper bound (C{scalar}).
-       @kwarg name: Optional name of value (C{str}).
-       @kwarg Error: Exception to raise (C{ValueError}).
-
-       @return: New value (C{type} of B{C{low}}).
-
-       @raise TypeError: Non-scalar B{C{value}}.
-
-       @raise Error: Out-of-bounds B{C{value}}.
-    '''
-    if not isscalar(value):
-        raise IsnotError(scalar.__name__, **{name: value})
-    try:
-        if low is None:
-            v = float(value)
-        else:
-            v = type(low)(value)
-            if low > v or v > high:
-                raise ValueError
-    except (TypeError, ValueError):
-        raise IsnotError('valid', Error=Error, **{name: value})
-    return v
 
 
 def _xattrs(insto, other, *attrs):
@@ -545,7 +505,7 @@ def _xinstanceof(*Types, **name_value_s):
     '''
     for n, v in name_value_s.items():
         if not isinstance(v, Types):
-            t = _an(' or '.join(t.__name__ for t in Types))
+            t = _an(_or(*(t.__name__ for t in Types)))
             raise TypeError('%s is not %s: %r' % (n, t, v))
 
 

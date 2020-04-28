@@ -26,21 +26,21 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import _float, InvalidError, halfs2, property_RO, \
-                             _xkwds, _xinstanceof
+from pygeodesy.basics import InvalidError, halfs2, property_RO, \
+                            _xkwds, _xinstanceof
 from pygeodesy.datum import Datums
-from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedBase, Mgrs4Tuple, Mgrs6Tuple, \
-                             UtmUps4Tuple, _xnamed
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
 from pygeodesy.streprs import enstr2
+from pygeodesy.units import Easting, Northing
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
 from pygeodesy.utmupsBase import _hemi
 
 import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.mgrs
-__version__ = '20.04.11'
+__all__ = _ALL_LAZY.mgrs + _ALL_DOCS('Mgrs4Tuple', 'Mgrs6Tuple', 'UtmUps4Tuple')
+__version__ = '20.04.21'
 
 _100km  =  100e3  #: (INTERNAL) 100 km in meter.
 _2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
@@ -107,8 +107,8 @@ class Mgrs(_NamedBase):
         except IndexError:
             raise InvalidError(en100k=en100k, Error=MGRSError)
 
-        self._easting  = _float(easting=easting,   Error=MGRSError)
-        self._northing = _float(northing=northing, Error=MGRSError)
+        self._easting  = Easting(easting,   Error=MGRSError)
+        self._northing = Northing(northing, Error=MGRSError)
         if self._datum != datum:
             self._datum = datum
 
@@ -173,6 +173,18 @@ class Mgrs(_NamedBase):
         '''
         return parseMGRS(strMGRS, datum=self.datum, Mgrs=self.classof)
 
+    def toRepr(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
+        '''Return a string representation of this MGRS grid reference.
+
+           @kwarg prec: Optional number of digits (C{int}), 4:km, 10:m.
+           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between name:values (C{str}).
+
+           @return: This Mgrs as "[Z:00B, G:EN, E:meter, N:meter]" (C{str}).
+        '''
+        t = self.toStr(prec=prec, sep=' ').split()
+        return fmt % (sep.join('%s:%s' % t for t in zip('ZGEN', t)),)
+
     def toStr(self, prec=10, sep=' '):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
 
@@ -194,18 +206,6 @@ class Mgrs(_NamedBase):
         t = enstr2(self._easting, self._northing, prec,
                    '%02d%s' % (self._zone, self._band), self._en100k)
         return sep.join(t)
-
-    def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
-        '''Return a string representation of this MGRS grid reference.
-
-           @kwarg prec: Optional number of digits (C{int}), 4:km, 10:m.
-           @kwarg fmt: Optional enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between name:values (C{str}).
-
-           @return: This Mgrs as "[Z:00B, G:EN, E:meter, N:meter]" (C{str}).
-        '''
-        t = self.toStr(prec=prec, sep=' ').split()
-        return fmt % (sep.join('%s:%s' % t for t in zip('ZGEN', t)),)
 
     def toUtm(self, Utm=Utm):
         '''Convert this MGRS grid reference to a UTM coordinate.
@@ -245,6 +245,28 @@ class Mgrs(_NamedBase):
         '''Get the longitudal zone (C{int}, 1..60).
         '''
         return self._zone
+
+
+class Mgrs4Tuple(_NamedTuple):
+    '''4-Tuple C{(zone, digraph, easting, northing)}, C{zone} and
+       C{digraph} as C{str}, C{easting} and C{northing} in C{meter}.
+    '''
+    _Names_ = ('zone', 'digraph', 'easting', 'northing')
+
+
+class Mgrs6Tuple(_NamedTuple):
+    '''6-Tuple C{(zone, digraph, easting, northing, band, datum)},
+       C{zone}, C{digraph} and C{band} as C{str}, C{easting} and
+       C{northing} in C{meter} and C{datum} a L{Datum}.
+    '''
+    _Names_ = ('zone', 'digraph', 'easting', 'northing', 'band', 'datum')
+
+
+class UtmUps4Tuple(_NamedTuple):
+    '''4-Tuple C{(zone, hemipole, easting, northing)} as C{str},
+       C{str}, C{meter} and C{meter}.
+    '''
+    _Names_ = ('zone', 'hemipole', 'easting', 'northing')
 
 
 def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):

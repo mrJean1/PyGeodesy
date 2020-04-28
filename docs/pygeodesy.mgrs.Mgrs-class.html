@@ -131,9 +131,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.mgrs.Mgrs-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.mgrs.Mgrs-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">10</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
       Return a string representation of this MGRS grid reference.</td>
           <td align="right" valign="top">
             
@@ -150,10 +151,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.mgrs.Mgrs-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.mgrs.Mgrs-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">10</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>)</span><br />
       Return a string representation of this MGRS grid reference.</td>
           <td align="right" valign="top">
             
@@ -193,7 +193,8 @@
       <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -389,6 +390,40 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="toRepr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">10</span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a string representation of this MGRS grid reference.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits (<code>int</code>), 4:km, 10:m.</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:values (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>This Mgrs as &quot;[Z:00B, G:EN, E:meter, N:meter]&quot; 
+          (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <a name="toStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -432,40 +467,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="toStr2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">10</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return a string representation of this MGRS grid reference.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of digits (<code>int</code>), 4:km, 10:m.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (<code>str</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:values (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>This Mgrs as &quot;[Z:00B, G:EN, E:meter, N:meter]&quot; 
-          (<code>str</code>).</dd>
-    <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toStr2">named._Named.toStr2</a>
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
 <a name="toUtm"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -492,7 +493,7 @@
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
           class="link">Utm</a>) or a <a 
-          href="pygeodesy.named.UtmUps4Tuple-class.html" 
+          href="pygeodesy.mgrs.UtmUps4Tuple-class.html" 
           class="link">UtmUps4Tuple</a><code>(zone, hemipole, easting, 
           northing)</code> if <b><code>Utm</code></b> is <code>None</code>.</dd>
   </dl>
@@ -706,7 +707,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr 14 11:55:16 2020
+    Generated by Epydoc 3.0.1 on Mon Apr 27 20:51:16 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

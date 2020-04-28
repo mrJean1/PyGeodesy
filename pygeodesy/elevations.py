@@ -17,13 +17,15 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import clips, _float
-from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import Elevation2Tuple, GeoidHeight2Tuple
+from pygeodesy.basics import clips
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.named import _NamedTuple
 from pygeodesy.streprs import fstr
+from pygeodesy.units import Lat, Lon, Scalar
 
-__all__ = _ALL_LAZY.elevations
-__version__ = '20.04.11'
+__all__ = _ALL_LAZY.elevations + _ALL_DOCS('Elevation2Tuple',
+                                         'GeoidHeight2Tuple')
+__version__ = '20.04.21'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -122,6 +124,12 @@ def _xml(tag, xml):
     return 'no XML tag <%s>' % (tag,)
 
 
+class Elevation2Tuple(_NamedTuple):  # .elevations.py
+    '''2-Tuple C{(elevation, data_source)} in C{meter} and C{str}.
+    '''
+    _Names_ = ('elevation', 'data_source')
+
+
 def elevation2(lat, lon, timeout=2.0):
     '''Get the geoid elevation at an C{NAD83} to C{NAVD88} location.
 
@@ -149,11 +157,11 @@ def elevation2(lat, lon, timeout=2.0):
     '''
     try:
         x = _qURL('https://NED.USGS.gov/epqs/pqs.php',  # https://NationalMap.gov/epqs/pqs.php
-                        ('x=%.6F' % (lon,),
-                         'y=%.6F' % (lat,),
+                        ('x=%.6F' % (Lat(lon),),
+                         'y=%.6F' % (Lat(lat),),
                          'units=Meters',  # Feet
                          'output=xml'),
-                          timeout=_float(timeout=timeout))
+                          timeout=Scalar(timeout, name='timeout'))
         if x[:6] == '<?xml ':
             e = _xml('Elevation', x)
             try:
@@ -168,6 +176,13 @@ def elevation2(lat, lon, timeout=2.0):
     except (HTTPError, IOError, TypeError, ValueError) as x:
         e = repr(x)
     return Elevation2Tuple(None, _error(elevation2, lat, lon, e))
+
+
+class GeoidHeight2Tuple(_NamedTuple):  # .elevations.py
+    '''2-Tuple C{(height, model_name)}, geoid C{height} in C{meter}
+       and C{model_name} as C{str}.
+    '''
+    _Names_ = ('height', 'model_name')
 
 
 def geoidHeight2(lat, lon, model=0, timeout=2.0):
@@ -198,10 +213,10 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
     '''
     try:
         j = _qURL('https://Geodesy.NOAA.gov/api/geoid/ght',
-                        ('lat=%.6F' % (lat,),
-                         'lon=%.6F' % (lon,),
+                        ('lat=%.6F' % (Lat(lat),),
+                         'lon=%.6F' % (Lon(lon),),
                          'model=%s' % (model,) if model else ''),
-                          timeout=_float(timeout=timeout))  # PYCHOK 5
+                          timeout=Scalar(timeout, name='timeout'))  # PYCHOK 5
         if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
             d = _json(j)
             if isinstance(d.get('error', 'N/A'), float):

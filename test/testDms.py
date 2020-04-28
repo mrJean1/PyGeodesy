@@ -4,36 +4,87 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '20.04.04'
+__version__ = '20.04.26'
 
 from base import TestsBase
 
 from pygeodesy import F_D,   F_DM,   F_DMS,   F_DEG,   F_MIN,   F_SEC,   F_RAD, \
                       F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_RAD_, \
                       F_D__, F_DM__, F_DMS__, F_DEG__, F_MIN__, F_SEC__, F_RAD__, \
-                      compassPoint, degDMS, fStr, parse3llh, parseDMS, rangerrors, \
-                      toDMS
+                      compassPoint, degDMS, fstr, parseDDDMMSS, parseDMS, \
+                      ParseError, parse3llh, rangerrors, toDMS
 
 
 class Tests(TestsBase):
 
-    def testDms(self):
-        # dms module tests
-        for i, t in enumerate(('0.0°',
-                               '0°',
-                           '''000°00'00"''',
-                           '''000°00'00.0"''',
-                           '''000° 00'00"''',
-                           '''000°00 ' 00.0"''',
-                           '''000° 00' 00.0''')):
-            self.test('parseDMS' + str(i + 1), parseDMS(t), '0.0')
-        self.test('parseDMS' + str(i + 2), parseDMS('000°-00′-00.0"', sep='-'), '0.0')
+    def testDms(self):  # MCCABE 14
+        for t in ('0.0°',
+                  '0°',
+              '''000°00'00"''',
+              '''000°00'00.0"''',
+              '''000° 00'00"''',
+              '''000°00 ' 00.0"''',
+              '''000° 00' 00.0'''):
+            self.test("parseDMS('%s')" % (t,), parseDMS(t), '0.0')
+        t = '000°-00′-00.0"'
+        self.test("parseDMS('%s')" % (t,), parseDMS(t, sep='-'), '0.0')
+
+        _X = ''
+        for t, X, x in ((1, '1.0', _X),
+                        (12, '12.0', _X),
+                        (123, '123.0', _X),
+                        (1234, '12.567', '1234.0'),
+                        (12345, '123.75', '12345.0'),
+                        (123456, '12.582', '123456.0'),
+                        (1234567, '123.769', '1234567.0'),
+                        (12345678, '1234.955', '12345678.0'),
+                        (.1, 0.1, _X),
+                        (1.2, 1.2, _X),
+                        (12.3, 12.3, _X),
+                        (123.4, 123.4, _X),
+                        (1234.5, 12.575, 1234.5),
+                        (12345.6, 123.76, 12345.6),
+                        (123456.7, 12.582, 123456.7),
+                        ('1N', '1.0', _X),
+                        ('12S', '-12.0', _X),
+                        ('012.3W', '-12.3', _X),
+                        ('123E', '123.0', _X),
+                        ('1234N', '12.567', '1234.0'),
+                        ('12345E', '123.75', '12345.0'),
+                        ('1234.5S', '-12.575', '-1234.5'),
+                        ('12345.6E', '123.76', '12345.6'),
+                        ('123456.7S', '-12.582', '-123456.7'),
+                        ('1234567.8W', '-123.769', '-1234567.8'),
+                        ('12345678E', '12345678.0', _X)):
+            self.test('parseDDDMMSS(%r)' % (t,), fstr(parseDDDMMSS(t), prec=3), X)
+            self.test('parseDMS(%r)' % (t,), fstr(parseDMS(t), prec=3), x or X)
+
+        t = 345.0
+        self.test('parseDDDMMSS(%r, NS)' % (t,), fstr(parseDDDMMSS(t, suffix='NS'), prec=3), '3.75')
+        self.test('parseDDDMMSS(%r, EW)' % (t,), fstr(parseDDDMMSS(t, suffix='EW'), prec=3), '345.0')
+        t = 5430.0
+        self.test('parseDDDMMSS(%r, NS)' % (t,), fstr(parseDDDMMSS(t, suffix='NS'), prec=3), '54.5')
+        self.test('parseDDDMMSS(%r, EW)' % (t,), fstr(parseDDDMMSS(t, suffix='EW'), prec=3), '54.5')
+
+        for t, x in (('12E', '12.0'),
+                     ('012.3S', '-12.3'),
+                     ('123N', '123.0'),
+                     ('1234E', '1234.0'),
+                     ('12345N', '12345.0'),
+                     ('1234.5W', '-1234.5'),
+                     ('123456E', '123456.0'),
+                     ('1234567S', '-1234567.0')):
+            try:
+                self.test('parseDDDMMSS(%r)' % (t,), parseDDDMMSS(t), ParseError.__name__)
+            except ParseError as X:
+                self.test('parseDDDMMSS(%r)' % (t,), repr(X), repr(X))
+            self.test('parseDMS(%r)' % (t,), fstr(parseDMS(t), prec=5), x)
 
         r = rangerrors(True)
         try:
             self.test('parseDMS', parseDMS(181, clip=180), 'ValueError')
         except ValueError as x:
-            self.test('parseDMS', str(x), '181.0 beyond 180 degrees')
+            self.test('parseDMS', str(x), str(x))
         rangerrors(False)
         try:
             self.test('parseDMS', parseDMS(-91, clip=90), '-90.0')
@@ -42,7 +93,7 @@ class Tests(TestsBase):
         rangerrors(r)
 
         x = parse3llh('000° 00′ 05.31″W, 51° 28′ 40.12″ N')
-        self.test('parse3llh', fStr(x, prec=6), '51.477811, -0.001475, 0.0')
+        self.test('parse3llh', fstr(x, prec=6), '51.477811, -0.001475, 0.0')
 
         t = 'toDMS(%s)' % ('',)
         self.test(t, toDMS(45.99999, F_DM,  prec=1), '46°00.0′')  # not 45°60.0′

@@ -49,7 +49,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
            'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.04.10'
+__version__ = '20.04.22'
 
 try:
     _Ints = int, long
@@ -207,7 +207,7 @@ class TestsBase(object):
         self.printf('test%s(%s)', testing, ', '.join(t), nl=1)
 
     def test(self, name, value, expect, fmt='%s', known=False, **kwds):
-        '''Compare a test value with the expected one.
+        '''Compare a test value with the expected result.
         '''
         if self._iterisk:
             name += self._iterisk
@@ -222,6 +222,30 @@ class TestsBase(object):
                 self.known += 1
                 f = ', KNOWN'
             f = '  FAILED%s, expected %s' % (f, expect)
+
+        self.total += 1  # tests
+        if f or self._verbose:
+            self.printf('test %d %s: %s%s', self.total, name, v, f, **kwds)
+
+    def test_(self, name, value, *expects, **kwds):
+        '''Compare a test value with one or several expected results.
+        '''
+        if self._iterisk:
+            name += self._iterisk
+
+        fmt   = kwds.pop('fmt',   '%s')
+        known = kwds.pop('known', False)
+
+        f, v = '', fmt % (value,)  # value as str
+        for x in expects:
+            if v == x or v == normDMS(x):
+                break
+        else:
+            self.failed += 1  # failures
+            if known:  # failed before
+                self.known += 1
+                f = ', KNOWN'
+            f = '  FAILED%s, expected %s' % (f, ' or '.join(expects))
 
         self.total += 1  # tests
         if f or self._verbose:

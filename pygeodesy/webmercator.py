@@ -17,27 +17,34 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _float, InvalidError, IsnotError, isscalar, \
-                             issubclassof, map1, property_RO, _xinstanceof, _xkwds
+from pygeodesy.basics import PI_2, InvalidError, IsnotError, isscalar, \
+                             issubclassof, property_RO, _xinstanceof, _xkwds
 from pygeodesy.datum import Datum, R_MA
-from pygeodesy.dms import clipDMS, parseDMS2
+from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.lazily import _ALL_LAZY, _dot_
-from pygeodesy.named import EasNorRadius3Tuple, LatLon2Tuple, _NamedBase, nameof, \
-                            PhiLam2Tuple, _xnamed
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.named import LatLon2Tuple, _NamedBase, _NamedTuple, \
+                            nameof, PhiLam2Tuple, _xnamed
 from pygeodesy.streprs import strs
-from pygeodesy.utily import PI_2, degrees90, degrees180
+from pygeodesy.units import Easting, Northing, Radius, Radius_
+from pygeodesy.utily import degrees90, degrees180
 
 from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.webmercator
-__version__ = '20.04.11'
+__all__ = _ALL_LAZY.webmercator + _ALL_DOCS('EasNorRadius3Tuple')
+__version__ = '20.04.22'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
 _LatLimit = 85.051129  #: (INTERNAL) Latitudinal limit (C{degrees}).
 # _LonOrigin     = 0   #: (INTERNAL) Longitude of natural origin (C{degrees}).
+
+
+class EasNorRadius3Tuple(_NamedTuple):
+    '''3-Tuple C{(easting, northing, radius)}, all in C{meter}.
+    '''
+    _Names_ = ('easting', 'northing', 'radius')
 
 
 class WebMercatorError(ValueError):
@@ -73,15 +80,9 @@ class Wm(_NamedBase):
         if name:
             self.name = name
 
-        try:
-            self._x, self._y, r = map1(float, x, y, radius)
-        except (TypeError, ValueError):
-            raise InvalidError(Error=WebMercatorError, **{Wm.__name__: (x, y, radius)})
-
-        if r < EPS:  # check radius
-            t = _dot_(self.classname, 'radius')
-            raise InvalidError(Error=WebMercatorError, **{t: r})
-        self._radius = r
+        self._x = Easting( x, name='x',  Error=WebMercatorError)
+        self._y = Northing(y, name='y',  Error=WebMercatorError)
+        self._radius = Radius_(radius, Error=WebMercatorError)
 
     @property_RO
     def latlon(self):
@@ -185,7 +186,28 @@ class Wm(_NamedBase):
                                                  'datum', datum))
         return self._xnamed(r)
 
-    def toStr(self, prec=3, sep=' ', radius=False):  # PYCHOK expected
+    def toRepr(self, prec=3, fmt='[%s]', sep=', ', radius=False, **unused):  # PYCHOK expected
+        '''Return a string representation of this WM coordinate.
+
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg fmt: Optional, enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between name:value pairs (C{str}).
+           @kwarg radius: Optionally, include radius (C{bool} or C{scalar}).
+
+           @return: This WM as "[x:meter, y:meter]" (C{str}) plus
+                    ", radius:meter]" if B{C{radius}} is C{True} or
+                    C{scalar}.
+
+           @raise WebMercatorError: Invalid B{C{radius}}.
+        '''
+        t = self.toStr(prec=prec, sep=' ', radius=radius).split()
+        k = 'x', 'y', 'radius'
+        return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
+
+    toStr2 = toRepr  # PYCHOK for backward compatibility
+    '''DEPRECATED, use method L{Wm.toRepr}.'''
+
+    def toStr(self, prec=3, sep=' ', radius=False, **unused):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -211,26 +233,8 @@ class Wm(_NamedBase):
         elif isscalar(radius):
             fs += (radius,)
         else:
-            raise WebMercatorError('% invalid: %r' % ('radius', radius))
+            raise InvalidError(radius=radius, Error=WebMercatorError)
         return sep.join(strs(fs, prec=prec))
-
-    def toStr2(self, prec=3, fmt='[%s]', sep=', ', radius=False):  # PYCHOK expected
-        '''Return a string representation of this WM coordinate.
-
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional, enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between name:value pairs (C{str}).
-           @kwarg radius: Optionally, include radius (C{bool} or C{scalar}).
-
-           @return: This WM as "[x:meter, y:meter]" (C{str}) plus
-                    ", radius:meter]" if B{C{radius}} is C{True} or
-                    C{scalar}.
-
-           @raise WebMercatorError: Invalid B{C{radius}}.
-        '''
-        t = self.toStr(prec=prec, sep=' ', radius=radius).split()
-        k = 'x', 'y', 'radius'
-        return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
 
     @property_RO
     def x(self):
@@ -310,7 +314,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name='', **Wm_kwds):
        >>> p = LatLon(13.4125, 103.8667)  # 377302.4 1483034.8
        >>> w = toWm(p)  # 377302 1483035
     '''
-    e, r = None, _float(radius=radius)
+    e, r = None, Radius(radius)
     try:
         lat, lon = latlon.lat, latlon.lon
         if isinstance(latlon, _LLEB):
@@ -318,7 +322,7 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name='', **Wm_kwds):
             e = latlon.datum.ellipsoid.e
             if not name:  # use latlon.name
                 name = nameof(latlon)
-        lat = clipDMS(lat, _LatLimit)
+        lat = clipDegrees(lat, _LatLimit)
     except AttributeError:
         lat, lon = parseDMS2(latlon, lon, clipLat=_LatLimit)
 

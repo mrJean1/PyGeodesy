@@ -14,18 +14,20 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, _float, InvalidError, isscalar, map1, _xkwds
+from pygeodesy.basics import EPS, PI2, PI_2, PI_4, R_M, isscalar, map1, \
+                            _xkwds
 from pygeodesy.fmath import acos1, favg, fdot, fmean, fsum
 from pygeodesy.formy import antipode_, bearing_, haversine_
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, _xnamed
+from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
+                           _xnamed
 from pygeodesy.nvectorBase import NvectorBase as _Nvector
 from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase
-from pygeodesy.utily import PI2, PI_2, PI_4, degrees90, degrees180, \
-                            degrees2m, iterNumpy2, radiansPI2, \
-                            sincos2, tan_2, unrollPI, wrapPI
+from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
+from pygeodesy.utily import degrees90, degrees180, degrees2m, iterNumpy2, \
+                            radiansPI2, sincos2, tan_2, unrollPI, wrapPI
 from pygeodesy.vector3d import CrossError, crosserrors, Vector3d, sumOf
 
 from math import asin, atan2, copysign, cos, degrees, hypot, \
@@ -40,7 +42,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'nearestOn2', 'nearestOn3',
           'perimeterOf',
           'sumOf')  # == vector3d.sumOf
-__version__ = '20.04.11'
+__version__ = '20.04.21'
 
 
 def _destination2(a, b, r, t):
@@ -102,11 +104,9 @@ class LatLon(LatLonSphericalBase):
         self.others(start, name='start')
         self.others(end, name='end')
 
-        r = _float(radius=radius)
-        if r < EPS:
-            raise InvalidError(radius=radius)
-
+        r = Radius_(radius)
         r = start.distanceTo(self, r, wrap=wrap) / r
+
         b = radians(start.initialBearingTo(self, wrap=wrap))
         e = radians(start.initialBearingTo(end, wrap=wrap))
         x = asin(sin(r) * sin(b - e))
@@ -243,10 +243,10 @@ class LatLon(LatLonSphericalBase):
         '''
         a, b = self.philam
 
-        t = radians(_float(bearing=bearing))
+        r, t = _angular(distance, radius), Bearing_(bearing)
 
-        a, b = _destination2(a, b, _angular(distance, radius), t)
-        h = self.height if height is None else _float(height=height)
+        a, b = _destination2(a, b, r, t)
+        h = self.height if height is None else Height(height)
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def distanceTo(self, other, radius=R_M, wrap=False):
@@ -276,7 +276,7 @@ class LatLon(LatLonSphericalBase):
 
         db, _ = unrollPI(b1, b2, wrap=wrap)
         r = haversine_(a2, a1, db)
-        return r * _float(radius=radius)
+        return r * Radius(radius)
 
     def greatCircle(self, bearing):
         '''Compute the vector normal to great circle obtained by heading
@@ -298,7 +298,8 @@ class LatLon(LatLonSphericalBase):
            >>> g.toStr()  # (-0.794, 0.129, 0.594)
         '''
         a, b = self.philam
-        t = radians(_float(bearing=bearing))
+
+        t = Bearing_(bearing)
 
         sa, ca, sb, cb, st, ct = sincos2(a, b, t)
 
@@ -370,7 +371,7 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        f = _float(fraction=fraction)
+        f = Scalar(fraction, name='fraction')
 
         a1, b1 = self.philam
         a2, b2 = other.philam
@@ -399,7 +400,7 @@ class LatLon(LatLonSphericalBase):
         if height is None:
             h = self._havg(other, f=f)
         else:
-            h = _float(height=height)
+            h = Height(height)
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def intersection(self, end1, start2, end2, height=None, wrap=False):
@@ -553,7 +554,7 @@ class LatLon(LatLonSphericalBase):
         if height is None:
             h = self._havg(other)
         else:
-            h = _float(height=height)
+            h = Height(height)
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def nearestOn(self, point1, point2, radius=R_M, **options):
@@ -710,7 +711,7 @@ def areaOf(points, radius=R_M, wrap=True):
     if isPoleEnclosedBy(points):
         s = abs(s) - PI2
 
-    return abs(s * _float(radius=radius)**2)
+    return abs(s * Radius(radius)**2)
 
 
 def _x3d2(start, end, wrap, n, hs):
@@ -858,7 +859,7 @@ def intersection(start1, end1, start2, end2,
             if (d2 < 0 and d1 > 0) or (d2 > 0 and d1 < 0):
                 a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
 
-    h = fmean(hs) if height is None else _float(height=height)
+    h = fmean(hs) if height is None else Height(height)
     return _latlon3(degrees90(a), degrees180(b), h,
                     intersection, LatLon, **LatLon_kwds)
 
@@ -909,7 +910,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
     if height is None:
         h = fmean(points[i].height for i in range(n))
     else:
-        h = _float(height=height)
+        h = Height(height)
     return _latlon3(lat, lon, h, meanOf, LatLon, **LatLon_kwds)
 
 
@@ -1007,7 +1008,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
             a1, b1 = a2, b2
 
     r = fsum(_rads(n, points, closed))
-    return r * _float(radius=radius)
+    return r * Radius(radius)
 
 # **) MIT License
 #

@@ -25,28 +25,31 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, _float, isint, InvalidError, IsnotError, \
-                             issequence, map1, property_doc_, property_RO, \
-                             scalar, _Sequence, _xcopy, _xinstanceof, _xkwds
+from pygeodesy.basics import EPS, PI_2, R_M, isint, InvalidError, \
+                             IsnotError, issequence, map1, \
+                             property_doc_, property_RO, _Sequence, \
+                            _xcopy, _xinstanceof, _xkwds  # PYCHOK indent
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, classname, \
-                            LatLon2Tuple, NearestOn3Tuple, NearestOn5Tuple, \
-                            PhiLam2Tuple, Point3Tuple, Shape2Tuple, \
-                            nameof, notOverloaded, Vector4Tuple, _xnamed
+                            LatLon2Tuple, _NamedTuple, NearestOn3Tuple, \
+                            nameof, notOverloaded, PhiLam2Tuple, \
+                            Vector4Tuple, _xnamed
 from pygeodesy.nvectorBase import NvectorBase, _N_vector_
 from pygeodesy.streprs import instr, pairs
-from pygeodesy.utily import PI_2, degrees90, degrees180, degrees360, degrees2m, \
+from pygeodesy.units import Radius, Scalar_
+from pygeodesy.utily import degrees90, degrees180, degrees360, degrees2m, \
                             unroll180, unrollPI, wrap90, wrap180
 from pygeodesy.vector3d import CrossError, crosserrors
 
 from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
-__all__ = _ALL_LAZY.points
-__version__ = '20.04.12'
+__all__ = _ALL_LAZY.points + _ALL_DOCS('NearestOn5Tuple', 'Point3Tuple',
+                                                          'Shape2Tuple')
+__version__ = '20.04.22'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -89,7 +92,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         return not self.__eq__(other)
 
     def __repr__(self):
-        return self.toStr2()
+        return self.toRepr()
 
     def __str__(self):
         return self.toStr()
@@ -216,6 +219,19 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
             r = Nvector(x, y, z, h=r.h, **_xkwds(Nvector_kwds, ll=self))
         return _xnamed(r, self.name)
 
+    def toRepr(self, **kwds):
+        '''This L{LatLon_} as a string "class(<degrees>, ...)".
+
+           @kwarg kwds: Optional, keyword arguments.
+
+           @return: Class instance (C{str}).
+        '''
+        unused = kwds.pop('std', None)  # PYCHOK std unused
+        return '%s(%s)' % (classname(self), self.toStr(**kwds))
+
+    toStr2 = toRepr  # PYCHOK for backward compatibility
+    '''DEPRECATED, used method L{LatLon_.toRepr}.'''
+
     def toStr(self, form=F_D, prec=6, sep=', ', **kwds):
         '''This L{LatLon_} as a string "<degrees>, <degrees>".
 
@@ -236,15 +252,6 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         if kwds:
             t += pairs(kwds, prec=prec)
         return sep.join(t)
-
-    def toStr2(self, **kwds):
-        '''This L{LatLon_} as a string "class(<degrees>, ...)".
-
-           @kwarg kwds: Optional, keyword arguments.
-
-           @return: Class instance (C{str}).
-        '''
-        return '%s(%s)' % (classname(self), self.toStr(**kwds))
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -295,7 +302,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
 
            @raise ValueError: Out-of-bounds B{C{tol}}.
         '''
-        self._epsilon = scalar(tol, 0.0, name='tolerance')
+        self._epsilon = Scalar_(tol, name='tolerance')
 
     def _find(self, point, start_end):
         '''(INTERNAL) Find the first matching point index.
@@ -834,6 +841,18 @@ class LatLon2psxy(_Basequence):
         return dict(closed=self._closed, radius=self._radius, wrap=self._wrap)
 
 
+class NearestOn5Tuple(_NamedTuple):
+    '''5-Tuple C{(lat, lon, distance, angle, height)} all in C{degrees},
+       except C{height}.  The C{distance} is the L{equirectangular_}
+       distance between the closest and the reference B{C{point}} in
+       C{degrees}.  The C{angle} from the reference B{C{point}} to
+       the closest point is in compass C{degrees360}, see function
+       L{compassAngle}.  The C{height} is the (interpolated) height
+       at the closest point in C{meter} or C{0}.
+    '''
+    _Names_ = ('lat', 'lon', 'distance', 'angle', 'height')
+
+
 class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
     '''Wrapper for C{NumPy} arrays as "on-the-fly" C{LatLon} points.
     '''
@@ -882,6 +901,19 @@ class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
 
     def _subset(self, indices):
         return self._array[indices]  # NumPy special
+
+
+class Point3Tuple(_NamedTuple):
+    '''3-Tuple C{(x, y, ll)} in C{meter}, C{meter} and C{LatLon}.
+    '''
+    _Names_ = ('x', 'y', 'll')
+
+
+class Shape2Tuple(_NamedTuple):
+    '''2-Tuple C{(nrows, ncols)}, the number of rows and columns,
+       both C{int}.
+    '''
+    _Names_ = ('nrows', 'ncols')
 
 
 class Tuple2LatLon(_Array2LatLon):
@@ -998,7 +1030,7 @@ def areaOf(points, adjust=True, radius=R_M, wrap=True):
              and L{ellipsoidalKarney.areaOf}.
     '''
     a, _ = _area2(points, adjust, wrap)
-    return abs(a) * _float(radius=radius)**2
+    return abs(a) * Radius(radius)**2
 
 
 def boundsOf(points, wrap=True, LatLon=None):
@@ -1510,7 +1542,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
             x1, y1 = x2, y2
 
     d = fsum(_degs(len(pts), pts, closed))
-    return degrees2m(d, _float(radius=radius))
+    return degrees2m(d, radius=radius)
 
 # **) MIT License
 #

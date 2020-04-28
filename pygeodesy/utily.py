@@ -10,19 +10,16 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M , _float, InvalidError, \
-                            _Ints, _n_v_Error3  # PYCHOK PI_4
+from pygeodesy.basics import PI, PI2, PI_2, R_M, \
+                             InvalidError, isint
 from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.units import Feet, Lam_, Meter, Phi_, Radius
 
-from math import cos, degrees, pi as PI, radians, sin, tan  # pow
+from math import cos, degrees, radians, sin, tan  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '20.04.12'
-
-PI2  = PI * 2.0  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
-PI_2 = PI / 2.0  #: Half PI, M{PI / 2} (C{float})
-PI_4 = PI / 4.0  #: Quarter PI, M{PI / 4} (C{float})
+__version__ = '20.04.25'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = 1.0 / 90  # 0.011111111111111111111111111111111111111111111111
@@ -68,7 +65,7 @@ def degrees2m(deg, radius=R_M, lat=0):
 
        @arg deg: Angle (C{degrees}).
        @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg lat: Parallel latitude (C{degrees90}).
+       @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -77,34 +74,13 @@ def degrees2m(deg, radius=R_M, lat=0):
 
        @raise ValueError: Invalid B{C{deg}}, B{C{radius}} or
                           B{C{lat}}.
+
+       @see: Function L{m2degrees}.
     '''
-    m = radians(_float(deg=deg)) * _float(radius=radius)
+    m = Lam_(deg, name='deg', clip=0) * Radius(radius)
     if lat:
-        from pygeodesy.dms import clipDMS
-        m *= cos(radians(clipDMS(_float(lat=lat), 90)))
+        m *= cos(Phi_(lat))
     return m
-
-
-def falsed2f(falsed=True, **name_value_Error):  # name=value [, Error=ValueError]
-    '''Convert a falsed east-/northing to non-negative C{float}.
-
-       @kwarg falsed: Value includes false origin (C{bool}).
-       @kwarg name_value_Error: One B{C{name=value}} pair and optionally
-                                an B{C{Error=...}} keyword argument to
-                                override the default B{C{Error=ValueError}}.
-
-       @return: The value (C{float}).
-
-       @raise Error: Invalid or negative B{C{name=value}}.
-    '''
-    n, v, Error = _n_v_Error3(ValueError, **name_value_Error)
-    try:
-        f = float(v)
-        if f < 0 and falsed:
-            raise ValueError
-    except (TypeError, ValueError):
-        raise InvalidError(Error=Error, **{n: v})
-    return f
 
 
 def ft2m(feet, usurvey=False):
@@ -118,9 +94,8 @@ def ft2m(feet, usurvey=False):
 
        @raise ValueError: Invalid B{C{feet}}.
     '''
-    f = _float(feet=feet)
     # US Survey 1200./3937. == 0.3048006096012192
-    return f * (0.3048006096012192 if usurvey else 0.3048)
+    return Feet(feet) * (0.3048006096012192 if usurvey else 0.3048)
 
 
 def isNumpy2(obj):
@@ -196,20 +171,28 @@ def iterNumpy2over(n=None):
     return p
 
 
-def m2degrees(meter, radius=R_M):
-    '''Convert distance to angle along equator.
+def m2degrees(meter, radius=R_M, lat=0):
+    '''Convert distance to angle along equator or along a
+       parallel at an other latitude.
 
        @arg meter: Distance (C{meter}, same units as B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
        @return: Angle (C{degrees}).
 
-       @raise ValueError: Invalid B{C{meter}} or B{C{radius}}.
+       @raise RangeError: Latitude B{C{lat}} outside valid range
+                          and L{rangerrors} set to C{True}.
+
+       @raise ValueError: Invalid B{C{meter}}, B{C{radius}} or
+                          B{C{lat}}.
+
+       @see: Function L{degrees2m}.
     '''
-    r = _float(radius=radius)
-    if r < EPS:
-        raise InvalidError(radius=radius)
-    return degrees(_float(meter=meter) / r)
+    r = Radius(radius)
+    if lat:
+        r *= cos(Phi_(lat))
+    return degrees(Meter(meter) / r)
 
 
 def m2ft(meter, usurvey=False):
@@ -223,9 +206,8 @@ def m2ft(meter, usurvey=False):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    m = _float(meter=meter)
     # US Survey == 3937./1200. = 3.2808333333333333
-    return m * (3.2808333333333333 if usurvey else 3.2808399)
+    return Meter(meter) * (3.2808333333333333 if usurvey else 3.2808399)
 
 
 def m2km(meter):
@@ -237,7 +219,7 @@ def m2km(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return _float(meter=meter) * 1.0e-3
+    return Meter(meter) * 1.0e-3
 
 
 def m2NM(meter):
@@ -249,7 +231,7 @@ def m2NM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return _float(meter=meter) * 5.39956804e-4  # == * 1.0 / 1852.0
+    return Meter(meter) * 5.39956804e-4  # == * 1.0 / 1852.0
 
 
 def m2SM(meter):
@@ -261,7 +243,7 @@ def m2SM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return _float(meter=meter) * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
+    return Meter(meter) * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
 
 
 def radiansPI(deg):
@@ -389,7 +371,7 @@ def splice(iterable, n=2, **fill):
        >>> splice(range(9), n=1)
        <generator object splice at 0x0...>
     '''
-    if not (isinstance(n, _Ints) and n > 0):
+    if not (isint(n) and n > 0):
         raise InvalidError(n=n)
 
     t = iterable
@@ -402,7 +384,7 @@ def splice(iterable, n=2, **fill):
             if m > 0:  # fill with same type
                 t += type(t)((fill,)) * (n - m)
         for i in range(n):
-            yield t[i::n]  # [i:None:n] pychok -Tb ...
+            yield t[i::n]  # slice [i:None:n] pychok -Tb ...
     else:
         yield t
 

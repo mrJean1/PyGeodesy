@@ -22,26 +22,27 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import _float, property_RO, _xinstanceof, _xkwds
+from pygeodesy.basics import property_RO, _xinstanceof, _xkwds
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.fmath import fdot, hypot_
-from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import LatLon3Tuple, _Named, Ned3Tuple, _xnamed
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.named import LatLon3Tuple, _Named, _NamedTuple, _xnamed
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
 from pygeodesy.streprs import fstr, strs
+from pygeodesy.units import Bearing, Distance, Height, Radius, Scalar
 from pygeodesy.utily import degrees90, degrees360, sincos2d
 
 from math import asin, atan2
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.ellipsoidalNvector + (
+__all__ = _ALL_LAZY.ellipsoidalNvector + _ALL_DOCS('Ned3Tuple') + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.04.11'
+__version__ = '20.04.22'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -302,7 +303,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         if radius is None:
             r = self.datum.ellipsoid.R1
         else:
-            r = _float(radius=radius)
+            r = Radius(radius)
         return v1.angleTo(v2) * r
 
     def equals(self, other, eps=None):  # PYCHOK no cover
@@ -497,9 +498,9 @@ class Ned(_Named):
            >>> delta = Ned(110569, 111297, 1936)
            >>> delta.toStr(prec=0)  #  [N:110569, E:111297, D:1936]
         '''
-        self._north = _float(north=north or 0)
-        self._east  = _float(east=east or 0)
-        self._down  = _float(down=down or 0)
+        self._north = Scalar(north or 0, name='north')
+        self._east  = Scalar(east  or 0, name='east')
+        self._down  = Scalar(down  or 0, name='down')
         if name:
             self.name = name
 
@@ -563,19 +564,7 @@ class Ned(_Named):
         '''
         return self.ned
 
-    def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
-        '''Return a string representation of this NED vector.
-
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between NEDs (C{str}).
-
-           @return: This Ned as "[N:f, E:f, D:f]" (C{str}).
-        '''
-        t3 = strs(self.ned, prec=prec)
-        return fmt % (sep.join('%s:%s' % t for t in zip('NED', t3)),)
-
-    def toStr2(self, prec=None, fmt='[%s]', sep=', '):  # PYCHOK expected
+    def toRepr(self, prec=None, fmt='[%s]', sep=', ', **unused):  # PYCHOK expected
         '''Return a string representation of this NED vector as
            length, bearing and elevation.
 
@@ -591,6 +580,21 @@ class Ned(_Named):
               toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
         return fmt % (sep.join('%s:%s' % t for t in zip('LBE', t3)),)
 
+    toStr2 = toRepr  # PYCHOK for backward compatibility
+    '''DEPRECATED, used method L{Ned.toRepr}.'''
+
+    def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
+        '''Return a string representation of this NED vector.
+
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between NEDs (C{str}).
+
+           @return: This Ned as "[N:f, E:f, D:f]" (C{str}).
+        '''
+        t3 = strs(self.ned, prec=prec)
+        return fmt % (sep.join('%s:%s' % t for t in zip('NED', t3)),)
+
     def toVector3d(self):
         '''Return this NED vector as a 3-d vector.
 
@@ -598,6 +602,12 @@ class Ned(_Named):
         '''
         from pygeodesy.vector3d import Vector3d
         return Vector3d(*self.ned, name=self.name)
+
+
+class Ned3Tuple(_NamedTuple):  # .ellipsoidalNvector.py
+    '''3-Tuple C{(north, east, down)}, all in C{degrees}.
+    '''
+    _Names_ = ('north', 'east', 'down')
 
 
 _Nvll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
@@ -788,10 +798,10 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=''):
 
        @JSname: I{fromDistanceBearingElevation}.
     '''
-    d = _float(distance=distance)
+    d = Distance(distance)
 
-    sb, cb, se, ce = sincos2d(_float(bearing=bearing),
-                              _float(elevation=elevation))
+    sb, cb, se, ce = sincos2d(Bearing(bearing),
+                               Height(elevation, name='elevation'))
     n  = cb * d * ce
     e  = sb * d * ce
     d *= se

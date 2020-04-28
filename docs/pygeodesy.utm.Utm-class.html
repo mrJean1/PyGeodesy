@@ -247,6 +247,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utm.Utm-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">B</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">cs</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**unused</span>)</span><br />
+      Return a string representation of this UTM coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utm.Utm-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>,
@@ -273,8 +296,10 @@
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">B</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">cs</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Return a string representation of this UTM coordinate.</td>
+        <span class="summary-sig-arg">cs</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**unused</span>)</span><br />
+      DEPRECATED, use method <a href="pygeodesy.utm.Utm-class.html#toRepr" 
+      class="link">Utm.toRepr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -624,7 +649,7 @@
     <dt>Returns:</dt>
         <dd>This UTM coordinate (<b><code>LatLon</code></b>) or if 
           <b><code>LatLon</code></b> is <code>None</code>, a <a 
-          href="pygeodesy.named.LatLonDatum5Tuple-class.html" 
+          href="pygeodesy.utmupsBase.LatLonDatum5Tuple-class.html" 
           class="link">LatLonDatum5Tuple</a><code>(lat, lon, datum, 
           convergence, scale)</code>.</dd>
     <dt>Raises:</dt>
@@ -663,6 +688,50 @@
     <dt>Returns:</dt>
         <dd>The MGRS grid reference (<a href="pygeodesy.mgrs.Mgrs-class.html"
           class="link">Mgrs</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toRepr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">B</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">cs</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**unused</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a string representation of this UTM coordinate.</p>
+  <p>Note that UTM coordinates are rounded, not truncated (unlike MGRS grid
+  references).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing backets format (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:value pairs (<code>str</code>).</li>
+        <li><strong class="pname"><code>B</code></strong> - Optionally, include latitudinal band (<code>bool</code>).</li>
+        <li><strong class="pname"><code>cs</code></strong> - Optionally, include meridian convergence and grid scale factor 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>This UTM as a string <code>&quot;[Z:09[band], H:N|S, E:meter, 
+          N:meter]&quot;</code> plus <code>&quot;, C:degrees, 
+          S:float&quot;</code> if <b><code>cs</code></b> is 
+          <code>True</code> (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
+    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -734,16 +803,16 @@
         <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">B</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">cs</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">cs</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**unused</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Return a string representation of this UTM coordinate.</p>
-  <p>Note that UTM coordinates are rounded, not truncated (unlike MGRS grid
-  references).</p>
+  <p>DEPRECATED, use method <a href="pygeodesy.utm.Utm-class.html#toRepr" 
+  class="link">Utm.toRepr</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -760,7 +829,7 @@
           S:float&quot;</code> if <b><code>cs</code></b> is 
           <code>True</code> (<code>str</code>).</dd>
     <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toStr2">named._Named.toStr2</a>
+        <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -823,7 +892,9 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>zone</code></strong> - New UTM zone (<code>int</code>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Optional convergence limit, EPS or above (<code>float</code>), 
+        <li><strong class="pname"><code>eps</code></strong> - Optional convergence limit, <a 
+          href="pygeodesy.etm-module.html#EPS" class="link" 
+          onclick="show_private();">EPS</a> or above (<code>float</code>), 
           see method <a href="pygeodesy.utm.Utm-class.html#toLatLon" 
           class="link">Utm.toLatLon</a>.</li>
         <li><strong class="pname"><code>falsed</code></strong> - False both easting and northing (<code>bool</code>).</li>
@@ -959,7 +1030,7 @@ always.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr 14 11:55:18 2020
+    Generated by Epydoc 3.0.1 on Mon Apr 27 20:51:19 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

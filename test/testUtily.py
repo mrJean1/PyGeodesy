@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.03.09'
+__version__ = '20.04.15'
 
 from base import TestsBase, geographiclib
 
@@ -15,7 +15,7 @@ from pygeodesy import EPS, PI, PI2, PI_2, \
                       sincos2, sincos2d, unroll180, \
                       wrap90, wrap180, wrap360, \
                       wrapPI, wrapPI2, wrapPI_2, \
-                      fStr  # DEPRECATED, use fstr
+                      fstr  # DEPRECATED, use fstr
 
 from math import cos, radians, sin
 
@@ -117,17 +117,17 @@ class Tests(TestsBase):
         self.test('wrapPI2(-PI)',      wrapPI2(-PI),        PI)  # XXX
         self.test('wrapPI2(-PI2)', abs(wrapPI2(-PI2)),     0.0)  # -0.0
 
-        self.test('unroll180', fStr(unroll180(-90, 110, wrap=True)), '-160.0, -250.0')
-        self.test('unroll180', fStr(unroll180(-90, 110, wrap=False)), '200.0, 110.0')
+        self.test('unroll180', fstr(unroll180(-90, 110, wrap=True)), '-160.0, -250.0')
+        self.test('unroll180', fstr(unroll180(-90, 110, wrap=False)), '200.0, 110.0')
 
-        self.test('unroll180', fStr(unroll180(-90, 830, wrap=True)), '-160.0, -250.0')
-        self.test('unroll180', fStr(unroll180(-90, 830, wrap=False)), '920.0, 830.0')
+        self.test('unroll180', fstr(unroll180(-90, 830, wrap=True)), '-160.0, -250.0')
+        self.test('unroll180', fstr(unroll180(-90, 830, wrap=False)), '920.0, 830.0')
 
-        self.test('unroll180', fStr(unroll180(-110, 90, wrap=True)), '-160.0, -270.0')
-        self.test('unroll180', fStr(unroll180(-110, 90, wrap=False)), '200.0, 90.0')
+        self.test('unroll180', fstr(unroll180(-110, 90, wrap=True)), '-160.0, -270.0')
+        self.test('unroll180', fstr(unroll180(-110, 90, wrap=False)), '200.0, 90.0')
 
-        self.test('unroll180', fStr(unroll180(-830, 90, wrap=True)), '-160.0, -990.0')
-        self.test('unroll180', fStr(unroll180(-830, 90, wrap=False)), '920.0, 90.0')
+        self.test('unroll180', fstr(unroll180(-830, 90, wrap=True)), '-160.0, -990.0')
+        self.test('unroll180', fstr(unroll180(-830, 90, wrap=False)), '920.0, 90.0')
 
         e = d = g = f = 0
         for a in range(-1000, 1000):
@@ -163,13 +163,17 @@ class Tests(TestsBase):
         self.test('m2sFt', m2ft(187441, usurvey=True),  614962.68, fmt='%.0f')
         self.test('m2sFt', m2ft(757050, usurvey=True), 2483754.87, fmt='%.0f')
 
-        self.test('degrees2m', fStr(degrees2m(90), prec=4),        '10007557.1761')
-        self.test('degrees2m', fStr(degrees2m(90, lat=30), prec=4), '8666798.7443')
-        self.test('m2degrees', fStr(m2degrees(degrees2m(90)), prec=1),   '90.0')
+        self.test('degrees2m', fstr(degrees2m(90), prec=4),        '10007557.1761')
+        self.test('degrees2m', fstr(degrees2m(90, lat=30), prec=4), '8666798.7443')
+        self.test('m2degrees', fstr(m2degrees(degrees2m(90)), prec=1),   '90.0')
 
-        self.test('degrees2m', fStr(degrees2m(180), prec=4),          '20015114.3522')
-        self.test('degrees2m', fStr(degrees2m(180, lat=3-0), prec=4), '19987684.3336')
-        self.test('m2degrees', fStr(m2degrees(degrees2m(180)), prec=1),    '180.0')
+        self.test('degrees2m', fstr(degrees2m(180), prec=4),          '20015114.3522')
+        self.test('degrees2m', fstr(degrees2m(180, lat=3-0), prec=4), '19987684.3336')
+        self.test('m2degrees', fstr(m2degrees(degrees2m(180)), prec=1),    '180.0')
+
+        for a in range(0, 90, 7):
+            d = m2degrees(degrees2m(45, lat=a), lat=a)
+            self.test('m2-degrees-2m(%s, lat=%s)' % (45, a), d, '45.00', fmt='%.2f')
 
         self.test('isPoints2', isPoints2(None), False)
 

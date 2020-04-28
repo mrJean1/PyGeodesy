@@ -41,13 +41,14 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, LatLonDatum3Tuple, \
                            _NamedBase, nameof, _xnamed
 from pygeodesy.streprs import enstr2
-from pygeodesy.utily import degrees90, degrees180, falsed2f, sincos2
+from pygeodesy.units import Easting, Northing
+from pygeodesy.utily import degrees90, degrees180, sincos2
 
 from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.04.11'
+__version__ = '20.04.22'
 
 _10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km   = 100000  #: (INTERNAL) 100 km (int meter)
@@ -113,8 +114,8 @@ class Osgr(_NamedBase):
         if name:
             self.name = name
 
-        self._easting  = falsed2f(easting=easting,   Error=OSGRError)
-        self._northing = falsed2f(northing=northing, Error=OSGRError)
+        self._easting  = Easting(easting,   Error=OSGRError)
+        self._northing = Northing(northing, Error=OSGRError)
 
     @property_RO
     def datum(self):
@@ -237,6 +238,26 @@ class Osgr(_NamedBase):
             ll = _xnamed(LatLon(ll.lat, ll.lon, datum=ll.datum), ll.name)
             return _ll2datum(ll, datum, 'LatLon')
 
+    def toRepr(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
+        '''Return a string representation of this OSGR coordinate.
+
+           @kwarg prec: Optional number of digits (C{int}).
+           @kwarg fmt: Optional enclosing backets format (C{str}).
+           @kwarg sep: Optional separator to join (C{str}).
+
+           @return: This OSGR (C{str}) "[G:00B, E:meter, N:meter]" or
+                    "OSGR:meter,meter" if B{C{prec}} is non-positive.
+        '''
+        t = self.toStr(prec=prec, sep=' ')
+        if prec > 0:
+            t = sep.join('%s:%s' % t for t in zip('GEN', t.split()))
+        else:
+            t = '%s:%s' % (Osgr.__name__.upper(), t)
+        return fmt % (t,)
+
+    toStr2 = toRepr  # PYCHOK for backward compatibility
+    '''DEPRECATED, use method L{Osgr.toRepr}.'''
+
     def toStr(self, prec=10, sep=' '):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
 
@@ -284,23 +305,6 @@ class Osgr(_NamedBase):
         else:
             t = ['%06d' % int(t) for t in (e, n)]
         return s.join(t)
-
-    def toStr2(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
-        '''Return a string representation of this OSGR coordinate.
-
-           @kwarg prec: Optional number of digits (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
-           @kwarg sep: Optional separator to join (C{str}).
-
-           @return: This OSGR (C{str}) "[G:00B, E:meter, N:meter]" or
-                    "OSGR:meter,meter" if B{C{prec}} is non-positive.
-        '''
-        t = self.toStr(prec=prec, sep=' ')
-        if prec > 0:
-            t = sep.join('%s:%s' % t for t in zip('GEN', t.split()))
-        else:
-            t = '%s:%s' % (Osgr.__name__.upper(), t)
-        return fmt % (t,)
 
 
 def parseOSGR(strOSGR, Osgr=Osgr, name=''):

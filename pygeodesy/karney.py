@@ -15,7 +15,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.04.09'
+__version__ = '20.04.16'
 
 
 class _Adict(dict):
@@ -167,7 +167,7 @@ class _Wrapped(object):
         return _Wrapped._Math
 
 
-_wrapped = _Wrapped()
+_wrapped = _Wrapped()  # imported by .datum.py
 
 
 def _diff182(deg0, deg):  # mimick Math.AngDiff

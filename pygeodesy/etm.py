@@ -65,17 +65,17 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, _float, InvalidError, property_doc_, \
-                             property_RO, _xinstanceof
+from pygeodesy.basics import EPS, PI_2, PI_4, property_doc_, property_RO, \
+                            _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
 from pygeodesy.karney import _diff182, _fix90, _norm180
-from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import EasNorExact4Tuple, LatLonExact4Tuple, \
-                           _NamedBase, _xnamed
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
 from pygeodesy.streprs import pairs
-from pygeodesy.utily import PI_2, PI_4, sincos2
+from pygeodesy.units import Lon, Scalar_
+from pygeodesy.utily import sincos2
 from pygeodesy.utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
                           _toXtm8, _to7zBlldfn
 from pygeodesy.utmupsBase import _LLEB
@@ -83,14 +83,21 @@ from pygeodesy.utmupsBase import _LLEB
 from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
-__all__ = _ALL_LAZY.etm
-__version__ = '20.04.11'
+__all__ = _ALL_LAZY.etm + _ALL_DOCS('EasNorExact4Tuple', 'LatLonExact4Tuple')
+__version__ = '20.04.28'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
 _TOL_10   = 0.1 * _TOL
 _TAYTOL   = pow(_TOL, 0.6)
 _TAYTOL2  = 2.0 * _TAYTOL
+
+
+class EasNorExact4Tuple(_NamedTuple):
+    '''4-Tuple C{(easting, northing, convergence, scale)} in
+       C{meter}, C{meter}, C{degrees} and C{scalar}.
+    '''
+    _Names_ = ('easting', 'northing', 'convergence', 'scale')
 
 
 class ETMError(UTMError):
@@ -428,9 +435,9 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise ETMError: Invalid B{C{k0}}.
         '''
-        self._k0 = _float(k0=k0, Error=ETMError)
-        if not 0 < self._k0 <= 1:
-            raise InvalidError(k0=k0, Error=ETMError)
+        self._k0 = Scalar_(k0, name='k0', Error=ETMError, low=_TOL_10, high=1.0)
+        # if not self._k0 > 0:
+        #     raise Scalar_.Error_(Scalar_, k0, name='k0', Error=ETMError)
         self._k0_a = self._k0 * self._a
 
     @property_doc_(''' the central meridian (C{degrees180}).''')
@@ -445,7 +452,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise ValueError: Invalid B{C{lon0}}.
         '''
-        self._lon0 = _norm180(_float(lon0=lon0))
+        self._lon0 = _norm180(Lon(lon0, name='lon0'))
 
     @property_RO
     def majoradius(self):
@@ -704,7 +711,7 @@ class ExactTransverseMercator(_NamedBase):
     def toStr(self, **kwds):
         '''Return a C{str} representation.
 
-           @arg kwds: Optional, keyword arguments.
+           @arg kwds: Optional, overriding keyword arguments.
         '''
         d = dict(name=self.name) if self.name else {}
         d = dict(datum=self.datum.name, lon0=self.lon0,
@@ -881,6 +888,13 @@ class ExactTransverseMercator(_NamedBase):
         return r
 
 
+class LatLonExact4Tuple(_NamedTuple):
+    '''4-Tuple C{(lat, lon, convergence, scale)} in C{degrees180},
+       C{degrees}, C{degrees} and C{scalar}.
+    '''
+    _Names_ = ('lat', 'lon', 'convergence', 'scale')
+
+
 def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=''):
     '''Parse a string representing a UTM coordinate, consisting
        of C{"zone[band] hemisphere easting northing"}.
@@ -955,8 +969,8 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name='',
     lon0 = _cmlon(z) if f else None
     x, y, g, k = d.exactTM.forward(lat, lon, lon0=lon0)
 
-    t = z, lat, x, y, B, d, g, k, f
-    return _toXtm8(Etm, t, name, latlon, d.exactTM)
+    return _toXtm8(Etm, z, lat, x, y,
+                        B, d, g, k, f, name, latlon, d.exactTM)
 
 # **) MIT License
 #

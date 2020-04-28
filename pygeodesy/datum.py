@@ -115,37 +115,38 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, EPS1, R_M, InvalidError, property_doc_, \
-                             property_RO, _xinstanceof
+from pygeodesy.basics import EPS, EPS1, PI2, PI_2, R_M, InvalidError, \
+                             property_doc_, property_RO, _xinstanceof
 from pygeodesy.fmath import _2_3rd, cbrt, cbrt2, fdot, fpowers, \
                              Fsum, fsum_, hypot1, hypot2, sqrt3
-from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import Curvature2Tuple, Distance2Tuple, \
-                           _NamedEnum, _NamedEnumItem, Vector3Tuple
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.named import Distance2Tuple, _NamedEnum, _NamedEnumItem, \
+                           _NamedTuple, Vector3Tuple
 from pygeodesy.streprs import instr, fstr
-from pygeodesy.utily import PI2, PI_2, degrees360, \
-                            m2degrees, m2km, m2NM, m2SM
+from pygeodesy.units import Bearing_, Lam_, Lat, Phi, Phi_, Radius, Scalar
+from pygeodesy.utily import degrees360, degrees2m, m2degrees, \
+                            m2km, m2NM, m2SM
 
 from math import atan, atan2, atanh, copysign, cos, exp, hypot, \
                  radians, sin, sinh, sqrt
 
-R_M  = R_M        #: Mean (spherical) earth radius (C{meter}).
-R_MA = 6378137.0  #: Major (equatorial) earth radius (C{meter}) WGS84, EPSG:3785.
-R_MB = 6356752.0  #: Minor (polar) earth radius (C{meter}) WGS84, EPSG:3785.
-R_KM = m2km(R_M)  #: Mean (spherical) earth radius (C{KM}, kilo meter).
-R_NM = m2NM(R_M)  #: Mean (spherical) earth radius (C{NM}, nautical miles).
-R_SM = m2SM(R_M)  #: Mean (spherical) earth radius (C{SM}, statute miles).
+R_M  = Radius(R_M,       name='R_M')  #: Mean (spherical) earth radius (C{meter}).
+R_MA = Radius(6378137.0, name='R_MA')  #: Major (equatorial) earth radius (C{meter}) WGS84, EPSG:3785.
+R_MB = Radius(6356752.0, name='R_MB')  #: Minor (polar) earth radius (C{meter}) WGS84, EPSG:3785.
+R_KM = Radius(m2km(R_M), name='R_KM')  #: Mean (spherical) earth radius (C{KM}, kilo meter).
+R_NM = Radius(m2NM(R_M), name='R_NM')  #: Mean (spherical) earth radius (C{NM}, nautical miles).
+R_SM = Radius(m2SM(R_M), name='R_SM')  #: Mean (spherical) earth radius (C{SM}, statute miles).
 # See <https://www.EdWilliams.org/avform.htm>,
 # <https://www.DTIC.mil/dtic/tr/fulltext/u2/a216843.pdf> and
 # <https://GitHub.com/NASA/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
 # based on International Standard Nautical Mile of 1,852 meter (1' latitude)
-R_FM = 6371000.0  #: Former FAI Sphere earth radius (C{meter}).
-R_VM = 6366707.0194937  #: Aviation/Navigation earth radius (C{meter}).
-# R_ = 6372797.560856   #: XXX some other earth radius???
+R_FM = Radius(6371000.0,       name='R_FM')  #: Former FAI Sphere earth radius (C{meter}).
+R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius (C{meter}).
+# R_ = Radius(6372797.560856,  name='R_')   #: XXX some other earth radius???
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.datum
-__version__ = '20.04.09'
+__all__ = _ALL_LAZY.datum + _ALL_DOCS('Curvature2Tuple')
+__version__ = '20.04.28'
 
 _Flts = {}  # cache, deleted below
 _TOL  = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -168,6 +169,13 @@ def _flt(f):
     '''
     f = float(f)
     return _Flts.setdefault(f, f)  # PYCHOK del _Flts
+
+
+class Curvature2Tuple(_NamedTuple):
+    '''2-Tuple C{(meridional, prime_vertical)} of radii of curvature,
+       both in C{meter}.
+    '''
+    _Names_ = ('meridional', 'prime_vertical')
 
 
 class Ellipsoid(_NamedEnumItem):
@@ -328,10 +336,15 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def a2_b(self):
-        '''Get the polar meridional radius of curvature (C{meter}), M{a**2 / b}.
+        '''Get the polar meridional radius of curvature (C{meter}), M{a**2 / b}, see C{rocPolar}.
 
            @see: U{Radii of Curvature
-                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
+                 and U{Moritz, H. (1980), Geodetic Reference System 1980
+                 <https://WikiPedia.org/wiki/Earth_radius#cite_note-Moritz-2>}.
+
+           @note: Symbol C{c} is used by IUGG and IERS for the U{polar radius of
+                  curvature<https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         if self._a2_b is None:
             self._a2_b = self.a2 / self.b
@@ -424,10 +437,30 @@ class Ellipsoid(_NamedEnumItem):
     def c(self):
         '''Get the authalic earth radius (C{meter}), see C{R2}.
 
-           @see: Symbol C{c} in U{equation 60
-                 <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>}.
+           @note: Symbol C{c} in U{equation 60
+                  <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>}.
+
+           @note: Symbol C{c} is used by IUGG and IERS for the U{polar radius of
+                  curvature<https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>},
+                  see C{rocPolar}.
         '''
-        return self.R2
+        return self.R2 if self._R2 is None else self._R2
+
+    def degrees2m(self, deg, lat=0):
+        '''Convert angle to distance along the equator or along
+           a parallel at an other latitude.
+
+           @arg deg: Angle (C{degrees}).
+           @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
+
+           @return: Angle (C{degrees}).
+
+           @raise RangeError: Latitude B{C{lat}} outside valid range
+                              and L{rangerrors} set to C{True}.
+
+           @raise ValueError: Invalid B{C{deg}} or B{C{lat}}.
+        '''
+        return degrees2m(deg, radius=self.a, lat=lat)
 
     def distance2(self, lat0, lon0, lat1, lon1):
         '''Approximate the distance and (initial) bearing between two
@@ -449,9 +482,10 @@ class Ellipsoid(_NamedEnumItem):
                  and prime vertical U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        m, n = self.roc2(lat0, scaled=True)
-        m *= radians(lat1 - lat0)
-        n *= radians(lon1 - lon0)
+        phi0 = Phi_(lat0, name='lat0')
+        m, n = self.roc2_(phi0, scaled=True)
+        m *= Phi_(lat1, name='lat1') - phi0
+        n *= Lam_(lon1, name='lon1') - Lam_(lon0, name='lon0')
         return Distance2Tuple(hypot(m, n), degrees360(atan2(n, m)))
 
     @property_RO
@@ -538,8 +572,11 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{s}}.
         '''
-        r = 1 - self.e2 * s**2
-        if r < 0:
+        try:
+            r = 1 - self.e2 * Scalar(s, name='s')**2
+            if r < 0:
+                raise ValueError
+        except (TypeError, ValueError):
             raise InvalidError(**{self._dot_('e2s2'): s})
         return r
 
@@ -554,14 +591,16 @@ class Ellipsoid(_NamedEnumItem):
         '''Compute M{es * atanh(es * x)} where I{es} is the I{signed}
            1st Eccentricity.
 
+           @raise ValueError: Invalid B{C{x}}.
+
            @see: Function U{Math::eatanhe<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Math.html>}.
         '''
         # note, self.e is always non-negative
         if self.f > 0:
-            r = self.e * atanh(self.e * x)
+            r = self.e * atanh(self.e * Scalar(x, name='x'))
         elif self.f < 0:  # PYCHOK no cover
-            r = self.e * atan(-self.e * x)
+            r = self.e * atan(-self.e * Scalar(x, name='x'))
         else:
             r = 0
         return r
@@ -581,13 +620,14 @@ class Ellipsoid(_NamedEnumItem):
            @see: Function U{Math::tauf<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Math.html>}.
         '''
-        tol = max(abs(taup), 1) * _TOL
+        T_  = Scalar(taup, name='taup')
+        tol = max(abs(T_), 1) * _TOL
         e2m = 1 - abs(self.e2)  # == self.e**2
-        t = taup / e2m
+        t = T_ / e2m
         T = Fsum(t)
         for _ in range(5):
             a = self.es_taupf(t)
-            d = (taup - a) * (1 + e2m * t**2) / (e2m * hypot1(t) * hypot1(a))
+            d = (T_ - a) * (1 + e2m * t**2) / (e2m * hypot1(t) * hypot1(a))
             t, d = T.fsum2_(d)
             if abs(d) < tol:
                 break
@@ -600,9 +640,10 @@ class Ellipsoid(_NamedEnumItem):
            @see: Function U{Math::taupf<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Math.html>}.
         '''
-        t = hypot1(tau)
-        s = sinh(self.es_atanh(tau / t))
-        return hypot1(s) * tau - s * t
+        T = Scalar(tau, name='tau')
+        t = hypot1(T)
+        s = sinh(self.es_atanh(T / t))
+        return hypot1(s) * T - s * t
 
     @property_RO
     def f(self):
@@ -690,14 +731,21 @@ class Ellipsoid(_NamedEnumItem):
                 self._BetaKs = None
             self._KsOrder = order
 
-    def m2degrees(self, meter):
-        '''Convert distance to angle along equator.
+    def m2degrees(self, meter, lat=0):
+        '''Convert distance to angle along equator or along
+           a parallel at an other latitude.
 
            @arg meter: Distance (C{meter}).
+           @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
            @return: Angle (C{degrees}).
-        '''
-        return m2degrees(meter, self.a)
+
+           @raise RangeError: Latitude B{C{lat}} outside valid range
+                              and L{rangerrors} set to C{True}.
+
+           @raise ValueError: Invalid B{C{meter}} or B{C{lat}}.
+       '''
+        return m2degrees(meter, radius=self.a, lat=lat)
 
     @property_RO
     def Mabcd(self):
@@ -730,7 +778,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._R1 is None:
-            self._R1 = (self.a * 2 + self.b) / 3
+            self._R1 = Radius((self.a * 2 + self.b) / 3, name=Ellipsoid.R1.name)
         return self._R1
 
     @property_RO
@@ -747,7 +795,7 @@ class Ellipsoid(_NamedEnumItem):
                 r = atan(self.e) / self.e
             else:
                 r = 1
-            self._R2 = sqrt((self.a2 + self.b2 * r) * 0.5)
+            self._R2 = Radius(sqrt((self.a2 + self.b2 * r) * 0.5), name=Ellipsoid.R2.name)
         return self._R2
 
     @property_RO
@@ -757,7 +805,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._R3 is None:
-            self._R3 = cbrt(self.a2 * self.b)
+            self._R3 = Radius(cbrt(self.a2 * self.b), name=Ellipsoid.R3.name)
         return self._R3
 
     def Rgeocentric(self, lat):
@@ -767,14 +815,17 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Geocentric earth radius (C{meter}).
 
+           @raise ValueError: Invalid B{C{lat}}.
+
            @see: U{Geocentric Radius
                  <https://WikiPedia.org/wiki/Earth_radius#Geocentric_radius>}
         '''
         a2 = self.a2
         b2 = self.b2
-        c2 = cos(radians(lat))**2
+        c2 = cos(Phi_(lat))**2
         s2 = 1 - c2
-        return sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2))
+        return Radius(sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2)),
+                      name=Ellipsoid.Rgeocentric.__name__)
 
     @property_RO
     def Rr(self):
@@ -783,7 +834,8 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._Rr is None:
-            self._Rr = cbrt2((sqrt3(self.a) + sqrt3(self.b)) * 0.5)
+            self._Rr = Radius(cbrt2((sqrt3(self.a) + sqrt3(self.b)) * 0.5),
+                              name=Ellipsoid.Rr.name)
         return self._Rr
 
     @property_RO
@@ -791,7 +843,7 @@ class Ellipsoid(_NamedEnumItem):
         '''Get another mean earth radius (C{meter}), M{sqrt(a * b)}.
         '''
         if self._Rs is None:
-            self._Rs = sqrt(self.a * self.b)
+            self._Rs = Radius(sqrt(self.a * self.b), name=Ellipsoid.Rs.name)
         return self._Rs
 
     def Rlat(self, lat):
@@ -800,11 +852,16 @@ class Ellipsoid(_NamedEnumItem):
            @arg lat: Latitude (C{degrees90}).
 
            @return: Approximate earth radius (C{meter}).
+
+           @raise ValueError: Invalid B{C{lat}}.
         '''
         if self._ab_90 is None:
             self._ab_90 = (self.a - self.b) / 90.0
         # r = major - (major - minor) * |lat| / 90
-        return self.a - self._ab_90 * min(abs(lat), 90)
+        r = self.a
+        if lat:
+            r -= self._ab_90 * min(abs(Lat(lat, clip=0)), 90)
+        return Radius(r, name=Ellipsoid.Rlat.__name__)
 
     def roc2(self, lat, scaled=False):
         '''Compute the meridional and prime-vertical, I{normal} radii of curvature
@@ -816,12 +873,14 @@ class Ellipsoid(_NamedEnumItem):
            @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)} with
                     the radii of curvature.
 
+           @raise ValueError: Invalid B{C{lat}}.
+
            @see: Method C{.roc2_}, U{Local, flat earth approximation
                  <https://www.EdWilliams.org/avform.htm#flat>} and
                  U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        return self.roc2_(radians(lat), scaled=scaled)
+        return self.roc2_(Phi_(lat), scaled=scaled)
 
     def roc2_(self, phi, scaled=False):
         '''Compute the meridional and prime-vertical, I{normal} radii of curvature
@@ -833,12 +892,14 @@ class Ellipsoid(_NamedEnumItem):
            @return: An L{Curvature2Tuple}C{(meridional, prime_vertical)} with
                     the radii of curvature.
 
+           @raise ValueError: Invalid B{C{phi}}.
+
            @see: Method C{.roc2}, U{Local, flat earth approximation
                  <https://www.EdWilliams.org/avform.htm#flat>} and meridional
                  and prime vertical U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        a = abs(phi)
+        a = abs(Phi(phi))
         r = self.e2s2(sin(a) if a < PI_2 else 1)
         if r < EPS:
             m = n = 0  # PYCHOK e2s2 attr?
@@ -850,7 +911,8 @@ class Ellipsoid(_NamedEnumItem):
             m = n * self.e12
         if scaled:
             n *= cos(a) if a < PI_2 else 0
-        return Curvature2Tuple(m, n)
+        return Curvature2Tuple(Radius(m, name=Ellipsoid.rocMeridional.__name__),
+                               Radius(n, name=Ellipsoid.rocPrimeVertical.__name__))
 
     def rocBearing(self, lat, bearing):
         '''Compute the directional radius of curvature at the
@@ -861,18 +923,23 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Directional radius of curvature (C{meter}).
 
+           @raise RangeError: Latitude B{C{lat}} outside valid range
+                              and L{rangerrors} set to C{True}.
+
+           @raise ValueError: Invalid B{C{lat}} or B{C{bearing}}.
+
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
-        c2 = cos(radians(bearing))**2
+        c2 = cos(Bearing_(bearing))**2
         s2 = 1 - c2
-        m, n = self.roc2(lat)
+        m, n = self.roc2_(Phi_(lat))
         if n < m:  # == n / (c2 * n / m + s2)
             c2 *= n / m
         elif m < n:  # == m / (c2 + s2 * m / n)
             s2 *= m / n
             n = m
-        return n / (c2 + s2)  # == 1 / (c2 / m + s2 / n)
+        return Radius(n / (c2 + s2), name=Ellipsoid.rocBearing.__name__)  # == 1 / (c2 / m + s2 / n)
 
     def rocGauss(self, lat):
         '''Compute the Gaussian radius of curvature at the given latitude.
@@ -881,15 +948,17 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Gaussian radius of curvature (C{meter}).
 
+           @raise ValueError: Invalid B{C{lat}}.
+
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         # using ...
-        #    m, n = self.roc2(lat)
+        #    m, n = self.roc2_(Phi_(lat))
         #    return sqrt(m * n)
         # ... requires 1 or 2 sqrt
-        a2, c2 = self.a2, cos(radians(lat))**2
-        return a2 * self.b / (a2 * c2 + self.b2 * (1 - c2))
+        c2 = cos(Phi_(lat))**2
+        return Radius(self.b / (c2 + (1 - c2) * self.b2 / self.a2), name=Ellipsoid.rocGauss.__name__)
 
     def rocMean(self, lat):
         '''Compute the mean radius of curvature at the given latitude.
@@ -898,11 +967,13 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Mean radius of curvature (C{meter}).
 
+           @raise ValueError: Invalid B{C{lat}}.
+
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
-        m, n = self.roc2(lat)
-        return 2 * m * n / (m + n)  # == 2 / (1 / m + 1 / n)
+        m, n = self.roc2_(Phi_(lat))
+        return Radius(2 * m * n / (m + n), name=Ellipsoid.rocMean.__name__)  # == 2 / (1 / m + 1 / n)
 
     def rocMeridional(self, lat):
         '''Compute the meridional radius of curvature at the given latitude.
@@ -911,12 +982,20 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Meridional radius of curvature (C{meter}).
 
+           @raise ValueError: Invalid B{C{lat}}.
+
            @see: U{Local, flat earth approximation
                  <https://www.EdWilliams.org/avform.htm#flat>} and
                  U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        return self.roc2(lat).meridional
+        return self.roc2_(Phi_(lat)).meridional
+
+    @property_RO
+    def rocPolar(self):
+        '''Get the polar radius of curvature (C{meter}), see C{a2_b}.
+        '''
+        return self.a2_b if self._a2_b is None else self._a2_b
 
     def rocPrimeVertical(self, lat):
         '''Compute the prime-vertical, I{normal} radius of curvature at the given latitude.
@@ -925,12 +1004,14 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Prime-vertical radius of curvature (C{meter}).
 
+           @raise ValueError: Invalid B{C{lat}}.
+
            @see: U{Local, flat earth approximation
                  <https://www.EdWilliams.org/avform.htm#flat>} and
                  U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        return self.roc2(lat).prime_vertical
+        return self.roc2_(Phi_(lat)).prime_vertical
 
     def toStr(self, prec=9):  # PYCHOK expected
         '''Return this ellipsoid as a text string.
@@ -947,7 +1028,7 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the ellipsoid's volume (C{meter**3}), M{4 / 3 * PI * a**2 * b}.
         '''
         if self._volume is None:
-            self._volume = PI2 * _2_3rd * self.a2 * self.b
+            self._volume = Scalar(PI2 * _2_3rd * self.a2 * self.b, name=Ellipsoid.volume.name)
         return self._volume
 
 

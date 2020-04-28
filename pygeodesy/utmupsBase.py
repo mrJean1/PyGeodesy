@@ -5,20 +5,23 @@ u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
 for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
-from pygeodesy.basics import _float, isscalar, isstr, map1, property_RO, \
-                             _xattrs, _xinstanceof, _xkwds, _xsubclassof
+from pygeodesy.basics import isscalar, isstr, map1, _or, property_RO, \
+                            _xattrs, _xinstanceof, _xkwds, _xsubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import EasNor2Tuple, LatLonDatum5Tuple, \
-                           _NamedBase, nameof, notOverloaded, \
-                           _xnamed
+from pygeodesy.named import EasNor2Tuple, _NamedBase, _NamedTuple, \
+                            nameof, notOverloaded, _xnamed
 from pygeodesy.streprs import fstr
+from pygeodesy.units import Easting, Northing, Scalar
 from pygeodesy.utily import wrap90, wrap360
 
-__all__ = _ALL_DOCS('UtmUpsBase')
-__version__ = '20.04.11'
+__all__ = _ALL_DOCS('UtmUpsBase') + _ALL_DOCS('LatLonDatum5Tuple',
+                                              'UtmUps5Tuple',
+                                              'UtmUps8Tuple',
+                                              'UtmUpsLatLon5Tuple')
+__version__ = '20.04.22'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -107,8 +110,8 @@ def _to3zBhp(zone, band, hemipole=''):  # imported by .epsg, .ups, .utm, .utmups
 
     except (AttributeError, TypeError, ValueError):
         pass
-    raise ValueError('%s, %s or %s invalid: %r' %
-                     ('zone', 'band', 'hemipole', (zone, B, hemipole)))
+    raise ValueError('%s invalid: %r' % (_or('zone', 'band', 'hemipole'),
+                                             (zone,   B,      hemipole)))
 
 
 def _to3zll(lat, lon):  # imported by .ups, .utm
@@ -124,6 +127,14 @@ def _to3zll(lat, lon):  # imported by .ups, .utm
     z = int(x) // 6 + 1  # ... longitudinal UTM zone [1, 60] and ...
     lon = x - 180.0  # ... lon [-180, 180) i.e. -180 <= lon < 180
     return z, wrap90(lat), lon
+
+
+class LatLonDatum5Tuple(_NamedTuple):
+    '''5-Tuple C{(lat, lon, datum, convergence, scale)} in
+       C{degrees90}, C{degrees180}, L{Datum}, C{degrees}
+       and C{float}.
+    '''
+    _Names_ = ('lat', 'lon', 'datum', 'convergence', 'scale')
 
 
 class UtmUpsBase(_NamedBase):
@@ -154,8 +165,8 @@ class UtmUpsBase(_NamedBase):
         if not E:
             notOverloaded(self, '_Error')
 
-        self._easting  = _float(easting=easting,   Error=E)
-        self._northing = _float(northing=northing, Error=E)
+        self._easting  = Easting(easting,   Error=E)
+        self._northing = Northing(northing, Error=E)
 
         if band:
             _xinstanceof(str, band=band)
@@ -170,12 +181,12 @@ class UtmUpsBase(_NamedBase):
             self._falsed = False
 
         if convergence is not self._convergence:
-            self._convergence = _float(convergence=convergence, Error=E)
+            self._convergence = Scalar(convergence, name='convergence', Error=E)
         if scale is not self._scale:
-            self._scale = _float(scale=scale, Error=E)
+            self._scale = Scalar(scale, name='scale', Error=E)
 
     def __repr__(self):
-        return self.toStr2(B=True)
+        return self.toRepr(B=True)
 
     def __str__(self):
         return self.toStr()
@@ -290,7 +301,13 @@ class UtmUpsBase(_NamedBase):
             self._epsg = Epsg(self)
         return self._epsg
 
-    def _toStr4_6(self, hemipole, B, cs, prec, sep):
+    def _toRepr(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False, **unused):  # PYCHOK expected
+        '''(INTERNAL) Return a string representation of this UTM/UPS coordinate.
+        '''
+        t = self.toStr(prec=prec, sep=' ', B=B, cs=cs).split()
+        return fmt % (sep.join('%s:%s' % t for t in zip('ZHENCS', t)),)
+
+    def _toStr(self, hemipole, B, cs, prec, sep):
         '''(INTERNAL) Return a string representation of this UTM/UPS coordinate.
         '''
         z = '%02d%s' % (self.zone, (self.band if B else ''))  # PYCHOK band
@@ -303,11 +320,40 @@ class UtmUpsBase(_NamedBase):
                       fstr(self.scale, prec=8))
         return sep.join(t)
 
-    def _toStr2(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False):  # PYCHOK expected
-        '''(INTERNAL) Return a string representation of this UTM/UPS coordinate.
-        '''
-        t = self.toStr(prec=prec, sep=' ', B=B, cs=cs).split()
-        return fmt % (sep.join('%s:%s' % t for t in zip('ZHENCS', t)),)
+
+class UtmUps5Tuple(_NamedTuple):
+    '''5-Tuple C{(zone, hemipole, easting, northing, band)} as C{int},
+       C{str}, C{meter}, C{meter} and C{band} letter, where C{zone}
+       is C{1..60} for UTM or C{0} for UPS, C{hemipole} C{'N'|'S'} is
+       the UTM hemisphere or the UPS pole and C{band} is C{""} or the
+       (longitudinal) UTM band C{'C'|'D'..'W'|'X'} or the (polar) UPS
+       band C{'A'|'B'|'Y'|'Z'}.
+    '''
+    _Names_ = ('zone', 'hemipole', 'easting', 'northing', 'band')
+
+
+class UtmUps8Tuple(_NamedTuple):
+    '''8-Tuple C{(zone, hemipole, easting, northing, band, datum,
+       convergence, scale)} as C{int}, C{str}, C{meter}, C{meter},
+       C{band} letter, C{Datum}, C{degrees} and C{float}, where
+       C{zone} is C{1..60} for UTM or C{0} for UPS, C{hemipole}
+       C{'N'|'S'} is the UTM hemisphere or the UPS pole and C{band}
+       is C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
+       or the (polar) UPS band C{'A'|'B'|'Y'|'Z'}.
+    '''
+    _Names_ = ('zone', 'hemipole', 'easting', 'northing',
+               'band', 'datum', 'convergence', 'scale')
+
+
+class UtmUpsLatLon5Tuple(_NamedTuple):
+    '''5-Tuple C{(zone, band, hemipole, lat, lon)} as C{int},
+       C{str}, C{str}, C{degrees90} and C{degrees180}, where
+       C{zone} is C{1..60} for UTM or C{0} for UPS, C{band} is
+       C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
+       or (polar) UPS band C{'A'|'B'|'Y'|'Z'} and C{hemipole}
+       C{'N'|'S'} is the UTM hemisphere or the UPS pole.
+    '''
+    _Names_ = ('zone', 'band', 'hemipole', 'lat', 'lon')
 
 # **) MIT License
 #

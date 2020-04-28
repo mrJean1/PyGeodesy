@@ -23,7 +23,7 @@ from pygeodesy.named import Vector3Tuple
 from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 
 __all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '20.04.10'
+__version__ = '20.04.15'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -308,7 +308,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         E = self.ellipsoid()
         try:  # other may be Sphere, etc.
             e = other.ellipsoid()
-        except AttributeError:
+        except AttributeError:  # PYCHOK no cover
             try:  # no ellipsoid method, try datum
                 e = other.datum.ellipsoid
             except AttributeError:

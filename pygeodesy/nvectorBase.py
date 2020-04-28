@@ -14,14 +14,15 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import _float, len2, scalar, property_doc_, \
-                              property_RO, _xattrs
+from pygeodesy.basics import len2, property_doc_, property_RO, \
+                            _xattrs
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.fmath import fsum, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Vector3Tuple, Vector4Tuple
+from pygeodesy.units import Height
 from pygeodesy.vector3d import Vector3d, VectorError, \
                                sumOf as _sumOf, _xyzhdn6
 
@@ -32,7 +33,7 @@ __all__ = _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'NvectorBase',  # classes
           'sumOf')  # functions
-__version__ = '20.04.11'
+__version__ = '20.04.21'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -108,7 +109,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @raise VectorError: If B{C{h}} invalid.
         '''
-        h = scalar(h, None, name='h', Error=VectorError)
+        h = Height(h, name='h', Error=VectorError)
         self._update(h != self._h, '_latlon', '_philam')
         self._h = h
 
@@ -239,7 +240,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         x, y, z = self.x, self.y, self.z
 
-        h = self.h if h is None else _float(h=h)
+        h = self.h if h is None else Height(h, name='h')
         d = datum or self.datum
 
         E = d.ellipsoid
@@ -298,7 +299,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         # use self.Cartesian(Cartesian=None) if h == self.h and
         # d == self.datum, for better accuracy of the height
-        h = self.h if height is None else _float(height=height)
+        h = self.h if height is None else Height(height)
         r = self.Ecef(datum or self.datum).forward(self.latlon, height=h, M=True)
         if LatLon is not None:  # class or .classof
             r = LatLon(r.lat, r.lon, r.height, datum=r.datum, **LatLon_kwds)

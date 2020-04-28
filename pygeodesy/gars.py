@@ -16,13 +16,14 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 from pygeodesy.basics import EPS1_2, InvalidError, isstr, property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
-                           _NamedStr, nameof, _xnamed
+from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, nameof, \
+                           _xnamed
+from pygeodesy.units import Precision_, Scalar_, Str
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.04.09'
+__version__ = '20.04.24'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -98,8 +99,8 @@ class GARSError(ValueError):
     pass
 
 
-class Garef(_NamedStr):
-    '''Garef class, a C{_NamedStr}.
+class Garef(Str):
+    '''Garef class, a named C{str}.
     '''
     _latlon    = None  # cached latlon property
     _precision = None
@@ -137,7 +138,7 @@ class Garef(_NamedStr):
                 cll = encode(lat, lon, precision=precision)  # PYCHOK false
                 self = str.__new__(cls, cll)
                 self._latlon = LatLon2Tuple(lat, lon)
-                self._precision = precision
+                self._precision = Precision_(precision, high=_MaxPrec)
             else:
                 self = str.__new__(cls, cll.upper())
                 self._decode()
@@ -150,7 +151,7 @@ class Garef(_NamedStr):
             cll = encode(lat, lon, precision=precision)  # PYCHOK false
             self = str.__new__(cls, cll)
             self._latlon = LatLon2Tuple(lat, lon)
-            self._precision = precision
+            self._precision = Precision_(precision, high=_MaxPrec)
 
         if name:
             self.name = name
@@ -241,13 +242,13 @@ def decode3(garef, center=True):
         if precision > 1:
             lon, lat = _ll2(lon, lat, g, _MinLen + 1, _M3)
 
-    r = _Resolutions[precision]  # == 1.0 / unit
     if center:  # ll = (ll * 2 + 1) / 2
         lon += 0.5
         lat += 0.5
-    lon *= r
-    lat *= r
-    return _xnamed(LatLonPrec3Tuple(lat, lon, precision), nameof(garef))
+
+    r = _Resolutions[precision]  # == 1.0 / unit
+    r = LatLonPrec3Tuple(lat * r, lon * r, precision)
+    return _xnamed(r, nameof(garef))
 
 
 def encode(lat, lon, precision=1):  # MCCABE 14
@@ -311,9 +312,11 @@ def precision(res):
 
        @return: The L{Garef} precision (C{int} 0..2).
 
+       @raise ValueError: Invalid B{C{res}}.
+
        @see: Function L{gars.encode} for more C{precision} details.
     '''
-    r = abs(res)
+    r = Scalar_(res, name='res')
     for p in range(_MaxPrec):
         if resolution(p) <= r:
             return p
@@ -327,9 +330,12 @@ def resolution(prec):
 
        @return: The (geographic) resolution (C{degrees}).
 
+       @raise ValueError: Invalid B{C{prec}}.
+
        @see: Function L{gars.encode} for more C{precision} details.
     '''
-    return _Resolutions[max(0, min(prec, _MaxPrec))]
+    p = Precision_(prec, name='prec', low=None)
+    return _Resolutions[max(0, min(p, _MaxPrec))]
 
 # **) MIT License
 #

@@ -17,22 +17,24 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _float, IsnotError, property_RO, \
-                                  _xinstanceof, _xsubclassof
+from pygeodesy.basics import EPS, PI_2, IsnotError, property_RO, \
+                            _xinstanceof, _xsubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.datum import Datums
+from pygeodesy.datum import Datums, Lam_, Phi_
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import EasNor3Tuple, LatLon2Tuple, LatLon4Tuple, LatLonDatum3Tuple, \
-                           _NamedBase, _NamedEnum, _NamedEnumItem, nameof, PhiLam2Tuple, \
-                           _xnamed
+from pygeodesy.named import EasNor3Tuple, LatLon2Tuple, \
+                            LatLon4Tuple, LatLonDatum3Tuple, \
+                           _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
+                            PhiLam2Tuple, _xnamed  # PYCHOK indent
 from pygeodesy.streprs import fstr
-from pygeodesy.utily import PI_2, degrees90, degrees180, falsed2f, sincos2, tanPI_2_2
+from pygeodesy.units import Easting, Height, Northing, Scalar_
+from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 
 from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.04.11'
+__version__ = '20.04.21'
 
 
 class Conic(_NamedEnumItem):
@@ -91,17 +93,17 @@ class Conic(_NamedEnumItem):
             _xinstanceof(_LLEB, latlon0=latlon0)
             self._phi0, self._lam0 = latlon0.philam
 
-            self._par1 = radians(_float(par1=par1))
-            self._par2 = self._par1 if par2 is None else radians(_float(par2=par2))
+            self._par1 = Phi_(par1, name='par1')
+            self._par2 = self._par1 if par2 is None else Phi_(par2, name='par2')
 
             if k0 != 1:
-                self._k0 = _float(k0=k0)
-            if N0:
-                self._N0 = _float(N0=N0)
+                self._k0 = Scalar_(k0, name='k0')
             if E0:
-                self._E0 = _float(E0=E0)
+                self._E0 = Northing(E0, name='E0', falsed=True)
+            if N0:
+                self._N0 = Easting(N0, name='N0', falsed=True)
             if opt3:
-                self._opt3 = radians(_float(opt3=opt3))
+                self._opt3 = Lam_(opt3, name='opt3')
 
             self.toDatum(latlon0.datum)._dup2(self)
             self._register(Conics, name)
@@ -378,10 +380,10 @@ class Lcc(_NamedBase):
         '''
         _xinstanceof(Conic, conic=conic)
         self._conic = conic
-        self._easting  = falsed2f(easting=e,  falsed=conic.E0 > 0, Error=LCCError)
-        self._northing = falsed2f(northing=n, falsed=conic.N0 > 0, Error=LCCError)
+        self._easting  = Easting(e,  falsed=conic.E0 > 0, Error=LCCError)
+        self._northing = Northing(n, falsed=conic.N0 > 0, Error=LCCError)
         if h:
-            self._height = _float(h=h, Error=LCCError)
+            self._height = Height(h, name='h', Error=LCCError)
         if name:
             self.name = name
 
@@ -491,6 +493,25 @@ class Lcc(_NamedBase):
                   LatLon(lat, lon, height=h, datum=d)
         return self._xnamed(r)
 
+    def toRepr(self, prec=0, fmt='[%s]', sep=', ', m='m', C=False, **unused):  # PYCHOK expected
+        '''Return a string representation of this L{Lcc} position.
+
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg fmt: Optional, enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between name:values (C{str}).
+           @kwarg m: Optional unit of the height, default meter (C{str}).
+           @kwarg C: Optionally, include name of conic and datum (C{bool}).
+
+           @return: This Lcc as "[E:meter, N:meter, H:m, C:Conic.Datum]"
+                   (C{str}).
+        '''
+        t = self.toStr(prec=prec, sep=' ', m=m).split()
+        k = 'ENH'[:len(t)]
+        if C:
+            k += 'C'
+            t += [self.conic.name2]
+        return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
+
     def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
 
@@ -512,25 +533,6 @@ class Lcc(_NamedBase):
         if self._height:
             t += ['%+.2f%s' % (self._height, m)]
         return sep.join(t)
-
-    def toStr2(self, prec=0, fmt='[%s]', sep=', ', m='m', C=False):  # PYCHOK expected
-        '''Return a string representation of this L{Lcc} position.
-
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional, enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between name:values (C{str}).
-           @kwarg m: Optional unit of the height, default meter (C{str}).
-           @kwarg C: Optionally, include name of conic and datum (C{bool}).
-
-           @return: This Lcc as "[E:meter, N:meter, H:m, C:Conic.Datum]"
-                   (C{str}).
-        '''
-        t = self.toStr(prec=prec, sep=' ', m=m).split()
-        k = 'ENH'[:len(t)]
-        if C:
-            k += 'C'
-            t += [self.conic.name2]
-        return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
 
 
 def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name='',

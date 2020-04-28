@@ -11,18 +11,19 @@ C{height} and C{radius}.  See also U{World Geographic Reference System
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 '''
 
-from pygeodesy.basics import EPS1_2, InvalidError, IsnotError,\
+from pygeodesy.basics import EPS1_2, InvalidError, IsnotError, \
                              isstr, property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
-                            LatLonPrec5Tuple, _NamedStr
+                            LatLonPrec5Tuple
+from pygeodesy.units import Height, Precision_, Scalar_, Str
 from pygeodesy.utily import ft2m, m2ft, _MISSING, m2NM
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.04.12'
+__version__ = '20.04.24'
 
 _Base    = 10
 _BaseLen = 4
@@ -83,8 +84,8 @@ class WGRSError(ValueError):
     pass
 
 
-class Georef(_NamedStr):
-    '''Georef class, a C{_NamedStr}.
+class Georef(Str):
+    '''Georef class, a named c{str}.
     '''
     _height    = _MISSING  # meter
     _latlon    =  None  # cached latlon property
@@ -111,6 +112,8 @@ class Georef(_NamedStr):
 
            @raise WGRSError: INValid or non-alphanumeric B{C{cll}}.
         '''
+        h = None
+
         if isinstance(cll, Georef):
             g, p = _2geostr2(str(cll))
             self = str.__new__(cls, g)
@@ -124,9 +127,7 @@ class Georef(_NamedStr):
                 g = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
                 self = str.__new__(cls, g)
                 self._latlon = LatLon2Tuple(lat, lon)
-                self._precision = precision
-                if h not in (None, _MISSING):
-                    self._height = h
+                self._precision = Precision_(precision, high=_MaxPrec)
             else:
                 self = str.__new__(cls, cll.upper())
                 self._decode()
@@ -140,10 +141,10 @@ class Georef(_NamedStr):
             g = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
             self = str.__new__(cls, g)
             self._latlon = LatLon2Tuple(lat, lon)
-            self._precision = precision
-            if h not in (None, _MISSING):
-                self._height = h
+            self._precision = Precision_(precision, high=_MaxPrec)
 
+        if h not in (None, _MISSING):
+            self._height = Height(h)
         if name:
             self.name = name
         return self
@@ -292,7 +293,8 @@ def decode5(georef, center=True):
             try:
                 return g[:i], _2m(int(g[i+1:]))
             except (IndexError, ValueError):
-                raise InvalidError(Error=WGRSError, **{name: georef})
+                pass  # avoids nested exceptions
+            raise InvalidError(Error=WGRSError, **{name: georef})
         return g, None
 
     try:
@@ -333,23 +335,13 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
               M{10**(2 - precision)}.
     '''
     def _option(name, m, m2_, K):
-        try:
-            f = m2_(float(m) * K)
-            if f < 0:
-                raise ValueError
-        except (TypeError, ValueError):
-            raise InvalidError(Error=WGRSError, **{name: m})
-        return '%s%d' % (name[0], int(f + 0.5))
+        f = Scalar_(m, name=name, Error=WGRSError)
+        return '%s%d' % (name[0].upper(), int(m2_(f * K) + 0.5))
 
     def _pstr(p, x):
         return '%0*d' % (p, x)
 
-    try:
-        p = int(precision)
-        if p < 0 or p > _MaxPrec:
-            raise ValueError
-    except (TypeError, ValueError):
-        raise InvalidError(precision=precision, Error=WGRSError)
+    p = Precision_(precision, Error=WGRSError, low=0, high=_MaxPrec)
 
     lat, lon, _ = _2fllh(lat, lon)
     if lat == 90:
@@ -369,9 +361,9 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
             g += x, y
 
     if radius is not None:  # R before H
-        g += _option('Radius', radius, m2NM, 1.0),
+        g += _option('radius', radius, m2NM, 1.0),
     if height is not None:  # H is last
-        g += _option('Height', height, m2ft, 1e-3),
+        g += _option('height', height, m2ft, 1e-3),
 
     return ''.join(g)
 
@@ -384,9 +376,11 @@ def precision(res):
 
        @return: The L{Georef} precision (C{int} 0..11).
 
+       @raise ValueError: Invalid B{C{res}}.
+
        @see: Function L{wgrs.encode} for more C{precision} details.
     '''
-    r = abs(res)
+    r = Scalar_(res, name='res')
     for p in range(_MaxPrec):
         if resolution(p) <= r:
             return p
@@ -400,14 +394,17 @@ def resolution(prec):
 
        @return: The (geographic) resolution (C{degrees}).
 
+       @raise ValueError: Invalid B{C{prec}}.
+
        @see: Function L{wgrs.encode} for more C{precision} details.
     '''
-    if prec < 1:
+    p = Precision_(prec, name='prec', low=None)
+    if p < 1:
         r = float(_Tile)
-    elif prec == 1:
+    elif p == 1:
         r = 1.0
     else:
-        r = 1.0 / (60.0 * pow(_Base, min(prec, _MaxPrec) - 1))
+        r = 1.0 / (60.0 * pow(_Base, min(p, _MaxPrec) - 1))
     return r
 
 # **) MIT License

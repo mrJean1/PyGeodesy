@@ -12,7 +12,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _float, IsnotError, \
+from pygeodesy.basics import EPS, PI, PI2, PI_2, IsnotError, \
                              property_doc_, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import R_M, R_MA, Datum, Datums
@@ -23,16 +23,16 @@ from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Bearing2Tuple
 from pygeodesy.nvectorBase import NvectorBase
-from pygeodesy.utily import PI, PI2, PI_2, \
-                            degrees90, degrees180, degrees360, \
-                            sincos2d, tanPI_2_2, wrapPI
+from pygeodesy.units import Bearing_, Distance, Height, Radius, Radius_
+from pygeodesy.utily import degrees90, degrees180, degrees360, \
+                            sincos2, tanPI_2_2, wrapPI
 
-from math import atan2, cos, hypot, log, radians, sin
+from math import atan2, cos, hypot, log, sin
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianSphericalBase', 'LatLonSphericalBase')
-__version__ = '20.04.11'
+__version__ = '20.04.21'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -40,7 +40,7 @@ def _angular(distance, radius):  # PYCHOK for export
 
        @raise ValueError: Invalid B{C{distance}} or B{C{radius}}.
     '''
-    return _float(distance=distance) / _float(radius=radius)
+    return Distance(distance) / Radius_(radius)
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -162,8 +162,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @JSname: I{maxLatitude}.
         '''
-        b = _float(bearing=bearing)
-        m = acos1(abs(sin(radians(b)) * cos(self.phi)))
+        m = acos1(abs(sin(Bearing_(bearing)) * cos(self.phi)))
         return degrees90(m)
 
     def minLat(self, bearing):
@@ -196,7 +195,7 @@ class LatLonSphericalBase(LatLonBase):
            in module L{dms}.
 
            @arg strll: Lat, lon [, height] (C{str}).
-           @kwarg height: Optional , default height (C{meter}).
+           @kwarg height: Optional, default height (C{meter}).
            @kwarg sep: Optional separator (C{str}).
 
            @return: The point (spherical C{LatLon}).
@@ -266,7 +265,7 @@ class LatLonSphericalBase(LatLonBase):
         r = _angular(distance, radius)
 
         a1, b1 = self.philam
-        sb, cb = sincos2d(_float(bearing=bearing))
+        sb, cb = sincos2(Bearing_(bearing))
 
         da = r * cb
         a2 = a1 + da
@@ -281,7 +280,7 @@ class LatLonSphericalBase(LatLonBase):
         q  = (da / dp) if abs(dp) > EPS else cos(a1)
         b2 = (b1 + r * sb / q) if abs(q) > EPS else b1
 
-        h = self.height if height is None else _float(height=height)
+        h = self.height if height is None else Height(height)
         return self.classof(degrees90(a2), degrees180(b2), height=h)
 
     def rhumbDistanceTo(self, other, radius=R_M):
@@ -311,7 +310,7 @@ class LatLonSphericalBase(LatLonBase):
         # conditioned along E-W line (0/0); use an empirical
         # tolerance to avoid it
         q = (da / dp) if abs(dp) > EPS else cos(self.phi)
-        return hypot(da, q * db) * _float(radius=radius)
+        return hypot(da, q * db) * Radius(radius)
 
     def rhumbMidpointTo(self, other, height=None):
         '''Return the (loxodromic) midpoint between this and
@@ -356,7 +355,7 @@ class LatLonSphericalBase(LatLonBase):
                     b3 = fsum_(b1 * log(f2),
                               -b2 * log(f1), (b2 - b1) * log(f3)) / f
 
-        h = self._havg(other) if height is None else _float(height=height)
+        h = self._havg(other) if height is None else Height(height)
         return self.classof(degrees90(a3), degrees180(b3), height=h)
 
     def toNvector(self, Nvector=NvectorBase, **Nvector_kwds):  # PYCHOK signature

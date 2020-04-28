@@ -20,21 +20,21 @@ each end).
 
 from pygeodesy.basics import EPS, InvalidError, property_RO, RangeError
 from pygeodesy.datum import Datums, _TOL
-from pygeodesy.dms import clipDMS, degDMS, parseDMS2, _parseUTMUPS
+from pygeodesy.dms import clipDegrees, degDMS, parseDMS2, _parseUTMUPS
 from pygeodesy.fmath import hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
-                            UtmUpsLatLon5Tuple, _xnamed
+from pygeodesy.named import EasNor2Tuple, _xnamed
 from pygeodesy.utily import degrees90, degrees180, sincos2d
 from pygeodesy.utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
                                  _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
-                                 _UPS_ZONE_STR, UtmUpsBase
+                                 _UPS_ZONE_STR, UtmUpsBase, UtmUps5Tuple, \
+                                  UtmUps8Tuple, UtmUpsLatLon5Tuple  # PYCHOK indent
 
 from math import atan, atan2, radians, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '20.04.09'
+__version__ = '20.04.22'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = 2000e3  #: (INTERNAL) False easting and northing (C{meter}).
@@ -103,8 +103,7 @@ class Ups(UtmUpsBase):
             if z != _UPS_ZONE or (B and B not in _Bands):
                 raise ValueError
         except ValueError:
-            raise UPSError('%s, %s or %s invalid: %r' %
-                           ('zone', 'pole', 'band', (zone, pole, band)))
+            raise InvalidError(zone=zone, pole=pole, band=band, Error=UPSError)
         self._pole = p
         UtmUpsBase.__init__(self, easting, northing, band=B, datum=datum, falsed=falsed,
                                                      convergence=convergence, scale=scale)
@@ -173,7 +172,7 @@ class Ups(UtmUpsBase):
         except (TypeError, ValueError):
             raise InvalidError(scale0=scale0, Error=UPSError)
 
-        lat = clipDMS(lat, 90)  # clip and force N
+        lat = clipDegrees(lat, 90)  # clip and force N
         u = toUps8(abs(lat), 0, datum=self.datum, Ups=_UpsK1)
         k = s0 / u.scale
         if self.scale0 != k:
@@ -243,35 +242,11 @@ class Ups(UtmUpsBase):
             self._mgrs = self.toUtm(None).toMgrs()  # via .toUtm
         return self._mgrs
 
-    def toStr(self, prec=0, sep=' ', B=False, cs=False):  # PYCHOK expected
+    def toRepr(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False, **unused):  # PYCHOK expected
         '''Return a string representation of this UPS coordinate.
 
-           Note that UPS coordinates are rounded, not truncated
-           (unlike MGRS grid references).
-
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg sep: Optional separator to join (C{str}).
-           @kwarg B: Optionally, include and polar band letter (C{bool}).
-           @kwarg cs: Optionally, include gamma meridian convergence and
-                      point scale factor (C{bool}).
-
-           @return: This UPS as a string with C{00[Band] pole, easting,
-                    northing, [convergence, scale]} as C{"00[B] N|S
-                    meter meter"} plus C{" DMS float"} if B{C{cs}} is C{True},
-                    where C{[Band]} is present and C{'A'|'B'|'Y'|'Z'} only
-                    if B{C{B}} is C{True} and convergence C{DMS} is in
-                    I{either} degrees, minutes I{or} seconds (C{str}).
-
-           @note: Zone zero (C{"00"}) for UPS follows Karney's U{zone UPS
-                  <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
-        '''
-        return self._toStr4_6(self.pole, B, cs, prec, sep)  # PYCHOK pole
-
-    def toStr2(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False):  # PYCHOK expected
-        '''Return a string representation of this UPS coordinate.
-
-           Note that UPS coordinates are rounded, not truncated
-           (unlike MGRS grid references).
+           Note that UPS coordinates are rounded, not truncated (unlike
+           MGRS grid references).
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
            @kwarg fmt: Optional, enclosing backets format (C{str}).
@@ -291,7 +266,34 @@ class Ups(UtmUpsBase):
            @note: Pseudo zone zero (C{"00"}) for UPS follows Karney's U{zone UPS
                   <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
         '''
-        return self._toStr2(prec=prec, fmt=fmt, sep=sep, B=B, cs=cs)
+        return self._toRepr(prec=prec, fmt=fmt, sep=sep, B=B, cs=cs, **unused)
+
+    toStr2 = toRepr  # PYCHOK for backward compatibility
+    '''DEPRECATED, use method L{Ups.toRepr}.'''
+
+    def toStr(self, prec=0, sep=' ', B=False, cs=False):  # PYCHOK expected
+        '''Return a string representation of this UPS coordinate.
+
+           Note that UPS coordinates are rounded, not truncated (unlike
+           MGRS grid references).
+
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg B: Optionally, include and polar band letter (C{bool}).
+           @kwarg cs: Optionally, include gamma meridian convergence and
+                      point scale factor (C{bool}).
+
+           @return: This UPS as a string with C{00[Band] pole, easting,
+                    northing, [convergence, scale]} as C{"00[B] N|S
+                    meter meter"} plus C{" DMS float"} if B{C{cs}} is C{True},
+                    where C{[Band]} is present and C{'A'|'B'|'Y'|'Z'} only
+                    if B{C{B}} is C{True} and convergence C{DMS} is in
+                    I{either} degrees, minutes I{or} seconds (C{str}).
+
+           @note: Zone zero (C{"00"}) for UPS follows Karney's U{zone UPS
+                  <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
+        '''
+        return self._toStr(self.pole, B, cs, prec, sep)  # PYCHOK pole
 
     def toUps(self, pole='', **unused):
         '''Duplicate this UPS coordinate.

@@ -5,11 +5,12 @@ u'''Test Elliptic Python implementation.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.03.10'
+__version__ = '20.04.19'
 
 from base import TestsBase
 
-from pygeodesy import elliptic, EllipticError, EPS, fstr, PI_2, PI_4, radians, sincos2
+from pygeodesy import elliptic, EllipticError, EPS, fstr, \
+                      PI_2, PI_4, radians, Scalar, sincos2
 
 
 class Tests(TestsBase):
@@ -120,10 +121,13 @@ class Tests(TestsBase):
 
         self.testCopy(e)
 
-        for t in range(4):  # coverage
-            t = (t / 4.0,) * 4
+        for f in range(4):  # coverage
+            t = (f / 4.0,) * 4
             e = elliptic.Elliptic(*t)
-            self.test('k2, alpha2, kp2, alphap2', (e.k2, e.alpha2, e.kp2, e.alphap2), t)
+            s = 'k2 alpha2 kp2 alphap2'
+            e = tuple(getattr(e, a) for a in s.split())
+            t = tuple(Scalar(f, name=n) for n, f in zip(s.split(), t))
+            self.test(s, e, t)
 
 
 if __name__ == '__main__':

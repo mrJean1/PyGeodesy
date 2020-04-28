@@ -4,7 +4,7 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '20.03.20'
+__version__ = '20.04.24'
 
 from base import TestsBase
 
@@ -17,8 +17,10 @@ class Tests(TestsBase):
         cn = classname(LL(0, 0))
 
         g = Geohash('geek')
-        self.test('Geohash', repr(g), "Geohash('geek')")
-        self.test('Geohash', g, 'geek')
+        self.test('Geohash', str(g), 'geek')
+        self.test('Geohash', g.toStr(), 'geek')
+        self.test('Geohash', repr(g), "'geek'")  # std_repr
+        self.test('Geohash', g.toRepr(), "Geohash('geek')")
         self.test('Geohash', Geohash(g), 'geek')
         self.test('bounds', g.bounds(LL), '(%s(65°23′26.25″N, 017°55′46.88″W), %s(65°33′59.06″N, 017°34′41.25″W))' % (cn, cn))
         self.test('toLatLon', g.toLatLon(LL), '65.478516°N, 017.753906°W')

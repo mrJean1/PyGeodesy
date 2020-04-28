@@ -4,11 +4,11 @@
 # Test gars module.
 
 __all__ = ('Tests',)
-__version__ = '20.01.18'
+__version__ = '20.01.22'
 
 from base import TestsBase
 
-from pygeodesy import degDMS, fStr, gars, Garef, S_MIN
+from pygeodesy import degDMS, fstr, gars, Garef, S_MIN
 
 
 class Tests(TestsBase):
@@ -16,7 +16,7 @@ class Tests(TestsBase):
     def testCodec3(self, g, x, prec=4):
         self.test('codec3', Garef(g), g)
         t = gars.decode3(g)
-        self.test('decode3', fStr(t, prec=prec), x)
+        self.test('decode3', fstr(t, prec=prec), x)
         self.test('encode', gars.encode(*t), g)
 
     def testGars(self, LL):
@@ -25,11 +25,14 @@ class Tests(TestsBase):
         # <https://SourceForge.net/p/geographiclib/code/ci/release/tree/examples/example-GARS.cpp>
         g = Garef('57.64911, 10.40744', precision=2)
         self.test('Garef', g, '381NH45')
-        self.test('Garef', repr(g), "Garef('381NH45')")
+        self.test('Garef', g.toStr(), '381NH45')
+        self.test('Garef', g.toRepr(), "Garef('381NH45')")
+        self.test('Garef', g.toRepr(std=True), "'381NH45'")
+        self.test_('Garef', repr(g), "Garef('381NH45')", "'381NH45'")  # PYGEODESY_NAMEDSTR_REPR
         self.test('Garef.precision', g.precision, 2)
         self.testCopy(g)
 
-        self.test('Garef.latlon', fStr(g.latlon, prec=5), '57.64911, 10.40744')
+        self.test('Garef.latlon', fstr(g.latlon, prec=5), '57.64911, 10.40744')
         t = g.toLatLon(LL)
         self.test('Garef.toLatLon', repr(t), 'LatLon(57°38′56.8″N, 010°24′26.78″E)')
         self.testCodec3(g, '57.625, 10.375, 2.0', prec=4)

@@ -39,13 +39,14 @@ from pygeodesy.datum import Datums
 from pygeodesy.dms import degDMS, parseDMS2, _parseUTMUPS
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import EasNor2Tuple, UtmUps5Tuple, UtmUps8Tuple, \
-                            UtmUpsLatLon5Tuple, _xnamed
+from pygeodesy.named import EasNor2Tuple, _xnamed
 from pygeodesy.utily import degrees90, degrees180, sincos2  # splice
 from pygeodesy.utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
                                  _UTM_LAT_MAX, _UTM_LAT_MIN, \
                                  _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
-                                 _UTM_ZONE_OFF_MAX, UtmUpsBase
+                                 _UTM_ZONE_OFF_MAX, UtmUpsBase, \
+                                  UtmUps5Tuple, UtmUps8Tuple, \
+                                  UtmUpsLatLon5Tuple  # PYCHOK indent
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
                  degrees, radians, sin, sinh, tan, tanh
@@ -53,7 +54,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '20.04.11'
+__version__ = '20.04.28'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -179,7 +180,7 @@ def _to3zBll(lat, lon, cmoff=True):
     '''
     z, lat, lon = _to3zll(lat, lon)  # in .utmupsBase
 
-    if _UTM_LAT_MIN > lat or lat >= _UTM_LAT_MAX:  # [-80, 84)
+    if _UTM_LAT_MIN > lat or lat >= _UTM_LAT_MAX:  # [-80, 84) like Veness
         x = '%s [%s, %s)' % ('range', _UTM_LAT_MIN, _UTM_LAT_MAX)
         raise RangeError('%s outside UTM %s: %s' % ('lat', x, degDMS(lat)))
     B = _Bands[int(lat + 80) >> 3]
@@ -269,7 +270,7 @@ class Utm(UtmUpsBase):
         if h not in ('N', 'S'):
             raise InvalidError(hemisphere=hemisphere, Error=self._Error)
 
-        e, n = easting, northing  # _float(easting=easting), ...
+        e, n = easting, northing  # Easting(easting), ...
 #       if not falsed:
 #           e, n = _false2(e, n, h)
 #       # check easting/northing (with 40km overlap
@@ -294,7 +295,7 @@ class Utm(UtmUpsBase):
                                       and other.datum      == self.datum
 
     def __repr__(self):
-        return self.toStr2(B=True)
+        return self.toRepr(B=True)
 
     def __str__(self):
         return self.toStr()
@@ -456,14 +457,36 @@ class Utm(UtmUpsBase):
             self._mgrs = toMgrs(self, name=self.name)
         return self._mgrs
 
+    def toRepr(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False, **unused):  # PYCHOK expected
+        '''Return a string representation of this UTM coordinate.
+
+           Note that UTM coordinates are rounded, not truncated (unlike
+           MGRS grid references).
+
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg fmt: Optional, enclosing backets format (C{str}).
+           @kwarg sep: Optional separator between name:value pairs (C{str}).
+           @kwarg B: Optionally, include latitudinal band (C{bool}).
+           @kwarg cs: Optionally, include meridian convergence and grid
+                      scale factor (C{bool}).
+
+           @return: This UTM as a string C{"[Z:09[band], H:N|S, E:meter,
+                    N:meter]"} plus C{", C:degrees, S:float"} if B{C{cs}} is
+                    C{True} (C{str}).
+        '''
+        return self._toRepr(prec=prec, fmt=fmt, sep=sep, B=B, cs=cs, **unused)
+
+    toStr2 = toRepr  # PYCHOK for backward compatibility
+    '''DEPRECATED, use method L{Utm.toRepr}.'''
+
     def toStr(self, prec=0, sep=' ', B=False, cs=False):  # PYCHOK expected
         '''Return a string representation of this UTM coordinate.
 
-           To distinguish from MGRS grid zone designators, a
-           space is left between the zone and the hemisphere.
+           To distinguish from MGRS grid zone designators, a space is
+           left between the zone and the hemisphere.
 
-           Note that UTM coordinates are rounded, not truncated
-           (unlike MGRS grid references).
+           Note that UTM coordinates are rounded, not truncated (unlike
+           MGRS grid references).
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
            @kwarg sep: Optional separator to join (C{str}).
@@ -483,26 +506,7 @@ class Utm(UtmUpsBase):
            >>> u.toStr(sep=', ')  # 03 N, 448251, 5411932
         '''
 
-        return self._toStr4_6(self.hemisphere, B, cs, prec, sep)
-
-    def toStr2(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False):  # PYCHOK expected
-        '''Return a string representation of this UTM coordinate.
-
-           Note that UTM coordinates are rounded, not truncated
-           (unlike MGRS grid references).
-
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional, enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between name:value pairs (C{str}).
-           @kwarg B: Optionally, include latitudinal band (C{bool}).
-           @kwarg cs: Optionally, include meridian convergence and grid
-                      scale factor (C{bool}).
-
-           @return: This UTM as a string C{"[Z:09[band], H:N|S, E:meter,
-                    N:meter]"} plus C{", C:degrees, S:float"} if B{C{cs}} is
-                    C{True} (C{str}).
-        '''
-        return self._toStr2(prec=prec, fmt=fmt, sep=sep, B=B, cs=cs)
+        return self._toStr(self.hemisphere, B, cs, prec, sep)
 
     def toUps(self, pole='', eps=EPS, falsed=True, **unused):
         '''Convert this UTM coordinate to a UPS coordinate.
@@ -674,14 +678,14 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name='',
     # scale: Karney 2011 Eq 25
     k = E.e2s(sin(a)) * T12 / H * (A0 / E.a * hypot(p_, q_))
 
-    t = z, lat, x, y, B, d, c, k, f
-    return _toXtm8(Utm, t, name, latlon, EPS)
+    return _toXtm8(Utm, z, lat, x, y,
+                        B, d, c, k, f, name, latlon, EPS)
 
 
-def _toXtm8(Xtm, zlxyBdckf, name, latlon, eps):
+def _toXtm8(Xtm, z, lat, x, y,  # PYCHOK 13 args
+                 B, d, c, k, f, name, latlon, eps):
     '''(INTERNAL) Helper for L{toEtm8} and L{toUtm8}.
     '''
-    z, lat, x, y, B, d, c, k, f = zlxyBdckf
     h = _hemi(lat)
     if f:
         x, y = _false2(x, y, h)

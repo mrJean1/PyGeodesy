@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.10'
+__version__ = '20.04.22'
 
 from base import TestsBase
 
@@ -34,6 +34,7 @@ class Tests(TestsBase):
         u = ll.toUtmUps()
         self.test('LL.toUtmUps', u, '60 N 360177 4838249')
         self.test('LL.toUtmUps', u.toStr(prec=3), '60 N 360176.686 4838249.416')
+        self.test('LL.toUtmUps', u.toRepr(B=True, cs=True), '[Z:60T, H:N, E:360177, N:4838249, C:-1.19839167°, S:0.99984048]')
         self.test('LL.toUtmUps', u.toStr2(B=True, cs=True), '[Z:60T, H:N, E:360177, N:4838249, C:-1.19839167°, S:0.99984048]')
         self.test('LL.toUtmUps.ValidateOK', utmupsValidateOK(u), OK)
 
@@ -145,6 +146,7 @@ class Tests(TestsBase):
         u = ll.toUtmUps()
         self.test('LL.toUtmUps', u, '60 N 360177 4838249')
         self.test('LL.toUtmUps', u.toStr(prec=3), '60 N 360176.691 4838249.422')
+        self.test('LL.toUtmUps', u.toRepr(B=True, cs=True), '[Z:60T, H:N, E:360177, N:4838249, C:-1.19839163°, S:0.99984048]')
         self.test('LL.toUtmUps', u.toStr2(B=True, cs=True), '[Z:60T, H:N, E:360177, N:4838249, C:-1.19839163°, S:0.99984048]')
         self.test('LL.toUtmUps.ValidateOK', utmupsValidateOK(u), OK)
         self.test('toMgrs', u.toMgrs(), '60T UP 60176 38249')
@@ -156,6 +158,7 @@ class Tests(TestsBase):
         self.test('latlon9', ll, ll)
         u = ll.toUtmUps()
         self.test('LL.toUtmUps', u, '18 N 516620 4574500')
+        self.test('LL.toUtmUps', u.toRepr(B=True, cs=True), '[Z:18T, H:N, E:516620, N:4574500, C:+7.86748851′, S:0.9996034]')
         self.test('LL.toUtmUps', u.toStr2(B=True, cs=True), '[Z:18T, H:N, E:516620, N:4574500, C:+7.86748851′, S:0.9996034]')
         self.test('LL.toUtmUps.ValidateOK', utmupsValidateOK(u), OK)
         self.test('toMgrs', u.toMgrs(), '18T WL 16619 74500')
@@ -179,11 +182,17 @@ class Tests(TestsBase):
         self.test('LL.toUtmUps', u, '27 S 316807 4044745')
         self.test('LL.toUtmUps.ValidateOK', utmupsValidateOK(u), OK)
         self.test('LL.toUtmUps', u.toStr(prec=3), '27 S 316807.326 4044744.532')
+        self.test('LL.toUtmUps', u.toRepr(B=True, cs=True), '[Z:27F, H:S, E:316807, N:4044745, C:+2.23830171°, S:1.00001184]')
         self.test('LL.toUtmUps', u.toStr2(B=True, cs=True), '[Z:27F, H:S, E:316807, N:4044745, C:+2.23830171°, S:1.00001184]')
 
         u = UtmUps(0, 'N', 400000, 5000000, falsed=False)
         self.test('UtmUps', u.toStr(B=True), '00Z N 400000 5000000')
         self.test('UtmUps.ValidateOK', utmupsValidateOK(u), OK)
+
+        u = parseUTMUPS5('31X N 446000,8436100', Utm=None, Ups=None)  # Svalbard
+        self.test('parseUTMUPS5', u, "(31, 'N', 446000.0, 8436100.0, 'X')")
+        u = parseUTMUPS5('00A S 506346 1057743', Utm=None, Ups=None)
+        self.test('parseUTMUPS5', u, "(0, 'S', 506346.0, 1057743.0, 'A')")
 
 
 if __name__ == '__main__':

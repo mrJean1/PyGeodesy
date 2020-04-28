@@ -4,7 +4,7 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '20.03.30'
+__version__ = '20.04.22'
 
 from base import TestsBase
 
@@ -59,7 +59,7 @@ class Tests(TestsBase):
 
         self.test('heightOf0',   heightOf(0,   R_M), 2638958.23912, fmt='%.5f')
         self.test('heightOf45',  heightOf(45,  R_M), 5401080.43931, fmt='%.5f')
-        self.test('heightOf90',  heightOf(90,  R_M), R_M)
+        self.test('heightOf90',  heightOf(90,  R_M), R_M,           fmt='%.5f')  # Height
         self.test('heightOf135', heightOf(135, R_M), 5401080.43931, fmt='%.5f')
 
         self.test('horizon0',     horizon(0), 0.0)

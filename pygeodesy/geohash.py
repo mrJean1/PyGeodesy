@@ -16,24 +16,25 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, _float, InvalidError, IsnotError, \
-                             isstr, map2, property_RO
+from pygeodesy.basics import EPS, R_M, IsnotError, isstr, map2, property_RO
 from pygeodesy.dms import parse3llh, parseDMS2
 from pygeodesy.fmath import favg
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
-                           _NamedStr, Neighbors8Dict
+                           _NamedDict
 from pygeodesy.streprs import fstr
+from pygeodesy.units import Precision_, Radius, Scalar_, Str
 from pygeodesy.utily import unrollPI
 
 from math import ldexp, log10, radians
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.geohash + ('bounds',  # functions
+__all__ = _ALL_LAZY.geohash + _ALL_DOCS('Neighbors8Dict') + (
+          'bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '20.04.11'
+__version__ = '20.04.24'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -121,8 +122,8 @@ class GeohashError(ValueError):
     pass
 
 
-class Geohash(_NamedStr):
-    '''Geohash class, a L{_NamedStr}.
+class Geohash(Str):
+    '''Geohash class, a named C{str}.
     '''
     _bounds = None  # cached bounds property
     _latlon = None  # cached latlon property
@@ -319,7 +320,7 @@ class Geohash(_NamedStr):
         a2, b2 = other.ab
 
         db, _ = unrollPI(b1, b2, wrap=wrap)
-        return haversine_(a2, a1, db) * _float(radius=radius)
+        return haversine_(a2, a1, db) * Radius(radius)
 
     @property_RO
     def latlon(self):
@@ -442,6 +443,18 @@ class Geohash(_NamedStr):
         '''Get the cell SouthWest of this (L{Geohash}).
         '''
         return self.S.W
+
+
+class Neighbors8Dict(_NamedDict):  # replacing Neighbors8Dict
+    '''8-Dict C{(N, NE, E, SE, S, SW, W, NW)} of L{Geohash}es,
+       providing key I{and} attribute access to the items.
+    '''
+    _Keys_ = ('N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW')
+
+    def __init__(self, **kwds):  # PYCHOK no *args
+        d = dict((k, None) for k in self._Keys_)
+        d.update(kwds)
+        _NamedDict.__init__(self, **d)  # name=...
 
 
 def bounds(geohash, LatLon=None, **LatLon_kwds):
@@ -635,14 +648,7 @@ def encode(lat, lon, precision=None):
     '''
     lat, lon = _2fll(lat, lon)
 
-    if precision:
-        try:
-            p = int(precision)
-            if not 0 < p <= _MaxPrec:
-                raise ValueError
-        except (TypeError, ValueError):
-            raise InvalidError(precision=precision, Error=GeohashError)
-    else:
+    if precision is None:
         # Infer precision by refining geohash until
         # it matches precision of supplied lat/lon.
         for p in range(1, _MaxPrec + 1):
@@ -652,6 +658,8 @@ def encode(lat, lon, precision=None):
                abs(lon - ll[1]) < EPS:
                 return gh
         p = _MaxPrec
+    else:
+        p = Precision_(precision, Error=GeohashError, low=1, high=_MaxPrec)
 
     s, w, n, e = _Bounds4
 
@@ -712,12 +720,15 @@ def precision(res1, res2=None):
 
        @return: The L{Geohash} precision or length (C{int} 1..12).
 
+       @raise ValueError: Invalid B{C{res1}} or B{C{res2}}.
+
        @see: C++ class U{Geohash
              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html>}.
     '''
-    r2 = abs(res1), abs(res1 if res2 is None else res2)
+    r1 = Scalar_(res1, name='res1')
+    r2 = r1 if res2 is None else Scalar_(res2, name='res2')
     for p in range(1, _MaxPrec):
-        if resolution2(p, None if res2 is None else p) <= r2:
+        if resolution2(p, None if res2 is None else p) <= (r1, r2):
             return p
     return _MaxPrec
 
@@ -735,19 +746,20 @@ def resolution2(prec1, prec2=None):
                 (C{degrees}) where C{res2} is C{res1} if no I{prec2} is
                 given.
 
+       @raise ValueError: Invalid B{C{prec1}} or B{C{prec2}}.
+
        @see: C++ class U{Geohash
              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html>}.
     '''
     res1, res2 = 360.0, 180.0
 
     if prec1:
-        p = 5 * max(0, min(int(prec1), _MaxPrec))
-        res1 = ldexp(res1, -(p - p // 2))
+        p = 5 * max(0, min(Precision_(prec1, name='prec1', low=None), _MaxPrec))
+        res1 = res2 = ldexp(res1, -(p - p // 2))
+
     if prec2:
-        p = 5 * max(0, min(int(prec2), _MaxPrec))
+        p = 5 * max(0, min(Precision_(prec2, name='prec2', low=None), _MaxPrec))
         res2 = ldexp(res2, -(p // 2))
-    elif prec2 is None:
-        res2 = res1
 
     return res1, res2
 

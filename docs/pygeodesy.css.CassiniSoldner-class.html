@@ -234,9 +234,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">**unused</span>)</span><br />
       Return a string representation of this projection.</td>
           <td align="right" valign="top">
             
@@ -253,8 +253,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.css.CassiniSoldner-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">**unused</span>)</span><br />
       Return a string representation of this projection.</td>
           <td align="right" valign="top">
             
@@ -276,7 +278,8 @@
       <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -491,7 +494,7 @@
         <li><strong class="pname"><code>lon</code></strong> - Longitude of the location (<code>degrees180</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <a href="pygeodesy.named.EasNorAziRk4Tuple-class.html" 
+        <dd>An <a href="pygeodesy.css.EasNorAziRk4Tuple-class.html" 
           class="link">EasNorAziRk4Tuple</a><code>(easting, northing, 
           azimuth, reciprocal)</code>.</dd>
   </dl>
@@ -662,7 +665,7 @@
         <li><strong class="pname"><code>northing</code></strong> - Northing of the location (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.LatLonAziRk4Tuple-class.html" 
+        <dd>A <a href="pygeodesy.css.LatLonAziRk4Tuple-class.html" 
           class="link">LatLonAziRk4Tuple</a><code>(lat, lon, azimuth, 
           reciprocal)</code>.</dd>
   </dl>
@@ -676,6 +679,37 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="toRepr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">**unused</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a string representation of this projection.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>This projection as <code>&quot;&lt;classname&gt;(lat0, lon0, 
+          ...)&quot;</code> (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <a name="toStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -685,7 +719,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">**unused</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -710,36 +745,6 @@
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="toStr2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return a string representation of this projection.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>This projection as <code>&quot;&lt;classname&gt;(lat0, lon0, 
-          ...)&quot;</code> (<code>str</code>).</dd>
-    <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toStr2">named._Named.toStr2</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -941,7 +946,7 @@ class="link">LatLon4Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr 14 11:55:12 2020
+    Generated by Epydoc 3.0.1 on Mon Apr 27 20:51:13 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

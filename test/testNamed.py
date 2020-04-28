@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.04.14'
+__version__ = '20.04.22'
 
 from base import PyGeodesy_dir, isiOS, TestsBase
 from pygeodesy import Datums, named
@@ -29,21 +29,6 @@ class Tests(TestsBase):
 
     def testBases(self):
         self.subtitle(named, 'ing %s ' % ('bases',))
-
-        nf = named._NamedFloat(3.14, name='Float')
-        self.test('nf.name', nf.name, 'Float')
-        self.test('nf.str ', str(nf), '3.14')
-        self.test('nf.repr', repr(nf), 'Float(3.14)')
-
-        ni = named._NamedInt(0, name='Int')
-        self.test('ni.name', ni.name, 'Int')
-        self.test('ni.str ', str(ni), '0')
-        self.test('ni.repr', repr(ni), 'Int(0)')
-
-        ns = named._NamedStr('test', name='Str')
-        self.test('ns.name', ns.name, 'Str')
-        self.test('ns.str ', str(ns), 'test')
-        self.test('ns.repr', repr(ns), "Str('test')")
 
         nd = named._NamedDict({'1': 1, '2': 2}, name='test')
         self.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
@@ -217,7 +202,10 @@ if __name__ == '__main__':
     from glob import glob
     import os.path as os_path
 
-    from pygeodesy import clipy, ecef, elliptic, frechet, hausdorff
+    from pygeodesy import clipy, css, datum, ecef, elevations, \
+                          ellipsoidalNvector, elliptic, epsg, etm, \
+                          frechet, geohash, geoids, hausdorff, mgrs, \
+                          points, utmupsBase, webmercator
 
     t = Tests(__file__, __version__)
     t.testNamed(named._Named)
@@ -225,20 +213,18 @@ if __name__ == '__main__':
     t.testNamed(named._NamedDict)
     t.testNamed(named._NamedEnum, 'Test', known=True)
     t.testNamed(named._NamedEnumItem)
-    t.testNamed(named._NamedFloat, 0.0)
-    t.testNamed(named._NamedInt, 0)
-    t.testNamed(named._NamedStr, '')
     t.testNamed(named.LatLon2Tuple, 0, 0)  # _NamedTuple
 
     # find _NamedDict and _NamedTuple (sub)classes
     # defined in all pygeodesy modules
     t.testNamedDicts(named)
-    t.testNamedTuples(named)
-    t.testNamedTuples(clipy)
-    t.testNamedTuples(ecef)
-    t.testNamedTuples(elliptic)
-    t.testNamedTuples(frechet)
-    t.testNamedTuples(hausdorff)
+    t.testNamedDicts(geohash)
+
+    for m in (named, clipy, css, datum, ecef, elevations,
+                     ellipsoidalNvector, elliptic, epsg, etm,
+                     frechet, geohash, geoids, hausdorff, mgrs,
+                     points, utmupsBase, webmercator):
+        t.testNamedTuples(m)
 
     # test __doc__ strings in all pygeodesy modules
     for m in glob(os_path.join(PyGeodesy_dir, 'pygeodesy', '*.py')):
@@ -253,7 +239,7 @@ if __name__ == '__main__':
     t.testBases()
 
     t.subtitle(named, 'ing %s ' % ('coverage',))
-    Nd = named.Neighbors8Dict  # coverage
+    Nd = geohash.Neighbors8Dict  # coverage
     nd = Nd(**dict((t, t) for t in (Nd._Keys_ + ('name',))))
     t.test('nd.name', nd.name, 'name')
     t.test('nd.named', nd.named, 'name')

@@ -10,17 +10,22 @@ from pygeodesy.lazily import _ALL_LAZY
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.04.11'
+__version__ = '20.04.20'
 
-_EeFfGg = ('F', 'f', 'E', 'e', 'G', 'g')  # float formats
+# formats %G and %.g drop all trailing zeros and the
+# decimal point making the float appear as an int
+_Gg     = ('G', 'g')
+_EeFfGg = ('F', 'f', 'E', 'e') + _Gg  # float formats
 
 
 def _streprs(prec, objs, fmt, ints, floats, strepr):
     '''(INTERNAL) Helper for C{fstr}, C{pairs}, C{reprs} and C{strs}
     '''
     if fmt in _EeFfGg:
+        fGg = fmt in _Gg
         fmt = '%.' + str(abs(prec)) + fmt
     elif fmt.startswith('%'):
+        fGg = False
         fmt = fmt.replace('*', str(abs(prec)))
     else:
         t = repr('[%s]%s' % ('%.*', '|'.join(_EeFfGg)))
@@ -34,7 +39,7 @@ def _streprs(prec, objs, fmt, ints, floats, strepr):
                          t.rstrip('0').endswith('.')):
                 t = t.split('.')[0]
             elif prec > 1:
-                t = fstrzs(t)
+                t = fstrzs(t, ap1z=fGg)
         elif strepr:
             t = strepr(o)
         else:
@@ -125,22 +130,38 @@ def fstr(floats, prec=6, fmt='F', ints=False, sep=', '):
     return sep.join(_streprs(prec, floats, fmt, ints, True, None))
 
 
-def fstrzs(efstr):
+def fstrzs(efstr, ap1z=False):
     '''Strip trailing zero decimals from a C{float} string.
 
        @arg efstr: Float with or without exponent (C{str}).
+       @kwarg ap1z: Append the decimal point and one zero decimal
+                    if the B{C{efstr}} is all digits (C{bool}).
 
        @return: Float (C{str}).
     '''
-    s = efstr.find('.') + 2  # keep 1st '.0'
-    if s > 1:
+    s = efstr.find('.')
+    if s >= 0:
         e = efstr.rfind('e')
         if e < 0:
             e = efstr.rfind('E')
             if e < 0:
                 e = len(efstr)
+        s += 2  # keep 1st '.0'
         if s < e and efstr[e-1] == '0':
             efstr = efstr[:s] + efstr[s:e].rstrip('0') + efstr[e:]
+
+    elif ap1z:
+        # %.G and %.g formats drop the decimal
+        # point and all trailing zeros, ...
+        if efstr.isdigit():
+            efstr += '.0'  # ... append or ...
+        else:  # ... insert one dot and zero
+            e = efstr.rfind('e')
+            if e < 0:
+                e = efstr.rfind('E')
+            if e > 0:
+                efstr = efstr[:e] + '.0' + efstr[e:]
+
     return efstr
 
 

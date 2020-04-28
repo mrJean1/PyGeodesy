@@ -67,8 +67,8 @@ from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError, _SciPyIssue
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
-from pygeodesy.named import GeoidHeight5Tuple, LatLon3Tuple, \
-                           _Named, notOverloaded
+from pygeodesy.named import LatLon3Tuple, _Named, _NamedTuple, \
+                            notOverloaded
 from pygeodesy.streprs import attrs, fstr, pairs
 
 from math import floor
@@ -86,8 +86,8 @@ except ImportError:  # Python 3+
     def _b2str(bs):  # used only for egm*.pgm text
         return bs.decode('utf-8')
 
-__all__ = _ALL_LAZY.geoids + _ALL_DOCS('_GeoidBase')
-__version__ = '20.04.09'
+__all__ = _ALL_LAZY.geoids + _ALL_DOCS('GeoidHeight5Tuple', '_GeoidBase')
+__version__ = '20.04.18'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -100,6 +100,16 @@ class GeoidError(HeightError):
     '''Geoid interpolator C{Geoid...} or interpolation issue.
     '''
     pass
+
+
+class GeoidHeight5Tuple(_NamedTuple):  # .geoids.py
+    '''5-Tuple C{(lat, lon, egm84, egm96, egm2008)} for U{GeoidHeights.dat
+       <https://SourceForge.net/projects/geographiclib/files/testdata/>}
+       tests with the heights for 3 different EGM grids with C{-90.0 <=
+       lat <= 90.0} and C{-180.0 <= lon <= 180.0} degrees (and C{lon}
+       converted from the original C{0.0 <= EasterLon <= 360.0}).
+    '''
+    _Names_ = ('lat', 'lon', 'egm84', 'egm96', 'egm2008')
 
 
 class PGMError(GeoidError):

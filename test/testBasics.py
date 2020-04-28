@@ -4,7 +4,7 @@
 # Test some of the basics.
 
 __all__ = ('Tests',)
-__version__ = '20.04.11'
+__version__ = '20.04.26'
 
 from base import TestsBase
 
@@ -59,14 +59,11 @@ class Tests(TestsBase):
         self.test('c.r_o', c.r_o, True)
         try:
             c.r_o = False
-            self.test('c.r_o = False', c.r_o, AttributeError)
+            self.test('c.r_o = False', c.r_o, AttributeError.__name__)
         except AttributeError as x:
-            x = repr(x).split()
-            x = ' '.join(x[:2] + ['....'] + x[-2:])
-            x = x.replace(',', '')
-            self.test('c.r_o = False', x, "AttributeError('immutable property: .... = False')")
+            self.test('c.r_o = False', str(x), str(x))
         except Exception as x:
-            self.test('c.r_o = False', repr(x), AttributeError)
+            self.test('c.r_o = False', repr(x), AttributeError.__name__)
 
         a, b = splice(range(10))  # PYCHOK False
         self.test('splice', (a, b), map1(type(a), (0, 2, 4, 6, 8), (1, 3, 5, 7, 9)))
@@ -80,11 +77,11 @@ class Tests(TestsBase):
     def testErrors(self, InvalidError, IsnotError):
 
         e = InvalidError(zero=1)
-        self.test(InvalidError.__name__, e, 'zero invalid: 1')
-        self.test(InvalidError.__name__, repr(e).replace(',', ''), "ValueError('zero invalid: 1')")
-        e = InvalidError(zero=2, Error=RangeError)
-        self.test(InvalidError.__name__, e, 'zero invalid: 2')
-        self.test(InvalidError.__name__, repr(e).replace(',', ''), "RangeError('zero invalid: 2')")
+        self.test(InvalidError.__name__, e, 'zero (1): invalid')
+        self.test(InvalidError.__name__, repr(e).replace(',', ''), "ValueError('zero (1): invalid')")
+        e = InvalidError(zero=1, Error=RangeError, one=2, txt='outside')
+        self.test(InvalidError.__name__, e, 'zero (1) or one (2): outside')
+        self.test(InvalidError.__name__, repr(e).replace(',', ''), "RangeError('zero (1) or one (2): outside')")
 
         e = IsnotError(int.__name__, float.__name__, _None=None)
         self.test(IsnotError.__name__, e, '_None is not an int or float: None')
@@ -99,29 +96,9 @@ class Tests(TestsBase):
 
         try:
             raise LenError(LenError, a=1, b=2, c=3, d=4)
-            self.test(LenError.__name__, None, LenError)
+            self.test(LenError.__name__, None, LenError.__name__)
         except ValueError as x:
             self.test(LenError.__name__, str(x), 'LenError(a, b, c, d) len: 1 vs 2 vs 3 vs 4')
-
-    def testFloat(self, _float):
-        n = _float.__name__
-
-        t.test(n, _float(12),   '12.0')
-        t.test(n, _float(f=12), '12.0')
-        try:
-            t.test(n, _float('X'), ValueError)
-        except ValueError as x:
-            t.test(n, str(x), "invalid, single float('X')")
-
-        try:
-            t.test(n, _float(12, f=12), ValueError)
-        except ValueError as x:
-            t.test(n, str(x), 'invalid, single float(12, f=12)')
-
-        try:
-            t.test(n, _float('X', Error=TypeError), TypeError)
-        except TypeError as x:
-            t.test(n, x.__class__, TypeError)
 
 
 if __name__ == '__main__':
@@ -131,6 +108,5 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__, basics)
     t.testBasics()
     t.testErrors(basics.InvalidError, basics.IsnotError)
-    t.testFloat(basics._float)
     t.results()
     t.exit()

@@ -26,7 +26,7 @@ from math import sqrt  # hypot
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.04.09'
+__version__ = '20.04.15'
 
 
 class CartesianBase(Vector3d):
@@ -313,7 +313,7 @@ class CartesianBase(Vector3d):
 #           d = e * hypot(x, y)
 
 #           tmp = 1 / hypot(d, z) == 1 / hypot(e * hypot(x, y), z)
-            t = hypot_(e * x, e * y, z)  # == 1 / tmp == hypot(e * hypot(x, y), z)
+            t = hypot_(e * x, e * y, z)  # == 1 / tmp
             if t < EPS:
                 raise ValueError('%s: %r' % ('origin', self))
             h = fsum_(k, E.e2, -1) / k * t
@@ -351,7 +351,7 @@ class CartesianBase(Vector3d):
            @raise TypeError: Invalid B{C{Vector}} or B{C{Vector_kwds}}.
         '''
         return self.xyz if Vector is None else \
-               self._xnamed(Vector(self.x, self.y, self.z, **Vector_kwds))
+              self._xnamed(Vector(self.x, self.y, self.z, **Vector_kwds))
 
 #   xyz = Vector3d.xyz
 #   '''Get this cartesian's X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).

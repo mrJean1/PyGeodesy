@@ -29,7 +29,7 @@ imported by that top-level module.
 from os import environ as _environ
 
 _FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)  # for epydoc ...
-_N_A      = object()
+_N_A      =  object()
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
 isLazy = None  # see @var isLazy above
@@ -75,10 +75,11 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 # __all__ value for most modules, accessible as _ALL_LAZY.<module>
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           bases=(),  # module and for backward compatibility only
-                         basics=('EPS', 'EPS1', 'EPS1_2', 'EPS_2', 'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0', 'R_M',  # constants
+                         basics=('EPS', 'EPS1', 'EPS1_2', 'EPS_2', 'INF', 'MANTIS', 'MAX', 'MIN',  # constants
+                                 'NAN', 'NEG0', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M',
                                  'LenError', 'LimitError', 'RangeError', 'clips', 'halfs2',
                                  'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
-                                 'len2', 'limiterrors', 'map1', 'map2', 'property_doc_', 'property_RO', 'rangerrors', 'scalar'),
+                                 'len2', 'limiterrors', 'map1', 'map2', 'property_doc_', 'property_RO', 'rangerrors'),
                           clipy=('ClipError',
                                  'clipCS3', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
@@ -87,16 +88,17 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Datums', 'Ellipsoids', 'Transforms'),
                      deprecated=('OK',  # DEPRECATED contants
                                  'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError',  # DEPRECATED classes
-                                 'anStr', 'areaof', 'bounds', 'clipStr', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
-                                 'equirectangular3', 'enStr2', 'false2f', 'fStr', 'fStrzs', 'hypot3',  # ... except ellipsoidal, spherical flavors
+                                 'anStr', 'areaof', 'bounds', 'clipDMS', 'clipStr', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
+                                 'equirectangular3', 'enStr2', 'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3',  # ... except ellipsoidal, spherical flavors
                                  'inStr', 'isenclosedby', 'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
-                                 'simplify2', 'toUtm', 'unStr', 'utmZoneBand2'),
-                            dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_RAD',
-                                 'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_RAD_',
-                                 'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F_RAD__',
-                                 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP',
-                                 'bearingDMS', 'clipDMS', 'compassDMS', 'compassPoint', 'degDMS', 'latDMS', 'lonDMS',
-                                 'normDMS', 'parseDMS', 'parseDMS2', 'parse3llh', 'precision', 'toDMS'),
+                                 'scalar', 'simplify2', 'toUtm', 'unStr', 'utmZoneBand2'),
+                            dms=('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F__E',   'F__F',   'F__G',   'F_RAD',
+                                 'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F__E_',  'F__F_',  'F__G_',  'F_RAD_',
+                                 'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F__E__', 'F__F__', 'F__G__', 'F_RAD__',
+                                 'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP', 'ParseError',
+                                 'bearingDMS', 'clipDegrees', 'clipRadians', 'compassDMS', 'compassPoint',
+                                 'degDMS', 'latDMS', 'lonDMS', 'normDMS',
+                                 'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
                            ecef=('EcefCartesian', 'EcefError', 'EcefKarney', 'EcefMatrix', 'EcefVeness', 'EcefYou'),
                      elevations=('elevation2', 'geoidHeight2'),
               ellipsoidalKarney=(),  # module only
@@ -150,10 +152,14 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
                         streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=('RefFrame', 'RefFrames', 'TRFError', 'date2epoch', 'epoch2date'),
+                          units=('Bearing', 'Bearing_', 'Degrees', 'Distance', 'Easting',
+                                 'Feet', 'Float', 'Float_', 'Height', 'Int', 'Int_',
+                                 'Lam', 'Lam_', 'Lat', 'Lon', 'Meter', 'Northing', 'Number_',
+                                 'Phi', 'Phi_', 'Precision_', 'Radians',
+                                 'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'UnitError'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
-                          utily=('PI', 'PI2', 'PI_2', 'PI_4',
-                                 'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
-                                 'falsed2f', 'ft2m',
+                          utily=('degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
+                                 'ft2m',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
                                  'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
@@ -182,7 +188,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.04.14'
+__version__ = '20.04.26'
 
 
 def _all_imports(**more):

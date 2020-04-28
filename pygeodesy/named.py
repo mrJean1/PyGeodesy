@@ -1,9 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Classes C{_Named}, C{_NamedDict}, C{_NamedInt},
-C{_NamedStr} and C{_NamedTuple} with nameable instances and several
-subclasses thereof.
+u'''(INTERNAL) Classes C{_Named}, C{_NamedDict} and C{_NamedTuple},
+all with nameable instances and several subclasses thereof.
 
 In addition, the items in a C{_NamedDict} are accessable as attributes
 and the items in a C{_NamedTuple} can be named to be accessable as
@@ -17,34 +16,26 @@ sub-classes of C{_NamedTuple} defined here.
 '''
 
 # update imported names under if __name__ == '__main__':
-from pygeodesy.basics import _float, IsnotError, isstr, issubclassof, \
-                              property_doc_, property_RO, _xcopy
+from pygeodesy.basics import IsnotError, isstr, issubclassof, \
+                             property_doc_, property_RO, _xcopy
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _dot_
-from pygeodesy.streprs import attrs, fstr, pairs, reprs, unstr
+from pygeodesy.streprs import attrs, pairs, reprs, unstr
 
 # XXX 'FsumDelta2Tuple' is in _ALL_LAZY.named
-__all__ = _ALL_LAZY.named + _ALL_DOCS('_Named', '_NamedBase',
-         '_NamedEnum', '_NamedEnumItem',  # '_NamedDict',
-         # '_NamedFloat',  '_NamedInt',  '_NamedStr', '_NamedTuple',
+__all__ = _ALL_LAZY.named + _ALL_DOCS('_Named',
+         '_NamedBase',  # '_NamedDict',
+         '_NamedEnum', '_NamedEnumItem',  # '_NamedTuple',
          'Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
-         'Curvature2Tuple', 'Destination2Tuple',
+         'Destination2Tuple', 'Destination3Tuple',
          'Distance2Tuple', 'Distance3Tuple', 'Distance4Tuple',
          'EasNor2Tuple', 'EasNor3Tuple',
-         'EasNorAziRk4Tuple', 'EasNorExact4Tuple', 'EasNorRadius3Tuple',
-         'Elevation2Tuple', 'GeoidHeight2Tuple', 'GeoidHeight5Tuple',
          'LatLon2Tuple', 'LatLon3Tuple', 'LatLon4Tuple',
-         'LatLonAziRk4Tuple', 'LatLonDatum3Tuple', 'LatLonDatum5Tuple',
-         'LatLonExact4Tuple', 'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
-         'Mgrs4Tuple', 'Mgrs6Tuple',
-         'NearestOn3Tuple', 'NearestOn5Tuple',
-         'Ned3Tuple', 'Neighbors8Dict',
-         'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple',
-         'Point3Tuple', 'Points2Tuple', 'Shape2Tuple',
-         'UtmUps2Tuple', 'UtmUps4Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple',
-         'UtmUpsLatLon5Tuple',
+         'LatLonDatum3Tuple', 'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
+         'NearestOn3Tuple',
+         'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Points2Tuple',
          'Vector3Tuple', 'Vector4Tuple',
          'notOverloaded')
-__version__ = '20.04.14'
+__version__ = '20.04.22'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
@@ -166,15 +157,18 @@ class _Named(object):
         n, c = self.name, self.classname
         return ('%s %r' % (c, n)) if c and n else (c or n)
 
-    def toStr(self, **unused):
-        '''Default C{str(self)}.
-        '''
-        return str(self)
-
-    def toStr2(self, **unused):
+    def toRepr(self, **unused):  # PYCHOK expected
         '''Default C{repr(self)}.
         '''
         return repr(self)
+
+    toStr2 = toRepr  # PYCHOK for backward compatibility
+    '''DEPRECATED, used method C{toRepr}.'''
+
+    def toStr(self, **unused):  # PYCHOK expected
+        '''Default C{str(self)}.
+        '''
+        return str(self)
 
     def _xnamed(self, inst, name=''):
         '''(INTERNAL) Set the instance' C{.name = self.name}.
@@ -207,7 +201,7 @@ class _NamedBase(_Named):
     '''
 
     def __repr__(self):
-        return self.toStr2()
+        return self.toRepr()
 
     def __str__(self):
         return self.toStr()
@@ -246,6 +240,23 @@ class _NamedBase(_Named):
             raise TypeError('%s mismatch: %s vs %s' % (name,
                              classname(other), self.classname))
 
+    def toRepr(self, **kwds):  # PYCHOK expected
+        '''(INTERNAL) To be overloaded.
+
+           @kwarg kwds: Optional, keyword arguments.
+
+           @return: C{toStr}() with keyword arguments (as C{str}).
+        '''
+        t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
+        return '%s(%s)' % (self.classname, t)
+
+#   def toRepr(self, **kwds)
+#       if kwds:
+#           s = ''.join(reprs((self,), **kwds))
+#       else:  # super().__repr__ only for Python 3+
+#           s = super(self.__class__, self).__repr__()
+#       return '%s(%s)' % (self.named, s)  # clips(s)
+
     def toStr(self, **kwds):  # PYCHOK no cover
         '''(INTERNAL) Must be overloaded.
 
@@ -259,23 +270,6 @@ class _NamedBase(_Named):
 #       else:  # super().__str__ only for Python 3+
 #           s = super(self.__class__, self).__str__()
 #       return s
-
-    def toStr2(self, **kwds):
-        '''(INTERNAL) To be overloaded.
-
-           @kwarg kwds: Optional, keyword arguments.
-
-           @return: C{toStr}() with keyword arguments (as C{str}).
-        '''
-        t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
-        return '%s(%s)' % (self.classname, t)
-
-#   def toStr2(self, **kwds)
-#       if kwds:
-#           s = ''.join(reprs((self,), **kwds))
-#       else:  # super().__repr__ only for Python 3+
-#           s = super(self.__class__, self).__repr__()
-#       return '%s(%s)' % (self.named, s)  # clips(s)
 
 
 class _NamedDict(dict, _Named):
@@ -315,7 +309,7 @@ class _NamedDict(dict, _Named):
         return dict.__getitem__(self, key)
 
     def __repr__(self):
-        return self.toStr2()
+        return self.toRepr()
 
     def __setattr__(self, name, value):
         if name in dict.keys(self):
@@ -331,29 +325,20 @@ class _NamedDict(dict, _Named):
     def __str__(self):
         return self.toStr()
 
-    def toStr(self, prec=6, fmt='F'):  # PYCHOK _Named
-        '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
-        '''
-        t = pairs(self.items(), prec=prec, fmt=fmt, sep=': ')
-        return '{%s}' % (', '.join(sorted(t)),)
-
-    def toStr2(self, prec=6, fmt='F'):  # PYCHOK _Named
+    def toRepr(self, prec=6, fmt='F'):  # PYCHOK _Named
         '''Like C{repr(dict)} but with C{name} and  C{floats} formatting by C{fstr}.
         '''
         t = pairs(self.items(), prec=prec, fmt=fmt, sep='=')
         return '%s(%s)' % (self.name, ', '.join(sorted(t)))
 
+    toStr2 = toRepr  # PYCHOK for backward compatibility
+    '''DEPRECATED, use method C{toRepr}.'''
 
-class Neighbors8Dict(_NamedDict):  # replacing Neighbors8Dict
-    '''8-Dict C{(N, NE, E, SE, S, SW, W, NW)} of L{Geohash}es,
-       providing key I{and} attribute access to the items.
-    '''
-    _Keys_ = ('N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW')
-
-    def __init__(self, **kwds):  # PYCHOK no *args
-        d = dict((k, None) for k in self._Keys_)
-        d.update(kwds)
-        _NamedDict.__init__(self, **d)  # name=...
+    def toStr(self, prec=6, fmt='F'):  # PYCHOK _Named
+        '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
+        '''
+        t = pairs(self.items(), prec=prec, fmt=fmt, sep=': ')
+        return '{%s}' % (', '.join(sorted(t)),)
 
 
 class _NamedEnum(_NamedDict):
@@ -381,7 +366,7 @@ class _NamedEnum(_NamedDict):
         raise AttributeError("%s doesn't exist" % (self._dot_(name),))
 
     def __repr__(self):
-        return self.toStr2()
+        return self.toRepr()
 
     def __str__(self):
         return self.toStr()
@@ -454,16 +439,19 @@ class _NamedEnum(_NamedDict):
         item._enum = None
         return item
 
-    def toStr(self, *unused):  # PYCHOK _NamedDict
-        '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
-        '''
-        return self._dot_(', .'.join(sorted(self.keys())))
-
-    def toStr2(self, prec=6, fmt='F', sep=',\n'):  # PYCHOK _NamedDict
+    def toRepr(self, prec=6, fmt='F', sep=',\n'):  # PYCHOK _NamedDict
         '''Like C{repr(dict)} but with C{name} and C{floats} formatting by C{fstr}.
         '''
         t = sorted((self._dot_(n), v) for n, v in self.items())
         return sep.join(pairs(t, prec=prec, fmt=fmt, sep=': '))
+
+    toStr2 = toRepr  # PYCHOK for backward compatibility
+    '''DEPRECATED, use method C{toRepr}.'''
+
+    def toStr(self, *unused):  # PYCHOK _NamedDict
+        '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
+        '''
+        return self._dot_(', .'.join(sorted(self.keys())))
 
 
 class _NamedEnumItem(_NamedBase):
@@ -531,77 +519,6 @@ class _NamedEnumItem(_NamedBase):
                 raise AssertionError('%r vs %r' % (item, self))
 
 
-class _NamedFloat(float, _Named):
-    '''(INTERNAL) Named C{float}.
-    '''
-    def __new__(cls, arg, name=''):
-        self = float.__new__(cls, arg)
-        if name:
-            _Named.name.fset(self, name)  # see _Named.name
-        return self
-
-    def __repr__(self):  # to avoid MRO(float)
-        return self.toStr2()
-
-    def __str__(self):  # to avoid MRO(float)
-        return self.toStr()
-
-    def toStr(self, prec=9, fmt='F', ints=False):  # PYCHOK prec=8, ...
-        return fstr(self, prec=prec, fmt=fmt, ints=ints)
-
-    def toStr2(self, prec=9, fmt='F', ints=False):  # PYCHOK prec=8, ...
-        return '%s(%s)' % (self.named, fstr(self, prec=prec, fmt=fmt, ints=ints))
-
-
-class _NamedInt(int, _Named):
-    '''(INTERNAL) Named C{int}.
-    '''
-    def __new__(cls, arg, name=''):
-        self = int.__new__(cls, arg)
-        if name:
-            _Named.name.fset(self, name)  # see _Named.name
-        return self
-
-    def __repr__(self):  # to avoid MRO(int)
-        return self.toStr2()
-
-    def __str__(self):  # to avoid MRO(int)
-        return self.toStr()
-
-    def toStr(self, **unused):  # PYCHOK **unused
-        # XXX must use '%d' % (self,) since
-        # int.__str__(self) fails with 3.8+
-        return '%d' % (self,)
-
-    def toStr2(self, **unused):  # PYCHOK **unused
-        return '%s(%d)' % (self.named, self)  # see .toStr()
-
-
-class _NamedStr(str, _Named):
-    '''(INTERNAL) Named C{str}.
-    '''
-    def __new__(cls, arg, name=''):
-        self = str.__new__(cls, arg)
-        if name:
-            _Named.name.fset(self, name)  # see _Named.name
-        return self
-
-    def __repr__(self):  # to avoid MRO(str)
-        return self.toStr2()
-
-    def __str__(self):  # to avoid MRO(str)
-        return self.toStr()
-
-    def toStr(self, **unused):  # PYCHOK **unused
-        # must used super(__NamedStr, self)... since
-        # super()... only work for Python 3+ and
-        # str.__str__(self) fails with 3.8+
-        return super(_NamedStr, self).__str__()
-
-    def toStr2(self, **unused):  # PYCHOK **unused
-        return '%s(%s)' % (self.named, super(_NamedStr, self).__repr__())  # see .toStr()
-
-
 class _NamedTuple(tuple, _Named):
     '''(INTERNAL) Named C{tuple} with index I{and} attribute
        access to the items.
@@ -617,14 +534,14 @@ class _NamedTuple(tuple, _Named):
         self = tuple.__new__(cls, args)
         ns = self._Names_
         if not (isinstance(ns, tuple) and len(ns) > 1):  # XXX > 0
-            raise TypeError('%s not valid: %r' % (_dot_(
+            raise TypeError('%s invalid: %r' % (_dot_(
                              self.classname, '_Names_'), ns))
         if len(ns) != len(args) or not ns:
-            raise ValueError('%s(%s) not valid: %r[%s] vs %s' %
+            raise ValueError('%s(%s) invalid: %r[%s] vs %s' %
                              (self.classname, 'args',
                               args, len(args), len(ns)))
         if _NAME_ in ns:
-            raise NameError('%s not valid: %r' % (_dot_(
+            raise NameError('%s invalid: %r' % (_dot_(
                              self.classname, '_Names_'), _NAME_))
         return self
 
@@ -650,7 +567,7 @@ class _NamedTuple(tuple, _Named):
         return tuple.__getitem__(self, item)
 
     def __repr__(self):
-        return self.toStr2()
+        return self.toRepr()
 
     def __setattr__(self, name, value):
         if name in self._Names_:
@@ -680,6 +597,21 @@ class _NamedTuple(tuple, _Named):
                             NamedTuple.__name__, NamedTuple._Names_))
         return self._xnamed(NamedTuple(*(self + items)))
 
+    def toRepr(self, prec=6, sep=', '):  # PYCHOK signature
+        '''Return the -Tuple items as C{name=value} string(s).
+
+           @kwarg prec: The C{float} precision, number of decimal digits (0..9).
+                        Trailing zero decimals are stripped for B{C{prec}} values
+                        of 1 and above, but kept for negative B{C{prec}} values.
+           @kwarg sep: Optional separator to join (C{str}).
+
+           @return: Tuple items (C{str}).
+        '''
+        return '%s(%s)' % (self.named, sep.join(pairs(self.items(), prec=prec)))
+
+    toStr2 = toRepr  # PYCHOK for backward compatibility
+    '''DEPRECATED, use method C{toRepr}.'''
+
     def toStr(self, prec=6, sep=', '):  # PYCHOK signature
         '''Return the -Tuple items as string(s).
 
@@ -691,18 +623,6 @@ class _NamedTuple(tuple, _Named):
            @return: Tuple items (C{str}).
         '''
         return '(%s)' % (sep.join(reprs(self, prec=prec)),)
-
-    def toStr2(self, prec=6, sep=', '):  # PYCHOK signature
-        '''Return the -Tuple items as C{name=value} string(s).
-
-           @kwarg prec: The C{float} precision, number of decimal digits (0..9).
-                        Trailing zero decimals are stripped for B{C{prec}} values
-                        of 1 and above, but kept for negative B{C{prec}} values.
-           @kwarg sep: Optional separator to join (C{str}).
-
-           @return: Tuple items (C{str}).
-        '''
-        return '%s(%s)' % (self.named, sep.join(pairs(self.items(), prec=prec)))
 
 
 class Bearing2Tuple(_NamedTuple):
@@ -724,13 +644,6 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
        longitudes.
     '''
     _Names_ = ('latS', 'lonW', 'latN', 'lonE')
-
-
-class Curvature2Tuple(_NamedTuple):  # .datum.py
-    '''2-Tuple C{(meridional, prime_vertical)} of radii of curvature,
-       both in C{meter}.
-    '''
-    _Names_ = ('meridional', 'prime_vertical')
 
 
 class Destination2Tuple(_NamedTuple):  # .ellipsoidalKarney.py, -Vincenty.py
@@ -787,52 +700,6 @@ class EasNor3Tuple(_NamedTuple):  # .css.py, .lcc.py
     _Names_ = ('easting', 'northing', 'height')
 
 
-class EasNorAziRk4Tuple(_NamedTuple):
-    '''4-Tuple C{(easting, northing, azimuth, reciprocal)} for the
-       Cassini-Soldner location with C{easting} and C{northing} in
-       C{meters}, the C{azimuth} of easting direction azimuth and
-       C{reciprocal} the reciprocal of azimuthal northing scale
-       reciprocal, both in C{degrees}.
-    '''
-    _Names_ = ('easting', 'northing', 'azimuth', 'reciprocal')
-
-
-class EasNorExact4Tuple(_NamedTuple):  # .etm.py
-    '''4-Tuple C{(easting, northing, convergence, scale)} in
-       C{meter}, C{meter}, C{degrees} and C{scalar}.
-    '''
-    _Names_ = ('easting', 'northing', 'convergence', 'scale')
-
-
-class EasNorRadius3Tuple(_NamedTuple):  # .webmercator.py
-    '''3-Tuple C{(easting, northing, radius)}, all in C{meter}.
-    '''
-    _Names_ = ('easting', 'northing', 'radius')
-
-
-class Elevation2Tuple(_NamedTuple):  # .elevations.py
-    '''2-Tuple C{(elevation, data_source)} in C{meter} and C{str}.
-    '''
-    _Names_ = ('elevation', 'data_source')
-
-
-class GeoidHeight2Tuple(_NamedTuple):  # .elevations.py
-    '''2-Tuple C{(height, model_name)}, geoid C{height} in C{meter}
-       and C{model_name} as C{str}.
-    '''
-    _Names_ = ('height', 'model_name')
-
-
-class GeoidHeight5Tuple(_NamedTuple):  # .geoids.py
-    '''5-Tuple C{(lat, lon, egm84, egm96, egm2008)} for U{GeoidHeights.dat
-       <https://SourceForge.net/projects/geographiclib/files/testdata/>}
-       tests with the heights for 3 different EGM grids with C{-90.0 <=
-       lat <= 90.0} and C{-180.0 <= lon <= 180.0} degrees (and C{lon}
-       converted from the original C{0.0 <= EasterLon <= 360.0}).
-    '''
-    _Names_ = ('lat', 'lon', 'egm84', 'egm96', 'egm2008')
-
-
 class LatLon2Tuple(_NamedTuple):
     '''2-Tuple C{(lat, lon)} in C{degrees90} and C{degrees180}.
     '''
@@ -847,7 +714,8 @@ class LatLon2Tuple(_NamedTuple):
 
            @raise ValueError: Invalid B{C{height}}.
         '''
-        return self._xtend(LatLon3Tuple, _float(height=height))
+        from pygeodesy.units import Height
+        return self._xtend(LatLon3Tuple, Height(height))
 
     def to4Tuple(self, height, datum):
         '''Extend this L{LatLon2Tuple} to a L{LatLon4Tuple}.
@@ -885,19 +753,11 @@ class LatLon3Tuple(_NamedTuple):
         return self._xtend(LatLon4Tuple, datum)
 
 
-class LatLon4Tuple(_NamedTuple):  # .css.py
+class LatLon4Tuple(_NamedTuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.py
     '''4-Tuple C{(lat, lon, height, datum)} in C{degrees90},
        C{degrees180}, C{meter} and L{Datum}.
     '''
     _Names_ = ('lat', 'lon', 'height', 'datum')
-
-
-class LatLonAziRk4Tuple(_NamedTuple):  # .css.py
-    '''4-Tuple C{(lat, lon, azimuth, reciprocal)}, all in C{degrees}
-       where C{azimuth} is the azimuth of easting direction and
-       C{reciprocal} the reciprocal of azimuthal northing scale.
-    '''
-    _Names_ = ('lat', 'lon', 'azimuth', 'reciprocal')
 
 
 class LatLonDatum3Tuple(_NamedTuple):  # .lcc.py, .osgr.py
@@ -905,21 +765,6 @@ class LatLonDatum3Tuple(_NamedTuple):  # .lcc.py, .osgr.py
        and L{Datum}.
     '''
     _Names_ = ('lat', 'lon', 'datum')
-
-
-class LatLonDatum5Tuple(_NamedTuple):  # .ups.py, .utm.py
-    '''5-Tuple C{(lat, lon, datum, convergence, scale)} in
-       C{degrees90}, C{degrees180}, L{Datum}, C{degrees}
-       and C{float}.
-    '''
-    _Names_ = ('lat', 'lon', 'datum', 'convergence', 'scale')
-
-
-class LatLonExact4Tuple(_NamedTuple):  # .etm.py
-    '''4-Tuple C{(lat, lon, convergence, scale)} in C{degrees180},
-       C{degrees}, C{degrees} and C{scalar}.
-    '''
-    _Names_ = ('lat', 'lon', 'convergence', 'scale')
 
 
 class LatLonPrec3Tuple(_NamedTuple):  # .gars.py, .wgrs.py
@@ -937,21 +782,6 @@ class LatLonPrec5Tuple(_NamedTuple):  # .wgrs.py
     _Names_ = ('lat', 'lon', 'precision', 'height', 'radius')
 
 
-class Mgrs4Tuple(_NamedTuple):  # see .mgrs.py
-    '''4-Tuple C{(zone, digraph, easting, northing)}, C{zone} and
-       C{digraph} as C{str}, C{easting} and C{northing} in C{meter}.
-    '''
-    _Names_ = ('zone', 'digraph', 'easting', 'northing')
-
-
-class Mgrs6Tuple(_NamedTuple):
-    '''6-Tuple C{(zone, digraph, easting, northing, band, datum)},
-       C{zone}, C{digraph} and C{band} as C{str}, C{easting} and
-       C{northing} in C{meter} and C{datum} a L{Datum}.
-    '''
-    _Names_ = ('zone', 'digraph', 'easting', 'northing', 'band', 'datum')
-
-
 class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
     '''3-Tuple C{(closest, distance, angle)} of the C{closest}
        point on the polygon, either a C{LatLon} instance or a
@@ -960,24 +790,6 @@ class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
        respectively compass C{degrees360}.
     '''
     _Names_ = ('closest', 'distance', 'angle')
-
-
-class NearestOn5Tuple(_NamedTuple):  # .points.py
-    '''5-Tuple C{(lat, lon, distance, angle, height)} all in C{degrees},
-       except C{height}.  The C{distance} is the L{equirectangular_}
-       distance between the closest and the reference B{C{point}} in
-       C{degrees}.  The C{angle} from the reference B{C{point}} to
-       the closest point is in compass C{degrees360}, see function
-       L{compassAngle}.  The C{height} is the (interpolated) height
-       at the closest point in C{meter} or C{0}.
-    '''
-    _Names_ = ('lat', 'lon', 'distance', 'angle', 'height')
-
-
-class Ned3Tuple(_NamedTuple):  # .ellipsoidalNvector.py
-    '''3-Tuple C{(north, east, down)}, all in C{degrees}.
-    '''
-    _Names_ = ('north', 'east', 'down')
 
 
 class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, .points.py, .vector3d.py
@@ -999,7 +811,8 @@ class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, 
 
            @raise ValueError: Invalid B{C{height}}.
         '''
-        return self._xtend(PhiLam3Tuple, _float(height=height))
+        from pygeodesy.units import Height
+        return self._xtend(PhiLam3Tuple, Height(height))
 
     def to4Tuple(self, height, datum):
         '''Extend this L{PhiLam2Tuple} to a L{PhiLam4Tuple}.
@@ -1016,7 +829,7 @@ class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, 
         return self.to3Tuple(height).to4Tuple(datum)
 
 
-class PhiLam3Tuple(_NamedTuple):  # .nvector.py
+class PhiLam3Tuple(_NamedTuple):  # .nvector.py, extends -2Tuple
     '''3-Tuple C{(phi, lam, height)} with latitude C{phi} in
        C{radians[PI_2]}, longitude C{lam} in C{radians[PI]} and
        C{height} in C{meter}.
@@ -1042,7 +855,7 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py
         return self._xtend(PhiLam4Tuple, datum)
 
 
-class PhiLam4Tuple(_NamedTuple):  # .nvector.py
+class PhiLam4Tuple(_NamedTuple):  # extends -3Tuple
     '''4-Tuple C{(phi, lam, height, datum)} with latitude C{phi} in
        C{radians[PI_2]}, longitude C{lam} in C{radians[PI]}, C{height}
        in C{meter} and L{Datum}.
@@ -1054,74 +867,11 @@ class PhiLam4Tuple(_NamedTuple):  # .nvector.py
     _Names_ = ('phi', 'lam', 'height', 'datum')
 
 
-class Point3Tuple(_NamedTuple):  # .points.py
-    '''3-Tuple C{(x, y, ll)} in C{meter}, C{meter} and C{LatLon}.
-    '''
-    _Names_ = ('x', 'y', 'll')
-
-
-class Points2Tuple(_NamedTuple):  # .formy.py
+class Points2Tuple(_NamedTuple):  # .formy.py, .latlonBase.py
     '''2-Tuple C{(number, points)} with the C{number} of points
        and -possible reduced- C{list} or C{tuple} of C{points}.
     '''
     _Names_ = ('number', 'points')
-
-
-class Shape2Tuple(_NamedTuple):  # .points.py
-    '''2-Tuple C{(nrows, ncols)}, the number of rows and columns,
-       both C{int}.
-    '''
-    _Names_ = ('nrows', 'ncols')
-
-
-class UtmUps2Tuple(_NamedTuple):  # .epsg.py
-    '''2-Tuple C{(zone, hemipole)} as C{int} and C{str}, where
-       C{zone} is C{1..60} for UTM or C{0} for UPS and C{hemipole}
-       C{'N'|'S'} is the UTM hemisphere or the UPS pole.
-    '''
-    _Names_ = ('zone', 'hemipole')
-
-
-class UtmUps4Tuple(_NamedTuple):  # .mgrs.py
-    '''4-Tuple C{(zone, hemipole, easting, northing)} as C{str},
-       C{str}, C{meter} and C{meter}.
-    '''
-    _Names_ = ('zone', 'hemipole', 'easting', 'northing')
-
-
-class UtmUps5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
-    '''5-Tuple C{(zone, hemipole, easting, northing, band)} as C{int},
-       C{str}, C{meter}, C{meter} and C{band} letter, where C{zone}
-       is C{1..60} for UTM or C{0} for UPS, C{hemipole} C{'N'|'S'} is
-       the UTM hemisphere or the UPS pole and C{band} is C{""} or the
-       (longitudinal) UTM band C{'C'|'D'..'W'|'X'} or the (polar) UPS
-       band C{'A'|'B'|'Y'|'Z'}.
-    '''
-    _Names_ = ('zone', 'hemipole', 'easting', 'northing', 'band')
-
-
-class UtmUps8Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
-    '''8-Tuple C{(zone, hemipole, easting, northing, band, datum,
-       convergence, scale)} as C{int}, C{str}, C{meter}, C{meter},
-       C{band} letter, C{Datum}, C{degrees} and C{float}, where
-       C{zone} is C{1..60} for UTM or C{0} for UPS, C{hemipole}
-       C{'N'|'S'} is the UTM hemisphere or the UPS pole and C{band}
-       is C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
-       or the (polar) UPS band C{'A'|'B'|'Y'|'Z'}.
-    '''
-    _Names_ = ('zone', 'hemipole', 'easting', 'northing',
-               'band', 'datum', 'convergence', 'scale')
-
-
-class UtmUpsLatLon5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
-    '''5-Tuple C{(zone, band, hemipole, lat, lon)} as C{int},
-       C{str}, C{str}, C{degrees90} and C{degrees180}, where
-       C{zone} is C{1..60} for UTM or C{0} for UPS, C{band} is
-       C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
-       or (polar) UPS band C{'A'|'B'|'Y'|'Z'} and C{hemipole}
-       C{'N'|'S'} is the UTM hemisphere or the UPS pole.
-    '''
-    _Names_ = ('zone', 'band', 'hemipole', 'lat', 'lon')
 
 
 class Vector3Tuple(_NamedTuple):
@@ -1139,7 +889,8 @@ class Vector3Tuple(_NamedTuple):
 
            @raise ValueError: Invalid B{C{h}}.
         '''
-        return self._xtend(Vector4Tuple, _float(h=h))
+        from pygeodesy.units import Height
+        return self._xtend(Vector4Tuple, Height(h, name='h'))
 
 
 class Vector4Tuple(_NamedTuple):  # .nvector.py

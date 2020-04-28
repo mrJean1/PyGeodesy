@@ -3,6 +3,7 @@
 
 u'''DEPRECATED classes, functions, etc. exported for backward compatibility.
 '''
+from pygeodesy.basics import EPS
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
@@ -10,7 +11,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.trf import TRFError as _TRFError
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '20.04.10'
+__version__ = '20.04.21'
 
 OK = 'OK'  # OK for test like I{if ... is OK: ...}
 
@@ -69,6 +70,13 @@ def bounds(points, wrap=True, LatLon=None):
     return tuple(boundsOf(points, wrap=wrap, LatLon=LatLon))
 
 
+def clipDMS(deg, limit):  # PYCHOK no cover
+    '''DEPRECATED, use function L{clipDegrees}.
+    '''
+    from pygeodesy.dms import clipDegrees
+    return clipDegrees(deg, limit)
+
+
 def clipStr(bstr, limit=50, white=''):
     '''DEPRECATED, use function L{clips}.
     '''
@@ -94,7 +102,7 @@ def encodeEPSG(zone, hemipole='', band=''):
     return int(encode(zone, hemipole=hemipole, band=band))
 
 
-def enStr2(easting, northing, prec, *extras):
+def enStr2(easting, northing, prec, *extras):  # PYCHOK no cover
     '''DEPRECATED, use function L{enstr2}.
     '''
     from pygeodesy.streprs import enstr2
@@ -110,11 +118,36 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
     return tuple(equirectangular_(lat1, lon1, lat2, lon2, **options)[:3])
 
 
-def false2f(value, name='value', false=True, Error=ValueError):
+def false2f(value, name='value', false=True, Error=ValueError):  # PYCHOK no cover
     '''DEPRECATED, use function L{falsed2f}.
     '''
-    from pygeodesy.utily import falsed2f
     return falsed2f(falsed=false, Error=Error, **{name: value})
+
+
+def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
+    '''DEPRECATED, use class L{Easting} or L{Northing}.
+
+       Convert a falsed east-/northing to non-negative C{float}.
+
+       @kwarg falsed: Value includes false origin (C{bool}).
+       @kwarg Error: Optional, overriding error (C{Exception}).
+       @kwarg name_value: One B{C{name=value}} pair.
+
+       @return: The value (C{float}).
+
+       @raise Error: Invalid or negative B{C{name=value}}.
+    '''
+    if len(name_value) == 1:
+        try:
+            for f in name_value.values():
+                f = float(f)
+                if falsed and f < 0:
+                    break
+                return f
+        except (TypeError, ValueError):
+            pass
+    from pygeodesy.basics import InvalidError
+    raise InvalidError(Error=Error, **name_value)
 
 
 def fStr(floats, prec=6, fmt='%.*f', ints=False, sep=', '):
@@ -200,6 +233,25 @@ def polygon(points, closed=True, base=None):
     '''
     from pygeodesy.bases import points2
     return points2(points, closed=closed, base=base)
+
+
+def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):  # PYCHOK no cover
+    '''DEPRECATED, use class L{Number_} or L{Scalar_}.
+
+       @arg value: The value (C{scalar}).
+       @kwarg low: Optional lower bound (C{scalar}).
+       @kwarg high: Optional upper bound (C{scalar}).
+       @kwarg name: Optional name of value (C{str}).
+       @kwarg Error: Exception to raise (C{ValueError}).
+
+       @return: New value (C{float} or C{int} for C{int} B{C{low}}).
+
+       @raise Error: Invalid B{C{value}}.
+    '''
+    from pygeodesy.basics import isint
+    from pygeodesy.units import Number_, Scalar_
+    C_ = Number_ if isint(low) else Scalar_
+    return C_(value, name=name, Error=Error, low=low, high=high)
 
 
 def simplify2(points, pipe, radius=_R_M, shortest=False, indices=False, **options):

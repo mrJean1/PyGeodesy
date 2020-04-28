@@ -30,7 +30,7 @@ to a normalised version of an (ECEF) cartesian coordinate.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, EPS_2, R_M, _float, InvalidError, \
+from pygeodesy.basics import EPS, EPS_2, PI, PI2, PI_2, R_M, \
                              isscalar, map1, _xinstanceof, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefKarney
@@ -42,10 +42,10 @@ from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
 from pygeodesy.points import _imdex2, ispolar  # PYCHOK exported
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase
-from pygeodesy.utily import PI, PI2, PI_2, degrees360, iterNumpy2, \
-                            sincos2, sincos2d
+from pygeodesy.units import Bearing, Bearing_, Height, Radius, Radius_, Scalar
+from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 
-from math import atan2, fabs, radians, sqrt
+from math import atan2, fabs, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.sphericalNvector + (
@@ -57,7 +57,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.04.12'
+__version__ = '20.04.21'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -240,8 +240,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @JSname: I{destinationPoint}.
         '''
         a = _angular(distance, radius)
-        b = _float(bearing=bearing)
-        sa, ca, sb, cb = sincos2(a, radians(b))
+        sa, ca, sb, cb = sincos2(a, Bearing_(bearing))
 
         p = self.toNvector()
         e = NorthPole.cross(p, raiser='pole').unit()  # east vector at p
@@ -269,7 +268,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         self.others(other)
 
-        return self.toNvector().angleTo(other.toNvector()) * radius
+        return self.toNvector().angleTo(other.toNvector()) * Radius(radius)
 
     def greatCircle(self, bearing):
         '''Compute the vector normal to great circle obtained by
@@ -283,7 +282,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @return: N-vector representing the great circle (L{Nvector}).
         '''
         a, b = self.philam
-        t = radians(bearing)
+        t = Bearing_(bearing)
 
         sa, ca, sb, cb, st, ct = sincos2(a, b, t)
         return Nvector(sb * ct - sa * cb * st,
@@ -375,12 +374,13 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         self.others(other)
 
-        i = other.toNvector().times(fraction).plus(
-             self.toNvector().times(1 - fraction))
-#       i = other.toNvector() * fraction + \
-#            self.toNvector() * (1 - fraction))
+        f = Scalar(fraction, name='fraction')
+        i = other.toNvector().times(f).plus(
+             self.toNvector().times(1 - f))
+#       i = other.toNvector() * f + \
+#            self.toNvector() * (1 - f))
 
-        h = self._havg(other, f=fraction) if height is None else height
+        h = self._havg(other, f=f) if height is None else Height(height)
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intermediateTo(self, other, fraction, height=None):
@@ -409,16 +409,17 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         self.others(other)
 
+        f = Scalar(fraction, name='fraction')
         p = self.toNvector()
         q = other.toNvector()
 
         x = p.cross(q, raiser='points')
         d = x.unit().cross(p)  # unit(p × q) × p
         # angular distance α, tan(α) = |p × q| / p ⋅ q
-        s, c = sincos2(atan2(x.length, p.dot(q)) * fraction)  # interpolated
+        s, c = sincos2(atan2(x.length, p.dot(q)) * f)  # interpolated
         i = p.times(c).plus(d.times(s))  # p * cosα + d * sinα
 
-        h = self._havg(other, f=fraction) if height is None else _float(height=height)
+        h = self._havg(other, f=f) if height is None else Height(height)
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intersection(self, end1, start2, end2, height=None):
@@ -678,7 +679,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             if t < r:
                 c, r = p, t
 
-        return NearestOn3Tuple(c, r * radius, degrees360(r))
+        return NearestOn3Tuple(c, r * Radius(radius), degrees360(r))
 
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Nvector}-based cartesian (ECEF)
@@ -862,7 +863,7 @@ class Nvector(NvectorBase):
            >>> n = LatLon(53.3206, -1.7297).toNvector()
            >>> gc = n.greatCircle(96.0)  # [-0.794, 0.129, 0.594]
         '''
-        s, c = sincos2d(bearing)
+        s, c = sincos2d(Bearing(bearing))
 
         e = NorthPole.cross(self, raiser='pole')  # easting
         n = self.cross(e, raiser='point')  # northing
@@ -935,7 +936,7 @@ def areaOf(points, radius=R_M):
 
     # using Girard’s theorem: A = [Σθᵢ − (n−2)·π]·R²
     # (PI2 - abs(s) == (n*PI - abs(s)) - (n-2)*PI)
-    return abs(PI2 - abs(s)) * radius**2
+    return abs(PI2 - abs(s)) * Radius(radius)**2
 
 
 def intersection(start1, end1, start2, end2,
@@ -1122,7 +1123,7 @@ def perimeterOf(points, closed=False, radius=R_M):
             v1 = v2
 
     r = fsum(_rads(n, points, closed))
-    return r * _float(radius=radius)
+    return r * Radius(radius)
 
 
 def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
@@ -1174,22 +1175,22 @@ def triangulate(point1, bearing1, point2, bearing2,
     if point1.isequalTo(point2, EPS):
         raise ValueError('%s %s: %r' % ('coincident', 'points', point2))
 
-    def _gc(p, b):
+    def _gc(p, b, i):
         n = p.toNvector()
         de = NorthPole.cross(n, raiser='pole').unit()  # east vector @ n
         dn = n.cross(de)  # north vector @ n
-        s, c = sincos2d(b)
+        s, c = sincos2d(Bearing(b, name='bearing' + i))
         dest = de.times(s)
         dnct = dn.times(c)
         d = dnct.plus(dest)  # direction vector @ n
         return n.cross(d)  # great circle point + bearing
 
-    gc1 = _gc(point1, bearing1)  # great circle p1 + b1
-    gc2 = _gc(point2, bearing2)  # great circle p2 + b2
+    gc1 = _gc(point1, bearing1, '1')  # great circle p1 + b1
+    gc2 = _gc(point2, bearing2, '2')  # great circle p2 + b2
 
     n = gc1.cross(gc2, raiser='points')  # n-vector of intersection point
 
-    h = point1._havg(point2) if height is None else height
+    h = point1._havg(point2) if height is None else Height(height)
     kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
     return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
@@ -1226,21 +1227,19 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
                           B{C{distances}} exceed trilateration or
                           some B{C{points}} coincide.
     '''
-    def _nd2(p, d, r, name, *qs):
+    def _nd2(p, d, r, i, *qs):
         # return Nvector and angular distance squared
-        _Nvll.others(p, name=name)
+        _Nvll.others(p, name='point' + i)
         for q in qs:
             if p.isequalTo(q, EPS):
                 raise ValueError('%s %s: %r' % ('coincident', 'points', p))
-        return p.toNvector(), (d / r)**2
+        return p.toNvector(), (Scalar(d, name='distance' + i) / r)**2
 
-    r = _float(radius=radius)
-    if r < EPS:
-        raise InvalidError(radius=radius)
+    r = Radius_(radius)
 
-    n1, d12 = _nd2(point1, _float(distance1=distance1), r, 'point1')
-    n2, d22 = _nd2(point2, _float(distance2=distance2), r, 'point2', point1)
-    n3, d32 = _nd2(point3, _float(distance3=distance3), r, 'point3', point1, point2)
+    n1, d12 = _nd2(point1, distance1, r, '1')
+    n2, d22 = _nd2(point2, distance2, r, '2', point1)
+    n3, d32 = _nd2(point3, distance3, r, '3', point1, point2)
 
     # the following uses x,y coordinate system with origin at n1, x axis n1->n2
     y = n3.minus(n1)
@@ -1268,14 +1267,14 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
                 h = fidw((point1.height, point2.height, point3.height),
                          map1(fabs, distance1, distance2, distance3))
             else:
-                h = height
+                h = Height(height)
             kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
             return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
     # no intersection, d < EPS_2 or j < EPS_2
     raise ValueError('no %s for %r, %r, %r at %r, %r, %r' %
-                     ('trilaterate', point1, point2, point3,
-                      distance1, distance2, distance3))
+                     (trilaterate.__name__, point1,    point2,    point3,
+                                         distance1, distance2, distance3))
 
 # **) MIT License
 #

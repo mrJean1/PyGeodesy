@@ -5,16 +5,16 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.basics import EPS, R_M, _float, len2, LimitError, \
-                            _limiterrors, map1, _xinstanceof
+from pygeodesy.basics import EPS, PI, PI2, PI_2, R_M, InvalidError, \
+                             len2, LimitError, _limiterrors, _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.fmath import fsum_, hypot, hypot2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Distance4Tuple, LatLon2Tuple, PhiLam2Tuple, \
                             Points2Tuple, Vector3Tuple
 from pygeodesy.streprs import fstr
-from pygeodesy.utily import PI, PI2, PI_2, degrees2m, \
-                            degrees90, degrees180, degrees360, \
+from pygeodesy.units import Distance, Height, Lam_, Lat, Lon, Phi_, Radius
+from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
                             isNumpy2, isTuple2, sincos2, unroll180, unrollPI, \
                             wrap90, wrap180, wrapPI, wrapPI_2
 
@@ -22,7 +22,7 @@ from math import acos, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.04.12'
+__version__ = '20.04.21'
 
 
 class PointsError(ValueError):
@@ -85,8 +85,10 @@ def bearing(lat1, lon1, lat2, lon2, **options):
        @return: Initial or final bearing (compass C{degrees360}) or
                 zero if start and end point coincide.
     '''
-    ab4 = map1(radians, lat1, lon1, lat2, lon2)
-    return degrees(bearing_(*ab4, **options))
+    return degrees(bearing_(Phi_(lat1, name='lat1'),
+                            Lam_(lon1, name='lon1'),
+                            Phi_(lat2, name='lat2'),
+                            Lam_(lon2, name='lon2'), **options))
 
 
 def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
@@ -171,10 +173,11 @@ def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @note: See note at function L{vincentys_}.
     '''
-    r = float(radius)
+    r = Radius(radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
-        r *= cosineLaw_(radians(lat2), radians(lat1), radians(d))
+        r *= cosineLaw_(Phi_(lat2, name='lat2'),
+                        Phi_(lat1, name='lat1'), radians(d))
     return r
 
 
@@ -218,7 +221,10 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
              available B{C{options}}, errors, restrictions and other,
              approximate or accurate distance functions.
     '''
-    _, dy, dx, _ = equirectangular_(lat1, lon1, lat2, lon2, **options)  # PYCHOK Distance4Tuple
+    _, dy, dx, _ = equirectangular_(Lat(lat1, name='lat1'),
+                                    Lon(lon1, name='lon1'),
+                                    Lat(lat2, name='lat2'),
+                                    Lon(lon2, name='lon2'), **options)  # PYCHOK Distance4Tuple
     return degrees2m(hypot(dx, dy), radius=radius)
 
 
@@ -293,10 +299,11 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
              L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
              C{LatLon.equirectangularTo}.
     '''
-    r = float(radius)
+    r = Radius(radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
-        r *= euclidean_(radians(lat2), radians(lat1), radians(d), adjust=adjust)
+        r *= euclidean_(Phi_(lat2, name='lat2'),
+                        Phi_(lat1, name='lat1'), radians(d), adjust=adjust)
     return r
 
 
@@ -351,7 +358,8 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
              <https://www.edwilliams.org/avform.htm#flat>}.
     '''
     d, _ = unroll180(lon1, lon2, wrap=wrap)
-    return flatLocal_(radians(lat2), radians(lat1), radians(d), datum=datum)
+    return flatLocal_(Phi_(lat2, name='lat2'),
+                      Phi_(lat1, name='lat1'), radians(d), datum=datum)
 
 
 def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
@@ -402,10 +410,11 @@ def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
              L{equirectangular}, L{euclidean}, L{haversine} and
              L{vincentys}.
     '''
-    r = float(radius)
+    r = Radius(radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
-        r *= flatPolar_(radians(lat2), radians(lat1), radians(d))
+        r *= flatPolar_(Phi_(lat2, name='lat2'),
+                        Phi_(lat1, name='lat1'), radians(d))
     return r
 
 
@@ -457,10 +466,11 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @note: See note at function L{vincentys_}.
     '''
-    r = float(radius)  # _float(radius=radius)
+    r = Radius(radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
-        r *= haversine_(radians(lat2), radians(lat1), radians(d))
+        r *= haversine_(Phi_(lat2, name='lat2'),
+                        Phi_(lat1, name='lat1'), radians(d))
     return r
 
 
@@ -510,18 +520,19 @@ def heightOf(angle, distance, radius=R_M):
              and U{Potvin et al. 2012, JTECH
              <https://Journals.AMetSoc.org/doi/abs/10.1175/JTECH-D-11-00019.1>}).
     '''
-    d, r = _float(distance=distance), _float(radius=radius)
-    if d > r:
-        d, r = r, d
+    r = h = Radius(radius)
+    d = abs(Distance(distance))
+    if d > h:
+        d, h = h, d
 
     if d > EPS:
-        d = d / r
-        s = sin(radians(_float(angle=angle)))
+        d = d / h  # PyChecker chokes on ... /= ...
+        s = sin(Phi_(angle, name='angle', clip=180))
         s = fsum_(1, 2 * s * d, d**2)
         if s > 0:
-            return r * sqrt(s) - float(radius)
+            return h * sqrt(s) - r
 
-    raise ValueError('%s%r' % (heightOf.__name__, (angle, distance, radius)))
+    raise InvalidError(angle=angle, distance=distance, radius=radius)
 
 
 def horizon(height, radius=R_M, refraction=False):
@@ -538,14 +549,14 @@ def horizon(height, radius=R_M, refraction=False):
 
        @see: U{Distance to horizon<https://www.EdWilliams.org/avform.htm#Horizon>}.
     '''
-    h, r = _float(height=height), _float(radius=radius)
+    h, r = Height(height), Radius(radius)
     if min(h, r) < 0:
-        raise ValueError('%s%r' % (horizon.__name__, (r, r)))
+        raise InvalidError(height=height, radius=radius)
 
     if refraction:
         d2 = 2.415750694528 * h * r  # 2.0 / 0.8279
     else:
-        d2 = height * fsum_(r, r, h)
+        d2 = h * fsum_(r, r, h)
     return sqrt(d2)
 
 
@@ -713,10 +724,11 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @note: See note at function L{vincentys_}.
     '''
-    r = float(radius)
+    r = Radius(radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
-        r *= vincentys_(radians(lat2), radians(lat1), radians(d))
+        r *= vincentys_(Phi_(lat2, name='lat2'),
+                        Phi_(lat1, name='lat1'), radians(d))
     return r
 
 

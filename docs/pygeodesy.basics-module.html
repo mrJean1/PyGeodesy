@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.04.12
+        20.04.26
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -103,13 +103,18 @@
       Error raised for lat- or longitude values outside the 
         <b><code>clip</code></b>, <b><code>clipLat</code></b>, 
         <b><code>clipLon</code></b> or <b><code>limit</code></b> range in 
-        function <a href="pygeodesy.dms-module.html#clipDMS" 
-        class="link">clipDMS</a>, <a 
+        function <a href="pygeodesy.dms-module.html#clipDegrees" 
+        class="link">clipDegrees</a>, <a 
+        href="pygeodesy.dms-module.html#clipRadians" 
+        class="link">clipRadians</a>, <a 
         href="pygeodesy.dms-module.html#parse3llh" 
         class="link">parse3llh</a>, <a 
-        href="pygeodesy.dms-module.html#parseDMS" class="link">parseDMS</a>
-        or <a href="pygeodesy.dms-module.html#parseDMS2" 
-        class="link">parseDMS2</a>.
+        href="pygeodesy.dms-module.html#parseDMS" 
+        class="link">parseDMS</a>, <a 
+        href="pygeodesy.dms-module.html#parseDMS2" 
+        class="link">parseDMS2</a> or <a 
+        href="pygeodesy.dms-module.html#parseRad" 
+        class="link">parseRad</a>.
     </td>
   </tr>
 <tr>
@@ -204,9 +209,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#InvalidError" class="summary-sig-name">InvalidError</a>(<span class="summary-sig-arg">**name_value_Error</span>)</span><br />
-      Create a <code>ValueError</code> for an invalid 
-      <code>name=value</code>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#InvalidError" class="summary-sig-name">InvalidError</a>(<span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;type 'exceptions.ValueError'&gt;</span>,
+        <span class="summary-sig-arg">txt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">invalid</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">**name_value_s</span>)</span><br />
+      Create a <code>ValueError</code> for invalid <code>name=value</code> 
+      pairs.</td>
           <td align="right" valign="top">
             
             
@@ -470,27 +477,6 @@
       
     </td>
   </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#scalar" class="summary-sig-name">scalar</a>(<span class="summary-sig-arg">value</span>,
-        <span class="summary-sig-arg">low</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
-        <span class="summary-sig-arg">high</span>=<span class="summary-sig-default">1.0</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span><br />
-      Validate a scalar.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
 </table>
 <!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
@@ -500,6 +486,13 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Variables</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PI"></a><span class="summary-name">PI</span> = <code title="3.14159265359">3.14159265359</code>
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -588,6 +581,31 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="PI2"></a><span class="summary-name">PI2</span> = <code title="6.28318530718">6.28318530718</code><br />
+      Two PI, <i class="math">PI * 2</i> aka Tau (<code>float</code>)  # 
+      PYCHOK expected
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PI_2"></a><span class="summary-name">PI_2</span> = <code title="1.57079632679">1.57079632679</code><br />
+      Half PI, <i class="math">PI / 2</i> (<code>float</code>)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PI_4"></a><span class="summary-name">PI_4</span> = <code title="0.785398163397">0.785398163397</code><br />
+      Quarter PI, <i class="math">PI / 4</i> (<code>float</code>)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.77141">6371008.77141</code><br />
       Mean, spherical earth radius (<code>meter</code>).
     </td>
@@ -667,21 +685,21 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">InvalidError</span>&nbsp;(<span class="sig-arg">**name_value_Error</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">InvalidError</span>&nbsp;(<span class="sig-arg">Error</span>=<span class="sig-default">&lt;type 'exceptions.ValueError'&gt;</span>,
+        <span class="sig-arg">txt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">invalid</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">**name_value_s</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Create a <code>ValueError</code> for an invalid 
-  <code>name=value</code>.</p>
+  <p>Create a <code>ValueError</code> for invalid <code>name=value</code> 
+  pairs.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name_value_Error</code></strong> - One <b><code>name=value</code></b> pair and optionally an 
-          <b><code>Error=...</code></b> keyword argument to override the 
-          default <b><code>Error=ValueError</code></b>.</li>
+        <li><strong class="pname"><code>name_value_s</code></strong> - One or more <b><code>name=value</code></b> pairs.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>ValueError</code> or an <b><code>Error</code></b> 
@@ -854,7 +872,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
-        <li><strong class="pname"><code>excluded</code></strong> - Optional, exclusions (<code>type</code>).</li>
+        <li><strong class="pname"><code>excluded</code></strong> - Optional exclusions (<code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>obj</code></b> is a sequence, 
@@ -1104,44 +1122,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="scalar"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">scalar</span>&nbsp;(<span class="sig-arg">value</span>,
-        <span class="sig-arg">low</span>=<span class="sig-default">2.22044604925e-16</span>,
-        <span class="sig-arg">high</span>=<span class="sig-default">1.0</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">scalar</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;type 'exceptions.ValueError'&gt;</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Validate a scalar.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>value</code></strong> - The value (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>low</code></strong> - Optional lower bound (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>high</code></strong> - Optional upper bound (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name of value (<code>str</code>).</li>
-        <li><strong class="pname"><code>Error</code></strong> - Exception to raise (<code>ValueError</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>New value (<code>type</code> of <b><code>low</code></b>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>value</code></b>.</li>
-        <li><code><strong class='fraise'>Error</strong></code> - Out-of-bounds <b><code>value</code></b>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -1174,7 +1154,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr 14 11:55:11 2020
+    Generated by Epydoc 3.0.1 on Mon Apr 27 20:51:12 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

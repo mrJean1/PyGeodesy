@@ -59,15 +59,17 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, property_doc_, property_RO, scalar, _xkwds
+from pygeodesy.basics import EPS, property_doc_, property_RO, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import Bearing2Tuple, Destination2Tuple, Distance3Tuple
+from pygeodesy.named import Bearing2Tuple, Destination2Tuple, \
+                            Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
+from pygeodesy.units import Number_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, degrees360, \
                             sincos2, unroll180
 
@@ -77,7 +79,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '20.04.02'
+__version__ = '20.04.21'
 
 
 class VincentyError(ValueError):
@@ -306,7 +308,7 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise ValueError: Out of bounds B{C{eps}}.
         '''
-        self._epsilon = scalar(eps, name='epsilon')
+        self._epsilon = Scalar_(eps, name='epsilon')
 
     def finalBearingOn(self, distance, bearing):
         '''Compute the final bearing (reverse azimuth) after having
@@ -426,7 +428,7 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise ValueError: Out-of-bounds B{C{limit}}.
         '''
-        self._iterations = scalar(limit, 4, 500, name='limit')
+        self._iterations = Number_(limit, name='limit', low=4, high=500)
 
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Vincenty}-based cartesian (ECEF)

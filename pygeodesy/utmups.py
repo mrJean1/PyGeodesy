@@ -16,16 +16,16 @@ by I{Charles Karney}.
 from pygeodesy.basics import InvalidError, RangeError
 from pygeodesy.datum import Datums
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import UtmUps5Tuple, UtmUps8Tuple
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
 from pygeodesy.utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
 from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UPS_ZONE, _UPS_ZONE_STR, \
-                                 _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
+                                 _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX, \
+                                  UtmUps5Tuple, UtmUps8Tuple  # PYCHOK indent
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.04.10'
+__version__ = '20.04.19'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -228,14 +228,12 @@ def utmupsValidate(coord, falsed=False, MGRS=False):
     else:
         s = 0
 
-    U = '%s %s%s %s' % (U, z,B, h)
-
     i = 'SN'.find(h)
     if i < 0 or z < _UTMUPS_ZONE_MIN \
              or z > _UTMUPS_ZONE_MAX \
              or B not in u._Bands:
-        raise UTMUPSError('%s %s, %s or %s invalid: %r' % (U,
-                          'zone', 'hemisphere', 'band', (zone, hemi, band)))
+        raise InvalidError(zone=zone, hemisphere=hemi, band=band,
+                           coord='%s(%s%s %s)' % (U, z,B, h), Error=UTMUPSError)
 
     if enMM:
         _en(e, M.eMin[i] - s, M.eMax[i] + s, 'easting')   # PYCHOK .eMax .eMin

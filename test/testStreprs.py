@@ -4,7 +4,7 @@
 # Test formatting functions.
 
 __all__ = ('Tests',)
-__version__ = '20.04.08'
+__version__ = '20.04.24'
 
 from base import TestsBase
 
@@ -56,6 +56,14 @@ class Tests(TestsBase):
                      ('0.010e+03',    '0.01e+03'),
                      ('0.0200e+00',   '0.02e+00')):
             self.test('fstrzs(%s)' % (f,), fstrzs(f), x)
+
+        for f, x in (('0',    '0.0'),
+                     ('0.0',  '0.0'),
+                     ('0.',   '0.'),
+                     ('1e10', '1.0e10'),
+                     ('2E+2', '2.0E+2'),
+                     ('3.E3', '3.E3')):
+            self.test('fstrzs(%s, ap1z=True)' % (f,), fstrzs(f, ap1z=True), x)
 
         ll = LatLon_(45, 90, height=1.2)
         self.test('instr', ll.toStr2(), 'LatLon_(45.0°N, 090.0°E, +1.20)')

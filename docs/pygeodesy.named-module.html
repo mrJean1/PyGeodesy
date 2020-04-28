@@ -59,10 +59,9 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module named</h1><p class="nomargin-top"></p>
-<p>(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code>, 
-  <code>_NamedInt</code>, <code>_NamedStr</code> and 
-  <code>_NamedTuple</code> with nameable instances and several subclasses 
-  thereof.</p>
+<p>(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code> and 
+  <code>_NamedTuple</code>, all with nameable instances and several 
+  subclasses thereof.</p>
   <p>In addition, the items in a <code>_NamedDict</code> are accessable as 
   attributes and the items in a <code>_NamedTuple</code> can be named to be
   accessable as attributes, similar to standard Python 
@@ -74,7 +73,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.04.14
+        20.04.22
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -98,17 +97,6 @@
     </td><td class="summary">
         <a href="pygeodesy.named._NamedBase-class.html" class="summary-name">_NamedBase</a><br />
       (INTERNAL) Base class with name.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.Neighbors8Dict-class.html" class="summary-name">Neighbors8Dict</a><br />
-      8-Dict <code>(N, NE, E, SE, S, SW, W, NW)</code> of <a 
-        href="pygeodesy.geohash.Geohash-class.html" 
-        class="link">Geohash</a>es, providing key <i>and</i> attribute 
-        access to the items.
     </td>
   </tr>
 <tr>
@@ -161,19 +149,20 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.named.Curvature2Tuple-class.html" class="summary-name">Curvature2Tuple</a><br />
-      2-Tuple <code>(meridional, prime_vertical)</code> of radii of 
-        curvature, both in <code>meter</code>.
+        <a href="pygeodesy.named.Destination2Tuple-class.html" class="summary-name">Destination2Tuple</a><br />
+      2-Tuple <code>(destination, final)</code>, <code>destination</code>
+        in <code>LatLon</code> and <code>final</code> bearing in compass 
+        <code>degrees360</code>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.named.Destination2Tuple-class.html" class="summary-name">Destination2Tuple</a><br />
-      2-Tuple <code>(destination, final)</code>, <code>destination</code>
-        in <code>LatLon</code> and <code>final</code> bearing in compass 
-        <code>degrees360</code>.
+        <a href="pygeodesy.named.Destination3Tuple-class.html" class="summary-name">Destination3Tuple</a><br />
+      3-Tuple <code>(lat, lon, final)</code>, destination 
+        <code>lat</code>, <code>lon</code> in and <code>final</code> 
+        bearing in <code>degrees</code>.
     </td>
   </tr>
 <tr>
@@ -233,71 +222,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.named.EasNorAziRk4Tuple-class.html" class="summary-name">EasNorAziRk4Tuple</a><br />
-      4-Tuple <code>(easting, northing, azimuth, reciprocal)</code> for 
-        the Cassini-Soldner location with <code>easting</code> and 
-        <code>northing</code> in <code>meters</code>, the 
-        <code>azimuth</code> of easting direction azimuth and 
-        <code>reciprocal</code> the reciprocal of azimuthal northing scale 
-        reciprocal, both in <code>degrees</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.EasNorExact4Tuple-class.html" class="summary-name">EasNorExact4Tuple</a><br />
-      4-Tuple <code>(easting, northing, convergence, scale)</code> in 
-        <code>meter</code>, <code>meter</code>, <code>degrees</code> and 
-        <code>scalar</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.EasNorRadius3Tuple-class.html" class="summary-name">EasNorRadius3Tuple</a><br />
-      3-Tuple <code>(easting, northing, radius)</code>, all in 
-        <code>meter</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.Elevation2Tuple-class.html" class="summary-name">Elevation2Tuple</a><br />
-      2-Tuple <code>(elevation, data_source)</code> in <code>meter</code>
-        and <code>str</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.GeoidHeight2Tuple-class.html" class="summary-name">GeoidHeight2Tuple</a><br />
-      2-Tuple <code>(height, model_name)</code>, geoid 
-        <code>height</code> in <code>meter</code> and 
-        <code>model_name</code> as <code>str</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.GeoidHeight5Tuple-class.html" class="summary-name">GeoidHeight5Tuple</a><br />
-      5-Tuple <code>(lat, lon, egm84, egm96, egm2008)</code> for <a 
-        href="https://SourceForge.net/projects/geographiclib/files/testdata/"
-        target="_top">GeoidHeights.dat</a> tests with the heights for 3 
-        different EGM grids with <code>-90.0 &lt;= lat &lt;= 90.0</code> 
-        and <code>-180.0 &lt;= lon &lt;= 180.0</code> degrees (and 
-        <code>lon</code> converted from the original <code>0.0 &lt;= 
-        EasterLon &lt;= 360.0</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.named.LatLon2Tuple-class.html" class="summary-name">LatLon2Tuple</a><br />
       2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
         <code>degrees180</code>.
@@ -327,42 +251,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.named.LatLonAziRk4Tuple-class.html" class="summary-name">LatLonAziRk4Tuple</a><br />
-      4-Tuple <code>(lat, lon, azimuth, reciprocal)</code>, all in 
-        <code>degrees</code> where <code>azimuth</code> is the azimuth of 
-        easting direction and <code>reciprocal</code> the reciprocal of 
-        azimuthal northing scale.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.named.LatLonDatum3Tuple-class.html" class="summary-name">LatLonDatum3Tuple</a><br />
       3-Tuple <code>(lat, lon, datum)</code> in <code>degrees90</code>, 
         <code>degrees180</code> and <a 
         href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.LatLonDatum5Tuple-class.html" class="summary-name">LatLonDatum5Tuple</a><br />
-      5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
-        <code>degrees90</code>, <code>degrees180</code>, <a 
-        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>, 
-        <code>degrees</code> and <code>float</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.LatLonExact4Tuple-class.html" class="summary-name">LatLonExact4Tuple</a><br />
-      4-Tuple <code>(lat, lon, convergence, scale)</code> in 
-        <code>degrees180</code>, <code>degrees</code>, <code>degrees</code>
-        and <code>scalar</code>.
     </td>
   </tr>
 <tr>
@@ -389,30 +281,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.named.Mgrs4Tuple-class.html" class="summary-name">Mgrs4Tuple</a><br />
-      4-Tuple <code>(zone, digraph, easting, northing)</code>, 
-        <code>zone</code> and <code>digraph</code> as <code>str</code>, 
-        <code>easting</code> and <code>northing</code> in 
-        <code>meter</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.Mgrs6Tuple-class.html" class="summary-name">Mgrs6Tuple</a><br />
-      6-Tuple <code>(zone, digraph, easting, northing, band, 
-        datum)</code>, <code>zone</code>, <code>digraph</code> and 
-        <code>band</code> as <code>str</code>, <code>easting</code> and 
-        <code>northing</code> in <code>meter</code> and <code>datum</code> 
-        a <a href="pygeodesy.datum.Datum-class.html" 
-        class="link">Datum</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.named.NearestOn3Tuple-class.html" class="summary-name">NearestOn3Tuple</a><br />
       3-Tuple <code>(closest, distance, angle)</code> of the 
         <code>closest</code> point on the polygon, either a 
@@ -422,24 +290,6 @@
         the <code>distance</code> and <code>angle</code> to the 
         <code>closest</code> point are in <code>meter</code> respectively 
         compass <code>degrees360</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.NearestOn5Tuple-class.html" class="summary-name">NearestOn5Tuple</a><br />
-      5-Tuple <code>(lat, lon, distance, angle, height)</code> all in 
-        <code>degrees</code>, except <code>height</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.Ned3Tuple-class.html" class="summary-name">Ned3Tuple</a><br />
-      3-Tuple <code>(north, east, down)</code>, all in 
-        <code>degrees</code>.
     </td>
   </tr>
 <tr>
@@ -479,97 +329,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.named.Point3Tuple-class.html" class="summary-name">Point3Tuple</a><br />
-      3-Tuple <code>(x, y, ll)</code> in <code>meter</code>, 
-        <code>meter</code> and <code>LatLon</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.named.Points2Tuple-class.html" class="summary-name">Points2Tuple</a><br />
       2-Tuple <code>(number, points)</code> with the <code>number</code> 
         of points and -possible reduced- <code>list</code> or 
         <code>tuple</code> of <code>points</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.Shape2Tuple-class.html" class="summary-name">Shape2Tuple</a><br />
-      2-Tuple <code>(nrows, ncols)</code>, the number of rows and 
-        columns, both <code>int</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.UtmUps2Tuple-class.html" class="summary-name">UtmUps2Tuple</a><br />
-      2-Tuple <code>(zone, hemipole)</code> as <code>int</code> and 
-        <code>str</code>, where <code>zone</code> is <code>1..60</code> for
-        UTM or <code>0</code> for UPS and <code>hemipole</code> 
-        <code>'N'|'S'</code> is the UTM hemisphere or the UPS pole.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.UtmUps4Tuple-class.html" class="summary-name">UtmUps4Tuple</a><br />
-      4-Tuple <code>(zone, hemipole, easting, northing)</code> as 
-        <code>str</code>, <code>str</code>, <code>meter</code> and 
-        <code>meter</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.UtmUps5Tuple-class.html" class="summary-name">UtmUps5Tuple</a><br />
-      5-Tuple <code>(zone, hemipole, easting, northing, band)</code> as 
-        <code>int</code>, <code>str</code>, <code>meter</code>, 
-        <code>meter</code> and <code>band</code> letter, where 
-        <code>zone</code> is <code>1..60</code> for UTM or <code>0</code> 
-        for UPS, <code>hemipole</code> <code>'N'|'S'</code> is the UTM 
-        hemisphere or the UPS pole and <code>band</code> is 
-        <code>&quot;&quot;</code> or the (longitudinal) UTM band 
-        <code>'C'|'D'..'W'|'X'</code> or the (polar) UPS band 
-        <code>'A'|'B'|'Y'|'Z'</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.UtmUps8Tuple-class.html" class="summary-name">UtmUps8Tuple</a><br />
-      8-Tuple <code>(zone, hemipole, easting, northing, band, datum, 
-        convergence, scale)</code> as <code>int</code>, <code>str</code>, 
-        <code>meter</code>, <code>meter</code>, <code>band</code> letter, 
-        <code>Datum</code>, <code>degrees</code> and <code>float</code>, 
-        where <code>zone</code> is <code>1..60</code> for UTM or 
-        <code>0</code> for UPS, <code>hemipole</code> <code>'N'|'S'</code> 
-        is the UTM hemisphere or the UPS pole and <code>band</code> is 
-        <code>&quot;&quot;</code> or the (longitudinal) UTM band 
-        <code>'C'|'D'..'W'|'X'</code> or the (polar) UPS band 
-        <code>'A'|'B'|'Y'|'Z'</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.named.UtmUpsLatLon5Tuple-class.html" class="summary-name">UtmUpsLatLon5Tuple</a><br />
-      5-Tuple <code>(zone, band, hemipole, lat, lon)</code> as 
-        <code>int</code>, <code>str</code>, <code>str</code>, 
-        <code>degrees90</code> and <code>degrees180</code>, where 
-        <code>zone</code> is <code>1..60</code> for UTM or <code>0</code> 
-        for UPS, <code>band</code> is <code>&quot;&quot;</code> or the 
-        (longitudinal) UTM band <code>'C'|'D'..'W'|'X'</code> or (polar) 
-        UPS band <code>'A'|'B'|'Y'|'Z'</code> and <code>hemipole</code> 
-        <code>'N'|'S'</code> is the UTM hemisphere or the UPS pole.
     </td>
   </tr>
 <tr>
@@ -874,7 +637,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr 14 11:55:11 2020
+    Generated by Epydoc 3.0.1 on Mon Apr 27 20:51:13 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -75,18 +75,19 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, INF, _float, InvalidError, \
+from pygeodesy.basics import EPS, INF, PI, PI_2, PI_4, \
                              map2, property_RO
 from pygeodesy.fmath import fdot, Fsum, fsum_, hypot1
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
-from pygeodesy.utily import PI, PI_2, PI_4, sincos2, sincos2d
+from pygeodesy.units import Scalar_
+from pygeodesy.utily import sincos2, sincos2d
 
 from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic + _ALL_DOCS('Elliptic3Tuple')
-__version__ = '20.04.11'
+__version__ = '20.04.21'
 
 _TolJAC = sqrt(EPS * 0.01)
 _TolRD  =  pow(EPS * 0.002, 0.125)
@@ -556,25 +557,15 @@ class Elliptic(_Named):
                   accuracy to be maintained, e.g., when C{k} is very
                   close to unity.
         '''
-        self._k2 = k2 = _float(k2=k2, Error=EllipticError)
-        if 0 > k2 or k2 > 1:
-            raise InvalidError(k2=k2, Error=EllipticError)
+        self._k2 = k2 = Scalar_(k2, name='k2', Error=EllipticError, high=1.0)
 
-        self._alpha2 = alpha2 = _float(alpha2=alpha2, Error=EllipticError)
-        if 0 > alpha2 or alpha2 > 1:
-            raise InvalidError(alpha2=alpha2, Error=EllipticError)
+        self._alpha2 = alpha2 = Scalar_(alpha2, name='alpha2', Error=EllipticError, high=1.0)
 
-        if kp2 is None:
-            kp2 = 1 - k2
-        self._kp2 = kp2 = _float(kp2=kp2, Error=EllipticError)
-        if kp2 < 0:
-            raise InvalidError(kp2=kp2, Error=EllipticError)
+        self._kp2 = kp2 = Scalar_(((1 - k2) if kp2 is None else kp2),
+                                  name='kp2', Error=EllipticError)
 
-        if alphap2 is None:
-            alphap2 = 1 - alpha2
-        self._alphap2 = alphap2 = _float(alphap2=alphap2, Error=EllipticError)
-        if alphap2 < 0:
-            raise InvalidError(alphap2=alphap2, Error=EllipticError)
+        self._alphap2 = alphap2 = Scalar_(((1 - alpha2) if alphap2 is None else alphap2),
+                                          name='alphap2', Error=EllipticError)
 
         # Values of complete elliptic integrals for k = 0,1 and alpha = 0,1
         #         K     E     D
@@ -616,9 +607,9 @@ class Elliptic(_Named):
             self._cKE = 0.0  # k2 * self._cD
 
         if alpha2:
-            if kp2:
+            if alphap2:
                 # <https://DLMF.NIST.gov/19.25.E2>
-                if alphap2:
+                if kp2:
                     rj_3 = _RJ_3(0, kp2, 1, alphap2)
                     # G(alpha2, k)
                     self._cG = self.cK + (alpha2 - k2) * rj_3
@@ -627,10 +618,10 @@ class Elliptic(_Named):
                     # Pi(alpha2, k)
                     self._cPi = self.cK + alpha2 * rj_3
                 else:
-                    self._cG = self._cH = self._cPi = INF  # XXX or NAN?
-            elif alphap2:
-                self._cG = self._cH = _RC(1, alphap2)
-                self._cPi = INF  # XXX or NAN?
+                    self._cG = self._cH = _RC(1, alphap2)
+                    self._cPi = INF  # XXX or NAN?
+            else:
+                self._cG = self._cH = self._cPi = INF  # XXX or NAN?
         else:
             self._cG  = self.cE
             self._cPi = self.cK

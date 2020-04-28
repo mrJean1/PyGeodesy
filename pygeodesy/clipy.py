@@ -16,7 +16,7 @@ from pygeodesy.points import _imdex2, boundsOf, isclockwise, isconvex_, \
                               LatLon_ as LL_
 
 __all__ = _ALL_LAZY.clipy + _ALL_DOCS('ClipCS3Tuple', 'ClipSH3Tuple')
-__version__ = '20.04.14'
+__version__ = '20.04.15'
 
 
 class ClipError(ValueError):
@@ -252,7 +252,6 @@ class _SH(object):
     _dy   = 0   # clip edge[e] delta lat
     _name = ''
     _nc   = 0   # len(._cs)
-    _pts  = ()  # points to clip
     _x1   = 0   # clip edge[e] lon origin
     _xy   = 0   # see .clipedges
     _y1   = 0   # clip edge[e] lat origin
@@ -274,7 +273,7 @@ class _SH(object):
             raise ClipError(n, cs, name)
         self._name = name
 
-    def clip(self, points, closed, inull):  # MCCABE 17, clip points
+    def clip2(self, points, closed, inull):  # MCCABE 17, clip points
         np, pts = _points2(points, closed, inull)
         pcs = _List(inull)  # clipped points
 
@@ -334,9 +333,8 @@ class _SH(object):
                     pts.pop()
                     np -= 1
 
-        self._pts = pts  # for .clipped2
         # assert len(pts) == np
-        return np
+        return np, pts
 
     def clipedges(self):  # yield clip edge index
         # and set self._x1, ._y1, ._dx, ._dy and
@@ -350,8 +348,7 @@ class _SH(object):
                 self._xy = self._y1 * self._dx - self._x1 * self._dy
                 yield e + 1
 
-    def clipped2(self, i):  # return (clipped point[i], edge)
-        p = self._pts[i]
+    def clipped2(self, p):  # return (clipped point [i], edge)
         if isinstance(p, _LLi_):  # intersection point
             return p.classof(p.lat, p.lon), p.edge
         else:  # original point
@@ -406,9 +403,9 @@ def clipSH(points, corners, closed=False, inull=False):
        @raise PointsError: Insufficient number of B{C{points}}.
    '''
     sh = _SH(corners, clipSH.__name__)
-    n = sh.clip(points, closed, inull)
+    n, pts = sh.clip2(points, closed, inull)
     for i in range(n):
-        yield sh.clipped2(i)[0]
+        yield sh.clipped2(pts[i])[0]
 
 
 def clipSH3(points, corners, closed=False, inull=False):
@@ -433,12 +430,12 @@ def clipSH3(points, corners, closed=False, inull=False):
        @raise PointsError: Insufficient number of B{C{points}}.
     '''
     sh = _SH(corners, clipSH3.__name__)
-    n = sh.clip(points, closed, inull)
+    n, pts = sh.clip2(points, closed, inull)
     if n > 0:
-        p2, e2 = sh.clipped2(0)
+        p2, e2 = sh.clipped2(pts[0])
         for i in range(1, n):
             p1, e1 = p2, e2
-            p2, e2 = sh.clipped2(i)
+            p2, e2 = sh.clipped2(pts[i])
             yield ClipSH3Tuple(p1, p2, not bool(e1 and e2 and e1 == e2))
 
 # **) MIT License

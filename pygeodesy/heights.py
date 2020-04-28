@@ -51,8 +51,9 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import EPS, _bkwds, InvalidError, isscalar, len2, \
-                             map1, map2, property_RO, _xinstanceof
+from pygeodesy.basics import EPS, PI, PI2, PI_2, _bkwds, InvalidError, \
+                             isscalar, len2, map1, map2, property_RO, \
+                            _xinstanceof  # PYCHOK indent
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, \
@@ -60,11 +61,10 @@ from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
-from pygeodesy.utily import PI, PI2, PI_2, radiansPI, radiansPI2, \
-                            unrollPI
+from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.04.12'
+__version__ = '20.04.21'
 
 
 class HeightError(PointsError):  # imported by .geoids

@@ -11,9 +11,9 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, _float, InvalidError, map1, R_M, \
-                             property_doc_, property_RO, scalar, _xinstanceof
-from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parseDMS, parseDMS2
+from pygeodesy.basics import EPS, R_M, InvalidError, map1, \
+                             property_doc_, property_RO, _xinstanceof
+from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS  # parseDMS, parseDMS2
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.fmath import favg
 from pygeodesy.formy import antipode, compassAngle, cosineLaw, \
@@ -23,6 +23,7 @@ from pygeodesy.formy import antipode, compassAngle, cosineLaw, \
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Bounds2Tuple, LatLon2Tuple, _NamedBase, \
                             notOverloaded, PhiLam2Tuple, Vector3Tuple
+from pygeodesy.units import Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.vector3d import Vector3d
 
 from math import asin, cos, degrees, radians
@@ -30,7 +31,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.04.12'
+__version__ = '20.04.21'
 
 
 class LatLonBase(_NamedBase):
@@ -70,9 +71,10 @@ class LatLonBase(_NamedBase):
            >>> p = LatLon(50.06632, -5.71475)
            >>> q = LatLon('50°03′59″N', """005°42'53"W""")
         '''
-        self._lat, self._lon = parseDMS2(lat, lon)  # PYCHOK LatLon2Tuple
+        self._lat = Lat(lat, name='lat')  # parseDMS2(lat, lon)
+        self._lon = Lon(lon, name='lon')  # PYCHOK LatLon2Tuple
         if height:  # elevation
-            self._height = scalar(height, None, name='height')
+            self._height = Height(height)
         if name:
             self.name = name
 
@@ -135,15 +137,16 @@ class LatLonBase(_NamedBase):
 
            @see: U{https://www.Movable-Type.co.UK/scripts/latlong-db.html}
         '''
-        w = wide * 0.5
-        h = high * 0.5
-        if radius > EPS:
-            ca = cos(self.phi)
-            if ca > EPS:
-                w = degrees(asin(w / radius) / ca)
+        w = Scalar_(wide, name='wide') * 0.5
+        h = Scalar_(high, name='high') * 0.5
+        if radius is not None:
+            r = Radius_(radius)
+            c = cos(self.phi)
+            if c > EPS:
+                w = degrees(asin(w / r) / c)
             else:
                 w = 0  # XXX
-            h = degrees(h / radius)
+            h = degrees(h / r)
         w, h = abs(w), abs(h)
 
         r = Bounds2Tuple(self.classof(self.lat - h, self.lon - w, height=self.height),
@@ -314,7 +317,7 @@ class LatLonBase(_NamedBase):
             self.others(other)
             r = 1
         else:
-            r = _float(radius=radius) / self.datum.ellipsoid.a
+            r = Radius(radius) / self.datum.ellipsoid.a
         return r * flatLocal(self.lat, self.lon, other.lat, other.lon,
                              datum=self.datum, wrap=wrap)
 
@@ -376,7 +379,7 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Invalid B{C{height}}.
         '''
-        h = scalar(height, None, name='height')
+        h = Height(height)
         self._update(h != self._height)
         self._height = h
 
@@ -429,7 +432,7 @@ class LatLonBase(_NamedBase):
         '''
         self.others(other)
 
-        e = 0 if eps in (None, 0, 0.0) else _float(eps=eps)
+        e = 0 if eps in (None, 0, 0.0) else Scalar_(eps, name='eps')
         if e > 0:
             return max(map1(abs, self.lat - other.lat,
                                  self.lon - other.lon)) < e
@@ -486,7 +489,7 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Invalid B{C{lat}}.
         '''
-        lat = parseDMS(lat, suffix='NS', clip=90)
+        lat = Lat(lat, name='lat')  # parseDMS(lat, suffix='NS', clip=90)
         self._update(lat != self._lat)
         self._lat = lat
 
@@ -516,13 +519,14 @@ class LatLonBase(_NamedBase):
         _xinstanceof(list, tuple, latlonh=latlonh)
 
         if len(latlonh) == 3:
-            h = scalar(latlonh[2], None, name='latlonh')
+            h = Height(latlonh[2], name='latlonh')
         elif len(latlonh) != 2:
             raise InvalidError(latlonh=latlonh)
         else:
             h = self._height
 
-        lat, lon = parseDMS2(latlonh[0], latlonh[1])
+        lat = Lat(latlonh[0], name='lat')  # parseDMS2(latlonh[0], latlonh[1])
+        lon = Lon(latlonh[1], name='lon')
         self._update(lat != self._lat or
                      lon != self._lon or h != self._height)
         self._lat, self._lon, self._height = lat, lon, h
@@ -572,7 +576,7 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Invalid B{C{lon}}.
         '''
-        lon = parseDMS(lon, suffix='EW', clip=180)
+        lon = Lon(lon, name='lon')  # parseDMS(lon, suffix='EW', clip=180)
         self._update(lon != self._lon)
         self._lon = lon
 
@@ -595,7 +599,8 @@ class LatLonBase(_NamedBase):
         '''Get the lat- and longitude (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
         if self._philam is None:
-            self._philam = PhiLam2Tuple(radians(self.lat), radians(self.lon))
+            self._philam = PhiLam2Tuple(radians(self.lat),
+                                        radians(self.lon))
         return self._xnamed(self._philam)
 
     def philam2(self, ndigits=0):

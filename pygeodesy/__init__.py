@@ -99,7 +99,7 @@ the test results (on macOS only) and the complete U{documentation
 Tests
 =====
 
-The tests have been run with Python 3.8.2, 3.7.6 and 2.7.17 (all with
+The tests have been run with Python 3.8.2, 3.7.6 and 2.7.18 (all with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
 <https://PyPI.org/project/numpy>} 1.18.0, 1.17.2 respectively 1.16.5 and
 U{scipy<https://SciPy.org/scipylib/download.html>} 1.4.1, 1.3.1 respectively
@@ -134,9 +134,9 @@ bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4 and 64-bit
 Python 3.7.3 on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10 (and
-numpy 1.8.0rc1), 2.7.13, 2.7.14, 2.7.15, 2.7.16 (and numpy 1.13.1, 1.14.0, 1.15.2
-or 1.16.2), 3.5.3, 3.6.2, 3.6.3, 3.6.4, 3.6.5, 3.7.0, 3.7.2, 3.7.3, 3.7.4, 3.7.5,
-3.8 and 3.8.1, U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and U{Intel-Python
+numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 1.14.0, 1.15.2 or 1.16.2),
+3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 3.7.5, 3.8 and 3.8.1,
+U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and U{Intel-Python
 <https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
 <https://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11
 El Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra, macOS 10.14 Mojave
@@ -155,8 +155,8 @@ All Python source code has been statically U{checked
 with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
-<https://PyPI.org/project/mccabe>} using Python 2.7.17 and with U{Flake8
-<https://PyPI.org/project/flake8>} using Python 3.8.1, both in 64-bit
+<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8
+<https://PyPI.org/project/flake8>} using Python 3.8.2, both in 64-bit
 on macOS 10.13.6 High Sierra.
 
 Some function and method names differ from the JavaScript version. In such
@@ -200,6 +200,9 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_DEG: Format degrees as unsigned "[D]DD" plus suffix without symbol (C{str}).
 @var F_MIN: Format degrees as unsigned "[D]DDMM" plus suffix without symbols (C{str}).
 @var F_SEC: Format degrees as unsigned "[D]DDMMSS" plus suffix without symbols (C{str}).
+@var F__E:  Format degrees as unsigned "%E" plus suffix without symbol (C{str}).
+@var F__F:  Format degrees as unsigned "%F" plus suffix without symbol (C{str}).
+@var F__G:  Format degrees as unsigned "%G" plus suffix without symbol (C{str}).
 @var F_RAD: Convert degrees to radians and format as unsigned "RR" plus suffix (C{str}).
 
 @var F_D_:   Format degrees as signed "-/deg°" without suffix (C{str}).
@@ -208,6 +211,9 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_DEG_: Format degrees as signed "-/[D]DD" without suffix and symbol (C{str}).
 @var F_MIN_: Format degrees as signed "-/[D]DDMM" without suffix and symbols (C{str}).
 @var F_SEC_: Format degrees as signed "-/[D]DDMMSS" without suffix and symbols (C{str}).
+@var F__E_:  Format degrees as signed "-%E" without suffix and symbol (C{str}).
+@var F__F_:  Format degrees as signed "-%F" without suffix and symbol (C{str}).
+@var F__G_:  Format degrees as signed "-%G" without suffix and symbol (C{str}).
 @var F_RAD_: Convert degrees to radians and format as signed "-/RR" without suffix (C{str}).
 
 @var F_D__:   Format degrees as signed "-/+deg°" without suffix (C{str}).
@@ -216,6 +222,9 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F_DEG__: Format degrees as signed "-/+[D]DD" without suffix and symbol (C{str}).
 @var F_MIN__: Format degrees as signed "-/+[D]DDMM" without suffix and symbols (C{str}).
 @var F_SEC__: Format degrees as signed "-/+[D]DDMMSS" without suffix and symbols (C{str}).
+@var F__E__:  Format degrees as signed "-/+%E" without suffix and symbol (C{str}).
+@var F__F__:  Format degrees as signed "-/+%F" without suffix and symbol (C{str}).
+@var F__G__:  Format degrees as signed "-/+%G" without suffix and symbol (C{str}).
 @var F_RAD__: Convert degrees to radians and format as signed "-/+RR" without suffix (C{str}).
 
 @var INF:    Infinity (C{float}), see function C{isinf}, C{isfinite}.
@@ -265,7 +274,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.04.14'
+__version__ = '20.04.28'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -329,6 +338,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.sphericalTrigonometry as sphericalTrigonometry  # PYCHOK exported
     import pygeodesy.streprs               as streprs                # PYCHOK exported
     import pygeodesy.trf                   as trf                    # PYCHOK exported
+    import pygeodesy.units                 as units                  # PYCHOK exported
     import pygeodesy.ups                   as ups                    # PYCHOK exported
     import pygeodesy.utily                 as utily                  # PYCHOK exported
     import pygeodesy.utm                   as utm                    # PYCHOK exported
@@ -378,6 +388,7 @@ if not _lazy_import2:  # import and set __all__
 #   from pygeodesy.sphericalTrigonometry import -  # MODULE O_N_L_Y
     from pygeodesy.streprs               import *  # PYCHOK __all__
     from pygeodesy.trf                   import *  # PYCHOK __all__
+    from pygeodesy.units                 import *  # PYCHOK __all__
     from pygeodesy.ups                   import *  # PYCHOK __all__
     from pygeodesy.utily                 import *  # PYCHOK __all__
     from pygeodesy.utm                   import *  # PYCHOK __all__
