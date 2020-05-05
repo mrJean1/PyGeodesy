@@ -4,7 +4,7 @@
 # Test some of the basics.
 
 __all__ = ('Tests',)
-__version__ = '20.04.26'
+__version__ = '20.05.04'
 
 from base import TestsBase
 
@@ -80,8 +80,9 @@ class Tests(TestsBase):
         self.test(InvalidError.__name__, e, 'zero (1): invalid')
         self.test(InvalidError.__name__, repr(e).replace(',', ''), "ValueError('zero (1): invalid')")
         e = InvalidError(zero=1, Error=RangeError, one=2, txt='outside')
-        self.test(InvalidError.__name__, e, 'zero (1) or one (2): outside')
-        self.test(InvalidError.__name__, repr(e).replace(',', ''), "RangeError('zero (1) or one (2): outside')")
+        t = e == 'one (2) or zero (1): outside'  # kwds ordering
+        self.test(InvalidError.__name__, e, 'zero (1) or one (2): outside', known=t)
+        self.test(InvalidError.__name__, repr(e).replace(',', ''), "RangeError('zero (1) or one (2): outside')", known=t)
 
         e = IsnotError(int.__name__, float.__name__, _None=None)
         self.test(IsnotError.__name__, e, '_None is not an int or float: None')

@@ -4,15 +4,15 @@
 # Test units module.
 
 __all__ = ('Tests',)
-__version__ = '20.04.24'
+__version__ = '20.05.04'
 
 from base import TestsBase
 
-from pygeodesy import (Bearing,  # Bearing_
+from pygeodesy import (Bearing, Bearing_,
                        Degrees, Distance, Easting,
                        Feet, Float, Height, Int,
-                       Lam, Lat, Lon, Meter, Northing,  # Lam_
-                       Phi, Radians, Radius, Radius_,  # Phi_
+                       Lam, Lam_, Lat, Lon, Meter, Northing,
+                       Phi, Phi_, Radians, Radius, Radius_,
                        Scalar, Scalar_, Number_, Precision_,
                        Str, units)
 
@@ -28,7 +28,7 @@ class Tests(TestsBase):
         n = U.__name__.lower()
         u = U(arg, name=n)
         u.units = n
-        R = '%s(%r)' % (u.name, arg)
+        R = '%s(%s)' % (u.name, r)
 
         self.test('.classname', u.classname, U.__name__)
         self.test('isinstance', isinstance(u, U), True)
@@ -80,10 +80,10 @@ class Tests(TestsBase):
         self.test('delattr', repr(u.name), "''")
 
     def testUnits(self):
-        for U in (Float, Bearing,  # Bearing_ radians(1.0)
+        for U in (Float, Bearing,
                          Degrees, Distance, Easting, Feet, Height,  # PYCHOK indent
-                         Lam, Lat, Lon, Meter, Northing,  # PYCHOK indent Lam_ radians(1.0)
-                         Phi, Radians, Radius, Radius_,  # PYCHOK indent Phi_ radians(1.0)
+                         Lam, Lat, Lon, Meter, Northing,  # PYCHOK indent
+                         Phi, Radians, Radius, Radius_,  # PYCHOK indent
                          Scalar, Scalar_):  # PYCHOK indent
             self.testUnit(U, 1.0)
 
@@ -92,6 +92,12 @@ class Tests(TestsBase):
 
         for U in (Str,):
             self.testUnit(U, 'U', known=True)
+
+        self.subtitle(units)  # courtesy JaapZee at Gmail
+        self.test(Bearing.__name__,  Bearing(361), 1.0)
+        self.test(Bearing_.__name__, Bearing_(361), 0.01745, fmt='%.5f')
+        self.test(Lam_.__name__,     Lam_(361, clip=0), 6.3, fmt='%.1f')
+        self.test(Phi_.__name__,     Phi_(361, clip=0), 6.3, fmt='%.1f')
 
 
 if __name__ == '__main__':

@@ -20,7 +20,7 @@ from math import radians
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.units + _ALL_DOCS('_NamedUnit')
-__version__ = '20.04.24'
+__version__ = '20.05.04'
 
 
 class UnitError(ValueError):
@@ -199,7 +199,7 @@ class Degrees(Float):
         else:
             return _toDMS(self, fmt, prec, self._sep_, self._ddd_,
                                            self._suf_[0 if self > 0 else
-                                                     (1 if self < 0 else 0)])
+                                                     (1 if self < 0 else 2)])
 
 
 class Bearing(Degrees):
@@ -213,7 +213,7 @@ class Bearing(Degrees):
         '''
         d = Degrees.__new__(cls, arg, name=name, Error=Error, suffix='N', clip=clip)
         b = d % 360
-        return d if b == d else Degrees(cls, b, name=name)
+        return d if b == d else Degrees.__new__(cls, b, name=name)
 
 
 class Radians(Float):
