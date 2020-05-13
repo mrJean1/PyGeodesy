@@ -51,20 +51,23 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import EPS, PI, PI2, PI_2, _bkwds, InvalidError, \
-                             isscalar, len2, map1, map2, property_RO, \
-                            _xinstanceof  # PYCHOK indent
+from pygeodesy.basics import EPS, PI, PI2, PI_2, _bkwds, \
+                             isscalar, len2, map1, map2, \
+                             property_RO, _xinstanceof
 from pygeodesy.datum import Datum, Datums
+from pygeodesy.errors import _AssertionError, _item_, LenError
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, \
-                            haversine_, PointsError, _scaler, vincentys_
+                            haversine_, PointsError, _scaler, \
+                            vincentys_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
+from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.04.21'
+__version__ = '20.05.11'
 
 
 class HeightError(PointsError):  # imported by .geoids
@@ -80,7 +83,7 @@ class SciPyError(HeightError):
 
 
 class SciPyWarning(HeightError):
-    '''Exception thrown for C{SciPy} warnings.
+    '''Error thrown for C{SciPy} warnings.
 
        To raise C{SciPy} warnings as L{SciPyWarning} exceptions, Python
        C{warnings} must be filtered as U{warnings.filterwarnings('error')
@@ -102,7 +105,7 @@ def _alist(ais):
 def _allis2(llis, m=1, Error=HeightError):  # imported by .geoids
     # dtermine return type and convert lli C{LatLon}s to list
     if not isinstance(llis, tuple):  # llis are *args
-        raise AssertionError('type(%s): %r' % ('*llis', llis))
+        raise _AssertionError('type(%s): %r' % ('*llis', llis))
 
     n = len(llis)
     if n == 1:  # convert single lli to 1-item list
@@ -117,7 +120,7 @@ def _allis2(llis, m=1, Error=HeightError):  # imported by .geoids
         _as = _atuple  # return tuple of interpolated heights
 
     if n < m:
-        raise Error('insufficient %s: %s, need %s' % ('llis', n, m))
+        raise _insufficientError(m, Error=Error, llis=n)
     return _as, llis
 
 
@@ -125,7 +128,7 @@ def _ascalar(ais):  # imported by .geoids
     # return single float, not numpy.float64
     ais = list(ais)  # np.array, etc. to list
     if len(ais) != 1:
-        raise AssertionError('len[%r] = %s == 1' % (ais, len(ais)))
+        raise _AssertionError('len(%r): %s != 1' % (ais, len(ais)))
     return float(ais[0])  # remove np.<type>
 
 
@@ -138,8 +141,14 @@ def _axyllis4(atype, llis, m=1, off=True):
     # convert lli C{LatLon}s to tuples or C{NumPy} arrays of
     # C{SciPy} sphericals and determine the return type
     _as, llis = _allis2(llis, m=m)
-    xis, yis, _ =  zip(*_xyhs(llis, off=off))  # unzip
+    xis, yis, _ =  zip(*_xyhs(llis, off=off))  # PYCHOK unzip
     return _as, atype(xis), atype(yis), llis
+
+
+def _insufficientError(need, Error=HeightError, **name_value):
+    # create an insufficient Error instance
+    t = 'insufficient, need %s' % (need,)
+    return Error(txt=t, **name_value)
 
 
 def _ordedup(ts, lo=EPS, hi=PI2-EPS):
@@ -160,7 +169,7 @@ def _SciPyIssue(x, *extras):  # imported by .geoids  # PYCHOK no cover
         return SciPyError(t)  # PYCHOK not really
 
 
-def _xyhs(lls, off=True):
+def _xyhs(lls, off=True, name='llis'):
     # map (lat, lon, h) to (x, y, h) in radians, offset as
     # x: 0 <= lon <= PI2, y: 0 <= lat <= PI if off is True
     # else x: -PI <= lon <= PI, y: -PI_2 <= lat <= PI_2
@@ -169,19 +178,19 @@ def _xyhs(lls, off=True):
     else:  # undo offset
         xf, yf = PI, PI_2
     try:
-        for ll in lls:
+        for i, ll in enumerate(lls):
             yield (max(0.0, radiansPI2(ll.lon + 180.0)) - xf), \
                   (max(0.0, radiansPI( ll.lat +  90.0)) - yf), ll.height
     except AttributeError as x:
-        raise HeightError('%s: %r' % (x, ll))
+        raise HeightError(_item_(name, i), ll, txt=str(x))
 
 
 def _xyhs3(atype, m, knots, off=True):
     # convert knot C{LatLon}s to tuples or C{NumPy} arrays and C{SciPy} sphericals
-    xs, ys, hs = zip(*_xyhs(knots, off=off))  # PYCHOK unzip
+    xs, ys, hs = zip(*_xyhs(knots, off=off, name='knots'))  # PYCHOK unzip
     n = len(hs)
     if n < m:
-        raise HeightError('insufficient %s: %s, need %s' % ('knots', n, m))
+        raise _insufficientError(m, knots=n)
     return map1(atype, xs, ys, hs)
 
 
@@ -236,7 +245,9 @@ class _HeightBase(_Named):  # imported by .geoids
             n, lats = len2(lats)
             m, lons = len2(lons)
             if n != m:
-                raise Error('non-matching %s: %s vs %s' % ('len', n, m))
+                # format a LEnError, but raise an Error
+                e = LenError(self.__class__, lats=n, lons=m, txt=None)
+                raise e if Error is LenError else Error(str(e))
             llis = [LatLon_(*ll) for ll in zip(lats, lons)]
         return self(llis)  # __call__(lli) or __call__(llis)
 
@@ -324,7 +335,7 @@ class HeightCubic(_HeightBase):
                     or tuple of interpolated heights (C{float}s).
 
            @raise HeightError: Insufficient number of B{C{llis}} or
-                               invalid B{C{lli}}.
+                               an invalid B{C{lli}}.
 
            @raise SciPyError: A C{scipy.interpolate.interp2d} issue.
 
@@ -373,7 +384,7 @@ class HeightLinear(HeightCubic):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}}.
+                               an invalid B{C{knot}}.
 
            @raise ImportError: Package C{numpy} or C{scipy} not found
                                or not installed.
@@ -420,7 +431,7 @@ class _HeightIDW(_HeightBase):
                     or tuple of interpolated heights (C{float}s).
 
            @raise HeightError: Insufficient number of B{C{llis}},
-                               invalid B{C{lli}} or an L{fidw}
+                               an invalid B{C{lli}} or an L{fidw}
                                issue.
         '''
         _as, xis, yis, _ = _axyllis4(tuple, llis, off=False)
@@ -437,7 +448,7 @@ class _HeightIDW(_HeightBase):
     def _distances(self, x, y):  # PYCHOK unused (x, y) radians
         '''Must be overloaded.
         '''
-        raise NotImplementedError('method: %s' % ('_distances',))
+        raise NotImplementedError('method: %s' % (self._distances.__name__,))
 
     def _hIDW(self, x, y):
         # interpolate height at (x, y) radians or degrees
@@ -461,13 +472,7 @@ class _HeightIDW(_HeightBase):
 
            @raise HeightError: Invalid B{C{beta}}.
         '''
-        try:
-            b = int(beta)
-            if b != beta or 1 > b or b > 3:
-                raise ValueError
-        except (TypeError, ValueError):
-            raise InvalidError(beta=beta, Error=HeightError)
-        self._beta = b
+        self._beta = Int_(beta, name='beta', Error=HeightError, low=1, high=3)
 
     def height(self, lats, lons):
         '''Interpolate the height for one or several lat-/longitudes.
@@ -512,7 +517,7 @@ class HeightIDWcosineLaw(_HeightIDW):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}} or B{C{beta}}.
+                               an invalid B{C{knot}} or B{C{beta}}.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, wrap=wrap)
 
@@ -553,7 +558,7 @@ class HeightIDWequirectangular(_HeightIDW):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}}.
+                               an invalid B{C{knot}}.
         '''
         _HeightIDW.__init__(self, knots, beta=1, name=name, wrap=wrap,
                                                           adjust=adjust)
@@ -596,7 +601,7 @@ class HeightIDWeuclidean(_HeightIDW):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}} or B{C{beta}}.
+                               an invalid B{C{knot}} or B{C{beta}}.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, adjust=adjust)
 
@@ -638,7 +643,7 @@ class HeightIDWflatLocal(_HeightIDW):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}} or B{C{beta}}.
+                               an invalid B{C{knot}} or B{C{beta}}.
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
@@ -681,7 +686,7 @@ class HeightIDWflatPolar(_HeightIDW):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}} or B{C{beta}}.
+                               an invalid B{C{knot}} or B{C{beta}}.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, wrap=wrap)
 
@@ -722,7 +727,7 @@ class HeightIDWhaversine(_HeightIDW):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}} or B{C{beta}}.
+                               an  B{C{knot}} or B{C{beta}}.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, wrap=wrap)
 
@@ -768,7 +773,7 @@ class HeightIDWkarney(_HeightIDW):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}}, B{C{datum}} or
+                               an invalid B{C{knot}}, B{C{datum}} or
                                B{C{beta}}.
 
            @raise ImportError: Package U{GeographicLib
@@ -778,7 +783,7 @@ class HeightIDWkarney(_HeightIDW):
         '''
         n, self._lls = len2(knots)
         if n < self._kmin:
-            raise HeightError('insufficient %s: %s, need %s' % ('knots', n, self._kmin))
+            raise _insufficientError(self._kmin, knots=n)
         self._datum_setter(datum, self._lls)
         self._Inverse1 = self.datum.ellipsoid.geodesic.Inverse1
 
@@ -808,15 +813,15 @@ class HeightIDWkarney(_HeightIDW):
                     or tuple of interpolated heights (C{float}s).
 
            @raise HeightError: Insufficient number of B{C{llis}},
-                               invalid B{C{lli}} or an L{fidw}
+                               an invalid B{C{lli}} or an L{fidw}
                                issue.
         '''
         def _xy2(lls):
             try:  # like _xyhs above, but keeping degrees
-                for ll in lls:
+                for i, ll in enumerate(lls):
                     yield ll.lon, ll.lat
             except AttributeError as x:
-                raise HeightError('%s: %r' % (x, ll))
+                raise HeightError(_item_('llis', i), ll, txt=str(x))
 
         _as, llis = _allis2(llis)
         return _as(map(self._hIDW, *zip(*_xy2(llis))))
@@ -852,7 +857,7 @@ class HeightIDWvincentys(_HeightIDW):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}} or B{C{beta}}.
+                               an invalid B{C{knot}} or B{C{beta}}.
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, wrap=wrap)
 
@@ -882,8 +887,10 @@ class HeightLSQBiSpline(_HeightBase):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               B{C{weight}}s or invalid B{C{knot}} or
-                               B{C{weight}}.
+                               an invalid B{C{knot}} or B{C{weight}}.
+
+           @raise LenError: Number of B{C{knots}} and B{C{weight}}s
+                            don't match.
 
            @raise ImportError: Package C{numpy} or C{scipy} not found
                                or not installed.
@@ -902,18 +909,16 @@ class HeightLSQBiSpline(_HeightBase):
         if isscalar(w):
             w = float(w)
             if w <= 0:
-                raise HeightError('%s invalid: %.6F' % ('weight', w))
+                raise HeightError(weight=w)
             w = [w] * n
         elif w is not None:
             m, w = len2(w)
             if m != n:
-                raise HeightError('%s invalid: %s, not %s' % (
-                                  'number of weights', m, n))
+                raise LenError(HeightLSQBiSpline, weight=m, knots=n)
             w = map2(float, w)
             m = min(w)
             if m <= 0:
-                raise HeightError('%s[%s] invalid: %.6F' % (
-                                  'weight', w.find(m), m))
+                raise HeightError(_item_(weight=w.find(m)), m)
         try:
             T = 1.0e-4  # like SciPy example
             ps = np.array(_ordedup(xs, T, PI2 - T))
@@ -936,7 +941,7 @@ class HeightLSQBiSpline(_HeightBase):
                     or tuple of interpolated heights (C{float}s).
 
            @raise HeightError: Insufficient number of B{C{llis}} or
-                               invalid B{C{lli}}.
+                               an invalid B{C{lli}}.
 
            @raise SciPyError: A C{LSQSphereBivariateSpline} issue.
 
@@ -980,7 +985,7 @@ class HeightSmoothBiSpline(_HeightBase):
            @kwarg name: Optional name for this height interpolator (C{str}).
 
            @raise HeightError: Insufficient number of B{C{knots}} or
-                               invalid B{C{knot}} or B{C{s}}.
+                               an invalid B{C{knot}} or B{C{s}}.
 
            @raise ImportError: Package C{numpy} or C{scipy} not found
                                or not installed.
@@ -992,8 +997,7 @@ class HeightSmoothBiSpline(_HeightBase):
         '''
         _, spi = self._NumSciPy()
 
-        if s < 4:
-            raise HeightError('%s too small: %s' % ('smoothing', s))
+        s = Int_(s, name='smooting', Error=HeightError, low=4)
 
         xs, ys, hs = self._xyhs3(knots)
         try:
@@ -1015,7 +1019,7 @@ class HeightSmoothBiSpline(_HeightBase):
                     or tuple of interpolated heights (C{float}s).
 
            @raise HeightError: Insufficient number of B{C{llis}} or
-                               invalid B{C{lli}}.
+                               an invalid B{C{lli}}.
 
            @raise SciPyError: A C{SmoothSphereBivariateSpline} issue.
 

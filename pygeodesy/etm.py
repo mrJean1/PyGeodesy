@@ -65,15 +65,16 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, PI_2, PI_4, property_doc_, property_RO, \
-                            _xinstanceof
+from pygeodesy.basics import EPS, PI_2, PI_4, property_doc_, \
+                             property_RO, _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
+from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
-from pygeodesy.streprs import pairs
+from pygeodesy.streprs import pairs, unstr
 from pygeodesy.units import Lon, Scalar_
 from pygeodesy.utily import sincos2
 from pygeodesy.utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
@@ -84,7 +85,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm + _ALL_DOCS('EasNorExact4Tuple', 'LatLonExact4Tuple')
-__version__ = '20.04.28'
+__version__ = '20.05.10'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -172,7 +173,7 @@ class Etm(Utm):
         E = self.datum.ellipsoid
         if exactTM._E != E or exactTM.majoradius != E.a \
                            or exactTM.flattening != E.f:
-            raise ETMError('%r vs %r' % (exactTM, E))
+            raise ETMError(repr(exactTM), txt=_incompatible(repr(E)))
         self._exactTM = exactTM
         self._scale0  = exactTM.k0
 
@@ -210,7 +211,8 @@ class Etm(Utm):
         xTM, d = self.exactTM, self.datum
         # double check that this and exactTM's ellipsoids stil match
         if xTM._E != d.ellipsoid:
-            raise ETMError('%r vs %r' % (xTM._E, d.ellipsoid))
+            t = repr(d.ellipsoid)
+            raise ETMError(repr(xTM._E), txt=_incompatible(t))
 
         if self._latlon and self._latlon_args == (xTM, unfalse):
             return self._latlon5(LatLon)
@@ -646,8 +648,8 @@ class ExactTransverseMercator(_NamedBase):
                     break
                 trip = hypot2(du, dv) < _TOL_10
             else:
-                raise EllipticError('no %s%r convergence' %
-                                    ('_sigmaInv', (xi, eta)))
+                t = unstr(self._sigmaInv.__name__, xi, eta)
+                raise EllipticError('no convergence', txt=t)
         return u, v
 
     def _sigmaInv0(self, xi, eta):
@@ -800,8 +802,8 @@ class ExactTransverseMercator(_NamedBase):
                     break
                 trip = hypot2(du, dv) < stol2
             else:
-                raise EllipticError('no %s%r convergence' %
-                                    ('_zetaInv', (taup, lam)))
+                t = unstr(self._zetaInv.__name__, taup, lam)
+                raise EllipticError('no convergence', txt=t)
         return u, v
 
     def _zetaInv0(self, psi, lam):
@@ -920,10 +922,7 @@ def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=''):
        >>> u = parseETM5('31 N 448251.8 5411932.7')
        >>> u.toStr()  # 31 N 448252 5411933
     '''
-    r = _parseUTM5(strUTM, ETMError)
-    if Etm is not None:
-        z, h, e, n, B = r
-        r = Etm(z, h, e, n, band=B, datum=datum, falsed=falsed)
+    r = _parseUTM5(strUTM, datum, Etm, falsed, Error=ETMError)
     return _xnamed(r, name)
 
 
@@ -969,8 +968,8 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name='',
     lon0 = _cmlon(z) if f else None
     x, y, g, k = d.exactTM.forward(lat, lon, lon0=lon0)
 
-    return _toXtm8(Etm, z, lat, x, y,
-                        B, d, g, k, f, name, latlon, d.exactTM)
+    return _toXtm8(Etm, z, lat, x, y, B, d, g, k, f,
+                        name, latlon, d.exactTM, Error=ETMError)
 
 # **) MIT License
 #

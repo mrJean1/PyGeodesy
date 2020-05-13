@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.04.22'
+__version__ = '20.04.30'
 
 from base import PyGeodesy_dir, isiOS, TestsBase
 from pygeodesy import Datums, named
@@ -88,6 +88,7 @@ class Tests(TestsBase):
     def testNamed_class(self, named, _Nclass, _attr_, _Ndict):
         for n in sorted(dir(named)):
             if n.endswith(_Nclass) and n[-1 - len(_Nclass)].isdigit():
+                print(named, n)
                 # compare _Nattr_ and __doc__
                 c = getattr(named, n)
                 self.test(n, c.__name__, n)

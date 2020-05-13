@@ -40,18 +40,19 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
-from pygeodesy.basics import IsnotError, isscalar, map1, property_RO, \
-                             _xinstanceof
+from pygeodesy.basics import isscalar, map1, property_RO, _xinstanceof
 from pygeodesy.datum import Ellipsoid, Ellipsoids, Transform
+from pygeodesy.errors import _ValueError, _TypeError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedDict as _X, \
                            _NamedEnum, _NamedEnumItem
 from pygeodesy.streprs import fstrzs
+from pygeodesy.units import Float_
 
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.04.09'
+__version__ = '20.05.08'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
 # temporarily hold a single instance for each float value and name
@@ -83,15 +84,15 @@ def _T(*fs):
     return map1(_F, *fs)
 
 
-def _2epoch(epoch):  # imported by .ellipsoidalBase.py
+def _2epoch(epoch):  # imported by .ellipsoidalBase
     '''(INTERNAL) Validate an C{epoch}.
     '''
     if isscalar(epoch) and epoch > 0:  # XXX 1970?
         return _F(epoch)
-    raise IsnotError('scalar', epoch=epoch)
+    raise _TypeError(epoch=epoch, txt='not scalar')
 
 
-class TRFError(ValueError):
+class TRFError(_ValueError):
     '''Terrestrial Reference Frame (TRF) or L{RefFrame} conversion issue.
     '''
     pass
@@ -179,11 +180,13 @@ def date2epoch(year, month, day):
     '''
     try:
         y, m, d = map1(int, year, month, day)
-        if y > 0 and 1 <= m <= 12 and 1 <= d <= _mDays[m]:
+        if y >0 and 1 <= m <= 12 and 1 <= d <= _mDays[m]:
             return y + float(sum(_mDays[:m]) + d) / 366.0
-    except (ValueError, TypeError):
-        pass
-    raise TRFError('%s invalid: %s-%s-%s' % ('date', year, month, day))
+
+        t = ''  # _Invalid
+    except (TRFError, TypeError, ValueError) as x:
+        t = str(x)
+    raise TRFError(year=year, month=month, day=day, txt=t)
 
 
 def epoch2date(epoch):
@@ -196,8 +199,9 @@ def epoch2date(epoch):
        @note: Any B{C{year}} is considered a leap year, i.e. having
               29 days in February.
     '''
-    y = int(epoch)
-    d = int(ceil(366 * (epoch - y)))
+    e = Float_(epoch, name='epoch', Error=TRFError, low=0)
+    y = int(e)
+    d = int(ceil(366 * (e - y)))
     for m, n in enumerate(_mDays[1:]):
         if d > n:
             d -= n
@@ -397,7 +401,8 @@ def _reframeTransforms(rf2, rf, epoch):
         return (_2Transform((n, n1), epoch, _Reverse),  # PYCHOK returns
                 _2Transform((n2, n), epoch, _Reverse))
 
-    raise TRFError('no %s % to %s' % ('conversion', n1, n2))
+    t = '%s %r to %r' % (RefFrame.__name__, n1, n2)
+    raise TRFError('no conversion', txt=t)
 
 
 def _2Transform(n1_n2, epoch, _Forward_Reverse):

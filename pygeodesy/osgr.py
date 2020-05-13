@@ -31,34 +31,37 @@ U{Transverse Mercator: Redfearn series
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import InvalidError, halfs2, map1, \
-                             property_RO, _xsubclassof
+from pygeodesy.basics import halfs2, map1, property_RO, \
+                            _xsubclassof, _xzipairs
 from pygeodesy.datum import Datums
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
+from pygeodesy.errors import _parseX, _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, LatLonDatum3Tuple, \
                            _NamedBase, nameof, _xnamed
 from pygeodesy.streprs import enstr2
-from pygeodesy.units import Easting, Northing
+from pygeodesy.units import Easting, Lam_, Northing, Phi_, Scalar
 from pygeodesy.utily import degrees90, degrees180, sincos2
 
 from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.04.22'
+__version__ = '20.05.08'
 
-_10um    = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
-_100km   = 100000  #: (INTERNAL) 100 km (int meter)
+_10um  = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
+_100km = 100000  #: (INTERNAL) 100 km (int meter)
 
-_A0, _B0 = radians(49), radians(-2)  #: (INTERNAL) NatGrid true origin, 49°N,2°W.
-_E0, _N0 = 400e3, -100e3  #: (INTERNAL) East-/northing of true origin (C{meter}).
-_F0      = 0.9996012717   #: (INTERNAL) NatGrid scale of central meridian (C{float}).
+_A0 = Phi_(49)  #: (INTERNAL) NatGrid true origin latitude, 49°N.
+_B0 = Lam_(-2)  #: (INTERNAL) NatGrid true origin longitude, 2°W.
+_E0 = Easting(400e3)    #: (INTERNAL) Easting of true origin (C{meter}).
+_N0 = Northing(-100e3)  #: (INTERNAL) Northing of true origin (C{meter}).
+_F0 = Scalar(0.9996012717)  #: (INTERNAL) NatGrid scale of central meridian (C{float}).
 
-_OSGB36  = Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
-_TRIPS   = 32  #: (INTERNAL) Convergence
+_OSGB36 = Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
+_TRIPS  = 32  #: (INTERNAL) Convergence
 
 
 def _ll2datum(ll, datum, name):
@@ -68,7 +71,7 @@ def _ll2datum(ll, datum, name):
         try:
             ll = ll.convertDatum(datum)
         except AttributeError:
-            raise TypeError('no %s.convertDatum: %r' % (name, ll))
+            raise _TypeError(name, ll, txt='no .convertDatum(%s)' % (datum.name,))
     return ll
 
 
@@ -82,7 +85,7 @@ def _M(Mabcd, a):
                            -sin(a_ * 3) * cos(_a * 3))
 
 
-class OSGRError(ValueError):
+class OSGRError(_ValueError):
     '''Ordinance Survey Grid References (OSGR) parse or other L{Osgr} issue.
     '''
     pass
@@ -111,11 +114,11 @@ class Osgr(_NamedBase):
            >>> from pygeodesy import Osgr
            >>> r = Osgr(651409, 313177)
         '''
+        self._easting  = Easting( easting,  Error=OSGRError)
+        self._northing = Northing(northing, Error=OSGRError)
+
         if name:
             self.name = name
-
-        self._easting  = Easting(easting,   Error=OSGRError)
-        self._northing = Northing(northing, Error=OSGRError)
 
     @property_RO
     def datum(self):
@@ -189,8 +192,8 @@ class Osgr(_NamedBase):
             if abs(m) < _10um:
                 break
         else:
-            t = self.classname, self.toStr(prec=-3), 'toLatLon'
-            raise OSGRError('no convergence %s(%s).%s' % t)
+            t = self.classname, self.toStr(prec=-3), self.toLatLon.__name__
+            raise OSGRError('no convergence', txt='%s(%s).%s' % t)
 
         sa, ca = sincos2(a)
 
@@ -231,7 +234,7 @@ class Osgr(_NamedBase):
         ll = self._latlon
         if LatLon is None:
             if datum and datum != ll.datum:
-                raise TypeError('no %s.convertDatum: %r' % (LatLon, ll))
+                raise _TypeError(latlon=ll, txt='no .convertDatum(%s)' % (datum.name))
             return _xnamed(LatLonDatum3Tuple(ll.lat, ll.lon, ll.datum), ll.name)
         else:
             _xsubclassof(_LLEB, LatLon=LatLon)
@@ -246,14 +249,11 @@ class Osgr(_NamedBase):
            @kwarg sep: Optional separator to join (C{str}).
 
            @return: This OSGR (C{str}) "[G:00B, E:meter, N:meter]" or
-                    "OSGR:meter,meter" if B{C{prec}} is non-positive.
+                    "[OSGR:meter,meter]" if B{C{prec}} is non-positive.
         '''
-        t = self.toStr(prec=prec, sep=' ')
-        if prec > 0:
-            t = sep.join('%s:%s' % t for t in zip('GEN', t.split()))
-        else:
-            t = '%s:%s' % (Osgr.__name__.upper(), t)
-        return fmt % (t,)
+        t = self.toStr(prec=prec, sep=None)
+        return _xzipairs('GEN', t, sep=sep, fmt=fmt) if prec > 0 else \
+               (fmt % (':'.join((Osgr.__name__.upper(), t)),))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method L{Osgr.toRepr}.'''
@@ -265,7 +265,8 @@ class Osgr(_NamedBase):
            (unlike UTM grid references).
 
            @kwarg prec: Optional number of digits (C{int}).
-           @kwarg sep: Optional C{join} separator (C{str}).
+           @kwarg sep: Optional C{join} separator (C{str}) or C{None}
+                       to return an unjoined C{tuple} of C{str}s.
 
            @return: This OSGR as C{"EN easting northing"} or as
                     C{"easting,northing"} if B{C{prec}} is non-positive
@@ -304,7 +305,8 @@ class Osgr(_NamedBase):
             t = ['%0*.*f' % (w, -prec, t) for t in (e, n)]
         else:
             t = ['%06d' % int(t) for t in (e, n)]
-        return s.join(t)
+
+        return tuple(t) if s is None else s.join(t)
 
 
 def parseOSGR(strOSGR, Osgr=Osgr, name=''):
@@ -352,16 +354,15 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
         m = g + '00000'  # std to meter
         return int(str(G) + m[:5])
 
-    s = strOSGR.strip()
-    try:
+    def _OSGR_(strOSGR, Osgr, name):
+        s = strOSGR.strip()
         g = s.split(',')
         if len(g) == 2:  # "easting,northing"
             if len(s) < 13:
-                raise ValueError  # caught below
+                raise ValueError
             e, n = map(_s2f, g)
 
         else:  # "GR easting northing"
-
             g, s = s[:2], s[2:].strip()
 
             e, n = map(_c2i, g)
@@ -370,7 +371,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
             N = 19 - (e // 5) * 5 - n
             if 0 > E or E > 6 or \
                0 > N or N > 12:
-                raise ValueError  # caught below
+                raise ValueError
 
             g = s.split()
             if len(g) == 1:  # no whitespace
@@ -378,16 +379,23 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=''):
             elif len(g) == 2:
                 e, n = g
             else:
-                raise ValueError  # caught below
+                raise ValueError
 
             e = _s2i(E, e)
             n = _s2i(N, n)
 
-    except ValueError:
-        raise InvalidError(strOSGR=strOSGR, Error=OSGRError)
+        r = _EasNor2Tuple(e, n) if Osgr is None else Osgr(e, n)
+        return _xnamed(r, name)
 
-    r = EasNor2Tuple(e, n) if Osgr is None else Osgr(e, n)
-    return _xnamed(r, name)
+    return _parseX(_OSGR_, strOSGR, Osgr, name,
+                           strOSGR=strOSGR, Error=OSGRError)
+
+
+def _EasNor2Tuple(e, n):
+    '''(INTERNAL) Helper for L{parseOSGR} and L{toOsgr}.
+    '''
+    return EasNor2Tuple(Easting( e, Error=OSGRError),
+                        Northing(n, Error=OSGRError))
 
 
 def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name='',
@@ -424,7 +432,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name='',
         # XXX fix failing _LLEB.convertDatum()
         latlon = _LLEB(*parseDMS2(latlon, lon), datum=datum)
     elif lon is not None:
-        raise OSGRError('%s not %s: %r' % ('lon', None, lon))
+        raise OSGRError(lon=lon, txt='not %s' % (None,))
     elif not name:  # use latlon.name
         name = nameof(latlon)
 
@@ -461,7 +469,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name='',
     e = fdot(V4, 1, d,  d3, d5)
 
     if Osgr is None:
-        r = EasNor2Tuple(e, n)
+        r = _EasNor2Tuple(e, n)
     else:
         r = Osgr(e, n, **Osgr_kwds)
         if lon is None and isinstance(latlon, _LLEB):

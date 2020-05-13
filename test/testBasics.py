@@ -4,14 +4,13 @@
 # Test some of the basics.
 
 __all__ = ('Tests',)
-__version__ = '20.05.04'
+__version__ = '20.05.05'
 
 from base import TestsBase
 
 from pygeodesy import INF, NAN, NEG0, clips, halfs2, \
                       isint, isfinite, isneg0, isscalar, \
-                      LenError, LimitError, limiterrors, map1, \
-                      property_RO, RangeError, rangerrors, splice
+                      map1, property_RO, splice
 
 
 class C(object):
@@ -48,11 +47,6 @@ class Tests(TestsBase):
         self.test('isneg0(INF)',  isneg0(INF), False)
         self.test('isneg0(NAN)',  isneg0(NAN), False)
 
-        self.test('limiterrors', limiterrors(False), True)
-        self.test('limiterrors', limiterrors(True), False)
-        self.test('rangerrors',  rangerrors(False),  True)
-        self.test('rangerrors',  rangerrors(True),  False)
-
         self.test('type(%s)' % ('C.r_o',), type(C.r_o).__name__, property_RO.__name__)
         c = C()
         self.test('type(%s)' % ('c.r_o',), type(c.r_o), bool)
@@ -74,33 +68,6 @@ class Tests(TestsBase):
         t = tuple(splice(range(12), n=5))  # PYCHOK False
         self.test('splice', t, map1(type(t[0]), (0, 5, 10), (1, 6, 11), (2, 7), (3, 8), (4, 9)))
 
-    def testErrors(self, InvalidError, IsnotError):
-
-        e = InvalidError(zero=1)
-        self.test(InvalidError.__name__, e, 'zero (1): invalid')
-        self.test(InvalidError.__name__, repr(e).replace(',', ''), "ValueError('zero (1): invalid')")
-        e = InvalidError(zero=1, Error=RangeError, one=2, txt='outside')
-        t = e == 'one (2) or zero (1): outside'  # kwds ordering
-        self.test(InvalidError.__name__, e, 'zero (1) or one (2): outside', known=t)
-        self.test(InvalidError.__name__, repr(e).replace(',', ''), "RangeError('zero (1) or one (2): outside')", known=t)
-
-        e = IsnotError(int.__name__, float.__name__, _None=None)
-        self.test(IsnotError.__name__, e, '_None is not an int or float: None')
-        self.test(IsnotError.__name__, repr(e).replace(',', ''), "TypeError('_None is not an int or float: None')")
-
-        e = IsnotError('scalar', _None=None)
-        self.test(IsnotError.__name__, e, '_None is not scalar: None')
-        self.test(IsnotError.__name__, repr(e).replace(',', ''), "TypeError('_None is not scalar: None')")
-        e = IsnotError('scalar', Error=LimitError, _None=None)
-        self.test(IsnotError.__name__, e, '_None is not scalar: None')
-        self.test(IsnotError.__name__, repr(e).replace(',', ''), "LimitError('_None is not scalar: None')")
-
-        try:
-            raise LenError(LenError, a=1, b=2, c=3, d=4)
-            self.test(LenError.__name__, None, LenError.__name__)
-        except ValueError as x:
-            self.test(LenError.__name__, str(x), 'LenError(a, b, c, d) len: 1 vs 2 vs 3 vs 4')
-
 
 if __name__ == '__main__':
 
@@ -108,6 +75,5 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, basics)
     t.testBasics()
-    t.testErrors(basics.InvalidError, basics.IsnotError)
     t.results()
     t.exit()

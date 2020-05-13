@@ -13,8 +13,8 @@ U{UTMUPS<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.
 including coverage of UPS as zone C{0}.
 '''
 
-from pygeodesy.basics import InvalidError, isint, isstr, \
-                             property_RO, _xinstanceof
+from pygeodesy.basics import isint, isstr, property_RO, _xinstanceof
+from pygeodesy.errors import _ValueError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import  _NamedTuple
 from pygeodesy.units import Int
@@ -26,7 +26,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.epsg + _ALL_DOCS('UtmUps2Tuple') + ('decode2', 'encode')
-__version__ = '20.04.24'
+__version__ = '20.05.08'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -36,12 +36,6 @@ _EPSG_N    = 32661  # EPSG code for UPS pole N
 _EPSG_S_01 = 32701  # EPSG code for UTM zone 01 S
 _EPSG_S_60 = 32760  # EPSG code for UTM zone 60 S
 _EPSG_S    = 32761  # EPSG code for UPS pole S
-
-
-class EPSGError(ValueError):
-    '''EPSG encode, decode or other L{Epsg} issue.
-    '''
-    pass
 
 
 class Epsg(Int):
@@ -134,6 +128,12 @@ class Epsg(Int):
         return self._zone
 
 
+class EPSGError(_ValueError):
+    '''EPSG encode, decode or other L{Epsg} issue.
+    '''
+    pass
+
+
 class UtmUps2Tuple(_NamedTuple):
     '''2-Tuple C{(zone, hemipole)} as C{int} and C{str}, where
        C{zone} is C{1..60} for UTM or C{0} for UPS and C{hemipole}
@@ -175,8 +175,8 @@ def decode2(epsg):
 
             else:
                 raise ValueError
-        except (TypeError, ValueError):
-            raise InvalidError(epsg=epsg, Error=EPSGError)
+        except (TypeError, ValueError) as x:
+            raise EPSGError(epsg=epsg, txt=str(x))
 
     return UtmUps2Tuple(z, h)
 
@@ -206,15 +206,15 @@ def encode(zone, hemipole='', band=''):
         z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)  # in .ellipsoidalBase
         if hp not in ('N', 'S'):
             raise ValueError
-    except ValueError:
-        raise InvalidError(zone=zone, hemipole=hemipole, band=band, Error=EPSGError)
+    except (TypeError, ValueError) as x:
+        raise EPSGError(zone=zone, hemipole=hemipole, band=band, txt=str(x))
 
     if _UTM_ZONE_MIN <= z <= _UTM_ZONE_MAX:
         e = z - _UTM_ZONE_MIN + (_EPSG_N_01 if hp == 'N' else _EPSG_S_01)
     elif z == _UPS_ZONE:
         e = _EPSG_N if hp == 'N' else _EPSG_S
     else:
-        raise InvalidError(zone=zone, Error=EPSGError)
+        raise EPSGError(zone=zone)
 
     e = Epsg(e)
     e._band = B

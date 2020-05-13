@@ -9,20 +9,22 @@ L{CSSError} requiring I{Charles Karney's} U{geographiclib
 '''
 
 from pygeodesy.basics import property_RO, _xinstanceof, _xkwds, \
-                            _xsubclassof
+                            _xsubclassof, _xzipairs
 from pygeodesy.datum import Datums
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
+from pygeodesy.errors import _incompatible, _ValueError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, EasNor3Tuple, \
                             LatLon2Tuple, LatLon4Tuple, \
                            _NamedBase, _NamedTuple, nameof, \
                            _xnamed  # PYCHOK indent
 from pygeodesy.streprs import fstr, strs
-from pygeodesy.units import Easting, Height, Lat, Lon, Northing
+from pygeodesy.units import Bearing, Easting, Height, Lat, Lon, \
+                            Northing, Scalar
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css + _ALL_DOCS('EasNorAziRk4Tuple', 'LatLonAziRk4Tuple')
-__version__ = '20.04.22'
+__version__ = '20.05.08'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -38,6 +40,12 @@ def _CassiniSoldner(cs0):
     else:
         _xinstanceof(CassiniSoldner, cs0=cs0)
     return cs0
+
+
+class CSSError(_ValueError):
+    '''Cassini-Soldner (CSS) conversion or other L{Css} issue.
+    '''
+    pass
 
 
 class CassiniSoldner(_NamedBase):
@@ -91,7 +99,7 @@ class CassiniSoldner(_NamedBase):
         '''
         C, E = self.datum.ellipsoid, latlon.datum.ellipsoid
         if E != C:
-            raise CSSError('%s mistmatch: %r vs %r' % ('ellipsoids', E, C))
+            raise CSSError(E.named2, txt=_incompatible(C.named2))
 
     @property_RO
     def flattening(self):
@@ -111,7 +119,9 @@ class CassiniSoldner(_NamedBase):
            @see: Methods L{CassiniSoldner.forward4}, L{CassiniSoldner.reverse}
                  and L{CassiniSoldner.reverse4}.
         '''
-        r = EasNor2Tuple(*self.forward4(lat, lon)[:2])
+        e, n = self.forward4(lat, lon)[:2]
+        r = EasNor2Tuple(Easting( e, Error=CSSError),
+                         Northing(n, Error=CSSError))
         return self._xnamed(r)
 
     def forward4(self, lat, lon):
@@ -299,12 +309,6 @@ class CassiniSoldner(_NamedBase):
         return sep.join(strs(self.latlon0, prec=prec))
 
 
-class CSSError(ValueError):
-    '''Cassini-Soldner (CSS) conversion or other L{Css} issue.
-    '''
-    pass
-
-
 class Css(_NamedBase):
     '''Cassini-Soldner East-/Northing location.
     '''
@@ -396,7 +400,7 @@ class Css(_NamedBase):
 
     @property_RO
     def rk(self):
-        '''Get the reciprocal of azimuthal northing scale (C{degrees}).
+        '''Get the reciprocal of azimuthal northing scale (C{scalar}).
         '''
         return self.reverse4.reciprocal
 
@@ -443,15 +447,15 @@ class Css(_NamedBase):
            @return: This position as C{"[E:meter, N:meter, H:m, name:'',
                     C:Conic.Datum]"} (C{str}).
         '''
-        t = self.toStr(prec=prec, sep=' ', m=m).split()
+        t = self.toStr(prec=prec, sep=None, m=m)
         k = ('E', 'N', 'H')[:len(t)]
         if self.name:
             k += 'name',
-            t += [repr(self.name)]
+            t +=  repr(self.name),
         if C:
             k += 'C',
-            t += [self.cs0.toRepr(prec=prec)]
-        return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
+            t +=  self.cs0.toRepr(prec=prec),
+        return _xzipairs(k, t, sep=sep, fmt=fmt)
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, used method L{Css.toRepr}.'''
@@ -460,18 +464,19 @@ class Css(_NamedBase):
         '''Return a string representation of this L{Css} position.
 
            @kwarg prec: Optional number of decimal, unstripped (C{int}).
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Optional separator to join (C{str}) or C{None}
+                       to return an unjoined C{tuple} of C{str}s.
            @kwarg m: Optional height units, default C{meter} (C{str}).
 
            @return: This position as C{"easting nothing"} C{str} in
                     C{meter} plus C{" height"} and C{'m'} if heigth
                     is non-zero (C{str}).
         '''
-        t = [fstr(self.easting,  prec=prec),
-             fstr(self.northing, prec=prec)]
+        t = (fstr(self.easting,  prec=prec),
+             fstr(self.northing, prec=prec))
         if self.height:  # abs(self.height) > EPS
-            t += ['%+.2f%s' % (self.height, m)]
-        return sep.join(t)
+            t += ('%+.2f%s' % (self.height, m)),
+        return t if sep is None else sep.join(t)
 
 
 class EasNorAziRk4Tuple(_NamedTuple):
@@ -483,6 +488,12 @@ class EasNorAziRk4Tuple(_NamedTuple):
     '''
     _Names_ = ('easting', 'northing', 'azimuth', 'reciprocal')
 
+    def __new__(cls, e, n, azi, rk):
+        return _NamedTuple.__new__(cls, Easting( e, Error=CSSError),
+                                        Northing(n, Error=CSSError),
+                                        Bearing(azi, Error=CSSError),
+                                        Scalar(  rk, Error=CSSError))
+
 
 class LatLonAziRk4Tuple(_NamedTuple):
     '''4-Tuple C{(lat, lon, azimuth, reciprocal)}, all in C{degrees}
@@ -490,6 +501,12 @@ class LatLonAziRk4Tuple(_NamedTuple):
        C{reciprocal} the reciprocal of azimuthal northing scale.
     '''
     _Names_ = ('lat', 'lon', 'azimuth', 'reciprocal')
+
+    def __new__(cls, lat, lon, azi, rk):
+        return _NamedTuple.__new__(cls, Lat(lat, Error=CSSError),
+                                        Lon(lon, Error=CSSError),
+                                        Bearing(azi, Error=CSSError),
+                                        Scalar(rk,   Error=CSSError))
 
 
 def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=''):

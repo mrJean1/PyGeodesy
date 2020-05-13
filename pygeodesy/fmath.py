@@ -12,17 +12,22 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, InvalidError, isfinite, isint, \
-                            IsnotError, isscalar, len2, LenError, \
+from pygeodesy.basics import EPS, isfinite, isint, isscalar, len2, \
                             _xcopy
+from pygeodesy.errors import _IsnotError, _item_, LenError, _Missing, \
+                             _OverflowError, _TypeError, _ValueError
 from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.streprs import unstr
+from pygeodesy.units import Int_
 
 from math import acos, copysign, hypot, sqrt  # pow
 from operator import mul as _mul_
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.04.09'
+__version__ = '20.05.10'
+
+_not_finite = 'not finite'
 
 _1_3rd = 1 / 3.0  #: (INTERNAL) One third (C{float})
 _2_3rd = 2 / 3.0  #: (INTERNAL) Two thirds (C{float})
@@ -45,7 +50,7 @@ def _2sum(a, b):
     '''
     s = a + b
     if not isfinite(s):
-        raise OverflowError('%s: %r' % (_2sum.__name__, s))
+        raise _OverflowError(unstr(_2sum.__name, a, b), s)
     if abs(a) < abs(b):
         a, b = b, a
     return s, b - (s - a)
@@ -54,9 +59,9 @@ def _2sum(a, b):
 class Fsum(object):
     '''Precision summation similar to standard Python function C{math.fsum}.
 
-       Unlike C{math.fsum}, this class accumulates the values repeatedly
-       and provides intermediate, precision running sums.  Accumulation
-       may continue after intermediate summations.
+       Unlike C{math.fsum}, this class accumulates the values and provides
+       intermediate, precision running sums.  Accumulation may continue
+       after intermediate summations.
 
        @note: Handling of exceptions, C{inf}, C{INF}, C{nan} and C{NAN}
               values is different from C{math.fsum}.
@@ -118,7 +123,7 @@ class Fsum(object):
         elif isinstance(other, Fsum):
             self.fadd(other._ps)
         else:
-            raise TypeError('%s += %r' % (self, other))
+            raise _TypeError('%s += %r' % (self, other))
         return self
 
     def __imul__(self, other):
@@ -147,7 +152,7 @@ class Fsum(object):
                 self._ps = []  # zero
                 self._fsum2_ = None
         else:
-            raise TypeError('%s *= %r' % (self, other))
+            raise _TypeError('%s *= %r' % (self, other))
         return self
 
     def __isub__(self, other):
@@ -169,7 +174,7 @@ class Fsum(object):
         elif isinstance(other, Fsum):
             self.fadd(-p for p in other._ps)
         else:
-            raise TypeError('%s -= %r' % (self, other))
+            raise _TypeError('%s -= %r' % (self, other))
         return self
 
     def __len__(self):
@@ -221,21 +226,10 @@ class Fsum(object):
         if isscalar(iterable):  # for backward compatibility
             iterable = tuple(iterable)
 
-#       def _iter():
-#           for a in iterable:
-#               if isinstance(a, Fsum):
-#                   if a is self:
-#                       self.fmul(2)
-#                   else:
-#                       for a in a._ps:
-#                           yield a
-#               else:
-#                   yield a
-
         ps = self._ps
         for a in iterable:  # _iter()
             if not isfinite(a):
-                raise ValueError('%s, not %s: %r' % (self, 'finite', a))
+                raise _ValueError(iterable=a, txt=_not_finite)
             i = 0
             for p in ps:
                 a, p = _2sum(a, p)
@@ -281,7 +275,7 @@ class Fsum(object):
            @see: Method L{Fsum.fadd}.
         '''
         if not isfinite(factor):
-            raise ValueError('%s, not %s: %r' % (self, 'finite', factor))
+            raise _ValueError(factor=factor, txt=_not_finite)
 
         ps = self._ps
         if ps:  # multiply and adjust partial sums
@@ -422,9 +416,9 @@ class Fhorner(Fsum):
            @see: Function L{fhorner} and methods L{Fsum.fadd} and L{Fsum.fmul}.
         '''
         if not isfinite(x):
-            raise ValueError('%s, not %s: %r' % (self, 'finite', x))
+            raise _ValueError(x=x, txt=_not_finite)
         if not cs:
-            raise ValueError('%s, no %s: %r' % (self, 'coefficents', cs))
+            raise _ValueError(cs=cs, txt=_Missing)
 
         x, cs = float(x), list(cs)
 
@@ -453,9 +447,9 @@ class Fpolynomial(Fsum):
            @see: Function L{fpolynomial} and method L{Fsum.fadd}.
         '''
         if not isfinite(x):
-            raise ValueError('%s, not %s: %r' % (self, 'finite', x))
+            raise _ValueError(x=x, txt=_not_finite)
         if not cs:
-            raise ValueError('%s, no %s: %r' % (self, 'coefficents', cs))
+            raise _ValueError(cs=cs, txt=_Missing)
 
         x, cs, xp = float(x), list(cs), 1
 
@@ -509,7 +503,7 @@ def favg(v1, v2, f=0.5):
 #      @raise ValueError: Fraction out of range.
 #   '''
 #   if not 0 <= f <= 1:  # XXX restrict fraction?
-#       raise InvalidError(fraction=f)
+#       raise _ValueError(fraction=f)
     return v1 + f * (v2 - v1)  # v1 * (1 - f) + v2 * f
 
 
@@ -602,24 +596,21 @@ def fidw(xs, ds, beta=2):
     n, xs = len2(xs)
     d, ds = len2(ds)
     if n != d or n < 1:
-        raise ValueError('%s(%s): %s vs %s' % (fidw.__name, 'len', n, d))
+        raise LenError(fidw, xs=n, ds=d)
 
     d, x = min(zip(ds, xs))
     if d > EPS and n > 1:
-        b = -int(beta)
-        if -4 < b < 0:  # and b == -beta
+        b = -Int_(beta, name='beta', low=0, high=3)
+        if b < 0:
             ds = tuple(d**b for d in ds)
             d = fsum(ds)
             if d < EPS:
-                raise ValueError('%s(%s[%s]) invalid: %r' % (fidw.__name, 'ds', '', d))
+                raise _ValueError(ds=d)
             x = fdot(xs, *ds) / d
-        elif b == 0:
-            x = fmean(xs)
         else:
-            raise ValueError('%s(%s=%r) invalid' % (fidw.__name, 'beta', beta))
+            x = fmean(xs)
     elif d < 0:
-        i = ds.index(d)
-        raise ValueError('%s(%s[%s]) invalid: %r' % (fidw.__name, 'ds', i, d))
+        raise _ValueError(_item_('ds', ds.index(d)), d)
     return x
 
 
@@ -638,7 +629,7 @@ def fmean(xs):
     n, xs = len2(xs)
     if n > 0:
         return fsum(xs) / n
-    raise ValueError('%s(%r)' % (fmean.__name__, xs))
+    raise _ValueError(xs=xs)
 
 
 def fpolynomial(x, *cs):
@@ -677,11 +668,11 @@ def fpowers(x, n, alts=0):
        @raise ValueError: Non-finite B{C{x}} or non-positive B{C{n}}.
     '''
     if not isfinite(x):
-        raise ValueError('not %s: %r' %('finite', x))
+        raise _ValueError(x=x, txt=_not_finite)
     if not isint(n):
-        raise IsnotError(int.__name_, n=n)
+        raise _IsnotError(int.__name_, n=n)
     elif n < 1:
-        raise InvalidError(n=n)
+        raise _ValueError(n=n)
 
     xs = [x]
     for _ in range(1, n):
@@ -727,7 +718,7 @@ def frange(start, number, step=1):
              numpy/reference/generated/numpy.arange.html>}.
     '''
     if not isint(number):
-        raise IsnotError(int.__name_, number=number)
+        raise _IsnotError(int.__name_, number=number)
     for i in range(number):
         yield start + i * step
 
@@ -738,7 +729,6 @@ except ImportError:  # PYCHOK no cover
     try:
         freduce = reduce  # PYCHOK expected
     except NameError:  # Python 3+
-        _EMPTY = object()
 
         def freduce(f, iterable, *start):
             '''For missing C{functools.reduce}.
@@ -746,11 +736,11 @@ except ImportError:  # PYCHOK no cover
             if start:
                 r = v = start[0]
             else:
-                r, v = 0, _EMPTY
+                r, v = 0, _Missing
             for v in iterable:
                 r = f(r, v)
-            if v is _EMPTY:
-                raise TypeError('%s() empty, no %s' % (freduce.__name__, 'start'))
+            if v is _Missing:
+                raise _TypeError(iterable=(), start=_Missing)
             return r
 
 
@@ -840,9 +830,7 @@ except TypeError:  # Python 3.7-
                     X.fadd((x / h)**2 for x in xs)
                     h *= sqrt(X.fsum_(-1.0))
                 return h
-        else:
-            n = ''
-        raise ValueError('%s(): %r[%s]' % (hypot_.__name__, xs, n))
+        raise _ValueError(xs=xs, txt='too few')
 
 
 def hypot1(x):
@@ -883,7 +871,7 @@ def sqrt3(x):
        @see: Functions L{cbrt} and L{cbrt2}.
     '''
     if x < 0:
-        raise ValueError('%s(%r)' % (sqrt3.__name__, x))
+        raise _ValueError(x=x)
     return pow(x, _3_2nd)
 
 # **) MIT License

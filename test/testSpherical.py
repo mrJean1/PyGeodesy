@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.06'
+__version__ = '20.05.07'
 
 from base import isWindows
 from testLatLon import Tests as _TestsLL
@@ -135,8 +135,8 @@ class Tests(_TestsLL, _TestsV):
                 try:
                     self.test('isenclosedBy', p.isenclosedBy(b), True)  # Nvector
                 except ValueError as x:
-                    t = ' '.join(str(x).split()[:3] + ['...)'])
-                    self.test('isenclosedBy', t, 'non-convex: (%s(45°00′00.0″N, 001°00′00.0″E), ...)' % (classname(p),))
+                    t = str(x).replace(',)', ')')
+                    self.test('isenclosedBy', t, 'points[3] (%s(47°00′00.0″N, 003°00′00.0″E)): not convex' % (classname(p),))
 
         p = LatLon(51.127, 1.338)
         q = LatLon(50.964, 1.853)

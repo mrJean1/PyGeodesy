@@ -13,9 +13,11 @@ A pure Python implementation, partially transcribed from C++ class U{UTMUPS
 by I{Charles Karney}.
 '''
 
-from pygeodesy.basics import InvalidError, RangeError
+from pygeodesy.basics import map1
 from pygeodesy.datum import Datums
+from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
 from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import modulename
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
 from pygeodesy.utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
 from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
@@ -25,7 +27,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.04.19'
+__version__ = '20.05.08'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -58,7 +60,7 @@ class _UtmMinMax(object):  # XXX _NamedEnum or _NamedTuple
     nMin =  _UTM_S_MIN, (_UTM_S_MIN - _UTM_N_SHIFT)
 
 
-class UTMUPSError(ValueError):
+class UTMUPSError(_ValueError):  # XXX (UTMError, UPSError)
     '''Universal Transverse Mercator/Universal Polar Stereographic
        (UTM/UPS) parse, validate or other issue.
     '''
@@ -92,9 +94,10 @@ def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=''):
             u = parseUTM5(strUTMUPS, datum=datum, Utm=Utm, name=name)
         except UTMError:
             u = parseUPS5(strUTMUPS, datum=datum, Ups=Ups, name=name)
-    except (UTMError, UPSError):
-        raise InvalidError(strUTMUPS=strUTMUPS, Error=UTMUPSError)
-    return u
+        return u
+
+    except (UTMError, UPSError) as x:
+        raise UTMUPSError(strUTMUPS=strUTMUPS, txt=str(x))
 
 
 def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
@@ -138,7 +141,7 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
     lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
     z, B, p, lat, lon = utmupsZoneBand5(lat, lon)
 
-    f = falsed and cmoff.get('cmoff', True)
+    f = falsed and _xkwds_get(cmoff, cmoff=True)
     if z == _UPS_ZONE:
         u = toUps8(lat, lon, datum=d, falsed=f, Ups=Ups, pole=pole or p, name=name)
     else:
@@ -171,33 +174,35 @@ def UtmUps(zone, hemipole, easting, northing, band='', datum=Datums.WGS84,
        @see: Classes L{Utm} and L{Ups} and Karney's U{UTMUPS
              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
     '''
-    z, B, hp = _to3zBhp(zone, band=band, hemipole=hemipole)
+    z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)
     U = Ups if z in (_UPS_ZONE, _UPS_ZONE_STR) else Utm
     return U(z, hp, easting, northing, band=B, datum=datum, falsed=falsed, name=name)
 
 
-def utmupsValidate(coord, falsed=False, MGRS=False):
+def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
     '''Check a UTM or UPS coordinate.
 
        @arg coord: The UTM or UPS coordinate (L{Utm}, L{Ups} or C{5+Tuple}).
        @kwarg falsed: C{5+Tuple} easting and northing are falsed (C{bool}).
        @kwarg MGRS: Increase easting and northing ranges (C{bool}).
+       @kwarg Error: Optional error to raise, overriding the default
+                     (L{UTMUPSError}).
 
        @return: C{None} if validation passed.
 
-       @raise UTMUPSError: Validation failed.
+       @raise Error: Validation failed.
 
        @see: Function L{utmupsValidateOK}.
     '''
 
-    def _en(en, lo, hi, ename):
+    def _en(en, lo, hi, ename):  # U, Error
         try:
             if lo <= float(en) <= hi:
                 return
         except (TypeError, ValueError):
             pass
-        t = '%s range [%.0F, %.0F]' % (U, lo, hi)
-        raise UTMUPSError('%s outside %s: %g' % (ename, t, en))
+        t = 'outside %s %s [%.0F, %.0F]' % (U, 'range', lo, hi)
+        raise Error(ename, en, txt=t)
 
     if isinstance(coord, (Ups, Utm)):
         zone = coord.zone
@@ -212,7 +217,8 @@ def utmupsValidate(coord, falsed=False, MGRS=False):
         band = coord.band
         enMM = falsed
     else:
-        raise InvalidError(coord=coord, Error=UTMUPSError)
+        raise _IsnotError(Error=Error, coord=coord, *map1(modulename,
+                          Utm, Ups, UtmUps5Tuple, UtmUps8Tuple))
 
     z, B, h = _to3zBhp(zone, band, hemipole=hemi)
 
@@ -232,8 +238,8 @@ def utmupsValidate(coord, falsed=False, MGRS=False):
     if i < 0 or z < _UTMUPS_ZONE_MIN \
              or z > _UTMUPS_ZONE_MAX \
              or B not in u._Bands:
-        raise InvalidError(zone=zone, hemisphere=hemi, band=band,
-                           coord='%s(%s%s %s)' % (U, z,B, h), Error=UTMUPSError)
+        t = '%s(%s%s %s)' % (U, z,B, h)
+        raise Error(coord=t, zone=zone, band=band, hemisphere=hemi)
 
     if enMM:
         _en(e, M.eMin[i] - s, M.eMax[i] + s, 'easting')   # PYCHOK .eMax .eMin

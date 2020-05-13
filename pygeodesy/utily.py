@@ -10,8 +10,8 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import PI, PI2, PI_2, R_M, \
-                             InvalidError, isint
+from pygeodesy.basics import PI, PI2, PI_2, R_M, isint
+from pygeodesy.errors import _Missing, _xkwds_get, _ValueError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.units import Feet, Lam_, Meter, Phi_, Radius
 
@@ -19,14 +19,13 @@ from math import cos, degrees, radians, sin, tan  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '20.04.25'
+__version__ = '20.05.08'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = 1.0 / 90  # 0.011111111111111111111111111111111111111111111111
 _2_PI = 2.0 / PI  # 0.63661977236758134307553505349005744813783858296182
 
 _iterNumpy2len = 1  # adjustable for testing purposes
-_MISSING       = object()  # singleton, imported by .wgrs
 
 
 def degrees90(rad):
@@ -80,7 +79,7 @@ def degrees2m(deg, radius=R_M, lat=0):
     m = Lam_(deg, name='deg', clip=0) * Radius(radius)
     if lat:
         m *= cos(Phi_(lat))
-    return m
+    return float(m)
 
 
 def ft2m(feet, usurvey=False):
@@ -167,7 +166,7 @@ def iterNumpy2over(n=None):
             else:
                 raise ValueError
         except (TypeError, ValueError):
-            raise InvalidError(n=n)
+            raise _ValueError(n=n)
     return p
 
 
@@ -372,14 +371,14 @@ def splice(iterable, n=2, **fill):
        <generator object splice at 0x0...>
     '''
     if not (isint(n) and n > 0):
-        raise InvalidError(n=n)
+        raise _ValueError(n=n)
 
     t = iterable
     if not isinstance(t, (list, tuple)):
         t = tuple(t)  # force tuple, also for PyPy3
     if n > 1:
-        fill = fill.get('fill', _MISSING)
-        if fill is not _MISSING:
+        fill = _xkwds_get(fill, fill=_Missing)
+        if fill is not _Missing:
             m = len(t) % n
             if m > 0:  # fill with same type
                 t += type(t)((fill,)) * (n - m)

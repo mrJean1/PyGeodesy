@@ -77,9 +77,11 @@ del division
 
 from pygeodesy.basics import EPS, INF, PI, PI_2, PI_4, \
                              map2, property_RO
+from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fdot, Fsum, fsum_, hypot1
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
+# from pygeodesy.streprs import unstr
 from pygeodesy.units import Scalar_
 from pygeodesy.utily import sincos2, sincos2d
 
@@ -87,7 +89,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic + _ALL_DOCS('Elliptic3Tuple')
-__version__ = '20.04.21'
+__version__ = '20.05.08'
 
 _TolJAC = sqrt(EPS * 0.01)
 _TolRD  =  pow(EPS * 0.002, 0.125)
@@ -96,10 +98,16 @@ _TolRG0 = _TolJAC * 2.7
 _TRIPS  =  13  # Max depth for sncndn, etc, 5-7 might be enough
 
 
-class EllipticError(ValueError):
+class EllipticError(_ValueError):
     '''Elliptic integral, function, convergence or other L{Elliptic} issue.
     '''
     pass
+
+
+class Elliptic3Tuple(_NamedTuple):
+    '''3-Tuple C{(sn, cn, dn)} all C{float}.
+    '''
+    _Names_ = ('sn', 'cn', 'dn')
 
 
 class Elliptic(_Named):
@@ -300,7 +308,7 @@ class Elliptic(_Named):
         '''
         if None in (cn, dn):
             t = self.classname + '.delta' + fX.__name__[1:]
-            raise EllipticError('%s invalid: %s%r' % ('invokation', t, (sn, cn, dn)))
+            raise _invokationError(t, sn, cn, dn)
 
         if cn < 0:
             cn, sn = -cn, -sn
@@ -518,7 +526,7 @@ class Elliptic(_Named):
             # fall through
         elif None in (cn, dn):
             t = self.classname + '.f' + deltaX.__name__[5:]
-            raise EllipticError('%s invalid: %s%r' % ('invokation', t, (sn, cn, dn)))
+            raise _invokationError(t, sn, cn, dn)
 
         if cn > 0:  # enforce usual trig-like symmetries
             xi = fX(sn, cn, dn)
@@ -701,16 +709,10 @@ class Elliptic(_Named):
         return Elliptic3Tuple(sn, cn, self.fDelta(sn, cn))
 
 
-class Elliptic3Tuple(_NamedTuple):
-    '''3-Tuple C{(sn, cn, dn)} all C{float}.
-    '''
-    _Names_ = ('sn', 'cn', 'dn')
-
-
 def _convergenceError(where, *args):  # PYCHOK no cover
     '''(INTERNAL) Return an L{EllipticError}.
     '''
-    return EllipticError('no %s%r convergence' % (where.__name__, args))
+    return EllipticError('no convergence', txt='%s%r' % (where.__name__, args))  # unstr
 
 
 def _Horner(e0, e1, e2, e3, e4, e5):
@@ -727,6 +729,12 @@ def _Horner(e0, e1, e2, e3, e4, e5):
     H += Fsum(417690 * e2, -255255 * e2**2, -875160) * e2
     e  = 4084080 * e1
     return H.fsum_(4084080, e * e0) / e
+
+
+def _invokationError(name, *args):  # PYCHOK no cover
+    '''(INTERNAL) Return an L{EllipticError}.
+    '''
+    return EllipticError('%s %s%r' % ('invokation', name, args))  # unstr
 
 
 def _Q(A, T, tol):
@@ -755,7 +763,7 @@ def _RC(x, y):  # used by testElliptic.py
     elif y < 0:  # <https://DLMF.NIST.gov/19.2.E20>
         r = asinh(sqrt(-x / y))  # atanh(sqrt(x / (x - y)))
     else:
-        raise EllipticError('%s invalid: %s%r' % ('y', _RC.__name__, (x, y)))
+        raise _invokationError(_RC.__name__, x, y)
     return r / sqrt(d)
 
 

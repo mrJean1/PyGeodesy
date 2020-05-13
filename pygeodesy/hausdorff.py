@@ -62,9 +62,10 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.basics import INF, _bkwds, InvalidError, IsnotError, \
-                             property_doc_, property_RO, _xinstanceof
+from pygeodesy.basics import INF, _bkwds, property_doc_, property_RO, \
+                            _xinstanceof
 from pygeodesy.datum import Datums, Datum
+from pygeodesy.errors import _IsnotError
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2, PointsError, _scaler, vincentys_
@@ -76,7 +77,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.04.12'
+__version__ = '20.05.08'
 
 
 class HausdorffError(PointsError):
@@ -211,8 +212,8 @@ class Hausdorff(_Named):
         if seed:
             try:
                 Random(seed)
-            except (TypeError, ValueError):
-                raise InvalidError(seed=seed, Error=HausdorffError)
+            except (TypeError, ValueError) as x:
+                raise HausdorffError(seed=seed, txt=str(x))
             self._seed = seed
         else:
             self._seed = None
@@ -728,9 +729,9 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units='',
        @raise TypeError: If B{C{distance}} or B{C{point}} is not callable.
     '''
     if not callable(distance):
-        raise IsnotError(callable.__name__, distance=distance)
+        raise _IsnotError(callable.__name__, distance=distance)
     if not callable(point):
-        raise IsnotError(callable.__name__, point=point)
+        raise _IsnotError(callable.__name__, point=point)
 
     _, ps1 = points2(model,  closed=False, Error=HausdorffError)
     _, ps2 = points2(target, closed=False, Error=HausdorffError)

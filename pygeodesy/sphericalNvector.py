@@ -34,6 +34,7 @@ from pygeodesy.basics import EPS, EPS_2, PI, PI2, PI_2, R_M, \
                              isscalar, map1, _xinstanceof, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefKarney
+from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fidw, fmean, fsum, fsum_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import NearestOn3Tuple
@@ -42,6 +43,7 @@ from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
 from pygeodesy.points import _imdex2, ispolar  # PYCHOK exported
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase
+from pygeodesy.streprs import unstr
 from pygeodesy.units import Bearing, Bearing_, Height, Radius, Radius_, Scalar
 from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 
@@ -57,7 +59,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.04.21'
+__version__ = '20.05.08'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -1173,7 +1175,7 @@ def triangulate(point1, bearing1, point2, bearing2,
     _Nvll.others(point2, name='point2')
 
     if point1.isequalTo(point2, EPS):
-        raise ValueError('%s %s: %r' % ('coincident', 'points', point2))
+        raise _ValueError(points=point2, txt='coincident')
 
     def _gc(p, b, i):
         n = p.toNvector()
@@ -1232,7 +1234,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
         _Nvll.others(p, name='point' + i)
         for q in qs:
             if p.isequalTo(q, EPS):
-                raise ValueError('%s %s: %r' % ('coincident', 'points', p))
+                raise _ValueError(points=p, txt='coincident')
         return p.toNvector(), (Scalar(d, name='distance' + i) / r)**2
 
     r = Radius_(radius)
@@ -1271,10 +1273,11 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
             kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
             return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
-    # no intersection, d < EPS_2 or j < EPS_2
-    raise ValueError('no %s for %r, %r, %r at %r, %r, %r' %
-                     (trilaterate.__name__, point1,    point2,    point3,
-                                         distance1, distance2, distance3))
+    # no intersection, d < EPS_2 or abs(j) < EPS_2
+    t = unstr(trilaterate.__name__, point1, distance1,
+                                    point2, distance2,
+                                    point3, distance3, useZ=useZ, d=d)
+    raise _ValueError('no intersection', txt=t)
 
 # **) MIT License
 #

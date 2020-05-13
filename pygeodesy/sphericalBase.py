@@ -12,12 +12,13 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI, PI2, PI_2, IsnotError, \
+from pygeodesy.basics import EPS, PI, PI2, PI_2, \
                              property_doc_, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import R_M, R_MA, Datum, Datums
 from pygeodesy.dms import parse3llh
 from pygeodesy.ecef import EcefKarney
+from pygeodesy.errors import _IsnotError
 from pygeodesy.fmath import acos1, favg, fsum_
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
@@ -32,7 +33,7 @@ from math import atan2, cos, hypot, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianSphericalBase', 'LatLonSphericalBase')
-__version__ = '20.04.21'
+__version__ = '20.05.05'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -114,7 +115,7 @@ class LatLonSphericalBase(LatLonBase):
         '''
         _xinstanceof(Datum, datum=datum)
         if not datum.isSpherical:
-            raise IsnotError('spherical', datum=datum)
+            raise _IsnotError('spherical', datum=datum)
         self._update(datum != self._datum)
         self._datum = datum
 

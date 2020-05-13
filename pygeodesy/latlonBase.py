@@ -11,10 +11,11 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, InvalidError, map1, \
-                             property_doc_, property_RO, _xinstanceof
+from pygeodesy.basics import EPS, R_M, map1, property_doc_, property_RO, \
+                            _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS  # parseDMS, parseDMS2
 from pygeodesy.ecef import EcefKarney
+from pygeodesy.errors import _item_, _ValueError
 from pygeodesy.fmath import favg
 from pygeodesy.formy import antipode, compassAngle, cosineLaw, \
                             equirectangular, euclidean, flatLocal, \
@@ -31,7 +32,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.04.21'
+__version__ = '20.05.08'
 
 
 class LatLonBase(_NamedBase):
@@ -519,9 +520,9 @@ class LatLonBase(_NamedBase):
         _xinstanceof(list, tuple, latlonh=latlonh)
 
         if len(latlonh) == 3:
-            h = Height(latlonh[2], name='latlonh')
+            h = Height(latlonh[2], name=_item_(latlonh=2))
         elif len(latlonh) != 2:
-            raise InvalidError(latlonh=latlonh)
+            raise _ValueError(latlonh=latlonh)
         else:
             h = self._height
 

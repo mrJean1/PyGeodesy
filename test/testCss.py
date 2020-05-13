@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.24'
+__version__ = '20.04.30'
 
 from base import TestsBase, geographiclib
 
@@ -94,8 +94,8 @@ class Tests(TestsBase):
         c.cs0.latlon0 = ll0
         self.test('cs0.latlon0', ll0, '(48.833333, 2.333333)')
         try:
-            c.cs0.latlon0 = tuple(ll0)
-            self.test('cs0.latlon0', c.cs0.latlon0, 'TypeError')
+            c.cs0.latlon0 = None
+            self.test('cs0.latlon0', c.cs0.latlon0, TypeError.__name__)
         except TypeError as x:
             self.test('cs0.latlon0', str(x), str(x))
 

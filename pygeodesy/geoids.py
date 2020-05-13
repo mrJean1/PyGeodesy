@@ -59,10 +59,11 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
 
-from pygeodesy.basics import EPS, InvalidError, len2, map1, map2, \
-                             property_RO, RangeError
+from pygeodesy.basics import EPS, len2, map1, map2, property_RO
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.dms import parseDMS2
+from pygeodesy.errors import _incompatible, _item_, LenError, \
+                              RangeError
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError, _SciPyIssue
@@ -70,6 +71,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon3Tuple, _Named, _NamedTuple, \
                             notOverloaded
 from pygeodesy.streprs import attrs, fstr, pairs
+from pygeodesy.units import Int_
 
 from math import floor
 import os.path as _os_path
@@ -87,35 +89,13 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('GeoidHeight5Tuple', '_GeoidBase')
-__version__ = '20.04.18'
+__version__ = '20.05.12'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
 _interp2d_ks = {-2: 'linear',
                 -3: 'cubic',
                 -5: 'quintic'}
-
-
-class GeoidError(HeightError):
-    '''Geoid interpolator C{Geoid...} or interpolation issue.
-    '''
-    pass
-
-
-class GeoidHeight5Tuple(_NamedTuple):  # .geoids.py
-    '''5-Tuple C{(lat, lon, egm84, egm96, egm2008)} for U{GeoidHeights.dat
-       <https://SourceForge.net/projects/geographiclib/files/testdata/>}
-       tests with the heights for 3 different EGM grids with C{-90.0 <=
-       lat <= 90.0} and C{-180.0 <= lon <= 180.0} degrees (and C{lon}
-       converted from the original C{0.0 <= EasterLon <= 360.0}).
-    '''
-    _Names_ = ('lat', 'lon', 'egm84', 'egm96', 'egm2008')
-
-
-class PGMError(GeoidError):
-    '''Issue parsing or cropping an C{egm*.pgm} geoid dataset.
-    '''
-    pass
 
 
 class _GeoidBase(_HeightBase):
@@ -164,7 +144,10 @@ class _GeoidBase(_HeightBase):
            @arg p: The C{slat, wlon, nlat, nlon, dlat, dlon} and
                    other geoid parameters (C{INTERNAL}).
 
-           @raise GeoidError: Invalid B{C{kind}}.
+           @raise GeoidError: Incompatible grid B{C{hs}} shape or
+                              invalid B{C{kind}}.
+
+           @raise LenError: Mismatch grid B{C{hs}} axis.
 
            @raise SciPyError: A C{scipy.interpolate.inter2d} or
                               C{-.RectBivariateSpline} issue.
@@ -178,7 +161,7 @@ class _GeoidBase(_HeightBase):
         # require the shape of hs to be (len(ys), len(xs)), note
         # the different (xs, ys, ...) and (ys, xs, ...) orders
         if (p.nlat, p.nlon) != hs.shape:
-            raise GeoidError('%s %s vs %r' % ('shape', hs.shape, (p.nlat, p.nlon)))
+            raise GeoidError(shape=hs.shape, txt=_incompatible((p.nlat, p.nlon)))
 
         # both axes and bounding box
         ys, self._lat_d = self._gaxis2(p.slat, p.dlat, p.nlat, 'lats')
@@ -196,7 +179,7 @@ class _GeoidBase(_HeightBase):
                                                                  ky=k, kx=k,
                                                                  s=self._smooth).ev
         else:
-            raise InvalidError(kind=k, Error=GeoidError)
+            raise GeoidError(kind=k)
 
         self._hs_y_x = hs  # numpy 2darray, row-major
         self._nBytes = hs.nbytes  # numpy size in bytes
@@ -244,21 +227,22 @@ class _GeoidBase(_HeightBase):
     def _called(self, llis, scipy):
         # handle __call__
         _as, llis = _allis2(llis, Error=GeoidError)
-        hs = []
-        for i, lli in enumerate(llis):
-            try:
+        try:
+            hs = []
+            for i, lli in enumerate(llis):
                 hs.append(self._hGeoid(lli.lat, lli.lon))
-            except (GeoidError, RangeError) as x:
-                # XXX avoid str(LatLon()) degree symbols
-                i = '' if _as is _ascalar else '[%s]' % (i,)
-                lli = fstr((lli.lat, lli.lon), prec=6)
-                raise x.__class__('location%s (%s) %s' % (i, lli, x))
-            except Exception as x:
-                if scipy and self.scipy:
-                    raise _SciPyIssue(x)
-                else:
-                    raise
-        return _as(hs)
+            return _as(hs)
+
+        except (GeoidError, RangeError) as x:
+            # XXX avoid str(LatLon()) degree symbols
+            t = 'lli' if _as is _ascalar else _item_(llis=i)
+            lli = fstr((lli.lat, lli.lon), strepr=repr)
+            raise type(x)(t, lli, txt=str(x))
+        except Exception as x:
+            if scipy and self.scipy:
+                raise _SciPyIssue(x)
+            else:
+                raise
 
     def _ev(self, y, x):  # PYCHOK expected
         # only used for .interpolate.interp2d, but
@@ -270,13 +254,13 @@ class _GeoidBase(_HeightBase):
         # build grid axis, hi = lo + (n - 1) * d
         m, a = len2(frange(lo, n, d))
         if m != n:
-            raise GeoidError('len(%s) = %s != %s' % (name, m, n))
+            raise LenError(self.__class__, grid=m, **{name: n})
         if d < 0:
             d, a = -d, list(reversed(a))
         for i in range(1, m):
             e = a[i] - a[i-1]
             if e < EPS:  # non-increasing axis
-                raise GeoidError('%s[%s]: %.12F' % (name, i, e))
+                raise GeoidError(_item_(name, i), e, txt='non-increasing')
         return self._np.array(a), d
 
     def _g2ll2(self, lat, lon):  # PYCHOK no cover
@@ -290,7 +274,8 @@ class _GeoidBase(_HeightBase):
     def _hGeoid(self, lat, lon):
         out = self.outside(lat, lon)
         if out:
-            raise RangeError('outside on %s' % (out,))
+            lli = fstr((lat, lon), strepr=repr)
+            raise RangeError('lli', lli, txt='outside on %s' % (out,))
         return float(self._ev(*self._ll2g2(lat, lon)))
 
     def _ll2g2(self, lat, lon):  # PYCHOK no cover
@@ -323,7 +308,7 @@ class _GeoidBase(_HeightBase):
             self._sizeB = _os_path.getsize(geoid)
             g = open(geoid, 'rb')
         except (IOError, OSError) as x:
-            raise GeoidError(str(x))
+            raise GeoidError(geoid=geoid, txt=str(x))
 
         if datum and isinstance(datum, Datum):
             self._datum = datum
@@ -331,9 +316,7 @@ class _GeoidBase(_HeightBase):
         if name:
             _HeightBase.name.fset(self, name)  # recursion
         if smooth:
-            if int(smooth) < 0:
-                raise InvalidError(smooth=smooth, Error=GeoidError)
-            self._smooth = int(smooth)
+            self._smooth = Int_(smooth, name='smooth', Error=GeoidError, low=0)
 
         return g
 
@@ -355,7 +338,7 @@ class _GeoidBase(_HeightBase):
                     return s, w, n, e
         except (IndexError, TypeError, ValueError):
             pass
-        raise InvalidError(crop=crop, Error=GeoidError)
+        raise GeoidError(crop=crop)
 
     def center(self, LatLon=None):
         '''Return the center location and height of this geoid.
@@ -621,6 +604,12 @@ class _GeoidBase(_HeightBase):
         return self._llh3LL(self._upperright, LatLon)
 
 
+class GeoidError(HeightError):
+    '''Geoid interpolator C{Geoid...} or interpolation issue.
+    '''
+    pass
+
+
 class GeoidG2012B(_GeoidBase):
     '''Geoid height interpolator for U{GEOID12B Model
        <https://www.NGS.NOAA.gov/GEOID/GEOID12B/>} grids U{CONUS
@@ -665,13 +654,15 @@ class GeoidG2012B(_GeoidBase):
            @raise ImportError: Package C{numpy} or C{scipy} not found
                                or not installed.
 
+           @raise LenError: Grid file B{C{g2012b_bin}} axis mismatch.
+
            @raise SciPyError: A C{RectBivariateSpline} or C{inter2d} issue.
 
            @raise SciPyWarning: A C{RectBivariateSpline} or C{inter2d}
                                 warning as exception.
         '''
         if crop is not None:
-            raise GeoidError('not supported: %s=%r' % ('crop', crop))
+            raise GeoidError(crop=crop, txt='not supported')
 
         np, _ = self._NumSciPy()
         g = self._open(g2012b_bin, datum, kind, name, smooth)
@@ -716,6 +707,16 @@ class GeoidG2012B(_GeoidBase):
     if _FOR_DOCS:  # PYCHOK no cover
         __call__ = _GeoidBase.__call__
         height   = _GeoidBase.height
+
+
+class GeoidHeight5Tuple(_NamedTuple):  # .geoids.py
+    '''5-Tuple C{(lat, lon, egm84, egm96, egm2008)} for U{GeoidHeights.dat
+       <https://SourceForge.net/projects/geographiclib/files/testdata/>}
+       tests with the heights for 3 different EGM grids with C{-90.0 <=
+       lat <= 90.0} and C{-180.0 <= lon <= 180.0} degrees (and C{lon}
+       converted from the original C{0.0 <= EasterLon <= 360.0}).
+    '''
+    _Names_ = ('lat', 'lon', 'egm84', 'egm96', 'egm2008')
 
 
 def _I(i):
@@ -842,12 +843,12 @@ class GeoidKarney(_GeoidBase):
            @see: Class L{GeoidPGM} and function L{egmGeoidHeights}.
         '''
         if smooth is not None:
-            raise GeoidError('not supported: %s=%r' % ('smooth', smooth))
+            raise GeoidError(smooth=smooth, txt='not supported')
 
         if kind in (2,):
             self._evH = self._ev2H
         elif kind not in (3,):
-            raise InvalidError(kind=kind, Error=GeoidError)
+            raise GeoidError(kind=kind)
 
         self._egm = g = self._open(egm_pgm, datum, kind, name, smooth)
         self._pgm = p = _PGM(g, pgm=egm_pgm, itemsize=self.u2B, sizeB=self.sizeB)
@@ -1170,6 +1171,8 @@ class GeoidPGM(_GeoidBase):
 
            @raise ImportError: Package C{numpy} or C{scipy} not found
                                or not installed.
+
+           @raise LenError: EGM dataset B{C{egm_pgm}} axis mismatch.
 
            @raise SciPyError: A C{RectBivariateSpline} or C{inter2d} issue.
 
@@ -1521,6 +1524,12 @@ class _PGM(_Gpars):
         return self.name
 
 
+class PGMError(GeoidError):
+    '''Issue parsing or cropping an C{egm*.pgm} geoid dataset.
+    '''
+    pass
+
+
 def egmGeoidHeights(GeoidHeights_dat):
     '''Generate geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
        html/geoid.html#geoidinst>} height tests from U{GeoidHeights.dat
@@ -1546,8 +1555,8 @@ def egmGeoidHeights(GeoidHeights_dat):
 
     try:
         dat.seek(0, _SEEK_SET)  # reset
-    except AttributeError:
-        raise GeoidError('%s invalid: %s' % ('GeoidHeights_dat', type(dat)))
+    except AttributeError as x:
+        raise GeoidError(GeoidHeights_dat=type(dat), txt=str(x))
 
     for t in dat.readlines():
         t = t.strip()
@@ -1602,14 +1611,14 @@ if __name__ == '__main__':
                     h, ll = g.height(*ll), fstr(ll, prec=6)
                     print('%s.height(%s): %.4F vs %s' % (t, ll, h, k))
                 except (GeoidError, RangeError) as x:
-                    print('%s: %s' % (t, x))
+                    print('%s: %s' % (t, str(x)))
 
         elif geoid[-4:].lower() in ('.bin',):
             g = GeoidG2012B(geoid, kind=_kind)
             print(g.toStr())
 
         else:
-            raise GeoidError('unknown grid: %r' % (geoid,))
+            raise GeoidError('unknown grid', txt=repr(geoid))
 
 _I = int    # PYCHOK unused _I
 del _intCs  # trash ints cache

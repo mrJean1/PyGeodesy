@@ -5,12 +5,13 @@ u'''Floating point and other formatting utilities.
 
 '''
 
-from pygeodesy.basics import isint, InvalidError, IsnotError, isscalar
+from pygeodesy.basics import isint, isscalar
+from pygeodesy.errors import _IsnotError, _ValueError, _xkwds_pop
 from pygeodesy.lazily import _ALL_LAZY
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.04.20'
+__version__ = '20.05.08'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int
@@ -18,7 +19,7 @@ _Gg     = ('G', 'g')
 _EeFfGg = ('F', 'f', 'E', 'e') + _Gg  # float formats
 
 
-def _streprs(prec, objs, fmt, ints, floats, strepr):
+def _streprs(prec, objs, fmt, ints, force, strepr):
     '''(INTERNAL) Helper for C{fstr}, C{pairs}, C{reprs} and C{strs}
     '''
     if fmt in _EeFfGg:
@@ -28,11 +29,11 @@ def _streprs(prec, objs, fmt, ints, floats, strepr):
         fGg = False
         fmt = fmt.replace('*', str(abs(prec)))
     else:
-        t = repr('[%s]%s' % ('%.*', '|'.join(_EeFfGg)))
-        raise ValueError('%s not %s: %r' % ('fmt', t, fmt))
+        t = '[%s]%s' % ('%.*', '|'.join(_EeFfGg))
+        raise _ValueError(fmt=fmt, txt='not %r' % (t,))
 
     for o in objs:
-        if floats or isinstance(o, float):
+        if force or isinstance(o, float):
             t = fmt % (float(o),)
             if ints and (isint(o, both=True) or  # for ...
                          # corner case testLcc lon0=-96.0
@@ -43,7 +44,7 @@ def _streprs(prec, objs, fmt, ints, floats, strepr):
         elif strepr:
             t = strepr(o)
         else:
-            raise IsnotError('scalar', floats=o)
+            raise _IsnotError('scalar', floats=o)
         yield t
 
 
@@ -79,7 +80,7 @@ def attrs(inst, *names, **kwds):  # prec=6, fmt='F', ints=False, Nones=True, sep
        @return: A C{tuple(sep.join(t) for t in zip(names, reprs(values, ...)))}
                 of C{str}s.
     '''
-    Nones = kwds.pop('Nones', True)
+    Nones = _xkwds_pop(kwds, Nones=True)
 
     def items():
         for n in names:
@@ -106,12 +107,12 @@ def enstr2(easting, northing, prec, *extras):
     try:
         p10 = (1e-4, 1e-3, 1e-2, 1e-1, 1)[w - 1]  # 10**(5 - w)
     except IndexError:
-        raise InvalidError(prec=prec)
-    return extras + ('%0*d' % (w, int(easting * p10)),
+        raise _ValueError(prec=prec)
+    return extras + ('%0*d' % (w, int(easting  * p10)),
                      '%0*d' % (w, int(northing * p10)))
 
 
-def fstr(floats, prec=6, fmt='F', ints=False, sep=', '):
+def fstr(floats, prec=6, fmt='F', ints=False, sep=', ', strepr=None):
     '''Convert one or more floats to string, optionally stripped of trailing zero decimals.
 
        @arg floats: Single or a list, sequence, tuple, etc. (C{scalar}s).
@@ -121,13 +122,15 @@ def fstr(floats, prec=6, fmt='F', ints=False, sep=', '):
        @kwarg fmt: Optional, float format (C{str}).
        @kwarg ints: Optionally, remove the decimal dot (C{bool}).
        @kwarg sep: Separator joining the B{C{floats}} (C{str}).
+       @kwarg strepr: Optional callable to format non-C{floats} (typically
+                      C{repr}, C{str}) or C{None} to raise a TypeError.
 
        @return: The C{sep.join(strs(floats, ...)} joined (C{str}) or single
                 C{strs((floats,), ...)} (C{str}) if B{C{floats}} is C{scalar}.
     '''
     if isscalar(floats):
         floats = (floats,)
-    return sep.join(_streprs(prec, floats, fmt, ints, True, None))
+    return sep.join(_streprs(prec, floats, fmt, ints, True, strepr))
 
 
 def fstrzs(efstr, ap1z=False):
@@ -200,7 +203,7 @@ def pairs(items, prec=6, fmt='F', ints=False, sep='='):
         # can't unzip empty items tuple, list, etc.
         n, v = zip(*items) if items else ((), ())
     except (TypeError, ValueError):
-        raise IsnotError('dict', '2-tuples', items=items)
+        raise _IsnotError('dict', '2-tuples', items=items)
     v = _streprs(prec, v, fmt, ints, False, repr)
     return tuple(sep.join(t) for t in zip(map(str, n), v))
 

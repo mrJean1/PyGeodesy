@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Vincenty's geodetic (lat-/longitude) L{LatLon}, geocentric (ECEF)
-L{Cartesian} amd L{VincentyError} classes and functions L{areaOf}
+L{Cartesian} and L{VincentyError} classes and functions L{areaOf}
 and L{perimeterOf}, I{all ellipsoidal}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
@@ -64,6 +64,7 @@ from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
+from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Bearing2Tuple, Destination2Tuple, \
@@ -79,10 +80,10 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '20.04.21'
+__version__ = '20.05.05'
 
 
-class VincentyError(ValueError):
+class VincentyError(_ValueError):
     '''Error raised from Vincenty's direct and inverse methods
        for coincident points or lack of convergence.
     '''
@@ -488,7 +489,7 @@ class LatLon(LatLonEllipsoidalBase):
             if abs(s - s_) < self._epsilon:
                 break
         else:
-            raise VincentyError('%s, %r' % ('no convergence', self))
+            raise VincentyError('no convergence', txt=repr(self))  # self.toRepr()
 
         t = s1 * ss - c1 * cs * ci
         # final bearing (reverse azimuth +/- 180)
@@ -538,8 +539,8 @@ class LatLon(LatLonEllipsoidalBase):
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
             if ss < EPS:  # coincident or antipodal, ...
                 if self.isantipodeTo(other, eps=self._epsilon):
-                    raise VincentyError('%s, %r %sto %r' % ('ambiguous',
-                                        self, 'antipodal ', other))
+                    t = '%r %sto %r' % (self, 'antipodal ', other)
+                    raise VincentyError('ambiguous', txt=t)
                 # return zeros like Karney, but unlike Veness
                 return Distance3Tuple(0.0, 0, 0)
 
@@ -565,7 +566,7 @@ class LatLon(LatLonEllipsoidalBase):
 #                                  'antipodal ', other))
         else:
             t = 'antipodal ' if self.isantipodeTo(other, eps=self._epsilon) else ''
-            raise VincentyError('%s, %r %sto %r' % ('no convergence', self, t, other))
+            raise VincentyError('no convergence', txt='%r %sto %r' % (self, t, other))
 
         if c2a:  # e22 == (a / b)**2 - 1
             A, B = _p2(c2a * E.e22)

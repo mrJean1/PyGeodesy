@@ -4,11 +4,11 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.04.14'
+__version__ = '20.05.08'
 
 from base import geographiclib, TestsBase
 
-from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, classname, \
+from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
                       degrees, fStr, isclockwise, isconvex, \
                       isenclosedBy, ispolar, m2km, m2NM  # PYCHOK expected
 from pygeodesy.named import Bounds2Tuple, \
@@ -126,7 +126,7 @@ class Tests(TestsBase):
                 self.test('distanceTo', d, 20015114.35 if Sph else 20003931.46, fmt='%.2f', known=Nv)  # PYCHOK 0.0 for Nv
             except ValueError as d:
                 d = str(d)
-                self.test('distanceTo', d, 'ambiguous, LatLon(00°00′00.0″N, 000°00′00.0″E) antipodal to LatLon(00°00′00.0″N, 180°00′00.0″E)')
+                self.test('distanceTo', d, 'ambiguous: LatLon(00°00′00.0″N, 000°00′00.0″E) antipodal to LatLon(00°00′00.0″N, 180°00′00.0″E)')
 
         if hasattr(LatLon, 'distanceTo3') and not Sph:
             for w in (False, True):
@@ -202,7 +202,7 @@ class Tests(TestsBase):
                 d = p.alongTrackDistanceTo(s, 96)
                 self.test('alongTrackDistanceTo', d, 62331.59, fmt='%.2f')  # 62331
             except TypeError as x:
-                self.test('alongTrackDistanceTo', x, 'end mismatch: int vs ' + classname(p))  # PYCHOK test attr?
+                self.test('alongTrackDistanceTo', str(x), str(x))  # PYCHOK test attr?
             d = p.alongTrackDistanceTo(s, e)
             self.test('alongTrackDistanceTo', d, 62331.58, fmt='%.2f')
 
@@ -228,7 +228,7 @@ class Tests(TestsBase):
                 d = p.crossTrackDistanceTo(s, 96)
                 self.test('crossTrackDistanceTo', d, -305.67, fmt='%.2f')  # -305.7
             except TypeError as x:
-                self.test('crossTrackDistanceTo', x, 'end mismatch: int vs ' + classname(p))  # PYCHOK test attr?
+                self.test('crossTrackDistanceTo', str(x), str(x))  # PYCHOK test attr?
             d = p.crossTrackDistanceTo(s, e)
             self.test('crossTrackDistanceTo', d, -307.55, fmt='%.2f')  # -307.5
 
@@ -271,17 +271,16 @@ class Tests(TestsBase):
                 self.test('isclockwise', isclockwise(t), True)  # PYCHOK test attr?
             for _ in self.testiter():
                 try:
-                    self.test('isclockwise', isclockwise(t[:2]), ValueError)
+                    self.test('isclockwise', isclockwise(t[:2]), ValueError.__name__)
                 except ValueError as x:
-                    self.test('isclockwise', x, 'too few points: 2')  # PYCHOK test attr?
+                    self.test('isclockwise', x, 'points (2): too few')  # PYCHOK test attr?
             # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
             p = LatLon(85, -135), LatLon(85, -45), LatLon(85, 45), LatLon(85, 135), LatLon(85, -135)
             for _ in self.testiter():
                 try:
-                    self.test('isclockwise', isclockwise(p), ValueError)  # PYCHOK test attr?
+                    self.test('isclockwise', isclockwise(p), ValueError.__name__)  # PYCHOK test attr?
                 except ValueError as x:
-                    # polar or zero area: LatLon2psxy((LatLon(85°00′00.0″N, 135°00′00.0″W), ...)[4], ...
-                    self.test('isclockwise', str(x).split(':')[0], 'polar or zero area')  # PYCHOK test attr?
+                    self.test('isclockwise', str(x).split(':')[0], 'zero or polar area')  # PYCHOK test attr?
 
         if isconvex:
             f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
@@ -292,9 +291,9 @@ class Tests(TestsBase):
                 self.test('isconvex', isconvex(t), True)  # PYCHOK test attr?
             for _ in self.testiter():
                 try:
-                    self.test('isconvex', isconvex(t[:2]), ValueError)
+                    self.test('isconvex', isconvex(t[:2]), ValueError.__name__)
                 except ValueError as x:
-                    self.test('isconvex', x, 'too few points: 2')  # PYCHOK test attr?
+                    self.test('isconvex', x, 'points (2): too few')  # PYCHOK test attr?
 
         if isenclosedBy:
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)

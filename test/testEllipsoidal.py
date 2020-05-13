@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.20'
+__version__ = '20.05.08'
 
 from base import coverage, geographiclib
 from testLatLon import Tests as _TestsLL
@@ -137,11 +137,11 @@ class Tests(_TestsLL, _TestsV):
             self.test('convertDatum', c.datum.name, 'OSGB36')
             try:
                 m = Newport_RI.distanceTo(c)
-                self.test('ValueError1', None, 'other Ellipsoid mistmatch: ...' + d.ellipsoid.name)
+                self.test('ValueError1', m, ValueError.__name__)
             except ValueError as x:
-                self.test('ValueError2', x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
+                self.test('ValueError2', x, "Ellipsoid 'Airy1830': incompatible with Ellipsoid %r" % (d.ellipsoid.name,))
             except Exception as x:
-                self.test('ValueError3', x, 'ValueError ...' + d.ellipsoid.name)
+                self.test('ValueError3', x, ValueError.__name__)
 
         p = LatLon(-37.95103342, 144.42486789, datum=d)
         self.test('isEllipsoidal', p.isEllipsoidal, True)
@@ -205,11 +205,11 @@ class Tests(_TestsLL, _TestsV):
             self.test('convertDatum', c.datum.name, 'OSGB36')
             try:
                 m = Newport_RI.distanceTo(c)
-                self.test('ValueError1', None, 'other Ellipsoid mistmatch: ...' + d.ellipsoid.name)
+                self.test('ValueError1', None, ValueError.__name__)
             except ValueError as x:
-                self.test('ValueError2', x, 'other Ellipsoid mistmatch: Ellipsoids.Airy1830 vs Ellipsoids.' + d.ellipsoid.name)
+                self.test('ValueError2', x, "Ellipsoid 'Airy1830': incompatible with Ellipsoid %r" % (d.ellipsoid.name,))
             except Exception as x:
-                self.test('ValueError3', x, 'ValueError ...' + d.ellipsoid.name)
+                self.test('ValueError3', x, ValueError.__name__)
 
         p = LatLon(-37.95103342, 144.42486789, datum=d)
         self.test('isEllipsoidal', p.isEllipsoidal, True)
@@ -395,24 +395,24 @@ class Tests(_TestsLL, _TestsV):
         try:
             m, t, fmt = p.distanceTo(q), '19936288.579', '%.3f'
         except VincentyError as x:
-            m, t, fmt = str(x), 'no convergence, ...', '%s'
+            m, t, fmt = str(x), 'no convergence: ...', '%s'
         self.test(_i('distanceTo/antipodal', p), m, t, fmt=fmt, known=True)
 
         q = LatLon(0.5, 179.7, datum=d)
         try:
             m, t, fmt = p.distanceTo(q), '19944127.421', '%.3f'
         except VincentyError as x:
-            m, t, fmt = str(x), 'no convergence, ...', '%s'
+            m, t, fmt = str(x), 'no convergence: ...', '%s'
         self.test(_i('distanceTo/VincentyError', p), m, t, fmt=fmt, known=True)
         try:
             b, t, fmt = p.initialBearingTo(q), '15.556883', '%.6f'
         except VincentyError as x:
-            b, t, fmt = str(x), 'no convergence, ...', '%s'
+            b, t, fmt = str(x), 'no convergence: ...', '%s'
         self.test(_i('initialBearingTo/VincentyError', p), b, t, fmt=fmt, known=True)
         try:
             f, t, fmt = p.finalBearingTo(q), '164.442514', '%.6f'
         except VincentyError as x:
-            f, t, fmt = str(x), 'no convergence, ...', '%s'
+            f, t, fmt = str(x), 'no convergence: ...', '%s'
         self.test(_i('finalBearingTo/VincentyError', p), f, t, fmt=fmt, known=True)
 
         q = LatLon(0, 180, datum=d)
@@ -445,17 +445,17 @@ class Tests(_TestsLL, _TestsV):
         try:
             b, t, fmt = p.initialBearingTo(p), '180.0' if isKarney else '0.0', '%.1f'
         except VincentyError as x:
-            b, t, fmt = str(x), 'no convergence, ...', '%s'
+            b, t, fmt = str(x), 'no convergence: ...', '%s'
         self.test(_i('initialBearingTo/coincident', p), b, t, fmt=fmt, known=True)  # NaN
         try:
             f, t, fmt = p.finalBearingTo(p), '180.0' if isKarney else '0.0', '%.1f'
         except VincentyError as x:
-            f, t, fmt = str(x), 'no convergence, ...', '%s'
+            f, t, fmt = str(x), 'no convergence: ...', '%s'
         self.test(_i('finalBearingTo/coincident', p), f, t, fmt=fmt, known=True)  # NaN
         try:
             q, t = p.destination(0, 0), '50.06632°N, 005.71475°W'
         except VincentyError as x:
-            q, t = str(x), 'no convergence, ...'
+            q, t = str(x), 'no convergence: ...'
         self.test(_i('destination/coincident', p), q, t, known=True)
 
         # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>

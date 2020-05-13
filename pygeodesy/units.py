@@ -8,10 +8,11 @@ L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI, PI_2, property_doc_, \
-                             RangeError
-from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, \
-                         _toDMS, parseDMS, parseRad
+from pygeodesy.basics import EPS, PI, PI_2, property_doc_
+from pygeodesy.dms import _EW, F__F, F__F_, _NS, S_NUL, S_SEP, \
+                          _toDMS, parseDMS, parseRad
+from pygeodesy.errors import _Invalid, _IsnotError, RangeError, \
+                             _ValueError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named
 from pygeodesy.streprs import fstr
@@ -20,10 +21,10 @@ from math import radians
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.units + _ALL_DOCS('_NamedUnit')
-__version__ = '20.05.04'
+__version__ = '20.05.10'
 
 
-class UnitError(ValueError):
+class UnitError(_ValueError):
     '''Default exception for L{units} issues.
     '''
     pass
@@ -34,6 +35,12 @@ class _NamedUnit(_Named):
     '''
     _std_repr = True  # set below
     _units    = None
+
+    def _toRepr(self, value):
+        '''(INTERNAL) Representation "<name> (<value>)" or "<classname>(<value>)".
+        '''
+        t = (self.name, ' ') if self.name else (self.classname,)
+        return ''.join(t + ('(', str(value), ')'))
 
     @property_doc_(' standard C{repr} or named C{toRepr} representation.')
     def std_repr(self):
@@ -84,9 +91,9 @@ class Float(float, _NamedUnit):
             if name:
                 _NamedUnit.name.fset(self, name)  # see _Named.name
             return self
-        except (TypeError, ValueError) as _:  # XXX not ... as x:
-            x = str(_)  # avoid Python 3+ nested exception messages
-        raise _Error(cls, arg, name=name, Error=Error, txt=x)
+
+        except (TypeError, ValueError) as x:  # XXX not ... as x:
+            raise _Error(cls, arg, name=name, Error=Error, txt=str(x))
 
     def __repr__(self):  # to avoid MRO(float)
         '''Return a representation of this C{Float}.
@@ -118,8 +125,8 @@ class Float(float, _NamedUnit):
         '''
         # XXX must use super(Float, self)... since
         # super()... only works for Python 3+
-        return super(Float, self).__repr__() if std else (
-              '%s(%s)' % (self.named, fstr(self, prec=prec, fmt=fmt, ints=ints)))
+        return super(Float, self).__repr__() if std else \
+               self._toRepr(fstr(self, prec=prec, fmt=fmt, ints=ints))
 
     def toStr(self, prec=12, fmt='g', ints=False):  # PYCHOK prec=8, ...
         '''Format this C{Float} as C{str}.
@@ -156,6 +163,164 @@ class Float_(Float):
         return self
 
 
+class Int(int, _NamedUnit):
+    '''Named C{int}.
+    '''
+    # _std_repr = True  # set below
+
+    def __new__(cls, arg, name='', Error=UnitError):
+        '''New named {int} instance.
+
+           @arg arg: The value (any C{type} convertable to C{int}).
+           @kwarg name: Optional instance name (C{str}).
+           @kwarg Error: Optional error to raise, overriding the
+                         default L{UnitError}.
+
+           @returns: An C{Int} instance.
+
+           @raise Error: Invalid B{C{arg}}.
+        '''
+        try:
+            self = int.__new__(cls, arg)
+            if name:
+                _NamedUnit.name.fset(self, name)  # see _Named.name
+            return self
+
+        except (TypeError, ValueError) as x:  # XXX not ... as x:
+            raise _Error(cls, arg, name=name, Error=Error, txt=str(x))
+
+    def __repr__(self):  # to avoid MRO(int)
+        '''Return a representation of this named C{int}.
+
+           @see: Method C{Int.toRepr} and property C{Int.std_repr}.
+
+           @note: Use env variable {PYGEODESY_INT_STD_REPR=std}
+                  to get the standard C{repr} or use C{...=named}
+                  for the named C{toRepr}.
+        '''
+        return self.toRepr(std=self._std_repr)
+
+    def __str__(self):  # to avoid MRO(int)
+        '''Return this C{Int} as standard C{str}.
+        '''
+        return self.toStr()
+
+    def toRepr(self, std=False, **unused):  # PYCHOK **unused
+        '''Return the representation of this named C{int}.
+
+           @kwarg std: Use the standard C{repr} or the named
+                       representation (C{bool}).
+        '''
+        r = int.__repr__(self)  # self.toStr()
+        return r if std else self._toRepr(r)
+
+    def toStr(self, **unused):  # PYCHOK **unused
+        '''Return this C{Int} as standard C{str}.
+        '''
+        # XXX must use '%d' % (self,) since
+        # int.__str__(self) fails with 3.8+
+        return '%d' % (self,)
+
+
+class Int_(Int):
+    '''Named C{int} with optional limits C{low} and C{high}.
+    '''
+    def __new__(cls, arg, name='', Error=UnitError, low=0, high=None):
+        '''New named C{int} instance with limits.
+
+           @arg cls: This class (C{Int_} or sub-class).
+           @arg arg: The value (any C{type} convertable to C{int}).
+           @kwarg name: Optional instance name (C{str}).
+           @kwarg Error: Optional error to raise, overriding the default
+                         C{UnitError}.
+           @kwarg low: Optional lower B{C{arg}} limit (C{float} or C{None}).
+           @kwarg high: Optional upper B{C{arg}} limit (C{float} or C{None}).
+
+           @returns: An L{Int_} instance.
+
+           @raise Error: Invalid B{C{arg}} or B{C{arg}} below B{C{low}} or
+                         above B{C{high}}.
+        '''
+        self = Int.__new__(cls, arg, name=name, Error=Error)
+        if (low is not None) and self < low:
+            raise _Error(cls, arg, name=name, Error=Error, txt='below %s limit' % (low,))
+        if (high is not None) and self > high:
+            raise _Error(cls, arg, name=name, Error=Error, txt='above %s limit' % (high,))
+        return self
+
+
+class Str(str, _NamedUnit):
+    '''Named C{str}.
+    '''
+    # _std_repr = True  # set below
+
+    def __new__(cls, arg, name='', Error=UnitError):
+        '''New named C{str} instance.
+
+           @arg arg: The value (any C{type} convertable to C{str}).
+           @kwarg name: Optional instance name (C{str}).
+           @kwarg Error: Optional error to raise, overriding
+                         the default (C{ValueError}).
+
+           @returns: A L{Str} instance.
+
+           @raise Error: Invalid B{C{arg}}.
+        '''
+        try:
+            self = str.__new__(cls, arg)
+            if name:
+                _NamedUnit.name.fset(self, name)  # see _Named.name
+            return self
+
+        except (TypeError, ValueError) as x:  # XXX not ... as x:
+            raise _Error(cls, arg, name=name, Error=Error, txt=str(x))
+
+    def __repr__(self):
+        '''Return a representation of this C{Str}.
+
+           @see: Method C{Str.toRepr} and property C{Str.std_repr}.
+
+           @note: Use env variable {PYGEODESY_STR_STD_REPR=std}
+                  to get the standard C{repr} or use C{...=named}
+                  for the named C{toRepr}.
+        '''
+        return self.toRepr(std=self._std_repr)  # see .test/testGars.py
+
+    def __str__(self):
+        '''Return this C{Str} as standard C{str}.
+        '''
+        return self.toStr()
+
+    def toRepr(self, std=False, **unused):  # PYCHOK **unused
+        '''Return the named representation of this C{Str}.
+
+           @kwarg std: Use the standard C{repr} or the named
+                       representation (C{bool}).
+        '''
+        # must use super(Str, self).. since
+        # super()... only works for Python 3+ and
+        # str.__repr__(self) fails with Python 3.8+
+        r = super(Str, self).__repr__()
+        return r if std else self._toRepr(r)
+
+    def toStr(self, **unused):  # PYCHOK **unused
+        '''Return this C{Str} as standard C{str}.
+        '''
+        # must use super(Str, self)... since
+        # super()... only works for Python 3+ and
+        # str.__str__(self) fails with Python 3.8+
+        return super(Str, self).__str__()
+
+
+class Band(Str):
+    '''Named C{str} representing a UTM/UPS band latter, unchecked.
+    '''
+    def __new__(cls, arg, name='band', Error=UnitError):
+        '''See L{Str}.
+        '''
+        return Str.__new__(cls, arg, name=name, Error=Error)
+
+
 class Degrees(Float):
     '''Named C{float} representing a coordinate in C{degrees}, optionally clipped.
     '''
@@ -184,13 +349,15 @@ class Degrees(Float):
         try:
             return Float.__new__(cls, parseDMS(arg, suffix=suffix, clip=clip),
                                       name=name, Error=Error)
-        except (RangeError, TypeError, ValueError) as _:
-            x = str(_)  # avoid Python 3+ nested exception messages
-        raise _Error(cls, arg, name=name, Error=Error, txt=x)
+        except RangeError as x:
+            t, E = str(x), type(x)
+        except (TypeError, ValueError) as x:
+            t, E = str(x), Error
+        raise _Error(cls, arg, name=name, Error=E, txt=t)
 
     def toRepr(self, prec=None, fmt=F__F_, ints=False, std=False):  # PYCHOK prec=8, ...
-        return Float.toRepr(self, std=std) if std else (
-               '%s(%s)' % (self.named, self.toStr(prec=prec, fmt=fmt, ints=ints)))
+        return Float.toRepr(self, std=std) if std else \
+               self._toRepr(self.toStr(prec=prec, fmt=fmt, ints=ints))
 
     def toStr(self, prec=None, fmt=F__F_, ints=False):  # PYCHOK prec=8, ...
         if fmt.startswith('%'):  # use regular formatting
@@ -240,9 +407,11 @@ class Radians(Float):
         try:
             return Float.__new__(cls, parseRad(arg, suffix=suffix, clip=clip),
                                       name=name, Error=Error)
-        except (RangeError, TypeError, ValueError) as _:
-            x = str(_)  # avoid Python 3+ nested exception messages
-        raise _Error(cls, arg, name=name, Error=Error, txt=x)
+        except RangeError as x:
+            t, E = str(x), type(x)
+        except (TypeError, ValueError) as x:
+            t, E = str(x), Error
+        raise _Error(cls, arg, name=name, Error=E, txt=t)
 
     def toRepr(self, prec=8, fmt=F__F, ints=False, std=False):  # PYCHOK prec=8, ...
         return Float.toRepr(self, prec=prec, fmt=fmt, ints=ints, std=std)
@@ -311,99 +480,13 @@ class Height(Float):  # here to avoid circular import
         return Float.__new__(cls, arg, name=name, Error=Error)
 
 
-class Int(int, _NamedUnit):
-    '''Named C{int}.
-    '''
-    # _std_repr = True  # set below
-
-    def __new__(cls, arg, name='', Error=UnitError):
-        '''New named {int} instance.
-
-           @arg arg: The value (any C{type} convertable to C{int}).
-           @kwarg name: Optional instance name (C{str}).
-           @kwarg Error: Optional error to raise, overriding the
-                         default L{UnitError}.
-
-           @returns: An C{Int} instance.
-
-           @raise Error: Invalid B{C{arg}}.
-        '''
-        try:
-            self = int.__new__(cls, arg)
-            if name:
-                _NamedUnit.name.fset(self, name)  # see _Named.name
-            return self
-        except (TypeError, ValueError) as _:  # XXX not ... as x:
-            x = str(_)  # avoid Python 3+ nested exception messages
-        raise _Error(cls, arg, name=name, Error=Error, txt=x)
-
-    def __repr__(self):  # to avoid MRO(int)
-        '''Return a representation of this named C{int}.
-
-           @see: Method C{Int.toRepr} and property C{Int.std_repr}.
-
-           @note: Use env variable {PYGEODESY_INT_STD_REPR=std}
-                  to get the standard C{repr} or use C{...=named}
-                  for the named C{toRepr}.
-        '''
-        return self.toRepr(std=self._std_repr)
-
-    def __str__(self):  # to avoid MRO(int)
-        '''Return this C{Int} as standard C{str}.
-        '''
-        return self.toStr()
-
-    def toRepr(self, std=False, **unused):  # PYCHOK **unused
-        '''Return the representation of this named C{int}.
-
-           @kwarg std: Use the standard C{repr} or the named
-                       representation (C{bool}).
-        '''
-        r = int.__repr__(self)  # self.toStr()
-        return r if std else ('%s(%s)' % (self.named, r))
-
-    def toStr(self, **unused):  # PYCHOK **unused
-        '''Return this C{Int} as standard C{str}.
-        '''
-        # XXX must use '%d' % (self,) since
-        # int.__str__(self) fails with 3.8+
-        return '%d' % (self,)
-
-
-class Int_(Int):
-    '''Named C{int} with optional limits C{low} and C{high}.
-    '''
-    def __new__(cls, arg, name='', Error=UnitError, low=0, high=None):
-        '''New named C{int} instance with limits.
-
-           @arg cls: This class (C{Int_} or sub-class).
-           @arg arg: The value (any C{type} convertable to C{int}).
-           @kwarg name: Optional instance name (C{str}).
-           @kwarg Error: Optional error to raise, overriding the default
-                         C{UnitError}.
-           @kwarg low: Optional lower B{C{arg}} limit (C{float} or C{None}).
-           @kwarg high: Optional upper B{C{arg}} limit (C{float} or C{None}).
-
-           @returns: An L{Int_} instance.
-
-           @raise Error: Invalid B{C{arg}} or B{C{arg}} below B{C{low}} or
-                         above B{C{high}}.
-        '''
-        self = Int.__new__(cls, arg, name=name, Error=Error)
-        if (low is not None) and self < low:
-            raise _Error(cls, arg, name=name, Error=Error, txt='below %s limit' % (low,))
-        if (high is not None) and self > high:
-            raise _Error(cls, arg, name=name, Error=Error, txt='above %s limit' % (high,))
-        return self
-
-
 class Lam(Radians):
     '''Named C{float} representing a longitude in C{radians}.
     '''
     def __new__(cls, arg, name='lam', Error=UnitError, clip=PI):
         '''See L{Radians}.
         '''
-        return Radians.__new__(cls, arg, name=name, Error=Error, suffix='EW', clip=clip)
+        return Radians.__new__(cls, arg, name=name, Error=Error, suffix=_EW, clip=clip)
 
 
 class Lam_(Lam):
@@ -425,7 +508,7 @@ class Lat(Degrees):
     def __new__(cls, arg, name='lat', Error=UnitError, clip=90):
         '''See L{Degrees}.
         '''
-        return Degrees.__new__(cls, arg, name=name, Error=Error, suffix='NS', clip=clip)
+        return Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_NS, clip=clip)
 
 
 class Lon(Float):
@@ -437,7 +520,7 @@ class Lon(Float):
     def __new__(cls, arg, name='lon', Error=UnitError, clip=180):
         '''See L{Degrees}.
         '''
-        return Degrees.__new__(cls, arg, name=name, Error=Error, suffix='EW', clip=clip)
+        return Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_EW, clip=clip)
 
 
 class Meter(Float):
@@ -487,7 +570,7 @@ class Phi(Radians):
     def __new__(cls, arg, name='phi', Error=UnitError, clip=PI_2):
         '''See L{Radians}.
         '''
-        return Radians.__new__(cls, arg, name=name, Error=Error, suffix='NS', clip=clip)
+        return Radians.__new__(cls, arg, name=name, Error=Error, suffix=_NS, clip=clip)
 
 
 class Phi_(Phi):
@@ -545,70 +628,17 @@ class Scalar_(Float_):
         return Float_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
 
 
-class Str(str, _NamedUnit):
-    '''Named C{str}.
+class Zone(Int):
+    '''Named C{int} representing a UTM/UPS zone number.
     '''
-    # _std_repr = True  # set below
-
-    def __new__(cls, arg, name='', Error=UnitError):
-        '''New named C{str} instance.
-
-           @arg arg: The value (any C{type} convertable to C{str}).
-           @kwarg name: Optional instance name (C{str}).
-           @kwarg Error: Optional error to raise, overriding
-                         the default (C{ValueError}).
-
-           @returns: A L{Str} instance.
-
-           @raise Error: Invalid B{C{arg}}.
+    def __new__(cls, arg, name='zone', Error=UnitError):
+        '''See L{Int}
         '''
-        try:
-            self = str.__new__(cls, arg)
-            if name:
-                _NamedUnit.name.fset(self, name)  # see _Named.name
-            return self
-        except (TypeError, ValueError) as _:  # XXX not ... as x:
-            x = str(_)  # avoid Python 3+ nested exception messages
-        raise _Error(cls, arg, name=name, Error=Error, txt=x)
-
-    def __repr__(self):
-        '''Return a representation of this C{Str}.
-
-           @see: Method C{Str.toRepr} and property C{Str.std_repr}.
-
-           @note: Use env variable {PYGEODESY_STR_STD_REPR=std}
-                  to get the standard C{repr} or use C{...=named}
-                  for the named C{toRepr}.
-        '''
-        return self.toRepr(std=self._std_repr)  # see .test/testGars.py
-
-    def __str__(self):
-        '''Return this C{Str} as standard C{str}.
-        '''
-        return self.toStr()
-
-    def toRepr(self, std=False, **unused):  # PYCHOK **unused
-        '''Return the named representation of this C{Str}.
-
-           @kwarg std: Use the standard C{repr} or the named
-                       representation (C{bool}).
-        '''
-        # must use super(Str, self).. since
-        # super()... only works for Python 3+ and
-        # str.__repr__(self) fails with Python 3.8+
-        r = super(Str, self).__repr__()
-        return r if std else ('%s(%s)' % (self.named, r))
-
-    def toStr(self, **unused):  # PYCHOK **unused
-        '''Return this C{Str} as standard C{str}.
-        '''
-        # must use super(Str, self)... since
-        # super()... only works for Python 3+ and
-        # str.__str__(self) fails with Python 3.8+
-        return super(Str, self).__str__()
+        # usually low=_UTMUPS_ZONE_MIN, high=_UTMUPS_ZONE_MAX
+        return Int_.__new__(cls, arg, name=name, Error=Error)
 
 
-def _Error(clas, arg, name='', Error=UnitError, txt='invalid'):
+def _Error(clas, arg, name='', Error=UnitError, txt=_Invalid):
     '''(INTERNAL) Return an error with explanation.
 
        @arg clas: The C{units} class or sub-class.
@@ -616,12 +646,19 @@ def _Error(clas, arg, name='', Error=UnitError, txt='invalid'):
        @kwarg name: The instance name (C{str}).
        @kwarg Error: Optional error, overriding the default
                      L{UnitError}.
-       @kwarg txt: Explanation of the error (C{str}).
+       @kwarg txt: Optional explanation of the error (C{str}).
 
        @returns: An B{C{Error}} instance.
     '''
-    n = (', name=%r' % (name,)) if name else ''
-    return Error('%s(%r%s) %s' % (modulename(clas), arg, n, txt))
+    n = name if name else modulename(clas).lstrip('_')
+    return Error(n, arg, txt=txt)
+
+
+def _xStrError(*Refs, **name_value_Error):
+    '''(INTERNAL) Create a C{TypeError} for C{Garef}, C{Geohash}, C{Wgrs}.
+    '''
+    r = tuple(r.__name__ for r in Refs) + (Str.__name__, 'LatLon', 'LatLon*Tuple')
+    return _IsnotError(*r, **name_value_Error)
 
 
 def _std_repr(*classes):

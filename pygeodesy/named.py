@@ -16,8 +16,12 @@ sub-classes of C{_NamedTuple} defined here.
 '''
 
 # update imported names under if __name__ == '__main__':
-from pygeodesy.basics import IsnotError, isstr, issubclassof, \
-                             property_doc_, property_RO, _xcopy
+from pygeodesy.basics import isstr, issubclassof, property_doc_, property_RO, \
+                            _xcopy, _xinstanceof, _xkwds
+from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
+                             _IndexError, _IsnotError, _item_, LenError, \
+                             _NameError, _TypeError, _TypesError, _Valid, \
+                             _ValueError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _dot_
 from pygeodesy.streprs import attrs, pairs, reprs, unstr
 
@@ -35,7 +39,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS('_Named',
          'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Points2Tuple',
          'Vector3Tuple', 'Vector4Tuple',
          'notOverloaded')
-__version__ = '20.04.22'
+__version__ = '20.05.11'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
@@ -189,7 +193,7 @@ class _Named(object):
            @return: The B{C{inst}}, named if not named before.
         '''
         if not isinstance(inst, _Named):
-            raise IsnotError('valid', inst=inst)
+            raise _IsnotError(_Valid, inst=inst)
 
         if inst.name != self.name:
             inst.name = self.name
@@ -214,7 +218,7 @@ class _NamedBase(_Named):
                 if getattr(self, a, None) is not None:
                     setattr(self, a, None)
                 elif not hasattr(self, a):
-                    raise AttributeError('.%s invalid: %r' % (a, self))
+                    raise _AssertionError('.%s invalid: %r' % (a, self))
 
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
@@ -226,7 +230,7 @@ class _NamedBase(_Named):
 #       c = self.__class__.__name__
 #       return NotImplementedError(_dot_(c, attr))
 
-    def others(self, other, name='other'):
+    def others(self, other, name='other'):  # see .points.LatLon_.others
         '''Check this and an other instance for type compatiblility.
 
            @arg other: The other instance (any C{type}).
@@ -237,8 +241,7 @@ class _NamedBase(_Named):
         '''
         if not (isinstance(self, other.__class__) or
                 isinstance(other, self.__class__)):
-            raise TypeError('%s mismatch: %s vs %s' % (name,
-                             classname(other), self.classname))
+            raise _TypeError(name, other, txt=_incompatible(self.named2))
 
     def toRepr(self, **kwds):  # PYCHOK expected
         '''(INTERNAL) To be overloaded.
@@ -260,7 +263,7 @@ class _NamedBase(_Named):
     def toStr(self, **kwds):  # PYCHOK no cover
         '''(INTERNAL) Must be overloaded.
 
-           @raise AssertionError: Always, see function L{notOverloaded}.
+           @raise _AssertionError: Always, see function L{notOverloaded}.
         '''
         notOverloaded(self, self.toStr, **kwds)
 
@@ -281,8 +284,8 @@ class _NamedDict(dict, _Named):
         if args:  # args override kwds
             if len(args) != 1:
                 t = unstr(self.classname, *args, **kwds)
-                raise ValueError('invalid: ' + t)
-            kwds.update(dict(args[0]))
+                raise _ValueError(args=len(args), txt=t)
+            kwds = _xkwds(dict(args[0]), **kwds)
         if _NAME_ in kwds:
             _Named.name.fset(self, kwds.pop(_NAME_))  # see _Named.name
         dict.__init__(self, kwds)
@@ -305,7 +308,7 @@ class _NamedDict(dict, _Named):
 
     def __getitem__(self, key):
         if key == _NAME_:
-            raise KeyError('%s[%r]' % (self.classname, key))
+            raise KeyError(_item_(self.classname, key))
         return dict.__getitem__(self, key)
 
     def __repr__(self):
@@ -319,7 +322,7 @@ class _NamedDict(dict, _Named):
 
     def __setitem__(self, key, value):
         if key == _NAME_:
-            raise KeyError('%s[%r] = %r' % (self.classname, key, value))
+            raise KeyError('%s = %r' % (_item_(self.classname, key), value))
         dict.__setitem__(self, key, value)
 
     def __str__(self):
@@ -345,15 +348,17 @@ class _NamedEnum(_NamedDict):
     '''(INTERNAL) Enum-like C{_NamedDict} with attribute access
        restricted to valid keys.
     '''
-    _item_classes = ()
+    _item_Classes = ()
 
-    def __init__(self, name, *classes):
+    def __init__(self, name, *Classes):
         '''New C{_NamedEnum}.
 
            @arg name: Name (C{str}).
+           @arg Classes: One or more classes or types acceptable
+                         as enum values (C{class}- or C{type}s).
         '''
-        if classes:
-            self._item_classes = classes
+        if Classes:
+            self._item_Classes = Classes
         if name:
             _Named.name.fset(self, name)  # see _Named.name
 
@@ -363,7 +368,7 @@ class _NamedEnum(_NamedDict):
         except KeyError:
             if name == _NAME_:
                 return _NamedDict.name.fget(self)
-        raise AttributeError("%s doesn't exist" % (self._dot_(name),))
+        raise _AttributeError(item=self._dot_(name), txt="doesn't exists")
 
     def __repr__(self):
         return self.toRepr()
@@ -403,17 +408,16 @@ class _NamedEnum(_NamedDict):
 
            @raise TypeError: The B{C{item}} type invalid.
         '''
-        if not (self._item_classes and isinstance(item, self._item_classes)):
-            raise TypeError('%s: %r' % (_dot_('item', 'type'), item))
-
         try:
             n = item.name
             if not (n and n.replace('_', '').isalnum() and isstr(n)):
                 raise ValueError
-        except (AttributeError, ValueError):
-            raise NameError('%s %s: %r' % (_dot_('item', 'name'), 'invalid', item))
+        except (AttributeError, ValueError, TypeError) as x:
+            raise _NameError(_dot_('item', 'name'), item, txt=str(x))
         if n in self:
-            raise NameError('%s %s: %r' % (self._dot_(n), 'exists', item))
+            raise _NameError(self._dot_(n), item, txt='exists')
+        if not (self._item_Classes and isinstance(item, self._item_Classes)):
+            raise _TypesError(self._dot_(n), item, *self._item_Classes)
         self[n] = item
 
     def unregister(self, name_or_item):
@@ -430,12 +434,12 @@ class _NamedEnum(_NamedDict):
         name = self.find(name_or_item)
         if name is None:
             if not isstr(name_or_item):
-                raise ValueError('no such %r' % (name_or_item,))
+                raise _ValueError(name_or_item=name_or_item)
             name = name_or_item
         try:
             item = dict.pop(self, name)
         except KeyError:
-            raise NameError('no %r' % (self._dot_(name),))
+            raise _NameError(item=self._dot_(name), txt="doesn't exists")
         item._enum = None
         return item
 
@@ -490,7 +494,7 @@ class _NamedEnumItem(_NamedBase):
            @arg name: New name (C{str}).
         '''
         if self._enum:
-            raise ValueError('%s, %s: %r' % ('registered', 'immutable', self))
+            raise _NameError(str(name), self, txt='registered')  # XXX _TypeError
         self._name = str(name)
 
     def _register(self, enum, name):
@@ -508,7 +512,7 @@ class _NamedEnumItem(_NamedBase):
     def unregister(self):
         '''Remove this instance from its C{_NamedEnum} registry.
 
-           @raise AssertionError: Mismatch of this and registered item.
+           @raise _AssertionError: Mismatch of this and registered item.
 
            @raise NameError: This item is unregistered.
         '''
@@ -516,7 +520,7 @@ class _NamedEnumItem(_NamedBase):
         if enum and self.name and self.name in enum:
             item = enum.unregister(self.name)
             if item is not self:
-                raise AssertionError('%r vs %r' % (item, self))
+                raise _AssertionError('%r vs %r' % (item, self))
 
 
 class _NamedTuple(tuple, _Named):
@@ -524,7 +528,7 @@ class _NamedTuple(tuple, _Named):
        access to the items.
 
        @note: This class is similar to Python's C{namedtuple},
-              but limited and lighter in setup and weight.
+              but limited, statically defined and lighter.
     '''
     _Names_ = ()  # must be tuple of 2 or more attr names
 
@@ -534,23 +538,19 @@ class _NamedTuple(tuple, _Named):
         self = tuple.__new__(cls, args)
         ns = self._Names_
         if not (isinstance(ns, tuple) and len(ns) > 1):  # XXX > 0
-            raise TypeError('%s invalid: %r' % (_dot_(
-                             self.classname, '_Names_'), ns))
+            raise _TypeError(_dot_(self.classname, '_Names_'), ns)
         if len(ns) != len(args) or not ns:
-            raise ValueError('%s(%s) invalid: %r[%s] vs %s' %
-                             (self.classname, 'args',
-                              args, len(args), len(ns)))
+            raise LenError(cls, args=len(args), ns=len(ns))
         if _NAME_ in ns:
-            raise NameError('%s invalid: %r' % (_dot_(
-                             self.classname, '_Names_'), _NAME_))
+            t = unstr(_dot_(self.classname, '_Names_'), *ns)
+            raise _NameError(_NAME_, _NAME_, txt=t)
         return self
 
     def __delattr__(self, name):
         if name in self._Names_:
-            raise TypeError('%s not mutable: %s .%s' %
-                            (self.classname, 'del', name))
+            raise _TypeError('del', _dot_(self.classname, name), txt='immutable')
         elif name in (_NAME_, _name_):
-            tuple.__setattr__(self, name, '')
+            _Named.__setattr__(self, name, '')  # XXX _Named.name.fset(self, '')
         else:
             tuple.__delattr__(self, name)
 
@@ -558,8 +558,7 @@ class _NamedTuple(tuple, _Named):
         try:
             return tuple.__getitem__(self, self._Names_.index(name))
         except IndexError:
-            raise IndexError('%s not valid: %r' % (_dot_(
-                              self.classname, '<name>'), name))
+            raise _IndexError(_dot_(self.classname, '<name>'), name)
         except ValueError:
             return tuple.__getattribute__(self, name)
 
@@ -571,8 +570,9 @@ class _NamedTuple(tuple, _Named):
 
     def __setattr__(self, name, value):
         if name in self._Names_:
-            raise TypeError('%s not mutable: %s=%r' %
-                            (self.classname, name, value))
+            raise _TypeError(_dot_(self.classname, name), value, txt='immutable')
+        elif name in (_NAME_, _name_):
+            _Named.__setattr__(self, name, value)  # XXX _Named.name.fset(self, value)
         else:
             tuple.__setattr__(self, name, value)
 
@@ -688,7 +688,7 @@ class Distance4Tuple(_NamedTuple):  # .formy.py, .points.py
     _Names_ = ('distance2', 'delta_lat', 'delta_lon', 'unroll_lon2')
 
 
-class EasNor2Tuple(_NamedTuple):  # .css.py, .osgr.py
+class EasNor2Tuple(_NamedTuple):  # .css.py, .osgr.py, .ups.py, .utm.py, .utmupsBase.py
     '''2-Tuple C{(easting, northing)}, both in C{meter}.
     '''
     _Names_ = ('easting', 'northing')
@@ -748,8 +748,7 @@ class LatLon3Tuple(_NamedTuple):
            @raise TypeError: If B{C{datum}} not a C{Datum}.
         '''
         from pygeodesy.datum import Datum
-        if not isinstance(datum, Datum):
-            raise IsnotError(Datum.__name__, datum=datum)
+        _xinstanceof(Datum, datum=datum)
         return self._xtend(LatLon4Tuple, datum)
 
 
@@ -772,6 +771,17 @@ class LatLonPrec3Tuple(_NamedTuple):  # .gars.py, .wgrs.py
        and C{int}.
     '''
     _Names_ = ('lat', 'lon', 'precision')
+
+    def to5Tuple(self, height, radius):
+        '''Extend this L{LatLonPrec3Tuple} to a L{LatLonPrec5Tuple}.
+
+           @arg height: The height to add (C{float} or C{None}).
+           @arg radius: The radius to add (C{float} or C{None}).
+
+           @return: A L{LatLonPrec5Tuple}C{(lat, lon, precision,
+                    height, radius)}.
+        '''
+        return self._xtend(LatLonPrec5Tuple, height, radius)
 
 
 class LatLonPrec5Tuple(_NamedTuple):  # .wgrs.py
@@ -850,8 +860,7 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py, extends -2Tuple
            @raise TypeError: If B{C{datum}} not a C{Datum}.
         '''
         from pygeodesy.datum import Datum
-        if not isinstance(datum, Datum):
-            raise IsnotError(Datum.__name__, datum=datum)
+        _xinstanceof(Datum, datum=datum)
         return self._xtend(PhiLam4Tuple, datum)
 
 
@@ -962,7 +971,7 @@ def nameof(inst):
 
 
 def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
-    '''Raise an C{AssertionError} for a method or property not overloaded.
+    '''Raise an C{_AssertionError} for a method or property not overloaded.
 
        @arg name: Method, property or name (C{str}).
        @arg args: Method or property positional arguments (any C{type}s).
@@ -971,7 +980,7 @@ def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
     n = getattr(name, '__name__', name)
     n = '%s %s' % (notOverloaded.__name__, _dot_(classname(inst, prefixed=True), n))
     m = ', '.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
-    raise AssertionError('%s, MRO(%s)' % (unstr(n, *args, **kwds), m))
+    raise _AssertionError('%s, MRO(%s)' % (unstr(n, *args, **kwds), m))
 
 
 if __name__ == '__main__':

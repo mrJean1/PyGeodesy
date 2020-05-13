@@ -18,14 +18,15 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 '''
 
 from pygeodesy.basics import clips
+from pygeodesy.errors import ParseError, _xkwds_get
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.streprs import fstr
-from pygeodesy.units import Lat, Lon, Scalar
+from pygeodesy.units import Lat, Lon, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations + _ALL_DOCS('Elevation2Tuple',
                                          'GeoidHeight2Tuple')
-__version__ = '20.04.21'
+__version__ = '20.05.08'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -61,14 +62,15 @@ except ImportError:  # PYCHOK no cover
         #   }'
         d = {}
         for t in ngs.strip().lstrip('{').rstrip('}').split(','):
-            j = t.strip().strip('"').split('": ')
+            t = t.strip()
+            j = t.strip('"').split('": ')
             if len(j) != 2:
-                raise ValueError('json: %r' % (t,))
+                raise ParseError(json=t)
             k, v = j
             try:
                 v = float(v)
-            except ValueError:
-                v = v.lstrip().lstrip('"')
+            except (TypeError, ValueError):
+                v = Str(_str(v.lstrip().lstrip('"')), name=k)
             d[k] = v
         return d
 
@@ -120,7 +122,7 @@ def _xml(tag, xml):
         i += len(tag) + 2
         j = xml.find('</%s>' % (tag,), i)
         if j > i:
-            return xml[i:j].strip()
+            return Str(xml[i:j].strip(), name=tag)
     return 'no XML tag <%s>' % (tag,)
 
 
@@ -169,13 +171,14 @@ def elevation2(lat, lon, timeout=2.0):
                 if -1000000 < e < 1000000:
                     return Elevation2Tuple(e, _xml('Data_Source', x))
                 e = 'non-CONUS %.2F' % (e,)
-            except ValueError:
+            except (TypeError, ValueError):
                 pass
         else:
-            e = 'no XML "%s"' % (clips(x, limit=128, white=' '),)
+            e = 'no %s "%s"' % ('XML', clips(x, limit=128, white=' '),)
     except (HTTPError, IOError, TypeError, ValueError) as x:
         e = repr(x)
-    return Elevation2Tuple(None, _error(elevation2, lat, lon, e))
+    e = _error(elevation2, lat, lon, e)
+    return Elevation2Tuple(None, e)
 
 
 class GeoidHeight2Tuple(_NamedTuple):  # .elevations.py
@@ -216,19 +219,18 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
                         ('lat=%.6F' % (Lat(lat),),
                          'lon=%.6F' % (Lon(lon),),
                          'model=%s' % (model,) if model else ''),
-                          timeout=Scalar(timeout, name='timeout'))  # PYCHOK 5
+                          timeout=Scalar(timeout, name='timeout'))  # PYCHOK indent
         if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
-            d = _json(j)
-            if isinstance(d.get('error', 'N/A'), float):
-                h = d.get('geoidHeight', None)
+            d, e = _json(j), 'geoidHeight'
+            if isinstance(_xkwds_get(d, error='N/A'), float):
+                h = d.get(e, None)
                 if h is not None:
-                    m = _str(d.get('geoidModel', 'N/A'))
+                    m = _xkwds_get(d, geoidModel='N/A')
                     return GeoidHeight2Tuple(h, m)
-            e = 'geoidHeight'
         else:
             e = 'JSON'
         e = 'no %s "%s"' % (e, clips(j, limit=256, white=' '))
-    except (HTTPError, IOError, TypeError, ValueError) as x:
+    except (HTTPError, IOError, ParseError, TypeError, ValueError) as x:
         e = repr(x)
     e = _error(geoidHeight2, lat, lon, e)
     return GeoidHeight2Tuple(None, e)

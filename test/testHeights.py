@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.03.29'
+__version__ = '20.05.04'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -62,7 +62,7 @@ class Tests(TestsBase):
             h = interpolator(0.0, 1.0)
         except HeightError as x:
             h = str(x)
-        self.test('HeightError', h, "'float' object has no attribute 'lon': 0.0")
+        self.test('HeightError', h, "llis[0] (0.0): 'float' object has no attribute 'lon'")
 
         if coverage:
             for a in ('adjust', 'kmin', 'wrap') + attrs:

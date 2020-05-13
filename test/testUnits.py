@@ -4,15 +4,15 @@
 # Test units module.
 
 __all__ = ('Tests',)
-__version__ = '20.05.04'
+__version__ = '20.05.10'
 
 from base import TestsBase
 
 from pygeodesy import (Bearing, Bearing_,
                        Degrees, Distance, Easting,
                        Feet, Float, Height, Int,
-                       Lam, Lam_, Lat, Lon, Meter, Northing,
-                       Phi, Phi_, Radians, Radius, Radius_,
+                       Lam, Lam_, Lat, Lon, Meter, Northing,  # Lam_
+                       Phi, Phi_, Radians, Radius, Radius_,  # Phi_
                        Scalar, Scalar_, Number_, Precision_,
                        Str, units)
 
@@ -28,7 +28,7 @@ class Tests(TestsBase):
         n = U.__name__.lower()
         u = U(arg, name=n)
         u.units = n
-        R = '%s(%s)' % (u.name, r)
+        R = '%s (%s)' % (u.name, r)
 
         self.test('.classname', u.classname, U.__name__)
         self.test('isinstance', isinstance(u, U), True)
@@ -55,7 +55,7 @@ class Tests(TestsBase):
             self.test(n, x.__class__.__name__, TypeError.__name__)  # PYCHOK test
 
         u.name = 'Test'
-        R = '%s(%r)' % (u.name, arg)
+        R = '%s (%r)' % (u.name, arg)
 
         self.test('.named', u.named, 'Test')
         self.test('.named2', u.named2, u.classname + ' %r' % ('Test',))

@@ -12,18 +12,18 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, IsnotError, property_doc_, \
-                             property_RO, _xinstanceof
+from pygeodesy.basics import EPS, property_doc_, property_RO, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
+from pygeodesy.errors import _incompatible, _IsnotError, _Missing, _ValueError
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Vector3Tuple
 from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 
 __all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '20.04.15'
+__version__ = '20.05.08'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -198,7 +198,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         _xinstanceof(RefFrame, reframe2=reframe2)
 
         if not self.reframe:
-            raise TRFError('no %r.%s' % (self, 'reframe'))
+            raise TRFError('no conversion', txt='%r.reframe %s' % (self, _Missing))
 
         ts = _reframeTransforms(reframe2, self.reframe, self.epoch)
         if ts:
@@ -229,7 +229,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         _xinstanceof(Datum, datum=datum)
         if not datum.isEllipsoidal:
-            raise IsnotError('ellipsoidal', datum=datum)
+            raise _IsnotError('ellipsoidal', datum=datum)
         self._update(datum != self._datum)
         self._datum = datum
 
@@ -314,9 +314,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             except AttributeError:
                 e = E  # no datum, XXX assume equivalent?
         if e != E:
-            c = E.classname
-            raise ValueError('%s %s mistmatch: %ss.%s vs %ss.%s' %
-                             ('other', c, c, e.name, c, E.name))
+            raise _ValueError(e.named2, txt=_incompatible(E.named2))
         return E
 
     @property_doc_(''' this point's observed epoch (C{float}).''')
@@ -390,7 +388,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: The point (L{LatLonEllipsoidalBase}).
 
-           @raise ValueError: Invalid B{C{strll}}.
+           @raise ParseError: Invalid B{C{strll}}.
         '''
         from pygeodesy.dms import parse3llh
         a, b, h = parse3llh(strll, height=height, sep=sep)

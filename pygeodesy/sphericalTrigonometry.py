@@ -14,8 +14,10 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI2, PI_2, PI_4, R_M, isscalar, map1, \
-                            _xkwds
+from pygeodesy.basics import EPS, PI2, PI_2, PI_4, R_M, \
+                             isscalar, map1, _xkwds
+from pygeodesy.errors import CrossError, crosserrors, _item_, \
+                            _Not_convex, _ValueError, _xkwds_get
 from pygeodesy.fmath import acos1, favg, fdot, fmean, fsum
 from pygeodesy.formy import antipode_, bearing_, haversine_
 from pygeodesy.lazily import _ALL_LAZY
@@ -28,7 +30,7 @@ from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
 from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
 from pygeodesy.utily import degrees90, degrees180, degrees2m, iterNumpy2, \
                             radiansPI2, sincos2, tan_2, unrollPI, wrapPI
-from pygeodesy.vector3d import CrossError, crosserrors, Vector3d, sumOf
+from pygeodesy.vector3d import Vector3d, sumOf
 
 from math import asin, atan2, copysign, cos, degrees, hypot, \
                  radians, sin
@@ -42,7 +44,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'nearestOn2', 'nearestOn3',
           'perimeterOf',
           'sumOf')  # == vector3d.sumOf
-__version__ = '20.04.21'
+__version__ = '20.05.08'
 
 
 def _destination2(a, b, r, t):
@@ -340,7 +342,7 @@ class LatLon(LatLonSphericalBase):
 
         # XXX behavior like sphericalNvector.LatLon.initialBearingTo
         if raiser and crosserrors() and max(abs(a2 - a1), abs(b2 - b1)) < EPS:
-            raise CrossError('%s %s: %r' % ('coincident', 'points', other))
+            raise CrossError('points', self, txt='coincident')
 
         return degrees(bearing_(a1, b1, a2, b2, final=False, wrap=wrap))
 
@@ -479,7 +481,7 @@ class LatLon(LatLonSphericalBase):
                     return False  # outside
 
                 if gc1.angleTo(gc, vSign=n0) < 0:
-                    raise ValueError('non-convex: %r...' % (points[:2],))
+                    raise _ValueError(_item_(points=i), points[i], txt=_Not_convex)
                 gc1 = gc
 
         else:
@@ -502,10 +504,10 @@ class LatLon(LatLonSphericalBase):
             # check for convex polygon (otherwise
             # the test above is not reliable)
             gc1 = gc[n-1]
-            for gc2 in gc:
+            for i, gc2 in enumerate(gc):
                 # angle between gc vectors, signed by direction of n0
                 if gc1.angleTo(gc2, vSign=n0) < 0:
-                    raise ValueError('non-convex: %r...' % (points[:2],))
+                    raise _ValueError(_item_(points=i), points[i], txt=_Not_convex)
                 gc1 = gc2
 
         return True  # inside
@@ -727,7 +729,7 @@ def _x3d2(start, end, wrap, n, hs):
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     if max(abs(db), abs(a2 - a1)) < EPS:
-        raise ValueError('intersection %s%s null: %r' % ('path', n, (start, end)))
+        _intersectionError(('null path' + n), start, end)
 
     # note, in EdWilliams.org/avform.htm W is + and E is -
     b21, b12 = db * 0.5, -(b1 + b2) * 0.5
@@ -811,8 +813,7 @@ def intersection(start1, end1, start2, end2,
 
         x1, x2 = (sr12 * ca1), (sr12 * ca2)
         if abs(x1) < EPS or abs(x2) < EPS:
-            raise ValueError('intersection %s: %r vs %r' % ('parallel',
-                             (start1, end1), (start2, end2)))
+            _intersectionError('parallel', (start1, end1), (start2, end2))
 
         # handle domain error for equivalent longitudes,
         # see also functions asin_safe and acos_safe at
@@ -829,12 +830,10 @@ def intersection(start1, end1, start2, end2,
                               t21 - t23)  # angle 1-2-3
         sx1, cx1, sx2, cx2 = sincos2(x1, x2)
         if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
-            raise ValueError('intersection %s: %r vs %r' % ('infinite',
-                             (start1, end1), (start2, end2)))
+            _intersectionError('infinite', (start1, end1), (start2, end2))
         sx3 = sx1 * sx2
 #       if sx3 < 0:
-#           raise ValueError('intersection %s: %r vs %r' % ('ambiguous',
-#                            (start1, end1), (start2, end2)))
+#           _intersectionError('ambiguous', (start1, end1), (start2, end2)))
         x3 = acos1(cr12 * sx3 - cx2 * cx1)
         r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
 
@@ -849,8 +848,7 @@ def intersection(start1, end1, start2, end2,
         x2, d2 = _x3d2(start2, end2, wrap, '2', hs)
         x = x1.cross(x2)
         if x.length < EPS:  # [nearly] colinear or parallel paths
-            raise ValueError('intersection %s: %r vs %r' % ('colinear',
-                             (start1, end1), (start2, end2)))
+            _intersectionError('colinear', (start1, end1), (start2, end2))
         a, b = x.philam
         # choose intersection similar to sphericalNvector
         d1 = _xdot(d1, a1, b1, a, b, wrap)
@@ -862,6 +860,12 @@ def intersection(start1, end1, start2, end2,
     h = fmean(hs) if height is None else Height(height)
     return _latlon3(degrees90(a), degrees180(b), h,
                     intersection, LatLon, **LatLon_kwds)
+
+
+def _intersectionError(txt, *start_end):
+    '''(INTERNAL) Throw C{ValueError}.
+    '''
+    raise _ValueError('no intersection', start_end, txt=txt)
 
 
 def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover
@@ -924,7 +928,7 @@ def nearestOn2(point, points, **closed_radius_LatLon_options):  # PYCHOK no cove
                 lon)} if B{C{LatLon}} is C{None} ...
     '''
     ll, d, _ = nearestOn3(point, points, **closed_radius_LatLon_options)
-    if closed_radius_LatLon_options.get('LatLon', LatLon) is None:
+    if _xkwds_get(closed_radius_LatLon_options, LatLon=LatLon) is None:
         ll = LatLon2Tuple(ll.lat, ll.lon)
     return ll, d
 

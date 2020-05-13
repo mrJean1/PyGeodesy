@@ -9,7 +9,7 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.04.11'
+__version__ = '20.05.08'
 
 from base import TestsBase
 
@@ -91,53 +91,53 @@ class Tests(TestsBase):
             t = LatLon(0, 0, reframe='ITRF2000')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "reframe is not a RefFrame: 'ITRF2000'")
+        self.test('TypeError', t, "type(reframe) ('ITRF2000'): not a RefFrame")
 
         try:
             t = LatLon(0, 0, reframe=RefFrames.ITRF2000, epoch='2017')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "epoch is not scalar: '2017'")
+        self.test('TypeError', t, "type(epoch) ('2017'): not scalar")
 
         try:
             t = LatLon(0, 0, reframe=RefFrames.ITRF2000).convertRefFrame('ITRF2000')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "reframe2 is not a RefFrame: 'ITRF2000'")
+        self.test('TypeError', t, "type(reframe2) ('ITRF2000'): not a RefFrame")
 
         try:
             t = LatLon(0, 0).convertRefFrame(RefFrames.ITRF2000)
         except TRFError as x:
             t = str(x)
-        self.test('TRFError', t, 'no LatLon(00°00′00.0″N, 000°00′00.0″E).reframe')
+        self.test('TRFError', t, 'no conversion: LatLon(00°00′00.0″N, 000°00′00.0″E).reframe missing')
 
         c = Cartesian(0, 0, 0)
         try:
             t = c.convertRefFrame('ITRF2000', RefFrames.ITRF2000)
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "reframe2 is not a RefFrame: 'ITRF2000'")
+        self.test('TypeError', t, "type(reframe2) ('ITRF2000'): not a RefFrame")
 
         try:
             t = c.convertRefFrame(RefFrames.ITRF2000, 'ITRF2000')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "reframe is not a RefFrame: 'ITRF2000'")
+        self.test('TypeError', t, "type(reframe) ('ITRF2000'): not a RefFrame")
 
         try:
             t = c.convertRefFrame(RefFrames.ITRF2000, RefFrames.ITRF2000, '2000')
         except TypeError as x:
             t = str(x)
-        self.test('TypeError', t, "epoch is not scalar: '2000'")
+        self.test('TypeError', t, "type(epoch) ('2000'): not scalar")
 
     def testEpoch(self):
 
         try:  # coverage
             e = date2epoch(None, 1, 2)
-            self.test('epoch', e, TRFError)
+            self.test('epoch', e, TRFError.__name__)
         except TRFError as x:
             t = str(x)
-            self.test('TRFError', t, 'date invalid: None-1-2')
+            self.test('TRFError', t, t)
 
         r = RefFrames.GDA94
         t = r.toStr()

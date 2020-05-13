@@ -7,11 +7,12 @@ from pygeodesy.basics import EPS
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.named import _NamedTuple
 from pygeodesy.trf import TRFError as _TRFError
 
-__all__ = _ALL_LAZY.deprecated
-__version__ = '20.04.21'
+__all__ = _ALL_LAZY.deprecated + _ALL_DOCS('UtmUps4Tuple')
+__version__ = '20.05.10'
 
 OK = 'OK'  # OK for test like I{if ... is OK: ...}
 
@@ -41,6 +42,15 @@ class RefFrameError(_TRFError):  # PYCHOK exported
     '''DEPRECATED, use class L{TRFError}.
     '''
     pass
+
+
+class UtmUps4Tuple(_NamedTuple):
+    '''OBSOLETE, expect a L{UtmUps5Tuple} from method C{Mgrs.toUtm(utm=None)}.
+
+       4-Tuple C{(zone, hemipole, easting, northing)} as C{str},
+       C{str}, C{meter} and C{meter}.
+    '''
+    _Names_ = ('zone', 'hemipole', 'easting', 'northing')  # band
 
 
 def anStr(name, OKd='._-', sub='_'):
@@ -137,6 +147,7 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
 
        @raise Error: Invalid or negative B{C{name=value}}.
     '''
+    t = ''
     if len(name_value) == 1:
         try:
             for f in name_value.values():
@@ -144,10 +155,11 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
                 if falsed and f < 0:
                     break
                 return f
-        except (TypeError, ValueError):
-            pass
-    from pygeodesy.basics import InvalidError
-    raise InvalidError(Error=Error, **name_value)
+            t = 'falsed, negative'
+        except (TypeError, ValueError) as x:
+            t = str(x)
+    from pygeodesy.errors import _InvalidError
+    raise _InvalidError(Error=Error, txt=t, **name_value)
 
 
 def fStr(floats, prec=6, fmt='%.*f', ints=False, sep=', '):

@@ -12,10 +12,11 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, IsnotError, property_doc_, \
-                             property_RO, _xinstanceof
+from pygeodesy.basics import EPS, property_doc_, property_RO, \
+                            _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefKarney
+from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import LatLon4Tuple, Vector4Tuple
@@ -26,7 +27,7 @@ from math import sqrt  # hypot
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.04.15'
+__version__ = '20.05.08'
 
 
 class CartesianBase(Vector3d):
@@ -133,9 +134,9 @@ class CartesianBase(Vector3d):
         d = self.datum
         if d is not None:
             if d.isEllipsoidal and not datum.isEllipsoidal:
-                raise IsnotError('ellipsoidal', datum=datum)
+                raise _IsnotError('ellipsoidal', datum=datum)
             elif d.isSpherical and not datum.isSpherical:
-                raise IsnotError('spherical', datum=datum)
+                raise _IsnotError('spherical', datum=datum)
         self._update(datum != d)
         self._datum = datum
 
@@ -308,14 +309,14 @@ class CartesianBase(Vector3d):
 
             k = sqrt(fsum_(u, v, w**2)) - w
             if abs(k) < EPS:
-                raise ValueError('%s: %r' % ('origin', self))
+                raise _ValueError(origin=self)
             e = k / (k + E.e2)
 #           d = e * hypot(x, y)
 
 #           tmp = 1 / hypot(d, z) == 1 / hypot(e * hypot(x, y), z)
             t = hypot_(e * x, e * y, z)  # == 1 / tmp
             if t < EPS:
-                raise ValueError('%s: %r' % ('origin', self))
+                raise _ValueError(origin=self)
             h = fsum_(k, E.e2, -1) / k * t
 
             s = e / t  # == e * tmp

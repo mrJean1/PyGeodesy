@@ -17,23 +17,25 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import PI_2, InvalidError, IsnotError, isscalar, \
-                             issubclassof, property_RO, _xinstanceof, _xkwds
+from pygeodesy.basics import PI_2, isscalar, issubclassof, property_RO, \
+                            _xinstanceof, _xkwds, _xzipairs
 from pygeodesy.datum import Datum, R_MA
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
+from pygeodesy.errors import _IsnotError, _parseX, _TypeError, _ValueError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, _NamedBase, _NamedTuple, \
                             nameof, PhiLam2Tuple, _xnamed
 from pygeodesy.streprs import strs
-from pygeodesy.units import Easting, Northing, Radius, Radius_
+from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, Phi_, \
+                            Radius, Radius_
 from pygeodesy.utily import degrees90, degrees180
 
 from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator + _ALL_DOCS('EasNorRadius3Tuple')
-__version__ = '20.04.22'
+__version__ = '20.05.08'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -46,9 +48,14 @@ class EasNorRadius3Tuple(_NamedTuple):
     '''
     _Names_ = ('easting', 'northing', 'radius')
 
+    def __new__(cls, e, n, r):
+        return _NamedTuple.__new__(cls, Easting( e, Error=WebMercatorError),
+                                        Northing(n, Error=WebMercatorError),
+                                        Radius(  r, Error=WebMercatorError))
 
-class WebMercatorError(ValueError):
-    '''Web Mercator (WM) parse or L{Wm} issue.
+
+class WebMercatorError(_ValueError):
+    '''Web Mercator (WM) parser or L{Wm} issue.
     '''
     pass
 
@@ -77,12 +84,12 @@ class Wm(_NamedBase):
            >>> import pygeodesy
            >>> w = pygeodesy.Wm(448251, 5411932)
         '''
+        self._x = Easting( x, name='x', Error=WebMercatorError)
+        self._y = Northing(y, name='y', Error=WebMercatorError)
+        self._radius = Radius_(radius, Error=WebMercatorError)
+
         if name:
             self.name = name
-
-        self._x = Easting( x, name='x',  Error=WebMercatorError)
-        self._y = Northing(y, name='y',  Error=WebMercatorError)
-        self._radius = Radius_(radius, Error=WebMercatorError)
 
     @property_RO
     def latlon(self):
@@ -106,11 +113,11 @@ class Wm(_NamedBase):
         r = self.radius
         x = self._x / r
         y = 2 * atan(exp(self._y / r)) - PI_2
-        if datum:
+        if datum is not None:
             _xinstanceof(Datum, datum=datum)
             E = datum.ellipsoid
             if not E.isEllipsoidal:
-                raise IsnotError('ellipsoidal', datum=datum)
+                raise _IsnotError('ellipsoidal', datum=datum)
             # <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
             #        %28U%29%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>
             y = y / r
@@ -119,7 +126,7 @@ class Wm(_NamedBase):
             y *= E.a
             x *= E.a / r
 
-        r = LatLon2Tuple(degrees90(y), degrees180(x))
+        r = LatLon2Tuple(Lat(degrees90(y)), Lon(degrees180(x)))
         return self._xnamed(r)
 
     def parseWM(self, strWM, name=''):
@@ -135,7 +142,8 @@ class Wm(_NamedBase):
         '''Get the lat- and longitude ((L{PhiLam2Tuple}C{(phi, lam)}).
         '''
         if self._philam is None:
-            self._philam = PhiLam2Tuple(*map(radians, self.latlon))
+            r = self.latlon
+            self._philam = PhiLam2Tuple(Phi_(r.lat), Lam_(r.lon))
         return self._xnamed(self._philam)
 
     @property_RO
@@ -175,15 +183,15 @@ class Wm(_NamedBase):
         '''
         e = issubclassof(LatLon, _LLEB)
         if e and datum:
-            lat, lon = self.latlon2(datum=datum)
             kwds = _xkwds(LatLon_kwds, datum=datum)
-            r = LatLon(lat, lon, **kwds)
         elif not (e or datum):  # and LatLon
-            lat, lon = self.latlon2(datum=None)
-            r = LatLon(lat, lon, **LatLon_kwds)
+            kwds = LatLon_kwds
+            datum = None
         else:
-            raise TypeError('%s %r and %s %r' % ('spherical', LatLon,
-                                                 'datum', datum))
+            raise _TypeError(LatLon=LatLon, datum=datum)
+
+        r = self.latlon2(datum=datum)
+        r = LatLon(r.lat, r.lon, **kwds)
         return self._xnamed(r)
 
     def toRepr(self, prec=3, fmt='[%s]', sep=', ', radius=False, **unused):  # PYCHOK expected
@@ -200,9 +208,8 @@ class Wm(_NamedBase):
 
            @raise WebMercatorError: Invalid B{C{radius}}.
         '''
-        t = self.toStr(prec=prec, sep=' ', radius=radius).split()
-        k = 'x', 'y', 'radius'
-        return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
+        t = self.toStr(prec=prec, sep=None, radius=radius)
+        return _xzipairs(('x', 'y', 'radius'), t, sep=sep, fmt=fmt)
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method L{Wm.toRepr}.'''
@@ -211,7 +218,8 @@ class Wm(_NamedBase):
         '''Return a string representation of this WM coordinate.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Optional separator to join (C{str}) or C{None}
+                       to return an unjoined C{tuple} of C{str}s.
            @kwarg radius: Optionally, include radius (C{bool} or C{scalar}).
 
            @return: This WM as "meter meter" (C{str}) plus " radius"
@@ -233,8 +241,9 @@ class Wm(_NamedBase):
         elif isscalar(radius):
             fs += (radius,)
         else:
-            raise InvalidError(radius=radius, Error=WebMercatorError)
-        return sep.join(strs(fs, prec=prec))
+            raise WebMercatorError(radius=radius)
+        t = strs(fs, prec=prec)
+        return t if sep is None else sep.join(t)
 
     @property_RO
     def x(self):
@@ -269,20 +278,21 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
        >>> u = parseWM('448251 5411932')
        >>> u.toStr2()  # [E:448251, N:5411932]
     '''
-    w = strWM.strip().replace(',', ' ').split()
-    try:
+    def _WM_(strWM, radius, Wm, name):
+        w = strWM.replace(',', ' ').strip().split()
+
         if len(w) == 2:
             w += [radius]
         elif len(w) != 3:
-            raise ValueError  # caught below
+            raise ValueError
         x, y, r = map(float, w)
 
-    except (TypeError, ValueError):
-        raise InvalidError(strWM=strWM, Error=WebMercatorError)
+        r = EasNorRadius3Tuple(x, y, r) if Wm is None else \
+                            Wm(x, y, radius=r)
+        return _xnamed(r, name)
 
-    r = EasNorRadius3Tuple(x, y, r) if Wm is None else \
-                        Wm(x, y, radius=r)
-    return _xnamed(r, name)
+    return _parseX(_WM_, strWM, radius, Wm, name,
+                         strWM=strWM, Error=WebMercatorError)
 
 
 def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name='', **Wm_kwds):
@@ -331,12 +341,10 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name='', **Wm_kwds):
     if e:
         y -= e * atanh(e * s)
 
-    e, n = r * radians(lon), r * y
-    if Wm is None:
-        r = EasNorRadius3Tuple(e, n, r)
-    else:
-        kwds = _xkwds(Wm_kwds, radius=r)
-        r = Wm(e, n, **kwds)
+    e = r * radians(lon)
+    n = r * y
+    r = EasNorRadius3Tuple(e, n, r) if Wm is None else \
+                        Wm(e, n, **_xkwds(Wm_kwds, radius=r))
     return _xnamed(r, name)
 
 # **) MIT License

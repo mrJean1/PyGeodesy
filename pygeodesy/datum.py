@@ -115,8 +115,9 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, EPS1, PI2, PI_2, R_M, InvalidError, \
+from pygeodesy.basics import EPS, EPS1, PI2, PI_2, R_M, \
                              property_doc_, property_RO, _xinstanceof
+from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import _2_3rd, cbrt, cbrt2, fdot, fpowers, \
                              Fsum, fsum_, hypot1, hypot2, sqrt3
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
@@ -146,7 +147,7 @@ R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum + _ALL_DOCS('Curvature2Tuple')
-__version__ = '20.04.28'
+__version__ = '20.05.11'
 
 _Flts = {}  # cache, deleted below
 _TOL  = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -237,6 +238,8 @@ class Ellipsoid(_NamedEnumItem):
            @kwarg name: Optional, unique name (C{str}).
 
            @raise NameError: Ellipsoid with that B{C{name}} already exists.
+
+           @raise ValueError: Invalid B{C{a}}, B{C{b}} or B{C{f_}}.
         '''
         self._a = a = _flt(a)  # major half-axis in meter
         if not b:  # get b from a and f_, minor half-axis in meter
@@ -255,22 +258,21 @@ class Ellipsoid(_NamedEnumItem):
             self._a_b = 1
             self._R1 = self._R2 = self._R3 = self._Rr = self._Rs = a
         else:
-            raise ValueError('%s invalid: %s' % ('ellipsoid',
-                             instr(self, a, b, f_, name=name)))
+            raise _ValueError(instr(self, a, b, f_, name=name))
 
         d = a - b
         # some sanity checks to catch mistakes
         if d < 0 or min(a, b) < 1:
-            raise AssertionError('%s: %s=%0.9g vs %s=%0.9g' % (name,
-                                 'a', a, 'b', b))
+            raise _AssertionError('%s: %s=%0.9g vs %s=%0.9g' % (name,
+                                  'a', a, 'b', b))
         t = d / a
         if abs(f - t) > 1e-8:
-            raise AssertionError('%s: %s=%.9g vs %s=%.9g' % (name,
-                                 'f', f, '(a-b)/a', t))
+            raise _AssertionError('%s: %s=%.9g vs %s=%.9g' % (name,
+                                  'f', f, '(a-b)/a', t))
         t = (1 - self.f)**2
         if abs(self.e12 - t) > EPS:
-            raise AssertionError('%s: %s=%.9g vs %s=%.9g' % (name,
-                                 'e12', self.e12, '(1-f)**2', t))
+            raise _AssertionError('%s: %s=%.9g vs %s=%.9g' % (name,
+                                  'e12', self.e12, '(1-f)**2', t))
 
         self._register(Ellipsoids, name)
 
@@ -512,8 +514,8 @@ class Ellipsoid(_NamedEnumItem):
             self._e2 = e2 = self.f * (2 - self.f)
             t = 1 - (self.b / self.a)**2
             if abs(e2 - t) > 1e-9:
-                raise AssertionError('%s: %s=%.9g vs %s=%.9g' % (self.name,
-                                     'e2', e2, '1-(b/a)**2', t))
+                raise _AssertionError('%s: %s=%.9g vs %s=%.9g' % (self.name,
+                                      'e2', e2, '1-(b/a)**2', t))
         return self._e2
 
     @property_RO
@@ -524,8 +526,8 @@ class Ellipsoid(_NamedEnumItem):
             self._e22 = e22 = self.e2 / (1 - self.e2)
             t = self.a_b**2 - 1
             if abs(e22 - t) > 1e-9:
-                raise AssertionError('%s: %s=%.9g vs %s=%.9g' % (self.name,
-                                     'e22', e22, '(a/b)**2-1', t))
+                raise _AssertionError('%s: %s=%.9g vs %s=%.9g' % (self.name,
+                                      'e22', e22, '(a/b)**2-1', t))
         return self._e22
 
     @property_RO
@@ -558,10 +560,7 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{s}}.
         '''
-        try:
-            return sqrt(self.e2s2(s))
-        except (TypeError, ValueError):
-            raise InvalidError(**{self._dot_('e2s'): s})
+        return sqrt(self.e2s2(s))
 
     def e2s2(self, s):
         '''Compute M{1 - e2 * s**2}.
@@ -576,8 +575,8 @@ class Ellipsoid(_NamedEnumItem):
             r = 1 - self.e2 * Scalar(s, name='s')**2
             if r < 0:
                 raise ValueError
-        except (TypeError, ValueError):
-            raise InvalidError(**{self._dot_('e2s2'): s})
+        except (TypeError, ValueError) as x:
+            raise _ValueError(self._dot_('e2s2'), s, txt=str(x))
         return r
 
     @property_RO
@@ -681,7 +680,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self._geodesic is None:
             # if not self.isEllipsoidal:
-            #     raise IsnotError('ellipsoidal', ellipsoid=self)
+            #     raise _IsnotError('ellipsoidal', ellipsoid=self)
             from pygeodesy.karney import _wrapped
             self._geodesic = _wrapped.Geodesic(self.a, self.f)
         return self._geodesic
@@ -723,7 +722,7 @@ class Ellipsoid(_NamedEnumItem):
            @raise ValueError: Invalid B{C{order}}.
         '''
         if order not in (4, 6, 8):
-            raise InvalidError(order=order)
+            raise _ValueError(order=order)
         if order != self._KsOrder:
             if self._AlphaKs:
                 self._AlphaKs = None
@@ -767,8 +766,8 @@ class Ellipsoid(_NamedEnumItem):
             self._n = n = self.f / (2 - self.f)
             t = (self.a - self.b) / (self.a + self.b)
             if abs(n - t) > 1e-9:
-                raise AssertionError('%s: %s=%.9g vs %s=%.9g' % (self.name,
-                                     'n', n, '(a-b)/(a+b)', t))
+                raise _AssertionError('%s: %s=%.9g vs %s=%.9g' % (self.name,
+                                      'n', n, '(a-b)/(a+b)', t))
         return self._n
 
     @property_RO

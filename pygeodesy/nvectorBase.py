@@ -14,9 +14,10 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import len2, property_doc_, property_RO, \
-                            _xattrs
+from pygeodesy.basics import len2, property_doc_, \
+                             property_RO, _xattrs
 from pygeodesy.ecef import EcefVeness
+from pygeodesy.errors import _Missing, _xkwds_pop
 from pygeodesy.fmath import fsum, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
 from pygeodesy.latlonBase import LatLonBase
@@ -33,7 +34,7 @@ __all__ = _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'NvectorBase',  # classes
           'sumOf')  # functions
-__version__ = '20.04.21'
+__version__ = '20.05.08'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -389,7 +390,7 @@ class LatLonNvectorBase(LatLonBase):
                  for the special case of B{C{_Nv}}.
         '''
         if updated:
-            _Nv = kwds.pop('_Nv', None)
+            _Nv = _xkwds_pop(kwds, _Nv=None)
             if _Nv is not None:
                 if _Nv._fromll is not None:
                     _Nv._fromll = None
@@ -442,7 +443,7 @@ def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
     '''
     n, nvectors = len2(nvectors)
     if n < 1:
-        raise VectorError('no nvectors: %r' & (n,))
+        raise VectorError(nvectors=n, txt=_Missing)
 
     if h is None:
         h = fsum(v.h for v in nvectors) / float(n)

@@ -73,6 +73,7 @@ See:
 '''
 
 from pygeodesy.basics import EPS, R_M, len2
+from pygeodesy.errors import _AttributeError, _ValueError
 from pygeodesy.formy import equirectangular_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.utily import isNumpy2, isTuple2
@@ -80,7 +81,7 @@ from pygeodesy.utily import isNumpy2, isTuple2
 from math import degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '20.03.19'
+__version__ = '20.05.08'
 
 
 # try:
@@ -137,7 +138,7 @@ class _Sy(object):
         if radius:
             self.radius = float(radius)
         if self.radius < self.eps:
-            raise ValueError('%s too small: %.6e' % ('radius', radius))
+            raise _ValueError(radius=radius, txt='too small')
 
         if options:
             self.options = options
@@ -145,7 +146,7 @@ class _Sy(object):
         # tolerance converted to degrees squared
         self.s2 = degrees(tolerance / self.radius)**2
         if min(self.s2, tolerance) < self.eps:
-            raise ValueError('%s too small: %.6e' % ('tolerance', tolerance))
+            raise _ValueError(tolerance=tolerance, txt='too small')
         self.s2e = self.s2 + 1  # sentinel
 
         # compute either the shortest or perpendicular distance
@@ -353,7 +354,7 @@ class _Sy(object):
             # the sqrt of double the triangular area)
             # converted back from degrees to meter
             if isNumpy2(pts):
-                raise AttributeError('%r invalid' % (attr,))
+                raise _AttributeError(attr=attr)
             m = radians(1.0) * self.radius
             r[0].h2 = r[-1].h2 = 0  # zap sentinels
             for t2 in r:  # convert back to meter

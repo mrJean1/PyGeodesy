@@ -46,9 +46,10 @@ See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/html/geocentri
 for further information on the errors.
 '''
 
-from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, LenError, map1, \
-                             property_RO, _xinstanceof, _xkwds, _xsubclassof
+from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, map1, property_RO, \
+                            _xinstanceof, _xkwds, _xsubclassof
 from pygeodesy.datum import Datum, Datums, Ellipsoid
+from pygeodesy.errors import LenError, _ValueError
 from pygeodesy.fmath import cbrt, fdot, fsum_, hypot1
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, _NamedBase, _NamedTuple, \
@@ -61,16 +62,10 @@ from math import atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '20.04.09'
+__version__ = '20.05.08'
 
 
-class EcefError(ValueError):
-    '''An ECEF or related issue.
-    '''
-    pass
-
-
-def _llhn4(latlonh, lon, height, suffix):
+def _llhn4(latlonh, lon, height, suffix=''):
     '''(INTERNAL) Get C{lat, lon, h, name} as C{4-tuple}.
     '''
     try:
@@ -81,11 +76,13 @@ def _llhn4(latlonh, lon, height, suffix):
     try:
         lat, lon, h = map1(float, *llh)
     except (TypeError, ValueError) as x:
-        t = 'lat_, lon_ or height_'.replace('_', suffix)
-        raise EcefError('%s invalid: %r, %s' % (t, llh, x))
+        t = 'lat', 'lon', 'height'
+        if suffix:
+            t = (_ + suffix for _ in t)
+        raise EcefError(txt=str(x), **dict(zip(t, llh)))
 
-    if abs(lat) > 90:
-        raise EcefError('%s%s out of range: %.6g' % ('lat', suffix, lat))
+    if abs(lat) > 90:  # XXX RangeError
+        raise EcefError('lat' + suffix, lat)
 
     return lat, lon, h, getattr(latlonh, 'name', '')
 
@@ -99,6 +96,12 @@ def _sch3(y, x):
     else:
         s, c = 0, 1
     return s, c, h
+
+
+class EcefError(_ValueError):
+    '''An ECEF or C{Ecef*} related issue.
+    '''
+    pass
 
 
 class _EcefBase(_NamedBase):
@@ -133,9 +136,9 @@ class _EcefBase(_NamedBase):
             if not (E.a > 0 and E.f < 1):
                 raise ValueError
 
-        except (TypeError, ValueError):
-            t = unstr(self.classname, a=E, f=f)
-            raise EcefError('%s invalid: %s' % ('ellipsoid', t))
+        except (TypeError, ValueError) as x:
+            t = unstr(self.classname, a=a_ellipsoid, f=f)
+            raise EcefError(t + ' ellipsoid', txt=str(x))
 
         self._E = E
         if name:
@@ -286,7 +289,7 @@ class EcefKarney(_EcefBase):
                   C{v0} in geocentric C{x, y, z} coordinates.  Then, M{v0 =
                   M ⋅ v1} where C{M} is the rotation matrix.
         '''
-        lat, lon, h, name = _llhn4(latlonh, lon, height, '')
+        lat, lon, h, name = _llhn4(latlonh, lon, height)
         sa, ca, sb, cb = sincos2d(lat, lon)
 
         n = self.a / self.ellipsoid.e2s(sa)  # ... / sqrt(1 - self.e2 * sa**2)
@@ -501,7 +504,7 @@ class EcefCartesian(_NamedBase):
 
            @see: Note at method L{EcefKarney.forward}.
         '''
-        lat, lon, h, name = _llhn4(latlonh, lon, height, '')
+        lat, lon, h, name = _llhn4(latlonh, lon, height)
         t = self.ecef.forward(lat, lon, h, M=M)
         x, y, z = self.M.rotate(t[:3], *self._t0[:3])  # .x, .y, .z
 
@@ -548,7 +551,7 @@ class EcefCartesian(_NamedBase):
                              C{scalar} or B{C{lon0}} not C{scalar} for C{scalar}
                              B{C{latlonh0}} or C{abs(lat)} exceeds 90°.
         '''
-        lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, '0')
+        lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, suffix='0')
         if name or n:
             self.ecef.name = self.name = name or n
         self._t0 = self.ecef.forward(lat0, lon0, height0, M=True)
@@ -617,7 +620,7 @@ class EcefMatrix(_NamedTuple):
             t += _m  # ... from .multiply
 
         elif max(map(abs, t)) > 1:
-            raise EcefError('%s invalid: %r' % (EcefMatrix.__name__, t))
+            raise EcefError(EcefMatrix.__name__, t)
 
         else:  # build matrix from the following quaternion operations
             #   qrot(lam, [0,0,1]) * qrot(phi, [0,-1,0]) * [1,1,1,1]/2
@@ -796,8 +799,9 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
 
            @kwarg LatLon: Optional class to return C{(lat, lon, height[,
                           datum])} or C{None}.
-           @kwarg LatLon_height_datum_kwds: Optional B{C{LatLon}}, B{C{height}},
-                                            B{C{datum}} and other keyword arguments.
+           @kwarg LatLon_height_datum_kwds: Optional B{C{height}}, B{C{datum}}
+                                            and other B{C{LatLon}} keyword
+                                            arguments.
 
            @return: An instance of C{LatLon}C{(lat, lon, **_height_datum_kwds)}
                     or if B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat, lon,
@@ -813,8 +817,8 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
             if d:
                 r = r.to4Tuple(d)  # checks type(d)
         else:
-            if d is None:
-                d = kwds.pop['datum']
+            if d is None:  # remove datum
+                _ = kwds.pop['datum']
             r = LatLon(self.lat, self.lon, **kwds)  # PYCHOK Ecef9Tuple
         return self._xnamed(r)
 
@@ -897,7 +901,7 @@ class EcefVeness(_EcefBase):
                              C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
                              B{C{latlonh}} or C{abs(lat)} exceeds 90°.
         '''
-        lat, lon, h, name = _llhn4(latlonh, lon, height, '')
+        lat, lon, h, name = _llhn4(latlonh, lon, height)
         sa, ca, sb, cb = sincos2d(lat, lon)
 
         E = self.ellipsoid
@@ -1030,7 +1034,7 @@ class EcefYou(_EcefBase):
                              C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
                              B{C{latlonh}} or C{abs(lat)} exceeds 90°.
         '''
-        lat, lon, h, name = _llhn4(latlonh, lon, height, '')
+        lat, lon, h, name = _llhn4(latlonh, lon, height)
         sa, ca, sb, cb = sincos2d(lat, lon)
 
         E = self.ellipsoid

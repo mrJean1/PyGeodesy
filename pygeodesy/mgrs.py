@@ -26,24 +26,25 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import InvalidError, halfs2, property_RO, \
-                            _xkwds, _xinstanceof
+from pygeodesy.basics import halfs2, property_RO, _xkwds, \
+                            _xinstanceof, _xzipairs
 from pygeodesy.datum import Datums
+from pygeodesy.errors import _parseX, _ValueError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
 from pygeodesy.streprs import enstr2
-from pygeodesy.units import Easting, Northing
+from pygeodesy.units import Easting, Meter, Northing
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
-from pygeodesy.utmupsBase import _hemi
+from pygeodesy.utmupsBase import _hemi, UtmUps5Tuple
 
 import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.mgrs + _ALL_DOCS('Mgrs4Tuple', 'Mgrs6Tuple', 'UtmUps4Tuple')
-__version__ = '20.04.21'
+__all__ = _ALL_LAZY.mgrs + _ALL_DOCS('Mgrs4Tuple', 'Mgrs6Tuple')
+__version__ = '20.05.08'
 
-_100km  =  100e3  #: (INTERNAL) 100 km in meter.
-_2000km = 2000e3  #: (INTERNAL) 2,000 km in meter.
+_100km  = Meter( 100e3)  #: (INTERNAL) 100 km in meter.
+_2000km = Meter(2000e3)  #: (INTERNAL) 2,000 km in meter.
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = 'ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ'  #: (INTERNAL) Grid E colums.
@@ -55,7 +56,7 @@ _MGRSre = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)  #
 _ZBGre  = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})', re.IGNORECASE)  #: (INTERNAL) Regex.
 
 
-class MGRSError(ValueError):
+class MGRSError(_ValueError):
     '''Military Grid Reference System (MGRS) parse or other L{Mgrs} issue.
     '''
     pass
@@ -105,7 +106,7 @@ class Mgrs(_NamedBase):
             self._en100k = en
             self._en100k2m()
         except IndexError:
-            raise InvalidError(en100k=en100k, Error=MGRSError)
+            raise MGRSError(en100k=en100k)
 
         self._easting  = Easting(easting,   Error=MGRSError)
         self._northing = Northing(northing, Error=MGRSError)
@@ -182,8 +183,8 @@ class Mgrs(_NamedBase):
 
            @return: This Mgrs as "[Z:00B, G:EN, E:meter, N:meter]" (C{str}).
         '''
-        t = self.toStr(prec=prec, sep=' ').split()
-        return fmt % (sep.join('%s:%s' % t for t in zip('ZGEN', t)),)
+        t = self.toStr(prec=prec, sep=None)
+        return _xzipairs('ZGEN', t, sep=sep, fmt=fmt)
 
     def toStr(self, prec=10, sep=' '):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
@@ -192,7 +193,8 @@ class Mgrs(_NamedBase):
            (unlike UTM coordinates).
 
            @kwarg prec: Optional number of digits (C{int}), 4:km, 10:m.
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Optional separator to join (C{str}) or C{None}
+                       to return an unjoined C{tuple} of C{str}s.
 
            @return: This Mgrs as "00B EN easting northing" (C{str}).
 
@@ -203,9 +205,9 @@ class Mgrs(_NamedBase):
            >>> m = Mgrs(31, 'DQ', 48251, 11932, band='U')
            >>> m.toStr()  # '31U DQ 48251 11932'
         '''
-        t = enstr2(self._easting, self._northing, prec,
-                   '%02d%s' % (self._zone, self._band), self._en100k)
-        return sep.join(t)
+        t = '%02d%s' % (self._zone, self._band)
+        t = enstr2(self._easting, self._northing, prec, t, self._en100k)
+        return t if sep is None else sep.join(t)
 
     def toUtm(self, Utm=Utm):
         '''Convert this MGRS grid reference to a UTM coordinate.
@@ -214,30 +216,33 @@ class Mgrs(_NamedBase):
                        (L{Utm}) or C{None}.
 
            @return: The UTM coordinate (L{Utm}) or a
-                    L{UtmUps4Tuple}C{(zone, hemipole, easting,
-                    northing)} if B{C{Utm}} is C{None}.
+                    L{UtmUps5Tuple}C{(zone, hemipole, easting,
+                    northing, band)} if B{C{Utm}} is C{None}.
 
            @example:
 
            >>> m = Mgrs('31U', 'DQ', 448251, 11932)
            >>> u = m.toUtm()  # 31 N 448251 5411932
+           >>> u = m.toUtm(None)  # 31 N 448251 5411932 U
         '''
         # get northing of the band bottom, extended to
         # include entirety of bottom-most 100 km square
-        n = toUtm8(self._bandLat, 0, datum=self._datum).northing
+        n  = toUtm8(self.bandLatitude, 0, datum=self.datum).northing
         nb = int(n / _100km) * _100km
 
         e, n = self._en100k2m()
         # 100 km grid square row letters repeat every 2,000 km north;
         # add enough 2,000 km blocks to get into required band
-        e += self._easting
-        n += self._northing
+        e += self.easting
+        n += self.northing
         while n < nb:
             n += _2000km
 
-        h = _hemi(self.bandLatitude)  # if self._band < 'N'
-        r = UtmUps4Tuple(self.zone, h, e, n) if Utm is None else \
-            Utm(self.zone, h, e, n, band=self.band, datum=self.datum)
+        z =  self.zone
+        h = _hemi(self.bandLatitude)  # if self.band < 'N'
+        B =  self.band
+        r = UtmUps5Tuple(z, h, e, n, B, Error=MGRSError) if Utm is None else \
+                     Utm(z, h, e, n, band=B, datum=self.datum)
         return self._xnamed(r)
 
     @property_RO
@@ -253,20 +258,30 @@ class Mgrs4Tuple(_NamedTuple):
     '''
     _Names_ = ('zone', 'digraph', 'easting', 'northing')
 
+    def __new__(cls, z, di, e, n, Error=MGRSError):
+        if Error is not None:
+            e = Easting( e, Error=Error)
+            n = Northing(n, Error=Error)
+        return _NamedTuple.__new__(cls, z, di, e, n)
 
-class Mgrs6Tuple(_NamedTuple):
+    def to6Tuple(self, band, datum):
+        '''Extend this L{Mgrs4Tuple} to a L{Mgrs6Tuple}.
+
+           @arg band: The band to add (C{str} or C{None}).
+           @arg datum: The datum to add (L{Datum} or C{None}).
+
+           @return: A L{Mgrs6Tuple}C{(zone, digraph, easting,
+                    northing, band, datum)}.
+        '''
+        return self._xtend(Mgrs6Tuple, band, datum)
+
+
+class Mgrs6Tuple(_NamedTuple):  # XXX only used in the line above
     '''6-Tuple C{(zone, digraph, easting, northing, band, datum)},
        C{zone}, C{digraph} and C{band} as C{str}, C{easting} and
        C{northing} in C{meter} and C{datum} a L{Datum}.
     '''
-    _Names_ = ('zone', 'digraph', 'easting', 'northing', 'band', 'datum')
-
-
-class UtmUps4Tuple(_NamedTuple):
-    '''4-Tuple C{(zone, hemipole, easting, northing)} as C{str},
-       C{str}, C{meter} and C{meter}.
-    '''
-    _Names_ = ('zone', 'hemipole', 'easting', 'northing')
+    _Names_ = Mgrs4Tuple._Names_ + ('band', 'datum')
 
 
 def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
@@ -307,8 +322,8 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
         m = g + '00000'
         return float(m[:5])
 
-    m = tuple(strMGRS.strip().replace(',', ' ').split())
-    try:
+    def _MGRS_(strMGRS, datum, Mgrs, name):
+        m = tuple(strMGRS.replace(',', ' ').strip().split())
         if len(m) == 1:  # 01ABC1234512345'
             m = _mg(_MGRSre, m[0])
             m = m[:2] + halfs2(m[2])
@@ -319,13 +334,14 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
         if len(m) != 4:  # 01A BC 1234 12345
             raise ValueError
         e, n = map(_s2m, m[2:])
-    except (TypeError, ValueError):
-        raise InvalidError(strMGRS=strMGRS, Error=MGRSError)
 
-    z, EN = m[0], m[1].upper()
-    r = Mgrs4Tuple(z, EN, e, n) if Mgrs is None else \
-              Mgrs(z, EN, e, n, datum=datum)
-    return _xnamed(r, name)
+        z, EN = m[0], m[1].upper()
+        r = Mgrs4Tuple(z, EN, e, n) if Mgrs is None else \
+                  Mgrs(z, EN, e, n, datum=datum)
+        return _xnamed(r, name)
+
+    return _parseX(_MGRS_, strMGRS, datum, Mgrs, name,
+                           strMGRS=strMGRS, Error=MGRSError)
 
 
 def toMgrs(utm, Mgrs=Mgrs, name='', **Mgrs_kwds):
@@ -368,7 +384,7 @@ def toMgrs(utm, Mgrs=Mgrs, name='', **Mgrs_kwds):
           _Ln100k[z % 2][int(N) % len(_Ln100k[0])])
 
     if Mgrs is None:
-        r = Mgrs6Tuple(utm.zone, en, e, n, utm.band, utm.datum)
+        r = Mgrs4Tuple(utm.zone, en, e, n).to6Tuple(utm.band, utm.datum)
     else:
         kwds = _xkwds(Mgrs_kwds, band=utm.band, datum=utm.datum)
         r = Mgrs(utm.zone, en, e, n, **kwds)

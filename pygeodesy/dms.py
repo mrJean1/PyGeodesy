@@ -11,8 +11,9 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import InvalidError, isstr, map2, \
-                             RangeError, rangerrors
+from pygeodesy.basics import isstr, map2
+from pygeodesy.errors import ParseError, _parseX, RangeError, \
+                            _rangerrors, _ValueError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple
 from pygeodesy.streprs import fstr, fstrzs
@@ -25,7 +26,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '20.04.27'
+__version__ = '20.05.12'
 
 F_D   = 'd'    #: Format degrees as unsigned "deg°" plus suffix (C{str}).
 F_DM  = 'dm'   #: Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -83,16 +84,10 @@ _S_norm = {'^': S_DEG, '˚': S_DEG,  #: (INTERNAL) normalized DMS.
            '"': S_SEC, '″': S_SEC, '”': S_SEC}
 _S_ALL  = (S_DEG, S_MIN, S_SEC) + tuple(_S_norm.keys())  #: (INTERNAL) alternates.
 
-_EW   = 'EW'  # common cardinals
-_NS   = 'NS'
+_EW   = 'EW'  # common cardinals, imported by .units
+_NS   = 'NS'  # imported by .units, .utmupsBase
 _SW   = 'SW'  # negative ones
 _NSEW = _NS + _EW
-
-
-class ParseError(ValueError):
-    '''Degrees, radians or other parsing issue.
-    '''
-    pass
 
 
 def _0wpF(*w_p_f):
@@ -106,8 +101,8 @@ def _toDMS(deg, form, prec, sep, ddd, suff):  # MCCABE 15 by .units.py
     '''
     try:
         deg = float(deg)
-    except (TypeError, ValueError):
-        raise InvalidError(deg=deg)
+    except (TypeError, ValueError) as x:
+        raise _ValueError(deg=deg, txt=str(x))
 
     form = form.lower()
     sign = form[:1]
@@ -198,10 +193,10 @@ def _clipped_(angle, limit, units):
     '''(INTERNAL) Helper for C{clipDegrees} and C{clipRadians}.
     '''
     c = min(limit, max(-limit, angle))
-    if c != angle and rangerrors():
-        raise RangeError('%s beyond %s %s' % (fstr(angle, prec=6),
-                             fstr(copysign(limit, angle), prec=3, ints=True),
-                             units))
+    if c != angle and _rangerrors:
+        t = '%s beyond %s %s' % (fstr(angle, prec=6, ints=True),
+                                 copysign(limit, angle), units)
+        raise RangeError(t, txt=None)
     return c
 
 
@@ -227,7 +222,7 @@ def clipRadians(rad, limit):
 
        @return: Clipped value (C{radians}).
 
-       @raise RangeError: If B{C{abs(radians)}} beyond B{C{limit}} and
+       @raise RangeError: If B{C{abs(rad)}} beyond B{C{limit}} and
                           L{rangerrors} set to C{True}.
     '''
     return _clipped_(rad, limit, 'radians') if limit and limit > 0 else rad
@@ -290,7 +285,7 @@ def compassPoint(bearing, prec=3):
     try:  # m = 2 << prec; x = 32 // m
         m, x = _MOD_X[prec]
     except KeyError:
-        raise InvalidError(prec=prec)
+        raise _ValueError(prec=prec)
     # not round(), i.e. half-even rounding in Python 3,
     # but round-away-from-zero as int(b + 0.5) iff b is
     # non-negative, otherwise int(b + copysign(0.5, b))
@@ -323,8 +318,8 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg='-', pos=''):
     '''
     try:
         deg = float(deg)
-    except (TypeError, ValueError):
-        raise InvalidError(deg=deg)
+    except (TypeError, ValueError) as x:
+        raise _ValueError(deg=deg, txt=str(x))
 
     d, s = abs(deg), s_D
     if d < 1:
@@ -508,7 +503,7 @@ def parseDDDMMSS(strDDDMMSS, suffix=_NSEW, sep=S_SEP, clip=0):
 
         return clipDegrees(d, float(clip)) if clip else d
 
-    return _parsex(_DDDMMSS_, strDDDMMSS, suffix, sep, clip,
+    return _parseX(_DDDMMSS_, strDDDMMSS, suffix, sep, clip,
                               strDDDMMSS=strDDDMMSS, suffix=suffix)
 
 
@@ -579,7 +574,7 @@ def parseDMS(strDMS, suffix=_NSEW, sep=S_SEP, clip=0):  # MCCABE 14
 
        @see: Functions L{parseDDDMMSS}, L{parseDMS2} and L{parse3llh}.
     '''
-    return _parsex(_DMS2deg, strDMS, suffix, sep, clip, strDMS=strDMS, suffix=suffix)
+    return _parseX(_DMS2deg, strDMS, suffix, sep, clip, strDMS=strDMS, suffix=suffix)
 
 
 def parseDMS2(strLat, strLon, sep=S_SEP, clipLat=90, clipLon=180):
@@ -654,7 +649,7 @@ def parse3llh(strllh, height=0, sep=',', clipLat=90, clipLon=180):
         return LatLon3Tuple(parseDMS(a, suffix=_NS, clip=clipLat),
                             parseDMS(b, suffix=_EW, clip=clipLon), h)
 
-    return _parsex(_3llh_, strllh, height, sep, strllh=strllh)
+    return _parseX(_3llh_, strllh, height, sep, strllh=strllh)
 
 
 def parseRad(strRad, suffix=_NSEW, clip=0):
@@ -684,58 +679,7 @@ def parseRad(strRad, suffix=_NSEW, clip=0):
 
         return clipRadians(r, float(clip)) if clip else r
 
-    return _parsex(_Rad_, strRad, suffix, clip, strRad=strRad, suffix=suffix)
-
-
-def _parseUTMUPS(strUTMUPS, band='', sep=','):  # see .utm.py
-    '''(INTERNAL) Parse a string representing a UTM or UPS coordinate
-       consisting of C{"zone[band] hemisphere/pole easting northing"}.
-
-       @arg strUTMUPS: A UTM or UPS coordinate (C{str}).
-       @kwarg band: Optional, default Band letter (C{str}).
-       @kwarg sep: Optional, separator to split (",").
-
-       @return: 5-Tuple (C{zone, hemisphere/pole, easting, northing,
-                band}).
-
-       @raise ParseError: Invalid B{C{strUTMUPS}}.
-    '''
-    def _UTMUPS_(strUTMUPS, band, sep):
-        u = strUTMUPS.replace(sep, ' ').strip().split()
-        if len(u) < 4:
-            raise ValueError
-
-        z, h = u[:2]
-        if h[:1] not in 'NnSs':
-            raise ValueError
-
-        if z.isdigit():
-            z, B = int(z), band
-        else:
-            for i in range(len(z)):
-                if not z[i].isdigit():
-                    # int('') raises ValueError
-                    z, B = int(z[:i]), z[i:]
-                    break
-            else:
-                raise ValueError
-
-        e, n = map(float, u[2:4])
-        return z, h.upper(), e, n, B.upper()
-
-    return _parsex(_UTMUPS_, strUTMUPS, band, sep, strUTMUPS=strUTMUPS)
-
-
-def _parsex(parser, *args, **name_value_pairs):
-    '''(INTERNAL) Invoke a parser and handle exceptions.
-    '''
-    try:
-        return parser(*args)
-    except RangeError as _:
-        x, E = str(_), RangeError  # avoid Python 3+ nested exception messages
-    except (AttributeError, IndexError, TypeError, ValueError) as _:
-        x, E = str(_), ParseError  # avoid Python 3+ nested exception messages
-    raise InvalidError(Error=E, txt=x, **name_value_pairs)
+    return _parseX(_Rad_, strRad, suffix, clip, strRad=strRad, suffix=suffix)
 
 
 def precision(form, prec=None):
@@ -757,7 +701,7 @@ def precision(form, prec=None):
     try:
         p = _F_prec[form]
     except KeyError:
-        raise InvalidError(form=form)
+        raise _ValueError(form=form)
 
     if prec is not None:
         from pygeodesy.units import Precision_

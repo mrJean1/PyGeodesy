@@ -17,11 +17,12 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI_2, IsnotError, property_RO, \
-                            _xinstanceof, _xsubclassof
+from pygeodesy.basics import EPS, PI_2, property_RO, _xinstanceof, \
+                            _xsubclassof, _xzipairs
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datums, Lam_, Phi_
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.errors import _IsnotError, _ValueError
+from pygeodesy.lazily import _ALL_LAZY, _dot_
 from pygeodesy.named import EasNor3Tuple, LatLon2Tuple, \
                             LatLon4Tuple, LatLonDatum3Tuple, \
                            _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
@@ -34,7 +35,7 @@ from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.04.21'
+__version__ = '20.05.05'
 
 
 class Conic(_NamedEnumItem):
@@ -108,9 +109,9 @@ class Conic(_NamedEnumItem):
             self.toDatum(latlon0.datum)._dup2(self)
             self._register(Conics, name)
         elif name:
-            self._name = name
+            self.name = name
         if auth:
-            self._auth = auth
+            self._auth = str(auth)
 
     @property_RO
     def auth(self):
@@ -170,7 +171,7 @@ class Conic(_NamedEnumItem):
     def name2(self):
         '''Get the conic and datum names as "conic.datum" (C{str}).
         '''
-        return self.name + '.' + self.datum.name
+        return _dot_(self.name, self.datum.name)
 
     @property_RO
     def opt3(self):
@@ -219,7 +220,7 @@ class Conic(_NamedEnumItem):
         '''
         E = datum.ellipsoid
         if not E.isEllipsoidal:
-            raise IsnotError('ellipsoidal', datum=datum)
+            raise _IsnotError('ellipsoidal', datum=datum)
 
         c = self
         if c._e != E.e or c._datum != datum:
@@ -342,7 +343,7 @@ Conics._assert(  # <https://SpatialReference.org/ref/sr-org/...>
 )
 
 
-class LCCError(ValueError):
+class LCCError(_ValueError):
     '''Lambert Conformal Conic C{LCC} or other L{Lcc} issue.
     '''
     pass
@@ -505,18 +506,19 @@ class Lcc(_NamedBase):
            @return: This Lcc as "[E:meter, N:meter, H:m, C:Conic.Datum]"
                    (C{str}).
         '''
-        t = self.toStr(prec=prec, sep=' ', m=m).split()
+        t = self.toStr(prec=prec, sep=None, m=m)
         k = 'ENH'[:len(t)]
         if C:
             k += 'C'
             t += [self.conic.name2]
-        return fmt % (sep.join('%s:%s' % t for t in zip(k, t)),)
+        return _xzipairs(k, t, sep=sep, fmt=fmt)
 
     def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
 
            @kwarg prec: Optional number of decimal, unstripped (C{int}).
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Optional separator to join (C{str}) or C{None}
+                       to return an unjoined C{tuple} of C{str}s.
            @kwarg m: Optional height units, default C{meter} (C{str}).
 
            @return: This Lcc as "easting nothing" C{str} in C{meter} plus
@@ -532,7 +534,7 @@ class Lcc(_NamedBase):
              fstr(self._northing, prec=prec)]
         if self._height:
             t += ['%+.2f%s' % (self._height, m)]
-        return sep.join(t)
+        return tuple(t) if sep is None else sep.join(t)
 
 
 def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name='',

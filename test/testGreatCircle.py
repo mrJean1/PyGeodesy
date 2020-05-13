@@ -33,7 +33,7 @@
 # Copyright (C) 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '18.10.02'
+__version__ = '20.05.05'  # '18.10.02'
 
 from base import TestsBase
 
@@ -95,7 +95,7 @@ class Tests(TestsBase):
             b = str(IndianPond.initialBearingTo(IndianPond, raiser=True))
         except CrossError as x:
             b = str(x)
-        self.test('FinalBearingCrossError', b, 'coincident points: %s(43°55′51.28″N, 072°03′13.72″W)' % (classname(IndianPond),))
+        self.test('FinalBearingCrossError', b, 'points (%s(43°55′51.28″N, 072°03′13.72″W)): coincident' % (classname(IndianPond),))
 
         # distance for two locations that are the same
         d = IndianPond.distanceTo(IndianPond)

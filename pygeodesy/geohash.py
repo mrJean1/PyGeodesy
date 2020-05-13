@@ -16,15 +16,17 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, IsnotError, isstr, map2, property_RO
-from pygeodesy.dms import parse3llh, parseDMS2
+from pygeodesy.basics import EPS, R_M, isstr, map2, property_RO, _xkwds
+from pygeodesy.dms import parse3llh  # parseDMS2
+from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import favg
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
                            _NamedDict
 from pygeodesy.streprs import fstr
-from pygeodesy.units import Precision_, Radius, Scalar_, Str
+from pygeodesy.units import Int, Lat, Lon, Precision_, Radius, \
+                            Scalar_, Str, _xStrError
 from pygeodesy.utily import unrollPI
 
 from math import ldexp, log10, radians
@@ -34,7 +36,7 @@ __all__ = _ALL_LAZY.geohash + _ALL_DOCS('Neighbors8Dict') + (
           'bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '20.04.24'
+__version__ = '20.05.08'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -76,28 +78,33 @@ del c, i
 
 
 def _2bounds(LatLon, LatLon_kwds, s, w, n, e):
-    '''(INTERNAL) return SW and NE bounds.
+    '''(INTERNAL) Return SW and NE bounds.
     '''
     return Bounds4Tuple(s, w, n, e) if LatLon is None else (
            Bounds2Tuple(LatLon(s, w, **LatLon_kwds),
                         LatLon(n, e, **LatLon_kwds)))  # PYCHOK inconsistent
 
 
+def _2center(bounds):
+    '''(INTERNAL) Return the C{bounds} center.
+    '''
+    return (favg(bounds.latN, bounds.latS),
+            favg(bounds.lonE, bounds.lonW))
+
+
 def _2fll(lat, lon, *unused):
     '''(INTERNAL) Convert lat, lon to 2-tuple of floats.
     '''
-    return parseDMS2(lat, lon)
+    # lat, lon = parseDMS2(lat, lon)
+    return (Lat(lat, Error=GeohashError),
+            Lon(lon, Error=GeohashError))
 
 
 def _2Geohash(geohash):
     '''(INTERNAL) Check or create a Geohash instance.
     '''
-    if not isinstance(geohash, Geohash):
-        try:
-            geohash = Geohash(geohash)
-        except (TypeError, ValueError):
-            raise IsnotError(Geohash.__name__, str.__name__, 'LatLon', geohash=geohash)
-    return geohash
+    return geohash if isinstance(geohash, Geohash) else \
+                         Geohash(geohash)
 
 
 def _2geostr(geohash):
@@ -110,16 +117,9 @@ def _2geostr(geohash):
         for c in geostr:
             if c not in _DecodedBase32:
                 raise ValueError
-    except (AttributeError, TypeError, ValueError):
-        raise GeohashError('%s: %r[%s]' % (Geohash.__name__,
-                            geohash, len(geohash)))
-    return geostr
-
-
-class GeohashError(ValueError):
-    '''Geohash encode, decode or other L{Geohash} issue.
-    '''
-    pass
+        return geostr
+    except (AttributeError, TypeError, ValueError) as x:
+        raise GeohashError(Geohash.__name__, geohash, txt=str(x))
 
 
 class Geohash(Str):
@@ -153,25 +153,25 @@ class Geohash(Str):
         '''
         if isinstance(cll, Geohash):
             gh = _2geostr(str(cll))
-            self = str.__new__(cls, gh)
+            self = Str.__new__(cls, gh)
 
         elif isstr(cll):
             if ',' in cll:
                 lat, lon = _2fll(*parse3llh(cll))
                 gh = encode(lat, lon, precision=precision)
-                self = str.__new__(cls, gh)
+                self = Str.__new__(cls, gh)
                 self._latlon = lat, lon
             else:
                 gh = _2geostr(cll)
-                self = str.__new__(cls, gh)
+                self = Str.__new__(cls, gh)
 
         else:  # assume LatLon
             try:
                 lat, lon = _2fll(cll.lat, cll.lon)
             except AttributeError:
-                raise TypeError('%s: %r' % (Geohash.__name__, cll))
+                raise _xStrError(Geohash, cll=cll)  # Error=GeohashError
             gh = encode(lat, lon, precision=precision)
-            self = str.__new__(cls, gh)
+            self = Str.__new__(cls, gh)
             self._latlon = lat, lon
 
         if name:
@@ -198,14 +198,14 @@ class Geohash(Str):
 
         d = direction[:1].upper()
         if d not in _Neighbor:
-            raise GeohashError('%s invalid: %s' % ('direction', direction))
+            raise GeohashError(direction=direction)
 
         e = len(self) & 1  # % 2
 
         c = self[-1:]  # last hash char
         i = _Neighbor[d][e].find(c)
         if i < 0:
-            raise GeohashError('%s invalid: %s' % ('geohash', self))
+            raise GeohashError(geohash=self)
 
         p = self[:-1]  # hash without last char
         # check for edge-cases which don't share common prefix
@@ -334,8 +334,8 @@ class Geohash(Str):
         '''
         # B{Example:} not @example: since that causes Epydoc error
         if not self._latlon:
-            s, w, n, e = self.bounds()
-            self._latlon = LatLon2Tuple(favg(n, s), favg(e, w))
+            lat, lon = _2center(self.bounds())
+            self._latlon = LatLon2Tuple(lat, lon)
         return self._latlon
 
     @property_RO
@@ -362,7 +362,7 @@ class Geohash(Str):
            height and longitudinal width in (C{meter}).
         '''
         n = min(len(_Sizes) - 1, self.precision or 1)
-        return LatLon2Tuple(*map2(float, _Sizes[n][:2]))
+        return LatLon2Tuple(*map2(float, _Sizes[n][:2]))  # XXX Height, Width
 
     def toLatLon(self, LatLon=None, **LatLon_kwds):
         '''Return (the approximate center of) this geohash cell
@@ -445,6 +445,12 @@ class Geohash(Str):
         return self.S.W
 
 
+class GeohashError(_ValueError):
+    '''Geohash encode, decode or other L{Geohash} issue.
+    '''
+    pass
+
+
 class Neighbors8Dict(_NamedDict):  # replacing Neighbors8Dict
     '''8-Dict C{(N, NE, E, SE, S, SW, W, NW)} of L{Geohash}es,
        providing key I{and} attribute access to the items.
@@ -452,9 +458,12 @@ class Neighbors8Dict(_NamedDict):  # replacing Neighbors8Dict
     _Keys_ = ('N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW')
 
     def __init__(self, **kwds):  # PYCHOK no *args
-        d = dict((k, None) for k in self._Keys_)
-        d.update(kwds)
-        _NamedDict.__init__(self, **d)  # name=...
+        kwds = _xkwds(kwds, **_Neighbors8Defaults)
+        _NamedDict.__init__(self, **kwds)  # name=...
+
+
+_Neighbors8Defaults = dict(zip(Neighbors8Dict._Keys_, (None,) *
+                           len(Neighbors8Dict._Keys_)))  # XXX frozendict
 
 
 def bounds(geohash, LatLon=None, **LatLon_kwds):
@@ -481,18 +490,18 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
                                       #  52.20565796, 0.11947632
        >>> geohash.decode('u120fxw')  # '52.205',    '0.1188'
     '''
-    geohash = _2Geohash(geohash)
-    if len(geohash) < 1:
-        raise GeohashError('%s invalid: %s' % ('geohash', geohash))
+    gh = _2Geohash(geohash)
+    if len(gh) < 1:
+        raise GeohashError(geohash=geohash)
 
     s, w, n, e = _Bounds4
 
     d = True
-    for c in geohash:  # .lower():
+    for c in gh:  # .lower():
         try:
             i = _DecodedBase32[c]
         except KeyError:
-            raise GeohashError('%s invalid: %s' % ('geohash', geohash))
+            raise GeohashError(geohash=geohash)
 
         for m in (16, 8, 4, 2, 1):
             if d:  # longitude
@@ -531,14 +540,13 @@ def decode(geohash):
        >>> geohash.decode('reef')  # '-24.87', '162.95'  Coral Sea
        >>> geohash.decode('geek')  # '65.48', '-17.75'  Iceland
     '''
-    s, w, n, e = bounds(geohash)
+    b = bounds(geohash)
+    lat, lon = _2center(b)
 
     # round to near centre without excessive precision
     # ⌊2-log10(Δ°)⌋ decimal places, strip trailing zeros
-    lat = fstr(favg(n, s), prec=int(2 - log10(n - s)))
-    lon = fstr(favg(e, w), prec=int(2 - log10(e - w)))
-
-    return lat, lon  # strings
+    return (fstr(lat, prec=int(2 - log10(b.latN - b.latS))),
+            fstr(lon, prec=int(2 - log10(b.lonE - b.lonW))))  # strings
 
 
 def decode_error(geohash):
@@ -562,8 +570,9 @@ def decode_error(geohash):
        >>> geohash.decode_error('fu')  # 2.8125, 5.625
        >>> geohash.decode_error('f')  # 22.5, 22.5
     '''
-    s, w, n, e = bounds(geohash)
-    return LatLon2Tuple((n - s) * 0.5, (e - w) * 0.5)
+    b = bounds(geohash)
+    return LatLon2Tuple((b.latN - b.latS) * 0.5,  # Height
+                        (b.lonE - b.lonW) * 0.5)  # Width
 
 
 def distance1(geohash1, geohash2):
@@ -754,11 +763,11 @@ def resolution2(prec1, prec2=None):
     res1, res2 = 360.0, 180.0
 
     if prec1:
-        p = 5 * max(0, min(Precision_(prec1, name='prec1', low=None), _MaxPrec))
+        p = 5 * max(0, min(Int(prec1, name='prec1', Error=GeohashError), _MaxPrec))
         res1 = res2 = ldexp(res1, -(p - p // 2))
 
     if prec2:
-        p = 5 * max(0, min(Precision_(prec2, name='prec2', low=None), _MaxPrec))
+        p = 5 * max(0, min(Int(prec2, name='prec2', Error=GeohashError), _MaxPrec))
         res2 = ldexp(res2, -(p // 2))
 
     return res1, res2

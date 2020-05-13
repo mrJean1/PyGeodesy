@@ -11,8 +11,10 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, InvalidError, IsnotError, isscalar, \
-                             len2, map1, property_doc_, property_RO
+from pygeodesy.basics import EPS, isscalar, len2, map1, \
+                             property_doc_, property_RO
+from pygeodesy.errors import CrossError, _IsnotError, \
+                            _Missing, _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fsum, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
 from pygeodesy.lazily import _ALL_LAZY
@@ -22,11 +24,11 @@ from pygeodesy.streprs import strs
 from math import atan2, cos, sin
 
 # all public constants, classes and functions
-__all__ = _ALL_LAZY.vector3d + ('Vector3d', 'sumOf')
-__version__ = '20.04.09'
+__all__ = _ALL_LAZY.vector3d + ('sumOf',)
+__version__ = '20.05.08'
 
 
-def _xyzn4(xyz, y, z, Error=TypeError):  # imported by .ecef.py
+def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
     '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
     '''
     try:
@@ -36,12 +38,13 @@ def _xyzn4(xyz, y, z, Error=TypeError):  # imported by .ecef.py
     try:
         x, y, z = map1(float, *t)
     except (TypeError, ValueError) as x:
-        raise Error('%s invalid: %r, %s' % ('xyz, y or z', t, x))
+        d = dict(zip(('xyz', 'y', 'z'), t))
+        raise Error(txt=str(x), **d)
 
     return x, y, z, getattr(xyz, 'name', '')
 
 
-def _xyzhdn6(xyz, y, z, height, datum, ll, Error=TypeError):  # .cartesianBase.py, .nvectorBase.py
+def _xyzhdn6(xyz, y, z, height, datum, ll, Error=_TypeError):  # by .cartesianBase, .nvectorBase
     '''(INTERNAL) Get an C{(x, y, z, h, d, name)} 6-tuple.
     '''
     x, y, z, n = _xyzn4(xyz, y, z, Error=Error)
@@ -56,30 +59,8 @@ def _xyzhdn6(xyz, y, z, height, datum, ll, Error=TypeError):  # .cartesianBase.p
     return x, y, z, h, d, n
 
 
-class CrossError(ValueError):
-    '''Error raised for zero or near-zero vectorial cross products,
-       occurring for coincident or colinear points, paths or bearings.
-    '''
-    pass
-
-
-def crosserrors(raiser=None):
-    '''Report or ignore vectorial cross product errors.
-
-       @kwarg raiser: Use C{True} to throw or C{False} to ignore
-                      L{CrossError} exceptions.  Use C{None} to
-                      leave the setting unchanged.
-
-       @return: Previous setting (C{bool}).
-    '''
-    t = Vector3d._crosserrors
-    if raiser in (True, False):
-        Vector3d._crosserrors = raiser
-    return t
-
-
-class VectorError(ValueError):
-    '''Issue with class L{Vector3d} or C{*Nvector}.
+class VectorError(_ValueError):
+    '''L{Vector3d} or C{*Nvector} issue.
     '''
     pass
 
@@ -94,7 +75,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         - motion vector on earth's surface
         - etc.
     '''
-    _crosserrors = True  # set by function crosserrors above
+    _crosserrors = True  # un/set by .errors.crosserrors
 
     _fromll = None  #: (INTERNAL) original ll.
     _length = None  #: (INTERNAL) cached length.
@@ -106,16 +87,16 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     _z = 0  #: (INTERNAL) Z component.
 
     def __init__(self, x, y, z, ll=None, name=''):
-        '''New 3-D vector.
+        '''New 3-D L{Vector3d}.
 
-           The vector may be normalised, or use x/y/z values for
-           height relative to the surface of the sphere or ellipsoid,
-           distance from earth centre, etc.
+           The vector may be normalised or use x/y/z values
+           for height relative to the surface of the sphere
+           or ellipsoid, distance from earth centre, etc.
 
            @arg x: X component of vector (C{scalar}).
            @arg y: Y component of vector (C{scalar}).
            @arg z: Z component of vector (C{scalar}).
-           @kwarg ll: Optional, original latlon (C{LatLon}).
+           @kwarg ll: Optional latlon reference (C{LatLon}).
            @kwarg name: Optional name (C{str}).
         '''
         self._x = x
@@ -371,7 +352,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         if raiser and self.crosserrors and max(map1(abs, x, y, z)) < EPS:
             t = 'coincident' if self.isequalTo(other) else 'colinear'
             r = getattr(other, '_fromll', None) or other
-            raise CrossError('%s %s: %r' % (t, raiser, r))
+            raise CrossError(raiser, r, txt=t)
 
         return self.classof(x, y, z)
 
@@ -399,11 +380,11 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise VectorError: Invalid or zero B{C{factor}}.
         '''
         if not isscalar(factor):
-            raise IsnotError('scalar', factor=factor)
+            raise _IsnotError('scalar', factor=factor)
         try:
             return self.times(1.0 / factor)
         except (ValueError, ZeroDivisionError):
-            raise InvalidError(factor=factor, Error=VectorError)
+            raise VectorError(factor=factor)
 
     def dot(self, other):
         '''Compute the dot (scalar) product of this and an other vector.
@@ -514,8 +495,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             v = [float(v.strip()) for v in str3d.split(sep)]
             if len(v) != 3:
                 raise ValueError
-        except (TypeError, ValueError):
-            raise InvalidError(str3d=str3d, Error=VectorError)
+        except (TypeError, ValueError) as x:
+            raise VectorError(str3d=str3d, txt=str(x))
 
         return self.classof(*v)
 
@@ -580,7 +561,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Non-scalar B{C{factor}}.
         '''
         if not isscalar(factor):
-            raise IsnotError('scalar', factor=factor)
+            raise _IsnotError('scalar', factor=factor)
         return self.classof(self.x * factor,
                             self.y * factor,
                             self.z * factor)
@@ -676,7 +657,7 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
     '''
     n, vectors = len2(vectors)
     if n < 1:
-        raise VectorError('no vectors: %r' & (n,))
+        raise VectorError(vectors=n, txt=_Missing)
 
     r = Vector3Tuple(fsum(v.x for v in vectors),
                      fsum(v.y for v in vectors),

@@ -33,15 +33,17 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, InvalidError, len2, map2, \
-                             property_RO, RangeError
+from pygeodesy.basics import EPS, len2, map2, property_RO
 from pygeodesy.datum import Datums
-from pygeodesy.dms import degDMS, parseDMS2, _parseUTMUPS
+from pygeodesy.dms import degDMS, _NS, parseDMS2
+from pygeodesy.errors import _Missing, RangeError, _ValueError, _xkwds_get
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, _xnamed
+from pygeodesy.units import Band, Int, Lat, Lon, Zone
 from pygeodesy.utily import degrees90, degrees180, sincos2  # splice
-from pygeodesy.utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
+from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
+                                 _to4lldn, _to3zBhp, _to3zll, \
                                  _UTM_LAT_MAX, _UTM_LAT_MIN, \
                                  _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
                                  _UTM_ZONE_OFF_MAX, UtmUpsBase, \
@@ -54,7 +56,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '20.04.28'
+__version__ = '20.05.08'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -64,7 +66,7 @@ _FalseNorthing = 10000e3  #: (INTERNAL) False (C{meter}).
 _K0            = 0.9996   #: (INTERNAL) UTM scale central meridian.
 
 
-class UTMError(ValueError):
+class UTMError(_ValueError):
     '''Universal Transverse Mercator (UTM parse or other L{Utm} issue.
     '''
     pass
@@ -141,7 +143,7 @@ def _false2(e, n, h):
     return e, n
 
 
-def _to3zBlat(zone, band, Error=UTMError):  # imported by .mgrs.py
+def _to3zBlat(zone, band, Error=UTMError):  # imported by .mgrs
     '''(INTERNAL) Check and return zone, Band and band latitude.
 
        @arg zone: Zone number or string.
@@ -150,23 +152,21 @@ def _to3zBlat(zone, band, Error=UTMError):  # imported by .mgrs.py
 
        @return: 3-Tuple (zone, Band, latitude).
     '''
-    try:
-        z, B, _ = _to3zBhp(zone, band=band)  # in .ellipsoidalBase
-        if _UTM_ZONE_MIN > z or z > _UTM_ZONE_MAX:
-            raise ValueError
-    except ValueError:
-        raise InvalidError(zone=zone, Error=Error)
+    z, B, _ = _to3zBhp(zone, band, Error=Error)
+    if _UTM_ZONE_MIN > z or z > _UTM_ZONE_MAX:
+        raise Error(zone=zone)
 
     b = None
     if B:
         b = _Bands.find(B)
         if b < 0:
-            raise InvalidError(band=band or B, Error=Error)
-        b = (b << 3) - 80
+            raise Error(band=band or B)
+        b = Int((b << 3) - 80, name='bandLat')
+        B = Band(B)
     elif Error is not UTMError:
-        raise Error('%s missing: %r' % ('band', band))
+        raise Error(band=band, txt=_Missing)
 
-    return z, B, b
+    return Zone(z), B, b
 
 
 def _to3zBll(lat, lon, cmoff=True):
@@ -181,14 +181,15 @@ def _to3zBll(lat, lon, cmoff=True):
     z, lat, lon = _to3zll(lat, lon)  # in .utmupsBase
 
     if _UTM_LAT_MIN > lat or lat >= _UTM_LAT_MAX:  # [-80, 84) like Veness
-        x = '%s [%s, %s)' % ('range', _UTM_LAT_MIN, _UTM_LAT_MAX)
-        raise RangeError('%s outside UTM %s: %s' % ('lat', x, degDMS(lat)))
+        t = ' '.join(('outside', 'UTM', 'range', '[%s,' % (_UTM_LAT_MIN,),
+                                                  '%s)' % (_UTM_LAT_MAX,)))
+        raise RangeError(lat=degDMS(lat), txt=t)
     B = _Bands[int(lat + 80) >> 3]
 
     x = lon - _cmlon(z)  # z before Norway/Svaldbard
     if abs(x) > _UTM_ZONE_OFF_MAX:
-        x = '%s %d by %s' % ('zone', z, degDMS(x, prec=6))
-        raise RangeError('%s outside UTM %s: %s' % ('lon', x, degDMS(lon)))
+        t = ' '.join(('outside', 'UTM', 'zone', str(z), 'by', degDMS(x, prec=6)))
+        raise RangeError(lon=degDMS(lon), txt=t)
 
     if B == 'X':  # and 0 <= int(lon) < 42: z = int(lon + 183) // 6 + 1
         x = {32: 9, 34: 21, 36: 33}.get(z, None)
@@ -199,21 +200,21 @@ def _to3zBll(lat, lon, cmoff=True):
 
     if cmoff:  # lon off central meridian
         lon -= _cmlon(z)  # z after Norway/Svaldbard
-    return z, B, lat, lon
+    return Zone(z), Band(B), Lat(lat), Lon(lon)
 
 
 def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, Error, **cmoff):
     '''(INTERNAL) Determine 7-tuple (zone, band, lat, lon, datum,
         falsed, name) for L{toEtm8} and L{toUtm8}.
     '''
-    f = falsed and cmoff.get('cmoff', True)  # DEPRECATED
+    f = falsed and _xkwds_get(cmoff, cmoff=True)  # DEPRECATED
     lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
     z, B, lat, lon = _to3zBll(lat, lon, cmoff=f)
     if zone:  # re-zone for ETM/UTM
-        r, _, _ = _to3zBhp(zone, band=B)
+        r, _, _ = _to3zBhp(zone, B)
         if r != z:
             if not _UTM_ZONE_MIN <= r <= _UTM_ZONE_MAX:
-                raise InvalidError(zone=zone, Error=Error)
+                raise Error(zone=zone)
             if f:  # re-offset from central meridian
                 lon += _cmlon(z) - _cmlon(r)
             z = r
@@ -267,8 +268,8 @@ class Utm(UtmUpsBase):
         self._zone, B, _ = _to3zBlat(zone, band)
 
         h = str(hemisphere)[:1].upper()
-        if h not in ('N', 'S'):
-            raise InvalidError(hemisphere=hemisphere, Error=self._Error)
+        if h not in _NS:
+            raise self._Error(hemisphere=hemisphere)
 
         e, n = easting, northing  # Easting(easting), ...
 #       if not falsed:
@@ -278,9 +279,9 @@ class Utm(UtmUpsBase):
 #       @raise RangeError: If B{C{easting}} or B{C{northing}} outside
 #                          the valid UTM range.
 #       if 120e3 > e or e > 880e3:
-#           raise InvalidError(easting=easting, Error=RangeError)
+#           raise RangeError(easting=easting)
 #       if 0 > n or n > _FalseNorthing:
-#           raise InvalidError(northing=northing, Error=RangeError)
+#           raise RangeError(northing=northing)
 
         self._hemisphere = h
         UtmUpsBase.__init__(self, e, n, band=B, datum=datum, falsed=falsed,
@@ -391,7 +392,7 @@ class Utm(UtmUpsBase):
         # from Karney 2011 Eq 15-22, 36
         A0 = self.scale0 * E.A
         if A0 < EPS:
-            raise InvalidError(meridional=A0, Error=self._Error)
+            raise self._Error(meridional=A0)
         x /= A0  # η eta
         y /= A0  # ξ ksi
 
@@ -404,7 +405,7 @@ class Utm(UtmUpsBase):
 
         H = hypot(shx, cy)
         if H < EPS:
-            raise InvalidError(H=H, Error=self._Error)
+            raise self._Error(H=H)
 
         T = t0 = sy / H  # τʹ
         S = Fsum(T)
@@ -489,7 +490,8 @@ class Utm(UtmUpsBase):
            MGRS grid references).
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Optional separator to join (C{str}) or C{None}
+                       to return an unjoined C{tuple} of C{str}s.
            @kwarg B: Optionally, include latitudinal band (C{bool}).
            @kwarg cs: Optionally, include meridian convergence and grid
                       scale factor (C{bool}).
@@ -545,7 +547,7 @@ class Utm(UtmUpsBase):
                 self._utm = u = toUtm8(ll, Utm=self.classof, falsed=falsed,
                                            name=self.name, zone=zone)
             return u
-        raise InvalidError(zone=zone, Error=self._Error)
+        raise self._Error(zone=zone)
 
     @property_RO
     def zone(self):
@@ -554,19 +556,18 @@ class Utm(UtmUpsBase):
         return self._zone
 
 
-def _parseUTM5(strUTM, Error):
+def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError):  # imported by .etm
     '''(INTERNAL) Parse a string representing a UTM coordinate,
        consisting of C{"zone[band] hemisphere easting northing"},
        see L{parseETM5} and L{parseUTM5}.
     '''
-    try:
-        z, h, e, n, B = _parseUTMUPS(strUTM)
-        if _UTM_ZONE_MIN <= z <= _UTM_ZONE_MAX and \
-                           (B in _Bands or not B):
-            return UtmUps5Tuple(z, h, e, n, B)
-    except ValueError:
-        pass
-    raise InvalidError(strUTM=strUTM, Error=Error)
+    z, h, e, n, B = _parseUTMUPS5(strUTM, None, Error=Error)
+    if _UTM_ZONE_MIN > z or z > _UTM_ZONE_MAX or (B and B not in _Bands):
+        raise Error(strUTM=strUTM, zone=z, band=B)
+
+    r = UtmUps5Tuple(z, h, e, n, B, Error=Error) if Xtm is None else \
+                 Xtm(z, h, e, n, band=B, datum=datum, falsed=falsed)
+    return r
 
 
 def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=''):
@@ -594,10 +595,7 @@ def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=''):
        >>> u = parseUTM5('31 N 448251.8 5411932.7')
        >>> u.toStr()  # 31 N 448252 5411933
     '''
-    r = _parseUTM5(strUTM, UTMError)
-    if Utm is not None:
-        z, h, e, n, B = r
-        r = Utm(z, h, e, n, band=B, datum=datum, falsed=falsed)
+    r = _parseUTM5(strUTM, datum, Utm, falsed)
     return _xnamed(r, name)
 
 
@@ -682,15 +680,15 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name='',
                         B, d, c, k, f, name, latlon, EPS)
 
 
-def _toXtm8(Xtm, z, lat, x, y,  # PYCHOK 13 args
-                 B, d, c, k, f, name, latlon, eps):
+def _toXtm8(Xtm, z, lat, x, y, B, d, c, k, f,  # PYCHOK 13+ args
+                 name, latlon, eps, Error=UTMError):
     '''(INTERNAL) Helper for L{toEtm8} and L{toUtm8}.
     '''
     h = _hemi(lat)
     if f:
         x, y = _false2(x, y, h)
     if Xtm is None:  # DEPRECATED
-        r = UtmUps8Tuple(z, h, x, y, B, d, c, k)
+        r = UtmUps8Tuple(z, h, x, y, B, d, c, k, Error=Error)
     else:
         r = Xtm(z, h, x, y, band=B, datum=d, falsed=f, convergence=c, scale=k)
         if isinstance(latlon, _LLEB) and d is latlon.datum:

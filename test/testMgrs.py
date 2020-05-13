@@ -4,7 +4,7 @@
 # Test MGRS functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.08'
+__version__ = '20.05.01'
 
 from base import TestsBase
 
@@ -61,7 +61,9 @@ class Tests(TestsBase):
         self.test('toMgrs1', repr(m), r)
 
         p = m.parse('31UDQ4825111932')  # coverage
-        self.test('toUtm(None)', p.toUtm(None), "(31, 'N', 448251.0, 5411932.0)")
+        t = p.toUtm(None)
+        self.test('toUtm(None)', t, "(31, 'N', 448251.0, 5411932.0)", known=True)  # OBSOLETE UtmUps4Tuple
+        self.test('toUtm(None)', t, "(31, 'N', 448251.0, 5411932.0, 'U')")  # UtmUps5Tuple
         for a, x in (('easting',  48251.0),
                      ('northing', 11932.0),
                      ('en100k', 'DQ'),
@@ -72,7 +74,9 @@ class Tests(TestsBase):
             self.test(a, getattr(p, a), x)
 
         m = u.toMgrs()
-        self.test('toMgrs', str(m), '31U DQ 48251 11932')
+        self.test('toMgrs', str(m), s)
+        m = mgrs.toMgrs(u, Mgrs=None)
+        self.test('toMgrs(None)', m.classname, mgrs.Mgrs6Tuple.__name__)
 
         for lat, lon, x in ((60.0,  1.0, '31V CG 88455 53097'),  # southern Norway
                             (60.0,  3.0, '32V JM 65640 66593'),

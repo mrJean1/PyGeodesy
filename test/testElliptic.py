@@ -5,7 +5,7 @@ u'''Test Elliptic Python implementation.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.04.19'
+__version__ = '20.05.05'
 
 from base import TestsBase
 
@@ -69,12 +69,12 @@ class Tests(TestsBase):
             t = e.fPi(0, None, 1)
         except EllipticError as x:
             t = str(x)
-        self.test('fPi(sn, None, dn)', t, 'invokation invalid: Elliptic.fPi(0, None, 1)')
+        self.test('fPi(sn, None, dn)', t, 'invokation Elliptic.fPi(0, None, 1): invalid')
         try:
             t = e.fPi(0, 1, None)
         except EllipticError as x:
             t = str(x)
-        self.test('fPi(sn, dn, None)', t, 'invokation invalid: Elliptic.fPi(0, 1, None)')
+        self.test('fPi(sn, dn, None)', t, 'invokation Elliptic.fPi(0, 1, None): invalid')
 
         self.test('deltaD(sn, cn, dn)',  e.deltaD(sn, cn, dn),  '-0.3223642', fmt='%.7f')
         self.test('deltaE(sn, cn, dn)',  e.deltaE(sn, cn, dn),   '0.0084191', fmt='%.7f')
@@ -87,12 +87,12 @@ class Tests(TestsBase):
             t = e.deltaPi(0, None, 1)
         except EllipticError as x:
             t = str(x)
-        self.test('deltaPi(sn, None, dn)', t, 'invokation invalid: Elliptic.deltaPi(0, None, 1)')
+        self.test('deltaPi(sn, None, dn)', t, 'invokation Elliptic.deltaPi(0, None, 1): invalid')
         try:
             t = e.deltaPi(0, 1, None)
         except EllipticError as x:
             t = str(x)
-        self.test('deltaPi(sn, dn, None)', t, 'invokation invalid: Elliptic.deltaPi(0, 1, None)')
+        self.test('deltaPi(sn, dn, None)', t, 'invokation Elliptic.deltaPi(0, 1, None): invalid')
 
         self.test('_RF(1, 2, 0)', _RF(1, 2, 0), '1.311028777', fmt='%.9f')
         self.test('_RF(2, 3, 4)', _RF(2, 3, 4), '0.584082842', fmt='%.9f')

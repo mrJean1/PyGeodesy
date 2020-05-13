@@ -77,10 +77,10 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-from pygeodesy.basics import EPS, EPS1, INF, _bkwds, InvalidError, \
-                             IsnotError, isscalar, property_doc_, \
-                             property_RO, _xinstanceof
+from pygeodesy.basics import EPS, EPS1, INF, _bkwds, isscalar, \
+                             property_doc_, property_RO, _xinstanceof
 from pygeodesy.datum import Datums, Datum
+from pygeodesy.errors import _AssertionError, _IndexError, _IsnotError
 from pygeodesy.fmath import favg, hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2 as _points2, PointsError, _scaler, \
@@ -94,16 +94,10 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.04.12'
+__version__ = '20.05.11'
 
 if not 0 < EPS < EPS1 < 1:
-    raise AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
-
-
-class FrechetError(PointsError):
-    '''Fréchet issue.
-    '''
-    pass
+    raise _AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
 
 
 def _fraction(fraction, n):
@@ -112,10 +106,16 @@ def _fraction(fraction, n):
         pass
     elif not (isscalar(fraction) and EPS < fraction < EPS1
                                  and (float(n) - fraction) < n):
-        raise InvalidError(fraction=fraction, Error=FrechetError)
+        raise FrechetError(fraction=fraction)
     elif fraction < EPS1:
         f = float(fraction)
     return f
+
+
+class FrechetError(PointsError):
+    '''Fréchet issue.
+    '''
+    pass
 
 
 class Frechet6Tuple(_NamedTuple):
@@ -725,7 +725,7 @@ def fractional(points, fi, LatLon=None, **LatLon_kwds):
             raise IndexError
         p = _fractional(points, fi)
     except (IndexError, TypeError):
-        raise IndexError('%s invalid: %r' % (fractional.__name__, fi))
+        raise _IndexError(fractional.__name__, fi)
 
     if LatLon and isinstance(p, LatLon2Tuple):
         p = LatLon(*p, **LatLon_kwds)
@@ -811,7 +811,7 @@ def frechet_(points1, points2, distance=None, units=''):
               intermediate B{C{points1}} and B{C{points2}}.
     '''
     if not callable(distance):
-        raise IsnotError(callable.__name__, distance=distance)
+        raise _IsnotError(callable.__name__, distance=distance)
 
     n1, ps1 = _points2(points1, closed=False, Error=FrechetError)
     n2, ps2 = _points2(points2, closed=False, Error=FrechetError)

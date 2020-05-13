@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.04.14'
+__version__ = '20.05.064'
 
 from base import TestsBase
 
-from pygeodesy import F_D, clipCS3, clipSH, clipSH3
+from pygeodesy import F_D, clipCS3, ClipError, clipSH, clipSH3
 
 
 def _lles3(*lles):
@@ -92,16 +92,18 @@ class Tests(TestsBase):
                 # use list to force exception, see
                 # <https://RickardLindberg.me/writing/bitten-by-python-generators>
                 sh = list(clipSH(ps, cs))
-            except Exception as x:
-                sh = str(x).split(':')[0]
-            self.test('clipSH.warped' + r, sh, 'clipSH clip region invalid')
+                t = ClipError.__name__
+            except ClipError as x:
+                t = sh = str(x)  # .split(':')[0]
+            self.test('clipSH.warped' + r, sh, t)
             try:
                 # use list to force exception, see
                 # <https://RickardLindberg.me/writing/bitten-by-python-generators>
                 sh = list(clipSH3(ps, cs))
-            except Exception as x:
-                sh = str(x).split(':')[0]
-            self.test('clipSH3.warped' + r, sh, 'clipSH3 clip region invalid')
+                t = ClipError.__name__
+            except ClipError as x:
+                t = sh = str(x)  # .split(':')[0]
+            self.test('clipSH3.warped' + r, sh, t)
             cs = tuple(reversed(cs))
 
     def testClipSH_(self, text, sh, lls):

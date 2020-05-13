@@ -4,7 +4,9 @@
 u'''Basic constants, definitions and functions.
 
 '''
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.errors import _AttributeError, _IsnotError, \
+                             _TypesError, _ValueError
+from pygeodesy.lazily import _ALL_LAZY
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from inspect import isclass
@@ -12,8 +14,8 @@ from math import copysign, isinf, isnan, pi as PI
 from sys import float_info as _float_info
 
 # all public contants, classes and functions
-__all__ = _ALL_LAZY.basics + _ALL_DOCS('InvalidError', 'IsnotError')
-__version__ = '20.04.26'
+__all__ = _ALL_LAZY.basics
+__version__ = '20.05.12'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -40,7 +42,7 @@ try:
         #                        and isinstance(range(1), _Sequence):
         _Seqs = _Sequence
     else:
-        raise ImportError  # AssertionError
+        raise ImportError  # _AssertionError
 except ImportError:  # PYCHOK no cover
     _Sequence = tuple  # immutable for .points._Basequence
     _Seqs     = list, _Sequence  # , range for function len2 below
@@ -75,59 +77,11 @@ PI_4 = PI / 4.0  #: Quarter PI, M{PI / 4} (C{float})
 
 R_M  = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
 
-_limiterrors = True  # imported by .formy
-_rangerrors  = True  # imported by .dms
 
-
-class LenError(ValueError):
-    '''Error raised for mis-matching C{len} values.
+def _bkwds(inst, Error=AttributeError, **name_value_pairs):  # in .frechet, .hausdorff, .heights
+    '''(INTERNAL) Set applicable C{bool} properties/attributes.
     '''
-    def __init__(self, where, **lens):  # Error=ValueError
-        '''New L{LenError}.
-
-           @arg where: Object with C{.__name__} attribute
-                       (C{class}, C{method}, or C{function}).
-           @kwarg lens: Two or more C{name=len(name)} pairs
-                        (C{keyword arguments}).
-        '''
-        ns, vs = zip(*sorted(lens.items()))
-        ns = ', '.join(ns)
-        vs = ' vs '.join(map(str, vs))
-        t  = where.__name__, ns, 'len', vs
-        ValueError.__init__(self, '%s(%s) %s: %s' % t)
-
-
-class LimitError(ValueError):
-    '''Error raised for lat- or longitudinal deltas exceeding
-       the B{C{limit}} in functions L{equirectangular} and
-       L{equirectangular_} and C{nearestOn*} and C{simplify*}
-       functions or methods.
-    '''
-    pass
-
-
-class RangeError(ValueError):
-    '''Error raised for lat- or longitude values outside the B{C{clip}},
-       B{C{clipLat}}, B{C{clipLon}} or B{C{limit}} range in function
-       L{clipDegrees}, L{clipRadians}, L{parse3llh}, L{parseDMS},
-       L{parseDMS2} or L{parseRad}.
-
-       @see: Function L{rangerrors}.
-    '''
-    pass
-
-
-def _an(noun):
-    '''(INTERNAL) Prepend an article to a noun based
-       on the pronounciation of the first letter.
-    '''
-    return ('an ' if noun[:1].lower() in 'aeinoux' else 'a ') + noun
-
-
-def _bkwds(inst, Error=AttributeError, **n_v_s):  # in .frechet, .hausdorff, .heights
-    '''(INTERNAL) Set applicable C{bool} attributes.
-    '''
-    for n, v in n_v_s.items():
+    for n, v in name_value_pairs.items():
         b = getattr(inst, n, None)
         if b is None:  # invalid bool attr
             t = n, v, inst.__class__.__name__  # XXX .classname
@@ -164,26 +118,8 @@ def halfs2(str2):
     '''
     h, r = divmod(len(str2), 2)
     if r or not h:
-        raise InvalidError(str2=str2)
+        raise _ValueError(str2=str2, txt='odd')
     return str2[:h], str2[h:]
-
-
-def InvalidError(Error=ValueError, txt='invalid', **name_value_s):  # name=value [, ...]
-    '''Create a C{ValueError} for invalid C{name=value} pairs.
-
-       @kwarg name_value_s: One or more B{C{name=value}} pairs.
-
-       @return: A C{ValueError} or an B{C{Error}} instance.
-    '''
-    if len(name_value_s) > 1:
-        t = _or(*('%s (%r)' % t for t in name_value_s.items()))  # XXX sorted
-    else:
-        for t in name_value_s.items():
-            t = '%s (%r)' % t
-            break
-        else:
-            t = 'missing %r' % ('name=value',)
-    return Error('%s: %s' % (t, txt))
 
 
 try:
@@ -201,7 +137,7 @@ except ImportError:
            @raise TypeError: Non-scalar B{C{obj}}.
         '''
         if not isscalar(obj):
-            raise IsnotError(isscalar.__name__, obj=obj)
+            raise _IsnotError(isscalar.__name__, obj=obj)
         return not (isinf(obj) or isnan(obj))
 
 
@@ -232,28 +168,6 @@ def isneg0(obj):
     '''
     return obj in (0.0, NEG0) and copysign(1, obj) < 0
 #                             and str(obj).rstrip('0') == '-0.'
-
-
-def IsnotError(*noun_s, **name_value_Error):  # name=value [, Error=TypeeError]
-    '''Create a C{TypeError} for an invalid C{name=value} type.
-
-       @arg noun_s: One or more expected class or type names, usually
-                    nouns (C{str}).
-       @kwarg name_value_Error: One B{C{name=value}} pair and optionally
-                                an B{C{Error=...}} keyword argument to
-                                override the default B{C{Error=TypeError}}.
-
-       @return: A C{TypeError} or an B{C{Error}} instance.
-    '''
-    Error = name_value_Error.pop('Error', TypeError)
-    for n, v in name_value_Error.items():
-        break
-    else:
-        n, v = repr('name=value'), 'missing'
-    t = _or(*noun_s) or 'specified'
-    if len(noun_s) > 1:
-        t = _an(t)
-    return Error('%s is not %s: %r' % (n, t, v))
 
 
 def isscalar(obj):
@@ -316,22 +230,6 @@ def len2(items):
     return len(items), items
 
 
-def limiterrors(raiser=None):
-    '''Get/set the raising of L{LimitError}s.
-
-       @kwarg raiser: Choose C{True} to raise or C{False} to
-                      ignore L{LimitError} exceptions.  Use
-                      C{None} to leave the setting unchanged.
-
-       @return: Previous setting (C{bool}).
-    '''
-    global _limiterrors
-    t = _limiterrors
-    if raiser in (True, False):
-        _limiterrors = raiser
-    return t
-
-
 def map1(func, *xs):  # XXX map_
     '''Apply each argument to a single-argument function and
        return a C{tuple} of results.
@@ -358,18 +256,6 @@ def map2(func, *xs):
        @return: Function results (C{tuple}).
     '''
     return tuple(map(func, *xs))
-
-
-def _or(*words):
-    '''(INTERNAL) Join C{words} with C{', '} and C{' or '}.
-    '''
-    t, w = '', list(words)
-    if w:
-        t = w.pop()
-        if w:
-            w = ', '.join(w)
-            t = ' or '.join((w, t))
-    return t
 
 
 def property_doc_(doc):
@@ -418,7 +304,7 @@ class property_RO(property):
             '''Throws an C{AttributeError}, always.
             '''
             t = immutable.__name__, inst, method.__name__, value
-            raise AttributeError('%s property: %r.%s = %r' % t)
+            raise _AttributeError('%s property: %r.%s = %r' % t)
 
         property.__init__(self, method, immutable, None,  method.__doc__ or 'N/A')
 
@@ -440,22 +326,6 @@ class property_RO(property):
 #     return property(method, Read_Only, None, method.__doc__ or 'N/A')
 
 
-def rangerrors(raiser=None):
-    '''Get/set the raising of L{RangeError}s.
-
-       @kwarg raiser: Choose C{True} to raise or C{False} to ignore
-                      L{RangeError} exceptions.  Use C{None} to leave
-                      the setting unchanged.
-
-       @return: Previous setting (C{bool}).
-    '''
-    global _rangerrors
-    t = _rangerrors
-    if raiser in (True, False):
-        _rangerrors = raiser
-    return t
-
-
 def _xattrs(insto, other, *attrs):
     '''(INTERNAL) Copy attribute values from B{C{other}} to B{C{insto}}.
 
@@ -471,7 +341,7 @@ def _xattrs(insto, other, *attrs):
     def _getattr(o, a):
         if hasattr(o, a):
             return getattr(o, a)
-        raise AttributeError('.%s invalid: %r' % (a, o))
+        raise _AttributeError('.%s' % (a,), o)
 
     for a in attrs:
         s = _getattr(other, a)
@@ -493,20 +363,19 @@ def _xcopy(inst, deep=False):
     return _deepcopy(inst) if deep else _copy(inst)
 
 
-def _xinstanceof(*Types, **name_value_s):
+def _xinstanceof(*Types, **name_value_pairs):
     '''(INTERNAL) Check C{Types} of all C{name=value} pairs.
 
        @arg Types: One or more classes or types (C{class}).
-       @kwarg name_value_s: One or more B{C{name=value}} pairs
-                            with the C{value} to be checked.
+       @kwarg name_value_pairs: One or more B{C{name=value}} pairs
+                                with the C{value} to be checked.
 
-       @raise TypeError: At least one of the B{C{name_value_s}}
+       @raise TypeError: At least one of the B{C{name_value_pairs}}
                          is not any of the B{C{Types}}.
     '''
-    for n, v in name_value_s.items():
+    for n, v in name_value_pairs.items():
         if not isinstance(v, Types):
-            t = _an(_or(*(t.__name__ for t in Types)))
-            raise TypeError('%s is not %s: %r' % (n, t, v))
+            raise _TypesError(n, v, *Types)
 
 
 def _xkwds(kwds, **dflts):
@@ -519,20 +388,28 @@ def _xkwds(kwds, **dflts):
     return d
 
 
-def _xsubclassof(Class, **name_value_s):
+def _xsubclassof(Class, **name_value_pairs):
     '''(INTERNAL) Check super C{Class} of all C{name=value} pairs.
 
        @arg Class: A class or type (C{class}).
-       @kwarg name_value_s: One or more B{C{name=value}} pairs with
-                            the C{value} to be checked.
+       @kwarg name_value_pairs: One or more B{C{name=value}} pairs
+                                with the C{value} to be checked.
 
-       @raise TypeError: At least one of the B{C{name_value_s}} is
-                         not a sub-class of B{C{Class}}.
+       @raise TypeError: At least one of the B{C{name_value_pairs}}
+                         is not a sub-class of B{C{Class}}.
     '''
-    for n, v in name_value_s.items():
+    for n, v in name_value_pairs.items():
         if not issubclassof(v, Class):
-            t = _an(Class.__name__)
-            raise TypeError('%s is not %s: %r' % (n, t, v))
+            raise _TypesError(n, v, Class)
+
+
+def _xzipairs(lefts, rights, sep=', ', fmt='', pair='%s:%s'):
+    '''(INTERNAL) Zip C{lefts} and C{rights} into a C{str}.
+    '''
+    t = sep.join(pair % t for t in zip(lefts, rights))
+    if fmt:
+        t = fmt % (t,)
+    return t
 
 # **) MIT License
 #

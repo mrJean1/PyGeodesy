@@ -25,11 +25,13 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI_2, R_M, isint, InvalidError, \
-                             IsnotError, issequence, map1, \
+from pygeodesy.basics import EPS, PI_2, R_M, isint, issequence, map1, \
                              property_doc_, property_RO, _Sequence, \
                             _xcopy, _xinstanceof, _xkwds  # PYCHOK indent
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
+from pygeodesy.errors import CrossError, crosserrors, _incompatible, \
+                            _IndexError, _IsnotError, _item_, _TypeError, \
+                            _Valid, _ValueError, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
@@ -42,14 +44,13 @@ from pygeodesy.streprs import instr, pairs
 from pygeodesy.units import Radius, Scalar_
 from pygeodesy.utily import degrees90, degrees180, degrees360, degrees2m, \
                             unroll180, unrollPI, wrap90, wrap180
-from pygeodesy.vector3d import CrossError, crosserrors
 
 from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points + _ALL_DOCS('NearestOn5Tuple', 'Point3Tuple',
                                                           'Shape2Tuple')
-__version__ = '20.04.22'
+__version__ = '20.05.08'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -76,7 +77,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @note: The lat- and longitude are taken as-given,
                   un-clipped and un-validated .
         '''
-        try:
+        try:  # most common use case
             self.lat, self.lon = float(lat), float(lon)
         except (TypeError, ValueError):
             self.lat, self.lon = parseDMS2(lat, lon, clipLat=0, clipLon=0)  # PYCHOK LatLon2Tuple
@@ -138,7 +139,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         return _N_vector_(*latlon2n_xyz(self.lat, self.lon), h=self.height)
 
-    def others(self, other, name='other'):
+    def others(self, other, name='other'):  # see .named._namedBase.others
         '''Check this and an other instance for type compatiblility.
 
            @arg other: The other instance (any C{type}).
@@ -150,8 +151,8 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         if not (isinstance(other, self.__class__) or
                 (hasattr(other, 'lat') and hasattr(other, 'lon'))):
-            raise TypeError('type(%s) mismatch: %s vs %s' % (name,
-                             classname(other), classname(self)))
+            t = self.name or classname(self)
+            raise _TypeError(name, other, txt=_incompatible(t))
 
     @property_RO
     def philam(self):
@@ -226,7 +227,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
 
            @return: Class instance (C{str}).
         '''
-        unused = kwds.pop('std', None)  # PYCHOK std unused
+        _ = _xkwds_pop(kwds, std=None)  # PYCHOK std unused
         return '%s(%s)' % (classname(self), self.toStr(**kwds))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
@@ -314,7 +315,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _findall(self, unused, start_end):  # PYCHOK no cover
         '''Must be overloaded.
         '''
-        raise NotImplementedError('method: %s' % ('_findall',))
+        raise NotImplementedError('method: %s' % (self._findall.__name__,))
 
     def _getitem(self, index):
         '''(INTERNAL) Return point [index] or return a slice.
@@ -331,7 +332,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         for i in self._findall(point, start_end):
             return i
-        raise ValueError('%s not found: %r' % (self._itemname, point))
+        raise _IndexError(self._itemname, point, txt='not found')
 
     @property_RO
     def isNumpy2(self):  # PYCHOK no cover
@@ -378,7 +379,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
             if end is None:
                 end = -1
         else:
-            raise InvalidError(step=step)
+            raise _ValueError(step=step)
         return range(start, end, step)
 
     def _repr(self):
@@ -386,7 +387,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         # XXX use Python 3+ reprlib.repr
         t = repr(self._array[:1])  # only first row
-        t = '%s ...%s[%s]' % (t[:-1], t[-1:], len(self))
+        t = '%s ... %s[%s]' % (t[:-1], t[-1:], len(self))
         t = ' '.join(t.split())  # coalesce spaces
         return instr(self, t, **self._slicekwds())
 
@@ -432,7 +433,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         ais = ('ilat', ilat), ('ilon', ilon)
 
         if len(shape) != 2 or shape[0] < 1 or shape[1] < len(ais):
-            raise InvalidError(array_shape=shape, Error=IndexError)
+            raise _IndexError('array.shape', shape)
 
         self._array = array
         self._shape = Shape2Tuple(*shape)
@@ -442,18 +443,18 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             if isclass(LatLon) and all(hasattr(LatLon, a) for a in LatLon_.__slots__):
                 self._LatLon = LatLon
             else:
-                raise IsnotError('valid', LatLon=LatLon)
+                raise _IsnotError(_Valid, LatLon=LatLon)
 
         # check the attr indices
         for n, (ai, i) in enumerate(ais):
             if not isint(i):
-                raise IsnotError(int.__name__, **{ai: i})
+                raise _IsnotError(int.__name__, **{ai: i})
             i = int(i)
             if not 0 <= i < shape[1]:
-                raise IsnotError('valid', Error=ValueError, **{ai: i})
+                raise _ValueError(ai, i)
             for aj, j in ais[:n]:
                 if int(j) == i:
-                    raise ValueError('%s == %s == %s' % (ai, aj, i))
+                    raise _ValueError('%s == %s == %s' % (ai, aj, i))
             setattr(self, '_' + ai, i)
 
     def __contains__(self, latlon):
@@ -528,7 +529,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             try:
                 lat, lon = latlon
             except (TypeError, ValueError):
-                raise IsnotError('valid', latlon=latlon)
+                raise _IsnotError(_Valid, latlon=latlon)
 
         for i in self._range(*start_end):
             row = self._array[i]
@@ -558,9 +559,9 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
 
            @return: Index (C{int}).
 
-           @raise TypeError: Invalid B{C{latlon}}.
+           @raise IndexError: Point not found.
 
-           @raise ValueError: Point not found.
+           @raise TypeError: Invalid B{C{latlon}}.
         '''
         return self._index(latlon, start_end)
 
@@ -617,7 +618,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
     def _subset(self, indices):  # PYCHOK unused
         '''Must be overloaded.
         '''
-        raise NotImplementedError('method: %s' % ('_subset',))
+        raise NotImplementedError('method: %s' % (self._subset.__name__,))
 
     def subset(self, indices):
         '''Return a subset of the C{NumPy} array.
@@ -639,14 +640,14 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''
         if not issequence(indices, tuple):  # NO tuple, only list
             # and range work properly to get Numpy array sub-sets
-            raise IsnotError('valid', indices=type(indices))
+            raise _IsnotError(_Valid, indices=type(indices))
 
         n = len(self)
         for i, v in enumerate(indices):
             if not isint(v):
-                raise TypeError('%s[%s] not valid: %r' % ('indices', i, v))
+                raise _TypeError(_item_(indices=i), v)
             elif not 0 <= v < n:
-                raise IndexError('%s[%s] not valid: %r' % ('indices', i, v))
+                raise _IndexError(_item_(indices=i), v)
 
         return self._subset(indices)
 
@@ -761,8 +762,8 @@ class LatLon2psxy(_Basequence):
         except AttributeError:
             try:
                 x, y = xy[:2]
-            except (TypeError, ValueError):
-                raise IsnotError('valid', xy=xy)
+            except (IndexError, TypeError, ValueError):
+                raise _IsnotError(_Valid, xy=xy)
 
             def _3xyll(ll):  # PYCHOK expected
                 return self.point(ll)
@@ -793,9 +794,9 @@ class LatLon2psxy(_Basequence):
 
            @return: Index (C{int}).
 
-           @raise TypeError: Invalid B{C{xy}}.
+           @raise IndexError: Point not found.
 
-           @raise ValueError: Point not found.
+           @raise TypeError: Invalid B{C{xy}}.
         '''
         return self._index(xy, start_end)
 
@@ -888,7 +889,7 @@ class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
         try:  # get shape and check some other numpy.array attrs
             s, _, _ = array.shape, array.nbytes, array.ndim  # PYCHOK expected
         except AttributeError:
-            raise IsnotError('NumPy', array=type(array))
+            raise _IsnotError('NumPy', array=type(array))
 
         _Array2LatLon.__init__(self, array, ilat=ilat, ilon=ilon,
                                      LatLon=LatLon, shape=s)
@@ -1002,6 +1003,12 @@ def _area2(points, adjust, wrap):
             x1, y1 = x2, y2
 
     return fsum(_rads2(len(pts), pts)), pts
+
+
+def _areaError(pts, near_=''):  # imported by .ellipsoidalKarney
+    '''(INTERNAL) Area issue.
+    '''
+    return _ValueError(near_ + 'zero or polar area', txt='%s ...' % (pts[:3],))
 
 
 def areaOf(points, adjust=True, radius=R_M, wrap=True):
@@ -1124,7 +1131,7 @@ def centroidOf(points, wrap=True, LatLon=None):
 
     A = A.fsum() * 3.0  # 6.0 / 2.0
     if abs(A) < EPS:
-        raise ValueError('polar or zero area: %r' % (pts,))
+        raise _areaError(points, near_='near-')
     Y, X = degrees90(Y.fsum() / A), degrees180(X.fsum() / A)
     return LatLon2Tuple(Y, X) if LatLon is None else LatLon(Y, X)
 
@@ -1157,13 +1164,13 @@ def isclockwise(points, adjust=False, wrap=True):
        >>> isclockwise(f)  # False
        >>> isclockwise(reversed(f))  # True
     '''
-    a, pts = _area2(points, adjust, wrap)
+    a, _ = _area2(points, adjust, wrap)
     if a > 0:
         return True
     elif a < 0:
         return False
     # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
-    raise ValueError('polar or zero area: %r' % (pts,))
+    raise _areaError(points)
 
 
 def isconvex(points, adjust=False, wrap=True):
@@ -1254,7 +1261,7 @@ def isconvex_(points, adjust=False, wrap=True):
         elif c and fdot((x32, y1 - y2), y3 - y2, -x21) < 0:
             # colinear u-turn: x3, y3 not on the
             # opposite side of x2, y2 as x1, y1
-            raise CrossError('%s %s: %r' % ('colinear', 'point', ll))
+            raise CrossError(points=ll, txt='colinear')
 
         x1, y1, x2, y2, x21 = x2, y2, x3, y3, x32
 
@@ -1290,8 +1297,8 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
     except AttributeError:
         try:
             y0, x0 = map1(float, *point[:2])
-        except (IndexError, TypeError, ValueError):
-            raise InvalidError(point=point)
+        except (IndexError, TypeError, ValueError) as x:
+            raise _ValueError(point=point, txt=str(x))
 
     pts = LatLon2psxy(points, closed=True, radius=None, wrap=wrap)
     n = len(pts)
@@ -1367,7 +1374,7 @@ def ispolar(points, wrap=False):
         try:  # LatLon must have initial- and finalBearingTo
             b1, _ = p1.bearingTo2(points[0], wrap=wrap)
         except AttributeError:
-            raise IsnotError('.bearingTo2', points=p1)
+            raise _IsnotError('.bearingTo2', points=p1)
 
         for i in range(n):
             p2 = points[i]

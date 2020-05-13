@@ -75,21 +75,26 @@
       <em class="summary">Import can't find module, or can't find name in module.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.lazily.LazyImportError-class.html">pygeodesy.lazily.LazyImportError</a></strong>:
-      <em class="summary">Lazy import is not supported, disabled or failed some other way.</em>
+      <em class="summary">Raised if <code>lazy import</code> is not supported, disabled or 
+        failed some other way.</em>
     </li>
     </ul>
     </li>
     <li> <strong class="uidlink">exceptions.ValueError</strong>:
       <em class="summary">Inappropriate argument value (of correct type).</em>
     <ul>
+    <li> <strong class="uidlink">pygeodesy.errors._ValueError</strong>:
+      <em class="summary">(INTERNAL) Format a <code>ValueError</code> without exception 
+        chaining.</em>
+    <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.css.CSSError-class.html">pygeodesy.css.CSSError</a></strong>:
       <em class="summary">Cassini-Soldner (CSS) conversion or other <a 
         href="pygeodesy.css.Css-class.html" class="link">Css</a> issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipError-class.html">pygeodesy.clipy.ClipError</a></strong>:
-      <em class="summary">Clip box or clip region invalid.</em>
+      <em class="summary">Clip box or clip region issue.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.vector3d.CrossError-class.html">pygeodesy.vector3d.CrossError</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.CrossError-class.html">pygeodesy.errors.CrossError</a></strong>:
       <em class="summary">Error raised for zero or near-zero vectorial cross products, 
         occurring for coincident or colinear points, paths or bearings.</em>
     </li>
@@ -98,7 +103,7 @@
         href="pygeodesy.epsg.Epsg-class.html" class="link">Epsg</a> issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefError-class.html">pygeodesy.ecef.EcefError</a></strong>:
-      <em class="summary">An ECEF or related issue.</em>
+      <em class="summary">An ECEF or <code>Ecef*</code> related issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic.EllipticError-class.html">pygeodesy.elliptic.EllipticError</a></strong>:
       <em class="summary">Elliptic integral, function, convergence or other <a 
@@ -119,10 +124,10 @@
       <em class="summary">Lambert Conformal Conic <code>LCC</code> or other <a 
         href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> issue.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.basics.LenError-class.html">pygeodesy.basics.LenError</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.LenError-class.html">pygeodesy.errors.LenError</a></strong>:
       <em class="summary">Error raised for mis-matching <code>len</code> values.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.basics.LimitError-class.html">pygeodesy.basics.LimitError</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.LimitError-class.html">pygeodesy.errors.LimitError</a></strong>:
       <em class="summary">Error raised for lat- or longitudinal deltas exceeding the 
         <b><code>limit</code></b> in functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
@@ -139,8 +144,8 @@
       <em class="summary">Ordinance Survey Grid References (OSGR) parse or other <a 
         href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> issue.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.dms.ParseError-class.html">pygeodesy.dms.ParseError</a></strong>:
-      <em class="summary">Degrees, radians or other parsing issue.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.ParseError-class.html" onclick="show_private();">pygeodesy.errors.ParseError</a></strong>:
+      <em class="summary">Error parsing degrees, radians or several other formats.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.formy.PointsError-class.html">pygeodesy.formy.PointsError</a></strong>:
       <em class="summary">Insufficient number of points.</em>
@@ -166,13 +171,13 @@
       <em class="summary">Error raised for <code>SciPy</code> errors.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights.SciPyWarning-class.html">pygeodesy.heights.SciPyWarning</a></strong>:
-      <em class="summary">Exception thrown for <code>SciPy</code> warnings.</em>
+      <em class="summary">Error thrown for <code>SciPy</code> warnings.</em>
     </li>
     </ul>
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.basics.RangeError-class.html">pygeodesy.basics.RangeError</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.RangeError-class.html">pygeodesy.errors.RangeError</a></strong>:
       <em class="summary">Error raised for lat- or longitude values outside the 
         <b><code>clip</code></b>, <b><code>clipLat</code></b>, 
         <b><code>clipLon</code></b> or <b><code>limit</code></b> range in 
@@ -223,8 +228,8 @@
         class="link">units</a> issues.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector3d.VectorError-class.html">pygeodesy.vector3d.VectorError</a></strong>:
-      <em class="summary">Issue with class <a href="pygeodesy.vector3d.Vector3d-class.html" 
-        class="link">Vector3d</a> or <code>*Nvector</code>.</em>
+      <em class="summary"><a href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a> or <code>*Nvector</code> issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html">pygeodesy.ellipsoidalVincenty.VincentyError</a></strong>:
       <em class="summary">Error raised from Vincenty's direct and inverse methods for 
@@ -236,9 +241,11 @@
         issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.webmercator.WebMercatorError-class.html">pygeodesy.webmercator.WebMercatorError</a></strong>:
-      <em class="summary">Web Mercator (WM) parse or <a 
+      <em class="summary">Web Mercator (WM) parser or <a 
         href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a> 
         issue.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -1227,10 +1234,11 @@
         UTM or <code>0</code> for UPS and <code>hemipole</code> 
         <code>'N'|'S'</code> is the UTM hemisphere or the UPS pole.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.mgrs.UtmUps4Tuple-class.html">pygeodesy.mgrs.UtmUps4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(zone, hemipole, easting, northing)</code> as 
-        <code>str</code>, <code>str</code>, <code>meter</code> and 
-        <code>meter</code>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">pygeodesy.deprecated.UtmUps4Tuple</a></strong>:
+      <em class="summary">OBSOLETE, expect a <a 
+        href="pygeodesy.utmupsBase.UtmUps5Tuple-class.html" 
+        class="link">UtmUps5Tuple</a> from method 
+        <code>Mgrs.toUtm(utm=None)</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUps5Tuple-class.html">pygeodesy.utmupsBase.UtmUps5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(zone, hemipole, easting, northing, band)</code> as 
@@ -1398,11 +1406,18 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Zone-class.html">pygeodesy.units.Zone</a></strong>:
+      <em class="summary">Named <code>int</code> representing a UTM/UPS zone number.</em>
+    </li>
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Str-class.html">pygeodesy.units.Str</a></strong>:
       <em class="summary">Named <code>str</code>.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Band-class.html">pygeodesy.units.Band</a></strong>:
+      <em class="summary">Named <code>str</code> representing a UTM/UPS band latter, 
+        unchecked.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars.Garef-class.html">pygeodesy.gars.Garef</a></strong>:
       <em class="summary">Garef class, a named <code>str</code>.</em>
     </li>
@@ -1428,6 +1443,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.units.Str-class.html">pygeodesy.units.Str</a></strong>:
       <em class="summary">Named <code>str</code>.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Band-class.html">pygeodesy.units.Band</a></strong>:
+      <em class="summary">Named <code>str</code> representing a UTM/UPS band latter, 
+        unchecked.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars.Garef-class.html">pygeodesy.gars.Garef</a></strong>:
       <em class="summary">Garef class, a named <code>str</code>.</em>
     </li>
@@ -1599,6 +1618,9 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>high</code> limits representing a precision.</em>
     </li>
     </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Zone-class.html">pygeodesy.units.Zone</a></strong>:
+      <em class="summary">Named <code>int</code> representing a UTM/UPS zone number.</em>
     </li>
     </ul>
     </li>
@@ -1875,10 +1897,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         UTM or <code>0</code> for UPS and <code>hemipole</code> 
         <code>'N'|'S'</code> is the UTM hemisphere or the UPS pole.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.mgrs.UtmUps4Tuple-class.html">pygeodesy.mgrs.UtmUps4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(zone, hemipole, easting, northing)</code> as 
-        <code>str</code>, <code>str</code>, <code>meter</code> and 
-        <code>meter</code>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">pygeodesy.deprecated.UtmUps4Tuple</a></strong>:
+      <em class="summary">OBSOLETE, expect a <a 
+        href="pygeodesy.utmupsBase.UtmUps5Tuple-class.html" 
+        class="link">UtmUps5Tuple</a> from method 
+        <code>Mgrs.toUtm(utm=None)</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUps5Tuple-class.html">pygeodesy.utmupsBase.UtmUps5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(zone, hemipole, easting, northing, band)</code> as 
@@ -1968,7 +1991,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue May  5 11:52:19 2020
+    Generated by Epydoc 3.0.1 on Wed May 13 12:50:35 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

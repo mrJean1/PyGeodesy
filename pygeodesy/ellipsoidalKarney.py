@@ -33,17 +33,18 @@ from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
+from pygeodesy.errors import _ValueError
 from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Bearing2Tuple, Destination2Tuple
-from pygeodesy.points import ispolar  # PYCHOK exported
+from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
-__version__ = '20.04.12'
+__version__ = '20.05.08'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -388,7 +389,7 @@ def _geodesic(datum, points, closed, line, wrap):
     g = datum.ellipsoid.geodesic
 
     if not wrap:  # capability LONG_UNROLL can't be off
-        raise ValueError('%s invalid: %s' % ('wrap', wrap))
+        raise _ValueError(wrap=wrap)
 
     _, points = points2(points, closed=closed)  # base=LatLonEllipsoidalBase(0, 0)
 
@@ -460,7 +461,7 @@ def isclockwise(points, datum=Datums.WGS84, wrap=True):
         return True
     elif a < 0:
         return False
-    raise ValueError('polar or zero area: %r' % (points,))
+    raise _areaError(points)
 
 
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):

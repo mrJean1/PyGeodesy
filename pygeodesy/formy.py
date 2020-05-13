@@ -5,14 +5,14 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.basics import EPS, PI, PI2, PI_2, R_M, InvalidError, \
-                             len2, LimitError, _limiterrors, _xinstanceof
+from pygeodesy.basics import EPS, PI, PI2, PI_2, R_M, len2, _xinstanceof
 from pygeodesy.datum import Datum, Datums
+from pygeodesy.errors import _item_, LimitError, _limiterrors, _ValueError
 from pygeodesy.fmath import fsum_, hypot, hypot2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Distance4Tuple, LatLon2Tuple, PhiLam2Tuple, \
                             Points2Tuple, Vector3Tuple
-from pygeodesy.streprs import fstr
+from pygeodesy.streprs import unstr
 from pygeodesy.units import Distance, Height, Lam_, Lat, Lon, Phi_, Radius
 from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
                             isNumpy2, isTuple2, sincos2, unroll180, unrollPI, \
@@ -22,10 +22,10 @@ from math import acos, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.04.21'
+__version__ = '20.05.12'
 
 
-class PointsError(ValueError):
+class PointsError(_ValueError):
     '''Insufficient number of points.
     '''
     pass
@@ -267,9 +267,9 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
     if limit and _limiterrors \
              and max(abs(d_lat), abs(d_lon)) > limit > 0:
-        t = fstr((lat1, lon1, lat2, lon2), prec=4)
-        raise LimitError('%s(%s, limit=%s) delta exceeds limit' %
-                        ('equirectangular_', t, fstr(limit, prec=2)))
+        t = unstr(equirectangular_.__name,
+                  lat1, lon1, lat2, lon2, limit=limit)
+        raise LimitError('delta exceeds limit', txt=t)
 
     if adjust:  # scale delta lon
         d_lon *= _scaled(lat1, lat2)
@@ -532,7 +532,7 @@ def heightOf(angle, distance, radius=R_M):
         if s > 0:
             return h * sqrt(s) - r
 
-    raise InvalidError(angle=angle, distance=distance, radius=radius)
+    raise _ValueError(angle=angle, distance=distance, radius=radius)
 
 
 def horizon(height, radius=R_M, refraction=False):
@@ -551,7 +551,7 @@ def horizon(height, radius=R_M, refraction=False):
     '''
     h, r = Height(height), Radius(radius)
     if min(h, r) < 0:
-        raise InvalidError(height=height, radius=radius)
+        raise _ValueError(height=height, radius=radius)
 
     if refraction:
         d2 = 2.415750694528 * h * r  # 2.0 / 0.8279
@@ -694,11 +694,11 @@ def points2(points, closed=True, base=None, Error=PointsError):
         points = points[:n]  # XXX numpy.array slice is a view!
 
     if n < (3 if closed else 1):
-        raise Error('too few %s: %s' % ('points', n))
+        raise Error(points=n, txt='too few')
 
     if base and not (isNumpy2(points) or isTuple2(points)):
         for i in range(n):
-            base.others(points[i], name='%s[%s]' % ('points', i))
+            base.others(points[i], name=_item_(points=i))
 
     return Points2Tuple(n, points)
 

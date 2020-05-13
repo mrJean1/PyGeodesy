@@ -13,17 +13,21 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS1_2, InvalidError, isstr, property_RO
-from pygeodesy.dms import parse3llh, parseDMS2
+from pygeodesy.basics import EPS1_2, isstr, property_RO
+from pygeodesy.dms import parse3llh  # parseDMS2
+from pygeodesy.errors import _ValueError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, nameof, \
                            _xnamed
-from pygeodesy.units import Precision_, Scalar_, Str
+from pygeodesy.units import Int, Lat, Lon, Precision_, Scalar_, \
+                            Str, _xStrError
+
+from math import floor
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.04.24'
+__version__ = '20.05.08'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -39,32 +43,30 @@ _MaxLen = _MinLen + _MaxPrec
 _M1 = 2
 _M2 = 2
 _M3 = 3
-_M  = _M1 * _M2 * _M3
+_M_ = _M1 * _M2 * _M3
 
-_LatOrig_M = _LatOrig * _M
-_LonOrig_M = _LonOrig * _M
+_LatOrig_M_ = _LatOrig * _M_
+_LonOrig_M_ = _LonOrig * _M_
 
 _LatOrig_M1   = _LatOrig * _M1
 _LonOrig_M1_1 = _LonOrig * _M1 - 1
 
-_Resolutions = tuple(1.0 / _ for _ in (_M1, _M1 * _M2, _M))
+_Resolutions = tuple(1.0 / _ for _ in (_M1, _M1 * _M2, _M_))
 
 
-def _2divmod2(ll, Orig_M):
-    x = ll * _M
-    i = int(x)
-    if i > x:  # floor(x)
-        i -= 1
-    x = i - Orig_M
-    i = (x * _M1) // _M
-    x -= i * _M // _M1
+def _2divmod2(ll, Orig_M_):
+    x = int(floor(ll * _M_)) - Orig_M_
+    i = (x * _M1) // _M_
+    x -= i * _M_ // _M1
     return i, x
 
 
 def _2fll(lat, lon, *unused):
     '''(INTERNAL) Convert lat, lon.
     '''
-    return parseDMS2(lat, lon)
+    # lat, lon = parseDMS2(lat, lon)
+    return (Lat(lat, Error=GARSError),
+            Lon(lon, Error=GARSError))
 
 
 # def _2Garef(garef):
@@ -74,7 +76,7 @@ def _2fll(lat, lon, *unused):
 #         try:
 #             garef = Garef(garef)
 #         except (TypeError, ValueError):
-#             raise IsnotError(Garef.__name__, str.__name__, 'LatLon', garef=garef)
+#             raise _xStrError(Garef, Str, garef=garef)
 #     return garef
 
 
@@ -87,13 +89,19 @@ def _2garstr2(garef):
                        or garstr[:3] == 'INV' \
                        or not garstr.isalnum():
             raise ValueError
-    except (AttributeError, TypeError, ValueError):
-        raise GARSError('%s: %r[%s]' % (Garef.__name__,
-                          garef, len(garef)))
-    return garstr, n - _MinLen
+        return garstr, _2Precision(n - _MinLen)
+
+    except (AttributeError, TypeError, ValueError) as x:
+        raise GARSError(Garef.__name__, garef, txt=str(x))
 
 
-class GARSError(ValueError):
+def _2Precision(precision):
+    '''(INTERNAL) Return a L{Precision_} instance.
+    '''
+    return Precision_(precision, Error=GARSError, low=0, high=_MaxPrec)
+
+
+class GARSError(_ValueError):
     '''Global Area Reference System (GARS) encode, decode or other L{Garef} issue.
     '''
     pass
@@ -127,7 +135,7 @@ class Garef(Str):
         '''
         if isinstance(cll, Garef):
             g, p = _2garstr2(str(cll))
-            self = str.__new__(cls, g)
+            self = Str.__new__(cls, g)
             self._latlon = LatLon2Tuple(*cll._latlon)
             self._name = cll._name
             self._precision = p  # cll._precision
@@ -136,22 +144,23 @@ class Garef(Str):
             if ',' in cll:
                 lat, lon = _2fll(*parse3llh(cll))
                 cll = encode(lat, lon, precision=precision)  # PYCHOK false
-                self = str.__new__(cls, cll)
+                self = Str.__new__(cls, cll)
                 self._latlon = LatLon2Tuple(lat, lon)
-                self._precision = Precision_(precision, high=_MaxPrec)
             else:
-                self = str.__new__(cls, cll.upper())
+                self = Str.__new__(cls, cll.upper())
                 self._decode()
 
         else:  # assume LatLon
             try:
                 lat, lon = _2fll(cll.lat, cll.lon)
             except AttributeError:
-                raise TypeError('%s: %r' % (Garef.__name__, cll))
+                raise _xStrError(Garef, cll=cll)  # Error=GARSError
             cll = encode(lat, lon, precision=precision)  # PYCHOK false
-            self = str.__new__(cls, cll)
+            self = Str.__new__(cls, cll)
             self._latlon = LatLon2Tuple(lat, lon)
-            self._precision = Precision_(precision, high=_MaxPrec)
+
+        if self._precision is None:
+            self._precision = _2Precision(precision)
 
         if name:
             self.name = name
@@ -193,7 +202,7 @@ class Garef(Str):
            @raise GARSError: Invalid B{C{LatLon}}.
         '''
         if LatLon is None:
-            raise InvalidError(LatLon=LatLon, Error=GARSError)
+            raise GARSError(LatLon=LatLon)
 
         return self._xnamed(LatLon(*self.latlon, **kwds))
 
@@ -211,7 +220,7 @@ def decode3(garef, center=True):
                          or bad length B{C{garef}}.
     '''
     def _Error(i):
-        return GARSError('%s invalid: %r[%s]' % ('garef', garef, i))
+        return GARSError(garef='%r[%s]' % (garef, i))
 
     def _ll(chars, g, i, j, lo, hi):
         ll, b = 0, len(chars)
@@ -247,7 +256,8 @@ def decode3(garef, center=True):
         lat += 0.5
 
     r = _Resolutions[precision]  # == 1.0 / unit
-    r = LatLonPrec3Tuple(lat * r, lon * r, precision)
+    r = LatLonPrec3Tuple(Lat(lat * r, Error=GARSError),
+                         Lon(lon * r, Error=GARSError), precision)
     return _xnamed(r, nameof(garef))
 
 
@@ -279,19 +289,14 @@ def encode(lat, lon, precision=1):  # MCCABE 14
             s.append(chars[i])
         return tuple(reversed(s))
 
-    try:
-        p = int(precision)
-        if p < 0 or p > _MaxPrec:
-            raise ValueError
-    except (TypeError, ValueError):
-        raise InvalidError(precision=precision, Error=GARSError)
+    p = _2Precision(precision)
 
     lat, lon = _2fll(lat, lon)
     if lat == 90:
         lat *= EPS1_2
 
-    ix, x = _2divmod2(lon, _LonOrig_M)
-    iy, y = _2divmod2(lat, _LatOrig_M)
+    ix, x = _2divmod2(lon, _LonOrig_M_)
+    iy, y = _2divmod2(lat, _LatOrig_M_)
 
     g = _str(_Digits, ix + 1, _LonLen) + _str(_Letters, iy, _LatLen)
     if p > 0:
@@ -334,7 +339,7 @@ def resolution(prec):
 
        @see: Function L{gars.encode} for more C{precision} details.
     '''
-    p = Precision_(prec, name='prec', low=None)
+    p = Int(prec, name='prec', Error=GARSError)
     return _Resolutions[max(0, min(p, _MaxPrec))]
 
 # **) MIT License

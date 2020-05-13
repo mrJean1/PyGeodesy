@@ -5,23 +5,26 @@ u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
 for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
-from pygeodesy.basics import isscalar, isstr, map1, _or, property_RO, \
-                            _xattrs, _xinstanceof, _xkwds, _xsubclassof
+from pygeodesy.basics import isscalar, isstr, map1, property_RO, \
+                            _xattrs, _xinstanceof, _xkwds, \
+                            _xsubclassof, _xzipairs
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
+from pygeodesy.errors import _Invalid, ParseError, _parseX, _ValueError
 from pygeodesy.datum import Datum, Datums
-from pygeodesy.dms import degDMS, parseDMS2
+from pygeodesy.dms import degDMS, _NS, parseDMS2
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import EasNor2Tuple, _NamedBase, _NamedTuple, \
                             nameof, notOverloaded, _xnamed
 from pygeodesy.streprs import fstr
-from pygeodesy.units import Easting, Northing, Scalar
+from pygeodesy.units import Band, Easting, Lat, Lon, Northing, \
+                            Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = _ALL_DOCS('UtmUpsBase') + _ALL_DOCS('LatLonDatum5Tuple',
                                               'UtmUps5Tuple',
                                               'UtmUps8Tuple',
                                               'UtmUpsLatLon5Tuple')
-__version__ = '20.04.22'
+__version__ = '20.05.10'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -37,8 +40,8 @@ _UPS_ZONE     = _UTM_ZONE_MIN - 1      # PYCHOK for export
 _UPS_ZONE_STR = '%02d' % (_UPS_ZONE,)  # PYCHOK for export
 
 _UTMUPS_ZONE_INVALID = -4             # PYCHOK for export too
-_UTMUPS_ZONE_MIN     = _UPS_ZONE      # PYCHOK for export too
-_UTMUPS_ZONE_MAX     = _UTM_ZONE_MAX  # PYCHOK for export too
+_UTMUPS_ZONE_MAX     = _UTM_ZONE_MAX  # PYCHOK for export too, by .units.py
+_UTMUPS_ZONE_MIN     = _UPS_ZONE      # PYCHOK for export too, by .units.py
 
 # _MAX_PSEUDO_ZONE      = -1
 # _MIN_PSEUDO_ZONE      = -4
@@ -54,7 +57,7 @@ def _hemi(lat):  # imported by .ups, .utm
 
        @return: C{'N'|'S'} for north-/southern hemisphere.
     '''
-    return 'S' if lat < 0 else 'N'
+    return _NS[int(lat < 0)]
 
 
 def _to4lldn(latlon, lon, datum, name):
@@ -72,12 +75,14 @@ def _to4lldn(latlon, lon, datum, name):
     return lat, lon, d, (name or nameof(latlon))
 
 
-def _to3zBhp(zone, band, hemipole=''):  # imported by .epsg, .ups, .utm, .utmups
+def _to3zBhp(zone, band, hemipole='', Error=_ValueError):  # imported by .epsg, .ups, .utm, .utmups
     '''Parse UTM/UPS zone, Band letter and hemisphere/pole letter.
 
        @arg zone: Zone with/-out Band (C{scalar} or C{str}).
        @kwarg band: Optional (longitudinal/polar) Band letter (C{str}).
        @kwarg hemipole: Optional hemisphere/pole letter (C{str}).
+       @kwarg Error: Optional error to raise, overriding the default
+                     C{ValueError}.
 
        @return: 3-Tuple (C{zone, Band, hemisphere/pole}) as (C{int,
                 str, 'N'|'S'}) where C{zone} is C{0} for UPS or
@@ -86,13 +91,14 @@ def _to3zBhp(zone, band, hemipole=''):  # imported by .epsg, .ups, .utm, .utmups
 
        @raise ValueError: Invalid B{C{zone}}, B{C{band}} or B{C{hemipole}}.
     '''
-    B = band
     try:
-        z = _UTMUPS_ZONE_INVALID
-        if isscalar(zone) or zone.isdigit():
+        B, z = band, _UTMUPS_ZONE_INVALID
+        if isscalar(zone):
             z = int(zone)
         elif zone and isstr(zone):
-            if len(zone) > 1:
+            if zone.isdigit():
+                z = int(zone)
+            elif len(zone) > 1:
                 B = zone[-1:]
                 z = int(zone[:-1])
             elif zone in 'AaBbYyZz':  # single letter
@@ -101,17 +107,18 @@ def _to3zBhp(zone, band, hemipole=''):  # imported by .epsg, .ups, .utm, .utmups
 
         if _UTMUPS_ZONE_MIN <= z <= _UTMUPS_ZONE_MAX:
             hp = hemipole[:1].upper()
-            if hp in ('N', 'S') or not hp:
-                B = B.upper()
+            if hp in _NS or not hp:
+                z = Zone(z)
+                B = Band(B.upper())
                 if B.isalpha():
-                    return z, B, (hp or ('S' if B < 'N' else 'N'))
+                    return z, B, (hp or _NS[B < 'N'])
                 elif not B:
                     return z, B, hp
 
-    except (AttributeError, TypeError, ValueError):
-        pass
-    raise ValueError('%s invalid: %r' % (_or('zone', 'band', 'hemipole'),
-                                             (zone,   B,      hemipole)))
+        t = _Invalid
+    except (AttributeError, IndexError, TypeError, ValueError) as x:
+        t = str(x)  # no Python 3+ exception chaining
+    raise Error(zone=zone, band=B, hemipole=hemipole, txt=t)
 
 
 def _to3zll(lat, lon):  # imported by .ups, .utm
@@ -126,7 +133,7 @@ def _to3zll(lat, lon):  # imported by .ups, .utm
     x = wrap360(lon + 180)  # use wrap360 to get ...
     z = int(x) // 6 + 1  # ... longitudinal UTM zone [1, 60] and ...
     lon = x - 180.0  # ... lon [-180, 180) i.e. -180 <= lon < 180
-    return z, wrap90(lat), lon
+    return Zone(z), wrap90(lat), lon
 
 
 class LatLonDatum5Tuple(_NamedTuple):
@@ -135,6 +142,11 @@ class LatLonDatum5Tuple(_NamedTuple):
        and C{float}.
     '''
     _Names_ = ('lat', 'lon', 'datum', 'convergence', 'scale')
+
+    def __new__(cls, lat, lon, d, c, s):
+        return _NamedTuple.__new__(cls, Lat(lat), Lon(lon), d,
+                                        Scalar(c, name='convergence'),
+                                        Scalar(s, name='scale'))
 
 
 class UtmUpsBase(_NamedBase):
@@ -230,7 +242,8 @@ class UtmUpsBase(_NamedBase):
             pass
         else:
             e = n = 0
-        return EasNor2Tuple(e + self.easting, n + self.northing)
+        return EasNor2Tuple(Easting( e + self.easting,  Error=self._Error),
+                            Northing(n + self.northing, Error=self._Error))
 
     @property_RO
     def falsed(self):
@@ -304,8 +317,8 @@ class UtmUpsBase(_NamedBase):
     def _toRepr(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False, **unused):  # PYCHOK expected
         '''(INTERNAL) Return a string representation of this UTM/UPS coordinate.
         '''
-        t = self.toStr(prec=prec, sep=' ', B=B, cs=cs).split()
-        return fmt % (sep.join('%s:%s' % t for t in zip('ZHENCS', t)),)
+        t = self.toStr(prec=prec, sep=None, B=B, cs=cs)
+        return _xzipairs('ZHENCS', t, sep=sep, fmt=fmt)  # 'ZHENCS'[:len(t)]
 
     def _toStr(self, hemipole, B, cs, prec, sep):
         '''(INTERNAL) Return a string representation of this UTM/UPS coordinate.
@@ -318,10 +331,10 @@ class UtmUpsBase(_NamedBase):
                     degDMS(self.convergence, prec=8, pos='+'),
                   'n/a' if self.scale is None else
                       fstr(self.scale, prec=8))
-        return sep.join(t)
+        return t if sep is None else sep.join(t)
 
 
-class UtmUps5Tuple(_NamedTuple):
+class UtmUps5Tuple(_NamedTuple):  # imported by .mgrs
     '''5-Tuple C{(zone, hemipole, easting, northing, band)} as C{int},
        C{str}, C{meter}, C{meter} and C{band} letter, where C{zone}
        is C{1..60} for UTM or C{0} for UPS, C{hemipole} C{'N'|'S'} is
@@ -330,6 +343,12 @@ class UtmUps5Tuple(_NamedTuple):
        band C{'A'|'B'|'Y'|'Z'}.
     '''
     _Names_ = ('zone', 'hemipole', 'easting', 'northing', 'band')
+
+    def __new__(cls, z, h, e, n, B, Error=None):
+        if Error is not None:
+            e = Easting( e, Error=Error)
+            n = Northing(n, Error=Error)
+        return _NamedTuple.__new__(cls, z, h, e, n, B)
 
 
 class UtmUps8Tuple(_NamedTuple):
@@ -344,6 +363,14 @@ class UtmUps8Tuple(_NamedTuple):
     _Names_ = ('zone', 'hemipole', 'easting', 'northing',
                'band', 'datum', 'convergence', 'scale')
 
+    def __new__(cls, z, h, e, n, B, d, c, s, Error=None):
+        if Error is not None:
+            e = Easting( e, Error=Error)
+            n = Northing(n, Error=Error)
+            c = Scalar(c, name='convergence', Error=Error)
+            s = Scalar(s, name='scale', Error=Error)
+        return _NamedTuple.__new__(cls, z, h, e, n, B, d, c, s)
+
 
 class UtmUpsLatLon5Tuple(_NamedTuple):
     '''5-Tuple C{(zone, band, hemipole, lat, lon)} as C{int},
@@ -354,6 +381,56 @@ class UtmUpsLatLon5Tuple(_NamedTuple):
        C{'N'|'S'} is the UTM hemisphere or the UPS pole.
     '''
     _Names_ = ('zone', 'band', 'hemipole', 'lat', 'lon')
+
+    def __new__(cls, z, B, h, lat, lon, Error=None):
+        if Error is not None:
+            lat = Lat(lat, Error=Error)
+            lon = Lon(lon, Error=Error)
+        return _NamedTuple.__new__(cls, z, B, h, lat, lon)
+
+
+def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band='', sep=','):
+    '''(INTERNAL) Parse a string representing a UTM or UPS coordinate
+       consisting of C{"zone[band] hemisphere/pole easting northing"}.
+
+       @arg strUTMUPS: A UTM or UPS coordinate (C{str}).
+       @kwarg band: Optional, default Band letter (C{str}).
+       @kwarg sep: Optional, separator to split (",").
+
+       @return: 5-Tuple (C{zone, hemisphere/pole, easting, northing,
+                band}).
+
+       @raise ParseError: Invalid B{C{strUTMUPS}}.
+    '''
+    def _UTMUPS5_(strUTMUPS, UPS, band, sep):
+        u = strUTMUPS.lstrip()
+        if UPS and not u.startswith(_UPS_ZONE_STR):
+            raise ValueError
+
+        u = u.replace(sep, ' ').strip().split()
+        if len(u) < 4:
+            raise ValueError
+
+        z, h = u[:2]
+        if h[:1].upper() not in _NS:
+            raise ValueError
+
+        if z.isdigit():
+            z, B = int(z), band
+        else:
+            for i in range(len(z)):
+                if not z[i].isdigit():
+                    # int('') raises ValueError
+                    z, B = int(z[:i]), z[i:]
+                    break
+            else:
+                raise ValueError
+
+        e, n = map(float, u[2:4])
+        return z, h.upper(), e, n, B.upper()
+
+    return _parseX(_UTMUPS5_, strUTMUPS, UPS, band, sep,
+                              strUTMUPS=strUTMUPS, Error=Error)
 
 # **) MIT License
 #

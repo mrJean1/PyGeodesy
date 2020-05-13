@@ -18,14 +18,17 @@ each end).
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, InvalidError, property_RO, RangeError
+from pygeodesy.basics import EPS, property_RO
 from pygeodesy.datum import Datums, _TOL
-from pygeodesy.dms import clipDegrees, degDMS, parseDMS2, _parseUTMUPS
+from pygeodesy.dms import degDMS, parseDMS2
+from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, _xnamed
+from pygeodesy.units import Meter, Lat, Scalar, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2d
-from pygeodesy.utmupsBase import _LLEB, _hemi, _to4lldn, _to3zBhp, _to3zll, \
+from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
+                                 _to4lldn, _to3zBhp, _to3zll, \
                                  _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
                                  _UPS_ZONE_STR, UtmUpsBase, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple  # PYCHOK indent
@@ -34,15 +37,15 @@ from math import atan, atan2, radians, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '20.04.22'
+__version__ = '20.05.08'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
-_Falsing = 2000e3  #: (INTERNAL) False easting and northing (C{meter}).
-_K0      = 0.994   #: (INTERNAL) Central UPS scale factor.
-_K1      = 1.0     #: (INTERNAL) Rescale point scale factor.
+_Falsing = Meter(2000e3)  #: (INTERNAL) False easting and northing (C{meter}).
+_K0      = Scalar(0.994)  #: (INTERNAL) Central UPS scale factor.
+_K1      = Scalar(1.0)    #: (INTERNAL) Rescale point scale factor.
 
 
-class UPSError(ValueError):
+class UPSError(_ValueError):
     '''Universal Polar Stereographic (UPS) parse or other L{Ups} issue.
     '''
     pass
@@ -56,19 +59,19 @@ def _Band(a, b):
 def _scale(E, rho, tau):
     # compute the point scale factor, ala Karney
     t = hypot1(tau)
-    return (rho / E.a) * t * sqrt(E.e12 + E.e2 / t**2)
+    return Scalar((rho / E.a) * t * sqrt(E.e12 + E.e2 / t**2))
 
 
 class Ups(UtmUpsBase):
     '''Universal Polar Stereographic (UPS) coordinate.
     '''
-    _band        = ''    #: (INTERNAL) Polar band ('A', 'B', 'Y' or 'Z').
-    _Error       = UPSError  # (INTERNAL) Error
-    _latlon_args = True  #: (INTERNAL) unfalse from _latlon (C{bool}).
-    _pole        = ''    #: (INTERNAL) UPS projection top/center ('N' or 'S').
-    _scale       = None  #: (INTERNAL) Point scale factor (C{scalar}).
-    _scale0      = _K0   #: (INTERNAL) Central scale factor (C{scalar}).
-    _utm         = None  #: (INTERNAL) toUtm cache (L{Utm}).
+    _band        = ''        #: (INTERNAL) Polar band ('A', 'B', 'Y' or 'Z').
+    _Error       = UPSError  #: (INTERNAL) Error
+    _latlon_args = True      #: (INTERNAL) unfalse from _latlon (C{bool}).
+    _pole        = ''        #: (INTERNAL) UPS projection top/center ('N' or 'S').
+    _scale       = None      #: (INTERNAL) Point scale factor (C{scalar}).
+    _scale0      = _K0       #: (INTERNAL) Central scale factor (C{scalar}).
+    _utm         = None      #: (INTERNAL) toUtm cache (L{Utm}).
 
     def __init__(self, zone, pole, easting, northing, band='',  # PYCHOK expected
                                    datum=Datums.WGS84, falsed=True,
@@ -99,11 +102,11 @@ class Ups(UtmUpsBase):
             self.name = name
 
         try:
-            z, B, p = _to3zBhp(zone, band=band, hemipole=pole)
+            z, B, p = _to3zBhp(zone, band, hemipole=pole)
             if z != _UPS_ZONE or (B and B not in _Bands):
                 raise ValueError
-        except ValueError:
-            raise InvalidError(zone=zone, pole=pole, band=band, Error=UPSError)
+        except (TypeError, ValueError) as x:
+            raise UPSError(zone=zone, pole=pole, band=band, txt=str(x))
         self._pole = p
         UtmUpsBase.__init__(self, easting, northing, band=B, datum=datum, falsed=falsed,
                                                      convergence=convergence, scale=scale)
@@ -165,20 +168,13 @@ class Ups(UtmUpsBase):
 
            @raise UPSError: Invalid B{C{scale}}.
         '''
-        try:
-            s0 = float(scale0)
-            if not 0 < s0:  # <= 1.003 or 1.0016?
-                raise ValueError
-        except (TypeError, ValueError):
-            raise InvalidError(scale0=scale0, Error=UPSError)
-
-        lat = clipDegrees(lat, 90)  # clip and force N
-        u = toUps8(abs(lat), 0, datum=self.datum, Ups=_UpsK1)
-        k = s0 / u.scale
+        s0 = Scalar_(scale0, Error=UPSError, name='scale0', low=EPS)  # <= 1.003 or 1.0016?
+        u  = toUps8(abs(Lat(lat)), 0, datum=self.datum, Ups=_UpsK1)
+        k  = s0 / u.scale
         if self.scale0 != k:
             self._band = ''  # force re-compute
             self._latlon = self._epsg = self._mgrs = self._utm = None
-            self._scale0 = k
+            self._scale0 = Scalar(k)
 
     def toLatLon(self, LatLon=None, unfalse=True, **LatLon_kwds):
         '''Convert this UPS coordinate to an (ellipsoidal) geodetic point.
@@ -278,7 +274,8 @@ class Ups(UtmUpsBase):
            MGRS grid references).
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg sep: Optional separator to join (C{str}).
+           @kwarg sep: Optional separator to join (C{str}) or C{None}
+                       to return an unjoined C{tuple} of C{str}s.
            @kwarg B: Optionally, include and polar band letter (C{bool}).
            @kwarg cs: Optionally, include gamma meridian convergence and
                       point scale factor (C{bool}).
@@ -306,10 +303,10 @@ class Ups(UtmUpsBase):
            @raise UPSError: Invalid B{C{pole}} or attempt to transfer
                             the projection top/center.
         '''
-        if self.pole == pole or not pole:  # PYCHOK pole
+        if self.pole == pole or not pole:
             return self.copy()
-        raise UPSError('%s transfer invalid: %r to %r' %
-                       ('pole', self.pole, pole))  # PYCHOK pole
+        t = '%s %r to %r' % ('pole', self.pole, pole)
+        raise UPSError('no transfer', txt=t)
 
     def toUtm(self, zone, falsed=True, **unused):
         '''Convert this UPS coordinate to a UTM coordinate.
@@ -359,18 +356,11 @@ def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=''):
 
        @raise UPSError: Invalid B{C{strUPS}}.
     '''
-    try:
-        u = strUPS.lstrip()
-        if not u.startswith(_UPS_ZONE_STR):
-            raise ValueError
+    z, p, e, n, B = _parseUTMUPS5(strUPS, _UPS_ZONE_STR, Error=UPSError)
+    if z != _UPS_ZONE or (B and B not in _Bands):
+        raise UPSError(strUPS=strUPS, zone=z, band=B)
 
-        z, p, e, n, B = _parseUTMUPS(u)
-        if z != _UPS_ZONE or (B and B not in _Bands):
-            raise ValueError
-    except (AttributeError, TypeError, ValueError):
-        raise InvalidError(strUPS=strUPS, Error=UPSError)
-
-    r = UtmUps5Tuple(z, p, e, n, B) if Ups is None else \
+    r = UtmUps5Tuple(z, p, e, n, B, Error=UPSError) if Ups is None else \
                  Ups(z, p, e, n, band=B, falsed=falsed, datum=datum)
     return _xnamed(r, name)
 
@@ -447,7 +437,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole='',
         y += _Falsing
 
     if Ups is None:
-        r = UtmUps8Tuple(z, p, x, y, B, d, c, k)
+        r = UtmUps8Tuple(z, p, x, y, B, d, c, k, Error=UPSError)
     else:
         if z != _UPS_ZONE and not strict:
             z = _UPS_ZONE  # ignore UTM zone
@@ -486,12 +476,13 @@ def upsZoneBand5(lat, lon, strict=True):
         z, B, p = _UPS_ZONE, _Band(lat, lon), 'N'
 
     elif strict:
-        x = '%s [%s, %s]' % ('range', _UPS_LAT_MIN, _UPS_LAT_MAX)
-        raise RangeError('%s inside UTM %s: %s' % ('lat', x, degDMS(lat)))
+        t = ' '.join(('inside', 'UTM', 'range', '[%s,' % (_UPS_LAT_MIN,),
+                                                 '%s]' % (_UPS_LAT_MAX,)))
+        raise RangeError(lat=degDMS(lat), txt=t)
 
     else:
         B, p = '', _hemi(lat)
-    return UtmUpsLatLon5Tuple(z, B, p, lat, lon)
+    return UtmUpsLatLon5Tuple(z, B, p, lat, lon, Error=UPSError)
 
 # **) MIT License
 #

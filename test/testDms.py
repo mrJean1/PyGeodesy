@@ -4,7 +4,7 @@
 # Test degrees, minutes, seconds functions.
 
 __all__ = ('Tests',)
-__version__ = '20.04.26'
+__version__ = '20.05.12'
 
 from base import TestsBase
 
@@ -12,7 +12,7 @@ from pygeodesy import F_D,   F_DM,   F_DMS,   F_DEG,   F_MIN,   F_SEC,   F_RAD, 
                       F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_RAD_, \
                       F_D__, F_DM__, F_DMS__, F_DEG__, F_MIN__, F_SEC__, F_RAD__, \
                       compassPoint, degDMS, fstr, parseDDDMMSS, parseDMS, \
-                      ParseError, parse3llh, rangerrors, toDMS
+                      ParseError, parse3llh, RangeError, rangerrors, toDMS
 
 
 class Tests(TestsBase):
@@ -82,14 +82,14 @@ class Tests(TestsBase):
 
         r = rangerrors(True)
         try:
-            self.test('parseDMS', parseDMS(181, clip=180), 'ValueError')
-        except ValueError as x:
+            self.test('parseDMS', parseDMS(181, clip=180), RangeError.__name__)
+        except RangeError as x:
             self.test('parseDMS', str(x), str(x))
         rangerrors(False)
         try:
-            self.test('parseDMS', parseDMS(-91, clip=90), '-90.0')
-        except ValueError as x:
-            self.test('parseDMS', str(x), '-90.0')
+            self.test('parseDMS', parseDMS(-91, clip=90), RangeError.__name__)
+        except RangeError as x:
+            self.test('parseDMS', str(x), str(x))
         rangerrors(r)
 
         x = parse3llh('000° 00′ 05.31″W, 51° 28′ 40.12″ N')

@@ -22,7 +22,8 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _xinstanceof, _xkwds
+from pygeodesy.basics import property_RO, _xinstanceof, \
+                            _xkwds, _xzipairs
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
@@ -42,7 +43,7 @@ from math import asin, atan2
 __all__ = _ALL_LAZY.ellipsoidalNvector + _ALL_DOCS('Ned3Tuple') + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.04.22'
+__version__ = '20.04.30'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -575,10 +576,10 @@ class Ned(_Named):
            @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
         '''
         from pygeodesy.dms import F_D, toDMS
-        t3 = (fstr(self.length, prec=3 if prec is None else prec),
-              toDMS(self.bearing,   form=F_D, prec=prec, ddd=0),
-              toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
-        return fmt % (sep.join('%s:%s' % t for t in zip('LBE', t3)),)
+        t = (fstr(self.length, prec=3 if prec is None else prec),
+             toDMS(self.bearing,   form=F_D, prec=prec, ddd=0),
+             toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
+        return _xzipairs('LBE', t, sep=sep, fmt=fmt)
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, used method L{Ned.toRepr}.'''
@@ -592,8 +593,8 @@ class Ned(_Named):
 
            @return: This Ned as "[N:f, E:f, D:f]" (C{str}).
         '''
-        t3 = strs(self.ned, prec=prec)
-        return fmt % (sep.join('%s:%s' % t for t in zip('NED', t3)),)
+        t = strs(self.ned, prec=prec)
+        return _xzipairs('NED', t, sep=sep, fmt=fmt)
 
     def toVector3d(self):
         '''Return this NED vector as a 3-d vector.

@@ -274,7 +274,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.05.04'
+__version__ = '20.05.12'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -317,6 +317,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.elliptic              as elliptic               # PYCHOK exported
     import pygeodesy.epsg                  as epsg                   # PYCHOK exported
     import pygeodesy.etm                   as etm                    # PYCHOK exported
+    import pygeodesy.errors                as errors                 # PYCHOK exported
     import pygeodesy.fmath                 as fmath                  # PYCHOK exported
     import pygeodesy.formy                 as formy                  # PYCHOK exported
     import pygeodesy.frechet               as frechet                # PYCHOK exported
@@ -367,6 +368,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.elliptic              import *  # PYCHOK __all__
     from pygeodesy.epsg                  import Epsg, EPSGError  # PYCHOK exported
     from pygeodesy.etm                   import *  # PYCHOK __all__
+    from pygeodesy.errors                import *  # PYCHOK __all__
     from pygeodesy.fmath                 import *  # PYCHOK __all__
     from pygeodesy.formy                 import *  # PYCHOK __all__
     from pygeodesy.frechet               import *  # PYCHOK __all__
@@ -393,7 +395,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.utily                 import *  # PYCHOK __all__
     from pygeodesy.utm                   import *  # PYCHOK __all__
     from pygeodesy.utmups                import *  # PYCHOK __all__
-    from pygeodesy.vector3d              import CrossError, crosserrors, VectorError  # PYCHOK exported
+    from pygeodesy.vector3d              import Vector3d, VectorError  # PYCHOK exported
     from pygeodesy.webmercator           import *  # PYCHOK __all__
     from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK exported
 
