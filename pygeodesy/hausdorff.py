@@ -62,13 +62,13 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.basics import INF, _bkwds, property_doc_, property_RO, \
-                            _xinstanceof
+from pygeodesy.basics import _bkwds, INF, NN, property_doc_, property_RO, \
+                             _xinstanceof
 from pygeodesy.datum import Datums, Datum
-from pygeodesy.errors import _IsnotError
+from pygeodesy.errors import _Degrees, _IsnotError, _Radians, _Radians2
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
-                            points2, PointsError, _scaler, vincentys_
+                            points2, PointsError, _scale_rad, vincentys_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, PhiLam2Tuple
 from pygeodesy.utily import unrollPI
@@ -77,7 +77,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.05.08'
+__version__ = '20.05.15'
 
 
 class HausdorffError(PointsError):
@@ -114,10 +114,10 @@ class Hausdorff(_Named):
     _datum  = None  # not applicable
     _model  = ()
     _seed   = None
-    _units  = ''
+    _units  = NN
     _wrap   = None  # not applicable
 
-    def __init__(self, points, seed=None, name='', units='', **wrap_adjust):
+    def __init__(self, points, seed=None, name=NN, units=NN, **wrap_adjust):
         '''New C{Hausdorff...} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
@@ -246,7 +246,7 @@ class Hausdorff(_Named):
 
            @arg units: New units name (C{str}).
         '''
-        self._units = str(units or "")
+        self._units = str(units or NN)
 
     @property_RO
     def wrap(self):
@@ -259,7 +259,7 @@ class HausdorffDegrees(Hausdorff):
     '''L{Hausdorff} base class for distances from C{LatLon}
        points in C{degrees}.
     '''
-    _units = 'degrees'
+    _units = _Degrees
 
     if _FOR_DOCS:  # PYCHOK no cover
         __init__  = Hausdorff.__init__
@@ -271,7 +271,7 @@ class HausdorffRadians(Hausdorff):
     '''L{Hausdorff} base class for distances from C{LatLon}
        points converted from C{degrees} to C{radians}.
     '''
-    _units = 'radians'
+    _units = _Radians
 
     if _FOR_DOCS:  # PYCHOK no cover
         __init__  = Hausdorff.__init__
@@ -303,7 +303,7 @@ class HausdorffCosineLaw(HausdorffRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, wrap=False, seed=None, name=''):
+    def __init__(self, points, wrap=False, seed=None, name=NN):
         '''New L{HausdorffCosineLaw} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
@@ -342,10 +342,10 @@ class HausdorffEquirectangular(HausdorffRadians):
              L{HausdorffVincentys}.
     '''
     _adjust =  True
-    _units  = 'radians**2'
+    _units  = _Radians2
     _wrap   =  False
 
-    def __init__(self, points, adjust=True, wrap=False, seed=None, name=''):
+    def __init__(self, points, adjust=True, wrap=False, seed=None, name=NN):
         '''New L{HausdorffEquirectangular} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
@@ -374,7 +374,7 @@ class HausdorffEquirectangular(HausdorffRadians):
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         if self._adjust:
-            d *= _scaler(p1.phi, p2.phi)
+            d *= _scale_rad(p1.phi, p2.phi)
         return hypot2(d, p2.phi - p1.phi)  # like equirectangular_ d2
 
 
@@ -390,7 +390,7 @@ class HausdorffEuclidean(HausdorffRadians):
     _adjust = True
     _wrap   = True
 
-    def __init__(self, points, adjust=True, seed=None, name=''):
+    def __init__(self, points, adjust=True, seed=None, name=NN):
         '''New L{HausdorffEuclidean} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
@@ -431,10 +431,10 @@ class HausdorffFlatLocal(HausdorffRadians):
     '''
     _datum =  Datums.WGS84
     _Rad2_ =  None
-    _units = 'radians**2'
+    _units = _Radians2
     _wrap  =  False
 
-    def __init__(self, points, datum=None, wrap=False, seed=None, name=''):
+    def __init__(self, points, datum=None, wrap=False, seed=None, name=NN):
         '''New L{HausdorffFlatLocal} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
@@ -480,7 +480,7 @@ class HausdorffFlatPolar(HausdorffRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, wrap=False, seed=None, name=''):
+    def __init__(self, points, wrap=False, seed=None, name=NN):
         '''New L{HausdorffFlatPolar} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
@@ -521,7 +521,7 @@ class HausdorffHaversine(HausdorffRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, wrap=False, seed=None, name=''):
+    def __init__(self, points, wrap=False, seed=None, name=NN):
         '''New L{HausdorffHaversine} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
@@ -564,10 +564,10 @@ class HausdorffKarney(HausdorffDegrees):
     '''
     _datum    =  Datums.WGS84
     _Inverse1 =  None
-    _units    = 'degrees'
+    _units    = _Degrees
     _wrap     =  False
 
-    def __init__(self, points, datum=None, wrap=False, seed=None, name=''):
+    def __init__(self, points, datum=None, wrap=False, seed=None, name=NN):
         '''New L{HausdorffKarney} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
@@ -617,7 +617,7 @@ class HausdorffVincentys(HausdorffRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, wrap=False, seed=None, name=''):
+    def __init__(self, points, wrap=False, seed=None, name=NN):
         '''New L{HausdorffVincentys} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
@@ -741,13 +741,14 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units='',
 def randomrangenerator(seed):
     '''Return a C{seed}ed random range function generator.
 
-       @arg seed: Initial, internal L{Random} state (C{hashable}).
+       @arg seed: Initial, internal L{Random} state (C{hashable}
+                  or C{None}).
 
-       @note: L{Random} B{C{seed}} C{None} seeds from the
-              current time or from a platform-specific
-              randomness source, if available.
+       @note: L{Random} B{C{seed=None}} seeds from the current
+              time or from a platform-specific randomness source,
+              if available.
 
-       @return: A function to generatore random ranges.
+       @return: A function to generate random ranges.
 
        @example:
 

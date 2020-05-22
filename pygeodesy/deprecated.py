@@ -3,7 +3,7 @@
 
 u'''DEPRECATED classes, functions, etc. exported for backward compatibility.
 '''
-from pygeodesy.basics import EPS
+from pygeodesy.basics import EPS, NN
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
@@ -12,7 +12,7 @@ from pygeodesy.named import _NamedTuple
 from pygeodesy.trf import TRFError as _TRFError
 
 __all__ = _ALL_LAZY.deprecated + _ALL_DOCS('UtmUps4Tuple')
-__version__ = '20.05.10'
+__version__ = '20.05.14'
 
 OK = 'OK'  # OK for test like I{if ... is OK: ...}
 
@@ -87,7 +87,7 @@ def clipDMS(deg, limit):  # PYCHOK no cover
     return clipDegrees(deg, limit)
 
 
-def clipStr(bstr, limit=50, white=''):
+def clipStr(bstr, limit=50, white=NN):
     '''DEPRECATED, use function L{clips}.
     '''
     from pygeodesy.basics import clips
@@ -103,7 +103,7 @@ def decodeEPSG2(arg):
     return tuple(decode2(arg))
 
 
-def encodeEPSG(zone, hemipole='', band=''):
+def encodeEPSG(zone, hemipole=NN, band=NN):
     '''DEPRECATED, use function L{epsg.encode}.
 
        @return: C{EPSG} code (C{int}).
@@ -147,7 +147,7 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
 
        @raise Error: Invalid or negative B{C{name=value}}.
     '''
-    t = ''
+    t = NN
     if len(name_value) == 1:
         try:
             for f in name_value.values():
@@ -215,7 +215,7 @@ def nearestOn4(point, points, closed=False, wrap=False, **options):
     return tuple(nearestOn5(point, points, closed=closed, wrap=wrap, **options)[:4])
 
 
-def parseUTM(strUTM, datum=_WGS84, Utm=_UTM, name=''):
+def parseUTM(strUTM, datum=_WGS84, Utm=_UTM, name=NN):
     '''DEPRECATED, use function L{parseUTM5}.
 
        @return: The UTM coordinate (B{L{Utm}}) or 4-tuple C{(zone,
@@ -275,7 +275,7 @@ def simplify2(points, pipe, radius=_R_M, shortest=False, indices=False, **option
     return simplifyRW(points, pipe, radius=r, shortest=shortest, indices=indices, **options)
 
 
-def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=''):
+def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):
     '''DEPRECATED, use function L{toUtm8}.
 
        @return: The UTM coordinate (B{C{Utm}}) or a 6-tuple C{(zone,

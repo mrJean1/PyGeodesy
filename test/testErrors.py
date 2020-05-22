@@ -4,13 +4,15 @@
 # Test some of the errors.
 
 __all__ = ('Tests',)
-__version__ = '20.05.12'
+__version__ = '20.05.15'
 
-from base import isPython37, TestsBase
+from base import isPython3, isPython37, TestsBase
 
-from pygeodesy import crosserrors, LenError, \
+from pygeodesy import crosserrors, exception_chaining, LenError, \
                       LimitError, limiterrors, \
                       RangeError, rangerrors
+
+from os import environ
 
 
 class Tests(TestsBase):
@@ -38,6 +40,7 @@ class Tests(TestsBase):
         e = InvalidError(zero=1, Error=RangeError, one=2, txt='outside')
         self.test(InvalidError.__name__, e, 'zero (1) or one (2): outside', known=not isPython37)
         self.test(InvalidError.__name__, repr(e).replace(',)', ')'), "RangeError('zero (1) or one (2): outside')", known=not isPython37)
+        e = InvalidError(two=2, Error=ValueError)  # coverage
 
         e = IsnotError(int.__name__, float.__name__, _None=None)
         self.test(IsnotError.__name__, e, '_None (None) not an int or float')
@@ -56,12 +59,17 @@ class Tests(TestsBase):
         except ValueError as x:
             self.test(LenError.__name__, str(x), 'LenError(a, b, c, d) len 1 vs 2 vs 3 vs 4: invalid')
 
-        self.test('crosserrors', crosserrors(False), True)
-        self.test('crosserrors', crosserrors(True), False)
-        self.test('limiterrors', limiterrors(False), True)
-        self.test('limiterrors', limiterrors(True), False)
-        self.test('rangerrors',  rangerrors(False),  True)
-        self.test('rangerrors',  rangerrors(True),  False)
+        self.test(crosserrors.__name__, crosserrors(False), True)
+        self.test(crosserrors.__name__, crosserrors(True), False)
+        self.test(limiterrors.__name__, limiterrors(False), True)
+        self.test(limiterrors.__name__, limiterrors(True), False)
+        self.test(rangerrors.__name__,  rangerrors(False),  True)
+        self.test(rangerrors.__name__,  rangerrors(True),  False)
+
+        x = True if environ.get('PYGEODESY_EXCEPTION_CHAINING', None) else False
+        self.test(exception_chaining.__name__, exception_chaining(), x if isPython3 else None)
+        self.test(exception_chaining.__name__, exception_chaining(RangeError()), None)
+        self.test(exception_chaining.__name__, exception_chaining(TypeError()), None)
 
     def testKwds(self, xkwds):
         self.test(xkwds.__name__, xkwds({}, test='test1'), 'test1')

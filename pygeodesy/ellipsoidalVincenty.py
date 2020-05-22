@@ -59,7 +59,7 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, property_doc_, property_RO, _xkwds
+from pygeodesy.basics import EPS, NN, property_doc_, property_RO, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
@@ -80,7 +80,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '20.05.05'
+__version__ = '20.05.14'
 
 
 class VincentyError(_ValueError):
@@ -565,7 +565,7 @@ class LatLon(LatLonEllipsoidalBase):
 #              raise VincentyError('%s, %r %sto %r' % ('ambiguous', self,
 #                                  'antipodal ', other))
         else:
-            t = 'antipodal ' if self.isantipodeTo(other, eps=self._epsilon) else ''
+            t = 'antipodal ' if self.isantipodeTo(other, eps=self._epsilon) else NN
             raise VincentyError('no convergence', txt='%r %sto %r' % (self, t, other))
 
         if c2a:  # e22 == (a / b)**2 - 1

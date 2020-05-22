@@ -7,7 +7,7 @@ against a rectangular box or clip region.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, len2
+from pygeodesy.basics import EPS, len2, NN
 from pygeodesy.errors import _AssertionError, _Not_convex, _ValueError
 from pygeodesy.fmath import fsum_
 from pygeodesy.formy import points2, PointsError
@@ -17,7 +17,7 @@ from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
                              LatLon_ as LL_
 
 __all__ = _ALL_LAZY.clipy + _ALL_DOCS('ClipCS3Tuple', 'ClipSH3Tuple')
-__version__ = '20.05.11'
+__version__ = '20.05.15'
 
 
 class ClipError(_ValueError):
@@ -108,7 +108,7 @@ class _CS(_Named):
 #       elif c & _CS._XMAX:
 #           return self.lat4(p, self._xmax)
 #       # should never get here
-#       raise _AssertionError(_dot_(self._name, self.clip4.__name))
+#       raise _AssertionError(_dot_(self._name, self.clip4.__name__))
 
     def code4(self, p):  # compute code for point p
         if p.lat < self._ymin:
@@ -241,7 +241,7 @@ class _LLi_(LL_):
         self.lon = lon
         self.classof = classof
         self.edge = edge  # clip edge
-        self.name = ''
+        self.name = NN
 
 
 class _SH(_Named):

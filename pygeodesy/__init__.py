@@ -274,7 +274,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.05.12'
+__version__ = '20.05.20'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -420,9 +420,9 @@ if not _lazy_import2:  # import and set __all__
                 ns.extend(attrs)
 # XXX       if ps:  # check that mod is a _pygeodesy module
 # XXX           m = globalocals[mod]  # assert(m.__name__ == mod)
-# XXX           f = getattr(m, '__file__', '')
+# XXX           f = getattr(m, '__file__', NN)
 # XXX           d = dirname(abspath(f)) if f else pygeodesy_abspath
-# XXX           p = getattr(m, '__package__', '') or _pygeodesy
+# XXX           p = getattr(m, '__package__', NN) or _pygeodesy
 # XXX           if p not in ps or d != pygeodesy_abspath:
 # XXX               raise ImportError('foreign module: %s from %r' % (_dot_(p, mod), f or p))
         return tuple(set(ns))  # remove duplicates, only R_M?

@@ -51,14 +51,14 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import EPS, PI, PI2, PI_2, _bkwds, \
+from pygeodesy.basics import EPS, PI, NN, PI2, PI_2, _bkwds, \
                              isscalar, len2, map1, map2, \
                              property_RO, _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.errors import _AssertionError, _item_, LenError
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, \
-                            haversine_, PointsError, _scaler, \
+                            haversine_, PointsError, _scale_rad, \
                             vincentys_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
@@ -67,7 +67,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.05.11'
+__version__ = '20.05.14'
 
 
 class HeightError(PointsError):  # imported by .geoids
@@ -98,7 +98,7 @@ class SciPyWarning(HeightError):
 
 
 def _alist(ais):
-    # return tuple of floats, not numpy.float64s
+    # return list of floats, not numpy.float64s
     return list(map(float, ais))
 
 
@@ -297,7 +297,7 @@ class HeightCubic(_HeightBase):
     _kind     = 'cubic'
     _kmin     =  16
 
-    def __init__(self, knots, name=''):
+    def __init__(self, knots, name=NN):
         '''New L{HeightCubic} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -377,7 +377,7 @@ class HeightLinear(HeightCubic):
     _kind = 'linear'
     _kmin =  2
 
-    def __init__(self, knots, name=''):
+    def __init__(self, knots, name=NN):
         '''New L{HeightLinear} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -411,7 +411,7 @@ class _HeightIDW(_HeightBase):
     _xs   = ()    # knot lons
     _ys   = ()    # knot lats
 
-    def __init__(self, knots, beta=2, name='', **wrap_adjust):
+    def __init__(self, knots, beta=2, name=NN, **wrap_adjust):
         '''New L{_HeightIDW} interpolator.
         '''
         self._xs, self._ys, self._hs = _xyhs3(tuple, self._kmin, knots, off=False)
@@ -508,7 +508,7 @@ class HeightIDWcosineLaw(_HeightIDW):
     '''
     _wrap = False
 
-    def __init__(self, knots, beta=2, wrap=False, name=''):
+    def __init__(self, knots, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWcosineLaw} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -548,7 +548,7 @@ class HeightIDWequirectangular(_HeightIDW):
     _adjust = True
     _wrap   = False
 
-    def __init__(self, knots, adjust=True, wrap=False, name=''):
+    def __init__(self, knots, adjust=True, wrap=False, name=NN):
         '''New L{HeightIDWequirectangular} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -567,7 +567,7 @@ class HeightIDWequirectangular(_HeightIDW):
         for xk, yk in zip(self._xs, self._ys):
             d, _ = unrollPI(xk, x, wrap=self._wrap)
             if self._adjust:
-                d *= _scaler(yk, y)
+                d *= _scale_rad(yk, y)
             yield hypot2(d, yk - y)  # like equirectangular_ distance2
 
     if _FOR_DOCS:  # PYCHOK no cover
@@ -591,7 +591,7 @@ class HeightIDWeuclidean(_HeightIDW):
     '''
     _adjust = True
 
-    def __init__(self, knots, adjust=True, beta=2, name=''):
+    def __init__(self, knots, adjust=True, beta=2, name=NN):
         '''New L{HeightIDWeuclidean} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -632,7 +632,7 @@ class HeightIDWflatLocal(_HeightIDW):
     _Rad2_ = None
     _wrap  = False
 
-    def __init__(self, knots, datum=None, beta=2, wrap=False, name=''):
+    def __init__(self, knots, datum=None, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWflatLocal} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -677,7 +677,7 @@ class HeightIDWflatPolar(_HeightIDW):
     '''
     _wrap = False
 
-    def __init__(self, knots, beta=2, wrap=False, name=''):
+    def __init__(self, knots, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWflatPolar} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -718,7 +718,7 @@ class HeightIDWhaversine(_HeightIDW):
     '''
     _wrap = False
 
-    def __init__(self, knots, beta=2, wrap=False, name=''):
+    def __init__(self, knots, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWhaversine} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -762,7 +762,7 @@ class HeightIDWkarney(_HeightIDW):
     _Inverse1 = None
     _wrap     = False
 
-    def __init__(self, knots, datum=None, beta=2, wrap=False, name=''):
+    def __init__(self, knots, datum=None, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWkarney} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -848,7 +848,7 @@ class HeightIDWvincentys(_HeightIDW):
     '''
     _wrap = False
 
-    def __init__(self, knots, beta=2, wrap=False, name=''):
+    def __init__(self, knots, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWvincentys} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -878,7 +878,7 @@ class HeightLSQBiSpline(_HeightBase):
     '''
     _kmin = 16  # k = 3, always
 
-    def __init__(self, knots, weight=None, name=''):
+    def __init__(self, knots, weight=None, name=NN):
         '''New L{HeightLSQBiSpline} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
@@ -977,7 +977,7 @@ class HeightSmoothBiSpline(_HeightBase):
     '''
     _kmin = 16  # k = 3, always
 
-    def __init__(self, knots, s=4, name=''):
+    def __init__(self, knots, s=4, name=NN):
         '''New L{HeightSmoothBiSpline} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).

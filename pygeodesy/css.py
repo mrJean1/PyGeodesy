@@ -8,7 +8,7 @@ L{CSSError} requiring I{Charles Karney's} U{geographiclib
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _xinstanceof, _xkwds, \
+from pygeodesy.basics import NN, property_RO, _xinstanceof, _xkwds, \
                             _xsubclassof, _xzipairs
 from pygeodesy.datum import Datums
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -24,7 +24,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat, Lon, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.css + _ALL_DOCS('EasNorAziRk4Tuple', 'LatLonAziRk4Tuple')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -58,7 +58,7 @@ class CassiniSoldner(_NamedBase):
     _meridian = None
     _sb0      = 0
 
-    def __init__(self, lat0, lon0, datum=Datums.WGS84, name=''):
+    def __init__(self, lat0, lon0, datum=Datums.WGS84, name=NN):
         '''New L{CassiniSoldner} projection.
 
            @arg lat0: Latitude of center point (C{degrees90}).
@@ -293,7 +293,7 @@ class CassiniSoldner(_NamedBase):
                     (C{str}).
         '''
         t = self.toStr(prec=prec, sep=', ')
-        n = self.name or ''
+        n = self.name or NN
         if n:
             n = ', name=%r' % (n,)
         return '%s(%s%s)' % (self.classname, t, n)
@@ -318,7 +318,7 @@ class Css(_NamedBase):
     _northing = 0     #: (INTERNAL) Northing (C{float})
     _reverse4 = None  #: (INTERNAL) Cached reverse4 (L{LatLonAziRk4Tuple})
 
-    def __init__(self, e, n, h=0, cs0=_CassiniSoldner0, name=''):
+    def __init__(self, e, n, h=0, cs0=_CassiniSoldner0, name=NN):
         '''New L{Css} Cassini-Soldner position.
 
            @arg e: Easting (C{meter}).
@@ -509,7 +509,7 @@ class LatLonAziRk4Tuple(_NamedTuple):
                                         Scalar(rk,   Error=CSSError))
 
 
-def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=''):
+def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=NN):
     '''Convert an (ellipsoidal) geodetic point to a Cassini-Soldner
        location.
 

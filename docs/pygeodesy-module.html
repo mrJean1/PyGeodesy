@@ -285,7 +285,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.05.12
+        20.05.20
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -3723,7 +3723,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10ef70bd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10d6b0c50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6236,7 +6236,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.5.12'"><code class="variable-quote">'</code><code class="variable-string">20.5.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.5.20'"><code class="variable-quote">'</code><code class="variable-string">20.5.20</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -6313,7 +6313,7 @@ sform=Transforms.WGS84),
         <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
 56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e\
 12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370461.233666666, R2\
-=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805893, Rs=636\
+=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805892, Rs=636\
 6901.239881964),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
  b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006\
@@ -7912,7 +7912,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -8633,6 +8633,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://www.EdWilliams.org/avform.htm#Dist" 
@@ -8730,12 +8734,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>If <b><code>error=None</code></b>, return <code>True</code> if 
-          exception chaining for PyGeodesy errors is enabled, 
+          exception chaining is enabled for PyGeodesy errors, 
           <code>False</code> if turned off and <code>None</code> if not 
           available.  If <b><code>error</code></b> is not 
           <code>None</code>, return the previous, chained error or 
-          <code>None</code> if exception chaining is turned off or not 
-          available.</dd>
+          <code>None</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -9132,6 +9135,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatPolar_" 
@@ -9782,7 +9789,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10ef70bd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10d6b0c50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -9873,6 +9880,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://www.EdWilliams.org/avform.htm#Dist" 
@@ -12608,15 +12619,15 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>seed</code></strong> - Initial, internal Random state (<code>hashable</code>).</li>
+        <li><strong class="pname"><code>seed</code></strong> - Initial, internal Random state (<code>hashable</code> or 
+          <code>None</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A function to generatore random ranges.</dd>
+        <dd>A function to generate random ranges.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Random <b><code>seed</code></b> <code>None</code> seeds from the 
-        current time or from a platform-specific randomness source, if 
-        available.
+        Random <b><code>seed=None</code></b> seeds from the current time or
+        from a platform-specific randomness source, if available.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -14341,6 +14352,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#vincentys_" 
@@ -14680,7 +14695,7 @@ sform=Transforms.WGS84),
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370461.233666666, R2<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805893, Rs=636<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805892, Rs=636<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 6901.239881964),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
  b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
@@ -14775,7 +14790,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May 13 12:50:36 2020
+    Generated by Epydoc 3.0.1 on Wed May 20 22:24:33 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

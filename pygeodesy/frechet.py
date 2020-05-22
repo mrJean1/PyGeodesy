@@ -77,13 +77,14 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-from pygeodesy.basics import EPS, EPS1, INF, _bkwds, isscalar, \
-                             property_doc_, property_RO, _xinstanceof
+from pygeodesy.basics import _bkwds, EPS, EPS1, INF, isscalar, NN, \
+                              property_doc_, property_RO, _xinstanceof
 from pygeodesy.datum import Datums, Datum
-from pygeodesy.errors import _AssertionError, _IndexError, _IsnotError
+from pygeodesy.errors import _AssertionError, _Degrees, _IndexError, \
+                             _IsnotError, _Radians, _Radians2
 from pygeodesy.fmath import favg, hypot2
 from pygeodesy.formy import cosineLaw_, euclidean_, flatPolar_, haversine_, \
-                            points2 as _points2, PointsError, _scaler, \
+                            points2 as _points2, PointsError, _scale_rad, \
                             vincentys_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, \
@@ -94,7 +95,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.05.11'
+__version__ = '20.05.15'
 
 if not 0 < EPS < EPS1 < 1:
     raise _AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
@@ -155,10 +156,10 @@ class Frechet(_Named):
     _f1     = 1
     _n1     = 0
     _ps1    = None
-    _units  = ''
+    _units  = NN
     _wrap   = None  # not applicable
 
-    def __init__(self, points, fraction=None, name='', units='', **wrap_adjust):
+    def __init__(self, points, fraction=None, name=NN, units=NN, **wrap_adjust):
         '''New C{Frechet...} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
@@ -308,7 +309,7 @@ class Frechet(_Named):
 
            @arg units: New units name (C{str}).
         '''
-        self._units = str(units or "")
+        self._units = str(units or NN)
 
     @property_RO
     def wrap(self):
@@ -321,7 +322,7 @@ class FrechetDegrees(Frechet):
     '''L{Frechet} base class for distances in C{degrees} from
        C{LatLon} points in C{degrees}.
     '''
-    _units = 'degrees'
+    _units = _Degrees
 
     if _FOR_DOCS:  # PYCHOK no cover
         __init__ = Frechet.__init__
@@ -333,7 +334,7 @@ class FrechetRadians(Frechet):
        squared} from C{LatLon} points converted from C{degrees} to
        C{radians}.
     '''
-    _units = 'radians'
+    _units = _Radians
 
     if _FOR_DOCS:  # PYCHOK no cover
         __init__ = Frechet.__init__
@@ -362,7 +363,7 @@ class FrechetCosineLaw(FrechetRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, wrap=False, fraction=None, name=''):
+    def __init__(self, points, wrap=False, fraction=None, name=NN):
         '''New L{FrechetCosineLaw} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
@@ -398,10 +399,10 @@ class FrechetEquirectangular(FrechetRadians):
              L{FrechetHaversine} and L{FrechetVincentys}.
     '''
     _adjust =  True
-    _units  = 'radians**2'
+    _units  = _Radians2
     _wrap   =  False
 
-    def __init__(self, points, adjust=True, wrap=False, fraction=None, name=''):
+    def __init__(self, points, adjust=True, wrap=False, fraction=None, name=NN):
         '''New L{FrechetEquirectangular} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
@@ -429,7 +430,7 @@ class FrechetEquirectangular(FrechetRadians):
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
         if self._adjust:
-            d *= _scaler(p1.phi, p2.phi)
+            d *= _scale_rad(p1.phi, p2.phi)
         return hypot2(d, p2.phi - p1.phi)  # like equirectangular_ d2
 
 
@@ -443,7 +444,7 @@ class FrechetEuclidean(FrechetRadians):
     _adjust = True
     _wrap   = True  # fixed
 
-    def __init__(self, points, adjust=True, fraction=None, name=''):
+    def __init__(self, points, adjust=True, fraction=None, name=NN):
         '''New L{FrechetEuclidean} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
@@ -480,10 +481,10 @@ class FrechetFlatLocal(FrechetRadians):
     '''
     _datum =  Datums.WGS84
     _Rad2_ =  None
-    _units = 'radians**2'
+    _units = _Radians2
     _wrap  =  False
 
-    def __init__(self, points, datum=None, wrap=False, fraction=None, name=''):
+    def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
         '''New L{FrechetFlatLocal} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
@@ -526,7 +527,7 @@ class FrechetFlatPolar(FrechetRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, wrap=False, fraction=None, name=''):
+    def __init__(self, points, wrap=False, fraction=None, name=NN):
         '''New L{FrechetFlatPolar} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
@@ -565,7 +566,7 @@ class FrechetHaversine(FrechetRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, wrap=False, fraction=None, name=''):
+    def __init__(self, points, wrap=False, fraction=None, name=NN):
         '''New L{FrechetHaversine} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
@@ -608,7 +609,7 @@ class FrechetKarney(FrechetDegrees):
     _Inverse1 = None
     _wrap     = False
 
-    def __init__(self, points, datum=None, wrap=False, fraction=None, name=''):
+    def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
         '''New L{FrechetFlatLocal} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
@@ -655,7 +656,7 @@ class FrechetVincentys(FrechetRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, wrap=False, fraction=None, name=''):
+    def __init__(self, points, wrap=False, fraction=None, name=NN):
         '''New L{FrechetVincentys} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
@@ -784,7 +785,7 @@ def _frechet_(ni, fi, nj, fj, dF, units):  # MCCABE 14
     return Frechet6Tuple(*t)
 
 
-def frechet_(points1, points2, distance=None, units=''):
+def frechet_(points1, points2, distance=None, units=NN):
     '''Compute the I{discrete} U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>}
        distance between two paths given as sets of points.
 

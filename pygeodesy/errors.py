@@ -12,11 +12,14 @@ from pygeodesy.lazily import _ALL_LAZY, _environ
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.05.12'
+__version__ = '20.05.15'
 
+_Degrees     = 'degrees'     # PYCHOK exported to .dms, .frechet, .hausdorff, .units
 _Invalid     = 'invalid'
 _limiterrors =  True         # imported by .formy
 _Not_convex  = 'not convex'  # PYCHOK exported to .clipy, .sphericalTrigonometry
+_Radians     = 'radians'     # PYCHOK exported to .dms, .frechet, .hausdorff, .units
+_Radians2    = 'radians**2'  # PYCHOK exported to .frechet, .hausdorff
 _rangerrors  =  True         # imported by .dms
 _Valid       = 'valid'       # PYCHOK exported to .points
 
@@ -245,11 +248,10 @@ def exception_chaining(error=None):
        @kwarg error: An error instance (C{Exception}) or C{None}.
 
        @return: If B{C{error=None}}, return C{True} if exception
-                chaining for PyGeodesy errors is enabled, C{False}
+                chaining is enabled for PyGeodesy errors, C{False}
                 if turned off and C{None} if not available.  If
                 B{C{error}} is not C{None}, return the previous,
-                chained error or C{None} if exception chaining
-                is turned off or not available.
+                chained error or C{None} otherwise.
     '''
     return _exception_chaining if error is None else \
             getattr(error, '__cause__', None)
@@ -282,11 +284,11 @@ def _InvalidError(Error=_ValueError, **txt_name_values):  # txt='', name=value [
     return e
 
 
-def _IsnotError(*noun_s, **name_value_Error):  # name=value [, Error=TypeeError]
+def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeeError]
     '''Create a C{TypeError} for an invalid C{name=value} type.
 
-       @arg noun_s: One or more expected class or type names,
-                    usually nouns (C{str}).
+       @arg nouns: One or more expected class or type names,
+                   usually nouns (C{str}).
        @kwarg name_value_Error: One B{C{name=value}} pair and
                                 optionally, an B{C{Error=...}}
                                 keyword argument to override
@@ -299,8 +301,8 @@ def _IsnotError(*noun_s, **name_value_Error):  # name=value [, Error=TypeeError]
         break
     else:
         n, v = repr('name=value'), _Missing
-    t = _or(*noun_s) or 'specified'
-    if len(noun_s) > 1:
+    t = _or(*nouns) or 'specified'
+    if len(nouns) > 1:
         t = _an(t)
     e = Error('%s (%r) not %s' % (n, v, t))
     _cause_(e)

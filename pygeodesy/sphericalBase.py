@@ -12,7 +12,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI, PI2, PI_2, \
+from pygeodesy.basics import EPS, NN, PI, PI2, PI_2, \
                              property_doc_, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import R_M, R_MA, Datum, Datums
@@ -33,7 +33,7 @@ from math import atan2, cos, hypot, log, sin
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianSphericalBase', 'LatLonSphericalBase')
-__version__ = '20.05.05'
+__version__ = '20.05.14'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -57,7 +57,7 @@ class LatLonSphericalBase(LatLonBase):
     _datum = Datums.Sphere  #: (INTERNAL) Spherical L{Datum}.
     _Ecef  = EcefKarney     #: (INTERNAL) Preferred C{Ecef...} class.
 
-    def __init__(self, lat, lon, height=0, datum=None, name=''):
+    def __init__(self, lat, lon, height=0, datum=None, name=NN):
         '''Create a spherical C{LatLon} point frome the given
            lat-, longitude and height on the given datum.
 

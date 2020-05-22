@@ -17,7 +17,7 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI_2, property_RO, _xinstanceof, \
+from pygeodesy.basics import EPS, NN, PI_2, property_RO, _xinstanceof, \
                             _xsubclassof, _xzipairs
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datums, Lam_, Phi_
@@ -35,14 +35,14 @@ from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.05.05'
+__version__ = '20.05.14'
 
 
 class Conic(_NamedEnumItem):
     '''Lambert conformal conic projection (1- or 2-SP).
     '''
-    _auth  = ''  #: (INTERNAL) authorization (C{str}).
-    _datum = None  #: (INTERNAL) Datum (L{Datum}).
+    _auth  =  NN      #: (INTERNAL) authorization (C{str}).
+    _datum =  None    #: (INTERNAL) Datum (L{Datum}).
     _name  = 'Conic'  #: (INTERNAL) Conic (L{Conic}).
 
     _e  = 0  #: (INTERNAL) Ellipsoid excentricity (C{float}).
@@ -63,7 +63,7 @@ class Conic(_NamedEnumItem):
     _r0 = 0  #: (INTERNAL) Precomputed rho0.
 
     def __init__(self, latlon0, par1, par2=None, E0=0, N0=0,
-                       k0=1, opt3=0, name='', auth=''):
+                       k0=1, opt3=0, name=NN, auth=NN):
         '''New Lambert conformal conic projection.
 
            @arg latlon0: Origin with (ellipsoidal) datum (C{LatLon}).
@@ -359,7 +359,7 @@ class Lcc(_NamedBase):
     _northing = 0     #: (INTERNAL) Northing (C{float}).
     _philam   = None  #: (INTERNAL) philam cache (L{PhiLam2Tuple}).
 
-    def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, name=''):
+    def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, name=NN):
         '''New L{Lcc} Lamber conformal conic position.
 
            @arg e: Easting (C{meter}).
@@ -537,7 +537,7 @@ class Lcc(_NamedBase):
         return tuple(t) if sep is None else sep.join(t)
 
 
-def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name='',
+def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=NN,
                                                   **Lcc_kwds):
     '''Convert an (ellipsoidal) geodetic point to a I{Lambert} location.
 

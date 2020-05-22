@@ -25,8 +25,8 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI_2, R_M, isint, issequence, map1, \
-                             property_doc_, property_RO, _Sequence, \
+from pygeodesy.basics import EPS, isint, issequence, map1, NN, PI_2, \
+                             property_doc_, property_RO, R_M, _Sequence, \
                             _xcopy, _xinstanceof, _xkwds  # PYCHOK indent
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
 from pygeodesy.errors import CrossError, crosserrors, _incompatible, \
@@ -50,7 +50,7 @@ from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points + _ALL_DOCS('NearestOn5Tuple', 'Point3Tuple',
                                                           'Shape2Tuple')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -66,7 +66,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     #   PT364#v=onepage&q=“Problems%20with%20__slots__”&f=false>
     __slots__ = ('lat', 'lon', 'name', 'height')
 
-    def __init__(self, lat, lon, name='', height=0):
+    def __init__(self, lat, lon, name=NN, height=0):
         '''Creat a new, mininal, low-overhead L{LatLon_} instance,
            without heigth and datum.
 
@@ -1005,7 +1005,7 @@ def _area2(points, adjust, wrap):
     return fsum(_rads2(len(pts), pts)), pts
 
 
-def _areaError(pts, near_=''):  # imported by .ellipsoidalKarney
+def _areaError(pts, near_=NN):  # imported by .ellipsoidalKarney
     '''(INTERNAL) Area issue.
     '''
     return _ValueError(near_ + 'zero or polar area', txt='%s ...' % (pts[:3],))

@@ -26,7 +26,7 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import halfs2, property_RO, _xkwds, \
+from pygeodesy.basics import halfs2, NN, property_RO, _xkwds, \
                             _xinstanceof, _xzipairs
 from pygeodesy.datum import Datums
 from pygeodesy.errors import _parseX, _ValueError
@@ -41,7 +41,7 @@ import re  # PYCHOK warning locale.Error
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.mgrs + _ALL_DOCS('Mgrs4Tuple', 'Mgrs6Tuple')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 _100km  = Meter( 100e3)  #: (INTERNAL) 100 km in meter.
 _2000km = Meter(2000e3)  #: (INTERNAL) 2,000 km in meter.
@@ -66,16 +66,16 @@ class Mgrs(_NamedBase):
     '''Military Grid Reference System (MGRS/NATO) references,
        with method to convert to UTM coordinates.
     '''
-    _band     = ''  #: (INTERNAL) Latitudinal band (C..X).
+    _band     = NN    #: (INTERNAL) Latitudinal band (C..X).
     _bandLat  = None  #: (INTERNAL) Band latitude (C{degrees90} or C{None}).
     _datum    = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
     _easting  = 0   #: (INTERNAL) Easting (C{meter}), within 100 km grid square.
-    _en100k   = ''  #: (INTERNAL) Grid EN digraph (C{str}), 100 km grid square.
+    _en100k   = NN  #: (INTERNAL) Grid EN digraph (C{str}), 100 km grid square.
     _northing = 0   #: (INTERNAL) Northing (C{meter}), within 100 km grid square.
     _zone     = 0   #: (INTERNAL) Longitudinal zone (C{int}), 1..60.
 
     def __init__(self, zone, en100k, easting, northing,
-                             band='', datum=Datums.WGS84, name=''):
+                             band=NN, datum=Datums.WGS84, name=NN):
         '''New L{Mgrs} Military grid reference.
 
            @arg zone: 6° longitudinal zone (C{int}), 1..60 covering 180°W..180°E.
@@ -284,7 +284,7 @@ class Mgrs6Tuple(_NamedTuple):  # XXX only used in the line above
     _Names_ = Mgrs4Tuple._Names_ + ('band', 'datum')
 
 
-def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
+def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=NN):
     '''Parse a string representing a MGRS grid reference,
        consisting of zoneBand, grid, easting and northing.
 
@@ -344,7 +344,7 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=''):
                            strMGRS=strMGRS, Error=MGRSError)
 
 
-def toMgrs(utm, Mgrs=Mgrs, name='', **Mgrs_kwds):
+def toMgrs(utm, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
     '''Convert a UTM coordinate to an MGRS grid reference.
 
        @arg utm: A UTM coordinate (L{Utm} or L{Etm}).

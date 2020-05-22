@@ -11,7 +11,7 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, isscalar, len2, map1, \
+from pygeodesy.basics import EPS, NN, isscalar, len2, map1, \
                              property_doc_, property_RO
 from pygeodesy.errors import CrossError, _IsnotError, \
                             _Missing, _TypeError, _ValueError
@@ -25,7 +25,7 @@ from math import atan2, cos, sin
 
 # all public constants, classes and functions
 __all__ = _ALL_LAZY.vector3d + ('sumOf',)
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -86,7 +86,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     _y = 0  #: (INTERNAL) Y component.
     _z = 0  #: (INTERNAL) Z component.
 
-    def __init__(self, x, y, z, ll=None, name=''):
+    def __init__(self, x, y, z, ll=None, name=NN):
         '''New 3-D L{Vector3d}.
 
            The vector may be normalised or use x/y/z values

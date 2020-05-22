@@ -40,7 +40,7 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
-from pygeodesy.basics import isscalar, map1, property_RO, _xinstanceof
+from pygeodesy.basics import NN, isscalar, map1, property_RO, _xinstanceof
 from pygeodesy.datum import Ellipsoid, Ellipsoids, Transform
 from pygeodesy.errors import _ValueError, _TypeError
 from pygeodesy.lazily import _ALL_LAZY
@@ -52,7 +52,7 @@ from pygeodesy.units import Float_
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
 # temporarily hold a single instance for each float value and name
@@ -104,7 +104,7 @@ class RefFrame(_NamedEnumItem):
     _ellipsoid = None  #: Ellipsoid GRS80 or WGS84 (L{Ellipsoid}).
     _epoch     = 0     #: Epoch, calendar year (C{float}).
 
-    def __init__(self, epoch, ellipsoid, name=''):
+    def __init__(self, epoch, ellipsoid, name=NN):
         '''New L{RefFrame}.
 
            @arg epoch: Epoch, a fractional calendar year (C{scalar}).

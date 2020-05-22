@@ -65,7 +65,7 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, PI_2, PI_4, property_doc_, \
+from pygeodesy.basics import EPS, NN, PI_2, PI_4, property_doc_, \
                              property_RO, _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
@@ -85,7 +85,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm + _ALL_DOCS('EasNorExact4Tuple', 'LatLonExact4Tuple')
-__version__ = '20.05.10'
+__version__ = '20.05.14'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -122,9 +122,9 @@ class Etm(Utm):
     _Error   = ETMError
     _exactTM = None
 
-    def __init__(self, zone, hemisphere, easting, northing, band='',  # PYCHOK expected
+    def __init__(self, zone, hemisphere, easting, northing, band=NN,  # PYCHOK expected
                              datum=Datums.WGS84, falsed=True,
-                             convergence=None, scale=None, name=''):
+                             convergence=None, scale=None, name=NN):
         '''New L{Etm} coordinate.
 
            @arg zone: Longitudinal UTM zone (C{int}, 1..60) or zone
@@ -293,7 +293,7 @@ class ExactTransverseMercator(_NamedBase):
 #   _Ev_cKE_3_4 = _Ev.cKE * 0.75
 #   _Ev_cKE_5_4 = _Ev.cKE * 1.25
 
-    def __init__(self, datum=Datums.WGS84, lon0=0, k0=_K0, extendp=True, name=''):
+    def __init__(self, datum=Datums.WGS84, lon0=0, k0=_K0, extendp=True, name=NN):
         '''New L{ExactTransverseMercator} projection.
 
            @kwarg datum: The datum and ellipsoid to use (C{Datum}).
@@ -897,7 +897,7 @@ class LatLonExact4Tuple(_NamedTuple):
     _Names_ = ('lat', 'lon', 'convergence', 'scale')
 
 
-def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=''):
+def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=NN):
     '''Parse a string representing a UTM coordinate, consisting
        of C{"zone[band] hemisphere easting northing"}.
 
@@ -926,7 +926,7 @@ def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=''):
     return _xnamed(r, name)
 
 
-def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name='',
+def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
                                          zone=None, **cmoff):
     '''Convert a lat-/longitude point to an ETM coordinate.
 

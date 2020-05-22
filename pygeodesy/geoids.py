@@ -59,7 +59,7 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
 
-from pygeodesy.basics import EPS, len2, map1, map2, property_RO
+from pygeodesy.basics import EPS, len2, map1, map2, NN, property_RO
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, _item_, LenError, \
@@ -89,7 +89,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('GeoidHeight5Tuple', '_GeoidBase')
-__version__ = '20.05.12'
+__version__ = '20.05.14'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -110,7 +110,7 @@ class _GeoidBase(_HeightBase):
     _kind     = 3  # order for interp2d, RectBivariateSpline
     _knots    = 0  # nlat * nlon
     _mean     = None
-#   _name     = '' # _Named
+#   _name     = NN # _Named
     _nBytes   = 0  # numpy size in bytes, float64
     _pgm      = None
     _sizeB    = 0  # geoid file size in bytes
@@ -630,7 +630,7 @@ class GeoidG2012B(_GeoidBase):
        C{g2012b*.bin} grid files.
     '''
     def __init__(self, g2012b_bin, crop=None, datum=None,  # NAD 83 Ellipsoid
-                                   kind=3, name='', smooth=0):
+                                   kind=3, name=NN, smooth=0):
         '''New L{GeoidG2012B} interpolator.
 
            @arg g2012b_bin: A C{GEOID12B} grid file name (C{.bin}).
@@ -821,7 +821,7 @@ class GeoidKarney(_GeoidBase):
     _yx_hits = 0   # cache hits
 
     def __init__(self, egm_pgm, crop=None, datum=None,  # WGS84
-                                kind=3, name='', smooth=None):
+                                kind=3, name=NN, smooth=None):
         '''New L{GeoidKarney} interpolator.
 
            @arg egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
@@ -1144,7 +1144,7 @@ class GeoidPGM(_GeoidBase):
     _u2B    = 0  # np.itemsize
 
     def __init__(self, egm_pgm, crop=None, datum=None,  # WGS84
-                                kind=3, name='', smooth=0):
+                                kind=3, name=NN, smooth=0):
         '''New L{GeoidPGM} interpolator.
 
            @arg egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
@@ -1305,7 +1305,7 @@ class _PGM(_Gpars):
     crop4 = ()  # 4-tuple (C{south, west, north, east}).
     egm   = None
     glon  = 180  # reverse offset, uncropped
-#   pgm   = ''   # name
+#   pgm   = NN   # name
     sizeB = 0
     u2B   = 2  # item size of grid height (C{int}).
 
@@ -1331,7 +1331,7 @@ class _PGM(_Gpars):
     URL              = str  # 'https://Earth-Info.NGA.mil/GandG/wgs84/...'
     Vertical_Datum   = str
 
-    def __init__(self, g, pgm='', itemsize=0, sizeB=0):  # MCCABE 22
+    def __init__(self, g, pgm=NN, itemsize=0, sizeB=0):  # MCCABE 22
         '''(INTERNAL) New C{_PGM} parsed C{egm*.pgm} geoid dataset.
         '''
         self.name = pgm  # geoid file name

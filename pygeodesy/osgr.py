@@ -31,7 +31,7 @@ U{Transverse Mercator: Redfearn series
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import halfs2, map1, property_RO, \
+from pygeodesy.basics import NN, halfs2, map1, property_RO, \
                             _xsubclassof, _xzipairs
 from pygeodesy.datum import Datums
 from pygeodesy.dms import parseDMS2
@@ -49,7 +49,7 @@ from math import cos, radians, sin, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 _10um  = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km = 100000  #: (INTERNAL) 100 km (int meter)
@@ -99,7 +99,7 @@ class Osgr(_NamedBase):
     _latlon   = None     #: (INTERNAL) Cache B{C{_toLatlon}}.
     _northing = 0        #: (INTERNAL) Nothing (C{meter}).
 
-    def __init__(self, easting, northing, name=''):
+    def __init__(self, easting, northing, name=NN):
         '''New L{Osgr} National Grid Reference.
 
            @arg easting: Easting from OS false easting (C{meter}).
@@ -309,7 +309,7 @@ class Osgr(_NamedBase):
         return tuple(t) if s is None else s.join(t)
 
 
-def parseOSGR(strOSGR, Osgr=Osgr, name=''):
+def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
     '''Parse an OSGR coordinate string to an Osgr instance.
 
        Accepts standard OS Grid References like 'SU 387 148',
@@ -398,7 +398,7 @@ def _EasNor2Tuple(e, n):
                         Northing(n, Error=OSGRError))
 
 
-def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name='',
+def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
                                                **Osgr_kwds):
     '''Convert a lat-/longitude point to an OSGR coordinate.
 

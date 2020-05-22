@@ -13,7 +13,7 @@ U{UTMUPS<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.
 including coverage of UPS as zone C{0}.
 '''
 
-from pygeodesy.basics import isint, isstr, property_RO, _xinstanceof
+from pygeodesy.basics import isint, isstr, NN, property_RO, _xinstanceof
 from pygeodesy.errors import _ValueError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import  _NamedTuple
@@ -26,7 +26,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.epsg + _ALL_DOCS('UtmUps2Tuple') + ('decode2', 'encode')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -41,9 +41,9 @@ _EPSG_S    = 32761  # EPSG code for UPS pole S
 class Epsg(Int):
     '''U{EPSG<https://www.EPSG-Registry.org>} class, a named C{int}.
     '''
-    _band       = ''
+    _band       = NN
     _epsg       = None
-    _hemisphere = ''
+    _hemisphere = NN
     _utmups     = None
     _zone       = _UTMUPS_ZONE_INVALID
 
@@ -115,7 +115,7 @@ class Epsg(Int):
         '''Get the UTM/UPS zone, band and hemisphere/-pole (C{str}).
         '''
         z = '%02d' % (self.zone,)
-        b = self.band if B else ''
+        b = self.band if B else NN
         h = s = self.hemisphere
         if h:
             s = ' '
@@ -181,7 +181,7 @@ def decode2(epsg):
     return UtmUps2Tuple(z, h)
 
 
-def encode(zone, hemipole='', band=''):
+def encode(zone, hemipole=NN, band=NN):
     '''Determine the U{EPSG<https://www.EPSG-Registry.org>} code for
        a given UTM/UPS zone number, hemisphere/pole and/or Band.
 

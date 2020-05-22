@@ -16,7 +16,7 @@ sub-classes of C{_NamedTuple} defined here.
 '''
 
 # update imported names under if __name__ == '__main__':
-from pygeodesy.basics import isstr, issubclassof, property_doc_, property_RO, \
+from pygeodesy.basics import NN, isstr, issubclassof, property_doc_, property_RO, \
                             _xcopy, _xinstanceof, _xkwds
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, _item_, LenError, \
@@ -39,7 +39,7 @@ __all__ = _ALL_LAZY.named + _ALL_DOCS('_Named',
          'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Points2Tuple',
          'Vector3Tuple', 'Vector4Tuple',
          'notOverloaded')
-__version__ = '20.05.11'
+__version__ = '20.05.15'
 
 _NAME_ =  'name'  # __NAME gets mangled in class
 _name_ = '_name'
@@ -61,7 +61,7 @@ def _xnamed(inst, name):
 class _Named(object):
     '''(INTERNAL) Root class for named objects.
     '''
-    _name        = ''     #: (INTERNAL) name (C{str})
+    _name        = NN     #: (INTERNAL) name (C{str})
     _classnaming = False  #: (INTERNAL) prefixed (C{bool})
 
     def __repr__(self):
@@ -174,7 +174,7 @@ class _Named(object):
         '''
         return str(self)
 
-    def _xnamed(self, inst, name=''):
+    def _xnamed(self, inst, name=NN):
         '''(INTERNAL) Set the instance' C{.name = self.name}.
 
            @arg inst: The instance (C{_Named}).
@@ -251,7 +251,7 @@ class _NamedBase(_Named):
            @return: C{toStr}() with keyword arguments (as C{str}).
         '''
         t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
-        return '%s(%s)' % (self.classname, t)
+        return '%s(%s)' % (self.classname, t)  # XXX (self.named, t)
 
 #   def toRepr(self, **kwds)
 #       if kwds:
@@ -977,10 +977,10 @@ def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
        @arg args: Method or property positional arguments (any C{type}s).
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
-    n = getattr(name, '__name__', name)
-    n = '%s %s' % (notOverloaded.__name__, _dot_(classname(inst, prefixed=True), n))
+    n = _dot_(classname(inst, prefixed=True), getattr(name, '__name__', name))
     m = ', '.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
-    raise _AssertionError('%s, MRO(%s)' % (unstr(n, *args, **kwds), m))
+    t = '%s, MRO(%s)' % (unstr(n, *args, **kwds), m)
+    raise _AssertionError(t, txt=notOverloaded.__name__)
 
 
 if __name__ == '__main__':

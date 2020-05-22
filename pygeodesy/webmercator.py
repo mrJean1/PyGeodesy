@@ -17,7 +17,7 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import PI_2, isscalar, issubclassof, property_RO, \
+from pygeodesy.basics import NN, PI_2, isscalar, issubclassof, property_RO, \
                             _xinstanceof, _xkwds, _xzipairs
 from pygeodesy.datum import Datum, R_MA
 from pygeodesy.dms import clipDegrees, parseDMS2
@@ -35,7 +35,7 @@ from math import atan, atanh, exp, radians, sin, tanh
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.webmercator + _ALL_DOCS('EasNorRadius3Tuple')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -69,7 +69,7 @@ class Wm(_NamedBase):
     _x      = 0     #: (INTERNAL) easting (C{meter}).
     _y      = 0     #: (INTERNAL) northing (C{meter}).
 
-    def __init__(self, x, y, radius=R_MA, name=''):
+    def __init__(self, x, y, radius=R_MA, name=NN):
         '''New L{Wm} Web Mercator (WM) coordinate.
 
            @arg x: Easting from central meridian (C{meter}).
@@ -129,7 +129,7 @@ class Wm(_NamedBase):
         r = LatLon2Tuple(Lat(degrees90(y)), Lon(degrees180(x)))
         return self._xnamed(r)
 
-    def parseWM(self, strWM, name=''):
+    def parseWM(self, strWM, name=NN):
         '''Parse a string to a WM coordinate.
 
            For more details, see function L{parseWM} in
@@ -257,7 +257,7 @@ class Wm(_NamedBase):
         return self._y
 
 
-def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
+def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
     '''Parse a string representing a WM coordinate, consisting
        of easting, northing and an optional radius.
 
@@ -295,7 +295,7 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=''):
                          strWM=strWM, Error=WebMercatorError)
 
 
-def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name='', **Wm_kwds):
+def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
     '''Convert a lat-/longitude point to a WM coordinate.
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal or

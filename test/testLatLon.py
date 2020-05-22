@@ -4,13 +4,14 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.05.08'
+__version__ = '20.05.20'
 
 from base import geographiclib, TestsBase
 
 from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
                       degrees, fStr, isclockwise, isconvex, \
-                      isenclosedBy, ispolar, m2km, m2NM  # PYCHOK expected
+                      isenclosedBy, ispolar, m2km, m2NM, \
+                      VincentyError  # PYCHOK expected
 from pygeodesy.named import Bounds2Tuple, \
                             LatLon2Tuple, LatLon3Tuple, \
                             PhiLam2Tuple, PhiLam3Tuple, \
@@ -56,8 +57,8 @@ class Tests(TestsBase):
         LAX = LatLon(33.+57./60, -(118.+24./60))
         Rav = m2NM(6366710)  # avg. earth radius in NM
         # <https://GeographicLib.SourceForge.io/html/python/examples.html>
-        WNZ = LatLon(-41.32, 174.81)  # Wellington, NZ
-        SAL = LatLon(40.96, 5.50)  # Salamanca, Spain
+        WNZ = LatLon(-41.32, 174.81, name='Wellington, NZ')
+        SAL = LatLon(40.96, -5.50, name='Salamanca, ES')
         BJS = LatLon(40.1, 116.6)  # Beijing Airport
         SFO = LatLon(37.6, -122.4)  # San Francisco
 
@@ -107,11 +108,18 @@ class Tests(TestsBase):
             self.test('distanceTo', d, 2145 if Sph else (3972863 if Nv else 3981601), fmt='%.0f')  # PYCHOK test attr?
             if not Nv:  # <https://GeographicLib.SourceForge.io/html/python/examples.html>
                 self.test('antipodal', WNZ.isantipodeTo(SAL, eps=0.1), False)
-                d = WNZ.distanceTo(SAL, wrap=False)
-                self.test('distanceTo dateline', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK test attr?
-                d = WNZ.distanceTo(SAL, wrap=True)
-                self.test('distanceTo unrolled', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK test attr?
-
+                try:
+                    d = WNZ.distanceTo(SAL, wrap=False)
+                    self.test('distanceTo dateline', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK test attr?
+                except VincentyError as x:
+                    x = str(x)
+                    self.test('distanceTo dateline', x, 'no convergence ...', known=True)
+                try:
+                    d = WNZ.distanceTo(SAL, wrap=True)
+                    self.test('distanceTo unrolled', d, 19119590.551 if Sph else 19959679.267, fmt='%.3f', known=True)  # PYCHOK test attr?
+                except VincentyError as x:
+                    x = str(x)
+                    self.test('distanceTo unrolled', x, 'no convergence ...', known=True)
                 self.test('antipodal', BJS.isantipodeTo(SFO, eps=0.1), False)
                 d = BJS.distanceTo(SFO, wrap=False)
                 self.test('distanceTo dateline', d, 9491735 if Sph else 9513998, fmt='%.0f')  # PYCHOK test attr?
@@ -124,14 +132,18 @@ class Tests(TestsBase):
             try:
                 d = LatLon(0, 0).distanceTo(LatLon(0, 180))  # antipodal
                 self.test('distanceTo', d, 20015114.35 if Sph else 20003931.46, fmt='%.2f', known=Nv)  # PYCHOK 0.0 for Nv
-            except ValueError as d:
-                d = str(d)
-                self.test('distanceTo', d, 'ambiguous: LatLon(00°00′00.0″N, 000°00′00.0″E) antipodal to LatLon(00°00′00.0″N, 180°00′00.0″E)')
+            except ValueError as x:
+                x = str(x)
+                self.test('distanceTo', x, 'ambiguous, antipodal ...', known=True)
 
-        if hasattr(LatLon, 'distanceTo3') and not Sph:
+        if hasattr(LatLon, 'distanceTo3'):  # and not Sph:
             for w in (False, True):
-                d = WNZ.distanceTo3(SAL, wrap=w)  # XXX expected values?
-                self.test('distanceTo3 dateline', fStr(d, prec=4), '19125097.7012, 270.7159, 276.0288', known=True)  # PYCHOK test attr?
+                try:
+                    d = WNZ.distanceTo3(SAL, wrap=w)  # XXX expected values?
+                    self.test('distanceTo3 dateline', fStr(d, prec=4), '19959679.2674, 161.0677, 18.8252', known=True)  # PYCHOK test attr?
+                except VincentyError as x:
+                    x = str(x)
+                    self.test('distanceTo3 dateline', x, 'no convergence ...', known=True)
                 d = BJS.distanceTo3(SFO, wrap=w)
                 self.test('distanceTo3 dateline', fStr(d, prec=4), '9513997.9901, 42.9164, 138.8903')  # PYCHOK test attr?
 
@@ -199,10 +211,10 @@ class Tests(TestsBase):
             e = LatLon(53.1887, 0.1334)
             p = LatLon(53.2611, -0.7972)
             try:
-                d = p.alongTrackDistanceTo(s, 96)
+                d = p.alongTrackDistanceTo(s, 96, TypeError.__name__, known=True)
                 self.test('alongTrackDistanceTo', d, 62331.59, fmt='%.2f')  # 62331
             except TypeError as x:
-                self.test('alongTrackDistanceTo', str(x), str(x))  # PYCHOK test attr?
+                self.test('alongTrackDistanceTo', str(x), 'incompatible ...', known=True)  # PYCHOK test attr?
             d = p.alongTrackDistanceTo(s, e)
             self.test('alongTrackDistanceTo', d, 62331.58, fmt='%.2f')
 
@@ -226,9 +238,9 @@ class Tests(TestsBase):
             p = LatLon(53.2611, -0.7972)
             try:
                 d = p.crossTrackDistanceTo(s, 96)
-                self.test('crossTrackDistanceTo', d, -305.67, fmt='%.2f')  # -305.7
+                self.test('crossTrackDistanceTo', d, TypeError.__name__, known=True)
             except TypeError as x:
-                self.test('crossTrackDistanceTo', str(x), str(x))  # PYCHOK test attr?
+                self.test('crossTrackDistanceTo', str(x), 'incompatible ...', known=True)  # PYCHOK test attr?
             d = p.crossTrackDistanceTo(s, e)
             self.test('crossTrackDistanceTo', d, -307.55, fmt='%.2f')  # -307.5
 
@@ -273,14 +285,14 @@ class Tests(TestsBase):
                 try:
                     self.test('isclockwise', isclockwise(t[:2]), ValueError.__name__)
                 except ValueError as x:
-                    self.test('isclockwise', x, 'points (2): too few')  # PYCHOK test attr?
+                    self.test('isclockwise', str(x), 'points (2): too few', known=True)  # PYCHOK test attr?
             # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
             p = LatLon(85, -135), LatLon(85, -45), LatLon(85, 45), LatLon(85, 135), LatLon(85, -135)
             for _ in self.testiter():
                 try:
                     self.test('isclockwise', isclockwise(p), ValueError.__name__)  # PYCHOK test attr?
                 except ValueError as x:
-                    self.test('isclockwise', str(x).split(':')[0], 'zero or polar area')  # PYCHOK test attr?
+                    self.test('isclockwise', str(x), 'zero or polar area', known=True)  # PYCHOK test attr?
 
         if isconvex:
             f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
@@ -293,7 +305,7 @@ class Tests(TestsBase):
                 try:
                     self.test('isconvex', isconvex(t[:2]), ValueError.__name__)
                 except ValueError as x:
-                    self.test('isconvex', x, 'points (2): too few')  # PYCHOK test attr?
+                    self.test('isconvex', str(x), 'points (2): too few', known=True)  # PYCHOK test attr?
 
         if isenclosedBy:
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)

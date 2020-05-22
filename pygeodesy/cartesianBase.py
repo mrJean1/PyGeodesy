@@ -12,7 +12,7 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, property_doc_, property_RO, \
+from pygeodesy.basics import EPS, NN, property_doc_, property_RO, \
                             _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefKarney
@@ -27,7 +27,7 @@ from math import sqrt  # hypot
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 
 class CartesianBase(Vector3d):
@@ -38,7 +38,7 @@ class CartesianBase(Vector3d):
     _e9t   = None        #: (INTERNAL) Cached toEcef (L{Ecef9Tuple}).
     _v4t   = None        #: (INTERNAL) Cached toNvector (L{Vector4Tuple}).
 
-    def __init__(self, xyz, y=None, z=None, datum=None, ll=None, name=''):
+    def __init__(self, xyz, y=None, z=None, datum=None, ll=None, name=NN):
         '''New C{Cartesian...}.
 
            @arg xyz: An L{Ecef9Tuple}, L{Vector3Tuple}, L{Vector4Tuple}

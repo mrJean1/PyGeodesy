@@ -5,7 +5,7 @@ u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
 for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
-from pygeodesy.basics import isscalar, isstr, map1, property_RO, \
+from pygeodesy.basics import isscalar, isstr, map1, NN, property_RO, \
                             _xattrs, _xinstanceof, _xkwds, \
                             _xsubclassof, _xzipairs
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -24,7 +24,7 @@ __all__ = _ALL_DOCS('UtmUpsBase') + _ALL_DOCS('LatLonDatum5Tuple',
                                               'UtmUps5Tuple',
                                               'UtmUps8Tuple',
                                               'UtmUpsLatLon5Tuple')
-__version__ = '20.05.10'
+__version__ = '20.05.14'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -75,7 +75,7 @@ def _to4lldn(latlon, lon, datum, name):
     return lat, lon, d, (name or nameof(latlon))
 
 
-def _to3zBhp(zone, band, hemipole='', Error=_ValueError):  # imported by .epsg, .ups, .utm, .utmups
+def _to3zBhp(zone, band, hemipole=NN, Error=_ValueError):  # imported by .epsg, .ups, .utm, .utmups
     '''Parse UTM/UPS zone, Band letter and hemisphere/pole letter.
 
        @arg zone: Zone with/-out Band (C{scalar} or C{str}).
@@ -152,14 +152,14 @@ class LatLonDatum5Tuple(_NamedTuple):
 class UtmUpsBase(_NamedBase):
     '''(INTERNAL) Base class for L{Utm} and L{Ups} coordinates.
     '''
-    _band        = ''    #: (INTERNAL) Latitude band letter ('A..Z').
+    _band        = NN    #: (INTERNAL) Latitude band letter ('A..Z').
     _convergence = None  #: (INTERNAL) Meridian conversion (C{degrees}).
     _datum       = Datums.WGS84  #: (INTERNAL) L{Datum}.
     _easting     = 0     #: (INTERNAL) Easting, see B{C{falsed}} (C{meter}).
     _Error       = None  #: (INTERNAL) must be overloaded.
     _epsg        = None  #: (INTERNAL) toEpsg cache (L{Epsg}).
     _falsed      = True  #: (INTERNAL) Falsed easting and northing (C{bool}).
-    _hemisphere  = ''    #: (INTERNAL) Hemisphere ('N' or 'S'), different from pole.
+    _hemisphere  = NN    #: (INTERNAL) Hemisphere ('N' or 'S'), different from pole.
     _latlon      = None  #: (INTERNAL) toLatLon cache (C{LatLon}).
     _latlon_args = None  #: (INTERNAL) toLatLon args (varies).
     _mgrs        = None  #: (INTERNAL) toMgrs cache (L{Mgrs}.
@@ -169,7 +169,7 @@ class UtmUpsBase(_NamedBase):
     _ups         = None  #: (INTERNAL) toUps cache (L{Ups}).
     _utm         = None  #: (INTERNAL) toUtm cache (L{Utm}).
 
-    def __init__(self, easting, northing, band='', datum=None, falsed=True,
+    def __init__(self, easting, northing, band=NN, datum=None, falsed=True,
                                           convergence=None, scale=None):
         '''(INTERNAL) New L{UtmUpsBase}.
         '''
@@ -389,7 +389,7 @@ class UtmUpsLatLon5Tuple(_NamedTuple):
         return _NamedTuple.__new__(cls, z, B, h, lat, lon)
 
 
-def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band='', sep=','):
+def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band=NN, sep=','):
     '''(INTERNAL) Parse a string representing a UTM or UPS coordinate
        consisting of C{"zone[band] hemisphere/pole easting northing"}.
 

@@ -17,7 +17,7 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import clips
+from pygeodesy.basics import clips, NN
 from pygeodesy.errors import ParseError, _xkwds_get
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedTuple
@@ -26,7 +26,7 @@ from pygeodesy.units import Lat, Lon, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations + _ALL_DOCS('Elevation2Tuple',
                                          'GeoidHeight2Tuple')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -218,7 +218,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
         j = _qURL('https://Geodesy.NOAA.gov/api/geoid/ght',
                         ('lat=%.6F' % (Lat(lat),),
                          'lon=%.6F' % (Lon(lon),),
-                         'model=%s' % (model,) if model else ''),
+                         'model=%s' % (model,) if model else NN),
                           timeout=Scalar(timeout, name='timeout'))  # PYCHOK indent
         if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
             d, e = _json(j), 'geoidHeight'

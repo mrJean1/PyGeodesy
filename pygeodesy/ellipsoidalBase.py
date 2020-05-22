@@ -12,7 +12,7 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, property_doc_, property_RO, _xinstanceof
+from pygeodesy.basics import EPS, NN, property_doc_, property_RO, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
@@ -23,7 +23,7 @@ from pygeodesy.named import Vector3Tuple
 from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 
 __all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -76,7 +76,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     _wm           = None  #: (INTERNAL) Cached toWm (webmercator.Wm instance).
 
     def __init__(self, lat, lon, height=0, datum=None, reframe=None,
-                                           epoch=None, name=''):
+                                           epoch=None, name=NN):
         '''Create an ellipsoidal C{LatLon} point frome the given
            lat-, longitude and height on the given datum and with
            the given reference frame and epoch.
@@ -498,7 +498,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             self._utm = toUtm8(self, datum=self.datum, Utm=Utm)
         return self._utm
 
-    def toUtmUps(self, pole=''):
+    def toUtmUps(self, pole=NN):
         '''Convert this C{LatLon} point to a UTM or UPS coordinate.
 
            @kwarg pole: Optional top/center of UPS (stereographic)

@@ -12,8 +12,8 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 '''
 
 from pygeodesy.basics import isstr, map2
-from pygeodesy.errors import ParseError, _parseX, RangeError, \
-                            _rangerrors, _ValueError
+from pygeodesy.errors import _Degrees, ParseError, _parseX, _Radians, \
+                              RangeError, _rangerrors, _ValueError
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple
 from pygeodesy.streprs import fstr, fstrzs
@@ -26,7 +26,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '20.05.12'
+__version__ = '20.05.15'
 
 F_D   = 'd'    #: Format degrees as unsigned "deg°" plus suffix (C{str}).
 F_DM  = 'dm'   #: Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -68,10 +68,10 @@ S_RAD = ''   #: Radians symbol "" (C{str}).
 S_SEP = ''   #: Separator between deg, min and sec "" (C{str}).
 S_NUL = ''   #: Empty string
 
-_F_case = {F_D:   F_D,  F_DEG: F_D,  'degrees': F_D,
+_F_case = {F_D:   F_D,  F_DEG: F_D,  _Degrees:  F_D,
            F_DM:  F_DM, F_MIN: F_DM, 'deg+min': F_DM,
            F__E:  F__E, F__F:  F__F,  F__G:     F__G,
-           F_RAD: F_RAD,             'radians': F_RAD}
+           F_RAD: F_RAD,             _Radians:  F_RAD}
 
 _F_prec = {F_D:   6, F_DM:  4, F_DMS: 2,  #: (INTERNAL) default precs.
            F_DEG: 6, F_MIN: 4, F_SEC: 2,
@@ -211,7 +211,7 @@ def clipDegrees(deg, limit):
        @raise RangeError: If B{C{abs(deg)}} beyond B{C{limit}} and
                           L{rangerrors} set to C{True}.
     '''
-    return _clipped_(deg, limit, 'degrees') if limit and limit > 0 else deg
+    return _clipped_(deg, limit, _Degrees) if limit and limit > 0 else deg
 
 
 def clipRadians(rad, limit):
@@ -225,7 +225,7 @@ def clipRadians(rad, limit):
        @raise RangeError: If B{C{abs(rad)}} beyond B{C{limit}} and
                           L{rangerrors} set to C{True}.
     '''
-    return _clipped_(rad, limit, 'radians') if limit and limit > 0 else rad
+    return _clipped_(rad, limit, _Radians) if limit and limit > 0 else rad
 
 
 def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP):

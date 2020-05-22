@@ -25,12 +25,12 @@ from operator import mul as _mul_
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.05.10'
+__version__ = '20.05.15'
 
 _not_finite = 'not finite'
 
 _1_3rd = 1 / 3.0  #: (INTERNAL) One third (C{float})
-_2_3rd = 2 / 3.0  #: (INTERNAL) Two thirds (C{float})
+_2_3rd = 2 / 3.0  # PYCHOK exported to .datum
 _3_2nd = 3 / 2.0  #: (INTERNAL) Three halfs (C{float})
 
 
@@ -45,12 +45,12 @@ def _2even(s, r, p):
     return s
 
 
-def _2sum(a, b):
+def _2sum(a, b):  # by .testFmath
     '''(INTERNAL) Precision C{2sum} of M{a + b}.
     '''
     s = a + b
     if not isfinite(s):
-        raise _OverflowError(unstr(_2sum.__name, a, b), s)
+        raise _OverflowError(unstr(_2sum.__name__, a, b), txt=str(s))
     if abs(a) < abs(b):
         a, b = b, a
     return s, b - (s - a)
@@ -488,7 +488,7 @@ def cbrt2(x):
 
        @see: Functions L{cbrt} and L{sqrt3}.
     '''
-    return pow(abs(x), _2_3rd)
+    return pow(abs(x), _1_3rd)**2  # XXX pow(abs(x), _2_3rd)
 
 
 def favg(v1, v2, f=0.5):
@@ -670,7 +670,7 @@ def fpowers(x, n, alts=0):
     if not isfinite(x):
         raise _ValueError(x=x, txt=_not_finite)
     if not isint(n):
-        raise _IsnotError(int.__name_, n=n)
+        raise _IsnotError(int.__name__, n=n)
     elif n < 1:
         raise _ValueError(n=n)
 
@@ -718,7 +718,7 @@ def frange(start, number, step=1):
              numpy/reference/generated/numpy.arange.html>}.
     '''
     if not isint(number):
-        raise _IsnotError(int.__name_, number=number)
+        raise _IsnotError(int.__name__, number=number)
     for i in range(number):
         yield start + i * step
 

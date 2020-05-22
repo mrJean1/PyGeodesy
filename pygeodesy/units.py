@@ -8,11 +8,11 @@ L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI, PI_2, property_doc_
-from pygeodesy.dms import _EW, F__F, F__F_, _NS, S_NUL, S_SEP, \
-                          _toDMS, parseDMS, parseRad
-from pygeodesy.errors import _Invalid, _IsnotError, RangeError, \
-                             _ValueError
+from pygeodesy.basics import EPS, NN, PI, PI_2, property_doc_
+from pygeodesy.dms import _EW, F__F, F__F_, _NS, _NSEW, parseDMS, \
+                           parseRad, S_NUL, S_SEP, _toDMS
+from pygeodesy.errors import _Degrees, _Invalid, _IsnotError, \
+                             _Radians, RangeError, _ValueError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named
 from pygeodesy.streprs import fstr
@@ -21,7 +21,7 @@ from math import radians
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.units + _ALL_DOCS('_NamedUnit')
-__version__ = '20.05.10'
+__version__ = '20.05.15'
 
 
 class UnitError(_ValueError):
@@ -74,7 +74,7 @@ class Float(float, _NamedUnit):
     '''
     # _std_repr = True  # set below
 
-    def __new__(cls, arg, name='', Error=UnitError):
+    def __new__(cls, arg, name=NN, Error=UnitError):
         '''New named C{float} instance.
 
            @arg arg: The value (any C{type} convertable to C{float}).
@@ -139,7 +139,7 @@ class Float(float, _NamedUnit):
 class Float_(Float):
     '''Named C{float} with optional C{low} and C{high} limit.
     '''
-    def __new__(cls, arg, name='', Error=UnitError, low=EPS, high=None):
+    def __new__(cls, arg, name=NN, Error=UnitError, low=EPS, high=None):
         '''New named C{float} instance with limits.
 
            @arg cls: This class (C{Float_} or sub-class).
@@ -168,7 +168,7 @@ class Int(int, _NamedUnit):
     '''
     # _std_repr = True  # set below
 
-    def __new__(cls, arg, name='', Error=UnitError):
+    def __new__(cls, arg, name=NN, Error=UnitError):
         '''New named {int} instance.
 
            @arg arg: The value (any C{type} convertable to C{int}).
@@ -225,7 +225,7 @@ class Int(int, _NamedUnit):
 class Int_(Int):
     '''Named C{int} with optional limits C{low} and C{high}.
     '''
-    def __new__(cls, arg, name='', Error=UnitError, low=0, high=None):
+    def __new__(cls, arg, name=NN, Error=UnitError, low=0, high=None):
         '''New named C{int} instance with limits.
 
            @arg cls: This class (C{Int_} or sub-class).
@@ -254,7 +254,7 @@ class Str(str, _NamedUnit):
     '''
     # _std_repr = True  # set below
 
-    def __new__(cls, arg, name='', Error=UnitError):
+    def __new__(cls, arg, name=NN, Error=UnitError):
         '''New named C{str} instance.
 
            @arg arg: The value (any C{type} convertable to C{str}).
@@ -328,7 +328,7 @@ class Degrees(Float):
     _suf_ = S_NUL, S_NUL, S_NUL
     _sep_ = S_SEP
 
-    def __new__(cls, arg, name='degrees', Error=UnitError, suffix='NSEW', clip=0):
+    def __new__(cls, arg, name=_Degrees, Error=UnitError, suffix=_NSEW, clip=0):
         '''New named C{Degrees} instance.
 
            @arg cls: This class (C{Degrees} or sub-class).
@@ -386,7 +386,7 @@ class Bearing(Degrees):
 class Radians(Float):
     '''Named C{float} representing a coordinate in C{radians}, optionally clipped.
     '''
-    def __new__(cls, arg, name='radians', Error=UnitError, suffix='NSEW', clip=0):
+    def __new__(cls, arg, name=_Radians, Error=UnitError, suffix=_NSEW, clip=0):
         '''New named C{Radians} instance.
 
            @arg cls: This class (C{Radians} or sub-class).
@@ -638,7 +638,7 @@ class Zone(Int):
         return Int_.__new__(cls, arg, name=name, Error=Error)
 
 
-def _Error(clas, arg, name='', Error=UnitError, txt=_Invalid):
+def _Error(clas, arg, name=NN, Error=UnitError, txt=_Invalid):
     '''(INTERNAL) Return an error with explanation.
 
        @arg clas: The C{units} class or sub-class.

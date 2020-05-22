@@ -71,6 +71,8 @@ INF  = float('inf')  #: Infinity (C{float}), see function C{isinf}, C{isfinite}
 NAN  = float('nan')  #: Not-A-Number (C{float}), see function C{isnan}
 NEG0 = -0.0          #: Negative 0.0 (C{float}), see function C{isneg0}
 
+NN   = ''            #: Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
+
 PI2  = PI * 2.0  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
 PI_2 = PI / 2.0  #: Half PI, M{PI / 2} (C{float})
 PI_4 = PI / 4.0  #: Quarter PI, M{PI / 4} (C{float})
@@ -90,7 +92,7 @@ def _bkwds(inst, Error=AttributeError, **name_value_pairs):  # in .frechet, .hau
             setattr(inst, '_' + n, v)
 
 
-def clips(bstr, limit=50, white=''):
+def clips(bstr, limit=50, white=NN):
     '''Clip a string to the given length limit.
 
        @arg bstr: String (C{bytes} or C{str}).
@@ -280,7 +282,7 @@ def property_doc_(doc):
     def _property(method):
         '''(INTERNAL) Return C{method} as documented C{property.getter}.
         '''
-        t = 'get and set' if doc.startswith(' ') else ''
+        t = 'get and set' if doc.startswith(' ') else NN
         return property(method, None, None, 'Property to ' + t + doc)
 
     return _property
@@ -403,7 +405,7 @@ def _xsubclassof(Class, **name_value_pairs):
             raise _TypesError(n, v, Class)
 
 
-def _xzipairs(lefts, rights, sep=', ', fmt='', pair='%s:%s'):
+def _xzipairs(lefts, rights, sep=', ', fmt=NN, pair='%s:%s'):
     '''(INTERNAL) Zip C{lefts} and C{rights} into a C{str}.
     '''
     t = sep.join(pair % t for t in zip(lefts, rights))

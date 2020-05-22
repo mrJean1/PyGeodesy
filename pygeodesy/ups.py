@@ -18,7 +18,7 @@ each end).
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, property_RO
+from pygeodesy.basics import EPS, NN, property_RO
 from pygeodesy.datum import Datums, _TOL
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
@@ -37,7 +37,7 @@ from math import atan, atan2, radians, sqrt, tan
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = Meter(2000e3)  #: (INTERNAL) False easting and northing (C{meter}).
@@ -65,17 +65,17 @@ def _scale(E, rho, tau):
 class Ups(UtmUpsBase):
     '''Universal Polar Stereographic (UPS) coordinate.
     '''
-    _band        = ''        #: (INTERNAL) Polar band ('A', 'B', 'Y' or 'Z').
+    _band        = NN        #: (INTERNAL) Polar band ('A', 'B', 'Y' or 'Z').
     _Error       = UPSError  #: (INTERNAL) Error
     _latlon_args = True      #: (INTERNAL) unfalse from _latlon (C{bool}).
-    _pole        = ''        #: (INTERNAL) UPS projection top/center ('N' or 'S').
+    _pole        = NN        #: (INTERNAL) UPS projection top/center ('N' or 'S').
     _scale       = None      #: (INTERNAL) Point scale factor (C{scalar}).
     _scale0      = _K0       #: (INTERNAL) Central scale factor (C{scalar}).
     _utm         = None      #: (INTERNAL) toUtm cache (L{Utm}).
 
-    def __init__(self, zone, pole, easting, northing, band='',  # PYCHOK expected
+    def __init__(self, zone, pole, easting, northing, band=NN,  # PYCHOK expected
                                    datum=Datums.WGS84, falsed=True,
-                                   convergence=None, scale=None, name=''):
+                                   convergence=None, scale=None, name=NN):
         '''New L{Ups} UPS coordinate.
 
            @arg zone: UPS zone (C{int}, zero) or zone with/-out Band
@@ -172,7 +172,7 @@ class Ups(UtmUpsBase):
         u  = toUps8(abs(Lat(lat)), 0, datum=self.datum, Ups=_UpsK1)
         k  = s0 / u.scale
         if self.scale0 != k:
-            self._band = ''  # force re-compute
+            self._band = NN  # force re-compute
             self._latlon = self._epsg = self._mgrs = self._utm = None
             self._scale0 = Scalar(k)
 
@@ -292,7 +292,7 @@ class Ups(UtmUpsBase):
         '''
         return self._toStr(self.pole, B, cs, prec, sep)  # PYCHOK pole
 
-    def toUps(self, pole='', **unused):
+    def toUps(self, pole=NN, **unused):
         '''Duplicate this UPS coordinate.
 
            @kwarg pole: Optional top/center of the UPS projection,
@@ -337,7 +337,7 @@ class _UpsK1(Ups):
     _scale0 = _K1
 
 
-def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=''):
+def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=NN):
     '''Parse a string representing a UPS coordinate, consisting of
        C{"[zone][band] pole easting northing"} where B{C{zone}} is
        pseudo zone C{"00"|"0"|""} and C{band} is C{'A'|'B'|'Y'|'Z'|''}.
@@ -365,8 +365,8 @@ def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=''):
     return _xnamed(r, name)
 
 
-def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole='',
-                             falsed=True, strict=True, name=''):
+def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
+                             falsed=True, strict=True, name=NN):
     '''Convert a lat-/longitude point to a UPS coordinate.
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
@@ -481,7 +481,7 @@ def upsZoneBand5(lat, lon, strict=True):
         raise RangeError(lat=degDMS(lat), txt=t)
 
     else:
-        B, p = '', _hemi(lat)
+        B, p = NN, _hemi(lat)
     return UtmUpsLatLon5Tuple(z, B, p, lat, lon, Error=UPSError)
 
 # **) MIT License

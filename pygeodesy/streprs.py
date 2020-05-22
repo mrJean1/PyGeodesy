@@ -11,12 +11,13 @@ from pygeodesy.lazily import _ALL_LAZY
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.05.08'
+__version__ = '20.05.15'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int
 _Gg     = ('G', 'g')
 _EeFfGg = ('F', 'f', 'E', 'e') + _Gg  # float formats
+_Fmt    =  'F'
 
 
 def _streprs(prec, objs, fmt, ints, force, strepr):
@@ -112,7 +113,7 @@ def enstr2(easting, northing, prec, *extras):
                      '%0*d' % (w, int(northing * p10)))
 
 
-def fstr(floats, prec=6, fmt='F', ints=False, sep=', ', strepr=None):
+def fstr(floats, prec=6, fmt=_Fmt, ints=False, sep=', ', strepr=None):
     '''Convert one or more floats to string, optionally stripped of trailing zero decimals.
 
        @arg floats: Single or a list, sequence, tuple, etc. (C{scalar}s).
@@ -181,7 +182,7 @@ def instr(inst, *args, **kwds):
     return unstr(classname(inst), *args, **kwds)
 
 
-def pairs(items, prec=6, fmt='F', ints=False, sep='='):
+def pairs(items, prec=6, fmt=_Fmt, ints=False, sep='='):
     '''Convert items to I{name=value} strings, with C{float}s handled like L{fstr}.
 
        @arg items: Name-value pairs (C{dict} or 2-{tuple}s of any C{type}s).
@@ -208,7 +209,7 @@ def pairs(items, prec=6, fmt='F', ints=False, sep='='):
     return tuple(sep.join(t) for t in zip(map(str, n), v))
 
 
-def reprs(objs, prec=6, fmt='F', ints=False):
+def reprs(objs, prec=6, fmt=_Fmt, ints=False):
     '''Convert objects to C{repr} strings, with C{float}s handled like L{fstr}.
 
        @arg objs: List, sequence, tuple, etc. (any C{type}s).
@@ -223,7 +224,7 @@ def reprs(objs, prec=6, fmt='F', ints=False):
     return tuple(_streprs(prec, objs, fmt, ints, False, repr)) if objs else ()
 
 
-def strs(objs, prec=6, fmt='F', ints=False):
+def strs(objs, prec=6, fmt=_Fmt, ints=False):
     '''Convert objects to C{str} strings, with C{float}s handled like L{fstr}.
 
        @arg objs: List, sequence, tuple, etc. (any C{type}s).
@@ -247,7 +248,7 @@ def unstr(name, *args, **kwds):
 
        @return: Representation (C{str}).
     '''
-    t = reprs(args) + pairs(sorted(kwds.items()))
+    t = reprs(args, fmt='g') + pairs(sorted(kwds.items()))
     return '%s(%s)' % (name, ', '.join(t))
 
 # **) MIT License

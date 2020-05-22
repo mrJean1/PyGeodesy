@@ -4,12 +4,13 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.03.09'
+__version__ = '20.05.15'
 
 from base import coverage, TestsBase
 
-from pygeodesy import Ellipsoids, fhorner, fpolynomial, fpowers, \
-                      Fsum, fsum, fsum_, hypot3, hypot_
+from pygeodesy import cbrt, cbrt2, Ellipsoids, fhorner, fmath, \
+                      fpolynomial, fpowers, Fsum, fsum, fsum_, \
+                      hypot3, hypot_, sqrt3
 
 from math import sqrt
 from random import random, gauss, shuffle
@@ -137,6 +138,11 @@ class Tests(TestsBase):
             self.test('Fsum#', len(a._ps), 1)
             self.test('FSum.', a, 'fmath.Fsum()')
 
+        try:
+            self.test('_2sum', fmath._2sum(1e308, 1e803), OverflowError.__name__)
+        except OverflowError as x:
+            self.test('_2sum', repr(x), repr(x))
+
         h = hypot_(1.0, 0.0050, 0.0000000000010)
         self.test('hypot_', h, '1.0000124999219', fmt='%.13f')
         s = hypot3(1.0, 0.0050, 0.0000000000010)  # DEPRECATED
@@ -151,10 +157,14 @@ class Tests(TestsBase):
         s = sqrt(fsum_(40000**2, 3000**2, 200**2, 100))
         self.test('hypot_', h, s, fmt='%.3f')
 
+        self.test('cbrt', cbrt(27),   '3.0')
+        self.test('cbrt', cbrt(-27), '-3.0')
+        self.test('cbrt2', cbrt2(27),  '9.0')
+        self.test('cbrt2', cbrt2(-27), '9.0')
+        self.test('sqrt3', sqrt3(9),  '27.0')
+
 
 if __name__ == '__main__':
-
-    from pygeodesy import fmath
 
     t = Tests(__file__, __version__, fmath)
     t.testFmath()

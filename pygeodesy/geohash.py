@@ -16,7 +16,7 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, isstr, map2, property_RO, _xkwds
+from pygeodesy.basics import EPS, NN, R_M, isstr, map2, property_RO, _xkwds
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import favg
@@ -36,7 +36,7 @@ __all__ = _ALL_LAZY.geohash + _ALL_DOCS('Neighbors8Dict') + (
           'bounds',  # functions
           'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
           'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -134,7 +134,7 @@ class Geohash(Str):
     _W = None
 
     # no str.__init__ in Python 3
-    def __new__(cls, cll, precision=None, name=''):
+    def __new__(cls, cll, precision=None, name=NN):
         '''New L{Geohash} from an other L{Geohash} instance or C{str}
            or from a C{LatLon} instance or C{str}.
 

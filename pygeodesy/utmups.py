@@ -13,7 +13,7 @@ A pure Python implementation, partially transcribed from C++ class U{UTMUPS
 by I{Charles Karney}.
 '''
 
-from pygeodesy.basics import map1
+from pygeodesy.basics import map1, NN
 from pygeodesy.datum import Datums
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
 from pygeodesy.lazily import _ALL_LAZY
@@ -27,7 +27,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -67,7 +67,7 @@ class UTMUPSError(_ValueError):  # XXX (UTMError, UPSError)
     pass
 
 
-def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=''):
+def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=NN):
     '''Parse a string representing a UTM or UPS coordinate, consisting
        of C{"zone[band] hemisphere/pole easting northing"}.
 
@@ -101,7 +101,7 @@ def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=''):
 
 
 def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
-                                            pole='', name='', **cmoff):
+                                            pole=NN, name=NN, **cmoff):
     '''Convert a lat-/longitude point to a UTM or UPS coordinate.
 
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal)
@@ -149,8 +149,8 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
     return u
 
 
-def UtmUps(zone, hemipole, easting, northing, band='', datum=Datums.WGS84,
-                                              falsed=True, name=''):
+def UtmUps(zone, hemipole, easting, northing, band=NN, datum=Datums.WGS84,
+                                              falsed=True, name=NN):
     '''Class-like function to create a UTM/UPS coordinate.
 
        @kwarg zone: The UTM (longitudinal) zone with/-out Band letter

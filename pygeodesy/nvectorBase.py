@@ -14,7 +14,7 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import len2, property_doc_, \
+from pygeodesy.basics import NN, len2, property_doc_, \
                              property_RO, _xattrs
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.errors import _Missing, _xkwds_pop
@@ -34,7 +34,7 @@ __all__ = _ALL_DOCS('LatLonNvectorBase') + (
           'NorthPole', 'SouthPole',  # constants
           'NvectorBase',  # classes
           'sumOf')  # functions
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -43,11 +43,11 @@ class NvectorBase(Vector3d):  # XXX kept private
     _datum  = None        #: (INTERNAL) L{Datum}, overriden.
     _Ecef   = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
     _h      = 0           #: (INTERNAL) Height (C{meter}).
-    _H      = ''          #: Heigth prefix (C{str}), '↑' in JS version
+    _H      = NN          #: Heigth prefix (C{str}), '↑' in JS version
     _latlon = None        #: (INTERNAL) Cached latlon (L{LatlLon2Tuple}).
     _philam = None        #: (INTERNAL) Cached philam (L{PhiLam2Tuple}).
 
-    def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=''):
+    def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=NN):
         '''New n-vector normal to the earth's surface.
 
            @arg x: An C{Nvector}, L{Vector3Tuple}, L{Vector4Tuple} or

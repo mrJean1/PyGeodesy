@@ -22,7 +22,7 @@ from math import acos, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.05.12'
+__version__ = '20.05.15'
 
 
 class PointsError(_ValueError):
@@ -31,13 +31,13 @@ class PointsError(_ValueError):
     pass
 
 
-def _scaled(lat1, lat2):  # degrees
+def _scale_deg(lat1, lat2):  # degrees
     # scale factor cos(mean of lats) for delta lon
     m = abs(lat1 + lat2) * 0.5
     return cos(radians(m)) if m < 90 else 0
 
 
-def _scaler(phi1,  phi2):  # radians, imported by .frechet, .hausdorff, .heights
+def _scale_rad(phi1,  phi2):  # radians, by .frechet, .hausdorff, .heights
     # scale factor cos(mean of phis) for delta lam
     m = abs(phi1 + phi2) * 0.5
     return cos(m) if m < PI_2 else 0
@@ -146,7 +146,7 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     '''
     d_lon, _ = unroll180(lon1, lon2, wrap=wrap)
     if adjust:  # scale delta lon
-        d_lon *= _scaled(lat1, lat2)
+        d_lon *= _scale_deg(lat1, lat2)
     return degrees360(atan2(d_lon, lat2 - lat1))
 
 
@@ -165,7 +165,7 @@ def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
-       @raise TypeError: Invalid B{C{datum}}.
+       @raise TypeError: Invalid B{C{radius}}.
 
        @see: Functions L{cosineLaw_}, L{equirectangular}, L{euclidean},
              L{flatLocal}, L{flatPolar}, L{haversine}, L{vincentys} and
@@ -267,12 +267,12 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
     if limit and _limiterrors \
              and max(abs(d_lat), abs(d_lon)) > limit > 0:
-        t = unstr(equirectangular_.__name,
+        t = unstr(equirectangular_.__name__,
                   lat1, lon1, lat2, lon2, limit=limit)
         raise LimitError('delta exceeds limit', txt=t)
 
     if adjust:  # scale delta lon
-        d_lon *= _scaled(lat1, lat2)
+        d_lon *= _scale_deg(lat1, lat2)
 
     d2 = hypot2(d_lat, d_lon)  # degrees squared!
     return Distance4Tuple(d2, d_lat, d_lon, ulon2 - lon2)
@@ -291,6 +291,8 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
+
+       @raise TypeError: Invalid B{C{radius}}.
 
        @see: U{Distance between two (spherical) points
              <https://www.EdWilliams.org/avform.htm#Dist>}, functions
@@ -324,7 +326,7 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
     '''
     a, b = abs(phi2 - phi1), abs(lam21)
     if adjust:
-        b *= _scaler(phi2, phi1)
+        b *= _scale_rad(phi2, phi1)
     if a < b:
         a, b = b, a
     return a + b * 0.5  # 0.4142135623731
@@ -406,6 +408,8 @@ def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
+       @raise TypeError: Invalid B{C{radius}}.
+
        @see: Functions L{flatPolar_}, L{cosineLaw}, L{flatLocal},
              L{equirectangular}, L{euclidean}, L{haversine} and
              L{vincentys}.
@@ -456,6 +460,8 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
+
+       @raise TypeError: Invalid B{C{radius}}.
 
        @see: U{Distance between two (spherical) points
              <https://www.EdWilliams.org/avform.htm#Dist>}, functions
@@ -716,6 +722,8 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
+
+       @raise TypeError: Invalid B{C{radius}}.
 
        @see: Functions L{vincentys_}, L{cosineLaw}, L{equirectangular},
              L{euclidean}, L{flatLocal}, L{flatPolar}, L{haversine} and

@@ -11,7 +11,7 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, map1, property_doc_, property_RO, \
+from pygeodesy.basics import EPS, NN, R_M, map1, property_doc_, property_RO, \
                             _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS  # parseDMS, parseDMS2
 from pygeodesy.ecef import EcefKarney
@@ -32,7 +32,7 @@ from math import asin, cos, degrees, radians
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 
 class LatLonBase(_NamedBase):
@@ -46,13 +46,13 @@ class LatLonBase(_NamedBase):
     _lat    = 0           #: (INTERNAL) Latitude (C{degrees}).
     _latlon = None        #: (INTERNAL) Cached (L{LatLon2Tuple}).
     _lon    = 0           #: (INTERNAL) Longitude (C{degrees}).
-    _name   = ''          #: (INTERNAL) name (C{str}).
+    _name   = NN          #: (INTERNAL) name (C{str}).
     _philam = None        #: (INTERNAL) Cached (L{PhiLam2Tuple}).
     _v3d    = None        #: (INTERNAL) Cached toVector3d (L{Vector3d}).
     _xyz    = None        #: (INTERNAL) Cached xyz (L{Vector3Tuple}).
     _xyzh   = None        #: (INTERNAL) Cached xyzh (L{Vector4Tuple}).
 
-    def __init__(self, lat, lon, height=0, name=''):
+    def __init__(self, lat, lon, height=0, name=NN):
         '''New C{LatLon}.
 
            @arg lat: Latitude (C{degrees} or DMS C{str} with N or S suffix).

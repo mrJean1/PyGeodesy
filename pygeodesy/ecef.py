@@ -46,7 +46,7 @@ See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/html/geocentri
 for further information on the errors.
 '''
 
-from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, map1, property_RO, \
+from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, map1, NN, property_RO, \
                             _xinstanceof, _xkwds, _xsubclassof
 from pygeodesy.datum import Datum, Datums, Ellipsoid
 from pygeodesy.errors import LenError, _ValueError
@@ -62,10 +62,10 @@ from math import atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 
-def _llhn4(latlonh, lon, height, suffix=''):
+def _llhn4(latlonh, lon, height, suffix=NN):
     '''(INTERNAL) Get C{lat, lon, h, name} as C{4-tuple}.
     '''
     try:
@@ -84,7 +84,7 @@ def _llhn4(latlonh, lon, height, suffix=''):
     if abs(lat) > 90:  # XXX RangeError
         raise EcefError('lat' + suffix, lat)
 
-    return lat, lon, h, getattr(latlonh, 'name', '')
+    return lat, lon, h, getattr(latlonh, 'name', NN)
 
 
 def _sch3(y, x):
@@ -219,7 +219,7 @@ class EcefKarney(_EcefBase):
     '''
     _hmax = 0  # 12M light years
 
-    def __init__(self, a_ellipsoid, f=None, name=''):
+    def __init__(self, a_ellipsoid, f=None, name=NN):
         '''New L{EcefKarney} converter.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}), a datum (L{Datum}) or
@@ -452,7 +452,7 @@ class EcefCartesian(_NamedBase):
     _ecef = EcefKarney(Datums.WGS84)
     _t0   = None
 
-    def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=''):
+    def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
         '''New L{EcefCartesian} converter.
 
            @kwarg latlonh0: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
@@ -536,7 +536,7 @@ class EcefCartesian(_NamedBase):
         '''
         return self._t0.M
 
-    def reset(self, latlonh0=0, lon0=0, height0=0, name=''):
+    def reset(self, latlonh0=0, lon0=0, height0=0, name=NN):
         '''Reset the local cartesian origin.
 
            @kwarg latlonh0: Either a C{LatLon}, an L{Ecef9Tuple} or C{scalar}
@@ -863,7 +863,7 @@ class EcefVeness(_EcefBase):
              latitude, longitude and height coordinates}.
     '''
 
-    def __init__(self, a_ellipsoid, f=None, name=''):
+    def __init__(self, a_ellipsoid, f=None, name=NN):
         '''New L{EcefVeness} converter.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}), a datum (L{Datum}) or
@@ -996,7 +996,7 @@ class EcefYou(_EcefBase):
              <https://PyPI.org/project/pymap3d>}.
     '''
 
-    def __init__(self, a_ellipsoid, f=None, name=''):
+    def __init__(self, a_ellipsoid, f=None, name=NN):
         '''New L{EcefYou} converter.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}), a datum (L{Datum}) or

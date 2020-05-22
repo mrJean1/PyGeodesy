@@ -11,7 +11,7 @@ C{height} and C{radius}.  See also U{World Geographic Reference System
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 '''
 
-from pygeodesy.basics import EPS1_2, isstr, property_RO
+from pygeodesy.basics import EPS1_2, NN, isstr, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _item_, _Missing, _ValueError
 from pygeodesy.lazily import _ALL_LAZY
@@ -26,7 +26,7 @@ from math import floor
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.wgrs + ('decode3', 'decode5',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 _Base    = 10
 _BaseLen =  4
@@ -102,7 +102,7 @@ class Georef(Str):
     _radius    = _Missing  # meter
 
     # no str.__init__ in Python 3
-    def __new__(cls, cll, precision=3, name=''):
+    def __new__(cls, cll, precision=3, name=NN):
         '''New L{Georef} from an other L{Georef} instance or georef
            C{str} or from a C{LatLon} instance or lat-/longitude C{str}.
 

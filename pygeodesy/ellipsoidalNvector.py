@@ -22,7 +22,7 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _xinstanceof, \
+from pygeodesy.basics import NN, property_RO, _xinstanceof, \
                             _xkwds, _xzipairs
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
@@ -43,7 +43,7 @@ from math import asin, atan2
 __all__ = _ALL_LAZY.ellipsoidalNvector + _ALL_DOCS('Ned3Tuple') + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.04.30'
+__version__ = '20.05.14'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -482,7 +482,7 @@ class Ned(_Named):
     _length    = None  #: (INTERNAL) Cache length (C{float}).
     _north     = None  #: (INTERNAL) North component (C{meter}).
 
-    def __init__(self, north, east, down, name=''):
+    def __init__(self, north, east, down, name=NN):
         '''New North-East-Down vector.
 
            @arg north: North component (C{meter}).
@@ -628,7 +628,7 @@ class Nvector(NvectorBase):
     _datum = Datums.WGS84  #: (INTERNAL) Default datum (L{Datum}).
     _Ecef  = EcefVeness    #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
 
-    def __init__(self, x, y, z, h=0, datum=None, ll=None, name=''):
+    def __init__(self, x, y, z, h=0, datum=None, ll=None, name=NN):
         '''New n-vector normal to the earth's surface.
 
            @arg x: X component (C{meter}).
@@ -777,7 +777,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
     return _sumOf(nvectors, Vector=Vector, h=h, **Vector_kwds)
 
 
-def toNed(distance, bearing, elevation, Ned=Ned, name=''):
+def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
     '''Create an NED vector from distance, bearing and elevation
        (in local coordinate system).
 

@@ -33,7 +33,7 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, len2, map2, property_RO
+from pygeodesy.basics import EPS, len2, map2, NN, property_RO
 from pygeodesy.datum import Datums
 from pygeodesy.dms import degDMS, _NS, parseDMS2
 from pygeodesy.errors import _Missing, RangeError, _ValueError, _xkwds_get
@@ -56,7 +56,7 @@ from operator import mul
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -224,16 +224,16 @@ def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, Error, **cmoff):
 class Utm(UtmUpsBase):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
-    _band        = ''    #: (INTERNAL) Latitude band letter ('C..X').
+    _band        = NN    #: (INTERNAL) Latitude band letter ('C..X').
     _Error       = UTMError  # or etm.ETMError
     _latlon_args = ()    #: (INTERNAL) (eps, unfalse) from _latlon (C{float}, C{bool}).
     _scale       = None  #: (INTERNAL) Grid scale factor (C{scalar}) or C{None}.
     _scale0      = _K0   #: (INTERNAL) Central scale factor (C{scalar}).
     _zone        = 0     #: (INTERNAL) Longitudinal zone (C{int} 1..60).
 
-    def __init__(self, zone, hemisphere, easting, northing, band='',  # PYCHOK expected
+    def __init__(self, zone, hemisphere, easting, northing, band=NN,  # PYCHOK expected
                              datum=Datums.WGS84, falsed=True,
-                             convergence=None, scale=None, name=''):
+                             convergence=None, scale=None, name=NN):
         '''New L{Utm} UTM coordinate.
 
            @arg zone: Longitudinal UTM zone (C{int}, 1..60) or zone
@@ -510,7 +510,7 @@ class Utm(UtmUpsBase):
 
         return self._toStr(self.hemisphere, B, cs, prec, sep)
 
-    def toUps(self, pole='', eps=EPS, falsed=True, **unused):
+    def toUps(self, pole=NN, eps=EPS, falsed=True, **unused):
         '''Convert this UTM coordinate to a UPS coordinate.
 
            @kwarg pole: Optional top/center of the UPS projection,
@@ -570,7 +570,7 @@ def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError):  # imported by .etm
     return r
 
 
-def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=''):
+def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=NN):
     '''Parse a string representing a UTM coordinate, consisting
        of C{"zone[band] hemisphere easting northing"}.
 
@@ -599,7 +599,7 @@ def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=''):
     return _xnamed(r, name)
 
 
-def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name='',
+def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,
                                          zone=None, **cmoff):
     '''Convert a lat-/longitude point to a UTM coordinate.
 

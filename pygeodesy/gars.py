@@ -13,7 +13,7 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS1_2, isstr, property_RO
+from pygeodesy.basics import EPS1_2, isstr, NN, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
 from pygeodesy.lazily import _ALL_LAZY
@@ -27,7 +27,7 @@ from math import floor
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.gars + ('decode3',  # functions
           'encode', 'precision', 'resolution')
-__version__ = '20.05.08'
+__version__ = '20.05.14'
 
 _Digits  = '0123456789'
 _LatLen  = 2
@@ -114,7 +114,7 @@ class Garef(Str):
     _precision = None
 
     # no str.__init__ in Python 3
-    def __new__(cls, cll, precision=1, name=''):
+    def __new__(cls, cll, precision=1, name=NN):
         '''New L{Garef} from an other L{Garef} instance or garef
            C{str} or from a C{LatLon} instance or lat-/longitude C{str}.
 
