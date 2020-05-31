@@ -1,9 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Vincenty's geodetic (lat-/longitude) L{LatLon}, geocentric (ECEF)
-L{Cartesian} and L{VincentyError} classes and functions L{areaOf}
-and L{perimeterOf}, I{all ellipsoidal}.
+u'''Ellispodial classes for Vincenty's geodetic (lat-/longitude) L{LatLon},
+geocentric (ECEF) L{Cartesian} and L{VincentyError} and functions L{areaOf}
+and L{perimeterOf}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
@@ -80,7 +80,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '20.05.14'
+__version__ = '20.05.28'
 
 
 class VincentyError(_ValueError):

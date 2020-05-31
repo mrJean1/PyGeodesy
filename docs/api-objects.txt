@@ -247,6 +247,7 @@ pygeodesy.EPS_2	pygeodesy-module.html#EPS_2
 pygeodesy.clipRadians	pygeodesy-module.html#clipRadians
 pygeodesy.parseETM5	pygeodesy-module.html#parseETM5
 pygeodesy.isclockwise	pygeodesy-module.html#isclockwise
+pygeodesy.NN	pygeodesy-module.html#NN
 pygeodesy.fpowers	pygeodesy-module.html#fpowers
 pygeodesy.haversine_	pygeodesy-module.html#haversine_
 pygeodesy.latlon2n_xyz	pygeodesy-module.html#latlon2n_xyz

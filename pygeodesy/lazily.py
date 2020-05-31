@@ -78,7 +78,7 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           bases=(),  # module and for backward compatibility only
                          basics=('EPS', 'EPS1', 'EPS1_2', 'EPS_2', 'INF', 'MANTIS', 'MAX', 'MIN',  # constants
-                                 'NAN', 'NEG0', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M',
+                                 'NAN', 'NEG0', 'NN', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M',
                                  'clips', 'halfs2',
                                  'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'property_doc_', 'property_RO'),
@@ -192,7 +192,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.05.08'
+__version__ = '20.05.28'
 
 
 def _all_imports(**more):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Trigonometric classes geodetic (lat-/longitude) L{LatLon} and
-geocentric (ECEF) L{Cartesian} and functionsL{areaOf}, L{intersection},
+geocentric (ECEF) L{Cartesian} and functions L{areaOf}, L{intersection},
 L{isPoleEnclosedBy}, L{meanOf}, L{nearestOn2} and L{perimeterOf},
 I{all spherical}.
 
@@ -44,7 +44,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'nearestOn2', 'nearestOn3',
           'perimeterOf',
           'sumOf')  # == vector3d.sumOf
-__version__ = '20.05.08'
+__version__ = '20.05.28'
 
 
 def _destination2(a, b, r, t):

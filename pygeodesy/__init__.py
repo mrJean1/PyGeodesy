@@ -233,6 +233,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var MIN:    System's M{float min} ≈2.225e-308 (C{float}).
 @var NAN:    Not-A-Number (C{float}), see function C{isnan}.
 @var NEG0:   Negative 0.0 (C{float}), see function C{isneg0}.
+@var NN:     Nomen Nescio (C{str} <https://Wiktionary.org/wiki/N.N.>).
 
 @var PI:   Constant M{math.pi} (C{float}).
 @var PI2:  Two PI, M{math.pi * 2} (C{float}).
@@ -274,7 +275,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.05.20'
+__version__ = '20.05.30'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

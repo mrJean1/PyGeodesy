@@ -1,9 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''N-vector-based classes geodetic (lat-/longitude) L{LatLon}, geocentric
-(ECEF) L{Cartesian}, L{Ned} and L{Nvector} and functions L{meanOf} and
-L{toNed}, I{all ellipsoidal}.
+u'''Ellispdoidal, N-vector-based classes geodetic (lat-/longitude) L{LatLon},
+geocentric (ECEF) L{Cartesian}, L{Ned} and L{Nvector} and functions L{meanOf}
+and L{toNed}.
 
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
 methods by I{(C) Chris Veness 2011-2016} published under the same MIT
@@ -43,7 +43,7 @@ from math import asin, atan2
 __all__ = _ALL_LAZY.ellipsoidalNvector + _ALL_DOCS('Ned3Tuple') + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.05.14'
+__version__ = '20.05.28'
 
 
 class Cartesian(CartesianEllipsoidalBase):
