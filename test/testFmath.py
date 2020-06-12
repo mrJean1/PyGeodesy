@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.05.15'
+__version__ = '20.06.02'
 
 from base import coverage, TestsBase
 
@@ -61,7 +61,7 @@ class Tests(TestsBase):
         # <https://GitHub.com/ActiveState/code/blob/master/recipes/Python/
         #        393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
         for _ in range(100):
-            t = [7, 1e100, -7, -1e100, -9e-20, 8e-20] * 10
+            t = [7, 1e100, -9e-20, -7, -1e100, 8e-20] * 10
             s = 0
             for _ in range(20):
                 v = gauss(0, random())**7 - s
@@ -162,6 +162,19 @@ class Tests(TestsBase):
         self.test('cbrt2', cbrt2(27),  '9.0')
         self.test('cbrt2', cbrt2(-27), '9.0')
         self.test('sqrt3', sqrt3(9),  '27.0')
+
+        # Knuth/Kulisch, TAOCP, vol 2, p 245, sec 4.2.2, item 31, see also .testKarney.py
+        # <https://SeriousComputerist.Atariverse.com/media/pdf/book/
+        #          Art%20of%20Computer%20Programming%20-%20Volume%202%20(Seminumerical%20Algorithms).pdf>
+        x = 408855776
+        y = 708158977
+        self.test('ints', 2*y**2 +  9*x**4 - y**4, 1)
+        self.test('ints', 2*y**2 + (3*x**2 - y**2) * (3*x**2 + y**2), 1)
+        t = 2*float(y)**2, 9*float(x)**4, -(float(y)**4)
+        self.test('fsum ', fsum(t),          '1.0', fmt='%.12e', known=True)  # -3.589050987400773e+19
+        self.test('fsum_', fsum_(*t),        '1.0', fmt='%.12e', known=True)
+        self.test('Fsum ', Fsum().fsum_(*t), '1.0', fmt='%.12e', known=True)
+        self.test('sum  ',  sum(t),          '1.0', fmt='%.12e', known=True)
 
 
 if __name__ == '__main__':

@@ -72,16 +72,16 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.8.2, 3.7.6 and 2.7.18 (all with
+The tests have been run with Python 3.8.3, 3.7.6 and 2.7.18 (all with
 geographiclib_ 1.50, numpy_ 1.18.0, 1.17.2 respectively 1.16.5 and scipy_
 1.4.1, 1.3.1 respectively 1.2.2), with macOS' Python 2.7.16 (without
 geographiclib, numpy and scipy) and with PyPy_ 7.3.0 (Python 2.7.13 and
 3.6.9), all on macOS 10.13.6 High Sierra and *all in 64-bit only*.  The
 results of those tests are included in the distribution files.
 
-With Python 3.8.2 and 3.7.6, the tests run *with and without* ``lazy import``.
+With Python 3.8.3 and 3.7.6, the tests run *with and without* ``lazy import``.
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.2
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.3
 and 3.7.6 (both with geographiclib_ 1.50, numpy_ 1.18.0 respectively
 1.17.2 and scipy_ 1.4.1 respectively 1.3.1) and macOS' Python 2.7.16
 (without geographiclib, numpy and scipy).  A summary PDF file and a full
@@ -100,7 +100,7 @@ on macOS 10.13.6 High Sierra.
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 1.14.0,
 1.15.2, 1.16.2 or 1.16.5), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru
-3.7.5, 3.8, and 3.8.1, PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) and
+3.7.5, 3.8, 3.8.1 and 3.8.2, PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) and
 `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on MacOS X 10.10 Yosemite,
 MacOS X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.5 High Sierra,
 macOS 10.14 Mojave and/or macOS 10.15.3 Catalina, with Pythonista_ 3.1
@@ -115,13 +115,13 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.8.2, both in 64-bit on macOS 10.13.6
+and with Flake8_ using Python 3.8.3, both in 64-bit on macOS 10.13.6
 High Sierra.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: May 30, 2020.*
+*Last updated: June 12, 2020.*
 
 License
 =======

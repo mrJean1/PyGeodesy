@@ -151,6 +151,7 @@ pygeodesy.F_DM	pygeodesy-module.html#F_DM
 pygeodesy.bearing_	pygeodesy-module.html#bearing_
 pygeodesy.simplifyVW	pygeodesy-module.html#simplifyVW
 pygeodesy.F_SEC__	pygeodesy-module.html#F_SEC__
+pygeodesy.latlonDMS	pygeodesy-module.html#latlonDMS
 pygeodesy.property_doc_	pygeodesy-module.html#property_doc_
 pygeodesy.F_DMS_	pygeodesy-module.html#F_DMS_
 pygeodesy.compassDMS	pygeodesy-module.html#compassDMS
@@ -335,6 +336,7 @@ pygeodesy.basics.PI_2	pygeodesy.basics-module.html#PI_2
 pygeodesy.cartesianBase	pygeodesy.cartesianBase-module.html
 pygeodesy.cartesianBase._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.cartesianBase.cbrt	pygeodesy.fmath-module.html#cbrt
+pygeodesy.cartesianBase._xkwds	pygeodesy.basics-module.html#_xkwds
 pygeodesy.cartesianBase.EPS	pygeodesy.cartesianBase-module.html#EPS
 pygeodesy.cartesianBase.Datums	pygeodesy.cartesianBase-module.html#Datums
 pygeodesy.cartesianBase._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_DOCS
@@ -479,9 +481,11 @@ pygeodesy.dms._F_case	pygeodesy.dms-module.html#_F_case
 pygeodesy.dms.parse3llh	pygeodesy.dms-module.html#parse3llh
 pygeodesy.dms.latDMS	pygeodesy.dms-module.html#latDMS
 pygeodesy.dms.F_SEC__	pygeodesy.dms-module.html#F_SEC__
+pygeodesy.dms.latlonDMS	pygeodesy.dms-module.html#latlonDMS
 pygeodesy.dms.F__E_	pygeodesy.dms-module.html#F__E_
 pygeodesy.dms.F_DMS_	pygeodesy.dms-module.html#F_DMS_
 pygeodesy.dms.compassDMS	pygeodesy.dms-module.html#compassDMS
+pygeodesy.dms.issequence	pygeodesy.basics-module.html#issequence
 pygeodesy.dms.parseDMS	pygeodesy.dms-module.html#parseDMS
 pygeodesy.dms.bearingDMS	pygeodesy.dms-module.html#bearingDMS
 pygeodesy.dms._S_norm	pygeodesy.dms-module.html#_S_norm
@@ -1089,6 +1093,7 @@ pygeodesy.karney._sum2	pygeodesy.karney-module.html#_sum2
 pygeodesy.karney._diff182	pygeodesy.karney-module.html#_diff182
 pygeodesy.karney._fix90	pygeodesy.karney-module.html#_fix90
 pygeodesy.karney.__package__	pygeodesy.karney-module.html#__package__
+pygeodesy.karney._fsum2_	pygeodesy.karney-module.html#_fsum2_
 pygeodesy.karney.unroll180	pygeodesy.utily-module.html#unroll180
 pygeodesy.karney.wrap360	pygeodesy.utily-module.html#wrap360
 pygeodesy.latlonBase	pygeodesy.latlonBase-module.html
@@ -1405,7 +1410,7 @@ pygeodesy.sphericalTrigonometry.meanOf	pygeodesy.sphericalTrigonometry-module.ht
 pygeodesy.sphericalTrigonometry.degrees90	pygeodesy.utily-module.html#degrees90
 pygeodesy.sphericalTrigonometry._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.sphericalTrigonometry._xdot	pygeodesy.sphericalTrigonometry-module.html#_xdot
-pygeodesy.sphericalTrigonometry.PI2	pygeodesy.sphericalTrigonometry-module.html#PI2
+pygeodesy.sphericalTrigonometry.intersections2	pygeodesy.sphericalTrigonometry-module.html#intersections2
 pygeodesy.sphericalTrigonometry._angular	pygeodesy.sphericalBase-module.html#_angular
 pygeodesy.sphericalTrigonometry.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.sphericalTrigonometry.unrollPI	pygeodesy.utily-module.html#unrollPI
@@ -1415,9 +1420,11 @@ pygeodesy.sphericalTrigonometry.PI_2	pygeodesy.sphericalTrigonometry-module.html
 pygeodesy.sphericalTrigonometry.PI_4	pygeodesy.sphericalTrigonometry-module.html#PI_4
 pygeodesy.sphericalTrigonometry._nearestOn5	pygeodesy.points-module.html#nearestOn5
 pygeodesy.sphericalTrigonometry.__package__	pygeodesy.sphericalTrigonometry-module.html#__package__
-pygeodesy.sphericalTrigonometry._intersectionError	pygeodesy.sphericalTrigonometry-module.html#_intersectionError
+pygeodesy.sphericalTrigonometry.vincentys_	pygeodesy.formy-module.html#vincentys_
 pygeodesy.sphericalTrigonometry.crosserrors	pygeodesy.errors-module.html#crosserrors
+pygeodesy.sphericalTrigonometry.fsum_	pygeodesy.fmath-module.html#fsum_
 pygeodesy.sphericalTrigonometry.degrees180	pygeodesy.utily-module.html#degrees180
+pygeodesy.sphericalTrigonometry.PI	pygeodesy.sphericalTrigonometry-module.html#PI
 pygeodesy.sphericalTrigonometry.R_M	pygeodesy.sphericalTrigonometry-module.html#R_M
 pygeodesy.sphericalTrigonometry.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.sphericalTrigonometry.fsum	pygeodesy.fmath-module.html#fsum
@@ -1430,13 +1437,13 @@ pygeodesy.sphericalTrigonometry._xb	pygeodesy.sphericalTrigonometry-module.html#
 pygeodesy.sphericalTrigonometry.isPoleEnclosedBy	pygeodesy.sphericalTrigonometry-module.html#isPoleEnclosedBy
 pygeodesy.sphericalTrigonometry.areaOf	pygeodesy.sphericalTrigonometry-module.html#areaOf
 pygeodesy.sphericalTrigonometry.nearestOn2	pygeodesy.sphericalTrigonometry-module.html#nearestOn2
-pygeodesy.sphericalTrigonometry.tan_2	pygeodesy.utily-module.html#tan_2
 pygeodesy.sphericalTrigonometry.acos1	pygeodesy.fmath-module.html#acos1
 pygeodesy.sphericalTrigonometry.fdot	pygeodesy.fmath-module.html#fdot
+pygeodesy.sphericalTrigonometry.PI2	pygeodesy.sphericalTrigonometry-module.html#PI2
 pygeodesy.sphericalTrigonometry.intersection	pygeodesy.sphericalTrigonometry-module.html#intersection
 pygeodesy.sphericalTrigonometry.radiansPI2	pygeodesy.utily-module.html#radiansPI2
 pygeodesy.sphericalTrigonometry.degrees2m	pygeodesy.utily-module.html#degrees2m
-pygeodesy.sphericalTrigonometry.haversine_	pygeodesy.formy-module.html#haversine_
+pygeodesy.sphericalTrigonometry.tan_2	pygeodesy.utily-module.html#tan_2
 pygeodesy.sphericalTrigonometry.iterNumpy2	pygeodesy.utily-module.html#iterNumpy2
 pygeodesy.sphericalTrigonometry.nearestOn3	pygeodesy.sphericalTrigonometry-module.html#nearestOn3
 pygeodesy.sphericalTrigonometry.fmean	pygeodesy.fmath-module.html#fmean
@@ -3808,6 +3815,8 @@ pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.errors.CrossError	pygeodesy.errors.CrossError-class.html
+pygeodesy.errors.IntersectionError	pygeodesy.errors.IntersectionError-class.html
+pygeodesy.errors.IntersectionError.__init__	pygeodesy.errors.IntersectionError-class.html#__init__
 pygeodesy.errors.LenError	pygeodesy.errors.LenError-class.html
 pygeodesy.errors.LenError.__init__	pygeodesy.errors.LenError-class.html#__init__
 pygeodesy.errors.LimitError	pygeodesy.errors.LimitError-class.html
@@ -7054,6 +7063,7 @@ pygeodesy.vector3d.Vector3d._y	pygeodesy.vector3d.Vector3d-class.html#_y
 pygeodesy.vector3d.Vector3d._x	pygeodesy.vector3d.Vector3d-class.html#_x
 pygeodesy.vector3d.Vector3d.__cmp__	pygeodesy.vector3d.Vector3d-class.html#__cmp__
 pygeodesy.vector3d.Vector3d.crosserrors	pygeodesy.vector3d.Vector3d-class.html#crosserrors
+pygeodesy.cartesianBase.CartesianBase._applyHelmert	pygeodesy.cartesianBase.CartesianBase-class.html#_applyHelmert
 pygeodesy.vector3d.Vector3d.rotateAround	pygeodesy.vector3d.Vector3d-class.html#rotateAround
 pygeodesy.vector3d.Vector3d.to2ab	pygeodesy.vector3d.Vector3d-class.html#to2ab
 pygeodesy.cartesianBase.CartesianBase.toStr	pygeodesy.cartesianBase.CartesianBase-class.html#toStr
@@ -7118,7 +7128,7 @@ pygeodesy.cartesianBase.CartesianBase.__init__	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3d.Vector3d.cross	pygeodesy.vector3d.Vector3d-class.html#cross
 pygeodesy.cartesianBase.CartesianBase.philamheight	pygeodesy.cartesianBase.CartesianBase-class.html#philamheight
 pygeodesy.vector3d.Vector3d.__pos__	pygeodesy.vector3d.Vector3d-class.html#__pos__
-pygeodesy.cartesianBase.CartesianBase._applyHelmert	pygeodesy.cartesianBase.CartesianBase-class.html#_applyHelmert
+pygeodesy.sphericalBase.CartesianSphericalBase.intersections2	pygeodesy.sphericalBase.CartesianSphericalBase-class.html#intersections2
 pygeodesy.vector3d.Vector3d.to3xyz	pygeodesy.vector3d.Vector3d-class.html#to3xyz
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.vector3d.Vector3d.isequalTo	pygeodesy.vector3d.Vector3d-class.html#isequalTo
@@ -7246,6 +7256,7 @@ pygeodesy.vector3d.Vector3d._y	pygeodesy.vector3d.Vector3d-class.html#_y
 pygeodesy.vector3d.Vector3d._x	pygeodesy.vector3d.Vector3d-class.html#_x
 pygeodesy.vector3d.Vector3d.__cmp__	pygeodesy.vector3d.Vector3d-class.html#__cmp__
 pygeodesy.vector3d.Vector3d.crosserrors	pygeodesy.vector3d.Vector3d-class.html#crosserrors
+pygeodesy.cartesianBase.CartesianBase._applyHelmert	pygeodesy.cartesianBase.CartesianBase-class.html#_applyHelmert
 pygeodesy.vector3d.Vector3d.rotateAround	pygeodesy.vector3d.Vector3d-class.html#rotateAround
 pygeodesy.vector3d.Vector3d.to2ab	pygeodesy.vector3d.Vector3d-class.html#to2ab
 pygeodesy.cartesianBase.CartesianBase.toStr	pygeodesy.cartesianBase.CartesianBase-class.html#toStr
@@ -7310,7 +7321,7 @@ pygeodesy.cartesianBase.CartesianBase.__init__	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3d.Vector3d.cross	pygeodesy.vector3d.Vector3d-class.html#cross
 pygeodesy.cartesianBase.CartesianBase.philamheight	pygeodesy.cartesianBase.CartesianBase-class.html#philamheight
 pygeodesy.vector3d.Vector3d.__pos__	pygeodesy.vector3d.Vector3d-class.html#__pos__
-pygeodesy.cartesianBase.CartesianBase._applyHelmert	pygeodesy.cartesianBase.CartesianBase-class.html#_applyHelmert
+pygeodesy.sphericalBase.CartesianSphericalBase.intersections2	pygeodesy.sphericalBase.CartesianSphericalBase-class.html#intersections2
 pygeodesy.vector3d.Vector3d.to3xyz	pygeodesy.vector3d.Vector3d-class.html#to3xyz
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.vector3d.Vector3d.isequalTo	pygeodesy.vector3d.Vector3d-class.html#isequalTo
@@ -7564,6 +7575,7 @@ pygeodesy.vector3d.Vector3d._y	pygeodesy.vector3d.Vector3d-class.html#_y
 pygeodesy.vector3d.Vector3d._x	pygeodesy.vector3d.Vector3d-class.html#_x
 pygeodesy.vector3d.Vector3d.__cmp__	pygeodesy.vector3d.Vector3d-class.html#__cmp__
 pygeodesy.vector3d.Vector3d.crosserrors	pygeodesy.vector3d.Vector3d-class.html#crosserrors
+pygeodesy.cartesianBase.CartesianBase._applyHelmert	pygeodesy.cartesianBase.CartesianBase-class.html#_applyHelmert
 pygeodesy.vector3d.Vector3d.rotateAround	pygeodesy.vector3d.Vector3d-class.html#rotateAround
 pygeodesy.vector3d.Vector3d.to2ab	pygeodesy.vector3d.Vector3d-class.html#to2ab
 pygeodesy.cartesianBase.CartesianBase.toStr	pygeodesy.cartesianBase.CartesianBase-class.html#toStr
@@ -7628,7 +7640,7 @@ pygeodesy.cartesianBase.CartesianBase.__init__	pygeodesy.cartesianBase.Cartesian
 pygeodesy.vector3d.Vector3d.cross	pygeodesy.vector3d.Vector3d-class.html#cross
 pygeodesy.cartesianBase.CartesianBase.philamheight	pygeodesy.cartesianBase.CartesianBase-class.html#philamheight
 pygeodesy.vector3d.Vector3d.__pos__	pygeodesy.vector3d.Vector3d-class.html#__pos__
-pygeodesy.cartesianBase.CartesianBase._applyHelmert	pygeodesy.cartesianBase.CartesianBase-class.html#_applyHelmert
+pygeodesy.sphericalBase.CartesianSphericalBase.intersections2	pygeodesy.sphericalBase.CartesianSphericalBase-class.html#intersections2
 pygeodesy.vector3d.Vector3d.to3xyz	pygeodesy.vector3d.Vector3d-class.html#to3xyz
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.vector3d.Vector3d.isequalTo	pygeodesy.vector3d.Vector3d-class.html#isequalTo
@@ -7736,12 +7748,13 @@ pygeodesy.sphericalBase.LatLonSphericalBase.rhumbMidpointTo	pygeodesy.sphericalB
 pygeodesy.sphericalBase.LatLonSphericalBase.toNvector	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#toNvector
 pygeodesy.sphericalBase.LatLonSphericalBase.parse	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#parse
 pygeodesy.latlonBase.LatLonBase.isSpherical	pygeodesy.latlonBase.LatLonBase-class.html#isSpherical
-pygeodesy.sphericalBase.LatLonSphericalBase.__init__	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#__init__
+pygeodesy.sphericalTrigonometry.LatLon.intersections2	pygeodesy.sphericalTrigonometry.LatLon-class.html#intersections2
 pygeodesy.sphericalTrigonometry.LatLon.initialBearingTo	pygeodesy.sphericalTrigonometry.LatLon-class.html#initialBearingTo
 pygeodesy.sphericalTrigonometry.LatLon.alongTrackDistanceTo	pygeodesy.sphericalTrigonometry.LatLon-class.html#alongTrackDistanceTo
 pygeodesy.latlonBase.LatLonBase.philamheight	pygeodesy.latlonBase.LatLonBase-class.html#philamheight
 pygeodesy.sphericalBase.LatLonSphericalBase.minLat	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#minLat
 pygeodesy.latlonBase.LatLonBase.latlon2round	pygeodesy.latlonBase.LatLonBase-class.html#latlon2round
+pygeodesy.sphericalBase.LatLonSphericalBase.__init__	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#__init__
 pygeodesy.sphericalBase.LatLonSphericalBase.maxLat	pygeodesy.sphericalBase.LatLonSphericalBase-class.html#maxLat
 pygeodesy.latlonBase.LatLonBase.vincentysTo	pygeodesy.latlonBase.LatLonBase-class.html#vincentysTo
 pygeodesy.latlonBase.LatLonBase.to3xyz	pygeodesy.latlonBase.LatLonBase-class.html#to3xyz

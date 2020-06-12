@@ -12,7 +12,7 @@ from pygeodesy.lazily import _ALL_LAZY, _environ
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.05.15'
+__version__ = '20.06.12'
 
 _Degrees     = 'degrees'     # PYCHOK exported to .dms, .frechet, .hausdorff, .units
 _Invalid     = 'invalid'
@@ -123,6 +123,15 @@ class CrossError(_ValueError):
        occurring for coincident or colinear points, paths or bearings.
     '''
     pass
+
+
+class IntersectionError(_ValueError):
+    '''Error raised for path or circle intersection issues.
+    '''
+    def __init__(self, txt=_Invalid, **kwds):
+        '''New L{IntersectionError}.
+        '''
+        _ValueError.__init__(self, txt=txt, **kwds)
 
 
 class LenError(_ValueError):

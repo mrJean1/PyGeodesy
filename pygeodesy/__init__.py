@@ -99,7 +99,7 @@ the test results (on macOS only) and the complete U{documentation
 Tests
 =====
 
-The tests have been run with Python 3.8.2, 3.7.6 and 2.7.18 (all with
+The tests have been run with Python 3.8.3, 3.7.6 and 2.7.18 (all with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
 <https://PyPI.org/project/numpy>} 1.18.0, 1.17.2 respectively 1.16.5 and
 U{scipy<https://SciPy.org/scipylib/download.html>} 1.4.1, 1.3.1 respectively
@@ -108,10 +108,10 @@ and with U{PyPy<https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9), all on
 macOS 10.13.6 High Sierra and I{all in 64-bit only}.  The results of those
 tests are included in the distribution files.
 
-With Python 3.8.2 and 3.7.6, the tests run I{with and without} C{lazy import}.
+With Python 3.8.3 and 3.7.6, the tests run I{with and without} C{lazy import}.
 
 Test coverage has been measured with U{coverage
-<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.8.2 and 3.7.6
+<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.8.3 and 3.7.6
 (both with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.18.0 respectively 1.17.2 and
 U{scipy<https://SciPy.org/scipylib/download.html>} 1.4.1 respectively
@@ -135,7 +135,7 @@ Python 3.7.3 on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10 (and
 numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 1.14.0, 1.15.2 or 1.16.2),
-3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 3.7.5, 3.8 and 3.8.1,
+3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 3.7.5, 3.8, 3.8.1 and 3.8.2,
 U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and U{Intel-Python
 <https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
 <https://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11
@@ -156,7 +156,7 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8
-<https://PyPI.org/project/flake8>} using Python 3.8.2, both in 64-bit
+<https://PyPI.org/project/flake8>} using Python 3.8.3, both in 64-bit
 on macOS 10.13.6 High Sierra.
 
 Some function and method names differ from the JavaScript version. In such
@@ -275,7 +275,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.05.30'
+__version__ = '20.06.12'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

@@ -11,7 +11,7 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isstr, map2
+from pygeodesy.basics import issequence, isstr, map2
 from pygeodesy.errors import _Degrees, ParseError, _parseX, _Radians, \
                               RangeError, _rangerrors, _ValueError
 from pygeodesy.lazily import _ALL_LAZY
@@ -26,7 +26,7 @@ except ImportError:  # Python 3+
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.dms
-__version__ = '20.05.15'
+__version__ = '20.06.12'
 
 F_D   = 'd'    #: Format degrees as unsigned "deg°" plus suffix (C{str}).
 F_DM  = 'dm'   #: Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -365,6 +365,35 @@ def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
        @JSname: I{toLat}.
     '''
     return _toDMS(deg, form, prec, sep, 2, 'S' if deg < 0 else 'N')
+
+
+def latlonDMS(lls, form=F_DMS, prec=None, sep=None):
+    '''Convert one or more C{LatLon} instances to strings.
+
+       @arg lls: Single or a list, sequence, tuple, etc. (C{LatLon}s).
+       @kwarg form: Optional B{C{deg}} format (C{str} or L{F_D},
+                    L{F_DM}, L{F_DMS}, L{F_DEG}, L{F_MIN}, L{F_SEC},
+                    L{F__E}, L{F__F}, L{F__G}, L{F_RAD}, L{F_D_},
+                    L{F_DM_}, L{F_DMS_}, L{F_DEG_}, L{F_MIN_},
+                    L{F_SEC_}, L{F__E_}, L{F__F_}, L{F__G_}, L{F_RAD_},
+                    L{F_D__}, L{F_DM__}, L{F_DMS__}, L{F_DEG__},
+                    L{F_MIN__}, L{F_SEC__}, L{F__E__}, L{F__F__},
+                    L{F__G__} or L{F_RAD__}).
+       @kwarg prec: Optional number of decimal digits (0..9 or
+                    C{None} for default).  Trailing zero decimals
+                    are stripped for B{C{prec}} values of 1 and
+                    above, but kept for negative B{C{prec}}.
+       @kwarg sep: Separator joining B{C{lls}} (C{str} or C{None}).
+
+       @return: A C{str} or C{tuple} of B{C{sep}} is C{None} or C{NN}.
+    '''
+    if issequence(lls):
+        t = tuple(ll.toStr(form=form, prec=prec) for ll in lls)
+        if sep:
+            t = sep.join(t)
+    else:
+        t = lls.toStr(form=form, prec=prec)
+    return t
 
 
 def lonDMS(deg, form=F_DMS, prec=2, sep=S_SEP):

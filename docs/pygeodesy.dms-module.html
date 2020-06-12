@@ -70,7 +70,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.05.15
+        20.06.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -226,6 +226,26 @@
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Convert latitude to a string, optionally suffixed with N or S.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#latlonDMS" class="summary-sig-name">latlonDMS</a>(<span class="summary-sig-arg">lls</span>,
+        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Convert one or more <code>LatLon</code> instances to strings.</td>
           <td align="right" valign="top">
             
             
@@ -1145,6 +1165,81 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="latlonDMS"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">latlonDMS</span>&nbsp;(<span class="sig-arg">lls</span>,
+        <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert one or more <code>LatLon</code> instances to strings.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lls</code></strong> - Single or a list, sequence, tuple, etc. (<code>LatLon</code>s).</li>
+        <li><strong class="pname"><code>form</code></strong> - Optional <b><code>deg</code></b> format (<code>str</code> or <a 
+          href="pygeodesy.dms-module.html#F_D" class="link">F_D</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM" class="link">F_DM</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS" class="link">F_DMS</a>, <a
+          href="pygeodesy.dms-module.html#F_DEG" class="link">F_DEG</a>, <a
+          href="pygeodesy.dms-module.html#F_MIN" class="link">F_MIN</a>, <a
+          href="pygeodesy.dms-module.html#F_SEC" class="link">F_SEC</a>, <a
+          href="pygeodesy.dms-module.html#F__E" class="link">F__E</a>, <a 
+          href="pygeodesy.dms-module.html#F__F" class="link">F__F</a>, <a 
+          href="pygeodesy.dms-module.html#F__G" class="link">F__G</a>, <a 
+          href="pygeodesy.dms-module.html#F_RAD" class="link">F_RAD</a>, <a
+          href="pygeodesy.dms-module.html#F_D_" class="link">F_D_</a>, <a 
+          href="pygeodesy.dms-module.html#F_DM_" class="link">F_DM_</a>, <a
+          href="pygeodesy.dms-module.html#F_DMS_" class="link">F_DMS_</a>, 
+          <a href="pygeodesy.dms-module.html#F_DEG_" 
+          class="link">F_DEG_</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN_" class="link">F_MIN_</a>, 
+          <a href="pygeodesy.dms-module.html#F_SEC_" 
+          class="link">F_SEC_</a>, <a 
+          href="pygeodesy.dms-module.html#F__E_" class="link">F__E_</a>, <a
+          href="pygeodesy.dms-module.html#F__F_" class="link">F__F_</a>, <a
+          href="pygeodesy.dms-module.html#F__G_" class="link">F__G_</a>, <a
+          href="pygeodesy.dms-module.html#F_RAD_" class="link">F_RAD_</a>, 
+          <a href="pygeodesy.dms-module.html#F_D__" class="link">F_D__</a>,
+          <a href="pygeodesy.dms-module.html#F_DM__" 
+          class="link">F_DM__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DMS__" 
+          class="link">F_DMS__</a>, <a 
+          href="pygeodesy.dms-module.html#F_DEG__" 
+          class="link">F_DEG__</a>, <a 
+          href="pygeodesy.dms-module.html#F_MIN__" 
+          class="link">F_MIN__</a>, <a 
+          href="pygeodesy.dms-module.html#F_SEC__" 
+          class="link">F_SEC__</a>, <a 
+          href="pygeodesy.dms-module.html#F__E__" class="link">F__E__</a>, 
+          <a href="pygeodesy.dms-module.html#F__F__" 
+          class="link">F__F__</a>, <a 
+          href="pygeodesy.dms-module.html#F__G__" class="link">F__G__</a> 
+          or <a href="pygeodesy.dms-module.html#F_RAD__" 
+          class="link">F_RAD__</a>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimal digits (0..9 or <code>None</code> for 
+          default).  Trailing zero decimals are stripped for 
+          <b><code>prec</code></b> values of 1 and above, but kept for 
+          negative <b><code>prec</code></b>.</li>
+        <li><strong class="pname"><code>sep</code></strong> - Separator joining <b><code>lls</code></b> (<code>str</code> or 
+          <code>None</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <code>str</code> or <code>tuple</code> of 
+          <b><code>sep</code></b> is <code>None</code> or <code>NN</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="lonDMS"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1710,7 +1805,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun May 31 13:17:24 2020
+    Generated by Epydoc 3.0.1 on Fri Jun 12 13:44:55 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

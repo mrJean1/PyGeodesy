@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.03.29'
+__version__ = '20.06.12'
 
 
 def _c2(*names):
@@ -57,7 +57,7 @@ _KeyWords = ('altitude', 'antipode', 'area', 'azimuth', 'bearing',
              'geographiclib', 'geohash', 'geoid', 'geoidHeight',
              'GeoidHeights', 'georef',
              'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon',
-             'IDW', 'interpolate', 'Inverse-Distance-Weighting', 'ITRF',
+             'IDW', 'interpolate', 'intersect', 'Inverse-Distance-Weighting', 'ITRF',
              'Karney', 'Krueger', 'Krüger',
              'Lambert', 'latitude', 'Lesh', 'linearize', 'LocalCartesian', 'longitude',
              'Mercator', 'MGRS',

@@ -15,7 +15,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.05.03'
+__version__ = '20.06.05'
 
 
 class _Adict(dict):
@@ -42,10 +42,9 @@ class _Wrapped(object):
     def Geodesic(self):
         '''(INTERNAL) Get the wrapped C{Geodesic} class, provided the
            U{GeographicLib<https://PyPI.org/project/geographiclib>}
-           package is installed, an C{ImportError} otherwise.
+           package is installed, otherwise throw an C{ImportError}.
         '''
         if _Wrapped._Geodesic is None:
-
             from geographiclib.geodesic import Geodesic as _Geodesic
 
             class Geodesic(_Geodesic):
@@ -76,7 +75,7 @@ class _Wrapped(object):
                 def Inverse1(self, lat1, lon1, lat2, lon2, wrap=False):
                     '''Return the non-negative I{angular} distance in C{degrees}.
                     '''
-                    # see .FrechetKarney.distance, .HuasdorffKarney._distance
+                    # see .FrechetKarney.distance, .HausdorffKarney._distance
                     # and .HeightIDWkarney._distances
                     _, lon2 = unroll180(lon1, lon2, wrap=wrap)  # self.LONG_UNROLL
                     d = self.Inverse(lat1, lon1, lat2, lon2)
@@ -99,17 +98,15 @@ class _Wrapped(object):
             # Geodesic.Line.__doc__    = _Geodesic.Line.__doc__
 
             _Wrapped._Geodesic = Geodesic
-
         return _Wrapped._Geodesic
 
     @property_RO
     def GeodesicLine(self):
         '''(INTERNAL) Get the wrapped C{GeodesicLine} class, provided
            the U{GeographicLib<https://PyPI.org/project/geographiclib>}
-           package is installed, an C{ImportError} otherwise.
+           package is installed, otherwise throw an C{ImportError}.
         '''
         if _Wrapped._GeodesicLine is None:
-
             from geographiclib.geodesicline import GeodesicLine as _GeodesicLine
 
             class GeodesicLine(_GeodesicLine):
@@ -128,14 +125,13 @@ class _Wrapped(object):
             # GeodesicLine.Position.__doc__    = _GeodesicLine.Position.__doc__
 
             _Wrapped._GeodesicLine = GeodesicLine
-
         return _Wrapped._GeodesicLine
 
     @property_RO
     def Geodesic_WGS84(self):
         '''(INTERNAL) Get the wrapped C{Geodesic.WGS84} I{instance} iff
            the U{GeographicLib<https://PyPI.org/project/geographiclib>}
-           package is installed, an C{ImportError} otherwise.
+           package is installed, otherwise throw an C{ImportError}.
         '''
         return Datums.WGS84.ellipsoid.geodesic
 
@@ -156,14 +152,11 @@ class _Wrapped(object):
     def Math(self):
         '''(INTERNAL) Get the C{Math} class, provided the
            U{GeographicLib<https://PyPI.org/project/geographiclib>}
-           package is installed, an C{ImportError} otherwise.
+           package is installed, otherwise throw an C{ImportError}.
         '''
         if _Wrapped._Math is None:
-
             from geographiclib.geomath import Math
-
             _Wrapped._Math = Math
-
         return _Wrapped._Math
 
 
@@ -196,6 +189,25 @@ def _fix90(deg):  # mimick Math.LatFix
         return M.LatFix(deg)
 
     return NAN if abs(deg) > 90 else deg
+
+
+def _fsum2_(*vs):  # see .test/testKarney.py
+    '''Cascaded summation, like C{.fmath.fsum_}.
+
+       @arg vs: Values to be added (C{scalar}[]).
+
+       @return: 2-Tuple C{(sum_of_vs, residual)}.
+
+       @note: NOT "error-free", see .test/testKarney.py.
+
+       @see: U{Algorithm 4.1<https://www.ti3.TUHH.DE/paper/rump/OgRuOi05.pdf>}.
+    '''
+    s = r = 0.0
+    for v in vs:
+        s, t = _sum2(s, float(v))
+        if t:
+            r, t = _sum2(r, t)  # inlieu of r += t
+    return (s + r), t
 
 
 def _norm180(deg):  # mimick Math.AngNormalize
@@ -231,12 +243,14 @@ def _norm180(deg):  # mimick Math.AngNormalize
 
 
 def _sum2(u, v):  # mimick Math::sum, actually sum2
-    '''Error-free transformation like C{Math::sum}.
+    '''Error-free summation like C{Math::sum}.
 
        @return: 2-Tuple C{(sum_u_plus_v, residual)}.
 
-       @note: The C{residual} can be the same as one
-              of the first two arguments.
+       @note: The C{residual} can be the same as
+              B{C{u}} or B{C{v}}.
+
+       @see: U{Algorithm 3.1<https://www.ti3.TUHH.DE/paper/rump/OgRuOi05.pdf>}.
     '''
     M = _wrapped.geoMath
     if M:
@@ -245,9 +259,14 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
     s = u + v
     r = s - v
     t = s - r
-    r -= u
-    t -= v
-    t = -(r + t)
+    # if True:  # Algorithm 3.1
+    t = (u - r) + (v - t)
+
+    # else:  # in Math C/C++
+    #   r -= u
+    #   t -= v
+    #   t = -(r + t)
+
     # u + v =       s      + t
     #       = round(u + v) + t
     return s, t

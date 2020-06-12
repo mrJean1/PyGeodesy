@@ -13,7 +13,7 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 '''
 
 from pygeodesy.basics import EPS, NN, property_doc_, property_RO, \
-                            _xinstanceof
+                            _xinstanceof, _xkwds
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _IsnotError, _ValueError
@@ -27,7 +27,7 @@ from math import sqrt  # hypot
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.05.14'
+__version__ = '20.06.12'
 
 
 class CartesianBase(Vector3d):
@@ -262,8 +262,8 @@ class CartesianBase(Vector3d):
             r = c.Ecef(c.datum).reverse(c, M=True)
 
         if LatLon is not None:  # class or .classof
-            r = LatLon(r.lat, r.lon, height=r.height,
-                                      datum=r.datum, **LatLon_kwds)
+            r = LatLon(r.lat, r.lon, **_xkwds(LatLon_kwds,
+                                        datum=r.datum, height=r.height))
         return self._xnamed(r)
 
     def toNvector(self, Nvector=None, datum=None, **Nvector_kwds):  # PYCHOK Datums.WGS84

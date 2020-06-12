@@ -4,13 +4,14 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.05.07'
+__version__ = '20.06.12'
 
 from base import isWindows
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
-from pygeodesy import F_D, F_DMS, classname, lonDMS
+from pygeodesy import F_D, F_DMS, PI_4, R_M, \
+                      classname, IntersectionError, latlonDMS, lonDMS
 
 # <https://GeographicLib.SourceForge.io/html/python/examples.html>
 Antarctica = ((-63.1, -58),
@@ -68,7 +69,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('intersection3', i, '51.882166°N, 000.267801°E')  # 51°52′55.8″N, 000°16′04.08″E?
 
         p = LatLon(+30, 0)
-        q = LatLon(-30, 0)  # indential, zero lon
+        q = LatLon(-30, 0)  # identical, zero lon
         i = p.intersection(135, q, 45)
         self.test('intersection4', i, '00.0°N, 026.565051°E', known=isWindows)
 
@@ -122,6 +123,39 @@ class Tests(_TestsLL, _TestsV):
             ps = p.crossingParallels(LatLon(60, 30), 30)
             t = ', '.join(map(lonDMS, ps))
             self.test('crossingParallels', t, '009°35′38.65″E, 170°24′21.35″E')
+
+        if hasattr(LatLon, 'intersections2'):
+            # <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>
+            p = LatLon(37.673442, -90.234036)  # (-0.00323306, -0.7915,   0.61116)
+            q = LatLon(36.109997, -90.953669)  # (-0.0134464,  -0.807775, 0.589337)
+            t = p.intersections2(0.0312705, q, 0.0421788, radius=None)  # radii in radians
+            self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '36.98931°N, 088.151425°W, 38.23838°N, 092.390487°W')
+
+            t = LatLon(30, 0).intersections2(PI_4, LatLon(-30, 0), PI_4, radius=None)  # radii in radians
+            self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '00.0°N, 035.26439°W, 00.0°N, 035.26439°E')
+            t = LatLon(0, 40).intersections2(PI_4, LatLon(0, -40), PI_4, radius=None)  # radii in radians
+            self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '22.622036°N, 000.0°E, 22.622036°S, 000.0°E')
+            t = LatLon(30, 20).intersections2(PI_4, LatLon(-30, -20), PI_4, radius=None)  # radii in radians
+            self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '14.612841°N, 026.110934°W, 14.612841°S, 026.110934°E')
+
+            # courtesy Samuel Čavoj <https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
+            from random import random
+
+            def _randomLatLon(lat=180, lon=360):
+                return LatLon((random() - 0.5) * lat, (random() - 0.5) * lon)
+
+            r = _randomLatLon()
+            for _ in range(8):
+                p = _randomLatLon()
+                q = _randomLatLon()
+                try:
+                    t = p.intersections2(p.distanceTo(r), q, q.distanceTo(r), radius=R_M)
+                    d = min(i.distanceTo(r) for i in t)  # PYCHOK test attr?
+                    self.test('intersections1', d, d, fmt='%.6e')
+                    if d > 1e-6:
+                        raise IntersectionError(d=d)
+                except IntersectionError as x:
+                    self.test('intersections1', str(x), 'd < 1e-6')
 
         if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)

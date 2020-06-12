@@ -5,11 +5,11 @@ u'''Test Karney wrappers.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.04.06'
+__version__ = '20.06.05'
 
 from base import geographiclib, TestsBase
 
-from pygeodesy import karney, wrap180
+from pygeodesy import karney, NEG0, wrap180
 
 # some tests from <https://PyPI.org/project/geographiclib>
 _testCases = ((35.60777, -139.44815, 111.098748429560326,
@@ -114,14 +114,26 @@ class Tests(TestsBase):
             self.test(' wrap180(%s)' % (a), float(w), float(x), known=w in (0, -180))
 
         # compare geomath.Math.sum with mimicked _sum2
-        _sum2 = karney._sum2
-        n = '%s' % (_sum2.__name__,)
-        s = t = 0  # see test.Fmath.py
-        for x in (7, 1e100, -7, -1e100, 9e-20, -8e-20):
-            s, x = _sum2(s, x)
-            t, _ = _sum2(t, x)
+        _fsum2_ = karney._fsum2_
+        n = _fsum2_.__name__
+        s, t = _fsum2_(7, 1e100, -7, -1e100, 9e-20, -8e-20)
         self.test(n, s, '1.0e-20', fmt='%.1e')
-        self.test(n, t, '0.0e+00', fmt='%.1e')
+        self.test(n, t, 0.0, known=t in (NEG0, 0.0))
+        # however, summation fails after some shuffling ...
+        s, _ = _fsum2_(7, 1e100, 9e-20, -7, -1e100, -8e-20)
+        self.test(n, s, '1.0e-20', fmt='%.1e', known=True)
+        # ... but works after some other shuffling
+        s, _ = _fsum2_(7, 1e100, -7, 9e-20, -1e100, -8e-20)
+        self.test(n, s, '1.0e-20', fmt='%.1e', known=True)
+
+        # Knuth/Kulisch, TAOCP, vol 2, p 245, sec 4.2.2, item 31, see also .testFmath.py
+        # <https://SeriousComputerist.Atariverse.com/media/pdf/book/
+        #          Art%20of%20Computer%20Programming%20-%20Volume%202%20(Seminumerical%20Algorithms).pdf>
+        x = 408855776.0
+        y = 708158977.0
+        s, t = _fsum2_(2*y**2, 9*x**4, -(y**4))
+        self.test(n, s, 1.0, known=True)  # -3.589050987400773e+19
+        self.test(n, t, 0.0, known=t in (NEG0, 0.0))
 
 
 if __name__ == '__main__':

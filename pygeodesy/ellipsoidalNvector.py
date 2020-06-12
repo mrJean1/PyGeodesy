@@ -43,7 +43,7 @@ from math import asin, atan2
 __all__ = _ALL_LAZY.ellipsoidalNvector + _ALL_DOCS('Ned3Tuple') + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.05.28'
+__version__ = '20.06.08'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -251,7 +251,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
            @return: Destination point (L{Cartesian}).
 
-           @raise TypeError: If {delta} is not L{Ned}.
+           @raise TypeError: If B{C{delta}} is not L{Ned}.
 
            @example:
 

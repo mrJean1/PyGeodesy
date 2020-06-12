@@ -18,7 +18,7 @@ from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import R_M, R_MA, Datum, Datums
 from pygeodesy.dms import parse3llh
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.errors import _IsnotError
+from pygeodesy.errors import IntersectionError, _IsnotError
 from pygeodesy.fmath import acos1, favg, fsum_
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
@@ -28,12 +28,12 @@ from pygeodesy.units import Bearing_, Distance, Height, Radius, Radius_
 from pygeodesy.utily import degrees90, degrees180, degrees360, \
                             sincos2, tanPI_2_2, wrapPI
 
-from math import atan2, cos, hypot, log, sin
+from math import atan2, cos, hypot, log, sin, sqrt
 
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianSphericalBase', 'LatLonSphericalBase')
-__version__ = '20.05.14'
+__version__ = '20.06.12'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -49,6 +49,79 @@ class CartesianSphericalBase(CartesianBase):
     '''
     _datum = Datums.Sphere  #: (INTERNAL) L{Datum}.
     _Ecef  = EcefKarney     #: (INTERNAL) Preferred C{Ecef...} class.
+
+    def intersections2(self, rad1, other, rad2, radius=R_M):
+        '''Compute the intersection points of two circles each defined
+           by a center point and a radius.
+
+           @arg rad1: Radius of the this circle (C{meter} or C{radians},
+                      see B{C{radius}}).
+           @arg other: Center of the other circle (C{Cartesian}).
+           @arg rad2: Radius of the other circle (C{meter} or C{radians},
+                      see B{C{radius}}).
+           @kwarg radius: Mean earth radius (C{meter} or C{None} if both
+                          B{C{rad1}} and B{C{rad2}} are given in C{radians}).
+
+           @return: 2-Tuple of the intersection points, each C{Cartesian}.
+                    The intersection points are the same C{Cartesian}
+                    instance for abutting circles.
+
+           @raise IntersectionError: Concentric, antipodal, invalid or
+                                     non-intersecting circles.
+
+           @raise TypeError: If B{C{other}} is not C{Cartesian}.
+
+           @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}} or B{C{radius}}.
+
+           @see: U{Java code<https://GIS.StackExchange.com/questions/48937/
+                 calculating-intersection-of-two-circles>}.
+        '''
+        self.others(other)
+
+        n, q = self.cross(other), self.dot(other)
+        n2, q21 = n.dot(n), 1 - q**2
+        if min(abs(q21), n2) < EPS:
+            print(n2, q21)
+            raise IntersectionError(center1=self, center2=other,
+                                    txt='near-concentric')
+
+        r1, x1 = Radius_(rad1, name='rad1'), self
+        r2, x2 = Radius_(rad2, name='rad2'), other
+        r = radius
+        if r is not None:  # convert radii to radians
+            r = 1.0 / Radius_(r,  name='radius')
+            r1 *= r
+            r2 *= r
+        if r1 < r2:
+            x1, r1, x2, r2 = x2, r2, x1, r1
+        if r1 > PI:
+            raise IntersectionError(rad1=rad1, rad2=rad2,
+                                    txt='exceeds PI radians')
+
+        try:
+            cr1, cr2 = cos(r1), cos(r2)
+            a = (cr1 - q * cr2) / q21
+            b = (cr2 - q * cr1) / q21
+            x0 = x1.times(a).plus(x2.times(b))
+        except ValueError:
+            raise IntersectionError(center1=self,  rad1=rad1,
+                                    center2=other, rad2=rad2)
+        x = 1 - x0.dot(x0)
+        if x < EPS:
+            raise IntersectionError(center1=self,  rad1=rad1,
+                                    center2=other, rad2=rad2, txt='too distant')
+        x = sqrt(x / n2)
+        if x > EPS:
+            n = n.times(x)
+            x1, x2 = x0.plus(n), x0.minus(n)
+            for x in (x1, x2):
+                x.datum = self.datum
+                x.name  = self.intersections2.__name__
+            return x1, x2
+        else:  # abutting circles
+            x0.datum = self.datum
+            x0.name  = self.intersections2.__name__
+            return x0, x0
 
 
 class LatLonSphericalBase(LatLonBase):

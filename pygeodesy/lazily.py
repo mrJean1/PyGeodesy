@@ -99,7 +99,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'F_D__', 'F_DM__', 'F_DMS__', 'F_DEG__', 'F_MIN__', 'F_SEC__', 'F__E__', 'F__F__', 'F__G__', 'F_RAD__',
                                  'S_DEG', 'S_MIN', 'S_SEC', 'S_RAD', 'S_SEP', 'ParseError',
                                  'bearingDMS', 'clipDegrees', 'clipRadians', 'compassDMS', 'compassPoint',
-                                 'degDMS', 'latDMS', 'lonDMS', 'normDMS',
+                                 'degDMS', 'latDMS', 'latlonDMS', 'lonDMS', 'normDMS',
                                  'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
                            ecef=('EcefCartesian', 'EcefError', 'EcefKarney', 'EcefMatrix', 'EcefVeness', 'EcefYou'),
                      elevations=('elevation2', 'geoidHeight2'),
@@ -108,7 +108,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
             ellipsoidalVincenty=('VincentyError',),  # nothing else
                        elliptic=('Elliptic', 'EllipticError'),
                            epsg=('Epsg', 'EPSGError'),
-                         errors=('CrossError', 'LenError', 'LimitError', 'RangeError',
+                         errors=('CrossError', 'IntersectionError', 'LenError', 'LimitError', 'RangeError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'parseETM5', 'toEtm8'),
@@ -192,7 +192,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.05.28'
+__version__ = '20.06.12'
 
 
 def _all_imports(**more):
