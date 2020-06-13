@@ -1338,6 +1338,7 @@ pygeodesy.simplify.isNumpy2	pygeodesy.utily-module.html#isNumpy2
 pygeodesy.sphericalBase	pygeodesy.sphericalBase-module.html
 pygeodesy.sphericalBase._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.sphericalBase.__package__	pygeodesy.sphericalBase-module.html#__package__
+pygeodesy.sphericalBase._rads3	pygeodesy.sphericalBase-module.html#_rads3
 pygeodesy.sphericalBase.EPS	pygeodesy.sphericalBase-module.html#EPS
 pygeodesy.sphericalBase.Datums	pygeodesy.sphericalBase-module.html#Datums
 pygeodesy.sphericalBase.tanPI_2_2	pygeodesy.utily-module.html#tanPI_2_2
@@ -1403,6 +1404,7 @@ pygeodesy.sphericalTrigonometry._Not_convex	pygeodesy.sphericalTrigonometry-modu
 pygeodesy.sphericalTrigonometry._Trll	pygeodesy.sphericalTrigonometry-module.html#_Trll
 pygeodesy.sphericalTrigonometry._xkwds	pygeodesy.basics-module.html#_xkwds
 pygeodesy.sphericalTrigonometry._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
+pygeodesy.sphericalTrigonometry._rads3	pygeodesy.sphericalBase-module.html#_rads3
 pygeodesy.sphericalTrigonometry.EPS	pygeodesy.sphericalTrigonometry-module.html#EPS
 pygeodesy.sphericalTrigonometry._ALL_LAZY	pygeodesy.sphericalTrigonometry-module.html#_ALL_LAZY
 pygeodesy.sphericalTrigonometry.perimeterOf	pygeodesy.sphericalTrigonometry-module.html#perimeterOf
@@ -1424,7 +1426,6 @@ pygeodesy.sphericalTrigonometry.vincentys_	pygeodesy.formy-module.html#vincentys
 pygeodesy.sphericalTrigonometry.crosserrors	pygeodesy.errors-module.html#crosserrors
 pygeodesy.sphericalTrigonometry.fsum_	pygeodesy.fmath-module.html#fsum_
 pygeodesy.sphericalTrigonometry.degrees180	pygeodesy.utily-module.html#degrees180
-pygeodesy.sphericalTrigonometry.PI	pygeodesy.sphericalTrigonometry-module.html#PI
 pygeodesy.sphericalTrigonometry.R_M	pygeodesy.sphericalTrigonometry-module.html#R_M
 pygeodesy.sphericalTrigonometry.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.sphericalTrigonometry.fsum	pygeodesy.fmath-module.html#fsum

@@ -33,7 +33,7 @@ from math import atan2, cos, hypot, log, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianSphericalBase', 'LatLonSphericalBase')
-__version__ = '20.06.12'
+__version__ = '20.06.14'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -42,6 +42,27 @@ def _angular(distance, radius):  # PYCHOK for export
        @raise ValueError: Invalid B{C{distance}} or B{C{radius}}.
     '''
     return Distance(distance) / Radius_(radius)
+
+
+def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
+    '''(INTERNAL) Convert radii to radians.
+    '''
+    r1 = Radius_(rad1, name='rad1')
+    r2 = Radius_(rad2, name='rad2')
+    r = radius
+    if r is not None:  # convert radii to radians
+        r = 1.0 / Radius_(r,  name='radius')
+        r1 *= r
+        r2 *= r
+
+    if r1 < r2:
+        r1, r2, r = r2, r1, True
+    else:
+        r = False
+    if r1 > PI:
+        raise IntersectionError(rad1=rad1, rad2=rad2,
+                                txt='exceeds PI radians')
+    return r1, r2, r
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -78,26 +99,16 @@ class CartesianSphericalBase(CartesianBase):
         '''
         self.others(other)
 
+        x1, x2 = self, other
+        r1, r2, x = _rads3(rad1, rad2, radius)
+        if x:
+            x1, x2 = x2, x1
+
         n, q = self.cross(other), self.dot(other)
         n2, q21 = n.dot(n), 1 - q**2
         if min(abs(q21), n2) < EPS:
-            print(n2, q21)
             raise IntersectionError(center1=self, center2=other,
                                     txt='near-concentric')
-
-        r1, x1 = Radius_(rad1, name='rad1'), self
-        r2, x2 = Radius_(rad2, name='rad2'), other
-        r = radius
-        if r is not None:  # convert radii to radians
-            r = 1.0 / Radius_(r,  name='radius')
-            r1 *= r
-            r2 *= r
-        if r1 < r2:
-            x1, r1, x2, r2 = x2, r2, x1, r1
-        if r1 > PI:
-            raise IntersectionError(rad1=rad1, rad2=rad2,
-                                    txt='exceeds PI radians')
-
         try:
             cr1, cr2 = cos(r1), cos(r2)
             a = (cr1 - q * cr2) / q21
@@ -110,9 +121,8 @@ class CartesianSphericalBase(CartesianBase):
         if x < EPS:
             raise IntersectionError(center1=self,  rad1=rad1,
                                     center2=other, rad2=rad2, txt='too distant')
-        x = sqrt(x / n2)
-        if x > EPS:
-            n = n.times(x)
+        n = n.times(sqrt(x / n2))
+        if n.length > EPS:
             x1, x2 = x0.plus(n), x0.minus(n)
             for x in (x1, x2):
                 x.datum = self.datum

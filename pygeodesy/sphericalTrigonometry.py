@@ -14,7 +14,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI, PI2, PI_2, PI_4, R_M, \
+from pygeodesy.basics import EPS, PI2, PI_2, PI_4, R_M, \
                              isscalar, map1, _xkwds
 from pygeodesy.errors import CrossError, crosserrors, \
                             _item_, IntersectionError, \
@@ -27,7 +27,7 @@ from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
 from pygeodesy.nvectorBase import NvectorBase as _Nvector
 from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
-                                     LatLonSphericalBase
+                                     LatLonSphericalBase, _rads3
 from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
 from pygeodesy.utily import degrees90, degrees180, degrees2m, iterNumpy2, \
                             radiansPI2, sincos2, tan_2, unrollPI, wrapPI
@@ -46,7 +46,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'nearestOn2', 'nearestOn3',
           'perimeterOf',
           'sumOf')  # == vector3d.sumOf
-__version__ = '20.06.12'
+__version__ = '20.06.14'
 
 
 def _destination2(a, b, r, t):
@@ -953,18 +953,9 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
 
     a1, b1 = center1.philam
     a2, b2 = center2.philam
-
-    r1 = Radius_(rad1, name='rad1')
-    r2 = Radius_(rad2, name='rad2')
-    r  = radius
-    if r is not None:  # convert radii to radians
-        r = 1.0 / Radius_(r,  name='radius')
-        r1 *= r
-        r2 *= r
-    if r1 < r2:
-        a1, b1, r1, a2, b2, r2 = a2, b2, r2, a1, b1, r1
-    if r1 > PI:
-        raise IntersectionError(rad1=rad1, rad2=rad2, txt='exceeds PI radians')
+    r1, r2, x = _rads3(rad1, rad2, radius)
+    if x:
+        a1, b1, a2, b2 = a2, b2, a1, b1
 
     db, _ = unrollPI(b1, b2, wrap=wrap)
     d = vincentys_(a2, a1, db)  # radians

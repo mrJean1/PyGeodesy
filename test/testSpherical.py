@@ -134,7 +134,7 @@ class Tests(_TestsLL, _TestsV):
             t = LatLon(30, 0).intersections2(PI_4, LatLon(-30, 0), PI_4, radius=None)  # radii in radians
             self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '00.0°N, 035.26439°W, 00.0°N, 035.26439°E', known=isNix or isWindows)
             t = LatLon(0, 40).intersections2(PI_4, LatLon(0, -40), PI_4, radius=None)  # radii in radians
-            self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '22.622036°N, 000.0°E, 22.622036°S, 000.0°E')
+            self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '22.622036°N, 000.0°E, 22.622036°S, 000.0°E', known=isNix or isWindows)
             t = LatLon(30, 20).intersections2(PI_4, LatLon(-30, -20), PI_4, radius=None)  # radii in radians
             self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '14.612841°N, 026.110934°W, 14.612841°S, 026.110934°E')
 
