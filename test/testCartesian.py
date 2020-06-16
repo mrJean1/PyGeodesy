@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.06.12'
+__version__ = '20.06.15'
 
 from base import geographiclib, TestsBase
 
@@ -103,11 +103,11 @@ class Tests(TestsBase):
             d = Cartesian(-0.0134464, -0.807775, 0.589337)
             self.test('intersections2', d.toLatLon(height=0), '36.109987°N, 090.95367°W')
             x, y = c.intersections2(0.0312705, d, 0.0421788, radius=None)  # radii in radians
-            self.test('intersections2', x.toStr(prec=6), '[0.025768, -0.798347, 0.601646]')  # 0.0257661, -0.798332, 0.601666
-            self.test('intersections2', x.toLatLon(height=0), '36.987868°N, 088.151309°W')  # 36.98931°N, 088.151425°W
+            self.test('intersections2', x.toStr(prec=6), '[-0.032779, -0.784769, 0.61892]')  # -0.0327606, -0.784759, 0.618935
+            self.test('intersections2', x.toLatLon(height=0), '38.237342°N, 092.391779°W')  # 38.23838°N, 092.390487°W
             if y is not x:
-                self.test('intersections2', y.toStr(prec=6), '[-0.032779, -0.784769, 0.61892]')  # -0.0327606, -0.784759, 0.618935
-                self.test('intersections2', y.toLatLon(height=0), '38.237342°N, 092.391779°W')  # 38.23838°N, 092.390487°W
+                self.test('intersections2', y.toStr(prec=6), '[0.025768, -0.798347, 0.601646]')  # 0.0257661, -0.798332, 0.601666
+                self.test('intersections2', y.toLatLon(height=0), '36.987868°N, 088.151309°W')  # 36.98931°N, 088.151425°W
 
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__

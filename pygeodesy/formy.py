@@ -5,7 +5,7 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.basics import EPS, PI, PI2, PI_2, R_M, len2, _xinstanceof
+from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, len2, _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.errors import _item_, LimitError, _limiterrors, _ValueError
 from pygeodesy.fmath import fsum_, hypot, hypot2
@@ -18,11 +18,11 @@ from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
                             isNumpy2, isTuple2, sincos2, unroll180, unrollPI, \
                             wrap90, wrap180, wrapPI, wrapPI_2
 
-from math import acos, atan2, cos, degrees, radians, sin, sqrt  # pow
+from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.05.15'
+__version__ = '20.06.15'
 
 
 class PointsError(_ValueError):
@@ -150,11 +150,161 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     return degrees360(atan2(d_lon, lat2 - lat1))
 
 
+def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
+    '''Compute the distance between two (ellipsoidal) points using the
+       U{Andoyer-Lambert correction<https://navlib.net/wp-content/uploads/
+       2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf>} of the
+       U{Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
+       fromula.
+
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Distance (C{meter}, same units as the B{C{datum}}'s
+                ellipsoid axes).
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @see: Functions L{cosineAndoyerLambert_}, L{cosineForsytheAndoyerLambert},
+             L{cosineLaw}, L{equirectangular}, L{euclidean}, L{flatLocal}/L{hubeny},
+             L{flatPolar}, L{haversine}, L{thomas} and L{vincentys} and method
+             L{Ellipsoid.distance2}.
+    '''
+    d, _ = unroll180(lon1, lon2, wrap=wrap)
+    r = cosineAndoyerLambert_(Phi_(lat2, name='lat2'),
+                              Phi_(lat1, name='lat1'), radians(d), datum=datum)
+    return r * datum.ellipsoid.a
+
+
+def cosineAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
+    '''Compute the I{angular} distance between two (ellipsoidal) points using the
+       U{Andoyer-Lambert correction<https://navlib.net/wp-content/uploads/2013/10/
+       admiralty-manual-of-navigation-vol-1-1964-english501c.pdf>} of the U{Law
+       of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
+       fromula.
+
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+
+       @return: Angular distance (C{radians}).
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @see: Functions L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert_},
+             L{cosineLaw_}, L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
+             L{flatPolar_}, L{haversine_}, L{thomas_} and L{vincentys_} and U{Geodesy-PHP
+             <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
+             Distance/AndoyerLambert.php>}.
+    '''
+    s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
+    if c2 and c1:
+        _xinstanceof(Datum, datum=datum)
+
+        E = datum.ellipsoid
+        if E.f and abs(c1) > EPS and abs(c2) > EPS:
+            r2 = atan(E.b_a * s2 / c2)
+            r1 = atan(E.b_a * s1 / c1)
+            s2, c2, s1, c1 = sincos2(r2, r1)
+            r = acos(s1 * s2 + c1 * c2 * c21)
+            sr, _, sr_2, cr_2 = sincos2(r, r / 2)
+            if abs(sr_2) > EPS and abs(cr_2) > EPS:
+                c = (sr - r) * ((s1 + s2) / cr_2)**2
+                s = (sr + r) * ((s1 - s2) / sr_2)**2
+                r += E.f * (c - s) / 8.0
+            return r
+    # fall back to cosineLaw_
+    return acos(s1 * s2 + c1 * c2 * c21)
+
+
+def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
+    '''Compute the distance between two (ellipsoidal) points using the
+       U{Forsythe-Andoyer-Lambert correction<https://www2.UNB.CA/gge/Pubs/TR77.pdf>} of
+       the U{Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
+       formula.
+
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Distance (C{meter}, same units as the B{C{datum}}'s
+                ellipsoid axes).
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @see: Functions L{cosineForsytheAndoyerLambert_}, L{cosineAndoyerLambert},
+             L{cosineLaw}, L{equirectangular}, L{euclidean}, L{flatLocal}/L{hubeny},
+             L{flatPolar}, L{haversine}, L{thomas} and L{vincentys} and method
+             L{Ellipsoid.distance2}.
+    '''
+    d, _ = unroll180(lon1, lon2, wrap=wrap)
+    r = cosineForsytheAndoyerLambert_(Phi_(lat2, name='lat2'),
+                                      Phi_(lat1, name='lat1'), radians(d), datum=datum)
+    return r * datum.ellipsoid.a
+
+
+def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
+    '''Compute the I{angular} distance between two (ellipsoidal) points using the
+       U{Forsythe-Andoyer-Lambert correction<https://www2.UNB.CA/gge/Pubs/TR77.pdf>} of
+       the U{Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
+       formula.
+
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+
+       @return: Angular distance (C{radians}).
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @see: Functions L{cosineForsytheAndoyerLambert}, L{cosineAndoyerLambert_},
+             L{cosineLaw_}, L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
+             L{flatPolar_}, L{haversine_}, L{thomas_} and L{vincentys_} and U{Geodesy-PHP
+             <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
+             Distance/ForsytheCorrection.php>}.
+    '''
+    _xinstanceof(Datum, datum=datum)
+
+    s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
+    r = acos(s1 * s2 + c1 * c2 * c21)
+    E = datum.ellipsoid
+    if E.f:
+        sr, cr, s2r, _ = sincos2(r, r * 2)
+        if abs(sr) > EPS:
+            r2 = r**2
+
+            p = (s1 + s2)**2 / (1 + cr)
+            q = (s1 - s2)**2 / (1 - cr)
+            x = p + q
+            y = p - q
+            s = 8 * r2 / sr
+
+            a = 64 * r + 2 * s * cr  # 16 * r2 / tan(r)
+            d = 48 * sr + s  # 8 * r2 / tan(r)
+            b = -2 * d
+            e = 30 * s2r
+            c = fsum_(30 * r, e / 2, s * cr)  # 8 * r2 / tan(r)
+
+            d = fsum_(a * x, b * y, -c * x**2, d * x * y, e * y**2) * E.f / 32.0
+            d = fsum_(d, -x * r, 3 * y * sr) * E.f / 4.0
+            r += d
+    return r
+
+
 def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     '''Compute the distance between two points using the
        U{spherical Law of Cosines
        <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
-       fromula.
+       formula.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
@@ -167,9 +317,10 @@ def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @raise TypeError: Invalid B{C{radius}}.
 
-       @see: Functions L{cosineLaw_}, L{equirectangular}, L{euclidean},
-             L{flatLocal}, L{flatPolar}, L{haversine}, L{vincentys} and
-             method L{Ellipsoid.distance2}.
+       @see: Functions L{cosineLaw_}, L{cosineAndoyerLambert},
+             L{cosineForsytheAndoyerLambert}, L{equirectangular}, L{euclidean},
+             L{flatLocal}/L{hubeny}, L{flatPolar}, L{haversine}, L{thomas} and
+             L{vincentys} and method L{Ellipsoid.distance2}.
 
        @note: See note at function L{vincentys_}.
     '''
@@ -185,7 +336,7 @@ def cosineLaw_(phi2, phi1, lam21):
     '''Compute the I{angular} distance between two points using
        the U{spherical Law of Cosines
        <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
-       fromula.
+       formula.
 
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
@@ -193,8 +344,10 @@ def cosineLaw_(phi2, phi1, lam21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{cosineLaw}, L{equirectangular_}, L{euclidean_},
-             L{flatLocal_}, L{flatPolar_}, L{haversine_} and L{vincentys_}.
+       @see: Functions L{cosineLaw}, L{cosineAndoyerLambert_},
+             L{cosineForsytheAndoyerLambert_}, L{equirectangular_},
+             L{euclidean_}, L{flatLocal_}/L{hubeny_}, L{flatPolar_},
+             L{haversine_}, L{thomas_} and L{vincentys_}.
 
        @note: See note at function L{vincentys_}.
     '''
@@ -257,10 +410,11 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
        @see: U{Local, flat earth approximation
              <https://www.EdWilliams.org/avform.htm#flat>}, functions
-             L{equirectangular}, L{cosineLaw}, L{euclidean}, L{flatLocal},
-             L{flatPolar}, L{haversine}, L{vincentys} and methods
-             L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
-             C{LatLon.equirectangularTo}.
+             L{equirectangular}, L{cosineAndoyerLambert},
+             L{cosineForsytheAndoyerLambert}, L{cosineLaw}, L{euclidean},
+             L{flatLocal}/L{hubeny}, L{flatPolar}, L{haversine}, L{thomas}
+             and L{vincentys} and methods L{Ellipsoid.distance2},
+             C{LatLon.distanceTo*} and C{LatLon.equirectangularTo}.
     '''
     d_lat = lat2 - lat1
     d_lon, ulon2 = unroll180(lon1, lon2, wrap=wrap)
@@ -296,10 +450,10 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
 
        @see: U{Distance between two (spherical) points
              <https://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{euclidean_}, L{cosineLaw}, L{equirectangular}, L{flatLocal},
-             L{flatPolar}, L{haversine}, L{vincentys} and methods
-             L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
-             C{LatLon.equirectangularTo}.
+             L{euclidean_}, L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert},
+             L{cosineLaw}, L{equirectangular}, L{flatLocal}/L{hubeny}, L{flatPolar},
+             L{haversine}, L{thomas} and L{vincentys} and methods L{Ellipsoid.distance2},
+             C{LatLon.distanceTo*} and C{LatLon.equirectangularTo}.
     '''
     r = Radius(radius)
     if r:
@@ -321,8 +475,11 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{euclidean}, L{cosineLaw_}, L{equirectangular_},
-             L{flatLocal_}, L{flatPolar_}, L{haversine_} and L{vincentys_}.
+       @see: Functions L{euclidean}, L{cosineAndoyerLambert_},
+             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
+             L{equirectangular_}, L{flatLocal_}/L{hubeny_},
+             L{flatPolar_}, L{haversine_}, L{thomas_} and
+             L{vincentys_}.
     '''
     a, b = abs(phi2 - phi1), abs(lam21)
     if adjust:
@@ -334,15 +491,15 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
 
 def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
     '''Compute the distance between two (ellipsoidal) points using
-       the U{ellipsoidal Earth to plane projection
-       <https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
-       fromula.
+       the U{ellipsoidal Earth to plane projection<https://WikiPedia.org/
+       wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
+       aka U{Hubeny<https://www.OVG.AT/de/vgi/files/pdf/3781/>} formula.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg datum: Optional, (ellipsoidal) datum to use (L{Datum}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
@@ -353,50 +510,56 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
        @note: The meridional and prime_vertical radii of curvature
               are taken and scaled at the mean latitude.
 
-       @see: Functions L{flatLocal_}, L{cosineLaw}, L{flatPolar},
-             L{equirectangular}, L{euclidean}, L{haversine},
-             L{vincentys}, method L{Ellipsoid.distance2} and
-             U{local, flat earth approximation
-             <https://www.edwilliams.org/avform.htm#flat>}.
+       @see: Functions L{flatLocal_}/L{hubeny_}, L{cosineLaw},
+             L{flatPolar}, L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert},
+             L{equirectangular}, L{euclidean}, L{haversine}, L{thomas}, L{vincentys},
+             method L{Ellipsoid.distance2} and U{local, flat earth approximation
+             <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
     d, _ = unroll180(lon1, lon2, wrap=wrap)
     return flatLocal_(Phi_(lat2, name='lat2'),
                       Phi_(lat1, name='lat1'), radians(d), datum=datum)
 
 
+hubeny = flatLocal  # for Karl Hubeny
+
+
 def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
-    '''Compute the distance between two (ellipsoidal) points using
-       the U{ellipsoidal Earth to plane projection
-       <https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
-       fromula.
+    '''Compute the I{angular} distance between two (ellipsoidal) points using
+       the U{ellipsoidal Earth to plane projection<https://WikiPedia.org/
+       wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
+       aka U{Hubeny<https://www.OVG.AT/de/vgi/files/pdf/3781/>} formula.
 
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
        @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
-       @kwarg datum: Optional, (ellipsoidal) datum to use (L{Datum}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
 
-       @return: Distance (C{meter}, same units as the B{C{datum}}'s
-                ellipsoid axes).
+       @return: Angular distance (C{radians}).
 
        @raise TypeError: Invalid B{C{datum}}.
 
        @note: The meridional and prime_vertical radii of curvature
               are taken and scaled at the mean latitude.
 
-       @see: Functions L{flatLocal}, L{cosineLaw_}, L{flatPolar_},
-             L{equirectangular_}, L{euclidean_}, L{haversine_} and
-             L{vincentys_} and U{local, flat earth approximation
-             <https://www.edwilliams.org/avform.htm#flat>}.
+       @see: Functions L{flatLocal}/L{hubeny}, L{cosineAndoyerLambert_},
+             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
+             L{flatPolar_}, L{equirectangular_}, L{euclidean_},
+             L{haversine_}, L{thomas_} and L{vincentys_} and U{local, flat
+             earth approximation <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
     _xinstanceof(Datum, datum=datum)
     m, n = datum.ellipsoid.roc2_((phi2 + phi1) * 0.5, scaled=True)
     return hypot(m * (phi2 - phi1), n * lam21)
 
 
+hubeny_ = flatLocal_  # for Karl Hubeny
+
+
 def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     '''Compute the distance between two (spherical) points using
-       the U{polar coordinate flat-Earth
-       <https://WikiPedia.org/wiki/Geographical_distance#Polar_coordinate_flat-Earth_formula>}
+       the U{polar coordinate flat-Earth <https://WikiPedia.org/wiki/
+       Geographical_distance#Polar_coordinate_flat-Earth_formula>}
        formula.
 
        @arg lat1: Start latitude (C{degrees}).
@@ -410,8 +573,10 @@ def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @raise TypeError: Invalid B{C{radius}}.
 
-       @see: Functions L{flatPolar_}, L{cosineLaw}, L{flatLocal},
-             L{equirectangular}, L{euclidean}, L{haversine} and
+       @see: Functions L{flatPolar_}, L{cosineAndoyerLambert},
+             L{cosineForsytheAndoyerLambert},L{cosineLaw},
+             L{flatLocal}/L{hubeny}, L{equirectangular},
+             L{euclidean}, L{haversine}, L{thomas} and
              L{vincentys}.
     '''
     r = Radius(radius)
@@ -424,8 +589,8 @@ def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
 def flatPolar_(phi2, phi1, lam21):
     '''Compute the I{angular} distance between two (spherical) points
-       using the U{polar coordinate flat-Earth
-       <https://WikiPedia.org/wiki/Geographical_distance#Polar_coordinate_flat-Earth_formula>}
+       using the U{polar coordinate flat-Earth<https://WikiPedia.org/wiki/
+       Geographical_distance#Polar_coordinate_flat-Earth_formula>}
        formula.
 
        @arg phi2: End latitude (C{radians}).
@@ -434,8 +599,10 @@ def flatPolar_(phi2, phi1, lam21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{flatPolar}, L{cosineLaw_}, L{equirectangular_},
-             L{euclidean_}, L{flatLocal_}, L{haversine_} and L{vincentys_}.
+       @see: Functions L{flatPolar}, L{cosineAndoyerLambert_},
+             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
+             L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
+             L{haversine_}, L{thomas_} and L{vincentys_}.
     '''
     a1 = abs(PI_2 - phi1)  # co-latitude
     a2 = abs(PI_2 - phi2)  # co-latitude
@@ -465,10 +632,10 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @see: U{Distance between two (spherical) points
              <https://www.EdWilliams.org/avform.htm#Dist>}, functions
-             L{cosineLaw}, L{equirectangular}, L{euclidean},
-             L{flatLocal}, L{flatPolar}, L{vincentys} and methods
-             L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
-             C{LatLon.equirectangularTo}.
+             L{cosineLaw}, L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert},
+             L{equirectangular}, L{euclidean}, L{flatLocal}/L{hubeny}, L{flatPolar},
+             L{thomas} and L{vincentys} and methods L{Ellipsoid.distance2},
+             C{LatLon.distanceTo*} and C{LatLon.equirectangularTo}.
 
        @note: See note at function L{vincentys_}.
     '''
@@ -491,8 +658,10 @@ def haversine_(phi2, phi1, lam21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{haversine}, L{cosineLaw_}, L{equirectangular_},
-             L{euclidean_}, L{flatLocal_}, L{flatPolar_} and L{vincentys_}.
+       @see: Functions L{haversine}, L{cosineAndoyerLambert_},
+             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
+             L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
+             L{flatPolar_}, L{thomas_} and L{vincentys_}.
 
        @note: See note at function L{vincentys_}.
     '''
@@ -709,6 +878,91 @@ def points2(points, closed=True, base=None, Error=PointsError):
     return Points2Tuple(n, points)
 
 
+def thomas(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
+    '''Compute the distance between two (ellipsoidal) points using the
+       U{Thomas<https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>}
+       formula.
+
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Distance (C{meter}, same units as the B{C{datum}}'s
+                ellipsoid axes).
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @see: Functions L{thomas_}, L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert},
+             L{cosineLaw}, L{equirectangular}, L{euclidean}, L{flatLocal}/L{hubeny},
+             L{flatPolar}, L{haversine}, L{vincentys} and method L{Ellipsoid.distance2}.
+    '''
+    d, _ = unroll180(lon1, lon2, wrap=wrap)
+    r = thomas_(Phi_(lat2, name='lat2'),
+                Phi_(lat1, name='lat1'), radians(d), datum=datum)
+    return r * datum.ellipsoid.a
+
+
+def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
+    '''Compute the I{angular} distance between two (ellipsoidal) points using
+       U{Thomas'<https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>}
+       formula.
+
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+
+       @return: Angular distance (C{radians}).
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @see: Functions L{thomas}, L{cosineAndoyerLambert_},
+             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
+             L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
+             L{flatPolar_}, L{haversine_} and L{vincentys_} and U{Geodesy-PHP
+             <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
+             Distance/ThomasFormula.php>}.
+    '''
+    _xinstanceof(Datum, datum=datum)
+
+    s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
+    E = datum.ellipsoid
+    if E.f and abs(c1) > EPS and abs(c2) > EPS:
+        r1 = atan(E.b_a * s1 / c1)
+        r2 = atan(E.b_a * s2 / c2)
+
+        j = (r2 + r1) / 2.0
+        k = (r2 - r1) / 2.0
+        sj, cj, sk, ck, sl_2, _ = sincos2(j, k, lam21 / 2.0)
+
+        h = fsum_(sk**2, (ck * sl_2)**2, -(sj * sl_2)**2)
+        if EPS < abs(h) < EPS1:
+            u = 1 / (1 - h)
+            d = 2 * atan(sqrt(h * u))  # == acos(1 - 2 * h)
+            sd, cd = sincos2(d)
+            if abs(sd) > EPS:
+                u = 2 * (sj * ck)**2 * u
+                v = 2 * (sk * cj)**2 / h
+                x = u + v
+                y = u - v
+
+                t = d / sd
+                s = 4 * t**2
+                e = 2 * cd
+                a = s * e
+                b = 2 * d
+                c = t - (a - e) / 2.0
+
+                s = fsum_(a * x,  c * x**2, -b * y, -e * y**2, s * x * y) * E.f / 16.0
+                s = fsum_(t * x, -y, -s) * E.f / 4.0
+                return d - s * sd
+    # fall back to cosineLaw_
+    return acos(s1 * s2 + c1 * c2 * c21)
+
+
 def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     '''Compute the distance between two (spherical) points using
        U{Vincenty's<https://WikiPedia.org/wiki/Great-circle_distance>}
@@ -725,10 +979,11 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
        @raise TypeError: Invalid B{C{radius}}.
 
-       @see: Functions L{vincentys_}, L{cosineLaw}, L{equirectangular},
-             L{euclidean}, L{flatLocal}, L{flatPolar}, L{haversine} and
-             methods L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and
-             C{LatLon.equirectangularTo}.
+       @see: Functions L{vincentys_}, L{cosineAndoyerLambert},
+             L{cosineForsytheAndoyerLambert},L{cosineLaw}, L{equirectangular},
+             L{euclidean}, L{flatLocal}/L{hubeny}, L{flatPolar},
+             L{haversine} and L{thomas} and methods L{Ellipsoid.distance2},
+             C{LatLon.distanceTo*} and C{LatLon.equirectangularTo}.
 
        @note: See note at function L{vincentys_}.
     '''
@@ -751,8 +1006,10 @@ def vincentys_(phi2, phi1, lam21):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{vincentys}, L{cosineLaw_}, L{equirectangular_},
-             L{euclidean_}, L{flatLocal_}, L{flatPolar_} and L{haversine_}.
+       @see: Functions L{vincentys}, L{cosineAndoyerLambert_},
+             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
+             L{equirectangular_}, L{euclidean_}, L{flatLocal_}/L{hubeny_},
+             L{flatPolar_}, L{haversine_} and L{thomas_}.
 
        @note: Functions L{vincentys_}, L{haversine_} and L{cosineLaw_}
               produce equivalent results, but L{vincentys_} is suitable

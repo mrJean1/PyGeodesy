@@ -285,7 +285,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.06.14
+        20.06.15
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -444,6 +444,8 @@
         class="link">FrechetFlatPolar</a>, <a 
         href="pygeodesy.frechet.FrechetHaversine-class.html" 
         class="link">FrechetHaversine</a>, <a 
+        href="pygeodesy.frechet.FrechetHubeny-class.html" 
+        class="link">FrechetHubeny</a>, <a 
         href="pygeodesy.frechet.FrechetKarney-class.html" 
         class="link">FrechetKarney</a> and <a 
         href="pygeodesy.frechet.FrechetVincentys-class.html" 
@@ -489,6 +491,8 @@
         class="link">HausdorffFlatPolar</a>, <a 
         href="pygeodesy.hausdorff.HausdorffHaversine-class.html" 
         class="link">HausdorffHaversine</a>, <a 
+        href="pygeodesy.hausdorff.HausdorffHubeny-class.html" 
+        class="link">HausdorffHubeny</a>, <a 
         href="pygeodesy.hausdorff.HausdorffKarney-class.html" 
         class="link">HausdorffKarney</a> and <a 
         href="pygeodesy.hausdorff.HausdorffVincentys-class.html" 
@@ -505,8 +509,14 @@
         class="link">HeightIDWequirectangular</a>, <a 
         href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
         class="link">HeightIDWeuclidean</a>, <a 
+        href="pygeodesy.heights.HeightIDWflatLocal-class.html" 
+        class="link">HeightIDWflatLocal</a>, <a 
+        href="pygeodesy.heights.HeightIDWflatPolar-class.html" 
+        class="link">HeightIDWflatPolar</a>, <a 
         href="pygeodesy.heights.HeightIDWhaversine-class.html" 
         class="link">HeightIDWhaversine</a>, <a 
+        href="pygeodesy.heights.HeightIDWhubeny-class.html" 
+        class="link">HeightIDWhubeny</a>, <a 
         href="pygeodesy.heights.HeightIDWkarney-class.html" 
         class="link">HeightIDWkarney</a>, <a 
         href="pygeodesy.heights.HeightIDWvincentys-class.html" 
@@ -1149,9 +1159,11 @@
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetFlatLocal-class.html" class="summary-name">FrechetFlatLocal</a><br />
       Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians squared</code> from 
+        <i>angular</i> distance in <code>radians squared</code> like 
         function <a href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">flatLocal_</a>.
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>.
     </td>
   </tr>
 <tr>
@@ -1175,6 +1187,19 @@
         <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.frechet.FrechetHubeny-class.html" class="summary-name">FrechetHubeny</a><br />
+      Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>.
     </td>
   </tr>
 <tr>
@@ -1363,9 +1388,11 @@
     </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffFlatLocal-class.html" class="summary-name">HausdorffFlatLocal</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
-        <i>angular</i> distance in <code>radians squared</code> from 
+        <i>angular</i> distance in <code>radians squared</code> like 
         function <a href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">flatLocal_</a>.
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>.
     </td>
   </tr>
 <tr>
@@ -1388,6 +1415,19 @@
         <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffHubeny-class.html" class="summary-name">HausdorffHubeny</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>.
     </td>
   </tr>
 <tr>
@@ -1531,7 +1571,9 @@
         target="_top">Inverse Distance Weighting</a> (IDW) and the distance
         in <code>radians squared</code> like function <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">flatLocal_</a>.
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>.
     </td>
   </tr>
 <tr>
@@ -1558,6 +1600,21 @@
         in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWhubeny-class.html" class="summary-name">HeightIDWhubeny</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        in <code>radians squared</code> like function <a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>.
     </td>
   </tr>
 <tr>
@@ -2696,6 +2753,107 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#cosineAndoyerLambert" class="summary-sig-name">cosineAndoyerLambert</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance between two (ellipsoidal) points using the <a 
+      href="https://navlib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
+      target="_top">Andoyer-Lambert correction</a> of the <a 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
+      target="_top">Law of Cosines</a> fromula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#cosineAndoyerLambert_" class="summary-sig-name">cosineAndoyerLambert_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
+      Compute the <i>angular</i> distance between two (ellipsoidal) points 
+      using the <a 
+      href="https://navlib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
+      target="_top">Andoyer-Lambert correction</a> of the <a 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
+      target="_top">Law of Cosines</a> fromula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#cosineForsytheAndoyerLambert" class="summary-sig-name">cosineForsytheAndoyerLambert</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance between two (ellipsoidal) points using the <a 
+      href="https://www2.UNB.CA/gge/Pubs/TR77.pdf" 
+      target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
+      target="_top">Law of Cosines</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#cosineForsytheAndoyerLambert_" class="summary-sig-name">cosineForsytheAndoyerLambert_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
+      Compute the <i>angular</i> distance between two (ellipsoidal) points 
+      using the <a href="https://www2.UNB.CA/gge/Pubs/TR77.pdf" 
+      target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
+      href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
+      target="_top">Law of Cosines</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#cosineLaw" class="summary-sig-name">cosineLaw</a>(<span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
@@ -2704,7 +2862,7 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two points using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
-      target="_top">spherical Law of Cosines</a> fromula.</td>
+      target="_top">spherical Law of Cosines</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -2725,7 +2883,7 @@
         <span class="summary-sig-arg">lam21</span>)</span><br />
       Compute the <i>angular</i> distance between two points using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law"
-      target="_top">spherical Law of Cosines</a> fromula.</td>
+      target="_top">spherical Law of Cosines</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -3350,7 +3508,9 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance between two (ellipsoidal) points using the <a 
       href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
-      target="_top">ellipsoidal Earth to plane projection</a> fromula.</td>
+      target="_top">ellipsoidal Earth to plane projection</a> aka <a 
+      href="https://www.OVG.AT/de/vgi/files/pdf/3781/" 
+      target="_top">Hubeny</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -3370,9 +3530,12 @@
         <span class="summary-sig-arg">phi1</span>,
         <span class="summary-sig-arg">lam21</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
-      Compute the distance between two (ellipsoidal) points using the <a 
+      Compute the <i>angular</i> distance between two (ellipsoidal) points 
+      using the <a 
       href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
-      target="_top">ellipsoidal Earth to plane projection</a> fromula.</td>
+      target="_top">ellipsoidal Earth to plane projection</a> aka <a 
+      href="https://www.OVG.AT/de/vgi/files/pdf/3781/" 
+      target="_top">Hubeny</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -3730,7 +3893,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x1064350d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x106ee31d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -3824,6 +3987,57 @@
         <span class="summary-sig-arg">refraction</span>=<span class="summary-sig-default">False</span>)</span><br />
       Determine the distance to the horizon from a given altitude above the
       (spherical) earth.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hubeny" class="summary-sig-name">hubeny</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance between two (ellipsoidal) points using the <a 
+      href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
+      target="_top">ellipsoidal Earth to plane projection</a> aka <a 
+      href="https://www.OVG.AT/de/vgi/files/pdf/3781/" 
+      target="_top">Hubeny</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hubeny_" class="summary-sig-name">hubeny_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
+      Compute the <i>angular</i> distance between two (ellipsoidal) points 
+      using the <a 
+      href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
+      target="_top">ellipsoidal Earth to plane projection</a> aka <a 
+      href="https://www.OVG.AT/de/vgi/files/pdf/3781/" 
+      target="_top">Hubeny</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -5653,6 +5867,52 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#thomas" class="summary-sig-name">thomas</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the distance between two (ellipsoidal) points using the <a 
+      href="https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf" 
+      target="_top">Thomas</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#thomas_" class="summary-sig-name">thomas_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span><br />
+      Compute the <i>angular</i> distance between two (ellipsoidal) points 
+      using <a href="https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf" 
+      target="_top">Thomas'</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toCss" class="summary-sig-name">toCss</a>(<span class="summary-sig-arg">latlon</span>,
         <span class="summary-sig-arg">cs0</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
@@ -6263,7 +6523,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.6.14'"><code class="variable-quote">'</code><code class="variable-string">20.6.14</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.6.15'"><code class="variable-quote">'</code><code class="variable-string">20.6.15</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7910,6 +8170,285 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="cosineAndoyerLambert"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cosineAndoyerLambert</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between two (ellipsoidal) points using the <a 
+  href="https://navlib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
+  target="_top">Andoyer-Lambert correction</a> of the <a 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
+  target="_top">Law of Cosines</a> fromula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as the 
+          <b><code>datum</code></b>'s ellipsoid axes).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw" 
+        class="link">cosineLaw</a>, <a 
+        href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a>, <a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar" 
+        class="link">flatPolar</a>, <a 
+        href="pygeodesy.formy-module.html#haversine" 
+        class="link">haversine</a>, <a 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
+        and <a href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a> and method <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="cosineAndoyerLambert_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cosineAndoyerLambert_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>angular</i> distance between two (ellipsoidal) points 
+  using the <a 
+  href="https://navlib.net/wp-content/uploads/2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf"
+  target="_top">Andoyer-Lambert correction</a> of the <a 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
+  target="_top">Law of Cosines</a> fromula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angular distance (<code>radians</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">cosineLaw_</a>, <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>, <a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>, <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a>, <a 
+        href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
+        and <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a> and <a 
+        href="https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/Distance/AndoyerLambert.php"
+        target="_top">Geodesy-PHP</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="cosineForsytheAndoyerLambert"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cosineForsytheAndoyerLambert</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between two (ellipsoidal) points using the <a 
+  href="https://www2.UNB.CA/gge/Pubs/TR77.pdf" 
+  target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
+  target="_top">Law of Cosines</a> formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as the 
+          <b><code>datum</code></b>'s ellipsoid axes).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw" 
+        class="link">cosineLaw</a>, <a 
+        href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a>, <a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar" 
+        class="link">flatPolar</a>, <a 
+        href="pygeodesy.formy-module.html#haversine" 
+        class="link">haversine</a>, <a 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
+        and <a href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a> and method <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="cosineForsytheAndoyerLambert_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">cosineForsytheAndoyerLambert_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>angular</i> distance between two (ellipsoidal) points 
+  using the <a href="https://www2.UNB.CA/gge/Pubs/TR77.pdf" 
+  target="_top">Forsythe-Andoyer-Lambert correction</a> of the <a 
+  href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
+  target="_top">Law of Cosines</a> formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angular distance (<code>radians</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">cosineLaw_</a>, <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>, <a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>, <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a>, <a 
+        href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
+        and <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a> and <a 
+        href="https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/Distance/ForsytheCorrection.php"
+        target="_top">Geodesy-PHP</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="cosineLaw"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -7931,7 +8470,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   
   <p>Compute the distance between two points using the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
-  target="_top">spherical Law of Cosines</a> fromula.</p>
+  target="_top">spherical Law of Cosines</a> formula.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -7954,17 +8493,24 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
         href="pygeodesy.formy-module.html#euclidean" 
         class="link">euclidean</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">flatLocal</a>, <a 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar" 
         class="link">flatPolar</a>, <a 
         href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a>, <a 
-        href="pygeodesy.formy-module.html#vincentys" 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
+        and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and method <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>.
@@ -7994,7 +8540,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   
   <p>Compute the <i>angular</i> distance between two points using the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law" 
-  target="_top">spherical Law of Cosines</a> fromula.</p>
+  target="_top">spherical Law of Cosines</a> formula.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -8009,17 +8555,24 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#cosineLaw" 
         class="link">cosineLaw</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">flatLocal_</a>, <a 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar_" 
         class="link">flatPolar_</a>, <a 
         href="pygeodesy.formy-module.html#haversine_" 
-        class="link">haversine_</a> and <a 
-        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">haversine_</a>, <a 
+        href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
+        and <a href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
       </p>
       <p><strong>Note:</strong>
@@ -8612,17 +9165,24 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         target="_top">Local, flat earth approximation</a>, functions <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw" 
         class="link">cosineLaw</a>, <a 
         href="pygeodesy.formy-module.html#euclidean" 
         class="link">euclidean</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">flatLocal</a>, <a 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar" 
         class="link">flatPolar</a>, <a 
         href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a>, <a 
-        href="pygeodesy.formy-module.html#vincentys" 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
+        and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, 
@@ -8679,17 +9239,24 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         target="_top">Distance between two (spherical) points</a>, 
         functions <a href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw" 
         class="link">cosineLaw</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">flatLocal</a>, <a 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar" 
         class="link">flatPolar</a>, <a 
         href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a>, <a 
-        href="pygeodesy.formy-module.html#vincentys" 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
+        and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, 
@@ -8733,17 +9300,24 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#euclidean" 
         class="link">euclidean</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">flatLocal_</a>, <a 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar_" 
         class="link">flatPolar_</a>, <a 
         href="pygeodesy.formy-module.html#haversine_" 
-        class="link">haversine_</a> and <a 
-        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">haversine_</a>, <a 
+        href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
+        and <a href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
       </p>
 </div></td></tr></table>
@@ -9026,7 +9600,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   
   <p>Compute the distance between two (ellipsoidal) points using the <a 
   href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
-  target="_top">ellipsoidal Earth to plane projection</a> fromula.</p>
+  target="_top">ellipsoidal Earth to plane projection</a> aka <a 
+  href="https://www.OVG.AT/de/vgi/files/pdf/3781/" target="_top">Hubeny</a>
+  formula.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -9034,7 +9610,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional, (ellipsoidal) datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
           href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
@@ -9053,22 +9629,29 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
       <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">flatLocal_</a>, <a 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw" 
         class="link">cosineLaw</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar" 
         class="link">flatPolar</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
         href="pygeodesy.formy-module.html#euclidean" 
         class="link">euclidean</a>, <a 
         href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a>, <a 
-        href="pygeodesy.formy-module.html#vincentys" 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a>, 
+        <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a>, method <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a> and <a 
-        href="https://www.edwilliams.org/avform.htm#flat" 
+        href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">local, flat earth approximation</a>.
       </p>
 </div></td></tr></table>
@@ -9090,9 +9673,12 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Compute the distance between two (ellipsoidal) points using the <a 
+  <p>Compute the <i>angular</i> distance between two (ellipsoidal) points 
+  using the <a 
   href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
-  target="_top">ellipsoidal Earth to plane projection</a> fromula.</p>
+  target="_top">ellipsoidal Earth to plane projection</a> aka <a 
+  href="https://www.OVG.AT/de/vgi/files/pdf/3781/" target="_top">Hubeny</a>
+  formula.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -9100,12 +9686,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional, (ellipsoidal) datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
           href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Distance (<code>meter</code>, same units as the 
-          <b><code>datum</code></b>'s ellipsoid axes).</dd>
+        <dd>Angular distance (<code>radians</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
@@ -9117,7 +9702,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
       <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">flatLocal</a>, <a 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar_" 
@@ -9127,10 +9718,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#haversine_" 
-        class="link">haversine_</a> and <a 
-        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">haversine_</a>, <a 
+        href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
+        and <a href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a> and <a 
-        href="https://www.edwilliams.org/avform.htm#flat" 
+        href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">local, flat earth approximation</a>.
       </p>
 </div></td></tr></table>
@@ -9179,17 +9771,24 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatPolar_" 
         class="link">flatPolar_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>,<a 
         href="pygeodesy.formy-module.html#cosineLaw" 
         class="link">cosineLaw</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">flatLocal</a>, <a 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
         href="pygeodesy.formy-module.html#euclidean" 
         class="link">euclidean</a>, <a 
         href="pygeodesy.formy-module.html#haversine" 
-        class="link">haversine</a> and <a 
-        href="pygeodesy.formy-module.html#vincentys" 
+        class="link">haversine</a>, <a 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
+        and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a>.
       </p>
 </div></td></tr></table>
@@ -9228,6 +9827,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatPolar" 
         class="link">flatPolar</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
@@ -9235,10 +9838,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">flatLocal_</a>, <a 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
         href="pygeodesy.formy-module.html#haversine_" 
-        class="link">haversine_</a> and <a 
-        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">haversine_</a>, <a 
+        href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
+        and <a href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
       </p>
 </div></td></tr></table>
@@ -9825,7 +10431,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x1064350d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x106ee31d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -9926,15 +10532,22 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         target="_top">Distance between two (spherical) points</a>, 
         functions <a href="pygeodesy.formy-module.html#cosineLaw" 
         class="link">cosineLaw</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular" 
         class="link">equirectangular</a>, <a 
         href="pygeodesy.formy-module.html#euclidean" 
         class="link">euclidean</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">flatLocal</a>, <a 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar" 
         class="link">flatPolar</a>, <a 
-        href="pygeodesy.formy-module.html#vincentys" 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
+        and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, 
@@ -9981,6 +10594,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#haversine" 
         class="link">haversine</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
@@ -9988,10 +10605,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">flatLocal_</a>, <a 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar_" 
-        class="link">flatPolar_</a> and <a 
-        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">flatPolar_</a>, <a 
+        href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
+        and <a href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
       </p>
       <p><strong>Note:</strong>
@@ -10083,6 +10703,154 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://www.EdWilliams.org/avform.htm#Horizon" 
         target="_top">Distance to horizon</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="hubeny"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hubeny</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between two (ellipsoidal) points using the <a 
+  href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
+  target="_top">ellipsoidal Earth to plane projection</a> aka <a 
+  href="https://www.OVG.AT/de/vgi/files/pdf/3781/" target="_top">Hubeny</a>
+  formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as the 
+          <b><code>datum</code></b>'s ellipsoid axes).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The meridional and prime_vertical radii of curvature are taken and 
+        scaled at the mean latitude.
+      </p>
+      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw" 
+        class="link">cosineLaw</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar" 
+        class="link">flatPolar</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a>, <a 
+        href="pygeodesy.formy-module.html#haversine" 
+        class="link">haversine</a>, <a 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a>, 
+        <a href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a>, method <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a> and <a 
+        href="https://www.EdWilliams.org/avform.htm#flat" 
+        target="_top">local, flat earth approximation</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="hubeny_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hubeny_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>angular</i> distance between two (ellipsoidal) points 
+  using the <a 
+  href="https://WikiPedia.org/wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane"
+  target="_top">ellipsoidal Earth to plane projection</a> aka <a 
+  href="https://www.OVG.AT/de/vgi/files/pdf/3781/" target="_top">Hubeny</a>
+  formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angular distance (<code>radians</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The meridional and prime_vertical radii of curvature are taken and 
+        scaled at the mean latitude.
+      </p>
+      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">cosineLaw_</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>, <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>, <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a>, <a 
+        href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
+        and <a href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a> and <a 
+        href="https://www.EdWilliams.org/avform.htm#flat" 
+        target="_top">local, flat earth approximation</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -13430,6 +14198,141 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="thomas"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">thomas</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the distance between two (ellipsoidal) points using the <a 
+  href="https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf" 
+  target="_top">Thomas</a> formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as the 
+          <b><code>datum</code></b>'s ellipsoid axes).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#thomas_" 
+        class="link">thomas_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw" 
+        class="link">cosineLaw</a>, <a 
+        href="pygeodesy.formy-module.html#equirectangular" 
+        class="link">equirectangular</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
+        class="link">euclidean</a>, <a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar" 
+        class="link">flatPolar</a>, <a 
+        href="pygeodesy.formy-module.html#haversine" 
+        class="link">haversine</a>, <a 
+        href="pygeodesy.formy-module.html#vincentys" 
+        class="link">vincentys</a> and method <a 
+        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        class="link">Ellipsoid.distance2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="thomas_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">thomas_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>angular</i> distance between two (ellipsoidal) points 
+  using <a href="https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf" 
+  target="_top">Thomas'</a> formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angular distance (<code>radians</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#thomas" 
+        class="link">thomas</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineLaw_" 
+        class="link">cosineLaw_</a>, <a 
+        href="pygeodesy.formy-module.html#equirectangular_" 
+        class="link">equirectangular_</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
+        class="link">euclidean_</a>, <a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
+        href="pygeodesy.formy-module.html#flatPolar_" 
+        class="link">flatPolar_</a>, <a 
+        href="pygeodesy.formy-module.html#haversine_" 
+        class="link">haversine_</a> and <a 
+        href="pygeodesy.formy-module.html#vincentys_" 
+        class="link">vincentys_</a> and <a 
+        href="https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/Distance/ThomasFormula.php"
+        target="_top">Geodesy-PHP</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="toCss"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -14471,6 +15374,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
+        class="link">cosineAndoyerLambert</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
+        class="link">cosineForsytheAndoyerLambert</a>,<a 
         href="pygeodesy.formy-module.html#cosineLaw" 
         class="link">cosineLaw</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular" 
@@ -14478,11 +15385,15 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#euclidean" 
         class="link">euclidean</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal" 
-        class="link">flatLocal</a>, <a 
+        class="link">flatLocal</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal" 
+        class="link">hubeny</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar" 
         class="link">flatPolar</a>, <a 
         href="pygeodesy.formy-module.html#haversine" 
-        class="link">haversine</a> and methods <a 
+        class="link">haversine</a> and <a 
+        href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
+        and methods <a 
         href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, 
         <code>LatLon.distanceTo*</code> and 
@@ -14528,6 +15439,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a>, <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>, <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>, <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>, <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
@@ -14535,11 +15450,15 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#flatLocal_" 
-        class="link">flatLocal_</a>, <a 
+        class="link">flatLocal_</a>/<a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
+        class="link">hubeny_</a>, <a 
         href="pygeodesy.formy-module.html#flatPolar_" 
-        class="link">flatPolar_</a> and <a 
+        class="link">flatPolar_</a>, <a 
         href="pygeodesy.formy-module.html#haversine_" 
-        class="link">haversine_</a>.
+        class="link">haversine_</a> and <a 
+        href="pygeodesy.formy-module.html#thomas_" 
+        class="link">thomas_</a>.
       </p>
       <p><strong>Note:</strong>
         Functions <a href="pygeodesy.formy-module.html#vincentys_" 
@@ -14901,7 +15820,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun 13 10:23:39 2020
+    Generated by Epydoc 3.0.1 on Mon Jun 15 19:25:45 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -4,9 +4,9 @@
 u'''Classes L{Hausdorff}, L{HausdorffDegrees}, L{HausdorffRadians},
 L{HausdorffCosineLaw}, L{HausdorffEquirectangular}, L{HausdorffEuclidean},
 L{HausdorffFlatLocal}, L{HausdorffFlatPolar}, L{HausdorffHaversine},
-L{HausdorffKarney} and L{HausdorffVincentys} to compute U{Hausdorff
-<https://WikiPedia.org/wiki/Hausdorff_distance>} distances between two
-sets of C{LatLon}, C{NumPy}, C{tuples} or other types of points.
+L{HausdorffHubeny}, L{HausdorffKarney} and L{HausdorffVincentys} to
+compute U{Hausdorff<https://WikiPedia.org/wiki/Hausdorff_distance>} distances
+between two sets of C{LatLon}, C{NumPy}, C{tuples} or other types of points.
 
 Only L{HausdorffKarney} requires installation of I{Charles Karney's}
 U{geographiclib<https://PyPI.org/project/geographiclib>}.
@@ -77,7 +77,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.05.15'
+__version__ = '20.06.15'
 
 
 class HausdorffError(PointsError):
@@ -297,7 +297,7 @@ class HausdorffCosineLaw(HausdorffRadians):
        @note: See note at function L{vincentys_}.
 
        @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
-             L{HausdorffFlatLocal}, L{HausdorffFlatPolar},
+             L{HausdorffFlatLocal}, L{HausdorffHubeny}, L{HausdorffFlatPolar},
              L{HausdorffHaversine}, L{HausdorffKarney} and
              L{HausdorffVincentys}.
     '''
@@ -336,10 +336,9 @@ class HausdorffEquirectangular(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the C{equirectangular}
        distance in C{radians squared} like function L{equirectangular_}.
 
-       @see: L{HausdorffCosineLaw}, L{HausdorffEuclidean},
-             L{HausdorffFlatLocal}, L{HausdorffFlatPolar},
-             L{HausdorffHaversine}, L{HausdorffKarney} and
-             L{HausdorffVincentys}.
+       @see: L{HausdorffCosineLaw}, L{HausdorffEuclidean}, L{HausdorffFlatLocal},
+             L{HausdorffFlatPolar}, L{HausdorffHaversine}, L{HausdorffHubeny},
+             L{HausdorffKarney} and L{HausdorffVincentys}.
     '''
     _adjust =  True
     _units  = _Radians2
@@ -384,8 +383,8 @@ class HausdorffEuclidean(HausdorffRadians):
 
        @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
              L{HausdorffFlatLocal}, L{HausdorffFlatPolar},
-             L{HausdorffHaversine}, L{HausdorffKarney} and
-             L{HausdorffVincentys}.
+             L{HausdorffHaversine}, L{HausdorffHubeny},
+             L{HausdorffKarney} and L{HausdorffVincentys}.
     '''
     _adjust = True
     _wrap   = True
@@ -423,19 +422,19 @@ class HausdorffEuclidean(HausdorffRadians):
 
 class HausdorffFlatLocal(HausdorffRadians):
     '''Compute the C{Hausdorff} distance based on the I{angular} distance
-       in C{radians squared} from function L{flatLocal_}.
+       in C{radians squared} like function L{flatLocal_}/L{hubeny_}.
 
        @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
-             L{HausdorffFlatPolar}, L{HausdorffHaversine},
+             L{HausdorffFlatPolar}, L{HausdorffHaversine}, L{HausdorffHubeny},
              L{HausdorffKarney} and L{HausdorffVincentys}.
     '''
-    _datum =  Datums.WGS84
-    _Rad2_ =  None
-    _units = _Radians2
-    _wrap  =  False
+    _datum    =  Datums.WGS84
+    _hubeny2_ =  None
+    _units    = _Radians2
+    _wrap     =  False
 
     def __init__(self, points, datum=None, wrap=False, seed=None, name=NN):
-        '''New L{HausdorffFlatLocal} calculator.
+        '''New L{HausdorffFlatLocal}/L{HausdorffHubeny} calculator.
 
            @arg points: Initial set of points, aka the C{model} or
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
@@ -456,7 +455,7 @@ class HausdorffFlatLocal(HausdorffRadians):
         HausdorffRadians.__init__(self, points, seed=seed, name=name,
                                                            wrap=wrap)
         self._datum_setter(datum)
-        self._Rad2_ = self.datum.ellipsoid._flatRad2_
+        self._hubeny2_ = self.datum.ellipsoid._hubeny2_
 
     if _FOR_DOCS:  # PYCHOK no cover
         directed  = Hausdorff.directed
@@ -466,7 +465,7 @@ class HausdorffFlatLocal(HausdorffRadians):
         '''Return the L{flatLocal_} distance in C{radians squared}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
-        return self._Rad2_(p2.phi, p1.phi, d)
+        return self._hubeny2_(p2.phi, p1.phi, d)
 
 
 class HausdorffFlatPolar(HausdorffRadians):
@@ -475,8 +474,8 @@ class HausdorffFlatPolar(HausdorffRadians):
 
        @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
              L{HausdorffEuclidean}, L{HausdorffFlatLocal},
-             L{HausdorffHaversine}, L{HausdorffKarney} and
-             L{HausdorffVincentys}.
+             L{HausdorffHaversine}, L{HausdorffHubeny},
+             L{HausdorffKarney} and L{HausdorffVincentys}.
     '''
     _wrap = False
 
@@ -517,7 +516,8 @@ class HausdorffHaversine(HausdorffRadians):
 
        @see: L{HausdorffEquirectangular}, L{HausdorffEuclidean},
              L{HausdorffFlatLocal}, L{HausdorffFlatPolar},
-             L{HausdorffKarney} and L{HausdorffVincentys}.
+             L{HausdorffHubeny}, L{HausdorffKarney} and
+             L{HausdorffVincentys}.
     '''
     _wrap = False
 
@@ -550,6 +550,15 @@ class HausdorffHaversine(HausdorffRadians):
         return haversine_(p2.phi, p1.phi, d)
 
 
+class HausdorffHubeny(HausdorffFlatLocal):  # for Karl Huebny
+    if _FOR_DOCS:  # PYCHOK no cover
+        __doc__   = HausdorffFlatLocal.__doc__
+        __init__  = HausdorffFlatLocal.__init__
+        directed  = HausdorffFlatLocal.directed
+        distance  = HausdorffFlatLocal.distance
+        symmetric = HausdorffFlatLocal.symmetric
+
+
 class HausdorffKarney(HausdorffDegrees):
     '''Compute the C{Hausdorff} distance based on the I{angular}
        distance in C{degrees} from I{Charles Karney's} U{GeographicLib
@@ -559,8 +568,8 @@ class HausdorffKarney(HausdorffDegrees):
 
        @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
              L{HausdorffEuclidean}, L{HausdorffFlatLocal},
-             L{HausdorffFlatPolar}, L{HausdorffHaversine} and
-             L{HausdorffVincentys}.
+             L{HausdorffFlatPolar}, L{HausdorffHaversine},
+             L{HausdorffHubeny} and L{HausdorffVincentys}.
     '''
     _datum    =  Datums.WGS84
     _Inverse1 =  None
@@ -612,8 +621,8 @@ class HausdorffVincentys(HausdorffRadians):
 
        @see: L{HausdorffCosineLaw}, L{HausdorffEquirectangular},
              L{HausdorffEuclidean}, L{HausdorffFlatLocal},
-             L{HausdorffFlatPolar}, L{HausdorffHaversine} and
-             L{HausdorffKarney}.
+             L{HausdorffFlatPolar}, L{HausdorffHaversine},
+             L{HausdorffHubeny} and L{HausdorffKarney}.
     '''
     _wrap = False
 

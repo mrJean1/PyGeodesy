@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.06.12'
+__version__ = '20.06.15'
 
 from base import isNix, isWindows
 from testLatLon import Tests as _TestsLL
@@ -152,10 +152,10 @@ class Tests(_TestsLL, _TestsV):
                     t = p.intersections2(p.distanceTo(r), q, q.distanceTo(r), radius=R_M)
                     d = min(i.distanceTo(r) for i in t)  # PYCHOK test attr?
                     self.test('intersections1', d, d, fmt='%.6e')
-                    if d > 1e-6:
+                    if d > 6e-6:
                         raise IntersectionError(d=d)
                 except IntersectionError as x:
-                    self.test('intersections1', str(x), 'd < 1e-6')
+                    self.test('intersections1', str(x), 'd < 4e-6')
 
         if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)

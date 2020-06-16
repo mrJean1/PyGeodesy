@@ -147,7 +147,7 @@ R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum + _ALL_DOCS('Curvature2Tuple')
-__version__ = '20.05.15'
+__version__ = '20.06.15'
 
 _Flts = {}  # cache, deleted below
 _TOL  = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -195,6 +195,7 @@ class Ellipsoid(_NamedEnumItem):
     _a2_ = None  #: (1 / a**2)  # for ellipsiodalNvector.Cartesian.toNvector
     _a_b = None  #: (a / b) = 1 / (1 - f)  # for ellipsoidalNvector.Nvector.toCartesian
     _b2  = None  #: b**2
+    _b_a = None  #: (b / a) = 1 - f  # for formy
 
     # curvatures <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>
     _a2_b = None  #: (INTERNAL) Meridional radius of curvature at poles: a**2 / b (C{meter})
@@ -313,6 +314,14 @@ class Ellipsoid(_NamedEnumItem):
         return self._a
 
     @property_RO
+    def a_b(self):
+        '''Get ratio M{a / b} (C{float}).
+        '''
+        if self._a_b is None:
+            self._a_b = self.a / self.b
+        return self._a_b
+
+    @property_RO
     def a2(self):
         '''Get the major radius I{squared} (C{float}), M{a**2}.
         '''
@@ -327,14 +336,6 @@ class Ellipsoid(_NamedEnumItem):
         if self._a2_ is None:
             self._a2_ = 1 / self.a2
         return self._a2_  # (1 / a**2)
-
-    @property_RO
-    def a_b(self):
-        '''Get ratio M{a / b} (C{float}).
-        '''
-        if self._a_b is None:
-            self._a_b = self.a / self.b
-        return self._a_b
 
     @property_RO
     def a2_b(self):
@@ -398,6 +399,14 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the minor (polar) radius, semi-axis (C{meter}).
         '''
         return self._b
+
+    @property_RO
+    def b_a(self):
+        '''Get ratio M{b / a} (C{float}), M{1 - f}.
+        '''
+        if self._b_a is None:
+            self._b_a = 1 - self.f
+        return self._b_a
 
     @property_RO
     def b2(self):
@@ -606,10 +615,10 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def es_c(self):
-        '''Get M{(1 - f) * exp(es_atanh(1))} C{float}.
+        '''Get M{(1 - f) * exp(es_atanh(1))} (C{float}), M{b_a * exp(es_atanh(1))}.
         '''
         if self._es_c is None:
-            self._es_c = (1 - self.f) * exp(self.es_atanh(1.0))
+            self._es_c = self.b_a * exp(self.es_atanh(1.0))
         return self._es_c
 
     def es_tauf(self, taup):
@@ -652,7 +661,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def f_(self):
-        '''Get the Inverse flattening (C{float}), M{1 / f == a / (a - b)}.
+        '''Get the Inverse flattening (C{float}), M{1 / f} or M{a / (a - b)}.
         '''
         return self._f_
 
@@ -663,13 +672,6 @@ class Ellipsoid(_NamedEnumItem):
         if self._f2 is None:
             self._f2 = (self.a - self.b) / self.b
         return self._f2
-
-    def _flatRad2_(self, phi2, phi1, lam21):
-        '''(INTERNAL) like function L{flatLocal_} but returning the
-           I{angular} distance in C{radians squared}.
-        '''
-        m, n = self.roc2_((phi2 + phi1) * 0.5, scaled=True)
-        return hypot2(m * (phi2 - phi1), n * lam21) * self.a2_
 
     @property_RO
     def geodesic(self):
@@ -694,6 +696,13 @@ class Ellipsoid(_NamedEnumItem):
             from pygeodesy.karney import _wrapped
             Ellipsoid._Math = _wrapped.Math
         return self.geodesic, Ellipsoid._Math
+
+    def _hubeny2_(self, phi2, phi1, lam21):
+        '''(INTERNAL) like function L{flatLocal_}/L{hubeny_} but
+           returning the I{angular} distance in C{radians squared}.
+        '''
+        m, n = self.roc2_((phi2 + phi1) * 0.5, scaled=True)
+        return hypot2(m * (phi2 - phi1), n * lam21) * self.a2_
 
     @property_RO
     def isEllipsoidal(self):
@@ -748,7 +757,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def Mabcd(self):
-        '''Get the OSGR meridional coefficients (4-tuple), Airy130 only.
+        '''Get the OSGR meridional coefficients (C{4-Tuple}), C{Airy130} only.
         '''
         if self._Mabcd is None:
             n, n2, n3 = fpowers(self.n, 3)  # PYCHOK false!

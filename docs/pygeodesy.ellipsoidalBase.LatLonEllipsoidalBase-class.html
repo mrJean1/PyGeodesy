@@ -430,10 +430,13 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__eq__">__eq__</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__ne__">__ne__</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#_distanceTo_">_distanceTo_</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#bounds">bounds</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#boundsOf">boundsOf</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngle">compassAngle</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo">compassAngleTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#cosineAndoyerLambertTo">cosineAndoyerLambertTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#cosineForsytheAndoyerLambertTo">cosineForsytheAndoyerLambertTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo">cosineLawTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals">equals</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals3">equals3</a></code>,
@@ -442,6 +445,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatLocalTo">flatLocalTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo">flatPolarTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#haversineTo">haversineTo</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#hubenyTo">hubenyTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipode">isantipode</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo">isantipodeTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo">isequalTo</a></code>,
@@ -452,6 +456,7 @@
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#philam2">philam2</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points">points</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#points2">points2</a></code>,
+      <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#thomasTo">thomasTo</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3llh">to3llh</a></code>,
       <code><a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian">toCartesian</a></code>,
@@ -501,7 +506,11 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence" class="summary-name">convergence</a>
+        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convergence" class="summary-name">convergence</a><br />
+      Get this point's UTM or UPS meridian convergence 
+      (<code>degrees</code>) or <code>None</code> if not converted from <a 
+      href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
+      href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
     </td>
   </tr>
 <tr>
@@ -526,7 +535,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration" class="summary-name">iteration</a>
+        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#iteration" class="summary-name">iteration</a><br />
+      Get the iteration number (<code>int</code> or <code>None</code> if 
+      not available/applicable).
     </td>
   </tr>
 <tr>
@@ -542,7 +553,11 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale" class="summary-name">scale</a>
+        <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#scale" class="summary-name">scale</a><br />
+      Get this point's UTM grid or UPS point scale factor 
+      (<code>float</code>) or <code>None</code> if not converted from <a 
+      href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
+      href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
     </td>
   </tr>
   <tr>
@@ -1273,7 +1288,10 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">convergence</h3>
-  
+  <p>Get this point's UTM or UPS meridian convergence 
+  (<code>degrees</code>) or <code>None</code> if not converted from <a 
+  href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
+  href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">convergence(<span class="summary-sig-arg">self</span>)</span>
@@ -1339,7 +1357,8 @@ class="link">Datum</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">iteration</h3>
-  
+  <p>Get the iteration number (<code>int</code> or <code>None</code> if not
+  available/applicable).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">iteration(<span class="summary-sig-arg">self</span>)</span>
@@ -1383,7 +1402,10 @@ href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>) or
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">scale</h3>
-  
+  <p>Get this point's UTM grid or UPS point scale factor 
+  (<code>float</code>) or <code>None</code> if not converted from <a 
+  href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> or <a 
+  href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">scale(<span class="summary-sig-arg">self</span>)</span>
@@ -1432,7 +1454,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jun 13 10:23:43 2020
+    Generated by Epydoc 3.0.1 on Mon Jun 15 19:25:47 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

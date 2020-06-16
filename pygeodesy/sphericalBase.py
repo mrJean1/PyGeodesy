@@ -33,7 +33,7 @@ from math import atan2, cos, hypot, log, sin, sqrt
 # XXX the following classes are listed only to get
 # Epydoc to include class and method documentation
 __all__ = _ALL_DOCS('CartesianSphericalBase', 'LatLonSphericalBase')
-__version__ = '20.06.14'
+__version__ = '20.06.15'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -104,10 +104,10 @@ class CartesianSphericalBase(CartesianBase):
         if x:
             x1, x2 = x2, x1
 
-        n, q = self.cross(other), self.dot(other)
+        n, q = x1.cross(x2), x1.dot(x2)
         n2, q21 = n.dot(n), 1 - q**2
         if min(abs(q21), n2) < EPS:
-            raise IntersectionError(center1=self, center2=other,
+            raise IntersectionError(center=self, other=other,
                                     txt='near-concentric')
         try:
             cr1, cr2 = cos(r1), cos(r2)
@@ -115,12 +115,12 @@ class CartesianSphericalBase(CartesianBase):
             b = (cr2 - q * cr1) / q21
             x0 = x1.times(a).plus(x2.times(b))
         except ValueError:
-            raise IntersectionError(center1=self,  rad1=rad1,
-                                    center2=other, rad2=rad2)
+            raise IntersectionError(center=self, rad1=rad1,
+                                    other=other, rad2=rad2)
         x = 1 - x0.dot(x0)
         if x < EPS:
-            raise IntersectionError(center1=self,  rad1=rad1,
-                                    center2=other, rad2=rad2, txt='too distant')
+            raise IntersectionError(center=self, rad1=rad1,
+                                    other=other, rad2=rad2, txt='too distant')
         n = n.times(sqrt(x / n2))
         if n.length > EPS:
             x1, x2 = x0.plus(n), x0.minus(n)

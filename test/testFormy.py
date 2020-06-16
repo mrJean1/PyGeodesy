@@ -4,13 +4,16 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '20.04.22'
+__version__ = '20.06.15'
 
 from base import TestsBase
 
-from pygeodesy import R_M, antipode, bearing, cosineLaw, equirectangular, \
-                      euclidean, flatLocal, flatPolar, haversine, heightOf, \
-                      horizon, isantipode, isantipode_, map1, vincentys
+from pygeodesy import R_M, antipode, bearing, cosineAndoyerLambert, \
+                      cosineForsytheAndoyerLambert as _cosineForsythe_, \
+                      cosineLaw, equirectangular, Datums, euclidean, \
+                      flatLocal, flatPolar, haversine, heightOf, \
+                      horizon, hubeny, isantipode, isantipode_, \
+                      map1, parseDMS, thomas, vincentys
 
 from math import radians
 
@@ -25,19 +28,45 @@ class Tests(TestsBase):
 
     def testDistances(self, t, lat1, lon1, lat2, lon2, x=0):
         # allow 0.1% margin
-        self.testDistance(t, haversine,       lat1, lon1, lat2, lon2, x, 0.1)
+        self.testDistance(t, haversine,            lat1, lon1, lat2, lon2, x, 0.1)
         # assumed as reference
-        self.testDistance(t, vincentys,       lat1, lon1, lat2, lon2, x, 0.0)
+        self.testDistance(t, vincentys,            lat1, lon1, lat2, lon2, x, 0.0)
+        # allow 0.4% margin
+        self.testDistance(t, cosineAndoyerLambert, lat1, lon1, lat2, lon2, x, 0.4)
+        # allow 0.4% margin
+        self.testDistance(t, _cosineForsythe_,     lat1, lon1, lat2, lon2, x, 0.4)
         # allow 0.1% margin
-        self.testDistance(t, cosineLaw,       lat1, lon1, lat2, lon2, x, 0.1)
+        self.testDistance(t, cosineLaw,            lat1, lon1, lat2, lon2, x, 0.1)
         # allow 3% margin, 10% for Auckland-Santiago
-        self.testDistance(t, equirectangular, lat1, lon1, lat2, lon2, x, 10, limit=None)  # =90)
+        self.testDistance(t, equirectangular,      lat1, lon1, lat2, lon2, x, 10, limit=None)  # =90)
         # allow 13% margin
-        self.testDistance(t, euclidean,       lat1, lon1, lat2, lon2, x, 13)
+        self.testDistance(t, euclidean,            lat1, lon1, lat2, lon2, x,  13)
         # allow .3% margin, 8% for long distances
-        self.testDistance(t, flatLocal,       lat1, lon1, lat2, lon2, x, 8.1)
+        self.testDistance(t, flatLocal,            lat1, lon1, lat2, lon2, x, 8.1)
         # allow 21% margin, 57% for Auckland-Santiago
-        self.testDistance(t, flatPolar,       lat1, lon1, lat2, lon2, x, 57)
+        self.testDistance(t, flatPolar,            lat1, lon1, lat2, lon2, x,  57)
+        # allow 0.4% margin
+        self.testDistance(t, thomas,               lat1, lon1, lat2, lon2, x, 0.4)
+        # same as flatLocal
+        self.test('hubeny', hubeny, flatLocal)
+
+    def testDistances2(self, t, lat1, lon1, lat2, lon2, x=0, **datum):
+        # allow 0.1% margin
+        self.testDistance(t, haversine,            lat1, lon1, lat2, lon2, x, 0.1)
+        # assumed as reference
+        self.testDistance(t, vincentys,            lat1, lon1, lat2, lon2, x, 0.1)
+        # allow 0.4% margin
+        self.testDistance(t, cosineAndoyerLambert, lat1, lon1, lat2, lon2, x, 0.4, **datum)
+        # allow 0.4% margin
+        self.testDistance(t, _cosineForsythe_,     lat1, lon1, lat2, lon2, x, 0.4, **datum)
+        # allow 0.1% margin
+        self.testDistance(t, cosineLaw,            lat1, lon1, lat2, lon2, x, 0.1)
+        # allow .3% margin, 16% for long distances
+        self.testDistance(t, flatLocal,            lat1, lon1, lat2, lon2, x,  16, **datum)
+        # allow 0.4% margin
+        self.testDistance(t, thomas,               lat1, lon1, lat2, lon2, x, 0.4, **datum)
+        # same as flatLocal
+        self.test('hubeny', hubeny, flatLocal)
 
     def testFormy(self):
 
@@ -75,6 +104,8 @@ class Tests(TestsBase):
         Newport    = 41.49008, -71.312796
         NewYork    = 40.7791472, -73.9680804
         Santiago   = -33.4489, -70.6693
+        X          = 25.2522, 55.28
+        Y          = 14.6042, 120.982
         # <https://GeographicLib.SourceForge.io/cgi-bin/GeodSolve>, <https://www.Distance.to>
         for i,  (ll1,        ll2,        expected) in enumerate((
                 (Boston,     NewYork,      298009.404),    # ..328,722.580        370 km
@@ -83,8 +114,14 @@ class Tests(TestsBase):
                 (NewYork,    MtDiablo,    4084985.780),    # ..4,587,896.452    3,952 km
                 (Auckland,   Santiago,    9670051.606),    # ..15,045,906.074   9,665 km
                 (Auckland,   LosAngeles, 10496496.577),    # ..13,002,288.857  10,940 km
-                (LosAngeles, Santiago,    8998396.669))):  # ..10,578,638.162   8,993 km
+                (LosAngeles, Santiago,    8998396.669),    # ..10,578,638.162   8,993 km
+                (X,          Y,           6906867.946))):  # ..6916,085.326     6,907 km
             self.testDistances(str(i + 1), *(ll1 + ll2), x=expected)
+
+        # Thomas' S2, page 153 <https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>
+        self.testDistances2('9', parseDMS('75 57 42.053'), 0,
+                                 parseDMS('17  5 21.296'), parseDMS('85 31 54.631'),
+                                 x=8044806.076, datum=Datums.NAD27)  # Clarke1866 ellipsoid
 
 
 if __name__ == '__main__':

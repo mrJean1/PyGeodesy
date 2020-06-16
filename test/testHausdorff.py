@@ -4,7 +4,7 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '20.03.30'
+__version__ = '20.06.15'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
@@ -13,8 +13,8 @@ from pygeodesy import Datums, fStr, hausdorff_, \
                       HausdorffCosineLaw, HausdorffEquirectangular, \
                       HausdorffEuclidean, HausdorffFlatLocal, \
                       HausdorffFlatPolar, HausdorffHaversine, \
-                      HausdorffKarney, HausdorffVincentys, \
-                      LatLon_, randomrangenerator
+                      HausdorffHubeny, HausdorffKarney, \
+                      HausdorffVincentys, LatLon_, randomrangenerator
 
 
 class HausdorffDegrees_(HausdorffDegrees):
@@ -127,6 +127,9 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffHaversine, *_4((0.50097, 35, 3,  90, 0.212),
                                         (0.50097, 35, 3, 150, 0.20099)))
 
+        t.test4(HausdorffHubeny, *_4((0.25116, 35, 3,  90, 0.05951),
+                                     (0.25116, 35, 3, 150, 0.0552)))
+
         t.test4(HausdorffVincentys, *_4((0.50097, 35, 3,  90, 0.212),
                                         (0.50097, 35, 3, 150, 0.20099)))
 
@@ -163,6 +166,9 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffHaversine, *_4((0.52674, 74, 45,  90, 0.18192),
                                         (0.52674, 74, 45, 150, 0.16555)))
 
+        t.test4(HausdorffHubeny, *_4((0.3105, 40, 0,  90, 0.04826),
+                                     (0.3105, 40, 0, 150, 0.04061)))
+
         t.test4(HausdorffVincentys, *_4((0.52674, 74, 45,  90, 0.18192),
                                         (0.52674, 74, 45, 150, 0.16555)))
 
@@ -198,6 +204,9 @@ if __name__ == '__main__':  # MCCABE 13
 
         t.test4(HausdorffHaversine, *_4((0.56202, 49, 29,  90, 0.19776),
                                         (0.56202, 49, 29, 150, 0.176)))
+
+        t.test4(HausdorffHubeny, *_4((0.33092, 49, 29,  90, 0.06067),
+                                     (0.33092, 49, 29, 150, 0.04912)))
 
         t.test4(HausdorffVincentys, *_4((0.56202, 49, 29,  90, 0.19776),
                                         (0.56202, 49, 29, 150, 0.176)))

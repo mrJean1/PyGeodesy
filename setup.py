@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.06.12'
+__version__ = '20.06.15'
 
 
 def _c2(*names):
@@ -46,20 +46,21 @@ def _version():
                 return '.'.join(map(str, map(int, v.split('.'))))
 
 
-_KeyWords = ('altitude', 'antipode', 'area', 'azimuth', 'bearing',
-             'cartesian', 'Cassini', 'Cassini-Soldner', 'clip',
-             'Cohen', 'Cohen-Sutherland', 'conic', 'coverage', 'curvature',
+_KeyWords = ('altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'bearing',
+             'cartesian', 'Cassini', 'Cassini-Soldner', 'clip', 'Cohen',
+             'Cohen-Sutherland', 'conic', 'cosines-law', 'coverage', 'curvature',
              'datum', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'ECEF', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
              'equirectangular', 'ETM', 'ETRF', 'Euclidean', 'ExactTM',
-             'fmath', 'fractional', 'Fréchet',
+             'fmath', 'Forsythe', 'fractional', 'Fréchet',
              'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
              'geographiclib', 'geohash', 'geoid', 'geoidHeight',
              'GeoidHeights', 'georef',
-             'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon',
+             'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
              'IDW', 'interpolate', 'intersect', 'Inverse-Distance-Weighting', 'ITRF',
              'Karney', 'Krueger', 'Krüger',
-             'Lambert', 'latitude', 'Lesh', 'linearize', 'LocalCartesian', 'longitude',
+             'Lambert', 'latitude', 'law-of-cosines', 'Lesh', 'linearize',
+             'LocalCartesian', 'longitude',
              'Mercator', 'MGRS',
              'nearest', 'numpy', 'n-vector', 'Nvector',
              'OSGR',
@@ -69,7 +70,7 @@ _KeyWords = ('altitude', 'antipode', 'area', 'azimuth', 'bearing',
              'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
              'scipy', 'simplify', 'Soldner', 'sphere', 'stereographic',
              'Sutherland', 'Sutherland-Hodgman',
-             'Terrestrial-Reference-Frame', 'TMcoords', 'TMExact',
+             'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
              'TransverseMercatorExact', 'TRF', 'trigonometry',
              'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'Veness', 'Vermeille', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',

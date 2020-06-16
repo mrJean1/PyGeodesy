@@ -4,10 +4,10 @@
 u'''Classes L{Frechet}, L{FrechetDegrees}, L{FrechetRadians},
 L{FrechetCosineLaw}, L{FrechetEquirectangular}, L{FrechetEuclidean},
 L{FrechetFlatLocal}, L{FrechetFlatPolar}, L{FrechetHaversine},
-L{FrechetKarney} and L{FrechetVincentys} to compute I{discrete}
-U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} distances
-between two sets of C{LatLon}, C{NumPy}, C{tuples} or other types
-of points.
+L{FrechetHubeny}, L{FrechetKarney} and L{FrechetVincentys} to compute
+I{discrete} U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>}
+distances between two sets of C{LatLon}, C{NumPy}, C{tuples} or other
+types of points.
 
 Only L{FrechetKarney} requires installation of I{Charles Karney's}
 U{geographiclib<https://PyPI.org/project/geographiclib>}.
@@ -95,7 +95,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.05.15'
+__version__ = '20.06.15'
 
 if not 0 < EPS < EPS1 < 1:
     raise _AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
@@ -357,7 +357,8 @@ class FrechetCosineLaw(FrechetRadians):
        in C{radians} from function L{cosineLaw_}.
 
        @see: L{FrechetEquirectangular}, L{FrechetEuclidean}, L{FrechetFlatLocal},
-             L{FrechetFlatPolar}, L{FrechetHaversine} and L{FrechetVincentys}.
+             L{FrechetFlatPolar}, L{FrechetHaversine}, L{FrechetHubeny} and
+             L{FrechetVincentys}.
 
        @note: See note at function L{vincentys_}.
     '''
@@ -396,7 +397,7 @@ class FrechetEquirectangular(FrechetRadians):
        distance in C{radians squared} like function L{equirectangular_}.
 
        @see: L{FrechetEuclidean}, L{FrechetFlatLocal}, L{FrechetFlatPolar},
-             L{FrechetHaversine} and L{FrechetVincentys}.
+             L{FrechetHaversine}, L{FrechetHubeny} and L{FrechetVincentys}.
     '''
     _adjust =  True
     _units  = _Radians2
@@ -439,7 +440,7 @@ class FrechetEuclidean(FrechetRadians):
        distance in C{radians} from function L{euclidean_}.
 
        @see: L{FrechetEquirectangular}, L{FrechetFlatLocal}, L{FrechetFlatPolar},
-             L{FrechetHaversine} and L{FrechetVincentys}.
+             L{FrechetHaversine}, L{FrechetHubeny} and L{FrechetVincentys}.
     '''
     _adjust = True
     _wrap   = True  # fixed
@@ -474,18 +475,18 @@ class FrechetEuclidean(FrechetRadians):
 
 class FrechetFlatLocal(FrechetRadians):
     '''Compute the C{Frechet} distance based on the I{angular} distance
-       in C{radians squared} from function L{flatLocal_}.
+       in C{radians squared} like function L{flatLocal_}/L{hubeny_}.
 
-       @see: L{FrechetEquirectangular}, L{FrechetEuclidean}, L{FrechetFlatLocal},
-             L{FrechetHaversine} and L{FrechetVincentys}.
+       @see: L{FrechetEquirectangular}, L{FrechetEuclidean}, L{FrechetFlatPolar},
+             L{FrechetHaversine}, L{FrechetHubeny} and L{FrechetVincentys}.
     '''
-    _datum =  Datums.WGS84
-    _Rad2_ =  None
-    _units = _Radians2
-    _wrap  =  False
+    _datum    =  Datums.WGS84
+    _hubeny2_ =  None
+    _units    = _Radians2
+    _wrap     =  False
 
     def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
-        '''New L{FrechetFlatLocal} calculator/interpolator.
+        '''New L{FrechetFlatLocal}/L{FrechetHubeny} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
@@ -506,7 +507,7 @@ class FrechetFlatLocal(FrechetRadians):
         FrechetRadians.__init__(self, points, fraction=fraction, name=name,
                                                                  wrap=wrap)
         self._datum_setter(datum)
-        self._Rad2_ = self.datum.ellipsoid._flatRad2_
+        self._hubeny2_ = self.datum.ellipsoid._hubeny2_
 
     if _FOR_DOCS:  # PYCHOK no cover
         discrete = Frechet.discrete
@@ -515,7 +516,7 @@ class FrechetFlatLocal(FrechetRadians):
         '''Return the L{flatLocal_} distance in C{radians squared}.
         '''
         d, _ = unrollPI(p1.lam, p2.lam, wrap=self._wrap)
-        return self._Rad2_(p2.phi, p1.phi, d)
+        return self._hubeny2_(p2.phi, p1.phi, d)
 
 
 class FrechetFlatPolar(FrechetRadians):
@@ -523,7 +524,7 @@ class FrechetFlatPolar(FrechetRadians):
        in C{radians} from function L{flatPolar_}.
 
        @see: L{FrechetEquirectangular}, L{FrechetEuclidean}, L{FrechetFlatLocal},
-             L{FrechetHaversine} and L{FrechetVincentys}.
+             L{FrechetHubeny}, L{FrechetHaversine} and L{FrechetVincentys}.
     '''
     _wrap = False
 
@@ -560,7 +561,7 @@ class FrechetHaversine(FrechetRadians):
        C{Haversine} distance in C{radians} from function L{haversine_}.
 
        @see: L{FrechetEquirectangular}, L{FrechetEuclidean}, L{FrechetFlatLocal},
-             L{FrechetFlatPolar}, and L{FrechetVincentys}.
+             L{FrechetFlatPolar}, L{FrechetHubeny} and L{FrechetVincentys}.
 
        @note: See note at function L{vincentys_}.
     '''
@@ -594,6 +595,14 @@ class FrechetHaversine(FrechetRadians):
         return haversine_(p2.phi, p1.phi, d)
 
 
+class FrechetHubeny(FrechetFlatLocal):  # for Karl Hubeny
+    if _FOR_DOCS:  # PYCHOK no cover
+        __doc__  = FrechetFlatLocal.__doc__
+        __init__ = FrechetFlatLocal.__init__
+        discrete = FrechetFlatLocal.discrete
+        distance = FrechetFlatLocal.discrete
+
+
 class FrechetKarney(FrechetDegrees):
     '''Compute the C{Frechet} distance based on the I{angular}
        distance in C{degrees} from I{Charles Karney's} U{GeographicLib
@@ -601,16 +610,16 @@ class FrechetKarney(FrechetDegrees):
        <https://geographiclib.sourceforge.io/1.49/python/code.html>}
        Inverse method.
 
-       @see: L{FrechetEquirectangular}, L{FrechetEuclidean},
-             L{FrechetFlatLocal}, L{FrechetFlatPolar},
-             L{FrechetHaversine} and L{FrechetVincentys}.
+       @see: L{FrechetEquirectangular}, L{FrechetEuclidean}, L{FrechetFlatLocal},
+             L{FrechetFlatPolar}, L{FrechetHaversine}, L{FrechetHubeny} and
+             L{FrechetVincentys}.
     '''
     _datum    = Datums.WGS84
     _Inverse1 = None
     _wrap     = False
 
     def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
-        '''New L{FrechetFlatLocal} calculator/interpolator.
+        '''New L{FrechetKarney} calculator/interpolator.
 
            @arg points: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
                         L{Tuple2LatLon}[] or C{other}[]).
@@ -650,7 +659,7 @@ class FrechetVincentys(FrechetRadians):
        C{Vincenty} distance in C{radians} from function L{vincentys_}.
 
        @see: L{FrechetEquirectangular}, L{FrechetEuclidean}, L{FrechetFlatLocal},
-             L{FrechetFlatPolar}, and L{FrechetHaversine}.
+             L{FrechetFlatPolar}, L{FrechetHaversine} and L{FrechetHubeny}.
 
        @note: See note at function L{vincentys_}.
     '''

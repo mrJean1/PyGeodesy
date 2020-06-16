@@ -4,7 +4,7 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '20.03.30'
+__version__ = '20.06.15'
 
 from base import coverage, geographiclib, isPython3, isWindows, \
                  TestsBase
@@ -48,7 +48,8 @@ if __name__ == '__main__':  # MCCABE 13
                           FrechetDegrees, FrechetRadians, \
                           FrechetEquirectangular, FrechetEuclidean, \
                           FrechetFlatLocal, FrechetFlatPolar, \
-                          FrechetKarney, FrechetHaversine, FrechetVincentys
+                          FrechetKarney, FrechetHaversine, \
+                          FrechetHubeny, FrechetVincentys
 
     def _distance(p1, p2):
         dy, dx = abs(p1.lat - p2.lat), abs(p1.lon - p2.lon)
@@ -96,6 +97,9 @@ if __name__ == '__main__':  # MCCABE 13
         t.test2(FrechetHaversine, (2.63867, 0, 0, 149,  5400),
                                   (2.63867, 0, 0, 208, 10710))
 
+        t.test2(FrechetHubeny, (7.13778, 8, 3, 138,  5400),
+                               (6.92262, 0, 0, 208, 10710))
+
         t.test2(FrechetVincentys, (2.63867, 0, 0, 149,  5400),
                                   (2.63867, 0, 0, 208, 10710))
 
@@ -128,6 +132,9 @@ if __name__ == '__main__':  # MCCABE 13
         t.test2(FrechetHaversine, (1.75068, 49, 27,  73,  5400),
                                   (1.75068, 49, 27, 105, 10710))
 
+        t.test2(FrechetHubeny, (5.85735, 42, 19,    88,  5400),
+                               (5.89746, 40, 15.5, 137, 10710))
+
         t.test2(FrechetVincentys, (1.75068, 49, 27,  73,  5400),
                                   (1.75068, 49, 27, 105, 10710))
 
@@ -159,6 +166,9 @@ if __name__ == '__main__':  # MCCABE 13
 
         t.test2(FrechetHaversine, (1.81341, 18, 14,   117,  5400),
                                   (1.83289,  3,  4.5, 196, 10710))
+
+        t.test2(FrechetHubeny, ( 7.55994, 1, 3,   145,  5400),
+                               (12.61423, 0, 2.5, 203, 10710))
 
         t.test2(FrechetVincentys, (1.81341, 18, 14,   117,  5400),
                                   (1.83289,  3,  4.5, 196, 10710))

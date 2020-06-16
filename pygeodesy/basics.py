@@ -6,7 +6,7 @@ u'''Basic constants, definitions and functions.
 '''
 from pygeodesy.errors import _AttributeError, _IsnotError, \
                              _TypesError, _ValueError
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from inspect import isclass
@@ -15,7 +15,7 @@ from sys import float_info as _float_info
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.basics
-__version__ = '20.06.11'
+__version__ = '20.06.15'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -299,6 +299,8 @@ class property_RO(property):
            @note: Like standard Python C{property} without a C{property.setter},
                   but with a more descriptive error message when set.
         '''
+        if _FOR_DOCS and method.__doc__:
+            self.__doc__ = method.__doc__
         self.name = method.__name__  # == self.fget.__name__
 
         # U{Descriptor HowTo Guide<https://docs.Python.org/3/howto/descriptor.html>}
@@ -308,7 +310,7 @@ class property_RO(property):
             t = immutable.__name__, inst, method.__name__, value
             raise _AttributeError('%s property: %r.%s = %r' % t)
 
-        property.__init__(self, method, immutable, None,  method.__doc__ or 'N/A')
+        property.__init__(self, method, immutable, None, method.__doc__ or 'N/A')
 
 
 # def property_RO(method):  # OBSOLETE

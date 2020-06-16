@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.05.20'
+__version__ = '20.06.15'
 
 from base import geographiclib, TestsBase
 
@@ -256,19 +256,38 @@ class Tests(TestsBase):
 
         p = LatLon(53.3206, -1.7297)
         q = LatLon(53.1887, 0.1334)
-        self.test('cosineLawTo',       p.cosineLawTo(q),       '124801.098', fmt='%.3f')
-        self.test('cosineLawTo',       q.cosineLawTo(p),       '124801.098', fmt='%.3f')
+        self.test('cosineAndoyerLambertTo', p.cosineAndoyerLambertTo(q), '124801.098' if Sph else '125205.962', fmt='%.3f')
+        self.test('cosineAndoyerLambertTo', q.cosineAndoyerLambertTo(p), '124801.098' if Sph else '125205.962', fmt='%.3f')
+
+        self.test('cosineForsyheAndoyerLambertTo', p.cosineForsytheAndoyerLambertTo(q), '124801.098' if Sph else '125205.965', fmt='%.3f')
+        self.test('cosineForsyheAndoyerLambertTo', q.cosineForsytheAndoyerLambertTo(p), '124801.098' if Sph else '125205.965', fmt='%.3f')
+
+        self.test('cosineLawTo', p.cosineLawTo(q), '124801.098', fmt='%.3f')
+        self.test('cosineLawTo', q.cosineLawTo(p), '124801.098', fmt='%.3f')
+
         self.test('equirectangularTo', p.equirectangularTo(q), '124804.754', fmt='%.3f')
         self.test('equirectangularTo', q.equirectangularTo(p), '124804.754', fmt='%.3f')
-        self.test('euclideanTo',       p.euclideanTo(q),       '131273.287', fmt='%.3f')
-        self.test('euclideanTo',       q.euclideanTo(p),       '131273.287', fmt='%.3f')
-        self.test('flatLocalTo',       p.flatLocalTo(q),       '124804.754' if Sph else
-                                                               '125209.633', fmt='%.3f')
-        self.test('flatPolarTo',       q.flatPolarTo(p),       '133663.257', fmt='%.3f')
-        self.test('haversineTo',       p.haversineTo(q),       '124801.098', fmt='%.3f')
-        self.test('haversineTo',       q.haversineTo(p),       '124801.098', fmt='%.3f')
-        self.test('vincentysTo',       p.vincentysTo(q),       '124801.098', fmt='%.3f')
-        self.test('vincentysTo',       q.vincentysTo(p),       '124801.098', fmt='%.3f')
+
+        self.test('euclideanTo', p.euclideanTo(q), '131273.287', fmt='%.3f')
+        self.test('euclideanTo', q.euclideanTo(p), '131273.287', fmt='%.3f')
+
+        self.test('flatLocalTo', p.flatLocalTo(q), '124804.754' if Sph else '125209.633', fmt='%.3f')
+        self.test('flatLocalTo', q.flatLocalTo(p), '124804.754' if Sph else '125209.633', fmt='%.3f')
+
+        self.test('flatPolarTo', p.flatPolarTo(q), '133663.257', fmt='%.3f')
+        self.test('flatPolarTo', q.flatPolarTo(p), '133663.257', fmt='%.3f')
+
+        self.test('haversineTo', p.haversineTo(q), '124801.098', fmt='%.3f')
+        self.test('haversineTo', q.haversineTo(p), '124801.098', fmt='%.3f')
+
+        self.test('hubenyTo', p.hubenyTo, p.flatLocalTo)
+        self.test('hubenyTo', q.hubenyTo, q.flatLocalTo)
+
+        self.test('thomasTo', p.thomasTo(q), '124801.098' if Sph else '125206.188', fmt='%.3f')
+        self.test('thomasTo', q.thomasTo(p), '124801.098' if Sph else '125206.188', fmt='%.3f')
+
+        self.test('vincentysTo', p.vincentysTo(q), '124801.098', fmt='%.3f')
+        self.test('vincentysTo', q.vincentysTo(p), '124801.098', fmt='%.3f')
 
         if hasattr(LatLon, 'greatCircleTo'):
             gc = p.greatCircleTo(q)
@@ -392,6 +411,7 @@ class Tests(TestsBase):
         self.testReturnType(p.flatLocalTo(q),       float, 'flatLocalTo')
         self.testReturnType(p.flatPolarTo(q),       float, 'flatPolarTo')
         self.testReturnType(p.haversineTo(q),       float, 'haversineTo')
+        self.testReturnType(p.hubenyTo(q),          float, 'hubenyTo')
         self.testReturnType(p.vincentysTo(q),       float, 'vincentysTo')
 
         if not Nv:

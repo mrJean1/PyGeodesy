@@ -119,26 +119,27 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'sqrt3'),
                           formy=('PointsError',
                                  'antipode', 'antipode_', 'bearing', 'bearing_',
-                                 'compassAngle', 'cosineLaw', 'cosineLaw_',
+                                 'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
+                                 'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
                                  'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
                                  'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
-                                 'haversine', 'haversine_', 'heightOf', 'horizon',
+                                 'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
                                  'isantipode', 'isantipode_', 'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
-                                 'philam2n_xyz', 'points2', 'vincentys', 'vincentys_'),
+                                 'philam2n_xyz', 'points2', 'thomas', 'thomas_', 'vincentys', 'vincentys_'),
                         frechet=('Frechet', 'FrechetCosineLaw', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                  'FrechetEquirectangular', 'FrechetEuclidean', 'FrechetFlatLocal', 'FrechetFlatPolar',
-                                 'FrechetHaversine', 'FrechetKarney', 'FrechetVincentys',
+                                 'FrechetHaversine', 'FrechetHubeny', 'FrechetKarney', 'FrechetVincentys',
                                  'fractional', 'frechet_'),
                            gars=('Garef', 'GARSError'),
                         geohash=('Geohash', 'GeohashError'),
                          geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
                       hausdorff=('Hausdorff', 'HausdorffDegrees', 'HausdorffError', 'HausdorffRadians', 'HausdorffCosineLaw',
                                  'HausdorffEquirectangular', 'HausdorffEuclidean', 'HausdorffFlatLocal', 'HausdorffFlatPolar',
-                                 'HausdorffHaversine', 'HausdorffKarney', 'HausdorffVincentys',
+                                 'HausdorffHaversine', 'HausdorffHubeny', 'HausdorffKarney', 'HausdorffVincentys',
                                  'hausdorff_', 'randomrangenerator'),
                         heights=('HeightError', 'SciPyError', 'SciPyWarning',
                                  'HeightIDWcosineLaw', 'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWflatLocal',
-                                 'HeightIDWflatPolar', 'HeightIDWhaversine', 'HeightIDWkarney', 'HeightIDWvincentys',
+                                 'HeightIDWflatPolar', 'HeightIDWhaversine', 'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWvincentys',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                          karney=(),  # module only
                          lazily=('LazyImportError', 'isLazy'),
@@ -192,7 +193,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.06.12'
+__version__ = '20.06.15'
 
 
 def _all_imports(**more):

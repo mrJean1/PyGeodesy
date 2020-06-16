@@ -3,7 +3,8 @@
 
 u'''Classes L{HeightCubic}, L{HeightIDWcosineLaw},
 L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
-L{HeightIDWhaversine}, L{HeightIDWkarney}, L{HeightIDWvincentys},
+L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
+L{HeightIDWhubeny}, L{HeightIDWkarney}, L{HeightIDWvincentys},
 L{HeightLinear}, L{HeightLSQBiSpline} and L{HeightSmoothBiSpline}
 to interpolate the height of C{LatLon} locations or separate
 lat-/longitudes from a set of C{LatLon} points with known heights.
@@ -67,7 +68,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.05.14'
+__version__ = '20.06.15'
 
 
 class HeightError(PointsError):  # imported by .geoids
@@ -497,10 +498,10 @@ class HeightIDWcosineLaw(_HeightIDW):
 
        @see: L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
              L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
-             L{HeightIDWkarney}, L{HeightIDWvincentys}, U{Inverse distance
-             weighting <https://WikiPedia.org/wiki/Inverse_distance_weighting>},
-             U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
-             geostatistics/Inverse-Distance-Weighting/index.html>} and
+             L{HeightIDWhubeny}, L{HeightIDWkarney}, L{HeightIDWvincentys},
+             U{Inverse distance weighting <https://WikiPedia.org/wiki/
+             Inverse_distance_weighting>}, U{IDW<https://www.Geo.FU-Berlin.DE/en/v/
+             soga/Geodata-analysis/geostatistics/Inverse-Distance-Weighting/index.html>} and
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
 
@@ -536,13 +537,13 @@ class HeightIDWequirectangular(_HeightIDW):
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
        the distance in C{radians squared} like function L{equirectangular_}.
 
-       @see: L{HeightIDWcosineLaw}, L{HeightIDWeuclidean}, L{HeightIDWflatLocal},
-             L{HeightIDWflatPolar}, L{HeightIDWhaversine}, L{HeightIDWkarney},
-             L{HeightIDWvincentys}, U{Inverse distance weighting
-             <https://WikiPedia.org/wiki/Inverse_distance_weighting>},
-             U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
-             geostatistics/Inverse-Distance-Weighting/index.html>} and
-             U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
+       @see: L{HeightIDWcosineLaw}, L{HeightIDWeuclidean},
+             L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
+             L{HeightIDWhubeny}, L{HeightIDWkarney}, L{HeightIDWvincentys},
+             U{Inverse distance weighting<https://WikiPedia.org/wiki/
+             Inverse_distance_weighting>}, U{IDW<https://www.Geo.FU-Berlin.DE/en/v/
+             soga/Geodata-analysis/geostatistics/Inverse-Distance-Weighting/index.html>}
+             and U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
     '''
     _adjust = True
@@ -580,13 +581,13 @@ class HeightIDWeuclidean(_HeightIDW):
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
        and the distance in C{radians} from function L{euclidean_}.
 
-       @see: L{HeightIDWcosineLaw}, L{HeightIDWequirectangular}, L{HeightIDWflatLocal},
-             L{HeightIDWflatPolar}, L{HeightIDWhaversine}, L{HeightIDWkarney},
-             L{HeightIDWvincentys}, U{Inverse distance weighting
-             <https://WikiPedia.org/wiki/Inverse_distance_weighting>},
-             U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
-             geostatistics/Inverse-Distance-Weighting/index.html>} and
-             U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
+       @see: L{HeightIDWcosineLaw}, L{HeightIDWequirectangular},
+             L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
+             L{HeightIDWhubeny}, L{HeightIDWkarney}, L{HeightIDWvincentys},
+             U{Inverse distance weighting <https://WikiPedia.org/wiki/
+             Inverse_distance_weighting>}, U{IDW<https://www.Geo.FU-Berlin.DE/en/v/
+             soga/Geodata-analysis/geostatistics/Inverse-Distance-Weighting/index.html>}
+             and U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
     '''
     _adjust = True
@@ -617,23 +618,24 @@ class HeightIDWeuclidean(_HeightIDW):
 class HeightIDWflatLocal(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
-       and the distance in C{radians squared} like function L{flatLocal_}.
+       and the distance in C{radians squared} like function
+       L{flatLocal_}/L{hubeny_}.
 
-       @see: L{HeightIDWcosineLaw}, , L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
+       @see: L{HeightIDWcosineLaw}, L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
              L{HeightIDWflatPolar}, L{HeightIDWhaversine}, L{HeightIDWkarney},
              L{HeightIDWvincentys}, U{Inverse distance weighting
-             <https://WikiPedia.org/wiki/Inverse_distance_weighting>},
-             U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
+             <https://WikiPedia.org/wiki/Inverse_distance_weighting>}, U{IDW
+             <https://www.Geo.FU-Berlin.DE/en/v/soga/Geodata-analysis/
              geostatistics/Inverse-Distance-Weighting/index.html>} and
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
     '''
-    _datum = Datums.WGS84
-    _Rad2_ = None
-    _wrap  = False
+    _datum    = Datums.WGS84
+    _hubeny2_ = None
+    _wrap     = False
 
     def __init__(self, knots, datum=None, beta=2, wrap=False, name=NN):
-        '''New L{HeightIDWflatLocal} interpolator.
+        '''New L{HeightIDWflatLocal}/L{HeightIDWhubeny} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
@@ -649,12 +651,12 @@ class HeightIDWflatLocal(_HeightIDW):
         '''
         _HeightIDW.__init__(self, knots, beta=beta, name=name, wrap=wrap)
         self._datum_setter(datum, knots)
-        self._Rad2_ = self.datum.ellipsoid._flatRad2_
+        self._hubeny2_ = self.datum.ellipsoid._hubeny2_
 
     def _distances(self, x, y):  # (x, y) radians
         for xk, yk in zip(self._xs, self._ys):
             d, _ = unrollPI(xk, x, wrap=self._wrap)
-            yield self._Rad2_(yk, y, d)  # radians**2
+            yield self._hubeny2_(yk, y, d)  # radians**2
 
     if _FOR_DOCS:  # PYCHOK no cover
         __call__ = _HeightIDW.__call__
@@ -667,10 +669,10 @@ class HeightIDWflatPolar(_HeightIDW):
        and the distance in C{radians} from function L{flatPolar_}.
 
        @see: L{HeightIDWcosineLaw}, L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
-             L{HeightIDWflatLocal}, L{HeightIDWhaversine}, L{HeightIDWkarney},
-             L{HeightIDWvincentys}, U{Inverse distance weighting
+             L{HeightIDWflatLocal}, L{HeightIDWhaversine}, L{HeightIDWhubeny},
+             L{HeightIDWkarney}, L{HeightIDWvincentys}, U{Inverse distance weighting
              <https://WikiPedia.org/wiki/Inverse_distance_weighting>},
-             U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
+             U{IDW<https://www.Geo.FU-Berlin.DE/en/v/soga/Geodata-analysis/
              geostatistics/Inverse-Distance-Weighting/index.html>} and
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
@@ -706,10 +708,10 @@ class HeightIDWhaversine(_HeightIDW):
        and the distance in C{radians} from function L{haversine_}.
 
        @see: L{HeightIDWcosineLaw}, L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
-             L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWkarney},
-             L{HeightIDWvincentys}, U{Inverse distance weighting
+             L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhubeny},
+             L{HeightIDWkarney}, L{HeightIDWvincentys}, U{Inverse distance weighting
              <https://WikiPedia.org/wiki/Inverse_distance_weighting>},
-             U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
+             U{IDW<https://www.Geo.FU-Berlin.DE/en/v/soga/Geodata-analysis/
              geostatistics/Inverse-Distance-Weighting/index.html>} and
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
@@ -741,6 +743,14 @@ class HeightIDWhaversine(_HeightIDW):
         height   = _HeightIDW.height
 
 
+class HeightIDWhubeny(HeightIDWflatLocal):  # for Karl Hubeny
+    if _FOR_DOCS:  # PYCHOK no cover
+        __doc__  = HeightIDWflatLocal.__doc__
+        __init__ = HeightIDWflatLocal.__init__
+        __call__ = HeightIDWflatLocal.__call__
+        height   = HeightIDWflatLocal.height
+
+
 class HeightIDWkarney(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
@@ -751,9 +761,9 @@ class HeightIDWkarney(_HeightIDW):
 
        @see: L{HeightIDWcosineLaw}, L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
              L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
-             L{HeightIDWvincentys}, U{Inverse distance weighting
+             L{HeightIDWhubeny}, L{HeightIDWvincentys}, U{Inverse distance weighting
              <https://WikiPedia.org/wiki/Inverse_distance_weighting>},
-             U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
+             U{IDW<https://www.Geo.FU-Berlin.DE/en/v/soga/Geodata-analysis/
              geostatistics/Inverse-Distance-Weighting/index.html>} and
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
@@ -837,9 +847,9 @@ class HeightIDWvincentys(_HeightIDW):
 
        @see: L{HeightIDWcosineLaw}, L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
              L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
-             L{HeightIDWkarney}, U{Inverse distance weighting
+             L{HeightIDWhubeny}, L{HeightIDWkarney}, U{Inverse distance weighting
              <https://WikiPedia.org/wiki/Inverse_distance_weighting>},
-             U{IDW<https://www.Geo.FU-Berlin.De/en/v/soga/Geodata-analysis/
+             U{IDW<https://www.Geo.FU-Berlin.DE/en/v/soga/Geodata-analysis/
              geostatistics/Inverse-Distance-Weighting/index.html>} and
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
