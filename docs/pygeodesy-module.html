@@ -285,7 +285,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.06.15
+        20.06.24
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -338,6 +338,10 @@
         class="link">EcefKarney</a> respectively <a 
         href="pygeodesy.ecef.EcefCartesian-class.html" 
         class="link">EcefCartesian</a>, class <a 
+        href="pygeodesy.ecef.EcefSudano-class.html" 
+        class="link">EcefSudano</a> based on <i>John Sudano</i>'s <a 
+        href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
+        target="_top">paper</a>, class <a 
         href="pygeodesy.ecef.EcefVeness-class.html" 
         class="link">EcefVeness</a> transcribed from <i>Chris Veness</i>' 
         JavaScript classes <a 
@@ -432,8 +436,14 @@
         class="link">FrechetDegrees</a>, <a 
         href="pygeodesy.frechet.FrechetRadians-class.html" 
         class="link">FrechetRadians</a>, <a 
+        href="pygeodesy.frechet.FrechetCosineAndoyerLambert-class.html" 
+        class="link">FrechetCosineAndoyerLambert</a>, <a 
+        href="pygeodesy.frechet.FrechetCosineForsytheAndoyerLambert-class.html"
+        class="link">FrechetCosineForsytheAndoyerLambert</a>, <a 
         href="pygeodesy.frechet.FrechetCosineLaw-class.html" 
         class="link">FrechetCosineLaw</a>, <a 
+        href="pygeodesy.frechet.FrechetDistanceTo-class.html" 
+        class="link">FrechetDistanceTo</a>&lt; <a 
         href="pygeodesy.frechet.FrechetEquirectangular-class.html" 
         class="link">FrechetEquirectangular</a>, <a 
         href="pygeodesy.frechet.FrechetEuclidean-class.html" 
@@ -447,7 +457,9 @@
         href="pygeodesy.frechet.FrechetHubeny-class.html" 
         class="link">FrechetHubeny</a>, <a 
         href="pygeodesy.frechet.FrechetKarney-class.html" 
-        class="link">FrechetKarney</a> and <a 
+        class="link">FrechetKarney</a>, <a 
+        href="pygeodesy.frechet.FrechetThomas-class.html" 
+        class="link">FrechetThomas</a> and <a 
         href="pygeodesy.frechet.FrechetVincentys-class.html" 
         class="link">FrechetVincentys</a> to compute <i>discrete</i> <a 
         href="https://WikiPedia.org/wiki/Frechet_distance" 
@@ -479,8 +491,14 @@
         class="link">HausdorffDegrees</a>, <a 
         href="pygeodesy.hausdorff.HausdorffRadians-class.html" 
         class="link">HausdorffRadians</a>, <a 
+        href="pygeodesy.hausdorff.HausdorffCosineAndoyerLambert-class.html"
+        class="link">HausdorffCosineAndoyerLambert</a>, <a 
+        href="pygeodesy.hausdorff.HausdorffCosineForsytheAndoyerLambert-class.html"
+        class="link">HausdorffCosineForsytheAndoyerLambert</a>, <a 
         href="pygeodesy.hausdorff.HausdorffCosineLaw-class.html" 
         class="link">HausdorffCosineLaw</a>, <a 
+        href="pygeodesy.hausdorff.HausdorffDistanceTo-class.html" 
+        class="link">HausdorffDistanceTo</a>, <a 
         href="pygeodesy.hausdorff.HausdorffEquirectangular-class.html" 
         class="link">HausdorffEquirectangular</a>, <a 
         href="pygeodesy.hausdorff.HausdorffEuclidean-class.html" 
@@ -494,7 +512,9 @@
         href="pygeodesy.hausdorff.HausdorffHubeny-class.html" 
         class="link">HausdorffHubeny</a>, <a 
         href="pygeodesy.hausdorff.HausdorffKarney-class.html" 
-        class="link">HausdorffKarney</a> and <a 
+        class="link">HausdorffKarney</a>, <a 
+        href="pygeodesy.hausdorff.HausdorffThomas-class.html" 
+        class="link">HausdorffThomas</a> and <a 
         href="pygeodesy.hausdorff.HausdorffVincentys-class.html" 
         class="link">HausdorffVincentys</a> to compute <a 
         href="https://WikiPedia.org/wiki/Hausdorff_distance" 
@@ -503,8 +523,14 @@
         other types of points.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Classes <a href="pygeodesy.heights.HeightCubic-class.html" 
         class="link">HeightCubic</a>, <a 
+        href="pygeodesy.heights.HeightIDWcosineAndoyerLambert-class.html" 
+        class="link">HeightIDWcosineAndoyerLambert</a>, <a 
+        href="pygeodesy.heights.HeightIDWcosineForsytheAndoyerLambert-class.html"
+        class="link">HeightIDWcosineForsytheAndoyerLambert</a>, <a 
         href="pygeodesy.heights.HeightIDWcosineLaw-class.html" 
         class="link">HeightIDWcosineLaw</a>, <a 
+        href="pygeodesy.heights.HeightIDWdistanceTo-class.html" 
+        class="link">HeightIDWdistanceTo</a>, <a 
         href="pygeodesy.heights.HeightIDWequirectangular-class.html" 
         class="link">HeightIDWequirectangular</a>, <a 
         href="pygeodesy.heights.HeightIDWeuclidean-class.html" 
@@ -519,6 +545,8 @@
         class="link">HeightIDWhubeny</a>, <a 
         href="pygeodesy.heights.HeightIDWkarney-class.html" 
         class="link">HeightIDWkarney</a>, <a 
+        href="pygeodesy.heights.HeightIDWthomas-class.html" 
+        class="link">HeightIDWthomas</a>, <a 
         href="pygeodesy.heights.HeightIDWvincentys-class.html" 
         class="link">HeightIDWvincentys</a>, <a 
         href="pygeodesy.heights.HeightLinear-class.html" 
@@ -969,6 +997,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefSudano-class.html" class="summary-name">EcefSudano</a><br />
+      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based om <i>John J. Sudano</i>'s
+        <a 
+        href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
+        target="_top">paper</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ecef.EcefVeness-class.html" class="summary-name">EcefVeness</a><br />
       Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates transcribed from <i>Chris 
@@ -1104,6 +1144,28 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.frechet.FrechetCosineAndoyerLambert-class.html" class="summary-name">FrechetCosineAndoyerLambert</a><br />
+      Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.frechet.FrechetCosineForsytheAndoyerLambert-class.html" class="summary-name">FrechetCosineForsytheAndoyerLambert</a><br />
+      Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetCosineLaw-class.html" class="summary-name">FrechetCosineLaw</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
@@ -1120,6 +1182,16 @@
         class="link">Frechet</a> base class for distances in 
         <code>degrees</code> from <code>LatLon</code> points in 
         <code>degrees</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.frechet.FrechetDistanceTo-class.html" class="summary-name">FrechetDistanceTo</a><br />
+      Compute the <code>Frechet</code> distance based on the distance 
+        from the points' <code>LatLon.distanceTo</code> method, 
+        conventionally in <code>meter</code>.
     </td>
   </tr>
 <tr>
@@ -1183,8 +1255,7 @@
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetHaversine-class.html" class="summary-name">FrechetHaversine</a><br />
       Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> <code>Haversine</code> distance in 
-        <code>radians</code> from function <a 
+        <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.
     </td>
@@ -1231,10 +1302,20 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.frechet.FrechetThomas-class.html" class="summary-name">FrechetThomas</a><br />
+      Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#thomas_" 
+        class="link">thomas_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetVincentys-class.html" class="summary-name">FrechetVincentys</a><br />
       Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> <code>Vincenty</code> distance in 
-        <code>radians</code> from function <a 
+        <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
     </td>
@@ -1334,6 +1415,28 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffCosineAndoyerLambert-class.html" class="summary-name">HausdorffCosineAndoyerLambert</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffCosineForsytheAndoyerLambert-class.html" class="summary-name">HausdorffCosineForsytheAndoyerLambert</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffCosineLaw-class.html" class="summary-name">HausdorffCosineLaw</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
@@ -1349,6 +1452,16 @@
       <a href="pygeodesy.hausdorff.Hausdorff-class.html" 
         class="link">Hausdorff</a> base class for distances from 
         <code>LatLon</code> points in <code>degrees</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffDistanceTo-class.html" class="summary-name">HausdorffDistanceTo</a><br />
+      Compute the <code>Hausdorff</code> distance based on the distance 
+        from the points' <code>LatLon.distanceTo</code> method, 
+        conventionally in <code>meter</code>.
     </td>
   </tr>
 <tr>
@@ -1458,6 +1571,17 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffThomas-class.html" class="summary-name">HausdorffThomas</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#thomas_" 
+        class="link">thomas_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffVincentys-class.html" class="summary-name">HausdorffVincentys</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
@@ -1526,13 +1650,51 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWcosineAndoyerLambert-class.html" class="summary-name">HeightIDWcosineAndoyerLambert</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWcosineForsytheAndoyerLambert-class.html" class="summary-name">HeightIDWcosineForsytheAndoyerLambert</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.heights.HeightIDWcosineLaw-class.html" class="summary-name">HeightIDWcosineLaw</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
-        in <code>radians</code> from function <a 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWdistanceTo-class.html" class="summary-name">HeightIDWdistanceTo</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
+        from the points' <code>LatLon.distanceTo</code> method, 
+        conventionally in <code>meter</code>.
     </td>
   </tr>
 <tr>
@@ -1542,9 +1704,9 @@
         <a href="pygeodesy.heights.HeightIDWequirectangular-class.html" class="summary-name">HeightIDWequirectangular</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
-        in <code>radians squared</code> like function <a 
-        href="pygeodesy.formy-module.html#equirectangular_" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.
     </td>
   </tr>
@@ -1555,8 +1717,8 @@
         <a href="pygeodesy.heights.HeightIDWeuclidean-class.html" class="summary-name">HeightIDWeuclidean</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
-        in <code>radians</code> from function <a 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>.
     </td>
@@ -1568,9 +1730,9 @@
         <a href="pygeodesy.heights.HeightIDWflatLocal-class.html" class="summary-name">HeightIDWflatLocal</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
-        in <code>radians squared</code> like function <a 
-        href="pygeodesy.formy-module.html#flatLocal_" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
         class="link">flatLocal_</a>/<a 
         href="pygeodesy.formy-module.html#flatLocal_" 
         class="link">hubeny_</a>.
@@ -1583,8 +1745,8 @@
         <a href="pygeodesy.heights.HeightIDWflatPolar-class.html" class="summary-name">HeightIDWflatPolar</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
-        in <code>radians</code> from function <a 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#flatPolar_" 
         class="link">flatPolar_</a>.
     </td>
@@ -1596,8 +1758,8 @@
         <a href="pygeodesy.heights.HeightIDWhaversine-class.html" class="summary-name">HeightIDWhaversine</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
-        in <code>radians</code> from function <a 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.
     </td>
@@ -1609,9 +1771,9 @@
         <a href="pygeodesy.heights.HeightIDWhubeny-class.html" class="summary-name">HeightIDWhubeny</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
-        in <code>radians squared</code> like function <a 
-        href="pygeodesy.formy-module.html#flatLocal_" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians squared</code> like 
+        function <a href="pygeodesy.formy-module.html#flatLocal_" 
         class="link">flatLocal_</a>/<a 
         href="pygeodesy.formy-module.html#flatLocal_" 
         class="link">hubeny_</a>.
@@ -1624,9 +1786,9 @@
         <a href="pygeodesy.heights.HeightIDWkarney-class.html" class="summary-name">HeightIDWkarney</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
-        in <code>degrees</code> from <i>Charles F. F. Karney's</i> <a 
-        href="https://PyPI.org/project/geographiclib" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>degrees</code> from <i>Charles F. 
+        F. Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> <a 
         href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
         target="_top">Geodesic</a> Inverse method.
@@ -1636,11 +1798,24 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.heights.HeightIDWthomas-class.html" class="summary-name">HeightIDWthomas</a><br />
+      Height interpolator using <a 
+        href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#thomas_" 
+        class="link">thomas_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.heights.HeightIDWvincentys-class.html" class="summary-name">HeightIDWvincentys</a><br />
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-        target="_top">Inverse Distance Weighting</a> (IDW) and the distance
-        in <code>radians</code> from function <a 
+        target="_top">Inverse Distance Weighting</a> (IDW) and the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
     </td>
@@ -1904,8 +2079,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.formy.PointsError-class.html" class="summary-name">PointsError</a><br />
-      Insufficient number of points.
+        <a href="pygeodesy.errors.PointsError-class.html" class="summary-name">PointsError</a><br />
+      Error for an insufficient number of points.
     </td>
   </tr>
 <tr>
@@ -2007,7 +2182,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights.SciPyError-class.html" class="summary-name">SciPyError</a><br />
+        <a href="pygeodesy.errors.SciPyError-class.html" class="summary-name">SciPyError</a><br />
       Error raised for <code>SciPy</code> errors.
     </td>
   </tr>
@@ -2015,7 +2190,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.heights.SciPyWarning-class.html" class="summary-name">SciPyWarning</a><br />
+        <a href="pygeodesy.errors.SciPyWarning-class.html" class="summary-name">SciPyWarning</a><br />
       Error thrown for <code>SciPy</code> warnings.
     </td>
   </tr>
@@ -3893,7 +4068,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x106ee31d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10a1636d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -4167,7 +4342,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#instr" class="summary-sig-name">instr</a>(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      Return the string representation of an instantion.</td>
+      Return the string representation of an instantiation.</td>
           <td align="right" valign="top">
             
             
@@ -5357,7 +5532,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#points2" class="summary-sig-name">points2</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.formy.PointsError'&gt;</span>)</span><br />
+        <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.PointsError'&gt;</span>)</span><br />
       Check a path or polygon represented by points.</td>
           <td align="right" valign="top">
             
@@ -5873,9 +6048,9 @@
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the distance between two (ellipsoidal) points using the <a 
+      Compute the distance between two (ellipsoidal) points using <a 
       href="https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf" 
-      target="_top">Thomas</a> formula.</td>
+      target="_top">Thomas'</a> formula.</td>
           <td align="right" valign="top">
             
             
@@ -6523,7 +6698,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.6.15'"><code class="variable-quote">'</code><code class="variable-string">20.6.15</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.6.24'"><code class="variable-quote">'</code><code class="variable-string">20.6.24</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7326,7 +7501,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <b><code>radius</code></b>, <i>squared</i>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
@@ -7598,7 +7773,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           lonE)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
@@ -7702,7 +7877,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> is <code>None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>points</code></b> enclose a pole or near-zero area.</li>
     </ul></dd>
@@ -7809,7 +7984,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - The <b><code>lowerleft</code></b> and 
         <b><code>upperright</code></b> corners specify an invalid clip box.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -7918,7 +8093,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - The <b><code>corners</code></b> specify a polar, zero-area, 
         non-convex or otherwise invalid clip box or region.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -7961,7 +8136,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - The <b><code>corners</code></b> specify a polar, zero-area, 
         non-convex or otherwise invalid clip box or region.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -9698,7 +9873,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The meridional and prime_vertical radii of curvature are taken and 
-        scaled at the mean latitude.
+        scaled <i>at the mean latitude</i>.
       </p>
       <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatLocal" 
@@ -10431,7 +10606,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x106ee31d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10a1636d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -10825,7 +11000,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The meridional and prime_vertical radii of curvature are taken and 
-        scaled at the mean latitude.
+        scaled <i>at the mean latitude</i>.
       </p>
       <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatLocal" 
@@ -10970,7 +11145,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Return the string representation of an instantion.</p>
+  <p>Return the string representation of an instantiation.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -11174,7 +11349,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - The <b><code>points</code></b> enclose a pole or zero area.</li>
     </ul></dd>
@@ -11218,7 +11393,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.CrossError-class.html">CrossError</a></strong></code> - Some <b><code>points</code></b> are colinear.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
@@ -11264,7 +11439,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.CrossError-class.html">CrossError</a></strong></code> - Some <b><code>points</code></b> are colinear.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
@@ -11308,7 +11483,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           polygon, <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>point</code></b>, lat- or longitude.</li>
     </ul></dd>
@@ -11441,7 +11616,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code> or 
         don't have <code>bearingTo2</code>, <code>initialBearingTo</code> 
         and <code>finalBearingTo</code> methods.</li>
@@ -12412,7 +12587,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <b><code>limit</code></b>, see function <a 
         href="pygeodesy.formy-module.html#equirectangular_" 
         class="link">equirectangular_</a>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
@@ -13226,7 +13401,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
@@ -13293,7 +13468,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">points2</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">base</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.formy.PointsError'&gt;</span>)</span>
+        <span class="sig-arg">Error</span>=<span class="sig-default">&lt;class 'pygeodesy.errors.PointsError'&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13318,7 +13493,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <code>tuple</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.formy.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <b><code>base</code></b> 
         compatible.</li>
     </ul></dd>
@@ -14217,9 +14392,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Compute the distance between two (ellipsoidal) points using the <a 
+  <p>Compute the distance between two (ellipsoidal) points using <a 
   href="https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf" 
-  target="_top">Thomas</a> formula.</p>
+  target="_top">Thomas'</a> formula.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -15468,7 +15643,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a> produce equivalent results, but <a 
         href="pygeodesy.formy-module.html#vincentys_" 
-        class="link">vincentys_</a> is suitable for antipodal points but 
+        class="link">vincentys_</a> is suitable for antipodal points and 
         slightly more expensive (<i class="math">3 cos, 3 sin, 1 hypot, 1 
         atan2, 6 mul, 2 add</i>) than <a 
         href="pygeodesy.formy-module.html#haversine_" 
@@ -15820,7 +15995,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 15 19:25:45 2020
+    Generated by Epydoc 3.0.1 on Wed Jun 24 12:37:47 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

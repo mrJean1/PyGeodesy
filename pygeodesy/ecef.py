@@ -4,9 +4,11 @@
 u'''Geocentric conversions transcribed from I{Charles Karney}'s C++ classes U{Geocentric
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>} and
 U{LocalCartesian<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}
-into pure Python classes L{EcefKarney} respectively L{EcefCartesian}, class L{EcefVeness}
-transcribed from I{Chris Veness}' JavaScript classes U{LatLonEllipsoidal, Cartesian
-<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}
+into pure Python classes L{EcefKarney} respectively L{EcefCartesian}, class L{EcefSudano}
+based on I{John Sudano}'s U{paper<https://www.ResearchGate.net/publication/
+3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>},
+class L{EcefVeness} transcribed from I{Chris Veness}' JavaScript classes U{LatLonEllipsoidal,
+Cartesian<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}
 and class L{EcefYou} implementing I{Rey-Jer You}'s U{transformations
 <https://www.ResearchGate.net/publication/240359424>}.
 
@@ -51,18 +53,18 @@ from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, map1, NN, property_RO, 
 from pygeodesy.datum import Datum, Datums, Ellipsoid
 from pygeodesy.errors import LenError, _ValueError
 from pygeodesy.fmath import cbrt, fdot, fsum_, hypot1
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, _NamedBase, _NamedTuple, \
                             notOverloaded, PhiLam2Tuple, Vector3Tuple, _xnamed
 from pygeodesy.streprs import unstr
 from pygeodesy.utily import degrees90, degrees180, sincos2, sincos2d
 from pygeodesy.vector3d import _xyzn4
 
-from math import atan2, copysign, cos, degrees, hypot, radians, sqrt
+from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '20.05.14'
+__version__ = '20.06.24'
 
 
 def _llhn4(latlonh, lon, height, suffix=NN):
@@ -864,7 +866,7 @@ class EcefVeness(_EcefBase):
     '''
 
     def __init__(self, a_ellipsoid, f=None, name=NN):
-        '''New L{EcefVeness} converter.
+        '''New L{EcefVeness}/L{EcefSudano} converter.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}), a datum (L{Datum}) or
                              C{scalar} for the major, equatorial radius of the
@@ -946,7 +948,10 @@ class EcefVeness(_EcefBase):
                  Coordinate Conversion'<https://www.OSTI.gov/scitech/biblio/110235>},
                  Sept 1995 and U{'An Improved Algorithm for Geocentric to Geodetic
                  Coordinate Conversion'<https://www.OSTI.gov/scitech/servlets/purl/231228>},
-                 Apr 1996, both from Lawrence Livermore National Laboratory (LLNL).
+                 Apr 1996, both from Lawrence Livermore National Laboratory (LLNL) and
+                 John J. Sudano U{An exact conversion from an Earth-centered coordinate
+                 system to latitude longitude and altitude<https://www.ResearchGate.net/
+                 publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
         '''
         x, y, z, name = _xyzn4(xyz, y, z, Error=EcefError)
 
@@ -981,6 +986,82 @@ class EcefVeness(_EcefBase):
             C, lat, lon, h = 3, copysign(90.0, z), 0.0, abs(z) - E.b
 
         r = Ecef9Tuple(x, y, z, lat, lon, h, C, None, self.datum)
+        return self._xnamed(r, name)
+
+
+class EcefSudano(EcefVeness):
+    '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
+       Earth-Fixed} (ECEF) coordinates based om I{John J. Sudano}'s U{paper
+       <https://www.ResearchGate.net/publication/
+       3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
+    '''
+
+    if _FOR_DOCS:
+        __init__ = EcefVeness.__init__
+        forward  = EcefVeness.forward
+
+    def reverse(self, xyz, y=None, z=None, **no_M):  # PYCHOK unused M
+        '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
+           I{John Sudano}'s U{iterative method<https://www.ResearchGate.net/publication/
+           3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
+
+           @arg xyz: Either an L{Ecef9Tuple}, an C{(x, y, z)} 3-tuple or C{scalar}
+                     ECEF C{x} coordinate in C{meter}.
+           @kwarg y: ECEF C{y} coordinate in C{meter} for C{scalar} B{C{xyz}} and B{C{z}}.
+           @kwarg z: ECEF C{z} coordinate in C{meter} for C{scalar} B{C{xyz}} and B{C{y}}.
+           @kwarg no_M: Rotation matrix C{M} not available.
+
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with geodetic coordinates C{(lat, lon, height)} for the given
+                    geocentric ones C{(x, y, z)}, iteration C{C}, L{EcefMatrix} C{M}
+                    always C{None} and C{datum} if available.
+
+           @raise EcefError: If B{C{xyz}} not L{Ecef9Tuple} or C{scalar} C{x}
+                             or B{C{y}} and/or B{C{z}} not C{scalar} for C{scalar}
+                             B{C{xyz}} or for lack of convergence.
+        '''
+        x, y, z, name = _xyzn4(xyz, y, z, Error=EcefError)
+
+        E = self.ellipsoid
+        e = E.e2 * E.a
+        h = hypot(x, y)  # Rh
+        d = e - h
+
+        a = atan2(z, h * E.e12)
+        sa, ca = sincos2(abs(a))
+        # Sudano's Eq (A-6) and (A-7) refactored/reduced,
+        # replacing Rn from Eq (A-4) with n = E.a / ca:
+        # N = ca**2 * ((z + E.e2 * n * sa) * ca - h * sa)
+        #   = ca**2 * (z * ca + E.e2 * E.a * sa - h * sa)
+        #   = ca**2 * (z * ca + (E.e2 * E.a - h) * sa)
+        # D = ca**3 * (E.e2 * n / E.e2s2(sa)) - h
+        #   = ca**2 * (E.e2 * E.a / E.e2s2(sa) - h / ca**2)
+        # N / D = (z * ca + (E.e2 * E.a - h) * sa) /
+        #         (E.e2 * E.a / E.e2s2(sa) - h / ca**2)
+        for i in range(16):  # 8..9 is sufficient
+            ca2 = 1 - sa**2
+            if ca2 < EPS_2:
+                ca = 0
+                break
+            ca = sqrt(ca2)
+            t = e / E.e2s2(sa) - h / ca2
+            if abs(t) < EPS_2:
+                break
+            t = (z * ca + d * sa) / t
+            if abs(t) < EPS:
+                break
+            sa -= t
+        else:
+            raise EcefError('no convergence', txt=unstr(self.reverse.__name__, x=x, y=y, z=z))
+
+        if i:
+            a = copysign(asin(sa), z)
+        b = atan2(y, x)
+        h = fsum_(h * ca, abs(z * sa), -E.a * E.e2s(sa))  # use Veness',
+        # Sudano's Eq (7) doesn't seem to provide the correct height
+        # h = (abs(z) + h - E.a * cos(a + E.e12) * sa / ca) / (ca + sa)
+
+        r = Ecef9Tuple(x, y, z, degrees90(a), degrees180(b), h, i, None, self.datum)
         return self._xnamed(r, name)
 
 

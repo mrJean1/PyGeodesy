@@ -80,7 +80,7 @@ from math import atan2, cos, radians, tan
 __all__ = _ALL_LAZY.ellipsoidalVincenty + (
           'Cartesian', 'LatLon',
           'ispolar')  # from .points
-__version__ = '20.05.28'
+__version__ = '20.06.16'
 
 
 class VincentyError(_ValueError):
@@ -236,7 +236,7 @@ class LatLon(LatLonEllipsoidalBase):
         r = self._direct(distance, bearing, True, height=height)
         return self._xnamed(r)
 
-    def distanceTo(self, other, wrap=False):
+    def distanceTo(self, other, wrap=False, **unused):  # for -DistanceTo
         '''Compute the distance between this and an other point
            along a geodesic, using Vincenty's inverse method.
            See method L{distanceTo3} for more details.

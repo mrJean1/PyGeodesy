@@ -65,8 +65,14 @@
   class="link">HausdorffDegrees</a>, <a 
   href="pygeodesy.hausdorff.HausdorffRadians-class.html" 
   class="link">HausdorffRadians</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffCosineAndoyerLambert-class.html" 
+  class="link">HausdorffCosineAndoyerLambert</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffCosineForsytheAndoyerLambert-class.html"
+  class="link">HausdorffCosineForsytheAndoyerLambert</a>, <a 
   href="pygeodesy.hausdorff.HausdorffCosineLaw-class.html" 
   class="link">HausdorffCosineLaw</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffDistanceTo-class.html" 
+  class="link">HausdorffDistanceTo</a>, <a 
   href="pygeodesy.hausdorff.HausdorffEquirectangular-class.html" 
   class="link">HausdorffEquirectangular</a>, <a 
   href="pygeodesy.hausdorff.HausdorffEuclidean-class.html" 
@@ -80,14 +86,20 @@
   href="pygeodesy.hausdorff.HausdorffHubeny-class.html" 
   class="link">HausdorffHubeny</a>, <a 
   href="pygeodesy.hausdorff.HausdorffKarney-class.html" 
-  class="link">HausdorffKarney</a> and <a 
+  class="link">HausdorffKarney</a>, <a 
+  href="pygeodesy.hausdorff.HausdorffThomas-class.html" 
+  class="link">HausdorffThomas</a> and <a 
   href="pygeodesy.hausdorff.HausdorffVincentys-class.html" 
   class="link">HausdorffVincentys</a> to compute <a 
   href="https://WikiPedia.org/wiki/Hausdorff_distance" 
   target="_top">Hausdorff</a> distances between two sets of 
   <code>LatLon</code>, <code>NumPy</code>, <code>tuples</code> or other 
   types of points.</p>
-  <p>Only <a href="pygeodesy.hausdorff.HausdorffKarney-class.html" 
+  <p>Only <a href="pygeodesy.hausdorff.HausdorffDistanceTo-class.html" 
+  class="link">HausdorffDistanceTo</a> -iff used with <a 
+  href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+  class="link">ellipsoidalKarney.LatLon</a> points- and <a 
+  href="pygeodesy.hausdorff.HausdorffKarney-class.html" 
   class="link">HausdorffKarney</a> requires installation of <i>Charles 
   Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a>.</p>
@@ -150,7 +162,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.06.15
+        20.06.17
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -216,11 +228,43 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffCosineAndoyerLambert-class.html" class="summary-name">HausdorffCosineAndoyerLambert</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffCosineForsytheAndoyerLambert-class.html" class="summary-name">HausdorffCosineForsytheAndoyerLambert</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffCosineLaw-class.html" class="summary-name">HausdorffCosineLaw</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffDistanceTo-class.html" class="summary-name">HausdorffDistanceTo</a><br />
+      Compute the <code>Hausdorff</code> distance based on the distance 
+        from the points' <code>LatLon.distanceTo</code> method, 
+        conventionally in <code>meter</code>.
     </td>
   </tr>
 <tr>
@@ -311,6 +355,17 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.hausdorff.HausdorffThomas-class.html" class="summary-name">HausdorffThomas</a><br />
+      Compute the <code>Hausdorff</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#thomas_" 
+        class="link">thomas_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffVincentys-class.html" class="summary-name">HausdorffVincentys</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
@@ -340,7 +395,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x106ee31d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x10a1636d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -398,7 +453,7 @@
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x106ee31d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x10a1636d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -521,7 +576,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 15 19:25:45 2020
+    Generated by Epydoc 3.0.1 on Wed Jun 24 12:37:47 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

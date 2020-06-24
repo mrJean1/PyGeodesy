@@ -59,7 +59,7 @@ __all__ = _ALL_LAZY.sphericalNvector + (
           'perimeterOf',
           'sumOf',
           'triangulate', 'trilaterate')
-__version__ = '20.05.08'
+__version__ = '20.06.16'
 
 
 class Cartesian(CartesianSphericalBase):
@@ -251,7 +251,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         n = p.times(ca).plus(q.times(sa))
         return n.toLatLon(height=height, LatLon=self.classof)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
-    def distanceTo(self, other, radius=R_M):
+    def distanceTo(self, other, radius=R_M, **unused):  # for -DistanceTo
         '''Compute the distance from this to an other point.
 
            @arg other: The other point (L{LatLon}).

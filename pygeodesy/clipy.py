@@ -8,16 +8,17 @@ against a rectangular box or clip region.
 '''
 
 from pygeodesy.basics import EPS, len2, NN
-from pygeodesy.errors import _AssertionError, _Not_convex, _ValueError
+from pygeodesy.errors import _AssertionError, _Not_convex, \
+                              PointsError, _ValueError
 from pygeodesy.fmath import fsum_
-from pygeodesy.formy import points2, PointsError
+from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _dot_
 from pygeodesy.named import _Named, _NamedTuple
 from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
                              LatLon_ as LL_
 
 __all__ = _ALL_LAZY.clipy + _ALL_DOCS('ClipCS3Tuple', 'ClipSH3Tuple')
-__version__ = '20.05.15'
+__version__ = '20.06.17'
 
 
 class ClipError(_ValueError):

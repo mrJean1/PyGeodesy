@@ -43,7 +43,7 @@ from math import asin, atan2
 __all__ = _ALL_LAZY.ellipsoidalNvector + _ALL_DOCS('Ned3Tuple') + (
           'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
           'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.06.08'
+__version__ = '20.06.16'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -278,7 +278,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
         return v.toLatLon(datum=self.datum, LatLon=self.classof)  # Cartesian(v.x, v.y, v.z).toLatLon(...)
 
-    def distanceTo(self, other, radius=None):
+    def distanceTo(self, other, radius=None, **unused):  # for -DistanceTo
         '''Approximate the distance from this to an other point.
 
            @arg other: The other point (L{LatLon}).

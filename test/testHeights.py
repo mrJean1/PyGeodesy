@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.06.15'
+__version__ = '20.06.18'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -17,10 +17,13 @@ from base import coverage, geographiclib, scipy, TestsBase
 from pygeodesy import Datums, fstr, HeightError, \
                       HeightCubic, HeightLinear, \
                       HeightIDW, HeightIDW2, HeightIDW3, \
+                      HeightIDWcosineAndoyerLambert, \
+                      HeightIDWcosineForsytheAndoyerLambert, \
                       HeightIDWcosineLaw, HeightIDWequirectangular, \
                       HeightIDWeuclidean, HeightIDWflatLocal, \
                       HeightIDWflatPolar, HeightIDWhaversine, \
-                      HeightIDWhubeny, HeightIDWkarney, HeightIDWvincentys, \
+                      HeightIDWhubeny, HeightIDWkarney, \
+                      HeightIDWthomas, HeightIDWvincentys, \
                       HeightLSQBiSpline, HeightSmoothBiSpline
 from pygeodesy.sphericalTrigonometry import LatLon
 
@@ -107,6 +110,8 @@ class Tests(TestsBase):
               LatLon(1, 0.5, 5), LatLon(0.5, 1.4, 7), LatLon(1.2, 1, 7)
         lli = LatLon(1, 1)
         self.testIDW(HeightIDW,                kts, lli, '6.166852765', adjust=True)
+        self.testIDW(HeightIDWcosineAndoyerLambert,         kts, lli, '6.108538037', wrap=False)
+        self.testIDW(HeightIDWcosineForsytheAndoyerLambert, kts, lli, '6.108538037', wrap=False)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.108538037', wrap=True)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.108538037', wrap=False)
         self.testIDW(HeightIDWeuclidean,       kts, lli, '6.166920194', adjust=False)
@@ -120,10 +125,12 @@ class Tests(TestsBase):
         self.testIDW(HeightIDWhaversine,       kts, lli, '6.108538037', wrap=False)
         self.testIDW(HeightIDWhubeny,          kts, lli, '6.860459007', wrap=False)
         if geographiclib:
-            self.testIDW(HeightIDWkarney,      kts, lli, '6.111158743', wrap=True, datum=Datums.WGS84)
+            self.testIDW(HeightIDWkarney,      kts, lli, '6.111158743', wrap=True,  datum=Datums.WGS84)
             self.testIDW(HeightIDWkarney,      kts, lli, '6.111158743', wrap=False, datum=Datums.WGS84)
-            self.testIDW(HeightIDWkarney,      kts, lli, '6.108538037', wrap=True, datum=Datums.Sphere)
+            self.testIDW(HeightIDWkarney,      kts, lli, '6.108538037', wrap=True,  datum=Datums.Sphere)
             self.testIDW(HeightIDWkarney,      kts, lli, '6.108538037', wrap=False, datum=Datums.Sphere)
+        self.testIDW(HeightIDWthomas,          kts, lli, '6.108538037', wrap=True)
+        self.testIDW(HeightIDWthomas,          kts, lli, '6.108538037', wrap=False)
         self.testIDW(HeightIDWvincentys,       kts, lli, '6.108538037', wrap=True)
         self.testIDW(HeightIDWvincentys,       kts, lli, '6.108538037', wrap=False)
 
@@ -132,6 +139,8 @@ class Tests(TestsBase):
         lli = kts[0].intersection(*kts[1:])
         self.test('intersection', lli, '02.64932°N, 002.550079°E, +2.50m')  # mean height
         self.testIDW(HeightIDW,                kts, lli, '2.592747784', adjust=True)
+        self.testIDW(HeightIDWcosineAndoyerLambert,         kts, lli, '2.592742938', wrap=False)
+        self.testIDW(HeightIDWcosineForsytheAndoyerLambert, kts, lli, '2.592742938', wrap=False)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '2.592742938', wrap=True)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '2.592742938', wrap=False)
         self.testIDW(HeightIDWeuclidean,       kts, lli, '2.592735027', adjust=False)
@@ -145,10 +154,12 @@ class Tests(TestsBase):
         self.testIDW(HeightIDWhaversine,       kts, lli, '2.592742938', wrap=False)
         self.testIDW(HeightIDWhubeny,          kts, lli, '2.689429914', wrap=False)
         if geographiclib:
-            self.testIDW(HeightIDWkarney,      kts, lli, '2.592742915', wrap=True, datum=Datums.WGS84)
+            self.testIDW(HeightIDWkarney,      kts, lli, '2.592742915', wrap=True,  datum=Datums.WGS84)
             self.testIDW(HeightIDWkarney,      kts, lli, '2.592742915', wrap=False, datum=Datums.WGS84)
-            self.testIDW(HeightIDWkarney,      kts, lli, '2.592742938', wrap=True, datum=Datums.Sphere)
+            self.testIDW(HeightIDWkarney,      kts, lli, '2.592742938', wrap=True,  datum=Datums.Sphere)
             self.testIDW(HeightIDWkarney,      kts, lli, '2.592742938', wrap=False, datum=Datums.Sphere)
+        self.testIDW(HeightIDWthomas,          kts, lli, '2.592742938', wrap=True)
+        self.testIDW(HeightIDWthomas,          kts, lli, '2.592742938', wrap=False)
         self.testIDW(HeightIDWvincentys,       kts, lli, '2.592742938', wrap=True)
         self.testIDW(HeightIDWvincentys,       kts, lli, '2.592742938', wrap=False)
 
@@ -169,6 +180,8 @@ class Tests(TestsBase):
             lats, lons = zip(*[(ll.lat, ll.lon) for ll in kts])
 
             self.testHeight(HeightCubic,              kts, lli, '3.000000000', lats, lons)
+            self.testHeight(HeightIDWcosineAndoyerLambert,         kts, lli, '2.402157442', lats, lons)
+            self.testHeight(HeightIDWcosineForsytheAndoyerLambert, kts, lli, '2.402157442', lats, lons)
             self.testHeight(HeightIDWcosineLaw,       kts, lli, '2.402157442', lats, lons)
             self.testHeight(HeightIDWeuclidean,       kts, lli, '2.408053308', lats, lons)
             self.testHeight(HeightIDWequirectangular, kts, lli, '2.402157181', lats, lons)
@@ -178,6 +191,7 @@ class Tests(TestsBase):
             self.testHeight(HeightIDWhubeny,          kts, lli, '2.469718302', lats, lons)
             if geographiclib:
                 self.testHeight(HeightIDWkarney,      kts, lli, '2.402157442', lats, lons)  # datum=Datums.Sphere
+            self.testHeight(HeightIDWthomas,          kts, lli, '2.402157442', lats, lons)
             self.testHeight(HeightIDWvincentys,       kts, lli, '2.402157442', lats, lons)
             self.testHeight(HeightLinear,             kts, lli, '3.000000000', lats, lons)
             self.testHeight(HeightLSQBiSpline,        kts, lli, '6.419251669', lats, lons)

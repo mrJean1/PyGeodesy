@@ -7,7 +7,8 @@ u'''Formulary of basic geodesy functions and approximations.
 '''
 from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, len2, _xinstanceof
 from pygeodesy.datum import Datum, Datums
-from pygeodesy.errors import _item_, LimitError, _limiterrors, _ValueError
+from pygeodesy.errors import _item_, LimitError, _limiterrors, \
+                              PointsError, _ValueError
 from pygeodesy.fmath import fsum_, hypot, hypot2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Distance4Tuple, LatLon2Tuple, PhiLam2Tuple, \
@@ -22,13 +23,7 @@ from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.06.15'
-
-
-class PointsError(_ValueError):
-    '''Insufficient number of points.
-    '''
-    pass
+__version__ = '20.06.17'
 
 
 def _scale_deg(lat1, lat2):  # degrees
@@ -540,7 +535,7 @@ def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
        @raise TypeError: Invalid B{C{datum}}.
 
        @note: The meridional and prime_vertical radii of curvature
-              are taken and scaled at the mean latitude.
+              are taken and scaled I{at the mean latitude}.
 
        @see: Functions L{flatLocal}/L{hubeny}, L{cosineAndoyerLambert_},
              L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
@@ -879,8 +874,8 @@ def points2(points, closed=True, base=None, Error=PointsError):
 
 
 def thomas(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
-    '''Compute the distance between two (ellipsoidal) points using the
-       U{Thomas<https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>}
+    '''Compute the distance between two (ellipsoidal) points using
+       U{Thomas'<https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>}
        formula.
 
        @arg lat1: Start latitude (C{degrees}).
@@ -1013,7 +1008,7 @@ def vincentys_(phi2, phi1, lam21):
 
        @note: Functions L{vincentys_}, L{haversine_} and L{cosineLaw_}
               produce equivalent results, but L{vincentys_} is suitable
-              for antipodal points but slightly more expensive (M{3 cos,
+              for antipodal points and slightly more expensive (M{3 cos,
               3 sin, 1 hypot, 1 atan2, 6 mul, 2 add}) than L{haversine_}
               (M{2 cos, 2 sin, 2 sqrt, 1 atan2, 5 mul, 1 add}) and
               L{cosineLaw_} (M{3 cos, 3 sin, 1 acos, 3 mul, 1 add}).

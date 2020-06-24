@@ -44,7 +44,7 @@ from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 __all__ = _ALL_LAZY.ellipsoidalKarney + (
           'Cartesian', 'LatLon',  # classes
           'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
-__version__ = '20.05.28'
+__version__ = '20.06.16'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -180,7 +180,7 @@ class LatLon(LatLonEllipsoidalBase):
         r = self._direct(distance, bearing, self.classof, height)
         return self._xnamed(r)
 
-    def distanceTo(self, other, wrap=False):
+    def distanceTo(self, other, wrap=False, **unused):  # for -DistanceTo
         '''Compute the distance between this and an other point
            along a geodesic, using Karney's C{Inverse} method.
            See method L{distanceTo3} for more details.

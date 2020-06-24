@@ -46,7 +46,7 @@ __all__ = _ALL_LAZY.sphericalTrigonometry + (
           'nearestOn2', 'nearestOn3',
           'perimeterOf',
           'sumOf')  # == vector3d.sumOf
-__version__ = '20.06.14'
+__version__ = '20.06.16'
 
 
 def _destination2(a, b, r, t):

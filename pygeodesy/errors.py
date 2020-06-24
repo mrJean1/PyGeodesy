@@ -12,11 +12,12 @@ from pygeodesy.lazily import _ALL_LAZY, _environ
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.06.12'
+__version__ = '20.06.20'
 
 _Degrees     = 'degrees'     # PYCHOK exported to .dms, .frechet, .hausdorff, .units
 _Invalid     = 'invalid'
 _limiterrors =  True         # imported by .formy
+_Meter       = 'meter'       # PYCHOK exported to .frechet, .hausdorff, .heights
 _Not_convex  = 'not convex'  # PYCHOK exported to .clipy, .sphericalTrigonometry
 _Radians     = 'radians'     # PYCHOK exported to .dms, .frechet, .hausdorff, .units
 _Radians2    = 'radians**2'  # PYCHOK exported to .frechet, .hausdorff
@@ -168,6 +169,12 @@ class ParseError(_ValueError):
     pass
 
 
+class PointsError(_ValueError):
+    '''Error for an insufficient number of points.
+    '''
+    pass
+
+
 class RangeError(_ValueError):
     '''Error raised for lat- or longitude values outside the B{C{clip}},
        B{C{clipLat}}, B{C{clipLon}} or B{C{limit}} range in function
@@ -175,6 +182,27 @@ class RangeError(_ValueError):
        L{parseDMS2} or L{parseRad}.
 
        @see: Function L{rangerrors}.
+    '''
+    pass
+
+
+class SciPyError(PointsError):
+    '''Error raised for C{SciPy} errors.
+    '''
+    pass
+
+
+class SciPyWarning(PointsError):
+    '''Error thrown for C{SciPy} warnings.
+
+       To raise C{SciPy} warnings as L{SciPyWarning} exceptions, Python
+       C{warnings} must be filtered as U{warnings.filterwarnings('error')
+       <https://docs.Python.org/3/library/warnings.html#the-warnings-filter>}
+       I{prior to} C{import scipy} or by setting environment variable
+       U{PYTHONWARNINGS<https://docs.Python.org/3/using/cmdline.html
+       #envvar-PYTHONWARNINGS>} or with C{python} command line option
+       U{-W<https://docs.Python.org/3/using/cmdline.html#cmdoption-w>}
+       as C{error}.
     '''
     pass
 
@@ -413,6 +441,14 @@ def rangerrors(raiser=None):
     if raiser in (True, False):
         _rangerrors = raiser
     return t
+
+
+def _SciPyIssue(x, *extras):  # PYCHOK no cover
+    t = ' '.join(str(x).strip().split() + map(str, extras))
+    if isinstance(x, (RuntimeWarning, UserWarning)):
+        return SciPyWarning(t)
+    else:
+        return SciPyError(t)  # PYCHOK not really
 
 
 def _xkwds_Error(_xkwds_func, kwds, name_default):

@@ -65,8 +65,14 @@
   class="link">FrechetDegrees</a>, <a 
   href="pygeodesy.frechet.FrechetRadians-class.html" 
   class="link">FrechetRadians</a>, <a 
+  href="pygeodesy.frechet.FrechetCosineAndoyerLambert-class.html" 
+  class="link">FrechetCosineAndoyerLambert</a>, <a 
+  href="pygeodesy.frechet.FrechetCosineForsytheAndoyerLambert-class.html" 
+  class="link">FrechetCosineForsytheAndoyerLambert</a>, <a 
   href="pygeodesy.frechet.FrechetCosineLaw-class.html" 
   class="link">FrechetCosineLaw</a>, <a 
+  href="pygeodesy.frechet.FrechetDistanceTo-class.html" 
+  class="link">FrechetDistanceTo</a>&lt; <a 
   href="pygeodesy.frechet.FrechetEquirectangular-class.html" 
   class="link">FrechetEquirectangular</a>, <a 
   href="pygeodesy.frechet.FrechetEuclidean-class.html" 
@@ -80,14 +86,20 @@
   href="pygeodesy.frechet.FrechetHubeny-class.html" 
   class="link">FrechetHubeny</a>, <a 
   href="pygeodesy.frechet.FrechetKarney-class.html" 
-  class="link">FrechetKarney</a> and <a 
+  class="link">FrechetKarney</a>, <a 
+  href="pygeodesy.frechet.FrechetThomas-class.html" 
+  class="link">FrechetThomas</a> and <a 
   href="pygeodesy.frechet.FrechetVincentys-class.html" 
   class="link">FrechetVincentys</a> to compute <i>discrete</i> <a 
   href="https://WikiPedia.org/wiki/Frechet_distance" 
   target="_top">Fr&#233;chet</a> distances between two sets of 
   <code>LatLon</code>, <code>NumPy</code>, <code>tuples</code> or other 
   types of points.</p>
-  <p>Only <a href="pygeodesy.frechet.FrechetKarney-class.html" 
+  <p>Only <a href="pygeodesy.frechet.FrechetDistanceTo-class.html" 
+  class="link">FrechetDistanceTo</a> -iff used with <a 
+  href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+  class="link">ellipsoidalKarney.LatLon</a> points- and <a 
+  href="pygeodesy.frechet.FrechetKarney-class.html" 
   class="link">FrechetKarney</a> requires installation of <i>Charles 
   Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a>.</p>
@@ -162,7 +174,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.06.15
+        20.06.17
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -232,11 +244,43 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.frechet.FrechetCosineAndoyerLambert-class.html" class="summary-name">FrechetCosineAndoyerLambert</a><br />
+      Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
+        class="link">cosineAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.frechet.FrechetCosineForsytheAndoyerLambert-class.html" class="summary-name">FrechetCosineForsytheAndoyerLambert</a><br />
+      Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert_" 
+        class="link">cosineForsytheAndoyerLambert_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetCosineLaw-class.html" class="summary-name">FrechetCosineLaw</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#cosineLaw_" 
         class="link">cosineLaw_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.frechet.FrechetDistanceTo-class.html" class="summary-name">FrechetDistanceTo</a><br />
+      Compute the <code>Frechet</code> distance based on the distance 
+        from the points' <code>LatLon.distanceTo</code> method, 
+        conventionally in <code>meter</code>.
     </td>
   </tr>
 <tr>
@@ -292,8 +336,7 @@
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetHaversine-class.html" class="summary-name">FrechetHaversine</a><br />
       Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> <code>Haversine</code> distance in 
-        <code>radians</code> from function <a 
+        <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#haversine_" 
         class="link">haversine_</a>.
     </td>
@@ -328,10 +371,20 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.frechet.FrechetThomas-class.html" class="summary-name">FrechetThomas</a><br />
+      Compute the <code>Frechet</code> distance based on the 
+        <i>angular</i> distance in <code>radians</code> from function <a 
+        href="pygeodesy.formy-module.html#thomas_" 
+        class="link">thomas_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetVincentys-class.html" class="summary-name">FrechetVincentys</a><br />
       Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> <code>Vincenty</code> distance in 
-        <code>radians</code> from function <a 
+        <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
     </td>
@@ -545,7 +598,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jun 15 19:25:45 2020
+    Generated by Epydoc 3.0.1 on Wed Jun 24 12:37:47 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.06.15'
+__version__ = '20.06.24'
 
 
 def _c2(*names):
@@ -69,7 +69,7 @@ _KeyWords = ('altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'bearing',
              'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker',
              'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
              'scipy', 'simplify', 'Soldner', 'sphere', 'stereographic',
-             'Sutherland', 'Sutherland-Hodgman',
+             'Sudano', 'Sutherland', 'Sutherland-Hodgman',
              'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
              'TransverseMercatorExact', 'TRF', 'trigonometry',
              'unroll', 'UPS', 'UTM', 'UTM/UPS',

@@ -4,17 +4,20 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '20.06.15'
+__version__ = '20.06.18'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
 from pygeodesy import Datums, fStr, hausdorff_, \
+                      HausdorffCosineAndoyerLambert, \
+                      HausdorffCosineForsytheAndoyerLambert, \
                       HausdorffDegrees, HausdorffRadians, \
                       HausdorffCosineLaw, HausdorffEquirectangular, \
                       HausdorffEuclidean, HausdorffFlatLocal, \
                       HausdorffFlatPolar, HausdorffHaversine, \
                       HausdorffHubeny, HausdorffKarney, \
-                      HausdorffVincentys, LatLon_, randomrangenerator
+                      HausdorffThomas, HausdorffVincentys, \
+                      LatLon_, randomrangenerator
 
 
 class HausdorffDegrees_(HausdorffDegrees):
@@ -109,6 +112,12 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffRadians_, *_4((0.69813, 22,  6,  90, 0.31697),
                                        (0.83776, 38, 36, 150, 0.30206)))
 
+        t.test4(HausdorffCosineAndoyerLambert, *_4((0.501, 35, 3,  90, 0.21184),
+                                                   (0.501, 35, 3, 150, 0.20084)))
+
+        t.test4(HausdorffCosineForsytheAndoyerLambert, *_4((0.501, 35, 3,  90, 0.21184),
+                                                           (0.501, 35, 3, 150, 0.20084)))
+
         t.test4(HausdorffCosineLaw, *_4((0.50097, 35, 3,  90, 0.212),
                                         (0.50097, 35, 3, 150, 0.20099)))
 
@@ -130,6 +139,9 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffHubeny, *_4((0.25116, 35, 3,  90, 0.05951),
                                      (0.25116, 35, 3, 150, 0.0552)))
 
+        t.test4(HausdorffThomas, *_4((0.501, 35, 3,  90, 0.21184),
+                                     (0.501, 35, 3, 150, 0.20084)))
+
         t.test4(HausdorffVincentys, *_4((0.50097, 35, 3,  90, 0.212),
                                         (0.50097, 35, 3, 150, 0.20099)))
 
@@ -147,6 +159,12 @@ if __name__ == '__main__':  # MCCABE 13
 
         t.test4(HausdorffRadians_, *_4((0.89012, 10, 50,  90, 0.2779),
                                        (0.89012, 10, 50, 150, 0.25005)))
+
+        t.test4(HausdorffCosineAndoyerLambert, *_4((0.3105, 40, 0,  90, 0.04826),
+                                                   (0.3105, 40, 0, 150, 0.04061)))
+
+        t.test4(HausdorffCosineForsytheAndoyerLambert, *_4((0.3105, 40, 0,  90, 0.04826),
+                                                           (0.3105, 40, 0, 150, 0.04061)))
 
         t.test4(HausdorffCosineLaw, *_4((0.52674, 74, 45,  90, 0.18192),
                                         (0.52674, 74, 45, 150, 0.16555)))
@@ -169,6 +187,9 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffHubeny, *_4((0.3105, 40, 0,  90, 0.04826),
                                      (0.3105, 40, 0, 150, 0.04061)))
 
+        t.test4(HausdorffThomas, *_4((0.3105, 40, 0,  90, 0.04826),
+                                     (0.3105, 40, 0, 150, 0.04061)))
+
         t.test4(HausdorffVincentys, *_4((0.52674, 74, 45,  90, 0.18192),
                                         (0.52674, 74, 45, 150, 0.16555)))
 
@@ -186,6 +207,12 @@ if __name__ == '__main__':  # MCCABE 13
 
         t.test4(HausdorffRadians_, *_4((0.88139, 61, 7,  90, 0.32211),
                                        (0.88139, 61, 7, 150, 0.28013)))
+
+        t.test4(HausdorffCosineAndoyerLambert, *_4((0.56263, 49, 29,  90, 0.19764),
+                                                   (0.56263, 49, 29, 150, 0.17591)))
+
+        t.test4(HausdorffCosineForsytheAndoyerLambert, *_4((0.56263, 49, 29,  90, 0.19764),
+                                                           (0.56263, 49, 29, 150, 0.17591)))
 
         t.test4(HausdorffCosineLaw, *_4((0.56202, 49, 29,  90, 0.19776),
                                         (0.56202, 49, 29, 150, 0.176)))
@@ -207,6 +234,9 @@ if __name__ == '__main__':  # MCCABE 13
 
         t.test4(HausdorffHubeny, *_4((0.33092, 49, 29,  90, 0.06067),
                                      (0.33092, 49, 29, 150, 0.04912)))
+
+        t.test4(HausdorffThomas, *_4((0.56263, 49, 29,  90, 0.19764),
+                                     (0.56263, 49, 29, 150, 0.17591)))
 
         t.test4(HausdorffVincentys, *_4((0.56202, 49, 29,  90, 0.19776),
                                         (0.56202, 49, 29, 150, 0.176)))

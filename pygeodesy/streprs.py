@@ -11,7 +11,7 @@ from pygeodesy.lazily import _ALL_LAZY
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.05.15'
+__version__ = '20.06.24'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int
@@ -170,7 +170,7 @@ def fstrzs(efstr, ap1z=False):
 
 
 def instr(inst, *args, **kwds):
-    '''Return the string representation of an instantion.
+    '''Return the string representation of an instantiation.
 
        @arg inst: The instance (any C{type}).
        @arg args: Optional positional arguments.

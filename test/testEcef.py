@@ -5,14 +5,20 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.04.04'
+__version__ = '20.06.22'
 
 from base import TestsBase
 
-from pygeodesy import Datums, EcefCartesian, EcefKarney, EcefMatrix, EcefVeness, EcefYou, \
-                      Ellipsoids, fstr, latDMS, LatLon_, lonDMS, nvector, parse3llh
+from pygeodesy import Datums, EcefCartesian, EcefKarney, EcefMatrix, \
+                      EcefSudano, EcefVeness, EcefYou, Ellipsoids, fstr, \
+                      latDMS, LatLon_, lonDMS, nvector, parse3llh
 
 from math import radians
+
+
+def _known(t, lat, height):
+    # if lat is off, so is height
+    return abs(t.lat - lat) < 0.1 and abs(t.height - height) < 10.0
 
 
 class Tests(TestsBase):
@@ -22,6 +28,7 @@ class Tests(TestsBase):
         self.test(Ecef.__name__, '...', '...', nl=1)
 
         Karney = Ecef is EcefKarney
+        Sudano = Ecef is EcefSudano
 
         g = Ecef(Datums.WGS84, name='Test')
         self.test('name', g.name, 'Test')
@@ -42,15 +49,15 @@ class Tests(TestsBase):
 
         t = g.reverse(302271.4, 5635928.4, 2979666.1)
         self.test('reverse', fstr(t[0:3], prec=1), '302271.4, 5635928.4, 2979666.1')
-        self.test('reverse', fstr(t[3:6], prec=2), '27.99, 86.93, 8820.01')
-        self.test('case', t.C, 2 if Karney else 1)
+        self.test('reverse', fstr(t[3:6], prec=2), '27.99, 86.93, 8820.01', known=Sudano and _known(t, 27.99, 8820))
+        self.test('case', t.C, 2 if Karney else (5 if Sudano else 1))
         self.test('name', t.name, 'Test')
 
         # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>
         t = g.reverse(302e3, 5636e3, 2980e3)
         self.test('reverse', fstr(t[0:3], prec=1), '302000.0, 5636000.0, 2980000.0')
-        self.test('reverse', fstr(t[3:6], prec=2), '27.99, 86.93, 9027.03')  # 8820.0
-        self.test('case', t.C, 2 if Karney else 1)
+        self.test('reverse', fstr(t[3:6], prec=2), '27.99, 86.93, 9027.03', known=Sudano and _known(t, 27.99, 9027))
+        self.test('case', t.C, 2 if Karney else (5 if Sudano else 1))
 
         t = g.forward(27.99, 86.93, 8820.0)
         self.test('forward', fstr(t[3:6], prec=2), '27.99, 86.93, 8820.0')
@@ -63,14 +70,14 @@ class Tests(TestsBase):
 
         t = g.reverse(3816209.6, 3737108.55, 3485109.57)
         self.test('reverse', fstr(t[0:3], prec=2), '3816209.6, 3737108.55, 3485109.57')
-        self.test('reverse', fstr(t[3:6], prec=3), '33.3, 44.4, 5999.996')  # 6000.0
-        self.test('case', t.C, 2 if Karney else 1)
+        self.test('reverse', fstr(t[3:6], prec=3), '33.3, 44.4, 5999.996', known=Sudano and _known(t, 33.3, 5999))
+        self.test('case', t.C, 2 if Karney else (5 if Sudano else 1))
 
         # <https://GeographicLib.SourceForge.io/html/CartConvert.1.html>
         t = g.reverse(30000, 30000, 0)
         self.test('reverse', fstr(t[0:3], prec=1), '30000.0, 30000.0, 0.0')
         self.test('reverse', fstr(t[3:6], prec=3), '6.483, 45.0, -6335709.726', known=not Karney)
-        self.test('case', t.C, 3 if Karney else 1)
+        self.test('case', t.C, 3 if Karney else (0 if Sudano else 1))
 
         t = g.forward(6.483, 45.0, -6335709.726)
         self.test('forward', fstr(t[3:6], prec=3), '6.483, 45.0, -6335709.726')
@@ -89,13 +96,18 @@ class Tests(TestsBase):
             i = '-%d' % (i + 1,)
             r = '45.0, 120.0, %.1f' % (h,)  # Zero and First order columns
             t = g.reverse(x, y, z)
-            self.test('reverse' + i, fstr(t[3:6], prec=3), r)
+            k = Sudano and _known(t, 45, h)
+            self.test('reverse' + i, fstr(t[3:6], prec=3), r, known=k)
             f = g.forward(t.lat, t.lon, t.height)
-            self.test('forward' + i, fstr(f[0:3], prec=1), fstr((x, y, z), prec=1))
-            self.test('xyzh' + i, fstr(f.xyzh, prec=1), fstr((x, y, z, h), prec=1))
+            self.test('forward' + i, fstr(f[0:3], prec=1), fstr((x, y, z), prec=1), known=k)
+            self.test('xyzh' + i, fstr(f.xyzh, prec=1), fstr((x, y, z, h), prec=1), known=k)
             f = f.phi, f.lam
             t = radians(t.lat), radians(t.lon)
             self.test('philam' + i, fstr(f, prec=4), fstr(t, prec=4))
+
+        # <https://www.researchgate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>
+        t = g.reverse(4588301.55696757, 0, 4558059.086984613)
+        self.test('sudano', fstr(t[3:6], prec=3), '45.0, 0.0, 100000.0', known=Sudano)
 
         # <https://www.OrdnanceSurvey.co.UK/documents/resources/guide-coordinate-systems-great-britain.pdf> pp 47
         g = Ecef(Ellipsoids.GRS80, name='OS-UK')
@@ -107,11 +119,11 @@ class Tests(TestsBase):
 
         t = g.reverse(3790644.9, -110149.21, 5111482.97)
         self.test('reverse', fstr(t[0:3], prec=2), '3790644.9, -110149.21, 5111482.97')
-        self.test('reverse', fstr(t[3:5], prec=8), '53.61199036, -1.66444223')
-        self.test('reverse.lat', latDMS(t.lat, prec=4), '53°36′43.1653″N')
+        self.test('reverse', fstr(t[3:5], prec=8), '53.61199036, -1.66444223', known=Sudano)
+        self.test('reverse.lat', latDMS(t.lat, prec=4), '53°36′43.1653″N', known=Sudano)
         self.test('reverse.lon', lonDMS(t.lon, prec=4), '001°39′51.992″W')
-        self.test('reverse.height', fstr(t.height, prec=-3), '299.800')
-        self.test('case', t.C, 2 if Karney else 1)
+        self.test('reverse.height', fstr(t.height, prec=-3), '299.800', known=Sudano)
+        self.test('case', t.C, 2 if Karney else (6 if Sudano else 1))
 
     def testEcefCartesian(self):
 
@@ -226,6 +238,7 @@ if __name__ == '__main__':
     t.testEcef(EcefKarney)
     t.testEcefCartesian()
     t.testEcef(EcefVeness)
+    t.testEcef(EcefSudano)
     t.testEcef(EcefYou)
     t.testEcefMatrix()
     t.testLatLonEcef(ellipsoidalKarney)

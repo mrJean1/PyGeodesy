@@ -147,7 +147,7 @@ R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.datum + _ALL_DOCS('Curvature2Tuple')
-__version__ = '20.06.15'
+__version__ = '20.06.20'
 
 _Flts = {}  # cache, deleted below
 _TOL  = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -475,7 +475,9 @@ class Ellipsoid(_NamedEnumItem):
 
     def distance2(self, lat0, lon0, lat1, lon1):
         '''Approximate the distance and (initial) bearing between two
-           points based on the radii of curvature at the initial point.
+           points based on the U{local, flat earth approximation
+           <https://www.EdWilliams.org/avform.htm#flat>} aka U{Hubeny
+           <https://www.OVG.AT/de/vgi/files/pdf/3781/>} formula.
 
            Suitable only for distances of several hundred Km or Miles
            and only between points not near-polar.
@@ -488,10 +490,10 @@ class Ellipsoid(_NamedEnumItem):
            @return: A L{Distance2Tuple}C{(distance, initial)} with C{distance}
                     in same units as this ellipsoid's axes.
 
-           @see: Function L{flatLocal}, U{local, flat earth approximation
-                 <https://www.EdWilliams.org/avform.htm#flat>} and meridional
-                 and prime vertical U{Radii of Curvature
-                 <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
+           @note: The meridional and prime_vertical radii of curvature
+                  are taken and scaled I{at the initial latitude}.
+
+           @see: Function L{flatLocal}/L{hubeny}.
         '''
         phi0 = Phi_(lat0, name='lat0')
         m, n = self.roc2_(phi0, scaled=True)

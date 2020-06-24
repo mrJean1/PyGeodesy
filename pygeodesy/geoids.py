@@ -63,10 +63,10 @@ from pygeodesy.basics import EPS, len2, map1, map2, NN, property_RO
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, _item_, LenError, \
-                              RangeError
+                              RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, \
-                              _HeightBase, HeightError, _SciPyIssue
+                              _HeightBase, HeightError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon3Tuple, _Named, _NamedTuple, \
                             notOverloaded
@@ -89,7 +89,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('GeoidHeight5Tuple', '_GeoidBase')
-__version__ = '20.05.14'
+__version__ = '20.06.17'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
