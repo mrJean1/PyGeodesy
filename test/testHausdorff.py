@@ -4,7 +4,7 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '20.06.18'
+__version__ = '20.06.24'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
@@ -160,11 +160,11 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffRadians_, *_4((0.89012, 10, 50,  90, 0.2779),
                                        (0.89012, 10, 50, 150, 0.25005)))
 
-        t.test4(HausdorffCosineAndoyerLambert, *_4((0.3105, 40, 0,  90, 0.04826),
-                                                   (0.3105, 40, 0, 150, 0.04061)))
+        t.test4(HausdorffCosineAndoyerLambert, *_4((0.52412, 74, 45,  90, 0.18171),
+                                                   (0.52412, 74, 45, 150, 0.16541)))
 
-        t.test4(HausdorffCosineForsytheAndoyerLambert, *_4((0.3105, 40, 0,  90, 0.04826),
-                                                           (0.3105, 40, 0, 150, 0.04061)))
+        t.test4(HausdorffCosineForsytheAndoyerLambert, *_4((0.52412, 74, 45,  90, 0.18171),
+                                                           (0.52412, 74, 45, 150, 0.16541)))
 
         t.test4(HausdorffCosineLaw, *_4((0.52674, 74, 45,  90, 0.18192),
                                         (0.52674, 74, 45, 150, 0.16555)))
@@ -187,8 +187,8 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffHubeny, *_4((0.3105, 40, 0,  90, 0.04826),
                                      (0.3105, 40, 0, 150, 0.04061)))
 
-        t.test4(HausdorffThomas, *_4((0.3105, 40, 0,  90, 0.04826),
-                                     (0.3105, 40, 0, 150, 0.04061)))
+        t.test4(HausdorffThomas, *_4((0.52412, 74, 45,  90, 0.18171),
+                                     (0.52412, 74, 45, 150, 0.16541)))
 
         t.test4(HausdorffVincentys, *_4((0.52674, 74, 45,  90, 0.18192),
                                         (0.52674, 74, 45, 150, 0.16555)))
