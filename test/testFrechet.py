@@ -4,7 +4,7 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '20.06.18'
+__version__ = '20.06.24'
 
 from base import coverage, geographiclib, isPython3, isWindows, \
                  TestsBase
@@ -123,11 +123,11 @@ if __name__ == '__main__':  # MCCABE 13
         t.test2(FrechetRadians_, (3.18523, 83, 45,   21,  5400),
                                  (3.06742, 83, 56.5, 12, 10710))
 
-        t.test2(FrechetCosineAndoyerLambert, (5.85735, 42, 19,    88,  5400),
-                                             (5.89746, 40, 15.5, 137, 10710))
+        t.test2(FrechetCosineAndoyerLambert, (1.74692, 49, 27,  73,  5400),
+                                             (1.74692, 49, 27, 105, 10710))
 
-        t.test2(FrechetCosineForsytheAndoyerLambert, (5.85735, 42, 19,    88,  5400),
-                                                     (5.89746, 40, 15.5, 137, 10710))
+        t.test2(FrechetCosineForsytheAndoyerLambert, (1.74692, 49, 27,  73,  5400),
+                                                     (1.74692, 49, 27, 105, 10710))
 
         t.test2(FrechetCosineLaw, (1.75068, 49, 27,  73,  5400),
                                   (1.75068, 49, 27, 105, 10710))
@@ -150,8 +150,8 @@ if __name__ == '__main__':  # MCCABE 13
         t.test2(FrechetHubeny, (5.85735, 42, 19,    88,  5400),
                                (5.89746, 40, 15.5, 137, 10710))
 
-        t.test2(FrechetThomas, (5.85735, 42, 19,    88,  5400),
-                               (5.89746, 40, 15.5, 137, 10710))
+        t.test2(FrechetThomas, (1.74692, 49, 27,  73,  5400),
+                               (1.74692, 49, 27, 105, 10710)))
 
         t.test2(FrechetVincentys, (1.75068, 49, 27,  73,  5400),
                                   (1.75068, 49, 27, 105, 10710))
