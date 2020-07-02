@@ -82,7 +82,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff + _ALL_DOCS('Hausdorff6Tuple')
-__version__ = '20.06.17'
+__version__ = '20.06.25'
 
 
 class HausdorffError(PointsError):
@@ -270,7 +270,7 @@ class HausdorffDegrees(Hausdorff):
     '''
     _units = _Degrees
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __init__  = Hausdorff.__init__
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
@@ -282,7 +282,7 @@ class HausdorffRadians(Hausdorff):
     '''
     _units = _Radians
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __init__  = Hausdorff.__init__
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
@@ -331,7 +331,7 @@ class HausdorffCosineAndoyerLambert(HausdorffRadians):
                                                            wrap=wrap)
         self._datum_setter(datum)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -374,7 +374,7 @@ class HausdorffCosineForsytheAndoyerLambert(HausdorffRadians):
                                                            wrap=wrap)
         self._datum_setter(datum)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -416,7 +416,7 @@ class HausdorffCosineLaw(HausdorffRadians):
         HausdorffRadians.__init__(self, points, seed=seed, name=name,
                                                            wrap=wrap)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -467,7 +467,7 @@ class HausdorffDistanceTo(Hausdorff):
         if distanceTo_kwds:
             self._distanceTo_kwds = distanceTo_kwds
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -509,7 +509,7 @@ class HausdorffEquirectangular(HausdorffRadians):
         HausdorffRadians.__init__(self, points, seed=seed,   name=name,
                                               adjust=adjust, wrap=wrap)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -554,7 +554,7 @@ class HausdorffEuclidean(HausdorffRadians):
         if not adjust:
             self._adjust = False
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -602,7 +602,7 @@ class HausdorffFlatLocal(HausdorffRadians):
         self._datum_setter(datum)
         self._hubeny2_ = self.datum.ellipsoid._hubeny2_
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -641,7 +641,7 @@ class HausdorffFlatPolar(HausdorffRadians):
         HausdorffRadians.__init__(self, points, seed=seed, name=name,
                                                            wrap=wrap)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -681,7 +681,7 @@ class HausdorffHaversine(HausdorffRadians):
         HausdorffRadians.__init__(self, points, seed=seed, name=name,
                                                            wrap=wrap)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -693,7 +693,7 @@ class HausdorffHaversine(HausdorffRadians):
 
 
 class HausdorffHubeny(HausdorffFlatLocal):  # for Karl Huebny
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __doc__   = HausdorffFlatLocal.__doc__
         __init__  = HausdorffFlatLocal.__init__
         directed  = HausdorffFlatLocal.directed
@@ -745,7 +745,7 @@ class HausdorffKarney(HausdorffDegrees):
         self._datum_setter(datum)
         self._Inverse1 = self.datum.ellipsoid.geodesic.Inverse1
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -788,7 +788,7 @@ class HausdorffThomas(HausdorffRadians):
                                                            wrap=wrap)
         self._datum_setter(datum)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
@@ -829,7 +829,7 @@ class HausdorffVincentys(HausdorffRadians):
         HausdorffRadians.__init__(self, points, seed=seed, name=name,
                                                            wrap=wrap)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 

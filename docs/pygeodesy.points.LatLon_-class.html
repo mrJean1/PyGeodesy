@@ -93,14 +93,8 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Creat a new, mininal, low-overhead <a 
-      href="pygeodesy.points.LatLon_-class.html" class="link">LatLon_</a> 
-      instance, without heigth and datum.</td>
+          <td><span class="summary-sig"><a name="__eq__"></a><span class="summary-sig-name">__eq__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other</span>)</span></td>
           <td align="right" valign="top">
             
             
@@ -116,8 +110,14 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__eq__"></a><span class="summary-sig-name">__eq__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span></td>
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Creat a new, mininal, low-overhead <a 
+      href="pygeodesy.points.LatLon_-class.html" class="link">LatLon_</a> 
+      instance, without heigth and datum.</td>
           <td align="right" valign="top">
             
             
@@ -338,11 +338,14 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      DEPRECATED, used method <a 
-      href="pygeodesy.points.LatLon_-class.html#toRepr" 
-      class="link">LatLon_.toRepr</a>.</td>
+      This <a href="pygeodesy.points.LatLon_-class.html" 
+      class="link">LatLon_</a> as a string &quot;&lt;degrees&gt;, 
+      &lt;degrees&gt;&quot;.</td>
           <td align="right" valign="top">
             
             
@@ -358,14 +361,11 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+          <td><span class="summary-sig"><a href="pygeodesy.points.LatLon_-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      This <a href="pygeodesy.points.LatLon_-class.html" 
-      class="link">LatLon_</a> as a string &quot;&lt;degrees&gt;, 
-      &lt;degrees&gt;&quot;.</td>
+      DEPRECATED, used method <a 
+      href="pygeodesy.points.LatLon_-class.html#toRepr" 
+      class="link">LatLon_.toRepr</a>.</td>
           <td align="right" valign="top">
             
             
@@ -404,6 +404,20 @@ object --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="height"></a><span class="summary-name">height</span>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="lat"></a><span class="summary-name">lat</span>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.points.LatLon_-class.html#latlon" class="summary-name">latlon</a><br />
       Get the lat- and longitude in <code>degrees</code> (<a 
       href="pygeodesy.named.LatLon2Tuple-class.html" 
@@ -424,6 +438,20 @@ object --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="lon"></a><span class="summary-name">lon</span>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="name"></a><span class="summary-name">name</span>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.points.LatLon_-class.html#philam" class="summary-name">philam</a><br />
       Get the lat- and longitude in <code>radians</code> (<a 
       href="pygeodesy.named.PhiLam2Tuple-class.html" 
@@ -438,34 +466,6 @@ object --+
       Get the lat-, longitude in <code>radians</code> and height (<a 
       href="pygeodesy.named.PhiLam3Tuple-class.html" 
       class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="height"></a><span class="summary-name">height</span>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="lat"></a><span class="summary-name">lat</span>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="lon"></a><span class="summary-name">lon</span>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="name"></a><span class="summary-name">name</span>
     </td>
   </tr>
   <tr>
@@ -791,34 +791,6 @@ object --+
   </dl>
 </td></tr></table>
 </div>
-<a name="toStr2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, used method <a 
-  href="pygeodesy.points.LatLon_-class.html#toRepr" 
-  class="link">LatLon_.toRepr</a>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Class instance (<code>str</code>).</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="toStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -851,6 +823,34 @@ object --+
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Instance (<code>str</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toStr2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, used method <a 
+  href="pygeodesy.points.LatLon_-class.html#toRepr" 
+  class="link">LatLon_.toRepr</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>kwds</code></strong> - Optional, keyword arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Class instance (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -992,7 +992,7 @@ class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jun 24 13:37:57 2020
+    Generated by Epydoc 3.0.1 on Wed Jul  1 20:30:29 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

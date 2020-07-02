@@ -19,7 +19,7 @@ from math import cos, degrees, radians, sin, tan  # pow
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '20.05.08'
+__version__ = '20.06.28'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = 1.0 / 90  # 0.011111111111111111111111111111111111111111111111
@@ -275,7 +275,7 @@ def radiansPI_2(deg):
     return _wrap(radians(deg), PI_2, PI2)
 
 
-def _sincos2(q, r):
+def _sincos2(i, r):
     '''(INTERNAL) 2-tuple (C{sin(r), cos(r)}) in quadrant C{q}.
     '''
     if r:
@@ -283,8 +283,8 @@ def _sincos2(q, r):
         t = s, c, -s, -c, s
     else:  # XXX sin(-0.0)?
         t = 0.0, 1.0, -0.0, -1.0, 0.0
-    q &= 3
-    return t[q], t[q + 1]
+#   i &= 3
+    return t[i], t[i + 1]
 
 
 def sincos2(*rad):
@@ -305,7 +305,7 @@ def sincos2(*rad):
         q = int(r * _2_PI)  # int(math.floor)
         if r < 0:
             q -= 1
-        s, c = _sincos2(q, r - q * PI_2)  # 0 <= r < PI_2
+        s, c = _sincos2(q & 3, r - q * PI_2)  # 0 <= r < PI_2
         yield s
         yield c
 
@@ -328,7 +328,7 @@ def sincos2d(*deg):
         q = int(d * _1_90)  # int(math.floor)
         if d < 0:
             q -= 1
-        s, c = _sincos2(q, radians(d - q * 90))  # 0 <= r < PI_2
+        s, c = _sincos2(q & 3, radians(d - q * 90))  # 0 <= r < PI_2
         yield s
         yield c
 

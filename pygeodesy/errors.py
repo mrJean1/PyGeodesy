@@ -12,7 +12,7 @@ from pygeodesy.lazily import _ALL_LAZY, _environ
 
 # all public contants, classes and functions
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.06.20'
+__version__ = '20.07.01'
 
 _Degrees     = 'degrees'     # PYCHOK exported to .dms, .frechet, .hausdorff, .units
 _Invalid     = 'invalid'
@@ -444,11 +444,12 @@ def rangerrors(raiser=None):
 
 
 def _SciPyIssue(x, *extras):  # PYCHOK no cover
-    t = ' '.join(str(x).strip().split() + map(str, extras))
+    t = map(str, extras) if extras else []
+    t = ' '.join(str(x).strip().split() + t)
     if isinstance(x, (RuntimeWarning, UserWarning)):
-        return SciPyWarning(t)
+        return _cause_(SciPyWarning(t), other=x)
     else:
-        return SciPyError(t)  # PYCHOK not really
+        return _cause_(SciPyError(t), other=x)  # PYCHOK not really
 
 
 def _xkwds_Error(_xkwds_func, kwds, name_default):

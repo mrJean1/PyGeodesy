@@ -97,7 +97,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.06.17'
+__version__ = '20.06.25'
 
 if not 0 < EPS < EPS1 < 1:
     raise _AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
@@ -326,7 +326,7 @@ class FrechetDegrees(Frechet):
     '''
     _units = _Degrees
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __init__ = Frechet.__init__
         discrete = Frechet.discrete
 
@@ -338,7 +338,7 @@ class FrechetRadians(Frechet):
     '''
     _units = _Radians
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __init__ = Frechet.__init__
         discrete = Frechet.discrete
 
@@ -388,7 +388,7 @@ class FrechetCosineAndoyerLambert(FrechetRadians):
                                                                  wrap=wrap)
         self._datum_setter(datum)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -432,7 +432,7 @@ class FrechetCosineForsytheAndoyerLambert(FrechetRadians):
                                                                  wrap=wrap)
         self._datum_setter(datum)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -472,7 +472,7 @@ class FrechetCosineLaw(FrechetRadians):
         FrechetRadians.__init__(self, points, fraction=fraction, name=name,
                                                                  wrap=wrap)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -521,7 +521,7 @@ class FrechetDistanceTo(Frechet):
         if distanceTo_kwds:
             self._distanceTo_kwds = distanceTo_kwds
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -561,7 +561,7 @@ class FrechetEquirectangular(FrechetRadians):
         FrechetRadians.__init__(self, points, fraction=fraction, name=name,
                                                 adjust=adjust,   wrap=wrap)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -603,7 +603,7 @@ class FrechetEuclidean(FrechetRadians):
         FrechetRadians.__init__(self, points, fraction=fraction, name=name,
                                                 adjust=adjust)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -649,7 +649,7 @@ class FrechetFlatLocal(FrechetRadians):
         self._datum_setter(datum)
         self._hubeny2_ = self.datum.ellipsoid._hubeny2_
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -687,7 +687,7 @@ class FrechetFlatPolar(FrechetRadians):
         FrechetRadians.__init__(self, points, fraction=fraction, name=name,
                                                                  wrap=wrap)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -727,7 +727,7 @@ class FrechetHaversine(FrechetRadians):
         FrechetRadians.__init__(self, points, fraction=fraction, name=name,
                                                                  wrap=wrap)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -738,7 +738,7 @@ class FrechetHaversine(FrechetRadians):
 
 
 class FrechetHubeny(FrechetFlatLocal):  # for Karl Hubeny
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __doc__  = FrechetFlatLocal.__doc__
         __init__ = FrechetFlatLocal.__init__
         discrete = FrechetFlatLocal.discrete
@@ -787,7 +787,7 @@ class FrechetKarney(FrechetDegrees):
         self._datum_setter(datum)
         self._Inverse1 = self.datum.ellipsoid.geodesic.Inverse1
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -830,7 +830,7 @@ class FrechetThomas(FrechetRadians):
                                                                  wrap=wrap)
         self._datum_setter(datum)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):
@@ -870,7 +870,7 @@ class FrechetVincentys(FrechetRadians):
         FrechetRadians.__init__(self, points, fraction=fraction, name=name,
                                                                  wrap=wrap)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         discrete = Frechet.discrete
 
     def distance(self, p1, p2):

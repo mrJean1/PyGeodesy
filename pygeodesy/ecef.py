@@ -991,7 +991,7 @@ class EcefVeness(_EcefBase):
 
 class EcefSudano(EcefVeness):
     '''Conversion between geodetic and geocentric, aka I{Earth-Centered,
-       Earth-Fixed} (ECEF) coordinates based om I{John J. Sudano}'s U{paper
+       Earth-Fixed} (ECEF) coordinates based on I{John J. Sudano}'s U{paper
        <https://www.ResearchGate.net/publication/
        3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
     '''
@@ -1018,7 +1018,7 @@ class EcefSudano(EcefVeness):
 
            @raise EcefError: If B{C{xyz}} not L{Ecef9Tuple} or C{scalar} C{x}
                              or B{C{y}} and/or B{C{z}} not C{scalar} for C{scalar}
-                             B{C{xyz}} or for lack of convergence.
+                             B{C{xyz}} or no convergence.
         '''
         x, y, z, name = _xyzn4(xyz, y, z, Error=EcefError)
 

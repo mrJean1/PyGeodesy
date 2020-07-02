@@ -71,7 +71,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.06.17'
+__version__ = '20.06.25'
 
 
 class HeightError(PointsError):
@@ -371,7 +371,7 @@ class HeightLinear(HeightCubic):
         '''
         HeightCubic.__init__(self, knots, name=name)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = HeightCubic.__call__
         height   = HeightCubic.height
 
@@ -514,7 +514,7 @@ class HeightIDWcosineAndoyerLambert(_HeightIDW):
     def _distances(self, x, y):  # (x, y) radians
         return self._distances_angular_datum_(cosineAndoyerLambert_, x, y)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
         height   = _HeightIDW.height
 
@@ -556,7 +556,7 @@ class HeightIDWcosineForsytheAndoyerLambert(_HeightIDW):
     def _distances(self, x, y):  # (x, y) radians
         return self._distances_angular_datum_(cosineForsytheAndoyerLambert_, x, y)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
         height   = _HeightIDW.height
 
@@ -593,7 +593,7 @@ class HeightIDWcosineLaw(_HeightIDW):
     def _distances(self, x, y):  # (x, y) radians
         return self._distances_angular_(cosineLaw_, x, y)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
         height   = _HeightIDW.height
 
@@ -721,7 +721,7 @@ class HeightIDWequirectangular(_HeightIDW):
                 d *= _scale_rad(yk, y)
             yield hypot2(d, yk - y)  # like equirectangular_ distance2
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
         height   = _HeightIDW.height
 
@@ -758,7 +758,7 @@ class HeightIDWeuclidean(_HeightIDW):
         for xk, yk in zip(self._xs, self._ys):
             yield euclidean_(yk, y, xk - x, adjust=self._adjust)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
         height   = _HeightIDW.height
 
@@ -801,7 +801,7 @@ class HeightIDWflatLocal(_HeightIDW):
         _r2_ = self._datum.ellipsoid._hubeny2_
         return self._distances_angular_(_r2_, x, y)  # radians**2
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
         height   = _HeightIDW.height
 
@@ -836,7 +836,7 @@ class HeightIDWflatPolar(_HeightIDW):
     def _distances(self, x, y):  # (x, y) radians
         return self._distances_angular_(flatPolar_, x, y)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
         height   = _HeightIDW.height
 
@@ -873,13 +873,13 @@ class HeightIDWhaversine(_HeightIDW):
     def _distances(self, x, y):  # (x, y) radians
         return self._distances_angular_(haversine_, x, y)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
         height   = _HeightIDW.height
 
 
 class HeightIDWhubeny(HeightIDWflatLocal):  # for Karl Hubeny
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __doc__  = HeightIDWflatLocal.__doc__
         __init__ = HeightIDWflatLocal.__init__
         __call__ = HeightIDWflatLocal.__call__
@@ -971,7 +971,7 @@ class HeightIDWkarney(_HeightIDW):
         _as, llis = _allis2(llis)
         return _as(map(self._hIDW, *zip(*_xy2(llis))))
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         height   = _HeightIDW.height
 
 
@@ -1011,7 +1011,7 @@ class HeightIDWthomas(_HeightIDW):
     def _distances(self, x, y):  # (x, y) radians
         return self._distances_angular_datum_(thomas_, x, y)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
         height   = _HeightIDW.height
 
@@ -1048,7 +1048,7 @@ class HeightIDWvincentys(_HeightIDW):
     def _distances(self, x, y):  # (x, y) radians
         return self._distances_angular_(vincentys_, x, y)
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _HeightIDW.__call__
         height   = _HeightIDW.height
 

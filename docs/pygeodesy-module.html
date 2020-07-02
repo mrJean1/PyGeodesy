@@ -188,27 +188,25 @@
     <p>The tests have been run with Python 3.8.3, 3.7.6 and 2.7.18 (all 
     with <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.18.0, 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0, 
     1.17.2 respectively 1.16.5 and <a 
     href="https://SciPy.org/scipylib/download.html" target="_top">scipy</a>
-    1.4.1, 1.3.1 respectively 1.2.2), with macOS' Python 2.7.16 (without 
-    geographiclib, numpy and scipy) and with <a href="https://PyPy.org" 
-    target="_top">PyPy</a> 7.3.0 (Python 2.7.13 and 3.6.9), all on macOS 
-    10.13.6 High Sierra and <i>all in 64-bit only</i>.  The results of 
-    those tests are included in the distribution files.</p>
-    <p>With Python 3.8.3 and 3.7.6, the tests run <i>with and without</i> 
-    <code>lazy import</code>.</p>
+    1.5.0, 1.3.1 respectively 1.2.2) and with macOS' Python 2.7.16 (without
+    geographiclib, numpy and scipy), all on macOS 10.15.5 Catalina and all 
+    in 64-bit only.  The tests run with and without <code>lazy 
+    import</code> in Python 3.8.3 and 3.7.6.  The results of those tests 
+    are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
     4.5.4 using Python 3.8.3 and 3.7.6 (both with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.18.0 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0 
     respectively 1.17.2 and <a 
     href="https://SciPy.org/scipylib/download.html" target="_top">scipy</a>
-    1.4.1 respectively 1.3.1) and macOS' Python 2.7.16 (without 
-    geographiclib, numpy and scipy). A summary PDF file and a full HMTL 
-    report are included in the distribution files.</p>
+    1.5.0 respectively 1.3.1) and macOS' Python 2.7.16 (without 
+    geographiclib, numpy and scipy). The full HMTL report and a PDF summary
+    are included in the distribution files.</p>
     <p>The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1 and 3.8.0
     (and <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49 or 1.50) on <a 
@@ -217,13 +215,12 @@
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49 or 1.50) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
-    target="_top">Debian 9</a> <i>all in 64-bit only</i> and with Python 
-    2.7.15, 3.6.8, 3.7.2, and 3.8.0 (all with <a 
+    target="_top">Debian 9</a> all in 64-bit only and with Python 2.7.15, 
+    3.6.8, 3.7.2, and 3.8.0 (all with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49 or 1.50) on <a 
     href="https://CI.AppVeyor.com/project/mrJean1/pygeodesy" 
-    target="_top">Windows Server 2012R2</a> <i>in both 32- and 
-    64-bit</i>.</p>
+    target="_top">Windows Server 2012R2</a> in both 32- and 64-bit.</p>
     <p>A single-File and single-Directory application with 
     <code>pygeodesy</code> has been bundled using <a 
     href="https://www.PyInstaller.org" target="_top">PyInstaller</a> 3.4 
@@ -232,19 +229,21 @@
     2.7.10 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 
     1.14.0, 1.15.2 or 1.16.2), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 
     3.7.5, 3.8, 3.8.1 and 3.8.2, <a href="https://PyPy.org" 
-    target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3) and <a 
+    target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3), <a 
+    href="https://PyPy.org" target="_top">PyPy</a> 7.3.0 (Python 2.7.13 and
+    3.6.9) and <a 
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
     on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 
-    Sierra, macOS 10.13.5 High Sierra, macOS 10.14 Mojave and/or macOS 
+    Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave and/or macOS 
     10.15.3 Catalina, with <a href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista 3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
     on iPad4, with <a href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista 3.2</a> (with geographiclib 1.49 or 1.50 and 
     numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6 
-    and/or iPhone10, <i>all in 64-bit only</i> and with 32-bit Python 2.6.6
-    on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.</p>
+    and/or iPhone10, all in 64-bit only and with 32-bit Python 2.6.6 on 
+    Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.</p>
   <h1 class="heading">Notes</h1>
     <p>All Python source code has been statically <a 
     href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
@@ -256,7 +255,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.8.3, both in 64-bit on macOS 
-    10.13.6 High Sierra.</p>
+    10.15.5 Catalina.</p>
     <p>Some function and method names differ from the JavaScript version. 
     In such cases documentation tag <b>JS name:</b> shows the original 
     JavaScript name.</p>
@@ -285,7 +284,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.06.24
+        20.07.01
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -999,7 +998,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefSudano-class.html" class="summary-name">EcefSudano</a><br />
       Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
-        Earth-Fixed</i> (ECEF) coordinates based om <i>John J. Sudano</i>'s
+        Earth-Fixed</i> (ECEF) coordinates based on <i>John J. Sudano</i>'s
         <a 
         href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
         target="_top">paper</a>.
@@ -4068,7 +4067,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x103efa6d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbec2537650&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6698,7 +6697,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.6.24'"><code class="variable-quote">'</code><code class="variable-string">20.6.24</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.7.1'"><code class="variable-quote">'</code><code class="variable-string">20.7.1</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -6775,7 +6774,7 @@ sform=Transforms.WGS84),
         <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
 56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e\
 12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370461.233666666, R2\
-=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805892, Rs=636\
+=6370459.654589443, R3=6370453.309866445, Rr=6366914.608805892, Rs=636\
 6901.239881964),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
  b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006\
@@ -10606,7 +10605,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x103efa6d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbec2537650&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15900,7 +15899,7 @@ sform=Transforms.WGS84),
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370461.233666666, R2<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-=6370459.654589442, R3=6370453.309866445, Rr=6366914.608805892, Rs=636<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=6370459.654589443, R3=6370453.309866445, Rr=6366914.608805892, Rs=636<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 6901.239881964),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
  b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
@@ -15995,7 +15994,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jun 24 13:37:53 2020
+    Generated by Epydoc 3.0.1 on Wed Jul  1 20:30:22 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

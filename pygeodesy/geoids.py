@@ -89,7 +89,7 @@ except ImportError:  # Python 3+
         return bs.decode('utf-8')
 
 __all__ = _ALL_LAZY.geoids + _ALL_DOCS('GeoidHeight5Tuple', '_GeoidBase')
-__version__ = '20.06.17'
+__version__ = '20.06.25'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -704,7 +704,7 @@ class GeoidG2012B(_GeoidBase):
         # convert earth (lat, lon) to grid (lat, lon)
         return lat, lon
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _GeoidBase.__call__
         height   = _GeoidBase.height
 
@@ -1242,7 +1242,7 @@ class GeoidPGM(_GeoidBase):
         # convert earth (lat, lon) to cropped grid (lat, lon)
         return lat, lon + self._lon_of
 
-    if _FOR_DOCS:  # PYCHOK no cover
+    if _FOR_DOCS:
         __call__ = _GeoidBase.__call__
         height   = _GeoidBase.height
 
