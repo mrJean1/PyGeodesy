@@ -8,20 +8,24 @@ L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, NN, PI, PI_2, property_doc_
-from pygeodesy.dms import _EW, F__F, F__F_, _NS, _NSEW, parseDMS, \
-                           parseRad, S_NUL, S_SEP, _toDMS
-from pygeodesy.errors import _Degrees, _Invalid, _IsnotError, \
-                             _Radians, RangeError, _ValueError
+from pygeodesy.basics import EPS, PI, PI_2, property_doc_
+from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
+                          S_NUL, S_SEP, _toDMS
+from pygeodesy.errors import _IsnotError, RangeError, _ValueError
+from pygeodesy.interns import _band_, _bearing_, _degrees_, _E_, _easting_, \
+                              _EW_, _feet_, _height_, _invalid_, _lam_, \
+                              _lat_, _LatLon_, _lon_, _meter_, _N_, NN, _northing_, \
+                              _NS_, _NSEW_, _number_, _PERCENT_, _phi_, \
+                              _precision_, _radians_, _radius_, _S_, _scalar_, \
+                              _SPACE_, _std_, _UNDERSCORE_, _W_, _zone_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named
-from pygeodesy.streprs import fstr
+from pygeodesy.streprs import fstr, _g
 
 from math import radians
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.units + _ALL_DOCS('_NamedUnit')
-__version__ = '20.05.15'
+__all__ = _ALL_LAZY.units
+__version__ = '20.07.08'
 
 
 class UnitError(_ValueError):
@@ -39,7 +43,7 @@ class _NamedUnit(_Named):
     def _toRepr(self, value):
         '''(INTERNAL) Representation "<name> (<value>)" or "<classname>(<value>)".
         '''
-        t = (self.name, ' ') if self.name else (self.classname,)
+        t = (self.name, _SPACE_) if self.name else (self.classname,)
         return ''.join(t + ('(', str(value), ')'))
 
     @property_doc_(' standard C{repr} or named C{toRepr} representation.')
@@ -52,7 +56,7 @@ class _NamedUnit(_Named):
     def std_repr(self, std):
         '''Set the representation (C{True} or C{"std"} for standard).
         '''
-        self._std_repr = std in (True, 'std')
+        self._std_repr = std in (True, _std_)
 
     @property_doc_(' units name.')
     def units(self):
@@ -115,7 +119,7 @@ class Float(float, _NamedUnit):
         # super(Float, self).__repr__() mimicks this behavior
         return super(Float, self).__repr__()  # see .test.testCss.py
 
-    def toRepr(self, prec=12, fmt='g', ints=False, std=False):  # PYCHOK prec=8, ...
+    def toRepr(self, prec=12, fmt=_g, ints=False, std=False):  # PYCHOK prec=8, ...
         '''Return a representation of this named C{float}.
 
            @kwarg std: Use the standard C{repr} or the named
@@ -128,7 +132,7 @@ class Float(float, _NamedUnit):
         return super(Float, self).__repr__() if std else \
                self._toRepr(fstr(self, prec=prec, fmt=fmt, ints=ints))
 
-    def toStr(self, prec=12, fmt='g', ints=False):  # PYCHOK prec=8, ...
+    def toStr(self, prec=12, fmt=_g, ints=False):  # PYCHOK prec=8, ...
         '''Format this C{Float} as C{str}.
 
            @see: Function L{fstr} for more documentation.
@@ -315,7 +319,7 @@ class Str(str, _NamedUnit):
 class Band(Str):
     '''Named C{str} representing a UTM/UPS band latter, unchecked.
     '''
-    def __new__(cls, arg, name='band', Error=UnitError):
+    def __new__(cls, arg, name=_band_, Error=UnitError):
         '''See L{Str}.
         '''
         return Str.__new__(cls, arg, name=name, Error=Error)
@@ -328,7 +332,7 @@ class Degrees(Float):
     _suf_ = S_NUL, S_NUL, S_NUL
     _sep_ = S_SEP
 
-    def __new__(cls, arg, name=_Degrees, Error=UnitError, suffix=_NSEW, clip=0):
+    def __new__(cls, arg, name=_degrees_, Error=UnitError, suffix=_NSEW_, clip=0):
         '''New named C{Degrees} instance.
 
            @arg cls: This class (C{Degrees} or sub-class).
@@ -360,7 +364,7 @@ class Degrees(Float):
                self._toRepr(self.toStr(prec=prec, fmt=fmt, ints=ints))
 
     def toStr(self, prec=None, fmt=F__F_, ints=False):  # PYCHOK prec=8, ...
-        if fmt.startswith('%'):  # use regular formatting
+        if fmt.startswith(_PERCENT_):  # use regular formatting
             p = 8 if prec is None else prec
             return fstr(self, prec=p, fmt=fmt, ints=ints, sep=self._sep_)
         else:
@@ -373,12 +377,12 @@ class Bearing(Degrees):
     '''Named C{float} representing a bearing in compass C{degrees}.
     '''
     _ddd_ =  1
-    _suf_ = 'NNN'  # always suffix N
+    _suf_ = _N_ * 3  # always suffix N
 
-    def __new__(cls, arg, name='bearing', Error=UnitError, clip=0):
+    def __new__(cls, arg, name=_bearing_, Error=UnitError, clip=0):
         '''See L{Degrees}.
         '''
-        d = Degrees.__new__(cls, arg, name=name, Error=Error, suffix='N', clip=clip)
+        d = Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_N_, clip=clip)
         b = d % 360
         return d if b == d else Degrees.__new__(cls, b, name=name)
 
@@ -386,7 +390,7 @@ class Bearing(Degrees):
 class Radians(Float):
     '''Named C{float} representing a coordinate in C{radians}, optionally clipped.
     '''
-    def __new__(cls, arg, name=_Radians, Error=UnitError, suffix=_NSEW, clip=0):
+    def __new__(cls, arg, name=_radians_, Error=UnitError, suffix=_NSEW_, clip=0):
         '''New named C{Radians} instance.
 
            @arg cls: This class (C{Radians} or sub-class).
@@ -423,7 +427,7 @@ class Radians(Float):
 class Bearing_(Radians):
     '''Named C{float} representing a bearing in C{radians} from compass C{degrees}.
     '''
-    def __new__(cls, arg, name='bearing', Error=UnitError, clip=0):
+    def __new__(cls, arg, name=_bearing_, Error=UnitError, clip=0):
         '''See L{Bearing} and L{Radians}.
         '''
         d = Bearing.__new__(cls, arg, name=name, Error=Error, clip=clip)
@@ -442,7 +446,7 @@ class Distance(Float):
 class Easting(Float):
     '''Named C{float} representing an easting.
     '''
-    def __new__(cls, arg, name='easting', Error=UnitError, falsed=False):
+    def __new__(cls, arg, name=_easting_, Error=UnitError, falsed=False):
         '''New named C{Easting} instance.
 
            @arg cls: This class (C{Easting} or sub-class).
@@ -465,7 +469,7 @@ class Easting(Float):
 class Feet(Float):
     '''Named C{float} representing a distance or length in C{feet}.
     '''
-    def __new__(cls, arg, name='feet', Error=UnitError):
+    def __new__(cls, arg, name=_feet_, Error=UnitError):
         '''See L{Float}.
         '''
         return Float.__new__(cls, arg, name=name, Error=Error)
@@ -474,7 +478,7 @@ class Feet(Float):
 class Height(Float):  # here to avoid circular import
     '''Named C{float} representing a height, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name='height', Error=UnitError):
+    def __new__(cls, arg, name=_height_, Error=UnitError):
         '''See L{Float}.
         '''
         return Float.__new__(cls, arg, name=name, Error=Error)
@@ -483,16 +487,16 @@ class Height(Float):  # here to avoid circular import
 class Lam(Radians):
     '''Named C{float} representing a longitude in C{radians}.
     '''
-    def __new__(cls, arg, name='lam', Error=UnitError, clip=PI):
+    def __new__(cls, arg, name=_lam_, Error=UnitError, clip=PI):
         '''See L{Radians}.
         '''
-        return Radians.__new__(cls, arg, name=name, Error=Error, suffix=_EW, clip=clip)
+        return Radians.__new__(cls, arg, name=name, Error=Error, suffix=_EW_, clip=clip)
 
 
 class Lam_(Lam):
     '''Named C{float} representing a longitude in C{radians} converted from C{degrees}.
     '''
-    def __new__(cls, arg, name='lon', Error=UnitError, clip=180):
+    def __new__(cls, arg, name=_lon_, Error=UnitError, clip=180):
         '''See L{Degrees} and L{Radians}.
         '''
         d = Lam.__new__(cls, arg, name=name, Error=Error, clip=clip)
@@ -503,30 +507,30 @@ class Lat(Degrees):
     '''Named C{float} representing a latitude in C{degrees}.
     '''
     _ddd_ =  2
-    _suf_ = 'N', 'S', S_NUL  # no zero suffix
+    _suf_ = _N_, _S_, S_NUL  # no zero suffix
 
-    def __new__(cls, arg, name='lat', Error=UnitError, clip=90):
+    def __new__(cls, arg, name=_lat_, Error=UnitError, clip=90):
         '''See L{Degrees}.
         '''
-        return Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_NS, clip=clip)
+        return Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_NS_, clip=clip)
 
 
 class Lon(Float):
     '''Named C{float} representing a longitude in C{degrees}.
     '''
     _ddd_ =  3
-    _suf_ = 'E', 'W', S_NUL  # no zero suffix
+    _suf_ = _E_, _W_, S_NUL  # no zero suffix
 
-    def __new__(cls, arg, name='lon', Error=UnitError, clip=180):
+    def __new__(cls, arg, name=_lon_, Error=UnitError, clip=180):
         '''See L{Degrees}.
         '''
-        return Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_EW, clip=clip)
+        return Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_EW_, clip=clip)
 
 
 class Meter(Float):
     '''Named C{float} representing a distance or length in C{meter}.
     '''
-    def __new__(cls, arg, name='meter', Error=UnitError):
+    def __new__(cls, arg, name=_meter_, Error=UnitError):
         '''See L{Float}.
         '''
         return Float.__new__(cls, arg, name=name, Error=Error)
@@ -535,7 +539,7 @@ class Meter(Float):
 class Northing(Float):
     '''Named C{float} representing a northing.
     '''
-    def __new__(cls, arg, name='northing', Error=UnitError, falsed=False):
+    def __new__(cls, arg, name=_northing_, Error=UnitError, falsed=False):
         '''New named C{Northing} instance.
 
            @arg cls: This class (C{Northing} or sub-class).
@@ -558,7 +562,7 @@ class Northing(Float):
 class Number_(Int_):
     '''Named C{int} with optional limits C{low} and C{high} representing a non-negtive number.
     '''
-    def __new__(cls, arg, name='number', Error=UnitError, low=0, high=None):
+    def __new__(cls, arg, name=_number_, Error=UnitError, low=0, high=None):
         '''See L{Int_}.
         '''
         return Int_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
@@ -567,16 +571,16 @@ class Number_(Int_):
 class Phi(Radians):
     '''Named C{float} representing a latitude in C{radians}.
     '''
-    def __new__(cls, arg, name='phi', Error=UnitError, clip=PI_2):
+    def __new__(cls, arg, name=_phi_, Error=UnitError, clip=PI_2):
         '''See L{Radians}.
         '''
-        return Radians.__new__(cls, arg, name=name, Error=Error, suffix=_NS, clip=clip)
+        return Radians.__new__(cls, arg, name=name, Error=Error, suffix=_NS_, clip=clip)
 
 
 class Phi_(Phi):
     '''Named C{float} representing a latitude in C{radians} converted from C{degrees}.
     '''
-    def __new__(cls, arg, name='lat', Error=UnitError, clip=90):
+    def __new__(cls, arg, name=_lat_, Error=UnitError, clip=90):
         '''See L{Degrees} and L{Radians}.
         '''
         d = Phi.__new__(cls, arg, name=name, Error=Error, clip=clip)
@@ -586,7 +590,7 @@ class Phi_(Phi):
 class Precision_(Int_):
     '''Named C{int} with optional C{low} and C{high} limits representing a precision.
     '''
-    def __new__(cls, arg, name='precision', Error=UnitError, low=0, high=None):
+    def __new__(cls, arg, name=_precision_, Error=UnitError, low=0, high=None):
         '''See L{Int_}.
         '''
         return Int_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
@@ -595,7 +599,7 @@ class Precision_(Int_):
 class Radius(Float):
     '''Named C{float} representing a radius, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name='radius', Error=UnitError):
+    def __new__(cls, arg, name=_radius_, Error=UnitError):
         '''See L{Float}.
         '''
         return Float.__new__(cls, arg, name=name, Error=Error)
@@ -604,7 +608,7 @@ class Radius(Float):
 class Radius_(Float_):
     '''Named C{float} with optional C{low} and C{high} limits representing a radius, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name='radius', Error=UnitError, low=EPS, high=None):
+    def __new__(cls, arg, name=_radius_, Error=UnitError, low=EPS, high=None):
         '''See L{Float}.
         '''
         return Float_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
@@ -613,7 +617,7 @@ class Radius_(Float_):
 class Scalar(Float):
     '''Named C{float} representing a factor, fraction, scale, etc.
     '''
-    def __new__(cls, arg, name='scalar', Error=UnitError):
+    def __new__(cls, arg, name=_scalar_, Error=UnitError):
         '''See L{Float}.
         '''
         return Float.__new__(cls, arg, name=name, Error=Error)
@@ -622,7 +626,7 @@ class Scalar(Float):
 class Scalar_(Float_):
     '''Named C{float} with optional C{low} and C{high} limits representing a factor, fraction, scale, etc.
     '''
-    def __new__(cls, arg, name='scalar', Error=UnitError, low=0.0, high=None):
+    def __new__(cls, arg, name=_scalar_, Error=UnitError, low=0.0, high=None):
         '''See L{Float_}.
         '''
         return Float_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
@@ -631,14 +635,14 @@ class Scalar_(Float_):
 class Zone(Int):
     '''Named C{int} representing a UTM/UPS zone number.
     '''
-    def __new__(cls, arg, name='zone', Error=UnitError):
+    def __new__(cls, arg, name=_zone_, Error=UnitError):
         '''See L{Int}
         '''
         # usually low=_UTMUPS_ZONE_MIN, high=_UTMUPS_ZONE_MAX
         return Int_.__new__(cls, arg, name=name, Error=Error)
 
 
-def _Error(clas, arg, name=NN, Error=UnitError, txt=_Invalid):
+def _Error(clas, arg, name=NN, Error=UnitError, txt=_invalid_):
     '''(INTERNAL) Return an error with explanation.
 
        @arg clas: The C{units} class or sub-class.
@@ -650,14 +654,14 @@ def _Error(clas, arg, name=NN, Error=UnitError, txt=_Invalid):
 
        @returns: An B{C{Error}} instance.
     '''
-    n = name if name else modulename(clas).lstrip('_')
+    n = name if name else modulename(clas).lstrip(_UNDERSCORE_)
     return Error(n, arg, txt=txt)
 
 
 def _xStrError(*Refs, **name_value_Error):
     '''(INTERNAL) Create a C{TypeError} for C{Garef}, C{Geohash}, C{Wgrs}.
     '''
-    r = tuple(r.__name__ for r in Refs) + (Str.__name__, 'LatLon', 'LatLon*Tuple')
+    r = tuple(r.__name__ for r in Refs) + (Str.__name__, _LatLon_, 'LatLon*Tuple')
     return _IsnotError(*r, **name_value_Error)
 
 
@@ -668,11 +672,13 @@ def _std_repr(*classes):
     for C in classes:
         if hasattr(C, _std_repr.__name__):  # PYCHOK del _std_repr
             env = 'PYGEODESY_%s_STD_REPR' % (C.__name__.upper(),)
-            if _environ.get(env, 'std').lower() != 'std':
+            if _environ.get(env, _std_).lower() != _std_:
                 C._std_repr = False
 
 _std_repr(Float, Int, Str)  # PYCHOK expected
 del _std_repr
+
+__all__ += _ALL_DOCS(_NamedUnit)
 
 # **) MIT License
 #

@@ -79,15 +79,17 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-from pygeodesy.basics import _bkwds, EPS, EPS1, INF, isscalar, NN, \
+from pygeodesy.basics import _bkwds, EPS, EPS1, INF, isscalar, \
                               property_doc_, property_RO, _xinstanceof
 from pygeodesy.datum import Datums, Datum
-from pygeodesy.errors import _AssertionError, _Degrees, _IndexError, \
-                             _IsnotError, _Meter, PointsError, _Radians, _Radians2
+from pygeodesy.errors import _AssertionError, _IndexError, _IsnotError, \
+                              PointsError
 from pygeodesy.fmath import favg, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2 as _points2, _scale_rad, thomas_, vincentys_
+from pygeodesy.interns import _datum_, _degrees_, _distanceTo_, _dot_, _item_sq, \
+                              _meter_, NN, _points_, _radians_, _radians2_, _units_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, \
                             notOverloaded, PhiLam2Tuple
@@ -96,8 +98,8 @@ from pygeodesy.utily import unrollPI
 from collections import defaultdict
 from math import radians
 
-__all__ = _ALL_LAZY.frechet + _ALL_DOCS('Frechet6Tuple')
-__version__ = '20.06.25'
+__all__ = _ALL_LAZY.frechet
+__version__ = '20.07.08'
 
 if not 0 < EPS < EPS1 < 1:
     raise _AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
@@ -138,7 +140,7 @@ class Frechet6Tuple(_NamedTuple):
        Use function L{fractional} to compute the point at a
        I{fractional} index.
     '''
-    _Names_ = ('fd', 'fi1', 'fi2', 'r', 'n', 'units')
+    _Names_ = ('fd', 'fi1', 'fi2', 'r', 'n', _units_)
 
 #   def __gt__(self, other):
 #       _xinstanceof(Frechet6Tuple, other=other)
@@ -182,7 +184,7 @@ class Frechet(_Named):
                                 B{C{ajust}} not applicable.
 
         '''
-        self._n1, self._ps1 = _points2(points, closed=False, Error=FrechetError)
+        self._n1, self._ps1 = self._points2(points)
         if fraction:
             self.fraction = fraction
         if name:
@@ -207,7 +209,7 @@ class Frechet(_Named):
     def _datum_setter(self, datum):
         '''(INTERNAL) Set the datum.
         '''
-        d = datum or getattr(self._ps1[0], 'datum', datum)
+        d = datum or getattr(self._ps1[0], _datum_, datum)
         if d and d != self.datum:  # PYCHOK no cover
             _xinstanceof(Datum, datum=d)
             self._datum = d
@@ -224,13 +226,13 @@ class Frechet(_Named):
 
            @return: A L{Frechet6Tuple}C{(fd, fi1, fi2, r, n, units)}.
 
-           @raise FrechetError: Insufficient number of B{C{points}} or
-                                invalid B{C{fraction}}.
+           @raise FrechetError: Insufficient number of B{C{points}} or an
+                                invalid B{C{point}} or B{C{fraction}}.
 
            @raise RecursionError: Recursion depth exceeded, see U{sys.getrecursionlimit()
                                   <https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit>}.
         '''
-        n2, ps2 = _points2(points, closed=False, Error=FrechetError)
+        n2, ps2 = self._points2(points)
 
         f2 = _fraction(fraction, n2)
         p2 = self.points_fraction if f2 < EPS1 else self.points_  # PYCHOK expected
@@ -241,10 +243,14 @@ class Frechet(_Named):
         def dF(fi1, fi2):
             return self.distance(p1(self._ps1, fi1), p2(ps2, fi2))
 
-        return _frechet_(self._n1, f1, n2, f2, dF, self.units)
+        try:
+            return _frechet_(self._n1, f1, n2, f2, dF, self.units)
+        except TypeError as x:
+            t = _dot_(self.classname, self.discrete.__name__)
+            raise FrechetError(t, txt=str(x))
 
     def distance(self, point1, point2):  # PYCHOK no cover
-        '''(INTERNAL) I{must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}.
         '''
         notOverloaded(self, self.distance, point1, point2)
 
@@ -288,6 +294,11 @@ class Frechet(_Named):
         '''
         return self.point(points[i])
 
+    def _points2(self, points):
+        '''(INTERNAL) Check a set of points.
+        '''
+        return _points2(points, closed=False, Error=FrechetError)
+
     def points_fraction(self, points, fi):
         '''Get and convert a I{fractional} point for the C{.distance} method.
 
@@ -324,7 +335,7 @@ class FrechetDegrees(Frechet):
     '''L{Frechet} base class for distances in C{degrees} from
        C{LatLon} points in C{degrees}.
     '''
-    _units = _Degrees
+    _units = _degrees_
 
     if _FOR_DOCS:
         __init__ = Frechet.__init__
@@ -336,7 +347,7 @@ class FrechetRadians(Frechet):
        squared} from C{LatLon} points converted from C{degrees} to
        C{radians}.
     '''
-    _units = _Radians
+    _units = _radians_
 
     if _FOR_DOCS:
         __init__ = Frechet.__init__
@@ -491,7 +502,7 @@ class FrechetDistanceTo(Frechet):
              L{FrechetKarney}.
     '''
     _distanceTo_kwds =  {}
-    _units           = _Meter
+    _units           = _meter_
 
     def __init__(self, points, fraction=None, name=NN, **distanceTo_kwds):
         '''New L{FrechetDistanceTo} calculator/interpolator.
@@ -506,16 +517,15 @@ class FrechetDistanceTo(Frechet):
                                    B{C{points}}' C{LatLon.distanceTo}
                                    method.
 
-           @raise FrechetError: Insufficient number of B{C{points}} or
-                                invalid B{C{fraction}}.
+           @raise FrechetError: Insufficient number of B{C{points}} or an
+                                invalid B{C{point}} or B{C{fraction}}.
 
            @raise ImportError: Package U{GeographicLib
                   <https://PyPI.org/project/geographiclib>} missing
                   iff B{C{points}} are L{ellipsoidalKarney.LatLon}s.
 
            @note: All B{C{points}} I{must} be instances of the same
-                  ellipsoidal or spherical C{LatLon} class, I{not
-                  checked however}.
+                  ellipsoidal or spherical C{LatLon} class.
         '''
         FrechetRadians.__init__(self, points, fraction=fraction, name=name)
         if distanceTo_kwds:
@@ -529,6 +539,15 @@ class FrechetDistanceTo(Frechet):
         '''
         return p1.distanceTo(p2, **self._distanceTo_kwds)
 
+    def _points2(self, points):
+        '''(INTERNAL) Check a set of points.
+        '''
+        np, ps = Frechet._points2(self, points)
+        for i, p in enumerate(ps):
+            if not callable(getattr(p, _distanceTo_, None)):
+                raise FrechetError(_item_sq(_points_, i), p, txt=_distanceTo_)
+        return np, ps
+
 
 class FrechetEquirectangular(FrechetRadians):
     '''Compute the C{Frechet} distance based on the C{equirectangular}
@@ -538,7 +557,7 @@ class FrechetEquirectangular(FrechetRadians):
              L{FrechetHaversine} and L{FrechetVincentys}.
     '''
     _adjust =  True
-    _units  = _Radians2
+    _units  = _radians2_
     _wrap   =  False
 
     def __init__(self, points, adjust=True, wrap=False, fraction=None, name=NN):
@@ -622,7 +641,7 @@ class FrechetFlatLocal(FrechetRadians):
     '''
     _datum    =  Datums.WGS84
     _hubeny2_ =  None
-    _units    = _Radians2
+    _units    = _radians2_
     _wrap     =  False
 
     def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
@@ -1017,6 +1036,9 @@ def frechet_(points1, points2, distance=None, units=NN):
         return distance(ps1[i1], ps2[i2])
 
     return _frechet_(n1, 1, n2, 1, dF, units)
+
+
+__all__ += _ALL_DOCS(Frechet6Tuple)
 
 # **) MIT License
 #

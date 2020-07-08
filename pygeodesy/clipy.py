@@ -7,18 +7,19 @@ against a rectangular box or clip region.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, len2, NN
-from pygeodesy.errors import _AssertionError, _Not_convex, \
-                              PointsError, _ValueError
+from pygeodesy.basics import EPS, len2
+from pygeodesy.errors import _AssertionError, PointsError, _ValueError
 from pygeodesy.fmath import fsum_
 from pygeodesy.formy import points2
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _dot_
+from pygeodesy.interns import _dot_, _end_, _lat_, _lon_, _name_, \
+                               NN, _not_convex_, _start_, _too_few_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
 from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
                              LatLon_ as LL_
 
-__all__ = _ALL_LAZY.clipy + _ALL_DOCS('ClipCS3Tuple', 'ClipSH3Tuple')
-__version__ = '20.06.17'
+__all__ = _ALL_LAZY.clipy
+__version__ = '20.07.08'
 
 
 class ClipError(_ValueError):
@@ -63,7 +64,7 @@ def _points2(points, closed, inull):
             n -= 1
             pts = pts[:n]
         if n < 3:
-            raise PointsError(points=n, txt='too few')
+            raise PointsError(points=n, txt=_too_few_)
     else:
         n, pts = points2(points, closed=closed)
     return n, list(pts)
@@ -161,7 +162,7 @@ class ClipCS3Tuple(_NamedTuple):
        portion of the edge inside or on the clip box and the C{index}
        (C{int}) of the edge in the original path.
     '''
-    _Names_ = ('start', 'end', 'index')
+    _Names_ = (_start_, _end_, 'index')
 
 
 def clipCS3(points, lowerleft, upperright, closed=False, inull=False):
@@ -235,7 +236,7 @@ class _List(list):
 class _LLi_(LL_):
     '''(INTERNAL) LatLon_ for _SH intersections.
     '''
-    __slots__ = 'lat', 'lon', 'classof', 'edge', 'name'
+    __slots__ = _lat_, _lon_, 'classof', 'edge', _name_
 
     def __init__(self, lat, lon, classof, edge):
         self.lat = lat
@@ -269,7 +270,7 @@ class _SH(_Named):
             self._nc = n
             self._cw = isconvex_(cs, adjust=False, wrap=False)
             if not self._cw:
-                raise ValueError(_Not_convex)
+                raise ValueError(_not_convex_)
             if areaOf(cs, adjust=True, radius=1, wrap=True) < EPS:
                 raise ValueError('near-zero area')
         except (PointsError, TypeError, ValueError) as x:
@@ -314,7 +315,7 @@ class _SH(_Named):
                 np = len(pts)
 
         if ne < 3:
-            raise ClipError(self.name, ne, self._cs, txt='too few')
+            raise ClipError(self.name, ne, self._cs, txt=_too_few_)
 
         # ni is True iff all points are on or on the
         # right side (i.e. inside) of all clip edges,
@@ -392,7 +393,7 @@ class ClipSH3Tuple(_NamedTuple):
        indicates whether the edge is part of the original polygon or
        part of the clip region (C{bool}).
     '''
-    _Names_ = ('start', 'end', 'original')
+    _Names_ = (_start_, _end_, 'original')
 
 
 def clipSH(points, corners, closed=False, inull=False):
@@ -450,6 +451,9 @@ def clipSH3(points, corners, closed=False, inull=False):
             p1, e1 = p2, e2
             p2, e2 = sh.clipped2(pts[i])
             yield ClipSH3Tuple(p1, p2, not bool(e1 and e2 and e1 == e2))
+
+
+__all__ += _ALL_DOCS(ClipCS3Tuple, ClipSH3Tuple)
 
 # **) MIT License
 #

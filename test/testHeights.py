@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.07.01'
+__version__ = '20.07.07'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -19,13 +19,13 @@ from pygeodesy import Datums, fstr, HeightError, \
                       HeightIDW, HeightIDW2, HeightIDW3, \
                       HeightIDWcosineAndoyerLambert, \
                       HeightIDWcosineForsytheAndoyerLambert, \
-                      HeightIDWcosineLaw, HeightIDWequirectangular, \
-                      HeightIDWeuclidean, HeightIDWflatLocal, \
-                      HeightIDWflatPolar, HeightIDWhaversine, \
-                      HeightIDWhubeny, HeightIDWkarney, \
-                      HeightIDWthomas, HeightIDWvincentys, \
-                      HeightLSQBiSpline, HeightSmoothBiSpline, \
-                      SciPyError
+                      HeightIDWcosineLaw, HeightIDWdistanceTo, \
+                      HeightIDWequirectangular, HeightIDWeuclidean, \
+                      HeightIDWflatLocal, HeightIDWflatPolar, \
+                      HeightIDWhaversine, HeightIDWhubeny, \
+                      HeightIDWkarney, HeightIDWthomas, \
+                      HeightIDWvincentys, HeightLSQBiSpline, \
+                      HeightSmoothBiSpline, SciPyError
 from pygeodesy.sphericalTrigonometry import LatLon
 
 
@@ -63,15 +63,16 @@ class Tests(TestsBase):
 
     def testHeightError(self, interpolator, *attrs):
         try:  # force an error
-            h = interpolator(0.0, 1.0)
+            h = interpolator(9.0, 18.0)
         except HeightError as x:
             h = str(x)
-        self.test('HeightError', h, "llis[0] (0.0): 'float' object has no attribute 'lon'")
-
+        self.test('HeightError', h, 'type(other) (9.0): incompatible with sphericalTrigonometry.LatLon.distanceTo(other), invalid'
+                                     if isinstance(interpolator, HeightIDWdistanceTo) else
+                                    "llis[0] (9.0): 'float' object has no attribute 'lon'")
         if coverage:
             for a in ('adjust', 'kmin', 'wrap') + attrs:
                 t = getattr(interpolator, a)
-                self.test(interpolator.__class__.__name__+a, t, t)
+                self.test(interpolator.__class__.__name__+a, t, t)  # PYCHOK test attr
 
     def testIDW(self, IDW, kts, lli, expected, **kwds):
         interpolator = IDW(kts, **kwds)
@@ -115,6 +116,7 @@ class Tests(TestsBase):
         self.testIDW(HeightIDWcosineForsytheAndoyerLambert, kts, lli, '6.108538037', wrap=False)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.108538037', wrap=True)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.108538037', wrap=False)
+        self.testIDW(HeightIDWdistanceTo,      kts, lli, '6.108538037')
         self.testIDW(HeightIDWeuclidean,       kts, lli, '6.166920194', adjust=False)
         self.testIDW(HeightIDW2,               kts, lli, '6.108538529', adjust=True, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '6.108538529', adjust=True, wrap=True)

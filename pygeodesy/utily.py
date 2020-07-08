@@ -11,15 +11,15 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 '''
 
 from pygeodesy.basics import PI, PI2, PI_2, R_M, isint
-from pygeodesy.errors import _Missing, _xkwds_get, _ValueError
+from pygeodesy.errors import _xkwds_get, _ValueError
+from pygeodesy.interns import _deg_, _Missing
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.units import Feet, Lam_, Meter, Phi_, Radius
 
 from math import cos, degrees, radians, sin, tan  # pow
 
-# all public contants, classes and functions
 __all__ = _ALL_LAZY.utily
-__version__ = '20.06.28'
+__version__ = '20.07.07'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = 1.0 / 90  # 0.011111111111111111111111111111111111111111111111
@@ -76,7 +76,7 @@ def degrees2m(deg, radius=R_M, lat=0):
 
        @see: Function L{m2degrees}.
     '''
-    m = Lam_(deg, name='deg', clip=0) * Radius(radius)
+    m = Lam_(deg, name=_deg_, clip=0) * Radius(radius)
     if lat:
         m *= cos(Phi_(lat))
     return float(m)
@@ -106,7 +106,7 @@ def isNumpy2(obj):
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (Numpy2LatLon, ...))
-    return getattr(obj, 'isNumpy2', False)
+    return getattr(obj, isNumpy2.__name__, False)
 
 
 def isPoints2(obj):
@@ -118,7 +118,7 @@ def isPoints2(obj):
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (LatLon2psxy, ...))
-    return getattr(obj, 'isPoints2', False)
+    return getattr(obj, isPoints2.__name__, False)
 
 
 def isTuple2(obj):
@@ -130,7 +130,7 @@ def isTuple2(obj):
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (Tuple2LatLon, ...))
-    return getattr(obj, 'isTuple2', False)
+    return getattr(obj, isTuple2.__name__, False)
 
 
 def iterNumpy2(obj):

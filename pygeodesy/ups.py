@@ -18,11 +18,13 @@ each end).
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, NN, property_RO
+from pygeodesy.basics import EPS, property_RO
 from pygeodesy.datum import Datums, _TOL
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1
+from pygeodesy.interns import _COMMA_SPACE_, _inside_, _N_, NN, _pole_, \
+                              _range_, _S_, _SPACE_, _SQUARE_, _UTM_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, _xnamed
 from pygeodesy.units import Meter, Lat, Scalar, Scalar_
@@ -35,9 +37,8 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 
 from math import atan, atan2, radians, sqrt, tan
 
-# all public contants, classes and functions
 __all__ = _ALL_LAZY.ups
-__version__ = '20.05.14'
+__version__ = '20.07.08'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = Meter(2000e3)  #: (INTERNAL) False easting and northing (C{meter}).
@@ -204,7 +205,7 @@ class Ups(UtmUpsBase):
         r = hypot(x, y)
         t = (r / (2 * self.scale0 * E.a / E.es_c)) if r > 0 else EPS**2
         t = E.es_tauf((1 / t - t) * 0.5)
-        if self._pole == 'N':
+        if self._pole == _N_:
             a, b, c = atan(t), atan2(x, -y), 1
         else:
             a, b, c = -atan(t), atan2(x, y), -1
@@ -238,7 +239,7 @@ class Ups(UtmUpsBase):
             self._mgrs = self.toUtm(None).toMgrs()  # via .toUtm
         return self._mgrs
 
-    def toRepr(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False, **unused):  # PYCHOK expected
+    def toRepr(self, prec=0, fmt=_SQUARE_, sep=_COMMA_SPACE_, B=False, cs=False, **unused):  # PYCHOK expected
         '''Return a string representation of this UPS coordinate.
 
            Note that UPS coordinates are rounded, not truncated (unlike
@@ -267,7 +268,7 @@ class Ups(UtmUpsBase):
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method L{Ups.toRepr}.'''
 
-    def toStr(self, prec=0, sep=' ', B=False, cs=False):  # PYCHOK expected
+    def toStr(self, prec=0, sep=_SPACE_, B=False, cs=False):  # PYCHOK expected
         '''Return a string representation of this UPS coordinate.
 
            Note that UPS coordinates are rounded, not truncated (unlike
@@ -305,7 +306,7 @@ class Ups(UtmUpsBase):
         '''
         if self.pole == pole or not pole:
             return self.copy()
-        t = '%s %r to %r' % ('pole', self.pole, pole)
+        t = '%s %r to %r' % (_pole_, self.pole, pole)
         raise UPSError('no transfer', txt=t)
 
     def toUtm(self, zone, falsed=True, **unused):
@@ -408,7 +409,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     E = d.ellipsoid
 
     p = str(pole or p)[:1].upper()
-    N = p == 'N'  # is north
+    N = p == _N_  # is north
 
     a = lat if N else -lat
     A = abs(a - 90) < _TOL  # at pole
@@ -470,13 +471,13 @@ def upsZoneBand5(lat, lon, strict=True):
     '''
     z, lat, lon = _to3zll(*parseDMS2(lat, lon))
     if lat < _UPS_LAT_MIN:  # includes 30' overlap
-        z, B, p = _UPS_ZONE, _Band(lat, lon), 'S'
+        z, B, p = _UPS_ZONE, _Band(lat, lon), _S_
 
     elif lat > _UPS_LAT_MAX:  # includes 30' overlap
-        z, B, p = _UPS_ZONE, _Band(lat, lon), 'N'
+        z, B, p = _UPS_ZONE, _Band(lat, lon), _N_
 
     elif strict:
-        t = ' '.join(('inside', 'UTM', 'range', '[%s,' % (_UPS_LAT_MIN,),
+        t = ' '.join((_inside_, _UTM_, _range_, '[%s,' % (_UPS_LAT_MIN,),
                                                  '%s]' % (_UPS_LAT_MAX,)))
         raise RangeError(lat=degDMS(lat), txt=t)
 

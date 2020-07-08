@@ -7,17 +7,22 @@ u'''Floating point and other formatting utilities.
 
 from pygeodesy.basics import isint, isscalar
 from pygeodesy.errors import _IsnotError, _ValueError, _xkwds_pop
+from pygeodesy.interns import _COMMA_SPACE_, _DOT_, _EQUAL_, \
+                              _item_ps, NN, _PERCENT_, _scalar_, \
+                              _SPACE_, _STAR_, _UNDERSCORE_, _0_
 from pygeodesy.lazily import _ALL_LAZY
 
-# all public contants, classes and functions
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.06.24'
+__version__ = '20.07.08'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int
-_Gg     = ('G', 'g')
-_EeFfGg = ('F', 'f', 'E', 'e') + _Gg  # float formats
-_Fmt    =  'F'
+_e      =  'e'  # imported by .datum
+_E      =  'E'
+_g      =  'g'  # imported by .units
+_Gg     = ('G', _g)
+_EeFfGg = ('F', 'f', _E, _e) + _Gg  # float formats
+_Fmt    =  'F'  # imported by .datum, .named
 
 
 def _streprs(prec, objs, fmt, ints, force, strepr):
@@ -26,9 +31,9 @@ def _streprs(prec, objs, fmt, ints, force, strepr):
     if fmt in _EeFfGg:
         fGg = fmt in _Gg
         fmt = '%.' + str(abs(prec)) + fmt
-    elif fmt.startswith('%'):
+    elif fmt.startswith(_PERCENT_):
         fGg = False
-        fmt = fmt.replace('*', str(abs(prec)))
+        fmt = fmt.replace(_STAR_, str(abs(prec)))
     else:
         t = '[%s]%s' % ('%.*', '|'.join(_EeFfGg))
         raise _ValueError(fmt=fmt, txt='not %r' % (t,))
@@ -38,18 +43,18 @@ def _streprs(prec, objs, fmt, ints, force, strepr):
             t = fmt % (float(o),)
             if ints and (isint(o, both=True) or  # for ...
                          # corner case testLcc lon0=-96.0
-                         t.rstrip('0').endswith('.')):
-                t = t.split('.')[0]
+                         t.rstrip(_0_).endswith(_DOT_)):
+                t = t.split(_DOT_)[0]
             elif prec > 1:
                 t = fstrzs(t, ap1z=fGg)
         elif strepr:
             t = strepr(o)
         else:
-            raise _IsnotError('scalar', floats=o)
+            raise _IsnotError(_scalar_, floats=o)
         yield t
 
 
-def anstr(name, OKd='._-', sub='_'):
+def anstr(name, OKd='._-', sub=_UNDERSCORE_):
     '''Make a valid name of alphanumeric and OKd characters.
 
        @arg name: The original name (C{str}).
@@ -65,11 +70,11 @@ def anstr(name, OKd='._-', sub='_'):
     s = n = str(name).strip()
     for c in n:
         if not (c.isalnum() or c in OKd or c in sub):
-            s = s.replace(c, ' ')
+            s = s.replace(c, _SPACE_)
     return sub.join(s.strip().split())
 
 
-def attrs(inst, *names, **kwds):  # prec=6, fmt='F', ints=False, Nones=True, sep='='
+def attrs(inst, *names, **kwds):  # prec=6, fmt=_Fmt, ints=False, Nones=True, sep=_EQUAL_
     '''Get instance attributes as I{name=value} strings, with C{float}s handled like L{fstr}.
 
        @arg inst: The instance (any C{type}).
@@ -113,7 +118,7 @@ def enstr2(easting, northing, prec, *extras):
                      '%0*d' % (w, int(northing * p10)))
 
 
-def fstr(floats, prec=6, fmt=_Fmt, ints=False, sep=', ', strepr=None):
+def fstr(floats, prec=6, fmt=_Fmt, ints=False, sep=_COMMA_SPACE_, strepr=None):
     '''Convert one or more floats to string, optionally stripped of trailing zero decimals.
 
        @arg floats: Single or a list, sequence, tuple, etc. (C{scalar}s).
@@ -143,30 +148,45 @@ def fstrzs(efstr, ap1z=False):
 
        @return: Float (C{str}).
     '''
-    s = efstr.find('.')
+    s = efstr.find(_DOT_)
     if s >= 0:
-        e = efstr.rfind('e')
+        e = efstr.rfind(_e)
         if e < 0:
-            e = efstr.rfind('E')
+            e = efstr.rfind(_E)
             if e < 0:
                 e = len(efstr)
-        s += 2  # keep 1st '.0'
-        if s < e and efstr[e-1] == '0':
-            efstr = efstr[:s] + efstr[s:e].rstrip('0') + efstr[e:]
+        s += 2  # keep 1st _DOT_ + _0_
+        if s < e and efstr[e-1] == _0_:
+            efstr = efstr[:s] + efstr[s:e].rstrip(_0_) + efstr[e:]
 
     elif ap1z:
         # %.G and %.g formats drop the decimal
         # point and all trailing zeros, ...
         if efstr.isdigit():
-            efstr += '.0'  # ... append or ...
+            efstr += _DOT_ + _0_  # ... append or ...
         else:  # ... insert one dot and zero
-            e = efstr.rfind('e')
+            e = efstr.rfind(_e)
             if e < 0:
-                e = efstr.rfind('E')
+                e = efstr.rfind(_E)
             if e > 0:
-                efstr = efstr[:e] + '.0' + efstr[e:]
+                efstr = efstr[:e] + _DOT_ + _0_ + efstr[e:]
 
     return efstr
+
+
+def hstr(height, prec=2, fmt='%+.*f', ints=False, m=NN):
+    '''Return a string for the height value.
+
+       @arg height: Height value (C{float}).
+       @kwarg prec: The C{float} precision, number of decimal digits (0..9).
+                    Trailing zero decimals are stripped if B{C{prec}} is
+                    positive, but kept for negative B{C{prec}} values.
+       @kwarg fmt: Optional, float format (C{str}).
+       @kwarg ints: Optionally, remove the decimal dot (C{bool}).
+       @kwarg m: Optional unit of the height (C{str}).
+    '''
+    h = next(_streprs(prec, (height,), fmt, ints, True, None))
+    return h if not m else (h + str(m))
 
 
 def instr(inst, *args, **kwds):
@@ -182,7 +202,7 @@ def instr(inst, *args, **kwds):
     return unstr(classname(inst), *args, **kwds)
 
 
-def pairs(items, prec=6, fmt=_Fmt, ints=False, sep='='):
+def pairs(items, prec=6, fmt=_Fmt, ints=False, sep=_EQUAL_):
     '''Convert items to I{name=value} strings, with C{float}s handled like L{fstr}.
 
        @arg items: Name-value pairs (C{dict} or 2-{tuple}s of any C{type}s).
@@ -204,7 +224,7 @@ def pairs(items, prec=6, fmt=_Fmt, ints=False, sep='='):
         # can't unzip empty items tuple, list, etc.
         n, v = zip(*items) if items else ((), ())
     except (TypeError, ValueError):
-        raise _IsnotError('dict', '2-tuples', items=items)
+        raise _IsnotError(dict.__name__, '2-tuples', items=items)
     v = _streprs(prec, v, fmt, ints, False, repr)
     return tuple(sep.join(t) for t in zip(map(str, n), v))
 
@@ -248,8 +268,8 @@ def unstr(name, *args, **kwds):
 
        @return: Representation (C{str}).
     '''
-    t = reprs(args, fmt='g') + pairs(sorted(kwds.items()))
-    return '%s(%s)' % (name, ', '.join(t))
+    t = reprs(args, fmt=_g) + pairs(sorted(kwds.items()))
+    return _item_ps(name, _COMMA_SPACE_.join(t))
 
 # **) MIT License
 #

@@ -12,7 +12,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, NN, PI, PI2, PI_2, \
+from pygeodesy.basics import EPS, PI, PI2, PI_2, \
                              property_doc_, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import R_M, R_MA, Datum, Datums
@@ -20,6 +20,8 @@ from pygeodesy.dms import parse3llh
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import IntersectionError, _IsnotError
 from pygeodesy.fmath import acos1, favg, fsum_
+from pygeodesy.interns import _COMMA_, _near_concentric_, NN, _radius_, \
+                              _spherical_, _too_distant_  # PYCHOK used!
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Bearing2Tuple
@@ -30,10 +32,8 @@ from pygeodesy.utily import degrees90, degrees180, degrees360, \
 
 from math import atan2, cos, hypot, log, sin, sqrt
 
-# XXX the following classes are listed only to get
-# Epydoc to include class and method documentation
-__all__ = _ALL_DOCS('CartesianSphericalBase', 'LatLonSphericalBase')
-__version__ = '20.06.15'
+__all__ = ()
+__version__ = '20.07.08'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -51,7 +51,7 @@ def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
     r2 = Radius_(rad2, name='rad2')
     r = radius
     if r is not None:  # convert radii to radians
-        r = 1.0 / Radius_(r,  name='radius')
+        r = 1.0 / Radius_(r,  name=_radius_)
         r1 *= r
         r2 *= r
 
@@ -108,7 +108,7 @@ class CartesianSphericalBase(CartesianBase):
         n2, q21 = n.dot(n), 1 - q**2
         if min(abs(q21), n2) < EPS:
             raise IntersectionError(center=self, other=other,
-                                    txt='near-concentric')
+                                    txt=_near_concentric_)
         try:
             cr1, cr2 = cos(r1), cos(r2)
             a = (cr1 - q * cr2) / q21
@@ -120,7 +120,7 @@ class CartesianSphericalBase(CartesianBase):
         x = 1 - x0.dot(x0)
         if x < EPS:
             raise IntersectionError(center=self, rad1=rad1,
-                                    other=other, rad2=rad2, txt='too distant')
+                                    other=other, rad2=rad2, txt=_too_distant_)
         n = n.times(sqrt(x / n2))
         if n.length > EPS:
             x1, x2 = x0.plus(n), x0.minus(n)
@@ -198,7 +198,7 @@ class LatLonSphericalBase(LatLonBase):
         '''
         _xinstanceof(Datum, datum=datum)
         if not datum.isSpherical:
-            raise _IsnotError('spherical', datum=datum)
+            raise _IsnotError(_spherical_, datum=datum)
         self._update(datum != self._datum)
         self._datum = datum
 
@@ -265,7 +265,7 @@ class LatLonSphericalBase(LatLonBase):
         '''
         return -self.maxLat(bearing)
 
-    def parse(self, strll, height=0, sep=','):
+    def parse(self, strll, height=0, sep=_COMMA_):
         '''Parse a string representing lat-/longitude point and
            return a C{LatLon}.
 
@@ -468,6 +468,9 @@ class LatLonSphericalBase(LatLonBase):
         '''
         from pygeodesy.webmercator import toWm  # PYCHOK recursive import
         return toWm(self, radius=radius)
+
+
+__all__ += _ALL_DOCS(CartesianSphericalBase, LatLonSphericalBase)
 
 # **) MIT License
 #

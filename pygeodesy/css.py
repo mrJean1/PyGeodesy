@@ -8,11 +8,14 @@ L{CSSError} requiring I{Charles Karney's} U{geographiclib
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import NN, property_RO, _xinstanceof, _xkwds, \
+from pygeodesy.basics import property_RO, _xinstanceof, _xkwds, \
                             _xsubclassof, _xzipairs
 from pygeodesy.datum import Datums
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _incompatible, _ValueError
+from pygeodesy.interns import _C_, _COMMA_SPACE_, _datum_, _E_, _easting_, \
+                              _h_, _m_, _N_, _name_, NN, _northing_, _lat_, \
+                              _lat0_, _lon_, _lon0_, _SPACE_, _SQUARE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, EasNor3Tuple, \
                             LatLon2Tuple, LatLon4Tuple, \
@@ -22,11 +25,12 @@ from pygeodesy.streprs import fstr, strs
 from pygeodesy.units import Bearing, Easting, Height, Lat, Lon, \
                             Northing, Scalar
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.css + _ALL_DOCS('EasNorAziRk4Tuple', 'LatLonAziRk4Tuple')
-__version__ = '20.05.14'
+__all__ = _ALL_LAZY.css
+__version__ = '20.07.08'
 
-_CassiniSoldner0 = None  # default projection
+_azimuth_        = 'azimuth'
+_CassiniSoldner0 =  None  # default projection
+_reciprocal_     = 'reciprocal'
 
 
 def _CassiniSoldner(cs0):
@@ -198,7 +202,7 @@ class CassiniSoldner(_NamedBase):
            @raise TypeError: Invalid B{C{latlon0}}.
         '''
         _xinstanceof(_LLEB, LatLon4Tuple, LatLon2Tuple, latlon0=latlon0)
-        if hasattr(latlon0, 'datum'):
+        if hasattr(latlon0, _datum_):
             self._datumatch(latlon0)
         self.reset(latlon0.lat, latlon0.lon)
 
@@ -222,8 +226,8 @@ class CassiniSoldner(_NamedBase):
         '''
         g, M = self.datum.ellipsoid._geodesic_Math2
 
-        self._meridian = m = g.Line(Lat(lat0, name='lat0'),
-                                    Lon(lon0, name='lon0'), 0.0,
+        self._meridian = m = g.Line(Lat(lat0, name=_lat0_),
+                                    Lon(lon0, name=_lon0_), 0.0,
                                     g.STANDARD | g.DISTANCE_IN)
         self._latlon0 = LatLon2Tuple(m.lat1, m.lon1)
         s, c = M.sincosd(m.lat1)  # == self.lat0 == self.LatitudeOrigin()
@@ -292,13 +296,13 @@ class CassiniSoldner(_NamedBase):
            @return: This projection as C{"<classname>(lat0, lon0, ...)"}
                     (C{str}).
         '''
-        t = self.toStr(prec=prec, sep=', ')
+        t = self.toStr(prec=prec, sep=_COMMA_SPACE_)
         n = self.name or NN
         if n:
-            n = ', name=%r' % (n,)
+            n = ', %s=%r' % (_name_, n)
         return '%s(%s%s)' % (self.classname, t, n)
 
-    def toStr(self, prec=6, sep=' ', **unused):  # PYCHOK expected
+    def toStr(self, prec=6, sep=_SPACE_, **unused):  # PYCHOK expected
         '''Return a string representation of this projection.
 
            @kwarg prec: Optional number of decimal, unstripped (C{int}).
@@ -347,7 +351,7 @@ class Css(_NamedBase):
         self._easting  = Easting(e,  Error=CSSError)
         self._northing = Northing(n, Error=CSSError)
         if h:
-            self._height = Height(h, name='h')
+            self._height = Height(h, name=_h_)
         if name:
             self.name = name
 
@@ -435,7 +439,7 @@ class Css(_NamedBase):
                   LatLon(lat, lon, height=h, datum=d, **LatLon_kwds)
         return self._xnamed(r)
 
-    def toRepr(self, prec=6, fmt='[%s]', sep=', ', m='m', C=False):  # PYCHOK expected
+    def toRepr(self, prec=6, fmt=_SQUARE_, sep=_COMMA_SPACE_, m=_m_, C=False):  # PYCHOK expected
         '''Return a string representation of this L{Css} position.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -448,19 +452,19 @@ class Css(_NamedBase):
                     C:Conic.Datum]"} (C{str}).
         '''
         t = self.toStr(prec=prec, sep=None, m=m)
-        k = ('E', 'N', 'H')[:len(t)]
+        k = (_E_, _N_, 'H')[:len(t)]
         if self.name:
-            k += 'name',
+            k += _name_,
             t +=  repr(self.name),
         if C:
-            k += 'C',
+            k += _C_,
             t +=  self.cs0.toRepr(prec=prec),
         return _xzipairs(k, t, sep=sep, fmt=fmt)
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, used method L{Css.toRepr}.'''
 
-    def toStr(self, prec=6, sep=' ', m='m'):  # PYCHOK expected
+    def toStr(self, prec=6, sep=_SPACE_, m=_m_):  # PYCHOK expected
         '''Return a string representation of this L{Css} position.
 
            @kwarg prec: Optional number of decimal, unstripped (C{int}).
@@ -486,7 +490,7 @@ class EasNorAziRk4Tuple(_NamedTuple):
        C{reciprocal} the reciprocal of azimuthal northing scale
        reciprocal, both in C{degrees}.
     '''
-    _Names_ = ('easting', 'northing', 'azimuth', 'reciprocal')
+    _Names_ = (_easting_, _northing_, _azimuth_, _reciprocal_)
 
     def __new__(cls, e, n, azi, rk):
         return _NamedTuple.__new__(cls, Easting( e, Error=CSSError),
@@ -500,7 +504,7 @@ class LatLonAziRk4Tuple(_NamedTuple):
        where C{azimuth} is the azimuth of easting direction and
        C{reciprocal} the reciprocal of azimuthal northing scale.
     '''
-    _Names_ = ('lat', 'lon', 'azimuth', 'reciprocal')
+    _Names_ = (_lat_, _lon_, _azimuth_, _reciprocal_)
 
     def __new__(cls, lat, lon, azi, rk):
         return _NamedTuple.__new__(cls, Lat(lat, Error=CSSError),
@@ -547,6 +551,9 @@ def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=NN):
         r._latlon = LatLon2Tuple(latlon.lat, latlon.lon)
         r._azi, r._rk = c.azimuth, c.reciprocal
     return _xnamed(r, name or nameof(latlon))
+
+
+__all__ += _ALL_DOCS(EasNorAziRk4Tuple, LatLonAziRk4Tuple)
 
 # **) MIT License
 #

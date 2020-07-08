@@ -9,7 +9,7 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.05.08'
+__version__ = '20.07.07'
 
 from base import TestsBase
 
@@ -109,7 +109,7 @@ class Tests(TestsBase):
             t = LatLon(0, 0).convertRefFrame(RefFrames.ITRF2000)
         except TRFError as x:
             t = str(x)
-        self.test('TRFError', t, 'no conversion: LatLon(00°00′00.0″N, 000°00′00.0″E).reframe missing')
+        self.test('TRFError', t, 'no conversion: LatLon(00°00′00.0″N, 000°00′00.0″E).reframe MISSING')
 
         c = Cartesian(0, 0, 0)
         try:

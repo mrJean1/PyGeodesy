@@ -8,10 +8,8 @@ from pygeodesy.formy import points2  # PYCHOK exported
 from pygeodesy.latlonBase import LatLonBase as LatLonHeightBase  # PYCHOK exported
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
-# XXX the following classes are listed only to get
-# Epydoc to include class and method documentation
-__all__ = _ALL_LAZY.bases + _ALL_DOCS('LatLonHeightBase', 'points2')
-__version__ = '19.10.20'
+__all__ = _ALL_LAZY.bases + _ALL_DOCS(LatLonHeightBase, points2)
+__version__ = '20.07.06'
 
 # **) MIT License
 #

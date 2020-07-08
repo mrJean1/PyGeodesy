@@ -35,16 +35,13 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.errors import _ValueError
 from pygeodesy.formy import points2
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import Bearing2Tuple, Destination2Tuple
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.ellipsoidalKarney + (
-          'Cartesian', 'LatLon',  # classes
-          'areaOf', 'isclockwise', 'ispolar', 'perimeterOf')  # functions
-__version__ = '20.06.16'
+__all__ = _ALL_LAZY.ellipsoidalKarney
+__version__ = '20.07.06'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -491,6 +488,11 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
        @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.
     '''
     return _geodesic(datum, points, closed, True, wrap)
+
+
+__all__ += _ALL_OTHER(Cartesian, LatLon,  # classes
+                      areaOf, isclockwise, ispolar,  # functions
+                      perimeterOf)
 
 # **) MIT License
 #

@@ -59,14 +59,15 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, NN, property_doc_, property_RO, _xkwds
+from pygeodesy.basics import EPS, property_doc_, property_RO, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.interns import _ambiguous_, NN, _no_convergence_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import Bearing2Tuple, Destination2Tuple, \
                             Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
@@ -76,11 +77,10 @@ from pygeodesy.utily import degrees90, degrees180, degrees360, \
 
 from math import atan2, cos, radians, tan
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.ellipsoidalVincenty + (
-          'Cartesian', 'LatLon',
-          'ispolar')  # from .points
-__version__ = '20.06.16'
+__all__ = _ALL_LAZY.ellipsoidalVincenty
+__version__ = '20.07.08'
+
+_antipodal_ = 'antipodal '  # _SPACE_
 
 
 class VincentyError(_ValueError):
@@ -489,7 +489,7 @@ class LatLon(LatLonEllipsoidalBase):
             if abs(s - s_) < self._epsilon:
                 break
         else:
-            raise VincentyError('no convergence', txt=repr(self))  # self.toRepr()
+            raise VincentyError(_no_convergence_, txt=repr(self))  # self.toRepr()
 
         t = s1 * ss - c1 * cs * ci
         # final bearing (reverse azimuth +/- 180)
@@ -539,8 +539,8 @@ class LatLon(LatLonEllipsoidalBase):
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
             if ss < EPS:  # coincident or antipodal, ...
                 if self.isantipodeTo(other, eps=self._epsilon):
-                    t = '%r %sto %r' % (self, 'antipodal ', other)
-                    raise VincentyError('ambiguous', txt=t)
+                    t = '%r %sto %r' % (self, _antipodal_, other)
+                    raise VincentyError(_ambiguous_, txt=t)
                 # return zeros like Karney, but unlike Veness
                 return Distance3Tuple(0.0, 0, 0)
 
@@ -563,10 +563,10 @@ class LatLon(LatLonEllipsoidalBase):
 #           # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-vincenty.js>
 #           elif abs(ll) > PI and self.isantipodeTo(other, eps=self._epsilon):
 #              raise VincentyError('%s, %r %sto %r' % ('ambiguous', self,
-#                                  'antipodal ', other))
+#                                  _antipodal_, other))
         else:
-            t = 'antipodal ' if self.isantipodeTo(other, eps=self._epsilon) else NN
-            raise VincentyError('no convergence', txt='%r %sto %r' % (self, t, other))
+            t = _antipodal_ if self.isantipodeTo(other, eps=self._epsilon) else NN
+            raise VincentyError(_no_convergence_, txt='%r %sto %r' % (self, t, other))
 
         if c2a:  # e22 == (a / b)**2 - 1
             A, B = _p2(c2a * E.e22)
@@ -632,6 +632,10 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):  # PYCHOK 
     '''
     from pygeodesy.ellipsoidalKarney import perimeterOf
     return perimeterOf(points, closed=closed, datum=datum, wrap=wrap)
+
+
+__all__ += _ALL_OTHER(Cartesian, LatLon,
+                      ispolar)  # from .points
 
 # **) MIT License
 #

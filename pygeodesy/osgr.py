@@ -31,13 +31,16 @@ U{Transverse Mercator: Redfearn series
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import NN, halfs2, map1, property_RO, \
+from pygeodesy.basics import halfs2, map1, property_RO, \
                             _xsubclassof, _xzipairs
 from pygeodesy.datum import Datums
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_
+from pygeodesy.interns import _COLON_, _COMMA_, _COMMA_SPACE_, _dot_, \
+                              _item_ps, _LatLon_, NN, _no_convergence_, \
+                              _SPACE_, _SQUARE_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, LatLonDatum3Tuple, \
                            _NamedBase, nameof, _xnamed
@@ -47,9 +50,8 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 
 from math import cos, radians, sin, sqrt, tan
 
-# all public contants, classes and functions
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.05.14'
+__version__ = '20.07.08'
 
 _10um  = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km = 100000  #: (INTERNAL) 100 km (int meter)
@@ -60,8 +62,10 @@ _E0 = Easting(400e3)    #: (INTERNAL) Easting of true origin (C{meter}).
 _N0 = Northing(-100e3)  #: (INTERNAL) Northing of true origin (C{meter}).
 _F0 = Scalar(0.9996012717)  #: (INTERNAL) NatGrid scale of central meridian (C{float}).
 
-_OSGB36 = Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
-_TRIPS  = 32  #: (INTERNAL) Convergence
+_no_convertDatum_ = 'no .convertDatum'
+_ord_A            = ord('A')
+_OSGB36           = Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
+_TRIPS            = 32  #: (INTERNAL) Convergence
 
 
 def _ll2datum(ll, datum, name):
@@ -71,7 +75,7 @@ def _ll2datum(ll, datum, name):
         try:
             ll = ll.convertDatum(datum)
         except AttributeError:
-            raise _TypeError(name, ll, txt='no .convertDatum(%s)' % (datum.name,))
+            raise _TypeError(name, ll, txt=_item_ps(_no_convertDatum_, datum.name))
     return ll
 
 
@@ -192,8 +196,9 @@ class Osgr(_NamedBase):
             if abs(m) < _10um:
                 break
         else:
-            t = self.classname, self.toStr(prec=-3), self.toLatLon.__name__
-            raise OSGRError('no convergence', txt='%s(%s).%s' % t)
+            t = _dot_(_item_ps(self.classname, self.toStr(prec=-3)),
+                               self.toLatLon.__name__)
+            raise OSGRError(_no_convergence_, txt=t)
 
         sa, ca = sincos2(a)
 
@@ -234,14 +239,14 @@ class Osgr(_NamedBase):
         ll = self._latlon
         if LatLon is None:
             if datum and datum != ll.datum:
-                raise _TypeError(latlon=ll, txt='no .convertDatum(%s)' % (datum.name))
+                raise _TypeError(latlon=ll, txt=_item_ps(_no_convertDatum_, datum.name))
             return _xnamed(LatLonDatum3Tuple(ll.lat, ll.lon, ll.datum), ll.name)
         else:
             _xsubclassof(_LLEB, LatLon=LatLon)
             ll = _xnamed(LatLon(ll.lat, ll.lon, datum=ll.datum), ll.name)
-            return _ll2datum(ll, datum, 'LatLon')
+            return _ll2datum(ll, datum, _LatLon_)
 
-    def toRepr(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
+    def toRepr(self, prec=10, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
 
            @kwarg prec: Optional number of digits (C{int}).
@@ -253,12 +258,12 @@ class Osgr(_NamedBase):
         '''
         t = self.toStr(prec=prec, sep=None)
         return _xzipairs('GEN', t, sep=sep, fmt=fmt) if prec > 0 else \
-               (fmt % (':'.join((Osgr.__name__.upper(), t)),))
+               (fmt % (_COLON_.join((Osgr.__name__.upper(), t)),))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method L{Osgr.toRepr}.'''
 
-    def toStr(self, prec=10, sep=' '):  # PYCHOK expected
+    def toStr(self, prec=10, sep=_SPACE_):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
 
            Note that OSGR coordinates are truncated, not rounded
@@ -283,7 +288,7 @@ class Osgr(_NamedBase):
         def _i2c(i):
             if i > 7:
                 i += 1
-            return chr(ord('A') + i)
+            return chr(_ord_A + i)
 
         e, n, s = self._easting, self._northing, ','
         if prec > 0:
@@ -342,7 +347,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
        >>> g.toStr(prec=0)  # 651409,313177
     '''
     def _c2i(G):
-        g = ord(G.upper()) - ord('A')
+        g = ord(G.upper()) - _ord_A
         if g > 7:
             g -= 1
         return g
@@ -356,7 +361,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
 
     def _OSGR_(strOSGR, Osgr, name):
         s = strOSGR.strip()
-        g = s.split(',')
+        g = s.split(_COMMA_)
         if len(g) == 2:  # "easting,northing"
             if len(s) < 13:
                 raise ValueError

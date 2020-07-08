@@ -12,18 +12,20 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, NN, property_doc_, property_RO, _xinstanceof
+from pygeodesy.basics import EPS, property_doc_, property_RO, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
-from pygeodesy.errors import _incompatible, _IsnotError, _Missing, _ValueError
+from pygeodesy.errors import _incompatible, _IsnotError, _ValueError
+from pygeodesy.interns import _COMMA_, _datum_, _ellipsoidal_,_Missing, \
+                              _N_, NN, _no_conversion_ # PYCHOK used!
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Vector3Tuple
 from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 
-__all__ = _ALL_DOCS('CartesianEllipsoidalBase', 'LatLonEllipsoidalBase')
-__version__ = '20.05.14'
+__all__ = ()
+__version__ = '20.07.08'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -198,7 +200,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         _xinstanceof(RefFrame, reframe2=reframe2)
 
         if not self.reframe:
-            raise TRFError('no conversion', txt='%r.reframe %s' % (self, _Missing))
+            raise TRFError(_no_conversion_, txt='%r.reframe %s' % (self, _Missing))
 
         ts = _reframeTransforms(reframe2, self.reframe, self.epoch)
         if ts:
@@ -229,7 +231,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         _xinstanceof(Datum, datum=datum)
         if not datum.isEllipsoidal:
-            raise _IsnotError('ellipsoidal', datum=datum)
+            raise _IsnotError(_ellipsoidal_, datum=datum)
         self._update(datum != self._datum)
         self._datum = datum
 
@@ -290,7 +292,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: The ellipsoid (L{Ellipsoid}).
         '''
-        return getattr(self, 'datum', datum).ellipsoid
+        return getattr(self, _datum_, datum).ellipsoid
 
     def ellipsoids(self, other):
         '''Check the type and ellipsoid of this and an other point's datum.
@@ -303,7 +305,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise ValueError: Incompatible datum ellipsoids.
         '''
-        self.others(other)
+        self.others(other, up=2)  # ellipsoids' caller
 
         E = self.ellipsoid()
         try:  # other may be Sphere, etc.
@@ -369,7 +371,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return None
 
-    def parse(self, strll, height=0, datum=None, sep=','):
+    def parse(self, strll, height=0, datum=None, sep=_COMMA_):
         '''Parse a string representing this C{LatLon} point.
 
            The lat- and longitude must be separated by a sep[arator]
@@ -469,7 +471,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                                                         name=self.name)
         return self._osgr
 
-    def toUps(self, pole='N', falsed=True):
+    def toUps(self, pole=_N_, falsed=True):
         '''Convert this C{LatLon} point to a UPS coordinate.
 
            @kwarg pole: Optional top/center of (stereographic)
@@ -536,6 +538,9 @@ class LatLonEllipsoidalBase(LatLonBase):
             from pygeodesy.webmercator import toWm  # PYCHOK recursive import
             self._wm = toWm(self)
         return self._wm
+
+
+__all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase)
 
 # **) MIT License
 #

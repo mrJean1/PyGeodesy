@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 u'''Basic constants, definitions and functions.
-
 '''
 from pygeodesy.errors import _AttributeError, _IsnotError, \
                              _TypesError, _ValueError
+from pygeodesy.interns import _COMMA_SPACE_, NN, _UNDERSCORE_
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
@@ -13,9 +13,8 @@ from inspect import isclass
 from math import copysign, isinf, isnan, pi as PI
 from sys import float_info as _float_info
 
-# all public contants, classes and functions
 __all__ = _ALL_LAZY.basics
-__version__ = '20.06.15'
+__version__ = '20.07.08'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -71,8 +70,6 @@ INF  = float('inf')  #: Infinity (C{float}), see function C{isinf}, C{isfinite}
 NAN  = float('nan')  #: Not-A-Number (C{float}), see function C{isnan}
 NEG0 = -0.0          #: Negative 0.0 (C{float}), see function C{isneg0}
 
-NN   = ''            #: Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
-
 PI2  = PI * 2.0  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
 PI_2 = PI / 2.0  #: Half PI, M{PI / 2} (C{float})
 PI_4 = PI / 4.0  #: Quarter PI, M{PI / 4} (C{float})
@@ -89,7 +86,7 @@ def _bkwds(inst, Error=AttributeError, **name_value_pairs):  # in .frechet, .hau
             t = n, v, inst.__class__.__name__  # XXX .classname
             raise Error('not applicable: %s=%r for %s' % t)
         if v in (False, True) and v != b:
-            setattr(inst, '_' + n, v)
+            setattr(inst, _UNDERSCORE_ + n, v)
 
 
 def clips(bstr, limit=50, white=NN):
@@ -169,7 +166,7 @@ def isneg0(obj):
                 C{False} otherwise.
     '''
     return obj in (0.0, NEG0) and copysign(1, obj) < 0
-#                             and str(obj).rstrip('0') == '-0.'
+#                             and str(obj).rstrip(_0_) == '-0.'
 
 
 def isscalar(obj):
@@ -241,7 +238,7 @@ def map1(func, *xs):  # XXX map_
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(func, xs))
+    return tuple(map(func, xs))  # note, NO *xs
 
 
 def map2(func, *xs):
@@ -257,7 +254,7 @@ def map2(func, *xs):
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(func, *xs))
+    return tuple(map(func, *xs))  # note, *xs
 
 
 def property_doc_(doc):
@@ -407,7 +404,7 @@ def _xsubclassof(Class, **name_value_pairs):
             raise _TypesError(n, v, Class)
 
 
-def _xzipairs(lefts, rights, sep=', ', fmt=NN, pair='%s:%s'):
+def _xzipairs(lefts, rights, sep=_COMMA_SPACE_, fmt=NN, pair='%s:%s'):
     '''(INTERNAL) Zip C{lefts} and C{rights} into a C{str}.
     '''
     t = sep.join(pair % t for t in zip(lefts, rights))

@@ -13,20 +13,19 @@ U{UTMUPS<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.
 including coverage of UPS as zone C{0}.
 '''
 
-from pygeodesy.basics import isint, isstr, NN, property_RO, _xinstanceof
+from pygeodesy.basics import isint, isstr, property_RO, _xinstanceof
 from pygeodesy.errors import _ValueError
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import  _NamedTuple
+from pygeodesy.interns import _item_ps, _N_, NN, _NS_, _S_, _SPACE_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.units import Int
 from pygeodesy.ups import Ups
 from pygeodesy.utm import Utm
-from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, \
-                                 _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
+from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
+                                 _UTM_ZONE_MAX, UtmUps2Tuple, \
                                  _UTMUPS_ZONE_INVALID
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.epsg + _ALL_DOCS('UtmUps2Tuple') + ('decode2', 'encode')
-__version__ = '20.05.14'
+__all__ = _ALL_LAZY.epsg
+__version__ = '20.07.08'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -41,10 +40,10 @@ _EPSG_S    = 32761  # EPSG code for UPS pole S
 class Epsg(Int):
     '''U{EPSG<https://www.EPSG-Registry.org>} class, a named C{int}.
     '''
-    _band       = NN
-    _epsg       = None
-    _hemisphere = NN
-    _utmups     = None
+    _band       =  NN
+    _epsg       =  None
+    _hemisphere =  NN
+    _utmups     =  None
     _zone       = _UTMUPS_ZONE_INVALID
 
     def __new__(cls, eisu):
@@ -88,7 +87,7 @@ class Epsg(Int):
         return self
 
     def __repr__(self):
-        return '%s(%s)' % (self.named, int.__repr__(self))
+        return _item_ps(self.named, int.__repr__(self))
 
     def __str__(self):
         return int.__str__(self)
@@ -118,7 +117,7 @@ class Epsg(Int):
         b = self.band if B else NN
         h = s = self.hemisphere
         if h:
-            s = ' '
+            s = _SPACE_
         return ''.join(map(str, (z, b, s, h)))
 
     @property_RO
@@ -132,14 +131,6 @@ class EPSGError(_ValueError):
     '''EPSG encode, decode or other L{Epsg} issue.
     '''
     pass
-
-
-class UtmUps2Tuple(_NamedTuple):
-    '''2-Tuple C{(zone, hemipole)} as C{int} and C{str}, where
-       C{zone} is C{1..60} for UTM or C{0} for UPS and C{hemipole}
-       C{'N'|'S'} is the UTM hemisphere or the UPS pole.
-    '''
-    _Names_ = ('zone', 'hemipole')
 
 
 def decode2(epsg):
@@ -162,16 +153,16 @@ def decode2(epsg):
         try:
             e = int(epsg)  # int(long) OK
             if _EPSG_N_01 <= e <= _EPSG_N_60:
-                z, h = int(e - _EPSG_N_01 + _UTM_ZONE_MIN), 'N'
+                z, h = int(e - _EPSG_N_01 + _UTM_ZONE_MIN), _N_
 
             elif _EPSG_S_01 <= e <= _EPSG_S_60:
-                z, h = int(e - _EPSG_S_01 + _UTM_ZONE_MIN), 'S'
+                z, h = int(e - _EPSG_S_01 + _UTM_ZONE_MIN), _S_
 
             elif e == _EPSG_N:
-                z, h = _UPS_ZONE, 'N'
+                z, h = _UPS_ZONE, _N_
 
             elif e == _EPSG_S:
-                z, h = _UPS_ZONE, 'S'
+                z, h = _UPS_ZONE, _S_
 
             else:
                 raise ValueError
@@ -204,15 +195,15 @@ def encode(zone, hemipole=NN, band=NN):
     '''
     try:
         z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)  # in .ellipsoidalBase
-        if hp not in ('N', 'S'):
+        if hp not in _NS_:
             raise ValueError
     except (TypeError, ValueError) as x:
         raise EPSGError(zone=zone, hemipole=hemipole, band=band, txt=str(x))
 
     if _UTM_ZONE_MIN <= z <= _UTM_ZONE_MAX:
-        e = z - _UTM_ZONE_MIN + (_EPSG_N_01 if hp == 'N' else _EPSG_S_01)
+        e = z - _UTM_ZONE_MIN + (_EPSG_N_01 if hp == _N_ else _EPSG_S_01)
     elif z == _UPS_ZONE:
-        e = _EPSG_N if hp == 'N' else _EPSG_S
+        e = _EPSG_N if hp == _N_ else _EPSG_S
     else:
         raise EPSGError(zone=zone)
 
@@ -220,6 +211,9 @@ def encode(zone, hemipole=NN, band=NN):
     e._band = B
     # e._hemisphere = hp
     return e
+
+
+__all__ += _ALL_OTHER(decode2, encode)
 
 # **) MIT License
 #

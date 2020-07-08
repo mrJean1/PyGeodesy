@@ -17,12 +17,15 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, NN, PI_2, property_RO, _xinstanceof, \
+from pygeodesy.basics import EPS, PI_2, property_RO, _xinstanceof, \
                             _xsubclassof, _xzipairs
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datums, Lam_, Phi_
 from pygeodesy.errors import _IsnotError, _ValueError
-from pygeodesy.lazily import _ALL_LAZY, _dot_
+from pygeodesy.interns import _C_, _COMMA_SPACE_, _ellipsoidal_, \
+                              _dot_, _h_, _k0_, _lat0_, _lon0_, \
+                              _m_, NN, _SPACE_, _SQUARE_ # PYCHOK used!
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor3Tuple, LatLon2Tuple, \
                             LatLon4Tuple, LatLonDatum3Tuple, \
                            _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
@@ -33,9 +36,14 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 
 from math import atan, copysign, hypot, log, radians, sin, sqrt
 
-# all public constants, classes and functions
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.05.14'
+__version__ = '20.07.08'
+
+_E0_   = 'E0'
+_N0_   = 'N0'
+_par1_ = 'par1'
+_par2_ = 'par2'
+_SP_   = 'SP'
 
 
 class Conic(_NamedEnumItem):
@@ -94,15 +102,15 @@ class Conic(_NamedEnumItem):
             _xinstanceof(_LLEB, latlon0=latlon0)
             self._phi0, self._lam0 = latlon0.philam
 
-            self._par1 = Phi_(par1, name='par1')
-            self._par2 = self._par1 if par2 is None else Phi_(par2, name='par2')
+            self._par1 = Phi_(par1, name=_par1_)
+            self._par2 = self._par1 if par2 is None else Phi_(par2, name=_par2_)
 
             if k0 != 1:
-                self._k0 = Scalar_(k0, name='k0')
+                self._k0 = Scalar_(k0, name=_k0_)
             if E0:
-                self._E0 = Northing(E0, name='E0', falsed=True)
+                self._E0 = Northing(E0, name=_E0_, falsed=True)
             if N0:
-                self._N0 = Easting(N0, name='N0', falsed=True)
+                self._N0 = Easting(N0, name=_N0_, falsed=True)
             if opt3:
                 self._opt3 = Lam_(opt3, name='opt3')
 
@@ -220,7 +228,7 @@ class Conic(_NamedEnumItem):
         '''
         E = datum.ellipsoid
         if not E.isEllipsoidal:
-            raise _IsnotError('ellipsoidal', datum=datum)
+            raise _IsnotError(_ellipsoidal_, datum=datum)
 
         c = self
         if c._e != E.e or c._datum != datum:
@@ -268,12 +276,12 @@ class Conic(_NamedEnumItem):
            @return: Conic attributes (C{str}).
         '''
         if self._SP == 1:
-            return self._instr(prec, 'lat0', 'lon0', 'par1',
-                                     'E0', 'N0', 'k0', 'SP',
+            return self._instr(prec, _lat0_, _lon0_, _par1_,
+                                     _E0_, _N0_, _k0_, _SP_,
                                       datum=self.datum)
         else:
-            return self._instr(prec, 'lat0', 'lon0', 'par1', 'par2',
-                                     'E0', 'N0', 'k0', 'SP',
+            return self._instr(prec, _lat0_, _lon0_, _par1_, _par2_,
+                                     _E0_, _N0_, _k0_, _SP_,
                                       datum=self.datum)
 
     def _dup2(self, c):
@@ -384,7 +392,7 @@ class Lcc(_NamedBase):
         self._easting  = Easting(e,  falsed=conic.E0 > 0, Error=LCCError)
         self._northing = Northing(n, falsed=conic.N0 > 0, Error=LCCError)
         if h:
-            self._height = Height(h, name='h', Error=LCCError)
+            self._height = Height(h, name=_h_, Error=LCCError)
         if name:
             self.name = name
 
@@ -494,7 +502,7 @@ class Lcc(_NamedBase):
                   LatLon(lat, lon, height=h, datum=d)
         return self._xnamed(r)
 
-    def toRepr(self, prec=0, fmt='[%s]', sep=', ', m='m', C=False, **unused):  # PYCHOK expected
+    def toRepr(self, prec=0, fmt=_SQUARE_, sep=_COMMA_SPACE_, m=_m_, C=False, **unused):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -509,11 +517,11 @@ class Lcc(_NamedBase):
         t = self.toStr(prec=prec, sep=None, m=m)
         k = 'ENH'[:len(t)]
         if C:
-            k += 'C'
+            k += _C_
             t += [self.conic.name2]
         return _xzipairs(k, t, sep=sep, fmt=fmt)
 
-    def toStr(self, prec=0, sep=' ', m='m'):  # PYCHOK expected
+    def toStr(self, prec=0, sep=_SPACE_, m=_m_):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
 
            @kwarg prec: Optional number of decimal, unstripped (C{int}).
@@ -606,11 +614,11 @@ if __name__ == '__main__':
 
 # % python -m pygeodesy.lcc
 
-# Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, par1=49.833333, par2=51.166667, E0=649328, N0=665262, k0=1, SP=2, datum=(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84),
-# Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83),
-# Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3, par1=49, par2=44, E0=700000, N0=6600000, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
-# Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000, N0=300000, k0=1, SP=2, datum=(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF),
-# Conics.MxLb: Conic(name='MxLb', lat0=12, lon0=-102, par1=17.5, par2=29.5, E0=2500000, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
-# Conics.PyT_Lb: Conic(name='PyT_Lb', lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000, N0=200000, k0=1, SP=2, datum=(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF),
-# Conics.USA_Lb: Conic(name='USA_Lb', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
-# Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
+# Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, par1=49.833333, par2=51.166667, E0=649328, N0=665262, k0=1, SP=2, datum=Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84),
+# Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83),
+# Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3, par1=49, par2=44, E0=700000, N0=6600000, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
+# Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000, N0=300000, k0=1, SP=2, datum=Datum(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF),
+# Conics.MxLb: Conic(name='MxLb', lat0=12, lon0=-102, par1=17.5, par2=29.5, E0=2500000, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
+# Conics.PyT_Lb: Conic(name='PyT_Lb', lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000, N0=200000, k0=1, SP=2, datum=Datum(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF),
+# Conics.USA_Lb: Conic(name='USA_Lb', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
+# Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)

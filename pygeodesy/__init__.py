@@ -232,7 +232,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var MIN:    System's M{float min} ≈2.225e-308 (C{float}).
 @var NAN:    Not-A-Number (C{float}), see function C{isnan}.
 @var NEG0:   Negative 0.0 (C{float}), see function C{isneg0}.
-@var NN:     Nomen Nescio (C{str} <https://Wiktionary.org/wiki/N.N.>).
+@var NN:     Empty (C{str}), U{Nomen Nescio<https://Wiktionary.org/wiki/N.N.>}.
 
 @var PI:   Constant M{math.pi} (C{float}).
 @var PI2:  Two PI, M{math.pi * 2} (C{float}).
@@ -274,7 +274,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.07.01'
+__version__ = '20.07.08'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -326,6 +326,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.geoids                as geoids                 # PYCHOK exported
     import pygeodesy.hausdorff             as hausdorff              # PYCHOK exported
     import pygeodesy.heights               as heights                # PYCHOK exported
+    import pygeodesy.interns               as interns                # PYCHOK exported
     import pygeodesy.karney                as karney                 # PYCHOK exported
     import pygeodesy.lazily                as lazily                 # PYCHOK exported
     import pygeodesy.lcc                   as lcc                    # PYCHOK exported
@@ -377,6 +378,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.geoids                import *  # PYCHOK __all__
     from pygeodesy.hausdorff             import *  # PYCHOK __all__
     from pygeodesy.heights               import *  # PYCHOK __all__
+    from pygeodesy.interns               import *  # PYCHOK __all__
 #   from pygeodesy.karney                import *  # MODULE O_N_L_Y
     from pygeodesy.lazily                import *  # PYCHOK __all__
     from pygeodesy.lcc                   import *  # PYCHOK __all__
@@ -400,7 +402,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK exported
 
     def _all(globalocals):
-        from pygeodesy.lazily import _dot_  # PYCHOK expected
+        from pygeodesy.interns import _dot_  # PYCHOK expected
         # collect all public module and attribute names and check
         # that modules are imported from this package, 'pygeodesy'
         # (but the latter only when not bundled with PyInstaller or

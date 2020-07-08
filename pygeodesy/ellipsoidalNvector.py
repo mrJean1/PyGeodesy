@@ -22,14 +22,16 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import NN, property_RO, _xinstanceof, \
+from pygeodesy.basics import property_RO, _xinstanceof, \
                             _xkwds, _xzipairs
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.fmath import fdot, hypot_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.interns import _COMMA_SPACE_, _elevation_, NN, \
+                              _pole_, _SQUARE_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import LatLon3Tuple, _Named, _NamedTuple, _xnamed
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
@@ -39,11 +41,12 @@ from pygeodesy.utily import degrees90, degrees360, sincos2d
 
 from math import asin, atan2
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.ellipsoidalNvector + _ALL_DOCS('Ned3Tuple') + (
-          'Cartesian', 'LatLon', 'Ned', 'Nvector',  # classes
-          'meanOf', 'sumOf', 'toNed')  # functions
-__version__ = '20.06.16'
+__all__ = _ALL_LAZY.ellipsoidalNvector
+__version__ = '20.07.08'
+
+_down_  = 'down'
+_east_  = 'east'
+_north_ = 'north'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -120,7 +123,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             nv = self.toNvector()  # local (n-vector) coordinate frame
 
             d = nv.negate()  # down (opposite to n-vector)
-            e = NorthPole.cross(nv, raiser='pole').unit()  # east (pointing perpendicular to the plane)
+            e = NorthPole.cross(nv, raiser=_pole_).unit()  # east (pointing perpendicular to the plane)
             n = e.cross(d)  # north (by right hand rule)
 
             self._r3 = n, e, d  # matrix rows
@@ -170,10 +173,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         # (signed) angle between point and gc normal vector
 #         v = self.toNvector()
 #         a = gc.angleTo(v, vSign=v.cross(gc))
-#         if a < 0:
-#             a = -PI_2 - a
-#         else:
-#             a =  PI_2 - a
+#         a = (-PI_2 - a) if a < 0 else (PI_2 - a)
 #         return a * float(radius)
 
     def deltaTo(self, other):
@@ -499,9 +499,9 @@ class Ned(_Named):
            >>> delta = Ned(110569, 111297, 1936)
            >>> delta.toStr(prec=0)  #  [N:110569, E:111297, D:1936]
         '''
-        self._north = Scalar(north or 0, name='north')
-        self._east  = Scalar(east  or 0, name='east')
-        self._down  = Scalar(down  or 0, name='down')
+        self._north = Scalar(north or 0, name=_north_)
+        self._east  = Scalar(east  or 0, name=_east_)
+        self._down  = Scalar(down  or 0, name=_down_)
         if name:
             self.name = name
 
@@ -565,7 +565,7 @@ class Ned(_Named):
         '''
         return self.ned
 
-    def toRepr(self, prec=None, fmt='[%s]', sep=', ', **unused):  # PYCHOK expected
+    def toRepr(self, prec=None, fmt=_SQUARE_, sep=_COMMA_SPACE_, **unused):  # PYCHOK expected
         '''Return a string representation of this NED vector as
            length, bearing and elevation.
 
@@ -584,7 +584,7 @@ class Ned(_Named):
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, used method L{Ned.toRepr}.'''
 
-    def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
+    def toStr(self, prec=3, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this NED vector.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -608,7 +608,7 @@ class Ned(_Named):
 class Ned3Tuple(_NamedTuple):  # .ellipsoidalNvector.py
     '''3-Tuple C{(north, east, down)}, all in C{degrees}.
     '''
-    _Names_ = ('north', 'east', 'down')
+    _Names_ = (_north_, _east_, _down_)
 
 
 _Nvll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
@@ -802,7 +802,7 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
     d = Distance(distance)
 
     sb, cb, se, ce = sincos2d(Bearing(bearing),
-                               Height(elevation, name='elevation'))
+                               Height(elevation, name=_elevation_))
     n  = cb * d * ce
     e  = sb * d * ce
     d *= se
@@ -810,6 +810,10 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
     r = Ned3Tuple(n, e, -d) if Ned is None else \
               Ned(n, e, -d)
     return _xnamed(r, name)
+
+
+__all__ += _ALL_OTHER(Cartesian, LatLon, Ned, Nvector,  # classes
+                      meanOf, sumOf, toNed) + _ALL_DOCS(Ned3Tuple)
 
 # **) MIT License
 #

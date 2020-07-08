@@ -12,22 +12,22 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, NN, property_doc_, property_RO, \
+from pygeodesy.basics import EPS, property_doc_, property_RO, \
                             _xinstanceof, _xkwds
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
+from pygeodesy.interns import _COMMA_SPACE_, _ellipsoidal_, NN, \
+                              _spherical_, _SQUARE_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import LatLon4Tuple, Vector4Tuple
 from pygeodesy.vector3d import Vector3d, _xyzhdn6
 
 from math import sqrt  # hypot
 
-# XXX the following classes are listed only to get
-# Epydoc to include class and method documentation
-__all__ = _ALL_DOCS('CartesianBase')
-__version__ = '20.06.12'
+__all__ = ()
+__version__ = '20.07.08'
 
 
 class CartesianBase(Vector3d):
@@ -134,9 +134,9 @@ class CartesianBase(Vector3d):
         d = self.datum
         if d is not None:
             if d.isEllipsoidal and not datum.isEllipsoidal:
-                raise _IsnotError('ellipsoidal', datum=datum)
+                raise _IsnotError(_ellipsoidal_, datum=datum)
             elif d.isSpherical and not datum.isSpherical:
-                raise _IsnotError('spherical', datum=datum)
+                raise _IsnotError(_spherical_, datum=datum)
         self._update(datum != d)
         self._datum = datum
 
@@ -327,7 +327,7 @@ class CartesianBase(Vector3d):
             r = Nvector(r.x, r.y, r.z, h=r.h, datum=d, **Nvector_kwds)
         return self._xnamed(r)
 
-    def toStr(self, prec=3, fmt='[%s]', sep=', '):  # PYCHOK expected
+    def toStr(self, prec=3, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return the string representation of this cartesian.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -353,6 +353,9 @@ class CartesianBase(Vector3d):
         '''
         return self.xyz if Vector is None else \
               self._xnamed(Vector(self.x, self.y, self.z, **Vector_kwds))
+
+
+__all__ += _ALL_DOCS('CartesianBase')
 
 #   xyz = Vector3d.xyz
 #   '''Get this cartesian's X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).

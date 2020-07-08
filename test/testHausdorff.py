@@ -4,20 +4,21 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '20.06.24'
+__version__ = '20.07.03'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
 from pygeodesy import Datums, fStr, hausdorff_, \
                       HausdorffCosineAndoyerLambert, \
                       HausdorffCosineForsytheAndoyerLambert, \
-                      HausdorffDegrees, HausdorffRadians, \
-                      HausdorffCosineLaw, HausdorffEquirectangular, \
-                      HausdorffEuclidean, HausdorffFlatLocal, \
-                      HausdorffFlatPolar, HausdorffHaversine, \
-                      HausdorffHubeny, HausdorffKarney, \
-                      HausdorffThomas, HausdorffVincentys, \
-                      LatLon_, randomrangenerator
+                      HausdorffDegrees, HausdorffDistanceTo, \
+                      HausdorffRadians, HausdorffCosineLaw, \
+                      HausdorffEquirectangular, HausdorffEuclidean, \
+                      HausdorffFlatLocal, HausdorffFlatPolar, \
+                      HausdorffHaversine, HausdorffHubeny, \
+                      HausdorffKarney, HausdorffThomas, \
+                      HausdorffVincentys, LatLon_, \
+                      randomrangenerator
 
 
 class HausdorffDegrees_(HausdorffDegrees):
@@ -58,15 +59,16 @@ class Tests(TestsBase):
 
     def test4(self, Hausdorff, *tests, **kwds):
 
+        k = kwds.pop('known', False)
         for s, e, x, y in tests:
             h = Hausdorff(_ms, seed=s, **kwds)
             n = '%s (%s)' % (h.named, h.units)
 
             t = _tstr(h.directed(_ps, early=e))
-            self.test(n, t, x)  # + (h.units,)
+            self.test(n, t, x, known=k)  # + (h.units,)
 
             t = _tstr(h.symmetric(_ps, early=e))
-            self.test(n, t, y)  # + (h.units,)
+            self.test(n, t, y, known=k)  # + (h.units,)
 
         self.testCopy(h)
 
@@ -248,6 +250,22 @@ if __name__ == '__main__':  # MCCABE 13
 
         t.test4_(hausdorff_, *_4((50.5, 61, 7,  90, 18.45556),
                                  (50.5, 61, 7, 150, 16.05)))
+
+    if isPython3:
+        from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
+                              sphericalNvector, sphericalTrigonometry
+
+        for m in (ellipsoidalKarney, ellipsoidalVincenty):
+            _ms = [m.LatLon(*ll.latlon) for ll in _ms]
+            _ps = [m.LatLon(*ll.latlon) for ll in _ps]
+            t.test4(HausdorffDistanceTo, *_4((3195418.34044, 35, 3,  90, 1351164.35981),
+                                             (3195418.34044, 35, 3, 150, 1280992.80341)), known=True)
+
+        for m in (ellipsoidalNvector, sphericalNvector, sphericalTrigonometry):
+            _ms = [m.LatLon(*ll.latlon) for ll in _ms]
+            _ps = [m.LatLon(*ll.latlon) for ll in _ps]
+            t.test4(HausdorffDistanceTo, *_4((3191685.70841, 35, 3,  90, 1350684.04012),
+                                             (3191685.70841, 35, 3, 150, 1280478.58707)), known=True)
 
     t.results()
     t.exit()

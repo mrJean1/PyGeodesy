@@ -26,10 +26,13 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import halfs2, NN, property_RO, _xkwds, \
+from pygeodesy.basics import halfs2, property_RO, _xkwds, \
                             _xinstanceof, _xzipairs
 from pygeodesy.datum import Datums
 from pygeodesy.errors import _parseX, _ValueError
+from pygeodesy.interns import _band_, _COMMA_SPACE_, _datum_, \
+                              _easting_, NN, _northing_, _SPACE_, \
+                              _SQUARE_, _zone_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
 from pygeodesy.streprs import enstr2
@@ -39,13 +42,11 @@ from pygeodesy.utmupsBase import _hemi, UtmUps5Tuple
 
 import re  # PYCHOK warning locale.Error
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.mgrs + _ALL_DOCS('Mgrs4Tuple', 'Mgrs6Tuple')
-__version__ = '20.05.14'
+__all__ = _ALL_LAZY.mgrs
+__version__ = '20.07.08'
 
 _100km  = Meter( 100e3)  #: (INTERNAL) 100 km in meter.
 _2000km = Meter(2000e3)  #: (INTERNAL) 2,000 km in meter.
-
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = 'ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ'  #: (INTERNAL) Grid E colums.
 # 100 km grid square row (‘n’) letters repeat every other zone
@@ -174,7 +175,7 @@ class Mgrs(_NamedBase):
         '''
         return parseMGRS(strMGRS, datum=self.datum, Mgrs=self.classof)
 
-    def toRepr(self, prec=10, fmt='[%s]', sep=', '):  # PYCHOK expected
+    def toRepr(self, prec=10, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
 
            @kwarg prec: Optional number of digits (C{int}), 4:km, 10:m.
@@ -186,7 +187,7 @@ class Mgrs(_NamedBase):
         t = self.toStr(prec=prec, sep=None)
         return _xzipairs('ZGEN', t, sep=sep, fmt=fmt)
 
-    def toStr(self, prec=10, sep=' '):  # PYCHOK expected
+    def toStr(self, prec=10, sep=_SPACE_):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
 
            Note that MGRS grid references are truncated, not rounded
@@ -239,7 +240,7 @@ class Mgrs(_NamedBase):
             n += _2000km
 
         z =  self.zone
-        h = _hemi(self.bandLatitude)  # if self.band < 'N'
+        h = _hemi(self.bandLatitude)  # if self.band < _N_
         B =  self.band
         r = UtmUps5Tuple(z, h, e, n, B, Error=MGRSError) if Utm is None else \
                      Utm(z, h, e, n, band=B, datum=self.datum)
@@ -256,7 +257,7 @@ class Mgrs4Tuple(_NamedTuple):
     '''4-Tuple C{(zone, digraph, easting, northing)}, C{zone} and
        C{digraph} as C{str}, C{easting} and C{northing} in C{meter}.
     '''
-    _Names_ = ('zone', 'digraph', 'easting', 'northing')
+    _Names_ = (_zone_, 'digraph', _easting_, _northing_)
 
     def __new__(cls, z, di, e, n, Error=MGRSError):
         if Error is not None:
@@ -281,7 +282,7 @@ class Mgrs6Tuple(_NamedTuple):  # XXX only used in the line above
        C{zone}, C{digraph} and C{band} as C{str}, C{easting} and
        C{northing} in C{meter} and C{datum} a L{Datum}.
     '''
-    _Names_ = Mgrs4Tuple._Names_ + ('band', 'datum')
+    _Names_ = Mgrs4Tuple._Names_ + (_band_, _datum_)
 
 
 def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=NN):
@@ -389,6 +390,9 @@ def toMgrs(utm, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
         kwds = _xkwds(Mgrs_kwds, band=utm.band, datum=utm.datum)
         r = Mgrs(utm.zone, en, e, n, **kwds)
     return _xnamed(r, name or utm.name)
+
+
+__all__ += _ALL_DOCS(Mgrs4Tuple, Mgrs6Tuple)
 
 # **) MIT License
 #

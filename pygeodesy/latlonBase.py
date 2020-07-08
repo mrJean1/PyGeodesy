@@ -11,30 +11,30 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, NN, R_M, map1, property_doc_, property_RO, \
+from pygeodesy.basics import EPS, R_M, map1, property_doc_, property_RO, \
                             _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS  # parseDMS, parseDMS2
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.errors import _item_, _ValueError
+from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import favg
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, haversine, isantipode, \
                             latlon2n_xyz,points2, thomas_, vincentys
+from pygeodesy.interns import _COMMA_SPACE_, NN, _item_sq, _m_
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Bounds2Tuple, LatLon2Tuple, _NamedBase, \
                             notOverloaded, PhiLam2Tuple, Vector3Tuple
+from pygeodesy.streprs import hstr
 from pygeodesy.units import Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
 from pygeodesy.vector3d import Vector3d
 
 from math import asin, cos, degrees, radians
 
-# XXX the following classes are listed only to get
-# Epydoc to include class and method documentation
-__all__ = _ALL_DOCS('LatLonBase')
-__version__ = '20.06.15'
+__all__ = ()
+__version__ = '20.07.08'
 
 
 class LatLonBase(_NamedBase):
@@ -74,8 +74,8 @@ class LatLonBase(_NamedBase):
            >>> p = LatLon(50.06632, -5.71475)
            >>> q = LatLon('50°03′59″N', """005°42'53"W""")
         '''
-        self._lat = Lat(lat, name='lat')  # parseDMS2(lat, lon)
-        self._lon = Lon(lon, name='lon')  # PYCHOK LatLon2Tuple
+        self._lat = Lat(lat)  # parseDMS2(lat, lon)
+        self._lon = Lon(lon)  # PYCHOK LatLon2Tuple
         if height:  # elevation
             self._height = Height(height)
         if name:
@@ -266,7 +266,7 @@ class LatLonBase(_NamedBase):
     def _distanceTo(self, func, other, radius, **options):
         '''(INTERNAL) Helper for methods C{<func>To}.
         '''
-        self.others(other)
+        self.others(other)  # up=2
         if radius is None:
             radius = self._datum.ellipsoid.R1 if self._datum else R_M
         return func(self.lat, self.lon, other.lat, other.lon,
@@ -275,7 +275,7 @@ class LatLonBase(_NamedBase):
     def _distanceTo_(self, func_, other, wrap=False):
         '''(INTERNAL) Helper for (ellipsoidal) methods C{<func>To}.
         '''
-        self.others(other)
+        self.others(other)  # up=2
         r, _ = unrollPI(self.lam, other.lam, wrap=wrap)
         r = func_(other.phi, self.phi, r, datum=self.datum)
         return r * self.datum.ellipsoid.a
@@ -446,6 +446,16 @@ class LatLonBase(_NamedBase):
         self._update(h != self._height)
         self._height = h
 
+    def heightStr(self, prec=-2, m=_m_):
+        '''Return a string for the height B{C{height}}.
+
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg m: Optional unit of the height (C{str}).
+
+           @see: Function L{hstr}.
+        '''
+        return hstr(self.height, prec=prec, m=m)
+
     def isantipodeTo(self, other, eps=EPS):
         '''Check whether this and an other point are antipodal,
            on diametrically opposite sides of the earth.
@@ -552,7 +562,7 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Invalid B{C{lat}}.
         '''
-        lat = Lat(lat, name='lat')  # parseDMS(lat, suffix='NS', clip=90)
+        lat = Lat(lat)  # parseDMS(lat, suffix=_NS_, clip=90)
         self._update(lat != self._lat)
         self._lat = lat
 
@@ -582,14 +592,14 @@ class LatLonBase(_NamedBase):
         _xinstanceof(list, tuple, latlonh=latlonh)
 
         if len(latlonh) == 3:
-            h = Height(latlonh[2], name=_item_(latlonh=2))
+            h = Height(latlonh[2], name=_item_sq(latlonh=2))
         elif len(latlonh) != 2:
             raise _ValueError(latlonh=latlonh)
         else:
             h = self._height
 
-        lat = Lat(latlonh[0], name='lat')  # parseDMS2(latlonh[0], latlonh[1])
-        lon = Lon(latlonh[1], name='lon')
+        lat = Lat(latlonh[0])  # parseDMS2(latlonh[0], latlonh[1])
+        lon = Lon(latlonh[1])
         self._update(lat != self._lat or
                      lon != self._lon or h != self._height)
         self._lat, self._lon, self._height = lat, lon, h
@@ -639,7 +649,7 @@ class LatLonBase(_NamedBase):
 
            @raise ValueError: Invalid B{C{lon}}.
         '''
-        lon = Lon(lon, name='lon')  # parseDMS(lon, suffix='EW', clip=180)
+        lon = Lon(lon)  # parseDMS(lon, suffix=_EW_, clip=180)
         self._update(lon != self._lon)
         self._lon = lon
 
@@ -808,7 +818,7 @@ class LatLonBase(_NamedBase):
         return self.toVector(Vector=Nvector, h=self.height if h is None else h,
                                             ll=self, **Nvector_kwds)
 
-    def toStr(self, form=F_DMS, prec=None, m='m', sep=', '):  # PYCHOK expected
+    def toStr(self, form=F_DMS, prec=None, m=_m_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Convert this point to a "lat, lon [+/-height]" string,
            formatted in the given form.
 
@@ -831,7 +841,7 @@ class LatLonBase(_NamedBase):
         t = [latDMS(self.lat, form=form, prec=prec),
              lonDMS(self.lon, form=form, prec=prec)]
         if self.height and m is not None:
-            t += ['%+.2f%s' % (self.height, m)]
+            t += [self.heightStr(m=m)]
         return sep.join(t)
 
     def toVector(self, Vector=None, **Vector_kwds):
@@ -914,6 +924,9 @@ class LatLonBase(_NamedBase):
         if self._xyzh is None:
             self._xyzh = self.xyz.to4Tuple(self.height)
         return self._xnamed(self._xyzh)
+
+
+__all__ += _ALL_DOCS(LatLonBase)
 
 # **) MIT License
 #

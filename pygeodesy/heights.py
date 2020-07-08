@@ -54,24 +54,24 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import EPS, PI, NN, PI2, PI_2, _bkwds, \
-                             isscalar, len2, map1, map2, \
-                             property_RO, _xinstanceof
+from pygeodesy.basics import EPS, PI, PI2, PI_2, _bkwds, isscalar, \
+                             len2, map1, map2, property_RO, _xinstanceof
 from pygeodesy.datum import Datum, Datums
-from pygeodesy.errors import _AssertionError, _item_, LenError, PointsError, \
-                             _SciPyIssue
+from pygeodesy.errors import _AssertionError, LenError, PointsError, _SciPyIssue
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
-                            _scale_rad, thomas_, vincentys_
+                           _scale_rad, thomas_, vincentys_  # PYCHOK indent
+from pygeodesy.interns import _beta_, _cubic_, _datum_, _distanceTo_, \
+                              _item_sq, _knots_, _len_, _linear_, NN
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
 from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
-__all__ = _ALL_LAZY.heights + _ALL_DOCS('_HeightBase')
-__version__ = '20.06.25'
+__all__ = _ALL_LAZY.heights
+__version__ = '20.07.08'
 
 
 class HeightError(PointsError):
@@ -111,7 +111,7 @@ def _ascalar(ais):  # imported by .geoids
     # return single float, not numpy.float64
     ais = list(ais)  # np.array, etc. to list
     if len(ais) != 1:
-        raise _AssertionError('len(%r): %s != 1' % (ais, len(ais)))
+        raise _AssertionError('%s(%r): %s != 1' % (_len_, ais, len(ais)))
     return float(ais[0])  # remove np.<type>
 
 
@@ -157,12 +157,12 @@ def _xyhs(lls, off=True, name='llis'):
             yield (max(0.0, radiansPI2(ll.lon + 180.0)) - xf), \
                   (max(0.0, radiansPI( ll.lat +  90.0)) - yf), ll.height
     except AttributeError as x:
-        raise HeightError(_item_(name, i), ll, txt=str(x))
+        raise HeightError(_item_sq(name, i), ll, txt=str(x))
 
 
 def _xyhs3(atype, m, knots, off=True):
     # convert knot C{LatLon}s to tuples or C{NumPy} arrays and C{SciPy} sphericals
-    xs, ys, hs = zip(*_xyhs(knots, off=off, name='knots'))  # PYCHOK unzip
+    xs, ys, hs = zip(*_xyhs(knots, off=off, name=_knots_))  # PYCHOK unzip
     n = len(hs)
     if n < m:
         raise _insufficientError(m, knots=n)
@@ -172,14 +172,15 @@ def _xyhs3(atype, m, knots, off=True):
 class _HeightBase(_Named):  # imported by .geoids
     '''(INTERNAL) Interpolator base class.
     '''
-    _adjust = None  # not applicable
-    _datum  = None  # not applicable
-    _kmin   = 2     # min number of knots
-    _np     = None  # numpy
-    _np_v   = None  # version
-    _spi    = None  # scipy.interpolate
-    _sp_v   = None  # version
-    _wrap   = None  # not applicable
+    _adjust = None     # not applicable
+    _datum  = None     # ._height datum
+    _kmin   = 2        # min number of knots
+    _LLis   = LatLon_  # ._height class
+    _np     = None     # numpy
+    _np_v   = None     # version
+    _spi    = None     # scipy.interpolate
+    _sp_v   = None     # version
+    _wrap   = None     # not applicable
 
     def __call__(self, *args):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.
@@ -214,8 +215,9 @@ class _HeightBase(_Named):  # imported by .geoids
             raise _SciPyIssue(x)
 
     def _height(self, lats, lons, Error=HeightError):
+        LLis, d = self._LLis, self.datum
         if isscalar(lats) and isscalar(lons):
-            llis = LatLon_(lats, lons)
+            llis = LLis(lats, lons, datum=d)
         else:
             n, lats = len2(lats)
             m, lons = len2(lons)
@@ -223,7 +225,7 @@ class _HeightBase(_Named):  # imported by .geoids
                 # format a LenError, but raise an Error
                 e = LenError(self.__class__, lats=n, lons=m, txt=None)
                 raise e if Error is LenError else Error(str(e))
-            llis = [LatLon_(*ll) for ll in zip(lats, lons)]
+            llis = [LLis(*ll, datum=d) for ll in zip(lats, lons)]
         return self(llis)  # __call__(lli) or __call__(llis)
 
     @property_RO
@@ -269,7 +271,7 @@ class HeightCubic(_HeightBase):
        C{kind='cubic'}.
     '''
     _interp2d =  None
-    _kind     = 'cubic'
+    _kind     = _cubic_
     _kmin     =  16
 
     def __init__(self, knots, name=NN):
@@ -347,9 +349,9 @@ class HeightCubic(_HeightBase):
 class HeightLinear(HeightCubic):
     '''Height interpolator based on C{SciPy} U{interp2d<https://docs.SciPy.org/
        doc/scipy/reference/generated/scipy.interpolate.interp2d.html>}
-       C{kind='linear}.
+       C{kind='linear'}.
     '''
-    _kind = 'linear'
+    _kind = _linear_
     _kmin =  2
 
     def __init__(self, knots, name=NN):
@@ -415,15 +417,15 @@ class _HeightIDW(_HeightBase):
     def _datum_setter(self, datum, knots):
         '''(INTERNAL) Set the datum.
         '''
-        d = datum or getattr(knots[0], 'datum', datum)
+        d = datum or getattr(knots[0], _datum_, datum)
         if d and d != self.datum:
             _xinstanceof(Datum, datum=d)
             self._datum = d
 
     def _distances(self, x, y):  # PYCHOK unused (x, y) radians
-        '''Must be overloaded.
+        '''(INTERNAL) I{Must be overloaded}.
         '''
-        raise NotImplementedError('method: %s' % (self._distances.__name__,))
+        notOverloaded(self, self._distances, x, y)
 
     def _distances_angular_(self, func_, x, y):
         # return angular distances from func_
@@ -442,7 +444,7 @@ class _HeightIDW(_HeightBase):
         try:
             ds = self._distances(x, y)
             return fidw(self._hs, ds, beta=self._beta)
-        except ValueError as x:
+        except (TypeError, ValueError) as x:
             raise HeightError(str(x))
 
     @property
@@ -459,7 +461,7 @@ class _HeightIDW(_HeightBase):
 
            @raise HeightError: Invalid B{C{beta}}.
         '''
-        self._beta = Int_(beta, name='beta', Error=HeightError, low=1, high=3)
+        self._beta = Int_(beta, name=_beta_, Error=HeightError, low=1, high=3)
 
     def height(self, lats, lons):
         '''Interpolate the height for one or several lat-/longitudes.
@@ -638,6 +640,15 @@ class HeightIDWdistanceTo(_HeightIDW):
         n, self._ks = len2(knots)
         if n < self._kmin:
             raise _insufficientError(self._kmin, knots=n)
+        for i, k in enumerate(self._ks):
+            if not callable(getattr(k, _distanceTo_, None)):
+                raise HeightError(_item_sq(_knots_, i), k, txt=_distanceTo_)
+
+        # use knots[0] class and datum to create
+        # compatible points in _HeightBase._height
+        # instead of class LatLon_ and datum None
+        self._datum = self._ks[0].datum
+        self._LLis  = self._ks[0].classof
 
         self.beta = beta
         if name:
@@ -661,12 +672,8 @@ class HeightIDWdistanceTo(_HeightIDW):
         _as, llis = _allis2(llis)
         return _as(map(self._hIDW, llis))
 
-    def height(self, lats, lons):  # PYCHOK unused
-        '''Interpolate the height for one or several lat-/longitudes.
-
-           @raise HeightError: Not implemented.
-        '''
-        return HeightError('not implemented: %s.%s' % (self.classname, self.height.__name__))
+    if _FOR_DOCS:
+        height = _HeightIDW.height
 
     def _hIDW(self, lli):  # PYCHOK expected
         # interpolate height at point lli
@@ -674,7 +681,7 @@ class HeightIDWdistanceTo(_HeightIDW):
             kwds = self._distanceTo_kwds
             ds = (k.distanceTo(lli, **kwds) for k in self._ks)
             return fidw(self._hs, ds, beta=self._beta)
-        except ValueError as x:
+        except (TypeError, ValueError) as x:
             raise HeightError(str(x))
 
     @property_RO
@@ -966,7 +973,7 @@ class HeightIDWkarney(_HeightIDW):
                 for i, ll in enumerate(lls):
                     yield ll.lon, ll.lat
             except AttributeError as x:
-                raise HeightError(_item_('llis', i), ll, txt=str(x))
+                raise HeightError(_item_sq('llis', i), ll, txt=str(x))
 
         _as, llis = _allis2(llis)
         return _as(map(self._hIDW, *zip(*_xy2(llis))))
@@ -1100,7 +1107,7 @@ class HeightLSQBiSpline(_HeightBase):
             w = map2(float, w)
             m = min(w)
             if m <= 0:
-                raise HeightError(_item_(weight=w.find(m)), m)
+                raise HeightError(_item_sq(weight=w.find(m)), m)
         try:
             T = 1.0e-4  # like SciPy example
             ps = np.array(_ordedup(xs, T, PI2 - T))
@@ -1179,7 +1186,7 @@ class HeightSmoothBiSpline(_HeightBase):
         '''
         _, spi = self._NumSciPy()
 
-        s = Int_(s, name='smooting', Error=HeightError, low=4)
+        s = Int_(s, name='smoothing', Error=HeightError, low=4)
 
         xs, ys, hs = self._xyhs3(knots)
         try:
@@ -1228,6 +1235,9 @@ class HeightSmoothBiSpline(_HeightBase):
                                 as exception.
         '''
         return _HeightBase._height(self, lats, lons)
+
+
+__all__ += _ALL_DOCS(_HeightBase)
 
 # **) MIT License
 #

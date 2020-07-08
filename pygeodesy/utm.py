@@ -33,11 +33,14 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, len2, map2, NN, property_RO
+from pygeodesy.basics import EPS, len2, map2, property_RO
 from pygeodesy.datum import Datums
-from pygeodesy.dms import degDMS, _NS, parseDMS2
-from pygeodesy.errors import _Missing, RangeError, _ValueError, _xkwds_get
+from pygeodesy.dms import degDMS, parseDMS2
+from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
+from pygeodesy.interns import _COMMA_SPACE_, _Missing, NN, _NS_, \
+                              _outside_, _range_, _S_, _SPACE_, \
+                              _SQUARE_, _UTM_, _zone_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, _xnamed
 from pygeodesy.units import Band, Int, Lat, Lon, Zone
@@ -54,9 +57,8 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
                  degrees, radians, sin, sinh, tan, tanh
 from operator import mul
 
-# all public contants, classes and functions
 __all__ = _ALL_LAZY.utm
-__version__ = '20.05.14'
+__version__ = '20.07.08'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -181,14 +183,14 @@ def _to3zBll(lat, lon, cmoff=True):
     z, lat, lon = _to3zll(lat, lon)  # in .utmupsBase
 
     if _UTM_LAT_MIN > lat or lat >= _UTM_LAT_MAX:  # [-80, 84) like Veness
-        t = ' '.join(('outside', 'UTM', 'range', '[%s,' % (_UTM_LAT_MIN,),
+        t = ' '.join((_outside_, _UTM_, _range_, '[%s,' % (_UTM_LAT_MIN,),
                                                   '%s)' % (_UTM_LAT_MAX,)))
         raise RangeError(lat=degDMS(lat), txt=t)
     B = _Bands[int(lat + 80) >> 3]
 
     x = lon - _cmlon(z)  # z before Norway/Svaldbard
     if abs(x) > _UTM_ZONE_OFF_MAX:
-        t = ' '.join(('outside', 'UTM', 'zone', str(z), 'by', degDMS(x, prec=6)))
+        t = ' '.join((_outside_, _UTM_, _zone_, str(z), 'by', degDMS(x, prec=6)))
         raise RangeError(lon=degDMS(lon), txt=t)
 
     if B == 'X':  # and 0 <= int(lon) < 42: z = int(lon + 183) // 6 + 1
@@ -268,7 +270,7 @@ class Utm(UtmUpsBase):
         self._zone, B, _ = _to3zBlat(zone, band)
 
         h = str(hemisphere)[:1].upper()
-        if h not in _NS:
+        if h not in _NS_:
             raise self._Error(hemisphere=hemisphere)
 
         e, n = easting, northing  # Easting(easting), ...
@@ -326,7 +328,7 @@ class Utm(UtmUpsBase):
         e = n = 0
         if self.falsed:
             e = _FalseEasting  # relative to central meridian
-            if self.hemisphere == 'S':  # relative to equator
+            if self.hemisphere == _S_:  # relative to equator
                 n = _FalseNorthing
         return EasNor2Tuple(e, n)
 
@@ -343,7 +345,7 @@ class Utm(UtmUpsBase):
     def pole(self):
         '''Get the top center of (stereographic) projection, C{""} always.
         '''
-        return ''  # n/a for UTM
+        return NN  # N/A for UTM
 
     def toEtm(self):
         '''Copy this UTM to an ETM coordinate.
@@ -458,7 +460,7 @@ class Utm(UtmUpsBase):
             self._mgrs = toMgrs(self, name=self.name)
         return self._mgrs
 
-    def toRepr(self, prec=0, fmt='[%s]', sep=', ', B=False, cs=False, **unused):  # PYCHOK expected
+    def toRepr(self, prec=0, fmt=_SQUARE_, sep=_COMMA_SPACE_, B=False, cs=False, **unused):  # PYCHOK expected
         '''Return a string representation of this UTM coordinate.
 
            Note that UTM coordinates are rounded, not truncated (unlike
@@ -480,7 +482,7 @@ class Utm(UtmUpsBase):
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method L{Utm.toRepr}.'''
 
-    def toStr(self, prec=0, sep=' ', B=False, cs=False):  # PYCHOK expected
+    def toStr(self, prec=0, sep=_SPACE_, B=False, cs=False):  # PYCHOK expected
         '''Return a string representation of this UTM coordinate.
 
            To distinguish from MGRS grid zone designators, a space is

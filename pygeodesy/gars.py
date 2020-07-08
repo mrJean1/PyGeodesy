@@ -13,10 +13,11 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS1_2, isstr, NN, property_RO
+from pygeodesy.basics import EPS1_2, isstr, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.interns import _item_sq, NN, _prec_, _res_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, nameof, \
                            _xnamed
 from pygeodesy.units import Int, Lat, Lon, Precision_, Scalar_, \
@@ -24,18 +25,16 @@ from pygeodesy.units import Int, Lat, Lon, Precision_, Scalar_, \
 
 from math import floor
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.gars + ('decode3',  # functions
-          'encode', 'precision', 'resolution')
-__version__ = '20.05.14'
+__all__ = _ALL_LAZY.gars
+__version__ = '20.07.08'
 
 _Digits  = '0123456789'
-_LatLen  = 2
-_LatOrig = -90
+_LatLen  =    2
+_LatOrig =  -90
 _Letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ'
-_LonLen  = 3
+_LonLen  =    3
 _LonOrig = -180
-_MaxPrec = 2
+_MaxPrec =    2
 
 _MinLen = _LonLen + _LatLen
 _MaxLen = _MinLen + _MaxPrec
@@ -220,7 +219,7 @@ def decode3(garef, center=True):
                          or bad length B{C{garef}}.
     '''
     def _Error(i):
-        return GARSError(garef='%r[%s]' % (garef, i))
+        return GARSError(garef=_item_sq(repr(garef), i))
 
     def _ll(chars, g, i, j, lo, hi):
         ll, b = 0, len(chars)
@@ -306,7 +305,7 @@ def encode(lat, lon, precision=1):  # MCCABE 14
         if p > 1:
             g += _digit(x, y, _M3)
 
-    return ''.join(g)
+    return NN.join(g)
 
 
 def precision(res):
@@ -321,7 +320,7 @@ def precision(res):
 
        @see: Function L{gars.encode} for more C{precision} details.
     '''
-    r = Scalar_(res, name='res')
+    r = Scalar_(res, name=_res_)
     for p in range(_MaxPrec):
         if resolution(p) <= r:
             return p
@@ -339,8 +338,12 @@ def resolution(prec):
 
        @see: Function L{gars.encode} for more C{precision} details.
     '''
-    p = Int(prec, name='prec', Error=GARSError)
+    p = Int(prec, name=_prec_, Error=GARSError)
     return _Resolutions[max(0, min(p, _MaxPrec))]
+
+
+__all__ += _ALL_OTHER(decode3,  # functions
+                      encode, precision, resolution)
 
 # **) MIT License
 #

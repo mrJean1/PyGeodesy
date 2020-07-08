@@ -11,21 +11,24 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, NN, isscalar, len2, map1, \
+from pygeodesy.basics import EPS, isscalar, len2, map1, \
                              property_doc_, property_RO
-from pygeodesy.errors import CrossError, _IsnotError, \
-                            _Missing, _TypeError, _ValueError
+from pygeodesy.errors import CrossError, _IsnotError, _TypeError, \
+                            _ValueError
 from pygeodesy.fmath import fdot, fsum, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.interns import _coincident_, _colinear_, _COMMA_, \
+                              _COMMA_SPACE_, _datum_, _h_, _height_, \
+                              _Missing, _name_, NN, _other_, \
+                              _PARENTH_, _scalar_, _y_, _z_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _NamedBase, Vector3Tuple
 from pygeodesy.streprs import strs
 
 from math import atan2, cos, sin
 
-# all public constants, classes and functions
-__all__ = _ALL_LAZY.vector3d + ('sumOf',)
-__version__ = '20.05.14'
+__all__ = _ALL_LAZY.vector3d
+__version__ = '20.07.08'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -38,10 +41,10 @@ def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
     try:
         x, y, z = map1(float, *t)
     except (TypeError, ValueError) as x:
-        d = dict(zip(('xyz', 'y', 'z'), t))
+        d = dict(zip(('xyz', _y_, _z_), t))
         raise Error(txt=str(x), **d)
 
-    return x, y, z, getattr(xyz, 'name', '')
+    return x, y, z, getattr(xyz, _name_, NN)
 
 
 def _xyzhdn6(xyz, y, z, height, datum, ll, Error=_TypeError):  # by .cartesianBase, .nvectorBase
@@ -49,12 +52,12 @@ def _xyzhdn6(xyz, y, z, height, datum, ll, Error=_TypeError):  # by .cartesianBa
     '''
     x, y, z, n = _xyzn4(xyz, y, z, Error=Error)
 
-    h = height or getattr(xyz, 'height', None) \
-               or getattr(xyz, 'h', None) \
-               or getattr(ll,  'height', None)
+    h = height or getattr(xyz, _height_, None) \
+               or getattr(xyz, _h_, None) \
+               or getattr(ll,  _height_, None)
 
-    d = datum or getattr(xyz, 'datum', None) \
-              or getattr(ll,  'datum', None)
+    d = datum or getattr(xyz, _datum_, None) \
+              or getattr(ll,  _datum_, None)
 
     return x, y, z, h, d, n
 
@@ -350,7 +353,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         z = self.x * other.y - self.y * other.x
 
         if raiser and self.crosserrors and max(map1(abs, x, y, z)) < EPS:
-            t = 'coincident' if self.isequalTo(other) else 'colinear'
+            t = _coincident_ if self.isequalTo(other) else _colinear_
             r = getattr(other, '_fromll', None) or other
             raise CrossError(raiser, r, txt=t)
 
@@ -380,7 +383,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise VectorError: Invalid or zero B{C{factor}}.
         '''
         if not isscalar(factor):
-            raise _IsnotError('scalar', factor=factor)
+            raise _IsnotError(_scalar_, factor=factor)
         try:
             return self.times(1.0 / factor)
         except (ValueError, ZeroDivisionError):
@@ -467,21 +470,22 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         from pygeodesy.nvectorBase import _N_vector_
         return _N_vector_(*(self._xyz or self.xyz))
 
-    def others(self, other, name='other'):
+    def others(self, other, name=_other_, up=1):
         '''Refined class comparison.
 
            @arg other: The other vector (L{Vector3d}).
            @kwarg name: Optional, other's name (C{str}).
+           @kwarg up: Number of call stack frames up (C{int}).
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         try:
-            _NamedBase.others(self, other, name=name)
+            _NamedBase.others(self, other, name=name, up=up + 1)
         except TypeError:
             if not isinstance(other, Vector3d):
                 raise
 
-    def parse(self, str3d, sep=','):
+    def parse(self, str3d, sep=_COMMA_):
         '''Parse an C{"x, y, z"} string.
 
            @arg str3d: X, y and z values (C{str}).
@@ -561,7 +565,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @raise TypeError: Non-scalar B{C{factor}}.
         '''
         if not isscalar(factor):
-            raise _IsnotError('scalar', factor=factor)
+            raise _IsnotError(_scalar_, factor=factor)
         return self.classof(self.x * factor,
                             self.y * factor,
                             self.z * factor)
@@ -587,7 +591,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return self.xyz
 
-    def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
+    def toStr(self, prec=5, fmt=_PARENTH_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this vector.
 
            @kwarg prec: Optional number of decimal places (C{int}).
@@ -596,7 +600,10 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @return: Vector as "(x, y, z)" (C{str}).
         '''
-        return fmt % (sep.join(strs(self.xyz, prec=prec)),)
+        t = sep.join(strs(self.xyz, prec=prec))
+        if fmt:
+            t = fmt % (t,)
+        return t
 
     def unit(self, ll=None):
         '''Normalize this vector to unit length.
@@ -665,6 +672,9 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
     if Vector is not None:
         r = Vector(r.x, r.y, r.z, **Vector_kwds)  # PYCHOK x, y, z
     return r
+
+
+__all__ += _ALL_OTHER(sumOf)
 
 # **) MIT License
 #

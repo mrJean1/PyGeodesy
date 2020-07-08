@@ -79,6 +79,7 @@ from pygeodesy.basics import EPS, INF, PI, PI_2, PI_4, \
                              map2, property_RO
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fdot, Fsum, fsum_, hypot1
+from pygeodesy.interns import _no_convergence_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
 # from pygeodesy.streprs import unstr
@@ -88,8 +89,8 @@ from pygeodesy.utily import sincos2, sincos2d
 from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
-__all__ = _ALL_LAZY.elliptic + _ALL_DOCS('Elliptic3Tuple')
-__version__ = '20.05.08'
+__all__ = _ALL_LAZY.elliptic
+__version__ = '20.07.06'
 
 _TolJAC = sqrt(EPS * 0.01)
 _TolRD  =  pow(EPS * 0.002, 0.125)
@@ -712,7 +713,7 @@ class Elliptic(_Named):
 def _convergenceError(where, *args):  # PYCHOK no cover
     '''(INTERNAL) Return an L{EllipticError}.
     '''
-    return EllipticError('no convergence', txt='%s%r' % (where.__name__, args))  # unstr
+    return EllipticError(_no_convergence_, txt='%s%r' % (where.__name__, args))  # unstr
 
 
 def _Horner(e0, e1, e2, e3, e4, e5):
@@ -958,6 +959,9 @@ def _rsT(T):
     r = fdot(s[:3], s[1], s[2], s[0])
     T = tuple((t + r) * 0.25 for t in T)
     return r, s, T
+
+
+__all__ += _ALL_DOCS(Elliptic3Tuple)
 
 # **) MIT License
 #

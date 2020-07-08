@@ -284,7 +284,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.07.01
+        20.07.08
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -556,6 +556,7 @@
         class="link">HeightSmoothBiSpline</a> to interpolate the height of 
         <code>LatLon</code> locations or separate lat-/longitudes from a 
         set of <code>LatLon</code> points with known heights.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single-instance strings, intern'ed across modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary">Wrapper around <i>Charles Karney's</i> Python implementation of <a 
         href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a>, provided that package is 
@@ -1836,7 +1837,7 @@
         <a href="pygeodesy.heights.HeightLinear-class.html" class="summary-name">HeightLinear</a><br />
       Height interpolator based on <code>SciPy</code> <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
-        target="_top">interp2d</a> <code>kind='linear</code>.
+        target="_top">interp2d</a> <code>kind='linear'</code>.
     </td>
   </tr>
 <tr>
@@ -2599,6 +2600,24 @@
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
       Determine the lower-left SW and upper-right NE corners of a path or 
       polygon.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#callername" class="summary-sig-name">callername</a>(<span class="summary-sig-arg">up</span>=<span class="summary-sig-default">1</span>,
+        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Get the name of the calling callable.</td>
           <td align="right" valign="top">
             
             
@@ -4067,7 +4086,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbec2537650&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9d645bbdd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -4161,6 +4180,27 @@
         <span class="summary-sig-arg">refraction</span>=<span class="summary-sig-default">False</span>)</span><br />
       Determine the distance to the horizon from a given altitude above the
       (spherical) earth.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hstr" class="summary-sig-name">hstr</a>(<span class="summary-sig-arg">height</span>,
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">%+.*f</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Return a string for the height value.</td>
           <td align="right" valign="top">
             
             
@@ -5152,6 +5192,48 @@
         <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Normalize all degree &#730;, minute ' and second &quot; symbols in a 
       string to the default symbols %s, %s and %s.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#notImplemented" class="summary-sig-name">notImplemented</a>(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">name</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Raise a <code>NotImplementedError</code> for a missing method or 
+      property.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#notOverloaded" class="summary-sig-name">notOverloaded</a>(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">name</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Raise an <code>AssertionError</code> for a method or property not 
+      overloaded.</td>
           <td align="right" valign="top">
             
             
@@ -6697,7 +6779,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.7.1'"><code class="variable-quote">'</code><code class="variable-string">20.7.1</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.7.8'"><code class="variable-quote">'</code><code class="variable-string">20.7.8</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7109,8 +7191,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="NN"></a><span class="summary-name">NN</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
-      Nomen Nescio (<code>str</code> 
-      &lt;https://Wiktionary.org/wiki/N.N.&gt;).
+      Empty (<code>str</code>), <a href="https://Wiktionary.org/wiki/N.N." 
+      target="_top">Nomen Nescio</a>.
     </td>
   </tr>
 <tr>
@@ -7783,6 +7865,34 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <span class="py-prompt">&gt;&gt;&gt; </span>45.0, 1.0, 46.0, 2.0</pre>
       </p>
 </div></td></tr></table>
+</div>
+<a name="callername"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">callername</span>&nbsp;(<span class="sig-arg">up</span>=<span class="sig-default">1</span>,
+        <span class="sig-arg">dflt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the name of the calling callable.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>up</code></strong> - Number of call stack frames up (<code>int</code>).</li>
+        <li><strong class="pname"><code>dflt</code></strong> - Default return value (<code>any</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Name of the non-internal callable (<code>str</code>) or 
+          <b><code>dflt</code></b> if none found.</dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="cbrt"></a>
 <div>
@@ -10605,7 +10715,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbec2537650&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9d645bbdd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -10879,6 +10989,40 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         target="_top">Distance to horizon</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="hstr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hstr</span>&nbsp;(<span class="sig-arg">height</span>,
+        <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">%+.*f</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">ints</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">m</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a string for the height value.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>height</code></strong> - Height value (<code>float</code>).</li>
+        <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
+          (0..9). Trailing zero decimals are stripped if 
+          <b><code>prec</code></b> is positive, but kept for negative 
+          <b><code>prec</code></b> values.</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (<code>str</code>).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
+        <li><strong class="pname"><code>m</code></strong> - Optional unit of the height (<code>str</code>).</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="hubeny"></a>
 <div>
@@ -12623,6 +12767,68 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Normalized DMS (<code>str</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="notImplemented"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">notImplemented</span>&nbsp;(<span class="sig-arg">inst</span>,
+        <span class="sig-arg">name</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Raise a <code>NotImplementedError</code> for a missing method or 
+  property.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>inst</code></strong> - Instance (<code>any</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Method, property or name (<code>str</code> or 
+          <code>callable</code>).</li>
+        <li><strong class="pname"><code>args</code></strong> - Method or property positional arguments (any <code>type</code>s).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Method or property keyword arguments (any <code>type</code>s).</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="notOverloaded"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">notOverloaded</span>&nbsp;(<span class="sig-arg">inst</span>,
+        <span class="sig-arg">name</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Raise an <code>AssertionError</code> for a method or property not 
+  overloaded.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>inst</code></strong> - Instance (<code>any</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Method, property or name (<code>str</code> or 
+          <code>callable</code>).</li>
+        <li><strong class="pname"><code>args</code></strong> - Method or property positional arguments (any <code>type</code>s).</li>
+        <li><strong class="pname"><code>kwds</code></strong> - Method or property keyword arguments (any <code>type</code>s).</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -15994,7 +16200,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul  1 20:30:22 2020
+    Generated by Epydoc 3.0.1 on Wed Jul  8 17:27:38 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

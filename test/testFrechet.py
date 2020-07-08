@@ -4,12 +4,12 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '20.06.24'
+__version__ = '20.07.03'
 
 from base import coverage, geographiclib, isPython3, isWindows, \
                  TestsBase
 
-from pygeodesy import fstr, LatLon_, randomrangenerator
+from pygeodesy import FrechetError, fstr, LatLon_, randomrangenerator
 
 _rr = randomrangenerator('R')
 _ms = [LatLon_(*_ll) for _ll in zip(_rr( -90,  90, 2),  # 90
@@ -23,19 +23,28 @@ class Tests(TestsBase):
 
     def test2(self, Frechet, x, y, **kwds):
 
+        k = kwds.pop('known', False)
+        p = kwds.pop('prec',  5)
+
         def _tstr(t):
             s = list(t[:5])
-            s[0] = fstr(t.fd, prec=5)
+            s[0] = fstr(t.fd, prec=p)
             return '(%s)' % (', '.join(map(str, s)),)
 
         f = Frechet(_ms, fraction=1, **kwds)
         n = '%s (%s)' % (f.named, f.units)
 
-        t = _tstr(f.discrete(_ps))
-        self.test(n, t, x)  # + (t.units,)
+        try:
+            t = _tstr(f.discrete(_ps))
+            self.test(n, t, x, known=k)  # + (t.units,)
+        except FrechetError as e:
+            self.test(n, str(e), x, known=k)  # + (t.units,)
 
-        t = _tstr(f.discrete(_ps, fraction=0.5))
-        self.test(n, t, y)  # + (t.units,)
+        try:
+            t = _tstr(f.discrete(_ps, fraction=0.5))
+            self.test(n, t, y, known=k)  # + (t.units,)
+        except FrechetError as e:
+            self.test(n, str(e), y, known=k)  # + (t.units,)
 
         self.testCopy(f)
 
@@ -46,10 +55,10 @@ if __name__ == '__main__':  # MCCABE 13
 
     from pygeodesy import fractional, frechet_, FrechetCosineAndoyerLambert, \
                           FrechetCosineForsytheAndoyerLambert, FrechetCosineLaw, \
-                          FrechetDegrees, FrechetEquirectangular, FrechetEuclidean, \
-                          FrechetFlatLocal, FrechetFlatPolar, FrechetKarney, \
-                          FrechetHaversine, FrechetHubeny, FrechetRadians, \
-                          FrechetThomas, FrechetVincentys
+                          FrechetDegrees, FrechetDistanceTo, FrechetEquirectangular, \
+                          FrechetEuclidean, FrechetFlatLocal, FrechetFlatPolar, \
+                          FrechetKarney, FrechetHaversine, FrechetHubeny, \
+                          FrechetRadians, FrechetThomas, FrechetVincentys
 
     def _distance(p1, p2):
         dy, dx = abs(p1.lat - p2.lat), abs(p1.lon - p2.lon)
@@ -203,6 +212,22 @@ if __name__ == '__main__':  # MCCABE 13
         if geographiclib:
             t.test2(FrechetKarney, (104.00172, 18, 14,   117,  5400),
                                    (105.26515,  3,  4.5, 196, 10710))
+
+    if isPython3:
+        from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
+                              sphericalNvector, sphericalTrigonometry
+
+        for m in (ellipsoidalKarney, ellipsoidalVincenty):
+            _ms = [m.LatLon(*ll.latlon) for ll in _ms]
+            _ps = [m.LatLon(*ll.latlon) for ll in _ps]
+            t.test2(FrechetDistanceTo, (16786640.7064, 0, 0, 149, 5400),
+                                       (16786640.7064, 0, 0, 149, 5400), prec=4, known=True)
+
+        for m in (ellipsoidalNvector, sphericalNvector, sphericalTrigonometry):
+            _ms = [m.LatLon(*ll.latlon) for ll in _ms]
+            _ps = [m.LatLon(*ll.latlon) for ll in _ps]
+            t.test2(FrechetDistanceTo, (16810959.0015, 0, 0, 149, 5400),
+                                       (16810959.0015, 0, 0, 149, 5400), prec=4, known=True)
 
     if coverage:  # for test coverage
         f = frechet_(_ms, _ps, distance=_distance, units='test')

@@ -4,16 +4,17 @@
 u'''DEPRECATED, use module L{nvectorBase} instead.
 '''
 
+from pygeodesy.interns import _Nvector_, _sumOf_
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.nvectorBase import LatLonNvectorBase, \
                                   NorthPole, SouthPole, \
                                   NvectorBase as Nvector, sumOf  # PYCHOK exported
-# all public constants, classes and functions
-__all__ = _ALL_DOCS('LatLonNvectorBase') + (
+
+__all__ = _ALL_DOCS(LatLonNvectorBase) + (
           'NorthPole', 'SouthPole',  # constants
-          'Nvector',  # classes
-          'sumOf')  # functions
-__version__ = '19.10.20'
+          _Nvector_,  # classes
+          _sumOf_)  # functions
+__version__ = '20.07.06'
 
 # **) MIT License
 #

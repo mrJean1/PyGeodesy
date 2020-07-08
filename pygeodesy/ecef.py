@@ -48,11 +48,14 @@ See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/html/geocentri
 for further information on the errors.
 '''
 
-from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, map1, NN, property_RO, \
+from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, map1, property_RO, \
                             _xinstanceof, _xkwds, _xsubclassof
 from pygeodesy.datum import Datum, Datums, Ellipsoid
 from pygeodesy.errors import LenError, _ValueError
 from pygeodesy.fmath import cbrt, fdot, fsum_, hypot1
+from pygeodesy.interns import _C_, _datum_, _ellipsoid_, _h_, _height_, _lat_, \
+                              _lat0_, _lon_, _lon0_, _name_, NN, _no_convergence_, \
+                              _SPACE_, _UNDERSCORE_, _x_, _y_, _z_, _0_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, _NamedBase, _NamedTuple, \
                             notOverloaded, PhiLam2Tuple, Vector3Tuple, _xnamed
@@ -62,31 +65,32 @@ from pygeodesy.vector3d import _xyzn4
 
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.ecef + _ALL_DOCS('_EcefBase', 'Ecef9Tuple')
-__version__ = '20.06.24'
+__all__ = _ALL_LAZY.ecef
+__version__ = '20.07.08'
+
+_M_ = 'M'
 
 
 def _llhn4(latlonh, lon, height, suffix=NN):
     '''(INTERNAL) Get C{lat, lon, h, name} as C{4-tuple}.
     '''
     try:
-        llh = latlonh.lat, latlonh.lon, getattr(latlonh, 'height',
-                                        getattr(latlonh, 'h', height))
+        llh = latlonh.lat, latlonh.lon, getattr(latlonh, _height_,
+                                        getattr(latlonh, _h_, height))
     except AttributeError:
         llh = latlonh, lon, height
     try:
         lat, lon, h = map1(float, *llh)
     except (TypeError, ValueError) as x:
-        t = 'lat', 'lon', 'height'
+        t = _lat_, _lon_, _height_
         if suffix:
             t = (_ + suffix for _ in t)
         raise EcefError(txt=str(x), **dict(zip(t, llh)))
 
     if abs(lat) > 90:  # XXX RangeError
-        raise EcefError('lat' + suffix, lat)
+        raise EcefError(_lat_ + suffix, lat)
 
-    return lat, lon, h, getattr(latlonh, 'name', NN)
+    return lat, lon, h, getattr(latlonh, _name_, NN)
 
 
 def _sch3(y, x):
@@ -130,7 +134,7 @@ class _EcefBase(_NamedBase):
                 a  = float(E)
                 f_ = (1.0 / f) if f else 0  # sphere
                 b  = None if f_ else a
-                E  = Ellipsoid(a, b, f_, name='_' + name)
+                E  = Ellipsoid(a, b, f_, name=_UNDERSCORE_ + name)
 
             else:
                 raise ValueError
@@ -140,7 +144,7 @@ class _EcefBase(_NamedBase):
 
         except (TypeError, ValueError) as x:
             t = unstr(self.classname, a=a_ellipsoid, f=f)
-            raise EcefError(t + ' ellipsoid', txt=str(x))
+            raise EcefError(t + _SPACE_ + _ellipsoid_, txt=str(x))
 
         self._E = E
         if name:
@@ -175,7 +179,7 @@ class _EcefBase(_NamedBase):
     flattening = f  # Karney property
 
     def forward(self, latlonh, lon=None, height=0, M=False):  # PYCHOK no cover
-        '''(INTERNAL) I{must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}.
         '''
         notOverloaded(self, self.forward, latlonh, lon=lon,
                                       height=height, M=M)
@@ -193,7 +197,7 @@ class _EcefBase(_NamedBase):
         return self._xnamed(EcefMatrix(sa, ca, sb, cb))
 
     def reverse(self, xyz, y=None, z=None, M=False):  # PYCHOK no cover
-        '''(INTERNAL) I{must be overloaded}.
+        '''(INTERNAL) I{Must be overloaded}.
         '''
         notOverloaded(self, self.reverse, xyz, y=y, z=z, M=M)
 
@@ -204,7 +208,7 @@ class _EcefBase(_NamedBase):
 
            @return: This C{Ecef*} representation (C{str}).
         '''
-        return self.attrs('a', 'f', 'datum', 'ellipsoid', 'name', prec=prec)
+        return self.attrs('a', 'f', _datum_, _ellipsoid_, _name_, prec=prec)
 
 #   @property_RO
 #   def xyz(self):
@@ -553,7 +557,7 @@ class EcefCartesian(_NamedBase):
                              C{scalar} or B{C{lon0}} not C{scalar} for C{scalar}
                              B{C{latlonh0}} or C{abs(lat)} exceeds 90°.
         '''
-        lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, suffix='0')
+        lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, suffix=_0_)
         if name or n:
             self.ecef.name = self.name = name or n
         self._t0 = self.ecef.forward(lat0, lon0, height0, M=True)
@@ -595,7 +599,7 @@ class EcefCartesian(_NamedBase):
 
            @return: This L{EcefCartesian} representation (C{str}).
         '''
-        return self.attrs('lat0', 'lon0', 'height0', 'M', 'ecef', 'name', prec=prec)
+        return self.attrs(_lat0_, _lon0_, 'height0', _M_, 'ecef', _name_, prec=prec)
 
 
 class EcefMatrix(_NamedTuple):
@@ -727,7 +731,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
        C{lon} in C{degrees} and C{x}, C{y}, C{z} and C{height} in C{meter},
        conventionally.
     '''
-    _Names_ = ('x', 'y', 'z', 'lat', 'lon', 'height', 'C', 'M', 'datum')
+    _Names_ = (_x_, _y_, _z_, _lat_, _lon_, _height_, _C_, _M_, _datum_)
 
     @property_RO
     def lam(self):
@@ -813,14 +817,14 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
            @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_height_datum_kwds}}.
         '''
         kwds = _xkwds(LatLon_height_datum_kwds, height=self.height, datum=self.datum)  # PYCHOK Ecef9Tuple
-        d = kwds['datum']
+        d = kwds[_datum_]
         if LatLon is None:
-            r = LatLon3Tuple(self.lat, self.lon, kwds['height'])  # PYCHOK Ecef9Tuple
+            r = LatLon3Tuple(self.lat, self.lon, kwds[_height_])  # PYCHOK Ecef9Tuple
             if d:
                 r = r.to4Tuple(d)  # checks type(d)
         else:
             if d is None:  # remove datum
-                _ = kwds.pop['datum']
+                _ = kwds.pop[_datum_]
             r = LatLon(self.lat, self.lon, **kwds)  # PYCHOK Ecef9Tuple
         return self._xnamed(r)
 
@@ -1052,7 +1056,7 @@ class EcefSudano(EcefVeness):
                 break
             sa -= t
         else:
-            raise EcefError('no convergence', txt=unstr(self.reverse.__name__, x=x, y=y, z=z))
+            raise EcefError(_no_convergence_, txt=unstr(self.reverse.__name__, x=x, y=y, z=z))
 
         if i:
             a = copysign(asin(sa), z)
@@ -1175,6 +1179,9 @@ class EcefYou(_EcefBase):
                                 None,  # M=None
                                 self.datum)
         return self._xnamed(r, name)
+
+
+__all__ += _ALL_DOCS(_EcefBase, Ecef9Tuple)
 
 # **) MIT License
 #

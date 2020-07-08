@@ -14,27 +14,28 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import NN, len2, property_doc_, \
+from pygeodesy.basics import len2, property_doc_, \
                              property_RO, _xattrs
 from pygeodesy.ecef import EcefVeness
-from pygeodesy.errors import _Missing, _xkwds_pop
+from pygeodesy.errors import _xkwds_pop
 from pygeodesy.fmath import fsum, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
+from pygeodesy.interns import _COMMA_SPACE_, _h_, _Missing, NN, \
+                              _NorthPole_, _other_, _PARENTH_, \
+                              _SouthPole_, _sumOf_
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Vector3Tuple, Vector4Tuple
+from pygeodesy.streprs import hstr
 from pygeodesy.units import Height
 from pygeodesy.vector3d import Vector3d, VectorError, \
                                sumOf as _sumOf, _xyzhdn6
 
 # from math import atan2, cos, sin
 
-# all public constants, classes and functions
-__all__ = _ALL_DOCS('LatLonNvectorBase') + (
-          'NorthPole', 'SouthPole',  # constants
-          'NvectorBase',  # classes
-          'sumOf')  # functions
-__version__ = '20.05.14'
+__all__ = (_NorthPole_, _SouthPole_,  # constants
+           _sumOf_)  # functions
+__version__ = '20.07.08'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -110,7 +111,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @raise VectorError: If B{C{h}} invalid.
         '''
-        h = Height(h, name='h', Error=VectorError)
+        h = Height(h, name=_h_, Error=VectorError)
         self._update(h != self._h, '_latlon', '_philam')
         self._h = h
 
@@ -126,7 +127,17 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @arg H: New height prefix (C{str}).
         '''
-        self._H = str(H) if H else ''
+        self._H = str(H) if H else NN
+
+    def hStr(self, prec=-2, m=NN):
+        '''Return a string for the height B{C{h}}.
+
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+           @kwarg m: Optional unit of the height (C{str}).
+
+           @see: Function L{hstr}.
+        '''
+        return self.H + hstr(self.h, prec=prec, m=m)
 
     @property_RO
     def isEllipsoidal(self):
@@ -241,7 +252,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         x, y, z = self.x, self.y, self.z
 
-        h = self.h if h is None else Height(h, name='h')
+        h = self.h if h is None else Height(h, name=_h_)
         d = datum or self.datum
 
         E = d.ellipsoid
@@ -306,7 +317,7 @@ class NvectorBase(Vector3d):  # XXX kept private
             r = LatLon(r.lat, r.lon, r.height, datum=r.datum, **LatLon_kwds)
         return self._xnamed(r)
 
-    def toStr(self, prec=5, fmt='(%s)', sep=', '):  # PYCHOK expected
+    def toStr(self, prec=5, fmt=_PARENTH_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this n-vector.
 
            Height component is only included if non-zero.
@@ -323,10 +334,10 @@ class NvectorBase(Vector3d):  # XXX kept private
            >>> Nvector(0.5, 0.5, 0.7071).toStr()  # (0.5, 0.5, 0.7071)
            >>> Nvector(0.5, 0.5, 0.7071, 1).toStr(-3)  # (0.500, 0.500, 0.707, +1.00)
         '''
-        t = Vector3d.toStr(self, prec=prec, fmt='%s', sep=sep)
+        t = Vector3d.toStr(self, prec=prec, fmt=NN, sep=sep)
         if self.h:
-            t = '%s%s%s%+.2f' % (t, sep, self.H, self.h)
-        return fmt % (t,)
+            t = sep.join((t, self.hStr()))
+        return t if not fmt else (fmt % (t,))
 
     def toVector3d(self, norm=True):
         '''Convert this n-vector to a 3-D vector, I{ignoring
@@ -365,8 +376,8 @@ class NvectorBase(Vector3d):  # XXX kept private
         return self._xnamed(self.xyz.to4Tuple(self.h))
 
 
-NorthPole = NvectorBase(0, 0, +1, name='NorthPole')  #: North pole (C{Nvector}).
-SouthPole = NvectorBase(0, 0, -1, name='SouthPole')  #: South pole (C{Nvector}).
+NorthPole = NvectorBase(0, 0, +1, name=_NorthPole_)  #: North pole (C{Nvector}).
+SouthPole = NvectorBase(0, 0, -1, name=_SouthPole_)  #: South pole (C{Nvector}).
 
 
 class _N_vector_(NvectorBase):
@@ -397,16 +408,17 @@ class LatLonNvectorBase(LatLonBase):
                 self._Nv = None
             LatLonBase._update(self, updated, *attrs)
 
-    def others(self, other, name='other'):
+    def others(self, other, name=_other_, up=1):
         '''Refine the class comparison.
 
            @arg other: The other point (C{LatLon}).
            @kwarg name: Optional, other's name (C{str}).
+           @kwarg up: Number of call stack frames up (C{int}).
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         try:
-            LatLonBase.others(self, other, name=name)
+            LatLonBase.others(self, other, name=name, up=up + 1)
         except TypeError:
             if not isinstance(other, NvectorBase):
                 raise
@@ -453,6 +465,9 @@ def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
     else:
         r = _sumOf(nvectors, Vector=Vector, h=h, **Vector_kwds)
     return r
+
+
+__all__ += _ALL_DOCS(LatLonNvectorBase, NvectorBase)  # classes
 
 # **) MIT License
 #

@@ -4,7 +4,7 @@
 # Test elevations functions.
 
 __all__ = ('Tests',)
-__version__ = '20.02.07'
+__version__ = '20.07.03'
 
 from base import isPython2, isPython3, TestsBase
 
@@ -13,20 +13,20 @@ from pygeodesy import elevation2, Datums, geoidHeight2
 
 class Tests(TestsBase):
 
-    def testApprox(self, name, m, e):
+    def testApprox(self, name, m, e, x):
         # allow margin and errors
         if m:
             self.test(name, m, e, fmt='%.3f', known=abs(m - e) < 0.1)
-        else:
-            self.test(name, m, e, fmt='%s', known=True)
+        else:  # m is None
+            self.test(name, x, e, fmt='%s', known=True)
 
     def testElevations(self, LatLon, datum, timeout):
 
         # <https://WikiPedia.org/wiki/Mount_Diablo>
-        m, _ = elevation2(37.8816, -121.9142, timeout=timeout)
-        self.testApprox('elevation2', m, 1173.79)
-        m, _ = geoidHeight2(37.8816, -121.9142, timeout=timeout)
-        self.testApprox('geoidHeight2', m, -31.699)
+        m, x = elevation2(37.8816, -121.9142, timeout=timeout)
+        self.testApprox('elevation2', m, 1173.79, x)
+        m, x = geoidHeight2(37.8816, -121.9142, timeout=timeout)
+        self.testApprox('geoidHeight2', m, -31.699, x)
 
         MtDiablo = LatLon(37.8816, -121.9142)
         NewYork = LatLon(40.7791472, -73.9680804)
@@ -39,10 +39,10 @@ class Tests(TestsBase):
                         (Cleveland_OH, 199.18, -34.337),
                         (Newport_RI,     8.52, -30.000),
                         (NewYork,       32.79, -31.666)):
-            m, _ = p.elevation2(datum=datum, timeout=timeout)
-            self.testApprox('elevation2', m, e)
-            m, _ = p.geoidHeight2(datum=datum, timeout=timeout)
-            self.testApprox('geodHeight2', m, h)  # PYCHOK test attr?
+            m, x = p.elevation2(datum=datum, timeout=timeout)
+            self.testApprox('elevation2', m, e, x)
+            m, x = p.geoidHeight2(datum=datum, timeout=timeout)
+            self.testApprox('geodHeight2', m, h, x)  # PYCHOK test attr?
 
         m, x = elevation2(0, 0, timeout=timeout)
         self.testError('elevation2', m, x, 'non-CONUS -1000000.00')

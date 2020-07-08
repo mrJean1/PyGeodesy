@@ -59,14 +59,17 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
 
-from pygeodesy.basics import EPS, len2, map1, map2, NN, property_RO
+from pygeodesy.basics import EPS, len2, map1, map2, property_RO
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.dms import parseDMS2
-from pygeodesy.errors import _incompatible, _item_, LenError, \
-                              RangeError, _SciPyIssue
+from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError
+from pygeodesy.interns import _COMMA_SPACE_, _cubic_, _E_, _item_cs, \
+                              _item_pr, _item_ps, _item_sq, _knots_, \
+                              _lat_, _linear_, _lon_, _N_, _n_a_, NN, \
+                              _outside_, _S_, _utf_8_, _W_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon3Tuple, _Named, _NamedTuple, \
                             notOverloaded
@@ -86,16 +89,17 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
     def _b2str(bs):  # used only for egm*.pgm text
-        return bs.decode('utf-8')
+        return bs.decode(_utf_8_)
 
-__all__ = _ALL_LAZY.geoids + _ALL_DOCS('GeoidHeight5Tuple', '_GeoidBase')
-__version__ = '20.06.25'
+__all__ = _ALL_LAZY.geoids
+__version__ = '20.07.08'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
-_interp2d_ks = {-2: 'linear',
-                -3: 'cubic',
+_interp2d_ks = {-2: _linear_,
+                -3: _cubic_,
                 -5: 'quintic'}
+_not_supported_ = 'not supported'
 
 
 class _GeoidBase(_HeightBase):
@@ -104,7 +108,7 @@ class _GeoidBase(_HeightBase):
     _cropped  = None
     _datum    = Datums.WGS84
     _endian   = 'tbd'
-    _geoid    = 'n/a'
+    _geoid    = _n_a_
     _hs_y_x   = None  # numpy 2darray, row-major order
     _interp2d = None  # interp2d interpolation
     _kind     = 3  # order for interp2d, RectBivariateSpline
@@ -222,7 +226,7 @@ class _GeoidBase(_HeightBase):
         return self.toStr()
 
     def __str__(self):
-        return '%s(%r)' % (self.classname, self.name)
+        return _item_pr(self.classname, self.name)
 
     def _called(self, llis, scipy):
         # handle __call__
@@ -235,7 +239,7 @@ class _GeoidBase(_HeightBase):
 
         except (GeoidError, RangeError) as x:
             # XXX avoid str(LatLon()) degree symbols
-            t = 'lli' if _as is _ascalar else _item_(llis=i)
+            t = 'lli' if _as is _ascalar else _item_sq(llis=i)
             lli = fstr((lli.lat, lli.lon), strepr=repr)
             raise type(x)(t, lli, txt=str(x))
         except Exception as x:
@@ -260,7 +264,7 @@ class _GeoidBase(_HeightBase):
         for i in range(1, m):
             e = a[i] - a[i-1]
             if e < EPS:  # non-increasing axis
-                raise GeoidError(_item_(name, i), e, txt='non-increasing')
+                raise GeoidError(_item_sq(name, i), e, txt='non-increasing')
         return self._np.array(a), d
 
     def _g2ll2(self, lat, lon):  # PYCHOK no cover
@@ -275,7 +279,7 @@ class _GeoidBase(_HeightBase):
         out = self.outside(lat, lon)
         if out:
             lli = fstr((lat, lon), strepr=repr)
-            raise RangeError('lli', lli, txt='outside on %s' % (out,))
+            raise RangeError('lli', lli, txt='%s on %s' % (_outside_, out))
         return float(self._ev(*self._ll2g2(lat, lon)))
 
     def _ll2g2(self, lat, lon):  # PYCHOK no cover
@@ -514,10 +518,10 @@ class _GeoidBase(_HeightBase):
            @return: A 1- or 2-character C{str} if outside or an
                     empty C{str} if inside.
         '''
-        return ('S' if lat < self._lat_lo else
-               ('N' if lat > self._lat_hi else '')) + \
-               ('W' if lon < self._lon_lo else
-               ('E' if lon > self._lon_hi else ''))
+        return (_S_ if lat < self._lat_lo else
+               (_N_ if lat > self._lat_hi else NN)) + \
+               (_W_ if lon < self._lon_lo else
+               (_E_ if lon > self._lon_hi else NN))
 
     @property_RO
     def pgm(self):
@@ -551,7 +555,7 @@ class _GeoidBase(_HeightBase):
             self._stdev = float(self._np.std(self._hs_y_x))
         return self._stdev
 
-    def toStr(self, prec=3, sep=', '):  # PYCHOK signature
+    def toStr(self, prec=3, sep=_COMMA_SPACE_):  # PYCHOK signature
         '''This geoid and all geoid attributes as a string.
 
            @kwarg prec: Optional number of decimal digits (0..9 or
@@ -563,15 +567,15 @@ class _GeoidBase(_HeightBase):
            @return: Geoid name and attributes (C{str}).
         '''
         s = 1 if self.kind < 0 else 2
-        t = tuple('%s(%s)' % (m.__name__, fstr(m(), prec=prec))
-                          for m in (self.lowerleft, self.upperright,
-                                    self.center,
-                                    self.highest, self.lowest)) + \
+        t = tuple(_item_ps(m.__name__, fstr(m(), prec=prec)) for m in
+                                      (self.lowerleft, self.upperright,
+                                       self.center,
+                                       self.highest, self.lowest)) + \
             attrs( 'mean', 'stdev',           prec=prec, Nones=False) + \
             attrs(('kind', 'smooth')[:s],     prec=prec, Nones=False) + \
-            attrs( 'cropped', 'dtype', 'endian', 'hits', 'knots', 'nBytes',
+            attrs( 'cropped', 'dtype', 'endian', 'hits', _knots_, 'nBytes',
                    'sizeB', 'scipy', 'numpy', prec=prec, Nones=False)
-        return '%s: %s' % (self, sep.join(t))
+        return _item_cs(self, sep.join(t))
 
     def upperleft(self, LatLon=None):
         '''Return the upper-left location and height of this geoid.
@@ -662,7 +666,7 @@ class GeoidG2012B(_GeoidBase):
                                 warning as exception.
         '''
         if crop is not None:
-            raise GeoidError(crop=crop, txt='not supported')
+            raise GeoidError(crop=crop, txt=_not_supported_)
 
         np, _ = self._NumSciPy()
         g = self._open(g2012b_bin, datum, kind, name, smooth)
@@ -716,7 +720,7 @@ class GeoidHeight5Tuple(_NamedTuple):  # .geoids.py
        lat <= 90.0} and C{-180.0 <= lon <= 180.0} degrees (and C{lon}
        converted from the original C{0.0 <= EasterLon <= 360.0}).
     '''
-    _Names_ = ('lat', 'lon', 'egm84', 'egm96', 'egm2008')
+    _Names_ = (_lat_, _lon_, 'egm84', 'egm96', 'egm2008')
 
 
 def _I(i):
@@ -801,7 +805,7 @@ class GeoidKarney(_GeoidBase):
     _egm     = None   # open geoid file
     _endian  = '>H'   # struct.unpack 1 ushort (big endian, unsigned short)
     _4endian = '>4H'  # struct.unpack 4 ushorts
-    _Rendian = ''     # struct.unpack a row of ushorts
+    _Rendian = NN     # struct.unpack a row of ushorts
 #   _highest = (-8.4,   147.367, 85.839) if egm2008-1.pgm else (
 #              (-8.167, 147.25,  85.422) if egm96-5.pgm else
 #              (-4.5,   148.75,  81.33)   # egm84-15.pgm)
@@ -843,7 +847,7 @@ class GeoidKarney(_GeoidBase):
            @see: Class L{GeoidPGM} and function L{egmGeoidHeights}.
         '''
         if smooth is not None:
-            raise GeoidError(smooth=smooth, txt='not supported')
+            raise GeoidError(smooth=smooth, txt=_not_supported_)
 
         if kind in (2,):
             self._evH = self._ev2H
@@ -1273,13 +1277,13 @@ class _Gpars(_Named):
     skip  = 0  # header bytes to skip (C{int}).
 
     def __repr__(self):
-        t = ', '.join(pairs((a, getattr(self, a)) for a in
-                                    dir(self.__class__) if
+        t = _COMMA_SPACE_.join(pairs((a, getattr(self, a)) for a in
+                                             dir(self.__class__) if
                              a[:1].isupper()))
-        return '%s: %s' % (self, t)
+        return _item_cs(self, t)
 
     def __str__(self):
-        return '%s(%r)' % (self.classname, self.name)
+        return _item_pr(self.classname, self.name)
 
 
 class _PGM(_Gpars):
@@ -1567,6 +1571,8 @@ def egmGeoidHeights(GeoidHeights_dat):
             yield GeoidHeight5Tuple(lat, lon, egm84, egm96, egm2008)
 
 
+__all__ += _ALL_DOCS(GeoidHeight5Tuple, _GeoidBase)
+
 if __name__ == '__main__':
 
     import sys
@@ -1611,7 +1617,7 @@ if __name__ == '__main__':
                     h, ll = g.height(*ll), fstr(ll, prec=6)
                     print('%s.height(%s): %.4F vs %s' % (t, ll, h, k))
                 except (GeoidError, RangeError) as x:
-                    print('%s: %s' % (t, str(x)))
+                    print(_item_cs(t, str(x)))
 
         elif geoid[-4:].lower() in ('.bin',):
             g = GeoidG2012B(geoid, kind=_kind)

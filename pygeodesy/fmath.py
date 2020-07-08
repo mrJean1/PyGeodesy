@@ -12,10 +12,12 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, isfinite, isint, isscalar, len2, \
-                            _xcopy
-from pygeodesy.errors import _IsnotError, _item_, LenError, _Missing, \
-                             _OverflowError, _TypeError, _ValueError
+from pygeodesy.basics import EPS, isfinite, isint, isscalar, \
+                             len2, _xcopy
+from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
+                             _TypeError, _ValueError
+from pygeodesy.interns import _beta_, _item_ps, _item_sq, _Missing, \
+                               NN, _too_few_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Int_
@@ -23,11 +25,10 @@ from pygeodesy.units import Int_
 from math import acos, copysign, hypot, sqrt  # pow
 from operator import mul as _mul_
 
-# all public contants, classes and functions
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.05.15'
+__version__ = '20.07.08'
 
-_not_finite = 'not finite'
+_not_finite_ = 'not finite'
 
 _1_3rd = 1 / 3.0  #: (INTERNAL) One third (C{float})
 _2_3rd = 2 / 3.0  # PYCHOK exported to .datum
@@ -197,7 +198,7 @@ class Fsum(object):
 
     def __str__(self):
         from pygeodesy.named import classname
-        return '%s()' % (classname(self, prefixed=True),)
+        return _item_ps(classname(self, prefixed=True), NN)
 
     def __sub__(self, other):
         '''Difference of this and an other instance or a scalar.
@@ -229,7 +230,7 @@ class Fsum(object):
         ps = self._ps
         for a in iterable:  # _iter()
             if not isfinite(a):
-                raise _ValueError(iterable=a, txt=_not_finite)
+                raise _ValueError(iterable=a, txt=_not_finite_)
             i = 0
             for p in ps:
                 a, p = _2sum(a, p)
@@ -275,7 +276,7 @@ class Fsum(object):
            @see: Method L{Fsum.fadd}.
         '''
         if not isfinite(factor):
-            raise _ValueError(factor=factor, txt=_not_finite)
+            raise _ValueError(factor=factor, txt=_not_finite_)
 
         ps = self._ps
         if ps:  # multiply and adjust partial sums
@@ -416,7 +417,7 @@ class Fhorner(Fsum):
            @see: Function L{fhorner} and methods L{Fsum.fadd} and L{Fsum.fmul}.
         '''
         if not isfinite(x):
-            raise _ValueError(x=x, txt=_not_finite)
+            raise _ValueError(x=x, txt=_not_finite_)
         if not cs:
             raise _ValueError(cs=cs, txt=_Missing)
 
@@ -447,7 +448,7 @@ class Fpolynomial(Fsum):
            @see: Function L{fpolynomial} and method L{Fsum.fadd}.
         '''
         if not isfinite(x):
-            raise _ValueError(x=x, txt=_not_finite)
+            raise _ValueError(x=x, txt=_not_finite_)
         if not cs:
             raise _ValueError(cs=cs, txt=_Missing)
 
@@ -600,7 +601,7 @@ def fidw(xs, ds, beta=2):
 
     d, x = min(zip(ds, xs))
     if d > EPS and n > 1:
-        b = -Int_(beta, name='beta', low=0, high=3)
+        b = -Int_(beta, name=_beta_, low=0, high=3)
         if b < 0:
             ds = tuple(d**b for d in ds)
             d = fsum(ds)
@@ -610,7 +611,7 @@ def fidw(xs, ds, beta=2):
         else:
             x = fmean(xs)
     elif d < 0:
-        raise _ValueError(_item_('ds', ds.index(d)), d)
+        raise _ValueError(_item_sq('ds', ds.index(d)), d)
     return x
 
 
@@ -668,7 +669,7 @@ def fpowers(x, n, alts=0):
        @raise ValueError: Non-finite B{C{x}} or non-positive B{C{n}}.
     '''
     if not isfinite(x):
-        raise _ValueError(x=x, txt=_not_finite)
+        raise _ValueError(x=x, txt=_not_finite_)
     if not isint(n):
         raise _IsnotError(int.__name__, n=n)
     elif n < 1:
@@ -830,7 +831,7 @@ except TypeError:  # Python 3.7-
                     X.fadd((x / h)**2 for x in xs)
                     h *= sqrt(X.fsum_(-1.0))
                 return h
-        raise _ValueError(xs=xs, txt='too few')
+        raise _ValueError(xs=xs, txt=_too_few_)
 
 
 def hypot1(x):

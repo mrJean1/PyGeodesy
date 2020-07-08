@@ -3,16 +3,18 @@
 
 u'''DEPRECATED classes, functions, etc. exported for backward compatibility.
 '''
-from pygeodesy.basics import EPS, NN
+from pygeodesy.basics import EPS
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
+from pygeodesy.interns import _COMMA_SPACE_, _easting_, _hemipole_, NN, \
+                              _northing_, _scalar_, _UNDERSCORE_, _zone_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.trf import TRFError as _TRFError
 
-__all__ = _ALL_LAZY.deprecated + _ALL_DOCS('UtmUps4Tuple')
-__version__ = '20.05.14'
+__all__ = _ALL_LAZY.deprecated
+__version__ = '20.07.08'
 
 OK = 'OK'  # OK for test like I{if ... is OK: ...}
 
@@ -50,10 +52,10 @@ class UtmUps4Tuple(_NamedTuple):
        4-Tuple C{(zone, hemipole, easting, northing)} as C{str},
        C{str}, C{meter} and C{meter}.
     '''
-    _Names_ = ('zone', 'hemipole', 'easting', 'northing')  # band
+    _Names_ = (_zone_, _hemipole_, _easting_, _northing_)  # band
 
 
-def anStr(name, OKd='._-', sub='_'):
+def anStr(name, OKd='._-', sub=_UNDERSCORE_):
     '''DEPRECATED, use function L{anstr}.
     '''
     from pygeodesy.streprs import anstr
@@ -162,7 +164,7 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
     raise _InvalidError(Error=Error, txt=t, **name_value)
 
 
-def fStr(floats, prec=6, fmt='%.*f', ints=False, sep=', '):
+def fStr(floats, prec=6, fmt='%.*f', ints=False, sep=_COMMA_SPACE_):
     '''DEPRECATED, use function L{fstr}.
     '''
     from pygeodesy.streprs import fstr
@@ -247,7 +249,7 @@ def polygon(points, closed=True, base=None):
     return points2(points, closed=closed, base=base)
 
 
-def scalar(value, low=EPS, high=1.0, name='scalar', Error=ValueError):  # PYCHOK no cover
+def scalar(value, low=EPS, high=1.0, name=_scalar_, Error=ValueError):  # PYCHOK no cover
     '''DEPRECATED, use class L{Number_} or L{Scalar_}.
 
        @arg value: The value (C{scalar}).
@@ -306,6 +308,9 @@ def utmZoneBand2(lat, lon):
     from pygeodesy.utm import utmZoneBand5
     r = utmZoneBand5(lat, lon)  # UtmUpsLatLon5Tuple
     return r.zone, r.band
+
+
+__all__  += _ALL_DOCS(UtmUps4Tuple)
 
 # **) MIT License
 #

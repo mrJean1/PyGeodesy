@@ -40,9 +40,11 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
-from pygeodesy.basics import NN, isscalar, map1, property_RO, _xinstanceof
+from pygeodesy.basics import isscalar, map1, property_RO, _xinstanceof
 from pygeodesy.datum import Ellipsoid, Ellipsoids, Transform
 from pygeodesy.errors import _ValueError, _TypeError
+from pygeodesy.interns import _COMMA_SPACE_, _ellipsoid_, _len_, \
+                              _name_, NN, _no_conversion_ # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedDict as _X, \
                            _NamedEnum, _NamedEnumItem
@@ -52,12 +54,13 @@ from pygeodesy.units import Float_
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.05.14'
+__version__ = '20.07.08'
 
-_mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
+_epoch_ = 'epoch'
+_mDays  = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
 # temporarily hold a single instance for each float value and name
-_trfFs = {}  # trashed below
-_trfSs = {}  # trashed below
+_trfFs  = {}  # trashed below
+_trfSs  = {}  # trashed below
 
 
 def _F(f):
@@ -140,10 +143,10 @@ class RefFrame(_NamedEnumItem):
            @return: This L{RefFrame}'s attributes (C{str}).
         '''
         e = self.ellipsoid
-        t = ('name=%r'               % (self.name,),
-             'epoch=%s'              % (fstrzs('%.3F' % (self.epoch,)),),
-             'ellipsoid=%s(name=%r)' % (classname(e), e.name))
-        return ', '.join(t)
+        t = ('%s=%r'        % (_name_, self.name),
+             '%s=%s'        % (_epoch_, fstrzs('%.3F' % (self.epoch,))),
+             '%s=%s(%s=%r)' % (_ellipsoid_, classname(e), _name_, e.name))
+        return _COMMA_SPACE_.join(t)
 
 
 RefFrames = _NamedEnum('RefFrames', RefFrame)  #: Registered reference frames.
@@ -183,7 +186,7 @@ def date2epoch(year, month, day):
         if y >0 and 1 <= m <= 12 and 1 <= d <= _mDays[m]:
             return y + float(sum(_mDays[:m]) + d) / 366.0
 
-        t = ''  # _Invalid
+        t = NN  # _invalid_
     except (TRFError, TypeError, ValueError) as x:
         t = str(x)
     raise TRFError(year=year, month=month, day=day, txt=t)
@@ -199,7 +202,7 @@ def epoch2date(epoch):
        @note: Any B{C{year}} is considered a leap year, i.e. having
               29 days in February.
     '''
-    e = Float_(epoch, name='epoch', Error=TRFError, low=0)
+    e = Float_(epoch, name=_epoch_, Error=TRFError, low=0)
     y = int(e)
     d = int(ceil(366 * (e - y)))
     for m, n in enumerate(_mDays[1:]):
@@ -402,7 +405,7 @@ def _reframeTransforms(rf2, rf, epoch):
                 _2Transform((n2, n), epoch, _Reverse))
 
     t = '%s %r to %r' % (RefFrame.__name__, n1, n2)
-    raise TRFError('no conversion', txt=t)
+    raise TRFError(_no_conversion_, txt=t)
 
 
 def _2Transform(n1_n2, epoch, _Forward_Reverse):
@@ -422,15 +425,16 @@ if __name__ == '__main__':
     def _percent(L, cache, number, nl):
         n = len(cache)
         m = len(RefFrames) + len(_trfXs) * number
-        t = L, n, m, L, (n * 100.0 / m), nl
-        print('len(_trf%ss) %3d / %3d %ss: %.1F%%%s' % t)
+        t = _len_, L, n, m, L, (n * 100.0 / m), nl
+        print('%s(_trf%ss) %3d / %3d %ss: %.1F%%%s' % t)
 
-    _percent('F', _trfFs, 15, '')
+    _percent('F', _trfFs, 15, NN)
     _percent('S', _trfSs,  2, '\n')
 
     for m in range(1, 13):
         y, d = 2020, _mDays[m]
-        print('date2epoch(%d, %d, %d) %.3F' % (y, m, d, date2epoch(y, m, d)))
+        e = date2epoch(y, m, d)
+        print('%s(%d, %d, %d) %.3F' % (date2epoch.__name__, y, m, d, e))
 
     # __doc__ of this file
     t = [''] + repr(RefFrames).split('\n')

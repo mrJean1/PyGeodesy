@@ -65,12 +65,15 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, NN, PI_2, PI_4, property_doc_, \
+from pygeodesy.basics import EPS, PI_2, PI_4, property_doc_, \
                              property_RO, _xinstanceof
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
+from pygeodesy.interns import _COMMA_SPACE_, _convergence_, _easting_, \
+                              _k0_, _lat_, _lon_, _lon0_, NN, _northing_, \
+                              _no_convergence_, _scale_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
@@ -84,8 +87,8 @@ from pygeodesy.utmupsBase import _LLEB
 from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
-__all__ = _ALL_LAZY.etm + _ALL_DOCS('EasNorExact4Tuple', 'LatLonExact4Tuple')
-__version__ = '20.05.14'
+__all__ = _ALL_LAZY.etm
+__version__ = '20.07.08'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -98,7 +101,7 @@ class EasNorExact4Tuple(_NamedTuple):
     '''4-Tuple C{(easting, northing, convergence, scale)} in
        C{meter}, C{meter}, C{degrees} and C{scalar}.
     '''
-    _Names_ = ('easting', 'northing', 'convergence', 'scale')
+    _Names_ = (_easting_, _northing_, _convergence_, _scale_)
 
 
 class ETMError(UTMError):
@@ -437,9 +440,9 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise ETMError: Invalid B{C{k0}}.
         '''
-        self._k0 = Scalar_(k0, name='k0', Error=ETMError, low=_TOL_10, high=1.0)
+        self._k0 = Scalar_(k0, name=_k0_, Error=ETMError, low=_TOL_10, high=1.0)
         # if not self._k0 > 0:
-        #     raise Scalar_.Error_(Scalar_, k0, name='k0', Error=ETMError)
+        #     raise Scalar_.Error_(Scalar_, k0, name=_k0_, Error=ETMError)
         self._k0_a = self._k0 * self._a
 
     @property_doc_(''' the central meridian (C{degrees180}).''')
@@ -454,7 +457,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise ValueError: Invalid B{C{lon0}}.
         '''
-        self._lon0 = _norm180(Lon(lon0, name='lon0'))
+        self._lon0 = _norm180(Lon(lon0, name=_lon0_))
 
     @property_RO
     def majoradius(self):
@@ -649,7 +652,7 @@ class ExactTransverseMercator(_NamedBase):
                 trip = hypot2(du, dv) < _TOL_10
             else:
                 t = unstr(self._sigmaInv.__name__, xi, eta)
-                raise EllipticError('no convergence', txt=t)
+                raise EllipticError(_no_convergence_, txt=t)
         return u, v
 
     def _sigmaInv0(self, xi, eta):
@@ -718,7 +721,7 @@ class ExactTransverseMercator(_NamedBase):
         d = dict(name=self.name) if self.name else {}
         d = dict(datum=self.datum.name, lon0=self.lon0,
                  k0=self.k0, extendp=self.extendp, **d)
-        return ', '.join(pairs(d, **kwds))
+        return _COMMA_SPACE_.join(pairs(d, **kwds))
 
     def _zeta3(self, snu, cnu, dnu, snv, cnv, dnv):
         '''(INTERNAL) C{zeta}.
@@ -803,7 +806,7 @@ class ExactTransverseMercator(_NamedBase):
                 trip = hypot2(du, dv) < stol2
             else:
                 t = unstr(self._zetaInv.__name__, taup, lam)
-                raise EllipticError('no convergence', txt=t)
+                raise EllipticError(_no_convergence_, txt=t)
         return u, v
 
     def _zetaInv0(self, psi, lam):
@@ -894,7 +897,7 @@ class LatLonExact4Tuple(_NamedTuple):
     '''4-Tuple C{(lat, lon, convergence, scale)} in C{degrees180},
        C{degrees}, C{degrees} and C{scalar}.
     '''
-    _Names_ = ('lat', 'lon', 'convergence', 'scale')
+    _Names_ = (_lat_, _lon_, _convergence_, _scale_)
 
 
 def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=NN):
@@ -970,6 +973,9 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
 
     return _toXtm8(Etm, z, lat, x, y, B, d, g, k, f,
                         name, latlon, d.exactTM, Error=ETMError)
+
+
+__all__ += _ALL_DOCS(EasNorExact4Tuple, LatLonExact4Tuple)
 
 # **) MIT License
 #

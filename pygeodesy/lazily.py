@@ -25,11 +25,14 @@ imported by that top-level module.
              is not supported or not enabled, or C{False} if initializing
              C{lazy import} failed.
 '''
+from pygeodesy.interns import _areaOf_, _COMMA_SPACE_, _doesn_t_exist_, \
+                              _DOT_, _dot_, _dunder_name, _isclockwise_, \
+                              _ispolar_, _item_sq, _Missing, NN, \
+                              _perimeterOf_, _UNDERSCORE_
 
 from os import environ as _environ
 
 _FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)  # for epydoc ...
-_N_A      =  object()
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
 isLazy = None  # see @var isLazy above
@@ -46,30 +49,23 @@ class LazyImportError(ImportError):
 class _NamedEnum_RO(dict):
     '''(INTERNAL) C{Read_Only} enum-like C{dict} sub-class.
     '''
-#   _name = ''  # also first kwd, __init__(_name=...)
+#   _name = NN  # also first kwd, __init__(_name=...)
 
     def __getattr__(self, attr):
         try:
             return self[attr]
         except KeyError:
-            raise AttributeError("%s doesn't exist" % (_dot_(self._name, attr),))  # PYCHOK expected
+            t = '%s %s' % (_dot_(self._name, attr), _doesn_t_exist_)  # PYCHOK _name
+            raise AttributeError(t)
 
     def __setattr__(self, attr, value):
-        raise TypeError('Read_Only %s = %r' % (_dot_(self._name, attr), value))  # PYCHOK expected
+        t = 'Read_Only %s = %r' % (_dot_(self._name, attr), value)  # PYCHOK _name
+        raise TypeError(t)
 
     def enums(self):
         for k, v in dict.items(self):
-            if not k.startswith('_'):  # skip _name
+            if not k.startswith(_UNDERSCORE_):  # skip _name
                 yield k, v
-
-
-def _ALL_DOCS(*names):
-    '''(INTERNAL) Only export B{C{names}} when making docs to force
-       C{epydoc} to include classes, methods, functions and other
-       names in the documentation.  Using C{epydoc --private ...}
-       tends to include too much private documentation.
-    '''
-    return names if _FOR_DOCS else ()
 
 
 _ALL_INIT = 'pygeodesy_abspath', 'version'
@@ -78,7 +74,7 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           bases=(),  # module and for backward compatibility only
                          basics=('EPS', 'EPS1', 'EPS1_2', 'EPS_2', 'INF', 'MANTIS', 'MAX', 'MIN',  # constants
-                                 'NAN', 'NEG0', 'NN', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M',
+                                 'NAN', 'NEG0', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M',
                                  'clips', 'halfs2',
                                  'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
                                  'len2', 'map1', 'map2', 'property_doc_', 'property_RO'),
@@ -147,21 +143,22 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'HeightIDWeuclidean', 'HeightIDWflatLocal', 'HeightIDWflatPolar', 'HeightIDWhaversine',
                                  'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWthomas', 'HeightIDWvincentys',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
+                        interns=('NN',),
                          karney=(),  # module only
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                            mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs'),
-                          named=('classname', 'classnaming', 'modulename', 'nameof'),
+                          named=('callername', 'classname', 'classnaming', 'modulename', 'nameof', 'notImplemented', 'notOverloaded'),
                         nvector=(),  # module and for backward compatibility only
                            osgr=('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
                          points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
-                                 'areaOf', 'boundsOf', 'centroidOf',
-                                 'isclockwise', 'isconvex', 'isconvex_', 'isenclosedBy', 'ispolar',
-                                 'nearestOn5', 'perimeterOf'),
+                                 _areaOf_, 'boundsOf', 'centroidOf',
+                                 _isclockwise_, 'isconvex', 'isconvex_', 'isenclosedBy', _ispolar_,
+                                 'nearestOn5', _perimeterOf_),
                sphericalNvector=(),  # module only
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
-                        streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
+                        streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=('RefFrame', 'RefFrames', 'TRFError', 'date2epoch', 'epoch2date'),
                           units=('Band', 'Bearing', 'Bearing_', 'Degrees', 'Distance', 'Easting',
                                  'Feet', 'Float', 'Float_', 'Height', 'Int', 'Int_',
@@ -199,7 +196,32 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.06.18'
+__version__ = '20.07.08'
+
+
+def _ALL_OTHER(*objs):
+    '''(INTERNAL) List local objects for __all__.
+    '''
+    from pygeodesy import interns  # PYCHOK import
+
+    def _dun(o):
+        n = _dunder_name(o).rsplit(_DOT_, 1)[-1]
+        u = _UNDERSCORE_ + n + _UNDERSCORE_
+        return getattr(interns, u, n)
+
+    return tuple(map(_dun, objs))
+
+
+if _FOR_DOCS:
+    _ALL_DOCS = _ALL_OTHER
+    # (INTERNAL) Only export B{C{objs.__name__}} when making the
+    # docs to force C{epydoc} to include certain classes, methods,
+    # functions and other names in the documentation.  Using the
+    # C{epydoc --private ...} command line option tends to include
+    # too much internal documentation.
+else:
+    def _ALL_DOCS(*unused):
+        return ()
 
 
 def _all_imports(**more):
@@ -213,16 +235,16 @@ def _all_imports(**more):
     imports = {}
     for _all_ in (_ALL_LAZY, _ALL_OVERRIDING, more):
         for mod, attrs in _all_.items():
-            if isinstance(attrs, tuple) and not mod.startswith('_'):
+            if isinstance(attrs, tuple) and not mod.startswith(_UNDERSCORE_):
                 if mod not in imports:
                     imports[mod] = mod
                 elif imports[mod] != mod:
-                    t = 'imports', 'mod', imports[mod], mod
-                    raise AssertionError('%s[%s]: %r not %r' % t)
+                    t = _item_sq('imports', 'mod'), imports[mod], mod
+                    raise AssertionError('%s: %r, not %r' % t)
                 for attr in attrs:
                     attr, _, _as_ = attr.partition(' as ')
                     if _as_:
-                        imports[_as_] = mod + '.' + attr
+                        imports[_as_] = mod + _DOT_ + attr
                     else:
                         imports[attr] = mod
     return imports
@@ -232,14 +254,8 @@ def _all_missing2(_all_):
     '''(INTERNAL) Get deltas between pygeodesy.__all__ and lazily._all_imports.
     '''
     _alzy = _all_imports(**_NamedEnum_RO((a, ()) for a in _ALL_INIT))
-    return (('lazily._all_imports', ', '.join(a for a in _all_ if a not in _alzy)),
-            ('pygeodesy.__all__',   ', '.join(a for a in _alzy if a not in _all_)))
-
-
-def _dot_(prefix, name):  # imported by .__init__, .deprecated, .fmath, .named, etc.
-    '''(INTERNAL) Period-join C{prefix} and C{name}.
-    '''
-    return prefix + '.' + str(name)
+    return ((_dot_('lazily', _all_imports.__name__), _COMMA_SPACE_.join(a for a in _all_ if a not in _alzy)),
+            (_dot_('pygeodesy', '__all__'),          _COMMA_SPACE_.join(a for a in _alzy if a not in _all_)))
 
 
 def _lazy_import2(_package_):  # MCCABE 16
@@ -280,9 +296,9 @@ def _lazy_import2(_package_):  # MCCABE 16
         cwdir = cwdir[:-len(os.path.basename(cwdir))]
         del os
     else:  # no import path names
-        cwdir = ''
+        cwdir = NN
 
-    import_ = _dot_(_package_, '')  # namespace
+    import_ = _dot_(_package_, NN)  # namespace
     imports = _all_imports()
 
     def __getattr__(name):  # __getattr__ only for Python 3.7+
@@ -291,7 +307,7 @@ def _lazy_import2(_package_):  # MCCABE 16
             # importlib.import_module() implicitly sets sub-modules
             # on this module as appropriate for direct imports (see
             # note in the _lazy_import.__doc__ above).
-            mod, _, attr = imports[name].partition('.')
+            mod, _, attr = imports[name].partition(_DOT_)
             if mod not in imports:
                 raise LazyImportError('no module', txt=_dot_(parent, mod))
             imported = import_module(import_ + mod, parent)  # XXX '.' + mod
@@ -299,21 +315,21 @@ def _lazy_import2(_package_):  # MCCABE 16
                 raise LazyImportError(_dot_(mod, '__package__'), imported.__package__)
             # import the module or module attribute
             if attr:
-                imported = getattr(imported, attr, _N_A)
+                imported = getattr(imported, attr, _Missing)
             elif name != mod:
-                imported = getattr(imported, name, _N_A)
-            if imported is _N_A:
+                imported = getattr(imported, name, _Missing)
+            if imported is _Missing:
                 raise LazyImportError('no attribute', txt=_dot_(mod, attr or name))
 
         elif name in ('__all__',):  # XXX '__dir__', '__members__'?
             imported = _ALL_INIT + tuple(imports.keys())
-            mod = ''
+            mod = NN
         else:
             raise LazyImportError('no module or attribute', txt=_dot_(parent, name))
 
         setattr(package, name, imported)
         if isLazy > 1:
-            z = ''
+            z = NN
             if mod and mod != name:
                 z = ' from .%s' % (mod,)
             if isLazy > 2:

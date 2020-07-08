@@ -25,22 +25,25 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, isint, issequence, map1, NN, PI_2, \
+from pygeodesy.basics import EPS, isint, issequence, map1, PI_2, \
                              property_doc_, property_RO, R_M, _Sequence, \
                             _xcopy, _xinstanceof, _xkwds  # PYCHOK indent
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
 from pygeodesy.errors import CrossError, crosserrors, _incompatible, \
-                            _IndexError, _IsnotError, _item_, _TypeError, \
-                            _Valid, _ValueError, _xkwds_pop
+                            _IndexError, _IsnotError, _TypeError, \
+                            _ValueError, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
+from pygeodesy.interns import _COMMA_SPACE_, _datum_, _height_, _item_ps, \
+                              _item_sq, _lat_, _lon_, _name_, NN, _other_, \
+                              _point_, _UNDERSCORE_, _valid_, _x_, _y_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, classname, \
-                            LatLon2Tuple, _NamedTuple, NearestOn3Tuple, \
-                            nameof, notOverloaded, PhiLam2Tuple, \
+from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, _callname, classname, \
+                            LatLon2Tuple, _NamedTuple, NearestOn3Tuple, nameof, \
+                            notImplemented, notOverloaded, PhiLam2Tuple, \
                             Vector4Tuple, _xnamed
 from pygeodesy.nvectorBase import NvectorBase, _N_vector_
-from pygeodesy.streprs import instr, pairs
+from pygeodesy.streprs import hstr, instr, pairs
 from pygeodesy.units import Radius, Scalar_
 from pygeodesy.utily import degrees90, degrees180, degrees360, degrees2m, \
                             unroll180, unrollPI, wrap90, wrap180
@@ -48,9 +51,8 @@ from pygeodesy.utily import degrees90, degrees180, degrees360, degrees2m, \
 from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
-__all__ = _ALL_LAZY.points + _ALL_DOCS('NearestOn5Tuple', 'Point3Tuple',
-                                                          'Shape2Tuple')
-__version__ = '20.05.14'
+__all__ = _ALL_LAZY.points
+__version__ = '20.07.08'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -64,15 +66,17 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     # 276+, O'Reilly, 2016, also at <https://Books.Google.ie/
     #   books?id=bIZHCgAAQBAJ&lpg=PP1&dq=fluent%20python&pg=
     #   PT364#v=onepage&q=“Problems%20with%20__slots__”&f=false>
-    __slots__ = ('lat', 'lon', 'name', 'height')
+    __slots__ = (_lat_, _lon_, _name_, _height_, _datum_)
 
-    def __init__(self, lat, lon, name=NN, height=0):
+    def __init__(self, lat, lon, name=NN, height=0, datum=None):
         '''Creat a new, mininal, low-overhead L{LatLon_} instance,
            without heigth and datum.
 
            @arg lat: Latitude (C{degrees}).
            @arg lon: Longitude (C{degrees}).
            @kwarg name: Optional name (C{str}).
+           @kwarg height: Optional height (C{float} or C{int}).
+           @kwarg datum: Optional datum (C{Datum}) or C{None}.
 
            @note: The lat- and longitude are taken as-given,
                   un-clipped and un-validated .
@@ -81,8 +85,9 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
             self.lat, self.lon = float(lat), float(lon)
         except (TypeError, ValueError):
             self.lat, self.lon = parseDMS2(lat, lon, clipLat=0, clipLon=0)  # PYCHOK LatLon2Tuple
-        self.name = str(name)
+        self.name   = str(name)
         self.height = height
+        self.datum  = datum
 
     def __eq__(self, other):
         return isinstance(other, LatLon_) and \
@@ -121,6 +126,15 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         return _xcopy(self, deep=deep)
 
+    def heightStr(self, prec=-2):
+        '''Return a string for the height B{C{height}}.
+
+           @kwarg prec: Optional number of decimals, unstripped (C{int}).
+
+           @see: Function L{hstr}.
+        '''
+        return hstr(self.height, prec=prec)
+
     @property_RO
     def latlon(self):
         '''Get the lat- and longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
@@ -139,20 +153,21 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         return _N_vector_(*latlon2n_xyz(self.lat, self.lon), h=self.height)
 
-    def others(self, other, name='other'):  # see .named._namedBase.others
+    def others(self, other, name=_other_, up=1):  # see .named._namedBase.others
         '''Check this and an other instance for type compatiblility.
 
            @arg other: The other instance (any C{type}).
            @kwarg name: Optional, name for other (C{str}).
+           @kwarg up: Number of call stack frames up (C{int}).
 
            @return: C{None}.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         if not (isinstance(other, self.__class__) or
-                (hasattr(other, 'lat') and hasattr(other, 'lon'))):
-            t = self.name or classname(self)
-            raise _TypeError(name, other, txt=_incompatible(t))
+                (hasattr(other, _lat_) and hasattr(other, _lon_))):
+            n = _callname(name, classname(self), self.name, up=up + 1)
+            raise _TypeError(name, other, txt=_incompatible(n))
 
     @property_RO
     def philam(self):
@@ -228,12 +243,12 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @return: Class instance (C{str}).
         '''
         _ = _xkwds_pop(kwds, std=None)  # PYCHOK std unused
-        return '%s(%s)' % (classname(self), self.toStr(**kwds))
+        return _item_ps(classname(self), self.toStr(**kwds))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, used method L{LatLon_.toRepr}.'''
 
-    def toStr(self, form=F_D, prec=6, sep=', ', **kwds):
+    def toStr(self, form=F_D, prec=6, sep=_COMMA_SPACE_, **kwds):
         '''This L{LatLon_} as a string "<degrees>, <degrees>".
 
            @kwarg form: Optional format, F_D, F_DM, F_DMS for
@@ -247,7 +262,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         t = (latDMS(self.lat, form=form, prec=prec),
              lonDMS(self.lon, form=form, prec=prec))
         if self.height:
-            t += ('%+.2f' % (self.height,),)
+            t += (self.heightStr(),)
         if self.name:
             t += (repr(self.name),)
         if kwds:
@@ -258,9 +273,9 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
 class _Basequence(_Sequence):  # immutable, on purpose
     '''(INTERNAL) Base class.
     '''
-    _array    = []
-    _epsilon  = EPS
-    _itemname = 'point'
+    _array    =  []
+    _epsilon  =  EPS
+    _itemname = _point_
 
     def _contains(self, point):
         '''(INTERNAL) Check for a matching point.
@@ -312,10 +327,10 @@ class _Basequence(_Sequence):  # immutable, on purpose
             return i
         return -1
 
-    def _findall(self, unused, start_end):  # PYCHOK no cover
-        '''Must be overloaded.
+    def _findall(self, point, start_end):  # PYCHOK no cover
+        '''(INTERNAL) I{Must be implemented/overloaded}.
         '''
-        raise NotImplementedError('method: %s' % (self._findall.__name__,))
+        notImplemented(self, self._findall, point, start_end)
 
     def _getitem(self, index):
         '''(INTERNAL) Return point [index] or return a slice.
@@ -359,7 +374,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
             yield self.point(self._array[i])
 
     def point(self, *attrs):  # PYCHOK no cover
-        '''(INTERNAL) Must be overloaded.
+        '''(INTERNAL) I{Must be overloaded}.
 
            @arg attrs: Optional arguments.
         '''
@@ -408,7 +423,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         return -1
 
     def _slicekwds(self):  # PYCHOK no cover
-        '''(INTERNAL) Should be overloaded.
+        '''(INTERNAL) I{Should be overloaded}.
         '''
         return {}
 
@@ -443,7 +458,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             if isclass(LatLon) and all(hasattr(LatLon, a) for a in LatLon_.__slots__):
                 self._LatLon = LatLon
             else:
-                raise _IsnotError(_Valid, LatLon=LatLon)
+                raise _IsnotError(_valid_, LatLon=LatLon)
 
         # check the attr indices
         for n, (ai, i) in enumerate(ais):
@@ -454,8 +469,8 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
                 raise _ValueError(ai, i)
             for aj, j in ais[:n]:
                 if int(j) == i:
-                    raise _ValueError('%s == %s == %s' % (ai, aj, i))
-            setattr(self, '_' + ai, i)
+                    raise _ValueError(' == '.join(map1(str, ai, aj, i)))
+            setattr(self, _UNDERSCORE_ + ai, i)
 
     def __contains__(self, latlon):
         '''Check for a specific lat-/longitude.
@@ -529,7 +544,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
             try:
                 lat, lon = latlon
             except (TypeError, ValueError):
-                raise _IsnotError(_Valid, latlon=latlon)
+                raise _IsnotError(_valid_, latlon=latlon)
 
         for i in self._range(*start_end):
             row = self._array[i]
@@ -616,9 +631,9 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         return self._shape
 
     def _subset(self, indices):  # PYCHOK unused
-        '''Must be overloaded.
+        '''(INTERNAL) I{Must be implemented/overloaded}.
         '''
-        raise NotImplementedError('method: %s' % (self._subset.__name__,))
+        notImplemented(self, self._subset, indices)
 
     def subset(self, indices):
         '''Return a subset of the C{NumPy} array.
@@ -640,14 +655,14 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''
         if not issequence(indices, tuple):  # NO tuple, only list
             # and range work properly to get Numpy array sub-sets
-            raise _IsnotError(_Valid, indices=type(indices))
+            raise _IsnotError(_valid_, indices=type(indices))
 
         n = len(self)
         for i, v in enumerate(indices):
             if not isint(v):
-                raise _TypeError(_item_(indices=i), v)
+                raise _TypeError(_item_sq(indices=i), v)
             elif not 0 <= v < n:
-                raise _IndexError(_item_(indices=i), v)
+                raise _IndexError(_item_sq(indices=i), v)
 
         return self._subset(indices)
 
@@ -763,7 +778,7 @@ class LatLon2psxy(_Basequence):
             try:
                 x, y = xy[:2]
             except (IndexError, TypeError, ValueError):
-                raise _IsnotError(_Valid, xy=xy)
+                raise _IsnotError(_valid_, xy=xy)
 
             def _3xyll(ll):  # PYCHOK expected
                 return self.point(ll)
@@ -907,7 +922,7 @@ class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
 class Point3Tuple(_NamedTuple):
     '''3-Tuple C{(x, y, ll)} in C{meter}, C{meter} and C{LatLon}.
     '''
-    _Names_ = ('x', 'y', 'll')
+    _Names_ = (_x_, _y_, 'll')
 
 
 class Shape2Tuple(_NamedTuple):
@@ -1550,6 +1565,9 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
 
     d = fsum(_degs(len(pts), pts, closed))
     return degrees2m(d, radius=radius)
+
+
+__all__ += _ALL_DOCS(NearestOn5Tuple, Point3Tuple, Shape2Tuple)
 
 # **) MIT License
 #

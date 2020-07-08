@@ -8,28 +8,23 @@ u'''Error, exception classes and functions to format PyGeodesy errors,
     variable C{PYGEODESY_EXCEPTION_CHAINING} to 'std' or any other
     non-empty string to enable I{exception chaining}.
 '''
+from pygeodesy.interns import _COLON_, _COMMA_, _COMMA_SPACE_, \
+                              _invalid_, _len_, _Missing, _name_, \
+                               NN, _SPACE_, _UNDERSCORE_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
-# all public contants, classes and functions
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.07.01'
+__version__ = '20.07.08'
 
-_Degrees     = 'degrees'     # PYCHOK exported to .dms, .frechet, .hausdorff, .units
-_Invalid     = 'invalid'
-_limiterrors =  True         # imported by .formy
-_Meter       = 'meter'       # PYCHOK exported to .frechet, .hausdorff, .heights
-_Not_convex  = 'not convex'  # PYCHOK exported to .clipy, .sphericalTrigonometry
-_Radians     = 'radians'     # PYCHOK exported to .dms, .frechet, .hausdorff, .units
-_Radians2    = 'radians**2'  # PYCHOK exported to .frechet, .hausdorff
-_rangerrors  =  True         # imported by .dms
-_Valid       = 'valid'       # PYCHOK exported to .points
+_limiterrors = True  # imported by .formy
+_rangerrors  = True  # imported by .dms
 
 try:
     _exception_chaining = None  # not available
 
     _ = Exception().__cause__   # Python 3+ exception chaining
 
-    if _environ.get('PYGEODESY_EXCEPTION_CHAINING', None):  # == 'std'
+    if _environ.get('PYGEODESY_EXCEPTION_CHAINING', None):  # == _std_
         _exception_chaining = True  # turned on, std
         raise AttributeError  # allow exception chaining
 
@@ -64,35 +59,42 @@ except AttributeError:  # Python 2+
 class _AssertionError(AssertionError):
     '''(INTERNAL) Format an C{AssertionError} without exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_Invalid
+    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
         _error_init(AssertionError, self, name_value, **txt_name_values)
 
 
 class _AttributeError(AttributeError):
     '''(INTERNAL) Format an C{AttributeError} without exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_Invalid
+    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
         _error_init(AttributeError, self, name_value, **txt_name_values)
 
 
 class _IndexError(IndexError):
     '''(INTERNAL) Format an C{IndexError} without exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_Invalid
+    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
         _error_init(IndexError, self, name_value, **txt_name_values)
 
 
 class _NameError(NameError):
     '''(INTERNAL) Format a C{NameError} without exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_Invalid
+    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
         _error_init(NameError, self, name_value, **txt_name_values)
+
+
+class _NotImplementedError(NotImplementedError):
+    '''(INTERNAL) Format a C{NotImplementedError} without exception chaining.
+    '''
+    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
+        _error_init(NotImplementedError, self, name_value, **txt_name_values)
 
 
 class _OverflowError(OverflowError):
     '''(INTERNAL) Format an C{OverflowError} without exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # txt=_Invalid
+    def __init__(self, *name_value, **txt_name_values):  # txt=_invalid_
         _error_init(OverflowError, self, name_value, **txt_name_values)
 
 
@@ -115,7 +117,7 @@ class _TypesError(_TypeError):
 class _ValueError(ValueError):
     '''(INTERNAL) Format a C{ValueError} without exception chaining.
     '''
-    def __init__(self, *name_value, **txt_name_values):  # name, value, txt=_Invalid
+    def __init__(self, *name_value, **txt_name_values):  # name, value, txt=_invalid_
         _error_init(ValueError, self, name_value, **txt_name_values)
 
 
@@ -129,7 +131,7 @@ class CrossError(_ValueError):
 class IntersectionError(_ValueError):
     '''Error raised for path or circle intersection issues.
     '''
-    def __init__(self, txt=_Invalid, **kwds):
+    def __init__(self, txt=_invalid_, **kwds):
         '''New L{IntersectionError}.
         '''
         _ValueError.__init__(self, txt=txt, **kwds)
@@ -146,11 +148,11 @@ class LenError(_ValueError):
            @kwarg lens_txt: Two or more C{name=len(name)} pairs
                             (C{keyword arguments}).
         '''
-        x = _xkwds_pop(lens_txt, txt=_Invalid)
+        x = _xkwds_pop(lens_txt, txt=_invalid_)
         ns, vs = zip(*sorted(lens_txt.items()))
-        ns = ', '.join(ns)
+        ns = _COMMA_SPACE_.join(ns)
         vs = ' vs '.join(map(str, vs))
-        t = '%s(%s) len %s' % (where.__name__, ns, vs)
+        t = '%s(%s) %s %s' % (where.__name__, ns, _len_, vs)
         _ValueError.__init__(self, t, txt=x)
 
 
@@ -236,13 +238,13 @@ def _ename_(inst):
     '''(INTERNAL) Remove leading underscore from instance' class name.
     '''
     n = inst.__class__.__name__
-    if n.startswith('_'):
-        inst.__class__.__name__ = n.lstrip('_')
+    if n.startswith(_UNDERSCORE_):
+        inst.__class__.__name__ = n.lstrip(_UNDERSCORE_)
     return inst
 
 
 def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
-                                         txt=_Invalid, **name_values):  # by .lazily
+                                         txt=_invalid_, **name_values):  # by .lazily
     '''(INTERNAL) Format an error text and initialize an C{Error} instance.
 
        @arg Error: The error super-class (C{Exception}).
@@ -265,14 +267,14 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
     elif name_value:
         t = str(name_value[0])
     else:
-        t = '%s %r' % (_Missing, 'name[, value]',)
+        t = '%s %s' % (_Missing, _Missing)
 
     if txt is None:
-        x = ''
+        x = NN
     else:
-        x = str(txt) or _Invalid
-        c = ',' if ':' in t else ':'
-        t = ''.join((t, c, ' ', x))
+        x = str(txt) or _invalid_
+        c = _COMMA_ if _COLON_ in t else _COLON_
+        t = NN.join((t, c, _SPACE_, x))
     Error.__init__(inst, t)
 #   inst.__x_txt__ = x  # hold explanation
     _cause_(inst)  # no Python 3+ exception chaining
@@ -297,17 +299,17 @@ def exception_chaining(error=None):
 def _incompatible(this):
     '''(INTERNAL) Format an incompatible text.
     '''
-    return ' '.join(('incompatible', 'with', str(this)))
+    return _SPACE_.join(('incompatible', 'with', str(this)))
 
 
-def _InvalidError(Error=_ValueError, **txt_name_values):  # txt='', name=value [, ...]
+def _InvalidError(Error=_ValueError, **txt_name_values):  # txt=_invalid_, name=value [, ...]
     '''(INTERNAL) Create an C{Error} instance.
 
        @kwarg Error: The error class or sub-class (C{Exception}).
        @kwarg txt_name_values: One or more B{C{name=value}} pairs
                                and optionally, a B{C{txt=...}}
                                keyword argument to override the
-                               default B{C{txt=_Invalid}}
+                               default B{C{txt='invalid'}}
 
        @return: An B{C{Error}} instance.
     '''
@@ -347,16 +349,6 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeeError]
     return e
 
 
-def _item_(*name_key_arg, **name_key_kwd):
-    '''(INTERNAL) Return an indexed or keyed name.
-    '''
-    for n_k in name_key_kwd.items():
-        break
-    else:
-        n_k = name_key_arg
-    return '%s[%r]' % n_k
-
-
 def limiterrors(raiser=None):
     '''Get/set the throwing of L{LimitError}s.
 
@@ -373,27 +365,14 @@ def limiterrors(raiser=None):
     return t
 
 
-class _Missing(object):
-    '''(INTERNAL) Singleton.
-    '''
-    def toRepr(self, **unused):
-        return 'missing'  # self.__class__.__name__.strip('_'),lower()
-
-    __repr__ = toRepr
-    __str__  = toRepr
-    toStr    = toRepr
-
-_Missing = _Missing()  # PYCHOK singleton
-
-
 def _or(*words):
     '''(INTERNAL) Join C{words} with C{', '} and C{' or '}.
     '''
-    t, w = '', list(words)
+    t, w = NN, list(words)
     if w:
         t = w.pop()
         if w:
-            w = ', '.join(w)
+            w = _COMMA_SPACE_.join(w)
             t = ' or '.join((w, t))
     return t
 
@@ -447,16 +426,17 @@ def _SciPyIssue(x, *extras):  # PYCHOK no cover
     t = map(str, extras) if extras else []
     t = ' '.join(str(x).strip().split() + t)
     if isinstance(x, (RuntimeWarning, UserWarning)):
-        return _cause_(SciPyWarning(t), other=x)
+        X = SciPyWarning
     else:
-        return _cause_(SciPyError(t), other=x)  # PYCHOK not really
+        X = SciPyError  # PYCHOK not really
+    return _cause_(X(t), other=x)
 
 
 def _xkwds_Error(_xkwds_func, kwds, name_default):
     from pygeodesy.streprs import unstr
     t = unstr(_xkwds_func.__name__, kwds, **name_default)
-    n = 'multiple' if name_default else 'no'
-    return _AssertionError(t, txt=n + ' name=default kwargs')
+    n = ('multiple ' if name_default else 'no ') + _name_
+    return _AssertionError(t, txt=n + '=default kwargs')
 
 
 def _xkwds_get(kwds, **name_default):

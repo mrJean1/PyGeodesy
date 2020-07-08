@@ -17,16 +17,18 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import clips, NN
+from pygeodesy.basics import clips
 from pygeodesy.errors import ParseError, _xkwds_get
+from pygeodesy.interns import _elevation_, _height_, _item_cs, \
+                              _item_ps, _lat_, _lon_, _n_a_, NN, \
+                              _SPACE_, _units_, _utf_8_, _x_, _y_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Lat, Lon, Scalar, Str
 
-__all__ = _ALL_LAZY.elevations + _ALL_DOCS('Elevation2Tuple',
-                                         'GeoidHeight2Tuple')
-__version__ = '20.05.14'
+__all__ = _ALL_LAZY.elevations
+__version__ = '20.07.08'
 
 try:
     _Bytes = unicode, bytearray  # PYCHOK expected
@@ -39,9 +41,18 @@ except (ImportError, NameError):  # Python 3+
     # from urllib.parse import quote
     from urllib.error import HTTPError
 
+_timeout_ = 'timeout'
+_XML_     = 'XML'
+
 try:
     from json import loads as _json
 except ImportError:  # PYCHOK no cover
+
+    from pygeodesy.interns import _COMMA_
+    # _QUOTE1_ = "'"
+    _QUOTE2_   = '"'  # PYCHOK used!
+    # _QUOTE3_ = "'''"
+    # _QUOTE6_ = '"""'
 
     def _json(ngs):
         '''(INTERNAL) Convert an NGS response in JSON to a C{dict}.
@@ -61,16 +72,16 @@ except ImportError:  # PYCHOK no cover
         # b'{"error": "No suitable Geoid model found for model 15"
         #   }'
         d = {}
-        for t in ngs.strip().lstrip('{').rstrip('}').split(','):
+        for t in ngs.strip().lstrip('{').rstrip('}').split(_COMMA_):
             t = t.strip()
-            j = t.strip('"').split('": ')
+            j = t.strip(_QUOTE2_).split('": ')
             if len(j) != 2:
                 raise ParseError(json=t)
             k, v = j
             try:
                 v = float(v)
             except (TypeError, ValueError):
-                v = Str(_str(v.lstrip().lstrip('"')), name=k)
+                v = Str(_str(v.lstrip().lstrip(_QUOTE2_)), name=k)
             d[k] = v
         return d
 
@@ -78,7 +89,7 @@ except ImportError:  # PYCHOK no cover
 def _error(fun, lat, lon, e):
     '''(INTERNAL) Format an error
     '''
-    return '%s(%s): %s' % (fun.__name__, fstr((lat, lon)), e)
+    return _item_cs(_item_ps(fun.__name__, fstr((lat, lon))), e)
 
 
 def _qURL(url, params, timeout=2):
@@ -102,7 +113,7 @@ def _str(t):
     '''Unicode or C{bytes} to C{str}.
     '''
     if isinstance(t, _Bytes):
-        t = str(t.decode('utf-8'))
+        t = str(t.decode(_utf_8_))
     return t
 
 
@@ -123,13 +134,13 @@ def _xml(tag, xml):
         j = xml.find('</%s>' % (tag,), i)
         if j > i:
             return Str(xml[i:j].strip(), name=tag)
-    return 'no XML tag <%s>' % (tag,)
+    return 'no %s tag <%s>' % (_XML_, tag)
 
 
 class Elevation2Tuple(_NamedTuple):  # .elevations.py
     '''2-Tuple C{(elevation, data_source)} in C{meter} and C{str}.
     '''
-    _Names_ = ('elevation', 'data_source')
+    _Names_ = (_elevation_, 'data_source')
 
 
 def elevation2(lat, lon, timeout=2.0):
@@ -158,12 +169,12 @@ def elevation2(lat, lon, timeout=2.0):
              L{GeoidPGM}.
     '''
     try:
-        x = _qURL('https://NED.USGS.gov/epqs/pqs.php',  # https://NationalMap.gov/epqs/pqs.php
-                        ('x=%.6F' % (Lat(lon),),
-                         'y=%.6F' % (Lat(lat),),
-                         'units=Meters',  # Feet
-                         'output=xml'),
-                          timeout=Scalar(timeout, name='timeout'))
+        x = _qURL('https://NED.USGS.gov/epqs/pqs.php',  # 'https://NationalMap.gov/epqs/pqs.php'
+                        ('%s=%.6F' % (_x_, Lon(lon)),
+                         '%s=%.6F' % (_y_, Lat(lat)),
+                         '%s=%s' % (_units_, 'Meters'),  # 'Feet', capitalized
+                         'output=xml'),  # json, case_sensitive
+                          timeout=Scalar(timeout, name=_timeout_))
         if x[:6] == '<?xml ':
             e = _xml('Elevation', x)
             try:
@@ -174,7 +185,7 @@ def elevation2(lat, lon, timeout=2.0):
             except (TypeError, ValueError):
                 pass
         else:
-            e = 'no %s "%s"' % ('XML', clips(x, limit=128, white=' '),)
+            e = 'no %s "%s"' % (_XML_, clips(x, limit=128, white=_SPACE_),)
     except (HTTPError, IOError, TypeError, ValueError) as x:
         e = repr(x)
     e = _error(elevation2, lat, lon, e)
@@ -185,7 +196,7 @@ class GeoidHeight2Tuple(_NamedTuple):  # .elevations.py
     '''2-Tuple C{(height, model_name)}, geoid C{height} in C{meter}
        and C{model_name} as C{str}.
     '''
-    _Names_ = ('height', 'model_name')
+    _Names_ = (_height_, 'model_name')
 
 
 def geoidHeight2(lat, lon, model=0, timeout=2.0):
@@ -216,25 +227,27 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
     '''
     try:
         j = _qURL('https://Geodesy.NOAA.gov/api/geoid/ght',
-                        ('lat=%.6F' % (Lat(lat),),
-                         'lon=%.6F' % (Lon(lon),),
-                         'model=%s' % (model,) if model else NN),
-                          timeout=Scalar(timeout, name='timeout'))  # PYCHOK indent
+                        ('%s=%.6F' % (_lat_, Lat(lat)),
+                         '%s=%.6F' % (_lon_, Lon(lon)),
+                         '%s=%s' % ('model', model) if model else NN),
+                          timeout=Scalar(timeout, name=_timeout_))  # PYCHOK indent
         if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
             d, e = _json(j), 'geoidHeight'
-            if isinstance(_xkwds_get(d, error='N/A'), float):
+            if isinstance(_xkwds_get(d, error=_n_a_), float):
                 h = d.get(e, None)
                 if h is not None:
-                    m = _xkwds_get(d, geoidModel='N/A')
+                    m = _xkwds_get(d, geoidModel=_n_a_)
                     return GeoidHeight2Tuple(h, m)
         else:
             e = 'JSON'
-        e = 'no %s "%s"' % (e, clips(j, limit=256, white=' '))
+        e = 'no %s "%s"' % (e, clips(j, limit=256, white=_SPACE_))
     except (HTTPError, IOError, ParseError, TypeError, ValueError) as x:
         e = repr(x)
     e = _error(geoidHeight2, lat, lon, e)
     return GeoidHeight2Tuple(None, e)
 
+
+__all__ += _ALL_DOCS(Elevation2Tuple, GeoidHeight2Tuple)
 
 if __name__ == '__main__':
 
@@ -242,7 +255,7 @@ if __name__ == '__main__':
     for f in (elevation2,     # (1173.79, '3DEP 1/3 arc-second')
               geoidHeight2):  # (-31.703, 'GEOID12B')
         t = f(37.8816, -121.9142)
-        print('%s: %s' % (f.__name__, t))
+        print(_item_cs(f.__name__, t))
 
 # **) MIT License
 #

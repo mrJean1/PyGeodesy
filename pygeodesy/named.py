@@ -16,33 +16,31 @@ sub-classes of C{_NamedTuple} defined here.
 '''
 
 # update imported names under if __name__ == '__main__':
-from pygeodesy.basics import NN, isstr, issubclassof, property_doc_, property_RO, \
-                            _xcopy, _xinstanceof, _xkwds
+from pygeodesy.basics import isstr, issubclassof, property_doc_, \
+                             property_RO, _xcopy, _xinstanceof, _xkwds
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
-                             _IndexError, _IsnotError, _item_, LenError, \
-                             _NameError, _TypeError, _TypesError, _Valid, \
-                             _ValueError
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _dot_
-from pygeodesy.streprs import attrs, pairs, reprs, unstr
+                             _IndexError, _IsnotError, LenError, _NameError, \
+                             _NotImplementedError, \
+                             _TypeError, _TypesError, _ValueError  # PYCHOK indent
+from pygeodesy.interns import _angle_, _COLON_SPACE_, _COMMA_SPACE_, _CURLY_, \
+                              _datum_, _distance_, _doesn_t_exist_, _DOT_, \
+                              _dot_, _dunder_name, _easting_, _EQUAL_, _h_, \
+                              _height_, _item_ps, _item_sq, _lam_, _lat_, \
+                              _lon_, _name_, NN, _northing_, _number_, \
+                              _other_, _PARENTH_, _phi_, _points_, _precision_, \
+                              _radius_, _UNDERSCORE_, _valid_, _x_, _y_, _z_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
-# XXX 'FsumDelta2Tuple' is in _ALL_LAZY.named
-__all__ = _ALL_LAZY.named + _ALL_DOCS('_Named',
-         '_NamedBase',  # '_NamedDict',
-         '_NamedEnum', '_NamedEnumItem',  # '_NamedTuple',
-         'Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
-         'Destination2Tuple', 'Destination3Tuple',
-         'Distance2Tuple', 'Distance3Tuple', 'Distance4Tuple',
-         'EasNor2Tuple', 'EasNor3Tuple',
-         'LatLon2Tuple', 'LatLon3Tuple', 'LatLon4Tuple',
-         'LatLonDatum3Tuple', 'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
-         'NearestOn3Tuple',
-         'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Points2Tuple',
-         'Vector3Tuple', 'Vector4Tuple',
-         'notOverloaded')
-__version__ = '20.05.15'
+__all__ = _ALL_LAZY.named
+__version__ = '20.07.08'
 
-_NAME_ =  'name'  # __NAME gets mangled in class
-_name_ = '_name'
+# __DUNDER gets mangled in class
+_final_     = 'final'
+_immutable_ = 'immutable'
+_initial_   = 'initial'
+_name       = '_name'
+_Names_     = '_Names_'
 
 
 def _xnamed(inst, name):
@@ -82,7 +80,7 @@ class _Named(object):
 
            @return: All C{name=value} pairs joined (C{str}).
         '''
-        return ', '.join(attrs(self, *names, **kwds))
+        return _COMMA_SPACE_.join(attrs(self, *names, **kwds))
 
     @property_RO
     def classname(self):
@@ -193,7 +191,7 @@ class _Named(object):
            @return: The B{C{inst}}, named if not named before.
         '''
         if not isinstance(inst, _Named):
-            raise _IsnotError(_Valid, inst=inst)
+            raise _IsnotError(_valid_, inst=inst)
 
         if inst.name != self.name:
             inst.name = self.name
@@ -230,38 +228,40 @@ class _NamedBase(_Named):
 #       c = self.__class__.__name__
 #       return NotImplementedError(_dot_(c, attr))
 
-    def others(self, other, name='other'):  # see .points.LatLon_.others
+    def others(self, other, name=_other_, up=1):  # see .points.LatLon_.others
         '''Check this and an other instance for type compatiblility.
 
            @arg other: The other instance (any C{type}).
            @kwarg name: Optional, name for other (C{str}).
+           @kwarg up: Number of call stack frames up (C{int}).
 
            @raise TypeError: Mismatch of the B{C{other}} and this
                              C{class} or C{type}.
         '''
         if not (isinstance(self, other.__class__) or
                 isinstance(other, self.__class__)):
-            raise _TypeError(name, other, txt=_incompatible(self.named2))
+            n = _callname(name, classname(self, prefixed=True), self.name, up=up + 1)
+            raise _TypeError(name, other, txt=_incompatible(n))
 
     def toRepr(self, **kwds):  # PYCHOK expected
-        '''(INTERNAL) To be overloaded.
+        '''(INTERNAL) I{Could be overloaded}.
 
            @kwarg kwds: Optional, keyword arguments.
 
            @return: C{toStr}() with keyword arguments (as C{str}).
         '''
         t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
-        return '%s(%s)' % (self.classname, t)  # XXX (self.named, t)
+        return _item_ps(self.classname, t)  # XXX (self.named, t)
 
 #   def toRepr(self, **kwds)
 #       if kwds:
-#           s = ''.join(reprs((self,), **kwds))
+#           s = NN.join(reprs((self,), **kwds))
 #       else:  # super().__repr__ only for Python 3+
 #           s = super(self.__class__, self).__repr__()
-#       return '%s(%s)' % (self.named, s)  # clips(s)
+#       return _item_ps(self.named, s)  # clips(s)
 
     def toStr(self, **kwds):  # PYCHOK no cover
-        '''(INTERNAL) Must be overloaded.
+        '''(INTERNAL) I{Must be overloaded}.
 
            @raise _AssertionError: Always, see function L{notOverloaded}.
         '''
@@ -269,7 +269,7 @@ class _NamedBase(_Named):
 
 #   def toStr(self, **kwds):
 #       if kwds:
-#           s = ''.join(strs((self,), **kwds))
+#           s = NN.join(strs((self,), **kwds))
 #       else:  # super().__str__ only for Python 3+
 #           s = super(self.__class__, self).__str__()
 #       return s
@@ -286,15 +286,15 @@ class _NamedDict(dict, _Named):
                 t = unstr(self.classname, *args, **kwds)
                 raise _ValueError(args=len(args), txt=t)
             kwds = _xkwds(dict(args[0]), **kwds)
-        if _NAME_ in kwds:
-            _Named.name.fset(self, kwds.pop(_NAME_))  # see _Named.name
+        if _name_ in kwds:
+            _Named.name.fset(self, kwds.pop(_name_))  # see _Named.name
         dict.__init__(self, kwds)
 
     def __delattr__(self, name):
         if name in dict.keys(self):
             dict.pop(name)
-        elif name in (_NAME_, _name_):
-            dict.__setattr__(self, name, '')
+        elif name in (_name_, _name):
+            dict.__setattr__(self, name, NN)
         else:
             dict.__delattr__(self, name)
 
@@ -302,13 +302,13 @@ class _NamedDict(dict, _Named):
         try:
             return self[name]
         except KeyError:
-            if name == _NAME_:
+            if name == _name_:
                 return _Named.name.fget(self)
             return dict.__getattr__(self, name)
 
     def __getitem__(self, key):
-        if key == _NAME_:
-            raise KeyError(_item_(self.classname, key))
+        if key == _name_:
+            raise KeyError(_item_sq(self.classname, key))
         return dict.__getitem__(self, key)
 
     def __repr__(self):
@@ -321,27 +321,27 @@ class _NamedDict(dict, _Named):
             dict.__setattr__(self, name, value)
 
     def __setitem__(self, key, value):
-        if key == _NAME_:
-            raise KeyError('%s = %r' % (_item_(self.classname, key), value))
+        if key == _name_:
+            raise KeyError('%s = %r' % (_item_sq(self.classname, key), value))
         dict.__setitem__(self, key, value)
 
     def __str__(self):
         return self.toStr()
 
-    def toRepr(self, prec=6, fmt='F'):  # PYCHOK _Named
+    def toRepr(self, prec=6, fmt=_Fmt):  # PYCHOK _Named
         '''Like C{repr(dict)} but with C{name} and  C{floats} formatting by C{fstr}.
         '''
-        t = pairs(self.items(), prec=prec, fmt=fmt, sep='=')
-        return '%s(%s)' % (self.name, ', '.join(sorted(t)))
+        t = pairs(self.items(), prec=prec, fmt=fmt, sep=_EQUAL_)
+        return _item_ps(self.name, _COMMA_SPACE_.join(sorted(t)))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method C{toRepr}.'''
 
-    def toStr(self, prec=6, fmt='F'):  # PYCHOK _Named
+    def toStr(self, prec=6, fmt=_Fmt):  # PYCHOK _Named
         '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
         '''
-        t = pairs(self.items(), prec=prec, fmt=fmt, sep=': ')
-        return '{%s}' % (', '.join(sorted(t)),)
+        t = pairs(self.items(), prec=prec, fmt=fmt, sep=_COLON_SPACE_)
+        return _CURLY_ % (_COMMA_SPACE_.join(sorted(t)),)
 
 
 class _NamedEnum(_NamedDict):
@@ -366,9 +366,9 @@ class _NamedEnum(_NamedDict):
         try:
             return self[name]
         except KeyError:
-            if name == _NAME_:
+            if name == _name_:
                 return _NamedDict.name.fget(self)
-        raise _AttributeError(item=self._dot_(name), txt="doesn't exists")
+        raise _AttributeError(item=self._dot_(name), txt=_doesn_t_exist_)
 
     def __repr__(self):
         return self.toRepr()
@@ -410,10 +410,10 @@ class _NamedEnum(_NamedDict):
         '''
         try:
             n = item.name
-            if not (n and n.replace('_', '').isalnum() and isstr(n)):
+            if not (n and n.replace(_UNDERSCORE_, NN).isalnum() and isstr(n)):
                 raise ValueError
         except (AttributeError, ValueError, TypeError) as x:
-            raise _NameError(_dot_('item', 'name'), item, txt=str(x))
+            raise _NameError(_dot_('item', _name_), item, txt=str(x))
         if n in self:
             raise _NameError(self._dot_(n), item, txt='exists')
         if not (self._item_Classes and isinstance(item, self._item_Classes)):
@@ -439,15 +439,15 @@ class _NamedEnum(_NamedDict):
         try:
             item = dict.pop(self, name)
         except KeyError:
-            raise _NameError(item=self._dot_(name), txt="doesn't exists")
+            raise _NameError(item=self._dot_(name), txt=_doesn_t_exist_)
         item._enum = None
         return item
 
-    def toRepr(self, prec=6, fmt='F', sep=',\n'):  # PYCHOK _NamedDict
+    def toRepr(self, prec=6, fmt=_Fmt, sep=',\n'):  # PYCHOK _NamedDict
         '''Like C{repr(dict)} but with C{name} and C{floats} formatting by C{fstr}.
         '''
         t = sorted((self._dot_(n), v) for n, v in self.items())
-        return sep.join(pairs(t, prec=prec, fmt=fmt, sep=': '))
+        return sep.join(pairs(t, prec=prec, fmt=fmt, sep=_COLON_SPACE_))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method C{toRepr}.'''
@@ -473,13 +473,13 @@ class _NamedEnumItem(_NamedBase):
     def _instr(self, prec, *attrs, **kwds):
         '''(INTERNAL) Format, used by C{Conic}, C{Ellipsoid}, C{Transform}.
         '''
-        t = ('name=%r' % (self.name,),)
+        t = ('%s=%r' % (_name_, self.name),)
         if attrs:
             t += pairs(((a, getattr(self, a)) for a in attrs),
                        prec=prec, ints=True)
         if kwds:
             t += pairs(kwds, prec=prec)
-        return ', '.join(t)
+        return _COMMA_SPACE_.join(t)
 
     @property_doc_(''' the I{registered} name (C{str}).''')
     def name(self):
@@ -538,18 +538,18 @@ class _NamedTuple(tuple, _Named):
         self = tuple.__new__(cls, args)
         ns = self._Names_
         if not (isinstance(ns, tuple) and len(ns) > 1):  # XXX > 0
-            raise _TypeError(_dot_(self.classname, '_Names_'), ns)
+            raise _TypeError(_dot_(self.classname, _Names_), ns)
         if len(ns) != len(args) or not ns:
             raise LenError(cls, args=len(args), ns=len(ns))
-        if _NAME_ in ns:
-            t = unstr(_dot_(self.classname, '_Names_'), *ns)
-            raise _NameError(_NAME_, _NAME_, txt=t)
+        if _name_ in ns:
+            t = unstr(_dot_(self.classname, _Names_), *ns)
+            raise _NameError(_name_, _name_, txt=t)
         return self
 
     def __delattr__(self, name):
         if name in self._Names_:
-            raise _TypeError('del', _dot_(self.classname, name), txt='immutable')
-        elif name in (_NAME_, _name_):
+            raise _TypeError('del', _dot_(self.classname, name), txt=_immutable_)
+        elif name in (_name_, _name):
             _Named.__setattr__(self, name, '')  # XXX _Named.name.fset(self, '')
         else:
             tuple.__delattr__(self, name)
@@ -570,8 +570,8 @@ class _NamedTuple(tuple, _Named):
 
     def __setattr__(self, name, value):
         if name in self._Names_:
-            raise _TypeError(_dot_(self.classname, name), value, txt='immutable')
-        elif name in (_NAME_, _name_):
+            raise _TypeError(_dot_(self.classname, name), value, txt=_immutable_)
+        elif name in (_name_, _name):
             _Named.__setattr__(self, name, value)  # XXX _Named.name.fset(self, value)
         else:
             tuple.__setattr__(self, name, value)
@@ -597,7 +597,7 @@ class _NamedTuple(tuple, _Named):
                             NamedTuple.__name__, NamedTuple._Names_))
         return self._xnamed(NamedTuple(*(self + items)))
 
-    def toRepr(self, prec=6, sep=', '):  # PYCHOK signature
+    def toRepr(self, prec=6, sep=_COMMA_SPACE_):  # PYCHOK signature
         '''Return the -Tuple items as C{name=value} string(s).
 
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
@@ -607,12 +607,12 @@ class _NamedTuple(tuple, _Named):
 
            @return: Tuple items (C{str}).
         '''
-        return '%s(%s)' % (self.named, sep.join(pairs(self.items(), prec=prec)))
+        return _item_ps(self.named, sep.join(pairs(self.items(), prec=prec)))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method C{toRepr}.'''
 
-    def toStr(self, prec=6, sep=', '):  # PYCHOK signature
+    def toStr(self, prec=6, sep=_COMMA_SPACE_):  # PYCHOK signature
         '''Return the -Tuple items as string(s).
 
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
@@ -622,13 +622,13 @@ class _NamedTuple(tuple, _Named):
 
            @return: Tuple items (C{str}).
         '''
-        return '(%s)' % (sep.join(reprs(self, prec=prec)),)
+        return _PARENTH_ % (sep.join(reprs(self, prec=prec)),)
 
 
 class Bearing2Tuple(_NamedTuple):
     '''2-Tuple C{(initial, final)} bearings, both in compass C{degrees360}.
     '''
-    _Names_ = ('initial', 'final')
+    _Names_ = (_initial_, _final_)
 
 
 class Bounds2Tuple(_NamedTuple):  # .geohash.py, .latlonBase.py, .points.py
@@ -650,28 +650,28 @@ class Destination2Tuple(_NamedTuple):  # .ellipsoidalKarney.py, -Vincenty.py
     '''2-Tuple C{(destination, final)}, C{destination} in C{LatLon}
        and C{final} bearing in compass C{degrees360}.
     '''
-    _Names_ = ('destination', 'final')
+    _Names_ = ('destination', _final_)
 
 
 class Destination3Tuple(_NamedTuple):  # .karney.py
     '''3-Tuple C{(lat, lon, final)}, destination C{lat}, C{lon} in
        and C{final} bearing in C{degrees}.
     '''
-    _Names_ = ('lat', 'lon', 'final')
+    _Names_ = (_lat_, _lon_, _final_)
 
 
 class Distance2Tuple(_NamedTuple):  # .datum.py, .ellipsoidalBase.py
     '''2-Tuple C{(distance, initial)}, C{distance} in C{meter} and
        C{initial} bearing in compass C{degrees360}.
     '''
-    _Names_ = ('distance', 'initial')
+    _Names_ = (_distance_, _initial_)
 
 
 class Distance3Tuple(_NamedTuple):  # .ellipsoidalKarney.py, -Vincenty.py
     '''3-Tuple C{(distance, initial, final)}, C{distance} in C{meter}
        and C{initial} and C{final} bearing, both in compass C{degrees360}.
     '''
-    _Names_ = ('distance', 'initial', 'final')
+    _Names_ = (_distance_, _initial_, _final_)
 
 
 class Distance4Tuple(_NamedTuple):  # .formy.py, .points.py
@@ -691,19 +691,19 @@ class Distance4Tuple(_NamedTuple):  # .formy.py, .points.py
 class EasNor2Tuple(_NamedTuple):  # .css.py, .osgr.py, .ups.py, .utm.py, .utmupsBase.py
     '''2-Tuple C{(easting, northing)}, both in C{meter}.
     '''
-    _Names_ = ('easting', 'northing')
+    _Names_ = (_easting_, _northing_)
 
 
 class EasNor3Tuple(_NamedTuple):  # .css.py, .lcc.py
     '''3-Tuple C{(easting, northing, height)}, all in C{meter}.
     '''
-    _Names_ = ('easting', 'northing', 'height')
+    _Names_ = (_easting_, _northing_, _height_)
 
 
 class LatLon2Tuple(_NamedTuple):
     '''2-Tuple C{(lat, lon)} in C{degrees90} and C{degrees180}.
     '''
-    _Names_ = ('lat', 'lon')
+    _Names_ = (_lat_, _lon_)
 
     def to3Tuple(self, height):
         '''Extend this L{LatLon2Tuple} to a L{LatLon3Tuple}.
@@ -736,7 +736,7 @@ class LatLon3Tuple(_NamedTuple):
     '''3-Tuple C{(lat, lon, height)} in C{degrees90}, C{degrees180}
        and C{meter}.
     '''
-    _Names_ = ('lat', 'lon', 'height')
+    _Names_ = (_lat_, _lon_, _height_)
 
     def to4Tuple(self, datum):
         '''Extend this L{LatLon3Tuple} to a L{LatLon4Tuple}.
@@ -756,21 +756,21 @@ class LatLon4Tuple(_NamedTuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.p
     '''4-Tuple C{(lat, lon, height, datum)} in C{degrees90},
        C{degrees180}, C{meter} and L{Datum}.
     '''
-    _Names_ = ('lat', 'lon', 'height', 'datum')
+    _Names_ = (_lat_, _lon_, _height_, _datum_)
 
 
 class LatLonDatum3Tuple(_NamedTuple):  # .lcc.py, .osgr.py
     '''3-Tuple C{(lat, lon, datum)} in C{degrees90}, C{degrees180}
        and L{Datum}.
     '''
-    _Names_ = ('lat', 'lon', 'datum')
+    _Names_ = (_lat_, _lon_, _datum_)
 
 
 class LatLonPrec3Tuple(_NamedTuple):  # .gars.py, .wgrs.py
     '''3-Tuple C{(lat, lon, precision)} in C{degrees}, C{degrees}
        and C{int}.
     '''
-    _Names_ = ('lat', 'lon', 'precision')
+    _Names_ = (_lat_, _lon_, _precision_)
 
     def to5Tuple(self, height, radius):
         '''Extend this L{LatLonPrec3Tuple} to a L{LatLonPrec5Tuple}.
@@ -789,7 +789,7 @@ class LatLonPrec5Tuple(_NamedTuple):  # .wgrs.py
        C{degrees}, C{int} and C{height} or C{radius} in C{meter} (or
        C{None} if missing).
     '''
-    _Names_ = ('lat', 'lon', 'precision', 'height', 'radius')
+    _Names_ = (_lat_, _lon_, _precision_, _height_, _radius_)
 
 
 class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
@@ -799,7 +799,7 @@ class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
        and C{angle} to the C{closest} point are in C{meter}
        respectively compass C{degrees360}.
     '''
-    _Names_ = ('closest', 'distance', 'angle')
+    _Names_ = ('closest', _distance_, _angle_)
 
 
 class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, .points.py, .vector3d.py
@@ -810,7 +810,7 @@ class PhiLam2Tuple(_NamedTuple):  # .frechet.py, .hausdorff.py, .latlonBase.py, 
               follows Chris Veness' U{convention
               <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
     '''
-    _Names_ = ('phi', 'lam')
+    _Names_ = (_phi_, _lam_)
 
     def to3Tuple(self, height):
         '''Extend this L{PhiLam2Tuple} to a L{PhiLam3Tuple}.
@@ -848,7 +848,7 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py, extends -2Tuple
               follows Chris Veness' U{convention
               <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
     '''
-    _Names_ = ('phi', 'lam', 'height')
+    _Names_ = (_phi_, _lam_, _height_)
 
     def to4Tuple(self, datum):
         '''Extend this L{PhiLam3Tuple} to a L{PhiLam4Tuple}.
@@ -873,21 +873,21 @@ class PhiLam4Tuple(_NamedTuple):  # extends -3Tuple
               follows Chris Veness' U{convention
               <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
     '''
-    _Names_ = ('phi', 'lam', 'height', 'datum')
+    _Names_ = (_phi_, _lam_, _height_, _datum_)
 
 
 class Points2Tuple(_NamedTuple):  # .formy.py, .latlonBase.py
     '''2-Tuple C{(number, points)} with the C{number} of points
        and -possible reduced- C{list} or C{tuple} of C{points}.
     '''
-    _Names_ = ('number', 'points')
+    _Names_ = (_number_, _points_)
 
 
 class Vector3Tuple(_NamedTuple):
     '''3-Tuple C{(x, y, z)} of (geocentric) components, all in
        C{meter} or C{units}.
     '''
-    _Names_ = ('x', 'y', 'z')
+    _Names_ = (_x_, _y_, _z_)
 
     def to4Tuple(self, h):
         '''Extend this L{Vector3Tuple} to a L{Vector4Tuple}.
@@ -899,14 +899,45 @@ class Vector3Tuple(_NamedTuple):
            @raise ValueError: Invalid B{C{h}}.
         '''
         from pygeodesy.units import Height
-        return self._xtend(Vector4Tuple, Height(h, name='h'))
+        return self._xtend(Vector4Tuple, Height(h, name=_h_))
 
 
 class Vector4Tuple(_NamedTuple):  # .nvector.py
     '''4-Tuple C{(x, y, z, h)} of (geocentric) components, all
        in C{meter} or C{units}.
     '''
-    _Names_ = ('x', 'y', 'z', 'h')
+    _Names_ = (_x_, _y_, _z_, _h_)
+
+
+def callername(up=1, dflt=NN):
+    '''Get the name of the calling callable.
+
+       @kwarg up: Number of call stack frames up (C{int}).
+       @kwarg dflt: Default return value (C{any}).
+
+       @return: Name of the non-internal callable (C{str})
+                or B{C{dflt}} if none found.
+    '''
+    try:
+        from sys import _getframe
+        for u in range(up, up + 32):
+            n = _getframe(u).f_code.co_name
+            if n and not n.startswith(_UNDERSCORE_):
+                return n
+    except (AttributeError, ImportError):
+        pass
+    return dflt
+
+
+def _callname(name, class_name, self_name, up=1):  # imported by .points
+    '''(INTERNAL) Assemble the name for an invokation.
+    '''
+    n, c = class_name, callername(up=up + 1)
+    if c:
+        n = _dot_(n, _item_ps(c, name))
+    if self_name:
+        n = '%s %r' % (n, self_name)
+    return n
 
 
 def classname(inst, prefixed=None):
@@ -953,8 +984,8 @@ def modulename(clas, prefixed=None):
         n = '--'
     if prefixed or (classnaming() if prefixed is None else False):
         try:
-            m = clas.__module__.rsplit('.', 1)
-            n = '.'.join(m[1:] + [n])
+            m = clas.__module__.rsplit(_DOT_, 1)
+            n = _dot_(*(m[1:] + [n]))
         except AttributeError:
             pass
     return n
@@ -967,41 +998,74 @@ def nameof(inst):
 
        @return: The instance' name (C{str}) or C{""}.
     '''
-    return getattr(inst, 'name', '')
+    return getattr(inst, _name_, NN)
 
 
-def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
-    '''Raise an C{_AssertionError} for a method or property not overloaded.
+def _notError(inst, name, args, kwds):  # PYCHOK no cover
+    '''(INTERNAL) Format an error message.
+    '''
+    n = _dot_(classname(inst, prefixed=True), _dunder_name(name, name))
+    m = _COMMA_SPACE_.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
+    t = '%s, MRO(%s)' % (unstr(n, *args, **kwds), m)
+    return t
 
-       @arg name: Method, property or name (C{str}).
+
+def notImplemented(inst, name, *args, **kwds):  # PYCHOK no cover
+    '''Raise a C{NotImplementedError} for a missing method or property.
+
+       @arg inst: Instance (C{any}).
+       @arg name: Method, property or name (C{str} or C{callable}).
        @arg args: Method or property positional arguments (any C{type}s).
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
-    n = _dot_(classname(inst, prefixed=True), getattr(name, '__name__', name))
-    m = ', '.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
-    t = '%s, MRO(%s)' % (unstr(n, *args, **kwds), m)
+    t = _notError(inst, name, args, kwds)
+    raise _NotImplementedError(t, txt=notImplemented.__name__)
+
+
+def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
+    '''Raise an C{AssertionError} for a method or property not overloaded.
+
+       @arg inst: Instance (C{any}).
+       @arg name: Method, property or name (C{str} or C{callable}).
+       @arg args: Method or property positional arguments (any C{type}s).
+       @arg kwds: Method or property keyword arguments (any C{type}s).
+    '''
+    t = _notError(inst, name, args, kwds)
     raise _AssertionError(t, txt=notOverloaded.__name__)
 
 
+__all__ += _ALL_DOCS(_Named,
+                     _NamedBase,  # _NamedDict,
+                     _NamedEnum, _NamedEnumItem,  # _NamedTuple,
+                      Bearing2Tuple, Bounds2Tuple, Bounds4Tuple,
+                      Destination2Tuple, Destination3Tuple,
+                      Distance2Tuple, Distance3Tuple, Distance4Tuple,
+                      EasNor2Tuple, EasNor3Tuple,
+                      LatLon2Tuple, LatLon3Tuple, LatLon4Tuple,
+                      LatLonDatum3Tuple, LatLonPrec3Tuple, LatLonPrec5Tuple,
+                      NearestOn3Tuple,
+                      PhiLam2Tuple, PhiLam3Tuple, PhiLam4Tuple, Points2Tuple,
+                      Vector3Tuple, Vector4Tuple)
+
 if __name__ == '__main__':
 
-    import sys
+    from sys import argv, exit  # PYCHOK shadows exit
 
     from pygeodesy.lazily import _FOR_DOCS
 
     if not _FOR_DOCS:
-        sys.exit('%s\n' % (' '.join('usage: env PYGEODESY_FOR_DOCS=1 python -m'.split() + sys.argv),))
+        exit('%s\n' % (' '.join('usage: env PYGEODESY_FOR_DOCS=1 python -m'.split() + argv),))
 
     ls = locals()
     for n in __all__:
         if n not in ls:
             raise NameError('%s %r not in %s' % ('__all__', n, _dot_('named', 'locals')))
     for n, o in ls.items():
-        if n not in __all__ and not n.startswith('_') \
+        if n not in __all__ and not n.startswith(_UNDERSCORE_) \
                             and getattr(o, '__module__', '') == __name__:
             raise NameError('%s %r not in %s' % ('locals', n, _dot_('named', '__all__')))
 
-    print('%s: %s vs %s OK' % (sys.argv[0], '__all__', 'locals'))
+    print('%s: %s vs %s OK' % (argv[0], '__all__', 'locals'))
 
 # **) MIT License
 #

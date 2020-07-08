@@ -13,9 +13,11 @@ A pure Python implementation, partially transcribed from C++ class U{UTMUPS
 by I{Charles Karney}.
 '''
 
-from pygeodesy.basics import map1, NN
+from pygeodesy.basics import map1
 from pygeodesy.datum import Datums
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
+from pygeodesy.interns import _easting_, _MGRS_, NN, _northing_, _NS_, \
+                              _outside_, _range_, _SPACE_, _UPS_, _UTM_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import modulename
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
@@ -25,9 +27,8 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX, \
                                   UtmUps5Tuple, UtmUps8Tuple  # PYCHOK indent
 
-# all public contants, classes and functions
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.05.14'
+__version__ = '20.07.08'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -45,19 +46,19 @@ _UTM_N_SHIFT = _UTM_S_MAX - _UTM_N_MIN  # South minus North UTM northing
 
 
 class _UpsMinMax(object):  # XXX _NamedEnum or _NamedTuple
-    # UPS ranges for South, North pole
-    eMax = _UPS_S_MAX, _UPS_N_MAX
-    eMin = _UPS_S_MIN, _UPS_N_MIN
-    nMax = _UPS_S_MAX, _UPS_N_MAX
-    nMin = _UPS_S_MIN, _UPS_N_MIN
+    # UPS ranges for North, South pole
+    eMax = _UPS_N_MAX, _UPS_S_MAX
+    eMin = _UPS_N_MIN, _UPS_S_MIN
+    nMax = _UPS_N_MAX, _UPS_S_MAX
+    nMin = _UPS_N_MIN, _UPS_S_MIN
 
 
 class _UtmMinMax(object):  # XXX _NamedEnum or _NamedTuple
-    # UTM ranges for South-, Northern hemisphere
+    # UTM ranges for Northern, Southern hemisphere
     eMax =  _UTM_C_MAX, _UTM_C_MAX
     eMin =  _UTM_C_MIN, _UTM_C_MIN
-    nMax = (_UTM_N_MAX + _UTM_N_SHIFT), _UTM_N_MAX
-    nMin =  _UTM_S_MIN, (_UTM_S_MIN - _UTM_N_SHIFT)
+    nMax =  _UTM_N_MAX, (_UTM_N_MAX + _UTM_N_SHIFT)
+    nMin = (_UTM_S_MIN - _UTM_N_SHIFT), _UTM_S_MIN
 
 
 class UTMUPSError(_ValueError):  # XXX (UTMError, UPSError)
@@ -201,7 +202,8 @@ def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
                 return
         except (TypeError, ValueError):
             pass
-        t = 'outside %s %s [%.0F, %.0F]' % (U, 'range', lo, hi)
+        t = _SPACE_.join((_outside_, U, _range_, '[%.0F' % (lo,),
+                                                 '%.0F]' % (hi,)))
         raise Error(ename, en, txt=t)
 
     if isinstance(coord, (Ups, Utm)):
@@ -224,17 +226,17 @@ def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
 
     if z == _UPS_ZONE:  # UPS
         import pygeodesy.ups as u  # PYCHOK expected
-        U, M = 'UPS', _UpsMinMax
+        U, M = _UPS_, _UpsMinMax
     else:  # UTM
         import pygeodesy.utm as u  # PYCHOK expected
-        U, M = 'UTM', _UtmMinMax
+        U, M = _UTM_, _UtmMinMax
 
     if MGRS:
-        U, s = 'MGRS', _MGRS_TILE
+        U, s = _MGRS_, _MGRS_TILE
     else:
         s = 0
 
-    i = 'SN'.find(h)
+    i = _NS_.find(h)
     if i < 0 or z < _UTMUPS_ZONE_MIN \
              or z > _UTMUPS_ZONE_MAX \
              or B not in u._Bands:
@@ -242,8 +244,8 @@ def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
         raise Error(coord=t, zone=zone, band=band, hemisphere=hemi)
 
     if enMM:
-        _en(e, M.eMin[i] - s, M.eMax[i] + s, 'easting')   # PYCHOK .eMax .eMin
-        _en(n, M.nMin[i] - s, M.nMax[i] + s, 'northing')  # PYCHOK .nMax .nMin
+        _en(e, M.eMin[i] - s, M.eMax[i] + s, _easting_)   # PYCHOK .eMax .eMin
+        _en(n, M.nMin[i] - s, M.nMax[i] + s, _northing_)  # PYCHOK .nMax .nMin
 
 
 def utmupsValidateOK(coord, falsed=False, ok=True):

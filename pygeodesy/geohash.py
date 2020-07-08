@@ -16,12 +16,13 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, NN, R_M, isstr, map2, property_RO, _xkwds
+from pygeodesy.basics import EPS, R_M, isstr, map2, property_RO, _xkwds
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import favg
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.interns import _E_, _N_, _NE_, NN, _NW_, _S_, _SE_, _SW_, _W_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
                            _NamedDict
 from pygeodesy.streprs import fstr
@@ -31,12 +32,8 @@ from pygeodesy.utily import unrollPI
 
 from math import ldexp, log10, radians
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.geohash + _ALL_DOCS('Neighbors8Dict') + (
-          'bounds',  # functions
-          'decode', 'decode_error', 'distance1', 'distance2', 'distance3',
-          'encode', 'neighbors', 'precision', 'resolution2', 'sizes')
-__version__ = '20.05.14'
+__all__ = _ALL_LAZY.geohash
+__version__ = '20.07.08'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -393,7 +390,7 @@ class Geohash(Str):
         '''Get the cell North of this (L{Geohash}).
         '''
         if self._N is None:
-            self._N = self.adjacent('N')
+            self._N = self.adjacent(_N_)
         return self._N
 
     @property_RO
@@ -401,7 +398,7 @@ class Geohash(Str):
         '''Get the cell South of this (L{Geohash}).
         '''
         if self._S is None:
-            self._S = self.adjacent('S')
+            self._S = self.adjacent(_S_)
         return self._S
 
     @property_RO
@@ -409,7 +406,7 @@ class Geohash(Str):
         '''Get the cell East of this (L{Geohash}).
         '''
         if self._E is None:
-            self._E = self.adjacent('E')
+            self._E = self.adjacent(_E_)
         return self._E
 
     @property_RO
@@ -417,7 +414,7 @@ class Geohash(Str):
         '''Get the cell West of this (L{Geohash}).
         '''
         if self._W is None:
-            self._W = self.adjacent('W')
+            self._W = self.adjacent(_W_)
         return self._W
 
     @property_RO
@@ -455,7 +452,7 @@ class Neighbors8Dict(_NamedDict):  # replacing Neighbors8Dict
     '''8-Dict C{(N, NE, E, SE, S, SW, W, NW)} of L{Geohash}es,
        providing key I{and} attribute access to the items.
     '''
-    _Keys_ = ('N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW')
+    _Keys_ = (_N_, _NE_, _E_, _SE_, _S_, _SW_, _W_, _NW_)
 
     def __init__(self, **kwds):  # PYCHOK no *args
         kwds = _xkwds(kwds, **_Neighbors8Defaults)
@@ -786,6 +783,12 @@ def sizes(geohash):
                          C{LatLon} or C{str}.
     '''
     return _2Geohash(geohash).sizes
+
+
+__all__ += _ALL_OTHER(bounds,  # functions
+                      decode, decode_error, distance1, distance2, distance3,
+                      encode, neighbors, precision, resolution2,
+                      sizes) + _ALL_DOCS(Neighbors8Dict)
 
 # **) MIT License
 #

@@ -16,12 +16,15 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 from pygeodesy.basics import EPS, PI2, PI_2, PI_4, R_M, \
                              isscalar, map1, _xkwds
-from pygeodesy.errors import CrossError, crosserrors, \
-                            _item_, IntersectionError, \
-                            _Not_convex, _ValueError, _xkwds_get
+from pygeodesy.errors import CrossError, crosserrors, IntersectionError, \
+                            _ValueError, _xkwds_get
 from pygeodesy.fmath import acos1, favg, fdot, fmean, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, vincentys_
-from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.interns import _1_, _2_, _coincident_, _colinear_, _end_, \
+                              _fraction_, _item_sq, _near_concentric_, \
+                              _not_convex_, _points_, _start_, _start1_, \
+                              _start2_, _too_distant_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
                            _xnamed
 from pygeodesy.nvectorBase import NvectorBase as _Nvector
@@ -36,17 +39,8 @@ from pygeodesy.vector3d import Vector3d, sumOf
 from math import asin, atan2, copysign, cos, degrees, hypot, \
                  radians, sin
 
-# all public contants, classes and functions
-__all__ = _ALL_LAZY.sphericalTrigonometry + (
-          'Cartesian', 'LatLon',  # classes
-          'areaOf',  # functions
-          'intersection', 'intersections2', 'ispolar',
-          'isPoleEnclosedBy',  # DEPRECATED, use ispolar
-          'meanOf',
-          'nearestOn2', 'nearestOn3',
-          'perimeterOf',
-          'sumOf')  # == vector3d.sumOf
-__version__ = '20.06.16'
+__all__ = _ALL_LAZY.sphericalTrigonometry
+__version__ = '20.07.07'
 
 
 def _destination2(a, b, r, t):
@@ -105,8 +99,8 @@ class LatLon(LatLonSphericalBase):
     def _trackDistanceTo3(self, start, end, radius, wrap):
         '''(INTERNAL) Helper for along-/crossTrackDistanceTo.
         '''
-        self.others(start, name='start')
-        self.others(end, name='end')
+        self.others(start, name=_start_)
+        self.others(end, name=_end_)
 
         r = Radius_(radius)
         r = start.distanceTo(self, r, wrap=wrap) / r
@@ -344,7 +338,7 @@ class LatLon(LatLonSphericalBase):
 
         # XXX behavior like sphericalNvector.LatLon.initialBearingTo
         if raiser and crosserrors() and max(abs(a2 - a1), abs(b2 - b1)) < EPS:
-            raise CrossError('points', self, txt='coincident')
+            raise CrossError(_points_, self, txt=_coincident_)
 
         return degrees(bearing_(a1, b1, a2, b2, final=False, wrap=wrap))
 
@@ -375,7 +369,7 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        f = Scalar(fraction, name='fraction')
+        f = Scalar(fraction, name=_fraction_)
 
         a1, b1 = self.philam
         a2, b2 = other.philam
@@ -517,7 +511,7 @@ class LatLon(LatLonSphericalBase):
                     return False  # outside
 
                 if gc1.angleTo(gc, vSign=n0) < 0:
-                    raise _ValueError(_item_(points=i), points[i], txt=_Not_convex)
+                    raise _ValueError(_item_sq(points=i), points[i], txt=_not_convex_)
                 gc1 = gc
 
         else:
@@ -543,7 +537,7 @@ class LatLon(LatLonSphericalBase):
             for i, gc2 in enumerate(gc):
                 # angle between gc vectors, signed by direction of n0
                 if gc1.angleTo(gc2, vSign=n0) < 0:
-                    raise _ValueError(_item_(points=i), points[i], txt=_Not_convex)
+                    raise _ValueError(_item_sq(points=i), points[i], txt=_not_convex_)
                 gc1 = gc2
 
         return True  # inside
@@ -772,7 +766,7 @@ def _x3d2(start, end, wrap, n, hs):
     if isscalar(end):  # bearing, make a point
         a2, b2 = _destination2(a1, b1, PI_4, radians(end))
     else:  # must be a point
-        _Trll.others(end, name='end' + n)
+        _Trll.others(end, name=_end_ + n)
         hs.append(end.height)
         a2, b2 = end.philam
 
@@ -832,8 +826,8 @@ def intersection(start1, end1, start2, end2,
        >>> s = LatLon(49.0034, 2.5735)
        >>> i = intersection(p, 108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
     '''
-    _Trll.others(start1, name='start1')
-    _Trll.others(start2, name='start2')
+    _Trll.others(start1, name=_start1_)
+    _Trll.others(start2, name=_start2_)
 
     hs = [start1.height, start2.height]
 
@@ -874,7 +868,7 @@ def intersection(start1, end1, start2, end2,
         sx3 = sx1 * sx2
 #       if sx3 < 0:
 #           raise IntersectionError(start1=start1, end1=end1,
-#                                   start2=start2, end2=end2, txt='ambiguous')
+#                                   start2=start2, end2=end2, txt=_ambiguous_)
         x3 = acos1(cr12 * sx3 - cx2 * cx1)
         r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
 
@@ -885,12 +879,12 @@ def intersection(start1, end1, start2, end2,
             a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
 
     else:  # end point(s) or bearing(s)
-        x1, d1 = _x3d2(start1, end1, wrap, '1', hs)
-        x2, d2 = _x3d2(start2, end2, wrap, '2', hs)
+        x1, d1 = _x3d2(start1, end1, wrap, _1_, hs)
+        x2, d2 = _x3d2(start2, end2, wrap, _2_, hs)
         x = x1.cross(x2)
         if x.length < EPS:  # [nearly] colinear or parallel paths
             raise IntersectionError(start1=start1, end1=end1,
-                                    start2=start2, end2=end2, txt='colinear')
+                                    start2=start2, end2=end2, txt=_colinear_)
         a, b = x.philam
         # choose intersection similar to sphericalNvector
         d1 = _xdot(d1, a1, b1, a, b, wrap)
@@ -961,7 +955,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
     d = vincentys_(a2, a1, db)  # radians
     if d < max(r1 - r2, EPS):
         raise IntersectionError(center1=center1, rad1=rad1,
-                                center2=center2, rad2=rad2, txt='near-concentric')
+                                center2=center2, rad2=rad2, txt=_near_concentric_)
 
     x = fsum_(r1, r2, -d)
     if x > EPS:
@@ -976,7 +970,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
                                     center2=center2, rad2=rad2)
     elif x < 0:
         raise IntersectionError(center1=center1, rad1=rad1,
-                                center2=center2, rad2=rad2, txt='too distant')
+                                center2=center2, rad2=rad2, txt=_too_distant_)
 
     b = bearing_(a1, b1, a2, b2, final=False, wrap=wrap)
     if height is None:
@@ -1135,6 +1129,16 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
     r = fsum(_rads(n, points, closed))
     return r * Radius(radius)
+
+
+__all__ += _ALL_OTHER(Cartesian, LatLon,  # classes
+                      areaOf,  # functions
+                      intersection, intersections2, ispolar,
+                      isPoleEnclosedBy,  # DEPRECATED, use ispolar
+                      meanOf,
+                      nearestOn2, nearestOn3,
+                      perimeterOf,
+                      sumOf)  # == vector3d.sumOf
 
 # **) MIT License
 #

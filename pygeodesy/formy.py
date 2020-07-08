@@ -7,9 +7,10 @@ u'''Formulary of basic geodesy functions and approximations.
 '''
 from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, len2, _xinstanceof
 from pygeodesy.datum import Datum, Datums
-from pygeodesy.errors import _item_, LimitError, _limiterrors, \
-                              PointsError, _ValueError
+from pygeodesy.errors import LimitError, _limiterrors, PointsError, _ValueError
 from pygeodesy.fmath import fsum_, hypot, hypot2
+from pygeodesy.interns import _2_, _angle_, _item_sq, _lat_, _lat1_, \
+                              _lon_, _lon1_, _too_few_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Distance4Tuple, LatLon2Tuple, PhiLam2Tuple, \
                             Points2Tuple, Vector3Tuple
@@ -21,9 +22,11 @@ from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
 
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
-# all public contants, classes and functions
 __all__ = _ALL_LAZY.formy
-__version__ = '20.06.17'
+__version__ = '20.07.07'
+
+_lat2_ = _lat_ + _2_
+_lon2_ = _lon_ + _2_
 
 
 def _scale_deg(lat1, lat2):  # degrees
@@ -80,10 +83,10 @@ def bearing(lat1, lon1, lat2, lon2, **options):
        @return: Initial or final bearing (compass C{degrees360}) or
                 zero if start and end point coincide.
     '''
-    return degrees(bearing_(Phi_(lat1, name='lat1'),
-                            Lam_(lon1, name='lon1'),
-                            Phi_(lat2, name='lat2'),
-                            Lam_(lon2, name='lon2'), **options))
+    return degrees(bearing_(Phi_(lat1, name=_lat1_),
+                            Lam_(lon1, name=_lon1_),
+                            Phi_(lat2, name=_lat2_),
+                            Lam_(lon2, name=_lon2_), **options))
 
 
 def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
@@ -170,8 +173,8 @@ def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False)
              L{Ellipsoid.distance2}.
     '''
     d, _ = unroll180(lon1, lon2, wrap=wrap)
-    r = cosineAndoyerLambert_(Phi_(lat2, name='lat2'),
-                              Phi_(lat1, name='lat1'), radians(d), datum=datum)
+    r = cosineAndoyerLambert_(Phi_(lat2, name=_lat2_),
+                              Phi_(lat1, name=_lat1_), radians(d), datum=datum)
     return r * datum.ellipsoid.a
 
 
@@ -241,8 +244,8 @@ def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wra
              L{Ellipsoid.distance2}.
     '''
     d, _ = unroll180(lon1, lon2, wrap=wrap)
-    r = cosineForsytheAndoyerLambert_(Phi_(lat2, name='lat2'),
-                                      Phi_(lat1, name='lat1'), radians(d), datum=datum)
+    r = cosineForsytheAndoyerLambert_(Phi_(lat2, name=_lat2_),
+                                      Phi_(lat1, name=_lat1_), radians(d), datum=datum)
     return r * datum.ellipsoid.a
 
 
@@ -322,8 +325,8 @@ def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     r = Radius(radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
-        r *= cosineLaw_(Phi_(lat2, name='lat2'),
-                        Phi_(lat1, name='lat1'), radians(d))
+        r *= cosineLaw_(Phi_(lat2, name=_lat2_),
+                        Phi_(lat1, name=_lat1_), radians(d))
     return r
 
 
@@ -369,10 +372,10 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
              available B{C{options}}, errors, restrictions and other,
              approximate or accurate distance functions.
     '''
-    _, dy, dx, _ = equirectangular_(Lat(lat1, name='lat1'),
-                                    Lon(lon1, name='lon1'),
-                                    Lat(lat2, name='lat2'),
-                                    Lon(lon2, name='lon2'), **options)  # PYCHOK Distance4Tuple
+    _, dy, dx, _ = equirectangular_(Lat(lat1, name=_lat1_),
+                                    Lon(lon1, name=_lon1_),
+                                    Lat(lat2, name=_lat2_),
+                                    Lon(lon2, name=_lon2_), **options)  # PYCHOK Distance4Tuple
     return degrees2m(hypot(dx, dy), radius=radius)
 
 
@@ -453,8 +456,8 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
     r = Radius(radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
-        r *= euclidean_(Phi_(lat2, name='lat2'),
-                        Phi_(lat1, name='lat1'), radians(d), adjust=adjust)
+        r *= euclidean_(Phi_(lat2, name=_lat2_),
+                        Phi_(lat1, name=_lat1_), radians(d), adjust=adjust)
     return r
 
 
@@ -512,8 +515,8 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
              <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
     d, _ = unroll180(lon1, lon2, wrap=wrap)
-    return flatLocal_(Phi_(lat2, name='lat2'),
-                      Phi_(lat1, name='lat1'), radians(d), datum=datum)
+    return flatLocal_(Phi_(lat2, name=_lat2_),
+                      Phi_(lat1, name=_lat1_), radians(d), datum=datum)
 
 
 hubeny = flatLocal  # for Karl Hubeny
@@ -577,8 +580,8 @@ def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     r = Radius(radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
-        r *= flatPolar_(Phi_(lat2, name='lat2'),
-                        Phi_(lat1, name='lat1'), radians(d))
+        r *= flatPolar_(Phi_(lat2, name=_lat2_),
+                        Phi_(lat1, name=_lat1_), radians(d))
     return r
 
 
@@ -637,8 +640,8 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     r = Radius(radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
-        r *= haversine_(Phi_(lat2, name='lat2'),
-                        Phi_(lat1, name='lat1'), radians(d))
+        r *= haversine_(Phi_(lat2, name=_lat2_),
+                        Phi_(lat1, name=_lat1_), radians(d))
     return r
 
 
@@ -697,7 +700,7 @@ def heightOf(angle, distance, radius=R_M):
 
     if d > EPS:
         d = d / h  # PyChecker chokes on ... /= ...
-        s = sin(Phi_(angle, name='angle', clip=180))
+        s = sin(Phi_(angle, name=_angle_, clip=180))
         s = fsum_(1, 2 * s * d, d**2)
         if s > 0:
             return h * sqrt(s) - r
@@ -864,11 +867,11 @@ def points2(points, closed=True, base=None, Error=PointsError):
         points = points[:n]  # XXX numpy.array slice is a view!
 
     if n < (3 if closed else 1):
-        raise Error(points=n, txt='too few')
+        raise Error(points=n, txt=_too_few_)
 
     if base and not (isNumpy2(points) or isTuple2(points)):
         for i in range(n):
-            base.others(points[i], name=_item_(points=i))
+            base.others(points[i], name=_item_sq(points=i))
 
     return Points2Tuple(n, points)
 
@@ -895,8 +898,8 @@ def thomas(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
              L{flatPolar}, L{haversine}, L{vincentys} and method L{Ellipsoid.distance2}.
     '''
     d, _ = unroll180(lon1, lon2, wrap=wrap)
-    r = thomas_(Phi_(lat2, name='lat2'),
-                Phi_(lat1, name='lat1'), radians(d), datum=datum)
+    r = thomas_(Phi_(lat2, name=_lat2_),
+                Phi_(lat1, name=_lat1_), radians(d), datum=datum)
     return r * datum.ellipsoid.a
 
 
@@ -985,8 +988,8 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     r = Radius(radius)
     if r:
         d, _ = unroll180(lon1, lon2, wrap=wrap)
-        r *= vincentys_(Phi_(lat2, name='lat2'),
-                        Phi_(lat1, name='lat1'), radians(d))
+        r *= vincentys_(Phi_(lat2, name=_lat2_),
+                        Phi_(lat1, name=_lat1_), radians(d))
     return r
 
 
