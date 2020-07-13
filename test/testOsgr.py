@@ -4,40 +4,37 @@
 # Test OSGR functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.22'
+__version__ = '20.07.12'
 
-from base import TestsBase
+from base import geographiclib, TestsBase
 
-from pygeodesy import F_DEG, F_DMS, fstr, Datums, osgr
+from pygeodesy import F_D, F_DEG, F_DMS, fstr, Datums, osgr
 
 
 class Tests(TestsBase):
 
-    def testOSgr(self, LatLon):
+    def testOSgr(self, module):
 
-        m = LatLon.__module__
-        self.test('LatLon', m, m)
+        self.subtitle(module)
+        LatLon = module.LatLon
 
         # check convertDatum and back
-        p = LatLon(51.4778, -0.0016, datum=Datums.WGS84)
+        p = LatLon(51.4778, -0.0016)  # datum=Datums.WGS84)
         self.test('WGS84', p, '51.4778°N, 000.0016°W')
         r = p.convertDatum(Datums.OSGB36)
-        r.height = 0
-        self.test('OSGB36', r, '51.477284°N, 000.00002°E')
+        self.test('OSGB36', r.toStr(form=F_D, m=None), '51.477284°N, 000.00002°E')
         r = r.convertDatum(Datums.WGS84)
-        r.height = 0
-        self.test('WGS84', r, '51.4778°N, 000.0016°W', known=True)
+        self.test('WGS84', r.toStr(form=F_D, m=None), '51.4778°N, 000.0016°W', known=True)
 
         g = osgr.Osgr(651409.903, 313177.270)
         self.test('OSgr1', g, 'TG 51409 13177')
         self.test('OSgr1', repr(g), '[G:TG, E:51409, N:13177]')
 
         p = g.toLatLon(LatLon)
-        p.height = 0
-        self.test('toLatLon1', p.toStr(F_DMS), '52°39′28.72″N, 001°42′57.74″E', known=True)
+        self.test('toLatLon1', p.toStr(F_DMS, m=None), '52°39′28.72″N, 001°42′57.74″E', known=True)
         self.test('toLatLon1', p, '52.657977°N, 001.716038°E', known=True)
         r = p.toOsgr()
-        self.test('toOsgr1', r.toStr(0), '651409.903, 313177.270', known=True)
+        self.test('toOsgr1', r.toStr(prec=-3), '651409.903,313177.270', known=True)
 
         p = g.toLatLon(LatLon, datum=Datums.OSGB36)
         self.test('toLatLon2', p.toStr(F_DMS), '52°39′27.25″N, 001°43′04.47″E', known=True)
@@ -70,7 +67,7 @@ class Tests(TestsBase):
 
         self.test('OSGR5', g.toStr(prec=0), '651409,313177')
         self.test('OSGR5', g.toRepr(prec=-3), '[OSGR:651409.000,313177.000]')
-        self.test('OSGR5', g.toStr2(prec=-3), '[OSGR:651409.000,313177.000]')
+        self.test('OSGR5', g.toRepr(prec=-3), '[OSGR:651409.000,313177.000]')
 
         r = osgr.parseOSGR(g.toStr(prec=-3))
         self.test('OSGR6', r.toStr(prec=0), '651409,313177')
@@ -80,7 +77,7 @@ class Tests(TestsBase):
         # results from <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>
         p = LatLon(52, -0.12, datum=Datums.WGS84)
         g = osgr.toOsgr(p)
-        self.test('toOsgr', g.toStr2(), '[G:TL, E:29158, N:35174]')
+        self.test('toOsgr', g.toRepr(), '[G:TL, E:29158, N:35174]')
         self.test('toOsgr', fstr((g.easting, g.northing), prec=3), '529158.072, 235174.785')
         self.test('toOsgr', g.datum.name, 'OSGB36')
         r = g.toLatLon(LatLon, datum=Datums.OSGB36)
@@ -93,7 +90,7 @@ class Tests(TestsBase):
         # courtesy jaluebbe <https://GitHub.com/mrJean1/PyGeodesy/issues/38>, with expected
         # results from <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>
         g = osgr.Osgr(532014, 123971)
-        self.test('Osgr', g.toStr2(), '[G:TQ, E:32014, N:23971]')
+        self.test('Osgr', g.toRepr(), '[G:TQ, E:32014, N:23971]')
         self.test('Osgr', fstr((g.easting, g.northing), prec=1), '532014.0, 123971.0')
         self.test('Osgr', g.datum.name, 'OSGB36')
         r = g.toLatLon(LatLon, datum=Datums.OSGB36)
@@ -104,7 +101,7 @@ class Tests(TestsBase):
         self.test('toLatLonWGS84 ', p.datum.name, 'WGS84')
 
         g = osgr.parseOSGR('TQ3201423971')
-        self.test('parseOSGR', g.toStr2(), '[G:TQ, E:32014, N:23971]')
+        self.test('parseOSGR', g.toRepr(), '[G:TQ, E:32014, N:23971]')
         self.test('parseOSGR', fstr((g.easting, g.northing), prec=1), '532014.0, 123971.0')
         self.test('parseOSGR', g.datum.name, 'OSGB36')
         r = g.toLatLon(LatLon, datum=Datums.OSGB36)
@@ -117,7 +114,7 @@ class Tests(TestsBase):
         # courtesy jaluebbe <https://GitHub.com/mrJean1/PyGeodesy/issues/38>, with expected
         # results from <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>
         g = osgr.toOsgr(LatLon(50.999995, -0.120004, datum=Datums.WGS84))
-        self.test('toOsgr', g.toStr2(), '[G:TQ, E:32013, N:23971]')
+        self.test('toOsgr', g.toRepr(), '[G:TQ, E:32013, N:23971]')
         self.test('toOsgr', fstr((g.easting, g.northing), prec=3), '532013.969, 123971.046')
         self.test('toOsgr', g.datum.name, 'OSGB36')
         r = g.toLatLon(LatLon, datum=Datums.OSGB36)
@@ -130,7 +127,7 @@ class Tests(TestsBase):
         # courtesy jaluebbe <https://GitHub.com/mrJean1/PyGeodesy/issues/38>, with expected
         # results from <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>
         g = osgr.toOsgr(LatLon(50.999995, +0.120004, datum=Datums.WGS84))
-        self.test('toOsgr', g.toStr2(), '[G:TQ, E:48853, N:24427]')
+        self.test('toOsgr', g.toRepr(), '[G:TQ, E:48853, N:24427]')
         self.test('toOsgr', fstr((g.easting, g.northing), prec=3), '548853.602, 124427.985')
         self.test('toOsgr', g.datum.name, 'OSGB36')
         r = g.toLatLon(LatLon, datum=Datums.OSGB36)
@@ -151,14 +148,34 @@ class Tests(TestsBase):
                 r = g.toLatLon(LatLon, datum=d)
                 self.test('toLatLon', r.toStr(form=F_DEG, m=None), t)
 
+        # courtesy jaluebbe <https://GitHub.com/mrJean1/PyGeodesy/issues/38>, with expected
+        # results from <https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html>
+        p = LatLon(49.926244, -6.297934)
+        self.test('LatLon', p, '49.926244°N, 006.297934°W')
+        self.test('datum', p.datum.name, 'WGS84')
+        g = p.toOsgr()
+        self.test('datum', g.datum.name, 'OSGB36')
+        self.test('toOsgr', g.toRepr(), '[G:SV, E:91645, N:11753]')
+        g = osgr.Osgr(g.easting, g.northing)
+        self.test('datum', g.datum.name, 'OSGB36')
+        q = g.toLatLon(LatLon=LatLon)
+        t = q.distanceTo(p)
+        k = abs(t) < 0.005
+        self.test('LatLon', q.toStr(form=F_D, m=None), '49.926244°N, 006.297934°W', known=k)
+        self.test('datum', q.datum.name, 'WGS84')
+        self.test('distanceTo', t, 0.01, fmt='%.4f', known=k)
+
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalNvector, ellipsoidalVincenty  # sphericalNvector
+    from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, \
+                          ellipsoidalVincenty  # sphericalNvector
 
     t = Tests(__file__, __version__, osgr)
-    t.testOSgr(ellipsoidalNvector.LatLon)
-#   t.testOSgr(sphericalNvector.LatLon)
-    t.testOSgr(ellipsoidalVincenty.LatLon)
+    if geographiclib:
+        t.testOSgr(ellipsoidalKarney)
+    t.testOSgr(ellipsoidalNvector)
+#   t.testOSgr(sphericalNvector)
+    t.testOSgr(ellipsoidalVincenty)
     t.results()
     t.exit()

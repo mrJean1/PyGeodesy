@@ -30,6 +30,12 @@ U{Transverse Mercator: Redfearn series
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient
+from __future__ import division
+division = 1 / 2  # double check int division, see .datum.py, .utily.py
+if not division:
+    raise ImportError('%s 1/2 == %d' % ('division', division))
+del division
 
 from pygeodesy.basics import halfs2, map1, property_RO, \
                             _xsubclassof, _xzipairs
@@ -51,7 +57,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.07.08'
+__version__ = '20.07.12'
 
 _10um  = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km = 100000  #: (INTERNAL) 100 km (int meter)
@@ -62,10 +68,11 @@ _E0 = Easting(400e3)    #: (INTERNAL) Easting of true origin (C{meter}).
 _N0 = Northing(-100e3)  #: (INTERNAL) Northing of true origin (C{meter}).
 _F0 = Scalar(0.9996012717)  #: (INTERNAL) NatGrid scale of central meridian (C{float}).
 
+_Datums_OSGB36    =  Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
+_latlon_          = 'latlon'
 _no_convertDatum_ = 'no .convertDatum'
-_ord_A            = ord('A')
-_OSGB36           = Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
-_TRIPS            = 32  #: (INTERNAL) Convergence
+_ord_A            =  ord('A')
+_TRIPS            =  32  #: (INTERNAL) Convergence
 
 
 def _ll2datum(ll, datum, name):
@@ -98,29 +105,33 @@ class OSGRError(_ValueError):
 class Osgr(_NamedBase):
     '''Ordinance Survey Grid References (OSGR) coordinate.
     '''
-    _datum    = _OSGB36  #: (INTERNAL) Datum (L{Datum})
-    _easting  = 0        #: (INTERNAL) Easting (C{meter}).
-    _latlon   = None     #: (INTERNAL) Cache B{C{_toLatlon}}.
-    _northing = 0        #: (INTERNAL) Nothing (C{meter}).
+    _datum    = _Datums_OSGB36  #: (INTERNAL) Default datum (L{Datum})
+    _easting  =  0              #: (INTERNAL) Easting (C{meter}).
+    _latlon   =  None           #: (INTERNAL) Cache B{C{_toLatlon}}.
+    _northing =  0              #: (INTERNAL) Nothing (C{meter}).
 
-    def __init__(self, easting, northing, name=NN):
+    def __init__(self, easting, northing, datum=None, name=NN):
         '''New L{Osgr} National Grid Reference.
 
            @arg easting: Easting from OS false easting (C{meter}).
            @arg northing: Northing from from OS false northing (C{meter}).
+           @kwarg datum: Default datum (C{Datums.OSGB36}).
            @kwarg name: Optional name (C{str}).
 
            @raise OSGRError: Invalid or negative B{C{easting}} or
-                             B{C{northing}}.
+                             B{C{northing}} or B{C{datum}} not
+                             C{Datums.OSBG36}.
 
            @example:
 
            >>> from pygeodesy import Osgr
            >>> r = Osgr(651409, 313177)
         '''
-        self._easting  = Easting( easting,  Error=OSGRError)
-        self._northing = Northing(northing, Error=OSGRError)
+        self._easting  = Easting( easting,  Error=OSGRError, osgr=True)
+        self._northing = Northing(northing, Error=OSGRError, osgr=True)
 
+        if datum and datum != _Datums_OSGB36:
+            raise OSGRError(datum=datum)
         if name:
             self.name = name
 
@@ -153,6 +164,12 @@ class Osgr(_NamedBase):
         '''Convert this OSGR coordinate to an (ellipsoidal) geodetic
            point.
 
+           While OS grid references are based on the OSGB36 datum, the
+           I{Ordnance Survey} have deprecated the use of OSGB36 for
+           lat-/longitude coordinates (in favour of WGS84). Hence, this
+           method returns WGS84 by default with OSGB36 as an option,
+           U{see<https://www.OrdnanceSurvey.co.UK/blog/2014/12/2>}.
+
            I{Note formulation implemented here due to Thomas, Redfearn,
            etc. is as published by OS, but is inferior to Krüger as
            used by e.g. Karney 2011.}
@@ -167,8 +184,8 @@ class Osgr(_NamedBase):
 
            @raise OSGRError: No convergence.
 
-           @raise TypeError: If B{C{LatLon}} is not ellipsoidal or if
-                             B{C{datum}} conversion failed.
+           @raise TypeError: If B{C{LatLon}} is not ellipsoidal or
+                             if B{C{datum}} conversion failed.
 
            @example:
 
@@ -181,7 +198,7 @@ class Osgr(_NamedBase):
         if self._latlon:
             return self._latlon3(LatLon, datum)
 
-        E = self.datum.ellipsoid  # _OSGB36.ellipsoid, Airy130
+        E = self.datum.ellipsoid  # _Datums_OSGB36.ellipsoid, Airy130
         a_F0 = E.a * _F0
         b_F0 = E.b * _F0
 
@@ -199,7 +216,6 @@ class Osgr(_NamedBase):
             t = _dot_(_item_ps(self.classname, self.toStr(prec=-3)),
                                self.toLatLon.__name__)
             raise OSGRError(_no_convergence_, txt=t)
-
         sa, ca = sincos2(a)
 
         s = E.e2s2(sa)  # r, v = E.roc2_(sa, _F0)
@@ -222,7 +238,7 @@ class Osgr(_NamedBase):
         csa = 1.0 / ca
         X5 = (_B0,
               csa / v,
-              csa / (   6 * v3) * fsum_(vr, ta, ta),
+              csa / (   6 * v3) * fsum_(vr, ta2, ta2),
               csa / ( 120 * v5) * fdot((5, 28, 24), 1, ta2, ta4),
               csa / (5040 * v7) * fdot((61, 662, 1320, 720), 1, ta2, ta4, ta6))
 
@@ -290,7 +306,7 @@ class Osgr(_NamedBase):
                 i += 1
             return chr(_ord_A + i)
 
-        e, n, s = self._easting, self._northing, ','
+        e, n, s = self._easting, self._northing, _COMMA_
         if prec > 0:
             E, e = divmod(e, _100km)
             N, n = divmod(n, _100km)
@@ -410,7 +426,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal) geodetic
                     C{LatLon} point.
        @kwarg lon: Optional longitude in degrees (scalar or C{None}).
-       @kwarg datum: Optional datum to convert (C{Datum}).
+       @kwarg datum: Optional datum to convert B{C{lat, lon}} from (C{Datum}).
        @kwarg Osgr: Optional class to return the OSGR coordinate
                     (L{Osgr}) or C{None}.
        @kwarg name: Optional B{C{Osgr}} name (C{str}).
@@ -441,12 +457,12 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
     elif not name:  # use latlon.name
         name = nameof(latlon)
 
-    E = _OSGB36.ellipsoid
-
-    ll = _ll2datum(latlon, _OSGB36, 'latlon')
+    # if necessary, convert to OSGB36 first
+    ll = _ll2datum(latlon, _Datums_OSGB36, _latlon_)
     a, b = map1(radians, ll.lat, ll.lon)
-
     sa, ca = sincos2(a)
+
+    E = _Datums_OSGB36.ellipsoid
 
     s = E.e2s2(sa)  # r, v = E.roc2_(sa, _F0); r = v / r
     v = E.a * _F0 / sqrt(s)  # nu
@@ -476,7 +492,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
     if Osgr is None:
         r = _EasNor2Tuple(e, n)
     else:
-        r = Osgr(e, n, **Osgr_kwds)
+        r = Osgr(e, n, datum=_Datums_OSGB36, **Osgr_kwds)
         if lon is None and isinstance(latlon, _LLEB):
             r._latlon = latlon  # XXX weakref(latlon)?
     return _xnamed(r, name)

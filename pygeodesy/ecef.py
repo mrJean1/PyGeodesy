@@ -51,7 +51,7 @@ for further information on the errors.
 from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, map1, property_RO, \
                             _xinstanceof, _xkwds, _xsubclassof
 from pygeodesy.datum import Datum, Datums, Ellipsoid
-from pygeodesy.errors import LenError, _ValueError
+from pygeodesy.errors import _datum_datum, LenError, _ValueError
 from pygeodesy.fmath import cbrt, fdot, fsum_, hypot1
 from pygeodesy.interns import _C_, _datum_, _ellipsoid_, _h_, _height_, _lat_, \
                               _lat0_, _lon_, _lon0_, _name_, NN, _no_convergence_, \
@@ -66,7 +66,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.07.08'
+__version__ = '20.07.12'
 
 _M_ = 'M'
 
@@ -812,7 +812,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
            @return: An instance of C{LatLon}C{(lat, lon, **_height_datum_kwds)}
                     or if B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat, lon,
                     height)} respectively L{LatLon4Tuple}C{(lat, lon, height,
-                    datum)} whether C{datum} is un-/available.
+                    datum)} depending on whether C{datum} is un-/available.
 
            @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_height_datum_kwds}}.
         '''
@@ -826,6 +826,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
             if d is None:  # remove datum
                 _ = kwds.pop[_datum_]
             r = LatLon(self.lat, self.lon, **kwds)  # PYCHOK Ecef9Tuple
+        _datum_datum(getattr(r, _datum_, self.datum), self.datum)  # PYCHOK Ecef9Tuple
         return self._xnamed(r)
 
     def toVector(self, Vector=None, **Vector_kwds):

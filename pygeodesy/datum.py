@@ -149,9 +149,9 @@ R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius
 # R_ = Radius(6372797.560856,  name='R_')   #: XXX some other earth radius???
 
 __all__ = _ALL_LAZY.datum
-__version__ = '20.07.08'
+__version__ = '20.07.12'
 
-_Flts = {}               # cache, deleted below
+_Flts = {}               # floats cache, deleted below
 _TOL  = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
 
 
@@ -1205,17 +1205,17 @@ class Transform(_NamedEnumItem):
            @return: A L{Vector3Tuple}C{(x, y, z)}, transformed.
         '''
         if inverse:
-            xyz = -1, -x, -y, -z
-            _s1 = self.s1 - 2  # negative inverse: -(1 - s * 1.e-6)
+            _xyz = -1, -x, -y, -z
+            _s1 = self.s1 - 2  # == -(1 - s * 1e-6)) == -(1 - (s1 - 1))
         else:
-            xyz =  1,  x,  y,  z
-            _s1 = self.s1
+            _xyz =  1,  x,  y,  z
+            _s1  = self.s1
         # x', y', z' = (.tx + x * .s1 - y * .rz + z * .ry,
         #               .ty + x * .rz + y * .s1 - z * .rx,
         #               .tz - x * .ry + y * .rx + z * .s1)
-        r = Vector3Tuple(fdot(xyz, self.tx,      _s1, -self.rz,  self.ry),
-                         fdot(xyz, self.ty,  self.rz,      _s1, -self.rx),
-                         fdot(xyz, self.tz, -self.ry,  self.rx,      _s1))
+        r = Vector3Tuple(fdot(_xyz, self.tx,      _s1, -self.rz,  self.ry),
+                         fdot(_xyz, self.ty,  self.rz,      _s1, -self.rx),
+                         fdot(_xyz, self.tz, -self.ry,  self.rx,      _s1))
         return self._xnamed(r)
 
 

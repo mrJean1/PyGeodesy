@@ -25,7 +25,7 @@ from pygeodesy.streprs import fstr, _g
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.07.08'
+__version__ = '20.07.12'
 
 
 class UnitError(_ValueError):
@@ -446,7 +446,7 @@ class Distance(Float):
 class Easting(Float):
     '''Named C{float} representing an easting.
     '''
-    def __new__(cls, arg, name=_easting_, Error=UnitError, falsed=False):
+    def __new__(cls, arg, name=_easting_, Error=UnitError, falsed=False, osgr=False):
         '''New named C{Easting} instance.
 
            @arg cls: This class (C{Easting} or sub-class).
@@ -455,13 +455,16 @@ class Easting(Float):
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg falsed: The B{C{arg}} value includes false origin (C{bool}).
+           @kwarg osgr: Check B{C{arg}} as an OSGR easting (C{bool}).
 
            @returns: An C{Easting} instance.
 
            @raise Error: Invalid B{C{arg}} or negative, falsed B{C{arg}}.
         '''
         self = Float.__new__(cls, arg, name=name, Error=Error)
-        if falsed and self < 0:
+        if osgr and (self < 0 or self > 700e3):  # like Veness
+            raise _Error(cls, arg, name=name, Error=Error)
+        elif falsed and self < 0:
             raise _Error(cls, arg, name=name, Error=Error, txt='negative, falsed')
         return self
 
@@ -539,7 +542,7 @@ class Meter(Float):
 class Northing(Float):
     '''Named C{float} representing a northing.
     '''
-    def __new__(cls, arg, name=_northing_, Error=UnitError, falsed=False):
+    def __new__(cls, arg, name=_northing_, Error=UnitError, falsed=False, osgr=False):
         '''New named C{Northing} instance.
 
            @arg cls: This class (C{Northing} or sub-class).
@@ -548,13 +551,16 @@ class Northing(Float):
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg falsed: The B{C{arg}} value includes false origin (C{bool}).
+           @kwarg osgr: Check B{C{arg}} as an OSGR northing (C{bool}).
 
            @returns: A C{Northing} instance.
 
            @raise Error: Invalid B{C{arg}} or negative, falsed B{C{arg}}.
         '''
         self = Float.__new__(cls, arg, name=name, Error=Error)
-        if falsed and self < 0:
+        if osgr and (self < 0 or self > 1300e3):  # like Veness
+            raise _Error(cls, arg, name=name, Error=Error)
+        elif falsed and self < 0:
             raise _Error(cls, arg, name=name, Error=Error, txt='negative, falsed')
         return self
 

@@ -16,7 +16,7 @@ from pygeodesy.basics import EPS, property_doc_, property_RO, \
                             _xinstanceof, _xkwds
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.errors import _IsnotError, _ValueError
+from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
 from pygeodesy.interns import _COMMA_SPACE_, _ellipsoidal_, NN, \
                               _spherical_, _SQUARE_  # PYCHOK used!
@@ -27,7 +27,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '20.07.08'
+__version__ = '20.07.12'
 
 
 class CartesianBase(Vector3d):
@@ -111,7 +111,7 @@ class CartesianBase(Vector3d):
             i = True  # convert to WGS84 by inverse transform
 
         else:  # neither datum2 nor c.datum is WGS84, invert to WGS84 first
-            c = c._applyHelmert(d.transform, True)
+            c = c._applyHelmert(d.transform, True, datum=Datums.WGS84)
             d = datum2
 
         return c._applyHelmert(d.transform, i, datum=datum2)
@@ -264,6 +264,7 @@ class CartesianBase(Vector3d):
         if LatLon is not None:  # class or .classof
             r = LatLon(r.lat, r.lon, **_xkwds(LatLon_kwds,
                                         datum=r.datum, height=r.height))
+        _datum_datum(r.datum, datum or self.datum)
         return self._xnamed(r)
 
     def toNvector(self, Nvector=None, datum=None, **Nvector_kwds):  # PYCHOK Datums.WGS84

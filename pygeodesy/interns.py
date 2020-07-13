@@ -4,17 +4,18 @@ u'''Single-instance strings, intern'ed across modules.
 '''
 
 __all__ = ('NN',)
-__version__ = '20.07.08'
+__version__ = '20.07.12'
 
 NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
-# __DUNDER would get mangled in classes
+# __DUNDER__ would get mangled in classes
 _0_               = '0'                # PYCHOK expected
 _1_               = '1'                # PYCHOK expected
 _2_               = '2'                # PYCHOK expected
 _areaOf_          = 'areaOf'           # PYCHOK expected
 _ambiguous_       = 'ambiguous'        # PYCHOK expected
 _angle_           = 'angle'            # PYCHOK expected
+_AT_              = '@'                # PYCHOK expected
 _band_            = 'band'             # PYCHOK expected
 _bearing_         = 'bearing'          # PYCHOK expected
 _beta_            = 'beta'             # PYCHOK expected
@@ -130,6 +131,7 @@ _zone_            = 'zone'             # PYCHOK expected
 
 _COLON_SPACE_     = _COLON_ + _SPACE_  # PYCHOK expected
 _COMMA_SPACE_     = _COMMA_ + _SPACE_  # PYCHOK expected
+_DUNDER_          = _UNDERSCORE_ * 2   # PYCHOK expected
 _EW_              = _E_  + _W_         # PYCHOK common cardinals
 _NE_              = _N_  + _E_         # PYCHOK expected
 _NS_              = _N_  + _S_         # PYCHOK expected

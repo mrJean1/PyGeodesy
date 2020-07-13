@@ -22,18 +22,18 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, \
                              _TypeError, _TypesError, _ValueError  # PYCHOK indent
-from pygeodesy.interns import _angle_, _COLON_SPACE_, _COMMA_SPACE_, _CURLY_, \
-                              _datum_, _distance_, _doesn_t_exist_, _DOT_, \
-                              _dot_, _dunder_name, _easting_, _EQUAL_, _h_, \
-                              _height_, _item_ps, _item_sq, _lam_, _lat_, \
-                              _lon_, _name_, NN, _northing_, _number_, \
-                              _other_, _PARENTH_, _phi_, _points_, _precision_, \
-                              _radius_, _UNDERSCORE_, _valid_, _x_, _y_, _z_
+from pygeodesy.interns import _angle_, _AT_, _COLON_, _COLON_SPACE_, _COMMA_SPACE_, \
+                              _CURLY_, _datum_, _distance_, _doesn_t_exist_, _DOT_, \
+                              _dot_, _DUNDER_, _dunder_name, _easting_, _EQUAL_, _h_, \
+                              _height_, _item_ps, _item_sq, _lam_, _lat_, _lon_, \
+                              _name_, NN, _northing_, _number_, _other_, _PARENTH_, \
+                              _phi_, _points_, _precision_, _radius_, _UNDERSCORE_, \
+                              _valid_, _x_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.07.08'
+__version__ = '20.07.12'
 
 # __DUNDER gets mangled in class
 _final_     = 'final'
@@ -909,11 +909,13 @@ class Vector4Tuple(_NamedTuple):  # .nvector.py
     _Names_ = (_x_, _y_, _z_, _h_)
 
 
-def callername(up=1, dflt=NN):
+def callername(up=1, dflt=NN, source=False):
     '''Get the name of the calling callable.
 
        @kwarg up: Number of call stack frames up (C{int}).
        @kwarg dflt: Default return value (C{any}).
+       @kwarg source: Include source file name and line
+                      number (C{bool}).
 
        @return: Name of the non-internal callable (C{str})
                 or B{C{dflt}} if none found.
@@ -921,8 +923,14 @@ def callername(up=1, dflt=NN):
     try:
         from sys import _getframe
         for u in range(up, up + 32):
-            n = _getframe(u).f_code.co_name
-            if n and not n.startswith(_UNDERSCORE_):
+            f = _getframe(u)
+            n = f.f_code.co_name
+            if n and (n.startswith(_DUNDER_) or
+                  not n.startswith(_UNDERSCORE_)):
+                if source:
+                    from os.path import basename
+                    n = NN.join((n, _AT_, basename(f.f_code.co_filename),
+                                    _COLON_, str(f.f_lineno)))
                 return n
     except (AttributeError, ImportError):
         pass

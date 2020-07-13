@@ -25,7 +25,7 @@ from pygeodesy.named import Vector3Tuple
 from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 
 __all__ = ()
-__version__ = '20.07.08'
+__version__ = '20.07.12'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -103,6 +103,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         LatLonBase.__init__(self, lat, lon, height=height, name=name)
         if datum:
+            self._datum = datum  # avoid update
             self.datum = datum
         if reframe:
             self.reframe = reframe

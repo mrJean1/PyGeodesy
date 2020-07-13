@@ -284,7 +284,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.07.08
+        20.07.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -2616,7 +2616,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#callername" class="summary-sig-name">callername</a>(<span class="summary-sig-arg">up</span>=<span class="summary-sig-default">1</span>,
-        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">source</span>=<span class="summary-sig-default">False</span>)</span><br />
       Get the name of the calling callable.</td>
           <td align="right" valign="top">
             
@@ -4086,7 +4087,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9d645bbdd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa8480d9e50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6779,7 +6780,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.7.8'"><code class="variable-quote">'</code><code class="variable-string">20.7.8</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.7.12'"><code class="variable-quote">'</code><code class="variable-string">20.7.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7874,7 +7875,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">callername</span>&nbsp;(<span class="sig-arg">up</span>=<span class="sig-default">1</span>,
-        <span class="sig-arg">dflt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">dflt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">source</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -7887,6 +7889,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>up</code></strong> - Number of call stack frames up (<code>int</code>).</li>
         <li><strong class="pname"><code>dflt</code></strong> - Default return value (<code>any</code>).</li>
+        <li><strong class="pname"><code>source</code></strong> - Include source file name and line number (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Name of the non-internal callable (<code>str</code>) or 
@@ -10715,7 +10718,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9d645bbdd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa8480d9e50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15035,7 +15038,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>latlon</code></strong> - Latitude (<code>degrees</code>) or an (ellipsoidal) geodetic 
           <code>LatLon</code> point.</li>
         <li><strong class="pname"><code>lon</code></strong> - Optional longitude in degrees (scalar or <code>None</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum to convert (<code>Datum</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to convert <b><code>lat, lon</code></b> from 
+          (<code>Datum</code>).</li>
         <li><strong class="pname"><code>Osgr</code></strong> - Optional class to return the OSGR coordinate (<a 
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
           <code>None</code>.</li>
@@ -16200,7 +16204,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Jul  8 17:27:38 2020
+    Generated by Epydoc 3.0.1 on Mon Jul 13 10:43:50 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

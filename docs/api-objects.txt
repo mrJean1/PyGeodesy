@@ -353,6 +353,7 @@ pygeodesy.cartesianBase.property_doc_	pygeodesy.basics-module.html#property_doc_
 pygeodesy.cartesianBase.hypot_	pygeodesy.fmath-module.html#hypot_
 pygeodesy.cartesianBase.__package__	pygeodesy.cartesianBase-module.html#__package__
 pygeodesy.cartesianBase.fsum_	pygeodesy.fmath-module.html#fsum_
+pygeodesy.cartesianBase._datum_datum	pygeodesy.errors-module.html#_datum_datum
 pygeodesy.cartesianBase._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.cartesianBase.hypot2	pygeodesy.fmath-module.html#hypot2
 pygeodesy.cartesianBase._xyzhdn6	pygeodesy.vector3d-module.html#_xyzhdn6
@@ -560,6 +561,7 @@ pygeodesy.ecef._sch3	pygeodesy.ecef-module.html#_sch3
 pygeodesy.ecef.sincos2d	pygeodesy.utily-module.html#sincos2d
 pygeodesy.ecef.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.ecef.notOverloaded	pygeodesy.named-module.html#notOverloaded
+pygeodesy.ecef._datum_datum	pygeodesy.errors-module.html#_datum_datum
 pygeodesy.ecef.degrees180	pygeodesy.utily-module.html#degrees180
 pygeodesy.ecef.__all__	pygeodesy.ecef-module.html#__all__
 pygeodesy.elevations	pygeodesy.elevations-module.html
@@ -714,6 +716,7 @@ pygeodesy.errors._error_init	pygeodesy.errors-module.html#_error_init
 pygeodesy.errors.crosserrors	pygeodesy.errors-module.html#crosserrors
 pygeodesy.errors._xkwds_pop	pygeodesy.errors-module.html#_xkwds_pop
 pygeodesy.errors._an	pygeodesy.errors-module.html#_an
+pygeodesy.errors._datum_datum	pygeodesy.errors-module.html#_datum_datum
 pygeodesy.errors._	pygeodesy.errors-module.html#_
 pygeodesy.errors.__all__	pygeodesy.errors-module.html#__all__
 pygeodesy.errors.limiterrors	pygeodesy.errors-module.html#limiterrors
@@ -1110,6 +1113,7 @@ pygeodesy.interns._0_	pygeodesy.interns-module.html#_0_
 pygeodesy.interns._too_distant_	pygeodesy.interns-module.html#_too_distant_
 pygeodesy.interns._beta_	pygeodesy.interns-module.html#_beta_
 pygeodesy.interns._no_conversion_	pygeodesy.interns-module.html#_no_conversion_
+pygeodesy.interns._DUNDER_	pygeodesy.interns-module.html#_DUNDER_
 pygeodesy.interns._COLON_	pygeodesy.interns-module.html#_COLON_
 pygeodesy.interns._no_convergence_	pygeodesy.interns-module.html#_no_convergence_
 pygeodesy.interns._k0_	pygeodesy.interns-module.html#_k0_
@@ -1141,6 +1145,7 @@ pygeodesy.interns._2_	pygeodesy.interns-module.html#_2_
 pygeodesy.interns._range_	pygeodesy.interns-module.html#_range_
 pygeodesy.interns._lon0_	pygeodesy.interns-module.html#_lon0_
 pygeodesy.interns._areaOf_	pygeodesy.interns-module.html#_areaOf_
+pygeodesy.interns._AT_	pygeodesy.interns-module.html#_AT_
 pygeodesy.interns._lat1_	pygeodesy.interns-module.html#_lat1_
 pygeodesy.interns._LatLon_	pygeodesy.interns-module.html#_LatLon_
 pygeodesy.interns._intersection_	pygeodesy.interns-module.html#_intersection_
@@ -1221,6 +1226,7 @@ pygeodesy.latlonBase.thomas_	pygeodesy.formy-module.html#thomas_
 pygeodesy.latlonBase.favg	pygeodesy.fmath-module.html#favg
 pygeodesy.latlonBase.antipode	pygeodesy.formy-module.html#antipode
 pygeodesy.latlonBase._item_sq	pygeodesy.interns-module.html#_item_sq
+pygeodesy.latlonBase._datum_datum	pygeodesy.errors-module.html#_datum_datum
 pygeodesy.latlonBase.unrollPI	pygeodesy.utily-module.html#unrollPI
 pygeodesy.latlonBase.map1	pygeodesy.basics-module.html#map1
 pygeodesy.latlonBase.notOverloaded	pygeodesy.named-module.html#notOverloaded
@@ -1307,12 +1313,12 @@ pygeodesy.named.nameof	pygeodesy.named-module.html#nameof
 pygeodesy.named._item_sq	pygeodesy.interns-module.html#_item_sq
 pygeodesy.named.classname	pygeodesy.named-module.html#classname
 pygeodesy.named._dunder_name	pygeodesy.interns-module.html#_dunder_name
-pygeodesy.named._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.named._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.named._item_ps	pygeodesy.interns-module.html#_item_ps
 pygeodesy.named.property_doc_	pygeodesy.basics-module.html#property_doc_
 pygeodesy.named._Names_	pygeodesy.named-module.html#_Names_
 pygeodesy.named._dot_	pygeodesy.interns-module.html#_dot_
+pygeodesy.named._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.named.issubclassof	pygeodesy.basics-module.html#issubclassof
 pygeodesy.named.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.named._name	pygeodesy.named-module.html#_name
@@ -1367,12 +1373,13 @@ pygeodesy.nvectorBase.len2	pygeodesy.basics-module.html#len2
 pygeodesy.nvectorBase._xyzhdn6	pygeodesy.vector3d-module.html#_xyzhdn6
 pygeodesy.nvectorBase._SouthPole_	pygeodesy.nvectorBase-module.html#_SouthPole_
 pygeodesy.osgr	pygeodesy.osgr-module.html
+pygeodesy.osgr.enstr2	pygeodesy.streprs-module.html#enstr2
 pygeodesy.osgr._M	pygeodesy.osgr-module.html#_M
 pygeodesy.osgr._ll2datum	pygeodesy.osgr-module.html#_ll2datum
 pygeodesy.osgr._EasNor2Tuple	pygeodesy.osgr-module.html#_EasNor2Tuple
 pygeodesy.osgr.degrees90	pygeodesy.utily-module.html#degrees90
 pygeodesy.osgr._xnamed	pygeodesy.named-module.html#_xnamed
-pygeodesy.osgr.enstr2	pygeodesy.streprs-module.html#enstr2
+pygeodesy.osgr._latlon_	pygeodesy.osgr-module.html#_latlon_
 pygeodesy.osgr._100km	pygeodesy.osgr-module.html#_100km
 pygeodesy.osgr.fpowers	pygeodesy.fmath-module.html#fpowers
 pygeodesy.osgr._parseX	pygeodesy.errors-module.html#_parseX
@@ -1382,13 +1389,13 @@ pygeodesy.osgr.__package__	pygeodesy.osgr-module.html#__package__
 pygeodesy.osgr.nameof	pygeodesy.named-module.html#nameof
 pygeodesy.osgr.parseOSGR	pygeodesy.osgr-module.html#parseOSGR
 pygeodesy.osgr._dot_	pygeodesy.interns-module.html#_dot_
-pygeodesy.osgr._OSGB36	pygeodesy.osgr-module.html#_OSGB36
+pygeodesy.osgr.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.osgr.toOsgr	pygeodesy.osgr-module.html#toOsgr
 pygeodesy.osgr.fsum_	pygeodesy.fmath-module.html#fsum_
-pygeodesy.osgr.degrees180	pygeodesy.utily-module.html#degrees180
-pygeodesy.osgr.sincos2	pygeodesy.utily-module.html#sincos2
-pygeodesy.osgr._xsubclassof	pygeodesy.basics-module.html#_xsubclassof
 pygeodesy.osgr._N0	pygeodesy.osgr-module.html#_N0
+pygeodesy.osgr.degrees180	pygeodesy.utily-module.html#degrees180
+pygeodesy.osgr._xsubclassof	pygeodesy.basics-module.html#_xsubclassof
+pygeodesy.osgr._Datums_OSGB36	pygeodesy.osgr-module.html#_Datums_OSGB36
 pygeodesy.osgr.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.osgr._F0	pygeodesy.osgr-module.html#_F0
 pygeodesy.osgr.parseDMS2	pygeodesy.dms-module.html#parseDMS2

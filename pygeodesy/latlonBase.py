@@ -15,7 +15,7 @@ from pygeodesy.basics import EPS, R_M, map1, property_doc_, property_RO, \
                             _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS  # parseDMS, parseDMS2
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.errors import _ValueError
+from pygeodesy.errors import _datum_datum, _ValueError
 from pygeodesy.fmath import favg
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
@@ -34,7 +34,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '20.07.08'
+__version__ = '20.07.12'
 
 
 class LatLonBase(_NamedBase):
@@ -781,6 +781,7 @@ class LatLonBase(_NamedBase):
         if Cartesian is not None:  # class or .classof
             r = Cartesian(r, **Cartesian_kwds)
             r = self._xnamed(r)
+        _datum_datum(r.datum, self.datum)
         return r
 
     def toEcef(self):

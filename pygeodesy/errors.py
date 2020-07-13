@@ -9,12 +9,12 @@ u'''Error, exception classes and functions to format PyGeodesy errors,
     non-empty string to enable I{exception chaining}.
 '''
 from pygeodesy.interns import _COLON_, _COMMA_, _COMMA_SPACE_, \
-                              _invalid_, _len_, _Missing, _name_, \
-                               NN, _SPACE_, _UNDERSCORE_  # PYCHOK used!
+                              _datum_, _invalid_, _len_, _Missing, \
+                              _name_, NN, _SPACE_, _UNDERSCORE_
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.07.08'
+__version__ = '20.07.12'
 
 _limiterrors = True  # imported by .formy
 _rangerrors  = True  # imported by .dms
@@ -232,6 +232,13 @@ def crosserrors(raiser=None):
     if raiser in (True, False):
         Vector3d._crosserrors = raiser
     return t
+
+
+def _datum_datum(datum1, datum2):
+    '''(INTERNAL) Check for datum match.
+    '''
+    if datum1 != datum2:
+        raise _AssertionError('%s %r not %r' % (_datum_, datum1.name, datum2.name))
 
 
 def _ename_(inst):
