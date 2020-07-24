@@ -30,13 +30,13 @@ Reference System) and OSGR_ (British Ordinance Survery Grid Reference) grid
 references, TRF_ (Terrestrial Reference Frames) and modules to encode and
 decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
-Other modules provide Lambert conformal conic projections and positions
-(from `John P. Snyder`_, *Map Projections -- A Working Manual*, 1987, pp
-107-109), functions to clip a path or polygon of *LatLon* points using
-the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_ methods, functions
-to simplify_ or linearize a path of *LatLon* points (or a `NumPy array`_),
-including implementations of the `Ramer-Douglas-Peucker`_, the
-`Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
+Other modules provide azimuthal projections and Lambert conformal conic
+projections and positions (from `John P. Snyder`_, *Map Projections -- A
+Working Manual*, 1987, pp 107-109), functions to clip a path or polygon of
+*LatLon* points using the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_
+methods, functions to simplify_ or linearize a path of *LatLon* points (or a
+`NumPy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
+the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
 versions of the former.  Other classes interpolate_ the height of
 *LatLon* points and several *Geoid* models or compute various `Fréchet`_
 or Hausdorff_ distances.
@@ -120,7 +120,7 @@ Catalina.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: July 12, 2020.*
+*Last updated: July 23, 2020.*
 
 License
 =======

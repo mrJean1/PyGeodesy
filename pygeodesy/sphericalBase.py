@@ -19,21 +19,22 @@ from pygeodesy.datum import R_M, R_MA, Datum, Datums
 from pygeodesy.dms import parse3llh
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import IntersectionError, _IsnotError
-from pygeodesy.fmath import acos1, favg, fsum_
-from pygeodesy.interns import _COMMA_, _near_concentric_, NN, _radius_, \
+from pygeodesy.fmath import favg, fsum_
+from pygeodesy.interns import _COMMA_, _exceed_PI_radians_, \
+                              _near_concentric_, NN, _radius_, \
                               _spherical_, _too_distant_  # PYCHOK used!
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Bearing2Tuple
 from pygeodesy.nvectorBase import NvectorBase
 from pygeodesy.units import Bearing_, Distance, Height, Radius, Radius_
-from pygeodesy.utily import degrees90, degrees180, degrees360, \
+from pygeodesy.utily import acos1, degrees90, degrees180, degrees360, \
                             sincos2, tanPI_2_2, wrapPI
 
 from math import atan2, cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.07.08'
+__version__ = '20.07.20'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -49,20 +50,18 @@ def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
     '''
     r1 = Radius_(rad1, name='rad1')
     r2 = Radius_(rad2, name='rad2')
-    r = radius
-    if r is not None:  # convert radii to radians
-        r = 1.0 / Radius_(r,  name=_radius_)
+    if radius is not None:  # convert radii to radians
+        r = 1.0 / Radius_(radius, name=_radius_)
         r1 *= r
         r2 *= r
 
-    if r1 < r2:
-        r1, r2, r = r2, r1, True
-    else:
-        r = False
+    x = r1 < r2
+    if x:
+        r1, r2 = r2, r1
     if r1 > PI:
         raise IntersectionError(rad1=rad1, rad2=rad2,
-                                txt='exceeds PI radians')
-    return r1, r2, r
+                                txt=_exceed_PI_radians_)
+    return r1, r2, x
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -124,14 +123,13 @@ class CartesianSphericalBase(CartesianBase):
         n = n.times(sqrt(x / n2))
         if n.length > EPS:
             x1, x2 = x0.plus(n), x0.minus(n)
-            for x in (x1, x2):
-                x.datum = self.datum
-                x.name  = self.intersections2.__name__
-            return x1, x2
         else:  # abutting circles
-            x0.datum = self.datum
-            x0.name  = self.intersections2.__name__
-            return x0, x0
+            x1 = x2 = x0
+
+        for x in (x1, x2):
+            x.datum = self.datum
+            x.name  = self.intersections2.__name__
+        return x1, x2
 
 
 class LatLonSphericalBase(LatLonBase):

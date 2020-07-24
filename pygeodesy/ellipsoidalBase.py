@@ -12,20 +12,21 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, property_doc_, property_RO, _xinstanceof
+from pygeodesy.basics import EPS, property_doc_, property_RO, \
+                            _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import Datum, Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.errors import _incompatible, _IsnotError, _ValueError
-from pygeodesy.interns import _COMMA_, _datum_, _ellipsoidal_,_Missing, \
-                              _N_, NN, _no_conversion_ # PYCHOK used!
+from pygeodesy.interns import _COMMA_, _datum_, _ellipsoidal_, _Missing, \
+                              _N_, NN, _no_conversion_  # PYCHOK used!
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import Vector3Tuple
 from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 
 __all__ = ()
-__version__ = '20.07.12'
+__version__ = '20.07.23'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -102,8 +103,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
         LatLonBase.__init__(self, lat, lon, height=height, name=name)
-        if datum:
-            self._datum = datum  # avoid update
+        if datum and datum != self._datum:
             self.datum = datum
         if reframe:
             self.reframe = reframe

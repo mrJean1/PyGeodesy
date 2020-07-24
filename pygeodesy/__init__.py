@@ -45,14 +45,14 @@ to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>} and
 U{Garefs (GARS)<https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
 
-Other modules provide Lambert conformal conic projections and positions
-(from U{John P. Snyder, "Map Projections -- A Working Manual", 1987, pp 107-109
-<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}), functions to clip a path or
-polygon of C{LatLon} points using the U{Cohen–Sutherland
+Other modules provide azimuthal projections and Lambert conformal conic projections
+and positions (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987,
+pp 107-109 <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}), functions to clip a
+path or polygon of C{LatLon} points using the U{Cohen–Sutherland
 <https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} and the
 U{Sutherland-Hodgman<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
 methods, functions to U{simplify<https://Bost.Ocks.org/mike/simplify>} or
-linearize a path of C{LatLon} points (or a U{NumPy array
+linearize a path of C{tLon} points (or a U{NumPy array
 <https://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html>}),
 including implementations of the U{Ramer-Douglas-Peucker
 <https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>} the
@@ -274,7 +274,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.07.12'
+__version__ = '20.07.23'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -302,8 +302,9 @@ else:
 if not _lazy_import2:  # import and set __all__
 
     # import all public modules and export as such
+    import pygeodesy.azimuthal             as azimuthal              # PYCHOK exported
     import pygeodesy.bases                 as bases                  # PYCHOK DEPRECATED
-    import pygeodesy.basics                as basics                 # PYCHOK DEPRECATED
+    import pygeodesy.basics                as basics                 # PYCHOK exported
     import pygeodesy.clipy                 as clipy                  # PYCHOK exported
     import pygeodesy.css                   as css                    # PYCHOK exported
     import pygeodesy.datum                 as datum                  # PYCHOK exported
@@ -354,6 +355,7 @@ if not _lazy_import2:  # import and set __all__
     # talk <https://DaBeaz.com/modulepackage/index.html>) ... BUT
     # NOT modules ellipsoidal*, epsg, gars, geohash, spherical*,
     # vector and wgrs ... in order keep those as modules ONLY
+    from pygeodesy.azimuthal             import *  # PYCHOK __all__
 #   from pygeodesy.bases                 import *  # PYCHOK __all__
     from pygeodesy.basics                import *  # PYCHOK __all__
     from pygeodesy.clipy                 import *  # PYCHOK __all__
@@ -397,7 +399,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.utily                 import *  # PYCHOK __all__
     from pygeodesy.utm                   import *  # PYCHOK __all__
     from pygeodesy.utmups                import *  # PYCHOK __all__
-    from pygeodesy.vector3d              import Vector3d, VectorError  # PYCHOK exported
+    from pygeodesy.vector3d              import *  # PYCHOK __all__
     from pygeodesy.webmercator           import *  # PYCHOK __all__
     from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK exported
 

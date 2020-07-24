@@ -14,10 +14,12 @@ from pygeodesy.interns import _COLON_, _COMMA_, _COMMA_SPACE_, \
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.07.12'
+__version__ = '20.07.19'
 
-_limiterrors = True  # imported by .formy
-_rangerrors  = True  # imported by .dms
+_limiterrors      =  True  # imported by .formy
+_not_ellipsoidal_ = 'not ellipsoidal'
+# _not_spherical_ = 'not spherical'
+_rangerrors       =  True  # imported by .dms
 
 try:
     _exception_chaining = None  # not available
@@ -234,10 +236,14 @@ def crosserrors(raiser=None):
     return t
 
 
-def _datum_datum(datum1, datum2):
-    '''(INTERNAL) Check for datum match.
+def _datum_datum(datum1, datum2, Error=None):
+    '''(INTERNAL) Check for datum or ellipsoid match.
     '''
-    if datum1 != datum2:
+    if Error:
+        E1, E2 = datum1.ellipsoid, datum2.ellipsoid
+        if E1 != E2:
+            raise Error(E2.named2, txt=_incompatible(E1.named2))
+    elif datum1 != datum2:
         raise _AssertionError('%s %r not %r' % (_datum_, datum1.name, datum2.name))
 
 
@@ -437,6 +443,25 @@ def _SciPyIssue(x, *extras):  # PYCHOK no cover
     else:
         X = SciPyError  # PYCHOK not really
     return _cause_(X(t), other=x)
+
+
+def _xellipsoidal(**name_value):
+    '''(INTERNAL) Check an I{ellipsoidal} item.
+
+       @return: The B{C{value}} if ellipsoidal.
+
+       @raise TypeError: Not ellipsoidal B{C{value}}.
+    '''
+    try:
+        for n, v in name_value.items():
+            if v.isEllipsoidal:
+                return v
+            break
+        else:
+            n = v = _Missing
+    except AttributeError:
+        pass
+    raise _TypeError(n, v, txt=_not_ellipsoidal_)
 
 
 def _xkwds_Error(_xkwds_func, kwds, name_default):

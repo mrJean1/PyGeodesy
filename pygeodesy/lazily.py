@@ -72,6 +72,9 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 
 # __all__ value for most modules, accessible as _ALL_LAZY.<module>
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
+                      azimuthal=('AzimuthalError', 'Equidistant', 'EquidistantKarney', 'Gnomonic', 'LambertEqualArea',
+                                 'Orthographic', 'Stereographic',
+                                 'equidistant'),
                           bases=(),  # module and for backward compatibility only
                          basics=('EPS', 'EPS1', 'EPS1_2', 'EPS_2', 'INF', 'MANTIS', 'MAX', 'MIN',  # constants
                                  'NAN', 'NEG0', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M',
@@ -110,7 +113,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'parseETM5', 'toEtm8'),
                           fmath=('Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
-                                 'acos1', 'cbrt', 'cbrt2',
+                                 'cbrt', 'cbrt2',
                                  'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'sqrt3'),
@@ -166,7 +169,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Phi', 'Phi_', 'Precision_', 'Radians',
                                  'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'UnitError', 'Zone'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
-                          utily=('degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
+                          utily=('acos1', 'asin1', 'atan2d',
+                                 'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
                                  'ft2m',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
                                  'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
@@ -177,7 +181,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Vector3d', 'VectorError'),  # nothing else
+                       vector3d=('Vector3d', 'VectorError', 'intersections2'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm'),
                            wgrs=('Georef', 'WGRSError'))
 
@@ -196,7 +200,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.07.08'
+__version__ = '20.07.23'
 
 
 def _ALL_OTHER(*objs):

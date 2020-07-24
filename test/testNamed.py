@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.04.30'
+__version__ = '20.07.16'
 
 from base import PyGeodesy_dir, isiOS, TestsBase
 from pygeodesy import Datums, named
@@ -88,7 +88,7 @@ class Tests(TestsBase):
     def testNamed_class(self, named, _Nclass, _attr_, _Ndict):
         for n in sorted(dir(named)):
             if n.endswith(_Nclass) and n[-1 - len(_Nclass)].isdigit():
-                print(named, n)
+                # print(named, n)
                 # compare _Nattr_ and __doc__
                 c = getattr(named, n)
                 self.test(n, c.__name__, n)
@@ -203,7 +203,7 @@ if __name__ == '__main__':
     from glob import glob
     import os.path as os_path
 
-    from pygeodesy import clipy, css, datum, ecef, elevations, \
+    from pygeodesy import azimuthal, clipy, css, datum, ecef, elevations, \
                           ellipsoidalNvector, elliptic, epsg, etm, \
                           frechet, geohash, geoids, hausdorff, mgrs, \
                           points, utmupsBase, webmercator
@@ -221,7 +221,7 @@ if __name__ == '__main__':
     t.testNamedDicts(named)
     t.testNamedDicts(geohash)
 
-    for m in (named, clipy, css, datum, ecef, elevations,
+    for m in (named, azimuthal, clipy, css, datum, ecef, elevations,
                      ellipsoidalNvector, elliptic, epsg, etm,
                      frechet, geohash, geoids, hausdorff, mgrs,
                      points, utmupsBase, webmercator):

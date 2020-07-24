@@ -45,8 +45,8 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_
 from pygeodesy.interns import _COLON_, _COMMA_, _COMMA_SPACE_, _dot_, \
-                              _item_ps, _LatLon_, NN, _no_convergence_, \
-                              _SPACE_, _SQUARE_
+                              _item_ps, NN, _no_convergence_, _SPACE_, \
+                              _SQUARE_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, LatLonDatum3Tuple, \
                            _NamedBase, nameof, _xnamed
@@ -57,7 +57,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.07.12'
+__version__ = '20.07.14'
 
 _10um  = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km = 100000  #: (INTERNAL) 100 km (int meter)
@@ -250,17 +250,17 @@ class Osgr(_NamedBase):
         return self._latlon3(LatLon, datum)
 
     def _latlon3(self, LatLon, datum):
-        '''(INTERNAL) Convert cached LatLon
+        '''(INTERNAL) Convert cached latlon to C{LatLon}
         '''
         ll = self._latlon
         if LatLon is None:
-            if datum and datum != ll.datum:
-                raise _TypeError(latlon=ll, txt=_item_ps(_no_convertDatum_, datum.name))
-            return _xnamed(LatLonDatum3Tuple(ll.lat, ll.lon, ll.datum), ll.name)
-        else:
+            r = _ll2datum(ll, datum, LatLonDatum3Tuple.__name__)
+            r = LatLonDatum3Tuple(r.lat, r.lon, r.datum)
+        else:  # must be ellipsoidal
             _xsubclassof(_LLEB, LatLon=LatLon)
-            ll = _xnamed(LatLon(ll.lat, ll.lon, datum=ll.datum), ll.name)
-            return _ll2datum(ll, datum, _LatLon_)
+            r = _ll2datum(ll, datum, LatLon.__name__)
+            r = LatLon(r.lat, r.lon, datum=r.datum)
+        return _xnamed(r, ll)
 
     def toRepr(self, prec=10, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
@@ -313,7 +313,7 @@ class Osgr(_NamedBase):
             E, N = int(E), int(N)
             if 0 > E or E > 6 or \
                0 > N or N > 12:
-                return ''
+                return NN
             N = 19 - N
             EN = _i2c( N - (N % 5) + (E + 10) // 5) + \
                  _i2c((N * 5) % 25 + (E % 5))
@@ -459,7 +459,10 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
 
     # if necessary, convert to OSGB36 first
     ll = _ll2datum(latlon, _Datums_OSGB36, _latlon_)
-    a, b = map1(radians, ll.lat, ll.lon)
+    try:
+        a, b = ll.philam
+    except AttributeError:
+        a, b = map1(radians, ll.lat, ll.lon)
     sa, ca = sincos2(a)
 
     E = _Datums_OSGB36.ellipsoid

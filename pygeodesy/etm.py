@@ -88,7 +88,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.07.08'
+__version__ = '20.07.17'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -356,6 +356,14 @@ class ExactTransverseMercator(_NamedBase):
         self._E     = E
 
     @property_RO
+    def equatoradius(self):
+        '''Get the equatorial (major) radius, semi-axis (C{meter}).
+        '''
+        return self._a
+
+    majoradius = equatoradius  # for backward compatibility
+
+    @property_RO
     def extendp(self):
         '''Get using the extended domain (C{bool}).
         '''
@@ -458,12 +466,6 @@ class ExactTransverseMercator(_NamedBase):
            @raise ValueError: Invalid B{C{lon0}}.
         '''
         self._lon0 = _norm180(Lon(lon0, name=_lon0_))
-
-    @property_RO
-    def majoradius(self):
-        '''Get the major (equatorial) radius, semi-axis (C{float}).
-        '''
-        return self._a
 
     def _reset(self, e, e2):
         '''(INTERNAL) Get elliptic functions and pre-compute some

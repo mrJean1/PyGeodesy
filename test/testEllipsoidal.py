@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.05.08'
+__version__ = '20.07.23'
 
 from base import coverage, geographiclib
 from testLatLon import Tests as _TestsLL

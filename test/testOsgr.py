@@ -4,7 +4,7 @@
 # Test OSGR functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.07.12'
+__version__ = '20.07.14'
 
 from base import geographiclib, TestsBase
 
@@ -163,7 +163,7 @@ class Tests(TestsBase):
         k = abs(t) < 0.005
         self.test('LatLon', q.toStr(form=F_D, m=None), '49.926244°N, 006.297934°W', known=k)
         self.test('datum', q.datum.name, 'WGS84')
-        self.test('distanceTo', t, 0.01, fmt='%.4f', known=k)
+        self.test('distanceTo', t, 0.005, fmt='%.4f', known=k)
 
 
 if __name__ == '__main__':

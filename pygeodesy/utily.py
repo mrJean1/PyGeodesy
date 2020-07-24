@@ -16,16 +16,45 @@ from pygeodesy.interns import _deg_, _Missing
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.units import Feet, Lam_, Meter, Phi_, Radius
 
-from math import cos, degrees, radians, sin, tan  # pow
+from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '20.07.07'
+__version__ = '20.07.17'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = 1.0 / 90  # 0.011111111111111111111111111111111111111111111111
 _2_PI = 2.0 / PI  # 0.63661977236758134307553505349005744813783858296182
 
 _iterNumpy2len = 1  # adjustable for testing purposes
+
+
+def acos1(x):
+    '''Return M{math.acos(max(-1, min(1, x)))}.
+    '''
+    return acos(max(-1.0, min(1.0, x)))
+
+
+def asin1(x):
+    '''Return M{math.asin(max(-1, min(1, x)))}.
+    '''
+    return asin(max(-1.0, min(1.0, x)))
+
+
+def atan2d(y, x):
+    '''Compute C{atan2(y, x)} to C{degrees}.
+
+       @see: Karney's C++ function U{Math.atan2d<https://GeographicLib.sourceforge.io/html/classGeographicLib_1_1Math.html>}.
+    '''
+    if abs(y) > abs(x):
+        if y < 0:  # q = 3
+            d = degrees(atan2(x, -y)) - 90
+        else:  # q = 2
+            d = 90 - degrees(atan2(x, y))
+    elif x < 0:  # q = 1
+        d = (-180 if y < 0 else 180) - degrees(atan2(y, -x))
+    else:  # q = 0
+        d = 0 + degrees(atan2(y, x))
+    return d
 
 
 def degrees90(rad):

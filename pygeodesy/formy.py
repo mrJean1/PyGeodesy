@@ -5,9 +5,11 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, len2, _xinstanceof
+from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, len2, \
+                            _xinstanceof
 from pygeodesy.datum import Datum, Datums
-from pygeodesy.errors import LimitError, _limiterrors, PointsError, _ValueError
+from pygeodesy.errors import LimitError, _limiterrors, PointsError, \
+                            _ValueError
 from pygeodesy.fmath import fsum_, hypot, hypot2
 from pygeodesy.interns import _2_, _angle_, _item_sq, _lat_, _lat1_, \
                               _lon_, _lon1_, _too_few_
@@ -17,13 +19,13 @@ from pygeodesy.named import Distance4Tuple, LatLon2Tuple, PhiLam2Tuple, \
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Distance, Height, Lam_, Lat, Lon, Phi_, Radius
 from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
-                            isNumpy2, isTuple2, sincos2, unroll180, unrollPI, \
-                            wrap90, wrap180, wrapPI, wrapPI_2
+                            isNumpy2, isTuple2, sincos2, unroll180, \
+                            unrollPI, wrap90, wrap180, wrapPI, wrapPI_2
 
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.07.07'
+__version__ = '20.07.23'
 
 _lat2_ = _lat_ + _2_
 _lon2_ = _lon_ + _2_

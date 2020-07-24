@@ -87,6 +87,20 @@
       <em class="summary">(INTERNAL) Format a <code>ValueError</code> without exception 
         chaining.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.AzimuthalError-class.html">pygeodesy.azimuthal.AzimuthalError</a></strong>:
+      <em class="summary">An azimuthal <a href="pygeodesy.azimuthal.Equidistant-class.html" 
+        class="link">Equidistant</a>, <a 
+        href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+        class="link">EquidistantKarney</a>, <a 
+        href="pygeodesy.azimuthal.Gnomonic-class.html" 
+        class="link">Gnomonic</a>, <a 
+        href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
+        class="link">LambertEqualArea</a>, <a 
+        href="pygeodesy.azimuthal.Orthographic-class.html" 
+        class="link">Orthographic</a> or <a 
+        href="pygeodesy.azimuthal.Stereographic-class.html" 
+        class="link">Stereographic</a> issue.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css.CSSError-class.html">pygeodesy.css.CSSError</a></strong>:
       <em class="summary">Cassini-Soldner (CSS) conversion or other <a 
         href="pygeodesy.css.Css-class.html" class="link">Css</a> issue.</em>
@@ -1021,6 +1035,54 @@
     <li> <strong class="uidlink"><a href="pygeodesy.webmercator.Wm-class.html">pygeodesy.webmercator.Wm</a></strong>:
       <em class="summary">Web Mercator (WM) coordinate.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal._AzimuthalBase-class.html">pygeodesy.azimuthal._AzimuthalBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for azimuthal projections.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.Equidistant-class.html">pygeodesy.azimuthal.Equidistant</a></strong>:
+      <em class="summary">Azimuthal equidistant projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 195-197</a> and <a 
+        href="https://MathWorld.Wolfram.com/AzimuthalEquidistantProjection.html"
+        target="_top">MathWorld-Wolfram</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.EquidistantKarney-class.html">pygeodesy.azimuthal.EquidistantKarney</a></strong>:
+      <em class="summary">Azimuthal equidistant projection, a Python version of Karney's C++ 
+        class <a 
+        href="https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1AzimuthalEquidistant.html"
+        target="_top">AzimuthalEquidistant</a>, requiring package <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> to be installed.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.Gnomonic-class.html">pygeodesy.azimuthal.Gnomonic</a></strong>:
+      <em class="summary">Azimuthal gnomonic projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 164-168</a> and <a 
+        href="https://MathWorld.Wolfram.com/GnomonicProjection.html" 
+        target="_top">MathWorld-Wolfram</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.LambertEqualArea-class.html">pygeodesy.azimuthal.LambertEqualArea</a></strong>:
+      <em class="summary">Lambert-equal-area projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 185-187</a> and <a 
+        href="https://MathWorld.Wolfram.com/LambertAzimuthalEqual-AreaProjection.html"
+        target="_top">MathWorld-Wolfram</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.Orthographic-class.html">pygeodesy.azimuthal.Orthographic</a></strong>:
+      <em class="summary">Orthographic projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 148-153</a> and <a 
+        href="https://MathWorld.Wolfram.com/OrthographicProjection.html" 
+        target="_top">MathWorld-Wolfram</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.Stereographic-class.html">pygeodesy.azimuthal.Stereographic</a></strong>:
+      <em class="summary">Stereographic projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 157-160</a> and <a 
+        href="https://MathWorld.Wolfram.com/StereographicProjection.html" 
+        target="_top">MathWorld-Wolfram</a>.</em>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef._EcefBase-class.html">pygeodesy.ecef._EcefBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for <a 
         href="pygeodesy.ecef.EcefKarney-class.html" 
@@ -1103,6 +1165,18 @@
       <em class="summary">(INTERNAL) Named <code>tuple</code> with index <i>and</i> attribute
         access to the items.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html">pygeodesy.azimuthal.Azimuthal7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(x, y, lat, lon, azimuth, scale, datum)</code>, in 
+        <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
+        <code>degrees180</code>, <code>degrees360</code>, 
+        <code>float</code> and <code>Datum</code> where <code>(x, y)</code>
+        is the projected, <code>(lat, lon)</code> the geodetic location, 
+        <code>azimuth</code> the azimuth direction off true North and 
+        <code>scale</code> is the projection scale, either (<code>1 / 
+        reciprocal</code> or <code>1</code> or <code>-1</code> in one case,
+        <a href="pygeodesy.azimuthal.Equidistant-class.html" 
+        class="link">Equidistant</a>).</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.Bearing2Tuple-class.html">pygeodesy.named.Bearing2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(initial, final)</code> bearings, both in compass 
         <code>degrees360</code>.</em>
@@ -1766,6 +1840,18 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">(INTERNAL) Named <code>tuple</code> with index <i>and</i> attribute
         access to the items.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html">pygeodesy.azimuthal.Azimuthal7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(x, y, lat, lon, azimuth, scale, datum)</code>, in 
+        <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
+        <code>degrees180</code>, <code>degrees360</code>, 
+        <code>float</code> and <code>Datum</code> where <code>(x, y)</code>
+        is the projected, <code>(lat, lon)</code> the geodetic location, 
+        <code>azimuth</code> the azimuth direction off true North and 
+        <code>scale</code> is the projection scale, either (<code>1 / 
+        reciprocal</code> or <code>1</code> or <code>-1</code> in one case,
+        <a href="pygeodesy.azimuthal.Equidistant-class.html" 
+        class="link">Equidistant</a>).</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named.Bearing2Tuple-class.html">pygeodesy.named.Bearing2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(initial, final)</code> bearings, both in compass 
         <code>degrees360</code>.</em>
@@ -2116,7 +2202,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul 13 10:43:49 2020
+    Generated by Epydoc 3.0.1 on Thu Jul 23 20:56:28 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

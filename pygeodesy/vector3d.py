@@ -11,24 +11,25 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, isscalar, len2, map1, \
-                             property_doc_, property_RO
-from pygeodesy.errors import CrossError, _IsnotError, _TypeError, \
-                            _ValueError
-from pygeodesy.fmath import fdot, fsum, hypot_
+from pygeodesy.basics import EPS, EPS1, isscalar, len2, map1, \
+                             property_doc_, property_RO, _xkwds
+from pygeodesy.errors import CrossError, IntersectionError, _IsnotError, \
+                            _TypeError, _ValueError
+from pygeodesy.fmath import fdot, fsum, fsum_, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
-from pygeodesy.interns import _coincident_, _colinear_, _COMMA_, \
-                              _COMMA_SPACE_, _datum_, _h_, _height_, \
-                              _Missing, _name_, NN, _other_, \
-                              _PARENTH_, _scalar_, _y_, _z_
+from pygeodesy.interns import _coincident_, _colinear_, _COMMA_, _COMMA_SPACE_, \
+                              _datum_, _h_, _height_, _invalid_, _Missing, \
+                              _name_, _near_concentric_, NN, _other_, _PARENTH_, \
+                              _scalar_, _too_distant_fmt_, _y_, _z_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _NamedBase, Vector3Tuple
 from pygeodesy.streprs import strs
+from pygeodesy.units import Radius, Radius_
 
-from math import atan2, cos, sin
+from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.07.08'
+__version__ = '20.07.23'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -648,6 +649,114 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''Get the Z component (C{float}).
         '''
         return self._z
+
+
+def intersections2(center1, rad1, center2, rad2, sphere=True,  # MCCABE 14
+                                                 Vector=None, **Vector_kwds):
+    '''Compute the intersection of two spheres or circles, each defined by
+       a center point and radius.
+
+       @arg center1: Center of the first sphere or circle (L{Vector3d},
+                     C{Vector3Tuple} orC{Vector4Tuple}).
+       @arg rad1: Radius of the first sphere or circle (same units as the
+                  B{C{center1}} coordinates).
+       @arg center2: Center of the second sphere or circle (L{Vector3d},
+                     C{Vector3Tuple} orC{Vector4Tuple}).
+       @arg rad2: Radius of the second sphere or circle (same units as
+                  the B{C{center1}} and B{C{center2}} coordinates).
+       @kwarg sphere: If C{True} compute the center and radius of the
+                      intersection of two spheres.  If C{False}, ignore the
+                      C{z}-component and compute the intersection of two
+                      circles (C{bool}).
+       @kwarg Vector: Class to return intersections (L{Vector3d} or
+                      C{Vector3Tuple}) or C{None} for L{Vector3d}.
+       @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
+                           ignored if B{C{Vector=None}}.
+
+       @return: 2-Tuple of the C{center} and C{radius} of the intersection of
+                the spheres if B{C{sphere}} is C{True}.  The C{radius} is C{0.0}
+                for abutting spheres.  Otherwise, a 2-tuple of the intersection
+                points of two circles.  For abutting circles, both intersection
+                points are the same B{C{Vector}} instance.
+
+       @raise IntersectionError: Concentric, invalid or non-intersecting spheres
+                                 or circles.
+
+       @raise UnitError: Invalid B{C{rad1}} or B{C{rad2}}.
+
+       @see: U{Sphere-Sphere<https://MathWorld.Wolfram.com/Sphere-
+             SphereIntersection.html>} and U{circle-circle
+             <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>}
+             intersections.
+    '''
+
+    def _Vector(x, y, z):
+        n = intersections2.__name__
+        if Vector is None:
+            v = Vector3d(x, y, z, name=n)
+        else:
+            kwds = _xkwds(Vector_kwds, name=n)
+            v = Vector(x, y, z, **kwds)
+        return v
+
+    def _xVector(c1, u, x, y):
+        xy1 = x, y, 1
+        # transform back into original x-y space
+        x = fdot(xy1, u.x, -u.y, c1.x)
+        y = fdot(xy1, u.y,  u.x, c1.y)
+        return _Vector(x, y, 0)
+
+    c1 = Vector3d(center1.x, center1.y, center1.z if sphere else 0)
+    c2 = Vector3d(center2.x, center2.y, center2.z if sphere else 0)
+
+    r1 = Radius_(rad1, name='rad1')
+    r2 = Radius_(rad2, name='rad2')
+
+    if r1 < r2:  # r1, r2 == R, r
+        c1, c2 = c2, c1
+        r1, r2 = r2, r1
+
+    try:
+        m = c2.minus(c1)
+        d = m.length
+        if d < max(r2 - r1, EPS):
+            raise ValueError(_near_concentric_)
+
+        # gap == d - (r1 + r2)
+        o = fsum_(-d, r1, r2)  # overlap == -gap
+        # compute intersections with c1 at (0, 0) and c2 at (d, 0), like
+        # <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>
+        if o > EPS:  # overlapping, r1, r2 == R, r
+            # x coord [0..d] of the "radical line", perpendicular to
+            # the x-axis line between both centers (0, 0) and (d, 0)
+            x = fsum_(d**2, r1**2, -(r2**2)) / (2 * d)
+            y = 1 - (x / r1)**2
+            if y > EPS:
+                y = r1 * sqrt(y)  # y == a / 2
+            elif y < 0:
+                raise ValueError(_invalid_)
+            else:  # abutting
+                y = 0
+        elif o < 0:
+            raise ValueError(_too_distant_fmt_ % (d,))
+        else:  # abutting
+            x, y = r1, 0
+
+    except (TypeError, ValueError) as x:
+        raise IntersectionError(center1=center1, rad1=r1,
+                                center2=center2, rad2=r2, txt=str(x))
+
+    u = m.unit()
+    if sphere:  # sphere radius and center
+        c = c1 if x < EPS  else (
+            c2 if x > EPS1 else c1.plus(u.times(x)))
+        t = _Vector(c.x, c.y, c.z), Radius(y)
+    elif y > 0:
+        t = _xVector(c1, u, x, y), _xVector(c1, u, x, -y)
+    else:  # abutting circles
+        t = _xVector(c1, u, x, 0)
+        t = t, t
+    return t
 
 
 def sumOf(vectors, Vector=Vector3d, **Vector_kwds):

@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.06.15'
+__version__ = '20.07.23'
 
 from base import geographiclib, TestsBase
 
@@ -108,6 +108,21 @@ class Tests(TestsBase):
             if y is not x:
                 self.test('intersections2', y.toStr(prec=6), '[0.025768, -0.798347, 0.601646]')  # 0.0257661, -0.798332, 0.601666
                 self.test('intersections2', y.toLatLon(height=0), '36.987868°N, 088.151309°W')  # 36.98931°N, 088.151425°W
+
+        try:
+            from pygeodesy.vector3d import intersections2
+
+            u = Vector3Tuple(-0.00323306, -0.7915, 0.61116)
+            v = Vector3Tuple(-0.0134464, -0.807775, 0.589337)
+            c, r = intersections2(u, 0.0312705, v, 0.0421788, sphere=True)
+            self.test('intersections2', c.toStr(prec=6), '(-0.0035, -0.791926, 0.610589)')
+            self.test('intersections2', r.toStr(prec=6), '0.031261', known=True)  # XXX G and g formats may add 1 decimal
+            v1, v2 = intersections2(u, 0.0312705, v, 0.0421788, sphere=False)
+            self.test('intersections2', v1.toStr(prec=6), '(-0.021973, -0.766467, 0)')
+            if v2 is not v1:
+                self.test('intersections2', v2.toStr(prec=6), '(0.027459, -0.797488, 0)')
+        except ImportError:
+            pass
 
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__

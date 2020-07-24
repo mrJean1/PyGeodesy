@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.azimuthal</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;azimuthal
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.azimuthal-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module azimuthal</h1><p class="nomargin-top"></p>
+<p>Azimuthal projection classes <a 
+  href="pygeodesy.azimuthal.Equidistant-class.html" 
+  class="link">Equidistant</a>, <a 
+  href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+  class="link">EquidistantKarney</a>, <a 
+  href="pygeodesy.azimuthal.Gnomonic-class.html" class="link">Gnomonic</a>,
+  <a href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
+  class="link">LambertEqualArea</a>, <a 
+  href="pygeodesy.azimuthal.Orthographic-class.html" 
+  class="link">Orthographic</a>, <a 
+  href="pygeodesy.azimuthal.Stereographic-class.html" 
+  class="link">Stereographic</a> and <a 
+  href="pygeodesy.azimuthal.AzimuthalError-class.html" 
+  class="link">AzimuthalError</a>.</p>
+  <p><a href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+  class="link">EquidistantKarney</a> uses ellipsoidal formulas and requires
+  <i>Charles Karney's</i> Python implementation of <a 
+  href="https://PyPI.org/project/geographiclib/" 
+  target="_top">GeographicLib</a> package to be installed.</p>
+  <p>Other azimuthal classes implement only (**) <a 
+  href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+  target="_top">Snyder's FORMULAS FOR THE SPHERE</a> and use those for any 
+  datum, spherical and ellipsoidal.  The radius used for the latter is the 
+  ellipsoid's <i>mean radius of curvature</i> at the latitude of the 
+  projection center point.  For further justification, see the first 
+  paragraph under <a href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+  target="_top">Snyder's FORMULAS FOR THE ELLIPSOID, page 197</a>.</p>
+  <p>Page numbers in <code>Snyder</code> references apply to <a 
+  href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" target="_top">John P.
+  Snyder, &quot;Map Projections -- A Working Manual&quot;, 1987</a></p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        20.07.21
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal._AzimuthalBase-class.html" class="summary-name">_AzimuthalBase</a><br />
+      (INTERNAL) Base class for azimuthal projections.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.AzimuthalError-class.html" class="summary-name">AzimuthalError</a><br />
+      An azimuthal <a href="pygeodesy.azimuthal.Equidistant-class.html" 
+        class="link">Equidistant</a>, <a 
+        href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+        class="link">EquidistantKarney</a>, <a 
+        href="pygeodesy.azimuthal.Gnomonic-class.html" 
+        class="link">Gnomonic</a>, <a 
+        href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
+        class="link">LambertEqualArea</a>, <a 
+        href="pygeodesy.azimuthal.Orthographic-class.html" 
+        class="link">Orthographic</a> or <a 
+        href="pygeodesy.azimuthal.Stereographic-class.html" 
+        class="link">Stereographic</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html" class="summary-name">Azimuthal7Tuple</a><br />
+      7-Tuple <code>(x, y, lat, lon, azimuth, scale, datum)</code>, in 
+        <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
+        <code>degrees180</code>, <code>degrees360</code>, 
+        <code>float</code> and <code>Datum</code> where <code>(x, y)</code>
+        is the projected, <code>(lat, lon)</code> the geodetic location, 
+        <code>azimuth</code> the azimuth direction off true North and 
+        <code>scale</code> is the projection scale, either (<code>1 / 
+        reciprocal</code> or <code>1</code> or <code>-1</code> in one case,
+        <a href="pygeodesy.azimuthal.Equidistant-class.html" 
+        class="link">Equidistant</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.Equidistant-class.html" class="summary-name">Equidistant</a><br />
+      Azimuthal equidistant projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 195-197</a> and <a 
+        href="https://MathWorld.Wolfram.com/AzimuthalEquidistantProjection.html"
+        target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.EquidistantKarney-class.html" class="summary-name">EquidistantKarney</a><br />
+      Azimuthal equidistant projection, a Python version of Karney's C++ 
+        class <a 
+        href="https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1AzimuthalEquidistant.html"
+        target="_top">AzimuthalEquidistant</a>, requiring package <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> to be installed.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.Gnomonic-class.html" class="summary-name">Gnomonic</a><br />
+      Azimuthal gnomonic projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 164-168</a> and <a 
+        href="https://MathWorld.Wolfram.com/GnomonicProjection.html" 
+        target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.LambertEqualArea-class.html" class="summary-name">LambertEqualArea</a><br />
+      Lambert-equal-area projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 185-187</a> and <a 
+        href="https://MathWorld.Wolfram.com/LambertAzimuthalEqual-AreaProjection.html"
+        target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.Orthographic-class.html" class="summary-name">Orthographic</a><br />
+      Orthographic projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 148-153</a> and <a 
+        href="https://MathWorld.Wolfram.com/OrthographicProjection.html" 
+        target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.Stereographic-class.html" class="summary-name">Stereographic</a><br />
+      Stereographic projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 157-160</a> and <a 
+        href="https://MathWorld.Wolfram.com/StereographicProjection.html" 
+        target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="equidistant"></a><span class="summary-sig-name">equidistant</span>(<span class="summary-sig-arg">lat0</span>,
+        <span class="summary-sig-arg">lon0</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      If Karney's <a href="https://PyPI.org/project/geographiclib" 
+      target="_top">geographiclib</a> package is installed, return an <a 
+      href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+      class="link">EquidistantKarney</a> otherwise an <a 
+      href="pygeodesy.azimuthal.Equidistant-class.html" 
+      class="link">Equidistant</a> instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.azimuthal">_ALL_LAZY.azimuthal</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jul 23 20:56:29 2020
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

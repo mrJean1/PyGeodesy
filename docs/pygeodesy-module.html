@@ -119,17 +119,18 @@
   target="_top">Georefs (WGRS)</a> and <a 
   href="https://WikiPedia.org/wiki/Global_Area_Reference_System" 
   target="_top">Garefs (GARS)</a>.</p>
-  <p>Other modules provide Lambert conformal conic projections and 
-  positions (from <a href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
-  target="_top">John P. Snyder, &quot;Map Projections -- A Working 
-  Manual&quot;, 1987, pp 107-109</a>), functions to clip a path or polygon 
-  of <code>LatLon</code> points using the <a 
+  <p>Other modules provide azimuthal projections and Lambert conformal 
+  conic projections and positions (from <a 
+  href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" target="_top">John P.
+  Snyder, &quot;Map Projections -- A Working Manual&quot;, 1987, pp 
+  107-109</a>), functions to clip a path or polygon of <code>LatLon</code> 
+  points using the <a 
   href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
   target="_top">Cohen&#8211;Sutherland</a> and the <a 
   href="https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm" 
   target="_top">Sutherland-Hodgman</a> methods, functions to <a 
   href="https://Bost.Ocks.org/mike/simplify" target="_top">simplify</a> or 
-  linearize a path of <code>LatLon</code> points (or a <a 
+  linearize a path of <code>tLon</code> points (or a <a 
   href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html"
   target="_top">NumPy array</a>), including implementations of the <a 
   href="https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm" 
@@ -284,7 +285,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.07.12
+        20.07.23
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -298,6 +299,21 @@
   <ul class="nomargin">
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.__main__-module.html">pygeodesy.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy-module.html" class="link">pygeodesy</a> 
         version, etc.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.azimuthal-module.html">pygeodesy.azimuthal</a></strong>: <em class="summary">Azimuthal projection classes <a 
+        href="pygeodesy.azimuthal.Equidistant-class.html" 
+        class="link">Equidistant</a>, <a 
+        href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+        class="link">EquidistantKarney</a>, <a 
+        href="pygeodesy.azimuthal.Gnomonic-class.html" 
+        class="link">Gnomonic</a>, <a 
+        href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
+        class="link">LambertEqualArea</a>, <a 
+        href="pygeodesy.azimuthal.Orthographic-class.html" 
+        class="link">Orthographic</a>, <a 
+        href="pygeodesy.azimuthal.Stereographic-class.html" 
+        class="link">Stereographic</a> and <a 
+        href="pygeodesy.azimuthal.AzimuthalError-class.html" 
+        class="link">AzimuthalError</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.bases-module.html">pygeodesy.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
         class="link" onclick="show_private();">latlonBase</a> instead.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Basic constants, definitions and functions.</em>    </li>
@@ -799,23 +815,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.vector3d.Vector3d-class.html" class="summary-name">Vector3d</a><br />
-      Generic 3-D vector manipulation.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.vector3d.VectorError-class.html" class="summary-name">VectorError</a><br />
-      <a href="pygeodesy.vector3d.Vector3d-class.html" 
-        class="link">Vector3d</a> or <code>*Nvector</code> issue.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.wgrs.Georef-class.html" class="summary-name">Georef</a><br />
       Georef class, a named c{str}.
     </td>
@@ -828,6 +827,25 @@
       World Geographic Reference System (WGRS) encode, decode or other <a
         href="pygeodesy.wgrs.Georef-class.html" class="link">Georef</a> 
         issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.AzimuthalError-class.html" class="summary-name">AzimuthalError</a><br />
+      An azimuthal <a href="pygeodesy.azimuthal.Equidistant-class.html" 
+        class="link">Equidistant</a>, <a 
+        href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+        class="link">EquidistantKarney</a>, <a 
+        href="pygeodesy.azimuthal.Gnomonic-class.html" 
+        class="link">Gnomonic</a>, <a 
+        href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
+        class="link">LambertEqualArea</a>, <a 
+        href="pygeodesy.azimuthal.Orthographic-class.html" 
+        class="link">Orthographic</a> or <a 
+        href="pygeodesy.azimuthal.Stereographic-class.html" 
+        class="link">Stereographic</a> issue.
     </td>
   </tr>
 <tr>
@@ -1053,6 +1071,31 @@
       Elliptic integral, function, convergence or other <a 
         href="pygeodesy.elliptic.Elliptic-class.html" 
         class="link">Elliptic</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.Equidistant-class.html" class="summary-name">Equidistant</a><br />
+      Azimuthal equidistant projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 195-197</a> and <a 
+        href="https://MathWorld.Wolfram.com/AzimuthalEquidistantProjection.html"
+        target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.EquidistantKarney-class.html" class="summary-name">EquidistantKarney</a><br />
+      Azimuthal equidistant projection, a Python version of Karney's C++ 
+        class <a 
+        href="https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1AzimuthalEquidistant.html"
+        target="_top">AzimuthalEquidistant</a>, requiring package <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> to be installed.
     </td>
   </tr>
 <tr>
@@ -1399,6 +1442,18 @@
         target="_top">RectBivariateSpline</a> or <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
         target="_top">interp2d</a> interpolation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.Gnomonic-class.html" class="summary-name">Gnomonic</a><br />
+      Azimuthal gnomonic projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 164-168</a> and <a 
+        href="https://MathWorld.Wolfram.com/GnomonicProjection.html" 
+        target="_top">MathWorld-Wolfram</a>.
     </td>
   </tr>
 <tr>
@@ -1906,6 +1961,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.azimuthal.LambertEqualArea-class.html" class="summary-name">LambertEqualArea</a><br />
+      Lambert-equal-area projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 185-187</a> and <a 
+        href="https://MathWorld.Wolfram.com/LambertAzimuthalEqual-AreaProjection.html"
+        target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.units.Lat-class.html" class="summary-name">Lat</a><br />
       Named <code>float</code> representing a latitude in 
         <code>degrees</code>.
@@ -2031,6 +2098,18 @@
         <a href="pygeodesy.osgr.OSGRError-class.html" class="summary-name">OSGRError</a><br />
       Ordinance Survey Grid References (OSGR) parse or other <a 
         href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.Orthographic-class.html" class="summary-name">Orthographic</a><br />
+      Orthographic projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 148-153</a> and <a 
+        href="https://MathWorld.Wolfram.com/OrthographicProjection.html" 
+        target="_top">MathWorld-Wolfram</a>.
     </td>
   </tr>
 <tr>
@@ -2198,6 +2277,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.azimuthal.Stereographic-class.html" class="summary-name">Stereographic</a><br />
+      Stereographic projection for the sphere**, see <a 
+        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        target="_top">Snyder, pp 157-160</a> and <a 
+        href="https://MathWorld.Wolfram.com/StereographicProjection.html" 
+        target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.units.Str-class.html" class="summary-name">Str</a><br />
       Named <code>str</code>.
     </td>
@@ -2279,6 +2370,23 @@
     </td><td class="summary">
         <a href="pygeodesy.utm.Utm-class.html" class="summary-name">Utm</a><br />
       Universal Transverse Mercator (UTM) coordinate.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.vector3d.Vector3d-class.html" class="summary-name">Vector3d</a><br />
+      Generic 3-D vector manipulation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.vector3d.VectorError-class.html" class="summary-name">VectorError</a><br />
+      <a href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a> or <code>*Nvector</code> issue.
     </td>
   </tr>
 <tr>
@@ -2473,6 +2581,41 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.points-module.html#areaOf" class="link">areaOf</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="asin1"></a><span class="summary-sig-name">asin1</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      Return <i class="math">math.asin(max(-1, min(1, x)))</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#atan2d" class="summary-sig-name">atan2d</a>(<span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">x</span>)</span><br />
+      Compute <code>atan2(y, x)</code> to <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -3380,6 +3523,31 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="equidistant"></a><span class="summary-sig-name">equidistant</span>(<span class="summary-sig-arg">lat0</span>,
+        <span class="summary-sig-arg">lon0</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      If Karney's <a href="https://PyPI.org/project/geographiclib" 
+      target="_top">geographiclib</a> package is installed, return an <a 
+      href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+      class="link">EquidistantKarney</a> otherwise an <a 
+      href="pygeodesy.azimuthal.Equidistant-class.html" 
+      class="link">Equidistant</a> instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#equirectangular" class="summary-sig-name">equirectangular</a>(<span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
@@ -4087,7 +4255,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa8480d9e50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd52f674a50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -4383,6 +4551,30 @@
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the string representation of an instantiation.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">center1</span>,
+        <span class="summary-sig-arg">rad1</span>,
+        <span class="summary-sig-arg">center2</span>,
+        <span class="summary-sig-arg">rad2</span>,
+        <span class="summary-sig-arg">sphere</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Compute the intersection of two spheres or circles, each defined by a
+      center point and radius.</td>
           <td align="right" valign="top">
             
             
@@ -6780,7 +6972,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.7.12'"><code class="variable-quote">'</code><code class="variable-string">20.7.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.7.23'"><code class="variable-quote">'</code><code class="variable-string">20.7.23</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7600,6 +7792,31 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         class="link">sphericalTrigonometry.areaOf</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
         class="link">ellipsoidalKarney.areaOf</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="atan2d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">atan2d</span>&nbsp;(<span class="sig-arg">y</span>,
+        <span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute <code>atan2(y, x)</code> to <code>degrees</code>.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Karney's C++ function <a 
+        href="https://GeographicLib.sourceforge.io/html/classGeographicLib_1_1Math.html"
+        target="_top">Math.atan2d</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -10718,7 +10935,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa8480d9e50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd52f674a50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -11303,6 +11520,79 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Representation (<code>str</code>).</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="intersections2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">intersections2</span>&nbsp;(<span class="sig-arg">center1</span>,
+        <span class="sig-arg">rad1</span>,
+        <span class="sig-arg">center2</span>,
+        <span class="sig-arg">rad2</span>,
+        <span class="sig-arg">sphere</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the intersection of two spheres or circles, each defined by a 
+  center point and radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>center1</code></strong> - Center of the first sphere or circle (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> 
+          or<code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>rad1</code></strong> - Radius of the first sphere or circle (same units as the 
+          <b><code>center1</code></b> coordinates).</li>
+        <li><strong class="pname"><code>center2</code></strong> - Center of the second sphere or circle (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> 
+          or<code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>rad2</code></strong> - Radius of the second sphere or circle (same units as the 
+          <b><code>center1</code></b> and <b><code>center2</code></b> 
+          coordinates).</li>
+        <li><strong class="pname"><code>sphere</code></strong> - If <code>True</code> compute the center and radius of the 
+          intersection of two spheres.  If <code>False</code>, ignore the 
+          <code>z</code>-component and compute the intersection of two 
+          circles (<code>bool</code>).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
+          <code>None</code> for <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>.</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <b><code>Vector=None</code></b>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple of the <code>center</code> and <code>radius</code> of the
+          intersection of the spheres if <b><code>sphere</code></b> is 
+          <code>True</code>.  The <code>radius</code> is <code>0.0</code> 
+          for abutting spheres.  Otherwise, a 2-tuple of the intersection 
+          points of two circles.  For abutting circles, both intersection 
+          points are the same <b><code>Vector</code></b> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, invalid or non-intersecting spheres or circles.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>rad1</code></b> or <b><code>rad2</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html"
+        target="_top">Sphere-Sphere</a> and <a 
+        href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html"
+        target="_top">circle-circle</a> intersections.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="isNumpy2"></a>
 <div>
@@ -16204,7 +16494,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Jul 13 10:43:50 2020
+    Generated by Epydoc 3.0.1 on Thu Jul 23 20:56:29 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

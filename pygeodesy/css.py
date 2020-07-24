@@ -12,10 +12,11 @@ from pygeodesy.basics import property_RO, _xinstanceof, _xkwds, \
                             _xsubclassof, _xzipairs
 from pygeodesy.datum import Datums
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.errors import _incompatible, _ValueError
-from pygeodesy.interns import _C_, _COMMA_SPACE_, _datum_, _E_, _easting_, \
-                              _h_, _m_, _N_, _name_, NN, _northing_, _lat_, \
-                              _lat0_, _lon_, _lon0_, _SPACE_, _SQUARE_
+from pygeodesy.errors import _datum_datum, _ValueError, _xellipsoidal
+from pygeodesy.interns import _azimuth_, _C_, _COMMA_SPACE_, _datum_, \
+                              _E_, _easting_, _h_, _lat_, _lat0_, _lon_, \
+                              _lon0_, _m_, _N_, _name_, NN, _northing_, \
+                              _reciprocal_, _SPACE_, _SQUARE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import EasNor2Tuple, EasNor3Tuple, \
                             LatLon2Tuple, LatLon4Tuple, \
@@ -26,11 +27,9 @@ from pygeodesy.units import Bearing, Easting, Height, Lat, Lon, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.07.08'
+__version__ = '20.07.19'
 
-_azimuth_        = 'azimuth'
 _CassiniSoldner0 =  None  # default projection
-_reciprocal_     = 'reciprocal'
 
 
 def _CassiniSoldner(cs0):
@@ -86,7 +85,7 @@ class CassiniSoldner(_NamedBase):
             self.name = name
 
         if datum and datum != self._datum:
-            self._datum = datum
+            self._datum = _xellipsoidal(datum=datum)
 
         self.reset(lat0, lon0)
 
@@ -101,9 +100,15 @@ class CassiniSoldner(_NamedBase):
 
            @raise CSSError: Ellipsoidal mismatch of B{C{latlon}} and this projection.
         '''
-        C, E = self.datum.ellipsoid, latlon.datum.ellipsoid
-        if E != C:
-            raise CSSError(E.named2, txt=_incompatible(C.named2))
+        _datum_datum(self.datum, latlon.datum, Error=CSSError)
+
+    @property_RO
+    def equatoradius(self):
+        '''Get the geodesic's equatorial (major) radius, semi-axis (C{meter}).
+        '''
+        return self.geodesic.a
+
+    majoradius = equatoradius
 
     @property_RO
     def flattening(self):
@@ -199,7 +204,9 @@ class CassiniSoldner(_NamedBase):
 
            @raise CSSError: Ellipsoidal mismatch of B{C{latlon0}} and this projection.
 
-           @raise TypeError: Invalid B{C{latlon0}}.
+           @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
+
+           @raise UnitError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
         _xinstanceof(_LLEB, LatLon4Tuple, LatLon2Tuple, latlon0=latlon0)
         if hasattr(latlon0, _datum_):
@@ -212,17 +219,15 @@ class CassiniSoldner(_NamedBase):
         '''
         return self._latlon0.lon
 
-    @property_RO
-    def majoradius(self):
-        '''Get the geodesic's major (equatorial) radius (C{float}).
-        '''
-        return self.geodesic.a
-
     def reset(self, lat0, lon0):
         '''Set or reset the center point of this Cassini-Soldner projection.
 
            @arg lat0: Center point latitude (C{degrees90}).
            @arg lon0: Center point longitude (C{degrees180}).
+
+           @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
+
+           @raise UnitError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
         g, M = self.datum.ellipsoid._geodesic_Math2
 

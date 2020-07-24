@@ -27,16 +27,17 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '20.07.12'
+__version__ = '20.07.23'
 
 
 class CartesianBase(Vector3d):
     '''(INTERNAL) Base class for ellipsoidal and spherical C{Cartesian}.
     '''
-    _datum = None        #: (INTERNAL) L{Datum}, to be overriden.
-    _Ecef  = EcefKarney  #: (INTERNAL) Preferred C{Ecef...} class.
-    _e9t   = None        #: (INTERNAL) Cached toEcef (L{Ecef9Tuple}).
-    _v4t   = None        #: (INTERNAL) Cached toNvector (L{Vector4Tuple}).
+    _datum  = None        #: (INTERNAL) L{Datum}, to be overriden.
+    _Ecef   = EcefKarney  #: (INTERNAL) Preferred C{Ecef...} class.
+    _e9t    = None        #: (INTERNAL) Cached toEcef (L{Ecef9Tuple}).
+    _height = 0           #: (INTERNAL) Height (L{Height}).
+    _v4t    = None        #: (INTERNAL) Cached toNvector (L{Vector4Tuple}).
 
     def __init__(self, xyz, y=None, z=None, datum=None, ll=None, name=NN):
         '''New C{Cartesian...}.
@@ -53,8 +54,10 @@ class CartesianBase(Vector3d):
                              coordinate or B{C{xyz}} not an L{Ecef9Tuple},
                              L{Vector3Tuple} or L{Vector4Tuple}.
         '''
-        x, y, z, _, d, n = _xyzhdn6(xyz, y, z, None, datum, ll)
+        x, y, z, h, d, n = _xyzhdn6(xyz, y, z, None, datum, ll)
         Vector3d.__init__(self, x, y, z, ll=ll, name=name or n)
+        if h:
+            self._height = h
         if d:
             self.datum = d
 
@@ -137,8 +140,14 @@ class CartesianBase(Vector3d):
                 raise _IsnotError(_ellipsoidal_, datum=datum)
             elif d.isSpherical and not datum.isSpherical:
                 raise _IsnotError(_spherical_, datum=datum)
-        self._update(datum != d)
+            self._update(datum != d)
         self._datum = datum
+
+    @property_RO
+    def height(self):
+        '''Get the height (C{meter}).
+        '''
+        return self._height
 
     @property_RO
     def isEllipsoidal(self):
@@ -238,7 +247,7 @@ class CartesianBase(Vector3d):
             self._e9t = self._xnamed(r)
         return self._e9t
 
-    def toLatLon(self, datum=None, LatLon=None, **LatLon_kwds):
+    def toLatLon(self, datum=None, LatLon=None, **LatLon_kwds):  # see .ecef.Ecef9Tuple.convertDatum
         '''Convert this cartesian to a geodetic (lat-/longitude) point.
 
            @kwarg datum: Optional datum (L{Datum}) or C{None}.

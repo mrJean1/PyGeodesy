@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.06.27'
+__version__ = '20.07.23'
 
 
 def _c2(*names):
@@ -46,24 +46,24 @@ def _version():
                 return '.'.join(map(str, map(int, v.split('.'))))
 
 
-_KeyWords = ('altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'bearing',
+_KeyWords = ('altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'azimuthal', 'bearing',
              'cartesian', 'Cassini', 'Cassini-Soldner', 'clip', 'Cohen',
              'Cohen-Sutherland', 'conic', 'cosines-law', 'coverage', 'curvature',
              'datum', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'ECEF', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
-             'equirectangular', 'ETM', 'ETRF', 'Euclidean', 'ExactTM',
+             'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF', 'Euclidean', 'ExactTM',
              'fmath', 'Forsythe', 'fractional', 'Fréchet',
              'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
              'geographiclib', 'geohash', 'geoid', 'geoidHeight',
-             'GeoidHeights', 'georef',
+             'GeoidHeights', 'georef', 'gnomonic',
              'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
-             'IDW', 'interpolate', 'intersect', 'Inverse-Distance-Weighting', 'ITRF',
+             'IDW', 'interpolate', 'intersect', 'intersections', 'Inverse-Distance-Weighting', 'ITRF',
              'Karney', 'Krueger', 'Krüger',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh', 'linearize',
              'LocalCartesian', 'longitude',
              'Mercator', 'MGRS',
              'nearest', 'numpy', 'n-vector', 'Nvector',
-             'OSGR',
+             'orthographic', 'OSGR',
              'perimeter', 'Peucker', 'polar', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker',

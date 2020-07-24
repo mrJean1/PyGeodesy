@@ -122,12 +122,13 @@ from pygeodesy.fmath import _2_3rd, cbrt, cbrt2, fdot, fpowers, Fsum, \
                              fsum_, hypot1, hypot2, sqrt3  # PYCHOK _2_3rd
 from pygeodesy.interns import _COMMA_SPACE_, _ellipsoid_, _lat0_, _lat1_, \
                               _lon0_, _lon1_, _n_a_, _name_, NN, \
-                              _transform_, _x_
+                              _transform_, _UNDERSCORE_, _x_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import Distance2Tuple, _NamedEnum, _NamedEnumItem, \
                            _NamedTuple, Vector3Tuple
 from pygeodesy.streprs import _e, instr, _Fmt, fstr
-from pygeodesy.units import Bearing_, Lam_, Lat, Phi, Phi_, Radius, Scalar
+from pygeodesy.units import Bearing_, Lam_, Lat, Phi, Phi_, \
+                            Radius, Radius_, Scalar
 from pygeodesy.utily import degrees360, degrees2m, m2degrees, \
                             m2km, m2NM, m2SM
 
@@ -149,7 +150,7 @@ R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius
 # R_ = Radius(6372797.560856,  name='R_')   #: XXX some other earth radius???
 
 __all__ = _ALL_LAZY.datum
-__version__ = '20.07.12'
+__version__ = '20.07.17'
 
 _Flts = {}               # floats cache, deleted below
 _TOL  = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -245,12 +246,12 @@ class Ellipsoid(_NamedEnumItem):
            @raise ValueError: Invalid B{C{a}}, B{C{b}} or B{C{f_}}.
         '''
         self._a = a = _flt(a)  # major half-axis in meter
-        if not b:  # get b from a and f_, minor half-axis in meter
-            self._b = b = _flt(a * (f_ - 1) / _flt(f_))
-        else:  # get f_ from a and b if not spherical
+        if b:  # get f_ from a and b if not spherical
             self._b = b = _flt(b)
             if not f_ and a > b:
                 f_ = a / (a - b)
+        else:  # get b from a and f_, minor half-axis in meter
+            self._b = b = _flt(a * (f_ - 1) / _flt(f_))
 
         if f_ > 0 and a > b > 0:
             self._f_ = f_ = _flt(f_)  # inverse flattening
@@ -1363,6 +1364,15 @@ class Datum(_NamedEnumItem):
         '''Get this datum's transform (L{Transform}).
         '''
         return self._transform
+
+
+def _spherical_datum(radius, name=NN):
+    '''(INTERNAL) Create a spherical ellipsoid and datum.
+    '''
+    n = _UNDERSCORE_ + name
+    r = Radius_(radius)
+    E = Ellipsoid(r, r, 0, name=n)
+    return Datum(E, Transforms.WGS84, name=n)
 
 
 Datums = _NamedEnum('Datums', Datum)      #: Registered datums.

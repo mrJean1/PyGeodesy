@@ -18,12 +18,12 @@ from pygeodesy.basics import EPS, PI2, PI_2, PI_4, R_M, \
                              isscalar, map1, _xkwds
 from pygeodesy.errors import CrossError, crosserrors, IntersectionError, \
                             _ValueError, _xkwds_get
-from pygeodesy.fmath import acos1, favg, fdot, fmean, fsum, fsum_
+from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, vincentys_
 from pygeodesy.interns import _1_, _2_, _coincident_, _colinear_, _end_, \
                               _fraction_, _item_sq, _near_concentric_, \
                               _not_convex_, _points_, _start_, _start1_, \
-                              _start2_, _too_distant_
+                              _start2_, _too_distant_fmt_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
                            _xnamed
@@ -32,15 +32,16 @@ from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase, _rads3
 from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
-from pygeodesy.utily import degrees90, degrees180, degrees2m, iterNumpy2, \
-                            radiansPI2, sincos2, tan_2, unrollPI, wrapPI
+from pygeodesy.utily import acos1, degrees90, degrees180, degrees2m, \
+                            iterNumpy2, radiansPI2, sincos2, tan_2, \
+                            unrollPI, wrapPI
 from pygeodesy.vector3d import Vector3d, sumOf
 
 from math import asin, atan2, copysign, cos, degrees, hypot, \
                  radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.07.07'
+__version__ = '20.07.21'
 
 
 def _destination2(a, b, r, t):
@@ -451,13 +452,13 @@ class LatLon(LatLonSphericalBase):
                       see B{C{radius}}).
            @kwarg radius: Mean earth radius (C{meter} or C{None} if both
                           B{C{rad1}} and B{C{rad2}} are given in C{radians}).
-           @kwarg height: Optional height for the intersection point,
+           @kwarg height: Optional height for the intersection points,
                           overriding the mean height (C{meter}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: 2-Tuple of the intersection points, each a L{LatLon}
-                    instance.  The intersection points are the same
-                    instance for abutting circles.
+                    instance.  For abutting circles, the intersection
+                    points are the same instance.
 
            @raise IntersectionError: Concentric, antipodal, invalid or
                                      non-intersecting circles.
@@ -911,7 +912,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
                   see B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter} or C{None} if both
                       B{C{rad1}} and B{C{rad2}} are given in C{radians}).
-       @kwarg height: Optional height for the intersection point,
+       @kwarg height: Optional height for the intersection points,
                       overriding the mean height (C{meter}).
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg LatLon: Optional class to return the intersection
@@ -921,8 +922,8 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or L{LatLon3Tuple}C{(lat, lon, height)} if
-                B{C{LatLon}} is C{None}.  The intersection points are
-                the same instance for abutting circles.
+                B{C{LatLon}} is C{None}.  For abutting circles, the
+                intersection points are the same instance.
 
        @raise IntersectionError: Concentric, antipodal, invalid or
                                  non-intersecting circles.
@@ -958,7 +959,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
                                 center2=center2, rad2=rad2, txt=_near_concentric_)
 
     x = fsum_(r1, r2, -d)
-    if x > EPS:
+    if x > EPS:  # potential intersection(s)
         try:
             sd, cd, s1, c1, _, c2 = sincos2(d, r1, r2)
             x = sd * s1
@@ -969,14 +970,15 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
             raise IntersectionError(center1=center1, rad1=rad1,
                                     center2=center2, rad2=rad2)
     elif x < 0:
+        x = _too_distant_fmt_ % (d * radius)
         raise IntersectionError(center1=center1, rad1=rad1,
-                                center2=center2, rad2=rad2, txt=_too_distant_)
+                                center2=center2, rad2=rad2, txt=x)
 
     b = bearing_(a1, b1, a2, b2, final=False, wrap=wrap)
     if height is None:
-        h = fmean((center1.height, center2.height))
+        h = favg(center1.height, center2.height)
     else:
-        Height(height)
+        h = Height(height)
     if abs(x) > EPS:
         return _destination1(b + x), _destination1(b - x)
     else:  # abutting circles

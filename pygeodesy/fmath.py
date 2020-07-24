@@ -22,11 +22,11 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Int_
 
-from math import acos, copysign, hypot, sqrt  # pow
+from math import copysign, hypot, sqrt  # pow
 from operator import mul as _mul_
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.07.08'
+__version__ = '20.07.19'
 
 _not_finite_ = 'not finite'
 
@@ -458,12 +458,6 @@ class Fpolynomial(Fsum):
         while cs:
             xp *= x
             self.fadd_(xp * cs.pop(0))
-
-
-def acos1(x):
-    '''Return M{math.acos(max(-1, min(1, x)))}.
-    '''
-    return acos(max(-1.0, min(1.0, x)))
 
 
 def cbrt(x):
