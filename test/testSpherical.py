@@ -10,7 +10,7 @@ from base import RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
-from pygeodesy import EPS, F_D, F_DMS, PI_4, R_M, \
+from pygeodesy import F_D, F_DMS, PI_4, R_M, \
                       classname, IntersectionError, latlonDMS, lonDMS
 from math import radians
 
@@ -72,12 +72,12 @@ class Tests(_TestsLL, _TestsV):
         p = LatLon(+30, 0)
         q = LatLon(-30, 0)  # identical, zero lon
         i = p.intersection(135, q, 45)
-        self.test('intersection4', i, '00.0°N, 026.565051°E', known=abs(i.lat) < EPS)
+        self.test('intersection4', i, '00.0°N, 026.565051°E', known=abs(i.lat) < 1e-6)
 
         p = LatLon(0, -30)
         q = LatLon(0, +30)  # identical, zero lat
         i = p.intersection(45, q, 315)
-        self.test('intersection5', i, '26.565051°N, 000.0°W', known=abs(i.lon) < EPS)
+        self.test('intersection5', i, '26.565051°N, 000.0°W', known=abs(i.lon) < 1e-6)
 
         # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
         STN = LatLon(51.8853, 0.2545)
