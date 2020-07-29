@@ -4,16 +4,17 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '20.06.15'
+__version__ = '20.07.29'
 
 from base import TestsBase
 
 from pygeodesy import R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineForsytheAndoyerLambert as _cosineForsythe_, \
                       cosineLaw, equirectangular, Datums, euclidean, \
-                      flatLocal, flatPolar, haversine, heightOf, \
-                      horizon, hubeny, isantipode, isantipode_, \
-                      map1, parseDMS, thomas, vincentys
+                      flatLocal, flatPolar, formy, haversine, heightOf, \
+                      horizon, hubeny, IntersectionError, intersections2, \
+                      isantipode, isantipode_, latlonDMS, map1, parseDMS, \
+                      thomas, vincentys
 
 from math import radians
 
@@ -122,6 +123,28 @@ class Tests(TestsBase):
         self.testDistances2('9', parseDMS('75 57 42.053'), 0,
                                  parseDMS('17  5 21.296'), parseDMS('85 31 54.631'),
                                  x=8044806.076, datum=Datums.NAD27)  # Clarke1866 ellipsoid
+
+        self.test(intersections2.__name__, intersections2.__module__, formy.__name__, nl=1)
+        for datum in (None, R_M, Datums.WGS84):
+            self.testIntersections2(datum)
+
+    def testIntersections2(self, datum):
+        # centers at 2 opposite corners of a "square" and
+        # radius equal to length of square side, expecting
+        # the other 2 as the intersections ... but the
+        # longitudes are farther and farther out
+        for d in (1, 2, 5, 10, 20, 30, 40):
+            r = radians(2 * d) * R_M
+            n = 'intersection2 (%s) %d' % (getattr(datum, 'name', datum), d)
+            try:
+                t = intersections2(d, -d, r, -d, d, r, datum=datum)
+                if t[0] is t[1]:
+                    s = latlonDMS(t[:1], prec=4, sep=', ') + ' abutting'
+                else:
+                    s = latlonDMS(t, prec=4, sep=', ')
+                self.test(n, s, s)
+            except IntersectionError as x:
+                self.test(n, str(x), '2-tuple', known=True)
 
 
 if __name__ == '__main__':

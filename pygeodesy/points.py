@@ -52,7 +52,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.07.08'
+__version__ = '20.07.24'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -154,13 +154,13 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         return _N_vector_(*latlon2n_xyz(self.lat, self.lon), h=self.height)
 
     def others(self, other, name=_other_, up=1):  # see .named._namedBase.others
-        '''Check this and an other instance for type compatiblility.
+        '''Check this and an other instance for type compatibility.
 
            @arg other: The other instance (any C{type}).
            @kwarg name: Optional, name for other (C{str}).
            @kwarg up: Number of call stack frames up (C{int}).
 
-           @return: C{None}.
+           @return: The B{C{other}} if compatible.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
@@ -168,6 +168,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
                 (hasattr(other, _lat_) and hasattr(other, _lon_))):
             n = _callname(name, classname(self), self.name, up=up + 1)
             raise _TypeError(name, other, txt=_incompatible(n))
+        return other
 
     @property_RO
     def philam(self):

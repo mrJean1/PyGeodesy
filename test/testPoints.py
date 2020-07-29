@@ -4,7 +4,7 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '20.03.26'
+__version__ = '20.07.24'
 
 from base import TestsBase
 
@@ -171,7 +171,7 @@ class Tests(TestsBase):
             t = p.others(q)
         except Exception as x:
             t = str(x)
-        self.test('others', t, None)
+        self.test('others', t, q)
 
         self.testCopy(p)
 

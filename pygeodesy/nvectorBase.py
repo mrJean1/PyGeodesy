@@ -35,7 +35,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 
 __all__ = (_NorthPole_, _SouthPole_,  # constants
            _sumOf_)  # functions
-__version__ = '20.07.08'
+__version__ = '20.07.24'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -415,6 +415,8 @@ class LatLonNvectorBase(LatLonBase):
            @kwarg name: Optional, other's name (C{str}).
            @kwarg up: Number of call stack frames up (C{int}).
 
+           @return: The B{C{other}} if compatible.
+
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         try:
@@ -422,6 +424,7 @@ class LatLonNvectorBase(LatLonBase):
         except TypeError:
             if not isinstance(other, NvectorBase):
                 raise
+        return other
 
     def toNvector(self, Nvector=NvectorBase, **Nvector_kwds):  # PYCHOK signature
         '''Convert this point to C{Nvector} components, I{including

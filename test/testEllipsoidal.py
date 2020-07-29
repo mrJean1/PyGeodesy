@@ -4,15 +4,17 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.07.23'
+__version__ = '20.07.29'
 
-from base import coverage, geographiclib
+from base import coverage, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
-from pygeodesy import EPS, F_D, F_D__, F_DMS, bearingDMS, compassDMS, \
-                      Datums, ellipsoidalVincenty as V, fstr, \
-                      m2SM, normDMS, VincentyError, wrap360
+from pygeodesy import EPS, F_D, F_D__, F_DMS, F__F, bearingDMS, compassDMS, \
+                      Datums, ellipsoidalVincenty as V, fstr, IntersectionError, \
+                      latlonDMS, m2SM, normDMS, PI, PI_4, R_M, VincentyError, wrap360
+
+from math import radians
 
 
 class Tests(_TestsLL, _TestsV):
@@ -467,22 +469,22 @@ class Tests(_TestsLL, _TestsV):
 
         # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-ellipsoidal-vincenty-tests.js>
         # ... Test case (quadrants), using WGS-84
-        for t in (( 30, 30, 60, 60),
-                  ( 60, 60, 30, 30),
-                  ( 30, 60, 60, 30),
-                  ( 60, 30, 30, 60),
-                  ( 30,-30, 60,-60),
-                  ( 60,-60, 30,-30),
-                  ( 30,-60, 60,-30),
-                  ( 60,-30, 30,-60),
-                  (-30,-30,-60,-60),
-                  (-60,-60,-30,-30),
-                  (-30,-60,-60,-30),
-                  (-60,-30,-30,-60),
-                  (-30, 30,-60, 60),
-                  (-60, 60,-30, 30),
-                  (-30, 60,-60, 30),
-                  (-60, 30,-30, 60)):
+        for t in (( 30, 30,  60, 60),
+                  ( 60, 60,  30, 30),
+                  ( 30, 60,  60, 30),
+                  ( 60, 30,  30, 60),
+                  ( 30,-30,  60,-60),
+                  ( 60,-60,  30,-30),
+                  ( 30,-60,  60,-30),
+                  ( 60,-30,  30,-60),
+                  (-30,-30, -60,-60),
+                  (-60,-60, -30,-30),
+                  (-30,-60, -60,-30),
+                  (-60,-30, -30,-60),
+                  (-30, 30, -60, 60),
+                  (-60, 60, -30, 30),
+                  (-30, 60, -60, 30),
+                  (-60, 30, -30, 60)):
             p = LatLon(t[0], t[1], datum=d)
             q = LatLon(t[2], t[3], datum=d)
             m = p.distanceTo(q)
@@ -521,11 +523,107 @@ class Tests(_TestsLL, _TestsV):
         t = p.distanceTo3(q)
         self.test('NOAAexample4', _dfr(*t), '145239.0603, 114 29 26.9586, 295 21 32.6566')  # Ell Dist, FAZ, BAZ
 
+    def testIntersections2(self, m, E, K):
+
+        n = 'intersections2 (%s)' % (E.__name__,)
+
+        def _100p2(t, r, *s):
+            e = max(abs(a.distanceTo(b) - r) for a in s
+                                             for b in t) / r
+            return e, '%g (%% of radius)' % (e,)  # percentages
+
+        def _x(g_K):
+            return '36.9879N, 88.1564W, 38.2441N, 92.3835W' if g_K else \
+                   '36.9892N, 88.152W, 38.2377N, 92.39W'
+                 # '36.9893N, 88.151W, 38.2384N, 92.3905W'  # PYCHOK cf. sph.Trig
+
+        # <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>
+        p = m.LatLon(37.673442, -90.234036)  # (-0.00323306, -0.7915,   0.61116)
+        q = m.LatLon(36.109997, -90.953669)  # (-0.0134464,  -0.807775, 0.589337)
+
+        t = p.intersections2(0.0312705 * R_M, q, 0.0421788 * R_M)  # radians to meter
+        self.test(n, latlonDMS(t, form=F__F, prec=4, sep=', '), _x(geographiclib))
+
+        t = m.intersections2(p, 0.0312705 * R_M, q, 0.0421788 * R_M,  # radians to meter
+                             equidistant=E, LatLon=m.LatLon)
+        self.test(n, latlonDMS(t, form=F__F, prec=4, sep=', '), _x(K))
+
+        r = PI_4 * R_M
+        t = m.intersections2(m.LatLon(30, 0), r, m.LatLon(-30, 0), r, equidistant=E, LatLon=m.LatLon)
+        e, s = _100p2(t, r, q, p)
+        self.test(n, latlonDMS(t, form=F__F, prec=4, sep=', '), '0.0N, 35.3478W, 0.0S, 35.3478E' if K
+                                                           else '0.0S, 35.4073W, 0.0S, 35.4073E', known=True)  # 0.0
+                                                              # '0.0N, 35.2644W, 0.0N, 35.2644E'  # PYCHOK cf. sph.Trig
+        self.test(n, s, s)
+
+        t = m.intersections2(m.LatLon(0, 40), r, m.LatLon(0, -40), r, equidistant=E, LatLon=m.LatLon)
+        e, s = _100p2(t, r, q, p)
+        self.test(n, latlonDMS(t, form=F__F, prec=4, sep=', '), '22.657N, 0.0E, 22.657S, 0.0E' if K
+                                                           else '22.756N, 0.0W, 22.756S, 0.0W', known=True)  # 0.0
+                                                              # '22.622N, 0.0E, 22.622S, 0.0E'  # PYCHOK cf. sph.Trig
+        self.test(n, s, s)
+
+        r = R_M * PI / 3
+        t = m.intersections2(m.LatLon(30, 30), r, m.LatLon(-30, -30), r, equidistant=E, LatLon=m.LatLon)
+        e, s = _100p2(t, r, q, p)
+        self.test(n, latlonDMS(t, form=F__F, prec=4, sep=', '), '29.4898N, 40.1785W, 29.4898S, 40.1785E' if K
+                                                           else '29.2359N, 40.2625W, 29.2359S, 40.2625E', knonw=e < 1.5)
+                                                              # '14.6128N, 26.1109W, 14.6128S, 26.1109E'  # PYCHOK cf. sph.Trig
+        self.test(n, s, s)
+
+        r = R_M * PI / 4
+        t = m.intersections2(m.LatLon(0, 0), r, m.LatLon(0, 22.567), r / 2, equidistant=E, LatLon=m.LatLon)
+        e, s = _100p2(t, r, q, p)
+        self.test(n, latlonDMS(t, form=F__F, prec=4, sep=', '), '2.7402S, 44.885E, 2.7402N, 44.885E' if K
+                                                           else '1.1557S, 45.0894E, 1.1557N, 45.0894E', knonw=e < 2.0)
+                                                              # '0.000001S, 45.0E, 0.000001N, 45.0E'  # PYCHOK cf. sph.Trig
+        self.test(n, s, s)
+
+        # centers at 2 opposite corners of a "square" and
+        # radius equal to length of square side, expecting
+        # the other 2 as the intersections ... but the
+        # longitudes are farther and farther out
+        for d in range(5, 66, 5):
+            p = m.LatLon(d, -d)
+            q = m.LatLon(-d, d)
+            r = radians(2 * d) * R_M
+            d = '%s %d' % (n, d)
+            try:
+                t = m.intersections2(p, r, q, r, equidistant=E, LatLon=m.LatLon)
+                if t[0] is t[1]:
+                    s = latlonDMS(t[:1], form=F__F, prec=4, sep=', ') + ' abutting'
+                else:
+                    s = latlonDMS(t, form=F__F, prec=4, sep=', ')
+                self.test(d, s, s)
+                _, s = _100p2(t, r, q, p)
+                self.test(d, s, s)
+            except IntersectionError as x:  # XXX no convergence after 55 degrees
+                self.test(n, str(x), '2-tuple', known=True)
+
+        n += ' R'
+        # courtesy Samuel Čavoj <https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
+        R = RandomLatLon(m.LatLon, 90, 90)  # +/- 45
+        r = R()
+        for _ in range(8):
+            p, q = R(), R()
+            try:
+                t = m.intersections2(p, p.distanceTo(r),
+                                     q, q.distanceTo(r), equidistant=E, LatLon=m.LatLon)
+                s = latlonDMS(t, form=F__F, prec=4, sep=', ')
+                self.test(n, s, s)
+                d = min(i.distanceTo(r) for i in t)  # PYCHOK test attr?
+                if d > 5e-5:  # XXX way off for Equidistant, OK for -Karney
+                    raise IntersectionError(d=d, fmt_name_value='%s (%g)', txt='TBD')
+                self.test(n, d, d, fmt='%g')
+            except IntersectionError as x:
+                self.test(n, str(x), 'd < 5e-5', known=(not K) or True)  # too distant, near concetric, etc.
+
 
 if __name__ == '__main__':
 
     from pygeodesy import ellipsoidalKarney as K, \
-                          ellipsoidalNvector as N
+                          ellipsoidalNvector as N, \
+                          Equidistant, EquidistantKarney
 
     t = Tests(__file__, __version__)
 
@@ -536,6 +634,7 @@ if __name__ == '__main__':
     t.testEllipsoidal(V, V.Cartesian, None)
     t.testLatLon(V, Sph=False, Nv=False)
     t.testNOAA(V)
+    t.testIntersections2(V, Equidistant, False)
     for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
         t.testVincenty(V, d)
 
@@ -543,6 +642,7 @@ if __name__ == '__main__':
         t.testEllipsoidal(K, K.Cartesian, None)
         t.testLatLon(K, Sph=False, Nv=False)
         t.testNOAA(K)
+        t.testIntersections2(K, EquidistantKarney, True)
         for d in (Datums.WGS84, Datums.NAD83,):  # Datums.Sphere):
             t.testKarney(K, d)
         t.testKarneyPython(K)

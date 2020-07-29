@@ -54,7 +54,7 @@ from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '20.07.06'
+__version__ = '20.07.24'
 
 _paths_ = 'paths'
 
@@ -406,11 +406,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{intermediatePointTo}.
         '''
-        self.others(other)
-
-        f = Scalar(fraction, name=_fraction_)
+        q = self.others(other).toNvector()
         p = self.toNvector()
-        q = other.toNvector()
+        f = Scalar(fraction, name=_fraction_)
 
         x = p.cross(q, raiser=_points_)
         d = x.unit().cross(p)  # unit(p × q) × p
@@ -531,12 +529,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{isBetween}.
         '''
-        self.others(point1, name='point1')
-        self.others(point2, name='point2')
-
         n0 = self.toNvector()
-        n1 = point1.toNvector()
-        n2 = point2.toNvector()
+        n1 = self.others(point1, name='point1').toNvector()
+        n2 = self.others(point2, name='point2').toNvector()
 
         # corner case, null arc
         if n1.isequalTo(n2):

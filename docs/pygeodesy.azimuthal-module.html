@@ -72,7 +72,9 @@
   href="pygeodesy.azimuthal.Stereographic-class.html" 
   class="link">Stereographic</a> and <a 
   href="pygeodesy.azimuthal.AzimuthalError-class.html" 
-  class="link">AzimuthalError</a>.</p>
+  class="link">AzimuthalError</a> and function <a 
+  href="pygeodesy.azimuthal-module.html#equidistant" 
+  class="link">equidistant</a>.</p>
   <p><a href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
   class="link">EquidistantKarney</a> uses ellipsoidal formulas and requires
   <i>Charles Karney's</i> Python implementation of <a 
@@ -92,7 +94,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.07.21
+        20.07.27
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -139,10 +141,10 @@
         <code>degrees180</code>, <code>degrees360</code>, 
         <code>float</code> and <code>Datum</code> where <code>(x, y)</code>
         is the projected, <code>(lat, lon)</code> the geodetic location, 
-        <code>azimuth</code> the azimuth direction off true North and 
-        <code>scale</code> is the projection scale, either (<code>1 / 
-        reciprocal</code> or <code>1</code> or <code>-1</code> in one case,
-        <a href="pygeodesy.azimuthal.Equidistant-class.html" 
+        <code>azimuth</code> the azimuth direction clockwise from true 
+        North and <code>scale</code> is the projection scale, either 
+        (<code>1 / reciprocal</code> or <code>1</code> or <code>-1</code> 
+        in one case, <a href="pygeodesy.azimuthal.Equidistant-class.html" 
         class="link">Equidistant</a>).
     </td>
   </tr>
@@ -234,7 +236,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="equidistant"></a><span class="summary-sig-name">equidistant</span>(<span class="summary-sig-arg">lat0</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.azimuthal-module.html#equidistant" class="summary-sig-name">equidistant</a>(<span class="summary-sig-arg">lat0</span>,
         <span class="summary-sig-arg">lon0</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
@@ -270,6 +272,62 @@
     </td>
   </tr>
 </table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="equidistant"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">equidistant</span>&nbsp;(<span class="sig-arg">lat0</span>,
+        <span class="sig-arg">lon0</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>If Karney's <a href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a> package is installed, return an <a 
+  href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+  class="link">EquidistantKarney</a> otherwise an <a 
+  href="pygeodesy.azimuthal.Equidistant-class.html" 
+  class="link">Equidistant</a> instance.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat0</code></strong> - Latitude of center point (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon0</code></strong> - Longitude of center point (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<code>Datum</code>) or the radius of the 
+          <i>spherical</i> earth (<code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name for the projection (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+          class="link">EquidistantKarney</a> or <a 
+          href="pygeodesy.azimuthal.Equidistant-class.html" 
+          class="link">Equidistant</a> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Invalid <b><code>lat0</code></b> or <b><code>lon0</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat0</code></b>, <b><code>lon0</code></b> or 
+        <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -301,7 +359,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jul 23 20:56:29 2020
+    Generated by Epydoc 3.0.1 on Wed Jul 29 15:41:05 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

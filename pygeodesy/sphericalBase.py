@@ -34,7 +34,7 @@ from pygeodesy.utily import acos1, degrees90, degrees180, degrees360, \
 from math import atan2, cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.07.20'
+__version__ = '20.07.24'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -96,9 +96,7 @@ class CartesianSphericalBase(CartesianBase):
            @see: U{Java code<https://GIS.StackExchange.com/questions/48937/
                  calculating-intersection-of-two-circles>}.
         '''
-        self.others(other)
-
-        x1, x2 = self, other
+        x1, x2 = self, self.others(other)
         r1, r2, x = _rads3(rad1, rad2, radius)
         if x:
             x1, x2 = x2, x1

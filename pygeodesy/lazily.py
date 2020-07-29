@@ -123,7 +123,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
                                  'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
                                  'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
-                                 'isantipode', 'isantipode_', 'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
+                                 'intersections2', 'isantipode', 'isantipode_',
+                                 'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
                                  'philam2n_xyz', 'points2', 'thomas', 'thomas_', 'vincentys', 'vincentys_'),
                         frechet=('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                  'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
@@ -181,7 +182,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Vector3d', 'VectorError', 'intersections2'),
+                       vector3d=('Vector3d', 'VectorError'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm'),
                            wgrs=('Georef', 'WGRSError'))
 
@@ -200,7 +201,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.07.23'
+__version__ = '20.07.29'
 
 
 def _ALL_OTHER(*objs):

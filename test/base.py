@@ -46,10 +46,10 @@ __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
            'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
            'isPython2', 'isPython3', 'isPython37', 'isWindows',
            'PyGeodesy_dir', 'PythonX', 'scipy',
-           'TestsBase',  # classes
+           'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.04.22'
+__version__ = '20.07.26'
 
 try:
     _Ints = int, long
@@ -101,6 +101,22 @@ except ImportError:
 
     def nix_ver():  # PYCHOK expected
         return _Nix, _os_bitstr
+
+
+class RandomLatLon(object):
+    '''Random LatLon(lat, lon) generator.
+    '''
+    def __init__(self, LatLon, lat_=170, lon_=350):  # +/- ranges
+        self._LatLon = LatLon
+        self._lat_ = lat_
+        self._lon_ = lon_
+
+        from random import random
+        self._random = random
+
+    def __call__(self, **LatLon_kwds):
+        return self._LatLon((self._random() - 0.5) * self._lat_,
+                            (self._random() - 0.5) * self._lon_, **LatLon_kwds)
 
 
 class TestsBase(object):

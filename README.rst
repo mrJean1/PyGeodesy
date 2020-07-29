@@ -120,7 +120,7 @@ Catalina.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: July 23, 2020.*
+*Last updated: July 29, 2020.*
 
 License
 =======

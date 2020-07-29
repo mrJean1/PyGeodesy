@@ -21,7 +21,7 @@ from pygeodesy.interns import _coincident_, _colinear_, _COMMA_, _COMMA_SPACE_, 
                               _datum_, _h_, _height_, _invalid_, _Missing, \
                               _name_, _near_concentric_, NN, _other_, _PARENTH_, \
                               _scalar_, _too_distant_fmt_, _y_, _z_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, Vector3Tuple
 from pygeodesy.streprs import strs
 from pygeodesy.units import Radius, Radius_
@@ -29,7 +29,7 @@ from pygeodesy.units import Radius, Radius_
 from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.07.23'
+__version__ = '20.07.29'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -478,6 +478,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @kwarg name: Optional, other's name (C{str}).
            @kwarg up: Number of call stack frames up (C{int}).
 
+           @return: The B{C{other}} if compatible.
+
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
         try:
@@ -485,6 +487,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         except TypeError:
             if not isinstance(other, Vector3d):
                 raise
+        return other
 
     def parse(self, str3d, sep=_COMMA_):
         '''Parse an C{"x, y, z"} string.
@@ -537,10 +540,9 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @JSname: I{rotateAround}.
         '''
-        self.others(axis, name='axis')
+        a = self.others(axis, name='axis').unit()  # axis being rotated around
 
         c = cos(theta)
-        a = axis.unit()  # axis being rotated around
         b = a.times(1 - c)
         s = a.times(sin(theta))
 
@@ -657,11 +659,11 @@ def intersections2(center1, rad1, center2, rad2, sphere=True,  # MCCABE 14
        a center point and radius.
 
        @arg center1: Center of the first sphere or circle (L{Vector3d},
-                     C{Vector3Tuple} orC{Vector4Tuple}).
+                     C{Vector3Tuple} or C{Vector4Tuple}).
        @arg rad1: Radius of the first sphere or circle (same units as the
                   B{C{center1}} coordinates).
        @arg center2: Center of the second sphere or circle (L{Vector3d},
-                     C{Vector3Tuple} orC{Vector4Tuple}).
+                     C{Vector3Tuple} or C{Vector4Tuple}).
        @arg rad2: Radius of the second sphere or circle (same units as
                   the B{C{center1}} and B{C{center2}} coordinates).
        @kwarg sphere: If C{True} compute the center and radius of the
@@ -689,6 +691,22 @@ def intersections2(center1, rad1, center2, rad2, sphere=True,  # MCCABE 14
              <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>}
              intersections.
     '''
+    r1 = Radius_(rad1, name='rad1')
+    r2 = Radius_(rad2, name='rad2')
+
+    try:
+        return _intersect2(center1, r1, center2, r2, sphere=sphere,
+                                                     Vector=Vector, **Vector_kwds)
+
+    except (TypeError, ValueError) as x:
+        raise IntersectionError(center1=center1, rad1=rad1,
+                                center2=center2, rad2=rad2, txt=str(x))
+
+
+def _intersect2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellipsoidalBase._intersections2
+                                          Vector=None, **Vector_kwds):
+    # (INTERNAL) Intersect of two spheres or circles, see L{intersections2}
+    # above, separated to allow callers to embellish any exceptions
 
     def _Vector(x, y, z):
         n = intersections2.__name__
@@ -709,42 +727,33 @@ def intersections2(center1, rad1, center2, rad2, sphere=True,  # MCCABE 14
     c1 = Vector3d(center1.x, center1.y, center1.z if sphere else 0)
     c2 = Vector3d(center2.x, center2.y, center2.z if sphere else 0)
 
-    r1 = Radius_(rad1, name='rad1')
-    r2 = Radius_(rad2, name='rad2')
-
     if r1 < r2:  # r1, r2 == R, r
         c1, c2 = c2, c1
         r1, r2 = r2, r1
 
-    try:
-        m = c2.minus(c1)
-        d = m.length
-        if d < max(r2 - r1, EPS):
-            raise ValueError(_near_concentric_)
+    m = c2.minus(c1)
+    d = m.length
+    if d < max(r2 - r1, EPS):
+        raise ValueError(_near_concentric_)
 
-        # gap == d - (r1 + r2)
-        o = fsum_(-d, r1, r2)  # overlap == -gap
-        # compute intersections with c1 at (0, 0) and c2 at (d, 0), like
-        # <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>
-        if o > EPS:  # overlapping, r1, r2 == R, r
-            # x coord [0..d] of the "radical line", perpendicular to
-            # the x-axis line between both centers (0, 0) and (d, 0)
-            x = fsum_(d**2, r1**2, -(r2**2)) / (2 * d)
-            y = 1 - (x / r1)**2
-            if y > EPS:
-                y = r1 * sqrt(y)  # y == a / 2
-            elif y < 0:
-                raise ValueError(_invalid_)
-            else:  # abutting
-                y = 0
-        elif o < 0:
-            raise ValueError(_too_distant_fmt_ % (d,))
+    # gap == d - (r1 + r2)
+    o = fsum_(-d, r1, r2)  # overlap == -gap
+    # compute intersections with c1 at (0, 0) and c2 at (d, 0), like
+    # <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>
+    if o > EPS:  # overlapping, r1, r2 == R, r
+        x = _radicaline(d, r1, r2)
+        y = 1 - (x / r1)**2
+        if y > EPS:
+            y = r1 * sqrt(y)  # y == a / 2
+        elif y < 0:
+            raise ValueError(_invalid_)
         else:  # abutting
-            x, y = r1, 0
-
-    except (TypeError, ValueError) as x:
-        raise IntersectionError(center1=center1, rad1=r1,
-                                center2=center2, rad2=r2, txt=str(x))
+            y = 0
+    elif o < 0:
+        t = d if too_d is None else too_d
+        raise ValueError(_too_distant_fmt_ % (t,))
+    else:  # abutting
+        x, y = r1, 0
 
     u = m.unit()
     if sphere:  # sphere radius and center
@@ -757,6 +766,18 @@ def intersections2(center1, rad1, center2, rad2, sphere=True,  # MCCABE 14
         t = _xVector(c1, u, x, 0)
         t = t, t
     return t
+
+
+def _radicaline(d, r1, r2):
+    # x coord [0..d] of the "radical line", perpendicular to
+    # the x-axis line between both centers (0, 0) and (d, 0)
+    return fsum_(d**2, r1**2, -(r2**2)) / (2 * d)
+
+
+def _radical2(d, r1, r2):  # in .ellispoidalBase and .sphericalTrigonometry
+    # return "radical ratio" and radical line x coord
+    r = _radicaline(d, r1, r2)
+    return max(0, min(1, r / d)), r
 
 
 def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
@@ -783,7 +804,7 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
     return r
 
 
-__all__ += _ALL_OTHER(sumOf)
+__all__ += _ALL_DOCS(intersections2, sumOf)
 
 # **) MIT License
 #

@@ -4,14 +4,15 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.07.12'
+__version__ = '20.07.29'
 
-from base import isNix, isWindows
+from base import RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
-from pygeodesy import F_D, F_DMS, PI_4, R_M, \
+from pygeodesy import EPS, F_D, F_DMS, PI_4, R_M, \
                       classname, IntersectionError, latlonDMS, lonDMS
+from math import radians
 
 # <https://GeographicLib.SourceForge.io/html/python/examples.html>
 Antarctica = ((-63.1, -58),
@@ -71,12 +72,12 @@ class Tests(_TestsLL, _TestsV):
         p = LatLon(+30, 0)
         q = LatLon(-30, 0)  # identical, zero lon
         i = p.intersection(135, q, 45)
-        self.test('intersection4', i, '00.0°N, 026.565051°E', known=isWindows)
+        self.test('intersection4', i, '00.0°N, 026.565051°E', known=abs(i.lat) < EPS)
 
         p = LatLon(0, -30)
         q = LatLon(0, +30)  # identical, zero lat
         i = p.intersection(45, q, 315)
-        self.test('intersection5', i, '26.565051°N, 000.0°W', known=True)
+        self.test('intersection5', i, '26.565051°N, 000.0°W', known=abs(i.lon) < EPS)
 
         # <https://GitHub.com/ChrisVeness/geodesy/blob/master/test/latlon-vectors-tests.js>
         STN = LatLon(51.8853, 0.2545)
@@ -125,37 +126,70 @@ class Tests(_TestsLL, _TestsV):
             self.test('crossingParallels', t, '009°35′38.65″E, 170°24′21.35″E')
 
         if hasattr(LatLon, 'intersections2'):
+
+            n = 'intersections2 (%s)' % (LatLon.__module__,)
+
+            def _100p2(t, r, *s):
+                e = max(abs(a.distanceTo(b) - r) for a in s
+                                                 for b in t) / r
+                return e, '%g (%% of radius)' % (e,)  # percentages
+
             # <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>
             p = LatLon(37.673442, -90.234036)  # (-0.00323306, -0.7915,   0.61116)
             q = LatLon(36.109997, -90.953669)  # (-0.0134464,  -0.807775, 0.589337)
-            t = p.intersections2(0.0312705, q, 0.0421788, radius=None)  # radii in radians
-            self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '36.98931°N, 088.151425°W, 38.23838°N, 092.390487°W')
+            t = p.intersections2(0.0312705, q, 0.0421788, radius=None, height=0)  # radii in radians
+            self.test(n, latlonDMS(t, form=F_D, sep=', '), '36.98931°N, 088.151425°W, 38.23838°N, 092.390487°W')
 
             t = LatLon(30, 0).intersections2(PI_4, LatLon(-30, 0), PI_4, radius=None)  # radii in radians
-            self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '00.0°N, 035.26439°W, 00.0°N, 035.26439°E', known=isNix or isWindows)
+            s = latlonDMS(t, form=F_D, sep=', ')
+            self.test(n, s, '00.0°N, 035.26439°W, 00.0°N, 035.26439°E', known='S, ' in s)
+
             t = LatLon(0, 40).intersections2(PI_4, LatLon(0, -40), PI_4, radius=None)  # radii in radians
-            self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '22.622036°N, 000.0°E, 22.622036°S, 000.0°E', known=isNix or isWindows)
+            s = latlonDMS(t, form=F_D, sep=', ')
+            self.test(n, s, '22.622036°N, 000.0°E, 22.622036°S, 000.0°E', known='W' in s)
+
             t = LatLon(30, 20).intersections2(PI_4, LatLon(-30, -20), PI_4, radius=None)  # radii in radians
-            self.test('intersections2', latlonDMS(t, form=F_D, sep=', '), '14.612841°N, 026.110934°W, 14.612841°S, 026.110934°E')
+            s = latlonDMS(t, form=F_D, sep=', ')
+            self.test(n, s, '14.612841°N, 026.110934°W, 14.612841°S, 026.110934°E')
 
+            t = LatLon(0, 0).intersections2(PI_4, LatLon(0, 22.5), PI_4 / 2, radius=None)  # abutting
+            s = latlonDMS(t, form=F_D, sep=', ')
+            self.test(n, s, '00.000001°S, 045.0°E, 00.000001°N, 045.0°E', know=True)  # N-S
+
+            # centers at 2 opposite corners of a "square" and
+            # radius equal to length of square side, expecting
+            # the other 2 as the intersections ... but the
+            # longitudes are farther and farther out
+            for d in range(5, 66, 5):
+                p = LatLon(d, -d)
+                q = LatLon(-d, d)
+                r = radians(2 * d) * R_M
+                t = p.intersections2(r, q, r, radius=R_M)
+                if t[0] is t[1]:
+                    s = latlonDMS(t[:1], form=F_D, sep=', ') + ' abutting'
+                else:
+                    s = latlonDMS(t, form=F_D, sep=', ')
+                d = '%s %d' % (n, d)
+                self.test(d, s, s)
+                _, s = _100p2(t, r, q, p)
+                self.test(d, s, s)
+
+            n += ' R'
             # courtesy Samuel Čavoj <https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
-            from random import random
-
-            def _randomLatLon(lat=180, lon=360):
-                return LatLon((random() - 0.5) * lat, (random() - 0.5) * lon)
-
-            r = _randomLatLon()
+            R = RandomLatLon(LatLon, 178, 178)  # +/- 89
+            r = R()
             for _ in range(8):
-                p = _randomLatLon()
-                q = _randomLatLon()
+                p, q = R(), R()
                 try:
                     t = p.intersections2(p.distanceTo(r), q, q.distanceTo(r), radius=R_M)
+                    s = latlonDMS(t, form=F_D, sep=', ')
+                    self.test(n, s, s)
                     d = min(i.distanceTo(r) for i in t)  # PYCHOK test attr?
-                    self.test('intersections1', d, d, fmt='%.6e')
                     if d > 5e-5:
-                        raise IntersectionError(d=d)
+                        raise IntersectionError(d=d, fmt_name_value='%s (%g)')
+                    self.test(n, d, d, fmt='%g')
                 except IntersectionError as x:
-                    self.test('intersections1', str(x), 'd < 5e-5')
+                    self.test(n, str(x), 'd < 5e-5', known=True)  # too distant, near concentric, etc.
 
         if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)

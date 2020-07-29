@@ -14,16 +14,16 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI2, PI_2, PI_4, R_M, \
+from pygeodesy.basics import EPS, PI, PI2, PI_2, PI_4, R_M, \
                              isscalar, map1, _xkwds
-from pygeodesy.errors import CrossError, crosserrors, IntersectionError, \
-                            _ValueError, _xkwds_get
+from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
+                              IntersectionError, _ValueError, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, vincentys_
 from pygeodesy.interns import _1_, _2_, _coincident_, _colinear_, _end_, \
-                              _fraction_, _item_sq, _near_concentric_, \
-                              _not_convex_, _points_, _start_, _start1_, \
-                              _start2_, _too_distant_fmt_
+                              _fraction_, _invalid_, _item_sq, \
+                              _near_concentric_, _not_convex_, _points_, \
+                              _start_, _start1_, _start2_, _too_distant_fmt_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
                            _xnamed
@@ -35,13 +35,17 @@ from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
 from pygeodesy.utily import acos1, degrees90, degrees180, degrees2m, \
                             iterNumpy2, radiansPI2, sincos2, tan_2, \
                             unrollPI, wrapPI
-from pygeodesy.vector3d import Vector3d, sumOf
+from pygeodesy.vector3d import _radical2, sumOf, Vector3d
 
-from math import asin, atan2, copysign, cos, degrees, hypot, \
-                 radians, sin
+from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.07.21'
+__version__ = '20.07.29'
+
+_EPS_I2    = 4.0 * EPS
+_PI_EPS_I2 = PI - _EPS_I2
+if _PI_EPS_I2 >= PI:
+    raise _AssertionError(_PI_EPS_I2=_PI_EPS_I2)
 
 
 def _destination2(a, b, r, t):
@@ -468,9 +472,11 @@ class LatLon(LatLonSphericalBase):
            @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}}, B{C{radius}}
                               or B{C{height}}.
         '''
-        return intersections2(self, rad1, other, rad2, radius=radius,
-                                    height=height, wrap=wrap,
-                                    LatLon=self.classof)
+        c2 = self.others(other)
+
+        return intersections2(self, rad1, c2, rad2, radius=radius,
+                                                    height=height, wrap=wrap,
+                                                    LatLon=self.classof)
 
     def isenclosedBy(self, points):
         '''Check whether a (convex) polygon encloses this point.
@@ -684,7 +690,7 @@ class LatLon(LatLonSphericalBase):
         return LatLonSphericalBase.toCartesian(self, **kwds)
 
 
-_Trll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
+_T00 = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
 
 
 def areaOf(points, radius=R_M, wrap=True):
@@ -718,7 +724,7 @@ def areaOf(points, radius=R_M, wrap=True):
        >>> c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
        >>> areaOf(c)  # 6.18e9
     '''
-    n, points = _Trll.points2(points, closed=True)
+    n, points = _T00.points2(points, closed=True)
 
     # Area method due to Karney: for each edge of the polygon,
     #
@@ -767,7 +773,7 @@ def _x3d2(start, end, wrap, n, hs):
     if isscalar(end):  # bearing, make a point
         a2, b2 = _destination2(a1, b1, PI_4, radians(end))
     else:  # must be a point
-        _Trll.others(end, name=_end_ + n)
+        _T00.others(end, name=_end_ + n)
         hs.append(end.height)
         a2, b2 = end.philam
 
@@ -787,8 +793,8 @@ def _x3d2(start, end, wrap, n, hs):
     return x.unit(), (db, (a2 - a1))  # negated d
 
 
-def intersection(start1, end1, start2, end2,
-                 height=None, wrap=False, LatLon=LatLon, **LatLon_kwds):
+def intersection(start1, end1, start2, end2, height=None, wrap=False,
+                                             LatLon=LatLon, **LatLon_kwds):
     '''Compute the intersection point of two paths both defined
        by two points or a start point and bearing from North.
 
@@ -827,8 +833,8 @@ def intersection(start1, end1, start2, end2,
        >>> s = LatLon(49.0034, 2.5735)
        >>> i = intersection(p, 108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
     '''
-    _Trll.others(start1, name=_start1_)
-    _Trll.others(start2, name=_start2_)
+    _T00.others(start1, name=_start1_)
+    _T00.others(start2, name=_start2_)
 
     hs = [start1.height, start2.height]
 
@@ -899,10 +905,11 @@ def intersection(start1, end1, start2, end2,
                     intersection, LatLon, **LatLon_kwds)
 
 
-def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
-                   height=None, wrap=False, LatLon=LatLon, **LatLon_kwds):
-    '''Compute the intersection points of two circles each defined
-       by a center point and radius.
+def intersections2(center1, rad1, center2, rad2, radius=R_M,
+                                                 height=None, wrap=False,
+                                                 LatLon=LatLon, **LatLon_kwds):
+    '''Compute the intersection points of two circles each defined by
+       a center point and radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
        @arg rad1: Radius of the second circle (C{meter} or C{radians},
@@ -913,7 +920,8 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
        @kwarg radius: Mean earth radius (C{meter} or C{None} if both
                       B{C{rad1}} and B{C{rad2}} are given in C{radians}).
        @kwarg height: Optional height for the intersection points,
-                      overriding the mean height (C{meter}).
+                      overriding the "radical height" at the "radical
+                      line" between both centers (C{meter}).
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg LatLon: Optional class to return the intersection
                       points (L{LatLon}) or C{None}.
@@ -922,7 +930,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or L{LatLon3Tuple}C{(lat, lon, height)} if
-                B{C{LatLon}} is C{None}.  For abutting circles, the
+                B{C{LatLon}} is C{None}.  For abutting circles, both
                 intersection points are the same instance.
 
        @raise IntersectionError: Concentric, antipodal, invalid or
@@ -938,52 +946,69 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,  # MCCABE 13
        @see: This U{Answer<https://StackOverflow.com/questions/53324667/
              find-intersection-coordinates-of-two-circles-on-earth/53331953>}.
     '''
-    def _destination1(bearing):
+
+    c1 = _T00.others(center1, name='center1')
+    c2 = _T00.others(center2, name='center2')
+
+    try:
+        return _intersect2(c1, rad1, c2, rad2, radius=radius,
+                                               height=height, wrap=wrap,
+                                               LatLon=LatLon, **LatLon_kwds)
+
+    except (TypeError, ValueError) as x:
+        raise IntersectionError(center1=center1, rad1=rad1,
+                                center2=center2, rad2=rad2, txt=str(x))
+
+
+def _intersect2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._intersect2
+                                    height=None, wrap=False, too_d=None,
+                                    LatLon=LatLon, **LatLon_kwds):
+    # (INTERNAL) Intersect of two spherical circles, see L{intersections2}
+    # above, separated to allow callers to embellish any exceptions
+
+    def _dest1(bearing, h):
         a, b = _destination2(a1, b1, r1, bearing)
         return _latlon3(degrees90(a), degrees180(b), h,
                         intersections2, LatLon, **LatLon_kwds)
 
-    _Trll.others(center1, name='center1')
-    _Trll.others(center2, name='center2')
+    r1, r2, f = _rads3(rad1, rad2, radius)
+    if f:  # swapped
+        c1, c2 = c2, c1  # PYCHOK swap
 
-    a1, b1 = center1.philam
-    a2, b2 = center2.philam
-    r1, r2, x = _rads3(rad1, rad2, radius)
-    if x:
-        a1, b1, a2, b2 = a2, b2, a1, b1
+    a1, b1 = c1.philam
+    a2, b2 = c2.philam
 
     db, _ = unrollPI(b1, b2, wrap=wrap)
     d = vincentys_(a2, a1, db)  # radians
     if d < max(r1 - r2, EPS):
-        raise IntersectionError(center1=center1, rad1=rad1,
-                                center2=center2, rad2=rad2, txt=_near_concentric_)
+        raise ValueError(_near_concentric_)
 
-    x = fsum_(r1, r2, -d)
-    if x > EPS:  # potential intersection(s)
-        try:
-            sd, cd, s1, c1, _, c2 = sincos2(d, r1, r2)
-            x = sd * s1
-            if abs(x) < EPS:
-                raise ValueError
-            x = acos1((c2 - cd * c1) / x)
-        except ValueError:
-            raise IntersectionError(center1=center1, rad1=rad1,
-                                    center2=center2, rad2=rad2)
+    x = fsum_(r1, r2, -d)  # overlap
+    if x > EPS:
+        sd, cd, sr1, cr1, _, cr2 = sincos2(d, r1, r2)
+        x = sd * sr1
+        if abs(x) < EPS:
+            raise ValueError(_invalid_)
+        x = acos1((cr2 - cd * cr1) / x)  # 0 <= x <= PI
+
     elif x < 0:
-        x = _too_distant_fmt_ % (d * radius)
-        raise IntersectionError(center1=center1, rad1=rad1,
-                                center2=center2, rad2=rad2, txt=x)
+        t = (d * radius) if too_d is None else too_d
+        raise ValueError(_too_distant_fmt_ % (t,))
 
-    b = bearing_(a1, b1, a2, b2, final=False, wrap=wrap)
-    if height is None:
-        h = favg(center1.height, center2.height)
+    if height is None:  # "radical height"
+        f, _ = _radical2(d, r1, r2)  # "radical ratio"
+        h = Height(favg(c1.height, c2.height, f=f))
     else:
         h = Height(height)
-    if abs(x) > EPS:
-        return _destination1(b + x), _destination1(b - x)
-    else:  # abutting circles
-        x = _destination1(b)
-        return x, x
+
+    b = bearing_(a1, b1, a2, b2, final=False, wrap=wrap)
+    if x < _EPS_I2:  # externally ...
+        t = _dest1(b, h)
+    elif x > _PI_EPS_I2:  # internally ...
+        t = _dest1(b + PI, h)
+    else:
+        return _dest1(b + x, h), _dest1(b - x, h)
+    return t, t  # ... abutting circles
 
 
 def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover
@@ -1024,7 +1049,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
        @raise ValueError: No B{C{points}} or invalid B{C{height}}.
     '''
     # geographic mean
-    n, points = _Trll.points2(points, closed=False)
+    n, points = _T00.points2(points, closed=False)
 
     m = sumOf(points[i]._N_vector for i in range(n))
     lat, lon = m._N_vector.latlon
@@ -1118,7 +1143,7 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
        @see: L{pygeodesy.perimeterOf}, L{sphericalNvector.perimeterOf}
              and L{ellipsoidalKarney.perimeterOf}.
     '''
-    n, points = _Trll.points2(points, closed=closed)
+    n, points = _T00.points2(points, closed=closed)
 
     def _rads(n, points, closed):  # angular edge lengths in radians
         i, m = _imdex2(closed, n)

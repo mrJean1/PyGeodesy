@@ -31,8 +31,8 @@ or by converting to anothor datum:
 from pygeodesy.basics import property_RO, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
-                                      LatLonEllipsoidalBase
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _intersect2, \
+                                      LatLonEllipsoidalBase, _TOL_M
 from pygeodesy.errors import _ValueError
 from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
@@ -41,7 +41,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.07.06'
+__version__ = '20.07.27'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -432,6 +432,58 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
     return abs(_geodesic(datum, points, True, False, wrap))
 
 
+def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
+                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
+    '''Iteratively compute the intersection points of two circles each defined
+       by an (ellipsoidal) center point and radius.
+
+       @arg center1: Center of the first circle (L{LatLon}).
+       @arg rad1: Radius of the second circle (C{meter}).
+       @arg center2: Center of the second circle (L{LatLon}).
+       @arg rad2: Radius of the second circle (C{meter}).
+       @kwarg height: Optional height for the intersection points,
+                      overriding the "radical height" at the "radical
+                      line" between both centers (C{meter}).
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg equidistant: An azimuthal equidistant projection class
+                           (L{Equidistant} or L{equidistant})
+                           or C{None} for L{EquidistantKarney}.
+       @kwarg tol: Convergence tolerance (C{meter}).
+       @kwarg LatLon: Optional class to return the intersection points
+                      (L{LatLon}) or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if B{C{LatLon=None}}.
+
+       @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
+                instance or L{LatLon4Tuple}C{(lat, lon, height, datum)}
+                if B{C{LatLon}} is C{None}.  For abutting circles, the
+                intersection points are the same instance.
+
+       @raise ImportError: Package U{geographiclib
+                           <https://PyPI.org/project/geographiclib>}
+                           not installed or not found.
+
+       @raise IntersectionError: Concentric, antipodal, invalid or
+                                 non-intersecting circles or no
+                                 convergence for the B{C{tol}}.
+
+       @raise TypeError: If B{C{center1}} or B{C{center2}} not ellipsoidal.
+
+       @raise UnitError: Invalid B{C{rad1}}, B{C{rad2}} or B{C{height}}.
+
+       @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
+             calculating-intersection-of-two-circles>}, U{Karney's paper
+             <https://arxiv.org/pdf/1102.1215.pdf>}, pp 20-21, section 14 I{Maritime Boundaries},
+             U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
+             U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
+             intersections.
+    '''
+    from pygeodesy.azimuthal import EquidistantKarney
+    E = EquidistantKarney if equidistant is None else equidistant
+    return _intersect2(center1, rad1, center2, rad2, height=height, wrap=wrap,
+                             equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
+
+
 def isclockwise(points, datum=Datums.WGS84, wrap=True):
     '''Determine the direction of a path or polygon.
 
@@ -491,7 +543,7 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes
-                      areaOf, isclockwise, ispolar,  # functions
+                      areaOf, intersections2, isclockwise, ispolar,  # functions
                       perimeterOf)
 
 # **) MIT License

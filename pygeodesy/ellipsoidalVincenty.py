@@ -62,8 +62,8 @@ del division
 from pygeodesy.basics import EPS, property_doc_, property_RO, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefVeness
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
-                                      LatLonEllipsoidalBase
+from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _intersect2, \
+                                      LatLonEllipsoidalBase, _TOL_M
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
 from pygeodesy.interns import _ambiguous_, NN, _no_convergence_
@@ -78,7 +78,7 @@ from pygeodesy.utily import degrees90, degrees180, degrees360, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.07.08'
+__version__ = '20.07.27'
 
 _antipodal_ = 'antipodal '  # _SPACE_
 
@@ -627,6 +627,54 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover
     return areaOf(points, datum=datum, wrap=wrap)
 
 
+def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
+                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
+    '''Iteratively compute the intersection points of two circles each defined
+       by an (ellipsoidal) center point and radius.
+
+       @arg center1: Center of the first circle (L{LatLon}).
+       @arg rad1: Radius of the second circle (C{meter}).
+       @arg center2: Center of the second circle (L{LatLon}).
+       @arg rad2: Radius of the second circle (C{meter}).
+       @kwarg height: Optional height for the intersection points,
+                      overriding the "radical height" at the "radical
+                      line" between both centers (C{meter}).
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg equidistant: An azimuthal equidistant projection class
+                           (L{EquidistantKarney} or L{equidistant})
+                           or C{None} for L{Equidistant}.
+       @kwarg tol: Convergence tolerance (C{meter}).
+       @kwarg LatLon: Optional class to return the intersection points
+                      (L{LatLon}) or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if B{C{LatLon=None}}.
+
+       @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
+                instance or L{LatLon4Tuple}C{(lat, lon, height, datum)}
+                if B{C{LatLon}} is C{None}.  For abutting circles, the
+                intersection points are the same instance.
+
+       @raise IntersectionError: Concentric, antipodal, invalid or
+                                 non-intersecting circles or no
+                                 convergence for the B{C{tol}}.
+
+       @raise TypeError: If B{C{center1}} or B{C{center2}} not ellipsoidal.
+
+       @raise UnitError: Invalid B{C{rad1}}, B{C{rad2}} or B{C{height}}.
+
+       @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
+             calculating-intersection-of-two-circles>}, U{Karney's paper
+             <https://arxiv.org/pdf/1102.1215.pdf>}, pp 20-21, section 14 I{Maritime Boundaries},
+             U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
+             U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
+             intersections.
+    '''
+    from pygeodesy.azimuthal import Equidistant
+    E = Equidistant if equidistant is None else equidistant
+    return _intersect2(center1, rad1, center2, rad2, height=height, wrap=wrap,
+                             equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
+
+
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function C{ellipsoidalKarney.perimeterOf}.
     '''
@@ -635,7 +683,7 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):  # PYCHOK 
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,
-                      ispolar)  # from .points
+                      intersections2, ispolar)  # from .points
 
 # **) MIT License
 #

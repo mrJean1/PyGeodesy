@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.07.19'
+__version__ = '20.07.27'
 
 from base import TestsBase, geographiclib
 
@@ -46,7 +46,7 @@ class Tests(TestsBase):
 
         h = hypot(f.x, f.y)  # easting + norting ~= distance
         d = haversine(G.lat0, G.lon0, r.lat, r.lon)
-        self.test('hypot', h, d, fmt='%.3f', known=abs(d - h) < 1000)
+        self.test('hypot', h, d, fmt='%.3f', known=abs(d - h) < 1000, nt=1)
 
     def testSnyder(self, lat, lon, As, *xys):
         ll = lat, lon
@@ -66,22 +66,22 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__, azimuthal)
 
     t.testAzimuthal(Equidistant,
-                   '-37467.812512, 230294.518853, 50.9, 1.8, 350.759218, 1.000223',
-                   '-38000.0, 230000.0, 50.897321, 1.792455, 350.61849, 1.000222',
-                   'LatLon(50°53′50.36″N, 001°47′32.84″E)',
-                   '170420.92566, -293667.828613, 48.833333, 2.333333, 149.872606, 1.000472')
+                    '-37467.812512, 230294.518853, 50.9, 1.8, 350.759218, 1.000223',
+                    '-38000.0, 230000.0, 50.897321, 1.792455, 350.61849, 1.000222',
+                    'LatLon(50°53′50.36″N, 001°47′32.84″E)',
+                    '170420.92566, -293667.828613, 48.833333, 2.333333, 149.872606, 1.000472')
     if geographiclib:
         t.testAzimuthal(EquidistantKarney,
-                       '-37526.978232, 230000.911579, 50.9, 1.8, 350.325442, 0.999778',
-                       '-38000.0, 230000.0, 50.899962, 1.793278, 350.205524, 0.999778',
-                       'LatLon(50°53′59.86″N, 001°47′35.8″E)',
-                       '170617.186469, -293210.754313, 48.833333, 2.333333, 151.589952, 0.999529')
+                    '-37526.978232, 230000.911579, 50.9, 1.8, 350.325442, 0.999778',
+                    '-38000.0, 230000.0, 50.899962, 1.793278, 350.205524, 0.999778',
+                    'LatLon(50°53′59.86″N, 001°47′35.8″E)',
+                    '170617.186469, -293210.754313, 48.833333, 2.333333, 151.589952, 0.999529')
     else:
         t.skip('no geographiclib', n=14)
 
-    As = tuple(Azimuthal(0, 0, datum=1)  # spherical datum of radius=1 for Snyder's Table ...
-                            # 30, pp 196-197      26, pp 168           28, pp 188-189      22, pp 151          24, pp 158-159
-           for Azimuthal in  (Equidistant,        Gnomonic,            LambertEqualArea,   Orthographic,       Stereographic))
+    As = tuple(Azimuthal(0, 0, datum=1) for  # spherical datum of radius=1 for Snyder's Table ...
+                        # ... 30, pp 196-197      26, pp 168           28, pp 188-189      22, pp 151          24, pp 158-159
+               Azimuthal in  (Equidistant,        Gnomonic,            LambertEqualArea,   Orthographic,       Stereographic))
     t.testSnyder(10, 80, As, (1.37704, 0.24656), (5.67128,  1.01543), (1.26747, 0.22694), (0.96985, 0.17365), (1.65643, 0.29658))
     t.testSnyder(20, 20, As, (0.33454, 0.35601), (0.36397,  0.38733), (0.33123, 0.35248), (0.32139, 0.34202), (0.34136, 0.36327))
     t.testSnyder(40, 40, As, (0.57386, 0.74912), (0.8391,   1.09537), (0.55281, 0.72164), (0.4924,  0.64279), (0.62062, 0.81016))
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     t.testSnyder(80, 10, As, (0.04281, 1.39829), (0.17633,  5.75877), (0.03941, 1.28702), (0.03015, 0.98481), (0.05150, 1.68198))
 
     A = equidistant(0, 0, datum=1, name='coverage')
-    t.test('equatoradius', A.equatoradius, 1.0)
+    t.test('equatoradius', A.equatoradius, 1.0, nl=1)
     t.test('flattening', A.flattening, 0)
     t.test('latlon0', A.latlon0, (0.0, 0.0))
     A.latlon0 = named.LatLon2Tuple(1, 2)

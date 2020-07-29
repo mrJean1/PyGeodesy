@@ -5,28 +5,29 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, len2, \
-                            _xinstanceof
-from pygeodesy.datum import Datum, Datums
-from pygeodesy.errors import LimitError, _limiterrors, PointsError, \
-                            _ValueError
+from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, \
+                             isscalar, len2, _xinstanceof
+from pygeodesy.datum import Datum, Datums, _spherical_datum
+from pygeodesy.errors import _AssertionError, LimitError, _limiterrors, \
+                              PointsError, _ValueError
 from pygeodesy.fmath import fsum_, hypot, hypot2
 from pygeodesy.interns import _2_, _angle_, _item_sq, _lat_, _lat1_, \
                               _lon_, _lon1_, _too_few_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Distance4Tuple, LatLon2Tuple, PhiLam2Tuple, \
-                            Points2Tuple, Vector3Tuple
+                            Points2Tuple, Vector3Tuple, _xnamed
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Distance, Height, Lam_, Lat, Lon, Phi_, Radius
 from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
-                            isNumpy2, isTuple2, sincos2, unroll180, \
+                            isNumpy2, isTuple2, m2degrees, sincos2, unroll180, \
                             unrollPI, wrap90, wrap180, wrapPI, wrapPI_2
 
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.07.23'
+__version__ = '20.07.29'
 
+_D_I2_ =  1e5  # meter, 100 Km, about 0.9 degrees
 _lat2_ = _lat_ + _2_
 _lon2_ = _lon_ + _2_
 
@@ -463,6 +464,14 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
     return r
 
 
+def _euclidean(a, b):  # in .ellipsoidalBase._intersect2
+    # (INTERNAL) approx. distance for comparison
+    a, b = abs(a), abs(b)
+    if a < b:
+        a, b = b, a
+    return a + b * 0.5  # 0.4142135623731
+
+
 def euclidean_(phi2, phi1, lam21, adjust=True):
     '''Approximate the I{angular} C{Euclidean} distance between two
        (spherical) points.
@@ -481,12 +490,9 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
              L{flatPolar_}, L{haversine_}, L{thomas_} and
              L{vincentys_}.
     '''
-    a, b = abs(phi2 - phi1), abs(lam21)
     if adjust:
-        b *= _scale_rad(phi2, phi1)
-    if a < b:
-        a, b = b, a
-    return a + b * 0.5  # 0.4142135623731
+        lam21 *= _scale_rad(phi2, phi1)
+    return _euclidean(phi2 - phi1, lam21)
 
 
 def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
@@ -733,6 +739,84 @@ def horizon(height, radius=R_M, refraction=False):
     else:
         d2 = h * fsum_(r, r, h)
     return sqrt(d2)
+
+
+def intersections2(lat1, lon1, rad1, lat2, lon2, rad2, datum=None, wrap=False):
+    '''Conveniently compute the intersections of two circles each defined
+       by a lat-/longitude center point and a radius, using either ...
+
+       1) L{vector3d.intersections2} for small distances or if no B{C{datum}}
+       is specified, or ...
+
+       2) L{sphericalTrigonometry.intersections2} for a spherical B{C{datum}}
+       or if B{C{datum}} is a sclar representing the earth radius, or ...
+
+       3) L{ellipsoidalKarney.intersections2} for an ellipsoidal B{C{datum}}
+       and if Karney's U{geographiclib<https://PyPI.org/project/geographiclib/>}
+       is installed, or ...
+
+       4) L{ellipsoidalVincenty.intersections2} if B{C{datum}} is ellipsoidal
+       otherwise.
+
+       @arg lat1: Latitude of the first circle center (C{degrees}).
+       @arg lon1: Longitude of the first circle center (C{degrees}).
+       @arg rad1: Radius of the first circle (C{meter}).
+       @arg lat2: Latitude of the second circle center (C{degrees}).
+       @arg lon2: Longitude of the second circle center (C{degrees}).
+       @arg rad2: Radius of the second circle (C{meter}).
+       @kwarg datum: Optional ellipsoidal or spherical datum (L{Datum})
+                     or scalar earth radius (C{meter}) or C{None}.
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+       @return: 2-Tuple of the intersection points, each a
+                L{LatLon2Tuple}C{(lat, lon)}.  For abutting circles,
+                the intersection points are the same instance.
+
+       @raise IntersectionError: Concentric, antipodal, invalid or
+                                 non-intersecting circles or no
+                                 convergence.
+
+       @raise TypeError: Invalid B{C{datum}}.
+
+       @raise UnitError: Invalid B{C{lat1}}, B{C{lon1}}, B{C{rad1}}
+                         B{C{lat2}}, B{C{lon2}} or B{C{rad2}}.
+    '''
+
+    if datum is None or euclidean(lat1, lon1, lat1, lon2, radius=R_M,
+                                  adjust=True, wrap=wrap) < _D_I2_:
+        from pygeodesy.vector3d import intersections2 as _i2, Vector3d
+
+        def _V4T(x, y, _, **unused):  # _ unused
+            return _xnamed(LatLon2Tuple(y, x), intersections2.__name__)
+
+        _, lon2 = unroll180(lon1, lon2, wrap=wrap)
+        t = _i2(Vector3d(lon1, lat1, 0), m2degrees(rad1),
+                Vector3d(lon2, lat2, 0), m2degrees(rad2), sphere=False,
+                Vector=_V4T)
+
+    else:
+        def _LL4T(lat, lon, **unused):
+            return _xnamed(LatLon2Tuple(lat, lon), intersections2.__name__)
+
+        d = _spherical_datum(datum) if isscalar(datum) else datum
+        _xinstanceof(Datum, datum=d)
+
+        if d.isSpherical:
+            from pygeodesy.sphericalTrigonometry import intersections2 as _i2, LatLon
+        elif d.isEllipsoidal:
+            try:
+                if d.ellipsoid.geodesic:
+                    pass
+                from pygeodesy.ellipsoidalKarney import intersections2 as _i2, LatLon
+            except ImportError:
+                from pygeodesy.ellipsoidalVincenty import intersections2 as _i2, LatLon
+        else:
+            raise _AssertionError(datum=d)
+
+        t = _i2(LatLon(lat1, lon1, datum=d), rad1,
+                LatLon(lat2, lon2, datum=d), rad2, wrap=wrap,
+                LatLon=_LL4T, height=0)
+    return t
 
 
 def isantipode(lat1, lon1, lat2, lon2, eps=EPS):

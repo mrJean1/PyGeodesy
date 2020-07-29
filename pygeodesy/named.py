@@ -33,7 +33,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.07.12'
+__version__ = '20.07.29'
 
 # __DUNDER gets mangled in class
 _final_     = 'final'
@@ -229,11 +229,13 @@ class _NamedBase(_Named):
 #       return NotImplementedError(_dot_(c, attr))
 
     def others(self, other, name=_other_, up=1):  # see .points.LatLon_.others
-        '''Check this and an other instance for type compatiblility.
+        '''Check this and an other instance for type compatibility.
 
            @arg other: The other instance (any C{type}).
            @kwarg name: Optional, name for other (C{str}).
            @kwarg up: Number of call stack frames up (C{int}).
+
+           @return: The B{C{other}} if compatible.
 
            @raise TypeError: Mismatch of the B{C{other}} and this
                              C{class} or C{type}.
@@ -242,6 +244,7 @@ class _NamedBase(_Named):
                 isinstance(other, self.__class__)):
             n = _callname(name, classname(self, prefixed=True), self.name, up=up + 1)
             raise _TypeError(name, other, txt=_incompatible(n))
+        return other
 
     def toRepr(self, **kwds):  # PYCHOK expected
         '''(INTERNAL) I{Could be overloaded}.
@@ -597,7 +600,7 @@ class _NamedTuple(tuple, _Named):
                             NamedTuple.__name__, NamedTuple._Names_))
         return self._xnamed(NamedTuple(*(self + items)))
 
-    def toRepr(self, prec=6, sep=_COMMA_SPACE_):  # PYCHOK signature
+    def toRepr(self, prec=6, sep=_COMMA_SPACE_, **unused):  # PYCHOK signature
         '''Return the -Tuple items as C{name=value} string(s).
 
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
@@ -612,7 +615,7 @@ class _NamedTuple(tuple, _Named):
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method C{toRepr}.'''
 
-    def toStr(self, prec=6, sep=_COMMA_SPACE_):  # PYCHOK signature
+    def toStr(self, prec=6, sep=_COMMA_SPACE_, **unused):  # PYCHOK signature
         '''Return the -Tuple items as string(s).
 
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).

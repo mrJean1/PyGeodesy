@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 u'''Azimuthal projection classes L{Equidistant}, L{EquidistantKarney}, L{Gnomonic},
-L{LambertEqualArea}, L{Orthographic}, L{Stereographic} and L{AzimuthalError}.
+L{LambertEqualArea}, L{Orthographic}, L{Stereographic} and L{AzimuthalError} and
+function L{equidistant}.
 
 L{EquidistantKarney} uses ellipsoidal formulas and requires I{Charles Karney's}
 Python implementation of U{GeographicLib<https://PyPI.org/project/geographiclib/>}
@@ -41,23 +42,15 @@ from pygeodesy.utily import asin1, atan2d, sincos2, sincos2d
 from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.07.21'
+__version__ = '20.07.27'
 
 
 class _AzimuthalBase(_NamedBase):
     '''(INTERNAL) Base class for azimuthal projections.
 
-       Azimuthal projections are centered at an arbitrary position on the sphere
-       or ellipsoid.  For a point in projected space C{(x, y)}, the geodesic
-       distance from the center position is C{hypot(x, y)} and the C{azimuth} off
-       tru North of the geodesic from the center point is C{atan2(x, y)} (note
-       C{(x, y)}, not C{(y, x)}!).
-
-       The C{.forward} and C{.reverse} methods both return the C{azimuth} of the
-       geodesic at C{(x, y)} and the C{scale} in the azimuthal direction which,
-       together with the basic properties of the projection, serve to specify
-       completely the local affine transformation between geographic and projected
-       coordinates.
+       @see: Karney's C++ class U{AzimuthalEquidistant
+       <https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1AzimuthalEquidistant.html>}
+       or L{EquidistantKarney}.
     '''
     _datum   = Datums.WGS84  #: (INTERNAL) L{Datum}.
     _latlon0 = ()            #: (INTERNAL) lat0, lon0 (L{LatLon2Tuple}).
@@ -134,7 +127,7 @@ class _AzimuthalBase(_NamedBase):
 
     @property
     def latlon0(self):
-        '''Get the center lat- and longitude (L{LatLon2Tuple}C{(lat, lon)}) in (C{degrees90}, (C{degrees180}).
+        '''Get the center lat- and longitude (L{LatLon2Tuple}C{(lat, lon)}) in (C{degrees90}, C{degrees180}).
         '''
         return self._latlon0
 
@@ -256,9 +249,9 @@ class Azimuthal7Tuple(_NamedTuple):
     '''7-Tuple C{(x, y, lat, lon, azimuth, scale, datum)}, in C{meter},
        C{meter}, C{degrees90}, C{degrees180}, C{degrees360}, C{float} and
        C{Datum} where C{(x, y)} is the projected, C{(lat, lon)} the geodetic
-       location, C{azimuth} the azimuth direction off true North and C{scale}
-       is the projection scale, either (C{1 / reciprocal} or C{1} or C{-1} in
-       one case, L{Equidistant}).
+       location, C{azimuth} the azimuth direction clockwise from true North
+       and C{scale} is the projection scale, either (C{1 / reciprocal} or
+       C{1} or C{-1} in one case, L{Equidistant}).
     '''
     _Names_ = (_x_, _y_, _lat_, _lon_, _azimuth_, _scale_, _datum_)
 
@@ -298,7 +291,7 @@ class Equidistant(_AzimuthalBase):
         def _k_t(c):
             t = abs(c) < EPS1
             if t:
-                c = acos(c)  # XXX utily.acos1
+                c = acos(c)  # XXX .utily.acos1
                 k = c / sin(c)
             else:
                 k = -1 if c < 0 else 1  # int(copysign(1, c))
@@ -332,8 +325,21 @@ class Equidistant(_AzimuthalBase):
 
 
 def equidistant(lat0, lon0, datum=Datums.WGS84, name=NN):
-    '''If Karney's U{geographiclib<https://PyPI.org/project/geographiclib>} package
-       is installed, return an L{EquidistantKarney} otherwise an L{Equidistant} instance.
+    '''If Karney's U{geographiclib<https://PyPI.org/project/geographiclib>}
+       package is installed, return an L{EquidistantKarney} otherwise an
+       L{Equidistant} instance.
+
+       @arg lat0: Latitude of center point (C{degrees90}).
+       @arg lon0: Longitude of center point (C{degrees180}).
+       @kwarg datum: Optional datum (C{Datum}) or the radius of
+                     the I{spherical} earth (C{meter}).
+       @kwarg name: Optional name for the projection (C{str}).
+
+       @return: An L{EquidistantKarney} or L{Equidistant} instance.
+
+       @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
+
+       @raise UnitError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
     '''
     try:
         return EquidistantKarney(lat0, lon0, datum=datum, name=name)
@@ -349,7 +355,7 @@ class EquidistantKarney(_AzimuthalBase):
        An azimuthal equidistant projection is centered at an arbitrary position on the ellipsoid.
        For a point in projected space C{(x, y)}, the geodesic distance from the center position
        is C{hypot(x, y)} and the C{azimuth} of the geodesic from the center point is C{atan2(x, y)},
-       note C{(x, y)}, not C{(y, x)}!.
+       clockwise from true North.
 
        The C{.forward} and C{.reverse} methods also return the C{azimuth} of the geodesic at C{(x,
        y)} and the C{scale} in the azimuthal direction which, together with the basic properties

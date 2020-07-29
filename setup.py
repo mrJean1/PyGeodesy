@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.07.23'
+__version__ = '20.07.26'
 
 
 def _c2(*names):
@@ -53,9 +53,8 @@ _KeyWords = ('altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'azimuthal', 
              'earth', 'ECEF', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
              'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF', 'Euclidean', 'ExactTM',
              'fmath', 'Forsythe', 'fractional', 'Fréchet',
-             'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest',
-             'geographiclib', 'geohash', 'geoid', 'geoidHeight',
-             'GeoidHeights', 'georef', 'gnomonic',
+             'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest', 'geographiclib',
+             'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef', 'gnomonic',
              'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
              'IDW', 'interpolate', 'intersect', 'intersections', 'Inverse-Distance-Weighting', 'ITRF',
              'Karney', 'Krueger', 'Krüger',
