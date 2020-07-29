@@ -154,7 +154,7 @@ class Tests(_TestsLL, _TestsV):
 
             t = LatLon(0, 0).intersections2(PI_4, LatLon(0, 22.5), PI_4 / 2, radius=None)  # abutting
             s = latlonDMS(t, form=F_D, sep=', ')
-            self.test(n, s, '00.000001°S, 045.0°E, 00.000001°N, 045.0°E', know=True)  # N-S
+            self.test(n, s, '00.000001°S, 045.0°E, 00.000001°N, 045.0°E', known=True)  # N-S
 
             # centers at 2 opposite corners of a "square" and
             # radius equal to length of square side, expecting
