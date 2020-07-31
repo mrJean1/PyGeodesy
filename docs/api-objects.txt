@@ -1588,7 +1588,7 @@ pygeodesy.sphericalTrigonometry._T00	pygeodesy.sphericalTrigonometry-module.html
 pygeodesy.sphericalTrigonometry.crosserrors	pygeodesy.errors-module.html#crosserrors
 pygeodesy.sphericalTrigonometry.degrees180	pygeodesy.utily-module.html#degrees180
 pygeodesy.sphericalTrigonometry.sumOf	pygeodesy.sphericalTrigonometry-module.html#sumOf
-pygeodesy.sphericalTrigonometry.fsum	pygeodesy.fmath-module.html#fsum
+pygeodesy.sphericalTrigonometry._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
 pygeodesy.sphericalTrigonometry.bearing_	pygeodesy.formy-module.html#bearing_
 pygeodesy.sphericalTrigonometry.acos1	pygeodesy.utily-module.html#acos1
 pygeodesy.sphericalTrigonometry._item_sq	pygeodesy.interns-module.html#_item_sq
@@ -1606,7 +1606,8 @@ pygeodesy.sphericalTrigonometry.unrollPI	pygeodesy.utily-module.html#unrollPI
 pygeodesy.sphericalTrigonometry.iterNumpy2	pygeodesy.utily-module.html#iterNumpy2
 pygeodesy.sphericalTrigonometry.nearestOn3	pygeodesy.sphericalTrigonometry-module.html#nearestOn3
 pygeodesy.sphericalTrigonometry._intersect2	pygeodesy.sphericalTrigonometry-module.html#_intersect2
-pygeodesy.sphericalTrigonometry._xkwds_get	pygeodesy.errors-module.html#_xkwds_get
+pygeodesy.sphericalTrigonometry.fsum	pygeodesy.fmath-module.html#fsum
+pygeodesy.sphericalTrigonometry.asin1	pygeodesy.utily-module.html#asin1
 pygeodesy.sphericalTrigonometry._imdex2	pygeodesy.points-module.html#_imdex2
 pygeodesy.sphericalTrigonometry._x3d2	pygeodesy.sphericalTrigonometry-module.html#_x3d2
 pygeodesy.sphericalTrigonometry.wrapPI	pygeodesy.utily-module.html#wrapPI

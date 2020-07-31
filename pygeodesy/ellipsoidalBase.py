@@ -31,7 +31,7 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.units import Radius_
 
 __all__ = ()
-__version__ = '20.07.29'
+__version__ = '20.07.31'
 
 _TOL_M  = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS  = 32    # intersect2 interations, 4-8 sufficient
@@ -694,8 +694,8 @@ def _intersect2(center1, rad1, center2, rad2, height=None, wrap=False,  # MCCABE
                 t1 = A.forward(c1.lat, c1.lon)
                 t2 = A.forward(c2.lat, c2.lon)
                 # compute intersections in (x, y) space
-                v1, v2 = _vi2(t1, r1,  # XXX * t1.scale,
-                              t2, r2,  # XXX * t2.scale,
+                v1, v2 = _vi2(t1, r1,  # XXX * t1.scale?,
+                              t2, r2,  # XXX * t2.scale?,
                               sphere=False, too_d=m)
                 # convert intersections back to geodetic
                 t1 = A.reverse(v1.x, v1.y)
@@ -703,11 +703,8 @@ def _intersect2(center1, rad1, center2, rad2, height=None, wrap=False,  # MCCABE
                 # consider only the closer intersection
                 d1 = _euclidean(t1.lat - t.lat, t1.lon - t.lon)
                 d2 = _euclidean(t2.lat - t.lat, t2.lon - t.lon)
-                if d1 < d2:
-                    t, d = t1, d1
-                else:
-                    t, d = t2, d2
                 # break if below tolerance or if unchanged
+                t, d = (t1, d1) if d1 < d2 else (t2, d2)
                 if d < e or d == p:
                     ts.append(t)
                     if v1 is v2:  # abutting

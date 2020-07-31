@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.07.29'
+__version__ = '20.07.31'
 
 from base import RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -174,22 +174,26 @@ class Tests(_TestsLL, _TestsV):
                 _, s = _100p2(t, r, q, p)
                 self.test(d, s, s)
 
-            n += ' R'
+            d_m = 5e-5  # 50 micrometer
             # courtesy Samuel Čavoj <https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
             R = RandomLatLon(LatLon, 178, 178)  # +/- 89
             r = R()
-            for _ in range(8):
+            s = latlonDMS(r, form=F_D) + ' Random +/- 89'
+            self.test(n, s, s)
+            for _ in range(12):
                 p, q = R(), R()
-                try:
-                    t = p.intersections2(p.distanceTo(r), q, q.distanceTo(r), radius=R_M)
-                    s = latlonDMS(t, form=F_D, sep=', ')
+                try:  # see .testEllipsoidal
+                    i1, i2 = p.intersections2(r.distanceTo(p),
+                                           q, r.distanceTo(q), radius=R_M)
+                    d, d2 = r.distanceTo(i1), r.distanceTo(i2)
+                    if d2 < d:
+                        d, i1, i2 = d2, i2, i1
+                    s = '%s  d %g m' % (latlonDMS((i1, i2), form=F_D, sep=', '), d)
                     self.test(n, s, s)
-                    d = min(i.distanceTo(r) for i in t)  # PYCHOK test attr?
-                    if d > 5e-5:
-                        raise IntersectionError(d=d, fmt_name_value='%s (%g)')
-                    self.test(n, d, d, fmt='%g')
+                    if d > d_m:
+                        raise IntersectionError(d=d, fmt_name_value='%s (%g)', txt='over')
                 except IntersectionError as x:
-                    self.test(n, str(x), 'd < 5e-5', known=True)  # too distant, near concentric, etc.
+                    self.test(n, str(x), 'd < %g m' % (d_m), known=True)  # too distant, near concetric, etc.
 
         if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)

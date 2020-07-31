@@ -32,7 +32,7 @@ from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase, _rads3
 from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
-from pygeodesy.utily import acos1, degrees90, degrees180, degrees2m, \
+from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
                             iterNumpy2, radiansPI2, sincos2, tan_2, \
                             unrollPI, wrapPI
 from pygeodesy.vector3d import _radical2, sumOf, Vector3d
@@ -40,7 +40,7 @@ from pygeodesy.vector3d import _radical2, sumOf, Vector3d
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.07.29'
+__version__ = '20.07.31'
 
 _EPS_I2    = 4.0 * EPS
 _PI_EPS_I2 = PI - _EPS_I2
@@ -61,7 +61,7 @@ def _destination2(a, b, r, t):
     # see <https://www.EdWilliams.org/avform.htm#LL>
     sa, ca, sr, cr, st, ct = sincos2(a, r, t)
 
-    a = asin(ct * sr * ca + cr * sa)
+    a = asin1(ct * sr * ca + cr * sa)
     d = atan2(st * sr * ca, cr - sa * sin(a))
     # note, in EdWilliams.org/avform.htm W is + and E is -
     return a, b + d
@@ -978,7 +978,7 @@ def _intersect2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._intersec
     a1, b1 = c1.philam
     a2, b2 = c2.philam
 
-    db, _ = unrollPI(b1, b2, wrap=wrap)
+    db, b2 = unrollPI(b1, b2, wrap=wrap)
     d = vincentys_(a2, a1, db)  # radians
     if d < max(r1 - r2, EPS):
         raise ValueError(_near_concentric_)

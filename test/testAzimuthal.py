@@ -4,14 +4,15 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.07.27'
+__version__ = '20.07.31'
 
-from base import TestsBase, geographiclib
+from base import geographiclib, TestsBase, RandomLatLon
 
-from pygeodesy import Equidistant, EquidistantKarney, Gnomonic, LambertEqualArea, \
-                      Orthographic, Stereographic, \
-                      ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
-                      fstr, haversine, hypot
+from pygeodesy import Equidistant, EquidistantKarney, Gnomonic, \
+                      LambertEqualArea, Orthographic, Stereographic, \
+                      ellipsoidalKarney, ellipsoidalNvector, \
+                      ellipsoidalVincenty, F_D, fstr, haversine, \
+                      hypot, IntersectionError, latlonDMS, NN
 
 
 class Tests(TestsBase):
@@ -48,6 +49,67 @@ class Tests(TestsBase):
         d = haversine(G.lat0, G.lon0, r.lat, r.lon)
         self.test('hypot', h, d, fmt='%.3f', known=abs(d - h) < 1000, nt=1)
 
+    def testDiscrepancies(self):
+        # Compare ellipsoidal intersections2 for EquidistantKarney
+        # and Equidistant showing the differences in degrees
+        # and as percentage of the reference RandomLatLon.  Also
+        # show the spherical intersections2, first gu-/estimates.
+
+        # Equidistant implements Snyder's formulas for the sphere
+        # for ellipsoidal projections.  That plus the (high) accuracy
+        # of EquidistantKarney likely cause the discrepancies.
+        from pygeodesy.ellipsoidalBase import _intersect2 as _ei2
+        from pygeodesy.sphericalTrigonometry import _intersect2 as _si2
+
+        def _100p(p, q, w):
+            r = abs(100 * p / q) if q else 0
+            return '%0*.3f%%' % (w + 4,r)
+
+        def _max(i, r, t=''):
+            s = latlonDMS(i, form=F_D, prec=-6, sep=', ')
+            return '%s  %s, %s of Random%s' % (s, _100p(i.lat, r.lat, 2),
+                                                  _100p(i.lon, r.lon, 3), t)
+
+        for m in (ellipsoidalKarney, ellipsoidalVincenty):
+            LL = m.LatLon
+            e = LL(0, 0)
+            n = m.__name__
+            # courtesy Samuel Čavoj <https://GitHub.com/mrJean1/PyGeodesy/issues/41>}
+            R = RandomLatLon(LL, 90, 90)  # +/- 45
+            r = R()
+            s = latlonDMS(r, form=F_D, prec=-6) + ' Random +/- 45'
+            self.test(n, s, s)
+            for _ in range(100):  # 100+
+                p, q = R(), R()
+                r1 = r.distanceTo(p)
+                r2 = r.distanceTo(q)
+                t = []
+                for E in (None, EquidistantKarney, Equidistant):
+                    a = getattr(E, '__name__', 'Spherical')
+                    try:
+                        i1, i2 = _si2(p, r1, q, r2, LatLon=LL) if E is None else \
+                                 _ei2(p, r1, q, r2, equidistant=E, LatLon=LL)
+                        d, d2 = r.distanceTo(i1), r.distanceTo(i2)
+                        if d2 < d:
+                            d, i1, i2 = d2, i2, i1
+                        s = latlonDMS((i1, i2), form=F_D, prec=-6, sep=', ')
+                        s = '%s  d %g m  %s' % (s, d, a)
+                        self.test(n, s, s)
+                        if E is not None:
+                            t.append(i1)
+                    except (IntersectionError, TypeError, ValueError) as x:
+                        s = NN.join(str(x).split(':')[-1:]).strip()
+                        self.test(n, s, a, known=True)
+                if len(t) == 2:
+                    i1, i2 = t
+                    i = LL(i1.lat - i2.lat, i1.lon - i2.lon)
+                    s = _max(i, r)
+                    self.test(n, s, s)
+                    e = LL(max(abs(i.lat), e.lat),
+                           max(abs(i.lon), e.lon))
+            s = _max(e, r, ', max')
+            self.test(n, s, s, nt=1)
+
     def testSnyder(self, lat, lon, As, *xys):
         ll = lat, lon
         t = str(ll)
@@ -76,6 +138,8 @@ if __name__ == '__main__':
                     '-38000.0, 230000.0, 50.899962, 1.793278, 350.205524, 0.999778',
                     'LatLon(50°53′59.86″N, 001°47′35.8″E)',
                     '170617.186469, -293210.754313, 48.833333, 2.333333, 151.589952, 0.999529')
+
+        t.testDiscrepancies()
     else:
         t.skip('no geographiclib', n=14)
 

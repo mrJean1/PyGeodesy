@@ -268,6 +268,10 @@ class Equidistant(_AzimuthalBase):
     '''Azimuthal equidistant projection for the sphere**, see U{Snyder, pp 195-197
        <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} and U{MathWorld-Wolfram
        <https://MathWorld.Wolfram.com/AzimuthalEquidistantProjection.html>}.
+
+       @note: Results from this L{Equidistant} and the L{EquidistantKarney}
+              projection C{may differ} up to 10% or more.  For an example,
+              see method C{testDiscrepancies} in module C{testAzimuthal.py}.
     '''
     if _FOR_DOCS:
         __init__ = _AzimuthalBase.__init__
