@@ -31,10 +31,10 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.units import Radius_
 
 __all__ = ()
-__version__ = '20.07.31'
+__version__ = '20.08.02'
 
-_TOL_M  = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
-_TRIPS  = 32    # intersect2 interations, 4-8 sufficient
+_TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
+_TRIPS = 16    # intersect2 interations, 4 sufficient
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -583,10 +583,10 @@ class LatLonEllipsoidalBase(LatLonBase):
 
 
 # (INTERNAL) C{_intersect2} imported by .ellipsoidalKarney and -Vincenty
-def _intersect2(center1, rad1, center2, rad2, height=None, wrap=False,  # MCCABE 18 vars
-                equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
+def _intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
+                    equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''Iteratively compute the intersection points of two circles each defined
-       by an (ellipsoidal) center point and radius.
+       by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (ellipsoidal C{LatLon}).
        @arg rad1: Radius of the first circle (C{meter}).
@@ -630,6 +630,27 @@ def _intersect2(center1, rad1, center2, rad2, height=None, wrap=False,  # MCCABE
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.
     '''
+
+    c1 = _xellipsoidal(center1=center1)
+    c2 = c1.others(center2)
+
+    r1 = Radius_(rad1, name='rad1')
+    r2 = Radius_(rad2, name='rad2')
+
+    try:
+        return _intersect2(c1, r1, c2, r2, height=height, wrap=wrap,
+                                      equidistant=equidistant, tol=tol,
+                                           LatLon=LatLon, **LatLon_kwds)
+    except (TypeError, ValueError) as x:
+        raise IntersectionError(center1=center1, rad1=rad1,
+                                center2=center2, rad2=rad2, txt=str(x))
+
+
+def _intersect2(c1, r1, c2, r2, height=None, wrap=False,  # MCCABE 15
+                equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
+    # (INTERNAL) Intersect of two spherical circles, see L{_intersections2}
+    # above, separated to allow callers to embellish any exceptions
+
     from pygeodesy.formy import _euclidean
     from pygeodesy.sphericalTrigonometry import _intersect2 as _si2, LatLon as _LLS
     from pygeodesy.utily import m2degrees
@@ -643,86 +664,75 @@ def _intersect2(center1, rad1, center2, rad2, height=None, wrap=False,  # MCCABE
             r = LatLon(t.lat, t.lon, **kwds)
         return _xnamed(r, n)
 
-    c1 = _xellipsoidal(center1=center1)
-    c2 = c1.others(center2)
+    if r1 < r2:
+        c1, c2 = c2, c1
+        r1, r2 = r2, r1
 
-    r1 = Radius_(rad1, name='rad1')
-    r2 = Radius_(rad2, name='rad2')
+    E = c1.ellipsoids(c2)
+    if r1 > (E.b * PI):
+        raise ValueError(_exceed_PI_radians_)
 
-    try:
-        if r1 < r2:
-            c1, c2 = c2, c1
-            r1, r2 = r2, r1
+    # distance between centers and radii are
+    # measured along the ellipsoid's surface
+    m = c1.distanceTo(c2, wrap=wrap)  # meter
+    if m < max(r1 - r2, EPS):
+        raise ValueError(_near_concentric_)
+    if fsum_(r1, r2, -m) < 0:
+        raise ValueError(_too_distant_fmt_ % (m,))
 
-        E = c1.ellipsoids(c2)
-        if r1 > (E.b * PI):
-            raise ValueError(_exceed_PI_radians_)
+    f, _ = _radical2(m, r1, r2)  # "radical ratio"
+    r = E.rocMean(favg(c1.lat, c2.lat, f=f))
+    e = max(m2degrees(tol, radius=r), EPS)
 
-        # distance between centers and radii are
-        # measured along the ellipsoid's surface
-        m = center1.distanceTo(center2, wrap=wrap)  # meter
-        if m < max(r1 - r2, EPS):
-            raise ValueError(_near_concentric_)
-        if fsum_(r1, r2, -m) < 0:
-            raise ValueError(_too_distant_fmt_ % (m,))
+    # gu-/estimate initial intersections, spherically
+    t1, t2 = _si2(_LLS(c1.lat, c1.lon, height=c1.height), r1,
+                  _LLS(c2.lat, c2.lon, height=c2.height), r2,
+                   radius=r, height=height, wrap=wrap, too_d=m)
+    h, n = t1.height, t1.name
 
-        f, _ = _radical2(m, r1, r2)  # "radical ratio"
-        r = E.rocMean(favg(c1.lat, c2.lat, f=f))
-        e = max(m2degrees(tol, radius=r), EPS)
+    # get the azimuthal equidistant projection
+    if equidistant is None:
+        from pygeodesy.azimuthal import equidistant as A
+    else:
+        A = equidistant
+    A = A(0, 0, datum=c1.datum)
 
-        # gu-/estimate initial intersections, spherically
-        t1, t2 = _si2(_LLS(c1.lat, c1.lon, height=c1.height), r1,
-                      _LLS(c2.lat, c2.lon, height=c2.height), r2,
-                       radius=r, height=height, wrap=wrap, too_d=m)
-        h, n = t1.height, t1.name
-
-        # get the azimuthal equidistant projection
-        if equidistant is None:
-            from pygeodesy.azimuthal import equidistant as A
+    # for each gu-/estimate, iterate like Karney
+    # suggests to find tri-points of median lines
+    ts, ta = [], None
+    for t in ((t1,) if t1 is t2 else (t1, t2)):
+        p = None  # force d == p False
+        for _ in range(_TRIPS):
+            A.reset(t.lat, t.lon)  # gu-/estimate as origin
+            # convert centers to projection space
+            t1 = A.forward(c1.lat, c1.lon)
+            t2 = A.forward(c2.lat, c2.lon)
+            # compute intersections in projection space
+            v1, v2 = _vi2(t1, r1,  # XXX * t1.scale?,
+                          t2, r2,  # XXX * t2.scale?,
+                          sphere=False, too_d=m)
+            # convert intersections back to geodetic
+            t1 = A.reverse(v1.x, v1.y)
+            t2 = A.reverse(v2.x, v2.y)
+            # consider only the closer intersection
+            d1 = _euclidean(t1.lat - t.lat, t1.lon - t.lon)
+            d2 = _euclidean(t2.lat - t.lat, t2.lon - t.lon)
+            # break if below tolerance or if unchanged
+            t, d = (t1, d1) if d1 < d2 else (t2, d2)
+            if d < e or d == p:
+                ts.append(t)
+                if v1 is v2:  # abutting
+                    ta = t
+                break
+            p = d
         else:
-            A = equidistant
-        A = A(0, 0, datum=c1.datum)
-
-        # for each gu-/estimate, iterate like Karney
-        # suggests to find tri-points of median lines
-        ts, ta = [], None
-        for t in ((t1,) if t1 is t2 else (t1, t2)):
-            p = -1  # force first d == p to False
-            for _ in range(_TRIPS):
-                A.reset(t.lat, t.lon)  # gu-/estimate as origin
-                # convert centers to projection space
-                t1 = A.forward(c1.lat, c1.lon)
-                t2 = A.forward(c2.lat, c2.lon)
-                # compute intersections in (x, y) space
-                v1, v2 = _vi2(t1, r1,  # XXX * t1.scale?,
-                              t2, r2,  # XXX * t2.scale?,
-                              sphere=False, too_d=m)
-                # convert intersections back to geodetic
-                t1 = A.reverse(v1.x, v1.y)
-                t2 = A.reverse(v2.x, v2.y)
-                # consider only the closer intersection
-                d1 = _euclidean(t1.lat - t.lat, t1.lon - t.lon)
-                d2 = _euclidean(t2.lat - t.lat, t2.lon - t.lon)
-                # break if below tolerance or if unchanged
-                t, d = (t1, d1) if d1 < d2 else (t2, d2)
-                if d < e or d == p:
-                    ts.append(t)
-                    if v1 is v2:  # abutting
-                        ta = t
-                    break
-                p = d
-            else:
-                raise ValueError('%s (%g)' % (_no_convergence_, tol))
-
-    except (TypeError, ValueError) as x:
-        raise IntersectionError(center1=center1, rad1=rad1,
-                                center2=center2, rad2=rad2, txt=str(x))
+            raise ValueError('%s (%g)' % (_no_convergence_, tol))
 
     if ta:  # abutting circles
         r = _latlon4(ta, h, n)
     elif len(ts) == 2:
         return _latlon4(ts[0], h, n), _latlon4(ts[1], h, n)
-    elif ts:  # assume abutting
+    elif len(ts) == 1:  # XXX assume abutting
         r = _latlon4(ts[0], h, n)
     else:
         raise _AssertionError(ts=ts)

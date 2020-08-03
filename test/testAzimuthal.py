@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.07.31'
+__version__ = '20.08.01'
 
 from base import geographiclib, TestsBase, RandomLatLon
 
@@ -12,7 +12,7 @@ from pygeodesy import Equidistant, EquidistantKarney, Gnomonic, \
                       LambertEqualArea, Orthographic, Stereographic, \
                       ellipsoidalKarney, ellipsoidalNvector, \
                       ellipsoidalVincenty, F_D, fstr, haversine, \
-                      hypot, IntersectionError, latlonDMS, NN
+                      hypot, IntersectionError, latlonDMS
 
 
 class Tests(TestsBase):
@@ -57,7 +57,11 @@ class Tests(TestsBase):
 
         # Equidistant implements Snyder's formulas for the sphere
         # for ellipsoidal projections.  That plus the (high) accuracy
-        # of EquidistantKarney likely cause the discrepancies.
+        # of EquidistantKarney likely cause the discrepancies.  An
+        # other factor may be the innate distortions of azimuthal
+        # equidistance projections for distances beyond 10,000 Km
+        # (about one quarter of the earth circumference), see
+        # <https://WikiPedia.org/wiki/Azimuthal_equidistant_projection>
         from pygeodesy.ellipsoidalBase import _intersect2 as _ei2
         from pygeodesy.sphericalTrigonometry import _intersect2 as _si2
 
@@ -79,7 +83,7 @@ class Tests(TestsBase):
             r = R()
             s = latlonDMS(r, form=F_D, prec=-6) + ' Random +/- 45'
             self.test(n, s, s)
-            for _ in range(100):  # 100+
+            for _ in range(12):  # 100+
                 p, q = R(), R()
                 r1 = r.distanceTo(p)
                 r2 = r.distanceTo(q)
@@ -98,8 +102,7 @@ class Tests(TestsBase):
                         if E is not None:
                             t.append(i1)
                     except (IntersectionError, TypeError, ValueError) as x:
-                        s = NN.join(str(x).split(':')[-1:]).strip()
-                        self.test(n, s, a, known=True)
+                        self.test(n, str(x), a, known=True)
                 if len(t) == 2:
                     i1, i2 = t
                     i = LL(i1.lat - i2.lat, i1.lon - i2.lon)

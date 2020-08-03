@@ -32,14 +32,14 @@ decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
 Other modules provide azimuthal projections and Lambert conformal conic
 projections and positions (from `John P. Snyder`_, *Map Projections -- A
-Working Manual*, 1987, pp 107-109), functions to clip a path or polygon of
-*LatLon* points using the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_
-methods, functions to simplify_ or linearize a path of *LatLon* points (or a
+Working Manual*, 1987), functions to clip a path or polygon of *LatLon*
+points using the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_ methods,
+functions to simplify_ or linearize a path of *LatLon* points (or a
 `NumPy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
 the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
-versions of the former.  Other classes interpolate_ the height of
-*LatLon* points and several *Geoid* models or compute various `Fréchet`_
-or Hausdorff_ distances.
+versions of the former.  Other classes interpolate_ the height of *LatLon*
+points and several *Geoid* models or compute various `Fréchet`_ or Hausdorff_
+distances.
 
 Installation
 ============
@@ -72,25 +72,26 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.8.3, 3.7.6 and 2.7.18 (all with
+The tests have been run with Python 3.8.5, 3.7.6 and 2.7.18 (all with
 geographiclib_ 1.50, numpy_ 1.19.0, 1.17.2 respectively 1.16.5 and scipy_
-1.5.0, 1.3.1 respectively 1.2.2) and with macOS' Python 2.7.16 (without
-geographiclib, numpy and scipy), all on macOS 10.15.5 Catalina and all
-in 64-bit only.  The tests run with and without ``lazy import`` in Python
-3.8.3 and 3.7.6.  The results of those tests are included in the
-distribution files.
+1.5.0, 1.3.1 respectively 1.2.2) and with Python 3.9.0b5 and macOS'
+Python 2.7.16 (without geographiclib, numpy and scipy), all on macOS
+10.15.6 Catalina and all in 64-bit only.  The tests run with and without
+``lazy import`` in Python 3.  The results of those tests are included in
+the distribution files.
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.3
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.5
 and 3.7.6 (both with geographiclib_ 1.50, numpy_ 1.19.0 respectively
 1.17.2 and scipy_ 1.5.0 respectively 1.3.1) and macOS' Python 2.7.16
 (without geographiclib, numpy and scipy).  The full HMTL report and a
 PDF summary are included in the distribution files.
 
-The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1 and 3.8.0 (and
-geographiclib_ 1.49 or 1.50) on `Ubuntu 14.04`_ and with Python 3.7.3 (and
-geographiclib_ 1.49 or 1.50) on `Debian 9`_ all in 64-bit only and with
-Python 2.7.15, 3.6.8, 3.7.2 and 3.8.0 (all with geographiclib_ 1.49 or 1.50)
-on `Windows Server 2012R2`_ in both 32- and 64-bit.
+The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1, 3.8.0 and
+PyPy_ 7.1.1 (Python 2.7.13 and 3.6.1) (and geographiclib_ 1.49 or 1.50)
+on `Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_ 1.49 or
+1.50) on `Debian 9`_ all in 64-bit only and with Python 2.7.15, 3.6.8,
+3.7.2 and 3.8.0 (all with geographiclib_ 1.49 or 1.50) on `Windows
+Server 2012R2`_ in both 32- and 64-bit.
 
 A single-File and single-Directory application with ``pygeodesy`` has
 been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.3 and 3.7.4
@@ -99,15 +100,15 @@ on macOS 10.13.6 High Sierra.
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 1.14.0,
 1.15.2, 1.16.2 or 1.16.5), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru
-3.7.5, 3.8, 3.8.1 and 3.8.2, PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3), PyPy_
+3.7.5, 3.8 thru 3.8.3, PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3), PyPy_
 7.3.0 (Python 2.7.13 and 3.6.9) and `Intel-Python`_ 3.5.3 (and numpy_
 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12
 Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave and/or macOS 10.15.3
-Catalina, with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on
-iPad4, with Pythonista_ 3.2 (with geographiclib 1.49 or 1.50 and numpy 1.8.0)
-on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6 and/or iPhone10, all
-in 64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and with
-32-bit Python 2.7.14 on Windows 10 Pro.
+and 10.15.5 Catalina, with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2
+and 11.3 on iPad4, with Pythonista_ 3.2 (with geographiclib 1.49 or 1.50
+and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6
+and/or iPhone10, all in 64-bit only and with 32-bit Python 2.6.6 on
+Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
 
 Notes
 =====
@@ -120,7 +121,7 @@ Catalina.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: July 31, 2020.*
+*Last updated: Aug 02, 2020.*
 
 License
 =======

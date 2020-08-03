@@ -122,10 +122,9 @@
   <p>Other modules provide azimuthal projections and Lambert conformal 
   conic projections and positions (from <a 
   href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" target="_top">John P.
-  Snyder, &quot;Map Projections -- A Working Manual&quot;, 1987, pp 
-  107-109</a>), functions to clip a path or polygon of <code>LatLon</code> 
-  points using the <a 
-  href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
+  Snyder, &quot;Map Projections -- A Working Manual&quot;, 1987</a>), 
+  functions to clip a path or polygon of <code>LatLon</code> points using 
+  the <a href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
   target="_top">Cohen&#8211;Sutherland</a> and the <a 
   href="https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm" 
   target="_top">Sutherland-Hodgman</a> methods, functions to <a 
@@ -186,20 +185,20 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.8.3, 3.7.6 and 2.7.18 (all 
+    <p>The tests have been run with Python 3.8.5, 3.7.6 and 2.7.18 (all 
     with <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0, 
     1.17.2 respectively 1.16.5 and <a 
     href="https://SciPy.org/scipylib/download.html" target="_top">scipy</a>
-    1.5.0, 1.3.1 respectively 1.2.2) and with macOS' Python 2.7.16 (without
-    geographiclib, numpy and scipy), all on macOS 10.15.5 Catalina and all 
-    in 64-bit only.  The tests run with and without <code>lazy 
-    import</code> in Python 3.8.3 and 3.7.6.  The results of those tests 
-    are included in the distribution files.</p>
+    1.5.0, 1.3.1 respectively 1.2.2) and with Python 3.9.0b5 and macOS' 
+    Python 2.7.16 (without geographiclib, numpy and scipy), all on macOS 
+    10.15.6 Catalina and all in 64-bit only.  The tests run with and 
+    without <code>lazy import</code> in Python 3.  The results of those 
+    tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.8.3 and 3.7.6 (both with <a 
+    4.5.4 using Python 3.8.5 and 3.7.6 (both with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0 
@@ -208,8 +207,9 @@
     1.5.0 respectively 1.3.1) and macOS' Python 2.7.16 (without 
     geographiclib, numpy and scipy). The full HMTL report and a PDF summary
     are included in the distribution files.</p>
-    <p>The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1 and 3.8.0
-    (and <a href="https://PyPI.org/project/geographiclib" 
+    <p>The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1, 3.8.0 
+    and <a href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 
+    2.7.13 and 3.6.1) (and <a href="https://PyPI.org/project/geographiclib"
     target="_top">geographiclib</a> 1.49 or 1.50) on <a 
     href="https://Travis-CI.org/mrJean1/PyGeodesy" target="_top">Ubuntu 
     14.04</a> and with Python 3.7.3 (and <a 
@@ -229,7 +229,7 @@
     <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
     2.7.10 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 
     1.14.0, 1.15.2 or 1.16.2), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 
-    3.7.5, 3.8, 3.8.1 and 3.8.2, <a href="https://PyPy.org" 
+    3.7.5, 3.8 thru 3.8.3, <a href="https://PyPy.org" 
     target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3), <a 
     href="https://PyPy.org" target="_top">PyPy</a> 7.3.0 (Python 2.7.13 and
     3.6.9) and <a 
@@ -238,13 +238,14 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
     on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 
     Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave and/or macOS 
-    10.15.3 Catalina, with <a href="https://OMZ-Software.com/pythonista" 
-    target="_top">Pythonista 3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
-    on iPad4, with <a href="https://OMZ-Software.com/pythonista" 
-    target="_top">Pythonista 3.2</a> (with geographiclib 1.49 or 1.50 and 
-    numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6 
-    and/or iPhone10, all in 64-bit only and with 32-bit Python 2.6.6 on 
-    Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.</p>
+    10.15.3 and 10.15.5 Catalina, with <a 
+    href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
+    3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with <a 
+    href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
+    3.2</a> (with geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 
+    11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6 and/or iPhone10, all in 
+    64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and with 
+    32-bit Python 2.7.14 on Windows 10 Pro.</p>
   <h1 class="heading">Notes</h1>
     <p>All Python source code has been statically <a 
     href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
@@ -285,7 +286,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.07.31
+        20.08.02
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -4257,7 +4258,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fcd51db7750&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8af02ba8d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6974,7 +6975,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.7.31'"><code class="variable-quote">'</code><code class="variable-string">20.7.31</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.2'"><code class="variable-quote">'</code><code class="variable-string">20.8.2</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -10983,7 +10984,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fcd51db7750&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8af02ba8d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16542,7 +16543,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jul 31 13:19:50 2020
+    Generated by Epydoc 3.0.1 on Sun Aug  2 14:42:32 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

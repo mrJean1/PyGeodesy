@@ -31,8 +31,9 @@ or by converting to anothor datum:
 from pygeodesy.basics import property_RO, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _intersect2, \
-                                      LatLonEllipsoidalBase, _TOL_M
+from pygeodesy.ellipsoidalBase import _intersections2, _TOL_M, \
+                                       CartesianEllipsoidalBase, \
+                                       LatLonEllipsoidalBase
 from pygeodesy.errors import _ValueError
 from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
@@ -41,7 +42,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.07.27'
+__version__ = '20.08.02'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -435,7 +436,7 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
 def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
                    equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
     '''Iteratively compute the intersection points of two circles each defined
-       by an (ellipsoidal) center point and radius.
+       by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
        @arg rad1: Radius of the second circle (C{meter}).
@@ -480,8 +481,8 @@ def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
     '''
     from pygeodesy.azimuthal import EquidistantKarney
     E = EquidistantKarney if equidistant is None else equidistant
-    return _intersect2(center1, rad1, center2, rad2, height=height, wrap=wrap,
-                             equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
+    return _intersections2(center1, rad1, center2, rad2, height=height, wrap=wrap,
+                                 equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
 def isclockwise(points, datum=Datums.WGS84, wrap=True):

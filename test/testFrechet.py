@@ -4,7 +4,7 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '20.07.03'
+__version__ = '20.08.02'
 
 from base import coverage, geographiclib, isPython3, isWindows, \
                  TestsBase
@@ -217,7 +217,8 @@ if __name__ == '__main__':  # MCCABE 13
         from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
                               sphericalNvector, sphericalTrigonometry
 
-        for m in (ellipsoidalKarney, ellipsoidalVincenty):
+        ms = (ellipsoidalKarney, ellipsoidalVincenty) if geographiclib else (ellipsoidalVincenty,)
+        for m in ms:
             _ms = [m.LatLon(*ll.latlon) for ll in _ms]
             _ps = [m.LatLon(*ll.latlon) for ll in _ps]
             t.test2(FrechetDistanceTo, (16786640.7064, 0, 0, 149, 5400),

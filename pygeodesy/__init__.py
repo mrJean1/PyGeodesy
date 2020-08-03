@@ -46,9 +46,9 @@ to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
 U{Garefs (GARS)<https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
 
 Other modules provide azimuthal projections and Lambert conformal conic projections
-and positions (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987,
-pp 107-109 <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}), functions to clip a
-path or polygon of C{LatLon} points using the U{Cohen–Sutherland
+and positions (from U{John P. Snyder, "Map Projections -- A Working Manual",
+1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}), functions to clip a path
+or polygon of C{LatLon} points using the U{Cohen–Sutherland
 <https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} and the
 U{Sutherland-Hodgman<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
 methods, functions to U{simplify<https://Bost.Ocks.org/mike/simplify>} or
@@ -99,17 +99,17 @@ the test results (on macOS only) and the complete U{documentation
 Tests
 =====
 
-The tests have been run with Python 3.8.3, 3.7.6 and 2.7.18 (all with
+The tests have been run with Python 3.8.5, 3.7.6 and 2.7.18 (all with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
 <https://PyPI.org/project/numpy>} 1.19.0, 1.17.2 respectively 1.16.5 and
 U{scipy<https://SciPy.org/scipylib/download.html>} 1.5.0, 1.3.1 respectively
-1.2.2) and with macOS' Python 2.7.16 (without geographiclib, numpy and
-scipy), all on macOS 10.15.5 Catalina and all in 64-bit only.  The tests
-run with and without C{lazy import} in Python 3.8.3 and 3.7.6.  The
-results of those tests are included in the distribution files.
+1.2.2) and with Python 3.9.0b5 and macOS' Python 2.7.16 (without geographiclib,
+numpy and scipy), all on macOS 10.15.6 Catalina and all in 64-bit only.  The
+tests run with and without C{lazy import} in Python 3.  The results of those
+tests are included in the distribution files.
 
 Test coverage has been measured with U{coverage
-<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.8.3 and 3.7.6
+<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.8.5 and 3.7.6
 (both with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.0 respectively 1.17.2 and
 U{scipy<https://SciPy.org/scipylib/download.html>} 1.5.0 respectively
@@ -117,7 +117,8 @@ U{scipy<https://SciPy.org/scipylib/download.html>} 1.5.0 respectively
 The full HMTL report and a PDF summary are included in the distribution
 files.
 
-The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1 and 3.8.0 (and
+The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1, 3.8.0 and
+U{PyPy<https://PyPy.org>} 7.1.1 (Python 2.7.13 and 3.6.1) (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on
 U{Ubuntu 14.04<https://Travis-CI.org/mrJean1/PyGeodesy>} and with Python
 3.7.3 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49 or
@@ -131,20 +132,20 @@ A single-File and single-Directory application with C{pygeodesy} has been
 bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4 and 64-bit
 Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10 (and
-numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 1.14.0, 1.15.2 or 1.16.2),
-3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 3.7.5, 3.8, 3.8.1 and 3.8.2, U{PyPy
-<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3), U{PyPy<https://PyPy.org>}
-7.3.0 (Python 2.7.13 and 3.6.9) and U{Intel-Python
+Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
+(and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 1.14.0, 1.15.2
+or 1.16.2), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 3.7.5, 3.8 thru 3.8.3,
+U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3), U{PyPy
+<https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9) and U{Intel-Python
 <https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
 <https://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11
 El Capitan, macOS 10.12 Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave
-and/or macOS 10.15.3 Catalina, with U{Pythonista 3.1<https://OMZ-Software.com/pythonista>}
-on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with U{Pythonista 3.2
-<https://OMZ-Software.com/pythonista>} (with geographiclib 1.49 or 1.50 and numpy
-1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6 and/or iPhone10, all
-in 64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and with 32-bit
-Python 2.7.14 on Windows 10 Pro.
+and/or macOS 10.15.3 and 10.15.5 Catalina, with U{Pythonista 3.1
+<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
+on iPad4, with U{Pythonista 3.2<https://OMZ-Software.com/pythonista>} (with
+geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3
+on iPad4, iPhone6 and/or iPhone10, all in 64-bit only and with 32-bit Python
+2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
 
 Notes
 =====
@@ -274,7 +275,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.07.31'
+__version__ = '20.08.02'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

@@ -4,7 +4,7 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '20.07.03'
+__version__ = '20.08.02'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
@@ -255,7 +255,8 @@ if __name__ == '__main__':  # MCCABE 13
         from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
                               sphericalNvector, sphericalTrigonometry
 
-        for m in (ellipsoidalKarney, ellipsoidalVincenty):
+        ms = (ellipsoidalKarney, ellipsoidalVincenty) if geographiclib else (ellipsoidalVincenty,)
+        for m in ms:
             _ms = [m.LatLon(*ll.latlon) for ll in _ms]
             _ps = [m.LatLon(*ll.latlon) for ll in _ps]
             t.test4(HausdorffDistanceTo, *_4((3195418.34044, 35, 3,  90, 1351164.35981),

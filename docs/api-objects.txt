@@ -615,6 +615,7 @@ pygeodesy.ellipsoidalBase.property_doc_	pygeodesy.basics-module.html#property_do
 pygeodesy.ellipsoidalBase._reframeTransforms	pygeodesy.trf-module.html#_reframeTransforms
 pygeodesy.ellipsoidalBase._intersect2	pygeodesy.ellipsoidalBase-module.html#_intersect2
 pygeodesy.ellipsoidalBase.__package__	pygeodesy.ellipsoidalBase-module.html#__package__
+pygeodesy.ellipsoidalBase._intersections2	pygeodesy.ellipsoidalBase-module.html#_intersections2
 pygeodesy.ellipsoidalBase.fsum_	pygeodesy.fmath-module.html#fsum_
 pygeodesy.ellipsoidalBase._xellipsoidal	pygeodesy.errors-module.html#_xellipsoidal
 pygeodesy.ellipsoidalBase._TOL_M	pygeodesy.ellipsoidalBase-module.html#_TOL_M
@@ -624,7 +625,6 @@ pygeodesy.ellipsoidalBase._incompatible	pygeodesy.errors-module.html#_incompatib
 pygeodesy.ellipsoidalBase._2epoch	pygeodesy.trf-module.html#_2epoch
 pygeodesy.ellipsoidalKarney	pygeodesy.ellipsoidalKarney-module.html
 pygeodesy.ellipsoidalKarney.unroll180	pygeodesy.utily-module.html#unroll180
-pygeodesy.ellipsoidalKarney._intersect2	pygeodesy.ellipsoidalBase-module.html#_intersect2
 pygeodesy.ellipsoidalKarney._xkwds	pygeodesy.basics-module.html#_xkwds
 pygeodesy.ellipsoidalKarney.perimeterOf	pygeodesy.ellipsoidalKarney-module.html#perimeterOf
 pygeodesy.ellipsoidalKarney.__package__	pygeodesy.ellipsoidalKarney-module.html#__package__
@@ -632,6 +632,7 @@ pygeodesy.ellipsoidalKarney.intersections2	pygeodesy.ellipsoidalKarney-module.ht
 pygeodesy.ellipsoidalKarney.isclockwise	pygeodesy.ellipsoidalKarney-module.html#isclockwise
 pygeodesy.ellipsoidalKarney.wrap90	pygeodesy.utily-module.html#wrap90
 pygeodesy.ellipsoidalKarney.points2	pygeodesy.formy-module.html#points2
+pygeodesy.ellipsoidalKarney._intersections2	pygeodesy.ellipsoidalBase-module.html#_intersections2
 pygeodesy.ellipsoidalKarney.wrap360	pygeodesy.utily-module.html#wrap360
 pygeodesy.ellipsoidalKarney.areaOf	pygeodesy.ellipsoidalKarney-module.html#areaOf
 pygeodesy.ellipsoidalKarney._areaError	pygeodesy.points-module.html#_areaError
@@ -666,7 +667,6 @@ pygeodesy.ellipsoidalNvector.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.ellipsoidalNvector._xzipairs	pygeodesy.basics-module.html#_xzipairs
 pygeodesy.ellipsoidalVincenty	pygeodesy.ellipsoidalVincenty-module.html
 pygeodesy.ellipsoidalVincenty.unroll180	pygeodesy.utily-module.html#unroll180
-pygeodesy.ellipsoidalVincenty._intersect2	pygeodesy.ellipsoidalBase-module.html#_intersect2
 pygeodesy.ellipsoidalVincenty._xkwds	pygeodesy.basics-module.html#_xkwds
 pygeodesy.ellipsoidalVincenty.perimeterOf	pygeodesy.ellipsoidalVincenty-module.html#perimeterOf
 pygeodesy.ellipsoidalVincenty.hypot	pygeodesy.fmath-module.html#hypot
@@ -677,6 +677,7 @@ pygeodesy.ellipsoidalVincenty.degrees360	pygeodesy.utily-module.html#degrees360
 pygeodesy.ellipsoidalVincenty._ds	pygeodesy.ellipsoidalVincenty-module.html#_ds
 pygeodesy.ellipsoidalVincenty.sincos2	pygeodesy.utily-module.html#sincos2
 pygeodesy.ellipsoidalVincenty._dl	pygeodesy.ellipsoidalVincenty-module.html#_dl
+pygeodesy.ellipsoidalVincenty._intersections2	pygeodesy.ellipsoidalBase-module.html#_intersections2
 pygeodesy.ellipsoidalVincenty.__all__	pygeodesy.ellipsoidalVincenty-module.html#__all__
 pygeodesy.ellipsoidalVincenty.degrees180	pygeodesy.utily-module.html#degrees180
 pygeodesy.ellipsoidalVincenty._antipodal_	pygeodesy.ellipsoidalVincenty-module.html#_antipodal_

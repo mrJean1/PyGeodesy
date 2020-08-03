@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.07.26'
+__version__ = '20.08.01'
 
 
 def _c2(*names):
@@ -67,7 +67,7 @@ _KeyWords = ('altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'azimuthal', 
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker',
              'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
-             'scipy', 'simplify', 'Soldner', 'sphere', 'stereographic',
+             'scipy', 'simplify', 'Snyder', 'Soldner', 'sphere', 'stereographic',
              'Sudano', 'Sutherland', 'Sutherland-Hodgman',
              'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
              'TransverseMercatorExact', 'TRF', 'trigonometry',

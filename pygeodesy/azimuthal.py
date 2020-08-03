@@ -17,7 +17,13 @@ further justification, see the first paragraph under U{Snyder's FORMULAS FOR THE
 ELLIPSOID, page 197<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}.
 
 Page numbers in C{Snyder} references apply to U{John P. Snyder, "Map Projections
--- A Working Manual", 1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}
+-- A Working Manual", 1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}.
+
+See also U{here<https://WikiPedia.org/wiki/Azimuthal_equidistant_projection>},
+especially the U{Comparison of the Azimuthal equidistant projection and some
+azimuthal projections centred on 90° N at the same scale, ordered by projection
+altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_projection
+#/media/File:Comparison_azimuthal_projections.svg>}.
 
 @newfield example: Example, Examples
 '''
@@ -42,7 +48,7 @@ from pygeodesy.utily import asin1, atan2d, sincos2, sincos2d
 from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.07.27'
+__version__ = '20.08.01'
 
 
 class _AzimuthalBase(_NamedBase):
@@ -60,8 +66,8 @@ class _AzimuthalBase(_NamedBase):
     def __init__(self, lat0, lon0, datum=None, name=NN):
         '''New azimuthal projection.
 
-           @arg lat0: Latitude of center point (C{degrees90}).
-           @arg lon0: Longitude of center point (C{degrees180}).
+           @arg lat0: Latitude of the center point (C{degrees90}).
+           @arg lon0: Longitude of the center point (C{degrees180}).
            @kwarg datum: Optional datum (C{Datum}) or the radius of
                          the I{spherical} earth (C{meter}).
            @kwarg name: Optional name for the projection (C{str}).
@@ -313,7 +319,7 @@ class Equidistant(_AzimuthalBase):
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if B{C{LatLon=None}}.
 
-           @return: The geodetic (C{LatLon}) of if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
@@ -431,7 +437,7 @@ class EquidistantKarney(_AzimuthalBase):
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if B{C{LatLon=None}}.
 
-           @return: The geodetic (C{LatLon}) of if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
@@ -498,7 +504,7 @@ class Gnomonic(_AzimuthalBase):
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if B{C{LatLon=None}}.
 
-           @return: The geodetic (C{LatLon}) of if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
@@ -555,7 +561,7 @@ class LambertEqualArea(_AzimuthalBase):
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if B{C{LatLon=None}}.
 
-           @return: The geodetic (C{LatLon}) of if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
@@ -610,7 +616,7 @@ class Orthographic(_AzimuthalBase):
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if B{C{LatLon=None}}.
 
-           @return: The geodetic (C{LatLon}) of if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
@@ -685,7 +691,7 @@ class Stereographic(_AzimuthalBase):
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
                                arguments, ignored if B{C{LatLon=None}}.
 
-           @return: The geodetic (C{LatLon}) of if B{C{LatLon}} is C{None} an
+           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
                     L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
 
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
