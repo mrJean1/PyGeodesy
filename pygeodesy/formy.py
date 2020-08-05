@@ -25,7 +25,7 @@ from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.07.29'
+__version__ = '20.08.04'
 
 _D_I2_ =  1e5  # meter, 100 Km, about 0.9 degrees
 _lat2_ = _lat_ + _2_
@@ -752,7 +752,7 @@ def intersections2(lat1, lon1, rad1, lat2, lon2, rad2, datum=None, wrap=False):
        or if B{C{datum}} is a sclar representing the earth radius, or ...
 
        3) L{ellipsoidalKarney.intersections2} for an ellipsoidal B{C{datum}}
-       and if Karney's U{geographiclib<https://PyPI.org/project/geographiclib/>}
+       and if I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib/>}
        is installed, or ...
 
        4) L{ellipsoidalVincenty.intersections2} if B{C{datum}} is ellipsoidal

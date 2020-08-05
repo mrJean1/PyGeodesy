@@ -103,10 +103,10 @@ The tests have been run with Python 3.8.5, 3.7.6 and 2.7.18 (all with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
 <https://PyPI.org/project/numpy>} 1.19.0, 1.17.2 respectively 1.16.5 and
 U{scipy<https://SciPy.org/scipylib/download.html>} 1.5.0, 1.3.1 respectively
-1.2.2) and with Python 3.9.0b5 and macOS' Python 2.7.16 (without geographiclib,
-numpy and scipy), all on macOS 10.15.6 Catalina and all in 64-bit only.  The
-tests run with and without C{lazy import} in Python 3.  The results of those
-tests are included in the distribution files.
+1.2.2) and with Python 3.9.0b5 and macOS' Python 2.7.16 (both without
+geographiclib, numpy and scipy), all on macOS 10.15.6 Catalina and all in
+64-bit only.  The tests run with and without C{lazy import} for Python 3.
+The results of those tests are included in the distribution files.
 
 Test coverage has been measured with U{coverage
 <https://PyPI.org/project/coverage>} 4.5.4 using Python 3.8.5 and 3.7.6
@@ -162,6 +162,10 @@ on macOS 10.15.5 Catalina.
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
 
+Classes with a name ending in C{-Karney} are transcribed from Karney's
+U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>},
+but there are more.  The complete list is in module L{karney}.
+
 License
 =======
 
@@ -189,10 +193,11 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @newfield example: Example, Examples
 @newfield JSname: JS name, JS names
 
-@var EPS:    System's M{epsilon} ≈2.22e-16 (C{float}).
-@var EPS_2:  Half system's M{epsilon} ≈1.11e-16 (C{float}).
-@var EPS1:   M{1 - EPS} ≈0.9999999999999998 (C{float}).
-@var EPS1_2: M{1 - EPS_2} ≈0.9999999999999999 (C{float}).
+@var EPS:    System's M{epsilon} ≈ 2.22e-16 (C{float}).
+@var EPS_2:  Half system's M{epsilon} ≈ 1.11e-16 (C{float}).
+@var EPS1:   M{1 - EPS} = 0.9999999999999998 (C{float}).
+@var EPS1_2: M{1 - EPS_2} = 0.9999999999999999 (C{float}).
+@var EPS2:   M{EPS * 2} = 4.440892098501e-16 (C{float}).
 
 @var F_D:   Format degrees as unsigned "deg°" plus suffix (C{str}).
 @var F_DM:  Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -275,7 +280,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.08.02'
+__version__ = '20.08.04'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

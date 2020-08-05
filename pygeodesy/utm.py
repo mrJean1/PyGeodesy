@@ -17,7 +17,7 @@ transverse Mercator projections, normally based on the WGS-84 ellipsoid.
 Within each zone, coordinates are represented as B{C{easting}}s and B{C{northing}}s,
 measured in metres.
 
-This module includes some of Charles Karney's U{'Transverse Mercator with an
+This module includes some of I{Charles Karney}'s U{'Transverse Mercator with an
 accuracy of a few nanometers'<https://Arxiv.org/pdf/1002.1417v3.pdf>}, 2011
 (building on Krüger's U{'Konforme Abbildung des Erdellipsoids in der Ebene'
 <https://bib.GFZ-Potsdam.DE/pub/digi/krueger2.pdf>}, 1912) and C++ class
@@ -58,7 +58,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.07.08'
+__version__ = '20.08.04'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N

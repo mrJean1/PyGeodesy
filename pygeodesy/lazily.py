@@ -72,9 +72,9 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 
 # __all__ value for most modules, accessible as _ALL_LAZY.<module>
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
-                      azimuthal=('AzimuthalError', 'Equidistant', 'EquidistantKarney', 'Gnomonic', 'LambertEqualArea',
-                                 'Orthographic', 'Stereographic',
-                                 'equidistant'),
+                      azimuthal=('AzimuthalError', 'Equidistant', 'EquidistantKarney', 'Gnomonic', 'GnomonicKarney',
+                                 'LambertEqualArea', 'Orthographic', 'Stereographic',
+                                 'equidistant', 'gnomonic'),
                           bases=(),  # module and for backward compatibility only
                          basics=('EPS', 'EPS1', 'EPS1_2', 'EPS_2', 'INF', 'MANTIS', 'MAX', 'MIN',  # constants
                                  'NAN', 'NEG0', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M',
@@ -201,7 +201,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.07.29'
+__version__ = '20.08.04'
 
 
 def _ALL_OTHER(*objs):

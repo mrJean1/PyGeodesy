@@ -11,7 +11,7 @@ and L{FrechetVincentys} to compute I{discrete} U{Fréchet
 of C{LatLon}, C{NumPy}, C{tuples} or other types of points.
 
 Only L{FrechetDistanceTo} -iff used with L{ellipsoidalKarney.LatLon}
-points- and L{FrechetKarney} requires installation of I{Charles Karney's}
+points- and L{FrechetKarney} requires installation of I{Charles Karney}'s
 U{geographiclib<https://PyPI.org/project/geographiclib>}.
 
 Typical usage is as follows.  First, create a C{Frechet} calculator
@@ -99,7 +99,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '20.07.08'
+__version__ = '20.08.03'
 
 if not 0 < EPS < EPS1 < 1:
     raise _AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
@@ -766,9 +766,9 @@ class FrechetHubeny(FrechetFlatLocal):  # for Karl Hubeny
 
 class FrechetKarney(FrechetDegrees):
     '''Compute the C{Frechet} distance based on the I{angular}
-       distance in C{degrees} from I{Charles Karney's} U{GeographicLib
+       distance in C{degrees} from I{Charles Karney}'s U{GeographicLib
        <https://PyPI.org/project/geographiclib>} U{Geodesic
-       <https://geographiclib.sourceforge.io/1.49/python/code.html>}
+       <https://GeographicLib.SourceForge.io/html/python/code.html>}
        Inverse method.
 
        @see: L{FrechetCosineAndoyerLambert}, L{FrechetCosineForsytheAndoyerLambert},

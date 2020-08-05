@@ -22,7 +22,7 @@ from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, 
 from pygeodesy.fmath import favg, fsum_
 from pygeodesy.interns import _COMMA_, _datum_, _ellipsoidal_, \
                               _exceed_PI_radians_, _Missing, _N_, \
-                              _near_concentric_, NN, _no_convergence_, \
+                              _near_concentric_, NN, _no_convergence_fmt_, \
                               _no_conversion_, _too_distant_fmt_  # PYCHOK used!
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
@@ -31,10 +31,10 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.units import Radius_
 
 __all__ = ()
-__version__ = '20.08.02'
+__version__ = '20.08.04'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
-_TRIPS = 16    # intersect2 interations, 4 sufficient
+_TRIPS = 16    # _intersect2 interations, 6 sufficient
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -78,6 +78,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     _epoch        = None  #: (INTERNAL) overriding .reframe.epoch (C{float}).
     _etm          = None  #: (INTERNAL) Cached toEtm (L{Etm}).
     _geoidHeight2 = ()    #: (INTERNAL) Cached C{geoidHeight2} result.
+    _iteration    = None  #: (INTERNAL) Iteration number (C{int} or C{None}).
     _lcc          = None  #: (INTERNAL) Cached toLcc (C{Lcc}).
     _osgr         = None  #: (INTERNAL) Cached toOsgr (C{Osgr}).
     _reframe      = None  #: (INTERNAL) reference frame (L{RefFrame}).
@@ -411,7 +412,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def iteration(self):
         '''Get the iteration number (C{int} or C{None} if not available/applicable).
         '''
-        return None
+        return self._iteration
 
     def parse(self, strll, height=0, datum=None, sep=_COMMA_):
         '''Parse a string representing this C{LatLon} point.
@@ -625,7 +626,7 @@ def _intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
 
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>}, U{Karney's paper
-             <https://arxiv.org/pdf/1102.1215.pdf>}, pp 20-21, section 14 I{Maritime Boundaries},
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section 14 I{Maritime Boundaries},
              U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.
@@ -662,6 +663,7 @@ def _intersect2(c1, r1, c2, r2, height=None, wrap=False,  # MCCABE 15
         else:
             kwds = _xkwds(LatLon_kwds, datum=t.datum, height=h)
             r = LatLon(t.lat, t.lon, **kwds)
+        r._iteration = t.iteration  # ._iteration for tests
         return _xnamed(r, n)
 
     if r1 < r2:
@@ -684,25 +686,25 @@ def _intersect2(c1, r1, c2, r2, height=None, wrap=False,  # MCCABE 15
     r = E.rocMean(favg(c1.lat, c2.lat, f=f))
     e = max(m2degrees(tol, radius=r), EPS)
 
-    # gu-/estimate initial intersections, spherically
+    # get the azimuthal equidistant projection
+    if equidistant is None:
+        from pygeodesy.azimuthal import equidistant as A
+    else:
+        A = equidistant  # preferably EquidistantKarney
+    A = A(0, 0, datum=c1.datum)
+
+    # gu-/estimate initial intersections, spherically ...
     t1, t2 = _si2(_LLS(c1.lat, c1.lon, height=c1.height), r1,
                   _LLS(c2.lat, c2.lon, height=c2.height), r2,
                    radius=r, height=height, wrap=wrap, too_d=m)
     h, n = t1.height, t1.name
 
-    # get the azimuthal equidistant projection
-    if equidistant is None:
-        from pygeodesy.azimuthal import equidistant as A
-    else:
-        A = equidistant
-    A = A(0, 0, datum=c1.datum)
-
-    # for each gu-/estimate, iterate like Karney
-    # suggests to find tri-points of median lines
+    # ... and then iterate like Karney suggests to find
+    # tri-points of median lines, @see: references above
     ts, ta = [], None
     for t in ((t1,) if t1 is t2 else (t1, t2)):
         p = None  # force d == p False
-        for _ in range(_TRIPS):
+        for i in range(_TRIPS):
             A.reset(t.lat, t.lon)  # gu-/estimate as origin
             # convert centers to projection space
             t1 = A.forward(c1.lat, c1.lon)
@@ -720,13 +722,14 @@ def _intersect2(c1, r1, c2, r2, height=None, wrap=False,  # MCCABE 15
             # break if below tolerance or if unchanged
             t, d = (t1, d1) if d1 < d2 else (t2, d2)
             if d < e or d == p:
+                t._iteration = i + 1  # _NamedTuple._iteration
                 ts.append(t)
                 if v1 is v2:  # abutting
                     ta = t
                 break
             p = d
         else:
-            raise ValueError('%s (%g)' % (_no_convergence_, tol))
+            raise ValueError(_no_convergence_fmt_ % (tol,))
 
     if ta:  # abutting circles
         r = _latlon4(ta, h, n)

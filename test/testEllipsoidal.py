@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.07.31'
+__version__ = '20.08.04'
 
 from base import coverage, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -163,7 +163,7 @@ class Tests(_TestsLL, _TestsV):
         self.subtitle(module, 'KarneyPython')
 
         ll1 = module.LatLon(-41.32, 174.81)
-        # <https://GeographicLib.SourceForge.io/1.49/python>
+        # <https://GeographicLib.SourceForge.io/html/python>
         d = ll1.geodesic.Inverse(-41.32, 174.81, 40.96, -5.50)
         self.test('.lat1', d.lat1, -41.320, fmt='%.3f')
         self.test('.lon1', d.lon1, 174.810, fmt='%.3f')
@@ -614,7 +614,8 @@ class Tests(_TestsLL, _TestsV):
                 d, d2 = r.distanceTo(i1), r.distanceTo(i2)
                 if d2 < d:
                     d, i1, i2 = d2, i2, i1
-                s = '%s  d %g m' % (latlonDMS((i1, i2), form=F_D, sep=', '), d)
+                s = latlonDMS((i1, i2), form=F_D, sep=', ')
+                s = '%s  d %g meter (iteration %d)' % (s, d, i1.iteration)
                 self.test(n, s, s)
                 if d > d_m:  # Equidistant >> EquidistantKarney, see .testAzimuthal
                     raise IntersectionError(d=d, fmt_name_value='%s (%g)', txt='over')

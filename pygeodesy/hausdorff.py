@@ -11,7 +11,7 @@ L{HausdorffThomas} and L{HausdorffVincentys} to compute U{Hausdorff
 sets of C{LatLon}, C{NumPy}, C{tuples} or other types of points.
 
 Only L{HausdorffDistanceTo} -iff used with L{ellipsoidalKarney.LatLon}
-points- and L{HausdorffKarney} requires installation of I{Charles Karney's}
+points- and L{HausdorffKarney} requires installation of I{Charles Karney}'s
 U{geographiclib<https://PyPI.org/project/geographiclib>}.
 
 Typical usage is as follows.  First, create a C{Hausdorff} calculator
@@ -83,7 +83,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '20.07.08'
+__version__ = '20.08.04'
 
 
 class HausdorffError(PointsError):
@@ -720,9 +720,9 @@ class HausdorffHubeny(HausdorffFlatLocal):  # for Karl Huebny
 
 class HausdorffKarney(HausdorffDegrees):
     '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{degrees} from I{Charles Karney's} U{GeographicLib
+       distance in C{degrees} from I{Karney}'s U{GeographicLib
        <https://PyPI.org/project/geographiclib>} U{Geodesic
-       <https://geographiclib.sourceforge.io/1.49/python/code.html>}
+       <https://GeographicLib.SourceForge.io/html/python/code.html>}
        Inverse method.
 
        @see: L{HausdorffCosineAndoyerLambert},

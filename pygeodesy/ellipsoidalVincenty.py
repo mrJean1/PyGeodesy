@@ -59,7 +59,7 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, property_doc_, property_RO, _xkwds
+from pygeodesy.basics import EPS, property_doc_, _xkwds
 from pygeodesy.datum import Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import _intersections2, _TOL_M, \
@@ -79,7 +79,7 @@ from pygeodesy.utily import degrees90, degrees180, degrees360, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.08.02'
+__version__ = '20.08.04'
 
 _antipodal_ = 'antipodal '  # _SPACE_
 
@@ -136,7 +136,7 @@ class LatLon(LatLonEllipsoidalBase):
     '''
     _Ecef       = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
     _epsilon    = 1.0e-12  # about 0.006 mm
-    _iteration  = -1  # index, see C{.iteration}
+    _iteration  = 0    # number
     _iterations = 100  # vs Veness' 500
 
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
@@ -408,12 +408,6 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         return self._inverse(other, True, wrap).initial
 
-    @property_RO
-    def iteration(self):
-        '''Get the iteration number (C{int} or C{0} if not available/applicable).
-        '''
-        return self._iteration + 1  # index to number
-
     @property_doc_(''' the iteration limit (C{int}).''')
     def iterations(self):
         '''Get the iteration limit (C{int}).
@@ -483,7 +477,7 @@ class LatLon(LatLonEllipsoidalBase):
             A, B = _p2(c2a * E.e22)
 
         s = d = distance / (E.b * A)
-        for self._iteration in range(self._iterations):
+        for self._iteration in range(1, self._iterations + 1):
             ss, cs = sincos2(s)
             c2sm = cos(s12 + s)
             s_, s = s, d + _ds(B, cs, ss, c2sm)
@@ -533,7 +527,7 @@ class LatLon(LatLonEllipsoidalBase):
 
         dl, _ = unroll180(self.lon, other.lon, wrap=wrap)
         ll = dl = radians(dl)
-        for self._iteration in range(self._iterations):
+        for self._iteration in range(1, self._iterations + 1):
             ll_ = ll
             sll, cll = sincos2(ll)
 
@@ -665,7 +659,7 @@ def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
 
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>}, U{Karney's paper
-             <https://arxiv.org/pdf/1102.1215.pdf>}, pp 20-21, section 14 I{Maritime Boundaries},
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section 14 I{Maritime Boundaries},
              U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.

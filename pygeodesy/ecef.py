@@ -66,7 +66,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.07.14'
+__version__ = '20.08.04'
 
 _M_ = 'M'
 
@@ -446,7 +446,7 @@ class EcefKarney(_EcefBase):
 class EcefCartesian(_NamedBase):
     '''Conversion between geodetic C{(lat, lon, height)} and local cartesian
        C{(x, y, z)} coordinates with a local cartesian origin at C{(lat0, lon0,
-       height0)}, transcibed from I{Karney}'s C++ class U{LocalCartesian
+       height0)}, transcribed from I{Karney}'s C++ class U{LocalCartesian
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html>}.
 
        The C{z} axis is normal to the ellipsoid, the C{y} axis points due

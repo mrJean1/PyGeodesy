@@ -192,9 +192,9 @@
     1.17.2 respectively 1.16.5 and <a 
     href="https://SciPy.org/scipylib/download.html" target="_top">scipy</a>
     1.5.0, 1.3.1 respectively 1.2.2) and with Python 3.9.0b5 and macOS' 
-    Python 2.7.16 (without geographiclib, numpy and scipy), all on macOS 
-    10.15.6 Catalina and all in 64-bit only.  The tests run with and 
-    without <code>lazy import</code> in Python 3.  The results of those 
+    Python 2.7.16 (both without geographiclib, numpy and scipy), all on 
+    macOS 10.15.6 Catalina and all in 64-bit only.  The tests run with and 
+    without <code>lazy import</code> for Python 3. The results of those 
     tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
@@ -261,6 +261,12 @@
     <p>Some function and method names differ from the JavaScript version. 
     In such cases documentation tag <b>JS name:</b> shows the original 
     JavaScript name.</p>
+    <p>Classes with a name ending in <code>-Karney</code> are transcribed 
+    from Karney's <a 
+    href="https://GeographicLib.SourceForge.io/html/annotated.html" 
+    target="_top">C++ classes</a>, but there are more.  The complete list 
+    is in module <a href="pygeodesy.karney-module.html" 
+    class="link">karney</a>.</p>
   <h1 class="heading">License</h1>
     <p>**) <a href="https://OpenSource.org/licenses/MIT" 
     target="_top">Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights
@@ -286,7 +292,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.08.02
+        20.08.04
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -307,6 +313,8 @@
         class="link">EquidistantKarney</a>, <a 
         href="pygeodesy.azimuthal.Gnomonic-class.html" 
         class="link">Gnomonic</a>, <a 
+        href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+        class="link">GnomonicKarney</a>, <a 
         href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
         class="link">LambertEqualArea</a>, <a 
         href="pygeodesy.azimuthal.Orthographic-class.html" 
@@ -314,9 +322,11 @@
         href="pygeodesy.azimuthal.Stereographic-class.html" 
         class="link">Stereographic</a> and <a 
         href="pygeodesy.azimuthal.AzimuthalError-class.html" 
-        class="link">AzimuthalError</a> and function <a 
+        class="link">AzimuthalError</a> and functions <a 
         href="pygeodesy.azimuthal-module.html#equidistant" 
-        class="link">equidistant</a>.</em>    </li>
+        class="link">equidistant</a> and <a 
+        href="pygeodesy.azimuthal-module.html#gnomonic" 
+        class="link">gnomonic</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.bases-module.html">pygeodesy.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
         class="link" onclick="show_private();">latlonBase</a> instead.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Basic constants, definitions and functions.</em>    </li>
@@ -329,7 +339,7 @@
         class="link">CassiniSoldner</a>, <a 
         href="pygeodesy.css.Css-class.html" class="link">Css</a> and <a 
         href="pygeodesy.css.CSSError-class.html" class="link">CSSError</a> 
-        requiring <i>Charles Karney's</i> <a 
+        requiring <i>Charles Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib/" 
         target="_top">geographiclib</a> package to be installed.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">Classes <a href="pygeodesy.datum.Datum-class.html" 
@@ -390,7 +400,7 @@
         href="pygeodesy.ellipsoidalKarney-module.html#isclockwise" 
         class="link">isclockwise</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
-        class="link">perimeterOf</a>, all based on <i>Charles Karney's</i> 
+        class="link">perimeterOf</a>, all based on <i>Charles Karney</i>'s 
         Python implementation of <a 
         href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a>.</em>    </li>
@@ -419,7 +429,7 @@
         href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
         class="link" onclick="show_private();">perimeterOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic-module.html">pygeodesy.elliptic</a></strong>: <em class="summary">Elliptic integrals and functions transcribed from <i>Charles 
-        Karney's</i> C++ class <a 
+        Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html"
         target="_top">EllipticFunction</a> into pure Python class <a 
         href="pygeodesy.elliptic.Elliptic-class.html" 
@@ -442,7 +452,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.etm-module.html">pygeodesy.etm</a></strong>: <em class="summary">Classes <a href="pygeodesy.etm.ETMError-class.html" 
         class="link">ETMError</a> and <a 
         href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>, a pure 
-        Python implementation of <i>Charles Karney's</i> C++ class <a 
+        Python implementation of <i>Charles Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html"
         target="_top">TransverseMercatorExact</a>, abbreviated as 
         <code>TMExact</code> below.</em>    </li>
@@ -576,7 +586,7 @@
         <code>LatLon</code> locations or separate lat-/longitudes from a 
         set of <code>LatLon</code> points with known heights.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single-instance strings, intern'ed across modules.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary">Wrapper around <i>Charles Karney's</i> Python implementation of <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary">Wrapper around <i>Charles Karney</i>'s Python implementation of <a 
         href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a>, provided that package is 
         installed.</em>    </li>
@@ -892,9 +902,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.css.CassiniSoldner-class.html" class="summary-name">CassiniSoldner</a><br />
-      Cassini-Soldner projection, a Python version of Karney's C++ class 
-        <a 
-        href="https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1CassiniSoldner.html"
+      Cassini-Soldner projection, a Python version of <i>Karney</i>'s C++
+        class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html"
         target="_top">CassiniSoldner</a>.
     </td>
   </tr>
@@ -981,7 +991,7 @@
         <a href="pygeodesy.ecef.EcefCartesian-class.html" class="summary-name">EcefCartesian</a><br />
       Conversion between geodetic <code>(lat, lon, height)</code> and 
         local cartesian <code>(x, y, z)</code> coordinates with a local 
-        cartesian origin at <code>(lat0, lon0, height0)</code>, transcibed 
+        cartesian origin at <code>(lat0, lon0, height0)</code>, transcribed
         from <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
         target="_top">LocalCartesian</a>.
@@ -1093,9 +1103,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.EquidistantKarney-class.html" class="summary-name">EquidistantKarney</a><br />
-      Azimuthal equidistant projection, a Python version of Karney's C++ 
-        class <a 
-        href="https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1AzimuthalEquidistant.html"
+      Azimuthal equidistant projection, a Python version of 
+        <i>Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
         target="_top">AzimuthalEquidistant</a>, requiring package <a 
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to be installed.
@@ -1326,9 +1336,9 @@
         <a href="pygeodesy.frechet.FrechetKarney-class.html" class="summary-name">FrechetKarney</a><br />
       Compute the <code>Frechet</code> distance based on the 
         <i>angular</i> distance in <code>degrees</code> from <i>Charles 
-        Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
+        Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> <a 
-        href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
+        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
         target="_top">Geodesic</a> Inverse method.
     </td>
   </tr>
@@ -1414,7 +1424,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids.GeoidKarney-class.html" class="summary-name">GeoidKarney</a><br />
-      Geoid height interpolator for Charles Karney's <a 
+      Geoid height interpolator for <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/html/geoid.html" 
         target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
         geoid <a 
@@ -1423,8 +1433,8 @@
         href="https://dl.ACM.org/citation.cfm?id=368443" 
         target="_top">cubic</a> interpolation and <a 
         href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidcache"
-        target="_top">caching</a> in pure Python transcribed from Karney's 
-        <a 
+        target="_top">caching</a> in pure Python transcribed from 
+        <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/html/geoid.html#geoidinterp"
         target="_top">C++ class Geoid</a>.
     </td>
@@ -1434,7 +1444,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids.GeoidPGM-class.html" class="summary-name">GeoidPGM</a><br />
-      Geoid height interpolator for Charles Karney's <a 
+      Geoid height interpolator for <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/html/geoid.html" 
         target="_top">GeographicLib Earth Gravitational Model (EGM)</a> 
         geoid <a 
@@ -1457,6 +1467,19 @@
         target="_top">Snyder, pp 164-168</a> and <a 
         href="https://MathWorld.Wolfram.com/GnomonicProjection.html" 
         target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal.GnomonicKarney-class.html" class="summary-name">GnomonicKarney</a><br />
+      Azimuthal gnomonic projection, a Python version of <i>Karney</i>'s 
+        C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html"
+        target="_top">Gnomonic</a>, requiring package <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> to be installed.
     </td>
   </tr>
 <tr>
@@ -1607,10 +1630,10 @@
     </td><td class="summary">
         <a href="pygeodesy.hausdorff.HausdorffKarney-class.html" class="summary-name">HausdorffKarney</a><br />
       Compute the <code>Hausdorff</code> distance based on the 
-        <i>angular</i> distance in <code>degrees</code> from <i>Charles 
-        Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
+        <i>angular</i> distance in <code>degrees</code> from 
+        <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> <a 
-        href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
+        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
         target="_top">Geodesic</a> Inverse method.
     </td>
   </tr>
@@ -1845,10 +1868,10 @@
       Height interpolator using <a 
         href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
-        <i>angular</i> distance in <code>degrees</code> from <i>Charles F. 
-        F. Karney's</i> <a href="https://PyPI.org/project/geographiclib" 
+        <i>angular</i> distance in <code>degrees</code> from 
+        <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">GeographicLib</a> <a 
-        href="https://geographiclib.sourceforge.io/1.49/python/code.html" 
+        href="https://GeographicLib.SourceForge.io/html/python/code.html" 
         target="_top">Geodesic</a> Inverse method.
     </td>
   </tr>
@@ -3530,7 +3553,7 @@
         <span class="summary-sig-arg">lon0</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      If Karney's <a href="https://PyPI.org/project/geographiclib" 
+      If <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
       target="_top">geographiclib</a> package is installed, return an <a 
       href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
       class="link">EquidistantKarney</a> otherwise an <a 
@@ -4234,6 +4257,31 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#gnomonic" class="summary-sig-name">gnomonic</a>(<span class="summary-sig-arg">lat0</span>,
+        <span class="summary-sig-arg">lon0</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      If <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+      target="_top">geographiclib</a> package is installed, return an <a 
+      href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+      class="link">GnomonicKarney</a> otherwise an <a 
+      href="pygeodesy.azimuthal.Gnomonic-class.html" 
+      class="link">Gnomonic</a> instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#halfs2" class="summary-sig-name">halfs2</a>(<span class="summary-sig-arg">str2</span>)</span><br />
       Split a string in 2 halfs.</td>
           <td align="right" valign="top">
@@ -4258,7 +4306,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8af02ba8d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa738e3c050&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6975,7 +7023,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.2'"><code class="variable-quote">'</code><code class="variable-string">20.8.2</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.4'"><code class="variable-quote">'</code><code class="variable-string">20.8.4</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7016,7 +7064,7 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.22044604925e-16">2.22044604925e-16</code><br />
-      System's <i class="math">epsilon</i> &#8776;2.22e-16 (<code>float</code>).
+      System's <i class="math">epsilon</i> &#8776; 2.22e-16 (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -7024,7 +7072,8 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="1.0">1.0</code><br />
-      <i class="math">1 - EPS</i> &#8776;0.9999999999999998 (<code>float</code>).
+      <i class="math">1 - EPS</i> = 0.9999999999999998 
+      (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -7032,7 +7081,16 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS1_2"></a><span class="summary-name">EPS1_2</span> = <code title="1.0">1.0</code><br />
-      <i class="math">1 - EPS_2</i> &#8776;0.9999999999999999 
+      <i class="math">1 - EPS_2</i> = 0.9999999999999999 
+      (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS2"></a><span class="summary-name">EPS2</span><br />
+      <i class="math">EPS * 2</i> = 4.440892098501e-16 
       (<code>float</code>).
     </td>
   </tr>
@@ -7041,7 +7099,7 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS_2"></a><span class="summary-name">EPS_2</span> = <code title="1.11022302463e-16">1.11022302463e-16</code><br />
-      Half system's <i class="math">epsilon</i> &#8776;1.11e-16 
+      Half system's <i class="math">epsilon</i> &#8776; 1.11e-16 
       (<code>float</code>).
     </td>
   </tr>
@@ -7639,7 +7697,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <div class="fields">      <p><strong>See Also:</strong>
         Classes <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>
         and <a href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> and
-        Karney's <a 
+        <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
         target="_top">UTMUPS</a>.
       </p>
@@ -7817,7 +7875,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Karney's C++ function <a 
+        <i>Karney</i>'s C++ function <a 
         href="https://GeographicLib.sourceforge.io/html/classGeographicLib_1_1Math.html"
         target="_top">Math.atan2d</a>.
       </p>
@@ -9559,7 +9617,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>If Karney's <a href="https://PyPI.org/project/geographiclib" 
+  <p>If <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> package is installed, return an <a 
   href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
   class="link">EquidistantKarney</a> otherwise an <a 
@@ -10941,6 +10999,52 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="gnomonic"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">gnomonic</span>&nbsp;(<span class="sig-arg">lat0</span>,
+        <span class="sig-arg">lon0</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>If <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a> package is installed, return an <a 
+  href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+  class="link">GnomonicKarney</a> otherwise an <a 
+  href="pygeodesy.azimuthal.Gnomonic-class.html" class="link">Gnomonic</a> 
+  instance.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat0</code></strong> - Latitude of center point (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon0</code></strong> - Longitude of center point (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<code>Datum</code>) or the radius of the 
+          <i>spherical</i> earth (<code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name for the projection (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+          class="link">GnomonicKarney</a> or <a 
+          href="pygeodesy.azimuthal.Gnomonic-class.html" 
+          class="link">Gnomonic</a> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Invalid <b><code>lat0</code></b> or <b><code>lon0</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat0</code></b>, <b><code>lon0</code></b> or 
+        <b><code>datum</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="halfs2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -10984,7 +11088,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8af02ba8d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa738e3c050&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15470,7 +15574,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Karney's C++ class <a 
+        <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UPS.html"
         target="_top">UPS</a>.
       </p>
@@ -16543,7 +16647,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Aug  2 14:42:32 2020
+    Generated by Epydoc 3.0.1 on Tue Aug  4 20:22:52 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                   UtmUps5Tuple, UtmUps8Tuple  # PYCHOK indent
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.07.08'
+__version__ = '20.08.04'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -172,7 +172,7 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=Datums.WGS84,
 
        @raise UTMUPSError: UTM or UPS validation failed.
 
-       @see: Classes L{Utm} and L{Ups} and Karney's U{UTMUPS
+       @see: Classes L{Utm} and L{Ups} and I{Karney}'s U{UTMUPS
              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
     '''
     z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)

@@ -4,10 +4,10 @@
 u'''Classes L{Georef} and L{WGRSError} and several functions to encode,
 decode and inspect I{World Geographic Reference System (WGRS)} references.
 
-Transcribed from C++ class U{Georef
-<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html>}
-by I{Charles Karney}, but with modified C{precision} and extended with
-C{height} and C{radius}.  See also U{World Geographic Reference System
+Transcribed from I{Charles Karney}'s C++ class U{Georef
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html>},
+but with modified C{precision} and extended with C{height} and C{radius}.  See
+also U{World Geographic Reference System
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 '''
 

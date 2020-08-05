@@ -14,9 +14,8 @@ Classes L{HeightCubic} and L{HeightLinear} require package U{numpy
 <https://PyPI.org/project/numpy>}, classes L{HeightLSQBiSpline} and
 L{HeightSmoothBiSpline} require package U{scipy<https://SciPy.org>} and
 classes L{HeightIDWdistanceTo} -iff used with L{ellipsoidalKarney.LatLon}
-points- and L{HeightIDWkarney} requires I{Charles Karney's}
-U{geographiclib<https://PyPI.org/project/geographiclib>} to be
-installed.
+points- and L{HeightIDWkarney} requires I{Karney}'s U{geographiclib
+<https://PyPI.org/project/geographiclib>} to be installed.
 
 Typical usage is as follows.  First create an interpolator from a
 given set of C{LatLon} points with known heights, called C{knots}.
@@ -71,7 +70,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.07.08'
+__version__ = '20.08.04'
 
 
 class HeightError(PointsError):
@@ -896,9 +895,9 @@ class HeightIDWhubeny(HeightIDWflatLocal):  # for Karl Hubeny
 class HeightIDWkarney(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
-       the I{angular} distance in C{degrees} from I{Charles F. F. Karney's}
+       the I{angular} distance in C{degrees} from I{Karney}'s
        U{GeographicLib<https://PyPI.org/project/geographiclib>} U{Geodesic
-       <https://geographiclib.sourceforge.io/1.49/python/code.html>}
+       <https://GeographicLib.SourceForge.io/html/python/code.html>}
        Inverse method.
 
        @see: L{HeightIDWcosineAndoyerLambert},

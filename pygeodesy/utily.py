@@ -19,7 +19,7 @@ from pygeodesy.units import Feet, Lam_, Meter, Phi_, Radius
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '20.07.17'
+__version__ = '20.08.04'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = 1.0 / 90  # 0.011111111111111111111111111111111111111111111111
@@ -43,7 +43,7 @@ def asin1(x):
 def atan2d(y, x):
     '''Compute C{atan2(y, x)} to C{degrees}.
 
-       @see: Karney's C++ function U{Math.atan2d<https://GeographicLib.sourceforge.io/html/classGeographicLib_1_1Math.html>}.
+       @see: I{Karney}'s C++ function U{Math.atan2d<https://GeographicLib.sourceforge.io/html/classGeographicLib_1_1Math.html>}.
     '''
     if abs(y) > abs(x):
         if y < 0:  # q = 3

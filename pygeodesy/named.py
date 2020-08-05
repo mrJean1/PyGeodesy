@@ -33,7 +33,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.07.29'
+__version__ = '20.08.04'
 
 # __DUNDER gets mangled in class
 _final_     = 'final'
@@ -531,9 +531,10 @@ class _NamedTuple(tuple, _Named):
        access to the items.
 
        @note: This class is similar to Python's C{namedtuple},
-              but limited, statically defined and lighter.
+              but statically defined, lighter and limited.
     '''
-    _Names_ = ()  # must be tuple of 2 or more attr names
+    _iteration = None  #: (INTERNAL) Iteration number (C{int} or C{None}).
+    _Names_    = ()    # must be tuple of 2 or more attr names
 
     def __new__(cls, *args):
         '''New L{_NamedTuple} initialized with B{C{positional}} arguments.
@@ -589,6 +590,12 @@ class _NamedTuple(tuple, _Named):
             yield n, tuple.__getitem__(self, i)
 
     iteritems = items
+
+    @property_RO
+    def iteration(self):
+        '''Get the iteration number (C{int} or C{None} if not available/applicable).
+        '''
+        return self._iteration
 
     def _xtend(self, NamedTuple, *items):
         '''(INTERNAL) Extend this C{_Tuple} with C{items} to an other C{NamedTuple}.

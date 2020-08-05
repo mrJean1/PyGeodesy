@@ -1,11 +1,59 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Wrapper around I{Charles Karney's} Python implementation
-of U{GeographicLib <https://PyPI.org/project/geographiclib>},
+u'''Wrapper around I{Charles Karney}'s Python implementation
+of U{GeographicLib<https://PyPI.org/project/geographiclib>},
 provided that package is installed.
 
+Following are U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes
+and functions transcribed from I{Karney}'s original U{GeographicLib
+<https://GeographicLib.SourceForge.io/html/annotated.html>} in C++:
+
+  - L{CassiniSoldner} -- U{CassiniSoldner<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1CassiniSoldner.html>}
+
+  - L{EcefKarney} -- U{Geocentric<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1Geocentric.html>}
+
+  - L{EcefCartesian} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1LocalCartesian.html>}
+
+  - L{EquidistantKarney} -- U{AzimuthalEquidistant<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1AzimuthalEquidistant.html>}
+
+  - L{Elliptic} -- U{EllipticFunction<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1EllipticFunction.html>}
+
+  - L{Etm}, L{ExactTransverseMercator} -- U{TransverseMercatorExact
+    <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
+
+  - L{GeoidKarney} -- U{Geoid<https://GeographicLib.SourceForge.io/html/geoid.html>}
+
+  - L{Georef} -- U{Georef<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1Georef.html>}
+
+  - L{GnomonicKarney} -- U{Gnomonic<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1Gnomonic.html>}
+
+  - L{Ups} -- U{PolarStereographic<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1PolarStereographic.html>}
+
+  - L{Utm} -- U{TransverseMercator<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1TransverseMercator.html>}
+
+  - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1UTMUPS.html>}
+
+  - L{atan2d}, L{sincos2}, L{sincos2d}-- U{Math<https://geographiclib.sourceforge.io/html/
+    classGeographicLib_1_1Math.html>}
+
+The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes and
+module are wrappers around some of I{Karney}'s Python U{GeographicLib
+<https://PyPI.org/project/geographiclib>}:
+
+  - L{ellipsoidalKarney}, L{FrechetKarney}, L{HeightIDWkarney}, L{karney}
 '''
+
 from pygeodesy.basics import NAN, property_RO
 from pygeodesy.datum import Datums
 from pygeodesy.lazily import _ALL_LAZY
@@ -15,7 +63,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.06.05'
+__version__ = '20.08.04'
 
 
 class _Adict(dict):
@@ -30,7 +78,7 @@ class _Adict(dict):
 
 
 class _Wrapped(object):
-    ''''(INTERNAL) Wrapper for some of Karney's U{GeographicLib
+    ''''(INTERNAL) Wrapper for some of I{Karney}'s U{GeographicLib
         <https://PyPI.org/project/geographiclib>} classes.
     '''
     _Geodesic     = None
@@ -48,7 +96,7 @@ class _Wrapped(object):
             from geographiclib.geodesic import Geodesic as _Geodesic
 
             class Geodesic(_Geodesic):
-                '''Karney U{Geodesic <https://geographiclib.SourceForge.io/html/
+                '''I{Karney}'s U{Geodesic<https://GeographicLib.SourceForge.io/html/
                    python/code.html#geographiclib.geodesic.Geodesic>} wrapper.
                 '''
 
@@ -110,7 +158,7 @@ class _Wrapped(object):
             from geographiclib.geodesicline import GeodesicLine as _GeodesicLine
 
             class GeodesicLine(_GeodesicLine):
-                '''Karney U{GeodesicLine <https://geographiclib.SourceForge.io/html/
+                '''I{Karney}'s U{GeodesicLine <https://GeographicLib.SourceForge.io/html/
                    python/code.html#geographiclib.geodesicline.GeodesicLine>} wrapper.
                 '''
                 def ArcPosition(self, a12, *outmask):

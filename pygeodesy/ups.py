@@ -38,7 +38,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.07.08'
+__version__ = '20.08.04'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = Meter(2000e3)  #: (INTERNAL) False easting and northing (C{meter}).
@@ -260,7 +260,7 @@ class Ups(UtmUpsBase):
                     convergence C{DMS} is in I{either} degrees, minutes
                     I{or} seconds (C{str}).
 
-           @note: Pseudo zone zero (C{"00"}) for UPS follows Karney's U{zone UPS
+           @note: Pseudo zone zero (C{"00"}) for UPS follows I{Karney}'s U{zone UPS
                   <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
         '''
         return self._toRepr(prec=prec, fmt=fmt, sep=sep, B=B, cs=cs, **unused)
@@ -288,7 +288,7 @@ class Ups(UtmUpsBase):
                     if B{C{B}} is C{True} and convergence C{DMS} is in
                     I{either} degrees, minutes I{or} seconds (C{str}).
 
-           @note: Zone zero (C{"00"}) for UPS follows Karney's U{zone UPS
+           @note: Zone zero (C{"00"}) for UPS follows I{Karney}'s U{zone UPS
                   <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
         '''
         return self._toStr(self.pole, B, cs, prec, sep)  # PYCHOK pole
@@ -326,7 +326,7 @@ class Ups(UtmUpsBase):
 
     @property_RO
     def zone(self):
-        '''Get the polar pseudo zone (C{0}), like Karney's U{zone UPS<https://
+        '''Get the polar pseudo zone (C{0}), like I{Karney}'s U{zone UPS<https://
            GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
         '''
         return _UPS_ZONE
@@ -400,7 +400,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
        @raise ValueError: If B{C{lon}} value is missing or if B{C{latlon}}
                           is invalid.
 
-       @see: Karney's C++ class U{UPS
+       @see: I{Karney}'s C++ class U{UPS
              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UPS.html>}.
     '''
     lat, lon, d, name = _to4lldn(latlon, lon, datum, name)

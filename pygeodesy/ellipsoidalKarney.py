@@ -3,7 +3,7 @@
 
 u'''Ellipsoidal classes geodetic (lat-/longitude) L{LatLon} and
 geocentric (ECEF) L{Cartesian} and functions L{areaOf}, L{isclockwise}
-and L{perimeterOf}, all based on I{Charles Karney's} Python implementation
+and L{perimeterOf}, all based on I{Charles Karney}'s Python implementation
 of U{GeographicLib<https://PyPI.org/project/geographiclib>}.
 
 Here's an example usage of C{ellipsoidalKarney}:
@@ -42,7 +42,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.08.02'
+__version__ = '20.08.04'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -73,7 +73,7 @@ class Cartesian(CartesianEllipsoidalBase):
 
 class LatLon(LatLonEllipsoidalBase):
     '''An ellipsoidal L{LatLon} similar to L{ellipsoidalVincenty.LatLon}
-       but using I{Charles F. F. Karney's} Python U{GeographicLib
+       but using I{Charles F. F. Karney}'s Python U{GeographicLib
        <https://PyPI.org/project/geographiclib>} to compute the geodesic
        distance, initial and final bearing (azimuths) between two given
        points or the destination point given a start point and an initial
@@ -91,7 +91,7 @@ class LatLon(LatLonEllipsoidalBase):
 
     def bearingTo2(self, other, wrap=False):
         '''Compute the initial and final bearing (forward and reverse
-           azimuth) from this to an other point, using Karney's
+           azimuth) from this to an other point, using I{Karney}'s
            C{Inverse} method.  See methods L{initialBearingTo} and
            L{finalBearingTo} for more details.
 
@@ -115,7 +115,7 @@ class LatLon(LatLonEllipsoidalBase):
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
            for the given distance from this point along a geodesic
-           given by an initial bearing, using Karney's C{Direct}
+           given by an initial bearing, using I{Karney}'s C{Direct}
            method.  See method L{destination2} for more details.
 
            @arg distance: Distance (C{meter}).
@@ -143,7 +143,7 @@ class LatLon(LatLonEllipsoidalBase):
         '''Compute the destination point and the final bearing (reverse
            azimuth) after having travelled for the given distance from
            this point along a geodesic given by an initial bearing,
-           using Karney's C{Direct} method.
+           using I{Karney}'s C{Direct} method.
 
            The distance must be in the same units as this point's datum
            axes, conventionally C{meter}.  The distance is measured on
@@ -180,7 +180,7 @@ class LatLon(LatLonEllipsoidalBase):
 
     def distanceTo(self, other, wrap=False, **unused):  # for -DistanceTo
         '''Compute the distance between this and an other point
-           along a geodesic, using Karney's C{Inverse} method.
+           along a geodesic, using I{Karney}'s C{Inverse} method.
            See method L{distanceTo3} for more details.
 
            @arg other: The other point (L{LatLon}).
@@ -207,7 +207,7 @@ class LatLon(LatLonEllipsoidalBase):
 
     def distanceTo3(self, other, wrap=False):
         '''Compute the distance, the initial and final bearing along a
-           geodesic between this and an other point, using Karney's
+           geodesic between this and an other point, using I{Karney}'s
            C{Inverse} method.
 
            The distance is in the same units as this point's datum axes,
@@ -236,7 +236,7 @@ class LatLon(LatLonEllipsoidalBase):
     def finalBearingOn(self, distance, bearing):
         '''Compute the final bearing (reverse azimuth) after having
            travelled for the given distance along a geodesic given
-           by an initial bearing from this point, using Karney's
+           by an initial bearing from this point, using I{Karney}'s
            C{Direct} method.  See method L{destination2} for more details.
 
            @arg distance: Distance (C{meter}).
@@ -259,7 +259,7 @@ class LatLon(LatLonEllipsoidalBase):
     def finalBearingTo(self, other, wrap=False):
         '''Compute the final bearing (reverse azimuth) after having
            travelled along a geodesic from this point to an other
-           point, using Karney's C{Inverse} method.  See method
+           point, using I{Karney}'s C{Inverse} method.  See method
            L{distanceTo3} for more details.
 
            @arg other: The other point (L{LatLon}).
@@ -300,7 +300,7 @@ class LatLon(LatLonEllipsoidalBase):
     def initialBearingTo(self, other, wrap=False):
         '''Compute the initial bearing (forward azimuth) to travel
            along a geodesic from this point to an other point,
-           using Karney's C{Inverse} method.  See method
+           using I{Karney}'s C{Inverse} method.  See method
            L{distanceTo3} for more details.
 
            @arg other: The other point (L{LatLon}).
@@ -352,7 +352,7 @@ class LatLon(LatLonEllipsoidalBase):
         return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
     def _direct(self, distance, bearing, LL, height):
-        '''(INTERNAL) Karney's C{Direct} method.
+        '''(INTERNAL) I{Karney}'s C{Direct} method.
 
            @return: A L{Destination2Tuple}C{(destination, final)} or
                     a L{Destination3Tuple}C{(lat, lon, final)} if
@@ -367,7 +367,7 @@ class LatLon(LatLonEllipsoidalBase):
         return r
 
     def _inverse(self, other, wrap):
-        '''(INTERNAL) Karney's C{Inverse} method.
+        '''(INTERNAL) I{Karney}'s C{Inverse} method.
 
            @return: A L{Distance3Tuple}C{(distance, initial, final)}.
 
@@ -474,7 +474,7 @@ def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
 
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>}, U{Karney's paper
-             <https://arxiv.org/pdf/1102.1215.pdf>}, pp 20-21, section 14 I{Maritime Boundaries},
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section 14 I{Maritime Boundaries},
              U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.

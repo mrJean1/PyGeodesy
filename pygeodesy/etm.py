@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Classes L{ETMError} and L{Etm}, a pure Python implementation of
-I{Charles Karney's} C++ class U{TransverseMercatorExact
+I{Charles Karney}'s C++ class U{TransverseMercatorExact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>},
 abbreviated as C{TMExact} below.
 
@@ -88,7 +88,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.07.17'
+__version__ = '20.08.04'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -257,7 +257,8 @@ class ExactTransverseMercator(_NamedBase):
        C++ class, a numerically exact transverse mercator projection,
        referred to as C{TMExact} here.
 
-       @see: C{TMExact(real a, real f, real k0, bool extendp)}.
+       @see: C{U{TMExact(real a, real f, real k0, bool extendp)<https://geographiclib.sourceforge.io/
+             html/classGeographicLib_1_1TransverseMercatorExact.html#a72ffcc89eee6f30a6d1f4d061518a6f1>}}.
     '''
     _a       = 0     # major radius
     _datum   = None  # Datum

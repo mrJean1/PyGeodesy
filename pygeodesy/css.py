@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Cassini-Soldner projection classes L{CassiniSoldner}, L{Css} and
-L{CSSError} requiring I{Charles Karney's} U{geographiclib
+L{CSSError} requiring I{Charles Karney}'s U{geographiclib
 <https://PyPI.org/project/geographiclib/>} package to be installed.
 
 @newfield example: Example, Examples
@@ -27,7 +27,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat, Lon, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.07.19'
+__version__ = '20.08.03'
 
 _CassiniSoldner0 =  None  # default projection
 
@@ -52,8 +52,8 @@ class CSSError(_ValueError):
 
 
 class CassiniSoldner(_NamedBase):
-    '''Cassini-Soldner projection, a Python version of Karney's C++ class U{CassiniSoldner
-       <https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1CassiniSoldner.html>}.
+    '''Cassini-Soldner projection, a Python version of I{Karney}'s C++ class U{CassiniSoldner
+       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html>}.
     '''
     _cb0      = 0
     _datum    = Datums.WGS84  #: (INTERNAL) L{Datum}.
@@ -289,7 +289,7 @@ class CassiniSoldner(_NamedBase):
         r = g.Direct(n.lat2, n.lon2, n.azi2 + 90, easting, g.STANDARD | g.GEODESICSCALE)
         # include azimuth of easting direction and reciprocal of
         # azimuthal northing scale (see C++ member Direct() 5/6
-        # <https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1Geodesic.html>)
+        # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geodesic.html>)
         r = LatLonAziRk4Tuple(r.lat2, r.lon2, r.azi2, r.M12)
         return self._xnamed(r)
 

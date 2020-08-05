@@ -59,13 +59,117 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module karney</h1><p class="nomargin-top"></p>
-<p>Wrapper around <i>Charles Karney's</i> Python implementation of <a 
+<p>Wrapper around <i>Charles Karney</i>'s Python implementation of <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">GeographicLib</a>, provided that package is installed.</p>
+  <p>Following are <a href="https://PyPI.org/project/PyGeodesy" 
+  target="_top">PyGeodesy</a> classes and functions transcribed from 
+  <i>Karney</i>'s original <a 
+  href="https://GeographicLib.SourceForge.io/html/annotated.html" 
+  target="_top">GeographicLib</a> in C++:</p>
+  <ul>
+    <li>
+      <a href="pygeodesy.css.CassiniSoldner-class.html" 
+      class="link">CassiniSoldner</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html"
+      target="_top">CassiniSoldner</a>
+    </li>
+    <li>
+      <a href="pygeodesy.ecef.EcefKarney-class.html" 
+      class="link">EcefKarney</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
+      target="_top">Geocentric</a>
+    </li>
+    <li>
+      <a href="pygeodesy.ecef.EcefCartesian-class.html" 
+      class="link">EcefCartesian</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
+      target="_top">LocalCartesian</a>
+    </li>
+    <li>
+      <a href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+      class="link">EquidistantKarney</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
+      target="_top">AzimuthalEquidistant</a>
+    </li>
+    <li>
+      <a href="pygeodesy.elliptic.Elliptic-class.html" 
+      class="link">Elliptic</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html"
+      target="_top">EllipticFunction</a>
+    </li>
+    <li>
+      <a href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>, <a 
+      href="pygeodesy.etm.ExactTransverseMercator-class.html" 
+      class="link">ExactTransverseMercator</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html"
+      target="_top">TransverseMercatorExact</a>
+    </li>
+    <li>
+      <a href="pygeodesy.geoids.GeoidKarney-class.html" 
+      class="link">GeoidKarney</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/geoid.html" 
+      target="_top">Geoid</a>
+    </li>
+    <li>
+      <a href="pygeodesy.wgrs.Georef-class.html" class="link">Georef</a> --
+      <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Georef.html"
+      target="_top">Georef</a>
+    </li>
+    <li>
+      <a href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+      class="link">GnomonicKarney</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html"
+      target="_top">Gnomonic</a>
+    </li>
+    <li>
+      <a href="pygeodesy.ups.Ups-class.html" class="link">Ups</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1PolarStereographic.html"
+      target="_top">PolarStereographic</a>
+    </li>
+    <li>
+      <a href="pygeodesy.utm.Utm-class.html" class="link">Utm</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercator.html"
+      target="_top">TransverseMercator</a>
+    </li>
+    <li>
+      <a href="pygeodesy.utmups-module.html#UtmUps" 
+      class="link">UtmUps</a>, <a href="pygeodesy.epsg.Epsg-class.html" 
+      class="link">Epsg</a> -- <a 
+      href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
+      target="_top">UTMUPS</a>
+    </li>
+    <li>
+      <a href="pygeodesy.utily-module.html#atan2d" class="link">atan2d</a>,
+      <a href="pygeodesy.utily-module.html#sincos2" 
+      class="link">sincos2</a>, <a 
+      href="pygeodesy.utily-module.html#sincos2d" 
+      class="link">sincos2d</a>-- <a 
+      href="https://geographiclib.sourceforge.io/html/classGeographicLib_1_1Math.html"
+      target="_top">Math</a>
+    </li>
+  </ul>
+  <p>The following <a href="https://PyPI.org/project/PyGeodesy" 
+  target="_top">PyGeodesy</a> classes and module are wrappers around some 
+  of <i>Karney</i>'s Python <a 
+  href="https://PyPI.org/project/geographiclib" 
+  target="_top">GeographicLib</a>:</p>
+  <ul>
+    <li>
+      <a href="pygeodesy.ellipsoidalKarney-module.html" 
+      class="link">ellipsoidalKarney</a>, <a 
+      href="pygeodesy.frechet.FrechetKarney-class.html" 
+      class="link">FrechetKarney</a>, <a 
+      href="pygeodesy.heights.HeightIDWkarney-class.html" 
+      class="link">HeightIDWkarney</a>, <a 
+      href="pygeodesy.karney-module.html" class="link">karney</a>
+    </li>
+  </ul>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.06.05
+        20.08.04
       </p>
 </div><!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
@@ -114,7 +218,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Aug  2 14:42:33 2020
+    Generated by Epydoc 3.0.1 on Tue Aug  4 20:22:53 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

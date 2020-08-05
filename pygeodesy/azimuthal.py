@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 u'''Azimuthal projection classes L{Equidistant}, L{EquidistantKarney}, L{Gnomonic},
-L{LambertEqualArea}, L{Orthographic}, L{Stereographic} and L{AzimuthalError} and
-function L{equidistant}.
+L{GnomonicKarney}, L{LambertEqualArea}, L{Orthographic}, L{Stereographic} and
+L{AzimuthalError} and functions L{equidistant} and L{gnomonic}.
 
-L{EquidistantKarney} uses ellipsoidal formulas and requires I{Charles Karney's}
-Python implementation of U{GeographicLib<https://PyPI.org/project/geographiclib/>}
+L{EquidistantKarney} and L{GnomonicKarney} require I{Charles Karney}'s Python
+implementation of U{GeographicLib<https://PyPI.org/project/geographiclib/>}
 package to be installed.
 
 Other azimuthal classes implement only (**) U{Snyder's FORMULAS FOR THE SPHERE
@@ -28,14 +28,16 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, EPS1, PI, PI_2, property_doc_, \
+from pygeodesy.basics import EPS, EPS1, NAN, PI, PI_2, property_doc_, \
                              property_RO, _xinstanceof, _xkwds
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datum import Datum, Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError
+from pygeodesy.fmath import Fsum
 from pygeodesy.interns import _azimuth_, _COMMA_SPACE_, _datum_, _lat_, \
                               _lat0_, _lon_, _lon0_, _name_, NN, \
-                              _scale_, _SPACE_, _x_, _y_
+                              _no_convergence_fmt_, _scale_, _SPACE_, \
+                              _x_, _y_
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
@@ -48,20 +50,26 @@ from pygeodesy.utily import asin1, atan2d, sincos2, sincos2d
 from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.08.01'
+__version__ = '20.08.04'
+
+_EPS_Karney    =  sqrt(EPS) * 0.01  # Karney's eps_
+_over_horizon_ = 'over horizon'
+_TRIPS         =  21  # numit, 4 sufficient
 
 
 class _AzimuthalBase(_NamedBase):
     '''(INTERNAL) Base class for azimuthal projections.
 
-       @see: Karney's C++ class U{AzimuthalEquidistant
-       <https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1AzimuthalEquidistant.html>}
-       or L{EquidistantKarney}.
+       @see: I{Karney}'s C++ class U{AzimuthalEquidistant<https://GeographicLib.SourceForge.io/
+       html/classGeographicLib_1_1AzimuthalEquidistant.html>} or L{EquidistantKarney} or
+       U{Gnomonic<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>}
+       or L{GnomonicKarney}.
     '''
-    _datum   = Datums.WGS84  #: (INTERNAL) L{Datum}.
-    _latlon0 = ()            #: (INTERNAL) lat0, lon0 (L{LatLon2Tuple}).
-    _radius  = None          #: (INTERNAL) Geodentric radius (L{Radius}).
-    _sc0     = ()            #: (INTERNAL) 2-Tuple C{sincos2(lat0)}.
+    _datum     = Datums.WGS84  #: (INTERNAL) L{Datum}.
+    _iteration = None          #: Iteration number for L{GnomonicKarney}.
+    _latlon0   = ()            #: (INTERNAL) lat0, lon0 (L{LatLon2Tuple}).
+    _radius    = None          #: (INTERNAL) Geodentric radius (L{Radius}).
+    _sc0       = ()            #: (INTERNAL) 2-Tuple C{sincos2(lat0)}.
 
     def __init__(self, lat0, lon0, datum=None, name=NN):
         '''New azimuthal projection.
@@ -100,6 +108,12 @@ class _AzimuthalBase(_NamedBase):
         return self.datum.ellipsoid.a
 
     majoradius = equatoradius  # for compatibility
+
+    @property_RO
+    def iteration(self):
+        '''Get the iteration number (C{int} or C{None} if not available/applicable).
+        '''
+        return self._iteration
 
     @property_RO
     def flattening(self):
@@ -335,7 +349,7 @@ class Equidistant(_AzimuthalBase):
 
 
 def equidistant(lat0, lon0, datum=Datums.WGS84, name=NN):
-    '''If Karney's U{geographiclib<https://PyPI.org/project/geographiclib>}
+    '''If I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
        package is installed, return an L{EquidistantKarney} otherwise an
        L{Equidistant} instance.
 
@@ -358,8 +372,8 @@ def equidistant(lat0, lon0, datum=Datums.WGS84, name=NN):
 
 
 class EquidistantKarney(_AzimuthalBase):
-    '''Azimuthal equidistant projection, a Python version of Karney's C++ class U{AzimuthalEquidistant
-       <https://GeographicLib.SourceForge.io/1.49/classGeographicLib_1_1AzimuthalEquidistant.html>},
+    '''Azimuthal equidistant projection, a Python version of I{Karney}'s C++ class U{AzimuthalEquidistant
+       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>},
        requiring package U{geographiclib<https://PyPI.org/project/geographiclib>} to be installed.
 
        An azimuthal equidistant projection is centered at an arbitrary position on the ellipsoid.
@@ -372,7 +386,6 @@ class EquidistantKarney(_AzimuthalBase):
        of the projection, serve to specify completely the local affine transformation between
        geographic and projected coordinates.
     '''
-    _eps  = sqrt(EPS) * 0.01
     _mask = 0
 
     def __init__(self, lat0, lon0, datum=Datums.WGS84, name=NN):
@@ -393,7 +406,8 @@ class EquidistantKarney(_AzimuthalBase):
         _AzimuthalBase.__init__(self, lat0, lon0, datum=datum, name=name)
 
         g = self.geodesic
-        self._mask = g.AZIMUTH | g.DISTANCE | g.LATITUDE | g.LONGITUDE| g.REDUCEDLENGTH
+        # g.STANDARD = g.AZIMUTH | g.DISTANCE | g.LATITUDE | g.LONGITUDE
+        self._mask = g.REDUCEDLENGTH | g.STANDARD  # | g.LONG_UNROLL
 
     def forward(self, lat, lon, name=NN):
         '''Convert an (ellipsoidal) geodetic location to azimuthal equidistant east- and northing.
@@ -460,7 +474,7 @@ class EquidistantKarney(_AzimuthalBase):
     def _1_rk(self, r):
         '''(INTERNAL) Compute the reciprocal, azimuthal scale.
         '''
-        return (r.m12 / r.s12) if r.a12 > self._eps else 1
+        return (r.m12 / r.s12) if r.a12 > _EPS_Karney else 1
 
 
 class Gnomonic(_AzimuthalBase):
@@ -478,11 +492,11 @@ class Gnomonic(_AzimuthalBase):
            @arg lon: Longitude of the location (C{degrees180}).
            @kwarg name: Optional name for the location (C{str}).
 
-           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)} with C{x}
-                    and C{y} in C{meter} and C{lat} and C{lon} in C{degrees}.  The C{scale}
-                    of the projection is C{1} in I{radial} direction, C{azimuth} clockwise
-                    from true North and is C{1 / reciprocal} in the direction perpendicular
-                    to this.
+           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
+                    with C{x} and C{y} in C{meter} and C{lat} and C{lon} in C{degrees}
+                    and C{azimuth} clockwise from true North.  The C{scale} of the
+                    projection is C{1} in I{radial} direction and is C{1 / reciprocal}
+                    in the direction perpendicular to this.
         '''
         def _k_t(c):
             t = c > EPS
@@ -510,13 +524,165 @@ class Gnomonic(_AzimuthalBase):
            @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
                   in the range C{[-180..180] degrees}.  The C{scale} of the
                   projection is C{1} in I{radial} direction, C{azimuth} clockwise
-                  from true North and is C{1 / reciprocal} in the direction
+                  from true North and C{1 / reciprocal} in the direction
                   perpendicular to this.
         '''
         def _c_t(c):
             return atan(c), (c > EPS)
 
         return self._reverse(x, y, name, LatLon, LatLon_kwds, _c_t, False)
+
+
+def gnomonic(lat0, lon0, datum=Datums.WGS84, name=NN):
+    '''If I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
+       package is installed, return an L{GnomonicKarney} otherwise an
+       L{Gnomonic} instance.
+
+       @arg lat0: Latitude of center point (C{degrees90}).
+       @arg lon0: Longitude of center point (C{degrees180}).
+       @kwarg datum: Optional datum (C{Datum}) or the radius of
+                     the I{spherical} earth (C{meter}).
+       @kwarg name: Optional name for the projection (C{str}).
+
+       @return: An L{GnomonicKarney} or L{Gnomonic} instance.
+
+       @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
+
+       @raise UnitError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
+    '''
+    try:
+        return GnomonicKarney(lat0, lon0, datum=datum, name=name)
+    except ImportError:
+        return Gnomonic(lat0, lon0, datum=datum, name=name)  # PYCHOK expected
+
+
+class GnomonicKarney(_AzimuthalBase):
+    '''Azimuthal gnomonic projection, a Python version of I{Karney}'s C++ class U{Gnomonic
+       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>},
+       requiring package U{geographiclib<https://PyPI.org/project/geographiclib>} to be installed.
+
+       @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/html/
+             classGeographicLib_1_1Gnomonic.html>}, especially the B{Warning}.
+    '''
+    _mask = 0
+
+    def __init__(self, lat0, lon0, datum=Datums.WGS84, name=NN):
+        '''New azimuthal L{GnomonicKarney} projection.
+
+           @arg lat0: Latitude of center point (C{degrees90}).
+           @arg lon0: Longitude of center point (C{degrees180}).
+           @kwarg datum: Optional (ellipsoidal) datum (C{Datum}).
+           @kwarg name: Optional name for the projection (C{str}).
+
+           @raise ImportError: Package U{GeographicLib<https://PyPI.org/
+                               project/geographiclib>} missing.
+
+           @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
+
+           @raise UnitError: Invalid B{C{lat0}} or B{C{lon0}}.
+        '''
+        _AzimuthalBase.__init__(self, lat0, lon0, datum=datum, name=name)
+
+        g = self.geodesic
+        self._mask = g.ALL  # | g.LONG_UNROLL
+
+    def forward(self, lat, lon, name=NN, raiser=True):
+        '''Convert an (ellipsoidal) geodetic location to azimuthal gnomonic east- and northing.
+
+           @arg lat: Latitude of the location (C{degrees90}).
+           @arg lon: Longitude of the location (C{degrees180}).
+           @kwarg name: Optional name for the location (C{str}).
+           @kwarg raiser: Do or do not throw an error (C{bool}).
+
+           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
+                    with C{x} and C{y} in C{meter} and C{lat} and C{lon} in C{degrees}
+                    and C{azimuth} clockwise from true North.  The C{scale} of the
+                    projection is C{1 / reciprocal**2} in I{radial} direction and
+                    C{1 / reciprocal} in the direction perpendicular to this.  Both
+                    C{x} and C{y} will be C{NAN} if the geodetic location lies over
+                    the horizon and B{C{raiser}} is C{False}.
+
+           @raise AzimuthalError: If the geodetic location lies over the horizon
+                                  and B{C{raiser}} is C{True}.
+        '''
+        self._iteration = 0
+
+        r = self.geodesic.Inverse(self.lat0, self.lon0, Lat(lat), Lon(lon), self._mask)
+        if r.M21 < EPS:
+            if raiser:
+                raise AzimuthalError(lat=lat, lon=lon, txt=_over_horizon_)
+            x = y = NAN
+        else:
+            q = r.m12 / r.M21  # .M12
+            x, y = sincos2d(r.azi1)
+            x *= q
+            y *= q
+
+        t = Azimuthal7Tuple(x, y, r.lat2, r.lon2, r.azi2, r.M21, self.datum)
+        t._iteraton = self._iteration  # = 0
+        return _xnamed(t, name or self.name)
+
+    @property_RO
+    def geodesic(self):
+        '''Get this projection's I{wrapped} U{Karney Geodesic
+           <https://GeographicLib.SourceForge.io/html/python/code.html>},
+           provided package U{geographiclib
+           <https://PyPI.org/project/geographiclib>} is installed.
+        '''
+        return self.datum.ellipsoid.geodesic
+
+    def reverse(self, x, y, name=NN, LatLon=None, **LatLon_kwds):
+        '''Convert an azimuthal gnomonic location to (ellipsoidal) geodetic lat- and longitude.
+
+           @arg x: Easting of the location (C{meter}).
+           @arg y: Northing of the location (C{meter}).
+           @kwarg name: Optional name for the location (C{str}).
+           @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored if B{C{LatLon=None}}.
+
+           @return: The geodetic (C{LatLon}) or if B{C{LatLon}} is C{None} an
+                    L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}.
+
+           @raise AzimuthalError: No convergence.
+
+           @note: The C{lat} will be in the range C{[-90..90] degrees} and C{lon}
+                  in the range C{[-180..180] degrees}.  The C{azimuth} is clockwise
+                  from true North.  The scale is C{1 / reciprocal**2} in C{radial}
+                  direction and C{1 / reciprocal} in the direction perpendicular
+                  to this.
+        '''
+        x = Scalar(x, name=_x_)
+        y = Scalar(y, name=_y_)
+
+        z = atan2d(x, y)  # (x, y) for azimuth from true North
+        q = hypot( x, y)
+
+        d = e = self.equatoradius
+        s = e * atan(q / e)
+        if q > e:
+            def _d(r, q):
+                return (r.M12 - q * r.m12) * r.m12  # negated
+            q = 1 / q
+        else:  # little == True
+            def _d(r, q):  # PYCHOK _d
+                return (q * r.M12 - r.m12) * r.M12  # negated
+        e *= _EPS_Karney
+
+        S = Fsum(s)
+        g = self.geodesic.Line(self.lat0, self.lon0, z, self._mask)
+        for self._iteration in range(1, _TRIPS):
+            r = g.Position(s, self._mask)
+            if abs(d) < e:
+                break
+            s, d = S.fsum2_(_d(r, q))
+        else:
+            raise AzimuthalError(x=x, y=y, txt=_no_convergence_fmt_ % (e,))
+
+        t = self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds) if LatLon else \
+            Azimuthal7Tuple(x, y, r.lat2, r.lon2, r.azi2, r.M12, self.datum)
+        t._iteration = self._iteration
+        return _xnamed(t, name or self.name)
 
 
 class LambertEqualArea(_AzimuthalBase):

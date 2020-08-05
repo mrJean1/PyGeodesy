@@ -150,7 +150,7 @@ R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius
 # R_ = Radius(6372797.560856,  name='R_')   #: XXX some other earth radius???
 
 __all__ = _ALL_LAZY.datum
-__version__ = '20.07.17'
+__version__ = '20.08.04'
 
 _Flts = {}               # floats cache, deleted below
 _TOL  = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -694,7 +694,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def _geodesic_Math2(self):
-        '''(INTERNAL) Get this ellipsoid's C{Geodesic} and Karney's
+        '''(INTERNAL) Get this ellipsoid's C{Geodesic} and I{Karney}'s
            C{Math} class.
         '''
         if Ellipsoid._Math is None:

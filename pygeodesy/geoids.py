@@ -6,7 +6,7 @@ the height of various U{geoid<https://WikiPedia.org/wiki/Geoid>}s at
 C{LatLon} locations or separate lat-/longitudes using different
 interpolation methods and C{geoid} files.
 
-L{GeoidKarney} is a transcription of I{Charles Karney's} C++ class U{Geoid
+L{GeoidKarney} is a transcription of I{Charles Karney}'s C++ class U{Geoid
 <https://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.
 
 The L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on
@@ -47,7 +47,7 @@ Errors from C{scipy} are raised as L{SciPyError}s.  Warnings issued by
 C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
 C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
-@see: Charles Karney's U{GeographicLib<https://GeographicLib.SourceForge.io/
+@see: I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/
       html/index.html>}, U{Geoid height<https://GeographicLib.SourceForge.io/
       html/geoid.html>} and U{Installing the Geoid datasets<https://
       GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}, U{SciPy
@@ -92,7 +92,7 @@ except ImportError:  # Python 3+
         return bs.decode(_utf_8_)
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.07.08'
+__version__ = '20.08.04'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -736,13 +736,13 @@ def _T(*cs):
 
 
 class GeoidKarney(_GeoidBase):
-    '''Geoid height interpolator for Charles Karney's U{GeographicLib
-       Earth Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/
-       html/geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
+    '''Geoid height interpolator for I{Karney}'s U{GeographicLib Earth
+       Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/html/
+       geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
        html/geoid.html#geoidinst>} datasets using bilinear or U{cubic
        <https://dl.ACM.org/citation.cfm?id=368443>} interpolation and U{caching
        <https://GeographicLib.SourceForge.io/html/geoid.html#geoidcache>}
-       in pure Python transcribed from Karney's U{C++ class Geoid
+       in pure Python transcribed from I{Karney}'s U{C++ class Geoid
        <https://GeographicLib.SourceForge.io/html/geoid.html#geoidinterp>}.
 
        Use any of the geoid U{egm84-, egm96- or egm2008-*.pgm
@@ -1123,9 +1123,9 @@ class GeoidKarney(_GeoidBase):
 
 
 class GeoidPGM(_GeoidBase):
-    '''Geoid height interpolator for Charles Karney's U{GeographicLib
-       Earth Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/
-       html/geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
+    '''Geoid height interpolator for I{Karney}'s U{GeographicLib Earth
+       Gravitational Model (EGM)<https://GeographicLib.SourceForge.io/html/
+       geoid.html>} geoid U{egm*.pgm<https://GeographicLib.SourceForge.io/
        html/geoid.html#geoidinst>} datasets but based on C{SciPy}
        U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/reference/
        generated/scipy.interpolate.RectBivariateSpline.html>} or

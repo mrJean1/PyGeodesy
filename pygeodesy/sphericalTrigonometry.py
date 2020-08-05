@@ -40,7 +40,7 @@ from pygeodesy.vector3d import _radical2, sumOf, Vector3d
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.07.31'
+__version__ = '20.08.04'
 
 _EPS_I2    = 4.0 * EPS
 _PI_EPS_I2 = PI - _EPS_I2
@@ -709,7 +709,7 @@ def areaOf(points, radius=R_M, wrap=True):
 
        @raise ValueError: Invalid B{C{radius}}.
 
-       @note: The area is based on Karney's U{'Area of a spherical polygon'
+       @note: The area is based on I{Karney}'s U{'Area of a spherical polygon'
               <https://OSGeo-org.1560.x6.nabble.com/
               Area-of-a-spherical-polygon-td3841625.html>}.
 

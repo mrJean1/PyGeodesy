@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.07.31'
+__version__ = '20.08.04'
 
 from base import RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -188,7 +188,7 @@ class Tests(_TestsLL, _TestsV):
                     d, d2 = r.distanceTo(i1), r.distanceTo(i2)
                     if d2 < d:
                         d, i1, i2 = d2, i2, i1
-                    s = '%s  d %g m' % (latlonDMS((i1, i2), form=F_D, sep=', '), d)
+                    s = '%s  d %g meter' % (latlonDMS((i1, i2), form=F_D, sep=', '), d)
                     self.test(n, s, s)
                     if d > d_m:
                         raise IntersectionError(d=d, fmt_name_value='%s (%g)', txt='over')

@@ -75,9 +75,9 @@ Tests
 The tests have been run with Python 3.8.5, 3.7.6 and 2.7.18 (all with
 geographiclib_ 1.50, numpy_ 1.19.0, 1.17.2 respectively 1.16.5 and scipy_
 1.5.0, 1.3.1 respectively 1.2.2) and with Python 3.9.0b5 and macOS'
-Python 2.7.16 (without geographiclib, numpy and scipy), all on macOS
+Python 2.7.16 (both without geographiclib, numpy and scipy), all on macOS
 10.15.6 Catalina and all in 64-bit only.  The tests run with and without
-``lazy import`` in Python 3.  The results of those tests are included in
+``lazy import`` for Python 3.  The results of those tests are included in
 the distribution files.
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.5
@@ -121,7 +121,10 @@ Catalina.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 02, 2020.*
+Classes with a name ending in ``-Karney`` are transcribed from Karney's
+`C++ classes`_, but there are more.  The complete list is in module ``karney``.
+
+*Last updated: Aug 04, 2020.*
 
 License
 =======

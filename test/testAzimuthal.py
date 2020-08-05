@@ -4,49 +4,52 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.08.01'
+__version__ = '20.08.04'
 
 from base import geographiclib, TestsBase, RandomLatLon
 
-from pygeodesy import Equidistant, EquidistantKarney, Gnomonic, \
-                      LambertEqualArea, Orthographic, Stereographic, \
+from pygeodesy import Equidistant, EquidistantKarney, \
+                      Gnomonic, GnomonicKarney, LambertEqualArea, \
+                      Orthographic, Stereographic, \
                       ellipsoidalKarney, ellipsoidalNvector, \
-                      ellipsoidalVincenty, F_D, fstr, haversine, \
-                      hypot, IntersectionError, latlonDMS
+                      ellipsoidalVincenty, F_D, fstr, hypot, \
+                      IntersectionError, latlonDMS, vincentys
 
 
 class Tests(TestsBase):
 
-    def testAzimuthal(self, Azimuthal, *x):
+    def testAzimuthal(self, Azimuthal, *xs):
 
         P = Azimuthal(48 + 50/60.0, 2 + 20/60.0, name='Paris')
         self.test(repr(P), P, P)
 
         f = P.forward(50.9, 1.8, name='Calais')
-        self.test('forward', fstr(f[:6], prec=6), x[0])
+        self.test('forward', fstr(f[:6], prec=6), xs[0])
         r = P.reverse(f.x, f.y, name='Calais')
-        self.test('reverse', fstr(r[:6], prec=6), x[0])
+        self.test('reverse', fstr(r[:6], prec=6), xs[1])
+        self.test('iteration', P.iteration, P.iteration)
 
         self.testCopy(P)
 
         r = P.reverse(-38e3, 230e3, name='Calais')
-        self.test('reverse', fstr(r[:6], prec=6), x[1])
+        self.test('reverse', fstr(r[:6], prec=6), xs[2])
         f = P.forward(r.lat, r.lon, name='Calais')
-        self.test('forward', fstr(f[:6], prec=6), x[1])
+        self.test('forward', fstr(f[:6], prec=6), xs[3])
 
         for m in (ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty):
             r = P.reverse(-38e3, 230e3, LatLon=m.LatLon)
-            self.test('reverse', repr(r), x[2])
+            self.test('reverse', repr(r), xs[4])
 
         G = Azimuthal(51.4934, 0.0098, name='Greenwich')
         self.test(repr(G), G, G)
         f = G.forward(P.lat0, P.lon0, P.name)
-        self.test('forward', fstr(f[:6], prec=6), x[3])
+        self.test('forward', fstr(f[:6], prec=6), xs[5])
         r = G.reverse(f.x, f.y)
-        self.test('reverse', fstr(r[:6], prec=6), x[3])
+        self.test('reverse', fstr(r[:6], prec=6), xs[6])
+        self.test('iteration', G.iteration, G.iteration)
 
         h = hypot(f.x, f.y)  # easting + norting ~= distance
-        d = haversine(G.lat0, G.lon0, r.lat, r.lon)
+        d = vincentys(G.lat0, G.lon0, r.lat, r.lon)  # haversine
         self.test('hypot', h, d, fmt='%.3f', known=abs(d - h) < 1000, nt=1)
 
     def testDiscrepancies(self):
@@ -97,7 +100,7 @@ class Tests(TestsBase):
                         if d2 < d:
                             d, i1, i2 = d2, i2, i1
                         s = latlonDMS((i1, i2), form=F_D, prec=-6, sep=', ')
-                        s = '%s  d %g m  %s' % (s, d, a)
+                        s = '%s  d %g meter  %s' % (s, d, a)
                         self.test(n, s, s)
                         if E is not None:
                             t.append(i1)
@@ -126,23 +129,49 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import azimuthal, equidistant, named
+    from pygeodesy import azimuthal, equidistant, gnomonic, named
 
     t = Tests(__file__, __version__, azimuthal)
 
     t.testAzimuthal(Equidistant,
-                    '-37467.812512, 230294.518853, 50.9, 1.8, 350.759218, 1.000223',
-                    '-38000.0, 230000.0, 50.897321, 1.792455, 350.61849, 1.000222',
-                    'LatLon(50°53′50.36″N, 001°47′32.84″E)',
-                    '170420.92566, -293667.828613, 48.833333, 2.333333, 149.872606, 1.000472')
+                   '-37467.812512, 230294.518853, 50.9, 1.8, 350.759218, 1.000223',
+                   '-37467.812512, 230294.518853, 50.9, 1.8, 350.759218, 1.000223',
+                   '-38000.0, 230000.0, 50.897321, 1.792455, 350.61849, 1.000222',
+                   '-38000.0, 230000.0, 50.897321, 1.792455, 350.61849, 1.000222',
+                   'LatLon(50°53′50.36″N, 001°47′32.84″E)',
+                   '170420.92566, -293667.828613, 48.833333, 2.333333, 149.872606, 1.000472',
+                   '170420.92566, -293667.828613, 48.833333, 2.333333, 149.872606, 1.000472')
+
+    t.testAzimuthal(Gnomonic,
+                   '-37484.520018, 230397.210923, 50.9, 1.8, 350.759218, 1.000669',
+                   '-37484.520018, 230397.210923, 50.9, 1.8, 350.759218, 1.000223',
+                   '-38000.0, 230000.0, 50.896405, 1.792706, 350.61849, 1.000222',
+                   '-38000.0, 230000.0, 50.896405, 1.792706, 350.61849, 1.000667',
+                   'LatLon(50°53′47.06″N, 001°47′33.74″E)',
+                   '170581.851218, -293945.134107, 48.833333, 2.333333, 149.872606, 1.001416',
+                   '170581.851218, -293945.134107, 48.833333, 2.333333, 149.872606, 1.000472')
+
     if geographiclib:
         t.testAzimuthal(EquidistantKarney,
-                    '-37526.978232, 230000.911579, 50.9, 1.8, 350.325442, 0.999778',
-                    '-38000.0, 230000.0, 50.899962, 1.793278, 350.205524, 0.999778',
-                    'LatLon(50°53′59.86″N, 001°47′35.8″E)',
-                    '170617.186469, -293210.754313, 48.833333, 2.333333, 151.589952, 0.999529')
+                       '-37526.978232, 230000.911579, 50.9, 1.8, 350.325442, 0.999778',
+                       '-37526.978232, 230000.911579, 50.9, 1.8, 350.325442, 0.999778',
+                       '-38000.0, 230000.0, 50.899962, 1.793278, 350.205524, 0.999778',
+                       '-38000.0, 230000.0, 50.899962, 1.793278, 350.205524, 0.999778',
+                       'LatLon(50°53′59.86″N, 001°47′35.8″E)',
+                       '170617.186469, -293210.754313, 48.833333, 2.333333, 151.589952, 0.999529',
+                       '170617.186469, -293210.754313, 48.833333, 2.333333, 151.589952, 0.999529')
+
+        t.testAzimuthal(GnomonicKarney,
+                       '-37543.665895, 230103.189403, 50.9, 1.8, 350.325442, 0.999333',
+                       '-37543.665895, 230103.189403, 50.9, 1.8, 350.325442, 0.999333',
+                       '-38000.0, 230000.0, 50.899044, 1.793528, 350.205718, 0.999333',
+                       '-37999.995965, 229999.975581, 50.899044, 1.793528, 350.205718, 0.999334',
+                       'LatLon(50°53′56.56″N, 001°47′36.7″E)',
+                       '170778.089295, -293487.270649, 48.833333, 2.333333, 151.589952, 0.998587',
+                       '170778.089295, -293487.270649, 48.833333, 2.333334, 151.589953, 0.998588')
 
         t.testDiscrepancies()
+
     else:
         t.skip('no geographiclib', n=14)
 
@@ -157,14 +186,20 @@ if __name__ == '__main__':
     t.testSnyder(80, 80, As, (0.26358, 1.51792), (5.67128, 32.65961), (0.23828, 1.37219), (0.17101, 0.98481), (0.33201, 1.91196))  # XXX 1.96962?
     t.testSnyder(80, 10, As, (0.04281, 1.39829), (0.17633,  5.75877), (0.03941, 1.28702), (0.03015, 0.98481), (0.05150, 1.68198))
 
-    A = equidistant(0, 0, datum=1, name='coverage')
-    t.test('equatoradius', A.equatoradius, 1.0, nl=1)
-    t.test('flattening', A.flattening, 0)
-    t.test('latlon0', A.latlon0, (0.0, 0.0))
-    A.latlon0 = named.LatLon2Tuple(1, 2)
-    t.test('latlon0', A.latlon0, (1.0, 2.0))
-    t.test('name', A.name, 'coverage')
-    t.test('radius', A.radius, 1.0)
+    for A in (equidistant, gnomonic):
+        t.test('function', A.__name__, A.__name__, nl=1)
+        A = A(0, 0, datum=1, name='coverage')
+        t.test('equatoradius', A.equatoradius, 1.0)
+        t.test('flattening', A.flattening, 0)
+        t.test('iteration', A.iteration, A.iteration)
+        t.test('latlon0', A.latlon0, (0.0, 0.0))
+        A.latlon0 = named.LatLon2Tuple(1, 2)
+        t.test('latlon0', A.latlon0, (1.0, 2.0))
+        t.test('name', A.name, 'coverage')
+        t.test('radius', A.radius, 1.0)
+
+    A = Stereographic(0, 0)  # coverage
+    A.k0 = A.k0 + 1
 
     t.results()
     t.exit()

@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Elliptic integrals and functions transcribed from I{Charles Karney's}
+u'''Elliptic integrals and functions transcribed from I{Charles Karney}'s
 C++ class U{EllipticFunction
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html>}
 into pure Python class L{Elliptic}.
@@ -18,7 +18,7 @@ Python method names follow the C++ member functions, except:
  - other Python method names conventionally start with a lower-case
    letter or an underscore if private.
 
-Following is a copy of Karney's U{EllipticFunction.hpp
+Following is a copy of I{Karney}'s U{EllipticFunction.hpp
 <https://GeographicLib.SourceForge.io/html/EllipticFunction_8hpp_source.html>}
 file C{Header}.
 
@@ -90,7 +90,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.07.06'
+__version__ = '20.08.04'
 
 _TolJAC = sqrt(EPS * 0.01)
 _TolRD  =  pow(EPS * 0.002, 0.125)
@@ -114,7 +114,7 @@ class Elliptic3Tuple(_NamedTuple):
 class Elliptic(_Named):
     '''Elliptic integrals and functions.
 
-       @see: Karney's U{Detailed Description<https://GeographicLib.SourceForge.io/
+       @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1EllipticFunction.html#details>}.
     '''
     _alpha2  = 0
