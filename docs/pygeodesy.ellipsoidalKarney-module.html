@@ -70,8 +70,8 @@
   class="link">isclockwise</a> and <a 
   href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
   class="link">perimeterOf</a>, all based on <i>Charles Karney</i>'s Python
-  implementation of <a href="https://PyPI.org/project/geographiclib" 
-  target="_top">GeographicLib</a>.</p>
+  <a href="https://PyPI.org/project/geographiclib" 
+  target="_top">geographiclib</a>.</p>
   <p>Here's an example usage of <code>ellipsoidalKarney</code>:</p>
 <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> pygeodesy.ellipsoidalKarney <span class="py-keyword">import</span> LatLon
@@ -91,7 +91,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.08.04
+        20.08.07
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -125,7 +125,7 @@
         class="link">ellipsoidalVincenty.LatLon</a> but using <i>Charles F.
         F. Karney</i>'s Python <a 
         href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> to compute the geodesic distance, 
+        target="_top">geographiclib</a> to compute the geodesic distance, 
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an initial bearing.
     </td>
@@ -183,11 +183,11 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalKarney-module.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">center1</span>,
-        <span class="summary-sig-arg">rad1</span>,
+        <span class="summary-sig-arg">radius1</span>,
         <span class="summary-sig-arg">center2</span>,
-        <span class="summary-sig-arg">rad2</span>,
+        <span class="summary-sig-arg">radius2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalKarney.LatLon'&gt;</span>,
@@ -336,7 +336,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> missing.</li>
+        target="_top">geographiclib</a> missing.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a>.</li>
@@ -347,7 +347,7 @@
 <div class="fields">      <p><strong>Note:</strong>
         This function requires installation of the <a 
         href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> package.
+        target="_top">geographiclib</a> package.
       </p>
       <p><strong>See Also:</strong>
         <a href="pygeodesy.points-module.html#areaOf" 
@@ -367,11 +367,11 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">intersections2</span>&nbsp;(<span class="sig-arg">center1</span>,
-        <span class="sig-arg">rad1</span>,
+        <span class="sig-arg">radius1</span>,
         <span class="sig-arg">center2</span>,
-        <span class="sig-arg">rad2</span>,
+        <span class="sig-arg">radius2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalKarney.LatLon'&gt;</span>,
@@ -390,11 +390,11 @@
         <li><strong class="pname"><code>center1</code></strong> - Center of the first circle (<a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>rad1</code></strong> - Radius of the second circle (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of the first circle (<code>meter</code>).</li>
         <li><strong class="pname"><code>center2</code></strong> - Center of the second circle (<a 
           href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>rad2</code></strong> - Radius of the second circle (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of the second circle (<code>meter</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection points, overriding the 
           &quot;radical height&quot; at the &quot;radical line&quot; 
           between both centers (<code>meter</code>).</li>
@@ -429,7 +429,7 @@
         convergence for the <b><code>tol</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>center1</code></b> or <b><code>center2</code></b> not 
         ellipsoidal.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>rad1</code></b>, <b><code>rad2</code></b> or 
+        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
         <b><code>height</code></b>.</li>
     </ul></dd>
   </dl>
@@ -484,7 +484,7 @@
 <div class="fields">      <p><strong>Note:</strong>
         This function requires installation of the <a 
         href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> package.
+        target="_top">geographiclib</a> package.
       </p>
       <p><strong>See Also:</strong>
         <a href="pygeodesy.points-module.html#isclockwise" 
@@ -527,7 +527,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> missing.</li>
+        target="_top">geographiclib</a> missing.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a>.</li>
@@ -538,7 +538,7 @@
 <div class="fields">      <p><strong>Note:</strong>
         This function requires installation of the <a 
         href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> package.
+        target="_top">geographiclib</a> package.
       </p>
       <p><strong>See Also:</strong>
         <a href="pygeodesy.points-module.html#perimeterOf" 
@@ -580,7 +580,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Aug  4 20:22:52 2020
+    Generated by Epydoc 3.0.1 on Fri Aug  7 21:57:59 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

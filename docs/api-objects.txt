@@ -157,6 +157,7 @@ pygeodesy.degrees90	pygeodesy-module.html#degrees90
 pygeodesy.egmGeoidHeights	pygeodesy-module.html#egmGeoidHeights
 pygeodesy.unrollPI	pygeodesy-module.html#unrollPI
 pygeodesy.S_SEP	pygeodesy-module.html#S_SEP
+pygeodesy.parse3d	pygeodesy-module.html#parse3d
 pygeodesy.S_SEC	pygeodesy-module.html#S_SEC
 pygeodesy.cosineForsytheAndoyerLambert	pygeodesy-module.html#cosineForsytheAndoyerLambert
 pygeodesy.F_DM	pygeodesy-module.html#F_DM
@@ -591,6 +592,7 @@ pygeodesy.ecef.notOverloaded	pygeodesy.named-module.html#notOverloaded
 pygeodesy.ecef._datum_datum	pygeodesy.errors-module.html#_datum_datum
 pygeodesy.ecef.degrees180	pygeodesy.utily-module.html#degrees180
 pygeodesy.ecef.__all__	pygeodesy.ecef-module.html#__all__
+pygeodesy.ecef._TRIPS	pygeodesy.ecef-module.html#_TRIPS
 pygeodesy.elevations	pygeodesy.elevations-module.html
 pygeodesy.elevations._XML_	pygeodesy.elevations-module.html#_XML_
 pygeodesy.elevations._timeout_	pygeodesy.elevations-module.html#_timeout_
@@ -1251,6 +1253,7 @@ pygeodesy.karney.__all__	pygeodesy.karney-module.html#__all__
 pygeodesy.karney._norm180	pygeodesy.karney-module.html#_norm180
 pygeodesy.karney._sum2	pygeodesy.karney-module.html#_sum2
 pygeodesy.karney._diff182	pygeodesy.karney-module.html#_diff182
+pygeodesy.karney._unroll2	pygeodesy.karney-module.html#_unroll2
 pygeodesy.karney._fix90	pygeodesy.karney-module.html#_fix90
 pygeodesy.karney.__package__	pygeodesy.karney-module.html#__package__
 pygeodesy.karney._fsum2_	pygeodesy.karney-module.html#_fsum2_
@@ -1896,6 +1899,7 @@ pygeodesy.vector3d._radical2	pygeodesy.vector3d-module.html#_radical2
 pygeodesy.vector3d.__all__	pygeodesy.vector3d-module.html#__all__
 pygeodesy.vector3d.map1	pygeodesy.basics-module.html#map1
 pygeodesy.vector3d._xyzhdn6	pygeodesy.vector3d-module.html#_xyzhdn6
+pygeodesy.vector3d.parse3d	pygeodesy.vector3d-module.html#parse3d
 pygeodesy.webmercator	pygeodesy.webmercator-module.html
 pygeodesy.webmercator._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.webmercator._xkwds	pygeodesy.basics-module.html#_xkwds
@@ -4112,7 +4116,7 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
 pygeodesy.elliptic.Elliptic.sncndn	pygeodesy.elliptic.Elliptic-class.html#sncndn
 pygeodesy.elliptic.Elliptic.alphap2	pygeodesy.elliptic.Elliptic-class.html#alphap2
-pygeodesy.elliptic.Elliptic._trips_	pygeodesy.elliptic.Elliptic-class.html#_trips_
+pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
 pygeodesy.elliptic.Elliptic.deltaPi	pygeodesy.elliptic.Elliptic-class.html#deltaPi
 pygeodesy.elliptic.Elliptic.__init__	pygeodesy.elliptic.Elliptic-class.html#__init__
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
@@ -4136,7 +4140,7 @@ pygeodesy.elliptic.Elliptic._sncndn3	pygeodesy.elliptic.Elliptic-class.html#_snc
 pygeodesy.elliptic.Elliptic.cK	pygeodesy.elliptic.Elliptic-class.html#cK
 pygeodesy.elliptic.Elliptic.fEd	pygeodesy.elliptic.Elliptic-class.html#fEd
 pygeodesy.elliptic.Elliptic._alphap2	pygeodesy.elliptic.Elliptic-class.html#_alphap2
-pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
+pygeodesy.elliptic.Elliptic._iteration	pygeodesy.elliptic.Elliptic-class.html#_iteration
 pygeodesy.named._Named.toStr	pygeodesy.named._Named-class.html#toStr
 pygeodesy.elliptic.Elliptic.fPi	pygeodesy.elliptic.Elliptic-class.html#fPi
 pygeodesy.elliptic.Elliptic._kp2	pygeodesy.elliptic.Elliptic-class.html#_kp2
@@ -4151,6 +4155,7 @@ pygeodesy.elliptic.Elliptic.reset	pygeodesy.elliptic.Elliptic-class.html#reset
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.elliptic.Elliptic.cKE	pygeodesy.elliptic.Elliptic-class.html#cKE
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
+pygeodesy.elliptic.Elliptic.iteration	pygeodesy.elliptic.Elliptic-class.html#iteration
 pygeodesy.elliptic.Elliptic.eps	pygeodesy.elliptic.Elliptic-class.html#eps
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.elliptic.Elliptic._cH	pygeodesy.elliptic.Elliptic-class.html#_cH
@@ -4330,7 +4335,6 @@ pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.etm.ExactTransverseMercator.equatoradius	pygeodesy.etm.ExactTransverseMercator-class.html#equatoradius
 pygeodesy.etm.ExactTransverseMercator._zetaDwd	pygeodesy.etm.ExactTransverseMercator-class.html#_zetaDwd
 pygeodesy.etm.ExactTransverseMercator._E	pygeodesy.etm.ExactTransverseMercator-class.html#_E
-pygeodesy.etm.ExactTransverseMercator._trips_	pygeodesy.etm.ExactTransverseMercator-class.html#_trips_
 pygeodesy.etm.ExactTransverseMercator.__init__	pygeodesy.etm.ExactTransverseMercator-class.html#__init__
 pygeodesy.etm.ExactTransverseMercator._k0_a	pygeodesy.etm.ExactTransverseMercator-class.html#_k0_a
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
@@ -4350,6 +4354,7 @@ pygeodesy.etm.ExactTransverseMercator._lon0	pygeodesy.etm.ExactTransverseMercato
 pygeodesy.etm.ExactTransverseMercator._a	pygeodesy.etm.ExactTransverseMercator-class.html#_a
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.etm.ExactTransverseMercator._sncndn6	pygeodesy.etm.ExactTransverseMercator-class.html#_sncndn6
+pygeodesy.etm.ExactTransverseMercator._iteration	pygeodesy.etm.ExactTransverseMercator-class.html#_iteration
 pygeodesy.etm.ExactTransverseMercator.datum	pygeodesy.etm.ExactTransverseMercator-class.html#datum
 pygeodesy.etm.ExactTransverseMercator._datum	pygeodesy.etm.ExactTransverseMercator-class.html#_datum
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
@@ -4361,6 +4366,7 @@ pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.etm.ExactTransverseMercator.reverse	pygeodesy.etm.ExactTransverseMercator-class.html#reverse
 pygeodesy.etm.ExactTransverseMercator._sigma3	pygeodesy.etm.ExactTransverseMercator-class.html#_sigma3
 pygeodesy.etm.ExactTransverseMercator._extendp	pygeodesy.etm.ExactTransverseMercator-class.html#_extendp
+pygeodesy.etm.ExactTransverseMercator.iteration	pygeodesy.etm.ExactTransverseMercator-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.etm.ExactTransverseMercator._zetaInv	pygeodesy.etm.ExactTransverseMercator-class.html#_zetaInv
 pygeodesy.etm.ExactTransverseMercator._sigmaInv0	pygeodesy.etm.ExactTransverseMercator-class.html#_sigmaInv0
@@ -7985,6 +7991,7 @@ pygeodesy.named._Named._dot_	pygeodesy.named._Named-class.html#_dot_
 pygeodesy.osgr.Osgr._easting	pygeodesy.osgr.Osgr-class.html#_easting
 pygeodesy.osgr.Osgr._latlon	pygeodesy.osgr.Osgr-class.html#_latlon
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
+pygeodesy.osgr.Osgr._iteration	pygeodesy.osgr.Osgr-class.html#_iteration
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.osgr.Osgr.toStr	pygeodesy.osgr.Osgr-class.html#toStr
 pygeodesy.osgr.Osgr._datum	pygeodesy.osgr.Osgr-class.html#_datum
@@ -7994,6 +8001,7 @@ pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
+pygeodesy.osgr.Osgr.iteration	pygeodesy.osgr.Osgr-class.html#iteration
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed

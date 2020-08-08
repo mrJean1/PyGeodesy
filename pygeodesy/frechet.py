@@ -99,7 +99,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '20.08.03'
+__version__ = '20.08.06'
 
 if not 0 < EPS < EPS1 < 1:
     raise _AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
@@ -520,7 +520,7 @@ class FrechetDistanceTo(Frechet):
            @raise FrechetError: Insufficient number of B{C{points}} or an
                                 invalid B{C{point}} or B{C{fraction}}.
 
-           @raise ImportError: Package U{GeographicLib
+           @raise ImportError: Package U{geographiclib
                   <https://PyPI.org/project/geographiclib>} missing
                   iff B{C{points}} are L{ellipsoidalKarney.LatLon}s.
 
@@ -766,7 +766,7 @@ class FrechetHubeny(FrechetFlatLocal):  # for Karl Hubeny
 
 class FrechetKarney(FrechetDegrees):
     '''Compute the C{Frechet} distance based on the I{angular}
-       distance in C{degrees} from I{Charles Karney}'s U{GeographicLib
+       distance in C{degrees} from I{Karney}'s U{geographiclib
        <https://PyPI.org/project/geographiclib>} U{Geodesic
        <https://GeographicLib.SourceForge.io/html/python/code.html>}
        Inverse method.
@@ -796,7 +796,7 @@ class FrechetKarney(FrechetDegrees):
            @raise FrechetError: Insufficient number of B{C{points}} or
                                 invalid B{C{fraction}}.
 
-           @raise ImportError: Package U{GeographicLib
+           @raise ImportError: Package U{geographiclib
                   <https://PyPI.org/project/geographiclib>} missing.
 
            @raise TypeError: Invalid B{C{datum}}.

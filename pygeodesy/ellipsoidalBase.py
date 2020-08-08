@@ -31,7 +31,7 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.units import Radius_
 
 __all__ = ()
-__version__ = '20.08.04'
+__version__ = '20.08.07'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 16    # _intersect2 interations, 6 sufficient
@@ -375,14 +375,14 @@ class LatLonEllipsoidalBase(LatLonBase):
                                               model=0, timeout=timeout)
         return self._Radjust2(adjust, datum, self._geoidHeight2)
 
-    def intersections2(self, rad1, other, rad2, height=None, wrap=False,
-                                            equidistant=None, tol=_TOL_M):
+    def intersections2(self, radius1, other, radius2, height=None, wrap=True,
+                                                 equidistant=None, tol=_TOL_M):
         '''Compute the intersection points of two circles each defined
-           by a center point and radius.
+           by a center point and a radius.
 
-           @arg rad1: Radius of the this circle (C{meter}).
+           @arg radius1: Radius of the this circle (C{meter}).
            @arg other: Center of the other circle (C{LatLon}).
-           @arg rad2: Radius of the other circle (C{meter}).
+           @arg radius2: Radius of the other circle (C{meter}).
            @kwarg height: Optional height for the intersection points,
                           overriding the mean height (C{meter}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
@@ -402,11 +402,11 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: If B{C{other}} is not C{LatLon}.
 
-           @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}} or B{C{height}}.
+           @raise ValueError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
         '''
         self.others(other)
-        return _intersect2(self, rad1, other, rad2, height=height, wrap=wrap,
-                               equidistant=equidistant, tol=tol, LatLon=self.classof)
+        return _intersect2(self, radius1, other, radius2, height=height, wrap=wrap,
+                                    equidistant=equidistant, tol=tol, LatLon=self.classof)
 
     @property_RO
     def iteration(self):
@@ -584,15 +584,15 @@ class LatLonEllipsoidalBase(LatLonBase):
 
 
 # (INTERNAL) C{_intersect2} imported by .ellipsoidalKarney and -Vincenty
-def _intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
+def _intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                     equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''Iteratively compute the intersection points of two circles each defined
        by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (ellipsoidal C{LatLon}).
-       @arg rad1: Radius of the first circle (C{meter}).
+       @arg radius1: Radius of the first circle (C{meter}).
        @arg center2: Center of the second circle (ellipsoidal C{LatLon}).
-       @arg rad2: Radius of the second circle (C{meter}).
+       @arg radius2: Radius of the second circle (C{meter}).
        @kwarg height: Optional height for the intersection points,
                       overriding the "radical height" at the "radical
                       line" between both centers (C{meter}).
@@ -622,7 +622,7 @@ def _intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
 
        @raise TypeError: If B{C{center1}} or B{C{center2}} not ellipsoidal.
 
-       @raise UnitError: Invalid B{C{rad1}}, B{C{rad2}} or B{C{height}}.
+       @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
 
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>}, U{Karney's paper
@@ -635,26 +635,26 @@ def _intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
     c1 = _xellipsoidal(center1=center1)
     c2 = c1.others(center2)
 
-    r1 = Radius_(rad1, name='rad1')
-    r2 = Radius_(rad2, name='rad2')
+    r1 = Radius_(radius1, name='radius1')
+    r2 = Radius_(radius2, name='radius2')
 
     try:
         return _intersect2(c1, r1, c2, r2, height=height, wrap=wrap,
                                       equidistant=equidistant, tol=tol,
                                            LatLon=LatLon, **LatLon_kwds)
     except (TypeError, ValueError) as x:
-        raise IntersectionError(center1=center1, rad1=rad1,
-                                center2=center2, rad2=rad2, txt=str(x))
+        raise IntersectionError(center1=center1, radius1=radius1,
+                                center2=center2, radius2=radius2, txt=str(x))
 
 
-def _intersect2(c1, r1, c2, r2, height=None, wrap=False,  # MCCABE 15
+def _intersect2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 16
                 equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     # (INTERNAL) Intersect of two spherical circles, see L{_intersections2}
     # above, separated to allow callers to embellish any exceptions
 
     from pygeodesy.formy import _euclidean
     from pygeodesy.sphericalTrigonometry import _intersect2 as _si2, LatLon as _LLS
-    from pygeodesy.utily import m2degrees
+    from pygeodesy.utily import m2degrees, unroll180
     from pygeodesy.vector3d import _intersect2 as _vi2, _radical2
 
     def _latlon4(t, h, n):
@@ -674,9 +674,14 @@ def _intersect2(c1, r1, c2, r2, height=None, wrap=False,  # MCCABE 15
     if r1 > (E.b * PI):
         raise ValueError(_exceed_PI_radians_)
 
+    if wrap:  # unroll180 == .karney._unroll2
+        _, lon2 = unroll180(c1.lon, c2.lon, wrap=True)
+        if lon2 != c2.lon:
+            c2 = c2.classof(c2.lat, lon2, c2.height, datum=c2.datum)
+
     # distance between centers and radii are
     # measured along the ellipsoid's surface
-    m = c1.distanceTo(c2, wrap=wrap)  # meter
+    m = c1.distanceTo(c2, wrap=False)  # meter
     if m < max(r1 - r2, EPS):
         raise ValueError(_near_concentric_)
     if fsum_(r1, r2, -m) < 0:
@@ -696,7 +701,7 @@ def _intersect2(c1, r1, c2, r2, height=None, wrap=False,  # MCCABE 15
     # gu-/estimate initial intersections, spherically ...
     t1, t2 = _si2(_LLS(c1.lat, c1.lon, height=c1.height), r1,
                   _LLS(c2.lat, c2.lon, height=c2.height), r2,
-                   radius=r, height=height, wrap=wrap, too_d=m)
+                   radius=r, height=height, wrap=False, too_d=m)
     h, n = t1.height, t1.name
 
     # ... and then iterate like Karney suggests to find

@@ -6,8 +6,7 @@ L{GnomonicKarney}, L{LambertEqualArea}, L{Orthographic}, L{Stereographic} and
 L{AzimuthalError} and functions L{equidistant} and L{gnomonic}.
 
 L{EquidistantKarney} and L{GnomonicKarney} require I{Charles Karney}'s Python
-implementation of U{GeographicLib<https://PyPI.org/project/geographiclib/>}
-package to be installed.
+U{geographiclib<https://PyPI.org/project/geographiclib/>} package to be installed.
 
 Other azimuthal classes implement only (**) U{Snyder's FORMULAS FOR THE SPHERE
 <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} and use those for any datum,
@@ -50,7 +49,7 @@ from pygeodesy.utily import asin1, atan2d, sincos2, sincos2d
 from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.08.04'
+__version__ = '20.08.06'
 
 _EPS_Karney    =  sqrt(EPS) * 0.01  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -396,7 +395,7 @@ class EquidistantKarney(_AzimuthalBase):
            @kwarg datum: Optional (ellipsoidal) datum (C{Datum}).
            @kwarg name: Optional name for the projection (C{str}).
 
-           @raise ImportError: Package U{GeographicLib<https://PyPI.org/
+           @raise ImportError: Package U{geographiclib<https://PyPI.org/
                                project/geographiclib>} missing.
 
            @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
@@ -574,7 +573,7 @@ class GnomonicKarney(_AzimuthalBase):
            @kwarg datum: Optional (ellipsoidal) datum (C{Datum}).
            @kwarg name: Optional name for the projection (C{str}).
 
-           @raise ImportError: Package U{GeographicLib<https://PyPI.org/
+           @raise ImportError: Package U{geographiclib<https://PyPI.org/
                                project/geographiclib>} missing.
 
            @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
@@ -626,8 +625,8 @@ class GnomonicKarney(_AzimuthalBase):
     def geodesic(self):
         '''Get this projection's I{wrapped} U{Karney Geodesic
            <https://GeographicLib.SourceForge.io/html/python/code.html>},
-           provided package U{geographiclib
-           <https://PyPI.org/project/geographiclib>} is installed.
+           provided the U{geographiclib<https://PyPI.org/project/geographiclib>}
+           packages is installed.
         '''
         return self.datum.ellipsoid.geodesic
 

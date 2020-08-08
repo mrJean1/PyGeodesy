@@ -70,7 +70,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.08.04'
+__version__ = '20.08.06'
 
 
 class HeightError(PointsError):
@@ -628,7 +628,7 @@ class HeightIDWdistanceTo(_HeightIDW):
            @raise HeightError: Insufficient number of B{C{knots}} or
                                an invalid B{C{knot}} or B{C{beta}}.
 
-           @raise ImportError: Package U{GeographicLib
+           @raise ImportError: Package U{geographiclib
                   <https://PyPI.org/project/geographiclib>} missing
                   iff B{C{points}} are L{ellipsoidalKarney.LatLon}s.
 
@@ -896,7 +896,7 @@ class HeightIDWkarney(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
        the I{angular} distance in C{degrees} from I{Karney}'s
-       U{GeographicLib<https://PyPI.org/project/geographiclib>} U{Geodesic
+       U{geographiclib<https://PyPI.org/project/geographiclib>} U{Geodesic
        <https://GeographicLib.SourceForge.io/html/python/code.html>}
        Inverse method.
 
@@ -927,7 +927,7 @@ class HeightIDWkarney(_HeightIDW):
                                an invalid B{C{knot}}, B{C{datum}} or
                                B{C{beta}}.
 
-           @raise ImportError: Package U{GeographicLib
+           @raise ImportError: Package U{geographiclib
                   <https://PyPI.org/project/geographiclib>} missing.
 
            @raise TypeError: Invalid B{C{datum}}.

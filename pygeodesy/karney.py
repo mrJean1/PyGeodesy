@@ -1,8 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Wrapper around I{Charles Karney}'s Python implementation
-of U{GeographicLib<https://PyPI.org/project/geographiclib>},
+u'''Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and
+C{GeodesicLine} and functions C{AngDiff}, C{AngNormalize}, C{LatFix}
+and C{sum} from U{geographiclib<https://PyPI.org/project/geographiclib>},
 provided that package is installed.
 
 Following are U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes
@@ -44,11 +45,11 @@ and functions transcribed from I{Karney}'s original U{GeographicLib
   - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1UTMUPS.html>}
 
-  - L{atan2d}, L{sincos2}, L{sincos2d}-- U{Math<https://geographiclib.sourceforge.io/html/
+  - L{atan2d}, L{sincos2}, L{sincos2d}-- U{Math<https://GeographicLib.sourceforge.io/html/
     classGeographicLib_1_1Math.html>}
 
 The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes and
-module are wrappers around some of I{Karney}'s Python U{GeographicLib
+module are wrappers around some of I{Karney}'s Python U{geographiclib
 <https://PyPI.org/project/geographiclib>}:
 
   - L{ellipsoidalKarney}, L{FrechetKarney}, L{HeightIDWkarney}, L{karney}
@@ -63,7 +64,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.08.04'
+__version__ = '20.08.07'
 
 
 class _Adict(dict):
@@ -78,7 +79,7 @@ class _Adict(dict):
 
 
 class _Wrapped(object):
-    ''''(INTERNAL) Wrapper for some of I{Karney}'s U{GeographicLib
+    ''''(INTERNAL) Wrapper for some of I{Karney}'s U{geographiclib
         <https://PyPI.org/project/geographiclib>} classes.
     '''
     _Geodesic     = None
@@ -89,7 +90,7 @@ class _Wrapped(object):
     @property_RO
     def Geodesic(self):
         '''(INTERNAL) Get the wrapped C{Geodesic} class, provided the
-           U{GeographicLib<https://PyPI.org/project/geographiclib>}
+           U{geographiclib<https://PyPI.org/project/geographiclib>}
            package is installed, otherwise throw an C{ImportError}.
         '''
         if _Wrapped._Geodesic is None:
@@ -151,7 +152,7 @@ class _Wrapped(object):
     @property_RO
     def GeodesicLine(self):
         '''(INTERNAL) Get the wrapped C{GeodesicLine} class, provided
-           the U{GeographicLib<https://PyPI.org/project/geographiclib>}
+           the U{geographiclib<https://PyPI.org/project/geographiclib>}
            package is installed, otherwise throw an C{ImportError}.
         '''
         if _Wrapped._GeodesicLine is None:
@@ -177,15 +178,15 @@ class _Wrapped(object):
 
     @property_RO
     def Geodesic_WGS84(self):
-        '''(INTERNAL) Get the wrapped C{Geodesic.WGS84} I{instance} iff
-           the U{GeographicLib<https://PyPI.org/project/geographiclib>}
+        '''(INTERNAL) Get the wrapped C{Geodesic.WGS84} I{instance} iff-
+           the U{geographiclib<https://PyPI.org/project/geographiclib>}
            package is installed, otherwise throw an C{ImportError}.
         '''
         return Datums.WGS84.ellipsoid.geodesic
 
     @property_RO
     def geoMath(self):
-        '''(INTERNAL) Get the C{Math} class if the U{GeographicLib
+        '''(INTERNAL) Get the C{Math} class if the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is
            installed or C{False} otherwise.
         '''
@@ -199,7 +200,7 @@ class _Wrapped(object):
     @property_RO
     def Math(self):
         '''(INTERNAL) Get the C{Math} class, provided the
-           U{GeographicLib<https://PyPI.org/project/geographiclib>}
+           U{geographiclib<https://PyPI.org/project/geographiclib>}
            package is installed, otherwise throw an C{ImportError}.
         '''
         if _Wrapped._Math is None:
@@ -248,7 +249,7 @@ def _fsum2_(*vs):  # see .test/testKarney.py
 
        @note: NOT "error-free", see .test/testKarney.py.
 
-       @see: U{Algorithm 4.1<https://www.ti3.TUHH.DE/paper/rump/OgRuOi05.pdf>}.
+       @see: U{Algorithm 4.1<http://www.ti3.TUHH.De/paper/rump/OgRuOi05.pdf>}.
     '''
     s = r = 0.0
     for v in vs:
@@ -298,7 +299,7 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
        @note: The C{residual} can be the same as
               B{C{u}} or B{C{v}}.
 
-       @see: U{Algorithm 3.1<https://www.ti3.TUHH.DE/paper/rump/OgRuOi05.pdf>}.
+       @see: U{Algorithm 3.1<http://www.ti3.TUHH.De/paper/rump/OgRuOi05.pdf>}.
     '''
     M = _wrapped.geoMath
     if M:
@@ -318,6 +319,19 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
     # u + v =       s      + t
     #       = round(u + v) + t
     return s, t
+
+
+def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBase._intersect2
+    '''Unroll B{C{lon2 - lon1}} like C{geodesic.Geodesic.Inverse}.
+
+       @return: 2-Tuple C{(lon2 - lon1, lon2)}.
+    '''
+    if wrap:
+        d, t = _diff182(lon1, lon2)
+        lon2 = (lon1 + d) + t  # _fsum2_(lon1, d, t)
+    else:
+        lon2 = _norm180(lon2)
+    return (lon2 - lon1), lon2
 
 # **) MIT License
 #

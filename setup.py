@@ -3,9 +3,9 @@
 
 # The setuptools script to build, install and test a PyGeodesy distribution.
 
-# Tested with 64-bit Python 2.7.13-18, 3.6.1-2, 3.7.0-6 and 3.8.0-3
+# Tested with 64-bit Python 2.7.13-18, 3.6.1-2, 3.7.0-6 and 3.8.0-5
 # (using setuptools 28.8.0), but only on macOS 10.12.3-6 Sierra,
-# 10.13.0-6 High Sierra and 10.15.5 Catalina
+# 10.13.0-6 High Sierra and 10.15.5-6 Catalina
 
 # python setup.py sdist --formats=gztar,bztar,zip  # ztar,tar
 # python setup.py bdist_wheel --universal  # XXX
@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.08.01'
+__version__ = '20.08.07'
 
 
 def _c2(*names):
@@ -47,7 +47,7 @@ def _version():
 
 
 _KeyWords = ('altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'azimuthal', 'bearing',
-             'cartesian', 'Cassini', 'Cassini-Soldner', 'clip', 'Cohen',
+             'cartesian', 'Cassini', 'Cassini-Soldner', 'circle-intersections', 'clip', 'Cohen',
              'Cohen-Sutherland', 'conic', 'cosines-law', 'coverage', 'curvature',
              'datum', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'ECEF', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
@@ -63,7 +63,7 @@ _KeyWords = ('altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'azimuthal', 
              'Mercator', 'MGRS',
              'nearest', 'numpy', 'n-vector', 'Nvector',
              'orthographic', 'OSGR',
-             'perimeter', 'Peucker', 'polar', 'Pseudo-Mercator',
+             'path-intersection', 'perimeter', 'Peucker', 'polar', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker',
              'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',

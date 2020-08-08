@@ -92,7 +92,7 @@ except ImportError:  # Python 3+
         return bs.decode(_utf_8_)
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.08.04'
+__version__ = '20.08.06'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -468,7 +468,7 @@ class _GeoidBase(_HeightBase):
         return self._llh3LL(self._lowerright, LatLon)
 
     def lowest(self, LatLon=None, **unused):
-        '''Return the location and the lowest height of this geoid.
+        '''Return the location and lowest height of this geoid.
 
            @kwarg LatLon: Optional class to return the location and height
                           (C{LatLon}) or C{None}.
@@ -1099,7 +1099,7 @@ class GeoidKarney(_GeoidBase):
         return self._llh3LL(self._highest, LatLon)
 
     def lowest(self, LatLon=None, full=False):  # PYCHOK full
-        '''Return the location and the lowest height of this geoid.
+        '''Return the location and lowest height of this geoid.
 
            @kwarg LatLon: Optional class to return the location and height
                           (C{LatLon}) or C{None}.

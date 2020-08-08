@@ -90,13 +90,13 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.08.04'
+__version__ = '20.08.05'
 
 _TolJAC = sqrt(EPS * 0.01)
 _TolRD  =  pow(EPS * 0.002, 0.125)
 _TolRF  =  pow(EPS * 0.030, 0.125)
 _TolRG0 = _TolJAC * 2.7
-_TRIPS  =  13  # Max depth for sncndn, etc, 5-7 might be enough
+_TRIPS  =  15  # Max depth for sncndn, etc, 5..7 might be enough
 
 
 class EllipticError(_ValueError):
@@ -117,12 +117,12 @@ class Elliptic(_Named):
        @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1EllipticFunction.html#details>}.
     '''
-    _alpha2  = 0
-    _alphap2 = 0
-    _eps     = EPS
-    _k2      = 0
-    _kp2     = 0
-    _trips_  = _TRIPS
+    _alpha2    = 0
+    _alphap2   = 0
+    _eps       = EPS
+    _iteration = 0  # only .fEinv and .sncndn
+    _k2        = 0
+    _kp2       = 0
 
     _cD  = INF
     _cE  = 1.0
@@ -416,7 +416,7 @@ class Elliptic(_Named):
         # For kp2 close to zero use asin(x/.cE) or J. P. Boyd,
         # Applied Math. and Computation 218, 7005-7013 (2012)
         # <https://DOI.org/10.1016/j.amc.2011.12.021>
-        for _ in range(self._trips_):  # GEOGRAPHICLIB_PANIC
+        for self._iteration in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
             sn, cn, dn = self._sncndn3(phi)
             phi, e = Phi.fsum2_((x - self.fE(sn, cn, dn)) / dn)
             if abs(e) < _TolJAC:
@@ -538,6 +538,13 @@ class Elliptic(_Named):
         return copysign(xi, sn)
 
     @property_RO
+    def iteration(self):
+        '''Get the most recent C{Elliptic.fEinv} or C{Elliptic.sncndn}
+           iteration number (C{int} or C{0} if not available/applicable).
+        '''
+        return self._iteration
+
+    @property_RO
     def k2(self):
         '''Get k^2, the square of the modulus (C{float}).
         '''
@@ -649,6 +656,8 @@ class Elliptic(_Named):
             #   cH = int(cos(phi),...) = 1
             self._cH = kp2 * _RD_3(0, 1, kp2) if kp2 else 1.0
 
+        self._iteration = 0
+
     def sncndn(self, x):  # PYCHOK x not used?
         '''The Jacobi elliptic function.
 
@@ -670,7 +679,7 @@ class Elliptic(_Named):
             else:
                 d = 0
             a, c, mn = 1.0, 0, []
-            for _ in range(self._trips_):  # GEOGRAPHICLIB_PANIC
+            for self._iteration in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
                 # This converges quadratically, max 6 trips
                 mc = sqrt(mc)
                 mn.append((a, mc))
@@ -699,9 +708,13 @@ class Elliptic(_Named):
                     cn, dn = dn, cn
                     sn = sn / d  # /= d chokes PyChecker
         else:
+            self._iteration = 0
             sn = tanh(x)
             cn = dn = 1.0 / cosh(x)
-        return Elliptic3Tuple(sn, cn, dn)
+
+        r = Elliptic3Tuple(sn, cn, dn)
+        r._iteration = self._iteration
+        return r
 
     def _sncndn3(self, phi):
         '''(INTERNAL) Helper for C{.fEinv} and C{._fXf}.
@@ -879,11 +892,14 @@ def _RG_(x, y):
         a, b = b, a
     m = 0.25
     S = Fsum(m * (a + b)**2)
-    while abs(a - b) > (_TolRG0 * a):  # max 4 trips
+    for _ in range(_TRIPS):  # max 4 trips
+        if abs(a - b) <= (_TolRG0 * a):
+            return S.fsum() * PI_2 / (a + b)
         b, a = sqrt(a * b), (a + b) * 0.5
         m *= 2
         S -= m * (a - b)**2
-    return S.fsum() * PI_2 / (a + b)
+
+    raise _convergenceError(_RG_, x, y)
 
 
 def _RG(x, y, z):  # used by testElliptic.py

@@ -182,7 +182,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Vector3d', 'VectorError'),
+                       vector3d=('Vector3d', 'VectorError', 'parse3d'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm'),
                            wgrs=('Georef', 'WGRSError'))
 
@@ -201,7 +201,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.08.04'
+__version__ = '20.08.05'
 
 
 def _ALL_OTHER(*objs):

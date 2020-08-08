@@ -5,11 +5,11 @@ u'''Test Karney wrappers.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.06.05'
+__version__ = '20.08.08'
 
 from base import geographiclib, TestsBase
 
-from pygeodesy import karney, NEG0, wrap180
+from pygeodesy import karney, NEG0, unroll180, wrap180
 
 # some tests from <https://PyPI.org/project/geographiclib>
 _testCases = ((35.60777, -139.44815, 111.098748429560326,
@@ -134,6 +134,13 @@ class Tests(TestsBase):
         s, t = _fsum2_(2*y**2, 9*x**4, -(y**4))
         self.test(n, s, 1.0, known=True)  # -3.589050987400773e+19
         self.test(n, t, 0.0, known=t in (NEG0, 0.0))
+
+        _unroll2 = karney._unroll2
+        for lon in range(0, 361, 30):
+            lon = float(lon)
+            _t = _unroll2(-30.0, lon, wrap=True)
+            t = unroll180(-30.0, lon, wrap=True)
+            self.test('unroll', _t, t)
 
 
 if __name__ == '__main__':

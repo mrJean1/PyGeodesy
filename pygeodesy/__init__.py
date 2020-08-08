@@ -16,15 +16,16 @@ There are three modules for ellipsoidal earth models, C{ellipsoidalKarney},
 C{-Vincenty} and C{-Nvector} and two for spherical ones, C{sphericalTrigonometry}
 and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}} and a geocentric
 B{C{Cartesian}} class with methods and functions to compute distance, initial and
-final bearing, intermediate and nearest points, area, perimeter, conversions and
-unrolling, among other things.  For more information and further details see the
-U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of
-U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
-U{Vincenty<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and
-U{Vector-based<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}
-geodesy, the original U{JavaScript source<https://GitHub.com/ChrisVeness/geodesy>} or
-U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>} and the Python
-U{GeographicLib<https://PyPI.org/project/geographiclib>}.
+final bearing, intermediate and nearest points, intersections of circles and paths,
+area, perimeter, conversions and unrolling, among other things.  For more
+information and further details see the U{documentation
+<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of U{Latitude/Longitude
+<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{Vincenty
+<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and U{Vector-based
+<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy, the original
+U{JavaScript source<https://GitHub.com/ChrisVeness/geodesy>} or U{docs
+<https://www.Movable-Type.co.UK/scripts/geodesy/docs>} and the Python
+U{geographiclib<https://PyPI.org/project/geographiclib>}.
 
 Also included are modules for conversions to and from U{Cassini-Soldner
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html>},
@@ -77,7 +78,7 @@ C{cd} to directory C{Pygeodesy-yy.m.d} and type C{python setup.py
 install}.  To run all PyGeodesy tests, type C{python setup.py test}
 before installation.
 
-Installation of U{GeographicLib<https://PyPI.org/project/geographiclib>},
+Installation of U{geographiclib<https://PyPI.org/project/geographiclib>},
 U{NumPy<https://www.NumPy.org>} and U{SciPy<https://SciPy.org>} is optional.
 However, the former is required for classes L{CassiniSoldner} and L{Css} and
 function L{toCss}, for module L{ellipsoidalKarney} classes C{LatLon} and
@@ -157,14 +158,15 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8
 <https://PyPI.org/project/flake8>} using Python 3.8.3, both in 64-bit
-on macOS 10.15.5 Catalina.
+on macOS 10.15.6 Catalina.
+
+Classes with a name ending in C{-Karney} and several more are transcribed from
+I{Karney}'s U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
+or require I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
+package to be installed.  A complete list is in module L{karney}.
 
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
-
-Classes with a name ending in C{-Karney} are transcribed from Karney's
-U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>},
-but there are more.  The complete list is in module L{karney}.
 
 License
 =======
@@ -193,11 +195,11 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @newfield example: Example, Examples
 @newfield JSname: JS name, JS names
 
-@var EPS:    System's M{epsilon} ≈ 2.22e-16 (C{float}).
-@var EPS_2:  Half system's M{epsilon} ≈ 1.11e-16 (C{float}).
+@var EPS:    System's M{epsilon} ≈ 2.2202e-16 (C{float}).
+@var EPS2:   M{EPS * 2} = 4.4409e-16 (C{float}).
+@var EPS_2:  M{EPS / 2} ≈ 1.1102e-16 (C{float}).
 @var EPS1:   M{1 - EPS} = 0.9999999999999998 (C{float}).
 @var EPS1_2: M{1 - EPS_2} = 0.9999999999999999 (C{float}).
-@var EPS2:   M{EPS * 2} = 4.440892098501e-16 (C{float}).
 
 @var F_D:   Format degrees as unsigned "deg°" plus suffix (C{str}).
 @var F_DM:  Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -280,7 +282,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.08.04'
+__version__ = '20.08.08'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

@@ -70,7 +70,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.07.29
+        20.08.08
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -113,14 +113,34 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">center1</span>,
-        <span class="summary-sig-arg">rad1</span>,
+        <span class="summary-sig-arg">radius1</span>,
         <span class="summary-sig-arg">center2</span>,
-        <span class="summary-sig-arg">rad2</span>,
+        <span class="summary-sig-arg">radius2</span>,
         <span class="summary-sig-arg">sphere</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
       Compute the intersection of two spheres or circles, each defined by a
-      center point and radius.</td>
+      center point and a radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#parse3d" class="summary-sig-name">parse3d</a>(<span class="summary-sig-arg">str3d</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Parse an <code>&quot;x, y, z&quot;</code> string.</td>
           <td align="right" valign="top">
             
             
@@ -183,9 +203,9 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">intersections2</span>&nbsp;(<span class="sig-arg">center1</span>,
-        <span class="sig-arg">rad1</span>,
+        <span class="sig-arg">radius1</span>,
         <span class="sig-arg">center2</span>,
-        <span class="sig-arg">rad2</span>,
+        <span class="sig-arg">radius2</span>,
         <span class="sig-arg">sphere</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**Vector_kwds</span>)</span>
@@ -196,7 +216,7 @@
   </tr></table>
   
   <p>Compute the intersection of two spheres or circles, each defined by a 
-  center point and radius.</p>
+  center point and a radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -204,13 +224,13 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>rad1</code></strong> - Radius of the first sphere or circle (same units as the 
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of the first sphere or circle (same units as the 
           <b><code>center1</code></b> coordinates).</li>
         <li><strong class="pname"><code>center2</code></strong> - Center of the second sphere or circle (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>rad2</code></strong> - Radius of the second sphere or circle (same units as the 
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of the second sphere or circle (same units as the 
           <b><code>center1</code></b> and <b><code>center2</code></b> 
           coordinates).</li>
         <li><strong class="pname"><code>sphere</code></strong> - If <code>True</code> compute the center and radius of the 
@@ -236,7 +256,7 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, invalid or non-intersecting spheres or circles.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>rad1</code></b> or <b><code>rad2</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b> or <b><code>radius2</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -247,6 +267,46 @@
         target="_top">circle-circle</a> intersections.
       </p>
 </div></td></tr></table>
+</div>
+<a name="parse3d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parse3d</span>&nbsp;(<span class="sig-arg">str3d</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse an <code>&quot;x, y, z&quot;</code> string.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>str3d</code></strong> - X, y and z values (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Optional class (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional <b><code>Vector</code></b> keyword arguments, ignored if
+          <b><code>Vector=None</code></b>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New <b><code>Vector</code></b> or if <b><code>Vector</code></b> 
+          is <code>None</code>, a <a 
+          href="pygeodesy.named.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.VectorError-class.html">VectorError</a></strong></code> - Invalid <b><code>str3d</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="sumOf"></a>
 <div>
@@ -278,7 +338,10 @@
           <b><code>Vector=None</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Vectorial sum (<b><code>Vector</code></b>).</dd>
+        <dd>Vectorial sum as <b><code>Vector</code></b> or if 
+          <b><code>Vector</code></b> is <code>None</code>, a <a 
+          href="pygeodesy.named.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.vector3d.VectorError-class.html">VectorError</a></strong></code> - No <b><code>vectors</code></b>.</li>
@@ -318,7 +381,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Aug  4 20:22:53 2020
+    Generated by Epydoc 3.0.1 on Fri Aug  7 21:58:00 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

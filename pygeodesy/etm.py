@@ -88,7 +88,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.08.04'
+__version__ = '20.08.06'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -120,7 +120,7 @@ class Etm(Utm):
               lat- and longitude is 3-4 times slower than L{Utm}.
 
        @see: Karney's U{Detailed Description<https://GeographicLib.SourceForge.io/
-       html/classGeographicLib_1_1TransverseMercatorExact.html#details>}.
+             html/classGeographicLib_1_1TransverseMercatorExact.html#details>}.
     '''
     _Error   = ETMError
     _exactTM = None
@@ -254,22 +254,22 @@ class Etm(Utm):
 class ExactTransverseMercator(_NamedBase):
     '''A Python version of Karney's U{TransverseMercatorExact
        <https://GeographicLib.SourceForge.io/html/TransverseMercatorExact_8cpp_source.html>}
-       C++ class, a numerically exact transverse mercator projection,
-       referred to as C{TMExact} here.
+       C++ class, a numerically exact transverse mercator projection, here referred to as
+       C{TMExact}.
 
-       @see: C{U{TMExact(real a, real f, real k0, bool extendp)<https://geographiclib.sourceforge.io/
+       @see: C{U{TMExact(real a, real f, real k0, bool extendp)<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1TransverseMercatorExact.html#a72ffcc89eee6f30a6d1f4d061518a6f1>}}.
     '''
-    _a       = 0     # major radius
-    _datum   = None  # Datum
-    _e       = 0     # eccentricity
-    _E       = None  # Ellipsoid
-    _extendp = True
-    _f       = 0     # flattening
-    _k0      = 1     # central scale factor
-    _k0_a    = 0
-    _lon0    = 0     # central meridian
-    _trips_  = _TRIPS
+    _a         = 0     # major radius
+    _datum     = None  # Datum
+    _e         = 0     # eccentricity
+    _E         = None  # Ellipsoid
+    _extendp   = True
+    _f         = 0     # flattening
+    _iteration = 0     # ._sigmaInv and ._zetaInv
+    _k0        = 1     # central scale factor
+    _k0_a      = 0
+    _lon0      = 0     # central meridian
 
 #   see ._reset() below:
 
@@ -410,9 +410,11 @@ class ExactTransverseMercator(_NamedBase):
 
         # u,v = coordinates for the Thompson TM, Lee 54
         if lat == 90:
-            u, v = self._Eu.cK, 0
+            u = self._Eu.cK
+            v = self._iteration = 0
         elif lat == 0 and lon == self._1_e_90:
-            u, v = 0, self._Ev.cK
+            u = self._iteration = 0
+            v = self._Ev.cK
         else:  # tau = tan(phi), taup = sinh(psi)
             tau, lam = tan(radians(lat)), radians(lon)
             u, v = self._zetaInv(self._E.es_taupf(tau), lam)
@@ -435,7 +437,18 @@ class ExactTransverseMercator(_NamedBase):
             y, g = -y, -g
         if _lon:
             x, g = -x, -g
-        return EasNorExact4Tuple(x, y, g, k)
+
+        r = EasNorExact4Tuple(x, y, g, k)
+        r._iteration = self._iteration
+        return r
+
+    @property_RO
+    def iteration(self):
+        '''Get the most recent C{ExactTransverseMercator.forward}
+           or C{ExactTransverseMercator.reverse} iteration number
+           (C{int} or C{0} if not available/applicable).
+        '''
+        return self._iteration
 
     @property_doc_(''' the central scale factor (C{float}).''')
     def k0(self):
@@ -503,6 +516,8 @@ class ExactTransverseMercator(_NamedBase):
         self._Ev_cKE_3_4 = self._Ev.cKE * 0.75
         self._Ev_cKE_5_4 = self._Ev.cKE * 1.25
 
+        self._iteration  = 0
+
     def reverse(self, x, y, lon0=None):
         '''Reverse projection, from Transverse Mercator to geographic.
 
@@ -536,7 +551,8 @@ class ExactTransverseMercator(_NamedBase):
         if xi != 0 or eta != self._Ev.cKE:
             u, v = self._sigmaInv(xi, eta)
         else:
-            u, v = 0, self._Ev.cK
+            u = self._iteration = 0
+            v = self._Ev.cK
 
         if v != 0 or u != self._Eu.cK:
             g, k, lat, lon = self._zetaScaled(self._sncndn6(u, v))
@@ -551,7 +567,9 @@ class ExactTransverseMercator(_NamedBase):
             lon, g = -lon, -g
 
         lon += self._lon0 if lon0 is None else _norm180(lon0)
-        return LatLonExact4Tuple(_norm180(lat), _norm180(lon), g, k)
+        r = LatLonExact4Tuple(_norm180(lat), _norm180(lon), g, k)
+        r._iteration = self._iteration
+        return r
 
     def _scaled(self, tau, d2, snu, cnu, dnu, snv, cnv, dnv):
         '''(INTERNAL) C{scaled}.
@@ -639,10 +657,12 @@ class ExactTransverseMercator(_NamedBase):
            @raise EllipticError: No convergence.
         '''
         u, v, trip = self._sigmaInv0(xi, eta)
-        if not trip:
+        if trip:
+            self._iteration = 0
+        else:
             U, V = Fsum(u), Fsum(v)
             # min iterations = 2, max = 7, mean = 3.9
-            for _ in range(self._trips_):  # GEOGRAPHICLIB_PANIC
+            for self._iteration in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
                 sncndn6 = self._sncndn6(u, v)
                 X, E, _ = self._sigma3(v, *sncndn6)
                 dw, dv  = self._sigmaDwd( *sncndn6)
@@ -792,11 +812,13 @@ class ExactTransverseMercator(_NamedBase):
         psi = asinh(taup)
         sca = 1.0 / hypot1(taup)
         u, v, trip = self._zetaInv0(psi, lam)
-        if not trip:
+        if trip:
+            self._iteration = 0
+        else:
             stol2 = _TOL_10 / max(psi**2, 1.0)
             U, V = Fsum(u), Fsum(v)
             # min iterations = 2, max = 6, mean = 4.0
-            for _ in range(self._trips_):  # GEOGRAPHICLIB_PANIC
+            for self._iteration in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
                 sncndn6 = self._sncndn6(u, v)
                 T, L, _ = self._zeta3(  *sncndn6)
                 dw, dv  = self._zetaDwd(*sncndn6)

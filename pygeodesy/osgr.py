@@ -57,7 +57,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.07.14'
+__version__ = '20.08.05'
 
 _10um  = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km = 100000  #: (INTERNAL) 100 km (int meter)
@@ -72,7 +72,7 @@ _Datums_OSGB36    =  Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
 _latlon_          = 'latlon'
 _no_convertDatum_ = 'no .convertDatum'
 _ord_A            =  ord('A')
-_TRIPS            =  32  #: (INTERNAL) Convergence
+_TRIPS            =  33  #: (INTERNAL) .toLatLon convergence
 
 
 def _ll2datum(ll, datum, name):
@@ -105,10 +105,11 @@ class OSGRError(_ValueError):
 class Osgr(_NamedBase):
     '''Ordinance Survey Grid References (OSGR) coordinate.
     '''
-    _datum    = _Datums_OSGB36  #: (INTERNAL) Default datum (L{Datum})
-    _easting  =  0              #: (INTERNAL) Easting (C{meter}).
-    _latlon   =  None           #: (INTERNAL) Cache B{C{_toLatlon}}.
-    _northing =  0              #: (INTERNAL) Nothing (C{meter}).
+    _datum     = _Datums_OSGB36  #: (INTERNAL) Default datum (L{Datum})
+    _easting   =  0              #: (INTERNAL) Easting (C{meter}).
+    _iteration = 0               #: (INTERANL) Iteration number (C{int}).
+    _latlon    =  None           #: (INTERNAL) Cache B{C{_toLatlon}}.
+    _northing  =  0              #: (INTERNAL) Nothing (C{meter}).
 
     def __init__(self, easting, northing, datum=None, name=NN):
         '''New L{Osgr} National Grid Reference.
@@ -146,6 +147,13 @@ class Osgr(_NamedBase):
         '''Get the easting (C{meter}).
         '''
         return self._easting
+
+    @property_RO
+    def iteration(self):
+        '''Get the most recent C{Osgr.toLatLon} iteration number
+           (C{int} or C{0} if not available/applicable).
+        '''
+        return self._iteration
 
     @property_RO
     def northing(self):
@@ -207,7 +215,7 @@ class Osgr(_NamedBase):
 
         a, m = _A0, n_N0
         sa = Fsum(a)
-        for _ in range(_TRIPS):
+        for self._iteration in range(1, _TRIPS):
             a = sa.fsum_(m / a_F0)
             m = n_N0 - b_F0 * _M(E.Mabcd, a)  # meridional arc
             if abs(m) < _10um:
@@ -246,7 +254,9 @@ class Osgr(_NamedBase):
         a = fdot(V4, 1,    -d2, d4, -d6)
         b = fdot(X5, 1, d, -d3, d5, -d7)
 
-        self._latlon = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
+        r = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
+        r._iteration = self._iteration  # only ellipsoidal LatLon
+        self._latlon = r
         return self._latlon3(LatLon, datum)
 
     def _latlon3(self, LatLon, datum):
@@ -260,6 +270,7 @@ class Osgr(_NamedBase):
             _xsubclassof(_LLEB, LatLon=LatLon)
             r = _ll2datum(ll, datum, LatLon.__name__)
             r = LatLon(r.lat, r.lon, datum=r.datum)
+        r._iteration = ll._iteration
         return _xnamed(r, ll)
 
     def toRepr(self, prec=10, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected

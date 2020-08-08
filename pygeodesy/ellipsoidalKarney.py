@@ -3,8 +3,8 @@
 
 u'''Ellipsoidal classes geodetic (lat-/longitude) L{LatLon} and
 geocentric (ECEF) L{Cartesian} and functions L{areaOf}, L{isclockwise}
-and L{perimeterOf}, all based on I{Charles Karney}'s Python implementation
-of U{GeographicLib<https://PyPI.org/project/geographiclib>}.
+and L{perimeterOf}, all based on I{Charles Karney}'s Python
+U{geographiclib<https://PyPI.org/project/geographiclib>}.
 
 Here's an example usage of C{ellipsoidalKarney}:
 
@@ -42,7 +42,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.08.04'
+__version__ = '20.08.07'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -73,13 +73,13 @@ class Cartesian(CartesianEllipsoidalBase):
 
 class LatLon(LatLonEllipsoidalBase):
     '''An ellipsoidal L{LatLon} similar to L{ellipsoidalVincenty.LatLon}
-       but using I{Charles F. F. Karney}'s Python U{GeographicLib
+       but using I{Charles F. F. Karney}'s Python U{geographiclib
        <https://PyPI.org/project/geographiclib>} to compute the geodesic
        distance, initial and final bearing (azimuths) between two given
        points or the destination point given a start point and an initial
        bearing.
 
-       @note: This L{LatLon}'s methods require the U{GeographicLib
+       @note: This L{LatLon}'s methods require the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
     '''
     _Ecef = EcefKarney  #: (INTERNAL) Preferred C{Ecef...} class.
@@ -383,7 +383,7 @@ class LatLon(LatLonEllipsoidalBase):
 
 def _geodesic(datum, points, closed, line, wrap):
     # Compute the area or perimeter of a polygon,
-    # using the GeographicLib package, iff installed
+    # using the geographiclib package, iff installed
     g = datum.ellipsoid.geodesic
 
     if not wrap:  # capability LONG_UNROLL can't be off
@@ -414,7 +414,7 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
        @return: Area (C{meter}, same as units of the B{C{datum}}
                 ellipsoid, squared).
 
-       @raise ImportError: Package U{GeographicLib
+       @raise ImportError: Package U{geographiclib
               <https://PyPI.org/project/geographiclib>} missing.
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
@@ -424,7 +424,7 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
        @raise ValueError: Invalid B{C{wrap}}, longitudes not
                           wrapped, unrolled.
 
-       @note: This function requires installation of the U{GeographicLib
+       @note: This function requires installation of the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
@@ -433,15 +433,15 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
     return abs(_geodesic(datum, points, True, False, wrap))
 
 
-def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
+def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                    equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
     '''Iteratively compute the intersection points of two circles each defined
        by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
-       @arg rad1: Radius of the second circle (C{meter}).
+       @arg radius1: Radius of the first circle (C{meter}).
        @arg center2: Center of the second circle (L{LatLon}).
-       @arg rad2: Radius of the second circle (C{meter}).
+       @arg radius2: Radius of the second circle (C{meter}).
        @kwarg height: Optional height for the intersection points,
                       overriding the "radical height" at the "radical
                       line" between both centers (C{meter}).
@@ -470,7 +470,7 @@ def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
 
        @raise TypeError: If B{C{center1}} or B{C{center2}} not ellipsoidal.
 
-       @raise UnitError: Invalid B{C{rad1}}, B{C{rad2}} or B{C{height}}.
+       @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
 
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>}, U{Karney's paper
@@ -481,8 +481,8 @@ def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
     '''
     from pygeodesy.azimuthal import EquidistantKarney
     E = EquidistantKarney if equidistant is None else equidistant
-    return _intersections2(center1, rad1, center2, rad2, height=height, wrap=wrap,
-                                 equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
+    return _intersections2(center1, radius1, center2, radius2, height=height, wrap=wrap,
+                                       equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
 def isclockwise(points, datum=Datums.WGS84, wrap=True):
@@ -501,7 +501,7 @@ def isclockwise(points, datum=Datums.WGS84, wrap=True):
        @raise ValueError: The B{C{points}} enclose a pole or zero
                           area.
 
-       @note: This function requires installation of the U{GeographicLib
+       @note: This function requires installation of the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.isclockwise}.
@@ -525,7 +525,7 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
        @return: Perimeter (C{meter}, same as units of the B{C{datum}}
                 ellipsoid).
 
-       @raise ImportError: Package U{GeographicLib
+       @raise ImportError: Package U{geographiclib
               <https://PyPI.org/project/geographiclib>} missing.
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
@@ -535,7 +535,7 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
        @raise ValueError: Invalid B{C{wrap}}, longitudes not
                           wrapped, unrolled.
 
-       @note: This function requires installation of the U{GeographicLib
+       @note: This function requires installation of the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.

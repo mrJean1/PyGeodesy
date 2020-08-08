@@ -16,11 +16,11 @@ There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
 *-Vincenty* and *-Nvector* and two for spherical ones, *sphericalTrigonometry*
 and *-Nvector*.  Each module provides a geodetic *LatLon* and a geocentric
 *Cartesian* class with methods and functions to compute distance, initial and
-final bearing, intermediate and nearest points, area, perimeter, conversions
-and unrolling, among other things.  For more information and further details
-see the documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_
-and `Vector-based`_ geodesy, the original `JavaScript source`_ or docs_ and
-the Python `GeographicLib`_.
+final bearing, intermediate and nearest points, intersections of circles and
+paths,area, perimeter, conversions and unrolling, among other things.  For
+more information and further details see the documentation_, the descriptions
+of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the original
+`JavaScript source`_ or docs_ and the Python `GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
 ECEF_ (Earth-Centered, Earth-Fixed cartesian), UPS_ (Universal Polar
@@ -115,16 +115,17 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.8.3, both in 64-bit on macOS 10.15.5
+and with Flake8_ using Python 3.8.3, both in 64-bit on macOS 10.15.6
 Catalina.
+
+Classes with a name ending in ``-Karney`` and several more are transcribed
+from *Karney*'s `C++ classes`_ or require *Karney*'s geographiclib_ package
+to be installed.  A complete list is in module ``karney``.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-Classes with a name ending in ``-Karney`` are transcribed from Karney's
-`C++ classes`_, but there are more.  The complete list is in module ``karney``.
-
-*Last updated: Aug 04, 2020.*
+*Last updated: Aug 08, 2020.*
 
 License
 =======

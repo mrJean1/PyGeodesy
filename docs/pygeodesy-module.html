@@ -77,9 +77,9 @@
   module provides a geodetic <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> and a geocentric 
   <a href=pygeodesy-Cartesian-attributes-table.html><b><code>Cartesian</code></b></a> class with methods and functions to compute
   distance, initial and final bearing, intermediate and nearest points, 
-  area, perimeter, conversions and unrolling, among other things.  For more
-  information and further details see the <a 
-  href="https://mrJean1.GitHub.io/PyGeodesy" 
+  intersections of circles and paths, area, perimeter, conversions and 
+  unrolling, among other things.  For more information and further details 
+  see the <a href="https://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a>, <a 
@@ -92,7 +92,7 @@
   href="https://www.Movable-Type.co.UK/scripts/geodesy/docs" 
   target="_top">docs</a> and the Python <a 
   href="https://PyPI.org/project/geographiclib" 
-  target="_top">GeographicLib</a>.</p>
+  target="_top">geographiclib</a>.</p>
   <p>Also included are modules for conversions to and from <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html"
   target="_top">Cassini-Soldner</a>, <a 
@@ -158,7 +158,7 @@
     install</code>.  To run all PyGeodesy tests, type <code>python setup.py
     test</code> before installation.</p>
     <p>Installation of <a href="https://PyPI.org/project/geographiclib" 
-    target="_top">GeographicLib</a>, <a href="https://www.NumPy.org" 
+    target="_top">geographiclib</a>, <a href="https://www.NumPy.org" 
     target="_top">NumPy</a> and <a href="https://SciPy.org" 
     target="_top">SciPy</a> is optional. However, the former is required 
     for classes <a href="pygeodesy.css.CassiniSoldner-class.html" 
@@ -257,16 +257,18 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.8.3, both in 64-bit on macOS 
-    10.15.5 Catalina.</p>
+    10.15.6 Catalina.</p>
+    <p>Classes with a name ending in <code>-Karney</code> and several more 
+    are transcribed from <i>Karney</i>'s <a 
+    href="https://GeographicLib.SourceForge.io/html/annotated.html" 
+    target="_top">C++ classes</a> or require <i>Karney</i>'s <a 
+    href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> package to be installed.  A complete 
+    list is in module <a href="pygeodesy.karney-module.html" 
+    class="link">karney</a>.</p>
     <p>Some function and method names differ from the JavaScript version. 
     In such cases documentation tag <b>JS name:</b> shows the original 
     JavaScript name.</p>
-    <p>Classes with a name ending in <code>-Karney</code> are transcribed 
-    from Karney's <a 
-    href="https://GeographicLib.SourceForge.io/html/annotated.html" 
-    target="_top">C++ classes</a>, but there are more.  The complete list 
-    is in module <a href="pygeodesy.karney-module.html" 
-    class="link">karney</a>.</p>
   <h1 class="heading">License</h1>
     <p>**) <a href="https://OpenSource.org/licenses/MIT" 
     target="_top">Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights
@@ -292,7 +294,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.08.04
+        20.08.08
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -401,9 +403,8 @@
         class="link">isclockwise</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
         class="link">perimeterOf</a>, all based on <i>Charles Karney</i>'s 
-        Python implementation of <a 
-        href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a>.</em>    </li>
+        Python <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector-module.html">pygeodesy.ellipsoidalNvector</a></strong>: <em class="summary">Ellispdoidal, N-vector-based classes geodetic (lat-/longitude) <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>, geocentric (ECEF) <a 
@@ -586,9 +587,12 @@
         <code>LatLon</code> locations or separate lat-/longitudes from a 
         set of <code>LatLon</code> points with known heights.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single-instance strings, intern'ed across modules.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary">Wrapper around <i>Charles Karney</i>'s Python implementation of <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary">Wrapper around <i>Charles Karney</i>'s Python classes 
+        <code>Geodesic</code> and <code>GeodesicLine</code> and functions 
+        <code>AngDiff</code>, <code>AngNormalize</code>, 
+        <code>LatFix</code> and <code>sum</code> from <a 
         href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a>, provided that package is 
+        target="_top">geographiclib</a>, provided that package is 
         installed.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) base classes for elliposiodal, spherical and vectorial 
         <code>LatLon</code>s.</em>    </li>
@@ -1132,8 +1136,8 @@
       A Python version of Karney's <a 
         href="https://GeographicLib.SourceForge.io/html/TransverseMercatorExact_8cpp_source.html"
         target="_top">TransverseMercatorExact</a> C++ class, a numerically 
-        exact transverse mercator projection, referred to as 
-        <code>TMExact</code> here.
+        exact transverse mercator projection, here referred to as 
+        <code>TMExact</code>.
     </td>
   </tr>
 <tr>
@@ -1335,9 +1339,9 @@
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetKarney-class.html" class="summary-name">FrechetKarney</a><br />
       Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>degrees</code> from <i>Charles 
-        Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> <a 
+        <i>angular</i> distance in <code>degrees</code> from 
+        <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> <a 
         href="https://GeographicLib.SourceForge.io/html/python/code.html" 
         target="_top">Geodesic</a> Inverse method.
     </td>
@@ -1632,7 +1636,7 @@
       Compute the <code>Hausdorff</code> distance based on the 
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> <a 
+        target="_top">geographiclib</a> <a 
         href="https://GeographicLib.SourceForge.io/html/python/code.html" 
         target="_top">Geodesic</a> Inverse method.
     </td>
@@ -1870,7 +1874,7 @@
         target="_top">Inverse Distance Weighting</a> (IDW) and the 
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> <a 
+        target="_top">geographiclib</a> <a 
         href="https://GeographicLib.SourceForge.io/html/python/code.html" 
         target="_top">Geodesic</a> Inverse method.
     </td>
@@ -4306,7 +4310,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa738e3c050&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe993e5b5d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -4618,14 +4622,14 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#intersections2" class="summary-sig-name">intersections2</a>(<span class="summary-sig-arg">center1</span>,
-        <span class="summary-sig-arg">rad1</span>,
+        <span class="summary-sig-arg">radius1</span>,
         <span class="summary-sig-arg">center2</span>,
-        <span class="summary-sig-arg">rad2</span>,
+        <span class="summary-sig-arg">radius2</span>,
         <span class="summary-sig-arg">sphere</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
       Compute the intersection of two spheres or circles, each defined by a
-      center point and radius.</td>
+      center point and a radius.</td>
           <td align="right" valign="top">
             
             
@@ -5501,6 +5505,26 @@
       Convert items to <i>name=value</i> strings, with <code>float</code>s 
       handled like <a href="pygeodesy.streprs-module.html#fstr" 
       class="link">fstr</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#parse3d" class="summary-sig-name">parse3d</a>(<span class="summary-sig-arg">str3d</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Parse an <code>&quot;x, y, z&quot;</code> string.</td>
           <td align="right" valign="top">
             
             
@@ -7023,7 +7047,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.4'"><code class="variable-quote">'</code><code class="variable-string">20.8.4</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.8'"><code class="variable-quote">'</code><code class="variable-string">20.8.8</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7064,7 +7088,8 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.22044604925e-16">2.22044604925e-16</code><br />
-      System's <i class="math">epsilon</i> &#8776; 2.22e-16 (<code>float</code>).
+      System's <i class="math">epsilon</i> &#8776; 2.2202e-16 
+      (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -7090,8 +7115,7 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS2"></a><span class="summary-name">EPS2</span><br />
-      <i class="math">EPS * 2</i> = 4.440892098501e-16 
-      (<code>float</code>).
+      <i class="math">EPS * 2</i> = 4.4409e-16 (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -7099,8 +7123,7 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS_2"></a><span class="summary-name">EPS_2</span> = <code title="1.11022302463e-16">1.11022302463e-16</code><br />
-      Half system's <i class="math">epsilon</i> &#8776; 1.11e-16 
-      (<code>float</code>).
+      <i class="math">EPS / 2</i> &#8776; 1.1102e-16 (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -11088,7 +11111,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa738e3c050&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe993e5b5d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -11682,9 +11705,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">intersections2</span>&nbsp;(<span class="sig-arg">center1</span>,
-        <span class="sig-arg">rad1</span>,
+        <span class="sig-arg">radius1</span>,
         <span class="sig-arg">center2</span>,
-        <span class="sig-arg">rad2</span>,
+        <span class="sig-arg">radius2</span>,
         <span class="sig-arg">sphere</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**Vector_kwds</span>)</span>
@@ -11695,7 +11718,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Compute the intersection of two spheres or circles, each defined by a 
-  center point and radius.</p>
+  center point and a radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -11703,13 +11726,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>rad1</code></strong> - Radius of the first sphere or circle (same units as the 
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of the first sphere or circle (same units as the 
           <b><code>center1</code></b> coordinates).</li>
         <li><strong class="pname"><code>center2</code></strong> - Center of the second sphere or circle (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>rad2</code></strong> - Radius of the second sphere or circle (same units as the 
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of the second sphere or circle (same units as the 
           <b><code>center1</code></b> and <b><code>center2</code></b> 
           coordinates).</li>
         <li><strong class="pname"><code>sphere</code></strong> - If <code>True</code> compute the center and radius of the 
@@ -11735,7 +11758,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, invalid or non-intersecting spheres or circles.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>rad1</code></b> or <b><code>rad2</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b> or <b><code>radius2</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -13316,6 +13339,46 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>A <code>tuple(sep.join(t) for t in zip(names, 
           reprs(values,...)))</code> of <code>str</code>s.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="parse3d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parse3d</span>&nbsp;(<span class="sig-arg">str3d</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parse an <code>&quot;x, y, z&quot;</code> string.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>str3d</code></strong> - X, y and z values (<code>str</code>).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Optional class (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional <b><code>Vector</code></b> keyword arguments, ignored if
+          <b><code>Vector=None</code></b>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New <b><code>Vector</code></b> or if <b><code>Vector</code></b> 
+          is <code>None</code>, a <a 
+          href="pygeodesy.named.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.vector3d.VectorError-class.html">VectorError</a></strong></code> - Invalid <b><code>str3d</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -15205,7 +15268,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><code><strong class='fraise'><a href="pygeodesy.css.CSSError-class.html">CSSError</a></strong></code> - Ellipsoidal mismatch of <b><code>latlon</code></b> and 
         <b><code>cs0</code></b>.</li>
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">GeographicLib</a> missing.</li>
+        target="_top">geographiclib</a> missing.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlon</code></b> is not ellipsoidal.</li>
     </ul></dd>
   </dl>
@@ -16647,7 +16710,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Aug  4 20:22:52 2020
+    Generated by Epydoc 3.0.1 on Fri Aug  7 21:57:59 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

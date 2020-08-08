@@ -150,7 +150,7 @@ R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius
 # R_ = Radius(6372797.560856,  name='R_')   #: XXX some other earth radius???
 
 __all__ = _ALL_LAZY.datum
-__version__ = '20.08.04'
+__version__ = '20.08.06'
 
 _Flts = {}               # floats cache, deleted below
 _TOL  = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -682,8 +682,8 @@ class Ellipsoid(_NamedEnumItem):
     def geodesic(self):
         '''Get this ellipsoid's I{wrapped} U{Karney Geodesic
            <https://GeographicLib.SourceForge.io/html/python/code.html>},
-           provided the U{GeographicLib
-           <https://PyPI.org/project/geographiclib>} package is installed.
+           provided the U{geographiclib<https://PyPI.org/project/geographiclib>}
+           package is installed.
         '''
         if self._geodesic is None:
             # if not self.isEllipsoidal:

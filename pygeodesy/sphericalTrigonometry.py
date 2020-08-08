@@ -40,7 +40,7 @@ from pygeodesy.vector3d import _radical2, sumOf, Vector3d
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.08.04'
+__version__ = '20.08.08'
 
 _EPS_I2    = 4.0 * EPS
 _PI_EPS_I2 = PI - _EPS_I2
@@ -445,7 +445,7 @@ class LatLon(LatLonSphericalBase):
                                   LatLon=self.classof)
 
     def intersections2(self, rad1, other, rad2, radius=R_M,
-                             height=None, wrap=False):
+                                     height=None, wrap=False):
         '''Compute the intersection points of two circles each defined
            by a center point and radius.
 
@@ -906,13 +906,13 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
 
 
 def intersections2(center1, rad1, center2, rad2, radius=R_M,
-                                                 height=None, wrap=False,
+                                                 height=None, wrap=True,
                                                  LatLon=LatLon, **LatLon_kwds):
-    '''Compute the intersection points of two circles each defined by
-       a center point and radius.
+    '''Compute the intersection points of two circles each defined
+       by a center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
-       @arg rad1: Radius of the second circle (C{meter} or C{radians},
+       @arg rad1: Radius of the first circle (C{meter} or C{radians},
                   see B{C{radius}}).
        @arg center2: Center of the second circle (L{LatLon}).
        @arg rad2: Radius of the second circle (C{meter} or C{radians},
@@ -961,7 +961,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,
 
 
 def _intersect2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._intersect2
-                                    height=None, wrap=False, too_d=None,
+                                    height=None, wrap=True, too_d=None,
                                     LatLon=LatLon, **LatLon_kwds):
     # (INTERNAL) Intersect of two spherical circles, see L{intersections2}
     # above, separated to allow callers to embellish any exceptions
@@ -1003,12 +1003,12 @@ def _intersect2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._intersec
 
     b = bearing_(a1, b1, a2, b2, final=False, wrap=wrap)
     if x < _EPS_I2:  # externally ...
-        t = _dest1(b, h)
+        r = _dest1(b, h)
     elif x > _PI_EPS_I2:  # internally ...
-        t = _dest1(b + PI, h)
+        r = _dest1(b + PI, h)
     else:
         return _dest1(b + x, h), _dest1(b - x, h)
-    return t, t  # ... abutting circles
+    return r, r  # ... abutting circles
 
 
 def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover

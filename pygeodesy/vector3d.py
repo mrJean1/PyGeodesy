@@ -29,7 +29,7 @@ from pygeodesy.units import Radius, Radius_
 from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.07.29'
+__version__ = '20.08.08'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -499,14 +499,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise VectorError: Invalid B{C{str3d}}.
         '''
-        try:
-            v = [float(v.strip()) for v in str3d.split(sep)]
-            if len(v) != 3:
-                raise ValueError
-        except (TypeError, ValueError) as x:
-            raise VectorError(str3d=str3d, txt=str(x))
-
-        return self.classof(*v)
+        return parse3d(str3d, sep=sep, Vector=self.classof, name=self.name)
 
     def plus(self, other):
         '''Add this vector and an other vector.
@@ -653,19 +646,19 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return self._z
 
 
-def intersections2(center1, rad1, center2, rad2, sphere=True,  # MCCABE 14
-                                                 Vector=None, **Vector_kwds):
-    '''Compute the intersection of two spheres or circles, each defined by
-       a center point and radius.
+def intersections2(center1, radius1, center2, radius2, sphere=True,  # MCCABE 14
+                                                       Vector=None, **Vector_kwds):
+    '''Compute the intersection of two spheres or circles, each defined
+       by a center point and a radius.
 
        @arg center1: Center of the first sphere or circle (L{Vector3d},
                      C{Vector3Tuple} or C{Vector4Tuple}).
-       @arg rad1: Radius of the first sphere or circle (same units as the
-                  B{C{center1}} coordinates).
+       @arg radius1: Radius of the first sphere or circle (same units as
+                     the B{C{center1}} coordinates).
        @arg center2: Center of the second sphere or circle (L{Vector3d},
                      C{Vector3Tuple} or C{Vector4Tuple}).
-       @arg rad2: Radius of the second sphere or circle (same units as
-                  the B{C{center1}} and B{C{center2}} coordinates).
+       @arg radius2: Radius of the second sphere or circle (same units as
+                     the B{C{center1}} and B{C{center2}} coordinates).
        @kwarg sphere: If C{True} compute the center and radius of the
                       intersection of two spheres.  If C{False}, ignore the
                       C{z}-component and compute the intersection of two
@@ -684,23 +677,23 @@ def intersections2(center1, rad1, center2, rad2, sphere=True,  # MCCABE 14
        @raise IntersectionError: Concentric, invalid or non-intersecting spheres
                                  or circles.
 
-       @raise UnitError: Invalid B{C{rad1}} or B{C{rad2}}.
+       @raise UnitError: Invalid B{C{radius1}} or B{C{radius2}}.
 
        @see: U{Sphere-Sphere<https://MathWorld.Wolfram.com/Sphere-
              SphereIntersection.html>} and U{circle-circle
              <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>}
              intersections.
     '''
-    r1 = Radius_(rad1, name='rad1')
-    r2 = Radius_(rad2, name='rad2')
+    r1 = Radius_(radius1, name='radius1')
+    r2 = Radius_(radius2, name='radius2')
 
     try:
         return _intersect2(center1, r1, center2, r2, sphere=sphere,
                                                      Vector=Vector, **Vector_kwds)
 
     except (TypeError, ValueError) as x:
-        raise IntersectionError(center1=center1, rad1=rad1,
-                                center2=center2, rad2=rad2, txt=str(x))
+        raise IntersectionError(center1=center1, radius1=radius1,
+                                center2=center2, radius2=radius2, txt=str(x))
 
 
 def _intersect2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellipsoidalBase._intersections2
@@ -718,11 +711,9 @@ def _intersect2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellips
         return v
 
     def _xVector(c1, u, x, y):
-        xy1 = x, y, 1
-        # transform back into original x-y space
-        x = fdot(xy1, u.x, -u.y, c1.x)
-        y = fdot(xy1, u.y,  u.x, c1.y)
-        return _Vector(x, y, 0)
+        xy1 = x, y, 1  # transform to original space
+        return _Vector(fdot(xy1, u.x, -u.y, c1.x),
+                       fdot(xy1, u.y,  u.x, c1.y), 0)
 
     c1 = Vector3d(center1.x, center1.y, center1.z if sphere else 0)
     c2 = Vector3d(center2.x, center2.y, center2.z if sphere else 0)
@@ -780,6 +771,31 @@ def _radical2(d, r1, r2):  # in .ellispoidalBase and .sphericalTrigonometry
     return max(0, min(1, r / d)), r
 
 
+def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):
+    '''Parse an C{"x, y, z"} string.
+
+       @arg str3d: X, y and z values (C{str}).
+       @kwarg sep: Optional separator (C{str}).
+       @kwarg Vector: Optional class (L{Vector3d}).
+       @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
+                           ignored if B{C{Vector=None}}.
+
+       @return: New B{C{Vector}} or if B{C{Vector}} is C{None},
+                a L{Vector3Tuple}C{(x, y, z)}.
+
+       @raise VectorError: Invalid B{C{str3d}}.
+    '''
+    try:
+        v = [float(v.strip()) for v in str3d.split(sep)]
+        if len(v) != 3:
+            raise ValueError
+    except (TypeError, ValueError) as x:
+        raise VectorError(str3d=str3d, txt=str(x))
+
+    return Vector3Tuple(*v) if Vector is None else \
+           Vector(*v, **Vector_kwds)
+
+
 def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
     '''Compute the vectorial sum of several vectors.
 
@@ -788,7 +804,8 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
        @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
                            ignored if B{C{Vector=None}}.
 
-       @return: Vectorial sum (B{C{Vector}}).
+       @return: Vectorial sum as B{C{Vector}} or if B{C{Vector}} is
+                C{None}, a L{Vector3Tuple}C{(x, y, z)}.
 
        @raise VectorError: No B{C{vectors}}.
     '''

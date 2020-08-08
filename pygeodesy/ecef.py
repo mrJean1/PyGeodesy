@@ -66,9 +66,10 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.08.04'
+__version__ = '20.08.05'
 
-_M_ = 'M'
+_M_    = 'M'
+_TRIPS = 16  # 8..9 sufficient, EcefSudano.reverse
 
 
 def _llhn4(latlonh, lon, height, suffix=NN):
@@ -1026,7 +1027,7 @@ class EcefSudano(EcefVeness):
 
     def reverse(self, xyz, y=None, z=None, **no_M):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
-           I{John Sudano}'s U{iterative method<https://www.ResearchGate.net/publication/
+           I{Sudano}'s U{iterative method<https://www.ResearchGate.net/publication/
            3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>}.
 
            @arg xyz: Either an L{Ecef9Tuple}, an C{(x, y, z)} 3-tuple or C{scalar}
@@ -1062,7 +1063,7 @@ class EcefSudano(EcefVeness):
         #   = ca**2 * (E.e2 * E.a / E.e2s2(sa) - h / ca**2)
         # N / D = (z * ca + (E.e2 * E.a - h) * sa) /
         #         (E.e2 * E.a / E.e2s2(sa) - h / ca**2)
-        for i in range(16):  # 8..9 is sufficient
+        for C in range(_TRIPS):
             ca2 = 1 - sa**2
             if ca2 < EPS_2:
                 ca = 0
@@ -1078,14 +1079,15 @@ class EcefSudano(EcefVeness):
         else:
             raise EcefError(_no_convergence_, txt=unstr(self.reverse.__name__, x=x, y=y, z=z))
 
-        if i:
+        if C:
             a = copysign(asin(sa), z)
         b = atan2(y, x)
         h = fsum_(h * ca, abs(z * sa), -E.a * E.e2s(sa))  # use Veness',
         # Sudano's Eq (7) doesn't seem to provide the correct height
         # h = (abs(z) + h - E.a * cos(a + E.e12) * sa / ca) / (ca + sa)
 
-        r = Ecef9Tuple(x, y, z, degrees90(a), degrees180(b), h, i, None, self.datum)
+        r = Ecef9Tuple(x, y, z, degrees90(a), degrees180(b), h, C, None, self.datum)
+        r._iteration = C
         return self._xnamed(r, name)
 
 

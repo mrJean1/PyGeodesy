@@ -9,7 +9,7 @@ Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
 and published under the same MIT Licence**, see U{Vincenty geodesics
 <https://www.Movable-Type.co.UK/scripts/LatLongVincenty.html>}.  More at
-U{GeographicLib<https://PyPI.org/project/geographiclib>} and
+U{geographiclib<https://PyPI.org/project/geographiclib>} and
 U{GeoPy<https://PyPI.org/project/geopy>}.
 
 Calculate geodesic distance between two points using the U{Vincenty
@@ -79,7 +79,7 @@ from pygeodesy.utily import degrees90, degrees180, degrees360, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.08.04'
+__version__ = '20.08.07'
 
 _antipodal_ = 'antipodal '  # _SPACE_
 
@@ -622,15 +622,15 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover
     return areaOf(points, datum=datum, wrap=wrap)
 
 
-def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
+def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                    equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
     '''Iteratively compute the intersection points of two circles each defined
        by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
-       @arg rad1: Radius of the second circle (C{meter}).
+       @arg radius1: Radius of the first circle (C{meter}).
        @arg center2: Center of the second circle (L{LatLon}).
-       @arg rad2: Radius of the second circle (C{meter}).
+       @arg radius2: Radius of the second circle (C{meter}).
        @kwarg height: Optional height for the intersection points,
                       overriding the "radical height" at the "radical
                       line" between both centers (C{meter}).
@@ -655,7 +655,7 @@ def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
 
        @raise TypeError: If B{C{center1}} or B{C{center2}} not ellipsoidal.
 
-       @raise UnitError: Invalid B{C{rad1}}, B{C{rad2}} or B{C{height}}.
+       @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
 
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>}, U{Karney's paper
@@ -666,8 +666,8 @@ def intersections2(center1, rad1, center2, rad2, height=None, wrap=False,
     '''
     from pygeodesy.azimuthal import Equidistant
     E = Equidistant if equidistant is None else equidistant
-    return _intersections2(center1, rad1, center2, rad2, height=height, wrap=wrap,
-                                 equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
+    return _intersections2(center1, radius1, center2, radius2, height=height, wrap=wrap,
+                                       equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover

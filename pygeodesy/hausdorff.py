@@ -83,7 +83,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '20.08.04'
+__version__ = '20.08.06'
 
 
 class HausdorffError(PointsError):
@@ -463,7 +463,7 @@ class HausdorffDistanceTo(Hausdorff):
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   an invalid B{C{point}} or B{C{seed}}.
 
-           @raise ImportError: Package U{GeographicLib
+           @raise ImportError: Package U{geographiclib
                   <https://PyPI.org/project/geographiclib>} missing
                   iff B{C{points}} are L{ellipsoidalKarney.LatLon}s.
 
@@ -720,7 +720,7 @@ class HausdorffHubeny(HausdorffFlatLocal):  # for Karl Huebny
 
 class HausdorffKarney(HausdorffDegrees):
     '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{degrees} from I{Karney}'s U{GeographicLib
+       distance in C{degrees} from I{Karney}'s U{geographiclib
        <https://PyPI.org/project/geographiclib>} U{Geodesic
        <https://GeographicLib.SourceForge.io/html/python/code.html>}
        Inverse method.
@@ -752,7 +752,7 @@ class HausdorffKarney(HausdorffDegrees):
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
 
-           @raise ImportError: Package U{GeographicLib
+           @raise ImportError: Package U{geographiclib
                   <https://PyPI.org/project/geographiclib>} missing.
 
            @raise TypeError: Invalid B{C{datum}}.

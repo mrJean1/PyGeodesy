@@ -14,7 +14,7 @@ from math import copysign, isinf, isnan, pi as PI
 from sys import float_info as _float_info
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.07.28'
+__version__ = '20.08.08'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  #: (INTERNAL) Int objects
@@ -61,11 +61,11 @@ except AttributeError:  # PYCHOK no cover
     MANTIS = 53  #: Mantissa bits ≈53 (C{int})
     MAX    = pow(2.0,  1023) * (2 - EPS)  #: Float max (C{float}) ≈10**308, 2**1024?
     MIN    = pow(2.0, -1021)  # Float min (C{float}) ≈10**-308, 2**-1021?
+EPS2   = EPS * 2.0    #: M{EPS * 2}   ≈4.440892098501e-16 (C{float})
 EPS_2  = EPS / 2.0    #: M{EPS / 2}   ≈1.110223024625e-16 (C{float})
 EPS1   = 1.0 - EPS    #: M{1 - EPS}   ≈0.9999999999999998 (C{float})
 EPS1_2 = 1.0 - EPS_2  #: M{1 - EPS_2} ≈0.9999999999999999 (C{float})
 # _1EPS  = 1.0 + EPS  #: M{1 + EPS}   ≈1.0000000000000002 (C{float})
-EPS2   = EPS * 2.0    #: M{EPS * 2}   ≈4.440892098501e-16 (C{float})
 
 INF  = float('inf')  #: Infinity (C{float}), see function C{isinf}, C{isfinite}
 NAN  = float('nan')  #: Not-A-Number (C{float}), see function C{isnan}
