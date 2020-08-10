@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.08.04'
+__version__ = '20.08.10'
 
 from base import geographiclib, TestsBase, RandomLatLon
 
@@ -56,7 +56,7 @@ class Tests(TestsBase):
         # Compare ellipsoidal intersections2 for EquidistantKarney
         # and Equidistant showing the differences in degrees
         # and as percentage of the reference RandomLatLon.  Also
-        # show the spherical intersections2, first gu-/estimates.
+        # show the first, spherical intersections2 gu-/estimates.
 
         # Equidistant implements Snyder's formulas for the sphere
         # for ellipsoidal projections.  That plus the (high) accuracy
@@ -65,8 +65,8 @@ class Tests(TestsBase):
         # equidistance projections for distances beyond 10,000 Km
         # (about one quarter of the earth circumference), see
         # <https://WikiPedia.org/wiki/Azimuthal_equidistant_projection>
-        from pygeodesy.ellipsoidalBase import _intersect2 as _ei2
-        from pygeodesy.sphericalTrigonometry import _intersect2 as _si2
+        from pygeodesy.ellipsoidalBase import _intersects2 as _ei2
+        from pygeodesy.sphericalTrigonometry import _intersects2 as _si2
 
         def _100p(p, q, w):
             r = abs(100 * p / q) if q else 0

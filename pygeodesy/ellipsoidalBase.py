@@ -20,10 +20,11 @@ from pygeodesy.ecef import EcefVeness
 from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, \
                              _IsnotError, _ValueError, _xellipsoidal
 from pygeodesy.fmath import favg, fsum_
-from pygeodesy.interns import _COMMA_, _datum_, _ellipsoidal_, \
+from pygeodesy.interns import _center2_, _COMMA_, _datum_, _ellipsoidal_, \
                               _exceed_PI_radians_, _Missing, _N_, \
                               _near_concentric_, NN, _no_convergence_fmt_, \
-                              _no_conversion_, _too_distant_fmt_  # PYCHOK used!
+                              _no_conversion_, _radius1_, _radius2_, \
+                              _too_distant_fmt_  # PYCHOK used!
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import LatLon4Tuple, Vector3Tuple, _xnamed
@@ -31,10 +32,10 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.units import Radius_
 
 __all__ = ()
-__version__ = '20.08.07'
+__version__ = '20.08.09'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
-_TRIPS = 16    # _intersect2 interations, 6 sufficient
+_TRIPS = 16    # _intersects2 interations, 6 sufficient
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -384,7 +385,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @arg other: Center of the other circle (C{LatLon}).
            @arg radius2: Radius of the other circle (C{meter}).
            @kwarg height: Optional height for the intersection points,
-                          overriding the mean height (C{meter}).
+                          overriding the "radical height" at the "radical
+                          line" between both centers (C{meter}) or C{None}.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection class
                                (L{Equidistant} or L{EquidistantKarney}),
@@ -405,8 +407,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise ValueError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
         '''
         self.others(other)
-        return _intersect2(self, radius1, other, radius2, height=height, wrap=wrap,
-                                    equidistant=equidistant, tol=tol, LatLon=self.classof)
+        return _intersects2(self, radius1, other, radius2, height=height, wrap=wrap,
+                                  equidistant=equidistant, tol=tol, LatLon=self.classof)
 
     @property_RO
     def iteration(self):
@@ -583,7 +585,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         return self._wm
 
 
-# (INTERNAL) C{_intersect2} imported by .ellipsoidalKarney and -Vincenty
+# (INTERNAL) C{_intersections2} imported by .ellipsoidalKarney and -Vincenty
 def _intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                     equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''Iteratively compute the intersection points of two circles each defined
@@ -631,31 +633,30 @@ def _intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.
     '''
-
     c1 = _xellipsoidal(center1=center1)
-    c2 = c1.others(center2)
+    c2 = c1.others(center2, name=_center2_)
 
-    r1 = Radius_(radius1, name='radius1')
-    r2 = Radius_(radius2, name='radius2')
+    r1 = Radius_(radius1, name=_radius1_)
+    r2 = Radius_(radius2, name=_radius2_)
 
     try:
-        return _intersect2(c1, r1, c2, r2, height=height, wrap=wrap,
-                                      equidistant=equidistant, tol=tol,
-                                           LatLon=LatLon, **LatLon_kwds)
+        return _intersects2(c1, r1, c2, r2, height=height, wrap=wrap,
+                                       equidistant=equidistant, tol=tol,
+                                            LatLon=LatLon, **LatLon_kwds)
     except (TypeError, ValueError) as x:
         raise IntersectionError(center1=center1, radius1=radius1,
                                 center2=center2, radius2=radius2, txt=str(x))
 
 
-def _intersect2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 16
-                equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
-    # (INTERNAL) Intersect of two spherical circles, see L{_intersections2}
+def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 16
+                 equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
+    # (INTERNAL) Intersect two spherical circles, see L{_intersections2}
     # above, separated to allow callers to embellish any exceptions
 
-    from pygeodesy.formy import _euclidean
-    from pygeodesy.sphericalTrigonometry import _intersect2 as _si2, LatLon as _LLS
+    from pygeodesy.formy import _euclidean, _radical2
+    from pygeodesy.sphericalTrigonometry import _intersects2 as _si2, LatLon as _LLS
     from pygeodesy.utily import m2degrees, unroll180
-    from pygeodesy.vector3d import _intersect2 as _vi2, _radical2
+    from pygeodesy.vector3d import _intersects2 as _vi2
 
     def _latlon4(t, h, n):
         if LatLon is None:
@@ -687,7 +688,7 @@ def _intersect2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 16
     if fsum_(r1, r2, -m) < 0:
         raise ValueError(_too_distant_fmt_ % (m,))
 
-    f, _ = _radical2(m, r1, r2)  # "radical ratio"
+    f = _radical2(m, r1, r2).ratio  # "radical lat"
     r = E.rocMean(favg(c1.lat, c2.lat, f=f))
     e = max(m2degrees(tol, radius=r), EPS)
 

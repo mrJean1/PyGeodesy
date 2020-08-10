@@ -63,9 +63,28 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.08.04
+        20.08.09
       </p>
-</div><!-- ==================== FUNCTIONS ==================== -->
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.formy.Radical2Tuple-class.html" class="summary-name">Radical2Tuple</a><br />
+      2-Tuple <code>(ratio, xline)</code> of the <i>radical</i> 
+        <code>ratio</code> and <i>radical</i> <code>xline</code>, both 
+        <code>float</code> and <code>0.0 &lt;= ratio &lt;= 1.0</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
@@ -811,6 +830,27 @@
         <span class="summary-sig-arg">base</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Error</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.errors.PointsError'&gt;</span>)</span><br />
       Check a path or polygon represented by points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#radical2" class="summary-sig-name">radical2</a>(<span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius1</span>,
+        <span class="summary-sig-arg">radius2</span>)</span><br />
+      Compute the <i>radical ratio</i> and <i>radical line</i> of two <a 
+      href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html" 
+      target="_top">intersecting circles</a>.</td>
           <td align="right" valign="top">
             
             
@@ -2777,6 +2817,50 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="radical2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">radical2</span>&nbsp;(<span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius1</span>,
+        <span class="sig-arg">radius2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>radical ratio</i> and <i>radical line</i> of two <a 
+  href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html" 
+  target="_top">intersecting circles</a>.</p>
+  <p>The <i>radical line</i> is perpendicular to the axis thru the centers 
+  of the circles at <code>(0, 0)</code> and <code>(<b>distance</b>, 
+  0)</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance between the circle centers (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of the first circle (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of the second circle (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.formy.Radical2Tuple-class.html" 
+          class="link">Radical2Tuple</a><code>(ratio, xline)</code> where 
+          <code>0.0 &lt;= ratio &lt;= 1.0</code> and <code>xline</code> is 
+          along the <b><code>distance</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - The <b><code>distance</code></b> exceeds the sum of 
+        <b><code>radius1</code></b> and <b><code>radius2</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>distance</code></b>, <b><code>radius1</code></b> 
+        or <b><code>radius2</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="thomas"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3094,7 +3178,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug  7 21:57:59 2020
+    Generated by Epydoc 3.0.1 on Sun Aug  9 17:24:34 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

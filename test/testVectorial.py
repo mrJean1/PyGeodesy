@@ -4,11 +4,11 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.04.06'
+__version__ = '20.08.09'
 
 from base import coverage, TestsBase
 
-from pygeodesy import F_D, fstr, sphericalNvector
+from pygeodesy import F_D, fstr, sphericalNvector, vector3d, VectorError
 
 
 class Tests(TestsBase):
@@ -72,6 +72,18 @@ class Tests(TestsBase):
 
             r = v.rotate(m, 45)
             self.test('rotate', r, '(0.26268, 0.26268, 0.37143)')
+
+            r.crosserrors = True
+            self.test('crosserrors', r.crosserrors, True)
+
+            try:
+                self.test('0', v.dividedBy(0), VectorError.__name__)
+            except Exception as x:
+                self.test('0', str(x), 'factor (0): float division by zero')
+
+            t = vector3d.intersections2(Nvector(   0, 0, 0), 500,
+                                        Nvector(1000, 0, 0), 500, sphere=False)
+            self.test('intersections2', t[0], t[1])  # abutting
 
     def testVectorial(self, module):  # MCCABE 14
 

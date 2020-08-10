@@ -12,8 +12,8 @@ from pygeodesy.basics import EPS, PI, PI_2, property_doc_
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError
-from pygeodesy.interns import _band_, _bearing_, _degrees_, _E_, _easting_, \
-                              _EW_, _feet_, _height_, _invalid_, _lam_, \
+from pygeodesy.interns import _band_, _bearing_, _degrees_, _distance_, _E_, \
+                              _easting_, _EW_, _feet_, _height_, _invalid_, _lam_, \
                               _lat_, _LatLon_, _lon_, _meter_, _N_, NN, _northing_, \
                               _NS_, _NSEW_, _number_, _PERCENT_, _phi_, \
                               _precision_, _radians_, _radius_, _S_, _scalar_, \
@@ -25,7 +25,7 @@ from pygeodesy.streprs import fstr, _g
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.07.12'
+__version__ = '20.08.09'
 
 
 class UnitError(_ValueError):
@@ -317,7 +317,7 @@ class Str(str, _NamedUnit):
 
 
 class Band(Str):
-    '''Named C{str} representing a UTM/UPS band latter, unchecked.
+    '''Named C{str} representing a UTM/UPS band letter, unchecked.
     '''
     def __new__(cls, arg, name=_band_, Error=UnitError):
         '''See L{Str}.
@@ -437,10 +437,19 @@ class Bearing_(Radians):
 class Distance(Float):
     '''Named C{float} representing a distance, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name='distance', Error=UnitError):
+    def __new__(cls, arg, name=_distance_, Error=UnitError):
         '''See L{Float}.
         '''
         return Float.__new__(cls, arg, name=name, Error=Error)
+
+
+class Distance_(Float_):
+    '''Named C{float} with optional C{low} and C{high} limits representing a distance, conventionally in C{meter}.
+    '''
+    def __new__(cls, arg, name=_distance_, Error=UnitError, low=EPS, high=None):
+        '''See L{Float}.
+        '''
+        return Float_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
 
 
 class Easting(Float):

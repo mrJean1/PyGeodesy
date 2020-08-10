@@ -294,7 +294,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.08.08
+        20.08.10
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -586,7 +586,7 @@
         class="link">HeightSmoothBiSpline</a> to interpolate the height of 
         <code>LatLon</code> locations or separate lat-/longitudes from a 
         set of <code>LatLon</code> points with known heights.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single-instance strings, intern'ed across modules.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single-instance strings, <code>intern</code>'ed across modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary">Wrapper around <i>Charles Karney</i>'s Python classes 
         <code>Geodesic</code> and <code>GeodesicLine</code> and functions 
         <code>AngDiff</code>, <code>AngNormalize</code>, 
@@ -870,7 +870,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.units.Band-class.html" class="summary-name">Band</a><br />
-      Named <code>str</code> representing a UTM/UPS band latter, 
+      Named <code>str</code> representing a UTM/UPS band letter, 
         unchecked.
     </td>
   </tr>
@@ -968,6 +968,16 @@
     </td><td class="summary">
         <a href="pygeodesy.units.Distance-class.html" class="summary-name">Distance</a><br />
       Named <code>float</code> representing a distance, conventionally in
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Distance_-class.html" class="summary-name">Distance_</a><br />
+      Named <code>float</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a distance, conventionally in
         <code>meter</code>.
     </td>
   </tr>
@@ -4310,7 +4320,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe993e5b5d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8bb163ead0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6022,6 +6032,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#radical2" class="summary-sig-name">radical2</a>(<span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius1</span>,
+        <span class="summary-sig-arg">radius2</span>)</span><br />
+      Compute the <i>radical ratio</i> and <i>radical line</i> of two <a 
+      href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html" 
+      target="_top">intersecting circles</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#randomrangenerator" class="summary-sig-name">randomrangenerator</a>(<span class="summary-sig-arg">seed</span>)</span><br />
       Return a <code>seed</code>ed random range function generator.</td>
           <td align="right" valign="top">
@@ -7047,7 +7078,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.8'"><code class="variable-quote">'</code><code class="variable-string">20.8.8</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.10'"><code class="variable-quote">'</code><code class="variable-string">20.8.10</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7131,13 +7162,13 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
-56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e\
-12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370461.233666666, R2\
-=6370459.654589443, R3=6370453.309866445, Rr=6366914.608805892, Rs=636\
-6901.239881964),
+56.909, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667054, e12\
+=0.99332946, e22=0.00671533, n=0.00167322, R1=6370461.23366667, R2=637\
+0459.65470808, R3=6370453.30986645, Rr=6366914.60880589, Rs=6366901.23\
+988196),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
- b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006\
-67054, e12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370238.27533\
+ b=6356034.448, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667\
+054, e12=0.99332946, e22=0.00671533, n=0.00167322, R1=6370238.27533333\
 ...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
       Registered ellipsoids (<code>enum-like</code>).
     </td>
@@ -11111,7 +11142,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe993e5b5d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8bb163ead0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -14369,6 +14400,50 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="radical2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">radical2</span>&nbsp;(<span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius1</span>,
+        <span class="sig-arg">radius2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>radical ratio</i> and <i>radical line</i> of two <a 
+  href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html" 
+  target="_top">intersecting circles</a>.</p>
+  <p>The <i>radical line</i> is perpendicular to the axis thru the centers 
+  of the circles at <code>(0, 0)</code> and <code>(<b>distance</b>, 
+  0)</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance between the circle centers (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of the first circle (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of the second circle (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.formy.Radical2Tuple-class.html" 
+          class="link">Radical2Tuple</a><code>(ratio, xline)</code> where 
+          <code>0.0 &lt;= ratio &lt;= 1.0</code> and <code>xline</code> is 
+          along the <b><code>distance</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - The <b><code>distance</code></b> exceeds the sum of 
+        <b><code>radius1</code></b> and <b><code>radius2</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>distance</code></b>, <b><code>radius1</code></b> 
+        or <b><code>radius2</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="randomrangenerator"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -16613,13 +16688,13 @@ sform=Transforms.WGS84),
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-56.909, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.00667054, e<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370461.233666666, R2<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-=6370459.654589443, R3=6370453.309866445, Rr=6366914.608805892, Rs=636<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-6901.239881964),
+56.909, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667054, e12<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=0.99332946, e22=0.00671533, n=0.00167322, R1=6370461.23366667, R2=637<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+0459.65470808, R3=6370453.30986645, Rr=6366914.60880589, Rs=6366901.23<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+988196),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- b=6356034.448, f_=299.3249646, f=0.003340851, e=0.081673374, e2=0.006<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-67054, e12=0.99332946, e22=0.006715335, n=0.00167322, R1=6370238.27533<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ b=6356034.448, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+054, e12=0.99332946, e22=0.00671533, n=0.00167322, R1=6370238.27533333<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -16710,7 +16785,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug  7 21:57:59 2020
+    Generated by Epydoc 3.0.1 on Sun Aug  9 17:24:33 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

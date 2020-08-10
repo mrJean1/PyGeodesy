@@ -444,7 +444,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @arg radius2: Radius of the second circle (C{meter}).
        @kwarg height: Optional height for the intersection points,
                       overriding the "radical height" at the "radical
-                      line" between both centers (C{meter}).
+                      line" between both centers (C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection class
                            (L{Equidistant} or L{equidistant})
@@ -482,7 +482,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
     from pygeodesy.azimuthal import EquidistantKarney
     E = EquidistantKarney if equidistant is None else equidistant
     return _intersections2(center1, radius1, center2, radius2, height=height, wrap=wrap,
-                                       equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
+                                    equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
 def isclockwise(points, datum=Datums.WGS84, wrap=True):

@@ -251,8 +251,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#es_tauf" class="summary-sig-name">es_tauf</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">taup</span>)</span><br />
-      Compute <a href="https://ArXiv.org/abs/1002.1417" 
-      target="_top">Karney's</a> equations (19), (20) and (21).</td>
+      Compute <i>Karney</i>'s <a href="https://ArXiv.org/abs/1002.1417" 
+      target="_top">equations (19), (20) and (21)</a>.</td>
           <td align="right" valign="top">
             
             
@@ -270,8 +270,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#es_taupf" class="summary-sig-name">es_taupf</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">tau</span>)</span><br />
-      Compute <a href="https://ArXiv.org/abs/1002.1417" 
-      target="_top">Karney's</a> equations (7), (8) and (9).</td>
+      Compute <i>Karney</i>'s <a href="https://ArXiv.org/abs/1002.1417" 
+      target="_top">equations (7), (8) and (9)</a>.</td>
           <td align="right" valign="top">
             
             
@@ -502,7 +502,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum.Ellipsoid-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">9</span>)</span><br />
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">8</span>)</span><br />
       Return this ellipsoid as a text string.</td>
           <td align="right" valign="top">
             
@@ -645,9 +645,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#AlphaKs" class="summary-name">AlphaKs</a><br />
-      Get the <a 
+      Get the <i>Kr&#252;ger</i> <a 
       href="https://GeographicLib.SourceForge.io/html/tmseries30.html" 
-      target="_top">Kr&#252;ger Alpha series coefficients</a> 
+      target="_top">Alpha series coefficients</a> 
       (<code>KsOrder</code>-tuple).
     </td>
   </tr>
@@ -690,10 +690,19 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.datum.Ellipsoid-class.html#b2_a2" class="summary-name">b2_a2</a><br />
+      Get ratio <i class="math">b / a)</i> <i>squared</i> 
+      (<code>float</code>), <i class="math">(1 - f)**2</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#BetaKs" class="summary-name">BetaKs</a><br />
-      Get the <a 
+      Get the <i>Kr&#252;ger</i> <a 
       href="https://GeographicLib.SourceForge.io/html/tmseries30.html" 
-      target="_top">Kr&#252;ger Beta series coefficients</a> 
+      target="_top">Beta series coefficients</a> 
       (<code>KsOrder</code>-tuple).
     </td>
   </tr>
@@ -799,9 +808,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.datum.Ellipsoid-class.html#geodesic" class="summary-name">geodesic</a><br />
-      Get this ellipsoid's <i>wrapped</i> <a 
+      Get this ellipsoid's <i>wrapped Karney</i> <a 
       href="https://GeographicLib.SourceForge.io/html/python/code.html" 
-      target="_top">Karney Geodesic</a>, provided the <a 
+      target="_top">Geodesic</a>, provided the <a 
       href="https://PyPI.org/project/geographiclib" 
       target="_top">geographiclib</a> package is installed.
     </td>
@@ -1242,12 +1251,12 @@
     </td>
   </tr></table>
   
-  <p>Compute <a href="https://ArXiv.org/abs/1002.1417" 
-  target="_top">Karney's</a> equations (19), (20) and (21).</p>
+  <p>Compute <i>Karney</i>'s <a href="https://ArXiv.org/abs/1002.1417" 
+  target="_top">equations (19), (20) and (21)</a>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a 
+        <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html"
         target="_top">Math::tauf</a>.
       </p>
@@ -1268,12 +1277,12 @@
     </td>
   </tr></table>
   
-  <p>Compute <a href="https://ArXiv.org/abs/1002.1417" 
-  target="_top">Karney's</a> equations (7), (8) and (9).</p>
+  <p>Compute <i>Karney</i>'s <a href="https://ArXiv.org/abs/1002.1417" 
+  target="_top">equations (7), (8) and (9)</a>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a 
+        <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html"
         target="_top">Math::taupf</a>.
       </p>
@@ -1401,7 +1410,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees90</code>).</li>
-        <li><strong class="pname"><code>scaled</code></strong> - Scale prime_vertical by <b><code>cos(phi)</code></b> 
+        <li><strong class="pname"><code>scaled</code></strong> - Scale prime_vertical by <b><code>cos(radians(lat))</code></b> 
           (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1658,7 +1667,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">9</span>)</span>
+        <span class="sig-arg">prec</span>=<span class="sig-default">8</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1862,16 +1871,16 @@ class="math">a**2 / b</i>, see <code>rocPolar</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">AlphaKs</h3>
-  <p>Get the <a 
+  <p>Get the <i>Kr&#252;ger</i> <a 
   href="https://GeographicLib.SourceForge.io/html/tmseries30.html" 
-  target="_top">Kr&#252;ger Alpha series coefficients</a> 
+  target="_top">Alpha series coefficients</a> 
   (<code>KsOrder</code>-tuple).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">AlphaKs(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <a href="https://GeographicLib.SourceForge.io/html/tmseries30.html"
-target="_top">Kr&#252;ger Alpha series coefficients</a> 
-(<code>KsOrder</code>-tuple).
+        - Get the <i>Kr&#252;ger</i> <a 
+href="https://GeographicLib.SourceForge.io/html/tmseries30.html" 
+target="_top">Alpha series coefficients</a> (<code>KsOrder</code>-tuple).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
@@ -1972,22 +1981,44 @@ class="math">b**2 / a</i>.
       </p>
 </div></td></tr></table>
 </div>
+<a name="b2_a2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">b2_a2</h3>
+  <p>Get ratio <i class="math">b / a)</i> <i>squared</i> 
+  (<code>float</code>), <i class="math">(1 - f)**2</i>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">b2_a2(<span class="summary-sig-arg">self</span>)</span>
+        - Get ratio <i class="math">b / a)</i> <i>squared</i> (<code>float</code>), 
+<i class="math">(1 - f)**2</i>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="BetaKs"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">BetaKs</h3>
-  <p>Get the <a 
+  <p>Get the <i>Kr&#252;ger</i> <a 
   href="https://GeographicLib.SourceForge.io/html/tmseries30.html" 
-  target="_top">Kr&#252;ger Beta series coefficients</a> 
+  target="_top">Beta series coefficients</a> 
   (<code>KsOrder</code>-tuple).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">BetaKs(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <a href="https://GeographicLib.SourceForge.io/html/tmseries30.html"
-target="_top">Kr&#252;ger Beta series coefficients</a> 
-(<code>KsOrder</code>-tuple).
+        - Get the <i>Kr&#252;ger</i> <a 
+href="https://GeographicLib.SourceForge.io/html/tmseries30.html" 
+target="_top">Beta series coefficients</a> (<code>KsOrder</code>-tuple).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
@@ -2253,17 +2284,17 @@ b</i>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">geodesic</h3>
-  <p>Get this ellipsoid's <i>wrapped</i> <a 
+  <p>Get this ellipsoid's <i>wrapped Karney</i> <a 
   href="https://GeographicLib.SourceForge.io/html/python/code.html" 
-  target="_top">Karney Geodesic</a>, provided the <a 
+  target="_top">Geodesic</a>, provided the <a 
   href="https://PyPI.org/project/geographiclib" 
   target="_top">geographiclib</a> package is installed.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">geodesic(<span class="summary-sig-arg">self</span>)</span>
-        - Get this ellipsoid's <i>wrapped</i> <a 
+        - Get this ellipsoid's <i>wrapped Karney</i> <a 
 href="https://GeographicLib.SourceForge.io/html/python/code.html" 
-target="_top">Karney Geodesic</a>, provided the <a 
+target="_top">Geodesic</a>, provided the <a 
 href="https://PyPI.org/project/geographiclib" 
 target="_top">geographiclib</a> package is installed.
     </dd>
@@ -2331,7 +2362,7 @@ target="_top">geographiclib</a> package is installed.
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">KsOrder(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">order</span>)</span>
-        - Set the Kr&#252;ger series' order.
+        - Set the <i>Kr&#252;ger</i> series' order.
     </dd>
   </dl>
 </td></tr></table>
@@ -2584,7 +2615,7 @@ PI * a**2 * b</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Aug  7 21:58:02 2020
+    Generated by Epydoc 3.0.1 on Sun Aug  9 17:24:35 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

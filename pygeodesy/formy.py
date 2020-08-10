@@ -8,16 +8,18 @@ u'''Formulary of basic geodesy functions and approximations.
 from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, \
                              isscalar, len2, _xinstanceof
 from pygeodesy.datum import Datum, Datums, _spherical_datum
-from pygeodesy.errors import _AssertionError, LimitError, _limiterrors, \
-                              PointsError, _ValueError
+from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
+                             _limiterrors, PointsError, _ValueError
 from pygeodesy.fmath import fsum_, hypot, hypot2
 from pygeodesy.interns import _2_, _angle_, _item_sq, _lat_, _lat1_, \
-                              _lon_, _lon1_, _too_few_
-from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import Distance4Tuple, LatLon2Tuple, PhiLam2Tuple, \
-                            Points2Tuple, Vector3Tuple, _xnamed
+                              _lon_, _lon1_, _radius1_, _radius2_, \
+                              _too_distant_, _too_few_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.named import Distance4Tuple, LatLon2Tuple, _NamedTuple, \
+                            PhiLam2Tuple, Points2Tuple, Vector3Tuple, _xnamed
 from pygeodesy.streprs import unstr
-from pygeodesy.units import Distance, Height, Lam_, Lat, Lon, Phi_, Radius
+from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, \
+                            Phi_, Radius, Radius_
 from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
                             isNumpy2, isTuple2, m2degrees, sincos2, unroll180, \
                             unrollPI, wrap90, wrap180, wrapPI, wrapPI_2
@@ -25,7 +27,7 @@ from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.08.04'
+__version__ = '20.08.09'
 
 _D_I2_ =  1e5  # meter, 100 Km, about 0.9 degrees
 _lat2_ = _lat_ + _2_
@@ -464,7 +466,7 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
     return r
 
 
-def _euclidean(a, b):  # in .ellipsoidalBase._intersect2
+def _euclidean(a, b):  # in .ellipsoidalBase._intersects2
     # (INTERNAL) approx. distance for comparison
     a, b = abs(a), abs(b)
     if a < b:
@@ -962,6 +964,49 @@ def points2(points, closed=True, base=None, Error=PointsError):
     return Points2Tuple(n, points)
 
 
+def _radical2(d, r1, r2):  # in .ellipsoidalBase, .sphericalTrigonometry, .vector3d
+    # (INTERNAL) See C{radical2} below
+    r = fsum_(1.0, (r1 / d)**2, -(r2 / d)**2) * 0.5
+    return Radical2Tuple(max(0.0, min(1.0, r)), r * d)
+
+
+def radical2(distance, radius1, radius2):
+    '''Compute the I{radical ratio} and I{radical line} of two
+       U{intersecting circles<https://MathWorld.Wolfram.com/
+       Circle-CircleIntersection.html>}.
+
+       The I{radical line} is perpendicular to the axis thru the
+       centers of the circles at C{(0, 0)} and C{(B{distance}, 0)}.
+
+       @arg distance: Distance between the circle centers (C{scalar}).
+       @arg radius1: Radius of the first circle (C{scalar}).
+       @arg radius2: Radius of the second circle (C{scalar}).
+
+       @return: A L{Radical2Tuple}C{(ratio, xline)} where C{0.0 <=
+                ratio <= 1.0} and C{xline} is along the B{C{distance}}.
+
+       @raise IntersectionError: The B{C{distance}} exceeds the sum
+                                 of B{C{radius1}} and B{C{radius2}}.
+
+       @raise UnitError: Invalid B{C{distance}}, B{C{radius1}} or
+                         B{C{radius2}}.
+    '''
+    d  = Distance_(distance)
+    r1 = Radius_(radius1, name=_radius1_)
+    r2 = Radius_(radius2, name=_radius2_)
+    if d > (r1 + r2):
+        raise IntersectionError(distance=d, radius1=r1, radius2=r2,
+                                            txt=_too_distant_)
+    return _radical2(d, r1, r2)
+
+
+class Radical2Tuple(_NamedTuple):
+    '''2-Tuple C{(ratio, xline)} of the I{radical} C{ratio} and
+       I{radical} C{xline}, both C{float} and C{0.0 <= ratio <= 1.0}
+    '''
+    _Names_ = ('ratio', 'xline')
+
+
 def thomas(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
     '''Compute the distance between two (ellipsoidal) points using
        U{Thomas'<https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>}
@@ -1108,6 +1153,9 @@ def vincentys_(phi2, phi1, lam21):
     x = sa1 * sa2 + ca1 * c
     y = ca1 * sa2 - sa1 * c
     return atan2(hypot(ca2 * sb21, y), x)
+
+
+__all__ += _ALL_OTHER(Radical2Tuple)
 
 # **) MIT License
 #

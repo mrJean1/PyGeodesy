@@ -125,7 +125,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
                                  'intersections2', 'isantipode', 'isantipode_',
                                  'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
-                                 'philam2n_xyz', 'points2', 'thomas', 'thomas_', 'vincentys', 'vincentys_'),
+                                 'philam2n_xyz', 'points2', 'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_'),
                         frechet=('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                  'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
                                  'FrechetCosineLaw', 'FrechetDistanceTo', 'FrechetEquirectangular',
@@ -164,7 +164,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
                         streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=('RefFrame', 'RefFrames', 'TRFError', 'date2epoch', 'epoch2date'),
-                          units=('Band', 'Bearing', 'Bearing_', 'Degrees', 'Distance', 'Easting',
+                          units=('Band', 'Bearing', 'Bearing_', 'Degrees', 'Distance', 'Distance_', 'Easting',
                                  'Feet', 'Float', 'Float_', 'Height', 'Int', 'Int_',
                                  'Lam', 'Lam_', 'Lat', 'Lon', 'Meter', 'Northing', 'Number_',
                                  'Phi', 'Phi_', 'Precision_', 'Radians',
@@ -201,7 +201,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.08.05'
+__version__ = '20.08.09'
 
 
 def _ALL_OTHER(*objs):

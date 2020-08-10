@@ -16,11 +16,12 @@ from pygeodesy.basics import EPS, EPS1, isscalar, len2, map1, \
 from pygeodesy.errors import CrossError, IntersectionError, _IsnotError, \
                             _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fsum, fsum_, hypot_
-from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
+from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2
 from pygeodesy.interns import _coincident_, _colinear_, _COMMA_, _COMMA_SPACE_, \
                               _datum_, _h_, _height_, _invalid_, _Missing, \
                               _name_, _near_concentric_, NN, _other_, _PARENTH_, \
-                              _scalar_, _too_distant_fmt_, _y_, _z_
+                              _radius1_, _radius2_, _scalar_, _too_distant_fmt_, \
+                              _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, Vector3Tuple
 from pygeodesy.streprs import strs
@@ -29,7 +30,7 @@ from pygeodesy.units import Radius, Radius_
 from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.08.08'
+__version__ = '20.08.09'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -387,8 +388,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             raise _IsnotError(_scalar_, factor=factor)
         try:
             return self.times(1.0 / factor)
-        except (ValueError, ZeroDivisionError):
-            raise VectorError(factor=factor)
+        except (ValueError, ZeroDivisionError) as x:
+            raise VectorError(factor=factor, txt=str(x))
 
     def dot(self, other):
         '''Compute the dot (scalar) product of this and an other vector.
@@ -684,21 +685,20 @@ def intersections2(center1, radius1, center2, radius2, sphere=True,  # MCCABE 14
              <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>}
              intersections.
     '''
-    r1 = Radius_(radius1, name='radius1')
-    r2 = Radius_(radius2, name='radius2')
+    r1 = Radius_(radius1, name=_radius1_)
+    r2 = Radius_(radius2, name=_radius2_)
 
     try:
-        return _intersect2(center1, r1, center2, r2, sphere=sphere,
-                                                     Vector=Vector, **Vector_kwds)
-
+        return _intersects2(center1, r1, center2, r2, sphere=sphere,
+                                                      Vector=Vector, **Vector_kwds)
     except (TypeError, ValueError) as x:
         raise IntersectionError(center1=center1, radius1=radius1,
                                 center2=center2, radius2=radius2, txt=str(x))
 
 
-def _intersect2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellipsoidalBase._intersections2
-                                          Vector=None, **Vector_kwds):
-    # (INTERNAL) Intersect of two spheres or circles, see L{intersections2}
+def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellipsoidalBase._intersections2
+                                           Vector=None, **Vector_kwds):
+    # (INTERNAL) Intersect two spheres or circles, see L{intersections2}
     # above, separated to allow callers to embellish any exceptions
 
     def _Vector(x, y, z):
@@ -727,12 +727,11 @@ def _intersect2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellips
     if d < max(r2 - r1, EPS):
         raise ValueError(_near_concentric_)
 
-    # gap == d - (r1 + r2)
-    o = fsum_(-d, r1, r2)  # overlap == -gap
+    o = fsum_(-d, r1, r2)  # overlap == -(d - (r1 + r2))
     # compute intersections with c1 at (0, 0) and c2 at (d, 0), like
     # <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>
     if o > EPS:  # overlapping, r1, r2 == R, r
-        x = _radicaline(d, r1, r2)
+        x = _radical2(d, r1, r2).xline
         y = 1 - (x / r1)**2
         if y > EPS:
             y = r1 * sqrt(y)  # y == a / 2
@@ -751,24 +750,13 @@ def _intersect2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellips
         c = c1 if x < EPS  else (
             c2 if x > EPS1 else c1.plus(u.times(x)))
         t = _Vector(c.x, c.y, c.z), Radius(y)
-    elif y > 0:
+
+    elif y > 0:  # intersecting circles
         t = _xVector(c1, u, x, y), _xVector(c1, u, x, -y)
     else:  # abutting circles
         t = _xVector(c1, u, x, 0)
         t = t, t
     return t
-
-
-def _radicaline(d, r1, r2):
-    # x coord [0..d] of the "radical line", perpendicular to
-    # the x-axis line between both centers (0, 0) and (d, 0)
-    return fsum_(d**2, r1**2, -(r2**2)) / (2 * d)
-
-
-def _radical2(d, r1, r2):  # in .ellispoidalBase and .sphericalTrigonometry
-    # return "radical ratio" and radical line x coord
-    r = _radicaline(d, r1, r2)
-    return max(0, min(1, r / d)), r
 
 
 def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):

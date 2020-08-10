@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-u'''Single-instance strings, intern'ed across modules.
+u'''Single-instance strings, C{intern}'ed across modules.
 '''
 
 __all__ = ('NN',)
-__version__ = '20.08.04'
+__version__ = '20.08.09'
 
 NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
@@ -22,6 +22,8 @@ _bearing_            = 'bearing'              # PYCHOK expected
 _beta_               = 'beta'                 # PYCHOK expected
 _C_                  = 'C'                    # PYCHOK expected
 _Cartesian_          = 'Cartesian'            # PYCHOK expected
+_center1_            = 'center1'              # PYCHOK expected
+_center2_            = 'center2'              # PYCHOK expected
 _coincident_         = 'coincident'           # PYCHOK expected
 _colinear_           = 'colinear'             # PYCHOK expected
 _COLON_              = ':'                    # PYCHOK expected
@@ -100,6 +102,8 @@ _precision_          = 'precision'            # PYCHOK expected
 _radians_            = 'radians'              # PYCHOK expected
 _radians2_           = 'radians**2'           # PYCHOK expected
 _radius_             = 'radius'               # PYCHOK expected
+_radius1_            = 'radius1'              # PYCHOK expected
+_radius2_            = 'radius2'              # PYCHOK expected
 _range_              = 'range'                # PYCHOK expected
 _reciprocal_         = 'reciprocal'           # PYCHOK expected
 _res_                = 'res'                  # PYCHOK expected

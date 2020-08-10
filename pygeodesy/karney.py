@@ -64,7 +64,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.08.07'
+__version__ = '20.08.10'
 
 
 class _Adict(dict):
@@ -321,10 +321,11 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
     return s, t
 
 
-def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBase._intersect2
+def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBase._intersect22
     '''Unroll B{C{lon2 - lon1}} like C{geodesic.Geodesic.Inverse}.
 
-       @return: 2-Tuple C{(lon2 - lon1, lon2)}.
+       @return: 2-Tuple C{(lon2 - lon1, lon2)} with B{C{lon2}} unrolled
+                if B{C{wrap}} is C{True}, normalized otherwise.
     '''
     if wrap:
         d, t = _diff182(lon1, lon2)

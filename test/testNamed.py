@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.07.16'
+__version__ = '20.08.09'
 
 from base import PyGeodesy_dir, isiOS, TestsBase
 from pygeodesy import Datums, named
@@ -205,7 +205,7 @@ if __name__ == '__main__':
 
     from pygeodesy import azimuthal, clipy, css, datum, ecef, elevations, \
                           ellipsoidalNvector, elliptic, epsg, etm, \
-                          frechet, geohash, geoids, hausdorff, mgrs, \
+                          formy, frechet, geohash, geoids, hausdorff, mgrs, \
                           points, utmupsBase, webmercator
 
     t = Tests(__file__, __version__)
@@ -223,7 +223,7 @@ if __name__ == '__main__':
 
     for m in (named, azimuthal, clipy, css, datum, ecef, elevations,
                      ellipsoidalNvector, elliptic, epsg, etm,
-                     frechet, geohash, geoids, hausdorff, mgrs,
+                     formy, frechet, geohash, geoids, hausdorff, mgrs,
                      points, utmupsBase, webmercator):
         t.testNamedTuples(m)
 

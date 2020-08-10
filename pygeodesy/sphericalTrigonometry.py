@@ -19,11 +19,12 @@ from pygeodesy.basics import EPS, PI, PI2, PI_2, PI_4, R_M, \
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                               IntersectionError, _ValueError, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
-from pygeodesy.formy import antipode_, bearing_, vincentys_
-from pygeodesy.interns import _1_, _2_, _coincident_, _colinear_, _end_, \
-                              _fraction_, _invalid_, _item_sq, \
-                              _near_concentric_, _not_convex_, _points_, \
-                              _start_, _start1_, _start2_, _too_distant_fmt_
+from pygeodesy.formy import antipode_, bearing_, _radical2, vincentys_
+from pygeodesy.interns import _1_, _2_, _center1_, _center2_, _coincident_, \
+                              _colinear_, _end_, _fraction_, _invalid_, \
+                              _item_sq, _near_concentric_, _not_convex_, \
+                              _points_, _start_, _start1_, _start2_, \
+                              _too_distant_fmt_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
                            _xnamed
@@ -35,12 +36,12 @@ from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
                             iterNumpy2, radiansPI2, sincos2, tan_2, \
                             unrollPI, wrapPI
-from pygeodesy.vector3d import _radical2, sumOf, Vector3d
+from pygeodesy.vector3d import sumOf, Vector3d
 
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.08.08'
+__version__ = '20.08.09'
 
 _EPS_I2    = 4.0 * EPS
 _PI_EPS_I2 = PI - _EPS_I2
@@ -445,7 +446,7 @@ class LatLon(LatLonSphericalBase):
                                   LatLon=self.classof)
 
     def intersections2(self, rad1, other, rad2, radius=R_M,
-                                     height=None, wrap=False):
+                                     height=None, wrap=True):
         '''Compute the intersection points of two circles each defined
            by a center point and radius.
 
@@ -457,7 +458,8 @@ class LatLon(LatLonSphericalBase):
            @kwarg radius: Mean earth radius (C{meter} or C{None} if both
                           B{C{rad1}} and B{C{rad2}} are given in C{radians}).
            @kwarg height: Optional height for the intersection points,
-                          overriding the mean height (C{meter}).
+                          overriding the "radical height" at the "radical
+                          line" between both centers (C{meter}) or C{None}.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: 2-Tuple of the intersection points, each a L{LatLon}
@@ -473,7 +475,6 @@ class LatLon(LatLonSphericalBase):
                               or B{C{height}}.
         '''
         c2 = self.others(other)
-
         return intersections2(self, rad1, c2, rad2, radius=radius,
                                                     height=height, wrap=wrap,
                                                     LatLon=self.classof)
@@ -921,7 +922,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,
                       B{C{rad1}} and B{C{rad2}} are given in C{radians}).
        @kwarg height: Optional height for the intersection points,
                       overriding the "radical height" at the "radical
-                      line" between both centers (C{meter}).
+                      line" between both centers (C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg LatLon: Optional class to return the intersection
                       points (L{LatLon}) or C{None}.
@@ -946,27 +947,25 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,
        @see: This U{Answer<https://StackOverflow.com/questions/53324667/
              find-intersection-coordinates-of-two-circles-on-earth/53331953>}.
     '''
-
-    c1 = _T00.others(center1, name='center1')
-    c2 = _T00.others(center2, name='center2')
+    c1 = _T00.others(center1, name=_center1_)
+    c2 = _T00.others(center2, name=_center2_)
 
     try:
-        return _intersect2(c1, rad1, c2, rad2, radius=radius,
-                                               height=height, wrap=wrap,
-                                               LatLon=LatLon, **LatLon_kwds)
-
+        return _intersects2(c1, rad1, c2, rad2, radius=radius,
+                                                height=height, wrap=wrap,
+                                                LatLon=LatLon, **LatLon_kwds)
     except (TypeError, ValueError) as x:
         raise IntersectionError(center1=center1, rad1=rad1,
                                 center2=center2, rad2=rad2, txt=str(x))
 
 
-def _intersect2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._intersect2
-                                    height=None, wrap=True, too_d=None,
-                                    LatLon=LatLon, **LatLon_kwds):
-    # (INTERNAL) Intersect of two spherical circles, see L{intersections2}
+def _intersects2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._intersects2
+                                     height=None, wrap=True, too_d=None,
+                                     LatLon=LatLon, **LatLon_kwds):
+    # (INTERNAL) Intersect two spherical circles, see L{intersections2}
     # above, separated to allow callers to embellish any exceptions
 
-    def _dest1(bearing, h):
+    def _dest3(bearing, h):
         a, b = _destination2(a1, b1, r1, bearing)
         return _latlon3(degrees90(a), degrees180(b), h,
                         intersections2, LatLon, **LatLon_kwds)
@@ -996,18 +995,18 @@ def _intersect2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._intersec
         raise ValueError(_too_distant_fmt_ % (t,))
 
     if height is None:  # "radical height"
-        f, _ = _radical2(d, r1, r2)  # "radical ratio"
+        f = _radical2(d, r1, r2).ratio
         h = Height(favg(c1.height, c2.height, f=f))
     else:
         h = Height(height)
 
     b = bearing_(a1, b1, a2, b2, final=False, wrap=wrap)
     if x < _EPS_I2:  # externally ...
-        r = _dest1(b, h)
+        r = _dest3(b, h)
     elif x > _PI_EPS_I2:  # internally ...
-        r = _dest1(b + PI, h)
+        r = _dest3(b + PI, h)
     else:
-        return _dest1(b + x, h), _dest1(b - x, h)
+        return _dest3(b + x, h), _dest3(b - x, h)
     return r, r  # ... abutting circles
 
 
