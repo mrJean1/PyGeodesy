@@ -136,9 +136,30 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.etm.Etm-class.html#parseETM" class="summary-sig-name">parseETM</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.etm.Etm-class.html#parse" class="summary-sig-name">parse</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">strETM</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Parse a string to a similar <a href="pygeodesy.etm.Etm-class.html" 
+      class="link">Etm</a> instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="parseETM"></a><span class="summary-sig-name">parseETM</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">strETM</span>)</span><br />
-      Parse a string to a ETM coordinate.</td>
+      DEPRECATED, use method <a href="pygeodesy.etm.Etm-class.html#parse" 
+      class="link">Etm.parse</a>.</td>
           <td align="right" valign="top">
             
             
@@ -175,7 +196,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.etm.Etm-class.html#toUtm" class="summary-sig-name">toUtm</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Coopy this ETM to a UTM coordinate.</td>
+      Copy this ETM to a UTM coordinate.</td>
           <td align="right" valign="top">
             
             
@@ -350,31 +371,50 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="parseETM"></a>
+<a name="parse"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">parseETM</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">strETM</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parse</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">strETM</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Parse a string to a ETM coordinate.</p>
+  <p>Parse a string to a similar <a href="pygeodesy.etm.Etm-class.html" 
+  class="link">Etm</a> instance.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>strETM</code></strong> - The ETM coordinate (<code>str</code>), see function <a 
+          href="pygeodesy.etm-module.html#parseETM5" 
+          class="link">parseETM5</a>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional instance name (<code>str</code>), overriding this name.</li>
+    </ul></dd>
     <dt>Returns:</dt>
-        <dd>The coordinate (<a href="pygeodesy.etm.Etm-class.html" 
+        <dd>The instance (<a href="pygeodesy.etm.Etm-class.html" 
           class="link">Etm</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.etm.ETMError-class.html">ETMError</a></strong></code> - Invalid <b><code>strETM</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.utm.Utm-class.html#parse">utm.Utm.parse</a>
+    </dt>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.etm-module.html#parseETM5" 
-        class="link">parseETM5</a> in this module <a 
-        href="pygeodesy.etm-module.html" class="link">etm</a>.
+        Function <a href="pygeodesy.ups-module.html#parseUPS5" 
+        class="link">parseUPS5</a>, <a 
+        href="pygeodesy.utm-module.html#parseUTM5" 
+        class="link">parseUTM5</a> and <a 
+        href="pygeodesy.utmups-module.html#parseUTMUPS5" 
+        class="link">parseUTMUPS5</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -441,7 +481,7 @@
     </td>
   </tr></table>
   
-  <p>Coopy this ETM to a UTM coordinate.</p>
+  <p>Copy this ETM to a UTM coordinate.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -528,7 +568,7 @@ class="link">ExactTransverseMercator</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Aug  9 17:24:36 2020
+    Generated by Epydoc 3.0.1 on Tue Aug 11 14:14:59 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

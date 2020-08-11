@@ -5,13 +5,14 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.08.05'
+__version__ = '20.08.11'
 
 from base import TestsBase
 
-from pygeodesy import Datums, EcefCartesian, EcefKarney, EcefMatrix, \
-                      EcefSudano, EcefVeness, EcefYou, Ellipsoids, fstr, \
-                      latDMS, LatLon_, lonDMS, nvector, parse3llh
+from pygeodesy import Datums, EcefCartesian, EcefError, EcefKarney, \
+                      EcefMatrix, EcefSudano, EcefVeness, EcefYou, \
+                      Ellipsoids, fstr, latDMS, LatLon_, lonDMS, \
+                      nvector, parse3llh
 
 from math import radians
 
@@ -129,6 +130,17 @@ class Tests(TestsBase):
         self.test('reverse.height', fstr(t.height, prec=-3), '299.800', known=Sudano)
         self.test('case', t.C, 2 if Karney else (6 if Sudano else 1))
         self.test('iteration', t.iteration, t.iteration)
+
+        # coverage
+        self.test(EcefError.__name__, g.reverse(0, 0, 0), '(0.0, 0.0, ...)', known=True)
+        try:
+            self.test(EcefError.__name__, g.forward(None, None, None), EcefError.__name__)
+        except Exception as x:
+            self.test(EcefError.__name__, str(x).split(':')[0], 'lat (None), lon (None) ...', known=True)
+        try:
+            self.test(Ecef.__name__, Ecef(None), EcefError.__name__)
+        except Exception as x:
+            self.test(Ecef.__name__, str(x), Ecef.__name__, known=True)
 
     def testEcefCartesian(self):
 

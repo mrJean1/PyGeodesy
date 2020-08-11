@@ -16,7 +16,6 @@ from pygeodesy.basics import EPS, PI, PI2, PI_2, \
                              property_doc_, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datum import R_M, R_MA, Datum, Datums
-from pygeodesy.dms import parse3llh
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import IntersectionError, _IsnotError
 from pygeodesy.fmath import favg, fsum_
@@ -25,7 +24,7 @@ from pygeodesy.interns import _COMMA_, _exceed_PI_radians_, \
                               _spherical_, _too_distant_  # PYCHOK used!
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import Bearing2Tuple
+from pygeodesy.named import Bearing2Tuple, _xnamed
 from pygeodesy.nvectorBase import NvectorBase
 from pygeodesy.units import Bearing_, Distance, Height, Radius, Radius_
 from pygeodesy.utily import acos1, degrees90, degrees180, degrees360, \
@@ -34,7 +33,7 @@ from pygeodesy.utily import acos1, degrees90, degrees180, degrees360, \
 from math import atan2, cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.07.24'
+__version__ = '20.08.12'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -261,28 +260,24 @@ class LatLonSphericalBase(LatLonBase):
         '''
         return -self.maxLat(bearing)
 
-    def parse(self, strll, height=0, sep=_COMMA_):
-        '''Parse a string representing lat-/longitude point and
-           return a C{LatLon}.
+    def parse(self, strllh, height=0, sep=_COMMA_, name=NN):
+        '''Parse a string representing a similar, spherical C{LatLon}
+           point, consisting of C{"lat, lon[, height]"}.
 
-           The lat- and longitude must be separated by a sep[arator]
-           character.  If height is present it must follow and be
-           separated by another sep[arator].  Lat- and longitude
-           may be swapped, provided at least one ends with the
-           proper compass direction.
-
-           For more details, see functions L{parse3llh} and L{parseDMS}
-           in module L{dms}.
-
-           @arg strll: Lat, lon [, height] (C{str}).
+           @arg strllh: Lat, lon and optional height (C{str}),
+                        see function L{parse3llh}.
            @kwarg height: Optional, default height (C{meter}).
            @kwarg sep: Optional separator (C{str}).
+           @kwarg name: Optional instance name (C{str}),
+                        overriding this name.
 
-           @return: The point (spherical C{LatLon}).
+           @return: The similar point (spherical C{LatLon}).
 
-           @raise ValueError: Invalid B{C{strll}}.
+           @raise ParseError: Invalid B{C{strllh}}.
         '''
-        return self.classof(*parse3llh(strll, height=height, sep=sep))
+        from pygeodesy.dms import parse3llh
+        r = self.classof(*parse3llh(strllh, height=height, sep=sep))
+        return _xnamed(r, name or self.name, force=True)
 
     def _rhumb3(self, other):
         '''(INTERNAL) Rhumb_ helper function.

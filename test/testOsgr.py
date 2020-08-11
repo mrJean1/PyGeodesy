@@ -4,7 +4,7 @@
 # Test OSGR functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.07.14'
+__version__ = '20.08.11'
 
 from base import geographiclib, TestsBase
 
@@ -29,16 +29,19 @@ class Tests(TestsBase):
         g = osgr.Osgr(651409.903, 313177.270)
         self.test('OSgr1', g, 'TG 51409 13177')
         self.test('OSgr1', repr(g), '[G:TG, E:51409, N:13177]')
+        self.test('iteration', g.iteration, g.iteration)  # coverage
 
         p = g.toLatLon(LatLon)
         self.test('toLatLon1', p.toStr(F_DMS, m=None), '52°39′28.72″N, 001°42′57.74″E', known=True)
         self.test('toLatLon1', p, '52.657977°N, 001.716038°E', known=True)
+        self.test('iteration', p.iteration, g.iteration)  # coverage
         r = p.toOsgr()
         self.test('toOsgr1', r.toStr(prec=-3), '651409.903,313177.270', known=True)
 
         p = g.toLatLon(LatLon, datum=Datums.OSGB36)
         self.test('toLatLon2', p.toStr(F_DMS), '52°39′27.25″N, 001°43′04.47″E', known=True)
         self.test('toLatLon2', p, '52.657568°N, 001.717908°E', known=True)
+        self.test('iteration', p.iteration, g.iteration)  # coverage
         r = osgr.toOsgr(p)
         self.test('toOsgr2', r.toStr(0), '651409,313177', known=True)
 
@@ -70,6 +73,11 @@ class Tests(TestsBase):
         self.test('OSGR5', g.toRepr(prec=-3), '[OSGR:651409.000,313177.000]')
 
         r = osgr.parseOSGR(g.toStr(prec=-3))
+        self.test('OSGR6', r.toStr(prec=0), '651409,313177')
+
+        r = osgr.parseOSGR('651409,313177', Osgr=None)  # coverage
+        self.test('OSGR6', r.toStr(prec=0), '(651409, 313177)')
+        r = g.parse('651409, 313177')  # coverage
         self.test('OSGR6', r.toStr(prec=0), '651409,313177')
 
         self.test('issue', 38, 38)

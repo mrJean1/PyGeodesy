@@ -57,7 +57,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.08.05'
+__version__ = '20.08.12'
 
 _10um  = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km = 100000  #: (INTERNAL) 100 km (int meter)
@@ -107,7 +107,7 @@ class Osgr(_NamedBase):
     '''
     _datum     = _Datums_OSGB36  #: (INTERNAL) Default datum (L{Datum})
     _easting   =  0              #: (INTERNAL) Easting (C{meter}).
-    _iteration = 0               #: (INTERANL) Iteration number (C{int}).
+    _iteration =  0              #: (INTERANL) Iteration number (C{int}).
     _latlon    =  None           #: (INTERNAL) Cache B{C{_toLatlon}}.
     _northing  =  0              #: (INTERNAL) Nothing (C{meter}).
 
@@ -161,12 +161,19 @@ class Osgr(_NamedBase):
         '''
         return self._northing
 
-    def parse(self, strOSGR):
-        '''Parse a string to an Osgr instance.
+    def parse(self, strOSGR, name=NN):
+        '''Parse a string to a similar L{Osgr} instance.
 
-           For more details, see function L{parseOSGR} in this module L{osgr}.
+           @arg strOSGR: The OSGR reference (C{str}),
+                         see function L{parseOSGR}.
+           @kwarg name: Optional instance name (C{str}),
+                        overriding this name.
+
+           @return: The similar instance (L{Osgr})
+
+           @raise OSGRError: Invalid B{C{strOSGR}}.
         '''
-        return parseOSGR(strOSGR)
+        return parseOSGR(strOSGR, Osgr=self.classof, name=name or self.name)
 
     def toLatLon(self, LatLon=None, datum=Datums.WGS84):
         '''Convert this OSGR coordinate to an (ellipsoidal) geodetic
@@ -347,7 +354,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
        Accepts standard OS Grid References like 'SU 387 148',
        with or without whitespace separators, from 2- up to
        10-digit references (1 m × 1 m square), or fully
-       numeric, comma-separated references in metres, for
+       numeric, comma-separated references in meters, for
        example '438700,114800'.
 
        @arg strOSGR: An OSGR coordinate (C{str}).
@@ -417,7 +424,7 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
             n = _s2i(N, n)
 
         r = _EasNor2Tuple(e, n) if Osgr is None else Osgr(e, n)
-        return _xnamed(r, name)
+        return _xnamed(r, name, force=True)
 
     return _parseX(_OSGR_, strOSGR, Osgr, name,
                            strOSGR=strOSGR, Error=OSGRError)

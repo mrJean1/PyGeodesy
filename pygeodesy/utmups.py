@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                   UtmUps5Tuple, UtmUps8Tuple  # PYCHOK indent
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.08.04'
+__version__ = '20.08.12'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -78,9 +78,9 @@ def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=NN):
                    or C{None}.
        @kwarg Ups: Optional class to return the UPS coordinate (L{Ups})
                    or C{None}.
-       @kwarg name: Optional name (C{str}).
+       @kwarg name: Optional instance name (C{str}).
 
-       @return: The UTM or UPS coordinate (B{C{Utm}} or B{C{Ups}}) or
+       @return: The UTM or UPS instance (B{C{Utm}} or B{C{Ups}}) or
                 a L{UtmUps5Tuple}C{(zone, hemipole, easting, northing,
                 band)} if B{C{Utm}} respectively B{C{Ups}} or both are
                 C{None}.  The C{hemipole} is C{'N'|'S'}, the UTM hemisphere
@@ -207,20 +207,16 @@ def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
         raise Error(ename, en, txt=t)
 
     if isinstance(coord, (Ups, Utm)):
-        zone = coord.zone
         hemi = coord.hemisphere
-        e, n = coord.easting, coord.northing
-        band = coord.band
         enMM = coord.falsed
     elif isinstance(coord, (UtmUps5Tuple, UtmUps8Tuple)):
-        zone = coord.zone
         hemi = coord.hemipole
-        e, n = coord.easting, coord.northing
-        band = coord.band
         enMM = falsed
     else:
         raise _IsnotError(Error=Error, coord=coord, *map1(modulename,
                           Utm, Ups, UtmUps5Tuple, UtmUps8Tuple))
+    band = coord.band
+    zone = coord.zone
 
     z, B, h = _to3zBhp(zone, band, hemipole=hemi)
 
@@ -244,8 +240,8 @@ def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
         raise Error(coord=t, zone=zone, band=band, hemisphere=hemi)
 
     if enMM:
-        _en(e, M.eMin[i] - s, M.eMax[i] + s, _easting_)   # PYCHOK .eMax .eMin
-        _en(n, M.nMin[i] - s, M.nMax[i] + s, _northing_)  # PYCHOK .nMax .nMin
+        _en(coord.easting,  M.eMin[i] - s, M.eMax[i] + s, _easting_)   # PYCHOK .eMax .eMin
+        _en(coord.northing, M.nMin[i] - s, M.nMax[i] + s, _northing_)  # PYCHOK .nMax .nMin
 
 
 def utmupsValidateOK(coord, falsed=False, ok=True):

@@ -58,7 +58,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.08.04'
+__version__ = '20.08.12'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -332,14 +332,27 @@ class Utm(UtmUpsBase):
                 n = _FalseNorthing
         return EasNor2Tuple(e, n)
 
-    def parseUTM(self, strUTM):
-        '''Parse a string to a UTM coordinate.
+    def parse(self, strUTM, name=NN):
+        '''Parse a string to a similar L{Utm} instance.
 
-           @return: The coordinate (L{Utm}).
+           @arg strUTM: The UTM coordinate (C{str}),
+                        see function L{parseUTM5}.
+           @kwarg name: Optional instance name (C{str}),
+                        overriding this name.
 
-           @see: Function L{parseUTM5} in this module L{utm}.
+           @return: The similar instance (L{Utm}).
+
+           @raise UTMError: Invalid B{C{strUTM}}.
+
+           @see: Function L{parseUPS5} and L{parseUTMUPS5}.
         '''
-        return parseUTM5(strUTM, datum=self.datum, Utm=self.classof)
+        return parseUTM5(strUTM, datum=self.datum, Utm=self.classof,
+                                 name=name or self.name)
+
+    def parseUTM(self, strUTM):
+        '''DEPRECATED, use method C{Utm.parse}.
+        '''
+        return self.parse(strUTM)
 
     @property_RO
     def pole(self):
@@ -598,7 +611,7 @@ def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=NN):
        >>> u.toStr()  # 31 N 448252 5411933
     '''
     r = _parseUTM5(strUTM, datum, Utm, falsed)
-    return _xnamed(r, name)
+    return _xnamed(r, name, force=True)
 
 
 def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,
@@ -697,7 +710,7 @@ def _toXtm8(Xtm, z, lat, x, y, B, d, c, k, f,  # PYCHOK 13+ args
             r._latlon_to(latlon, eps, f)  # XXX weakref(latlon)?
             latlon._convergence = c
             latlon._scale = k
-    return _xnamed(r, name)
+    return _xnamed(r, name, force=True)
 
 
 def utmZoneBand5(lat, lon, cmoff=False):

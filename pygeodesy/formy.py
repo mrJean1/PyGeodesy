@@ -27,7 +27,7 @@ from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.08.09'
+__version__ = '20.08.11'
 
 _D_I2_ =  1e5  # meter, 100 Km, about 0.9 degrees
 _lat2_ = _lat_ + _2_
@@ -743,7 +743,8 @@ def horizon(height, radius=R_M, refraction=False):
     return sqrt(d2)
 
 
-def intersections2(lat1, lon1, rad1, lat2, lon2, rad2, datum=None, wrap=False):
+def intersections2(lat1, lon1, radius1,
+                   lat2, lon2, radius2, datum=None, wrap=True):
     '''Conveniently compute the intersections of two circles each defined
        by a lat-/longitude center point and a radius, using either ...
 
@@ -762,10 +763,10 @@ def intersections2(lat1, lon1, rad1, lat2, lon2, rad2, datum=None, wrap=False):
 
        @arg lat1: Latitude of the first circle center (C{degrees}).
        @arg lon1: Longitude of the first circle center (C{degrees}).
-       @arg rad1: Radius of the first circle (C{meter}).
+       @arg radius1: Radius of the first circle (C{meter}).
        @arg lat2: Latitude of the second circle center (C{degrees}).
        @arg lon2: Longitude of the second circle center (C{degrees}).
-       @arg rad2: Radius of the second circle (C{meter}).
+       @arg radius2: Radius of the second circle (C{meter}).
        @kwarg datum: Optional ellipsoidal or spherical datum (L{Datum})
                      or scalar earth radius (C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
@@ -780,44 +781,47 @@ def intersections2(lat1, lon1, rad1, lat2, lon2, rad2, datum=None, wrap=False):
 
        @raise TypeError: Invalid B{C{datum}}.
 
-       @raise UnitError: Invalid B{C{lat1}}, B{C{lon1}}, B{C{rad1}}
-                         B{C{lat2}}, B{C{lon2}} or B{C{rad2}}.
+       @raise UnitError: Invalid B{C{lat1}}, B{C{lon1}}, B{C{radius1}}
+                         B{C{lat2}}, B{C{lon2}} or B{C{radius2}}.
     '''
 
     if datum is None or euclidean(lat1, lon1, lat1, lon2, radius=R_M,
                                   adjust=True, wrap=wrap) < _D_I2_:
-        from pygeodesy.vector3d import intersections2 as _i2, Vector3d
+        import pygeodesy.vector3d as m
 
-        def _V4T(x, y, _, **unused):  # _ unused
+        def _V2T(x, y, _, **unused):  # _ == z unused
             return _xnamed(LatLon2Tuple(y, x), intersections2.__name__)
 
+        r1 = m2degrees(Radius_(radius1, name=_radius1_), radius=R_M, lat=lat1)
+        r2 = m2degrees(Radius_(radius2, name=_radius2_), radius=R_M, lat=lat2)
+
         _, lon2 = unroll180(lon1, lon2, wrap=wrap)
-        t = _i2(Vector3d(lon1, lat1, 0), m2degrees(rad1),
-                Vector3d(lon2, lat2, 0), m2degrees(rad2), sphere=False,
-                Vector=_V4T)
+        t = m.intersections2(m.Vector3d(lon1, lat1, 0), r1,
+                             m.Vector3d(lon2, lat2, 0), r2, sphere=False,
+                               Vector=_V2T)
 
     else:
-        def _LL4T(lat, lon, **unused):
+        def _LL2T(lat, lon, **unused):
             return _xnamed(LatLon2Tuple(lat, lon), intersections2.__name__)
 
         d = _spherical_datum(datum) if isscalar(datum) else datum
         _xinstanceof(Datum, datum=d)
 
         if d.isSpherical:
-            from pygeodesy.sphericalTrigonometry import intersections2 as _i2, LatLon
+            import pygeodesy.sphericalTrigonometry as m
         elif d.isEllipsoidal:
             try:
                 if d.ellipsoid.geodesic:
                     pass
-                from pygeodesy.ellipsoidalKarney import intersections2 as _i2, LatLon
+                import pygeodesy.ellipsoidalKarney as m
             except ImportError:
-                from pygeodesy.ellipsoidalVincenty import intersections2 as _i2, LatLon
+                import pygeodesy.ellipsoidalVincenty as m
         else:
             raise _AssertionError(datum=d)
 
-        t = _i2(LatLon(lat1, lon1, datum=d), rad1,
-                LatLon(lat2, lon2, datum=d), rad2, wrap=wrap,
-                LatLon=_LL4T, height=0)
+        t = m.intersections2(m.LatLon(lat1, lon1, datum=d), radius1,
+                             m.LatLon(lat2, lon2, datum=d), radius2, wrap=wrap,
+                               LatLon=_LL2T, height=0)
     return t
 
 

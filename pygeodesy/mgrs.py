@@ -43,7 +43,7 @@ from pygeodesy.utmupsBase import _hemi, UtmUps5Tuple
 import re  # PYCHOK warning locale.Error
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.07.08'
+__version__ = '20.08.12'
 
 _100km  = Meter( 100e3)  #: (INTERNAL) 100 km in meter.
 _2000km = Meter(2000e3)  #: (INTERNAL) 2,000 km in meter.
@@ -162,18 +162,20 @@ class Mgrs(_NamedBase):
         '''
         return self._northing
 
-    def parse(self, strMGRS):
-        '''Parse a string to a MGRS grid reference.
+    def parse(self, strMGRS, name=NN):
+        '''Parse a string to a similar L{Mgrs} instance.
 
-           @arg strMGRS: MGRS grid reference (C{str}).
+           @arg strMGRS: The MGRS reference (C{str}),
+                         see function L{parseMGRS}.
+           @kwarg name: Optional instance name (C{str}),
+                        overriding this name.
 
-           @return: MGRS reference (L{Mgrs}).
+           @return: The similar instance (L{Mgrs}).
 
            @raise MGRSError: Invalid B{C{strMGRS}}.
-
-           @see: Function L{parseMGRS} in this module L{mgrs}.
         '''
-        return parseMGRS(strMGRS, datum=self.datum, Mgrs=self.classof)
+        return parseMGRS(strMGRS, datum=self.datum, Mgrs=self.classof,
+                                  name=name or self.name)
 
     def toRepr(self, prec=10, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
@@ -339,7 +341,7 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=NN):
         z, EN = m[0], m[1].upper()
         r = Mgrs4Tuple(z, EN, e, n) if Mgrs is None else \
                   Mgrs(z, EN, e, n, datum=datum)
-        return _xnamed(r, name)
+        return _xnamed(r, name, force=True)
 
     return _parseX(_MGRS_, strMGRS, datum, Mgrs, name,
                            strMGRS=strMGRS, Error=MGRSError)

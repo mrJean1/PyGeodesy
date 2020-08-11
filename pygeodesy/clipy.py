@@ -19,7 +19,7 @@ from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
                              LatLon_ as LL_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '20.07.08'
+__version__ = '20.08.12'
 
 
 class ClipError(_ValueError):
@@ -75,10 +75,10 @@ class _CS(_Named):
     '''
     # single-bit clip codes
     _IN   = 0  # inside clip box
-    _YMIN = 1  # below lowerleft.lat
-    _YMAX = 2  # above upperright.lat
-    _XMIN = 4  # left of lowerleft.lon
-    _XMAX = 8  # right of upperright.lon
+    _XMAX = 1  # right of upperright.lon
+    _XMIN = 2  # left of lowerleft.lon
+    _YMAX = 4  # above upperright.lat
+    _YMIN = 8  # below lowerleft.lat
 
     _dx   = 0  # pts edge delta lon
     _dy   = 0  # pts edge delta lat
@@ -174,7 +174,7 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):
        @arg lowerleft: Bottom-left corner of the clip box (C{LatLon}).
        @arg upperright: Top-right corner of the clip box (C{LatLon}).
        @kwarg closed: Optionally, close the path (C{bool}).
-       @kwarg inull: Optionally, include null edges if inside (C{bool}).
+       @kwarg inull: Optionally, retain null edges if inside (C{bool}).
 
        @return: Yield a L{ClipCS3Tuple}C{(start, end, index)} for each
                 edge of the clipped path.

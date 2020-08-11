@@ -23,14 +23,14 @@ from pygeodesy.interns import _coincident_, _colinear_, _COMMA_, _COMMA_SPACE_, 
                               _radius1_, _radius2_, _scalar_, _too_distant_fmt_, \
                               _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _NamedBase, Vector3Tuple
+from pygeodesy.named import _NamedBase, Vector3Tuple, _xnamed
 from pygeodesy.streprs import strs
 from pygeodesy.units import Radius, Radius_
 
 from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.08.09'
+__version__ = '20.08.12'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -490,17 +490,19 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                 raise
         return other
 
-    def parse(self, str3d, sep=_COMMA_):
-        '''Parse an C{"x, y, z"} string.
+    def parse(self, str3d, sep=_COMMA_, name=NN):
+        '''Parse an C{"x, y, z"} string to a similar L{Vector3d} instance.
 
-           @arg str3d: X, y and z values (C{str}).
+           @arg str3d: X, y and z string (C{str}), see function L{parse3d}.
            @kwarg sep: Optional separator (C{str}).
+           @kwarg name: Optional instance name (C{str}), overriding this name.
 
-           @return: New vector (L{Vector3d}).
+           @return: The similar instance (L{Vector3d}).
 
            @raise VectorError: Invalid B{C{str3d}}.
         '''
-        return parse3d(str3d, sep=sep, Vector=self.classof, name=self.name)
+        return parse3d(str3d, sep=sep, Vector=self.classof,
+                              name=name or self.name)
 
     def plus(self, other):
         '''Add this vector and an other vector.
@@ -759,11 +761,12 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
     return t
 
 
-def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):
+def parse3d(str3d, sep=_COMMA_, name=NN, Vector=Vector3d, **Vector_kwds):
     '''Parse an C{"x, y, z"} string.
 
        @arg str3d: X, y and z values (C{str}).
        @kwarg sep: Optional separator (C{str}).
+       @kwarg name: Optional instance name (C{str}).
        @kwarg Vector: Optional class (L{Vector3d}).
        @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
                            ignored if B{C{Vector=None}}.
@@ -780,8 +783,9 @@ def parse3d(str3d, sep=_COMMA_, Vector=Vector3d, **Vector_kwds):
     except (TypeError, ValueError) as x:
         raise VectorError(str3d=str3d, txt=str(x))
 
-    return Vector3Tuple(*v) if Vector is None else \
-           Vector(*v, **Vector_kwds)
+    r = Vector3Tuple(*v) if Vector is None else \
+              Vector(*v, **Vector_kwds)
+    return _xnamed(r, name, force=True)
 
 
 def sumOf(vectors, Vector=Vector3d, **Vector_kwds):

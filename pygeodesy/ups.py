@@ -38,7 +38,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.08.04'
+__version__ = '20.08.12'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = Meter(2000e3)  #: (INTERNAL) False easting and northing (C{meter}).
@@ -143,14 +143,27 @@ class Ups(UtmUpsBase):
             self.toLatLon(unfalse=True)
         return self._hemisphere
 
-    def parseUPS(self, strUPS):
-        '''Parse a string to a UPS coordinate.
+    def parse(self, strUPS, name=NN):
+        '''Parse a string to a similar L{Ups} instance.
 
-           @return: The coordinate (L{Ups}).
+           @arg strUPS: The UPS coordinate (C{str}),
+                        see function L{parseUPS5}.
+           @kwarg name: Optional instance name (C{str}),
+                        overriding this name.
 
-           @see: Function L{parseUPS5} in this module L{ups}.
+           @return: The similar instance (L{Ups}).
+
+           @raise UTMError: Invalid B{C{strUPS}}.
+
+           @see: Function L{parseUTM5} and L{parseUTMUPS5}.
         '''
-        return parseUPS5(strUPS, datum=self.datum, Ups=self.classof)
+        return parseUPS5(strUPS, datum=self.datum, Ups=self.classof,
+                                 name=name or self.name)
+
+    def parseUPS(self, strUPS):
+        '''DEPRECATED, use method C{Ups.parse}.
+        '''
+        return self.parse(strUPS)
 
     @property_RO
     def pole(self):
@@ -363,7 +376,7 @@ def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=NN):
 
     r = UtmUps5Tuple(z, p, e, n, B, Error=UPSError) if Ups is None else \
                  Ups(z, p, e, n, band=B, falsed=falsed, datum=datum)
-    return _xnamed(r, name)
+    return _xnamed(r, name, force=True)
 
 
 def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,

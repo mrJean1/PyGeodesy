@@ -66,7 +66,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.08.05'
+__version__ = '20.08.11'
 
 _M_    = 'M'
 _TRIPS = 16  # 8..9 sufficient, EcefSudano.reverse
@@ -1065,7 +1065,7 @@ class EcefSudano(EcefVeness):
         #         (E.e2 * E.a / E.e2s2(sa) - h / ca**2)
         for C in range(_TRIPS):
             ca2 = 1 - sa**2
-            if ca2 < EPS_2:
+            if ca2 < EPS_2:  # PYCHOK no cover
                 ca = 0
                 break
             ca = sqrt(ca2)

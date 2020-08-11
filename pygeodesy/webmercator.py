@@ -37,7 +37,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.07.08'
+__version__ = '20.08.12'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -131,13 +131,25 @@ class Wm(_NamedBase):
         r = LatLon2Tuple(Lat(degrees90(y)), Lon(degrees180(x)))
         return self._xnamed(r)
 
-    def parseWM(self, strWM, name=NN):
-        '''Parse a string to a WM coordinate.
+    def parse(self, strWM, name=NN):
+        '''Parse a string to a similar L{Wm} instance.
 
-           For more details, see function L{parseWM} in
-           this module L{webmercator}.
+           @arg strWM: The WM coordinate (C{str}), see
+                       function L{parseWM}.
+           @kwarg name: Optional instance name (C{str}),
+                        overriding this name.
+
+           @return: The similar instance (L{Wm}).
+
+           @raise WebMercatorError: Invalid B{C{strWM}}.
         '''
-        return parseWM(strWM, radius=self.radius, Wm=self.classof, name=name)
+        return parseWM(strWM, radius=self.radius, Wm=self.classof,
+                              name=name or self.name)
+
+    def parseWM(self, strWM, name=NN):
+        '''DEPRECATED, use method L{Wm.parse}.
+        '''
+        return self.parse(strWM, name=name)
 
     @property_RO
     def philam(self):
@@ -292,7 +304,7 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
 
         r = EasNorRadius3Tuple(x, y, r) if Wm is None else \
                             Wm(x, y, radius=r)
-        return _xnamed(r, name)
+        return _xnamed(r, name, force=True)
 
     return _parseX(_WM_, strWM, radius, Wm, name,
                          strWM=strWM, Error=WebMercatorError)

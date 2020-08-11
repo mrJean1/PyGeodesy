@@ -29,11 +29,11 @@ from pygeodesy.interns import _angle_, _AT_, _COLON_, _COLON_SPACE_, _COMMA_SPAC
                               _name_, NN, _northing_, _number_, _other_, _PARENTH_, \
                               _phi_, _points_, _precision_, _radius_, _UNDERSCORE_, \
                               _valid_, _x_, _y_, _z_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.08.04'
+__version__ = '20.08.12'
 
 # __DUNDER gets mangled in class
 _final_     = 'final'
@@ -43,15 +43,18 @@ _name       = '_name'
 _Names_     = '_Names_'
 
 
-def _xnamed(inst, name):
+def _xnamed(inst, name, force=False):
     '''(INTERNAL) Set the instance' C{.name = }B{C{name}}.
 
        @arg inst: The instance (C{_Named}).
        @arg name: The name (C{str}).
+       @kwarg force: Force name change (C{bool}).
 
-       @return: The B{C{inst}}, named if not named before.
+       @return: The B{C{inst}}, named if B{C{force}}d or
+                not named before.
     '''
-    if name and isinstance(inst, _Named) and not inst.name:
+    if name and isinstance(inst, _Named) \
+            and (force or not inst.name):
         inst.name = name
     return inst
 
@@ -930,19 +933,15 @@ def callername(up=1, dflt=NN, source=False):
        @return: Name of the non-internal callable (C{str})
                 or B{C{dflt}} if none found.
     '''
-    try:
-        from sys import _getframe
+    try:  # see .lazily._caller3
         for u in range(up, up + 32):
-            f = _getframe(u)
-            n = f.f_code.co_name
+            n, f, s = _caller3(u)
             if n and (n.startswith(_DUNDER_) or
                   not n.startswith(_UNDERSCORE_)):
                 if source:
-                    from os.path import basename
-                    n = NN.join((n, _AT_, basename(f.f_code.co_filename),
-                                    _COLON_, str(f.f_lineno)))
+                    n = NN.join((n, _AT_, f, _COLON_, str(s)))
                 return n
-    except (AttributeError, ImportError):
+    except (AttributeError, ValueError):  # PYCHOK no cover
         pass
     return dflt
 

@@ -31,8 +31,11 @@ from pygeodesy.interns import _areaOf_, _COMMA_SPACE_, _doesn_t_exist_, \
                               _perimeterOf_, _UNDERSCORE_
 
 from os import environ as _environ
+from os.path import basename as _basename
+import sys as _sys
 
-_FOR_DOCS = _environ.get('PYGEODESY_FOR_DOCS', None)  # for epydoc ...
+_FOR_DOCS  = _environ.get('PYGEODESY_FOR_DOCS', None)  # for epydoc ...
+_PYGEODESY_LAZY_IMPORT_ = 'PYGEODESY_LAZY_IMPORT'
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
 isLazy = None  # see @var isLazy above
@@ -263,7 +266,18 @@ def _all_missing2(_all_):
             (_dot_('pygeodesy', '__all__'),          _COMMA_SPACE_.join(a for a in _alzy if a not in _all_)))
 
 
-def _lazy_import2(_package_):  # MCCABE 16
+def _caller3(up):  # in .named
+    '''(INTERNAL) Get 3-tuple C{(caller name, file name, line number)}.
+    '''
+    # sys._getframe(1) ... 'importlib._bootstrap' line 1032,
+    # may throw a ValueError('call stack not deep enough')
+    f = _sys._getframe(up + 1)
+    return (f.f_code.co_name,  # caller name
+           _basename(f.f_code.co_filename),  # file name
+            f.f_lineno)  # line number
+
+
+def _lazy_import2(_package_):  # MCCABE 15
     '''Check for and set up lazy importing.
 
        @arg _package_: The name of the package (C{str}) performing
@@ -274,9 +288,10 @@ def _lazy_import2(_package_):  # MCCABE 16
                 for easy reference within itself and the callable to
                 be set to `__getattr__`.
 
-       @raise LazyImportError: Lazy import not supported, an import
-                               failed or a module name or attribute
-                               name is invalid or does not exist.
+       @raise LazyImportError: Lazy import not supported or not enabled,
+                               an import failed or the package name or
+                               module name or attribute name is invalid
+                               or does not exist.
 
        @note: This is the original function U{modutil.lazy_import
               <https://GitHub.com/brettcannon/modutil/blob/master/modutil.py>}
@@ -287,21 +302,11 @@ def _lazy_import2(_package_):  # MCCABE 16
        @see: The original U{modutil<https://PyPi.org/project/modutil>} and
              U{PEP 562<https://www.Python.org/dev/peps/pep-0562>}.
     '''
-    import sys
-
-    if sys.version_info[:2] < (3, 7):  # not supported
+    if _sys.version_info[:2] < (3, 7):  # not supported
         t = 'no ' + _dot_(_package_, _lazy_import2.__name__)
-        raise LazyImportError(t, txt='Python ' + sys.version.split()[0])
+        raise LazyImportError(t, txt='Python ' + _sys.version.split()[0])
 
     import_module, package, parent = _lazy_init3(_package_)
-
-    if isLazy > 2:  # trim import path names
-        import os  # PYCHOK re-import
-        cwdir = os.getcwd()
-        cwdir = cwdir[:-len(os.path.basename(cwdir))]
-        del os
-    else:  # no import path names
-        cwdir = NN
 
     import_ = _dot_(_package_, NN)  # namespace
     imports = _all_imports()
@@ -316,7 +321,7 @@ def _lazy_import2(_package_):  # MCCABE 16
             if mod not in imports:
                 raise LazyImportError('no module', txt=_dot_(parent, mod))
             imported = import_module(import_ + mod, parent)  # XXX '.' + mod
-            if imported.__package__ not in (parent, '__main__', ''):
+            if imported.__package__ not in (parent, '__main__', NN):
                 raise LazyImportError(_dot_(mod, '__package__'), imported.__package__)
             # import the module or module attribute
             if attr:
@@ -338,14 +343,9 @@ def _lazy_import2(_package_):  # MCCABE 16
             if mod and mod != name:
                 z = ' from .%s' % (mod,)
             if isLazy > 2:
-                # sys._getframe(1) ... 'importlib._bootstrap' line 1032,
-                # may throw a ValueError('call stack not deep enough')
-                try:
-                    f = sys._getframe(2)  # get importing file and line
-                    n = f.f_code.co_filename
-                    if cwdir and n.startswith(cwdir):
-                        n = n[len(cwdir):]
-                    z = '%s by %s line %d' % (z, n, f.f_lineno)
+                try:  # see _caller3
+                    _, f, s = _caller3(2)
+                    z = '%s by %s line %d' % (z, f, s)
                 except ValueError:  # PYCHOK no cover
                     pass
             print('# lazily imported %s%s' % (_dot_(parent, name), z))
@@ -367,23 +367,23 @@ def _lazy_init3(_package_):
                 for easy reference within itself and the package name,
                 aka the C{parent}.
 
-       @raise LazyImportError: Lazy import not supported, an import
-                               failed or a module name or attribute
-                               name is invalid or does not exist.
+       @raise LazyImportError: Lazy import not supported or not enabled,
+                               an import failed or the package name is
+                               invalid or does not exist.
 
        @note: Global C{isLazy} is set accordingly.
     '''
     global isLazy
 
-    z = _environ.get('PYGEODESY_LAZY_IMPORT', None)
-    if z is None:  # PYGEODESY_LAZY_IMPORT not set
+    z = _environ.get(_PYGEODESY_LAZY_IMPORT_, None)
+    if z is None:  # _PYGEODESY_LAZY_IMPORT_ not set
         isLazy = 1  # ... but on by default on 3.7
     else:
         z = z.strip()  # like PYTHONVERBOSE et.al.
         isLazy = int(z) if z.isdigit() else (1 if z else 0)
     if isLazy < 1:  # not enabled
-        raise LazyImportError('disabled', txt='%s=%r' % ('PYGEODESY_LAZY_IMPORT', z))
-    if _environ.get('PYTHONVERBOSE', None):
+        raise LazyImportError(_PYGEODESY_LAZY_IMPORT_, repr(z), txt='not enabled')
+    if _environ.get('PYTHONVERBOSE', None):  # PYCHOK no cover
         isLazy += 1
 
     try:  # to initialize
@@ -391,7 +391,7 @@ def _lazy_init3(_package_):
 
         package = import_module(_package_)
         parent = package.__spec__.parent  # __spec__ only in Python 3.7+
-        if parent != _package_:  # assertion
+        if parent != _package_:  # assert
             raise AttributeError('parent %r vs %r' % (parent, _package_))
     except (AttributeError, ImportError) as x:  # PYCHOK no cover
         isLazy = False  # failed

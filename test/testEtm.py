@@ -5,7 +5,7 @@ u'''Test projection L{ExactTransverseMercator}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.04.04'
+__version__ = '20.08.12'
 
 from base import isiOS, isNix, isWindows, TestsBase
 
@@ -17,21 +17,32 @@ class Tests(TestsBase):
     def testEtm(self, LatLon):
         self.subtitle(etm, LatLon.__name__)
 
-        e = etm.toEtm8(ellipsoidalVincenty.LatLon(-2, 88))  # coverage
+        e = etm.toEtm8(ellipsoidalVincenty.LatLon(-2, 88), name='test')  # coverage
         t = '45 S -20297797 5336899'
         self.test('toEtm8', e, t)
+        self.test('name', e.name, 'test')
         u = e.toUtm()
         self.test('toUtm', u, t)
+        self.test('name', u.name, 'test')
         self.test('toETM5', etm.parseETM5(t), e)
 
-        self.testCopy(e)
+        self.testCopy(e, 'name')
+
+        e = e.parse('31 N 448251, 5411932', name='parse')  # coverage
+        t = '31 N 448251 5411932'
+        self.test('parse', e, t)
+        self.test('name', e.name, 'parse')
+        e = e.parseETM(t.replace(' ', ','))
+        self.test('parseETM', e, t)
+        self.test('name', e.name, 'parse')
 
     def testExactTM(self, extendp):
         self.subtitle(etm, ExactTransverseMercator.__name__)
 
-        xtm = ExactTransverseMercator(extendp=extendp)
+        xtm = ExactTransverseMercator(extendp=extendp, name='test')
+        self.test('name', xtm.name, 'test')  # coverage
         t = xtm.toStr()
-        self.test('toStr', t, t)  # for coverage
+        self.test('toStr', t, t)  # coverage
 
         e, n, g, k = xtm.forward(40.4, -3.7, lon0=-3)  # Madrid , UTM zone 30?
         self.test('easting',  e,  '-59401.921148', fmt='%.6f')

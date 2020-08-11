@@ -32,7 +32,7 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.units import Radius_
 
 __all__ = ()
-__version__ = '20.08.09'
+__version__ = '20.08.12'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 16    # _intersects2 interations, 6 sufficient
@@ -416,30 +416,30 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._iteration
 
-    def parse(self, strll, height=0, datum=None, sep=_COMMA_):
-        '''Parse a string representing this C{LatLon} point.
+    def parse(self, strllh, height=0, datum=None, sep=_COMMA_, name=NN):
+        '''Parse a string representing a similar, ellipsoidal C{LatLon}
+           point, consisting of C{"lat, lon[, height]"}.
 
-           The lat- and longitude must be separated by a sep[arator]
-           character.  If height is present it must follow and be
-           separated by another sep[arator].  Lat- and longitude
-           may be swapped, provided at least one ends with the
-           proper compass direction.
+           @arg strllh: Lat, lon and optional height (C{str}),
+                        see function L{parse3llh}.
+           @kwarg height: Optional, default height (C{meter} or
+                          C{None}).
+           @kwarg datum: Optional datum (L{Datum}), overriding this
+                         datum I{without conversion}.
+           @kwarg sep: Optional separator (C{str}).
+           @kwarg name: Optional instance name (C{str}), overriding
+                        this name.
 
-           For more details, see functions L{parse3llh} and L{parseDMS}
-           in sub-module L{dms}.
+           @return: The similar point (ellipsoidal C{LatLon}).
 
-           @arg strll: Lat, lon [, height] (string).
-           @kwarg height: Optional, default height (C{meter} or C{None}).
-           @kwarg datum: Optional, default datum (L{Datum}).
-           @kwarg sep: Optional separator (string).
-
-           @return: The point (L{LatLonEllipsoidalBase}).
-
-           @raise ParseError: Invalid B{C{strll}}.
+           @raise ParseError: Invalid B{C{strllh}}.
         '''
         from pygeodesy.dms import parse3llh
-        a, b, h = parse3llh(strll, height=height, sep=sep)
-        return self.classof(a, b, height=h, datum=datum or self.datum)
+        a, b, h = parse3llh(strllh, height=height, sep=sep)
+        r = self.classof(a, b, height=h, datum=self.datum)
+        if datum not in (None, self.datum):
+            r.datum = datum
+        return _xnamed(r, name or self.name, force=True)
 
     @property_doc_(''' this point's reference frame (L{RefFrame}).''')
     def reframe(self):

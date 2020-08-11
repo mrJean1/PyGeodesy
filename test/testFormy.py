@@ -4,7 +4,7 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '20.07.29'
+__version__ = '20.08.11'
 
 from base import TestsBase
 
@@ -13,8 +13,8 @@ from pygeodesy import R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineLaw, equirectangular, Datums, euclidean, \
                       flatLocal, flatPolar, formy, haversine, heightOf, \
                       horizon, hubeny, IntersectionError, intersections2, \
-                      isantipode, isantipode_, latlonDMS, map1, parseDMS, \
-                      thomas, vincentys
+                      isantipode, isantipode_, latlonDMS, LimitError, \
+                      limiterrors, map1, parseDMS, radical2, thomas, vincentys
 
 from math import radians
 
@@ -97,16 +97,17 @@ class Tests(TestsBase):
         self.test('horizon30Kft', horizon(10000, refraction=True), '392310.704', fmt='%.3f')
         self.test('horizon10Kft', horizon( 3000, refraction=True), '214877.422', fmt='%.3f')
 
-        Auckland   = -36.8485, 174.7633
-        Boston     = 42.3541165, -71.0693514
-        Cleveland  = 41.499498, -81.695391
-        LosAngeles = 34.0522, -118.2437
-        MtDiablo   = 37.8816, -121.9142
-        Newport    = 41.49008, -71.312796
-        NewYork    = 40.7791472, -73.9680804
-        Santiago   = -33.4489, -70.6693
-        X          = 25.2522, 55.28
-        Y          = 14.6042, 120.982
+        #              lat          lon
+        Auckland   = -36.8485,    174.7633
+        Boston     =  42.3541165, -71.0693514
+        Cleveland  =  41.499498,  -81.695391
+        LosAngeles =  34.0522,   -118.2437
+        MtDiablo   =  37.8816,   -121.9142
+        Newport    =  41.49008,   -71.312796
+        NewYork    =  40.7791472, -73.9680804
+        Santiago   = -33.4489,    -70.6693
+        X          =  25.2522,     55.28
+        Y          =  14.6042,    120.982
         # <https://GeographicLib.SourceForge.io/cgi-bin/GeodSolve>, <https://www.Distance.to>
         for i,  (ll1,        ll2,        expected) in enumerate((
                 (Boston,     NewYork,      298009.404),    # ..328,722.580        370 km
@@ -127,6 +128,24 @@ class Tests(TestsBase):
         self.test(intersections2.__name__, intersections2.__module__, formy.__name__, nl=1)
         for datum in (None, R_M, Datums.WGS84):
             self.testIntersections2(datum)
+
+        n = radical2.__name__
+        self.test(n, radical2(10, 4, 8), '(0.26, 2.6)', nl=1)
+        self.test(n, radical2(10, 8, 4), '(0.74, 7.4)')
+        self.test(n, radical2(10, 5, 5), '(0.5, 5.0)')
+
+        try:  # coverage
+            self.test(n, radical2(10, 5, 4), IntersectionError.__name__, nt=1)
+        except Exception as x:
+            self.test(IntersectionError.__name__, str(x), 'distance (10.0), ...', known=True, nt=1)
+
+        n = LimitError.__name__
+        t = limiterrors(True)
+        try:  # coverage
+            self.test(n, equirectangular(0, 0, 60, 120), n)
+        except Exception as x:
+            self.test(n, str(x), 'delta exceeds ...', known=True)
+        limiterrors(t)
 
     def testIntersections2(self, datum):
         # centers at 2 opposite corners of a "square" and

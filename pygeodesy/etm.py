@@ -88,7 +88,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.08.06'
+__version__ = '20.08.12'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -180,14 +180,27 @@ class Etm(Utm):
         self._exactTM = exactTM
         self._scale0  = exactTM.k0
 
-    def parseETM(self, strETM):
-        '''Parse a string to a ETM coordinate.
+    def parse(self, strETM, name=NN):
+        '''Parse a string to a similar L{Etm} instance.
 
-           @return: The coordinate (L{Etm}).
+           @arg strETM: The ETM coordinate (C{str}),
+                        see function L{parseETM5}.
+           @kwarg name: Optional instance name (C{str}),
+                        overriding this name.
 
-           @see: Function L{parseETM5} in this module L{etm}.
+           @return: The instance (L{Etm}).
+
+           @raise ETMError: Invalid B{C{strETM}}.
+
+           @see: Function L{parseUPS5}, L{parseUTM5} and L{parseUTMUPS5}.
         '''
-        return parseETM5(strETM, datum=self.datum, Etm=self.classof)
+        return parseETM5(strETM, datum=self.datum, Etm=self.classof,
+                                 name=name or self.name)
+
+    def parseETM(self, strETM):
+        '''DEPRECATED, use method L{Etm.parse}.
+        '''
+        return self.parse(strETM)
 
     def toLatLon(self, LatLon=None, unfalse=True, **unused):  # PYCHOK expected
         '''Convert this ETM coordinate to an (ellipsoidal) geodetic point.
@@ -244,7 +257,7 @@ class Etm(Utm):
         self._latlon, self._latlon_args = ll, (xTM, unfalse)
 
     def toUtm(self):  # PYCHOK signature
-        '''Coopy this ETM to a UTM coordinate.
+        '''Copy this ETM to a UTM coordinate.
 
            @return: The UTM coordinate (L{Utm}).
         '''
@@ -951,7 +964,7 @@ def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=NN):
        >>> u.toStr()  # 31 N 448252 5411933
     '''
     r = _parseUTM5(strUTM, datum, Etm, falsed, Error=ETMError)
-    return _xnamed(r, name)
+    return _xnamed(r, name, force=True)
 
 
 def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
