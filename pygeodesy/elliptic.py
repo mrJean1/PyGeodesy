@@ -55,8 +55,9 @@ period I{C{pi}}.
 
 The computation of the elliptic integrals uses the algorithms given
 in U{B. C. Carlson, Computation of real or complex elliptic integrals
-<https://DOI.org/10.1007/BF02198293>}, Numerical Algorithms 10, 13--26
-(1995) with the additional optimizations given U{here
+<https://DOI.org/10.1007/BF02198293>} (also available U{here
+<https://ArXiv.org/pdf/math/9409227.pdf>}), Numerical Algorithms 10,
+13--26 (1995) with the additional optimizations given U{here
 <https://DLMF.NIST.gov/19.36.i>}.
 
 The computation of the Jacobi elliptic functions uses the algorithm
@@ -90,7 +91,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.08.05'
+__version__ = '20.08.15'
 
 _TolJAC = sqrt(EPS * 0.01)
 _TolRD  =  pow(EPS * 0.002, 0.125)
@@ -729,7 +730,7 @@ def _convergenceError(where, *args):  # PYCHOK no cover
     return EllipticError(_no_convergence_, txt='%s%r' % (where.__name__, args))  # unstr
 
 
-def _Horner(e0, e1, e2, e3, e4, e5):
+def _horner(e0, e1, e2, e3, e4, e5):
     '''(INTERNAL) Horner form for C{_RD} and C{_RJ} below.
     '''
     # Polynomial is <https://DLMF.NIST.gov/19.36.E2>
@@ -792,7 +793,8 @@ def _RD(x, y, z):  # used by testElliptic.py
 
        @return: C{_RD(x, y, z) = _RJ(x, y, z, z)}.
 
-       @see: U{C{_RD} definition<https://DLMF.NIST.gov/19.16.E5>}.
+       @see: U{C{_RD} definition<https://DLMF.NIST.gov/19.16.E5>} and
+             U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
     '''
     # Carlson, eqs 2.28 - 2.34
     m = 1.0
@@ -816,7 +818,7 @@ def _RD(x, y, z):  # used by testElliptic.py
     z = (x + y) / 3.0
     z2 = z**2
     xy = x * y
-    return _Horner(3 * S.fsum(), m * sqrt(T[0]),
+    return _horner(3 * S.fsum(), m * sqrt(T[0]),
                    xy - 6 * z2,
                   (xy * 3 - 8 * z2) * z,
                   (xy - z2) * 3 * z2,
@@ -847,7 +849,8 @@ def _RF(x, y, z):  # used by testElliptic.py
 
        @return: C{_RF(x, y, z)}.
 
-       @see: U{C{_RF} definition<https://DLMF.NIST.gov/19.16.E1>}.
+       @see: U{C{_RF} definition<https://DLMF.NIST.gov/19.16.E1>} and
+             U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
     '''
     # Carlson, eqs 2.2 - 2.7
     m = 1.0
@@ -883,8 +886,8 @@ def _RG_(x, y):
 
        @return: C{_RG(x, y)}.
 
-       @see: U{C{_RG} definition<https://DLMF.NIST.gov/19.16.E3>}
-             and in Carlson, eq. 1.5.
+       @see: U{C{_RG} definition<https://DLMF.NIST.gov/19.16.E3>} and
+             U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
     '''
     # Carlson, eqs 2.36 - 2.39
     a, b = sqrt(x), sqrt(y)
@@ -907,8 +910,8 @@ def _RG(x, y, z):  # used by testElliptic.py
 
        @return: C{_RG(x, y, z)}.
 
-       @see: U{C{_RG} definition<https://DLMF.NIST.gov/19.16.E3>}
-             and in Carlson, eq. 1.5.
+       @see: U{C{_RG} definition<https://DLMF.NIST.gov/19.16.E3>} and
+             U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
     '''
     if not z:
         y, z = z, y
@@ -929,7 +932,8 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
 
        @return: C{_RJ(x, y, z, p)}.
 
-       @see: U{C{_RJ} definition<https://DLMF.NIST.gov/19.16.E2>}.
+       @see: U{C{_RJ} definition<https://DLMF.NIST.gov/19.16.E2>} and
+             U{Carlson<https://ArXiv.org/pdf/math/9409227.pdf>}.
     '''
     def _xyzp(x, y, z, p):
         return (x + p) * (y + p) * (z + p)
@@ -962,7 +966,7 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
     p2 = p**2
 
     e2 = fsum_(x * y, x * z, y * z, -3 * p2)
-    return _Horner(6 * S.fsum(), m * sqrt(T[0]), e2,
+    return _horner(6 * S.fsum(), m * sqrt(T[0]), e2,
                    fsum_(xyz, 2 * p * e2, 4 * p * p2),
                    fsum_(xyz * 2, p * e2, 3 * p * p2) * p,
                    p2 * xyz)

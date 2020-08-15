@@ -76,16 +76,17 @@ Alternatively, download C{PyGeodesy-yy.m.d.zip} from U{PyPI
 <https://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded file,
 C{cd} to directory C{Pygeodesy-yy.m.d} and type C{python setup.py
 install}.  To run all PyGeodesy tests, type C{python setup.py test}
-before installation.
+before or after installation.
 
 Installation of U{geographiclib<https://PyPI.org/project/geographiclib>},
 U{NumPy<https://www.NumPy.org>} and U{SciPy<https://SciPy.org>} is optional.
-However, the former is required for classes L{CassiniSoldner} and L{Css} and
-function L{toCss}, for module L{ellipsoidalKarney} classes C{LatLon} and
-C{Cartesian} and functions C{areaOf} and C{perimeterOf} and for the
-L{HeightIDWkarney} interpolator.  The latter are needed for the C{Geoid...}
-and C{Height...} interpolator classes, except the L{GeoidKarney} and all
-C{HeightIDW...} classes.
+However, the former is required to use classes L{EquidistantKarney},
+L{GnomonicKarney}, L{CassiniSoldner} and L{Css} and function L{toCss}, for
+module L{ellipsoidalKarney} classes C{LatLon} and C{Cartesian} and functions
+C{areaOf}, c{intersections2} and C{perimeterOf} and for the
+L{HeightIDWkarney} interpolator.  Both the latter are needed for the
+C{Geoid...} and C{Height...} interpolator classes, except the L{GeoidKarney}
+and all C{HeightIDW...} classes.
 
 Documentation
 =============
@@ -104,7 +105,7 @@ The tests have been run with Python 3.8.5, 3.7.6 and 2.7.18 (all with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
 <https://PyPI.org/project/numpy>} 1.19.0, 1.17.2 respectively 1.16.5 and
 U{scipy<https://SciPy.org/scipylib/download.html>} 1.5.0, 1.3.1 respectively
-1.2.2) and with Python 3.9.0b5 and macOS' Python 2.7.16 (both without
+1.2.2) and with Python 3.9.0rc1 and macOS' Python 2.7.16 (both without
 geographiclib, numpy and scipy), all on macOS 10.15.6 Catalina and all in
 64-bit only.  The tests run with and without C{lazy import} for Python 3.
 The results of those tests are included in the distribution files.
@@ -163,7 +164,8 @@ on macOS 10.15.6 Catalina.
 Classes with a name ending in C{-Karney} and several more are transcribed from
 I{Karney}'s U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
 or require I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
-package to be installed.  A complete list is in module L{karney}.
+package to be installed.  A complete list is in module U{karney
+<https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
 
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
@@ -282,7 +284,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.08.12'
+__version__ = '20.08.15'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

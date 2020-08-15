@@ -41,7 +41,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.08.09'
+__version__ = '20.08.14'
 
 _EPS_I2    = 4.0 * EPS
 _PI_EPS_I2 = PI - _EPS_I2
@@ -452,7 +452,7 @@ class LatLon(LatLonSphericalBase):
 
            @arg rad1: Radius of the this circle (C{meter} or C{radians},
                       see B{C{radius}}).
-           @arg other: Center of the other circle (L{LatLon}).
+           @arg other: Center point of the other circle (L{LatLon}).
            @arg rad2: Radius of the other circle (C{meter} or C{radians},
                       see B{C{radius}}).
            @kwarg radius: Mean earth radius (C{meter} or C{None} if both
@@ -463,7 +463,7 @@ class LatLon(LatLonSphericalBase):
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: 2-Tuple of the intersection points, each a L{LatLon}
-                    instance.  For abutting circles, the intersection
+                    instance.  For abutting circles, both intersection
                     points are the same instance.
 
            @raise IntersectionError: Concentric, antipodal, invalid or
@@ -598,7 +598,7 @@ class LatLon(LatLonSphericalBase):
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def nearestOn(self, point1, point2, radius=R_M, **options):
-        '''Locate the point between two points closest and this point.
+        '''Locate the point between two points closest to this point.
 
            Distances are approximated by function L{equirectangular_},
            subject to the supplied B{C{options}}.

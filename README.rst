@@ -50,15 +50,16 @@ PyGeodesy`` in a terminal or command window.
 Alternatively, download ``PyGeodesy-yy.m.d.zip`` from PyPI_ or GitHub_,
 ``unzip`` the downloaded file, ``cd`` to directory ``PyGeodesy-yy.m.d``
 and type ``python setup.py install``.  To run all PyGeodesy tests, type
-``python setup.py test`` before installation.
+``python setup.py test`` before or after installation.
 
 Installation of `GeographicLib`_, `NumPy`_ and `SciPy`_ is optional.
-However, the former is required for classes *CassiniSoldner* and *Css*
-and function *toCss*, for module *ellipsoidalKarney* classes *LatLon* and
-*Cartesian* and functions *areaOf* and *perimeterOf* and for the
-*HeightIDWkarney* interpolator.  The latter are needed for the *Geoid...*
-and *Height...* interpolator classes, except the *GeoidKarney* and all
-*HeightIDW...* classes.
+However, the former is required to use classes *EquidistantKarney*,
+*GnomonicKarney*, *CassiniSoldner* and *Css* and function *toCss*, for
+module *ellipsoidalKarney* classes *LatLon* and *Cartesian* and
+functions *areaOf*, *intersections2* and *perimeterOf* and for the
+*HeightIDWkarney* interpolator.  Both the latter are needed for the
+*Geoid...* and *Height...* interpolator classes, except the
+*GeoidKarney* and all *HeightIDW...* classes.
 
 Documentation
 =============
@@ -74,7 +75,7 @@ Tests
 
 The tests have been run with Python 3.8.5, 3.7.6 and 2.7.18 (all with
 geographiclib_ 1.50, numpy_ 1.19.0, 1.17.2 respectively 1.16.5 and scipy_
-1.5.0, 1.3.1 respectively 1.2.2) and with Python 3.9.0b5 and macOS'
+1.5.0, 1.3.1 respectively 1.2.2) and with Python 3.9.0rc1 and macOS'
 Python 2.7.16 (both without geographiclib, numpy and scipy), all on macOS
 10.15.6 Catalina and all in 64-bit only.  The tests run with and without
 ``lazy import`` for Python 3.  The results of those tests are included in
@@ -120,12 +121,12 @@ Catalina.
 
 Classes with a name ending in ``-Karney`` and several more are transcribed
 from *Karney*'s `C++ classes`_ or require *Karney*'s geographiclib_ package
-to be installed.  A complete list is in module ``karney``.
+to be installed.  A complete list is in module karney_.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 12, 2020.*
+*Last updated: Aug 15, 2020.*
 
 License
 =======
@@ -192,6 +193,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _JavaScript originals: https://GitHub.com/ChrisVeness/geodesy
 .. _JavaScript source: https://GitHub.com/ChrisVeness/geodesy
 .. _John P. Snyder: https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf
+.. _karney: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html
 .. _Latitude/Longitude: https://www.Movable-Type.co.UK/scripts/latlong.html
 .. _McCabe: https://PyPI.org/project/mccabe
 .. _MGRS: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html

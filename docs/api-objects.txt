@@ -699,6 +699,7 @@ pygeodesy.ellipsoidalVincenty._p2	pygeodesy.ellipsoidalVincenty-module.html#_p2
 pygeodesy.ellipsoidalVincenty.ispolar	pygeodesy.ellipsoidalVincenty-module.html#ispolar
 pygeodesy.ellipsoidalVincenty._r3	pygeodesy.ellipsoidalVincenty-module.html#_r3
 pygeodesy.elliptic	pygeodesy.elliptic-module.html
+pygeodesy.elliptic._horner	pygeodesy.elliptic-module.html#_horner
 pygeodesy.elliptic._RJ_3	pygeodesy.elliptic-module.html#_RJ_3
 pygeodesy.elliptic._Q	pygeodesy.elliptic-module.html#_Q
 pygeodesy.elliptic._RD_3	pygeodesy.elliptic-module.html#_RD_3
@@ -720,7 +721,6 @@ pygeodesy.elliptic._TolRD	pygeodesy.elliptic-module.html#_TolRD
 pygeodesy.elliptic._TolRF	pygeodesy.elliptic-module.html#_TolRF
 pygeodesy.elliptic.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.elliptic._convergenceError	pygeodesy.elliptic-module.html#_convergenceError
-pygeodesy.elliptic._Horner	pygeodesy.elliptic-module.html#_Horner
 pygeodesy.elliptic._TRIPS	pygeodesy.elliptic-module.html#_TRIPS
 pygeodesy.elliptic._rsT	pygeodesy.elliptic-module.html#_rsT
 pygeodesy.elliptic.map2	pygeodesy.basics-module.html#map2
