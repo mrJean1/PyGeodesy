@@ -1,10 +1,10 @@
 
 # -*- coding: utf-8 -*-
 
-# Test LCC functions and methods.
+# Test azimuthal projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '20.08.10'
+__version__ = '20.08.21'
 
 from base import geographiclib, TestsBase, RandomLatLon
 

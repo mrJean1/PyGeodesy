@@ -87,6 +87,22 @@
       <em class="summary">(INTERNAL) Format a <code>ValueError</code> without exception 
         chaining.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers.AlbersError-class.html">pygeodesy.albers.AlbersError</a></strong>:
+      <em class="summary">An <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+        class="link">AlbersEqualArea</a>, <a 
+        href="pygeodesy.albers.AlbersEqualArea2-class.html" 
+        class="link">AlbersEqualArea2</a>, <a 
+        href="pygeodesy.albers.AlbersEqualArea4-class.html" 
+        class="link">AlbersEqualArea4</a>, <a 
+        href="pygeodesy.albers.AlbersEqualAreaCylindrical-class.html" 
+        class="link">AlbersEqualAreaCylindrical</a>, <a 
+        href="pygeodesy.albers.AlbersEqualAreaNorth-class.html" 
+        class="link">AlbersEqualAreaNorth</a>, <a 
+        href="pygeodesy.albers.AlbersEqualAreaSouth-class.html" 
+        class="link">AlbersEqualAreaSouth</a> or <a 
+        href="pygeodesy.albers.Albers7Tuple-class.html" 
+        class="link">Albers7Tuple</a> issue.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.AzimuthalError-class.html">pygeodesy.azimuthal.AzimuthalError</a></strong>:
       <em class="summary">An azimuthal <a href="pygeodesy.azimuthal.Equidistant-class.html" 
         class="link">Equidistant</a>, <a 
@@ -97,9 +113,9 @@
         href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
         class="link">LambertEqualArea</a>, <a 
         href="pygeodesy.azimuthal.Orthographic-class.html" 
-        class="link">Orthographic</a> or <a 
+        class="link">Orthographic</a>, <a 
         href="pygeodesy.azimuthal.Stereographic-class.html" 
-        class="link">Stereographic</a> issue.</em>
+        class="link">Stereographic</a> or {Azimuthal7Tuple} issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css.CSSError-class.html">pygeodesy.css.CSSError</a></strong>:
       <em class="summary">Cassini-Soldner (CSS) conversion or other <a 
@@ -1035,6 +1051,44 @@
     <li> <strong class="uidlink"><a href="pygeodesy.webmercator.Wm-class.html">pygeodesy.webmercator.Wm</a></strong>:
       <em class="summary">Web Mercator (WM) coordinate.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers._AlbersBase-class.html">pygeodesy.albers._AlbersBase</a></strong>:
+      <em class="summary">(INTERNAL) Base class for <code>AlbersEqualArea...</code> 
+        projections.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers.AlbersEqualArea-class.html">pygeodesy.albers.AlbersEqualArea</a></strong>:
+      <em class="summary">An Albers-equal-area projection with a single standard parallel.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers.AlbersEqualArea2-class.html">pygeodesy.albers.AlbersEqualArea2</a></strong>:
+      <em class="summary">An Albers-equal-area projection with two standard parallels.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers.AlbersEqualArea4-class.html">pygeodesy.albers.AlbersEqualArea4</a></strong>:
+      <em class="summary">An Albers-equal-area projection specified by the <code>sin</code> 
+        and <code>cos</code> of both standard parallels.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers.AlbersEqualAreaCylindrical-class.html">pygeodesy.albers.AlbersEqualAreaCylindrical</a></strong>:
+      <em class="summary">An <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+        class="link">AlbersEqualArea</a> projection at <code>lat=0</code> 
+        and <code>k0=1</code> degenerating to the cylindrical-equal-area 
+        projection.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers.AlbersEqualAreaNorth-class.html">pygeodesy.albers.AlbersEqualAreaNorth</a></strong>:
+      <em class="summary">An <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+        class="link">AlbersEqualArea</a> projection at <code>lat=90</code> 
+        and <code>k0=1</code> degenerating to the <a 
+        href="pygeodesy.azimuthal-module.html" class="link">azimuthal</a> 
+        <a href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
+        class="link">LambertEqualArea</a> projection.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers.AlbersEqualAreaSouth-class.html">pygeodesy.albers.AlbersEqualAreaSouth</a></strong>:
+      <em class="summary">An <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+        class="link">AlbersEqualArea</a> projection at <code>lat=-90</code>
+        and <code>k0=1</code> degenerating to the <a 
+        href="pygeodesy.azimuthal-module.html" class="link">azimuthal</a> 
+        <a href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
+        class="link">LambertEqualArea</a> projection.</em>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal._AzimuthalBase-class.html">pygeodesy.azimuthal._AzimuthalBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for azimuthal projections.</em>
     <ul>
@@ -1173,6 +1227,17 @@
       <em class="summary">(INTERNAL) Named <code>tuple</code> with index <i>and</i> attribute
         access to the items.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers.Albers7Tuple-class.html">pygeodesy.albers.Albers7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(x, y, lat, lon, gamma, scale, datum)</code>, in 
+        <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
+        <code>degrees180</code>, <code>degrees360</code>, 
+        <code>float</code> and <code>Datum</code> where <code>(x, y)</code>
+        is the projected, <code>(lat, lon)</code> the geodetic location, 
+        <code>gamma</code> the meridian convergence at point, the bearing 
+        of the y-axis measured clockwise from true North and 
+        <code>scale</code> is the azimuthal scale of the projection at 
+        point.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html">pygeodesy.azimuthal.Azimuthal7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(x, y, lat, lon, azimuth, scale, datum)</code>, in 
         <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
@@ -1509,6 +1574,23 @@
       <em class="summary">Named <code>float</code> representing a bearing in compass 
         <code>degrees</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Degrees_-class.html">pygeodesy.units.Degrees_</a></strong>:
+      <em class="summary">Named <code>Degrees</code> representing a coordinate in 
+        <code>degrees</code> with optional limits <code>low</code> and 
+        <code>high</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Lat_-class.html">pygeodesy.units.Lat_</a></strong>:
+      <em class="summary">Named <code>float</code> representing a latitude in 
+        <code>degrees</code> within limits <code>low</code> and 
+        <code>high</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Lon_-class.html">pygeodesy.units.Lon_</a></strong>:
+      <em class="summary">Named <code>float</code> representing a longitude in 
+        <code>degrees</code> within limits <code>low</code> and 
+        <code>high</code>.</em>
+    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Lat-class.html">pygeodesy.units.Lat</a></strong>:
       <em class="summary">Named <code>float</code> representing a latitude in 
         <code>degrees</code>.</em>
@@ -1614,8 +1696,7 @@
         <code>high</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Number_-class.html">pygeodesy.units.Number_</a></strong>:
-      <em class="summary">Named <code>int</code> with optional limits <code>low</code> and 
-        <code>high</code> representing a non-negtive number.</em>
+      <em class="summary">Named <code>int</code> representing a non-negtive number.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Precision_-class.html">pygeodesy.units.Precision_</a></strong>:
       <em class="summary">Named <code>int</code> with optional <code>low</code> and 
@@ -1721,6 +1802,23 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.units.Bearing-class.html">pygeodesy.units.Bearing</a></strong>:
       <em class="summary">Named <code>float</code> representing a bearing in compass 
         <code>degrees</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Degrees_-class.html">pygeodesy.units.Degrees_</a></strong>:
+      <em class="summary">Named <code>Degrees</code> representing a coordinate in 
+        <code>degrees</code> with optional limits <code>low</code> and 
+        <code>high</code>.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Lat_-class.html">pygeodesy.units.Lat_</a></strong>:
+      <em class="summary">Named <code>float</code> representing a latitude in 
+        <code>degrees</code> within limits <code>low</code> and 
+        <code>high</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Lon_-class.html">pygeodesy.units.Lon_</a></strong>:
+      <em class="summary">Named <code>float</code> representing a longitude in 
+        <code>degrees</code> within limits <code>low</code> and 
+        <code>high</code>.</em>
+    </li>
+    </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Lat-class.html">pygeodesy.units.Lat</a></strong>:
       <em class="summary">Named <code>float</code> representing a latitude in 
@@ -1832,8 +1930,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>high</code>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Number_-class.html">pygeodesy.units.Number_</a></strong>:
-      <em class="summary">Named <code>int</code> with optional limits <code>low</code> and 
-        <code>high</code> representing a non-negtive number.</em>
+      <em class="summary">Named <code>int</code> representing a non-negtive number.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Precision_-class.html">pygeodesy.units.Precision_</a></strong>:
       <em class="summary">Named <code>int</code> with optional <code>low</code> and 
@@ -1863,6 +1960,17 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">(INTERNAL) Named <code>tuple</code> with index <i>and</i> attribute
         access to the items.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers.Albers7Tuple-class.html">pygeodesy.albers.Albers7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(x, y, lat, lon, gamma, scale, datum)</code>, in 
+        <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
+        <code>degrees180</code>, <code>degrees360</code>, 
+        <code>float</code> and <code>Datum</code> where <code>(x, y)</code>
+        is the projected, <code>(lat, lon)</code> the geodetic location, 
+        <code>gamma</code> the meridian convergence at point, the bearing 
+        of the y-axis measured clockwise from true North and 
+        <code>scale</code> is the azimuthal scale of the projection at 
+        point.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html">pygeodesy.azimuthal.Azimuthal7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(x, y, lat, lon, azimuth, scale, datum)</code>, in 
         <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
@@ -2230,7 +2338,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 15 16:20:21 2020
+    Generated by Epydoc 3.0.1 on Sat Aug 22 17:47:46 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

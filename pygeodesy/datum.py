@@ -150,7 +150,7 @@ R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius
 # R_ = Radius(6372797.560856,  name='R_')   #: XXX some other earth radius???
 
 __all__ = _ALL_LAZY.datum
-__version__ = '20.08.10'
+__version__ = '20.08.22'
 
 _Flts = {}               # floats cache, deleted below
 _TOL  = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups
@@ -1383,11 +1383,11 @@ class Datum(_NamedEnumItem):
         return self._transform
 
 
-def _spherical_datum(radius, name=NN):
+def _spherical_datum(radius, name=NN, **Error):
     '''(INTERNAL) Create a spherical ellipsoid and datum.
     '''
     n = _UNDERSCORE_ + name
-    r = Radius_(radius)
+    r = Radius_(radius, **Error)
     E = Ellipsoid(r, r, 0, name=n)
     return Datum(E, Transforms.WGS84, name=n)
 

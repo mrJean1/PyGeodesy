@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.08.15'
+__version__ = '20.08.22'
 
 
 def _c2(*names):
@@ -46,9 +46,9 @@ def _version():
                 return '.'.join(map(str, map(int, v.split('.'))))
 
 
-_KeyWords = ('altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'azimuthal', 'bearing',
+_KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'azimuthal', 'bearing',
              'cartesian', 'Cassini', 'Cassini-Soldner', 'circle-intersections', 'clip', 'Cohen',
-             'Cohen-Sutherland', 'conic', 'cosines-law', 'coverage', 'curvature',
+             'Cohen-Sutherland', 'conic', 'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'ECEF', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
              'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF', 'Euclidean', 'ExactTM',

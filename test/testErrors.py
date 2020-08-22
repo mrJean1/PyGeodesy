@@ -4,9 +4,9 @@
 # Test some of the errors.
 
 __all__ = ('Tests',)
-__version__ = '20.05.15'
+__version__ = '20.08.22'
 
-from base import isPython3, isPython37, TestsBase
+from base import isPython3, TestsBase
 
 from pygeodesy import crosserrors, exception_chaining, LenError, \
                       LimitError, limiterrors, \
@@ -35,11 +35,11 @@ class Tests(TestsBase):
         self.test(InvalidError.__name__, e, 'zero (1): invalid')
         self.test(InvalidError.__name__, repr(e).replace(',)', ')'), "ValueError('zero (1): invalid')")
         e = InvalidError(zero=1, one=2, txt='outside')
-        self.test(InvalidError.__name__, e, 'zero (1) or one (2): outside', known=not isPython37)
-        self.test(InvalidError.__name__, repr(e).replace(',)', ')'), "ValueError('zero (1) or one (2): outside')", known=not isPython37)
+        self.test(InvalidError.__name__, e, 'one (2) or zero (1): outside')
+        self.test(InvalidError.__name__, repr(e).replace(',)', ')'), "ValueError('one (2) or zero (1): outside')")
         e = InvalidError(zero=1, Error=RangeError, one=2, txt='outside')
-        self.test(InvalidError.__name__, e, 'zero (1) or one (2): outside', known=not isPython37)
-        self.test(InvalidError.__name__, repr(e).replace(',)', ')'), "RangeError('zero (1) or one (2): outside')", known=not isPython37)
+        self.test(InvalidError.__name__, e, 'one (2) or zero (1): outside')
+        self.test(InvalidError.__name__, repr(e).replace(',)', ')'), "RangeError('one (2) or zero (1): outside')")
         e = InvalidError(two=2, Error=ValueError)  # coverage
 
         e = IsnotError(int.__name__, float.__name__, _None=None)

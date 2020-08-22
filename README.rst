@@ -9,8 +9,8 @@ elliptic and approximate methods for geodetic (lat-/longitude) and
 geocentric (ECEF_ cartesian) coordinates.
 
 Transcribed from `JavaScript originals`_ by *Chris Veness (C) 2005-2016*
-and several `C++ classes`_ by *Charles Karney (C) 2008-2019* and published
-under the same `MIT License`_.
+and several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2019* and
+published under the same `MIT License`_.
 
 There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
 *-Vincenty* and *-Nvector* and two for spherical ones, *sphericalTrigonometry*
@@ -20,7 +20,7 @@ final bearing, intermediate and nearest points, intersections of circles and
 paths,area, perimeter, conversions and unrolling, among other things.  For
 more information and further details see the documentation_, the descriptions
 of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the original
-`JavaScript source`_ or docs_ and the Python `GeographicLib`_.
+`JavaScript source`_ or docs_ and the Python `geographiclib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
 ECEF_ (Earth-Centered, Earth-Fixed cartesian), UPS_ (Universal Polar
@@ -30,12 +30,12 @@ Reference System) and OSGR_ (British Ordinance Survery Grid Reference) grid
 references, TRF_ (Terrestrial Reference Frames) and modules to encode and
 decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
-Other modules provide azimuthal projections and Lambert conformal conic
-projections and positions (from `John P. Snyder`_, *Map Projections -- A
-Working Manual*, 1987), functions to clip a path or polygon of *LatLon*
-points using the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_ methods,
-functions to simplify_ or linearize a path of *LatLon* points (or a
-`NumPy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
+Other modules provide Albers equal-area, azimuthal projections and Lambert
+conformal conic projections and positions (from `John P. Snyder`_, *Map
+Projections -- A Working Manual*, 1987), functions to clip a path or polygon
+of *LatLon* points using the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_
+methods, functions to simplify_ or linearize a path of *LatLon* points (or a
+`numpy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
 the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
 versions of the former.  Other classes interpolate_ the height of *LatLon*
 points and several *Geoid* models or compute various `Fréchet`_ or Hausdorff_
@@ -52,7 +52,7 @@ Alternatively, download ``PyGeodesy-yy.m.d.zip`` from PyPI_ or GitHub_,
 and type ``python setup.py install``.  To run all PyGeodesy tests, type
 ``python setup.py test`` before or after installation.
 
-Installation of `GeographicLib`_, `NumPy`_ and `SciPy`_ is optional.
+Installation of `geographiclib`_, `numpy`_ and `scipy`_ is optional.
 However, the former is required to use classes *EquidistantKarney*,
 *GnomonicKarney*, *CassiniSoldner* and *Css* and function *toCss*, for
 module *ellipsoidalKarney* classes *LatLon* and *Cartesian* and
@@ -126,7 +126,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 15, 2020.*
+*Last updated: Aug 22, 2020.*
 
 License
 =======
@@ -199,7 +199,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _MGRS: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
 .. _MIT License: https://OpenSource.org/licenses/MIT
 .. _numpy: https://PyPI.org/project/numpy
-.. _NumPy array: https://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html
+.. _numpy array: https://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html
 .. _OSGR: https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html
 .. _PyChecker: https://PyPI.org/project/pychecker
 .. _PyCodeStyle: https://PyPI.org/project/pycodestyle
@@ -211,7 +211,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Pythonista: https://OMZ-Software.com/pythonista
 .. _Ramer-Douglas-Peucker: https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm
 .. _Reumann-Witkam: https://psimpl.SourceForge.net/reumann-witkam.html
-.. _SciPy: https://SciPy.org
+.. _scipy: https://PyPI.org/project/scipy
 .. _simplify: https://Bost.Ocks.org/mike/simplify
 .. _Sutherland-Hodgman: https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm
 .. _TRF: http://ITRF.ENSG.IGN.FR

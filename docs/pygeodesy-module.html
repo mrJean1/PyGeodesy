@@ -67,9 +67,10 @@
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
   2005-2016</i> and several <a 
   href="https://GeographicLib.SourceForge.io/html/annotated.html" 
-  target="_top">C++ classes</a> by <i>Charles Karney (C) 2008-2019</i> and 
-  published under the same <a href="https://OpenSource.org/licenses/MIT" 
-  target="_top">MIT License</a>**.</p>
+  target="_top">C++ classes</a> by <i>Charles F.F. Karney (C) 2008-2019</i>
+  and published under the same <a 
+  href="https://OpenSource.org/licenses/MIT" target="_top">MIT 
+  License</a>**.</p>
   <p>There are three modules for ellipsoidal earth models, 
   <code>ellipsoidalKarney</code>, <code>-Vincenty</code> and 
   <code>-Nvector</code> and two for spherical ones, 
@@ -119,8 +120,8 @@
   target="_top">Georefs (WGRS)</a> and <a 
   href="https://WikiPedia.org/wiki/Global_Area_Reference_System" 
   target="_top">Garefs (GARS)</a>.</p>
-  <p>Other modules provide azimuthal projections and Lambert conformal 
-  conic projections and positions (from <a 
+  <p>Other modules provide Albers equal-area, azimuthal projections and 
+  Lambert conformal conic projections and positions (from <a 
   href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" target="_top">John P.
   Snyder, &quot;Map Projections -- A Working Manual&quot;, 1987</a>), 
   functions to clip a path or polygon of <code>LatLon</code> points using 
@@ -158,10 +159,11 @@
     install</code>.  To run all PyGeodesy tests, type <code>python setup.py
     test</code> before or after installation.</p>
     <p>Installation of <a href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a>, <a href="https://www.NumPy.org" 
-    target="_top">NumPy</a> and <a href="https://SciPy.org" 
-    target="_top">SciPy</a> is optional. However, the former is required to
-    use classes <a href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+    target="_top">geographiclib</a>, <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> and <a 
+    href="https://PyPI.org/project/scipy" target="_top">scipy</a> is 
+    optional.  However, the former is required to use classes <a 
+    href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
     class="link">EquidistantKarney</a>, <a 
     href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
     class="link">GnomonicKarney</a>, <a 
@@ -300,7 +302,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.08.15
+        20.08.22
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -314,6 +316,23 @@
   <ul class="nomargin">
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.__main__-module.html">pygeodesy.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy-module.html" class="link">pygeodesy</a> 
         version, etc.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.albers-module.html">pygeodesy.albers</a></strong>: <em class="summary">Classes <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+        class="link">AlbersEqualArea</a>, <a 
+        href="pygeodesy.albers.AlbersEqualArea2-class.html" 
+        class="link">AlbersEqualArea2</a>, <a 
+        href="pygeodesy.albers.AlbersEqualArea4-class.html" 
+        class="link">AlbersEqualArea4</a>, <a 
+        href="pygeodesy.albers.AlbersEqualAreaCylindrical-class.html" 
+        class="link">AlbersEqualAreaCylindrical</a>, <a 
+        href="pygeodesy.albers.AlbersEqualAreaNorth-class.html" 
+        class="link">AlbersEqualAreaNorth</a>, <a 
+        href="pygeodesy.albers.AlbersEqualAreaSouth-class.html" 
+        class="link">AlbersEqualAreaSouth</a> and <a 
+        href="pygeodesy.albers.AlbersError-class.html" 
+        class="link">AlbersError</a>, a transcription of <i>Charles 
+        Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html"
+        target="_top">AlbersEqualArea</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.azimuthal-module.html">pygeodesy.azimuthal</a></strong>: <em class="summary">Azimuthal projection classes <a 
         href="pygeodesy.azimuthal.Equidistant-class.html" 
         class="link">Equidistant</a>, <a 
@@ -459,7 +478,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.etm-module.html">pygeodesy.etm</a></strong>: <em class="summary">Classes <a href="pygeodesy.etm.ETMError-class.html" 
         class="link">ETMError</a> and <a 
         href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>, a pure 
-        Python implementation of <i>Charles Karney</i>'s C++ class <a 
+        Python transcription of <i>Charles Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html"
         target="_top">TransverseMercatorExact</a>, abbreviated as 
         <code>TMExact</code> below.</em>    </li>
@@ -856,6 +875,89 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.albers.AlbersEqualArea-class.html" class="summary-name">AlbersEqualArea</a><br />
+      An Albers-equal-area projection with a single standard parallel.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.albers.AlbersEqualArea2-class.html" class="summary-name">AlbersEqualArea2</a><br />
+      An Albers-equal-area projection with two standard parallels.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.albers.AlbersEqualArea4-class.html" class="summary-name">AlbersEqualArea4</a><br />
+      An Albers-equal-area projection specified by the <code>sin</code> 
+        and <code>cos</code> of both standard parallels.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.albers.AlbersEqualAreaCylindrical-class.html" class="summary-name">AlbersEqualAreaCylindrical</a><br />
+      An <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+        class="link">AlbersEqualArea</a> projection at <code>lat=0</code> 
+        and <code>k0=1</code> degenerating to the cylindrical-equal-area 
+        projection.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.albers.AlbersEqualAreaNorth-class.html" class="summary-name">AlbersEqualAreaNorth</a><br />
+      An <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+        class="link">AlbersEqualArea</a> projection at <code>lat=90</code> 
+        and <code>k0=1</code> degenerating to the <a 
+        href="pygeodesy.azimuthal-module.html" class="link">azimuthal</a> 
+        <a href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
+        class="link">LambertEqualArea</a> projection.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.albers.AlbersEqualAreaSouth-class.html" class="summary-name">AlbersEqualAreaSouth</a><br />
+      An <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+        class="link">AlbersEqualArea</a> projection at <code>lat=-90</code>
+        and <code>k0=1</code> degenerating to the <a 
+        href="pygeodesy.azimuthal-module.html" class="link">azimuthal</a> 
+        <a href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
+        class="link">LambertEqualArea</a> projection.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.albers.AlbersError-class.html" class="summary-name">AlbersError</a><br />
+      An <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+        class="link">AlbersEqualArea</a>, <a 
+        href="pygeodesy.albers.AlbersEqualArea2-class.html" 
+        class="link">AlbersEqualArea2</a>, <a 
+        href="pygeodesy.albers.AlbersEqualArea4-class.html" 
+        class="link">AlbersEqualArea4</a>, <a 
+        href="pygeodesy.albers.AlbersEqualAreaCylindrical-class.html" 
+        class="link">AlbersEqualAreaCylindrical</a>, <a 
+        href="pygeodesy.albers.AlbersEqualAreaNorth-class.html" 
+        class="link">AlbersEqualAreaNorth</a>, <a 
+        href="pygeodesy.albers.AlbersEqualAreaSouth-class.html" 
+        class="link">AlbersEqualAreaSouth</a> or <a 
+        href="pygeodesy.albers.Albers7Tuple-class.html" 
+        class="link">Albers7Tuple</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.azimuthal.AzimuthalError-class.html" class="summary-name">AzimuthalError</a><br />
       An azimuthal <a href="pygeodesy.azimuthal.Equidistant-class.html" 
         class="link">Equidistant</a>, <a 
@@ -866,9 +968,9 @@
         href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
         class="link">LambertEqualArea</a>, <a 
         href="pygeodesy.azimuthal.Orthographic-class.html" 
-        class="link">Orthographic</a> or <a 
+        class="link">Orthographic</a>, <a 
         href="pygeodesy.azimuthal.Stereographic-class.html" 
-        class="link">Stereographic</a> issue.
+        class="link">Stereographic</a> or {Azimuthal7Tuple} issue.
     </td>
   </tr>
 <tr>
@@ -966,6 +1068,16 @@
         <a href="pygeodesy.units.Degrees-class.html" class="summary-name">Degrees</a><br />
       Named <code>float</code> representing a coordinate in 
         <code>degrees</code>, optionally clipped.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Degrees_-class.html" class="summary-name">Degrees_</a><br />
+      Named <code>Degrees</code> representing a coordinate in 
+        <code>degrees</code> with optional limits <code>low</code> and 
+        <code>high</code>.
     </td>
   </tr>
 <tr>
@@ -2049,6 +2161,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.units.Lat_-class.html" class="summary-name">Lat_</a><br />
+      Named <code>float</code> representing a latitude in 
+        <code>degrees</code> within limits <code>low</code> and 
+        <code>high</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.lcc.Lcc-class.html" class="summary-name">Lcc</a><br />
       Lambert conformal conic East-/Northing location.
     </td>
@@ -2082,6 +2204,16 @@
         <a href="pygeodesy.units.Lon-class.html" class="summary-name">Lon</a><br />
       Named <code>float</code> representing a longitude in 
         <code>degrees</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Lon_-class.html" class="summary-name">Lon_</a><br />
+      Named <code>float</code> representing a longitude in 
+        <code>degrees</code> within limits <code>low</code> and 
+        <code>high</code>.
     </td>
   </tr>
 <tr>
@@ -2124,8 +2256,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.units.Number_-class.html" class="summary-name">Number_</a><br />
-      Named <code>int</code> with optional limits <code>low</code> and 
-        <code>high</code> representing a non-negtive number.
+      Named <code>int</code> representing a non-negtive number.
     </td>
   </tr>
 <tr>
@@ -4326,7 +4457,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fdddfe3fed0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd9fa549350&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -7085,7 +7216,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.15'"><code class="variable-quote">'</code><code class="variable-string">20.8.15</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.22'"><code class="variable-quote">'</code><code class="variable-string">20.8.22</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -9700,8 +9831,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           class="link">Equidistant</a> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Invalid <b><code>lat0</code></b> or <b><code>lon0</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat0</code></b>, <b><code>lon0</code></b> or 
+        <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b>, <b><code>lon0</code></b> or 
         <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
@@ -11099,8 +11229,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           class="link">Gnomonic</a> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Invalid <b><code>lat0</code></b> or <b><code>lon0</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat0</code></b>, <b><code>lon0</code></b> or 
+        <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b>, <b><code>lon0</code></b> or 
         <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
@@ -11149,7 +11278,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fdddfe3fed0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd9fa549350&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16794,7 +16923,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 15 16:20:22 2020
+    Generated by Epydoc 3.0.1 on Sat Aug 22 17:47:48 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

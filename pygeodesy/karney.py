@@ -10,6 +10,11 @@ Following are U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes
 and functions transcribed from I{Karney}'s original U{GeographicLib
 <https://GeographicLib.SourceForge.io/html/annotated.html>} in C++:
 
+  - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
+    L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth}, L{AlbersEqualAreaSouth} --
+    U{AlbersEqualArea<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1AlbersEqualArea.html>}
+
   - L{CassiniSoldner} -- U{CassiniSoldner<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1CassiniSoldner.html>}
 
@@ -52,7 +57,7 @@ The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes and
 module are wrappers around some of I{Karney}'s Python U{geographiclib
 <https://PyPI.org/project/geographiclib>}:
 
-  - L{ellipsoidalKarney}, L{FrechetKarney}, L{HeightIDWkarney}, L{karney}
+  - L{EquidistantKarney}, L{GnomonicKarney}, L{ellipsoidalKarney}, L{FrechetKarney}, L{HeightIDWkarney}, L{karney}
 '''
 
 from pygeodesy.basics import NAN, property_RO
@@ -64,7 +69,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.08.10'
+__version__ = '20.08.22'
 
 
 class _Adict(dict):

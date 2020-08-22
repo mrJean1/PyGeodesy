@@ -75,6 +75,9 @@ _ALL_INIT = 'pygeodesy_abspath', 'version'
 
 # __all__ value for most modules, accessible as _ALL_LAZY.<module>
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
+                         albers=('AlbersEqualArea', 'AlbersEqualArea2', 'AlbersEqualArea4',
+                                 'AlbersEqualAreaCylindrical', 'AlbersEqualAreaNorth', 'AlbersEqualAreaSouth',
+                                 'AlbersError'),
                       azimuthal=('AzimuthalError', 'Equidistant', 'EquidistantKarney', 'Gnomonic', 'GnomonicKarney',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
@@ -167,9 +170,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
                         streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=('RefFrame', 'RefFrames', 'TRFError', 'date2epoch', 'epoch2date'),
-                          units=('Band', 'Bearing', 'Bearing_', 'Degrees', 'Distance', 'Distance_', 'Easting',
+                          units=('Band', 'Bearing', 'Bearing_', 'Degrees', 'Degrees_', 'Distance', 'Distance_', 'Easting',
                                  'Feet', 'Float', 'Float_', 'Height', 'Int', 'Int_',
-                                 'Lam', 'Lam_', 'Lat', 'Lon', 'Meter', 'Northing', 'Number_',
+                                 'Lam', 'Lam_', 'Lat', 'Lat_', 'Lon', 'Lon_', 'Meter', 'Northing', 'Number_',
                                  'Phi', 'Phi_', 'Precision_', 'Radians',
                                  'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'UnitError', 'Zone'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
@@ -204,7 +207,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.08.09'
+__version__ = '20.08.22'
 
 
 def _ALL_OTHER(*objs):
@@ -302,7 +305,7 @@ def _lazy_import2(_package_):  # MCCABE 15
        @see: The original U{modutil<https://PyPi.org/project/modutil>} and
              U{PEP 562<https://www.Python.org/dev/peps/pep-0562>}.
     '''
-    if _sys.version_info[:2] < (3, 7):  # not supported
+    if _sys.version_info[:2] < (3, 7):  # not supported before 3.7
         t = 'no ' + _dot_(_package_, _lazy_import2.__name__)
         raise LazyImportError(t, txt='Python ' + _sys.version.split()[0])
 

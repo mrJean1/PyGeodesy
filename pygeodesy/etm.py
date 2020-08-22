@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{ETMError} and L{Etm}, a pure Python implementation of
+u'''Classes L{ETMError} and L{Etm}, a pure Python transcription of
 I{Charles Karney}'s C++ class U{TransverseMercatorExact
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>},
 abbreviated as C{TMExact} below.
@@ -88,7 +88,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.08.12'
+__version__ = '20.08.17'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS

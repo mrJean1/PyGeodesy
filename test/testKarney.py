@@ -5,11 +5,12 @@ u'''Test Karney wrappers.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.08.08'
+__version__ = '20.08.21'
 
 from base import geographiclib, TestsBase
 
-from pygeodesy import karney, NEG0, unroll180, wrap180
+from pygeodesy import ellipsoidalKarney, LatLon_, karney, \
+                      NEG0, unroll180, wrap180
 
 # some tests from <https://PyPI.org/project/geographiclib>
 _testCases = ((35.60777, -139.44815, 111.098748429560326,
@@ -79,6 +80,30 @@ class Tests(TestsBase):
             self.testDelta('M12',  M12,  d.M12,  1e-15)
             self.testDelta('M21',  M21,  d.M21,  1e-15)
             self.testDelta('S12',  S12,  d.S12,  0.1)
+
+    def testGeodCalc(self):
+        self.subtitle(karney, 'GeodCalc')
+        # <https://GeographicLib.sourceforge.io/scripts/geod-calc.html#area>
+        p = [LatLon_(*t) for t in ((-63.1,  -58),
+                                   (-72.9,  -74),
+                                   (-71.9, -102),
+                                   (-74.9, -102),
+                                   (-74.3, -131),
+                                   (-77.5, -163),
+                                   (-77.4,  163),
+                                   (-71.7,  172),
+                                   (-65.9,  140),
+                                   (-65.7,  113),
+                                   (-66.6,   88),
+                                   (-66.9,   59),
+                                   (-69.8,   25),
+                                   (-70.0,   -4),
+                                   (-71.0,  -14),
+                                   (-77.3,  -33),
+                                   (-77.9,  -46),
+                                   (-74.7,  -61))]
+        self.test('area',      ellipsoidalKarney.areaOf(p), 13662703680020.125, fmt='%.0f')
+        self.test('perimeter', ellipsoidalKarney.perimeterOf(p, closed=True), 16831067.89279071, fmt='%.6f')
 
     def testMask(self):
         self.subtitle(karney, 'Mask')
@@ -151,6 +176,7 @@ if __name__ == '__main__':
         t.test('Geodesic', isinstance(g, karney._wrapped.Geodesic), True)
         t.testDirect(g)
         t.testInverse(g)
+        t.testGeodCalc()
         t.testMask()
     else:
         t.skip('no geographiclib', n=103)

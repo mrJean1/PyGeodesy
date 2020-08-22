@@ -23,11 +23,11 @@ from pygeodesy.named import EasNor2Tuple, EasNor3Tuple, \
                            _NamedBase, _NamedTuple, nameof, \
                            _xnamed  # PYCHOK indent
 from pygeodesy.streprs import fstr, strs
-from pygeodesy.units import Bearing, Easting, Height, Lat, Lon, \
+from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.08.06'
+__version__ = '20.08.22'
 
 _CassiniSoldner0 =  None  # default projection
 
@@ -68,6 +68,8 @@ class CassiniSoldner(_NamedBase):
            @arg lon0: Longitude of center point (C{degrees180}).
            @kwarg datum: Optional, the geodesic datum (L{Datum}).
            @kwarg name: Optional name (C{str}).
+
+           @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
 
            @raise ImportError: Package U{geographiclib<https://PyPI.org/
                                project/geographiclib>} missing.
@@ -127,10 +129,11 @@ class CassiniSoldner(_NamedBase):
 
            @see: Methods L{CassiniSoldner.forward4}, L{CassiniSoldner.reverse}
                  and L{CassiniSoldner.reverse4}.
+
+           @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
         '''
-        e, n = self.forward4(lat, lon)[:2]
-        r = EasNor2Tuple(Easting( e, Error=CSSError),
-                         Northing(n, Error=CSSError))
+        t = self.forward4(lat, lon)
+        r = EasNor2Tuple(t.easting, t.northing)
         return self._xnamed(r)
 
     def forward4(self, lat, lon):
@@ -145,10 +148,13 @@ class CassiniSoldner(_NamedBase):
 
            @see: Method L{CassiniSoldner.forward}, L{CassiniSoldner.reverse}
                  and L{CassiniSoldner.reverse4}.
+
+           @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
         '''
         g, M = self.datum.ellipsoid._geodesic_Math2
 
-        d = M.AngDiff(self.lon0, lon)[0]  # _2sum
+        lat = Lat_(lat, Error=CSSError)
+        d = M.AngDiff(self.lon0, Lon_(lon, Error=CSSError))[0]  # _2sum
         r = g.Inverse(lat, -abs(d), lat, abs(d))
         z1, a = r.azi1, (r.a12 * 0.5)
         z2, s = r.azi2, (r.s12 * 0.5)
@@ -202,11 +208,8 @@ class CassiniSoldner(_NamedBase):
     def latlon0(self, latlon0):
         '''Set the center lat- and longitude (L{LatLon2Tuple}, ellipsoidal C{LatLon} or L{LatLon4Tuple}).
 
-           @raise CSSError: Ellipsoidal mismatch of B{C{latlon0}} and this projection.
-
-           @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
-
-           @raise UnitError: Invalid B{C{lat0}} or B{C{lon0}}.
+           @raise CSSError: Invalid B{C{latlon0}} or ellipsoidal mismatch
+                            of B{C{latlon0}} and this projection.
         '''
         _xinstanceof(_LLEB, LatLon4Tuple, LatLon2Tuple, latlon0=latlon0)
         if hasattr(latlon0, _datum_):
@@ -225,14 +228,12 @@ class CassiniSoldner(_NamedBase):
            @arg lat0: Center point latitude (C{degrees90}).
            @arg lon0: Center point longitude (C{degrees180}).
 
-           @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
-
-           @raise UnitError: Invalid B{C{lat0}} or B{C{lon0}}.
+           @raise CSSError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
         g, M = self.datum.ellipsoid._geodesic_Math2
 
-        self._meridian = m = g.Line(Lat(lat0, name=_lat0_),
-                                    Lon(lon0, name=_lon0_), 0.0,
+        self._meridian = m = g.Line(Lat_(lat0, name=_lat0_, Error=CSSError),
+                                    Lon_(lon0, name=_lon0_, Error=CSSError), 0.0,
                                     g.STANDARD | g.DISTANCE_IN)
         self._latlon0 = LatLon2Tuple(m.lat1, m.lon1)
         s, c = M.sincosd(m.lat1)  # == self.lat0 == self.LatitudeOrigin()
@@ -512,8 +513,8 @@ class LatLonAziRk4Tuple(_NamedTuple):
     _Names_ = (_lat_, _lon_, _azimuth_, _reciprocal_)
 
     def __new__(cls, lat, lon, azi, rk):
-        return _NamedTuple.__new__(cls, Lat(lat, Error=CSSError),
-                                        Lon(lon, Error=CSSError),
+        return _NamedTuple.__new__(cls, Lat_(lat, Error=CSSError),
+                                        Lon_(lon, Error=CSSError),
                                         Bearing(azi, Error=CSSError),
                                         Scalar(rk,   Error=CSSError))
 

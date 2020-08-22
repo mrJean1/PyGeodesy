@@ -8,8 +8,8 @@ geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>} cartesian) coordinates.
 
 Transcribed from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>}
 by I{Chris Veness (C) 2005-2016} and several U{C++ classes
-<https://GeographicLib.SourceForge.io/html/annotated.html>} by I{Charles Karney
-(C) 2008-2019} and published under the same U{MIT License
+<https://GeographicLib.SourceForge.io/html/annotated.html>} by I{Charles F.F.
+Karney (C) 2008-2019} and published under the same U{MIT License
 <https://OpenSource.org/licenses/MIT>}**.
 
 There are three modules for ellipsoidal earth models, C{ellipsoidalKarney},
@@ -46,14 +46,14 @@ to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>} and
 U{Garefs (GARS)<https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
 
-Other modules provide azimuthal projections and Lambert conformal conic projections
-and positions (from U{John P. Snyder, "Map Projections -- A Working Manual",
-1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}), functions to clip a path
-or polygon of C{LatLon} points using the U{Cohen–Sutherland
-<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} and the
-U{Sutherland-Hodgman<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
-methods, functions to U{simplify<https://Bost.Ocks.org/mike/simplify>} or
-linearize a path of C{tLon} points (or a U{NumPy array
+Other modules provide Albers equal-area, azimuthal projections and Lambert
+conformal conic projections and positions (from U{John P. Snyder, "Map
+Projections -- A Working Manual", 1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}),
+functions to clip a path or polygon of C{LatLon} points using the U{Cohen–Sutherland
+<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} and the U{Sutherland-Hodgman
+<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>} methods, functions to
+U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize a path of C{tLon}
+points (or a U{NumPy array
 <https://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html>}),
 including implementations of the U{Ramer-Douglas-Peucker
 <https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>} the
@@ -79,14 +79,15 @@ install}.  To run all PyGeodesy tests, type C{python setup.py test}
 before or after installation.
 
 Installation of U{geographiclib<https://PyPI.org/project/geographiclib>},
-U{NumPy<https://www.NumPy.org>} and U{SciPy<https://SciPy.org>} is optional.
-However, the former is required to use classes L{EquidistantKarney},
-L{GnomonicKarney}, L{CassiniSoldner} and L{Css} and function L{toCss}, for
-module L{ellipsoidalKarney} classes C{LatLon} and C{Cartesian} and functions
+U{numpy<https://PyPI.org/project/numpy>} and U{scipy
+<https://PyPI.org/project/scipy>} is optional.  However, the former is
+required to use classes L{EquidistantKarney}, L{GnomonicKarney},
+L{CassiniSoldner} and L{Css} and function L{toCss}, for module
+L{ellipsoidalKarney} classes C{LatLon} and C{Cartesian} and functions
 C{areaOf}, c{intersections2} and C{perimeterOf} and for the
 L{HeightIDWkarney} interpolator.  Both the latter are needed for the
-C{Geoid...} and C{Height...} interpolator classes, except the L{GeoidKarney}
-and all C{HeightIDW...} classes.
+C{Geoid...} and C{Height...} interpolator classes, except the
+L{GeoidKarney} and all C{HeightIDW...} classes.
 
 Documentation
 =============
@@ -140,9 +141,9 @@ or 1.16.2), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 3.7.5, 3.8 thru 3.8.3,
 U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3), U{PyPy
 <https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9) and U{Intel-Python
 <https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11
-El Capitan, macOS 10.12 Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave
-and/or macOS 10.15.3 and 10.15.5 Catalina, with U{Pythonista 3.1
+<https://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite, MacOS
+X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.6 High Sierra, macOS
+10.14 Mojave and/or macOS 10.15.3 and 10.15.5 Catalina, with U{Pythonista 3.1
 <https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
 on iPad4, with U{Pythonista 3.2<https://OMZ-Software.com/pythonista>} (with
 geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3
@@ -284,7 +285,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.08.15'
+__version__ = '20.08.22'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -312,6 +313,7 @@ else:
 if not _lazy_import2:  # import and set __all__
 
     # import all public modules and export as such
+    import pygeodesy.albers                as albers                 # PYCHOK exported
     import pygeodesy.azimuthal             as azimuthal              # PYCHOK exported
     import pygeodesy.bases                 as bases                  # PYCHOK DEPRECATED
     import pygeodesy.basics                as basics                 # PYCHOK exported
@@ -365,6 +367,7 @@ if not _lazy_import2:  # import and set __all__
     # talk <https://DaBeaz.com/modulepackage/index.html>) ... BUT
     # NOT modules ellipsoidal*, epsg, gars, geohash, spherical*,
     # vector and wgrs ... in order keep those as modules ONLY
+    from pygeodesy.albers                import *  # PYCHOK __all__
     from pygeodesy.azimuthal             import *  # PYCHOK __all__
 #   from pygeodesy.bases                 import *  # PYCHOK __all__
     from pygeodesy.basics                import *  # PYCHOK __all__

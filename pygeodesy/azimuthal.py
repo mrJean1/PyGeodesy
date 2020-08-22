@@ -43,13 +43,13 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon2Tuple, LatLon4Tuple, _NamedBase, \
                            _NamedTuple, _xnamed
 from pygeodesy.streprs import strs
-from pygeodesy.units import Bearing, Lat, Lon, Scalar, Scalar_
+from pygeodesy.units import Bearing, Lat_, Lon_, Scalar, Scalar_
 from pygeodesy.utily import asin1, atan2d, sincos2, sincos2d
 
 from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.08.06'
+__version__ = '20.08.22'
 
 _EPS_Karney    =  sqrt(EPS) * 0.01  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -79,16 +79,14 @@ class _AzimuthalBase(_NamedBase):
                          the I{spherical} earth (C{meter}).
            @kwarg name: Optional name for the projection (C{str}).
 
-           @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
-
-           @raise UnitError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
+           @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
        '''
         if name:
             self.name = name
 
         if datum:
             d = datum if isinstance(datum, Datum) else \
-                   _spherical_datum(datum, name=name)
+                   _spherical_datum(datum, name=name, Error=AzimuthalError)
             if self._datum != d:
                 self._datum = d
 
@@ -123,7 +121,7 @@ class _AzimuthalBase(_NamedBase):
     def _forward(self, lat, lon, name, _k_t):
         '''(INTERNAL) Azimuthal (spherical) forward C{lat, lon} to C{x, y}.
         '''
-        sa, ca, sb, cb = sincos2d(Lat(lat), Lon(lon) - self.lon0)
+        sa, ca, sb, cb = sincos2d(Lat_(lat), Lon_(lon) - self.lon0)
         s0, c0 = self._sc0
 
         k, t = _k_t(s0 * sa + c0 * ca * cb)
@@ -154,11 +152,8 @@ class _AzimuthalBase(_NamedBase):
     def latlon0(self, latlon0):
         '''Set the center lat- and longitude (C{LatLon}, L{LatLon2Tuple} or L{LatLon4Tuple}).
 
-           @raise AzimuthalError: Ellipsoidal mismatch of B{C{latlon0}} and this projection.
-
-           @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
-
-           @raise UnitError: Invalid B{C{lat0}} or B{C{lon0}}.
+           @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}} or ellipsoidal mismatch
+                                  of B{C{latlon0}} and this projection.
         '''
         B = _LLEB if self.datum.isEllipsoidal else _LLB
         _xinstanceof(B, LatLon2Tuple, LatLon4Tuple, latlon0=latlon0)
@@ -186,12 +181,10 @@ class _AzimuthalBase(_NamedBase):
            @arg lat0: Center point latitude (C{degrees90}).
            @arg lon0: Center point longitude (C{degrees180}).
 
-           @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
-
-           @raise UnitError: Invalid B{C{lat0}} or B{C{lon0}}.
+           @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
-        self._latlon0 = LatLon2Tuple(Lat(         lat0,  name=_lat0_),
-                                     Lon(_norm180(lon0), name=_lon0_))
+        self._latlon0 = LatLon2Tuple(Lat_(lat0, name=_lat0_, Error=AzimuthalError),
+                                     Lon_(lon0, name=_lon0_, Error=AzimuthalError))
         self._sc0     = tuple(sincos2d(self.lat0))
         self._radius  = None
 
@@ -259,7 +252,8 @@ class _AzimuthalBase(_NamedBase):
 
 class AzimuthalError(_ValueError):
     '''An azimuthal L{Equidistant}, L{EquidistantKarney}, L{Gnomonic},
-       L{LambertEqualArea}, L{Orthographic} or L{Stereographic} issue.
+       L{LambertEqualArea}, L{Orthographic}, L{Stereographic} or
+       {Azimuthal7Tuple} issue.
     '''
     pass
 
@@ -277,8 +271,8 @@ class Azimuthal7Tuple(_NamedTuple):
     def __new__(cls, x, y, lat, lon, azi, s, datum):
         return _NamedTuple.__new__(cls, Scalar(x, name=_x_, Error=AzimuthalError),
                                         Scalar(y, name=_y_, Error=AzimuthalError),  # PYCHOK indent
-                                        Lat(lat, Error=AzimuthalError),
-                                        Lon(lon, Error=AzimuthalError),
+                                        Lat_(lat, Error=AzimuthalError),
+                                        Lon_(lon, Error=AzimuthalError),
                                         Bearing(azi, name=_azimuth_, Error=AzimuthalError),
                                         Scalar(s, name=_scale_, Error=AzimuthalError), datum)
 
@@ -302,14 +296,16 @@ class Equidistant(_AzimuthalBase):
            @arg lon: Longitude of the location (C{degrees180}).
            @kwarg name: Optional name for the location (C{str}).
 
-           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)} with C{x}
-                    and C{y} in C{meter} and C{lat} and C{lon} in C{degrees}.  The C{scale}
-                    of the projection is C{1} in I{radial} direction, C{azimuth} clockwise
-                    from true North and is C{1 / reciprocal} in the direction perpendicular
-                    to this.
+           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
+                    with C{x} and C{y} in C{meter} and C{lat} and C{lon} in
+                    C{degrees}.  The C{scale} of the projection is C{1} in I{radial}
+                    direction, C{azimuth} clockwise from true North and is C{1 /
+                    reciprocal} in the direction perpendicular to this.
 
-           @note: The C{scale} will be C{-1} if B{C{(lat, lon)}} is antipodal to the
-                  projection center C{(lat0, lon0)}.
+           @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
+
+           @note: The C{scale} will be C{-1} if B{C{(lat, lon)}} is antipodal to
+                  the projection center C{(lat0, lon0)}.
         '''
         def _k_t(c):
             t = abs(c) < EPS1
@@ -360,9 +356,7 @@ def equidistant(lat0, lon0, datum=Datums.WGS84, name=NN):
 
        @return: An L{EquidistantKarney} or L{Equidistant} instance.
 
-       @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
-
-       @raise UnitError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
+       @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
     '''
     try:
         return EquidistantKarney(lat0, lon0, datum=datum, name=name)
@@ -398,9 +392,7 @@ class EquidistantKarney(_AzimuthalBase):
            @raise ImportError: Package U{geographiclib<https://PyPI.org/
                                project/geographiclib>} missing.
 
-           @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
-
-           @raise UnitError: Invalid B{C{lat0}} or B{C{lon0}}.
+           @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
         '''
         _AzimuthalBase.__init__(self, lat0, lon0, datum=datum, name=name)
 
@@ -415,18 +407,19 @@ class EquidistantKarney(_AzimuthalBase):
            @arg lon: Longitude of the location (C{degrees180}).
            @kwarg name: Optional name for the location (C{str}).
 
-           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale,
-                    datum)} with C{x} and C{y} in C{meter} and C{lat} and
-                    C{lon} in C{degrees}.  The C{scale} of the projection
-                    is C{1} in I{radial} direction, C{azimuth} clockwise
-                    from true North and is C{1 / reciprocal} in the
-                    direction perpendicular to this.
+           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
+                    with C{x} and C{y} in C{meter} and C{lat} and C{lon} in
+                    C{degrees}.  The C{scale} of the projection is C{1} in I{radial}
+                    direction, C{azimuth} clockwise from true North and is C{1 /
+                    reciprocal} in the direction perpendicular to this.
 
            @see: Method L{EquidistantKarney.reverse}.  A call to C{.forward}
                  followed by a call to C{.reverse} will return the original
                  C{lat, lon} to within roundoff.
-        '''
-        r = self.geodesic.Inverse(self.lat0, self.lon0, Lat(lat), Lon(lon), self._mask)
+
+            @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
+       '''
+        r = self.geodesic.Inverse(self.lat0, self.lon0, Lat_(lat), Lon_(lon), self._mask)
         x, y = sincos2d(r.azi1)
         t = Azimuthal7Tuple(x * r.s12, y * r.s12, r.lat2, r.lon2, r.azi2, self._1_rk(r), self.datum)
         return _xnamed(t, name or self.name)
@@ -496,6 +489,8 @@ class Gnomonic(_AzimuthalBase):
                     and C{azimuth} clockwise from true North.  The C{scale} of the
                     projection is C{1} in I{radial} direction and is C{1 / reciprocal}
                     in the direction perpendicular to this.
+
+           @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
         '''
         def _k_t(c):
             t = c > EPS
@@ -545,9 +540,7 @@ def gnomonic(lat0, lon0, datum=Datums.WGS84, name=NN):
 
        @return: An L{GnomonicKarney} or L{Gnomonic} instance.
 
-       @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
-
-       @raise UnitError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
+       @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
     '''
     try:
         return GnomonicKarney(lat0, lon0, datum=datum, name=name)
@@ -576,9 +569,7 @@ class GnomonicKarney(_AzimuthalBase):
            @raise ImportError: Package U{geographiclib<https://PyPI.org/
                                project/geographiclib>} missing.
 
-           @raise RangeError: Invalid B{C{lat0}} or B{C{lon0}}.
-
-           @raise UnitError: Invalid B{C{lat0}} or B{C{lon0}}.
+           @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
         _AzimuthalBase.__init__(self, lat0, lon0, datum=datum, name=name)
 
@@ -601,12 +592,12 @@ class GnomonicKarney(_AzimuthalBase):
                     C{x} and C{y} will be C{NAN} if the geodetic location lies over
                     the horizon and B{C{raiser}} is C{False}.
 
-           @raise AzimuthalError: If the geodetic location lies over the horizon
-                                  and B{C{raiser}} is C{True}.
+           @raise AzimuthalError: Invalid B{C{lat}}, B{C{lon}} or the geodetic location
+                                  lies over the horizon and B{C{raiser}} is C{True}.
         '''
         self._iteration = 0
 
-        r = self.geodesic.Inverse(self.lat0, self.lon0, Lat(lat), Lon(lon), self._mask)
+        r = self.geodesic.Inverse(self.lat0, self.lon0, Lat_(lat), Lon_(lon), self._mask)
         if r.M21 < EPS:
             if raiser:
                 raise AzimuthalError(lat=lat, lon=lon, txt=_over_horizon_)
@@ -704,6 +695,8 @@ class LambertEqualArea(_AzimuthalBase):
                     of the projection is C{1} in I{radial} direction, C{azimuth} clockwise
                     from true North and is C{1 / reciprocal} in the direction perpendicular
                     to this.
+
+           @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
         '''
         def _k_t(c):
             c = c + 1
@@ -765,6 +758,8 @@ class Orthographic(_AzimuthalBase):
                     of the projection is C{1} in I{radial} direction, C{azimuth} clockwise
                     from true North and is C{1 / reciprocal} in the direction perpendicular
                     to this.
+
+           @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
         '''
         def _k_t(c):
             return 1, (c >= 0)
@@ -821,6 +816,8 @@ class Stereographic(_AzimuthalBase):
                     of the projection is C{1} in I{radial} direction, C{azimuth} clockwise
                     from true North and is C{1 / reciprocal} in the direction perpendicular
                     to this.
+
+           @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
         '''
         def _k_t(c):
             c = c + 1

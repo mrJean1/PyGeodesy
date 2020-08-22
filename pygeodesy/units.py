@@ -25,7 +25,7 @@ from pygeodesy.streprs import fstr, _g
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.08.09'
+__version__ = '20.08.22'
 
 
 class UnitError(_ValueError):
@@ -373,6 +373,35 @@ class Degrees(Float):
                                                      (1 if self < 0 else 2)])
 
 
+class Degrees_(Degrees):
+    '''Named C{Degrees} representing a coordinate in C{degrees} with optional limits C{low} and C{high}.
+    '''
+    def __new__(cls, arg, name=_degrees_, Error=UnitError, suffix=_NSEW_, low=None, high=None):
+        '''New named C{Degrees} instance.
+
+           @arg cls: This class (C{Degrees_} or sub-class).
+           @arg arg: The value (any C{type} convertable to C{float} or
+                     parsable by L{parseDMS}).
+           @kwarg name: Optional instance name (C{str}).
+           @kwarg Error: Optional error to raise, overriding the default
+                         L{UnitError}.
+           @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
+           @kwarg low: Optional lower B{C{arg}} limit (C{float} or C{None}).
+           @kwarg high: Optional upper B{C{arg}} limit (C{float} or C{None}).
+
+           @returns: A C{Degrees} instance.
+
+           @raise Error: Invalid B{C{arg}} or B{C{abs(deg)}} below B{C{low}}
+                         or above B{C{high}}.
+        '''
+        self = Degrees.__new__(cls, arg, name=name, Error=Error, suffix=suffix, clip=0)
+        if (low is not None) and self < low:
+            raise _Error(cls, arg, name=name, Error=Error, txt='below %s limit' % (low,))
+        if (high is not None) and self > high:
+            raise _Error(cls, arg, name=name, Error=Error, txt='above %s limit' % (high,))
+        return self
+
+
 class Bearing(Degrees):
     '''Named C{float} representing a bearing in compass C{degrees}.
     '''
@@ -527,6 +556,18 @@ class Lat(Degrees):
         return Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_NS_, clip=clip)
 
 
+class Lat_(Degrees_):
+    '''Named C{float} representing a latitude in C{degrees} within limits C{low} and C{high}.
+    '''
+    _ddd_ =  2
+    _suf_ = _N_, _S_, S_NUL  # no zero suffix
+
+    def __new__(cls, arg, name=_lat_, Error=UnitError, low=-90, high=90):
+        '''See L{Degrees_}.
+        '''
+        return Degrees_.__new__(cls, arg, name=name, Error=Error, suffix=_NS_, low=low, high=high)
+
+
 class Lon(Float):
     '''Named C{float} representing a longitude in C{degrees}.
     '''
@@ -537,6 +578,18 @@ class Lon(Float):
         '''See L{Degrees}.
         '''
         return Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_EW_, clip=clip)
+
+
+class Lon_(Degrees_):
+    '''Named C{float} representing a longitude in C{degrees} within limits C{low} and C{high}.
+    '''
+    _ddd_ =  3
+    _suf_ = _E_, _W_, S_NUL  # no zero suffix
+
+    def __new__(cls, arg, name=_lon_, Error=UnitError, low=-180, high=180):
+        '''See L{Degrees_}.
+        '''
+        return Degrees_.__new__(cls, arg, name=name, Error=Error, suffix=_EW_, low=low, high=high)
 
 
 class Meter(Float):
@@ -575,7 +628,7 @@ class Northing(Float):
 
 
 class Number_(Int_):
-    '''Named C{int} with optional limits C{low} and C{high} representing a non-negtive number.
+    '''Named C{int} representing a non-negtive number.
     '''
     def __new__(cls, arg, name=_number_, Error=UnitError, low=0, high=None):
         '''See L{Int_}.

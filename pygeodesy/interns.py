@@ -4,7 +4,7 @@ u'''Single-instance strings, C{intern}'ed across modules.
 '''
 
 __all__ = ('NN',)
-__version__ = '20.08.09'
+__version__ = '20.08.17'
 
 NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
@@ -50,6 +50,7 @@ _EQUAL_              = '='                    # PYCHOK expected
 _exceed_PI_radians_  = 'exceed PI radians'    # PYCHOK expected
 _feet_               = 'feet'                 # PYCHOK expected
 _fraction_           = 'fraction'             # PYCHOK expected
+_gamma_              = 'gamma'                # PYCHOK expected
 _h_                  = 'h'                    # PYCHOK expected
 _height_             = 'height'               # PYCHOK expected
 _hemipole_           = 'hemipole'             # PYCHOK expected
@@ -64,6 +65,7 @@ _lam_                = 'lam'                  # PYCHOK expected
 _lat_                = 'lat'                  # PYCHOK expected
 _lat0_               = 'lat0'                 # PYCHOK expected
 _lat1_               = 'lat1'                 # PYCHOK expected
+_lat2_               = 'lat2'                 # PYCHOK expected
 _LatLon_             = 'LatLon'               # PYCHOK expected
 _len_                = 'len'                  # PYCHOK expected
 _linear_             = 'linear'               # PYCHOK expected

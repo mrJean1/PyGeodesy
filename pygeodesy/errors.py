@@ -14,7 +14,7 @@ from pygeodesy.interns import _COLON_, _COMMA_, _COMMA_SPACE_, \
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.07.19'
+__version__ = '20.08.22'
 
 _limiterrors      =  True  # imported by .formy
 _not_ellipsoidal_ = 'not ellipsoidal'
@@ -273,10 +273,10 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
                            any B{C{name_value}} positional arguments.
     '''
     if name_values:
-        t = _or(*(fmt_name_value % t for t in name_values.items()))  # XXX sorted
+        t = _or(*sorted(fmt_name_value % t for t in name_values.items()))
     elif len(name_value) > 1:
-        t = _or(*(fmt_name_value % t for t in zip(name_value[0::2],
-                                                  name_value[1::2])))
+        t = _or(*sorted(fmt_name_value % t for t in zip(name_value[0::2],
+                                                        name_value[1::2])))
     elif name_value:
         t = str(name_value[0])
     else:
