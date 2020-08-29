@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.08.26'
+__version__ = '20.08.28'
 
 from base import coverage, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -167,7 +167,7 @@ class Tests(_TestsLL, _TestsV):
         d = ll1.geodesic.Inverse(-41.32, 174.81, 40.96, -5.50)
         self.test('.lat1', d.lat1, -41.320, fmt='%.3f')
         self.test('.lon1', d.lon1, 174.810, fmt='%.3f')
-        self.test('.azi1', d.azi1, 161.067669986160, fmt='%.12f')
+        self.test('.azi1', d.azi1, 161.067669986160, fmt='%.12f', known=abs(d.azi1 - 161.067669986160) < 1e-11)
         self.test('.lat2', d.lat2,  40.960, fmt='%.3f')
         self.test('.lon2', d.lon2,  -5.500, fmt='%.3f')
         self.test('.azi2', d.azi2,  18.825195123247, fmt='%.12f')
