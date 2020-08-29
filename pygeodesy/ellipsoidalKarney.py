@@ -29,7 +29,7 @@ or by converting to anothor datum:
 '''
 
 from pygeodesy.basics import property_RO, _xkwds
-from pygeodesy.datum import Datums
+from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.ellipsoidalBase import _intersections2, _TOL_M, \
                                        CartesianEllipsoidalBase, \
@@ -42,7 +42,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.08.07'
+__version__ = '20.08.24'
 
 
 class Cartesian(CartesianEllipsoidalBase):

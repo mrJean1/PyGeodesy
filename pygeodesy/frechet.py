@@ -81,7 +81,7 @@ than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 
 from pygeodesy.basics import _bkwds, EPS, EPS1, INF, isscalar, \
                               property_doc_, property_RO, _xinstanceof
-from pygeodesy.datum import Datums, Datum
+from pygeodesy.datums import Datums, Datum
 from pygeodesy.errors import _AssertionError, _IndexError, _IsnotError, \
                               PointsError
 from pygeodesy.fmath import favg, hypot2
@@ -99,7 +99,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '20.08.06'
+__version__ = '20.08.24'
 
 if not 0 < EPS < EPS1 < 1:
     raise _AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))

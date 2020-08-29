@@ -20,7 +20,7 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 from pygeodesy.basics import EPS, PI_2, property_RO, _xinstanceof, \
                             _xsubclassof, _xzipairs
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.datum import Datums, Lam_, Phi_
+from pygeodesy.datums import Datums
 from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.interns import _C_, _COMMA_SPACE_, _ellipsoidal_, \
                               _dot_, _h_, _k0_, _lat0_, _lon0_, \
@@ -31,13 +31,13 @@ from pygeodesy.named import EasNor3Tuple, LatLon2Tuple, \
                            _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
                             PhiLam2Tuple, _xnamed  # PYCHOK indent
 from pygeodesy.streprs import fstr
-from pygeodesy.units import Easting, Height, Northing, Scalar_
+from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 
 from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.07.08'
+__version__ = '20.08.24'
 
 _E0_   = 'E0'
 _N0_   = 'N0'

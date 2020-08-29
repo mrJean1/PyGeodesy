@@ -67,7 +67,7 @@ Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 
 from pygeodesy.basics import _bkwds, INF, property_doc_, property_RO, \
                              _xinstanceof
-from pygeodesy.datum import Datums, Datum
+from pygeodesy.datums import Datums, Datum
 from pygeodesy.errors import _IsnotError, PointsError
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
@@ -83,7 +83,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '20.08.06'
+__version__ = '20.08.24'
 
 
 class HausdorffError(PointsError):

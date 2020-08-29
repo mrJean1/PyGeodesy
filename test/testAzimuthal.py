@@ -4,7 +4,7 @@
 # Test azimuthal projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '20.08.21'
+__version__ = '20.08.24'
 
 from base import geographiclib, TestsBase, RandomLatLon
 
@@ -190,7 +190,7 @@ if __name__ == '__main__':
         t.test('function', A.__name__, A.__name__, nl=1)
         A = A(0, 0, datum=1, name='coverage')
         t.test('equatoradius', A.equatoradius, 1.0)
-        t.test('flattening', A.flattening, 0)
+        t.test('flattening', A.flattening, 0.0)
         t.test('iteration', A.iteration, A.iteration)
         t.test('latlon0', A.latlon0, (0.0, 0.0))
         A.latlon0 = named.LatLon2Tuple(1, 2)

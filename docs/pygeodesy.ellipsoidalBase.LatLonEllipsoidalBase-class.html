@@ -548,7 +548,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#datum" class="summary-name">datum</a><br />
       Property to get and set this points's datum (<a 
-      href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).
+      href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
     </td>
   </tr>
 <tr>
@@ -662,7 +662,7 @@
         <li><strong class="pname"><code>height</code></strong> - Optional elevation (<code>meter</code>, the same units as the 
           datum's half-axes).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional, ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>reframe</code></strong> - Optional reference frame (<a 
           href="pygeodesy.trf.RefFrame-class.html" 
           class="link">RefFrame</a>).</li>
@@ -741,14 +741,14 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>datum2</code></strong> - Datum to convert <i>to</i> (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The converted point (ellipsoidal <code>LatLon</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>datum2</code></b> is not a <a 
-        href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>.</li>
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -833,7 +833,8 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        Method <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a> and <a 
         href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">Local, flat earth approximation</a>.
@@ -863,7 +864,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the elevation for a <b><code>datum</code></b> other than 
           <code>NAD83</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>).</li>
         <li><strong class="pname"><code>timeout</code></strong> - Optional query timeout (<code>seconds</code>).</li>
     </ul></dd>
@@ -890,7 +891,7 @@
       <p><strong>See Also:</strong>
         Function <a href="pygeodesy.elevations-module.html#elevation2" 
         class="link">elevations.elevation2</a> and method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#Rgeocentric" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeocentric" 
         class="link">Ellipsoid.Rgeocentric</a> for further details and 
         possible <code>error</code>s.
       </p>
@@ -915,11 +916,12 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>datum</code></strong> - Default datum (<a href="pygeodesy.datum.Datum-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Default datum (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The ellipsoid (<a href="pygeodesy.datum.Ellipsoid-class.html" 
+        <dd>The ellipsoid (<a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>).</dd>
   </dl>
 </td></tr></table>
@@ -947,7 +949,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This point's datum ellipsoid (<a 
-          href="pygeodesy.datum.Ellipsoid-class.html" 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -980,7 +982,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the geoid height for a <b><code>datum</code></b> other 
           than <code>NAD83/NADV88</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>).</li>
         <li><strong class="pname"><code>timeout</code></strong> - Optional query timeout (<code>seconds</code>).</li>
     </ul></dd>
@@ -1008,7 +1010,7 @@
       <p><strong>See Also:</strong>
         Function <a href="pygeodesy.elevations-module.html#geoidHeight2" 
         class="link">elevations.geoidHeight2</a> and method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#Rgeocentric" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeocentric" 
         class="link">Ellipsoid.Rgeocentric</a> for further details and 
         possible <code>error</code>s.
       </p>
@@ -1101,7 +1103,7 @@
           class="link">parse3llh</a>.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional, default height (<code>meter</code> or 
           <code>None</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datum.Datum-class.html" 
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum (<a href="pygeodesy.datums.Datum-class.html" 
           class="link">Datum</a>), overriding this datum <i>without 
           conversion</i>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
@@ -1398,11 +1400,11 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <tr><td>
   <h3 class="epydoc">datum</h3>
   <p>Property to get and set this points's datum (<a 
-  href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</p>
+  href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
-        - Get this point's datum (<a href="pygeodesy.datum.Datum-class.html" 
+        - Get this point's datum (<a href="pygeodesy.datums.Datum-class.html" 
 class="link">Datum</a>).
     </dd>
     <dt>Set method:</dt>
@@ -1537,7 +1539,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 22 17:47:51 2020
+    Generated by Epydoc 3.0.1 on Fri Aug 28 20:48:34 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -14,7 +14,7 @@ by I{Charles Karney}.
 '''
 
 from pygeodesy.basics import map1
-from pygeodesy.datum import Datums
+from pygeodesy.datums import Datums
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
 from pygeodesy.interns import _easting_, _MGRS_, NN, _northing_, _NS_, \
                               _outside_, _range_, _SPACE_, _UPS_, _UTM_
@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                   UtmUps5Tuple, UtmUps8Tuple  # PYCHOK indent
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.08.12'
+__version__ = '20.08.24'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE

@@ -50,7 +50,8 @@ for further information on the errors.
 
 from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, map1, property_RO, \
                             _xinstanceof, _xkwds, _xsubclassof
-from pygeodesy.datum import Datum, Datums, Ellipsoid
+from pygeodesy.datums import Datum, Datums
+from pygeodesy.ellipsoids import Ellipsoid
 from pygeodesy.errors import _datum_datum, LenError, _ValueError
 from pygeodesy.fmath import cbrt, fdot, fsum_, hypot1
 from pygeodesy.interns import _C_, _datum_, _ellipsoid_, _h_, _height_, _lat_, \
@@ -66,7 +67,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.08.11'
+__version__ = '20.08.24'
 
 _M_    = 'M'
 _TRIPS = 16  # 8..9 sufficient, EcefSudano.reverse

@@ -15,8 +15,9 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 from pygeodesy.basics import EPS, PI, PI2, PI_2, \
                              property_doc_, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
-from pygeodesy.datum import R_M, R_MA, Datum, Datums
+from pygeodesy.datums import Datum, Datums
 from pygeodesy.ecef import EcefKarney
+from pygeodesy.ellipsoids import R_M, R_MA
 from pygeodesy.errors import IntersectionError, _IsnotError
 from pygeodesy.fmath import favg, fsum_
 from pygeodesy.interns import _COMMA_, _exceed_PI_radians_, \
@@ -33,7 +34,7 @@ from pygeodesy.utily import acos1, degrees90, degrees180, degrees360, \
 from math import atan2, cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.08.12'
+__version__ = '20.08.24'
 
 
 def _angular(distance, radius):  # PYCHOK for export

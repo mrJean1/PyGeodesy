@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.08.21'
+__version__ = '20.08.24'
 
 from base import PyGeodesy_dir, isiOS, TestsBase
 from pygeodesy import Datums, named
@@ -191,7 +191,7 @@ class Tests(TestsBase):
             self.test('RefFrames.' + n + '.unregister', getattr(RefFrames, n, None), None)
         self.test('RefFrames', len(RefFrames), 0)
 
-        self.test('Transforms', len(Transforms), 17)
+        self.test('Transforms', len(Transforms), 18)
         for n, x in tuple(Transforms.items()):
             x.unregister()  # coverage _NamedEnumItem.unregister
             self.test('Transforms.' + n + '.unregister', getattr(Transforms, n, None), None)

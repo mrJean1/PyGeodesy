@@ -7,7 +7,7 @@ u'''Formulary of basic geodesy functions and approximations.
 '''
 from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, \
                              isscalar, len2, _xinstanceof
-from pygeodesy.datum import Datum, Datums, _spherical_datum
+from pygeodesy.datums import Datum, Datums, _spherical_datum
 from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
                              _limiterrors, PointsError, _ValueError
 from pygeodesy.fmath import fsum_, hypot, hypot2
@@ -27,7 +27,7 @@ from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.08.11'
+__version__ = '20.08.27'
 
 _D_I2_ =  1e5  # meter, 100 Km, about 0.9 degrees
 _lat2_ = _lat_ + _2_
@@ -516,7 +516,7 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
        @raise TypeError: Invalid B{C{datum}}.
 
        @note: The meridional and prime_vertical radii of curvature
-              are taken and scaled at the mean latitude.
+              are taken and scaled at the mean of both latitude.
 
        @see: Functions L{flatLocal_}/L{hubeny_}, L{cosineLaw},
              L{flatPolar}, L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert},
@@ -548,7 +548,7 @@ def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
        @raise TypeError: Invalid B{C{datum}}.
 
        @note: The meridional and prime_vertical radii of curvature
-              are taken and scaled I{at the mean latitude}.
+              are taken and scaled I{at the mean of both latitude}.
 
        @see: Functions L{flatLocal}/L{hubeny}, L{cosineAndoyerLambert_},
              L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
@@ -746,13 +746,13 @@ def horizon(height, radius=R_M, refraction=False):
 def intersections2(lat1, lon1, radius1,
                    lat2, lon2, radius2, datum=None, wrap=True):
     '''Conveniently compute the intersections of two circles each defined
-       by a lat-/longitude center point and a radius, using either ...
+       by (geodetic/-centric) center point and a radius, using either ...
 
        1) L{vector3d.intersections2} for small distances or if no B{C{datum}}
        is specified, or ...
 
        2) L{sphericalTrigonometry.intersections2} for a spherical B{C{datum}}
-       or if B{C{datum}} is a sclar representing the earth radius, or ...
+       or if B{C{datum}} is a C{scalar} representing the earth radius, or ...
 
        3) L{ellipsoidalKarney.intersections2} for an ellipsoidal B{C{datum}}
        and if I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib/>}

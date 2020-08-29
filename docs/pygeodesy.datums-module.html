@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.datums</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;datums
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.datums-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module datums</h1><p class="nomargin-top"></p>
+<p>Classes <a href="pygeodesy.datums.Datum-class.html" 
+  class="link">Datum</a> and <a 
+  href="pygeodesy.datums.Transform-class.html" class="link">Transform</a> 
+  and registries thereof <a href="pygeodesy.datums-module.html#Datums" 
+  class="link">Datums</a> and <a 
+  href="pygeodesy.datums-module.html#Transforms" 
+  class="link">Transforms</a>, respectively.</p>
+  <p>Pure Python implementation of geodesy tools for ellipsoidal earth 
+  models, including datums and ellipsoid parameters for different 
+  geographic coordinate systems and methods for converting between them and
+  to cartesian coordinates. Transcribed from JavaScript originals by <i>(C)
+  Chris Veness 2005-2016</i> and published under the same MIT Licence**, 
+  see <a 
+  href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
+  target="_top">latlon-ellipsoidal.js</a>.</p>
+  <p>Historical geodetic datums: a latitude/longitude point defines a 
+  geographic location on or above/below the earth&#8217;s surface, measured in 
+  degrees from the equator and the International Reference Meridian and 
+  meters above the ellipsoid, and based on a given datum.  The datum is 
+  based on a reference ellipsoid and tied to geodetic survey reference 
+  points.</p>
+  <p>Modern geodesy is generally based on the WGS84 datum (as used for 
+  instance by GPS systems), but previously various reference ellipsoids and
+  datum references were used.</p>
+  <p>The UK Ordnance Survey National Grid References are still based on the
+  otherwise historical OSGB36 datum, q.v. <a 
+  href="https://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf"
+  target="_top">Ordnance Survey 'A guide to coordinate systems in Great 
+  Britain', Section 6</a>.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        20.08.28
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datums.Transform-class.html" class="summary-name">Transform</a><br />
+      Helmert transformation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datums.Datum-class.html" class="summary-name">Datum</a><br />
+      Ellipsoid and transform parameters for an earth model.
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.datums">_ALL_LAZY.datums</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datums-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.BD72: Transform(name='BD72', tx=106.86863, ty=-52.29778, tz\
+=103.72389, rx=-0, ry=-0, rz=-0.00001, s=1.2727, s1=1, sx=-0.33657, sy\
+=-0.45696, sz=-1.84218),
+Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, \
+tz=-414, rx=-0.00001, ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04,\
+ sy=-0.35, sz=3.08),
+Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
+-176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
+...">Transforms.BD72: Transform(name='BD72', tx=106.86<code class="variable-ellipsis">...</code></code><br />
+      Registered transforms.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.datums-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transfo\
+rm=Transforms.BD72),
+Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans\
+form=Transforms.DHDN),
+Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo\
+rm=Transforms.ED50),
+Datums.GDA2020: Datum(name='GDA2020', ellipsoid=Ellipsoids.GRS80, tran\
+sform=Transforms.WGS84),
+...">Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.<code class="variable-ellipsis">...</code></code><br />
+      Registered datums.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.BD72"></a><span class="summary-name">Datums.BD72</span><br />
+      Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, 
+      transform=Transforms.BD72)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.DHDN"></a><span class="summary-name">Datums.DHDN</span><br />
+      Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, 
+      transform=Transforms.DHDN)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.ED50"></a><span class="summary-name">Datums.ED50</span><br />
+      Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, 
+      transform=Transforms.ED50)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.GDA2020"></a><span class="summary-name">Datums.GDA2020</span><br />
+      Datum(name='GDA2020', ellipsoid=Ellipsoids.GRS80, 
+      transform=Transforms.WGS84)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.GRS80"></a><span class="summary-name">Datums.GRS80</span><br />
+      Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, 
+      transform=Transforms.WGS84)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.Irl1975"></a><span class="summary-name">Datums.Irl1975</span><br />
+      Datum(name='Irl1975', ellipsoid=Ellipsoids.AiryModified, 
+      transform=Transforms.Irl1975)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.Krassovski1940"></a><span class="summary-name">Datums.Krassovski1940</span><br />
+      Datum(name='Krassovski1940', ellipsoid=Ellipsoids.Krassovski1940, 
+      transform=Transforms.Krassovski1940)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.Krassowsky1940"></a><span class="summary-name">Datums.Krassowsky1940</span><br />
+      Datum(name='Krassowsky1940', ellipsoid=Ellipsoids.Krassowsky1940, 
+      transform=Transforms.Krassowsky1940)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.MGI"></a><span class="summary-name">Datums.MGI</span><br />
+      Datum(name='MGI', ellipsoid=Ellipsoids.Bessel1841, 
+      transform=Transforms.MGI)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.NAD27"></a><span class="summary-name">Datums.NAD27</span><br />
+      Datum(name='NAD27', ellipsoid=Ellipsoids.Clarke1866, 
+      transform=Transforms.NAD27)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.NAD83"></a><span class="summary-name">Datums.NAD83</span><br />
+      Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, 
+      transform=Transforms.NAD83)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.NTF"></a><span class="summary-name">Datums.NTF</span><br />
+      Datum(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, 
+      transform=Transforms.NTF)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.OSGB36"></a><span class="summary-name">Datums.OSGB36</span><br />
+      Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, 
+      transform=Transforms.OSGB36)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.Potsdam"></a><span class="summary-name">Datums.Potsdam</span><br />
+      Datum(name='Potsdam', ellipsoid=Ellipsoids.Bessel1841, 
+      transform=Transforms.Bessel1841)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.Sphere"></a><span class="summary-name">Datums.Sphere</span><br />
+      Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, 
+      transform=Transforms.WGS84)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.TokyoJapan"></a><span class="summary-name">Datums.TokyoJapan</span><br />
+      Datum(name='TokyoJapan', ellipsoid=Ellipsoids.Bessel1841, 
+      transform=Transforms.TokyoJapan)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.WGS72"></a><span class="summary-name">Datums.WGS72</span><br />
+      Datum(name='WGS72', ellipsoid=Ellipsoids.WGS72, 
+      transform=Transforms.WGS72)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Datums.WGS84"></a><span class="summary-name">Datums.WGS84</span><br />
+      Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, 
+      transform=Transforms.WGS84)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.BD72"></a><span class="summary-name">Transforms.BD72</span><br />
+      Transform(name='BD72', tx=106.86863, ty=-52.29778, tz=103.72389, 
+      rx=-0, ry=-0, rz=-0.00001, s=1.2727, s1=1, sx=-0.33657, sy=-0.45696, 
+      sz=-1.84218)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.Bessel1841"></a><span class="summary-name">Transforms.Bessel1841</span><br />
+      Transform(name='Bessel1841', tx=-582, ty=-105, tz=-414, rx=-0.00001, 
+      ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04, sy=-0.35, sz=3.08)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.Clarke1866"></a><span class="summary-name">Transforms.Clarke1866</span><br />
+      Transform(name='Clarke1866', tx=8, ty=-160, tz=-176, rx=0, ry=0, 
+      rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.DHDN"></a><span class="summary-name">Transforms.DHDN</span><br />
+      Transform(name='DHDN', tx=-591.28, ty=-81.35, tz=-396.39, rx=0.00001,
+      ry=-0, rz=-0.00001, s=-9.82, s1=0.99999, sx=1.477, sy=-0.0736, 
+      sz=-1.458)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.ED50"></a><span class="summary-name">Transforms.ED50</span><br />
+      Transform(name='ED50', tx=89.5, ty=93.8, tz=123.1, rx=0, ry=0, rz=0, 
+      s=-1.2, s1=1, sx=0, sy=0, sz=0.156)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.Identity"></a><span class="summary-name">Transforms.Identity</span><br />
+      Transform(name='Identity', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, 
+      s1=1, sx=0, sy=0, sz=0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.Irl1965"></a><span class="summary-name">Transforms.Irl1965</span><br />
+      Transform(name='Irl1965', tx=-482.53, ty=130.596, tz=-564.557, 
+      rx=0.00001, ry=0, rz=0, s=-8.15, s1=0.99999, sx=1.042, sy=0.214, 
+      sz=0.631)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.Irl1975"></a><span class="summary-name">Transforms.Irl1975</span><br />
+      Transform(name='Irl1975', tx=-482.53, ty=130.596, tz=-564.557, 
+      rx=-0.00001, ry=-0, rz=-0, s=-1.1, s1=1, sx=-1.042, sy=-0.214, 
+      sz=-0.631)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.Krassovski1940"></a><span class="summary-name">Transforms.Krassovski1940</span><br />
+      Transform(name='Krassovski1940', tx=-24, ty=123, tz=94, rx=-0, ry=0, 
+      rz=0, s=-2.423, s1=1, sx=-0.02, sy=0.26, sz=0.13)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.Krassowsky1940"></a><span class="summary-name">Transforms.Krassowsky1940</span><br />
+      Transform(name='Krassowsky1940', tx=-24, ty=123, tz=94, rx=-0, ry=0, 
+      rz=0, s=-2.423, s1=1, sx=-0.02, sy=0.26, sz=0.13)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.MGI"></a><span class="summary-name">Transforms.MGI</span><br />
+      Transform(name='MGI', tx=-577.326, ty=-90.129, tz=-463.92, 
+      rx=0.00002, ry=0.00001, rz=0.00003, s=-2.423, s1=1, sx=5.137, 
+      sy=1.474, sz=5.297)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.NAD27"></a><span class="summary-name">Transforms.NAD27</span><br />
+      Transform(name='NAD27', tx=8, ty=-160, tz=-176, rx=0, ry=0, rz=0, 
+      s=0, s1=1, sx=0, sy=0, sz=0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.NAD83"></a><span class="summary-name">Transforms.NAD83</span><br />
+      Transform(name='NAD83', tx=1.004, ty=-1.91, tz=-0.515, rx=0, ry=0, 
+      rz=0, s=-0.0015, s1=1, sx=0.0267, sy=0.00034, sz=0.011)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.NTF"></a><span class="summary-name">Transforms.NTF</span><br />
+      Transform(name='NTF', tx=-168, ty=-60, tz=320, rx=0, ry=0, rz=0, s=0,
+      s1=1, sx=0, sy=0, sz=0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.OSGB36"></a><span class="summary-name">Transforms.OSGB36</span><br />
+      Transform(name='OSGB36', tx=-446.448, ty=125.157, tz=-542.06, rx=-0, 
+      ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=-0.247, 
+      sz=-0.8421)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.TokyoJapan"></a><span class="summary-name">Transforms.TokyoJapan</span><br />
+      Transform(name='TokyoJapan', tx=148, ty=-507, tz=-685, rx=0, ry=0, 
+      rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.WGS72"></a><span class="summary-name">Transforms.WGS72</span><br />
+      Transform(name='WGS72', tx=0, ty=0, tz=-4.5, rx=0, ry=0, rz=0, 
+      s=-0.22, s1=1, sx=0, sy=0, sz=0.554)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Transforms.WGS84"></a><span class="summary-name">Transforms.WGS84</span><br />
+      Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, 
+      s1=1, sx=0, sy=0, sz=0)
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables Details</span></td>
+</tr>
+</table>
+<a name="Transforms"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Transforms</h3>
+  <p>Registered transforms.</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Transforms.BD72: Transform(name='BD72', tx=106.86863, ty=-52.29778, tz<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=103.72389, rx=-0, ry=-0, rz=-0.00001, s=1.2727, s1=1, sx=-0.33657, sy<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=-0.45696, sz=-1.84218),
+Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+tz=-414, rx=-0.00001, ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ sy=-0.35, sz=3.08),
+Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+-176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Datums"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Datums</h3>
+  <p>Registered datums.</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+rm=Transforms.BD72),
+Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+form=Transforms.DHDN),
+Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+rm=Transforms.ED50),
+Datums.GDA2020: Datum(name='GDA2020', ellipsoid=Ellipsoids.GRS80, tran<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+sform=Transforms.WGS84),
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Aug 28 20:48:32 2020
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

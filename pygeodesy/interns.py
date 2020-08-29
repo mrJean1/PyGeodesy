@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-u'''Single-instance strings, C{intern}'ed across modules.
+u'''Single-instance floats and strings, C{intern}'ed across modules.
 '''
 
 __all__ = ('NN',)
-__version__ = '20.08.17'
+__version__ = '20.08.24'
 
 NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
@@ -81,12 +81,14 @@ _n_a_                = 'n/a'                  # PYCHOK expected
 _name_               = 'name'                 # PYCHOK expected
 _near_concentric_    = 'near-concentric'      # PYCHOK expected
 _nearestOn2_         = 'nearestOn2'           # PYCHOK expected
+_negative_           = 'negative'             # PYCHOK expected
 _no_convergence_     = 'no convergence'       # PYCHOK expected
 _no_convergence_fmt_ = 'no convergence (%g)'  # PYCHOK expected
 _no_conversion_      = 'no conversion'        # PYCHOK expected
 _northing_           = 'northing'             # PYCHOK expected
 _NorthPole_          = 'NorthPole'            # PYCHOK expected
 _not_convex_         = 'not convex'           # PYCHOK expected
+_not_scalar_         = 'not scalar'           # PYCHOK expected
 _number_             = 'number'               # PYCHOK expected
 _Nvector_            = 'Nvector'              # PYCHOK expected
 _other_              = 'other'                # PYCHOK expected
@@ -179,6 +181,18 @@ def _dunder_name(inst, *dflt):
     except AttributeError:
         pass
     return dflt[0] if dflt else inst.__class__.__name__
+
+
+def _flt(f):  # in .datums, .ellipsoids, .trf
+    '''(INTERNAL) cache initial C{float}s.
+    '''
+    f = float(f)
+    return _Flts.setdefault(f, f)  # PYCHOK del _Flts
+
+
+_Flts = {}  # PYCHOK floats cache, in .trf
+# _flt = float  # PYCHOK expected
+# del _Flts  # XXX zap floats cache never
 
 
 def _item_fmt(fmt, name_value_arg, name_value_kwd):

@@ -14,7 +14,7 @@ from os import access, environ, F_OK, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '20.03.09'
+__version__ = '20.04.26'
 
 if isiOS:  # MCCABE 14
 
@@ -238,7 +238,8 @@ if __name__ == '__main__':  # MCCABE 19
         t = '%s (%.3f tps)' % (t, _Total / s)
 
     if _FailX:
-        x = '%d (of %d) tests FAILED' % (_FailX, _Total)
+        s = '' if _FailX == 1 else 's'
+        x = '%d (of %d) test%s FAILED' % (_FailX, _Total, s)
     elif _Total > 0:
         x = 'all %d tests OK' % (_Total,)
     else:

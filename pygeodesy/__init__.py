@@ -7,9 +7,9 @@ elliptic and approximate methods for geodetic (lat-/longitude) and
 geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>} cartesian) coordinates.
 
 Transcribed from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>}
-by I{Chris Veness (C) 2005-2016} and several U{C++ classes
+by I{Chris Veness (C) 2005-2019} and several U{C++ classes
 <https://GeographicLib.SourceForge.io/html/annotated.html>} by I{Charles F.F.
-Karney (C) 2008-2019} and published under the same U{MIT License
+Karney (C) 2008-2020} and published under the same U{MIT License
 <https://OpenSource.org/licenses/MIT>}**.
 
 There are three modules for ellipsoidal earth models, C{ellipsoidalKarney},
@@ -46,10 +46,12 @@ to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>} and
 U{Garefs (GARS)<https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
 
-Other modules provide Albers equal-area, azimuthal projections and Lambert
-conformal conic projections and positions (from U{John P. Snyder, "Map
-Projections -- A Working Manual", 1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}),
-functions to clip a path or polygon of C{LatLon} points using the U{Cohen–Sutherland
+Other modules provide U{Albers Equal-Area
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html>}
+projections, azimuthal projections and Lambert conformal conic projections and
+positions (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987
+<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}), functions to clip a path or polygon
+of C{LatLon} points using the U{Cohen–Sutherland
 <https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} and the U{Sutherland-Hodgman
 <https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>} methods, functions to
 U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize a path of C{tLon}
@@ -285,7 +287,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.08.22'
+__version__ = '20.08.28'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -320,6 +322,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.clipy                 as clipy                  # PYCHOK exported
     import pygeodesy.css                   as css                    # PYCHOK exported
     import pygeodesy.datum                 as datum                  # PYCHOK exported
+    import pygeodesy.datums                as datums                 # PYCHOK exported
     import pygeodesy.deprecated            as deprecated             # PYCHOK exported
     import pygeodesy.dms                   as dms                    # PYCHOK exported
     import pygeodesy.ecef                  as ecef                   # PYCHOK exported
@@ -327,6 +330,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.ellipsoidalKarney     as ellipsoidalKarney      # PYCHOK exported
     import pygeodesy.ellipsoidalNvector    as ellipsoidalNvector     # PYCHOK exported
     import pygeodesy.ellipsoidalVincenty   as ellipsoidalVincenty    # PYCHOK exported
+    import pygeodesy.ellipsoids            as ellipsoids             # PYCHOK exported
     import pygeodesy.elliptic              as elliptic               # PYCHOK exported
     import pygeodesy.epsg                  as epsg                   # PYCHOK exported
     import pygeodesy.etm                   as etm                    # PYCHOK exported
@@ -373,7 +377,8 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.basics                import *  # PYCHOK __all__
     from pygeodesy.clipy                 import *  # PYCHOK __all__
     from pygeodesy.css                   import *  # PYCHOK __all__
-    from pygeodesy.datum                 import *  # PYCHOK __all__
+#   from pygeodesy.datum                 import *  # MODULE O_N_L_Y
+    from pygeodesy.datums                import *  # PYCHOK __all__
     from pygeodesy.deprecated            import *  # PYCHOK __all__
     from pygeodesy.dms                   import *  # PYCHOK __all__
     from pygeodesy.ecef                  import *  # PYCHOK __all__
@@ -381,6 +386,7 @@ if not _lazy_import2:  # import and set __all__
 #   from pygeodesy.ellipsoidalKarney     import -  # MODULE O_N_L_Y
 #   from pygeodesy.ellipsoidalNvector    import -  # MODULE O_N_L_Y
     from pygeodesy.ellipsoidalVincenty   import VincentyError  # PYCHOK exported
+    from pygeodesy.ellipsoids            import *  # PYCHOK __all__
     from pygeodesy.elliptic              import *  # PYCHOK __all__
     from pygeodesy.epsg                  import Epsg, EPSGError  # PYCHOK exported
     from pygeodesy.etm                   import *  # PYCHOK __all__

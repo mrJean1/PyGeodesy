@@ -15,7 +15,7 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 from pygeodesy.basics import EPS, PI, property_doc_, property_RO, \
                             _xinstanceof, _xkwds
 from pygeodesy.cartesianBase import CartesianBase
-from pygeodesy.datum import Datum, Datums
+from pygeodesy.datums import Datum, Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, \
                              _IsnotError, _ValueError, _xellipsoidal
@@ -32,7 +32,7 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.units import Radius_
 
 __all__ = ()
-__version__ = '20.08.12'
+__version__ = '20.08.24'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 16    # _intersects2 interations, 6 sufficient

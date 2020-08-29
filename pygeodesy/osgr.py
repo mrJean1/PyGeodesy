@@ -39,7 +39,7 @@ del division
 
 from pygeodesy.basics import halfs2, map1, property_RO, \
                             _xsubclassof, _xzipairs
-from pygeodesy.datum import Datums
+from pygeodesy.datums import Datums
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError
@@ -57,7 +57,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.08.12'
+__version__ = '20.08.24'
 
 _10um  = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km = 100000  #: (INTERNAL) 100 km (int meter)

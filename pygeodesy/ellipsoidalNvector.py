@@ -24,7 +24,7 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 
 from pygeodesy.basics import property_RO, _xinstanceof, \
                             _xkwds, _xzipairs
-from pygeodesy.datum import Datum, Datums
+from pygeodesy.datums import Datum, Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
@@ -42,7 +42,7 @@ from pygeodesy.utily import degrees90, degrees360, sincos2d
 from math import asin, atan2
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.07.08'
+__version__ = '20.08.24'
 
 _down_  = 'down'
 _east_  = 'east'

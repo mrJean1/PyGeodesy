@@ -19,8 +19,9 @@ each end).
 '''
 
 from pygeodesy.basics import EPS, property_RO
-from pygeodesy.datum import Datums, _TOL
+from pygeodesy.datums import Datums
 from pygeodesy.dms import degDMS, parseDMS2
+from pygeodesy.ellipsoids import _TOL
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1
 from pygeodesy.interns import _COMMA_SPACE_, _inside_, _N_, NN, _pole_, \
@@ -38,7 +39,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.08.12'
+__version__ = '20.08.24'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = Meter(2000e3)  #: (INTERNAL) False easting and northing (C{meter}).

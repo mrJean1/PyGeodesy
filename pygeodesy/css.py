@@ -10,7 +10,7 @@ L{CSSError} requiring I{Charles Karney}'s U{geographiclib
 
 from pygeodesy.basics import property_RO, _xinstanceof, _xkwds, \
                             _xsubclassof, _xzipairs
-from pygeodesy.datum import Datums
+from pygeodesy.datums import Datums
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _datum_datum, _ValueError, _xellipsoidal
 from pygeodesy.interns import _azimuth_, _C_, _COMMA_SPACE_, _datum_, \
@@ -27,7 +27,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.08.22'
+__version__ = '20.08.24'
 
 _CassiniSoldner0 =  None  # default projection
 

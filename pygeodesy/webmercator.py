@@ -19,9 +19,10 @@ U{Implementation Practice Web Mercator Map Projection
 
 from pygeodesy.basics import PI_2, isscalar, issubclassof, property_RO, \
                             _xinstanceof, _xkwds, _xzipairs
-from pygeodesy.datum import Datum, R_MA
+from pygeodesy.datums import Datum
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
+from pygeodesy.ellipsoids import R_MA
 from pygeodesy.errors import _IsnotError, _parseX, _TypeError, _ValueError
 from pygeodesy.interns import _COMMA_, _COMMA_SPACE_, _easting_, \
                               _ellipsoidal_, NN, _northing_, _radius_, \
@@ -37,7 +38,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.08.12'
+__version__ = '20.08.24'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).

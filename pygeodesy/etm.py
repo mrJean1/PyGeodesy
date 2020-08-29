@@ -67,7 +67,7 @@ del division
 
 from pygeodesy.basics import EPS, PI_2, PI_4, property_doc_, \
                              property_RO, _xinstanceof
-from pygeodesy.datum import Datum, Datums
+from pygeodesy.datums import Datum, Datums
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
@@ -88,7 +88,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.08.17'
+__version__ = '20.08.24'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS

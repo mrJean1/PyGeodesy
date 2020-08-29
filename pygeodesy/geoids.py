@@ -60,7 +60,7 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
 '''
 
 from pygeodesy.basics import EPS, len2, map1, map2, property_RO
-from pygeodesy.datum import Datum, Datums
+from pygeodesy.datums import Datum, Datums
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
@@ -92,7 +92,7 @@ except ImportError:  # Python 3+
         return bs.decode(_utf_8_)
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.08.06'
+__version__ = '20.08.24'
 
 # temporarily hold a single instance for each int value
 _intCs = {}

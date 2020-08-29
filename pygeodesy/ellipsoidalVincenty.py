@@ -60,7 +60,7 @@ if not division:
 del division
 
 from pygeodesy.basics import EPS, property_doc_, _xkwds
-from pygeodesy.datum import Datums
+from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import _intersections2, _TOL_M, \
                                        CartesianEllipsoidalBase, \
@@ -79,7 +79,7 @@ from pygeodesy.utily import degrees90, degrees180, degrees360, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.08.07'
+__version__ = '20.08.24'
 
 _antipodal_ = 'antipodal '  # _SPACE_
 

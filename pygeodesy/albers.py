@@ -14,7 +14,7 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 '''
 
 from pygeodesy.basics import EPS, property_RO, _xinstanceof, _xkwds
-from pygeodesy.datum import Datums, Datum
+from pygeodesy.datums import Datums, Datum
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
 from pygeodesy.interns import _datum_, _gamma_, _lat_, _lat0_, \
@@ -29,7 +29,7 @@ from pygeodesy.utily import atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.08.22'
+__version__ = '20.08.28'
 
 _EPSX   = EPS**2
 _EPSX2  = EPS**4
@@ -545,8 +545,8 @@ class _AlbersBase(_NamedBase):
         self._k0n0  = k  * self._n0
         self._k02n0 = k2 * self._n0
 
-    def _tanf(self, txi):
-        '''(INTERNAL) Function M{tan(xi)}.
+    def _tanf(self, txi):  # called from .Ellipsoid.auxAuthalic
+        '''(INTERNAL) Function M{tan-phi from tan-xi}.
         '''
         tol = _tol(_TOL, txi)
 
@@ -566,8 +566,8 @@ class _AlbersBase(_NamedBase):
                 return ta
         raise AlbersError(iteration=_NUMIT, txt=_no_convergence_fmt_ % (tol,))
 
-    def _txif(self, ta):
-        '''(INTERNAL) Function M{tan(a)}.
+    def _txif(self, ta):  # called from .Ellipsoid.auxAuthalic
+        '''(INTERNAL) Function M{tan-xi from tan-phi}.
         '''
         E = self.datum.ellipsoid
 
@@ -589,7 +589,7 @@ class _AlbersBase(_NamedBase):
 
 
 class AlbersEqualArea(_AlbersBase):
-    '''An Albers-equal-area projection with a single standard parallel.
+    '''An Albers equal-area (authalic) projection with a single standard parallel.
 
        @see: L{AlbersEqualArea4} and L{AlbersEqualArea}.
     '''
@@ -609,7 +609,7 @@ class AlbersEqualArea(_AlbersBase):
 
 
 class AlbersEqualArea2(_AlbersBase):
-    '''An Albers-equal-area projection with two standard parallels.
+    '''An Albers equal-area (authalic) projection with two standard parallels.
 
        @see: L{AlbersEqualArea4} and L{AlbersEqualArea}.
     '''
@@ -632,8 +632,8 @@ class AlbersEqualArea2(_AlbersBase):
 
 
 class AlbersEqualArea4(_AlbersBase):
-    '''An Albers-equal-area projection specified by the C{sin} and C{cos}
-       of both standard parallels.
+    '''An Albers equal-area (authalic) projection specified by the C{sin}
+       and C{cos} of both standard parallels.
 
        @see: L{AlbersEqualArea2} and L{AlbersEqualArea}.
     '''
@@ -678,8 +678,8 @@ class AlbersEqualAreaCylindrical(_AlbersBase):
 
 
 class AlbersEqualAreaNorth(_AlbersBase):
-    '''An L{AlbersEqualArea} projection at C{lat=90} and C{k0=1} degenerating
-       to the L{azimuthal} L{LambertEqualArea} projection.
+    '''An azimuthal L{AlbersEqualArea} projection at C{lat=90} and C{k0=1}
+       degenerating to the L{azimuthal} L{LambertEqualArea} projection.
     '''
     _lat1 = _lat2 = _Lat_(90, name=_lat1_)
 
@@ -693,8 +693,8 @@ class AlbersEqualAreaNorth(_AlbersBase):
 
 
 class AlbersEqualAreaSouth(_AlbersBase):
-    '''An L{AlbersEqualArea} projection at C{lat=-90} and C{k0=1} degenerating
-       to the L{azimuthal} L{LambertEqualArea} projection.
+    '''An azimuthal L{AlbersEqualArea} projection at C{lat=-90} and C{k0=1}
+       degenerating to the L{azimuthal} L{LambertEqualArea} projection.
     '''
     _lat1 = _lat2 = _Lat_(-90, name=_lat1_)
 

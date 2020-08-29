@@ -30,7 +30,7 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 from pygeodesy.basics import EPS, EPS1, NAN, PI, PI_2, property_doc_, \
                              property_RO, _xinstanceof, _xkwds
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.datum import Datum, Datums, _spherical_datum
+from pygeodesy.datums import Datum, Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError
 from pygeodesy.fmath import Fsum
 from pygeodesy.interns import _azimuth_, _COMMA_SPACE_, _datum_, _lat_, \
@@ -49,7 +49,7 @@ from pygeodesy.utily import asin1, atan2d, sincos2, sincos2d
 from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.08.22'
+__version__ = '20.08.24'
 
 _EPS_Karney    =  sqrt(EPS) * 0.01  # Karney's eps_
 _over_horizon_ = 'over horizon'

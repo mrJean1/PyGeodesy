@@ -33,7 +33,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.08.12'
+__version__ = '20.08.24'
 
 # __DUNDER gets mangled in class
 _final_     = 'final'
@@ -760,7 +760,7 @@ class LatLon3Tuple(_NamedTuple):
 
            @raise TypeError: If B{C{datum}} not a C{Datum}.
         '''
-        from pygeodesy.datum import Datum
+        from pygeodesy.datums import Datum
         _xinstanceof(Datum, datum=datum)
         return self._xtend(LatLon4Tuple, datum)
 
@@ -872,7 +872,7 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py, extends -2Tuple
 
            @raise TypeError: If B{C{datum}} not a C{Datum}.
         '''
-        from pygeodesy.datum import Datum
+        from pygeodesy.datums import Datum
         _xinstanceof(Datum, datum=datum)
         return self._xtend(PhiLam4Tuple, datum)
 

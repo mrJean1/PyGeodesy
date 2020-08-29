@@ -61,7 +61,7 @@ module are wrappers around some of I{Karney}'s Python U{geographiclib
 '''
 
 from pygeodesy.basics import NAN, property_RO
-from pygeodesy.datum import Datums
+from pygeodesy.datums import Datums
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import Destination3Tuple, Distance3Tuple
 from pygeodesy.utily import unroll180, wrap360
@@ -69,7 +69,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.08.22'
+__version__ = '20.08.24'
 
 
 class _Adict(dict):

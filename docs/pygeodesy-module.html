@@ -65,9 +65,9 @@
   target="_top">ECEF</a> cartesian) coordinates.</p>
   <p>Transcribed from <a href="https://GitHub.com/ChrisVeness/geodesy" 
   target="_top">JavaScript originals</a> by <i>Chris Veness (C) 
-  2005-2016</i> and several <a 
+  2005-2019</i> and several <a 
   href="https://GeographicLib.SourceForge.io/html/annotated.html" 
-  target="_top">C++ classes</a> by <i>Charles F.F. Karney (C) 2008-2019</i>
+  target="_top">C++ classes</a> by <i>Charles F.F. Karney (C) 2008-2020</i>
   and published under the same <a 
   href="https://OpenSource.org/licenses/MIT" target="_top">MIT 
   License</a>**.</p>
@@ -120,8 +120,10 @@
   target="_top">Georefs (WGRS)</a> and <a 
   href="https://WikiPedia.org/wiki/Global_Area_Reference_System" 
   target="_top">Garefs (GARS)</a>.</p>
-  <p>Other modules provide Albers equal-area, azimuthal projections and 
-  Lambert conformal conic projections and positions (from <a 
+  <p>Other modules provide <a 
+  href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html"
+  target="_top">Albers Equal-Area</a> projections, azimuthal projections 
+  and Lambert conformal conic projections and positions (from <a 
   href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" target="_top">John P.
   Snyder, &quot;Map Projections -- A Working Manual&quot;, 1987</a>), 
   functions to clip a path or polygon of <code>LatLon</code> points using 
@@ -302,7 +304,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.08.22
+        20.08.28
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -369,16 +371,16 @@
         requiring <i>Charles Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib/" 
         target="_top">geographiclib</a> package to be installed.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">Classes <a href="pygeodesy.datum.Datum-class.html" 
-        class="link">Datum</a>, <a 
-        href="pygeodesy.datum.Ellipsoid-class.html" 
-        class="link">Ellipsoid</a> and <a 
-        href="pygeodesy.datum.Transform-class.html" 
+    <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.datums-module.html" 
+        class="link">datums</a> or <a 
+        href="pygeodesy.ellipsoids-module.html" class="link">ellipsoids</a>
+        instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.datums-module.html">pygeodesy.datums</a></strong>: <em class="summary">Classes <a href="pygeodesy.datums.Datum-class.html" 
+        class="link">Datum</a> and <a 
+        href="pygeodesy.datums.Transform-class.html" 
         class="link">Transform</a> and registries thereof <a 
-        href="pygeodesy.datum-module.html#Datums" class="link">Datums</a>, 
-        <a href="pygeodesy.datum-module.html#Ellipsoids" 
-        class="link">Ellipsoids</a> and <a 
-        href="pygeodesy.datum-module.html#Transforms" 
+        href="pygeodesy.datums-module.html#Datums" class="link">Datums</a> 
+        and <a href="pygeodesy.datums-module.html#Transforms" 
         class="link">Transforms</a>, respectively.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED classes, functions, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format bearing, compass, lat- and longitudes
@@ -454,6 +456,10 @@
         class="link" onclick="show_private();">areaOf</a> and <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
         class="link" onclick="show_private();">perimeterOf</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids-module.html">pygeodesy.ellipsoids</a></strong>: <em class="summary">Classes <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        class="link">Ellipsoid</a> and an <a 
+        href="pygeodesy.ellipsoids-module.html#Ellipsoids" 
+        class="link">Ellipsoids</a> registry.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic-module.html">pygeodesy.elliptic</a></strong>: <em class="summary">Elliptic integrals and functions transcribed from <i>Charles 
         Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1EllipticFunction.html"
@@ -611,7 +617,8 @@
         class="link">HeightSmoothBiSpline</a> to interpolate the height of 
         <code>LatLon</code> locations or separate lat-/longitudes from a 
         set of <code>LatLon</code> points with known heights.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single-instance strings, <code>intern</code>'ed across modules.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single-instance floats and strings, <code>intern</code>'ed across 
+        modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary">Wrapper around <i>Charles Karney</i>'s Python classes 
         <code>Geodesic</code> and <code>GeodesicLine</code> and functions 
         <code>AngDiff</code>, <code>AngNormalize</code>, 
@@ -876,7 +883,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.albers.AlbersEqualArea-class.html" class="summary-name">AlbersEqualArea</a><br />
-      An Albers-equal-area projection with a single standard parallel.
+      An Albers equal-area (authalic) projection with a single standard 
+        parallel.
     </td>
   </tr>
 <tr>
@@ -884,7 +892,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.albers.AlbersEqualArea2-class.html" class="summary-name">AlbersEqualArea2</a><br />
-      An Albers-equal-area projection with two standard parallels.
+      An Albers equal-area (authalic) projection with two standard 
+        parallels.
     </td>
   </tr>
 <tr>
@@ -892,8 +901,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.albers.AlbersEqualArea4-class.html" class="summary-name">AlbersEqualArea4</a><br />
-      An Albers-equal-area projection specified by the <code>sin</code> 
-        and <code>cos</code> of both standard parallels.
+      An Albers equal-area (authalic) projection specified by the 
+        <code>sin</code> and <code>cos</code> of both standard parallels.
     </td>
   </tr>
 <tr>
@@ -912,7 +921,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.albers.AlbersEqualAreaNorth-class.html" class="summary-name">AlbersEqualAreaNorth</a><br />
-      An <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+      An azimuthal <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
         class="link">AlbersEqualArea</a> projection at <code>lat=90</code> 
         and <code>k0=1</code> degenerating to the <a 
         href="pygeodesy.azimuthal-module.html" class="link">azimuthal</a> 
@@ -925,7 +934,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.albers.AlbersEqualAreaSouth-class.html" class="summary-name">AlbersEqualAreaSouth</a><br />
-      An <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
+      An azimuthal <a href="pygeodesy.albers.AlbersEqualArea-class.html" 
         class="link">AlbersEqualArea</a> projection at <code>lat=-90</code>
         and <code>k0=1</code> degenerating to the <a 
         href="pygeodesy.azimuthal-module.html" class="link">azimuthal</a> 
@@ -1057,7 +1066,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datum.Datum-class.html" class="summary-name">Datum</a><br />
+        <a href="pygeodesy.datums.Datum-class.html" class="summary-name">Datum</a><br />
       Ellipsoid and transform parameters for an earth model.
     </td>
   </tr>
@@ -1195,9 +1204,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datum.Ellipsoid-class.html" class="summary-name">Ellipsoid</a><br />
-      Ellipsoid with major and minor radius, semi-axis, (inverse) 
-        flattening and other pre-computed, frequently used attributes.
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" class="summary-name">Ellipsoid</a><br />
+      Ellipsoid with equatorial (major) and minor radius, (inverse) 
+        flattening and other pre-computed, frequently used attributes, 
+        supporting both oblate and prolate ellipsoids and spheres.
     </td>
   </tr>
 <tr>
@@ -2484,7 +2494,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datum.Transform-class.html" class="summary-name">Transform</a><br />
+        <a href="pygeodesy.datums.Transform-class.html" class="summary-name">Transform</a><br />
       Helmert transformation.
     </td>
   </tr>
@@ -4457,7 +4467,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd9fa549350&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc7d4e64b50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -7216,7 +7226,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.22'"><code class="variable-quote">'</code><code class="variable-string">20.8.22</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.8.28'"><code class="variable-quote">'</code><code class="variable-string">20.8.28</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -7300,13 +7310,13 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
-56.909, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667054, e12\
-=0.99332946, e22=0.00671533, n=0.00167322, R1=6370461.23366667, R2=637\
-0459.65470808, R3=6370453.30986645, Rr=6366914.60880589, Rs=6366901.23\
-988196),
+56.90923729, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667054\
+, e22=0.00671533, e32=0.00334643, n=0.00167322, L=10001126.0807165, R1\
+=6370461.23374576, R2=6370459.65470808, R3=6370453.30994572, Rr=636691\
+4.60892444, Rs=6366901.24000081),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
- b=6356034.448, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667\
-054, e12=0.99332946, e22=0.00671533, n=0.00167322, R1=6370238.27533333\
+ b=6356034.44793853, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.\
+00667054, e22=0.00671533, e32=0.00334643, n=0.00167322, L=10000776.053\
 ...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
       Registered ellipsoids (<code>enum-like</code>).
     </td>
@@ -7872,7 +7882,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <code>'C'|'D'..'W'|'X'</code> or UPS (polar) Band letter 
           <code>'A'|'B'|'Y'|'Z'</code> (<code>str</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Optional, the coordinate's datum (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>falsed</code></strong> - Both <b><code>easting</code></b> and <b><code>northing</code></b>
           are falsed (<code>bool</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
@@ -8959,7 +8969,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
@@ -8994,7 +9004,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
         and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>.
       </p>
 </div></td></tr></table>
@@ -9030,7 +9040,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angular distance (<code>radians</code>).</dd>
@@ -9099,7 +9109,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
@@ -9134,7 +9144,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
         and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>.
       </p>
 </div></td></tr></table>
@@ -9169,7 +9179,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angular distance (<code>radians</code>).</dd>
@@ -9269,7 +9279,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
         and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>.
       </p>
       <p><strong>Note:</strong>
@@ -9986,7 +9996,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
         and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, 
         <code>LatLon.distanceTo*</code> and 
         <code>LatLon.equirectangularTo</code>.
@@ -10060,7 +10070,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
         and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, 
         <code>LatLon.distanceTo*</code> and 
         <code>LatLon.equirectangularTo</code>.
@@ -10413,7 +10423,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
@@ -10427,7 +10437,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The meridional and prime_vertical radii of curvature are taken and 
-        scaled at the mean latitude.
+        scaled at the mean of both latitude.
       </p>
       <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatLocal_" 
@@ -10451,7 +10461,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#thomas" class="link">thomas</a>, 
         <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a>, method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a> and <a 
         href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">local, flat earth approximation</a>.
@@ -10489,7 +10499,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angular distance (<code>radians</code>).</dd>
@@ -10500,7 +10510,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The meridional and prime_vertical radii of curvature are taken and 
-        scaled <i>at the mean latitude</i>.
+        scaled <i>at the mean of both latitude</i>.
       </p>
       <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatLocal" 
@@ -11278,7 +11288,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd9fa549350&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc7d4e64b50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -11396,7 +11406,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
         and <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and methods <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, 
         <code>LatLon.distanceTo*</code> and 
         <code>LatLon.equirectangularTo</code>.
@@ -11619,7 +11629,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
@@ -11633,7 +11643,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The meridional and prime_vertical radii of curvature are taken and 
-        scaled at the mean latitude.
+        scaled at the mean of both latitude.
       </p>
       <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatLocal_" 
@@ -11657,7 +11667,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         href="pygeodesy.formy-module.html#thomas" class="link">thomas</a>, 
         <a href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a>, method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a> and <a 
         href="https://www.EdWilliams.org/avform.htm#flat" 
         target="_top">local, flat earth approximation</a>.
@@ -11695,7 +11705,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angular distance (<code>radians</code>).</dd>
@@ -11706,7 +11716,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         The meridional and prime_vertical radii of curvature are taken and 
-        scaled <i>at the mean latitude</i>.
+        scaled <i>at the mean of both latitude</i>.
       </p>
       <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#flatLocal" 
@@ -13841,8 +13851,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strUTM</code></strong> - A UTM coordinate (<code>str</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
-          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>Etm</code></strong> - Optional class to return the UTM coordinate (<a 
           href="pygeodesy.etm.Etm-class.html" class="link">Etm</a>) or 
           <code>None</code>.</li>
@@ -13893,8 +13903,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strMGRS</code></strong> - MGRS grid reference (<code>str</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
-          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>Mgrs</code></strong> - Optional class to return the MGRS grid reference (<a 
           href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>) or 
           <code>None</code>.</li>
@@ -14044,8 +14054,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strUPS</code></strong> - A UPS coordinate (<code>str</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
-          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>Ups</code></strong> - Optional class to return the UPS coordinate (<a 
           href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>) or 
           <code>None</code>.</li>
@@ -14119,8 +14129,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strUTM</code></strong> - A UTM coordinate (<code>str</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
-          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>Utm</code></strong> - Optional class to return the UTM coordinate (<a 
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
           <code>None</code>.</li>
@@ -14172,8 +14182,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strUTMUPS</code></strong> - A UTM or UPS coordinate (<code>str</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a href="pygeodesy.datum.Datum-class.html"
-          class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional datum to use (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>Utm</code></strong> - Optional class to return the UTM coordinate (<a 
           href="pygeodesy.utm.Utm-class.html" class="link">Utm</a>) or 
           <code>None</code>.</li>
@@ -15330,7 +15340,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
@@ -15365,7 +15375,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         class="link">haversine</a>, <a 
         href="pygeodesy.formy-module.html#vincentys" 
         class="link">vincentys</a> and method <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>.
       </p>
 </div></td></tr></table>
@@ -15398,7 +15408,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
         <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
-          href="pygeodesy.datum.Datum-class.html" class="link">Datum</a>).</li>
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angular distance (<code>radians</code>).</dd>
@@ -16497,7 +16507,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         class="link">haversine</a> and <a 
         href="pygeodesy.formy-module.html#thomas" class="link">thomas</a> 
         and methods <a 
-        href="pygeodesy.datum.Ellipsoid-class.html#distance2" 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#distance2" 
         class="link">Ellipsoid.distance2</a>, 
         <code>LatLon.distanceTo*</code> and 
         <code>LatLon.equirectangularTo</code>.
@@ -16826,13 +16836,13 @@ sform=Transforms.WGS84),
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-56.909, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667054, e12<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-=0.99332946, e22=0.00671533, n=0.00167322, R1=6370461.23366667, R2=637<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-0459.65470808, R3=6370453.30986645, Rr=6366914.60880589, Rs=6366901.23<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-988196),
+56.90923729, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667054<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+, e22=0.00671533, e32=0.00334643, n=0.00167322, L=10001126.0807165, R1<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+=6370461.23374576, R2=6370459.65470808, R3=6370453.30994572, Rr=636691<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+4.60892444, Rs=6366901.24000081),
 Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- b=6356034.448, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.00667<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-054, e12=0.99332946, e22=0.00671533, n=0.00167322, R1=6370238.27533333<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ b=6356034.44793853, f_=299.3249646, f=0.00334085, e=0.08167337, e2=0.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+00667054, e22=0.00671533, e32=0.00334643, n=0.00167322, L=10000776.053<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -16923,7 +16933,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 22 17:47:48 2020
+    Generated by Epydoc 3.0.1 on Fri Aug 28 20:48:31 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

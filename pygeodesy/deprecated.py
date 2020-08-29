@@ -14,7 +14,7 @@ from pygeodesy.named import _NamedTuple
 from pygeodesy.trf import TRFError as _TRFError
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '20.07.08'
+__version__ = '20.08.24'
 
 OK = 'OK'  # OK for test like I{if ... is OK: ...}
 
@@ -223,7 +223,7 @@ def parseUTM(strUTM, datum=_WGS84, Utm=_UTM, name=NN):
        @return: The UTM coordinate (B{L{Utm}}) or 4-tuple C{(zone,
                 hemisphere, easting, northing)} if B{C{Utm}} is C{None}.
     '''
-    from pygeodesy.datum import Datums  # PYCHOK shadows?
+    from pygeodesy.datums import Datums  # PYCHOK shadows?
     from pygeodesy.utm import parseUTM5, Utm as _Utm
     d = Datums.WGS84 if datum is _WGS84 else datum  # PYCHOK shadows?
     U = _Utm if Utm is _UTM else Utm

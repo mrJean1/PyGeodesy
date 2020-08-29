@@ -8,8 +8,8 @@ and spherical earth models using precision trigonometric, vector-based,
 elliptic and approximate methods for geodetic (lat-/longitude) and
 geocentric (ECEF_ cartesian) coordinates.
 
-Transcribed from `JavaScript originals`_ by *Chris Veness (C) 2005-2016*
-and several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2019* and
+Transcribed from `JavaScript originals`_ by *Chris Veness (C) 2005-2019*
+and several `C++ classes`_ by *Charles F.F. Karney (C) 2008-2020* and
 published under the same `MIT License`_.
 
 There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
@@ -30,9 +30,9 @@ Reference System) and OSGR_ (British Ordinance Survery Grid Reference) grid
 references, TRF_ (Terrestrial Reference Frames) and modules to encode and
 decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
-Other modules provide Albers equal-area, azimuthal projections and Lambert
-conformal conic projections and positions (from `John P. Snyder`_, *Map
-Projections -- A Working Manual*, 1987), functions to clip a path or polygon
+Other modules provide `Albers Equal-Area`_ projections, azimuthal projections
+and Lambert conformal conic projections and positions (from `John P. Snyder`_,
+*Map Projections -- A Working Manual*, 1987), functions to clip a path or polygon
 of *LatLon* points using the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_
 methods, functions to simplify_ or linearize a path of *LatLon* points (or a
 `numpy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
@@ -126,7 +126,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Aug 22, 2020.*
+*Last updated: Aug 28, 2020.*
 
 License
 =======
@@ -168,6 +168,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. image:: https://Img.Shields.io/pypi/l/PyGeodesy.svg
   :target: https://PyPI.org/project/PyGeodesy
 
+.. _Albers Equal-Area: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html
 .. _C++ classes: https://GeographicLib.SourceForge.io/html/annotated.html
 .. _Cassini-Soldner: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html
 .. _checked: https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor

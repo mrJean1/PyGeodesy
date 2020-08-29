@@ -32,7 +32,7 @@ to a normalised version of an (ECEF) cartesian coordinate.
 
 from pygeodesy.basics import EPS, EPS_2, PI, PI2, PI_2, R_M, \
                              isscalar, map1, _xinstanceof, _xkwds
-from pygeodesy.datum import Datums
+from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fidw, fmean, fsum, fsum_
@@ -54,7 +54,7 @@ from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '20.07.24'
+__version__ = '20.08.24'
 
 _paths_ = 'paths'
 

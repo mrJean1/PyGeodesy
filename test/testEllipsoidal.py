@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.08.04'
+__version__ = '20.08.26'
 
 from base import coverage, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -103,7 +103,7 @@ class Tests(_TestsLL, _TestsV):
             self.test('toCartesian', isinstance(c, Cartesian), True)
 
             p = c.toLatLon()  # 45.0°N, 45.0°E
-            self.test('toLatLon', p.toStr('d', 2), '45.0°N, 045.0°E, +0.00m')  # 45.0°N, 45.0°E
+            self.test('toLatLon', p.toStr('d', prec=2, m=None), '45.0°N, 045.0°E')  # 45.0°N, 45.0°E
             self.test('toLatLon', isinstance(p, LatLon), True)
 
             n = Nvector(0.51, 0.512, 0.7071, 1).toStr(3)
@@ -115,9 +115,9 @@ class Tests(_TestsLL, _TestsV):
                             '82.219069°N, 059.719736°E, -6353120.97m')  # XXX neg height?
         d = LatLon(51.99888889, 4.37333333, height=134.64, name='DopTrackStation')
         self.test('dop', d, '51.998889°N, 004.373333°E, +134.64m')
-        self.test('distance', d.distanceTo(s), '3806542.94364687' if Nvector else
-                                              ('3817991.07401530' if module is V else
-                                               '3802238.50498862'), fmt='%.8f')
+        d = d.distanceTo(s)
+        x ='3806542.943647' if Nvector else ('3817991.074015' if module is V else '3802238.504989')
+        self.test('distance', d, x, known=abs(float(x) - d) < 5e-6)
 
     def testKarney(self, module, datum):
 

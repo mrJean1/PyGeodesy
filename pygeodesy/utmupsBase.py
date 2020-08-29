@@ -8,10 +8,10 @@ for the UTM, UPS, Mgrs and Epsg classes/modules.
 from pygeodesy.basics import isscalar, isstr, map1, property_RO, \
                             _xattrs, _xinstanceof, _xkwds, \
                             _xsubclassof, _xzipairs
+from pygeodesy.datums import Datum, Datums
+from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import ParseError, _parseX, _ValueError
-from pygeodesy.datum import Datum, Datums
-from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.interns import _band_, _COMMA_, _COMMA_SPACE_, _convergence_, \
                               _datum_, _easting_, _hemipole_, _invalid_, \
                               _lat_, _lon_, _N_, _n_a_, NN, _northing_, _NS_, \
@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Easting, Lat, Lon, Northing, \
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.07.08'
+__version__ = '20.08.24'
 
 _MGRS_TILE =  100e3  # PYCHOK block size (C{meter})
 

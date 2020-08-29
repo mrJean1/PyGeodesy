@@ -23,7 +23,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.08.22'
+__version__ = '20.08.26'
 
 
 def _c2(*names):
@@ -46,31 +46,36 @@ def _version():
                 return '.'.join(map(str, map(int, v.split('.'))))
 
 
-_KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area', 'azimuth', 'azimuthal', 'bearing',
-             'cartesian', 'Cassini', 'Cassini-Soldner', 'circle-intersections', 'clip', 'Cohen',
-             'Cohen-Sutherland', 'conic', 'cosines-law', 'coverage', 'curvature', 'cylindrical',
+_KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
+             'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'bearing',
+             'cartesian', 'Cassini', 'Cassini-Soldner', 'circle-intersections',
+             'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic',
+             'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'ECEF', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
-             'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF', 'Euclidean', 'ExactTM',
+             'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
+             'Euclidean', 'ExactTM',
              'fmath', 'Forsythe', 'fractional', 'Fréchet',
              'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest', 'geographiclib',
              'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef', 'gnomonic',
              'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
-             'IDW', 'interpolate', 'intersect', 'intersections', 'Inverse-Distance-Weighting', 'ITRF',
+             'IDW', 'interpolate', 'intersect', 'intersections',
+             'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
              'Karney', 'Krueger', 'Krüger',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh', 'linearize',
              'LocalCartesian', 'longitude',
              'Mercator', 'MGRS',
              'nearest', 'numpy', 'n-vector', 'Nvector',
-             'orthographic', 'OSGR',
-             'path-intersection', 'perimeter', 'Peucker', 'polar', 'Pseudo-Mercator',
+             'oblate', 'orthographic', 'OSGR',
+             'Parametric', 'path-intersection', 'perimeter',
+             'Peucker', 'polar', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
-             'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker',
-             'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
+             'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
+             'Reduced', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
              'scipy', 'simplify', 'Snyder', 'Soldner', 'sphere', 'stereographic',
              'Sudano', 'Sutherland', 'Sutherland-Hodgman',
              'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
-             'TransverseMercatorExact', 'TRF', 'trigonometry',
+             'Transverse', 'TransverseMercatorExact', 'TRF', 'trigonometry',
              'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'Veness', 'Vermeille', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
              'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam', 'You')

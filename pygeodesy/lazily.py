@@ -90,9 +90,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           clipy=('ClipError',
                                  'clipCS3', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
-                          datum=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
-                                 'Datum',  'Ellipsoid',  'Transform',
-                                 'Datums', 'Ellipsoids', 'Transforms'),
+                          datum=(),  # module and for backward compatibility only
+                         datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('OK',  # DEPRECATED contants
                                  'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError',  # DEPRECATED classes
                                  'anStr', 'areaof', 'bounds', 'clipDMS', 'clipStr', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
@@ -111,6 +110,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
               ellipsoidalKarney=(),  # module only
              ellipsoidalNvector=(),  # module only
             ellipsoidalVincenty=('VincentyError',),  # nothing else
+                     ellipsoids=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
+                                 'Ellipsoid', 'Ellipsoids'),
                        elliptic=('Elliptic', 'EllipticError'),
                            epsg=('Epsg', 'EPSGError'),
                          errors=('CrossError', 'IntersectionError', 'LenError', 'LimitError', 'PointsError',

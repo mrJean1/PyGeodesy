@@ -55,7 +55,7 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
 from pygeodesy.basics import EPS, PI, PI2, PI_2, _bkwds, isscalar, \
                              len2, map1, map2, property_RO, _xinstanceof
-from pygeodesy.datum import Datum, Datums
+from pygeodesy.datums import Datum, Datums
 from pygeodesy.errors import _AssertionError, LenError, PointsError, _SciPyIssue
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
@@ -70,7 +70,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.08.06'
+__version__ = '20.08.24'
 
 
 class HeightError(PointsError):

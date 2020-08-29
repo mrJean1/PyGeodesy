@@ -91,7 +91,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, \
                  floor, sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.08.15'
+__version__ = '20.08.23'
 
 _TolJAC = sqrt(EPS * 0.01)
 _TolRD  =  pow(EPS * 0.002, 0.125)
@@ -560,8 +560,8 @@ class Elliptic(_Named):
     def reset(self, k2=0, alpha2=0, kp2=None, alphap2=None):  # MCCABE 13
         '''Reset the modulus and parameter.
 
-           @kwarg k2: modulus squared (C{float}, 0 <= k^2<= 1).
-           @kwarg alpha2: parameter (C{float}, 0 <= α^2 <= 1).
+           @kwarg k2: modulus squared (C{float}, -INF <= k^2<= 1).
+           @kwarg alpha2: parameter (C{float}, -INF <= α^2 <= 1).
            @kwarg kp2: complementary modulus squared (C{float}, k'^2 >= 0).
            @kwarg alphap2: complementary parameter squared (C{float}, α'^2 >= 0).
 
@@ -574,9 +574,9 @@ class Elliptic(_Named):
                   accuracy to be maintained, e.g., when C{k} is very
                   close to unity.
         '''
-        self._k2 = k2 = Scalar_(k2, name='k2', Error=EllipticError, high=1.0)
+        self._k2 = k2 = Scalar_(k2, name='k2', Error=EllipticError, low=None, high=1.0)
 
-        self._alpha2 = alpha2 = Scalar_(alpha2, name='alpha2', Error=EllipticError, high=1.0)
+        self._alpha2 = alpha2 = Scalar_(alpha2, name='alpha2', Error=EllipticError, low=None, high=1.0)
 
         self._kp2 = kp2 = Scalar_(((1 - k2) if kp2 is None else kp2),
                                   name='kp2', Error=EllipticError)
