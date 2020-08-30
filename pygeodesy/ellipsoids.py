@@ -91,7 +91,7 @@ R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius
 # R_ = Radius(6372797.560856,  name='R_')    #: XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '20.08.28'
+__version__ = '20.08.29'
 
 _PI4   = PI2 * 2          # PYCHOK used!
 _PI4_3 = PI2 * _2_3rd     # PYCHOK used!
@@ -175,8 +175,9 @@ class Ellipsoid(_NamedEnumItem):
     _R2 = None  #: (INTERNAL) Authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (C{meter})
 #   _c  = None  #: (INTERNAL) Authalic radius: equ (60) in Karney's "Algorithms for Geodesics"
     _R3 = None  #: (INTERNAL) Volumetric radius: (a * a * b)**(1/3) (C{meter})
+    _Rb = None  #: (INTERNAL) Biaxial mean earth radius: sqrt((a**2 * b**2) / 2) (C{meter})
+    _Rg = None  #: (INTERNAL) Geometric mean earth radius: sqrt(a * b) (C{meter})
     _Rr = None  #: (INTERNAL) Rectifying radius: ((a**(3/2) + b**(3/2)) / 2)**(2/3) (C{meter})
-    _Rs = None  #: (INTERNAL) Mean earth radius: sqrt(a * b) (C{meter})
 
     _ab_90  = None  #: (a - b) / 90  # for .Rlat below
     _area   = None  #: (INTERNAL) Surface area: 4 * PI * R2**2
@@ -1010,6 +1011,18 @@ class Ellipsoid(_NamedEnumItem):
 
     Rvolumetric = R3
 
+    @property_RO
+    def Rbiaxial(self):
+        '''Get the I{biaxial} or I{quadratic} mean earth radius (C{meter}), M{sqrt((a**2 + b**2) / 2)}.
+        '''
+        if self._Rb is None:
+            b = (self.a2 * (1 + self.b2_a2)) if self.a > self.b else (
+                 self.b2 * (1 + self.a2 / self.b2))
+            self._Rb = Radius(sqrt(b / 2), name=Ellipsoid.Rbiaxial.name)
+        return self._Rb
+
+    Rquadratic = Rbiaxial
+
     def Rgeocentric(self, lat):
         '''Compute the I{geocentric} earth radius at the given latitude.
 
@@ -1031,6 +1044,18 @@ class Ellipsoid(_NamedEnumItem):
         #    == a * sqrt((c2 + b2_a2 * b2_a2_s2) / (c2 + b2_a2_s2))
         return Radius(self.a * sqrt((c2 + self.b2_a2 * b2_a2_s2) / (c2 + b2_a2_s2)),
                       name=Ellipsoid.Rgeocentric.__name__)
+
+    @property_RO
+    def Rgeometric(self):
+        '''Get the I{geometric} mean earth radius (C{meter}), M{sqrt(a * b)}.
+
+           @see: Method C{.R1}.
+        '''
+        if self._Rg is None:
+            self._Rg = Radius(sqrt(self.a * self.b), name=Ellipsoid.Rgeometric.name)
+        return self._Rg
+
+    Rs = Rgeometric  # for backward compatibility
 
     def Rlat(self, lat):
         '''Approximate the earth radius at the given latitude.
@@ -1061,18 +1086,6 @@ class Ellipsoid(_NamedEnumItem):
         return self._Rr
 
     Rrectifying = Rr
-
-    @property_RO
-    def Rs(self):
-        '''Get the I{biaxial}, mean earth radius (C{meter}), M{sqrt(a * b)}.
-
-           @see: Method C{.R1}.
-        '''
-        if self._Rs is None:
-            self._Rs = Radius(sqrt(self.a * self.b), name=Ellipsoid.Rs.name)
-        return self._Rs
-
-    Rbiaxial = Rs
 
     def roc2(self, lat, scaled=False):
         '''Compute the I{meridional} and I{prime-vertical}, I{normal}
