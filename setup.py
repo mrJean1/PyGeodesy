@@ -18,12 +18,11 @@
 # <https://docs.Python.org/3.6/distutils/sourcedist.html>
 # <https://setuptools.ReadTheDocs.io/en/latest/setuptools.html#developer-s-guide>
 # <https://setuptools.ReadTheDocs.io/en/latest/setuptools.html#test-build-package-and-run-a-unittest-suite>
-# <https://ZetCode.com/articles/packageinpython>
 
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.08.26'
+__version__ = '20.09.02'
 
 
 def _c2(*names):

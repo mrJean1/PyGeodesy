@@ -65,9 +65,8 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.basics import _bkwds, INF, property_doc_, property_RO, \
-                             _xinstanceof
-from pygeodesy.datums import Datums, Datum
+from pygeodesy.basics import _bkwds, INF, property_doc_, property_RO
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, PointsError
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
@@ -83,7 +82,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 
 class HausdorffError(PointsError):
@@ -167,11 +166,12 @@ class Hausdorff(_Named):
 
     def _datum_setter(self, datum):
         '''(INTERNAL) Set the datum.
+
+           @raise TypeError: Invalid B{C{datum}}.
         '''
         d = datum or getattr(self._model[0], _datum_, datum)
-        if d and d != self.datum:  # PYCHOK no cover
-            _xinstanceof(Datum, datum=d)
-            self._datum = d
+        if d not in (None, self._datum):  # PYCHOK no cover
+            self._datum = _ellipsoidal_datum(d, name=self.name)
 
     def directed(self, points, early=True):
         '''Compute only the C{forward Hausdorff} distance.
@@ -325,7 +325,8 @@ class HausdorffCosineAndoyerLambert(HausdorffRadians):
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
-                         and first B{C{points}}' datum (L{Datum}).
+                         and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
                         C{False} for no U{random sampling<https://
@@ -334,6 +335,8 @@ class HausdorffCosineAndoyerLambert(HausdorffRadians):
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
+
+           @raise TypeError: Invalid B{C{datum}}.
         '''
         HausdorffRadians.__init__(self, points, seed=seed, name=name,
                                                            wrap=wrap)
@@ -368,7 +371,8 @@ class HausdorffCosineForsytheAndoyerLambert(HausdorffRadians):
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
-                         and first B{C{points}}' datum (L{Datum}).
+                         and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
                         C{False} for no U{random sampling<https://
@@ -377,6 +381,8 @@ class HausdorffCosineForsytheAndoyerLambert(HausdorffRadians):
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
+
+           @raise TypeError: Invalid B{C{datum}}.
         '''
         HausdorffRadians.__init__(self, points, seed=seed, name=name,
                                                            wrap=wrap)
@@ -602,7 +608,8 @@ class HausdorffFlatLocal(HausdorffRadians):
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
-                         and first B{C{points}}' datum (L{Datum}).
+                         and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
@@ -742,7 +749,8 @@ class HausdorffKarney(HausdorffDegrees):
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
-                         and first B{C{points}}' datum (L{Datum}).
+                         and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg wrap: Optionally, wrap and L{unroll180} longitudes (C{bool}).
            @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0}
                         or C{False} for no U{random sampling<https://
@@ -791,7 +799,8 @@ class HausdorffThomas(HausdorffRadians):
                         C{template} (C{LatLon}[], C{Numpy2LatLon}[],
                         C{Tuple2LatLon}[] or C{other}[]).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
-                         and first B{C{points}}' datum (L{Datum}).
+                         and first B{C{points}}' datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg wrap: Optionally, wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg seed: Random seed (C{any}) or C{None}, C{0} or
                         C{False} for no U{random sampling<https://
@@ -800,6 +809,8 @@ class HausdorffThomas(HausdorffRadians):
 
            @raise HausdorffError: Insufficient number of B{C{points}} or
                                   invalid B{C{seed}}.
+
+           @raise TypeError: Invalid B{C{datum}}.
         '''
         HausdorffRadians.__init__(self, points, seed=seed, name=name,
                                                            wrap=wrap)

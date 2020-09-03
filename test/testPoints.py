@@ -4,9 +4,9 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '20.07.24'
+__version__ = '20.08.30'
 
-from base import TestsBase
+from base import geographiclib, TestsBase
 
 from pygeodesy import EPS, R_M, R_MA, LatLon_, \
                       LatLon2psxy, Numpy2LatLon, Tuple2LatLon, \
@@ -205,7 +205,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test2(pts, tup, False)
 
     from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, \
-                          ellipsoidalVincenty, \
+                          ellipsoidalVincenty, Ellipsoids, luneOf, \
                           sphericalTrigonometry, sphericalNvector
     t.test3(LatLon_)
     t.test3(ellipsoidalKarney.LatLon)
@@ -213,6 +213,12 @@ if __name__ == '__main__':  # PYCHOK internal error?
     t.test3(sphericalTrigonometry.LatLon)
     t.test3(ellipsoidalNvector.LatLon)
     t.test3(sphericalNvector.LatLon)
+
+    if geographiclib:
+        from pygeodesy.ellipsoidalKarney import areaOf as area
+        q = area(luneOf(-45, 45))  # datum=WGS84
+        a = Ellipsoids.WGS84.area / 4
+        t.test('luneOf', q, a, fmt='%.14e', known=abs(q - a) < 0.1)  # 0.1 m^2 == 10 cm^2
 
     t.results()
     t.exit()

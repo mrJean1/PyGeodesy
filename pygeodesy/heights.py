@@ -54,8 +54,8 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 '''
 
 from pygeodesy.basics import EPS, PI, PI2, PI_2, _bkwds, isscalar, \
-                             len2, map1, map2, property_RO, _xinstanceof
-from pygeodesy.datums import Datum, Datums
+                             len2, map1, map2, property_RO
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _AssertionError, LenError, PointsError, _SciPyIssue
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
@@ -70,7 +70,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 
 class HeightError(PointsError):
@@ -415,11 +415,12 @@ class _HeightIDW(_HeightBase):
 
     def _datum_setter(self, datum, knots):
         '''(INTERNAL) Set the datum.
+
+           @raise TypeError: Invalid B{C{datum}}.
         '''
         d = datum or getattr(knots[0], _datum_, datum)
-        if d and d != self.datum:
-            _xinstanceof(Datum, datum=d)
-            self._datum = d
+        if d not in (None, self._datum):
+            self._datum = _ellipsoidal_datum(d, name=self.name)
 
     def _distances(self, x, y):  # PYCHOK unused (x, y) radians
         '''(INTERNAL) I{Must be overloaded}.
@@ -499,7 +500,8 @@ class HeightIDWcosineAndoyerLambert(_HeightIDW):
 
            @arg knots: The points with known height (C{LatLon}s).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
-                         and first B{C{knots}}' datum (L{Datum}).
+                         and first B{C{knots}}' datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
            @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg name: Optional name for this height interpolator (C{str}).
@@ -541,7 +543,8 @@ class HeightIDWcosineForsytheAndoyerLambert(_HeightIDW):
 
            @arg knots: The points with known height (C{LatLon}s).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
-                         and first B{C{knots}}' datum (L{Datum}).
+                         and first B{C{knots}}' datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
            @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg name: Optional name for this height interpolator (C{str}).
@@ -790,7 +793,8 @@ class HeightIDWflatLocal(_HeightIDW):
 
            @arg knots: The points with known height (C{LatLon}s).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
-                         and first B{C{knots}}' datum (L{Datum}).
+                         and first B{C{knots}}' datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
            @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg name: Optional name for this height interpolator (C{str}).
@@ -918,7 +922,8 @@ class HeightIDWkarney(_HeightIDW):
 
            @arg knots: The points with known height (C{LatLon}s).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
-                         and first B{C{knots}}' datum (L{Datum}).
+                         and first B{C{knots}}' datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
            @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
            @kwarg name: Optional name for this height interpolator (C{str}).
@@ -1001,7 +1006,8 @@ class HeightIDWthomas(_HeightIDW):
 
            @arg knots: The points with known height (C{LatLon}s).
            @kwarg datum: Optional datum overriding the default C{Datums.WGS84}
-                         and first B{C{knots}}' datum (L{Datum}).
+                         and first B{C{knots}}' datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg beta: Inverse distance power (C{int} 1, 2, or 3).
            @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
            @kwarg name: Optional name for this height interpolator (C{str}).

@@ -60,7 +60,7 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
 '''
 
 from pygeodesy.basics import EPS, len2, map1, map2, property_RO
-from pygeodesy.datums import Datum, Datums
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
@@ -92,7 +92,7 @@ except ImportError:  # Python 3+
         return bs.decode(_utf_8_)
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -314,8 +314,8 @@ class _GeoidBase(_HeightBase):
         except (IOError, OSError) as x:
             raise GeoidError(geoid=geoid, txt=str(x))
 
-        if datum and isinstance(datum, Datum):
-            self._datum = datum
+        if datum not in (None, self._datum):
+            self._datum = _ellipsoidal_datum(datum, name=name)
         self._kind = int(kind)
         if name:
             _HeightBase.name.fset(self, name)  # recursion
@@ -639,7 +639,8 @@ class GeoidG2012B(_GeoidBase):
 
            @arg g2012b_bin: A C{GEOID12B} grid file name (C{.bin}).
            @kwarg crop: Optional crop box, not supported (C{None}).
-           @kwarg datum: Optional grid datum (C{Datum}), default C{WGS84}.
+           @kwarg datum: Optional grid datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
+                         or L{a_f2Tuple}), default C{WGS84}.
            @kwarg kind: C{scipy.interpolate} order (C{int}), use 1..5 for
                         U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
                         reference/generated/scipy.interpolate.RectBivariateSpline.html>},
@@ -664,6 +665,8 @@ class GeoidG2012B(_GeoidBase):
 
            @raise SciPyWarning: A C{RectBivariateSpline} or C{inter2d}
                                 warning as exception.
+
+           @raise TypeError: Invalid B{C{datum}}.
         '''
         if crop is not None:
             raise GeoidError(crop=crop, txt=_not_supported_)
@@ -835,7 +838,8 @@ class GeoidKarney(_GeoidBase):
                         east)}) or 2, in C{degrees90} lat- and C{degrees180}
                         longitudes or a 2-tuple (C{LatLonSW, LatLonNE}) of
                         C{LatLon} instances.
-           @kwarg datum: Optional grid datum (C{Datum}), default C{WGS84}.
+           @kwarg datum: Optional grid datum (C{Datum}, L{Ellipsoid}, L{Ellipsoid2}
+                         or L{a_f2Tuple}), default C{WGS84}.
            @kwarg kind: Interpolation order (C{int}), 2 for C{bilinear} or 3
                         for C{cubic}.
            @kwarg name: Optional geoid name (C{str}).
@@ -843,6 +847,8 @@ class GeoidKarney(_GeoidBase):
 
            @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}},
                               B{C{kind}} or B{C{smooth}}.
+
+           @raise TypeError: Invalid B{C{datum}}.
 
            @see: Class L{GeoidPGM} and function L{egmGeoidHeights}.
         '''
@@ -1157,7 +1163,8 @@ class GeoidPGM(_GeoidBase):
                         north, east}) or 2-tuple (C{(south, west), (north, east)}),
                         in C{degrees90} lat- and C{degrees180} longitudes or a
                         2-tuple (C{LatLonSW, LatLonNE}) of C{LatLon} instances.
-           @kwarg datum: Optional grid datum (C{Datum}), default C{WGS84}.
+           @kwarg datum: Optional grid datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
+                         or L{a_f2Tuple}), default C{WGS84}.
            @kwarg kind: C{scipy.interpolate} order (C{int}), use 1..5 for
                         U{RectBivariateSpline<https://docs.SciPy.org/doc/scipy/
                         reference/generated/scipy.interpolate.RectBivariateSpline.html>},
@@ -1182,6 +1189,8 @@ class GeoidPGM(_GeoidBase):
 
            @raise SciPyWarning: A C{RectBivariateSpline} or C{inter2d}
                                 warning as exception.
+
+           @raise TypeError: Invalid B{C{datum}}.
 
            @note: The U{GeographicLib egm*.pgm<https://GeographicLib.SourceForge.io/
                   html/geoid.html#geoidinst>} file sizes are based on a 2-byte

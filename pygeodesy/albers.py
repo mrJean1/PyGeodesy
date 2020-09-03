@@ -13,8 +13,8 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, property_RO, _xinstanceof, _xkwds
-from pygeodesy.datums import Datums, Datum
+from pygeodesy.basics import EPS, property_RO, _xkwds
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
 from pygeodesy.interns import _datum_, _gamma_, _lat_, _lat0_, \
@@ -29,7 +29,7 @@ from pygeodesy.utily import atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.08.28'
+__version__ = '20.09.02'
 
 _EPSX   = EPS**2
 _EPSX2  = EPS**4
@@ -56,7 +56,7 @@ def _Dsn(x, y, sx, sy):
 
        @see: U{W. M. Kahan and R. J. Fateman, "Sympbolic omputation of divided
              differences"<https://people.EECS.Berkeley.EDU/~fateman/papers/divdiff.pdf>},
-             U{ACM SIGSAM Bulletin 33(2), 7-28 (1999)<https://doi.org/10.1145/334714.334716>}
+             U{ACM SIGSAM Bulletin 33(2), 7-28 (1999)<https://DOI.org/10.1145/334714.334716>}
              and U{AlbersEqualArea.hpp
              <https://geographiclib.sourceforge.io/html/AlbersEqualArea_8hpp_source.html>}.
     '''
@@ -128,9 +128,8 @@ class _AlbersBase(_NamedBase):
     def __init__(self, sa1, ca1, sa2, ca2, k, datum, name):
         '''(INTERNAL) New C{AlbersEqualArea...} instance.
         '''
-        if datum and datum not in (None, self._datum):
-            _xinstanceof(Datum, datum=datum)
-            self._datum = datum
+        if datum not in (None, self._datum):
+            self._datum = _ellipsoidal_datum(datum, name=name)
         if name:
             self.name = name
 
@@ -340,9 +339,11 @@ class _AlbersBase(_NamedBase):
 
     @property_RO
     def ispolar(self):
-        '''Is this projection polar (c{bool})?
+        '''Is this projection polar (C{bool})?
         '''
         return self._polar
+
+    isPolar = ispolar  # synonym
 
     @property_RO
     def lat0(self):
@@ -598,7 +599,8 @@ class AlbersEqualArea(_AlbersBase):
 
            @arg lat: Standard parallel (C{degrees}).
            @kwarg k0: Azimuthal scale on the standard parallel (C{scalar}).
-           @kwarg datum: Optional datum (C{Datum}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
 
            @raise AlbertError: Invalid B{C{lat}}, B{C{k0}} or no convergence.
@@ -619,7 +621,8 @@ class AlbersEqualArea2(_AlbersBase):
            @arg lat1: First standard parallel (C{degrees}).
            @arg lat2: Second standard parallel (C{degrees}).
            @kwarg k1: Azimuthal scale on the standard parallels (C{scalar}).
-           @kwarg datum: Optional datum (C{Datum}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
 
            @raise AlbertError: Invalid B{C{lat1}}m B{C{lat2}}, B{C{k1}}
@@ -645,7 +648,8 @@ class AlbersEqualArea4(_AlbersBase):
            @arg slat2: Sine of second standard parallel (C{scalar}).
            @arg clat2: Cosine of second standard parallel (non-negative C{scalar}).
            @kwarg k1: Azimuthal scale on the standard parallels (C{scalar}).
-           @kwarg datum: Optional datum (C{Datum}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
 
            @raise AlbertError: Negative B{C{clat1}} or B{C{clat2}}, B{C{slat1}}
@@ -671,7 +675,8 @@ class AlbersEqualAreaCylindrical(_AlbersBase):
     def __init__(self, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualAreaCylindrical} projection.
 
-           @kwarg datum: Optional datum (C{Datum}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
         '''
         _AlbersBase.__init__(self, 0.0, 1.0, 0.0, 1.0, 1.0, datum, name)
@@ -686,7 +691,8 @@ class AlbersEqualAreaNorth(_AlbersBase):
     def __init__(self, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualAreaNorth} projection.
 
-           @kwarg datum: Optional datum (C{Datum}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
         '''
         _AlbersBase.__init__(self, 1.0, 0.0, 1.0, 0.0, 1.0, datum, name)
@@ -701,7 +707,8 @@ class AlbersEqualAreaSouth(_AlbersBase):
     def __init__(self, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualAreaSouth} projection.
 
-           @kwarg datum: Optional datum (C{Datum}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
         '''
         _AlbersBase.__init__(self, -1.0, 0.0, -1.0, 0.0, 1.0, datum, name)

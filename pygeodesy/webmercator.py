@@ -17,9 +17,9 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import PI_2, isscalar, issubclassof, property_RO, \
-                            _xinstanceof, _xkwds, _xzipairs
-from pygeodesy.datums import Datum
+from pygeodesy.basics import PI_2, isscalar, issubclassof, \
+                             property_RO, _xkwds, _xzipairs
+from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.ellipsoids import R_MA
@@ -38,7 +38,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 # _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
 # _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
@@ -105,11 +105,13 @@ class Wm(_NamedBase):
     def latlon2(self, datum=None):
         '''Convert this WM coordinate to a lat- and longitude.
 
-           @kwarg datum: Optional ellipsoidal datum (C{Datum}).
+           @kwarg datum: Optional, ellipsoidal datum (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2} or
+                         L{a_f2Tuple}) or C{None}.
 
            @return: A L{LatLon2Tuple}C{(lat, lon)}.
 
-           @raise TypeError: Non-ellipsoidal B{C{datum}}.
+           @raise TypeError: Invalid or non-ellipsoidal B{C{datum}}.
 
            @see: Method C{toLatLon}.
         '''
@@ -117,8 +119,7 @@ class Wm(_NamedBase):
         x = self._x / r
         y = 2 * atan(exp(self._y / r)) - PI_2
         if datum is not None:
-            _xinstanceof(Datum, datum=datum)
-            E = datum.ellipsoid
+            E = _ellipsoidal_datum(datum, name=self.name).ellipsoid
             if not E.isEllipsoidal:
                 raise _IsnotError(_ellipsoidal_, datum=datum)
             # <https://Earth-Info.NGA.mil/GandG/wgs84/web_mercator/
@@ -187,8 +188,8 @@ class Wm(_NamedBase):
            @return: Point of this WM coordinate (B{C{LatLon}}).
 
            @raise TypeError: If B{C{LatLon}} and B{C{datum}} are
-                             incompatible or if B{C{datum}} is not
-                             ellipsoidal.
+                             incompatible or if B{C{datum}} is
+                             invalid or not ellipsoidal.
 
            @example:
 

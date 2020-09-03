@@ -34,7 +34,7 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 '''
 
 from pygeodesy.basics import EPS, len2, map2, property_RO
-from pygeodesy.datums import Datums
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
@@ -58,7 +58,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -246,7 +246,8 @@ class Utm(UtmUpsBase):
            @arg easting: Easting, see B{C{falsed}} (C{meter}).
            @arg northing: Northing, see B{C{falsed}} (C{meter}).
            @kwarg band: Optional, (latitudinal) band (C{str}, 'C'..'X').
-           @kwarg datum: Optional, this coordinate's datum (L{Datum}).
+           @kwarg datum: Optional, this coordinate's datum (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg falsed: Both B{C{easting}} and B{C{northing}} are
                           falsed (C{bool}).
            @kwarg convergence: Optional meridian convergence, bearing
@@ -254,6 +255,8 @@ class Utm(UtmUpsBase):
                                (C{degrees}) or C{None}.
            @kwarg scale: Optional grid scale factor (C{scalar}) or C{None}.
            @kwarg name: Optional name (C{str}).
+
+           @raise TypeError: Invalid B{C{datum}}.
 
            @raise UTMError: Invalid B{C{zone}}, B{C{hemishere}}, B{C{easting}},
                             B{C{northing}}, B{C{band}}, B{C{convergence}} or
@@ -590,7 +593,8 @@ def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=NN):
        of C{"zone[band] hemisphere easting northing"}.
 
        @arg strUTM: A UTM coordinate (C{str}).
-       @kwarg datum: Optional datum to use (L{Datum}).
+       @kwarg datum: Optional datum to use (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg Utm: Optional class to return the UTM coordinate
                    (L{Utm}) or C{None}.
        @kwarg falsed: Both easting and northing are falsed (C{bool}).
@@ -602,6 +606,8 @@ def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=NN):
                 the C{'N'|'S'} hemisphere.
 
        @raise UTMError: Invalid B{C{strUTM}}.
+
+       @raise TypeError: Invalid B{C{datum}}.
 
        @example:
 
@@ -622,7 +628,8 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,
                     geodetic C{LatLon} point.
        @kwarg lon: Optional longitude (C{degrees}) or C{None}.
        @kwarg datum: Optional datum for this UTM coordinate,
-                     overriding B{C{latlon}}'s datum (C{Datum}).
+                     overriding B{C{latlon}}'s datum (L{Datum},
+                     L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg Utm: Optional class to return the UTM coordinate
                    (L{Utm}) or C{None}.
        @kwarg falsed: False both easting and northing (C{bool}).
@@ -636,11 +643,11 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,
                 hemipole, easting, northing, band, datum, convergence,
                 scale)}.  The C{hemipole} is the C{'N'|'S'} hemisphere.
 
-       @raise TypeError: If B{C{latlon}} is not ellipsoidal.
-
        @raise RangeError: If B{C{lat}} outside the valid UTM bands or
                           if B{C{lat}} or B{C{lon}} outside the valid
                           range and L{rangerrors} set to C{True}.
+
+       @raise TypeError: Invalid B{C{datum}} or B{C{latlon}} not ellipsoidal.
 
        @raise UTMError: Invalid B{C{zone}}.
 
@@ -661,6 +668,7 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,
     z, B, lat, lon, d, f, name = _to7zBlldfn(latlon, lon, datum,
                                              falsed, name, zone,
                                              UTMError, **cmoff)
+    d = _ellipsoidal_datum(d, name=name)
     E = d.ellipsoid
 
     a, b = radians(lat), radians(lon)

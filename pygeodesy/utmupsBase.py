@@ -8,7 +8,7 @@ for the UTM, UPS, Mgrs and Epsg classes/modules.
 from pygeodesy.basics import isscalar, isstr, map1, property_RO, \
                             _xattrs, _xinstanceof, _xkwds, \
                             _xsubclassof, _xzipairs
-from pygeodesy.datums import Datum, Datums
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import ParseError, _parseX, _ValueError
@@ -25,7 +25,7 @@ from pygeodesy.units import Band, Easting, Lat, Lon, Northing, \
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.08.24'
+__version__ = '20.08.31'
 
 _MGRS_TILE =  100e3  # PYCHOK block size (C{meter})
 
@@ -185,10 +185,8 @@ class UtmUpsBase(_NamedBase):
             _xinstanceof(str, band=band)
             self._band = band
 
-        if datum:
-            _xinstanceof(Datum, datum=datum)
-            if datum != self._datum:
-                self._datum = datum
+        if datum not in (None, self._datum):
+            self._datum = _ellipsoidal_datum(datum)  # XXX name=band
 
         if not falsed:
             self._falsed = False

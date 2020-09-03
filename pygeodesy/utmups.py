@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                   UtmUps5Tuple, UtmUps8Tuple  # PYCHOK indent
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.08.24'
+__version__ = '20.08.31'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -131,7 +131,7 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
                           range and L{rangerrors} set to C{True}.
 
        @raise TypeError: If B{C{latlon}} is not ellipsoidal or B{C{lon}}
-                         value is missing.
+                         value is missing of B{C{datum}} is invalid.
 
        @raise UTMUPSError: UTM or UPS validation failed.
 
@@ -169,6 +169,8 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=Datums.WGS84,
        @kwarg name: Optional name (C{str}).
 
        @return: New UTM or UPS instance (L{Utm} or L{Ups}).
+
+       @raise TypeError: Invalid B({C{datum}}.
 
        @raise UTMUPSError: UTM or UPS validation failed.
 

@@ -30,7 +30,7 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 from pygeodesy.basics import EPS, EPS1, NAN, PI, PI_2, property_doc_, \
                              property_RO, _xinstanceof, _xkwds
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.datums import Datum, Datums, _spherical_datum
+from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError
 from pygeodesy.fmath import Fsum
 from pygeodesy.interns import _azimuth_, _COMMA_SPACE_, _datum_, _lat_, \
@@ -49,7 +49,7 @@ from pygeodesy.utily import asin1, atan2d, sincos2, sincos2d
 from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _EPS_Karney    =  sqrt(EPS) * 0.01  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -75,20 +75,20 @@ class _AzimuthalBase(_NamedBase):
 
            @arg lat0: Latitude of the center point (C{degrees90}).
            @arg lon0: Longitude of the center point (C{degrees180}).
-           @kwarg datum: Optional datum (C{Datum}) or the radius of
-                         the I{spherical} earth (C{meter}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
+                         radius (C{meter}).
            @kwarg name: Optional name for the projection (C{str}).
 
-           @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
+           @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or spherical B{C{datum}}.
+
+           @raise TypeError: Invalid B{C{datum}}.
        '''
         if name:
             self.name = name
 
-        if datum:
-            d = datum if isinstance(datum, Datum) else \
-                   _spherical_datum(datum, name=name, Error=AzimuthalError)
-            if self._datum != d:
-                self._datum = d
+        if datum not in (None, self._datum):
+            self._datum = _spherical_datum(datum, name=name)
 
         self.reset(lat0, lon0)
 
@@ -350,13 +350,16 @@ def equidistant(lat0, lon0, datum=Datums.WGS84, name=NN):
 
        @arg lat0: Latitude of center point (C{degrees90}).
        @arg lon0: Longitude of center point (C{degrees180}).
-       @kwarg datum: Optional datum (C{Datum}) or the radius of
-                     the I{spherical} earth (C{meter}).
+       @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
+                     radius (C{meter}).
        @kwarg name: Optional name for the projection (C{str}).
 
        @return: An L{EquidistantKarney} or L{Equidistant} instance.
 
-       @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
+       @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or sperical B{C{datum}}.
+
+       @raise TypeError: Invalid B{C{datum}}.
     '''
     try:
         return EquidistantKarney(lat0, lon0, datum=datum, name=name)
@@ -386,7 +389,9 @@ class EquidistantKarney(_AzimuthalBase):
 
            @arg lat0: Latitude of center point (C{degrees90}).
            @arg lon0: Longitude of center point (C{degrees180}).
-           @kwarg datum: Optional (ellipsoidal) datum (C{Datum}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
+                         radius (C{meter}).
            @kwarg name: Optional name for the projection (C{str}).
 
            @raise ImportError: Package U{geographiclib<https://PyPI.org/
@@ -534,13 +539,16 @@ def gnomonic(lat0, lon0, datum=Datums.WGS84, name=NN):
 
        @arg lat0: Latitude of center point (C{degrees90}).
        @arg lon0: Longitude of center point (C{degrees180}).
-       @kwarg datum: Optional datum (C{Datum}) or the radius of
-                     the I{spherical} earth (C{meter}).
+       @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
+                     radius (C{meter}).
        @kwarg name: Optional name for the projection (C{str}).
 
        @return: An L{GnomonicKarney} or L{Gnomonic} instance.
 
-       @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
+       @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or sperical B{C{datum}}.
+
+       @raise TypeError: Invalid B{C{datum}}.
     '''
     try:
         return GnomonicKarney(lat0, lon0, datum=datum, name=name)
@@ -563,7 +571,9 @@ class GnomonicKarney(_AzimuthalBase):
 
            @arg lat0: Latitude of center point (C{degrees90}).
            @arg lon0: Longitude of center point (C{degrees180}).
-           @kwarg datum: Optional (ellipsoidal) datum (C{Datum}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}) or I{scalar} earth
+                         radius (C{meter}).
            @kwarg name: Optional name for the projection (C{str}).
 
            @raise ImportError: Package U{geographiclib<https://PyPI.org/

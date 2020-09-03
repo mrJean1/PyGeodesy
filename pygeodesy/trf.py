@@ -40,9 +40,9 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
-from pygeodesy.basics import isscalar, map1, property_RO, _xinstanceof
-from pygeodesy.datums import Transform
-from pygeodesy.ellipsoids import Ellipsoid, Ellipsoids
+from pygeodesy.basics import isscalar, map1, property_RO
+from pygeodesy.datums import _ellipsoid, Transform
+from pygeodesy.ellipsoids import Ellipsoids
 from pygeodesy.errors import _ValueError, _TypeError
 from pygeodesy.interns import _COMMA_SPACE_, _ellipsoid_, _flt as _F, _len_, \
                               _name_, NN, _no_conversion_, _not_scalar_ # PYCHOK used!
@@ -55,7 +55,7 @@ from pygeodesy.units import Float_
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _epoch_ = 'epoch'
 _mDays  = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
@@ -113,30 +113,30 @@ class TRFError(_ValueError):
 class RefFrame(_NamedEnumItem):
     '''Terrestrial Reference Frame (TRF) parameters.
     '''
-    _ellipsoid = None  #: Ellipsoid GRS80 or WGS84 (L{Ellipsoid}).
+    _ellipsoid = None  #: Ellipsoid GRS80 or WGS84 (L{Ellipsoid} or L{Ellipsoid2}).
     _epoch     = 0     #: Epoch, calendar year (C{float}).
 
     def __init__(self, epoch, ellipsoid, name=NN):
         '''New L{RefFrame}.
 
            @arg epoch: Epoch, a fractional calendar year (C{scalar}).
-           @arg ellipsoid: The ellipsoid (L{Ellipsoid}).
+           @arg ellipsoid: The ellipsoid (L{Ellipsoid}, L{Ellipsoid2},
+                           L{datum} or L{a_f2Tuple}).
            @kwarg name: Optional, unique name (C{str}).
 
            @raise NameError: A L{RefFrame} with that B{C{name}}
                              already exists.
 
            @raise TypeError: If B{C{epoch}} is not C{scalar} or
-                             B{C{ellipsoid}} is not an L{Ellipsoid}.
+                             B{C{ellipsoid}} is invalid.
         '''
-        _xinstanceof(Ellipsoid, ellipsoid=ellipsoid)
-        self._ellipsoid = ellipsoid
+        self._ellipsoid = _ellipsoid(ellipsoid, name=name)
         self._epoch = _2epoch(epoch)
         self._register(RefFrames, name)
 
     @property_RO
     def ellipsoid(self):
-        '''Get this reference frame's ellipsoid (L{Ellipsoid}).
+        '''Get this reference frame's ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
         '''
         return self._ellipsoid
 

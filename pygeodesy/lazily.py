@@ -111,7 +111,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
              ellipsoidalNvector=(),  # module only
             ellipsoidalVincenty=('VincentyError',),  # nothing else
                      ellipsoids=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
-                                 'Ellipsoid', 'Ellipsoids'),
+                                 'a_f2Tuple', 'Ellipsoid', 'Ellipsoid2', 'Ellipsoids',
+                                 'a_b2f', 'a_b2f_', 'a_f2b', 'a_f_2b', 'b_f2a', 'b_f_2a',
+                                 'f2e2', 'f2e22', 'f2e32', 'f_2f', 'f2f_', 'f2f2', 'f2n', 'n2e2', 'n2f'),
                        elliptic=('Elliptic', 'EllipticError'),
                            epsg=('Epsg', 'EPSGError'),
                          errors=('CrossError', 'IntersectionError', 'LenError', 'LimitError', 'PointsError',
@@ -165,7 +167,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
                                  _areaOf_, 'boundsOf', 'centroidOf',
                                  _isclockwise_, 'isconvex', 'isconvex_', 'isenclosedBy', _ispolar_,
-                                 'nearestOn5', _perimeterOf_),
+                                 'luneOf', 'nearestOn5', _perimeterOf_, 'quadOf'),
                sphericalNvector=(),  # module only
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
@@ -208,7 +210,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.08.22'
+__version__ = '20.09.02'
 
 
 def _ALL_OTHER(*objs):

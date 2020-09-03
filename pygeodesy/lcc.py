@@ -20,7 +20,7 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 from pygeodesy.basics import EPS, PI_2, property_RO, _xinstanceof, \
                             _xsubclassof, _xzipairs
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.datums import Datums
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.interns import _C_, _COMMA_SPACE_, _ellipsoidal_, \
                               _dot_, _h_, _k0_, _lat0_, _lon0_, \
@@ -37,7 +37,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -220,22 +220,24 @@ class Conic(_NamedEnumItem):
     def toDatum(self, datum):
         '''Convert this conic to the given datum.
 
-           @arg datum: Ellipsoidal datum to use (L{Datum}).
+           @arg datum: Ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
+                       L{Ellipsoid2} or L{a_f2Tuple}).
 
            @return: Converted conic, unregistered (L{Conic}).
 
            @raise TypeError: Non-ellipsoidal B{C{datum}}.
         '''
-        E = datum.ellipsoid
+        d = _ellipsoidal_datum(datum, name=self.name)
+        E = d.ellipsoid
         if not E.isEllipsoidal:
             raise _IsnotError(_ellipsoidal_, datum=datum)
 
         c = self
-        if c._e != E.e or c._datum != datum:
+        if c._e != E.e or c._datum != d:
 
             c = Conic(None, 0, name=self._name)
             self._dup2(c)
-            c._datum = datum
+            c._datum = d
             c._e = E.e
 
             if abs(c._par1 - c._par2) < EPS:
@@ -266,7 +268,7 @@ class Conic(_NamedEnumItem):
 
         return c
 
-    convertDatum = toDatum  # alternate name
+    convertDatum = toDatum  # synonym
 
     def toStr(self, prec=8):  # PYCHOK expected
         '''Return this conic as a string.
@@ -463,7 +465,8 @@ class Lcc(_NamedBase):
            @kwarg LatLon: Optional, ellipsoidal class to return the
                           geodetic point (C{LatLon}) or C{None}.
            @kwarg datum: Optional datum to use, otherwise use this
-                         B{C{Lcc}}'s conic.datum (C{Datum}).
+                         B{C{Lcc}}'s conic.datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg height: Optional height for the point, overriding
                           the default height (C{meter}).
 
@@ -472,13 +475,13 @@ class Lcc(_NamedBase):
                     if B{C{LatLon}} is C{None}.
 
            @raise TypeError: If B{C{LatLon}} or B{C{datum}} is
-                             not ellipsoidal.
+                             not ellipsoidal or not valid.
         '''
         if LatLon:
             _xsubclassof(_LLEB, LatLon=LatLon)
 
         c = self.conic
-        if datum:
+        if datum not in (None, c.datum):
             c = c.toDatum(datum)
 
         e =         self.easting  - c._E0

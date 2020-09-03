@@ -28,6 +28,7 @@ the index for the lat- and longitude index in each 2+tuple.
 from pygeodesy.basics import EPS, isint, issequence, map1, PI_2, \
                              property_doc_, property_RO, R_M, _Sequence, \
                             _xcopy, _xinstanceof, _xkwds  # PYCHOK indent
+from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
 from pygeodesy.errors import CrossError, crosserrors, _incompatible, \
                             _IndexError, _IsnotError, _TypeError, \
@@ -52,7 +53,7 @@ from inspect import isclass
 from math import atan2, cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.07.24'
+__version__ = '20.09.01'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -76,7 +77,11 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @arg lon: Longitude (C{degrees}).
            @kwarg name: Optional name (C{str}).
            @kwarg height: Optional height (C{float} or C{int}).
-           @kwarg datum: Optional datum (C{Datum}) or C{None}.
+           @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2}, L{a_f2Tuple} or I{scalar}
+                         radius) or C{None}.
+
+           @raise TypeError: Invalid B{C{datum}}.
 
            @note: The lat- and longitude are taken as-given,
                   un-clipped and un-validated .
@@ -87,7 +92,8 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
             self.lat, self.lon = parseDMS2(lat, lon, clipLat=0, clipLon=0)  # PYCHOK LatLon2Tuple
         self.name   = str(name)
         self.height = height
-        self.datum  = datum
+        self.datum  = datum if datum is None else \
+                     _spherical_datum(datum, name=self.name)
 
     def __eq__(self, other):
         return isinstance(other, LatLon_) and \
@@ -1408,6 +1414,28 @@ def ispolar(points, wrap=False):
     return abs(s) < 90  # "zero-ish"
 
 
+def luneOf(lon1, lon2, closed=False, LatLon=LatLon_, **LatLon_kwds):
+    '''Generate an ellipsoidal or spherical U{lune
+       <https://WikiPedia.org/wiki/Spherical_lune>}-shaped path or polygon.
+
+       @arg lon1: Left longitude (C{degrees90}).
+       @arg lon2: Right longitude (C{degrees90}).
+       @kwarg closed: Optionally, close the path (C{bool}).
+       @kwarg LatLon: Class to use (L{LatLon_}).
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
+                           keyword arguments.
+
+       @return: Yield 4 or 5 B{C{LatLon}} instances outlining the lune shape.
+
+       @see: U{Latitude-longitude quadrangle
+             <https://www.MathWorks.com/help/map/ref/areaquad.html>}.
+    '''
+    for ll in ((0, lon1), (90, lon1), (0, lon2), (-90, lon2)):
+        yield LatLon(*ll, **LatLon_kwds)
+    if closed:
+        yield LatLon(0, lon1, **LatLon_kwds)
+
+
 def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
     '''Locate the point on a path or polygon closest to an other point.
 
@@ -1566,6 +1594,27 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
 
     d = fsum(_degs(len(pts), pts, closed))
     return degrees2m(d, radius=radius)
+
+
+def quadOf(lat1, lon1, lat2, lon2, closed=False, LatLon=LatLon_, **LatLon_kwds):
+    '''Generate a quadrilateral path or polygon from two points.
+
+       @arg lat1: Lower latitude (C{degrees90}).
+       @arg lon1: Left longitude (C{degrees180}).
+       @arg lat2: Upper latitude (C{degrees90}).
+       @arg lon2: Right longitude (C{degrees180}).
+       @kwarg closed: Optionally, close the path (C{bool}).
+       @kwarg LatLon: Class to use (L{LatLon_}).
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
+                           keyword arguments.
+
+       @return: Yield 4 or 5 B{C{LatLon}} instances outlining
+                the quadrilateral.
+    '''
+    for ll in ((lat1, lon1), (lat2, lon1), (lat2, lon2), (lat1, lon2)):
+        yield LatLon(*ll, **LatLon_kwds)
+    if closed:
+        yield LatLon(lat1, lon1, **LatLon_kwds)
 
 
 __all__ += _ALL_DOCS(NearestOn5Tuple, Point3Tuple, Shape2Tuple)

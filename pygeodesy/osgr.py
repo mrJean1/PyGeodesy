@@ -39,7 +39,7 @@ del division
 
 from pygeodesy.basics import halfs2, map1, property_RO, \
                             _xsubclassof, _xzipairs
-from pygeodesy.datums import Datums
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError
@@ -57,7 +57,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _10um  = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
 _100km = 100000  #: (INTERNAL) 100 km (int meter)
@@ -78,7 +78,7 @@ _TRIPS            =  33  #: (INTERNAL) .toLatLon convergence
 def _ll2datum(ll, datum, name):
     '''(INTERNAL) Convert datum if needed.
     '''
-    if datum and ll.datum != datum:
+    if datum not in (None, ll.datum):
         try:
             ll = ll.convertDatum(datum)
         except AttributeError:
@@ -131,8 +131,12 @@ class Osgr(_NamedBase):
         self._easting  = Easting( easting,  Error=OSGRError, osgr=True)
         self._northing = Northing(northing, Error=OSGRError, osgr=True)
 
-        if datum and datum != _Datums_OSGB36:
-            raise OSGRError(datum=datum)
+        if datum not in (None, _Datums_OSGB36):
+            try:
+                if _ellipsoidal_datum(datum) != _Datums_OSGB36:
+                    raise ValueError
+            except (TypeError, ValueError):
+                raise OSGRError(datum=datum)
         if name:
             self.name = name
 
@@ -191,7 +195,9 @@ class Osgr(_NamedBase):
 
            @kwarg LatLon: Optional ellipsoidal class to return the
                           geodetic point (C{LatLon}) or C{None}.
-           @kwarg datum: Optional datum to use (C{Datum}).
+           @kwarg datum: Optional datum to convert to (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2}, L{Ellipsoid2}
+                         or L{a_f2Tuple}).
 
            @return: The geodetic point (B{C{LatLon}}) or a
                     L{LatLonDatum3Tuple}C{(lat, lon, datum)}
@@ -200,7 +206,7 @@ class Osgr(_NamedBase):
            @raise OSGRError: No convergence.
 
            @raise TypeError: If B{C{LatLon}} is not ellipsoidal or
-                             if B{C{datum}} conversion failed.
+                             B{C{datum}} is invalid or conversion failed.
 
            @example:
 
@@ -444,7 +450,9 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
        @arg latlon: Latitude (C{degrees}) or an (ellipsoidal) geodetic
                     C{LatLon} point.
        @kwarg lon: Optional longitude in degrees (scalar or C{None}).
-       @kwarg datum: Optional datum to convert B{C{lat, lon}} from (C{Datum}).
+       @kwarg datum: Optional datum to convert B{C{lat, lon}} from
+                     (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
+                     L{a_f2Tuple}).
        @kwarg Osgr: Optional class to return the OSGR coordinate
                     (L{Osgr}) or C{None}.
        @kwarg name: Optional B{C{Osgr}} name (C{str}).
@@ -455,10 +463,10 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
                 L{EasNor2Tuple}C{(easting, northing)} if B{C{Osgr}}
                 is C{None}.
 
-       @raise TypeError: Non-ellipsoidal B{C{latlon}} or B{C{datum}}
-                         conversion failed.
-
        @raise OSGRError: Invalid B{C{latlon}} or B{C{lon}}.
+
+       @raise TypeError: Non-ellipsoidal B{C{latlon}} or invalid
+                         B{C{datum}} or conversion failed.
 
        @example:
 

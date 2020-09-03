@@ -14,8 +14,9 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import len2, property_doc_, \
-                             property_RO, _xattrs
+from pygeodesy.basics import len2, property_doc_, property_RO, \
+                            _xattrs, _xinstanceof
+from pygeodesy.datums import Datum
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.errors import _xkwds_pop
 from pygeodesy.fmath import fsum, hypot_
@@ -35,7 +36,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 
 __all__ = (_NorthPole_, _SouthPole_,  # constants
            _sumOf_)  # functions
-__version__ = '20.07.24'
+__version__ = '20.08.31'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -57,12 +58,13 @@ class NvectorBase(Vector3d):  # XXX kept private
            @arg z: The C{Z} coordinate (C{scalar}) if B{C{x}} C{scalar}.
            @kwarg h: Optional height above surface (C{meter}).
            @kwarg ll: Optional, original latlon (C{LatLon}).
-           @kwarg datum: Optional, I{pass-thru} datum (C{Datum}).
+           @kwarg datum: Optional, I{pass-thru} datum (L{Datum}).
            @kwarg name: Optional name (C{str}).
 
            @raise TypeError: Non-scalar B{C{x}}, B{C{y}} or B{C{z}}
                              coordinate or B{C{x}} not an C{Nvector},
-                             L{Vector3Tuple} or L{Vector4Tuple}.
+                             L{Vector3Tuple} or L{Vector4Tuple} or
+                             invalid B{C{datum}}.
 
            @example:
 
@@ -74,8 +76,9 @@ class NvectorBase(Vector3d):  # XXX kept private
         Vector3d.__init__(self, x, y, z, ll=ll, name=name or n)
         if h:
             self.h = h
-        if d:  # just pass-thru
-            self._datum = d
+        if d not in (None, self._datum):
+            _xinstanceof(Datum, datum=d)
+            self._datum = d  # pass-thru
 
     def _update(self, updated, *attrs):
         '''(INTERNAL) Zap cached attributes if updated.

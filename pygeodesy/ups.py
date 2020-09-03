@@ -19,7 +19,7 @@ each end).
 '''
 
 from pygeodesy.basics import EPS, property_RO
-from pygeodesy.datums import Datums
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoids import _TOL
 from pygeodesy.errors import RangeError, _ValueError
@@ -39,7 +39,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
 _Falsing = Meter(2000e3)  #: (INTERNAL) False easting and northing (C{meter}).
@@ -87,7 +87,8 @@ class Ups(UtmUpsBase):
            @arg easting: Easting, see B{C{falsed}} (C{meter}).
            @arg northing: Northing, see B{C{falsed}} (C{meter}).
            @kwarg band: Optional, polar Band (C{str}, 'A'|'B'|'Y'|'Z').
-           @kwarg datum: Optional, this coordinate's datum (L{Datum}).
+           @kwarg datum: Optional, this coordinate's datum (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg falsed: Both B{C{easting}} and B{C{northing}} are
                           falsed (C{bool}).
            @kwarg convergence: Optional, meridian convergence gamma
@@ -95,6 +96,8 @@ class Ups(UtmUpsBase):
            @kwarg scale: Optional, computed scale factor k to save
                          (C{scalar}).
            @kwarg name: Optional name (C{str}).
+
+           @raise TypeError: Invalid B{C{datum}}.
 
            @raise UPSError: Invalid B{C{zone}}, B{C{pole}}, B{C{easting}},
                             B{C{northing}}, B{C{band}}, B{C{convergence}}
@@ -389,7 +392,8 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
        @kwarg lon: Optional longitude (C{degrees}) or C{None} if
                    B{C{latlon}} is a C{LatLon}.
        @kwarg datum: Optional datum for this UPS coordinate,
-                     overriding B{C{latlon}}'s datum (C{Datum}).
+                     overriding B{C{latlon}}'s datum (C{Datum},
+                     L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg Ups: Optional class to return the UPS coordinate
                    (L{Ups}) or C{None}.
        @kwarg pole: Optional top/center of (stereographic) projection
@@ -409,7 +413,8 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
                           outside the valid range and L{rangerrors}
                           set to C{True}.
 
-       @raise TypeError: If B{C{latlon}} is not ellipsoidal.
+       @raise TypeError: If B{C{latlon}} is not ellipsoidal or
+                         B{C{datum}} invalid.
 
        @raise ValueError: If B{C{lon}} value is missing or if B{C{latlon}}
                           is invalid.
@@ -420,6 +425,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     lat, lon, d, name = _to4lldn(latlon, lon, datum, name)
     z, B, p, lat, lon = upsZoneBand5(lat, lon, strict=strict)  # PYCHOK UtmUpsLatLon5Tuple
 
+    d = _ellipsoidal_datum(d, name=name)
     E = d.ellipsoid
 
     p = str(pole or p)[:1].upper()

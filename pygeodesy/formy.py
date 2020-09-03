@@ -5,9 +5,8 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, \
-                             isscalar, len2, _xinstanceof
-from pygeodesy.datums import Datum, Datums, _spherical_datum
+from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, len2
+from pygeodesy.datums import Datums, _ellipsoidal_datum, _spherical_datum
 from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
                              _limiterrors, PointsError, _ValueError
 from pygeodesy.fmath import fsum_, hypot, hypot2
@@ -27,7 +26,7 @@ from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.08.27'
+__version__ = '20.09.01'
 
 _D_I2_ =  1e5  # meter, 100 Km, about 0.9 degrees
 _lat2_ = _lat_ + _2_
@@ -164,7 +163,8 @@ def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False)
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
@@ -193,7 +193,8 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
        @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
-       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
 
        @return: Angular distance (C{radians}).
 
@@ -207,9 +208,7 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
     '''
     s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
     if c2 and c1:
-        _xinstanceof(Datum, datum=datum)
-
-        E = datum.ellipsoid
+        E = _ellipsoidal_datum(datum, name=cosineAndoyerLambert_.__name__).ellipsoid
         if E.f and abs(c1) > EPS and abs(c2) > EPS:
             r2 = atan(E.b_a * s2 / c2)
             r1 = atan(E.b_a * s1 / c1)
@@ -235,7 +234,8 @@ def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wra
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
@@ -263,7 +263,8 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
        @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
-       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
 
        @return: Angular distance (C{radians}).
 
@@ -275,11 +276,9 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
              <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
              Distance/ForsytheCorrection.php>}.
     '''
-    _xinstanceof(Datum, datum=datum)
-
     s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
     r = acos(s1 * s2 + c1 * c2 * c21)
-    E = datum.ellipsoid
+    E = _ellipsoidal_datum(datum, name=cosineForsytheAndoyerLambert_.__name__).ellipsoid
     if E.f:
         sr, cr, s2r, _ = sincos2(r, r * 2)
         if abs(sr) > EPS:
@@ -507,7 +506,8 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
@@ -541,7 +541,8 @@ def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
        @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
-       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
 
        @return: Angular distance (C{radians}).
 
@@ -556,8 +557,8 @@ def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
              L{haversine_}, L{thomas_} and L{vincentys_} and U{local, flat
              earth approximation <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
-    _xinstanceof(Datum, datum=datum)
-    m, n = datum.ellipsoid.roc2_((phi2 + phi1) * 0.5, scaled=True)
+    E = _ellipsoidal_datum(datum, name=flatLocal_.__name__).ellipsoid
+    m, n = E.roc2_((phi2 + phi1) * 0.5, scaled=True)
     return hypot(m * (phi2 - phi1), n * lam21)
 
 
@@ -767,8 +768,9 @@ def intersections2(lat1, lon1, radius1,
        @arg lat2: Latitude of the second circle center (C{degrees}).
        @arg lon2: Longitude of the second circle center (C{degrees}).
        @arg radius2: Radius of the second circle (C{meter}).
-       @kwarg datum: Optional ellipsoidal or spherical datum (L{Datum})
-                     or scalar earth radius (C{meter}) or C{None}.
+       @kwarg datum: Optional ellipsoidal or spherical datum (L{Datum},
+                     L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or
+                     C{scalar} earth radius) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
        @return: 2-Tuple of the intersection points, each a
@@ -784,7 +786,6 @@ def intersections2(lat1, lon1, radius1,
        @raise UnitError: Invalid B{C{lat1}}, B{C{lon1}}, B{C{radius1}}
                          B{C{lat2}}, B{C{lon2}} or B{C{radius2}}.
     '''
-
     if datum is None or euclidean(lat1, lon1, lat1, lon2, radius=R_M,
                                   adjust=True, wrap=wrap) < _D_I2_:
         import pygeodesy.vector3d as m
@@ -804,9 +805,7 @@ def intersections2(lat1, lon1, radius1,
         def _LL2T(lat, lon, **unused):
             return _xnamed(LatLon2Tuple(lat, lon), intersections2.__name__)
 
-        d = _spherical_datum(datum) if isscalar(datum) else datum
-        _xinstanceof(Datum, datum=d)
-
+        d = _spherical_datum(datum, name=intersections2.__name__)
         if d.isSpherical:
             import pygeodesy.sphericalTrigonometry as m
         elif d.isEllipsoidal:
@@ -1020,7 +1019,8 @@ def thomas(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: Distance (C{meter}, same units as the B{C{datum}}'s
@@ -1046,7 +1046,8 @@ def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
        @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
-       @kwarg datum: Ellipsoidal datum to use (L{Datum}).
+       @kwarg datum: Ellipsoidal datum to use (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
 
        @return: Angular distance (C{radians}).
 
@@ -1059,10 +1060,8 @@ def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
              <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
              Distance/ThomasFormula.php>}.
     '''
-    _xinstanceof(Datum, datum=datum)
-
     s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
-    E = datum.ellipsoid
+    E = _ellipsoidal_datum(datum, name=thomas_.__name__).ellipsoid
     if E.f and abs(c1) > EPS and abs(c2) > EPS:
         r1 = atan(E.b_a * s1 / c1)
         r2 = atan(E.b_a * s2 / c2)

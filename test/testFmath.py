@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.06.02'
+__version__ = '20.09.01'
 
 from base import coverage, TestsBase
 
@@ -98,14 +98,14 @@ class Tests(TestsBase):
 
         for _, E in sorted(Ellipsoids.items()):
             Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384)
-            self.test(E.name, Ah, E.A, fmt='%.8f')
+            self.test(E.name, Ah, E.A, fmt='%.10f', known=abs(Ah - E.A) < 1e-9)
             Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 16384, 4096, 256, 64, 25) / 16384)
-            self.test(E.name, Ah, E.A, fmt='%.8f')
+            self.test(E.name, Ah, E.A, fmt='%.10f', known=abs(Ah - E.A) < 1e-9)
 
             Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384, 49./65536)
-            self.test(E.name, Ah, E.A, fmt='%.10f')
+            self.test(E.name, Ah, E.A, fmt='%.10f', known=abs(Ah - E.A) < 1e-9)
             Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 65536, 16384, 1024, 256, 100, 49) / 65536)
-            self.test(E.name, Ah, E.A, fmt='%.10f')
+            self.test(E.name, Ah, E.A, fmt='%.10f', known=abs(Ah - E.A) < 1e-9)
 
         t = 1, 1e101, 1, -1e101
         for _ in range(10):

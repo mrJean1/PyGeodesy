@@ -24,7 +24,7 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 
 from pygeodesy.basics import property_RO, _xinstanceof, \
                             _xkwds, _xzipairs
-from pygeodesy.datums import Datum, Datums
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
@@ -42,7 +42,7 @@ from pygeodesy.utily import degrees90, degrees360, sincos2d
 from math import asin, atan2
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -635,8 +635,9 @@ class Nvector(NvectorBase):
            @arg y: Y component (C{meter}).
            @arg z: Z component (C{meter}).
            @kwarg h: Optional height above model surface (C{meter}).
-           @kwarg datum: Optional datum this n-vector is defined
-                         within (L{Datum}).
+           @kwarg datum: Optional datum this n-vector is defined in
+                         (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or
+                         L{a_f2Tuple}).
            @kwarg ll: Optional, original latlon (C{LatLon}).
            @kwarg name: Optional name (C{str}).
 
@@ -649,9 +650,8 @@ class Nvector(NvectorBase):
            >>> v.toLatLon()  # 45.0°N, 045.0°E, +1.00m
         '''
         NvectorBase.__init__(self, x, y, z, h=h, ll=ll, name=name)
-        if datum:
-            _xinstanceof(Datum, datum=datum)
-            self._datum = datum
+        if datum not in (None, self._datum):
+            self._datum = _ellipsoidal_datum(datum, name=name)
 
     @property_RO
     def datum(self):

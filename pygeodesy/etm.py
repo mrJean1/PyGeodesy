@@ -67,7 +67,7 @@ del division
 
 from pygeodesy.basics import EPS, PI_2, PI_4, property_doc_, \
                              property_RO, _xinstanceof
-from pygeodesy.datums import Datum, Datums
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
@@ -88,7 +88,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _OVERFLOW = 1.0 / EPS**2
 _TOL      = EPS
@@ -138,7 +138,8 @@ class Etm(Utm):
            @arg easting: Easting, see B{C{falsed}} (C{meter}).
            @arg northing: Northing, see B{C{falsed}} (C{meter}).
            @kwarg band: Optional, (latitudinal) band (C{str}, 'C'..'X').
-           @kwarg datum: Optional, this coordinate's datum (L{Datum}).
+           @kwarg datum: Optional, this coordinate's datum (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg falsed: Both B{C{easting}} and B{C{northing}} are
                           falsed (C{bool}).
            @kwarg convergence: Optional meridian convergence, bearing
@@ -149,6 +150,8 @@ class Etm(Utm):
 
            @raise ETMError: Invalid B{C{zone}}, B{C{hemishere}} or
                             B{C{band}}.
+
+           @raise TypeError: Invalid B{C{datum}}.
 
            @example:
 
@@ -313,7 +316,8 @@ class ExactTransverseMercator(_NamedBase):
     def __init__(self, datum=Datums.WGS84, lon0=0, k0=_K0, extendp=True, name=NN):
         '''New L{ExactTransverseMercator} projection.
 
-           @kwarg datum: The datum and ellipsoid to use (C{Datum}).
+           @kwarg datum: The datum, ellipsoid to use (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg lon0: The central meridian (C{degrees180}).
            @kwarg k0: The central scale factor (C{float}).
            @kwarg extendp: Use the extended domain (C{bool}).
@@ -353,20 +357,20 @@ class ExactTransverseMercator(_NamedBase):
 
     @datum.setter  # PYCHOK setter!
     def datum(self, datum):
-        '''Set the datum and ellipsoid (L{Datum}).
+        '''Set the datum and ellipsoid (L{Datum}, L{Ellipsoid},
+           L{Ellipsoid2} or L{a_f2Tuple}).
 
            @raise EllipticError: No convergence.
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
-        _xinstanceof(Datum, datum=datum)
-
-        E = datum.ellipsoid
+        d = _ellipsoidal_datum(datum, name=self.name)
+        E = d.ellipsoid
         self._reset(E.e, E.e2)
         self._a = E.a
         self._f = E.f  # flattening = (a - b) / a
 
-        self._datum = datum
+        self._datum = d
         self._E     = E
 
     @property_RO
@@ -376,6 +380,7 @@ class ExactTransverseMercator(_NamedBase):
         return self._a
 
     majoradius = equatoradius  # for backward compatibility
+    '''DEPRECATED, use C{equatoradius}.'''
 
     @property_RO
     def extendp(self):
@@ -943,7 +948,8 @@ def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=NN):
        of C{"zone[band] hemisphere easting northing"}.
 
        @arg strUTM: A UTM coordinate (C{str}).
-       @kwarg datum: Optional datum to use (L{Datum}).
+       @kwarg datum: Optional datum to use (L{Datum}, L{Ellipsoid},
+                     L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg Etm: Optional class to return the UTM coordinate
                    (L{Etm}) or C{None}.
        @kwarg falsed: Both easting and northing are falsed (C{bool}).
@@ -955,6 +961,8 @@ def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=NN):
                 C{'N'|'S'}.
 
        @raise ETMError: Invalid B{C{strUTM}}.
+
+       @raise TypeError: Invalid B{C{datum}}.
 
        @example:
 
@@ -975,7 +983,8 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
                     geodetic C{LatLon} point.
        @kwarg lon: Optional longitude (C{degrees}) or C{None}.
        @kwarg datum: Optional datum for this ETM coordinate,
-                     overriding B{C{latlon}}'s datum (C{Datum}).
+                     overriding B{C{latlon}}'s datum (L{Datum},
+                     L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
        @kwarg Etm: Optional class to return the ETM coordinate
                    (L{Etm}) or C{None}.
        @kwarg falsed: False both easting and northing (C{bool}).
@@ -994,11 +1003,12 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
 
        @raise ETMError: Invalid B{C{zone}}.
 
-       @raise TypeError: If B{C{latlon}} is not ellipsoidal.
-
        @raise RangeError: If B{C{lat}} outside the valid UTM bands or
                           if B{C{lat}} or B{C{lon}} outside the valid
                           range and L{rangerrors} set to C{True}.
+
+       @raise TypeError: Invalid B{C{datum}} or B{C{latlon}} not
+                         ellipsoidal.
 
        @raise ValueError: If B{C{lon}} value is missing or if
                           B{C{latlon}} is invalid.

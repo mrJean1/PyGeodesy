@@ -74,20 +74,22 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import property_RO, _xinstanceof
-from pygeodesy.ellipsoids import _4Ecef, Ellipsoid, Ellipsoids
+from pygeodesy.basics import isscalar, property_RO, _xinstanceof
+from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
+                                 Ellipsoid2, Ellipsoids
+from pygeodesy.errors import _IsnotError
 from pygeodesy.fmath import _2_3rd, cbrt, cbrt2, fdot, fpowers, Fsum, \
                              fsum_, hypot1, hypot2, sqrt3  # PYCHOK _2_3rd
 from pygeodesy.interns import _COMMA_SPACE_, _ellipsoid_, _flt, _name_, NN, \
-                              _transform_, _UNDERSCORE_
+                              _spherical_, _transform_, _UNDERSCORE_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, Vector3Tuple
-from pygeodesy.units import Radius_
+from pygeodesy.units import Radius_, Scalar
 
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '20.08.28'
+__version__ = '20.09.01'
 
 
 def _r_s2(s):
@@ -266,21 +268,22 @@ Transforms._assert(
 class Datum(_NamedEnumItem):
     '''Ellipsoid and transform parameters for an earth model.
     '''
-    _ellipsoid = Ellipsoids.WGS84  #: (INTERNAL) Default ellipsoid (L{Ellipsoid}).
+    _ellipsoid = Ellipsoids.WGS84  #: (INTERNAL) Default ellipsoid (L{Ellipsoid}, L{Ellipsoid2}).
     _exactTM   = None              #: (INTERNAL) L{ExactTransverseMercator} projection.
     _transform = Transforms.WGS84  #: (INTERNAL) Default transform (L{Transform}).
 
     def __init__(self, ellipsoid, transform=None, name=NN):
         '''New L{Datum}.
 
-           @arg ellipsoid: The ellipsoid (L{Ellipsoid}).
+           @arg ellipsoid: The ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
            @kwarg transform: Optional transform (L{Transform}).
            @kwarg name: Optional, unique name (C{str}).
 
            @raise NameError: Datum with that B{C{name}} already exists.
 
            @raise TypeError: If B{C{ellipsoid}} is not an L{Ellipsoid}
-                             or B{C{transform}} is not a L{Transform}.
+                             nor L{Ellipsoid2} or B{C{transform}} is
+                             not a L{Transform}.
         '''
         self._ellipsoid = ellipsoid or Datum._ellipsoid
         _xinstanceof(Ellipsoid, ellipsoid=self.ellipsoid)
@@ -316,7 +319,7 @@ class Datum(_NamedEnumItem):
 
     @property_RO
     def ellipsoid(self):
-        '''Get this datum's ellipsoid (L{Ellipsoid}).
+        '''Get this datum's ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
         '''
         return self._ellipsoid
 
@@ -359,21 +362,64 @@ class Datum(_NamedEnumItem):
         return self._transform
 
 
-def _ellipsoidal_datum(ellipsoid, name=NN):  # for .Ellipsoid.auxAuthalic
-    '''(INTERNAL) Wrap an B{C{ellipsoid}} as a L{Datum}, unregistered.
+def _En2(arg, name):
+    '''(INTERNAL) Helper for C{_ellipsoid} amd C{_ellipsoidal_datum}.
     '''
-    _xinstanceof(Ellipsoid, ellipsoid)
-    n = _UNDERSCORE_ + (name or ellipsoid.name)
-    return Datum(ellipsoid, transform=Transforms.Identity, name=n)
+    if isinstance(arg, (Ellipsoid, Ellipsoid2)):
+        E = arg
+        n = _UNDERSCORE_ + (name or E.name)
+    elif isinstance(arg, Datum):
+        E = arg.ellipsoid
+        n = _UNDERSCORE_ + (name or arg.name)
+    elif isinstance(arg, a_f2Tuple):
+        n = _UNDERSCORE_ + (name or arg.name)
+        E = Ellipsoid(arg.a, arg.b, name=n)
+    elif isinstance(arg, (tuple, list)) and len(arg) == 2:
+        n = _UNDERSCORE_ + (name or getattr(arg, _name_, NN))
+        a_f = a_f2Tuple(*arg)
+        E = Ellipsoid(a_f.a, a_f.b, name=n)  # PYCHOK .a
+    else:
+        E, n = None, NN
+    return E, n
 
 
-def _spherical_datum(radius, name=NN, **Error):
-    '''(INTERNAL) Create a spherical L{Ellipsoid} and L{Datum}, both unregistered.
+def _ellipsoid(ellipsoid, name=NN):  # in .trf
+    '''(INTERNAL) Create an L{Ellipsoid} or L{Ellipsoid2} from L{datum} or C{a_f2Tuple}.
     '''
-    n = _UNDERSCORE_ + name
-    r = Radius_(radius, **Error)
-    E = Ellipsoid(r, r, 0, name=n)
-    return Datum(E, name=n)  # default Transform
+    E, _ = _En2(ellipsoid, name)
+    if not E:
+        _xinstanceof(Ellipsoid, Ellipsoid2, a_f2Tuple, Datum, ellipsoid=ellipsoid)
+    return E
+
+
+def _ellipsoidal_datum(a_f, name=NN):
+    '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid} or L{Ellipsoid2} or C{a_f2Tuple}.
+    '''
+    if isinstance(a_f, Datum):
+        return a_f
+    E, n = _En2(a_f, name)
+    if not E:
+        _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, datum=a_f)
+    return Datum(E, transform=Transforms.Identity, name=n)
+
+
+def _spherical_datum(radius, name=NN, raiser=False):
+    '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2} or scalar earth C{radius}.
+    '''
+    try:
+        d = _ellipsoidal_datum(radius, name=name)
+    except TypeError:
+        d = None
+    if d is None:
+        if not isscalar(radius):
+            _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, Scalar, datum=radius)
+        n = _UNDERSCORE_ + name
+        r = Radius_(radius, Error=TypeError)
+        E = Ellipsoid(r, r, name=n)
+        d = Datum(E, transform=Transforms.Identity, name=n)
+    elif raiser and not d.isSpherical:  # raiser if no spherical
+        raise _IsnotError(_spherical_, datum=radius)
+    return d
 
 
 Datums = _NamedEnum('Datums', Datum)      #: Registered datums.

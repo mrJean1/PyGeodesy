@@ -12,13 +12,12 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI, PI2, PI_2, \
-                             property_doc_, _xinstanceof
+from pygeodesy.basics import EPS, PI, PI2, PI_2, property_doc_
 from pygeodesy.cartesianBase import CartesianBase
-from pygeodesy.datums import Datum, Datums
+from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.ellipsoids import R_M, R_MA
-from pygeodesy.errors import IntersectionError, _IsnotError
+from pygeodesy.errors import IntersectionError
 from pygeodesy.fmath import favg, fsum_
 from pygeodesy.interns import _COMMA_, _exceed_PI_radians_, \
                               _near_concentric_, NN, _radius_, \
@@ -34,7 +33,7 @@ from pygeodesy.utily import acos1, degrees90, degrees180, degrees360, \
 from math import atan2, cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -144,10 +143,12 @@ class LatLonSphericalBase(LatLonBase):
            @arg lon: Longitude (C{degrees} or DMS C{str[E|W]}).
            @kwarg height: Optional elevation (C{meter}, the same units
                           as the datum's half-axes).
-           @kwarg datum: Optional, shperical datum to use (L{Datum}).
+           @kwarg datum: Optional, spherical datum to use (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple})
+                         or C{scalar} earth radius).
            @kwarg name: Optional name (string).
 
-           @raise TypeError: B{C{datum}} is not a L{datum} or
+           @raise TypeError: If B{C{datum}} invalid or not
                              not spherical.
 
            @example:
@@ -155,8 +156,8 @@ class LatLonSphericalBase(LatLonBase):
            >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
         LatLonBase.__init__(self, lat, lon, height=height, name=name)
-        if datum:
-            self.datum = datum
+        if datum not in (None, self.datum):
+            self._datum = _spherical_datum(datum, name=self.name, raiser=True)
 
     def bearingTo2(self, other, wrap=False, raiser=False):
         '''Return the initial and final bearing (forward and reverse
@@ -187,16 +188,16 @@ class LatLonSphericalBase(LatLonBase):
     def datum(self, datum):
         '''Set this point's datum I{without conversion}.
 
-           @arg datum: New datum (L{Datum}).
+           @arg datum: New spherical datum (L{Datum}, L{Ellipsoid},
+                       L{Ellipsoid2}, L{a_f2Tuple}) or C{scalar}
+                       earth radius).
 
-           @raise TypeError: If B{C{datum}} is not a L{Datum}
-                             or not spherical.
+           @raise TypeError: If B{C{datum}} invalid or not
+                             not spherical.
         '''
-        _xinstanceof(Datum, datum=datum)
-        if not datum.isSpherical:
-            raise _IsnotError(_spherical_, datum=datum)
-        self._update(datum != self._datum)
-        self._datum = datum
+        d = _spherical_datum(datum, name=self.name, raiser=True)
+        self._update(d != self._datum)
+        self._datum = d
 
     def finalBearingTo(self, other, wrap=False, raiser=False):
         '''Return the final bearing (reverse azimuth) from this to

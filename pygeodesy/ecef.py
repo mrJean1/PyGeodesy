@@ -50,13 +50,13 @@ for further information on the errors.
 
 from pygeodesy.basics import EPS, EPS1, EPS_2, isscalar, map1, property_RO, \
                             _xinstanceof, _xkwds, _xsubclassof
-from pygeodesy.datums import Datum, Datums
-from pygeodesy.ellipsoids import Ellipsoid
+from pygeodesy.datums import Datums, _ellipsoidal_datum
+from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, LenError, _ValueError
 from pygeodesy.fmath import cbrt, fdot, fsum_, hypot1
 from pygeodesy.interns import _C_, _datum_, _ellipsoid_, _h_, _height_, _lat_, \
                               _lat0_, _lon_, _lon0_, _name_, NN, _no_convergence_, \
-                              _SPACE_, _UNDERSCORE_, _x_, _y_, _z_, _0_
+                              _SPACE_, _x_, _y_, _z_, _0_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, _NamedBase, _NamedTuple, \
                             notOverloaded, PhiLam2Tuple, Vector3Tuple, _xnamed
@@ -67,7 +67,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _M_    = 'M'
 _TRIPS = 16  # 8..9 sufficient, EcefSudano.reverse
@@ -124,23 +124,14 @@ class _EcefBase(_NamedBase):
         try:
             E = a_ellipsoid
             if f is None:
-                if isinstance(E, Datum):
-                    self._datum = E
-                    E = E.ellipsoid
-                elif not isinstance(E, Ellipsoid):
-                    raise TypeError
-                if not name:
-                    name = E.name
-
+                pass
             elif isscalar(E) and isscalar(f):
-                a  = float(E)
-                f_ = (1.0 / f) if f else 0  # sphere
-                b  = None if f_ else a
-                E  = Ellipsoid(a, b, f_, name=_UNDERSCORE_ + name)
-
+                E = a_f2Tuple(E, f)
             else:
                 raise ValueError
 
+            d = _ellipsoidal_datum(E, name=name)
+            E = d.ellipsoid
             if not (E.a > 0 and E.f < 1):
                 raise ValueError
 
@@ -148,6 +139,7 @@ class _EcefBase(_NamedBase):
             t = unstr(self.classname, a=a_ellipsoid, f=f)
             raise EcefError(t + _SPACE_ + _ellipsoid_, txt=str(x))
 
+        self._datum = d
         self._E = E
         if name:
             self.name = name
@@ -168,7 +160,7 @@ class _EcefBase(_NamedBase):
 
     @property_RO
     def ellipsoid(self):
-        '''Get C{E}, the ellipsoid (L{Ellipsoid}).
+        '''Get C{E}, the ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
         '''
         return self._E
 
@@ -230,18 +222,18 @@ class EcefKarney(_EcefBase):
     def __init__(self, a_ellipsoid, f=None, name=NN):
         '''New L{EcefKarney} converter.
 
-           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}), a datum (L{Datum}) or
-                             C{scalar} for the major, equatorial radius of the
-                             ellipsoid (C{meter}).
+           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}
+                             or L{a_f2Tuple}) or C{scalar} for the equatorial
+                             (major) radius of the ellipsoid (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_datum_ellipsoid}}, B{C{f=0}} represents
-                     a sphere, negative B{C{f}} a prolate ellipsoid.
+                     for C{scalar} B{C{a_ellipsoid}}, B{C{f=0}} represents a
+                     sphere, negative B{C{f}} a prolate ellipsoid.
            @kwarg name: Optional name (C{str}).
 
-           @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Datum} or
-                             C{scalar} or B{C{f}} not C{scalar} or if C{scalar}
-                             B{C{a_ellipsoid}} not positive or B{C{f}} not less
-                             than 1.0.
+           @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
+                             L{Datum} or L{a_f2Tuple} or C{scalar} or B{C{f}} not
+                             C{scalar} or if C{scalar} B{C{a_ellipsoid}} not positive
+                             or B{C{f}} not less than 1.0.
         '''
         _EcefBase.__init__(self, a_ellipsoid, f, name)
         self._hmax = self.a / EPS_2
@@ -894,18 +886,18 @@ class EcefVeness(_EcefBase):
     def __init__(self, a_ellipsoid, f=None, name=NN):
         '''New L{EcefVeness}/L{EcefSudano} converter.
 
-           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}), a datum (L{Datum}) or
-                             C{scalar} for the major, equatorial radius of the
-                             ellipsoid (C{meter}).
+           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}
+                             or L{a_f2Tuple}) or C{scalar} for the equatorial
+                             (major) radius of the ellipsoid (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_datum_ellipsoid}}, B{C{f=0}} represents
-                     a sphere, negative B{C{f}} a prolate ellipsoid.
+                     for C{scalar} B{C{a_ellipsoid}}, B{C{f=0}} represents a
+                     sphere, negative B{C{f}} a prolate ellipsoid.
            @kwarg name: Optional name (C{str}).
 
-           @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Datum} or
-                             C{scalar} or B{C{f}} not C{scalar} or if C{scalar}
-                             B{C{a_ellipsoid}} not positive or B{C{f}} not less
-                             than 1.0.
+           @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
+                             L{Datum} or L{a_f2Tuple} or C{scalar} or B{C{f}} not
+                             C{scalar} or if C{scalar} B{C{a_ellipsoid}} not positive
+                             or B{C{f}} not less than 1.0.
         '''
         _EcefBase.__init__(self, a_ellipsoid, f, name)
 
@@ -1107,18 +1099,18 @@ class EcefYou(_EcefBase):
     def __init__(self, a_ellipsoid, f=None, name=NN):
         '''New L{EcefYou} converter.
 
-           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}), a datum (L{Datum}) or
-                             C{scalar} for the major, equatorial radius of the
-                             ellipsoid (C{meter}).
+           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}
+                             or L{a_f2Tuple}) or C{scalar} for the equatorial
+                             (major) radius of the ellipsoid (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_datum_ellipsoid}}, B{C{f=0}} represents
-                     a sphere, negative B{C{f}} a prolate ellipsoid.
+                     for C{scalar} B{C{a_ellipsoid}}, B{C{f=0}} represents a
+                     sphere, negative B{C{f}} a prolate ellipsoid.
            @kwarg name: Optional name (C{str}).
 
-           @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Datum} or
-                             C{scalar} or B{C{f}} not C{scalar} or if C{scalar}
-                             B{C{a_ellipsoid}} not positive or B{C{f}} not less
-                             than 1.0.
+           @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
+                             L{Datum} or L{a_f2Tuple} or C{scalar} or B{C{f}} not
+                             C{scalar} or if C{scalar} B{C{a_ellipsoid}} not positive
+                             or B{C{f}} not less than 1.0.
         '''
         _EcefBase.__init__(self, a_ellipsoid, f, name)
 

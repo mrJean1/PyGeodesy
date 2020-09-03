@@ -10,7 +10,7 @@ L{CSSError} requiring I{Charles Karney}'s U{geographiclib
 
 from pygeodesy.basics import property_RO, _xinstanceof, _xkwds, \
                             _xsubclassof, _xzipairs
-from pygeodesy.datums import Datums
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _datum_datum, _ValueError, _xellipsoidal
 from pygeodesy.interns import _azimuth_, _C_, _COMMA_SPACE_, _datum_, \
@@ -27,7 +27,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _CassiniSoldner0 =  None  # default projection
 
@@ -66,7 +66,8 @@ class CassiniSoldner(_NamedBase):
 
            @arg lat0: Latitude of center point (C{degrees90}).
            @arg lon0: Longitude of center point (C{degrees180}).
-           @kwarg datum: Optional, the geodesic datum (L{Datum}).
+           @kwarg datum: Optional datum or ellipsoid (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name (C{str}).
 
            @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
@@ -86,8 +87,8 @@ class CassiniSoldner(_NamedBase):
         if name:
             self.name = name
 
-        if datum and datum != self._datum:
-            self._datum = _xellipsoidal(datum=datum)
+        if datum not in (None, self._datum):
+            self._datum = _xellipsoidal(datum=_ellipsoidal_datum(datum, name=name))
 
         self.reset(lat0, lon0)
 

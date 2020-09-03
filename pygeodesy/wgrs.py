@@ -26,7 +26,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '20.07.08'
+__version__ = '20.09.02'
 
 _Base    = 10
 _BaseLen =  4
@@ -94,7 +94,7 @@ class WGRSError(_ValueError):
 
 
 class Georef(Str):
-    '''Georef class, a named c{str}.
+    '''Georef class, a named C{str}.
     '''
     _height    = _Missing  # meter
     _latlon    =  None     # cached latlon property

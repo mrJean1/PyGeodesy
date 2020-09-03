@@ -86,7 +86,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.07.24
+        20.09.01
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -330,6 +330,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#luneOf" class="summary-sig-name">luneOf</a>(<span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.points.LatLon_'&gt;</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      Generate an ellipsoidal or spherical <a 
+      href="https://WikiPedia.org/wiki/Spherical_lune" 
+      target="_top">lune</a>-shaped path or polygon.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.points-module.html#nearestOn5" class="summary-sig-name">nearestOn5</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
@@ -358,6 +381,29 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Approximate the perimeter of a path or polygon.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#quadOf" class="summary-sig-name">quadOf</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.points.LatLon_'&gt;</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      Generate a quadrilateral path or polygon from two points.</td>
           <td align="right" valign="top">
             
             
@@ -756,6 +802,48 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="luneOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">luneOf</span>&nbsp;(<span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.points.LatLon_'&gt;</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Generate an ellipsoidal or spherical <a 
+  href="https://WikiPedia.org/wiki/Spherical_lune" 
+  target="_top">lune</a>-shaped path or polygon.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lon1</code></strong> - Left longitude (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Right longitude (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path (<code>bool</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<a href="pygeodesy.points.LatLon_-class.html" 
+          class="link">LatLon_</a>).</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Yield 4 or 5 <b><code>LatLon</code></b> instances outlining the 
+          lune shape.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://www.MathWorks.com/help/map/ref/areaquad.html" 
+        target="_top">Latitude-longitude quadrangle</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="nearestOn5"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -888,6 +976,46 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="quadOf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">quadOf</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.points.LatLon_'&gt;</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Generate a quadrilateral path or polygon from two points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Lower latitude (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Left longitude (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - Upper latitude (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - Right longitude (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path (<code>bool</code>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<a href="pygeodesy.points.LatLon_-class.html" 
+          class="link">LatLon_</a>).</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Yield 4 or 5 <b><code>LatLon</code></b> instances outlining the 
+          quadrilateral.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -920,7 +1048,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Aug 29 21:43:01 2020
+    Generated by Epydoc 3.0.1 on Wed Sep  2 16:03:14 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -28,7 +28,7 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 
 from pygeodesy.basics import halfs2, property_RO, _xkwds, \
                             _xinstanceof, _xzipairs
-from pygeodesy.datums import Datums
+from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _parseX, _ValueError
 from pygeodesy.interns import _band_, _COMMA_SPACE_, _datum_, \
                               _easting_, NN, _northing_, _SPACE_, \
@@ -43,7 +43,7 @@ from pygeodesy.utmupsBase import _hemi, UtmUps5Tuple
 import re  # PYCHOK warning locale.Error
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _100km  = Meter( 100e3)  #: (INTERNAL) 100 km in meter.
 _2000km = Meter(2000e3)  #: (INTERNAL) 2,000 km in meter.
@@ -84,11 +84,14 @@ class Mgrs(_NamedBase):
            @arg easting: Easting (C{meter}), within 100 km grid square.
            @arg northing: Northing (C{meter}), within 100 km grid square.
            @kwarg band: Optional 8° latitudinal band (C{str}), C..X covering 80°S..84°N.
-           @kwarg datum: Optional this reference's datum (L{Datum}).
+           @kwarg datum: Optional this reference's datum (L{Datum}, L{Ellipsoid},
+                         L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name (C{str}).
 
            @raise MGRSError: Invalid MGRS grid reference, B{C{zone}}, B{C{en100k}},
                              B{C{easting}}, B{C{northing}} or B{C{band}}.
+
+           @raise TypeError: Invalid B{C{datum}}.
 
            @example:
 
@@ -111,8 +114,8 @@ class Mgrs(_NamedBase):
 
         self._easting  = Easting(easting,   Error=MGRSError)
         self._northing = Northing(northing, Error=MGRSError)
-        if self._datum != datum:
-            self._datum = datum
+        if datum not in (None, self._datum):
+            self._datum = _ellipsoidal_datum(datum, name=name)
 
     def _en100k2m(self):
         # check and convert grid letters to meter

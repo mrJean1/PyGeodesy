@@ -4,12 +4,12 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '20.08.28'
+__version__ = '20.09.01'
 
 from base import TestsBase
 
-from pygeodesy import EcefKarney, Ellipsoid, Ellipsoids, ellipsoids, \
-                      fstr, R_M, PI_2
+from pygeodesy import a_f2Tuple, EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, \
+                      ellipsoids, fstr, R_M, PI_2
 
 
 class Tests(TestsBase):
@@ -93,7 +93,7 @@ class Tests(TestsBase):
         self.test('WGS84.ecef', E.ecef().name, E.name)
 
         t = E.toStr(prec=10)
-        self.test('WGS84', t, "name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, e=0.0818191908, e2=0.00669438, e22=0.0067394967, e32=0.0033584313, n=0.0016792204, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.790009154, Rr=6367449.14582262, Rs=6367435.6797161922")
+        self.test('WGS84', t, "name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e22=0.0067394967, e32=0.0033584313, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.790009154")
         e = (E.a - E.b) / (E.a + E.b) - E.n
         t = 'A=%.10f, e=%.10f, f_=%.10f, n=%.10f(%.10e)' % (E.A, E.e, E.f_, E.n, e)
         self.test('WGS84.', t, 'A=6367449.1458234144, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-2.1684043450e-19)')
@@ -141,6 +141,21 @@ class Tests(TestsBase):
                 self.test(n + '.f_ - 1 / .f', e, e if abs(e) < _TOL else _TOL)
                 e = E.f - 1 / E.f_
                 self.test(n + '.f - 1 / .f_', e, e if abs(e) < _TOL else _TOL)  # PYCHOK attr
+
+        self.subtitle(ellipsoids, Ellipsoid2.__name__)
+        for n, E in tuple(Ellipsoids.items()):  # includes f_None, b_None, Prolate
+            E2 = Ellipsoid2(E.a, E.f, name='_2_' + n)
+            n, E2 = str(E2).split(', ', 1)
+            _, E  = str(E).split(', ', 1)
+            self.test(n, E2, E)
+
+        self.subtitle(ellipsoids, a_f2Tuple.__name__)
+        for n, E in tuple(Ellipsoids.items()):  # includes f_None, b_None, Prolate
+            a_f = a_f2Tuple(E.a, E.f)
+            E2 = Ellipsoid(a_f.a, a_f.b, name='_a_b_' + n)  # PYCHOK a
+            n, E2 = str(E2).split(', ', 1)
+            _, E  = str(E).split(', ', 1)
+            self.test(n, E2, E)
 
 
 if __name__ == '__main__':

@@ -14,7 +14,7 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 
 from pygeodesy.basics import EPS, property_doc_, property_RO, \
                             _xinstanceof, _xkwds
-from pygeodesy.datums import Datum, Datums
+from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
@@ -27,7 +27,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 
 class CartesianBase(Vector3d):
@@ -46,7 +46,8 @@ class CartesianBase(Vector3d):
                      or the C{X} coordinate (C{scalar}).
            @arg y: The C{Y} coordinate (C{scalar}) if B{C{xyz}} C{scalar}.
            @arg z: The C{Z} coordinate (C{scalar}) if B{C{xyz}} C{scalar}.
-           @kwarg datum: Optional datum (L{Datum}).
+           @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
+                         or L{a_f2Tuple}).
            @kwarg ll: Optional, original latlon (C{LatLon}).
            @kwarg name: Optional name (C{str}).
 
@@ -59,7 +60,7 @@ class CartesianBase(Vector3d):
         if h:
             self._height = h
         if d:
-            self.datum = d
+            self.datum = _ellipsoidal_datum(d, name=name)
 
     def _update(self, updated, *attrs):
         '''(INTERNAL) Zap cached attributes if updated.
@@ -93,12 +94,12 @@ class CartesianBase(Vector3d):
 
            @return: The converted point (C{Cartesian}).
 
-           @raise TypeError: B{C{datum2}} or B{C{datum}} not a
-                             L{Datum}.
+           @raise TypeError: B{C{datum2}} or B{C{datum}}
+                             invalid.
         '''
         _xinstanceof(Datum, datum2=datum2)
 
-        if datum and self.datum != datum:
+        if datum not in (None, self.datum):
             c = self.convertDatum(datum)
         else:
             c = self
@@ -250,7 +251,8 @@ class CartesianBase(Vector3d):
     def toLatLon(self, datum=None, LatLon=None, **LatLon_kwds):  # see .ecef.Ecef9Tuple.convertDatum
         '''Convert this cartesian to a geodetic (lat-/longitude) point.
 
-           @kwarg datum: Optional datum (L{Datum}) or C{None}.
+           @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
+                         or L{a_f2Tuple}).
            @kwarg LatLon: Optional class to return the geodetic point
                           (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
@@ -263,17 +265,18 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{datum}} or B{C{LatLon_kwds}}.
         '''
-        if datum in (None, self.datum):
+        d = self.datum
+        if datum in (None, d):
             r = self.toEcef()
         else:
-            _xinstanceof(Datum, datum=datum)
             c = self.convertDatum(datum)
-            r = c.Ecef(c.datum).reverse(c, M=True)
+            d = c.datum
+            r = c.Ecef(d).reverse(c, M=True)
 
         if LatLon is not None:  # class or .classof
             r = LatLon(r.lat, r.lon, **_xkwds(LatLon_kwds,
                                         datum=r.datum, height=r.height))
-        _datum_datum(r.datum, datum or self.datum)
+        _datum_datum(r.datum, d)
         return self._xnamed(r)
 
     def toNvector(self, Nvector=None, datum=None, **Nvector_kwds):  # PYCHOK Datums.WGS84
@@ -281,13 +284,15 @@ class CartesianBase(Vector3d):
 
            @kwarg Nvector: Optional class to return the C{n-vector}
                            components (C{Nvector}) or C{None}.
-           @kwarg datum: Optional datum (L{Datum}) overriding this cartesian's
-                         datum.
+           @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
+                         or L{a_f2Tuple}) overriding this cartesian's datum.
            @kwarg Nvector_kwds: Optional, additional B{C{Nvector}} keyword
                                 arguments, ignored if B{C{Nvector=None}}.
 
            @return: The C{unit, n-vector} components (B{C{Nvector}}) or a
                     L{Vector4Tuple}C{(x, y, z, h)} if B{C{Nvector}} is C{None}.
+
+           @raise TypeError: Invalid B{C{datum}}.
 
            @raise ValueError: The B{C{Cartesian}} at origin.
 
@@ -296,9 +301,7 @@ class CartesianBase(Vector3d):
            >>> c = Cartesian(3980581, 97, 4966825)
            >>> n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
         '''
-        d = datum or self.datum
-        _xinstanceof(Datum, datum=d)
-
+        d = _ellipsoidal_datum(datum or self.datum, name=self.name)
         r = self._v4t
         if r is None or d != self.datum:
             # <https://www.Movable-Type.co.UK/scripts/geodesy/docs/

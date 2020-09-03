@@ -15,7 +15,7 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 from pygeodesy.basics import EPS, PI, property_doc_, property_RO, \
                             _xinstanceof, _xkwds
 from pygeodesy.cartesianBase import CartesianBase
-from pygeodesy.datums import Datum, Datums
+from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, \
                              _IsnotError, _ValueError, _xellipsoidal
@@ -32,7 +32,7 @@ from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.units import Radius_
 
 __all__ = ()
-__version__ = '20.08.24'
+__version__ = '20.09.01'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 16    # _intersects2 interations, 6 sufficient
@@ -98,7 +98,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @arg lon: Longitude (C{degrees} or DMS C{str[E|W]}).
            @kwarg height: Optional elevation (C{meter}, the same units
                           as the datum's half-axes).
-           @kwarg datum: Optional, ellipsoidal datum to use (L{Datum}).
+           @kwarg datum: Optional, ellipsoidal datum to use (L{Datum},
+                         L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg reframe: Optional reference frame (L{RefFrame}).
            @kwarg epoch: Optional epoch to observe for B{C{reframe}}
                          (C{scalar}), a non-zero, fractional calendar year.
@@ -113,8 +114,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            >>> p = LatLon(51.4778, -0.0016)  # height=0, datum=Datums.WGS84
         '''
         LatLonBase.__init__(self, lat, lon, height=height, name=name)
-        if datum and datum != self._datum:
-            self.datum = datum
+        if datum not in (None, self._datum):
+            self.datum = _ellipsoidal_datum(datum, name=name)
         if reframe:
             self.reframe = reframe
             self.epoch = epoch
@@ -176,18 +177,19 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: The converted point (ellipsoidal C{LatLon}).
 
-           @raise TypeError: The B{C{datum2}} is not a L{Datum}.
+           @raise TypeError: The B{C{datum2}} invalid.
 
            @example:
 
            >>> p = LatLon(51.4778, -0.0016)  # default Datums.WGS84
            >>> p.convertDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
         '''
-        if self.datum == datum2:
+        d2 = _ellipsoidal_datum(datum2, name=self.name)
+        if self.datum == d2:
             return self.copy()
 
-        c = self.toCartesian().convertDatum(datum2)
-        return c.toLatLon(datum=datum2, LatLon=self.classof)
+        c = self.toCartesian().convertDatum(d2)
+        return c.toLatLon(datum=d2, LatLon=self.classof)
 
     def convertRefFrame(self, reframe2):
         '''Convert this point to an other reference frame.
@@ -301,7 +303,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @kwarg datum: Default datum (L{Datum}).
 
-           @return: The ellipsoid (L{Ellipsoid}).
+           @return: The ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
         '''
         return getattr(self, _datum_, datum).ellipsoid
 
@@ -310,7 +312,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @arg other: The other point (C{LatLon}).
 
-           @return: This point's datum ellipsoid (L{Ellipsoid}).
+           @return: This point's datum ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
 
