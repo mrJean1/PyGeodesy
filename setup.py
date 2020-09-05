@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.09.02'
+__version__ = '20.09.05'
 
 
 def _c2(*names):
@@ -51,10 +51,10 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic',
              'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'development', 'discrete', 'distance', 'Douglas',
-             'earth', 'ECEF', 'elevation', 'ellipsoid', 'elliptic', 'EPSG',
-             'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
+             'earth', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
+             'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
              'Euclidean', 'ExactTM',
-             'fmath', 'Forsythe', 'fractional', 'Fréchet',
+             'flattening', 'fmath', 'Forsythe', 'fractional', 'Fréchet',
              'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest', 'geographiclib',
              'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef', 'gnomonic',
              'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
@@ -62,7 +62,7 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
              'Karney', 'Krueger', 'Krüger',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh', 'linearize',
-             'LocalCartesian', 'longitude',
+             'LocalCartesian', 'longitude', 'lune',
              'Mercator', 'MGRS',
              'nearest', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR',

@@ -92,11 +92,12 @@ R_VM = Radius(6366707.0194937, name='R_VM')  #: Aviation/Navigation earth radius
 # R_ = Radius(6372797.560856,  name='R_')    #: XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '20.09.02'
+__version__ = '20.09.05'
 
+_EPS_  = 1 / EPS          # largest abs(f_)
 _PI4   = PI2 * 2          # PYCHOK used!
 _PI4_3 = PI2 * _2_3rd     # PYCHOK used!
-_TOL   = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups, testEllipdoidal.py
+_TOL   = sqrt(EPS * 0.1)  # for Ellipsoid.estauf, imported by .ups, testEllipsoidal.py
 
 
 def _atand(y_x):
@@ -141,6 +142,17 @@ class a_f2Tuple(_NamedTuple):
     _Names_ = ('a', 'f')
 
     def __new__(cls, a, f):
+        '''New L{a_f2Tuple} ellipsoid specification.
+
+           @arg a: Equatorial (major) radius (C{scalar} > 0).
+           @arg f: Flattening (C{scalar} < 1).
+
+           @return: An L{a_f2Tuple}C{(a, f)} instance.
+
+           @raise UnitError: Invalid B{C{a}} or B{C{f}}.
+
+           @note: M{abs(f) < EPS} is forced to M{f = 0}, spherical.
+        '''
         a = Radius_(_flt(a), name=Ellipsoid.a.name)
         f = Float_(_flt(f), name=Ellipsoid.f.name, low=None, high=EPS1)
         if abs(f) < EPS:  # force spherical
@@ -238,7 +250,8 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{a}}, B{C{b}} or B{C{f_}}.
 
-           @note: M{abs(1 / f_) < EPS} is considered M{1 / f_ = 0}, spherical.
+           @note: M{abs(f_) > 1 / EPS} or M{abs(1 / f_) < EPS} is forced
+                  to M{1 / f_ = 0}, spherical.
         '''
         try:
             a = Radius_(_flt(a), name=Ellipsoid.a.name)  # low=EPS
@@ -737,7 +750,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self._elliptic is None:
             from pygeodesy.elliptic import Elliptic
-            self._elliptic = Elliptic(-self.e22)
+            self._elliptic = Elliptic(-abs(self.e22))
         return self._elliptic
 
     def e2s(self, s):
@@ -1007,7 +1020,7 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the 3rd flattening (C{float}), M{f / (2 - f) == (a - b) / (a + b)}.
         '''
         if self._n is None:
-            self._n = self._assert((self.a - self.b) / (self.a + self.b), n=f2n(self.f))
+            self._n = self._assert(a_b2n(self.a, self.b), n=f2n(self.f))
         return self._n
 
     flattening3rd = n
@@ -1020,7 +1033,8 @@ class Ellipsoid(_NamedEnumItem):
                  and method C{Rgeometric}.
         '''
         if self._R1 is None:
-            self._R1 = Radius((self.a * 2 + self.b) / 3 if self.f else self.a, name=Ellipsoid.R1.name)
+            self._R1 = Radius((self.a * 2 + self.b) / 3 if self.f > 0 else (
+                              (self.b * 2 + self.a) / 3 if self.f < 0 else self.a), name=Ellipsoid.R1.name)
         return self._R1
 
     Rmean = R1
@@ -1033,15 +1047,19 @@ class Ellipsoid(_NamedEnumItem):
                  U{c<https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>}.
         '''
         if self._R2 is None:
-            if self.f:
-                r = self.b2_a2
-                if self.f > 0:  # self.e2 > 0
-                    r *= atanh(self.e) / self.e
-                elif self.f < 0:  # self.e2 < 0
-                    r *= atan(self.e) / self.e
-                r = self.a * sqrt((1 + r) * 0.5)
-            else:
-                r = self.a
+            r = self.b2_a2
+            if r < 1 and self.f > 0:  # oblate
+                e = self.e
+                a = self.a
+            elif r > 1 and self.f < 0:  # prolate
+                r = 1 / r  # swap a and b
+                e = sqrt(abs(1 - r))
+                a = self.b
+            else:  # spherical
+                e = 0
+                a = self.a
+            r = a if e < EPS else \
+                a * sqrt((1 + r * atanh(e) / e) * 0.5)
             self._R2 = Radius(r, name=Ellipsoid.R2.name)
         return self._R2
 
@@ -1054,7 +1072,8 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         if self._R3 is None:
-            self._R3 = Radius(cbrt(self.a2 * self.b) if self.f else self.a, name=Ellipsoid.R3.name)
+            self._R3 = Radius(cbrt(self.a2 * self.b) if self.f > 0 else (
+                              cbrt(self.b2 * self.a) if self.f < 0 else self.a), name=Ellipsoid.R3.name)
         return self._R3
 
     Rvolumetric = R3
@@ -1269,7 +1288,7 @@ class Ellipsoid(_NamedEnumItem):
     def rocPolar(self):
         '''Get the I{polar} radius of curvature (C{meter}), see C{a2_b}.
         '''
-        return self.a2_b if self._a2_b is None else self._a2_b
+        return self.a2_b  # if self._a2_b is None else self._a2_b
 
     def rocPrimeVertical(self, lat):
         '''Compute the I{prime-vertical}, I{normal} radius of curvature at
@@ -1306,7 +1325,8 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the ellipsoid's I{volume} (C{meter**3}), M{4 / 3 * PI * a**2 * b}.
         '''
         if self._volume is None:
-            self._volume = Float(_PI4_3 * self.a2 * self.b, name=Ellipsoid.volume.name)
+            self._volume = Float(_PI4_3 * (self.a2 * self.b if self.f > 0 else
+                                           self.b2 * self.a), name=Ellipsoid.volume.name)
         return self._volume
 
 
@@ -1334,16 +1354,37 @@ class Ellipsoid2(Ellipsoid):
             raise _ValueError(instr(self, a=a, f=f), txt=str(x))
 
 
+def _spherical(f):
+    '''(INTERNAL) C{True} for spherical or invalid C{f}.
+    '''
+    return abs(f) < EPS or f > EPS1
+
+
+def _spherical_(f_):
+    '''(INTERNAL) C{True} for spherical or invalid C{f_}.
+    '''
+    return abs(f_) < EPS or abs(f_) > _EPS_
+
+
+def _spherical_a_b(a, b):
+    '''(INTERNAL) C{True} for spherical or invalid C{a} and C{b}.
+    '''
+    return a < EPS or b < EPS or abs(a - b) < EPS
+
+
 def a_b2f(a, b):
     '''Return C{f}, the I{flattening} for a given I{equatorial} and I{polar} radius.
 
        @arg a: Equatorial (major) radius (C{scalar} > 0).
        @arg b: Polar (minor) radius (C{scalar} > 0).
 
-       @return: The flattening (C{float} or C{0}).
+       @return: The flattening (C{float} or C{0}), M{(a - b) / a}.
+
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
     '''
-    f = 0 if a < EPS or b < EPS else (a - b) / a
-    return Float(0 if abs(f) < EPS else f, name=Ellipsoid.f.name)
+    f = 0 if _spherical_a_b(a, b) else (a - b) / a
+    return Float(0 if _spherical(f) else f, name=Ellipsoid.f.name)
 
 
 def a_b2f_(a, b):
@@ -1352,10 +1393,43 @@ def a_b2f_(a, b):
        @arg a: Equatorial (major) radius (C{scalar} > 0).
        @arg b: Polar (minor) radius (C{scalar} > 0).
 
-       @return: The inverse flattening (C{float} or C{0}).
+       @return: The inverse flattening (C{float} or C{0}), M{a / (a - b)}.
+
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
     '''
-    f_ = 0 if b < EPS or a < EPS else (a - b) / b
-    return Float(0 if abs(f_) < EPS else f_, name=Ellipsoid.f_.name)
+    f_ = 0 if _spherical_a_b(a, b) else a / (a - b)
+    return Float(0 if _spherical_(f_) else f_, name=Ellipsoid.f_.name)
+
+
+def a_b2f2(a, b):
+    '''Return C{f2}, the I{2nd flattening} for a given I{equatorial} and I{polar} radius.
+
+       @arg a: Equatorial (major) radius (C{scalar} > 0).
+       @arg b: Polar (minor) radius (C{scalar} > 0).
+
+       @return: The 2nd flattening (C{float} or C{0}), M{(a - b) / b}.
+
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
+    '''
+    t = 0 if _spherical_a_b(a, b) else (a - b)
+    return Float(0 if abs(t) < EPS else t / b, name=Ellipsoid.f2.name)
+
+
+def a_b2n(a, b):
+    '''Return C{n}, the I{rd flattening} for a given I{equatorial} and I{polar} radius.
+
+       @arg a: Equatorial (major) radius (C{scalar} > 0).
+       @arg b: Polar (minor) radius (C{scalar} > 0).
+
+       @return: The 3rd flattening (C{float} or C{0}), M{(a - b) / (a + b)}.
+
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
+    '''
+    t = 0 if _spherical_a_b(a, b) else (a - b)
+    return Float(0 if abs(t) < EPS else t / (a + b), name=Ellipsoid.n.name)
 
 
 def a_f2b(a, f):
@@ -1364,9 +1438,9 @@ def a_f2b(a, f):
        @arg a: Equatorial (major) radius (C{scalar} > 0).
        @arg f: Flattening (C{scalar} < 1).
 
-       @return: The polar (minor) radius (C{float}).
+       @return: The polar (minor) radius (C{float}), M{a * (1 - f)}.
     '''
-    return Float(a if abs(f) < EPS else a * (1 - f), name=Ellipsoid.b.name)
+    return Float(a if _spherical(f) else a * (1 - f), name=Ellipsoid.b.name)
 
 
 def a_f_2b(a, f_):
@@ -1375,9 +1449,9 @@ def a_f_2b(a, f_):
        @arg a: Equatorial (major) radius (C{scalar} > 0).
        @arg f_: Inverse flattening (C{scalar} >>> 1).
 
-       @return: The polar (minor) radius (C{float}).
+       @return: The polar (minor) radius (C{float}), M{a * (f_ - 1) / f_}.
     '''
-    return Float(a if abs(f_) < EPS else a * (f_ - 1) / f_, name=Ellipsoid.b.name)
+    return Float(a if _spherical_(f_) else a * (f_ - 1) / f_, name=Ellipsoid.b.name)
 
 
 def b_f2a(b, f):
@@ -1386,10 +1460,10 @@ def b_f2a(b, f):
        @arg b: Polar (minor) radius (C{scalar} > 0).
        @arg f: Flattening (C{scalar} < 1).
 
-       @return: The equatorial (major) radius (C{float}).
+       @return: The equatorial (major) radius (C{float}), M{b / (1 - f)}.
     '''
-    f = 1 - f
-    return Float(b if abs(f) < EPS else b / f, name=Ellipsoid.a.name)
+    t = 1 - f
+    return Float(b if _spherical(f) or abs(t) < EPS else b / t, name=Ellipsoid.a.name)
 
 
 def b_f_2a(b, f_):
@@ -1398,9 +1472,10 @@ def b_f_2a(b, f_):
        @arg b: Polar (minor) radius (C{scalar} > 0).
        @arg f_: Inverse flattening (C{scalar} >>> 1).
 
-       @return: The equatorial (major) radius (C{float}).
+       @return: The equatorial (major) radius (C{float}), M{b * f_ / (f_ - 1)}.
     '''
-    return Float(b if abs(f_) < EPS else b * (f_ + 1), name=Ellipsoid.a.name)
+    t = f_ - 1
+    return Float(b if _spherical_(f_) or abs(t) < EPS else b * f_ / t, name=Ellipsoid.a.name)
 
 
 def f2e2(f):
@@ -1408,15 +1483,16 @@ def f2e2(f):
 
        @arg f: Flattening (C{scalar} < 1).
 
-       @return: The (1st) eccentricity I{squared} (C{float} < 1).
+       @return: The (1st) eccentricity I{squared} (C{float} < 1), M{f * (2 - f)}.
 
-       @note: The result C{e2} will be negative for I{prolate} ellipsoids.
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
-    return Float(f * (2 - f), name=Ellipsoid.e2.name)
+    return Float(0 if _spherical(f) else f * (2 - f), name=Ellipsoid.e2.name)
 
 
 def f2e22(f):
@@ -1424,7 +1500,11 @@ def f2e22(f):
 
        @arg f: Flattening (C{scalar} < 1).
 
-       @return: The 2nd eccentricity I{squared} (C{float} > -1 or C{INF}).
+       @return: The 2nd eccentricity I{squared} (C{float} > -1 or C{INF}),
+                M{f * (2 - f) / (1 - f)**2}.
+
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1Ellipsoid.html>}.
@@ -1439,7 +1519,10 @@ def f2e32(f):
 
        @arg f: Flattening (C{scalar} < 1).
 
-       @return: The 3rd eccentricity I{squared} (C{float}).
+       @return: The 3rd eccentricity I{squared} (C{float}), M{f * (2 - f) / (1 + (1 - f)**2)}.
+
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1Ellipsoid.html>}.
@@ -1454,9 +1537,13 @@ def f_2f(f_):
 
        @arg f_: Inverse flattening (C{scalar} >>> 1).
 
-       @return: The flattening (C{float} or C{0}).
+       @return: The flattening (C{float} or C{0}), M{1 / f_}.
+
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
     '''
-    return Float(0 if abs(f_) < EPS else 1.0 / f_, name=Ellipsoid.f.name)  # PYCHOK type
+    f = 0 if _spherical_(f_) else 1.0 / f_
+    return Float(0 if _spherical(f) else f, name=Ellipsoid.f.name)  # PYCHOK type
 
 
 def f2f_(f):
@@ -1464,9 +1551,13 @@ def f2f_(f):
 
        @arg f: Flattening (C{scalar} < 1).
 
-       @return: The inverse flattening (C{float} or C{0}).
+       @return: The inverse flattening (C{float} or C{0}), M{1 / f}.
+
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
     '''
-    return Float(0 if abs(f) < EPS else 1.0 / f, name=Ellipsoid.f_.name)  # PYCHOK type
+    f_ = 0 if _spherical(f) else 1.0 / f
+    return Float(0 if _spherical_(f_) else f_, name=Ellipsoid.f_.name)  # PYCHOK type
 
 
 def f2f2(f):
@@ -1474,14 +1565,18 @@ def f2f2(f):
 
        @arg f: Flattening (C{scalar} < 1).
 
-       @return: The 2nd flattening (C{float} or C{INF}).
+       @return: The 2nd flattening (C{float} or C{INF}), M{f / (1 - f)}.
+
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = 1 - f
-    return Float(INF if abs(t) < EPS else f / t, name=Ellipsoid.f2.name)  # PYCHOK type
+    return Float(0 if _spherical(f) else
+              (INF if  abs(t) < EPS else f / t), name=Ellipsoid.f2.name)  # PYCHOK type
 
 
 def f2n(f):
@@ -1489,13 +1584,16 @@ def f2n(f):
 
        @arg f: Flattening (C{scalar} < 1).
 
-       @return: The 3rd flattening (-1 < C{float} < 1).
+       @return: The 3rd flattening (-1 < C{float} < 1), M{f / (2 - f)}.
+
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
-    return Float(f / (2 - f) if f else 0, name=Ellipsoid.n.name)
+    return Float(0 if _spherical(f) else f / (2 - f), name=Ellipsoid.n.name)
 
 
 def n2e2(n):
@@ -1503,14 +1601,16 @@ def n2e2(n):
 
        @arg n: The 3rd flattening (-1 < C{scalar} < 1).
 
-       @return: The (1st) eccentricity I{squared} (C{float} or -INF).
+       @return: The (1st) eccentricity I{squared} (C{float} or -INF), M{4 * n / (1 + n)**2}.
 
-       @note: The result C{e2} will be negative for I{prolate} ellipsoids.
+       @note: The result is negative for I{prolate} or C{0} for
+              near-spherical ellipsoids.
 
        @see: U{Flattening<https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = (1 + n)**2
-    return Float(-INF if t < EPS else 4 * n / t, name=Ellipsoid.e2.name)
+    return Float(0 if abs(n) < EPS else
+             (-INF if     t  < EPS else 4 * n / t), name=Ellipsoid.e2.name)
 
 
 def n2f(n):
@@ -1518,17 +1618,18 @@ def n2f(n):
 
        @arg n: The 3rd flattening (-1 <= C{scalar} <= 1).
 
-       @return: The flattening (C{float} or -INF).
+       @return: The flattening (C{float} or -INF), M{2 * n / (1 + n)}.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = 1 + n
-    return Float(-INF if t < EPS else (0 if abs(n) < EPS else 2 * n / t), name=Ellipsoid.f.name)
+    f = 0 if abs(n) < EPS else (-INF if t < EPS else 2 * n / t)
+    return Float(0 if _spherical(f) else f, name=Ellipsoid.f.name)
 
 
-Ellipsoids = _NamedEnum('Ellipsoids', Ellipsoid)  #: Registered ellipsoids.
+Ellipsoids = _NamedEnum('Ellipsoids', Ellipsoid)  #: Registered ellipsods.
 # <https://www.GNU.org/software/gama/manual/html_node/Supported-ellipsoids.html>
 # <https://w3.Energistics.org/archive/Epicentre/Epicentre_v3.0/DataModel/
 #         LogicalDictionary/StandardValues/ellipsoid.html>
@@ -1587,7 +1688,7 @@ if __name__ == '__main__':
 
     for E in (Ellipsoids.WGS84, Ellipsoids.GRS80,  # NAD83,
               Ellipsoids.Sphere, Ellipsoids.SpherePopular,
-              Ellipsoid(6356752.3, 6378137.0, name='_Prolate')):
+              Ellipsoid(Ellipsoids.WGS84.b, Ellipsoids.WGS84.a, name='_Prolate')):
         if E.f:
             f_ = 'f_=1/%.10F' % (1 / E.f,)
         else:
@@ -1660,9 +1761,9 @@ if __name__ == '__main__':
 #     KsOrder= 8,
 #     Mabcd=  (1.0, 0.0, 0.0, 0.0)
 
-# Ellipsoid._Prolate: name='_Prolate', a=6356752.2999999998, b=6378137, f_=-297.2570248823, f=-0.0033640921, f2=-0.0033528129, n=-0.0016792215, e=0.0820944654, e2=-0.0067395013, e22=-0.0066943844, e32=-0.0033584335, L=10001965.718133986, R1=6363880.5333333341, R2=6363878.9318593405, R3=6363872.5548945786,
-#     A=6367449.138706811, e=8.2094465430912e-02, f_=1/-297.2570248823, n=-0.0016792215069(4.337e-19),
-#     AlphaKs=(-0.00084149208789184528, 0.00000076653583100163, -0.00000000120934745864, 0.00000000000245762907, -0.00000000000000578865, 0.00000000000000001502, -0.00000000000000000004, 0.0),
-#     BetaKs= (-0.00084149243499239313, 0.00000005842742972611, -0.00000000016804906023, 0.00000000000021706319, -0.00000000000000038002, 0.00000000000000000073, -0.0, 0.0),
+# Ellipsoid._Prolate: name='_Prolate', a=6356752.3142451793, b=6378137, f_=-297.257223563, f=-0.0033640898, f2=-0.0033528107, n=-0.0016792204, e=0.0820944379, e2=-0.0067394967, e22=-0.00669438, e32=-0.0033584313, L=10035500.5204500332, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.790009154,
+#     A=6367449.145823415, e=8.2094437949696e-02, f_=1/-297.2572235630, n=-0.0016792203864(0.0e+00),
+#     AlphaKs=(-0.00084149152514366627, 0.00000076653480614871, -0.00000000120934503389, 0.0000000000024576225, -0.00000000000000578863, 0.00000000000000001502, -0.00000000000000000004, 0.0),
+#     BetaKs= (-0.00084149187224351817, 0.00000005842735196773, -0.0000000001680487236, 0.00000000000021706261, -0.00000000000000038002, 0.00000000000000000073, -0.0, 0.0),
 #     KsOrder= 8,
-#     Mabcd=  (0.99832429730542537882, -0.00502921759545196367, 0.00000527821842317521, -0.00000000690527162046)
+#     Mabcd=  (0.99832429842120640195, -0.00502921424529705757, 0.00000527821138524052, -0.00000000690525779769)

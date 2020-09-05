@@ -165,9 +165,47 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum-module.html#a_b2f2" class="summary-sig-name">a_b2f2</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>f2</code>, the <i>2nd flattening</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.datum-module.html#a_b2f_" class="summary-sig-name">a_b2f_</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>)</span><br />
       Return <code>f_</code>, the <i>inverse flattening</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.datum-module.html#a_b2n" class="summary-sig-name">a_b2n</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>n</code>, the <i>rd flattening</i> for a given 
       <i>equatorial</i> and <i>polar</i> radius.</td>
           <td align="right" valign="top">
             
@@ -560,9 +598,47 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or <code>0</code>).</dd>
+        <dd>The flattening (<code>float</code> or <code>0</code>), <i 
+          class="math">(a - b) / a</i>.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2f2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2f2</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f2</code>, the <i>2nd flattening</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The 2nd flattening (<code>float</code> or <code>0</code>), <i 
+          class="math">(a - b) / b</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="a_b2f_"></a>
 <div>
@@ -588,9 +664,47 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The inverse flattening (<code>float</code> or <code>0</code>).</dd>
+        <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
+          class="math">a / (a - b)</i>.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2n"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2n</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>n</code>, the <i>rd flattening</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The 3rd flattening (<code>float</code> or <code>0</code>), <i 
+          class="math">(a - b) / (a + b)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="a_f2b"></a>
 <div>
@@ -616,7 +730,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The polar (minor) radius (<code>float</code>).</dd>
+        <dd>The polar (minor) radius (<code>float</code>), <i class="math">a 
+          * (1 - f)</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -644,7 +759,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>f_</code></strong> - Inverse flattening (<code>scalar</code> &gt;&gt;&gt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The polar (minor) radius (<code>float</code>).</dd>
+        <dd>The polar (minor) radius (<code>float</code>), <i class="math">a 
+          * (f_ - 1) / f_</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -672,7 +788,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The equatorial (major) radius (<code>float</code>).</dd>
+        <dd>The equatorial (major) radius (<code>float</code>), <i 
+          class="math">b / (1 - f)</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -700,7 +817,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>f_</code></strong> - Inverse flattening (<code>scalar</code> &gt;&gt;&gt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The equatorial (major) radius (<code>float</code>).</dd>
+        <dd>The equatorial (major) radius (<code>float</code>), <i 
+          class="math">b * f_ / (f_ - 1)</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -727,11 +845,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The (1st) eccentricity <i>squared</i> (<code>float</code> &lt; 
-          1).</dd>
+          1), <i class="math">f * (2 - f)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result <code>e2</code> will be negative for <i>prolate</i> 
-        ellipsoids.
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
       </p>
       <p><strong>See Also:</strong>
         <a 
@@ -765,9 +883,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The 2nd eccentricity <i>squared</i> (<code>float</code> &gt; -1 
-          or <code>INF</code>).</dd>
+          or <code>INF</code>), <i class="math">f * (2 - f) / (1 - 
+          f)**2</i>.</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+      <p><strong>See Also:</strong>
         <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Eccentricity conversions</a>.
@@ -796,9 +919,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 3rd eccentricity <i>squared</i> (<code>float</code>).</dd>
+        <dd>The 3rd eccentricity <i>squared</i> (<code>float</code>), <i 
+          class="math">f * (2 - f) / (1 + (1 - f)**2)</i>.</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+      <p><strong>See Also:</strong>
         <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Eccentricity conversions</a>.
@@ -827,9 +955,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 2nd flattening (<code>float</code> or <code>INF</code>).</dd>
+        <dd>The 2nd flattening (<code>float</code> or <code>INF</code>), <i 
+          class="math">f / (1 - f)</i>.</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+      <p><strong>See Also:</strong>
         <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Eccentricity conversions</a> and <a 
@@ -860,9 +993,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The inverse flattening (<code>float</code> or <code>0</code>).</dd>
+        <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
+          class="math">1 / f</i>.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="f2n"></a>
 <div>
@@ -886,9 +1024,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 3rd flattening (-1 &lt; <code>float</code> &lt; 1).</dd>
+        <dd>The 3rd flattening (-1 &lt; <code>float</code> &lt; 1), <i 
+          class="math">f / (2 - f)</i>.</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+      <p><strong>See Also:</strong>
         <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
         target="_top">Eccentricity conversions</a> and <a 
@@ -919,9 +1062,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>f_</code></strong> - Inverse flattening (<code>scalar</code> &gt;&gt;&gt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or <code>0</code>).</dd>
+        <dd>The flattening (<code>float</code> or <code>0</code>), <i 
+          class="math">1 / f_</i>.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="n2e2"></a>
 <div>
@@ -946,11 +1094,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The (1st) eccentricity <i>squared</i> (<code>float</code> or 
-          -INF).</dd>
+          -INF), <i class="math">4 * n / (1 + n)**2</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result <code>e2</code> will be negative for <i>prolate</i> 
-        ellipsoids.
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
       </p>
       <p><strong>See Also:</strong>
         <a href="https://WikiPedia.org/wiki/Flattening" 
@@ -980,7 +1128,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt;= 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The flattening (<code>float</code> or -INF).</dd>
+        <dd>The flattening (<code>float</code> or -INF), <i class="math">2 * 
+          n / (1 + n)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
@@ -1111,7 +1260,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep  2 16:03:13 2020
+    Generated by Epydoc 3.0.1 on Sat Sep  5 15:12:12 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

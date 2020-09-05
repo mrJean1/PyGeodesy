@@ -112,7 +112,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
             ellipsoidalVincenty=('VincentyError',),  # nothing else
                      ellipsoids=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
                                  'a_f2Tuple', 'Ellipsoid', 'Ellipsoid2', 'Ellipsoids',
-                                 'a_b2f', 'a_b2f_', 'a_f2b', 'a_f_2b', 'b_f2a', 'b_f_2a',
+                                 'a_b2f', 'a_b2f_', 'a_b2f2', 'a_b2n', 'a_f2b', 'a_f_2b', 'b_f2a', 'b_f_2a',
                                  'f2e2', 'f2e22', 'f2e32', 'f_2f', 'f2f_', 'f2f2', 'f2n', 'n2e2', 'n2f'),
                        elliptic=('Elliptic', 'EllipticError'),
                            epsg=('Epsg', 'EPSGError'),
@@ -210,7 +210,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.09.02'
+__version__ = '20.09.05'
 
 
 def _ALL_OTHER(*objs):

@@ -4,12 +4,13 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '20.09.01'
+__version__ = '20.09.05'
 
 from base import TestsBase
 
-from pygeodesy import a_f2Tuple, EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, \
-                      ellipsoids, fstr, R_M, PI_2
+from pygeodesy import a_b2f_, a_b2f2, a_b2n, a_f2Tuple, b_f2a, b_f_2a, \
+                      EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, \
+                      ellipsoids, f_2f, fstr, n2e2, n2f, R_M, PI_2
 
 
 class Tests(TestsBase):
@@ -114,8 +115,18 @@ class Tests(TestsBase):
         _AB(E, 4, '8.377318206304e-04, 7.608527714249e-07, 1.197638001561e-09, 2.443376194522e-12',
                   '8.377321640601e-04, 5.905869567934e-08, 1.673488880355e-10, 2.167737763022e-13')
 
+        P = Ellipsoid(E.b, E.a, name='Prolate')
+        _TOL = ellipsoids._TOL
+
+        self.subtitle(ellipsoids, P.name)
+        for p, e in ((P.a, E.b), (P.b, E.a), (P.n, -E.n),
+                     (P.R1, E.R1), (P.R2, E.R2), (P.R3, E.R3),
+                     (P.Rbiaxial, E.Rbiaxial), (P.Rgeometric, E.Rgeometric),
+                     (P.area, E.area), (P.volume, E.volume)):
+            self.test(p.name, p, e, fmt='%.6f', known=abs(p - e) < _TOL)
+
         for E, el, ob, pr in ((E, True, True, False),
-                              (Ellipsoid(6356752.3, 6378137.0, name='Prolate'), True, False, True),
+                              (P, True, False, True),
                               (Ellipsoids.Sphere, False, False, False)):
             self.subtitle(ellipsoids, 'AuxiliaryLats ' + E.name)
             self.test('isEllipsoidal', E.isEllipsoidal, el)
@@ -133,7 +144,6 @@ class Tests(TestsBase):
                     self.test('inverse', aux(a, inverse=True).toRepr(prec=2), x)
 
         self.subtitle(ellipsoids, 'Flattenings')
-        _TOL = ellipsoids._TOL
         self.test('_TOL', _TOL, _TOL)
         for n, E in Ellipsoids.items():  # includes f_None, b_None, Prolate
             if E.f and E.f_:
@@ -156,6 +166,25 @@ class Tests(TestsBase):
             n, E2 = str(E2).split(', ', 1)
             _, E  = str(E).split(', ', 1)
             self.test(n, E2, E)
+
+        self.subtitle(ellipsoids, 'Functions')
+        for n, E in tuple(Ellipsoids.items()):  # includes f_None, b_None, Prolate
+            f_ = a_b2f_(E.a, E.b)
+            self.test('%s(%s)' % (a_b2f_.__name__, E.name), f_, E.f_, fmt='%.8f', known=abs(f_ - E.f_) < _TOL)
+            f2 = a_b2f2(E.a, E.b)
+            self.test('%s(%s)' % (a_b2f2.__name__, E.name), f2, E.f2, fmt='%.8f', known=abs(f2 - E.f2) < _TOL)
+            n = a_b2n(E.a, E.b)
+            self.test('%s(%s)' % (a_b2n.__name__, E.name), n, E.n, fmt='%.8f', known=abs(n - E.n) < _TOL)
+            a = b_f2a(E.b, E.f)
+            self.test('%s(%s)' % (b_f2a.__name__, E.name), a, E.a, fmt='%.3f', known=abs(a - E.a) < _TOL)  # millimeter
+            a = b_f_2a(E.b, E.f_)
+            self.test('%s(%s)' % (b_f_2a.__name__, E.name), a, E.a, fmt='%.3f', known=abs(a - E.a) < _TOL)  # millimeter
+            f = f_2f(E.f_)
+            self.test('%s(%s)' % (f_2f.__name__, E.name), f, E.f, fmt='%.8f', known=abs(f - E.f) < _TOL)
+            e2 = n2e2(E.n)
+            self.test('%s(%s)' % (n2e2.__name__, E.name), e2, E.e2, fmt='%.8f', known=abs(e2 - E.e2) < _TOL)
+            f = n2f(E.n)
+            self.test('%s(%s)' % (n2f.__name__, E.name), f, E.f, fmt='%.8f', known=abs(f - E.f) < _TOL)
 
 
 if __name__ == '__main__':
