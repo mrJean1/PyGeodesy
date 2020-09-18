@@ -4,17 +4,17 @@
 # Test units module.
 
 __all__ = ('Tests',)
-__version__ = '20.05.10'
+__version__ = '20.09.16'
 
 from base import TestsBase
 
-from pygeodesy import (Bearing, Bearing_,
-                       Degrees, Distance, Easting,
-                       Feet, Float, Height, Int,
-                       Lam, Lam_, Lat, Lon, Meter, Northing,  # Lam_
-                       Phi, Phi_, Radians, Radius, Radius_,  # Phi_
-                       Scalar, Scalar_, Number_, Precision_,
-                       Str, units)
+from pygeodesy import Band, Bearing, Bearing_, Bool, \
+                      Epsg, Garef, Geohash, Georef, \
+                      Int, Int_, Number_, Precision_, \
+                      Lam_, Phi_, Str, Zone, Float, \
+                      frechet, units
+_FIx       = frechet._FIx
+_NamedUnit = units._NamedUnit
 
 
 class Tests(TestsBase):
@@ -80,24 +80,32 @@ class Tests(TestsBase):
         self.test('delattr', repr(u.name), "''")
 
     def testUnits(self):
-        for U in (Float, Bearing,
-                         Degrees, Distance, Easting, Feet, Height,  # PYCHOK indent
-                         Lam, Lat, Lon, Meter, Northing,  # PYCHOK indent
-                         Phi, Radians, Radius, Radius_,  # PYCHOK indent
-                         Scalar, Scalar_):  # PYCHOK indent
-            self.testUnit(U, 1.0)
+        for U in self.pygeodesy_classes(_NamedUnit):
+            if U not in (Band, Bool, Bearing_,
+                         Epsg, Garef, Geohash, Georef,
+                         Int, Int_, Number_, Precision_,
+                         Str, Lam_, Phi_, Zone,
+                         _FIx, _NamedUnit):
+                self.testUnit(U, 1.0)  # sample
 
-        for U in (Int, Number_, Precision_):
-            self.testUnit(U, 2)
-
-        for U in (Str,):
+        for U in (Band, Str):
             self.testUnit(U, 'U', known=True)
+
+        for U in (Bool,):
+            self.testUnit(U, True, known=True)
+
+        for U in (Int, Int_, Number_, Precision_, Zone):
+            self.testUnit(U, 2)
 
         self.subtitle(units)  # courtesy JaapZee at Gmail
         self.test(Bearing.__name__,  Bearing(361), 1.0)
         self.test(Bearing_.__name__, Bearing_(361), 0.01745, fmt='%.5f')
-        self.test(Lam_.__name__,     Lam_(361, clip=0), 6.3, fmt='%.1f')
-        self.test(Phi_.__name__,     Phi_(361, clip=0), 6.3, fmt='%.1f')
+
+        self.test(Lam_.__name__, Lam_(361, clip=0), 6.3, fmt='%.2f')
+        self.test(Phi_.__name__, Phi_(361, clip=0), 6.3, fmt='%.2f')
+
+        self.test(_FIx.__name__, _FIx(1),   Int(1),)
+        self.test(_FIx.__name__, _FIx(1.5), Float(1.5),)
 
 
 if __name__ == '__main__':

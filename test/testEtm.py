@@ -5,7 +5,7 @@ u'''Test projection L{ExactTransverseMercator}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.08.12'
+__version__ = '20.09.08'
 
 from base import isiOS, isNix, isWindows, TestsBase
 
@@ -105,7 +105,7 @@ class Tests(TestsBase):
             lat, lon, g, k = xtm.reverse(e, n)
             self.test('lat', lat,  '-90.000', fmt='%.3f')
             self.test('lon', lon,    '0.000', fmt='%.3f', known=True)
-            self.test('gamma', g,    '0.000', fmt='%.3f')
+            self.test('gamma', g,    '0.000', fmt='%.3f', known=abs(g) == 0)
             self.test('scale', k,    '1.000', fmt='%.3f')
 
         self.testCopy(xtm)

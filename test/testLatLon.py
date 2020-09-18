@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.06.15'
+__version__ = '20.09.11'
 
 from base import geographiclib, TestsBase
 
@@ -12,10 +12,10 @@ from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
                       degrees, fStr, isclockwise, isconvex, \
                       isenclosedBy, ispolar, m2km, m2NM, \
                       VincentyError  # PYCHOK expected
-from pygeodesy.named import Bounds2Tuple, \
-                            LatLon2Tuple, LatLon3Tuple, \
-                            PhiLam2Tuple, PhiLam3Tuple, \
-                            Vector3Tuple, Vector4Tuple
+from pygeodesy.namedTuples import Bounds2Tuple, \
+                                  LatLon2Tuple, LatLon3Tuple, \
+                                  PhiLam2Tuple, PhiLam3Tuple, \
+                                  Vector3Tuple, Vector4Tuple
 
 
 class Tests(TestsBase):

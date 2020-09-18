@@ -8,16 +8,19 @@ L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI, PI_2, property_doc_
+from pygeodesy.basics import isstr, issubclassof, property_doc_
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
-from pygeodesy.errors import _IsnotError, RangeError, _ValueError
-from pygeodesy.interns import _band_, _bearing_, _degrees_, _distance_, _E_, \
-                              _easting_, _EW_, _feet_, _height_, _invalid_, _lam_, \
-                              _lat_, _LatLon_, _lon_, _meter_, _N_, NN, _northing_, \
-                              _NS_, _NSEW_, _number_, _PERCENT_, _phi_, \
-                              _precision_, _radians_, _radius_, _S_, _scalar_, \
-                              _SPACE_, _std_, _UNDERSCORE_, _W_, _zone_  # PYCHOK used!
+from pygeodesy.errors import _IsnotError, RangeError, UnitError
+from pygeodesy.interns import EPS, PI, PI_2, _band_, _bearing_, _degrees_, \
+                             _degrees2_, _distance_, _E_, _easting_, _EW_, \
+                             _feet_, _height_, _invalid_, _lam_, _lat_, \
+                             _LatLon_, _lon_, _meter_, _N_, NN, _northing_, \
+                             _NS_, _NSEW_, _number_, _PERCENT_, _phi_, \
+                             _precision_, _radians_, _radians2_, _radius_,\
+                             _S_, _scalar_, _SPACE_, _UNDERSCORE_, _units_, \
+                             _W_, _zone_
+from pygeodesy.interns import _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named
 from pygeodesy.streprs import fstr, _g
@@ -25,13 +28,7 @@ from pygeodesy.streprs import fstr, _g
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.08.22'
-
-
-class UnitError(_ValueError):
-    '''Default exception for L{units} issues.
-    '''
-    pass
+__version__ = '20.09.16'
 
 
 class _NamedUnit(_Named):
@@ -120,7 +117,7 @@ class Float(float, _NamedUnit):
         return super(Float, self).__repr__()  # see .test.testCss.py
 
     def toRepr(self, prec=12, fmt=_g, ints=False, std=False):  # PYCHOK prec=8, ...
-        '''Return a representation of this named C{float}.
+        '''Return a representation of this C{Float}.
 
            @kwarg std: Use the standard C{repr} or the named
                        representation (C{bool}).
@@ -173,7 +170,7 @@ class Int(int, _NamedUnit):
     # _std_repr = True  # set below
 
     def __new__(cls, arg, name=NN, Error=UnitError):
-        '''New named {int} instance.
+        '''New named C{int} instance.
 
            @arg arg: The value (any C{type} convertable to C{int}).
            @kwarg name: Optional instance name (C{str}).
@@ -210,7 +207,7 @@ class Int(int, _NamedUnit):
         return self.toStr()
 
     def toRepr(self, std=False, **unused):  # PYCHOK **unused
-        '''Return the representation of this named C{int}.
+        '''Return the representation of thisb is True C{Int}.
 
            @kwarg std: Use the standard C{repr} or the named
                        representation (C{bool}).
@@ -251,6 +248,53 @@ class Int_(Int):
         if (high is not None) and self > high:
             raise _Error(cls, arg, name=name, Error=Error, txt='above %s limit' % (high,))
         return self
+
+
+class Bool(Int, _NamedUnit):
+    '''Named C{bool}, a sub-class of C{int} like Python's C{bool}.
+    '''
+    # _std_repr = True  # set below
+    _bool_True_or_False = None
+
+    def __new__(cls, arg, name=NN, Error=UnitError):
+        '''New named C{bool} instance.
+
+           @arg arg: The value (any C{type} convertable to C{bool}).
+           @kwarg name: Optional instance name (C{str}).
+           @kwarg Error: Optional error to raise, overriding the
+                         default L{UnitError}.
+
+           @returns: A L{Bool}, a C{bool}-like instance.
+
+           @raise Error: Invalid B{C{arg}}.
+        '''
+        try:
+            b = bool(arg)
+        except (TypeError, ValueError) as x:  # XXX not ... as x:
+            raise _Error(cls, arg, name=name, Error=Error, txt=str(x))
+
+        self = Int.__new__(cls, b, name=name, Error=Error)
+        self._bool_True_or_False = b
+        return self
+
+    # <https://StackOverflow.com/questions/9787890/assign-class-boolean-value-in-python>
+    def __bool__(self):  # PYCHOK Python 3+
+        return self._bool_True_or_False
+    __nonzero__ = __bool__  # PYCHOK Python 2-
+
+    def toRepr(self, std=False, **unused):  # PYCHOK **unused
+        '''Return the representation of this C{Bool}.
+
+           @kwarg std: Use the standard C{repr} or the named
+                       representation (C{bool}).
+        '''
+        r = repr(self._bool_True_or_False)  # self.toStr()
+        return r if std else self._toRepr(r)
+
+    def toStr(self, **unused):  # PYCHOK **unused
+        '''Return this C{Bool} as standard C{str}.
+        '''
+        return str(self._bool_True_or_False)
 
 
 class Str(str, _NamedUnit):
@@ -314,6 +358,13 @@ class Str(str, _NamedUnit):
         # super()... only works for Python 3+ and
         # str.__str__(self) fails with Python 3.8+
         return super(Str, self).__str__()
+
+
+_Str_degrees  = Str(_degrees_)   # PYCHOK in .frechet, .hausdorff
+_Str_meter    = Str(_meter_)     # PYCHOK in .frechet, .hausdorff
+_Str_NN       = Str(NN)          # PYCHOK in .frechet, .hausdorff
+_Str_radians  = Str(_radians_)   # PYCHOK in .frechet, .hausdorff
+_Str_radians2 = Str(_radians2_)  # PYCHOK in .frechet, .hausdorff
 
 
 class Band(Str):
@@ -402,18 +453,13 @@ class Degrees_(Degrees):
         return self
 
 
-class Bearing(Degrees):
-    '''Named C{float} representing a bearing in compass C{degrees}.
+class Degrees2(Float):
+    '''Named C{float} representing a distance in C{degrees squared}.
     '''
-    _ddd_ =  1
-    _suf_ = _N_ * 3  # always suffix N
-
-    def __new__(cls, arg, name=_bearing_, Error=UnitError, clip=0):
-        '''See L{Degrees}.
+    def __new__(cls, arg, name=_degrees2_, Error=UnitError):
+        '''See L{Float}.
         '''
-        d = Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_N_, clip=clip)
-        b = d % 360
-        return d if b == d else Degrees.__new__(cls, b, name=name)
+        return Float.__new__(cls, arg, name=name, Error=Error)
 
 
 class Radians(Float):
@@ -453,8 +499,31 @@ class Radians(Float):
         return fstr(self, prec=prec, fmt=fmt, ints=ints)
 
 
+class Radians2(Float):
+    '''Named C{float} representing a distance in C{radians squared}.
+    '''
+    def __new__(cls, arg, name=_radians2_, Error=UnitError):
+        '''See L{Float}.
+        '''
+        return Float.__new__(cls, arg, name=name, Error=Error)
+
+
+class Bearing(Degrees):
+    '''Named C{float} representing a bearing in compass C{degrees} from (true) North.
+    '''
+    _ddd_ =  1
+    _suf_ = _N_ * 3  # always suffix N
+
+    def __new__(cls, arg, name=_bearing_, Error=UnitError, clip=0):
+        '''See L{Degrees}.
+        '''
+        d = Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_N_, clip=clip)
+        b = d % 360
+        return d if b == d else Degrees.__new__(cls, b, name=name)
+
+
 class Bearing_(Radians):
-    '''Named C{float} representing a bearing in C{radians} from compass C{degrees}.
+    '''Named C{float} representing a bearing in C{radians} from compass C{degrees} from (true) North.
     '''
     def __new__(cls, arg, name=_bearing_, Error=UnitError, clip=0):
         '''See L{Bearing} and L{Radians}.
@@ -467,7 +536,7 @@ class Distance(Float):
     '''Named C{float} representing a distance, conventionally in C{meter}.
     '''
     def __new__(cls, arg, name=_distance_, Error=UnitError):
-        '''See L{Float}.
+        '''See L{Distance}.
         '''
         return Float.__new__(cls, arg, name=name, Error=Error)
 
@@ -476,13 +545,13 @@ class Distance_(Float_):
     '''Named C{float} with optional C{low} and C{high} limits representing a distance, conventionally in C{meter}.
     '''
     def __new__(cls, arg, name=_distance_, Error=UnitError, low=EPS, high=None):
-        '''See L{Float}.
+        '''See L{Distance_}.
         '''
         return Float_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
 
 
 class Easting(Float):
-    '''Named C{float} representing an easting.
+    '''Named C{float} representing an easting, conventionally in C{meter}.
     '''
     def __new__(cls, arg, name=_easting_, Error=UnitError, falsed=False, osgr=False):
         '''New named C{Easting} instance.
@@ -602,7 +671,7 @@ class Meter(Float):
 
 
 class Northing(Float):
-    '''Named C{float} representing a northing.
+    '''Named C{float} representing a northing, conventionally in C{meter}.
     '''
     def __new__(cls, arg, name=_northing_, Error=UnitError, falsed=False, osgr=False):
         '''New named C{Northing} instance.
@@ -628,7 +697,7 @@ class Northing(Float):
 
 
 class Number_(Int_):
-    '''Named C{int} representing a non-negtive number.
+    '''Named C{int} representing a non-negative number.
     '''
     def __new__(cls, arg, name=_number_, Error=UnitError, low=0, high=None):
         '''See L{Int_}.
@@ -733,6 +802,29 @@ def _xStrError(*Refs, **name_value_Error):
     return _IsnotError(*r, **name_value_Error)
 
 
+def _xUnit(units, Base):  # in .frechet,  .hausdorff
+    '''(INTERNAL) Get C{Unit} from C{Unit} or C{name}, ortherwise C{Base}.
+    '''
+    if not issubclassof(Base, _NamedUnit):
+        raise _IsnotError(_NamedUnit.__name__, Base=Base)
+    U = globals().get(units.capitalize(), Base) if isstr(units) else (
+                      units if issubclassof(units, Base) else Base)
+    return U if issubclassof(U, Base) else Base
+
+
+def _xUnits(units, Base=_NamedUnit):  # in .frechet, .hausdorff
+    '''(INTERNAL) Set property C{units} as C{Unit} or C{Str}.
+    '''
+    if not issubclassof(Base, _NamedUnit):
+        raise _IsnotError(_NamedUnit.__name__, Base=Base)
+    elif issubclassof(units, Base):
+        return units
+    elif isstr(units):
+        return Str(units, name=_units_)  # XXX Str to _Pass and for backward compatibility
+    else:
+        raise _IsnotError(Base.__name__, Str.__name__, str.__name__, units=units)
+
+
 def _std_repr(*classes):
     '''(INTERNAL) Use standard C{repr} or named C{toRepr}.
     '''
@@ -743,7 +835,7 @@ def _std_repr(*classes):
             if _environ.get(env, _std_).lower() != _std_:
                 C._std_repr = False
 
-_std_repr(Float, Int, Str)  # PYCHOK expected
+_std_repr(Bool, Float, Int, Str)  # PYCHOK expected
 del _std_repr
 
 __all__ += _ALL_DOCS(_NamedUnit)

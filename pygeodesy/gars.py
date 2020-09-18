@@ -13,20 +13,22 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS1_2, isstr, property_RO
+from pygeodesy.basics import isstr, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
-from pygeodesy.interns import _item_sq, NN, _prec_, _res_
+from pygeodesy.interns import EPS1_2, _item_sq, NN, _prec_, _res_, \
+                             _0_5, _90_0
+from pygeodesy.interns import _1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, nameof, \
-                           _xnamed
+from pygeodesy.named import nameof, _xnamed
+from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 from pygeodesy.units import Int, Lat, Lon, Precision_, Scalar_, \
                             Str, _xStrError
 
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '20.07.08'
+__version__ = '20.09.14'
 
 _Digits  = '0123456789'
 _LatLen  =    2
@@ -50,7 +52,7 @@ _LonOrig_M_ = _LonOrig * _M_
 _LatOrig_M1   = _LatOrig * _M1
 _LonOrig_M1_1 = _LonOrig * _M1 - 1
 
-_Resolutions = tuple(1.0 / _ for _ in (_M1, _M1 * _M2, _M_))
+_Resolutions = tuple(_1_0 / _ for _ in (_M1, _M1 * _M2, _M_))
 
 
 def _2divmod2(ll, Orig_M_):
@@ -251,8 +253,8 @@ def decode3(garef, center=True):
             lon, lat = _ll2(lon, lat, g, _MinLen + 1, _M3)
 
     if center:  # ll = (ll * 2 + 1) / 2
-        lon += 0.5
-        lat += 0.5
+        lon += _0_5
+        lat += _0_5
 
     r = _Resolutions[precision]  # == 1.0 / unit
     r = LatLonPrec3Tuple(Lat(lat * r, Error=GARSError),
@@ -291,7 +293,7 @@ def encode(lat, lon, precision=1):  # MCCABE 14
     p = _2Precision(precision)
 
     lat, lon = _2fll(lat, lon)
-    if lat == 90:
+    if lat == _90_0:
         lat *= EPS1_2
 
     ix, x = _2divmod2(lon, _LonOrig_M_)

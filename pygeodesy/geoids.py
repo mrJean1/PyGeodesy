@@ -59,22 +59,23 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
 
-from pygeodesy.basics import EPS, len2, map1, map2, property_RO
+from pygeodesy.basics import len2, map1, map2, property_RO, ub2str
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError
-from pygeodesy.interns import _COMMA_SPACE_, _cubic_, _E_, _item_cs, \
-                              _item_pr, _item_ps, _item_sq, _knots_, \
-                              _lat_, _linear_, _lon_, _N_, _n_a_, NN, \
-                              _outside_, _S_, _utf_8_, _W_
+from pygeodesy.interns import EPS, _COMMA_SPACE_, _cubic_, _E_, \
+                             _item_cs, _item_pr, _item_ps, _item_sq, \
+                             _knots_, _lat_, _linear_, _lon_, _N_, \
+                             _n_a_, NN, _outside_, _S_, _W_, \
+                             _0_0, _1_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
-from pygeodesy.named import LatLon3Tuple, _Named, _NamedTuple, \
-                            notOverloaded
+from pygeodesy.named import _Named, _NamedTuple, notOverloaded
+from pygeodesy.namedTuples import LatLon3Tuple
 from pygeodesy.streprs import attrs, fstr, pairs
-from pygeodesy.units import Int_
+from pygeodesy.units import Height, Int_, Lat, Lon
 
 from math import floor
 import os.path as _os_path
@@ -83,16 +84,14 @@ from struct import calcsize as _calcsize, unpack as _unpack
 
 try:
     from StringIO import StringIO as _BytesIO  # reads bytes
-    _b2str = str  # convert bytes to str
+    _ub2str = str  # convert bytes to str
 
 except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
-
-    def _b2str(bs):  # used only for egm*.pgm text
-        return bs.decode(_utf_8_)
+    _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.09.01'
+__version__ = '20.09.14'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -121,14 +120,14 @@ class _GeoidBase(_HeightBase):
     _smooth   = 0  # used only for RectBivariateSpline
     _stdev    = None
 
-    _lat_d  = 0.0  # increment, +tive
-    _lat_lo = 0.0  # lower lat, south
-    _lat_hi = 0.0  # upper lat, noth
-    _lon_d  = 0.0  # increment, +tive
-    _lon_lo = 0.0  # left lon, west
-    _lon_hi = 0.0  # right lon, east
-    _lon_of = 0.0  # forward lon offset
-    _lon_og = 0.0  # reverse lon offset
+    _lat_d  = _0_0  # increment, +tive
+    _lat_lo = _0_0  # lower lat, south
+    _lat_hi = _0_0  # upper lat, noth
+    _lon_d  = _0_0  # increment, +tive
+    _lon_lo = _0_0  # left lon, west
+    _lon_hi = _0_0  # right lon, east
+    _lon_of = _0_0  # forward lon offset
+    _lon_og = _0_0  # reverse lon offset
 
     _center     = None  # (lat, lon, height)
     _highest    = None  # (lat, lon, height)
@@ -695,7 +694,7 @@ class GeoidG2012B(_GeoidBase):
             p.slat, p.wlon, p.dlat, p.dlon = map(float, self._load(g, en_+'f8', 4))
             # read all f4 heights, ignoring the first 4xf8 and 3xi4
             hs = self._load(g, en_f4, n, 44).reshape(p.nlat, p.nlon)
-            p.wlon -= 360  # western-most East longitude to earth (..., lon)
+            p.wlon -= _360_0  # western-most East longitude to earth (..., lon)
             _GeoidBase.__init__(self, hs, p)
 
         except Exception as x:
@@ -719,11 +718,12 @@ class GeoidG2012B(_GeoidBase):
 class GeoidHeight5Tuple(_NamedTuple):  # .geoids.py
     '''5-Tuple C{(lat, lon, egm84, egm96, egm2008)} for U{GeoidHeights.dat
        <https://SourceForge.net/projects/geographiclib/files/testdata/>}
-       tests with the heights for 3 different EGM grids with C{-90.0 <=
-       lat <= 90.0} and C{-180.0 <= lon <= 180.0} degrees (and C{lon}
-       converted from the original C{0.0 <= EasterLon <= 360.0}).
+       tests with the heights for 3 different EGM grids with C{degrees90}
+       and C{degrees180} degrees (after converting C{lon} from the original
+       C{0.0 <= EasterLon <= 360.0}).
     '''
     _Names_ = (_lat_, _lon_, 'egm84', 'egm96', 'egm2008')
+    _Units_ = ( Lat,   Lon,   Height,  Height,  Height)
 
 
 def _I(i):
@@ -943,7 +943,7 @@ class GeoidKarney(_GeoidBase):
         else:
             y, x = self._yxH = yx
             self._yxHt = t = self._raws(y, x, GeoidKarney._BT)
-        v = 1.0, -fx, fx
+        v = _1_0, -fx, fx
         H = Fdot(v, t[0], t[0], t[1])  # a
         H -= H * fy  # c = (1 - fy) * a
         H += Fdot(v, t[2], t[2], t[3]) * fy  # c += b * fy
@@ -972,8 +972,8 @@ class GeoidKarney(_GeoidBase):
 
     def _g2ll2(self, lat, lon):
         # convert grid (lat, lon) to earth (lat, lon), uncropped
-        while lon > 180:
-            lon -= 360
+        while lon > _180_0:
+            lon -= _360_0
         return lat, lon
 
     def _g2yx2(self, lat, lon):
@@ -998,7 +998,7 @@ class GeoidKarney(_GeoidBase):
     def _ll2g2(self, lat, lon):
         # convert earth (lat, lon) to grid (lat, lon), uncropped
         while lon < 0:
-            lon += 360
+            lon += _360_0
         return lat, lon
 
     def _llh3minmax(self, highest=True, *lat2):
@@ -1237,8 +1237,8 @@ class GeoidPGM(_GeoidBase):
 
     def _g2ll2(self, lat, lon):
         # convert grid (lat, lon) to earth (lat, lon), uncropped
-        while lon > 180:
-            lon -= 360
+        while lon > _180_0:
+            lon -= _360_0
         return lat, lon
 
     def _g2ll2_cropped(self, lat, lon):
@@ -1248,7 +1248,7 @@ class GeoidPGM(_GeoidBase):
     def _ll2g2(self, lat, lon):
         # convert earth (lat, lon) to grid (lat, lon), uncropped
         while lon < 0:
-            lon += 360
+            lon += _360_0
         return lat, lon
 
     def _ll2g2_cropped(self, lat, lon):
@@ -1270,20 +1270,20 @@ class _Gpars(_Named):
     '''(INTERNAL) Basic geoid parameters.
     '''
     # interpolator parameters
-    dlat = 0  # +/- latitude resolution in C{degrees}.
-    dlon = 0  # longitude resolution in C{degrees}.
-    nlat = 1  # number of latitude knots (C{int}).
+    dlat = 0  # +/- latitude resolution in C{degrees}
+    dlon = 0  # longitude resolution in C{degrees}
+    nlat = 1  # number of latitude knots (C{int})
     nlon = 0  # number of longitude knots (C{int})
-    rlat = 0  # +/- latitude resolution in C{float}, 1 / .dlat.
-    rlon = 0  # longitude resolution in C{float}, 1 / .dlon.
-    slat = 0  # nothern- or southern most latitude (C{degrees90}).
-    wlon = 0  # western-most longitude in Eastern lon (C{degrees360}).
+    rlat = 0  # +/- latitude resolution in C{float}, 1 / .dlat
+    rlon = 0  # longitude resolution in C{float}, 1 / .dlon
+    slat = 0  # nothern- or southern most latitude (C{degrees90})
+    wlon = 0  # western-most longitude in Eastern lon (C{degrees360})
 
     flon = 0  # forward, earth to grid longitude offset
     glon = 0  # reverse, grid to earth longitude offset
 
-    knots = 0  # number of knots, nlat * nlon (C{int}).
-    skip  = 0  # header bytes to skip (C{int}).
+    knots = 0  # number of knots, nlat * nlon (C{int})
+    skip  = 0  # header bytes to skip (C{int})
 
     def __repr__(self):
         t = _COMMA_SPACE_.join(pairs((a, getattr(self, a)) for a in
@@ -1362,7 +1362,7 @@ class _PGM(_Gpars):
                 t = g.readline().strip()
                 if t.startswith(b'#'):
                     t = t.lstrip(b'#').lstrip()
-                    a, v = map(_b2str, t.split(None, 1))
+                    a, v = map(_ub2str, t.split(None, 1))
                     f = getattr(_PGM, a, None)
                     if callable(f) and a[:1].isupper():
                         setattr(self, a, f(v))
@@ -1407,8 +1407,8 @@ class _PGM(_Gpars):
         self.slat, self.wlon = self.Origin
         # note, negative .dlat and .rlat since rows
         # are from .slat 90N down in decreasing lat
-        self.dlat, self.dlon = 180.0 / (1 - nlat), 360.0 / nlon
-        self.rlat, self.rlon = (1 - nlat) / 180.0, nlon / 360.0
+        self.dlat, self.dlon = _180_0 / (1 - nlat), _360_0 / nlon
+        self.rlat, self.rlon = (1 - nlat) / _180_0, nlon / _360_0
 
         # grid corners in earth (lat, lon), .slat = 90, .dlat < 0
         n = float(self.slat)
@@ -1575,8 +1575,8 @@ def egmGeoidHeights(GeoidHeights_dat):
         t = t.strip()
         if t and not t.startswith(b'#'):
             lat, lon, egm84, egm96, egm2008 = map(float, t.split())
-            while lon > 180:  # EasternLon to earth lon
-                lon -= 360
+            while lon > _180_0:  # EasternLon to earth lon
+                lon -= _360_0
             yield GeoidHeight5Tuple(lat, lon, egm84, egm96, egm2008)
 
 

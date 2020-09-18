@@ -70,7 +70,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.07.08
+        20.09.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -324,7 +324,8 @@
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">clip</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Parse a lat- or longitude represention in degrees.</td>
+      Parse a lat- or longitude representation <code>&quot;lat, 
+      lon&quot;</code> in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -345,7 +346,7 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
         <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>)</span><br />
-      Parse lat- and longitude representions in degrees.</td>
+      Parse a lat- and a longitude representions in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -366,7 +367,9 @@
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
         <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>)</span><br />
-      Parse a string representing lat-, longitude and optional height.</td>
+      Parse a string <code>&quot;lat lon [h]&quot;</code> representing 
+      lat-, longitude in <code>degrees</code> and optional height in 
+      <code>meter</code>.</td>
           <td align="right" valign="top">
             
             
@@ -385,7 +388,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.dms-module.html#parseRad" class="summary-sig-name">parseRad</a>(<span class="summary-sig-arg">strRad</span>,
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">clip</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Parse a string representing angle in radians.</td>
+      Parse a string representing angle in <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -426,7 +429,7 @@
         <span class="summary-sig-arg">ddd</span>=<span class="summary-sig-default">2</span>,
         <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
-      Convert signed degrees to string, without suffix.</td>
+      Convert <i>signed</i> <code>degrees</code> to string, without suffix.</td>
           <td align="right" valign="top">
             
             
@@ -456,310 +459,245 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;deg&#176;&quot; plus suffix 
-      (<code>str</code>).
+        <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DM"></a><span class="summary-name">F_DM</span> = <code title="'dm'"><code class="variable-quote">'</code><code class="variable-string">dm</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;deg&#176;min&#8242;&quot; plus suffix 
-      (<code>str</code>).
+        <a name="F_DM"></a><span class="summary-name">F_DM</span> = <code title="'dm'"><code class="variable-quote">'</code><code class="variable-string">dm</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DMS"></a><span class="summary-name">F_DMS</span> = <code title="'dms'"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;deg&#176;min&#8242;sec&#8243;&quot; plus suffix 
-      (<code>str</code>).
+        <a name="F_DMS"></a><span class="summary-name">F_DMS</span> = <code title="'dms'"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DD&quot; plus suffix without 
-      symbol (<code>str</code>).
+        <a name="F_DEG"></a><span class="summary-name">F_DEG</span> = <code title="'deg'"><code class="variable-quote">'</code><code class="variable-string">deg</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_MIN"></a><span class="summary-name">F_MIN</span> = <code title="'min'"><code class="variable-quote">'</code><code class="variable-string">min</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DDMM&quot; plus suffix without 
-      symbols (<code>str</code>).
+        <a name="F_MIN"></a><span class="summary-name">F_MIN</span> = <code title="'min'"><code class="variable-quote">'</code><code class="variable-string">min</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_SEC"></a><span class="summary-name">F_SEC</span> = <code title="'sec'"><code class="variable-quote">'</code><code class="variable-string">sec</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;[D]DDMMSS&quot; plus suffix without 
-      symbols (<code>str</code>).
+        <a name="F_SEC"></a><span class="summary-name">F_SEC</span> = <code title="'sec'"><code class="variable-quote">'</code><code class="variable-string">sec</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__E"></a><span class="summary-name">F__E</span> = <code title="'e'"><code class="variable-quote">'</code><code class="variable-string">e</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;%E&quot; plus suffix without symbol 
-      (<code>str</code>).
+        <a name="F__E"></a><span class="summary-name">F__E</span> = <code title="'e'"><code class="variable-quote">'</code><code class="variable-string">e</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__F"></a><span class="summary-name">F__F</span> = <code title="'f'"><code class="variable-quote">'</code><code class="variable-string">f</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;%F&quot; plus suffix without symbol 
-      (<code>str</code>).
+        <a name="F__F"></a><span class="summary-name">F__F</span> = <code title="'f'"><code class="variable-quote">'</code><code class="variable-string">f</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__G"></a><span class="summary-name">F__G</span> = <code title="'g'"><code class="variable-quote">'</code><code class="variable-string">g</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;%G&quot; plus suffix without symbol 
-      (<code>str</code>).
+        <a name="F__G"></a><span class="summary-name">F__G</span> = <code title="'g'"><code class="variable-quote">'</code><code class="variable-string">g</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_RAD"></a><span class="summary-name">F_RAD</span> = <code title="'rad'"><code class="variable-quote">'</code><code class="variable-string">rad</code><code class="variable-quote">'</code></code><br />
-      Convert degrees to radians and format as unsigned &quot;RR&quot; plus
-      suffix (<code>str</code>).
+        <a name="F_RAD"></a><span class="summary-name">F_RAD</span> = <code title="'rad'"><code class="variable-quote">'</code><code class="variable-string">rad</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_D_"></a><span class="summary-name">F_D_</span> = <code title="'-d'"><code class="variable-quote">'</code><code class="variable-string">-d</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/deg&#176;&quot; without suffix 
-      (<code>str</code>).
+        <a name="F_D_"></a><span class="summary-name">F_D_</span> = <code title="'-d'"><code class="variable-quote">'</code><code class="variable-string">-d</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DM_"></a><span class="summary-name">F_DM_</span> = <code title="'-dm'"><code class="variable-quote">'</code><code class="variable-string">-dm</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/deg&#176;min&#8242;&quot; without suffix 
-      (<code>str</code>).
+        <a name="F_DM_"></a><span class="summary-name">F_DM_</span> = <code title="'-dm'"><code class="variable-quote">'</code><code class="variable-string">-dm</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DMS_"></a><span class="summary-name">F_DMS_</span> = <code title="'-dms'"><code class="variable-quote">'</code><code class="variable-string">-dms</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/deg&#176;min&#8242;sec&#8243;&quot; without suffix 
-      (<code>str</code>).
+        <a name="F_DMS_"></a><span class="summary-name">F_DMS_</span> = <code title="'-dms'"><code class="variable-quote">'</code><code class="variable-string">-dms</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DEG_"></a><span class="summary-name">F_DEG_</span> = <code title="'-deg'"><code class="variable-quote">'</code><code class="variable-string">-deg</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/[D]DD&quot; without suffix and 
-      symbol (<code>str</code>).
+        <a name="F_DEG_"></a><span class="summary-name">F_DEG_</span> = <code title="'-deg'"><code class="variable-quote">'</code><code class="variable-string">-deg</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_MIN_"></a><span class="summary-name">F_MIN_</span> = <code title="'-min'"><code class="variable-quote">'</code><code class="variable-string">-min</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/[D]DDMM&quot; without suffix and 
-      symbols (<code>str</code>).
+        <a name="F_MIN_"></a><span class="summary-name">F_MIN_</span> = <code title="'-min'"><code class="variable-quote">'</code><code class="variable-string">-min</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_SEC_"></a><span class="summary-name">F_SEC_</span> = <code title="'-sec'"><code class="variable-quote">'</code><code class="variable-string">-sec</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/[D]DDMMSS&quot; without suffix and 
-      symbols (<code>str</code>).
+        <a name="F_SEC_"></a><span class="summary-name">F_SEC_</span> = <code title="'-sec'"><code class="variable-quote">'</code><code class="variable-string">-sec</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__E_"></a><span class="summary-name">F__E_</span> = <code title="'-e'"><code class="variable-quote">'</code><code class="variable-string">-e</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-%E&quot; without suffix and symbol 
-      (<code>str</code>).
+        <a name="F__E_"></a><span class="summary-name">F__E_</span> = <code title="'-e'"><code class="variable-quote">'</code><code class="variable-string">-e</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__F_"></a><span class="summary-name">F__F_</span> = <code title="'-f'"><code class="variable-quote">'</code><code class="variable-string">-f</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-%F&quot; without suffix and symbol 
-      (<code>str</code>).
+        <a name="F__F_"></a><span class="summary-name">F__F_</span> = <code title="'-f'"><code class="variable-quote">'</code><code class="variable-string">-f</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__G_"></a><span class="summary-name">F__G_</span> = <code title="'-g'"><code class="variable-quote">'</code><code class="variable-string">-g</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-%G&quot; without suffix and symbol 
-      (<code>str</code>).
+        <a name="F__G_"></a><span class="summary-name">F__G_</span> = <code title="'-g'"><code class="variable-quote">'</code><code class="variable-string">-g</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_RAD_"></a><span class="summary-name">F_RAD_</span> = <code title="'-rad'"><code class="variable-quote">'</code><code class="variable-string">-rad</code><code class="variable-quote">'</code></code><br />
-      Convert degrees to radians and format as signed &quot;-/RR&quot; 
-      without suffix (<code>str</code>).
+        <a name="F_RAD_"></a><span class="summary-name">F_RAD_</span> = <code title="'-rad'"><code class="variable-quote">'</code><code class="variable-string">-rad</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_D__"></a><span class="summary-name">F_D__</span> = <code title="'+d'"><code class="variable-quote">'</code><code class="variable-string">+d</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/+deg&#176;&quot; without suffix 
-      (<code>str</code>).
+        <a name="F_D__"></a><span class="summary-name">F_D__</span> = <code title="'+d'"><code class="variable-quote">'</code><code class="variable-string">+d</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DM__"></a><span class="summary-name">F_DM__</span> = <code title="'+dm'"><code class="variable-quote">'</code><code class="variable-string">+dm</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/+deg&#176;min&#8242;&quot; without suffix 
-      (<code>str</code>).
+        <a name="F_DM__"></a><span class="summary-name">F_DM__</span> = <code title="'+dm'"><code class="variable-quote">'</code><code class="variable-string">+dm</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DMS__"></a><span class="summary-name">F_DMS__</span> = <code title="'+dms'"><code class="variable-quote">'</code><code class="variable-string">+dms</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/+deg&#176;min&#8242;sec&#8243;&quot; without suffix 
-      (<code>str</code>).
+        <a name="F_DMS__"></a><span class="summary-name">F_DMS__</span> = <code title="'+dms'"><code class="variable-quote">'</code><code class="variable-string">+dms</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_DEG__"></a><span class="summary-name">F_DEG__</span> = <code title="'+deg'"><code class="variable-quote">'</code><code class="variable-string">+deg</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/+[D]DD&quot; without suffix and 
-      symbol (<code>str</code>).
+        <a name="F_DEG__"></a><span class="summary-name">F_DEG__</span> = <code title="'+deg'"><code class="variable-quote">'</code><code class="variable-string">+deg</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_MIN__"></a><span class="summary-name">F_MIN__</span> = <code title="'+min'"><code class="variable-quote">'</code><code class="variable-string">+min</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/+[D]DDMM&quot; without suffix and 
-      symbols (<code>str</code>).
+        <a name="F_MIN__"></a><span class="summary-name">F_MIN__</span> = <code title="'+min'"><code class="variable-quote">'</code><code class="variable-string">+min</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_SEC__"></a><span class="summary-name">F_SEC__</span> = <code title="'+sec'"><code class="variable-quote">'</code><code class="variable-string">+sec</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/+[D]DDMMSS&quot; without suffix and 
-      symbols (<code>str</code>).
+        <a name="F_SEC__"></a><span class="summary-name">F_SEC__</span> = <code title="'+sec'"><code class="variable-quote">'</code><code class="variable-string">+sec</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__E__"></a><span class="summary-name">F__E__</span> = <code title="'+e'"><code class="variable-quote">'</code><code class="variable-string">+e</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/+%E&quot; without suffix and symbol 
-      (<code>str</code>).
+        <a name="F__E__"></a><span class="summary-name">F__E__</span> = <code title="'+e'"><code class="variable-quote">'</code><code class="variable-string">+e</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__F__"></a><span class="summary-name">F__F__</span> = <code title="'+f'"><code class="variable-quote">'</code><code class="variable-string">+f</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/+%F&quot; without suffix and symbol 
-      (<code>str</code>).
+        <a name="F__F__"></a><span class="summary-name">F__F__</span> = <code title="'+f'"><code class="variable-quote">'</code><code class="variable-string">+f</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F__G__"></a><span class="summary-name">F__G__</span> = <code title="'+g'"><code class="variable-quote">'</code><code class="variable-string">+g</code><code class="variable-quote">'</code></code><br />
-      Format degrees as signed &quot;-/+%G&quot; without suffix and symbol 
-      (<code>str</code>).
+        <a name="F__G__"></a><span class="summary-name">F__G__</span> = <code title="'+g'"><code class="variable-quote">'</code><code class="variable-string">+g</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="F_RAD__"></a><span class="summary-name">F_RAD__</span> = <code title="'+rad'"><code class="variable-quote">'</code><code class="variable-string">+rad</code><code class="variable-quote">'</code></code><br />
-      Convert degrees to radians and format as signed &quot;-/+RR&quot; 
-      without suffix (<code>str</code>).
+        <a name="F_RAD__"></a><span class="summary-name">F_RAD__</span> = <code title="'+rad'"><code class="variable-quote">'</code><code class="variable-string">+rad</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></code><br />
-      Degrees &quot;&#176;&quot; symbol (<code>str</code>).
+        <a name="S_DEG"></a><span class="summary-name">S_DEG</span> = <code title="'\xc2\xb0'"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code><br />
-      Minutes &quot;&#8242;&quot; symbol (<code>str</code>).
+        <a name="S_MIN"></a><span class="summary-name">S_MIN</span> = <code title="'\xe2\x80\xb2'"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></code><br />
-      Seconds &quot;&#8243;&quot; symbol (<code>str</code>).
+        <a name="S_SEC"></a><span class="summary-name">S_SEC</span> = <code title="'\xe2\x80\xb3'"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
-      Radians symbol &quot;&quot; (<code>str</code>).
+        <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_SEP"></a><span class="summary-name">S_SEP</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
-      Separator between deg, min and sec &quot;&quot; (<code>str</code>).
+        <a name="S_SEP"></a><span class="summary-name">S_SEP</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 </table>
@@ -1439,7 +1377,8 @@
     </td>
   </tr></table>
   
-  <p>Parse a lat- or longitude represention in degrees.</p>
+  <p>Parse a lat- or longitude representation <code>&quot;lat, 
+  lon&quot;</code> in <code>degrees</code>.</p>
   <p>This is very flexible on formats, allowing signed decimal degrees, 
   degrees and minutes or degrees minutes and seconds optionally suffixed by
   a cardinal compass point.</p>
@@ -1502,7 +1441,8 @@
     </td>
   </tr></table>
   
-  <p>Parse lat- and longitude representions in degrees.</p>
+  <p>Parse a lat- and a longitude representions in 
+  <code>degrees</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1517,7 +1457,7 @@
           (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code> in 
           <code>degrees</code>.</dd>
     <dt>Raises:</dt>
@@ -1561,7 +1501,9 @@
     </td>
   </tr></table>
   
-  <p>Parse a string representing lat-, longitude and optional height.</p>
+  <p>Parse a string <code>&quot;lat lon [h]&quot;</code> representing lat-,
+  longitude in <code>degrees</code> and optional height in 
+  <code>meter</code>.</p>
   <p>The lat- and longitude value must be separated by a separator 
   character.  If height is present it must follow, separated by another 
   separator.</p>
@@ -1580,7 +1522,7 @@
           (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> in 
           <code>degrees</code>, <code>degrees</code> and 
           <code>float</code>.</dd>
@@ -1627,7 +1569,7 @@
     </td>
   </tr></table>
   
-  <p>Parse a string representing angle in radians.</p>
+  <p>Parse a string representing angle in <code>radians</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1714,7 +1656,8 @@
     </td>
   </tr></table>
   
-  <p>Convert signed degrees to string, without suffix.</p>
+  <p>Convert <i>signed</i> <code>degrees</code> to string, without 
+  suffix.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1805,7 +1748,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep  5 15:12:12 2020
+    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:31 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

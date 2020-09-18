@@ -33,7 +33,7 @@
 # Copyright (C) 2016 Softwarenerd.
 
 __all__ = ()
-__version__ = '20.05.05'  # '18.10.02'
+__version__ = '20.09.09'  # '18.10.02'
 
 from base import TestsBase
 
@@ -75,19 +75,19 @@ class Tests(TestsBase):
 
         # initial bearing for two locations that are the same
         b = IndianPond.initialBearingTo(IndianPond)
-        self.test('InitialBearingSameLocations', b, 0.0, '%.1f')
+        self.test('InitialBearingSameLocations', b, 0.0, prec=1)
 
         # initial bearing for two locations that are the equal
         b = IndianPond.initialBearingTo(IndianPond.copy())
-        self.test('InitialBearingEqualLocations', b, 0.0, '%.1f')
+        self.test('InitialBearingEqualLocations', b, 0.0, prec=1)
 
         # final bearing for two locations that are the same
         b = IndianPond.finalBearingTo(IndianPond)
-        self.test('FinalBearingSameLocations', b, 180.0, '%.1f')  # 0.0
+        self.test('FinalBearingSameLocations', b, 180.0, prec=1)  # 0.0
 
         # final bearing for two locations that are the equal
         b = IndianPond.finalBearingTo(IndianPond.copy())
-        self.test('FinalBearingEqualLocations', b, 180.0, '%.1f')  # 0.0
+        self.test('FinalBearingEqualLocations', b, 180.0, prec=1)  # 0.0
 
         c = crosserrors(c)  # with CrossErrors!
 
@@ -99,11 +99,11 @@ class Tests(TestsBase):
 
         # distance for two locations that are the same
         d = IndianPond.distanceTo(IndianPond)
-        self.test('DistanceSameLocations', d, 0.0, '%.1f')
+        self.test('DistanceSameLocations', d, 0.0, prec=1)
 
         # distance for two locations that are equal
         d = IndianPond.distanceTo(IndianPond.copy())
-        self.test('DistanceEqualLocations', d, 0.0, '%.1f')
+        self.test('DistanceEqualLocations', d, 0.0, prec=1)
 
         # distance between Eiffel Tower and Versailles
         d = Eiffel.distanceTo(Versailles)
@@ -170,14 +170,14 @@ class Tests(TestsBase):
         b = Eiffel.initialBearingTo(Versailles)
         p = m.destination(200.0, (b + 90) % 360.0)
         d = p.crossTrackDistanceTo(Eiffel, Versailles)
-        self.test('CrossTrackDistance200m+90°', d, 200.0, fmt='%0.1f')
+        self.test('CrossTrackDistance200m+90°', d, 200.0, prec=1)
 
         # cross-track distance test of a point 270° and 200 meters away
         m = Eiffel.midpointTo(Versailles)
         b = Eiffel.initialBearingTo(Versailles)
         p = m.destination(200.0, (b + 270) % 360.0)
         d = p.crossTrackDistanceTo(Eiffel, Versailles)
-        self.test('CrossTrackDistance200m+270°', d, -200.0, fmt='%0.1f')
+        self.test('CrossTrackDistance200m+270°', d, -200.0, prec=1)
 
         # cross-track distance that should be very close to 0
         m = Eiffel.midpointTo(Versailles)

@@ -16,15 +16,16 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, isstr, map2, property_RO, _xkwds
+from pygeodesy.basics import isstr, map2, property_RO, _xkwds
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import favg
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
-from pygeodesy.interns import _E_, _N_, _NE_, NN, _NW_, _S_, _SE_, _SW_, _W_
+from pygeodesy.interns import EPS, R_M, _E_, _N_, _NE_, NN, _NW_, _S_, \
+                             _SE_, _SW_, _W_, _0_5, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
-                           _NamedDict
+from pygeodesy.named import _NamedDict
+from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Int, Lat, Lon, Precision_, Radius, \
                             Scalar_, Str, _xStrError
@@ -33,7 +34,7 @@ from pygeodesy.utily import unrollPI
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '20.07.08'
+__version__ = '20.09.14'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -41,7 +42,7 @@ _Border = dict(
     E=('bcfguvyz', 'prxz'),
     W=('0145hjnp', '028b'))
 
-_Bounds4 = -90, -180, 90, 180
+_Bounds4 = -_90_0, -_180_0, _90_0, _180_0
 _MaxPrec = 12
 
 _Neighbor = dict(
@@ -270,7 +271,7 @@ class Geohash(Str):
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Approximate distance (C{meter}, same units as I{radius})
-                    or distance squared (C{degrees} squared) if I{radius}
+                    or distance squared (C{degrees squared}) if I{radius}
                     is C{None} or 0.
 
            @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
@@ -568,8 +569,8 @@ def decode_error(geohash):
        >>> geohash.decode_error('f')  # 22.5, 22.5
     '''
     b = bounds(geohash)
-    return LatLon2Tuple((b.latN - b.latS) * 0.5,  # Height
-                        (b.lonE - b.lonW) * 0.5)  # Width
+    return LatLon2Tuple((b.latN - b.latS) * _0_5,  # Height
+                        (b.lonE - b.lonW) * _0_5)  # Width
 
 
 def distance1(geohash1, geohash2):
@@ -757,7 +758,7 @@ def resolution2(prec1, prec2=None):
        @see: C++ class U{Geohash
              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html>}.
     '''
-    res1, res2 = 360.0, 180.0
+    res1, res2 = _360_0, _180_0
 
     if prec1:
         p = 5 * max(0, min(Int(prec1, name='prec1', Error=GeohashError), _MaxPrec))

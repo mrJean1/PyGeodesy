@@ -10,20 +10,23 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import PI, PI2, PI_2, R_M, isint
+from pygeodesy.basics import isint
 from pygeodesy.errors import _xkwds_get, _ValueError
-from pygeodesy.interns import _deg_, _Missing
+from pygeodesy.interns import PI, PI2, PI_2, R_M, _deg_, _Missing, \
+                             _0_0, _0_5, _1_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.units import Feet, Lam_, Meter, Phi_, Radius
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '20.08.04'
+__version__ = '20.09.10'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
-_1_90 = 1.0 / 90  # 0.011111111111111111111111111111111111111111111111
-_2_PI = 2.0 / PI  # 0.63661977236758134307553505349005744813783858296182
+_1_90 = _1_0 / _90_0  # 0.011111111111111111111111111111111111111111111111
+_2_PI = _1_0 /  PI_2  # 0.63661977236758134307553505349005744813783858296182
+# sqrt(2) + 1 <https://wikipedia.org/wiki/Square_root_of_2>
+# _R2_1 = 2.4142135623730950488  # 0168872420969807856967187537694807317667973799
 
 _iterNumpy2len = 1  # adjustable for testing purposes
 
@@ -31,29 +34,43 @@ _iterNumpy2len = 1  # adjustable for testing purposes
 def acos1(x):
     '''Return M{math.acos(max(-1, min(1, x)))}.
     '''
-    return acos(max(-1.0, min(1.0, x)))
+    return acos(max(-_1_0, min(_1_0, x)))
 
 
 def asin1(x):
     '''Return M{math.asin(max(-1, min(1, x)))}.
     '''
-    return asin(max(-1.0, min(1.0, x)))
+    return asin(max(-_1_0, min(_1_0, x)))
+
+
+def atan2b(y, x):
+    '''Compute C{atan2(y, x)} as degrees M{[0..+360]}.
+
+       @see: Function L{atan2d}.
+    '''
+    d = atan2d(y, x)
+    if d < 0:
+        d += _360_0
+    return d
 
 
 def atan2d(y, x):
-    '''Compute C{atan2(y, x)} to C{degrees}.
+    '''Compute C{atan2(y, x)} as degrees M{[-180..+180]}.
 
-       @see: I{Karney}'s C++ function U{Math.atan2d<https://GeographicLib.sourceforge.io/html/classGeographicLib_1_1Math.html>}.
+       @see: I{Karney}'s C++ function U{Math.atan2d
+             <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html>}.
     '''
-    if abs(y) > abs(x):
+    if abs(y) > abs(x) > 0:
         if y < 0:  # q = 3
-            d = degrees(atan2(x, -y)) - 90
+            d = degrees(atan2(x, -y)) - _90_0
         else:  # q = 2
-            d = 90 - degrees(atan2(x, y))
+            d = _90_0 - degrees(atan2(x, y))
     elif x < 0:  # q = 1
-        d = (-180 if y < 0 else 180) - degrees(atan2(y, -x))
-    else:  # q = 0
-        d = 0 + degrees(atan2(y, x))
+        d = (-_180_0 if y < 0 else _180_0) - degrees(atan2(y, -x))
+    elif x > 0:  # q = 0
+        d = degrees(atan2(y, x)) if y else _0_0
+    else:
+        d = -_90_0 if y < 0 else (_90_0 if y > 0 else _0_0)
     return d
 
 
@@ -64,7 +81,7 @@ def degrees90(rad):
 
        @return: Angle in degrees, wrapped (C{degrees90}).
     '''
-    return _wrap(degrees(rad), 90, 360)
+    return _wrap(degrees(rad), _90_0, _360_0)
 
 
 def degrees180(rad):
@@ -74,7 +91,7 @@ def degrees180(rad):
 
        @return: Angle in degrees, wrapped (C{degrees180}).
     '''
-    return _wrap(degrees(rad), 180, 360)
+    return _wrap(degrees(rad), _180_0, _360_0)
 
 
 def degrees360(rad):
@@ -84,7 +101,7 @@ def degrees360(rad):
 
        @return: Angle in degrees, wrapped (C{degrees360}).
     '''
-    return _wrap(degrees(rad), 360, 360)
+    return _wrap(degrees(rad), _360_0, _360_0)
 
 
 def degrees2m(deg, radius=R_M, lat=0):
@@ -259,7 +276,7 @@ def m2NM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Meter(meter) * 5.39956804e-4  # == * 1.0 / 1852.0
+    return Meter(meter) * 5.39956804e-4  # == * _1_0 / 1852.0
 
 
 def m2SM(meter):
@@ -271,7 +288,7 @@ def m2SM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Meter(meter) * 6.21369949e-4  # XXX 6.213712e-4 == 1.0 / 1609.344
+    return Meter(meter) * 6.21369949e-4  # == _1_0 / 1609.344
 
 
 def radiansPI(deg):
@@ -304,16 +321,16 @@ def radiansPI_2(deg):
     return _wrap(radians(deg), PI_2, PI2)
 
 
-def _sincos2(i, r):
-    '''(INTERNAL) 2-tuple (C{sin(r), cos(r)}) in quadrant C{q}.
+def _sincos2(q, r):
+    '''(INTERNAL) 2-tuple (C{sin(r), cos(r)}) in quadrant M{0 <= q <= 3}.
     '''
     if r:
         s, c = sin(r), cos(r)
         t = s, c, -s, -c, s
-    else:  # XXX sin(-0.0)?
-        t = 0.0, 1.0, -0.0, -1.0, 0.0
-#   i &= 3
-    return t[i], t[i + 1]
+    else:
+        t = _0_0, _1_0, -_0_0, -_1_0, _0_0
+#   q &= 3
+    return t[q], t[q + 1]
 
 
 def sincos2(*rad):
@@ -334,7 +351,7 @@ def sincos2(*rad):
         q = int(r * _2_PI)  # int(math.floor)
         if r < 0:
             q -= 1
-        s, c = _sincos2(q & 3, r - q * PI_2)  # 0 <= r < PI_2
+        s, c = _sincos2(q & 3, r - q * PI_2)  # _0_0 <= r < PI_2
         yield s
         yield c
 
@@ -344,7 +361,7 @@ def sincos2d(*deg):
 
        @arg deg: One or more angles (C{degrees}).
 
-       @return: The C{sin(rad)} and C{cos(rad)} for each angle.
+       @return: The C{sin(deg)} and C{cos(deg)} for each angle.
 
        @see: U{GeographicLib<https://GeographicLib.SourceForge.io/html/
              classGeographicLib_1_1Math.html#sincosd>} function U{sincosd
@@ -357,7 +374,7 @@ def sincos2d(*deg):
         q = int(d * _1_90)  # int(math.floor)
         if d < 0:
             q -= 1
-        s, c = _sincos2(q & 3, radians(d - q * 90))  # 0 <= r < PI_2
+        s, c = _sincos2(q & 3, radians(d - q * _90_0))  # _0_0 <= r < PI_2
         yield s
         yield c
 
@@ -424,7 +441,7 @@ def tan_2(rad):
 
        @return: M{tan(rad / 2)} (C{float}).
     '''
-    return tan(rad * 0.5)
+    return tan(rad * _0_5)
 
 
 def tanPI_2_2(rad):
@@ -434,7 +451,7 @@ def tanPI_2_2(rad):
 
        @return: M{tan((rad + PI/2) / 2)} (C{float}).
     '''
-    return tan((rad + PI_2) * 0.5)
+    return tan((rad + PI_2) * _0_5)
 
 
 def unroll180(lon1, lon2, wrap=True):
@@ -451,8 +468,8 @@ def unroll180(lon1, lon2, wrap=True):
              <https://GeographicLib.SourceForge.io/html/python/interface.html#outmask>}.
     '''
     d = lon2 - lon1
-    if wrap and abs(d) > 180:
-        u = _wrap(d, 180, 360)
+    if wrap and abs(d) > _180_0:
+        u = _wrap(d, _180_0, _360_0)
         if u != d:
             return u, lon1 + u
     return d, lon2
@@ -488,7 +505,9 @@ def _wrap(angle, wrap, modulo):
 
        @return: The B{C{angle}}, wrapped (C{degrees} or C{radians}).
     '''
-    if not wrap > angle >= (wrap - modulo):
+    if wrap > angle >= (wrap - modulo):
+        angle = float(angle)
+    else:
         # math.fmod(-1.5, 3.14) == -1.5, but -1.5 % 3.14 == 1.64
         # math.fmod(-1.5, 360) == -1.5, but -1.5 % 360 == 358.5
         angle %= modulo
@@ -504,7 +523,7 @@ def wrap90(deg):
 
        @return: Degrees, wrapped (C{degrees90}).
     '''
-    return _wrap(deg, 90, 360)
+    return _wrap(deg, _90_0, _360_0)
 
 
 def wrap180(deg):
@@ -514,7 +533,7 @@ def wrap180(deg):
 
        @return: Degrees, wrapped (C{degrees180}).
     '''
-    return _wrap(deg, 180, 360)
+    return _wrap(deg, _180_0, _360_0)
 
 
 def wrap360(deg):
@@ -524,7 +543,7 @@ def wrap360(deg):
 
        @return: Degrees, wrapped (C{degrees360}).
     '''
-    return _wrap(deg, 360, 360)
+    return _wrap(deg, _360_0, _360_0)
 
 
 def wrapPI(rad):

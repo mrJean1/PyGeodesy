@@ -12,7 +12,7 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI, property_doc_, property_RO, \
+from pygeodesy.basics import property_doc_, property_RO, \
                             _xinstanceof, _xkwds
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
@@ -20,19 +20,19 @@ from pygeodesy.ecef import EcefVeness
 from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, \
                              _IsnotError, _ValueError, _xellipsoidal
 from pygeodesy.fmath import favg, fsum_
-from pygeodesy.interns import _center2_, _COMMA_, _datum_, _ellipsoidal_, \
-                              _exceed_PI_radians_, _Missing, _N_, \
-                              _near_concentric_, NN, _no_convergence_fmt_, \
-                              _no_conversion_, _radius1_, _radius2_, \
-                              _too_distant_fmt_  # PYCHOK used!
+from pygeodesy.interns import EPS, PI, _center2_, _COMMA_, _datum_, _ellipsoidal_, \
+                             _exceed_PI_radians_, _Missing, _N_, _near_concentric_, \
+                              NN, _no_convergence_fmt_, _no_conversion_, _radius1_, \
+                             _radius2_, _too_distant_fmt_  # PYCHOK used!
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import LatLon4Tuple, Vector3Tuple, _xnamed
+from pygeodesy.named import _xnamed
+from pygeodesy.namedTuples import LatLon4Tuple, Vector3Tuple
 from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
 from pygeodesy.units import Radius_
 
 __all__ = ()
-__version__ = '20.09.01'
+__version__ = '20.09.17'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 16    # _intersects2 interations, 6 sufficient
@@ -41,8 +41,8 @@ _TRIPS = 16    # _intersects2 interations, 6 sufficient
 class CartesianEllipsoidalBase(CartesianBase):
     '''(INTERNAL) Base class for ellipsoidal C{Cartesian}s.
     '''
-    _datum = Datums.WGS84  #: (INTERNAL) L{Datum}.
-    _Ecef  = EcefVeness    #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
+    _datum = Datums.WGS84  # L{Datum}
+    _Ecef  = EcefVeness    # preferred C{Ecef...} class, backward compatible
 
     def convertRefFrame(self, reframe2, reframe, epoch=None):
         '''Convert this cartesian point from one to an other reference frame.
@@ -73,20 +73,20 @@ class CartesianEllipsoidalBase(CartesianBase):
 class LatLonEllipsoidalBase(LatLonBase):
     '''(INTERNAL) Base class for ellipsoidal C{LatLon}s.
     '''
-    _convergence  = None  #: (INTERNAL) UTM/UPS meridian convergence (C{degrees}).
-    _datum        = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
-    _elevation2   = ()    #: (INTERNAL) Cached C{elevation2} result.
-    _epoch        = None  #: (INTERNAL) overriding .reframe.epoch (C{float}).
-    _etm          = None  #: (INTERNAL) Cached toEtm (L{Etm}).
-    _geoidHeight2 = ()    #: (INTERNAL) Cached C{geoidHeight2} result.
-    _iteration    = None  #: (INTERNAL) Iteration number (C{int} or C{None}).
-    _lcc          = None  #: (INTERNAL) Cached toLcc (C{Lcc}).
-    _osgr         = None  #: (INTERNAL) Cached toOsgr (C{Osgr}).
-    _reframe      = None  #: (INTERNAL) reference frame (L{RefFrame}).
-    _scale        = None  #: (INTERNAL) UTM/UPS scale factor (C{float}).
-    _ups          = None  #: (INTERNAL) Cached toUps (L{Ups}).
-    _utm          = None  #: (INTERNAL) Cached toUtm (L{Utm}).
-    _wm           = None  #: (INTERNAL) Cached toWm (webmercator.Wm instance).
+    _convergence  = None  # UTM/UPS meridian convergence (C{degrees})
+    _datum        = Datums.WGS84  # L{Datum}
+    _elevation2   = ()    # cached C{elevation2} result
+    _epoch        = None  # overriding .reframe.epoch (C{float})
+    _etm          = None  # cached toEtm (L{Etm})
+    _geoidHeight2 = ()    # cached C{geoidHeight2} result
+    _iteration    = None  # iteration number (C{int} or C{None})
+    _lcc          = None  # cached toLcc (C{Lcc})
+    _osgr         = None  # cached toOsgr (C{Osgr})
+    _reframe      = None  # reference frame (L{RefFrame})
+    _scale        = None  # UTM/UPS scale factor (C{float})
+    _ups          = None  # cached toUps (L{Ups})
+    _utm          = None  # cached toUtm (L{Utm})
+    _wm           = None  # cached toWm (webmercator.Wm instance)
 
     def __init__(self, lat, lon, height=0, datum=None, reframe=None,
                                            epoch=None, name=NN):
@@ -722,13 +722,16 @@ def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 16
                           t2, r2,  # XXX * t2.scale?,
                           sphere=False, too_d=m)
             # convert intersections back to geodetic
-            t1 = A.reverse(v1.x, v1.y)
-            t2 = A.reverse(v2.x, v2.y)
-            # consider only the closer intersection
+            t1 =  A.reverse(v1.x, v1.y)
             d1 = _euclidean(t1.lat - t.lat, t1.lon - t.lon)
-            d2 = _euclidean(t2.lat - t.lat, t2.lon - t.lon)
+            if v1 is v2:  # abutting
+                t, d = t1, d1
+            else:
+                t2 =  A.reverse(v2.x, v2.y)
+                d2 = _euclidean(t2.lat - t.lat, t2.lon - t.lon)
+                # consider only the closer intersection
+                t, d = (t1, d1) if d1 < d2 else (t2, d2)
             # break if below tolerance or if unchanged
-            t, d = (t1, d1) if d1 < d2 else (t2, d2)
             if d < e or d == p:
                 t._iteration = i + 1  # _NamedTuple._iteration
                 ts.append(t)

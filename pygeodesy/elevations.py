@@ -17,26 +17,24 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import clips
+from pygeodesy.basics import clips, ub2str
 from pygeodesy.errors import ParseError, _xkwds_get
 from pygeodesy.interns import _elevation_, _height_, _item_cs, \
                               _item_ps, _lat_, _lon_, _n_a_, NN, \
-                              _SPACE_, _units_, _utf_8_, _x_, _y_
+                              _SPACE_, _units_, _x_, _y_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.streprs import fstr
-from pygeodesy.units import Lat, Lon, Scalar, Str
+from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '20.07.08'
+__version__ = '20.09.14'
 
 try:
-    _Bytes = unicode, bytearray  # PYCHOK expected
     from urllib2 import urlopen  # quote, urlcleanup
     from httplib import HTTPException as HTTPError
 
 except (ImportError, NameError):  # Python 3+
-    _Bytes = bytes, bytearray
     from urllib.request import urlopen  # urlcleanup
     # from urllib.parse import quote
     from urllib.error import HTTPError
@@ -81,7 +79,7 @@ except ImportError:  # PYCHOK no cover
             try:
                 v = float(v)
             except (TypeError, ValueError):
-                v = Str(_str(v.lstrip().lstrip(_QUOTE2_)), name=k)
+                v = Str(ub2str(v.lstrip().lstrip(_QUOTE2_)), name=k)
             d[k] = v
         return d
 
@@ -106,15 +104,7 @@ def _qURL(url, params, timeout=2):
     r = u.read()
     u.close()
     # urlcleanup()
-    return _str(r).strip()
-
-
-def _str(t):
-    '''Unicode or C{bytes} to C{str}.
-    '''
-    if isinstance(t, _Bytes):
-        t = str(t.decode(_utf_8_))
-    return t
+    return ub2str(r).strip()
 
 
 def _xml(tag, xml):
@@ -141,6 +131,7 @@ class Elevation2Tuple(_NamedTuple):  # .elevations.py
     '''2-Tuple C{(elevation, data_source)} in C{meter} and C{str}.
     '''
     _Names_ = (_elevation_, 'data_source')
+    _Units_ = ( Meter,       Str)
 
 
 def elevation2(lat, lon, timeout=2.0):
@@ -197,6 +188,7 @@ class GeoidHeight2Tuple(_NamedTuple):  # .elevations.py
        and C{model_name} as C{str}.
     '''
     _Names_ = (_height_, 'model_name')
+    _Units_ = ( Meter,    Str)
 
 
 def geoidHeight2(lat, lon, model=0, timeout=2.0):

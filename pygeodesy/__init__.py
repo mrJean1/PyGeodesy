@@ -202,10 +202,10 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @newfield JSname: JS name, JS names
 
 @var EPS:    System's M{epsilon} ≈ 2.2202e-16 (C{float}).
-@var EPS2:   M{EPS * 2} = 4.4409e-16 (C{float}).
+@var EPS2:   M{EPS * 2} ≈ 4.4409e-16 (C{float}).
 @var EPS_2:  M{EPS / 2} ≈ 1.1102e-16 (C{float}).
-@var EPS1:   M{1 - EPS} = 0.9999999999999998 (C{float}).
-@var EPS1_2: M{1 - EPS_2} = 0.9999999999999999 (C{float}).
+@var EPS1:   M{1 - EPS} ≈ 0.9999999999999998 (C{float}).
+@var EPS1_2: M{1 - EPS_2} ≈ 0.9999999999999999 (C{float}).
 
 @var F_D:   Format degrees as unsigned "deg°" plus suffix (C{str}).
 @var F_DM:  Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -240,26 +240,27 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var F__G__:  Format degrees as signed "-/+%G" without suffix and symbol (C{str}).
 @var F_RAD__: Convert degrees to radians and format as signed "-/+RR" without suffix (C{str}).
 
-@var INF:    Infinity (C{float}), see function C{isinf}, C{isfinite}.
-@var MANTIS: System's M{mantissa bits} ≈53 (C{int}).
-@var MAX:    System's M{float max} ≈1.798e+308 (C{float}).
-@var MIN:    System's M{float min} ≈2.225e-308 (C{float}).
-@var NAN:    Not-A-Number (C{float}), see function C{isnan}.
-@var NEG0:   Negative 0.0 (C{float}), see function C{isneg0}.
+@var INF:    Infinity (C{float}), see function L{isinf}, L{isfinite}.
+@var MANTIS: System's M{mantissa bits} = 53 (C{int}).
+@var MAX:    System's M{float max} ≈ 1.798e+308 (C{float}).
+@var MIN:    System's M{float min} ≈ 2.225e-308 (C{float}).
+@var NAN:    Not-A-Number (C{float}), see function L{isnan}.
+@var NEG0:   Negative 0.0 (C{float}), see function L{isneg0}.
 @var NN:     Empty (C{str}), U{Nomen Nescio<https://Wiktionary.org/wiki/N.N.>}.
 
 @var PI:   Constant M{math.pi} (C{float}).
-@var PI2:  Two PI, M{math.pi * 2} (C{float}).
-@var PI_2: Half PI, M{math.pi / 2} (C{float}).
+@var PI2:  Two PI, M{PI * 2}, aka I{Tau} (C{float}).
+@var PI4:  Four PI, M{PI * 4} (C{float}).
+@var PI_2: Half PI, M{PI / 2} (C{float}).
 @var PI_4: Quarter PI, M{PI / 4} (C{float}).
 
 @var R_M:  Mean (spherical) earth radius (C{meter}).
-@var R_MA: Major (equatorial) earth radius (C{meter}) WGS84, EPSG:3785.
-@var R_MB: Minor (polar) earth radius (C{meter}) WGS84, EPSG:3785.
+@var R_MA: Equatorial (major) earth radius (C{meter}), WGS84, EPSG:3785.
+@var R_MB: Polar (minor) earth radius (C{meter}), WGS84, EPSG:3785.
 @var R_KM: Mean (spherical) earth radius (C{km}, kilometer).
 @var R_NM: Mean (spherical) earth radius (C{NM}, nautical miles).
 @var R_SM: Mean (spherical) earth radius (C{SM}, statute miles).
-@var R_FM: Former FAI Sphere earth radius (C{meter}).
+@var R_FM: Former FAI-Sphere earth radius (C{meter}).
 @var R_VM: Aviation/Navigation earth radius (C{meter}).
 
 @var S_DEG: Degrees symbol "°" (C{str}).
@@ -288,7 +289,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.09.05'
+__version__ = '20.09.16'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -350,6 +351,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.lcc                   as lcc                    # PYCHOK exported
     import pygeodesy.mgrs                  as mgrs                   # PYCHOK exported
     import pygeodesy.named                 as named                  # PYCHOK exported
+    import pygeodesy.namedTuples           as namedTuples            # PYCHOK exported
     import pygeodesy.nvector               as nvector                # PYCHOK DEPRECATED
     import pygeodesy.osgr                  as osgr                   # PYCHOK exported
     import pygeodesy.points                as points                 # PYCHOK exported
@@ -406,6 +408,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.lcc                   import *  # PYCHOK __all__
     from pygeodesy.mgrs                  import *  # PYCHOK __all__
     from pygeodesy.named                 import *  # PYCHOK __all__
+#   from pygeodesy.namedTuples           import -  # MODULE O_N_L_Y
 #   from pygeodesy.nvector               import -  # MODULE O_N_L_Y
     from pygeodesy.osgr                  import *  # PYCHOK __all__
     from pygeodesy.points                import *  # PYCHOK __all__

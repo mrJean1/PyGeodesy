@@ -11,26 +11,27 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, EPS1, isscalar, len2, map1, \
-                             property_doc_, property_RO, _xkwds
+from pygeodesy.basics import isscalar, len2, map1, property_doc_, \
+                             property_RO, _xkwds
 from pygeodesy.errors import CrossError, IntersectionError, _IsnotError, \
                             _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fsum, fsum_, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2
-from pygeodesy.interns import _coincident_, _colinear_, _COMMA_, _COMMA_SPACE_, \
-                              _datum_, _h_, _height_, _invalid_, _Missing, \
-                              _name_, _near_concentric_, NN, _other_, _PARENTH_, \
-                              _radius1_, _radius2_, _scalar_, _too_distant_fmt_, \
-                              _y_, _z_
+from pygeodesy.interns import EPS, EPS1, _coincident_, _colinear_, _COMMA_, \
+                             _COMMA_SPACE_, _datum_, _h_, _height_, _invalid_, \
+                             _Missing, _name_, _near_concentric_, NN, _other_, \
+                             _PARENTH_, _radius1_, _radius2_, _scalar_, \
+                             _too_distant_fmt_, _y_, _z_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _NamedBase, Vector3Tuple, _xnamed
+from pygeodesy.named import _NamedBase, _xnamed
+from pygeodesy.namedTuples import Vector3Tuple
 from pygeodesy.streprs import strs
 from pygeodesy.units import Radius, Radius_
 
 from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.08.12'
+__version__ = '20.09.11'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -82,14 +83,14 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     '''
     _crosserrors = True  # un/set by .errors.crosserrors
 
-    _fromll = None  #: (INTERNAL) original ll.
-    _length = None  #: (INTERNAL) cached length.
-    _united = None  #: (INTERNAL) cached norm, unit (L{Vector3d}).
-    _xyz    = None  #: (INTERNAL) cached xyz (L{Vector3Tuple}).
+    _fromll = None  # original latlon
+    _length = None  # cached length
+    _united = None  # cached norm, unit (L{Vector3d})
+    _xyz    = None  # cached xyz (L{Vector3Tuple})
 
-    _x = 0  #: (INTERNAL) X component.
-    _y = 0  #: (INTERNAL) Y component.
-    _z = 0  #: (INTERNAL) Z component.
+    _x = 0  # X component
+    _y = 0  # Y component
+    _z = 0  # Z component
 
     def __init__(self, x, y, z, ll=None, name=NN):
         '''New 3-D L{Vector3d}.
@@ -329,7 +330,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         x = self.cross(other)
         s = x.length
         if s < EPS:
-            return 0.0
+            return _0_0
         # use vSign as reference to get sign of s
         if vSign and x.dot(vSign) < 0:
             s = -s
@@ -387,7 +388,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         if not isscalar(factor):
             raise _IsnotError(_scalar_, factor=factor)
         try:
-            return self.times(1.0 / factor)
+            return self.times(_1_0 / factor)
         except (ValueError, ZeroDivisionError) as x:
             raise VectorError(factor=factor, txt=str(x))
 
@@ -713,12 +714,12 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
         return v
 
     def _xVector(c1, u, x, y):
-        xy1 = x, y, 1  # transform to original space
+        xy1 = x, y, _1_0  # transform to original space
         return _Vector(fdot(xy1, u.x, -u.y, c1.x),
-                       fdot(xy1, u.y,  u.x, c1.y), 0)
+                       fdot(xy1, u.y,  u.x, c1.y), _0_0)
 
-    c1 = Vector3d(center1.x, center1.y, center1.z if sphere else 0)
-    c2 = Vector3d(center2.x, center2.y, center2.z if sphere else 0)
+    c1 = Vector3d(center1.x, center1.y, center1.z if sphere else _0_0)
+    c2 = Vector3d(center2.x, center2.y, center2.z if sphere else _0_0)
 
     if r1 < r2:  # r1, r2 == R, r
         c1, c2 = c2, c1
@@ -734,18 +735,18 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
     # <https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>
     if o > EPS:  # overlapping, r1, r2 == R, r
         x = _radical2(d, r1, r2).xline
-        y = 1 - (x / r1)**2
+        y = _1_0 - (x / r1)**2
         if y > EPS:
             y = r1 * sqrt(y)  # y == a / 2
         elif y < 0:
             raise ValueError(_invalid_)
         else:  # abutting
-            y = 0
+            y = _0_0
     elif o < 0:
         t = d if too_d is None else too_d
         raise ValueError(_too_distant_fmt_ % (t,))
     else:  # abutting
-        x, y = r1, 0
+        x, y = r1, _0_0
 
     u = m.unit()
     if sphere:  # sphere radius and center

@@ -4,10 +4,10 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.08.32'
+__version__ = '20.09.14'
 
-from base import PyGeodesy_dir, isiOS, TestsBase
-from pygeodesy import Datums, named
+from base import TestsBase
+from pygeodesy import geohash, Datums, named, namedTuples, ub2str
 
 from os import linesep
 
@@ -73,24 +73,23 @@ class Tests(TestsBase):
         delattr(n, '_name')  # coverage
         self.test(n.named2, n.name, '')
 
-    def testNamedDicts(self, named):
+    def testNamedDicts(self):
         self.subtitle(named, 'ing %s ' % ('NamedDicts',))
-        self.testNamed_class(named, _DICT, '_Keys_', self._NamedDicts)
+        self.testNamed_classes(named._NamedDict, _DICT, '_Keys_', self._NamedDicts)
 
     _NamedDicts = {}  # [<name>] = 'L{<name>}C{(...)}'
 
-    def testNamedTuples(self, named):
-        self.subtitle(named, 'ing %s ' % ('NamedTuples',))
-        self.testNamed_class(named, _TUPLE, '_Names_', self._NamedTuples)
+    def testNamedTuples(self):
+        self.subtitle(namedTuples, 'ing %s ' % ('NamedTuples',))
+        self.testNamed_classes(named._NamedTuple, _TUPLE, '_Names_', self._NamedTuples)
 
     _NamedTuples = {}  # [<name>] = 'L{<name>}C{(...)}'
 
-    def testNamed_class(self, named, _Nclass, _attr_, _Ndict):
-        for n in sorted(dir(named)):
-            if n.endswith(_Nclass) and n[-1 - len(_Nclass)].isdigit():
-                # print(named, n)
+    def testNamed_classes(self, _Nbase, _Nclass, _attr_, _Ndict):
+        for c in self.pygeodesy_classes(Base=_Nbase):
+            n = c.__name__
+            if c is not _Nbase and n[-1 - len(_Nclass)].isdigit():
                 # compare _Nattr_ and __doc__
-                c = getattr(named, n)
                 self.test(n, c.__name__, n)
                 # check signature
                 a = getattr(c, _attr_, ())
@@ -99,10 +98,11 @@ class Tests(TestsBase):
                 d = ' '.join(c.__doc__.strip().split())
                 self.test(n, t, d[:len(t)])
                 # check the count
-                d = n[:-len(_Nclass)]  # remove Tuple
-                while not d[:1].isdigit():
+                d = n[:-len(_Nclass)]
+                while d and not d[:1].isdigit():
                     d = d[1:]
-                self.test(n, d, len(a))
+                if d:
+                    self.test(n, d, len(a))
                 # build _Named... dict
                 _Ndict[n] = 'L{%s}%s' % (n, s)
 
@@ -130,36 +130,36 @@ class Tests(TestsBase):
             t = ' '.join(py[L:c + len(_B_)].split())
             self.test(m, t, _Ndict.get(n, 'signature'))
 
-    def testNamed_xtend(self, named):
-        self.subtitle(named, 'ing %s ' % ('xtend',))
+    def testNamed_xtend(self, namedTuples):
+        self.subtitle(namedTuples, 'ing %s ' % ('xtend',))
         # test extending a _NamedTuple class
-        t = named.LatLon2Tuple(0, 1)
+        t = namedTuples.LatLon2Tuple(0, 1)
         x = t.to3Tuple(2)
-        r = named.LatLon3Tuple(0, 1, 2.0)
+        r = namedTuples.LatLon3Tuple(0, 1, 2)
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
-        t = named.LatLon2Tuple(0, 1)
+        t = namedTuples.LatLon2Tuple(0, 1)
         x = t.to4Tuple(2, Datums.WGS84)
-        r = named.LatLon4Tuple(0, 1, 2.0, Datums.WGS84)
+        r = namedTuples.LatLon4Tuple(0, 1, 2, Datums.WGS84)
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
-        t = named.LatLon3Tuple(0, 1, 2)
+        t = namedTuples.LatLon3Tuple(0, 1, 2)
         x = t.to4Tuple(Datums.WGS84)
-        r = named.LatLon4Tuple(0, 1, 2, Datums.WGS84)
+        r = namedTuples.LatLon4Tuple(0, 1, 2, Datums.WGS84)
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
-        t = named.PhiLam2Tuple(0, 1)
+        t = namedTuples.PhiLam2Tuple(0, 1)
         x = t.to3Tuple(2)
-        r = named.PhiLam3Tuple(0, 1, 2.0)
+        r = namedTuples.PhiLam3Tuple(0, 1, 2)
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
-        t = named.Vector3Tuple(0, 1, 2)
+        t = namedTuples.Vector3Tuple(0, 1, 2)
         x = t.to4Tuple(4)
-        r = named.Vector4Tuple(0, 1, 2, 4.0)
+        r = namedTuples.Vector4Tuple(0, 1, 2, 4)
         self.test(repr(t), x, r)
         self.test(repr(t), x.__class__, r.__class__)
 
@@ -200,42 +200,30 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from glob import glob
-    import os.path as os_path
-
-    from pygeodesy import albers, azimuthal, clipy, css, datum, ecef, elevations, \
-                          ellipsoids, ellipsoidalNvector, elliptic, epsg, etm, \
-                          formy, frechet, geohash, geoids, hausdorff, mgrs, \
-                          points, utmupsBase, webmercator
+    from base import isiOS
 
     t = Tests(__file__, __version__)
+
     t.testNamed(named._Named)
     t.testNamed(named._NamedBase)
     t.testNamed(named._NamedDict)
     t.testNamed(named._NamedEnum, 'Test', known=True)
     t.testNamed(named._NamedEnumItem)
-    t.testNamed(named.LatLon2Tuple, 0, 0)  # _NamedTuple
+    t.testNamed(namedTuples.LatLon2Tuple, 0, 0)  # _NamedTuple
 
     # find _NamedDict and _NamedTuple (sub)classes
     # defined in all pygeodesy modules
-    t.testNamedDicts(named)
-    t.testNamedDicts(geohash)
-
-    for m in (named, albers, azimuthal, clipy, css, datum, ecef, elevations,
-                     ellipsoids, ellipsoidalNvector, elliptic, epsg, etm,
-                     formy, frechet, geohash, geoids, hausdorff, mgrs,
-                     points, utmupsBase, webmercator):
-        t.testNamedTuples(m)
+    t.testNamedDicts()
+    t.testNamedDicts()
+    t.testNamedTuples()
 
     # test __doc__ strings in all pygeodesy modules
-    for m in glob(os_path.join(PyGeodesy_dir, 'pygeodesy', '*.py')):
-        with open(m, 'rb') as f:
-            py = f.read()
-            if isinstance(py, bytes):  # Python 3+
-                py = py.decode('utf-8')
-            t.testNamed__doc__(os_path.basename(m), py)
+    for n, m in t.pygeodesy_names2():
+        with open(n, 'rb') as f:
+            py = ub2str(f.read())
+            t.testNamed__doc__(m, py)
 
-    t.testNamed_xtend(named)
+    t.testNamed_xtend(namedTuples)
 
     t.testBases()
 

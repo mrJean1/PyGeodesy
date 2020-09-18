@@ -65,20 +65,22 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, PI_2, PI_4, property_doc_, \
-                             property_RO, _xinstanceof
+from pygeodesy.basics import property_doc_, property_RO, _xinstanceof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
-from pygeodesy.interns import _COMMA_SPACE_, _convergence_, _easting_, \
-                              _k0_, _lat_, _lon_, _lon0_, NN, _northing_, \
-                              _no_convergence_, _scale_  # PYCHOK used!
+from pygeodesy.interns import EPS as _TOL, PI_2, PI_4, _COMMA_SPACE_, \
+                             _convergence_, _easting_, _lat_, _lon_, NN, \
+                             _northing_, _no_convergence_, _scale_, _0_0, \
+                             _0_1, _0_5, _1_0, _2_0, _3_0, _90_0, _180_0
+from pygeodesy.interns import _k0_, _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
 from pygeodesy.streprs import pairs, unstr
-from pygeodesy.units import Lon, Scalar_
+from pygeodesy.units import Degrees, Easting, Lat, Lon, Northing, \
+                            Scalar, Scalar_
 from pygeodesy.utily import sincos2
 from pygeodesy.utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
                           _toXtm8, _to7zBlldfn
@@ -88,13 +90,12 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.09.01'
+__version__ = '20.09.14'
 
-_OVERFLOW = 1.0 / EPS**2
-_TOL      = EPS
-_TOL_10   = 0.1 * _TOL
-_TAYTOL   = pow(_TOL, 0.6)
-_TAYTOL2  = 2.0 * _TAYTOL
+_OVERFLOW = _1_0 / _TOL**2
+_TOL_10   = _0_1 * _TOL
+_TAYTOL   =  pow(_TOL, 0.6)
+_TAYTOL2  = _2_0 * _TAYTOL
 
 
 class EasNorExact4Tuple(_NamedTuple):
@@ -102,6 +103,7 @@ class EasNorExact4Tuple(_NamedTuple):
        C{meter}, C{meter}, C{degrees} and C{scalar}.
     '''
     _Names_ = (_easting_, _northing_, _convergence_, _scale_)
+    _Units_ = ( Easting,   Northing,   Degrees,       Scalar)
 
 
 class ETMError(UTMError):
@@ -293,20 +295,20 @@ class ExactTransverseMercator(_NamedBase):
 #   _e_PI_4     = _e *  PI_4
 #   _e_TAYTOL   = _e * _TAYTOL
 
-#   _1_e_90     = (1 - _e) * 90
-#   _1_e_PI_2   = (1 - _e) * PI_2
-#   _1_e2_PI_2  = (1 - _e * 2) * PI_2
+#   _1_e_90     = (_1_0 - _e) * _90_0
+#   _1_e_PI_2   = (_1_0 - _e) *  PI_2
+#   _1_e2_PI_2  = (_1_0 - _e * 2) * PI_2
 
 #   _mu         =  _e**2
-#   _mu_2_1     = (_e**2 + 2) * 0.5
+#   _mu_2_1     = (_e**2 + _2_0) * _0_5
 
 #   _Eu         =  Elliptic(_mu)
 #   _Eu_cE_1_4  = _Eu.cE * 0.25
 #   _Eu_cK_cE   = _Eu.cK / _Eu.cE
 #   _Eu_cK_PI_2 = _Eu.cK / PI_2
 
-#   _mv         =  1   - _mu
-#   _3_mv       =  3.0 / _mv
+#   _mv         =  _1_0 - _mu
+#   _3_mv       =  _3_0 / _mv
 #   _3_mv_e     = _3_mv / _e
 
 #   _Ev         =  Elliptic(_mv)
@@ -420,14 +422,14 @@ class ExactTransverseMercator(_NamedBase):
                 _lat, lat = True, -lat
             if lon < 0:
                 _lon, lon = True, -lon
-            if lon > 90:
+            if lon > _90_0:
                 backside = True
                 if lat == 0:
                     _lat = True
-                lon = 180 - lon
+                lon = _180_0 - lon
 
         # u,v = coordinates for the Thompson TM, Lee 54
-        if lat == 90:
+        if lat == _90_0:
             u = self._Eu.cK
             v = self._iteration = 0
         elif lat == 0 and lon == self._1_e_90:
@@ -444,13 +446,13 @@ class ExactTransverseMercator(_NamedBase):
         y = xi  * self._k0_a
         x = eta * self._k0_a
 
-        if lat == 90:
+        if lat == _90_0:
             g, k = lon, self._k0
         else:
             g, k = self._zetaScaled(sncndn6, ll=False)
 
         if backside:
-            g = 180 - g
+            g = _180_0 - g
         if _lat:
             y, g = -y, -g
         if _lon:
@@ -480,7 +482,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise ETMError: Invalid B{C{k0}}.
         '''
-        self._k0 = Scalar_(k0, name=_k0_, Error=ETMError, low=_TOL_10, high=1.0)
+        self._k0 = Scalar_(k0, name=_k0_, Error=ETMError, low=_TOL_10, high=_1_0)
         # if not self._k0 > 0:
         #     raise Scalar_.Error_(Scalar_, k0, name=_k0_, Error=ETMError)
         self._k0_a = self._k0 * self._a
@@ -514,20 +516,20 @@ class ExactTransverseMercator(_NamedBase):
         self._e_PI_4     = e *  PI_4
         self._e_TAYTOL   = e * _TAYTOL
 
-        self._1_e_90     = (1 - e) * 90
-        self._1_e_PI_2   = (1 - e) * PI_2
-        self._1_e2_PI_2  = (1 - e * 2) * PI_2
+        self._1_e_90     = (_1_0 - e) * _90_0
+        self._1_e_PI_2   = (_1_0 - e) *  PI_2
+        self._1_e2_PI_2  = (_1_0 - e * 2) * PI_2
 
         self._mu         =  e2
-        self._mu_2_1     = (e2 + 2) * 0.5
+        self._mu_2_1     = (e2 + _2_0) * _0_5
 
         self._Eu         = Elliptic(self._mu)
         self._Eu_cE_1_4  = self._Eu.cE * 0.25
         self._Eu_cK_cE   = self._Eu.cK / self._Eu.cE
         self._Eu_cK_PI_2 = self._Eu.cK / PI_2
 
-        self._mv         = 1 - e2
-        self._3_mv       = 3.0 / self._mv
+        self._mv         = _1_0 - e2
+        self._3_mv       = _3_0 / self._mv
         self._3_mv_e     = self._3_mv / e
 
         self._Ev         = Elliptic(self._mv)
@@ -566,19 +568,19 @@ class ExactTransverseMercator(_NamedBase):
                 backside = True
 
         # u,v = coordinates for the Thompson TM, Lee 54
-        if xi != 0 or eta != self._Ev.cKE:
+        if xi != _0_0 or eta != self._Ev.cKE:
             u, v = self._sigmaInv(xi, eta)
         else:
             u = self._iteration = 0
             v = self._Ev.cK
 
-        if v != 0 or u != self._Eu.cK:
+        if v != _0_0 or u != self._Eu.cK:
             g, k, lat, lon = self._zetaScaled(self._sncndn6(u, v))
         else:
-            g, k, lat, lon = 0, self._k0, 90, 0
+            g, k, lat, lon = _0_0, self._k0, _90_0, _0_0
 
         if backside:
-            lon, g = (180 - lon), (180 - g)
+            lon, g = (_180_0 - lon), (_180_0 - g)
         if _lat:
             lat, g = -lat, -g
         if _lon:
@@ -736,7 +738,7 @@ class ExactTransverseMercator(_NamedBase):
             # Map the range [-90, 180] in sigma space to [-90, 0] in
             # w space.  See discussion in zetainv0 on the cut for ang.
             r = cbrt(r * self._3_mv)
-            a = atan2(d - xi, xi + d) / 3.0 - PI_4
+            a = atan2(d - xi, xi + d) / _3_0 - PI_4
             s, c = sincos2(a)
             u = r * c
             v = r * s + self._Ev.cK
@@ -828,12 +830,12 @@ class ExactTransverseMercator(_NamedBase):
            @raise EllipticError: No convergence.
         '''
         psi = asinh(taup)
-        sca = 1.0 / hypot1(taup)
+        sca = _1_0 / hypot1(taup)
         u, v, trip = self._zetaInv0(psi, lam)
         if trip:
             self._iteration = 0
         else:
-            stol2 = _TOL_10 / max(psi**2, 1.0)
+            stol2 = _TOL_10 / max(psi**2, _1_0)
             U, V = Fsum(u), Fsum(v)
             # min iterations = 2, max = 6, mean = 4.0
             for self._iteration in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
@@ -938,9 +940,10 @@ class ExactTransverseMercator(_NamedBase):
 
 class LatLonExact4Tuple(_NamedTuple):
     '''4-Tuple C{(lat, lon, convergence, scale)} in C{degrees180},
-       C{degrees}, C{degrees} and C{scalar}.
+       C{degrees180}, C{degrees} and C{scalar}.
     '''
     _Names_ = (_lat_, _lon_, _convergence_, _scale_)
+    _Units_ = ( Lat,   Lon,   Degrees,       Scalar)
 
 
 def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=NN):

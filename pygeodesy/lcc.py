@@ -17,19 +17,21 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI_2, property_RO, _xinstanceof, \
+from pygeodesy.basics import property_RO, _xinstanceof, \
                             _xsubclassof, _xzipairs
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
-from pygeodesy.interns import _C_, _COMMA_SPACE_, _ellipsoidal_, \
-                              _dot_, _h_, _k0_, _lat0_, _lon0_, \
-                              _m_, NN, _SPACE_, _SQUARE_ # PYCHOK used!
+from pygeodesy.interns import EPS, PI_2, _COMMA_SPACE_, _ellipsoidal_, \
+                             _dot_, _h_, _k0_, _lat0_, _lon0_, _m_, NN, \
+                             _SPACE_, _SQUARE_, _0_0, _0_5, _1_0
+from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import EasNor3Tuple, LatLon2Tuple, \
-                            LatLon4Tuple, LatLonDatum3Tuple, \
-                           _NamedBase, _NamedEnum, _NamedEnumItem, nameof, \
-                            PhiLam2Tuple, _xnamed  # PYCHOK indent
+from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
+                             nameof, _xnamed
+from pygeodesy.namedTuples import EasNor3Tuple, LatLon2Tuple, \
+                                  LatLon4Tuple, LatLonDatum3Tuple, \
+                                  PhiLam2Tuple
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
@@ -37,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.09.01'
+__version__ = '20.09.11'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -49,26 +51,26 @@ _SP_   = 'SP'
 class Conic(_NamedEnumItem):
     '''Lambert conformal conic projection (1- or 2-SP).
     '''
-    _auth  =  NN      #: (INTERNAL) authorization (C{str}).
-    _datum =  None    #: (INTERNAL) Datum (L{Datum}).
-    _name  = 'Conic'  #: (INTERNAL) Conic (L{Conic}).
+    _auth  = NN    # authorization (C{str})
+    _datum = None  # datum (L{Datum})
+    _name  = NN    # conic (L{Conic})
 
-    _e  = 0  #: (INTERNAL) Ellipsoid excentricity (C{float}).
-    _E0 = 0  #: (INTERNAL) False easting (C{float}).
-    _k0 = 1  #: (INTERNAL) Scale factor (C{float}).
-    _N0 = 0  #: (INTERNAL) false northing (C{float}).
-    _SP = 0  #: (INTERNAL) 1- or 2-SP (C{int})
+    _e  = _0_0  # ellipsoid excentricity (C{float})
+    _E0 = _0_0  # false easting (C{float})
+    _k0 = _1_0  # scale factor (C{float})
+    _N0 = _0_0  # false northing (C{float})
+    _SP =  0    # 1- or 2-SP (C{int})
 
-    _opt3 = 0  #: (INTERNAL) Optional, longitude (C{radians}).
-    _par1 = 0  #: (INTERNAL) 1st std parallel (C{radians}).
-    _par2 = 0  #: (INTERNAL) 2nd std parallel (C{radians}).
-    _phi0 = 0  #: (INTERNAL) Origin lat (C{radians}).
-    _lam0 = 0  #: (INTERNAL) Origin lon (C{radians}).
+    _opt3 = _0_0  # optional, longitude (C{radians})
+    _par1 = _0_0  # 1st std parallel (C{radians})
+    _par2 = _0_0  # 2nd std parallel (C{radians})
+    _phi0 = _0_0  # origin lat (C{radians})
+    _lam0 = _0_0  # origin lon (C{radians})
 
-    _aF = 0  #: (INTERNAL) Precomputed F.
-    _n  = 0  #: (INTERNAL) Precomputed n.
-    _n_ = 0  #: (INTERNAL) Precomputed 1 / n.
-    _r0 = 0  #: (INTERNAL) Precomputed rho0.
+    _aF = _0_0  # precomputed F (C{float})
+    _n  = _0_0  # precomputed n (C{float})
+    _n_ = _0_0  # precomputed 1 / n (C{float})
+    _r0 = _0_0  # precomputed rho0 (C{float})
 
     def __init__(self, latlon0, par1, par2=None, E0=0, N0=0,
                        k0=1, opt3=0, name=NN, auth=NN):
@@ -244,7 +246,7 @@ class Conic(_NamedEnumItem):
                 m1 = c._mdef(c._phi0)
                 t1 = c._tdef(c._phi0)
                 t0 = t1
-                k  = 1
+                k  = 1  # _1_0
                 n  = sin(c._phi0)
                 sp = 1
             else:
@@ -262,7 +264,7 @@ class Conic(_NamedEnumItem):
 
             c._aF = k * E.a * F
             c._n  = n
-            c._n_ = 1 / n
+            c._n_ = _1_0 / n
             c._r0 = c._rdef(t0)
             c._SP = sp
 
@@ -310,28 +312,28 @@ class Conic(_NamedEnumItem):
         c._n_ = self._n_
         c._r0 = self._r0
 
-    def _mdef(self, lat):
-        '''(INTERNAL) Compute m(lat).
+    def _mdef(self, a):
+        '''(INTERNAL) Compute m(a).
         '''
-        s, c = sincos2(lat)
+        s, c = sincos2(a)
         s *= self._e
-        return c / sqrt(1 - s**2)
+        return c / sqrt(_1_0 - s**2)
 
-    def _pdef(self, lat):
-        '''(INTERNAL) Compute p(lat).
+    def _pdef(self, a):
+        '''(INTERNAL) Compute p(a).
         '''
-        s = self._e * sin(lat)
-        return pow((1 - s) / (1 + s), self._e / 2)
+        s = self._e * sin(a)
+        return pow((_1_0 - s) / (_1_0 + s), self._e * _0_5)
 
     def _rdef(self, t):
         '''(INTERNAL) Compute r(t).
         '''
         return self._aF * pow(t, self._n)
 
-    def _tdef(self, lat):
+    def _tdef(self, a):
         '''(INTERNAL) Compute t(lat).
         '''
-        return max(0, tanPI_2_2(-lat) / self._pdef(lat))
+        return max(_0_0, tanPI_2_2(-a) / self._pdef(a))
 
     def _xdef(self, t_x):
         '''(INTERNAL) Compute x(t_x).
@@ -339,7 +341,9 @@ class Conic(_NamedEnumItem):
         return PI_2 - 2 * atan(t_x)  # XXX + self._phi0
 
 
-Conics = _NamedEnum('Conics', Conic)  #: Registered conics.
+Conic._name = Conic.__name__
+
+Conics = _NamedEnum('Conics', Conic)  # registered conics
 Conics._assert(  # <https://SpatialReference.org/ref/sr-org/...>
 #   AsLb   = Conic(_LLEB(-14.2666667, 170, datum=Datums.NAD27), 0, 0, E0=500000, N0=0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
     Be08Lb = Conic(_LLEB(50.7978150, 4.359215833, datum=Datums.GRS80), 49.833333, 51.166667, E0=649328.0, N0=665262.0, name='Be08Lb', auth='EPSG:9802'),  # Belgium
@@ -362,12 +366,12 @@ class LCCError(_ValueError):
 class Lcc(_NamedBase):
     '''Lambert conformal conic East-/Northing location.
     '''
-    _conic    = None  #: (INTERNAL) Lambert projection (L{Conic}).
-    _easting  = 0     #: (INTERNAL) Easting (C{float}).
-    _height   = 0     #: (INTERNAL) Height (C{meter}).
-    _latlon   = None  #: (INTERNAL) latlon cache (L{LatLon2Tuple}).
-    _northing = 0     #: (INTERNAL) Northing (C{float}).
-    _philam   = None  #: (INTERNAL) philam cache (L{PhiLam2Tuple}).
+    _conic    =  None  # Lambert projection (L{Conic})
+    _easting  = _0_0   # Easting (C{float})
+    _height   =  0     # height (C{meter})
+    _latlon   =  None  # latlon cache (L{LatLon2Tuple})
+    _northing = _0_0   # Northing (C{float})
+    _philam   =  None  # philam cache (L{PhiLam2Tuple})
 
     def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, name=NN):
         '''New L{Lcc} Lamber conformal conic position.

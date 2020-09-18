@@ -69,7 +69,7 @@
             |   |    
  <a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
                 |    
-named._NamedTuple --+
+<a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a> --+
                     |
                    <strong class="uidshort">EcefMatrix</strong>
 </pre>
@@ -199,18 +199,21 @@ named._NamedTuple --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedTuple</code></b>:
-      <code>__delattr__</code>,
-      <code>__getattr__</code>,
-      <code>__getitem__</code>,
-      <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__str__</code>,
-      <code>items</code>,
-      <code>iteritems</code>,
-      <code>toRepr</code>,
-      <code>toStr</code>,
-      <code>toStr2</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__delattr__">__delattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__getattr__">__getattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__getitem__">__getitem__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__setattr__">__setattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#items">items</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iteritems">iteritems</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iterunits">iterunits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr2">toStr2</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toUnits">toUnits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>tuple</code></b>:
       <code>__add__</code>,
@@ -292,15 +295,33 @@ named._NamedTuple --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefMatrix-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('_0_0',
- '_0_1',
- '_0_2',
- '_1_0',
- '_1_1',
- '_1_2',
- '_2_0',
- '_2_1',
-..."><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">_0_0</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_0_1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_0_2</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_1_0</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_1_1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_1_2</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_2</code><code class="variable-ellipsis">...</code></code>
+        <a href="pygeodesy.ecef.EcefMatrix-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('_0_0_',
+ '_0_1_',
+ '_0_2_',
+ '_1_0_',
+ '_1_1_',
+ '_1_2_',
+ '_2_0_',
+ '_2_1_',
+..."><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">_0_0_</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_0_1_</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_0_2_</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_1_0_</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_1_1_</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">_1_2_</code><code class="variable-ellipsis">...</code></code><br />
+      Tuple specifying the <code>name</code> of each -Tuple item.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefMatrix-class.html#_Units_" class="summary-name">_Units_</a> = <code title="(&lt;class 'pygeodesy.units.Scalar'&gt;,
+ &lt;class 'pygeodesy.units.Scalar'&gt;,
+ &lt;class 'pygeodesy.units.Scalar'&gt;,
+ &lt;class 'pygeodesy.units.Scalar'&gt;,
+ &lt;class 'pygeodesy.units.Scalar'&gt;,
+ &lt;class 'pygeodesy.units.Scalar'&gt;,
+ &lt;class 'pygeodesy.units.Scalar'&gt;,
+ &lt;class 'pygeodesy.units.Scalar'&gt;,
+..."><code class="variable-group">(</code>&lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">, </code>&lt;class 'pygeodesy<code class="variable-ellipsis">...</code></code><br />
+      Tuple defining the <code>units</code> of the value of each -Tuple 
+      item.
     </td>
   </tr>
 </table>
@@ -314,8 +335,8 @@ named._NamedTuple --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedTuple</code></b>:
-      <code>iteration</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iteration">iteration</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -578,20 +599,53 @@ named._NamedTuple --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">_Names_</h3>
-  
+  <p>Tuple specifying the <code>name</code> of each -Tuple item.</p>
   <dl class="fields">
   </dl>
-  <dl class="fields">
+<div class="fields">      <p><strong>Note:</strong>
+        Specify at least 2 item names.
+      </p>
+</div>  <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-<code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">_0_0</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">_0_1</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">_0_2</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">_1_0</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">_1_1</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">_1_2</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">_2_0</code><code class="variable-quote">'</code><code class="variable-op">,</code>
- <code class="variable-quote">'</code><code class="variable-string">_2_1</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+<code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">_0_0_</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">_0_1_</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">_0_2_</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">_1_0_</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">_1_1_</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">_1_2_</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">_2_0_</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">_2_1_</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_Units_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">_Units_</h3>
+  <p>Tuple defining the <code>units</code> of the value of each -Tuple 
+  item.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>len(_Units_)</code> must match <code>len(_Names_)</code>.
+      </p>
+</div>  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">(</code>&lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Scalar'&gt;<code class="variable-op">,</code>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -630,7 +684,7 @@ named._NamedTuple --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep  5 15:12:14 2020
+    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:33 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

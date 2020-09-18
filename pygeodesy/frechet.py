@@ -79,30 +79,28 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-from pygeodesy.basics import _bkwds, EPS, EPS1, INF, isscalar, \
-                              property_doc_, property_RO, _xinstanceof
+from pygeodesy.basics import _bkwds, isscalar, property_doc_, property_RO, \
+                             _xinstanceof
 from pygeodesy.datums import Datums, Datum
-from pygeodesy.errors import _AssertionError, _IndexError, _IsnotError, \
-                              PointsError
+from pygeodesy.errors import _IndexError, _IsnotError, PointsError
 from pygeodesy.fmath import favg, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2 as _points2, _scale_rad, thomas_, vincentys_
-from pygeodesy.interns import _datum_, _degrees_, _distanceTo_, _dot_, _item_sq, \
-                              _meter_, NN, _points_, _radians_, _radians2_, _units_
+from pygeodesy.interns import EPS, EPS1, INF, _datum_, _distanceTo_, _dot_, \
+                             _item_sq, NN, _points_, _units_, _0_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
-from pygeodesy.named import LatLon2Tuple, _Named, _NamedTuple, \
-                            notOverloaded, PhiLam2Tuple
+from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
+from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
+from pygeodesy.units import Float, Float_, Int, Number_, _Str_degrees, _Str_meter, \
+                           _Str_NN, _Str_radians, _Str_radians2, _xUnit, _xUnits
 from pygeodesy.utily import unrollPI
 
 from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '20.08.24'
-
-if not 0 < EPS < EPS1 < 1:
-    raise _AssertionError('%s < %s: 0 < %.6g < %.6g < 1' % ('EPS', 'EPS1', EPS, EPS1))
+__version__ = '20.09.16'
 
 
 def _fraction(fraction, n):
@@ -123,45 +121,17 @@ class FrechetError(PointsError):
     pass
 
 
-class Frechet6Tuple(_NamedTuple):
-    '''6-Tuple C{(fd, fi1, fi2, r, n, units)} with the I{discrete}
-       U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} distance
-       C{fd}, I{fractional} indices C{fi1} and C{fi2}, the recursion
-       depth C{r}, the number of distances computed C{n} and the name
-       of the distance C{units}.
-
-       If I{fractional} indices C{fi1} and C{fi2} are type C{int}, the
-       returned C{fd} is the distance between C{points1[fi1]} and
-       C{points2[fi2]}.  For type C{float} indices, the distance is
-       between an intermediate point along C{points1[int(fi1)]} and
-       C{points1[int(fi1) + 1]} respectively an intermediate point
-       along C{points2[int(fi2)]} and C{points2[int(fi2) + 1]}.
-
-       Use function L{fractional} to compute the point at a
-       I{fractional} index.
-    '''
-    _Names_ = ('fd', 'fi1', 'fi2', 'r', 'n', _units_)
-
-#   def __gt__(self, other):
-#       _xinstanceof(Frechet6Tuple, other=other)
-#       return self if self.fd > other.fd else other  # PYCHOK .fd=[0]
-#
-#   def __lt__(self, other):
-#       _xinstanceof(Frechet6Tuple, other=other)
-#       return self if self.fd < other.fd else other  # PYCHOK .fd=[0]
-
-
 class Frechet(_Named):
     '''Frechet base class, requires method L{Frechet.distance} to
        be overloaded.
     '''
-    _adjust = None  # not applicable
-    _datum  = None  # not applicable
-    _f1     = 1
-    _n1     = 0
-    _ps1    = None
-    _units  = NN
-    _wrap   = None  # not applicable
+    _adjust =  None  # not applicable
+    _datum  =  None  # not applicable
+    _f1     =  1
+    _n1     =  0
+    _ps1    =  None
+    _units  = _Str_NN  # XXX Str to _Pass and for backward compatibility
+    _wrap   =  None  # not applicable
 
     def __init__(self, points, fraction=None, name=NN, units=NN, **wrap_adjust):
         '''New C{Frechet...} calculator/interpolator.
@@ -173,7 +143,7 @@ class Frechet(_Named):
                             C{None}, C{0} or C{1} for no intermediate
                             B{C{points}} and no I{fractional} indices.
            @kwarg name: Optional calculator/interpolator name (C{str}).
-           @kwarg units: Optional distance units (C{str}).
+           @kwarg units: Optional, the distance units (C{Unit} or C{str}).
            @kwarg wrap_adjust: Optionally, C{wrap} and unroll longitudes, iff
                                applicable (C{bool}) and C{adjust} wrapped,
                                unrolled longitudinal delta by the cosine
@@ -189,7 +159,7 @@ class Frechet(_Named):
             self.fraction = fraction
         if name:
             self.name = name
-        if units and not self.units:
+        if units:  # and not self.units:
             self.units = units
         if wrap_adjust:
             _bkwds(self, Error=FrechetError, **wrap_adjust)
@@ -310,9 +280,9 @@ class Frechet(_Named):
         '''
         return self.point(_fractional(points, fi))
 
-    @property_doc_(''' the distance units (C{str}).''')
+    @property_doc_(''' the distance units (C{Unit} or C{str}).''')
     def units(self):
-        '''Get the distance units (C{str} or C{""}).
+        '''Get the distance units (C{Unit} or C{str}).
         '''
         return self._units
 
@@ -320,9 +290,11 @@ class Frechet(_Named):
     def units(self, units):
         '''Set the distance units.
 
-           @arg units: New units name (C{str}).
+           @arg units: New units (C{Unit} or C{str}).
+
+           @raise TypeError: Invalid B{C{units}}.
         '''
-        self._units = str(units or NN)
+        self._units = _xUnits(units, Base=Float)
 
     @property_RO
     def wrap(self):
@@ -335,7 +307,7 @@ class FrechetDegrees(Frechet):
     '''L{Frechet} base class for distances in C{degrees} from
        C{LatLon} points in C{degrees}.
     '''
-    _units = _degrees_
+    _units = _Str_degrees
 
     if _FOR_DOCS:
         __init__ = Frechet.__init__
@@ -347,7 +319,7 @@ class FrechetRadians(Frechet):
        squared} from C{LatLon} points converted from C{degrees} to
        C{radians}.
     '''
-    _units = _radians_
+    _units = _Str_radians
 
     if _FOR_DOCS:
         __init__ = Frechet.__init__
@@ -502,7 +474,7 @@ class FrechetDistanceTo(Frechet):
              L{FrechetKarney}.
     '''
     _distanceTo_kwds =  {}
-    _units           = _meter_
+    _units           = _Str_meter
 
     def __init__(self, points, fraction=None, name=NN, **distanceTo_kwds):
         '''New L{FrechetDistanceTo} calculator/interpolator.
@@ -557,7 +529,7 @@ class FrechetEquirectangular(FrechetRadians):
              L{FrechetHaversine} and L{FrechetVincentys}.
     '''
     _adjust =  True
-    _units  = _radians2_
+    _units  = _Str_radians2
     _wrap   =  False
 
     def __init__(self, points, adjust=True, wrap=False, fraction=None, name=NN):
@@ -641,7 +613,7 @@ class FrechetFlatLocal(FrechetRadians):
     '''
     _datum    =  Datums.WGS84
     _hubeny2_ =  None
-    _units    = _radians2_
+    _units    = _Str_radians2
     _wrap     =  False
 
     def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
@@ -899,17 +871,30 @@ class FrechetVincentys(FrechetRadians):
         return vincentys_(p2.phi, p1.phi, d)
 
 
+def _FIx(fi, **name_Error):
+    '''Return a I{fractional index} as L{Float_} or L{Int}.
+    '''
+    f = Float_(fi, low=_0_0, **name_Error)
+    i = int(f)
+    r = f - float(i)
+    if r > EPS:  # like function _fractional
+        if r < EPS1:
+            return f
+        i += 1
+    return Int(i, **name_Error)  # PYCHOK _NamedUnit
+
+
 def _fractional(points, fi):
     '''(INTERNAL) Compute point at L{fractional} index.
     '''
     i = int(fi)
     p = points[i]
-    f = fi - float(i)
-    if f > EPS:
-        if f < EPS1:
+    r = fi - float(i)
+    if r > EPS:  # like function _FIx
+        if r < EPS1:
             q = points[i + 1]
-            p = LatLon2Tuple(favg(p.lat, q.lat, f=f),
-                             favg(p.lon, q.lon, f=f))
+            p = LatLon2Tuple(favg(p.lat, q.lat, f=r),
+                             favg(p.lon, q.lon, f=r))
         else:
             p = points[i + 1]
     return p
@@ -1010,7 +995,7 @@ def frechet_(points1, points2, distance=None, units=NN):
                      L{Tuple2LatLon}[] or C{other}[]).
        @kwarg distance: Callable returning the distance between a B{C{points1}}
                         and a B{C{points2}} point (signature C{(point1, point2)}).
-       @kwarg units: Optional, name of the distance units (C{str}).
+       @kwarg units: Optional, the distance units (C{Unit} or C{str}).
 
        @return: A L{Frechet6Tuple}C{(fd, fi1, fi2, r, n, units)} where C{fi1}
                 and C{fi2} are type C{int} indices into B{C{points1}} respectively
@@ -1036,6 +1021,42 @@ def frechet_(points1, points2, distance=None, units=NN):
         return distance(ps1[i1], ps2[i2])
 
     return _frechet_(n1, 1, n2, 1, dF, units)
+
+
+class Frechet6Tuple(_NamedTuple):
+    '''6-Tuple C{(fd, fi1, fi2, r, n, units)} with the I{discrete}
+       U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} distance
+       C{fd}, I{fractional} indices C{fi1} and C{fi2}, the recursion
+       depth C{r}, the number of distances computed C{n} and the
+       L{units} class or class or name of the distance C{units}.
+
+       If I{fractional} indices C{fi1} and C{fi2} are type C{int}, the
+       returned C{fd} is the distance between C{points1[fi1]} and
+       C{points2[fi2]}.  For type C{float} indices, the distance is
+       between an intermediate point along C{points1[int(fi1)]} and
+       C{points1[int(fi1) + 1]} respectively an intermediate point
+       along C{points2[int(fi2)]} and C{points2[int(fi2) + 1]}.
+
+       Use function L{fractional} to compute the point at a
+       I{fractional} index.
+    '''
+    _Names_ = ('fd',  'fi1', 'fi2', 'r',     'n',      _units_)
+    _Units_ = (_Pass, _FIx,  _FIx,   Number_, Number_, _Pass)
+
+    def toUnits(self, **Error):  # PYCHOK expected
+        '''Overloaded C{_NamedTuple.toUnits} for C{fd} units.
+        '''
+        U = _xUnit(self.units, Float)  # PYCHOK expected
+        self._Units_ = (U,) + Frechet6Tuple._Units_[1:]
+        return _NamedTuple.toUnits(self, **Error)
+
+#   def __gt__(self, other):
+#       _xinstanceof(Frechet6Tuple, other=other)
+#       return self if self.fd > other.fd else other  # PYCHOK .fd=[0]
+#
+#   def __lt__(self, other):
+#       _xinstanceof(Frechet6Tuple, other=other)
+#       return self if self.fd < other.fd else other  # PYCHOK .fd=[0]
 
 
 __all__ += _ALL_DOCS(Frechet6Tuple)

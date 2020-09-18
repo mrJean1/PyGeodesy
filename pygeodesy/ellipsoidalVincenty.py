@@ -59,7 +59,7 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, property_doc_, _xkwds
+from pygeodesy.basics import property_doc_, _xkwds
 from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import _intersections2, _TOL_M, \
@@ -67,21 +67,21 @@ from pygeodesy.ellipsoidalBase import _intersections2, _TOL_M, \
                                        LatLonEllipsoidalBase
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
-from pygeodesy.interns import _ambiguous_, NN, _no_convergence_
+from pygeodesy.interns import EPS, _ambiguous_, NN, _no_convergence_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import Bearing2Tuple, Destination2Tuple, \
-                            Distance3Tuple
+from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
+                                  Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
 from pygeodesy.units import Number_, Scalar_
-from pygeodesy.utily import degrees90, degrees180, degrees360, \
+from pygeodesy.utily import atan2b, degrees90, degrees180, \
                             sincos2, unroll180
 
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.08.24'
+__version__ = '20.09.11'
 
-_antipodal_ = 'antipodal '  # _SPACE_
+_antipodal_ = 'antipodal '  # trailing _SPACE_
 
 
 class VincentyError(_ValueError):
@@ -134,10 +134,10 @@ class LatLon(LatLonEllipsoidalBase):
        and/or the iteration limit, see properties L{LatLon.epsilon}
        and L{LatLon.iterations}.
     '''
-    _Ecef       = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
+    _Ecef       = EcefVeness  # preferred C{Ecef...} class, backward compatible
     _epsilon    = 1.0e-12  # about 0.006 mm
-    _iteration  = 0    # number
-    _iterations = 100  # vs Veness' 500
+    _iteration  = 0        # iteration number
+    _iterations = 100      # vs Veness' 500
 
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{initialBearingTo}.
@@ -488,7 +488,7 @@ class LatLon(LatLonEllipsoidalBase):
 
         t = s1 * ss - c1 * cs * ci
         # final bearing (reverse azimuth +/- 180)
-        r = degrees360(atan2(sa, -t))
+        r = atan2b(sa, -t)
 
         if llr:
             # destination latitude in [-90, 90)
@@ -496,8 +496,7 @@ class LatLon(LatLonEllipsoidalBase):
                                 (1 - E.f) * hypot(sa, t)))
             # destination longitude in [-180, 180)
             b = degrees180(atan2(ss * si, c1 * cs - s1 * ss * ci) -
-                          _dl(E.f, c2a, sa, s, cs, ss, c2sm) +
-                           radians(self.lon))
+                          _dl(E.f, c2a, sa, s, cs, ss, c2sm) + radians(self.lon))
             h = self.height if height is None else height
             d = self.classof(a, b, height=h, datum=self.datum)
         else:
@@ -574,8 +573,8 @@ class LatLon(LatLonEllipsoidalBase):
 
         if azis:  # forward and reverse azimuth
             sll, cll = sincos2(ll)
-            f = degrees360(atan2(c2 * sll,  c1s2 - s1c2 * cll))
-            r = degrees360(atan2(c1 * sll, -s1c2 + c1s2 * cll))
+            f = atan2b(c2 * sll,  c1s2 - s1c2 * cll)
+            r = atan2b(c1 * sll, -s1c2 + c1s2 * cll)
         else:
             f = r = 0
         return Distance3Tuple(d, f, r)

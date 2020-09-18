@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.09.01
+        20.09.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -80,7 +80,7 @@
         <a href="pygeodesy.formy.Radical2Tuple-class.html" class="summary-name">Radical2Tuple</a><br />
       2-Tuple <code>(ratio, xline)</code> of the <i>radical</i> 
         <code>ratio</code> and <i>radical</i> <code>xline</code>, both 
-        <code>float</code> and <code>0.0 &lt;= ratio &lt;= 1.0</code>
+        <code>scalar</code> and <code>0.0 &lt;= ratio &lt;= 1.0</code>
     </td>
   </tr>
 </table>
@@ -1001,7 +1001,7 @@
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1035,7 +1035,7 @@
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
           class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1694,7 +1694,7 @@
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.Distance4Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.Distance4Tuple-class.html" 
           class="link">Distance4Tuple</a><code>(distance2, delta_lat, 
           delta_lon, unroll_lon2)</code>.</dd>
     <dt>Raises:</dt>
@@ -2590,7 +2590,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple of the intersection points, each a <a 
-          href="pygeodesy.named.LatLon2Tuple-class.html" 
+          href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code>.  For 
           abutting circles, the intersection points are the same instance.</dd>
     <dt>Raises:</dt>
@@ -2598,7 +2598,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, antipodal, invalid or non-intersecting circles or no 
         convergence.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat1</code></b>, <b><code>lon1</code></b>, 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat1</code></b>, <b><code>lon1</code></b>, 
         <b><code>radius1</code></b> <b><code>lat2</code></b>, 
         <b><code>lon2</code></b> or <b><code>radius2</code></b>.</li>
     </ul></dd>
@@ -2709,7 +2709,7 @@
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.Vector3Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
           class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -2748,7 +2748,7 @@
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -2783,7 +2783,7 @@
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
           class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -2816,7 +2816,7 @@
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.Vector3Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
           class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -2858,7 +2858,7 @@
         <li><strong class="pname"><code>Error</code></strong> - Exception to raise (<code>ValueError</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.Points2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.Points2Tuple-class.html" 
           class="link">Points2Tuple</a><code>(number, points)</code> with 
           the number of points and the points <code>list</code> or 
           <code>tuple</code>.</dd>
@@ -2909,7 +2909,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - The <b><code>distance</code></b> exceeds the sum of 
         <b><code>radius1</code></b> and <b><code>radius2</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.units.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>distance</code></b>, <b><code>radius1</code></b> 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>distance</code></b>, <b><code>radius1</code></b> 
         or <b><code>radius2</code></b>.</li>
     </ul></dd>
   </dl>
@@ -3244,7 +3244,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep  5 15:12:12 2020
+    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:31 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -46,10 +46,10 @@ from pygeodesy.errors import _parseX, _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_
 from pygeodesy.interns import _COLON_, _COMMA_, _COMMA_SPACE_, _dot_, \
                               _item_ps, NN, _no_convergence_, _SPACE_, \
-                              _SQUARE_
+                              _SQUARE_, _1_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import EasNor2Tuple, LatLonDatum3Tuple, \
-                           _NamedBase, nameof, _xnamed
+from pygeodesy.named import _NamedBase, nameof, _xnamed
+from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum3Tuple
 from pygeodesy.streprs import enstr2
 from pygeodesy.units import Easting, Lam_, Northing, Phi_, Scalar
 from pygeodesy.utily import degrees90, degrees180, sincos2
@@ -57,22 +57,22 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.09.01'
+__version__ = '20.09.14'
 
-_10um  = 1e-5    #: (INTERNAL) 0.01 millimeter (C{meter})
-_100km = 100000  #: (INTERNAL) 100 km (int meter)
+_10um  = 1e-5    # 0.01 millimeter (C{meter})
+_100km = 100000  # 100 km (int meter)
 
-_A0 = Phi_(49)  #: (INTERNAL) NatGrid true origin latitude, 49°N.
-_B0 = Lam_(-2)  #: (INTERNAL) NatGrid true origin longitude, 2°W.
-_E0 = Easting(400e3)    #: (INTERNAL) Easting of true origin (C{meter}).
-_N0 = Northing(-100e3)  #: (INTERNAL) Northing of true origin (C{meter}).
-_F0 = Scalar(0.9996012717)  #: (INTERNAL) NatGrid scale of central meridian (C{float}).
+_A0 = Phi_(49)  # NatGrid true origin latitude, 49°N
+_B0 = Lam_(-2)  # NatGrid true origin longitude, 2°W
+_E0 = Easting(400e3)    # Easting of true origin (C{meter})
+_N0 = Northing(-100e3)  # Northing of true origin (C{meter})
+_F0 = Scalar(0.9996012717)  # NatGrid scale of central meridian (C{float})
 
-_Datums_OSGB36    =  Datums.OSGB36  #: (INTERNAL) Airy130 ellipsoid
+_Datums_OSGB36    =  Datums.OSGB36  # Airy130 ellipsoid
 _latlon_          = 'latlon'
 _no_convertDatum_ = 'no .convertDatum'
 _ord_A            =  ord('A')
-_TRIPS            =  33  #: (INTERNAL) .toLatLon convergence
+_TRIPS            =  33  # .toLatLon convergence
 
 
 def _ll2datum(ll, datum, name):
@@ -105,11 +105,11 @@ class OSGRError(_ValueError):
 class Osgr(_NamedBase):
     '''Ordinance Survey Grid References (OSGR) coordinate.
     '''
-    _datum     = _Datums_OSGB36  #: (INTERNAL) Default datum (L{Datum})
-    _easting   =  0              #: (INTERNAL) Easting (C{meter}).
-    _iteration =  0              #: (INTERANL) Iteration number (C{int}).
-    _latlon    =  None           #: (INTERNAL) Cache B{C{_toLatlon}}.
-    _northing  =  0              #: (INTERNAL) Nothing (C{meter}).
+    _datum     = _Datums_OSGB36  # default datum (L{Datum})
+    _easting   =  0              # Easting (C{meter})
+    _iteration =  0              # iteration number (C{int})
+    _latlon    =  None           # cached B{C{_toLatlon}}
+    _northing  =  0              # Nothing (C{meter})
 
     def __init__(self, easting, northing, datum=None, name=NN):
         '''New L{Osgr} National Grid Reference.
@@ -244,7 +244,7 @@ class Osgr(_NamedBase):
         r = v * E.e12 / s  # rho = a_F0 * E.e12 / pow(s, 1.5) == a_F0 * E.e12 / (s * sqrt(s))
 
         vr = v / r  # == s / E.e12
-        x2 = vr - 1  # η2
+        x2 = vr - _1_0  # η2
         ta = tan(a)
 
         v3, v5, v7 = fpowers(v, 7, 3)  # PYCHOK false!
@@ -254,18 +254,18 @@ class Osgr(_NamedBase):
         V4 = (a,
               tar / (  2 * v),
               tar / ( 24 * v3) * fdot((1, 3, -9), 5 + x2, ta2, ta2 * x2),
-              tar / (720 * v5) * fdot((61, 90, 45), 1, ta2, ta4))
+              tar / (720 * v5) * fdot((61, 90, 45), _1_0, ta2, ta4))
 
-        csa = 1.0 / ca
+        csa = _1_0 / ca
         X5 = (_B0,
               csa / v,
               csa / (   6 * v3) * fsum_(vr, ta2, ta2),
-              csa / ( 120 * v5) * fdot((5, 28, 24), 1, ta2, ta4),
-              csa / (5040 * v7) * fdot((61, 662, 1320, 720), 1, ta2, ta4, ta6))
+              csa / ( 120 * v5) * fdot((5, 28, 24), _1_0, ta2, ta4),
+              csa / (5040 * v7) * fdot((61, 662, 1320, 720), _1_0, ta2, ta4, ta6))
 
         d, d2, d3, d4, d5, d6, d7 = fpowers(e - _E0, 7)  # PYCHOK false!
-        a = fdot(V4, 1,    -d2, d4, -d6)
-        b = fdot(X5, 1, d, -d3, d5, -d7)
+        a = fdot(V4, _1_0,    -d2, d4, -d6)
+        b = fdot(X5, _1_0, d, -d3, d5, -d7)
 
         r = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
         r._iteration = self._iteration  # only ellipsoidal LatLon
@@ -355,7 +355,8 @@ class Osgr(_NamedBase):
 
 
 def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
-    '''Parse an OSGR coordinate string to an Osgr instance.
+    '''Parse a string representing an OSGR grid reference,
+       consisting of C{"[grid] easting northing"}.
 
        Accepts standard OS Grid References like 'SU 387 148',
        with or without whitespace separators, from 2- up to
@@ -429,18 +430,11 @@ def parseOSGR(strOSGR, Osgr=Osgr, name=NN):
             e = _s2i(E, e)
             n = _s2i(N, n)
 
-        r = _EasNor2Tuple(e, n) if Osgr is None else Osgr(e, n)
+        r = EasNor2Tuple(e, n) if Osgr is None else Osgr(e, n)
         return _xnamed(r, name, force=True)
 
     return _parseX(_OSGR_, strOSGR, Osgr, name,
                            strOSGR=strOSGR, Error=OSGRError)
-
-
-def _EasNor2Tuple(e, n):
-    '''(INTERNAL) Helper for L{parseOSGR} and L{toOsgr}.
-    '''
-    return EasNor2Tuple(Easting( e, Error=OSGRError),
-                        Northing(n, Error=OSGRError))
 
 
 def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
@@ -497,7 +491,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
     v = E.a * _F0 / sqrt(s)  # nu
     r = s / E.e12  # nu / rho == v / (v * E.e12 / s) == s / E.e12
 
-    x2 = r - 1  # η2
+    x2 = r - _1_0  # η2
     ta = tan(a)
 
     ca3, ca5 = fpowers(ca, 5, 3)  # PYCHOK false!
@@ -515,11 +509,11 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
          (v / 120) * ca5 * fdot((-18, 1, 14, -58), ta2, 5 + ta4, x2, ta2 * x2))
 
     d, d2, d3, d4, d5, d6 = fpowers(b - _B0, 6)  # PYCHOK false!
-    n = fdot(I4, 1, d2, d4, d6)
-    e = fdot(V4, 1, d,  d3, d5)
+    n = fdot(I4, _1_0, d2, d4, d6)
+    e = fdot(V4, _1_0, d,  d3, d5)
 
     if Osgr is None:
-        r = _EasNor2Tuple(e, n)
+        r = EasNor2Tuple(e, n)
     else:
         r = Osgr(e, n, datum=_Datums_OSGB36, **Osgr_kwds)
         if lon is None and isinstance(latlon, _LLEB):

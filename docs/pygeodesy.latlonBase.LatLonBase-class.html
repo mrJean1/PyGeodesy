@@ -1058,7 +1058,7 @@
     </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#latlonheight" class="summary-name">latlonheight</a><br />
       Get the lat-, longitude and height (<a 
-      href="pygeodesy.named.LatLon3Tuple-class.html" 
+      href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
       class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
     </td>
   </tr>
@@ -1084,7 +1084,7 @@
     </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#philam" class="summary-name">philam</a><br />
       Get the lat- and longitude (<a 
-      href="pygeodesy.named.PhiLam2Tuple-class.html" 
+      href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
       class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
     </td>
   </tr>
@@ -1094,7 +1094,7 @@
     </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#philamheight" class="summary-name">philamheight</a><br />
       Get the lat-, longitude in <code>radians</code> and height (<a 
-      href="pygeodesy.named.PhiLam3Tuple-class.html" 
+      href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
       class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
     </td>
   </tr>
@@ -1104,7 +1104,7 @@
     </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#xyz" class="summary-name">xyz</a><br />
       Get the <code>n-vector</code> X, Y and Z components (<a 
-      href="pygeodesy.named.Vector3Tuple-class.html" 
+      href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
       class="link">Vector3Tuple</a><code>(x, y, z)</code>)
     </td>
   </tr>
@@ -1114,7 +1114,7 @@
     </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#xyzh" class="summary-name">xyzh</a><br />
       Get the <code>n-vector</code> X, Y, Z and H components (<a 
-      href="pygeodesy.named.Vector4Tuple-class.html" 
+      href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
       class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
     </td>
   </tr>
@@ -1276,7 +1276,7 @@
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.Bounds2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.Bounds2Tuple-class.html" 
           class="link">Bounds2Tuple</a><code>(latlonSW, latlonNE)</code>, 
           the lower-left and upper-right corner (<code>LatLon</code>).</dd>
   </dl>
@@ -1979,7 +1979,7 @@
         <li><strong class="pname"><code>ndigits</code></strong> - Number of decimal digits (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.LatLon2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code>, both 
           <code>float</code> and rounded away from zero.</dd>
   </dl>
@@ -2012,7 +2012,7 @@
         <li><strong class="pname"><code>ndigits</code></strong> - Number of decimal digits (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
           class="link">PhiLam2Tuple</a><code>(phi, lam)</code>, both 
           <code>float</code> and rounded away from zero.</dd>
   </dl>
@@ -2047,7 +2047,7 @@
           or closing final <b><code>points</code></b> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.Points2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.Points2Tuple-class.html" 
           class="link">Points2Tuple</a><code>(number, points)</code>, 
           <code>int</code> and <code>list</code> or <code>tuple</code>.</dd>
     <dt>Raises:</dt>
@@ -2122,7 +2122,7 @@
   <p>DEPRECATED, use property <code>philam</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.PhiLam2Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
           class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
   </dl>
 </td></tr></table>
@@ -2146,7 +2146,7 @@
   <code>latlon.to3Tuple</code><code>(</code><b><code>height</code></b><code>)</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.LatLon3Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>.</dd>
   </dl>
 </td></tr></table>
@@ -2170,7 +2170,7 @@
   (geocentric) <code>toEcef</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.named.Vector3Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
           class="link">Vector3Tuple</a><code>(x, y, z)</code>, see property
           <code>xyz</code>.</dd>
   </dl>
@@ -2277,7 +2277,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <b><code>Nvector</code></b> or an <a 
-          href="pygeodesy.named.Vector4Tuple-class.html" 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
           <b><code>Nvector</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
@@ -2367,7 +2367,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <b><code>Vector</code></b> or a <a 
-          href="pygeodesy.named.Vector3Tuple-class.html" 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
           class="link">Vector3Tuple</a><code>(x, y, z)</code> if 
           <b><code>Vector</code></b> is <code>None</code>.</dd>
     <dt>Raises:</dt>
@@ -2629,7 +2629,7 @@ class="link">EcefVeness</a>).
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat- and longitude (<a 
-href="pygeodesy.named.LatLon2Tuple-class.html" 
+href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
 class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -2647,13 +2647,13 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
 <tr><td>
   <h3 class="epydoc">latlonheight</h3>
   <p>Get the lat-, longitude and height (<a 
-  href="pygeodesy.named.LatLon3Tuple-class.html" 
+  href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
   class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">latlonheight(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat-, longitude and height (<a 
-href="pygeodesy.named.LatLon3Tuple-class.html" 
+href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
 class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -2711,13 +2711,13 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
 <tr><td>
   <h3 class="epydoc">philam</h3>
   <p>Get the lat- and longitude (<a 
-  href="pygeodesy.named.PhiLam2Tuple-class.html" 
+  href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
   class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat- and longitude (<a 
-href="pygeodesy.named.PhiLam2Tuple-class.html" 
+href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
 class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -2735,13 +2735,13 @@ class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
 <tr><td>
   <h3 class="epydoc">philamheight</h3>
   <p>Get the lat-, longitude in <code>radians</code> and height (<a 
-  href="pygeodesy.named.PhiLam3Tuple-class.html" 
+  href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
   class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">philamheight(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat-, longitude in <code>radians</code> and height (<a 
-href="pygeodesy.named.PhiLam3Tuple-class.html" 
+href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
 class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -2759,13 +2759,13 @@ class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
 <tr><td>
   <h3 class="epydoc">xyz</h3>
   <p>Get the <code>n-vector</code> X, Y and Z components (<a 
-  href="pygeodesy.named.Vector3Tuple-class.html" 
+  href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
   class="link">Vector3Tuple</a><code>(x, y, z)</code>)</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
         - Get the <code>n-vector</code> X, Y and Z components (<a 
-href="pygeodesy.named.Vector3Tuple-class.html" 
+href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
 class="link">Vector3Tuple</a><code>(x, y, z)</code>)
     </dd>
     <dt>Set method:</dt>
@@ -2787,13 +2787,13 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>)
 <tr><td>
   <h3 class="epydoc">xyzh</h3>
   <p>Get the <code>n-vector</code> X, Y, Z and H components (<a 
-  href="pygeodesy.named.Vector4Tuple-class.html" 
+  href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
   class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">xyzh(<span class="summary-sig-arg">self</span>)</span>
         - Get the <code>n-vector</code> X, Y, Z and H components (<a 
-href="pygeodesy.named.Vector4Tuple-class.html" 
+href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
 class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
     </dd>
     <dt>Set method:</dt>
@@ -2840,7 +2840,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep  5 15:12:18 2020
+    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:37 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

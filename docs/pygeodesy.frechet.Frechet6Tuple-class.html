@@ -69,7 +69,7 @@
             |   |    
  <a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
                 |    
-named._NamedTuple --+
+<a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a> --+
                     |
                    <strong class="uidshort">Frechet6Tuple</strong>
 </pre>
@@ -80,7 +80,9 @@ named._NamedTuple --+
   target="_top">Fr&#233;chet</a> distance <code>fd</code>, <i>fractional</i> 
   indices <code>fi1</code> and <code>fi2</code>, the recursion depth 
   <code>r</code>, the number of distances computed <code>n</code> and the 
-  name of the distance <code>units</code>.</p>
+  <a href="pygeodesy.named._NamedTuple-class.html#units" 
+  class="link">units</a> class or class or name of the distance 
+  <code>units</code>.</p>
   <p>If <i>fractional</i> indices <code>fi1</code> and <code>fi2</code> are
   type <code>int</code>, the returned <code>fd</code> is the distance 
   between <code>points1[fi1]</code> and <code>points2[fi2]</code>.  For 
@@ -101,20 +103,41 @@ named._NamedTuple --+
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.frechet.Frechet6Tuple-class.html#toUnits" class="summary-sig-name">toUnits</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**Error</span>)</span><br />
+      Overloaded <code>_NamedTuple.toUnits</code> for <code>fd</code> 
+      units.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedTuple</code></b>:
-      <code>__delattr__</code>,
-      <code>__getattr__</code>,
-      <code>__getitem__</code>,
-      <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__str__</code>,
-      <code>items</code>,
-      <code>iteritems</code>,
-      <code>toRepr</code>,
-      <code>toStr</code>,
-      <code>toStr2</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__delattr__">__delattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__getattr__">__getattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__getitem__">__getitem__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__setattr__">__setattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#items">items</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iteritems">iteritems</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iterunits">iterunits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr2">toStr2</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>tuple</code></b>:
       <code>__add__</code>,
@@ -163,8 +186,8 @@ named._NamedTuple --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedTuple</code></b>:
-      <code>__new__</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__new__">__new__</a></code>
       </p>
     </td>
   </tr>
@@ -181,7 +204,17 @@ named._NamedTuple --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="_Names_"></a><span class="summary-name">_Names_</span> = <code title="('fd', 'fi1', 'fi2', 'r', 'n', 'units')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">fd</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fi1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fi2</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">r</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">n</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">units</code><code class="variable-quote">'</code><code class="variable-group">)</code></code>
+        <a href="pygeodesy.frechet.Frechet6Tuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('fd', 'fi1', 'fi2', 'r', 'n', 'units')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">fd</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fi1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fi2</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">r</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">n</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">units</code><code class="variable-quote">'</code><code class="variable-group">)</code></code><br />
+      Tuple specifying the <code>name</code> of each -Tuple item.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.frechet.Frechet6Tuple-class.html#_Units_" class="summary-name">_Units_</a> = <code title="_Pass, _FIx, _FIx, Number_, Number_, _Pass">_Pass, _FIx, _FIx, Number_, Number_, _Pass</code><br />
+      Tuple defining the <code>units</code> of the value of each -Tuple 
+      item.
     </td>
   </tr>
 </table>
@@ -195,8 +228,8 @@ named._NamedTuple --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedTuple</code></b>:
-      <code>iteration</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iteration">iteration</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -211,6 +244,107 @@ named._NamedTuple --+
     </td>
   </tr>
 </table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="toUnits"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUnits</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**Error</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Overloaded <code>_NamedTuple.toUnits</code> for <code>fd</code> 
+  units.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Error</code></strong> - Error to raise for <a 
+          href="pygeodesy.named._NamedTuple-class.html#units" 
+          class="link">units</a> issues (<code>UnitError</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A duplicate of this -Tuple (<code>-Tuple</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>Error</strong></code> - Invalid -Tuple item or <a 
+        href="pygeodesy.named._NamedTuple-class.html#units" 
+        class="link">units</a> class.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._NamedTuple-class.html#toUnits">named._NamedTuple.toUnits</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variable Details</span></td>
+</tr>
+</table>
+<a name="_Names_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">_Names_</h3>
+  <p>Tuple specifying the <code>name</code> of each -Tuple item.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Specify at least 2 item names.
+      </p>
+</div>  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">fd</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fi1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">fi2</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">r</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">n</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">units</code><code class="variable-quote">'</code><code class="variable-group">)</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_Units_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">_Units_</h3>
+  <p>Tuple defining the <code>units</code> of the value of each -Tuple 
+  item.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>len(_Units_)</code> must match <code>len(_Names_)</code>.
+      </p>
+</div>  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+_Pass, _FIx, _FIx, Number_, Number_, _Pass
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -242,7 +376,7 @@ named._NamedTuple --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep  5 15:12:15 2020
+    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:35 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

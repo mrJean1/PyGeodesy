@@ -72,17 +72,17 @@ See:
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, len2
+from pygeodesy.basics import len2
 from pygeodesy.errors import _AttributeError, _ValueError
 from pygeodesy.formy import equirectangular_
-from pygeodesy.interns import _too_small_
+from pygeodesy.interns import EPS, R_M, _too_small_, _1_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.utily import isNumpy2, isTuple2
 
 from math import degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '20.07.05'
+__version__ = '20.09.10'
 
 
 # try:
@@ -356,7 +356,7 @@ class _Sy(object):
             # converted back from degrees to meter
             if isNumpy2(pts):
                 raise _AttributeError(attr=attr)
-            m = radians(1.0) * self.radius
+            m = radians(_1_0) * self.radius
             r[0].h2 = r[-1].h2 = 0  # zap sentinels
             for t2 in r:  # convert back to meter
                 setattr(pts[t2.ix], attr, sqrt(t2.h2) * m)

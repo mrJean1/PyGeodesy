@@ -30,18 +30,18 @@ to a normalised version of an (ECEF) cartesian coordinate.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, EPS_2, PI, PI2, PI_2, R_M, \
-                             isscalar, map1, _xinstanceof, _xkwds
+from pygeodesy.basics import isscalar, map1, _xinstanceof, _xkwds
 from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fidw, fmean, fsum, fsum_
-from pygeodesy.interns import _1_, _2_, _bearing_, _coincident_, \
-                              _distance_, _end_, _fraction_, \
-                              _other_, _point_, _points_, _pole_, \
-                              _start_, _start1_, _start2_
+from pygeodesy.interns import EPS, EPS_2, PI, PI2, PI_2, R_M, \
+                             _1_, _2_, _bearing_, _coincident_, \
+                             _distance_, _end_, _fraction_, \
+                             _other_, _point_, _points_, _pole_, \
+                             _start_, _start1_, _start2_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import NearestOn3Tuple
+from pygeodesy.namedTuples import NearestOn3Tuple
 from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
                                   sumOf as _sumOf
 from pygeodesy.points import _imdex2, ispolar  # PYCHOK exported
@@ -54,7 +54,7 @@ from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 from math import atan2, fabs, sqrt
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '20.08.24'
+__version__ = '20.09.11'
 
 _paths_ = 'paths'
 
@@ -115,7 +115,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
        >>> from sphericalNvector import LatLon
        >>> p = LatLon(52.205, 0.119)
     '''
-    _Nv = None  #: (INTERNAL) cache _toNvector L{Nvector}).
+    _Nv = None  # cached_toNvector L{Nvector})
 
     def _gc3(self, start, end, namend, raiser=_points_):
         '''(INTERNAL) Return great circle, start and end Nvectors.
@@ -793,8 +793,8 @@ class Nvector(NvectorBase):
 
        Note commonality with L{ellipsoidalNvector.Nvector}.
     '''
-    _datum = Datums.Sphere  #: (INTERNAL) Default datum (L{Datum}).
-    _Ecef  = EcefKarney     #: (INTERNAL) Preferred C{Ecef...} class.
+    _datum = Datums.Sphere  # default datum (L{Datum})
+    _Ecef  = EcefKarney     # preferred C{Ecef...} class
 
     def toCartesian(self, **Cartesian_h_kwds):  # PYCHOK Cartesian=Cartesian
         '''Convert this n-vector to C{Nvector}-based cartesian
@@ -867,7 +867,7 @@ class Nvector(NvectorBase):
         return n.minus(e)
 
 
-_Nvll = LatLon(0, 0, name='Nv00')  #: (INTERNAL) Reference instance (L{LatLon}).
+_Nvll = LatLon(_0_0, _0_0, name='Nv00')  # reference instance (L{LatLon})
 
 
 def areaOf(points, radius=R_M):

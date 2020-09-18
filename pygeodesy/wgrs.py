@@ -11,14 +11,15 @@ also U{World Geographic Reference System
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 '''
 
-from pygeodesy.basics import EPS1_2, isstr, property_RO
+from pygeodesy.basics import isstr, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
-from pygeodesy.interns import _height_, _item_sq, _Missing, \
-                               NN, _prec_, _radius_, _res_
+from pygeodesy.interns import EPS1_2, _float, _height_, _item_sq, \
+                             _Missing, NN, _prec_, _radius_, _res_, \
+                             _0_5, _1_0, _2_0, _60_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import LatLon2Tuple, LatLonPrec3Tuple, \
-                            nameof, _xnamed
+from pygeodesy.named import nameof, _xnamed
+from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 from pygeodesy.units import Height, Int, Lat, Lon, Precision_, \
                             Radius, Scalar_, Str, _xStrError
 from pygeodesy.utily import ft2m, m2ft, m2NM
@@ -26,9 +27,9 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '20.09.02'
+__version__ = '20.09.11'
 
-_Base    = 10
+_Base    =  10
 _BaseLen =  4
 _DegChar = 'ABCDEFGHJKLMNPQ'
 _Digits  = '0123456789'
@@ -36,9 +37,9 @@ _LatOrig = -90
 _LatTile = 'ABCDEFGHJKLM'
 _LonOrig = -180
 _LonTile = 'ABCDEFGHJKLMNPQRSTUVWXYZ'
-_M_      = 60000000000  # == 60_000_000_000 == 60 * pow(10, 9)
-_MaxPrec = 11
-_Tile    = 15  # tile size in degrees
+_M_      =  60000000000  # == 60_000_000_000 == 60 * pow(10, 9)
+_MaxPrec =  11
+_Tile    =  15  # tile size in degrees
 
 _MaxLen  = _BaseLen + 2 * _MaxPrec
 _MinLen  = _BaseLen - 2
@@ -46,11 +47,13 @@ _MinLen  = _BaseLen - 2
 _LatOrig_M_ = _LatOrig * _M_
 _LonOrig_M_ = _LonOrig * _M_
 
-_LatOrig_Tile = float(_LatOrig) / _Tile
-_LonOrig_Tile = float(_LonOrig) / _Tile
+_LatOrig_Tile = _float(_LatOrig) / _Tile
+_LonOrig_Tile = _float(_LonOrig) / _Tile
 
 
 def _2divmod3(x, Orig_M_):
+    '''(INTERNAL) Convert B{C{x}} to 3_tuple C{(tile, modulo, fraction)}/
+    '''
     i = int(floor(x * _M_))
     i, x = divmod(i - Orig_M_, _M_)
     xt, xd = divmod(i, _Tile)
@@ -255,7 +258,7 @@ def decode3(georef, center=True):
     lon = _index(_LonTile, g, 0) + _LonOrig_Tile
     lat = _index(_LatTile, g, 1) + _LatOrig_Tile
 
-    u = 1.0
+    u = _1_0
     if precision > 0:
         lon = lon * _Tile + _index(_DegChar, g, 2)
         lat = lat * _Tile + _index(_DegChar, g, 3)
@@ -268,9 +271,9 @@ def decode3(georef, center=True):
         u *= _Tile
 
     if center:
-        lon = lon * 2 + 1
-        lat = lat * 2 + 1
-        u *= 2
+        lon = lon * _2_0 + _1_0
+        lat = lat * _2_0 + _1_0
+        u *= _2_0
     u = _Tile / u
     r = LatLonPrec3Tuple(Lat(lat * u, Error=WGRSError),
                          Lon(lon * u, Error=WGRSError), precision)
@@ -339,7 +342,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
     '''
     def _option(name, m, m2_, K):
         f = Scalar_(m, name=name, Error=WGRSError)
-        return '%s%d' % (name[0].upper(), int(m2_(f * K) + 0.5))
+        return '%s%d' % (name[0].upper(), int(m2_(f * K) + _0_5))
 
     def _pstr(p, x):
         return '%0*d' % (p, x)
@@ -347,7 +350,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
     p = _2Precision(precision)
 
     lat, lon, _ = _2fllh(lat, lon)
-    if lat == 90:
+    if lat == _90_0:
         lat *= EPS1_2
 
     xt, xd, x = _2divmod3(lon, _LonOrig_M_)
@@ -364,7 +367,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
             g += x, y
 
     if radius is not None:  # R before H
-        g += _option(_radius_, radius, m2NM, 1.0),
+        g += _option(_radius_, radius, m2NM, _1_0),
     if height is not None:  # H is last
         g += _option(_height_, height, m2ft, 1e-3),
 
@@ -403,11 +406,11 @@ def resolution(prec):
     '''
     p = Int(prec, name=_prec_, Error=WGRSError)
     if p > 1:
-        r = 1.0 / (60.0 * pow(_Base, min(p, _MaxPrec) - 1))
+        r = _1_0 / (_60_0 * pow(_Base, min(p, _MaxPrec) - 1))
     elif p < 1:
         r = float(_Tile)
     else:
-        r = 1.0
+        r = _1_0
     return r
 
 

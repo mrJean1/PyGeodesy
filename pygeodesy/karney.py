@@ -60,16 +60,17 @@ module are wrappers around some of I{Karney}'s Python U{geographiclib
   - L{EquidistantKarney}, L{GnomonicKarney}, L{ellipsoidalKarney}, L{FrechetKarney}, L{HeightIDWkarney}, L{karney}
 '''
 
-from pygeodesy.basics import NAN, property_RO
+from pygeodesy.basics import property_RO
 from pygeodesy.datums import Datums
+from pygeodesy.interns import NAN, _0_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import Destination3Tuple, Distance3Tuple
+from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.utily import unroll180, wrap360
 
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.08.24'
+__version__ = '20.09.12'
 
 
 class _Adict(dict):
@@ -113,8 +114,8 @@ class _Wrapped(object):
                     return _Adict(d)
 
                 def Direct3(self, lat1, lon1, azi1, s12):  # PYCHOK outmask
-                    '''Return the destination lat, lon and reverse azimth
-                       in C{degrees}.
+                    '''Return the destination lat, lon and reverse azimuth
+                       (final bearing) in C{degrees}.
                     '''
                     m = self.AZIMUTH | self.LATITUDE | self.LONGITUDE
                     d = self.Direct(lat1, lon1, azi1, s12, m)
@@ -127,7 +128,7 @@ class _Wrapped(object):
                     return _Adict(d)
 
                 def Inverse1(self, lat1, lon1, lat2, lon2, wrap=False):
-                    '''Return the non-negative I{angular} distance in C{degrees}.
+                    '''Return the non-negative, I{angular} distance in C{degrees}.
                     '''
                     # see .FrechetKarney.distance, .HausdorffKarney._distance
                     # and .HeightIDWkarney._distances
@@ -138,7 +139,7 @@ class _Wrapped(object):
 
                 def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
                     '''Return the distance in C{meter} and the forward and
-                       reverse azimuths in C{degrees}.
+                       reverse azimuths (initial and final bearing) in C{degrees}.
                     '''
                     m = self.DISTANCE | self.AZIMUTH
                     d = self.Inverse(lat1, lon1, lat2, lon2, m)
@@ -228,8 +229,8 @@ def _diff182(deg0, deg):  # mimick Math.AngDiff
 
     d, t = _sum2(_norm180(-deg0), _norm180(deg))
     d = _norm180(d)
-    if d == 180 and t > 0:
-        d = -180
+    if t > 0 and d == _180_0:
+        d = -_180_0
     return _sum2(d, t)
 
 
@@ -256,7 +257,7 @@ def _fsum2_(*vs):  # see .test/testKarney.py
 
        @see: U{Algorithm 4.1<http://www.ti3.TUHH.De/paper/rump/OgRuOi05.pdf>}.
     '''
-    s = r = 0.0
+    s = r = _0_0
     for v in vs:
         s, t = _sum2(s, float(v))
         if t:
@@ -291,9 +292,9 @@ def _norm180(deg):  # mimick Math.AngNormalize
     # On Windows 32-bit with Python 2.7, math.fmod(-0.0, 360)
     # == +0.0.  This fixes this bug.  See also Math::AngNormalize
     # in the C++ library.  Math::sincosd has a similar fix.
-    d = fmod(deg, 360) if deg else deg
-    return (d + 360) if d <= -180 else (d
-                     if d <=  180 else (d - 360))
+    d = fmod(deg, _360_0) if deg else deg
+    return (d + _360_0) if d <= -_180_0 else (d
+                        if d <=  _180_0 else (d - _360_0))
 
 
 def _sum2(u, v):  # mimick Math::sum, actually sum2

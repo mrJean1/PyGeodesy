@@ -7,19 +7,20 @@ against a rectangular box or clip region.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, len2
+from pygeodesy.basics import len2
 from pygeodesy.errors import _AssertionError, PointsError, _ValueError
 from pygeodesy.fmath import fsum_
 from pygeodesy.formy import points2
-from pygeodesy.interns import _dot_, _end_, _lat_, _lon_, _name_, \
-                               NN, _not_convex_, _start_, _too_few_
+from pygeodesy.interns import EPS, _dot_, _end_, _lat_, _lon_, _name_, \
+                              NN, _not_convex_, _start_, _too_few_, _0_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _Named, _NamedTuple
+from pygeodesy.named import _Named, _NamedTuple, _Pass
 from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
                              LatLon_ as LL_
+from pygeodesy.units import Bool, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '20.08.12'
+__version__ = '20.09.15'
 
 
 class ClipError(_ValueError):
@@ -74,21 +75,21 @@ class _CS(_Named):
     '''(INTERNAL) Cohen-Sutherland line clipping.
     '''
     # single-bit clip codes
-    _IN   = 0  # inside clip box
-    _XMAX = 1  # right of upperright.lon
-    _XMIN = 2  # left of lowerleft.lon
-    _YMAX = 4  # above upperright.lat
-    _YMIN = 8  # below lowerleft.lat
+    _IN   =  0  # inside clip box
+    _XMAX =  1  # right of upperright.lon
+    _XMIN =  2  # left of lowerleft.lon
+    _YMAX =  4  # above upperright.lat
+    _YMIN =  8  # below lowerleft.lat
 
-    _dx   = 0  # pts edge delta lon
-    _dy   = 0  # pts edge delta lat
-    _x1   = 0  # pts corner
-    _y1   = 0  # pts corner
+    _dx   = _0_0  # pts edge delta lon
+    _dy   = _0_0  # pts edge delta lat
+    _x1   = _0_0  # pts corner
+    _y1   = _0_0  # pts corner
 
-    _xmax = 0  # clip box upperright.lon
-    _xmin = 0  # clip box lowerleft.lon
-    _ymax = 0  # clip box upperright.lat
-    _ymin = 0  # clip box lowerleft.lat
+    _xmax = _0_0  # clip box upperright.lon
+    _xmin = _0_0  # clip box lowerleft.lon
+    _ymax = _0_0  # clip box upperright.lat
+    _ymin = _0_0  # clip box lowerleft.lat
 
     def __init__(self, lowerleft, upperright, name=__name__):
         try:
@@ -163,11 +164,11 @@ class ClipCS3Tuple(_NamedTuple):
        (C{int}) of the edge in the original path.
     '''
     _Names_ = (_start_, _end_, 'index')
+    _Units_ = (_Pass,   _Pass,  Number_)
 
 
 def clipCS3(points, lowerleft, upperright, closed=False, inull=False):
-    '''Clip a path against a rectangular clip box using the
-       U{Cohen-Sutherland
+    '''Clip a path against a rectangular clip box using the U{Cohen-Sutherland
        <https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} algorithm.
 
        @arg points: The points (C{LatLon}[]).
@@ -239,24 +240,24 @@ class _LLi_(LL_):
     __slots__ = _lat_, _lon_, 'classof', 'edge', _name_
 
     def __init__(self, lat, lon, classof, edge):
-        self.lat = lat
-        self.lon = lon
+        self.lat     = lat
+        self.lon     = lon
         self.classof = classof
-        self.edge = edge  # clip edge
-        self.name = NN
+        self.edge    = edge  # clip edge
+        self.name    = NN
 
 
 class _SH(_Named):
     '''(INTERNAL) Sutherland-Hodgman polyon clipping.
     '''
-    _cs = ()  # clip corners
-    _cw = 0   # counter-/clockwise
-    _dx = 0   # clip edge[e] delta lon
-    _dy = 0   # clip edge[e] delta lat
-    _nc = 0   # len(._cs)
-    _x1 = 0   # clip edge[e] lon origin
-    _xy = 0   # see .clipedges
-    _y1 = 0   # clip edge[e] lat origin
+    _cs = ()    # clip corners
+    _cw =  0    # counter-/clockwise
+    _dx = _0_0  # clip edge[e] delta lon
+    _dy = _0_0  # clip edge[e] delta lat
+    _nc =  0    # len(._cs)
+    _x1 = _0_0  # clip edge[e] lon origin
+    _xy = _0_0  # see .clipedges
+    _y1 = _0_0  # clip edge[e] lat origin
 
     def __init__(self, corners, name=__name__):
         n, cs = 0, corners
@@ -394,6 +395,7 @@ class ClipSH3Tuple(_NamedTuple):
        part of the clip region (C{bool}).
     '''
     _Names_ = (_start_, _end_, 'original')
+    _Units_ = (_Pass,   _Pass,  Bool)
 
 
 def clipSH(points, corners, closed=False, inull=False):

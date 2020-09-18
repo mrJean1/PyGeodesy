@@ -65,24 +65,27 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.basics import _bkwds, INF, property_doc_, property_RO
+from pygeodesy.basics import _bkwds, property_doc_, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, PointsError
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2, _scale_rad, thomas_, vincentys_
-from pygeodesy.interns import _datum_, _degrees_, _distanceTo_, _item_sq, _meter_, \
-                               NN, _points_, _radians_, _radians2_, _units_
+from pygeodesy.interns import INF, _datum_, _distanceTo_, _item_sq, NN, \
+                             _points_, _units_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _FOR_DOCS
-from pygeodesy.named import _Named, _NamedTuple, notOverloaded, PhiLam2Tuple
+from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
+from pygeodesy.namedTuples import PhiLam2Tuple
+from pygeodesy.units import Float, Number_, _Str_degrees, _Str_meter, _Str_NN, \
+                           _Str_radians, _Str_radians2, _xUnit, _xUnits
 from pygeodesy.utily import unrollPI
 
 from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '20.09.01'
+__version__ = '20.09.16'
 
 
 class HausdorffError(PointsError):
@@ -91,36 +94,16 @@ class HausdorffError(PointsError):
     pass
 
 
-class Hausdorff6Tuple(_NamedTuple):
-    '''6-Tuple C{(hd, i, j, mn, md, units)} with the U{Hausdorff
-       <https://WikiPedia.org/wiki/Hausdorff_distance>} distance C{hd},
-       indices C{i} and C{j}, the total count C{mn}, the C{I{mean}
-       Hausdorff} distance C{md} and the name of the distance C{units}.
-
-       For C{directed Hausdorff} distances, count C{mn} is the number
-       of model points considered. For C{symmetric Hausdorff} distances
-       count C{mn} twice that.
-
-       Indices C{i} and C{j} are the C{model} respectively C{target}
-       point with the C{hd} distance.
-
-       Mean distance C{md} is C{None} if an C{early break} occurred and
-       U{early breaking<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
-       was enabled by keyword argument C{early=True}.
-    '''
-    _Names_ = ('hd', 'i', 'j', 'mn', 'md', _units_)
-
-
 class Hausdorff(_Named):
     '''Hausdorff base class, requires method L{Hausdorff.distance} to
        be overloaded.
     '''
-    _adjust = None  # not applicable
-    _datum  = None  # not applicable
-    _model  = ()
-    _seed   = None
-    _units  = NN
-    _wrap   = None  # not applicable
+    _adjust =  None  # not applicable
+    _datum  =  None  # not applicable
+    _model  =  ()
+    _seed   =  None
+    _units  = _Str_NN  # XXX Str to _Pass and for backward compatibility
+    _wrap   =  None  # not applicable
 
     def __init__(self, points, seed=None, name=NN, units=NN, **wrap_adjust):
         '''New C{Hausdorff...} calculator.
@@ -132,7 +115,7 @@ class Hausdorff(_Named):
                         or C{False} for no U{random sampling<https://
                         Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
            @kwarg name: Optional name for this interpolator (C{str}).
-           @kwarg units: Optional, distance units (C{str}).
+           @kwarg units: Optional, the distance units (C{Unit} or C{str}).
            @kwarg wrap_adjust: Optionally, C{wrap} and unroll longitudes, iff
                                applicable (C{bool}) and C{adjust} wrapped,
                                unrolled longitudinal delta by the cosine
@@ -147,7 +130,7 @@ class Hausdorff(_Named):
             self.seed = seed
         if name:
             self.name = name
-        if units and not self.units:
+        if units:  # and not self.units:
             self.units = units
         if wrap_adjust:
             _bkwds(self, Error=HausdorffError, **wrap_adjust)
@@ -251,9 +234,9 @@ class Hausdorff(_Named):
         return _hausdorff_(self._model, ps2, True, early, self.seed,
                            self.units, self.distance, self.point)
 
-    @property_doc_(''' the distance units (C{str}).''')
+    @property_doc_(''' the distance units (C{Unit} or C{str}).''')
     def units(self):
-        '''Get the distance units (C{str} or C{""}).
+        '''Get the distance units (C{Unit} or C{str}).
         '''
         return self._units
 
@@ -261,9 +244,11 @@ class Hausdorff(_Named):
     def units(self, units):
         '''Set the distance units.
 
-           @arg units: New units name (C{str}).
+           @arg units: New units name (C{Unit} or C{str}).
+
+           @raise TypeError: Invalid B{C{units}}.
         '''
-        self._units = str(units or NN)
+        self._units = _xUnits(units, Base=Float)
 
     @property_RO
     def wrap(self):
@@ -276,7 +261,7 @@ class HausdorffDegrees(Hausdorff):
     '''L{Hausdorff} base class for distances from C{LatLon}
        points in C{degrees}.
     '''
-    _units = _degrees_
+    _units = _Str_degrees
 
     if _FOR_DOCS:
         __init__  = Hausdorff.__init__
@@ -288,7 +273,7 @@ class HausdorffRadians(Hausdorff):
     '''L{Hausdorff} base class for distances from C{LatLon}
        points converted from C{degrees} to C{radians}.
     '''
-    _units = _radians_
+    _units = _Str_radians
 
     if _FOR_DOCS:
         __init__  = Hausdorff.__init__
@@ -451,7 +436,7 @@ class HausdorffDistanceTo(Hausdorff):
              L{HausdorffThomas} and L{HausdorffKarney}.
     '''
     _distanceTo_kwds =  {}
-    _units           = _meter_
+    _units           = _Str_meter
 
     def __init__(self, points, seed=None, name=NN, **distanceTo_kwds):
         '''New L{HausdorffDistanceTo} calculator.
@@ -509,7 +494,7 @@ class HausdorffEquirectangular(HausdorffRadians):
              and L{HausdorffVincentys}.
     '''
     _adjust =  True
-    _units  = _radians2_
+    _units  = _Str_radians2
     _wrap   =  False
 
     def __init__(self, points, adjust=True, wrap=False, seed=None, name=NN):
@@ -598,7 +583,7 @@ class HausdorffFlatLocal(HausdorffRadians):
     '''
     _datum    =  Datums.WGS84
     _hubeny2_ =  None
-    _units    = _radians2_
+    _units    = _Str_radians2
     _wrap     =  False
 
     def __init__(self, points, datum=None, wrap=False, seed=None, name=NN):
@@ -716,7 +701,7 @@ class HausdorffHaversine(HausdorffRadians):
         return haversine_(p2.phi, p1.phi, r)
 
 
-class HausdorffHubeny(HausdorffFlatLocal):  # for Karl Huebny
+class HausdorffHubeny(HausdorffFlatLocal):  # for Karl Hubeny
     if _FOR_DOCS:
         __doc__   = HausdorffFlatLocal.__doc__
         __init__  = HausdorffFlatLocal.__init__
@@ -739,7 +724,7 @@ class HausdorffKarney(HausdorffDegrees):
     '''
     _datum    =  Datums.WGS84
     _Inverse1 =  None
-    _units    = _degrees_
+    _units    = _Str_degrees
     _wrap     =  False
 
     def __init__(self, points, datum=None, wrap=False, seed=None, name=NN):
@@ -878,7 +863,7 @@ def _hausdorff_(ps1, ps2, both, early, seed, units, distance, point):
 
     hd = -INF
     hi = hj = m = mn = 0
-    md = 0.0
+    md = _0_0
 
     # forward or forward and backward
     for fb in range(2 if both else 1):
@@ -938,7 +923,7 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units=NN,
                      files/PubDat_247739.pdf>} (C{bool}).
        @kwarg seed: Random sampling seed (C{any}) or C{None}, C{0} or C{False} for no
                     U{random sampling<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}.
-       @kwarg units: Optional, name of the distance units (C{str}).
+       @kwarg units: Optional, the distance units (C{Unit} or C{str}).
        @kwarg distance: Callable returning the distance between a B{C{model}}
                         and B{C{target}} point (signature C{(point1, point2)}).
        @kwarg point: Callable returning the B{C{model}} or B{C{target}} point
@@ -958,6 +943,37 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units=NN,
     _, ps1 = points2(model,  closed=False, Error=HausdorffError)
     _, ps2 = points2(target, closed=False, Error=HausdorffError)
     return _hausdorff_(ps1, ps2, both, early, seed, units, distance, point)
+
+
+class Hausdorff6Tuple(_NamedTuple):
+    '''6-Tuple C{(hd, i, j, mn, md, units)} with the U{Hausdorff
+       <https://WikiPedia.org/wiki/Hausdorff_distance>} distance C{hd},
+       indices C{i} and C{j}, the total count C{mn}, the C{I{mean}
+       Hausdorff} distance C{md} and the class or name of both distance
+       C{units}.
+
+       For C{directed Hausdorff} distances, count C{mn} is the number
+       of model points considered. For C{symmetric Hausdorff} distances
+       count C{mn} twice that.
+
+       Indices C{i} and C{j} are the C{model} respectively C{target}
+       point with the C{hd} distance.
+
+       Mean distance C{md} is C{None} if an C{early break} occurred and
+       U{early breaking<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
+       was enabled by keyword argument C{early=True}.
+    '''
+    _Names_ = ('hd', 'i',     'j',     'mn',     'md',  _units_)
+    _Units_ = (_Pass, Number_, Number_, Number_, _Pass, _Pass)
+
+    def toUnits(self, **Error):  # PYCHOK expected
+        '''Overloaded C{_NamedTuple.toUnits} for C{hd} and C{md} units.
+        '''
+        U = _xUnit(self.units, Float)  # PYCHOK expected
+        M = _Pass if self.md is None else U  # PYCHOK expected
+        self._Units_ = (U,) + Hausdorff6Tuple._Units_[1:4] \
+                     + (M,) + Hausdorff6Tuple._Units_[5:]
+        return _NamedTuple.toUnits(self, **Error)
 
 
 def randomrangenerator(seed):

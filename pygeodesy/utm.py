@@ -33,16 +33,18 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, len2, map2, property_RO
+from pygeodesy.basics import len2, map2, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
-from pygeodesy.interns import _COMMA_SPACE_, _Missing, NN, _NS_, \
-                              _outside_, _range_, _S_, _SPACE_, \
-                              _SQUARE_, _UTM_, _zone_  # PYCHOK used!
+from pygeodesy.interns import EPS, _COMMA_SPACE_, _float, _Missing, NN, \
+                             _NS_, _outside_, _range_, _SPACE_, _SQUARE_, \
+                             _UTM_, _zone_, _1_0
+from pygeodesy.interns import _S_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import EasNor2Tuple, _xnamed
+from pygeodesy.named import _xnamed
+from pygeodesy.namedTuples import EasNor2Tuple
 from pygeodesy.units import Band, Int, Lat, Lon, Zone
 from pygeodesy.utily import degrees90, degrees180, sincos2  # splice
 from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
@@ -58,14 +60,14 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.09.01'
+__version__ = '20.09.10'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
-_Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  #: (INTERNAL) Latitude bands.
-_FalseEasting  =   500e3  #: (INTERNAL) False (C{meter}).
-_FalseNorthing = 10000e3  #: (INTERNAL) False (C{meter}).
-_K0            = 0.9996   #: (INTERNAL) UTM scale central meridian.
+_Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # latitude bands
+_FalseEasting  = _float(  500e3)  # falsed offset (C{meter})
+_FalseNorthing = _float(10000e3)  # falsed offset (C{meter})
+_K0            = _float(0.9996)   # UTM scale central meridian
 
 
 class UTMError(_ValueError):
@@ -226,12 +228,12 @@ def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, Error, **cmoff):
 class Utm(UtmUpsBase):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
-    _band        = NN    #: (INTERNAL) Latitude band letter ('C..X').
+    _band        = NN    # latitude band letter ('C..X')
     _Error       = UTMError  # or etm.ETMError
-    _latlon_args = ()    #: (INTERNAL) (eps, unfalse) from _latlon (C{float}, C{bool}).
-    _scale       = None  #: (INTERNAL) Grid scale factor (C{scalar}) or C{None}.
-    _scale0      = _K0   #: (INTERNAL) Central scale factor (C{scalar}).
-    _zone        = 0     #: (INTERNAL) Longitudinal zone (C{int} 1..60).
+    _latlon_args = ()    # (eps, unfalse) from _latlon (C{float}, C{bool})
+    _scale       = None  # grid scale factor (C{scalar}) or C{None}
+    _scale0      = _K0   # central scale factor (C{scalar})
+    _zone        = 0     # longitudinal zone (C{int} 1..60)
 
     def __init__(self, zone, hemisphere, easting, northing, band=NN,  # PYCHOK expected
                              datum=Datums.WGS84, falsed=True,
@@ -427,9 +429,9 @@ class Utm(UtmUpsBase):
 
         T = t0 = sy / H  # τʹ
         S = Fsum(T)
-        q = 1.0 / E.e12
+        q = _1_0 / E.e12
         P = 7  # -/+ toggle trips
-        d = 1.0 + eps
+        d = _1_0 + eps
         while abs(d) > eps and P > 0:
             p = -d  # previous d, toggled
             h = hypot1(T)

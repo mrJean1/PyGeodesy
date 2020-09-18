@@ -16,20 +16,21 @@ from pygeodesy.errors import _datum_datum, _ValueError, _xellipsoidal
 from pygeodesy.interns import _azimuth_, _C_, _COMMA_SPACE_, _datum_, \
                               _E_, _easting_, _h_, _lat_, _lat0_, _lon_, \
                               _lon0_, _m_, _N_, _name_, NN, _northing_, \
-                              _reciprocal_, _SPACE_, _SQUARE_
+                              _reciprocal_, _SPACE_, _SQUARE_, _0_0, \
+                              _0_5, _1_0, _90_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import EasNor2Tuple, EasNor3Tuple, \
-                            LatLon2Tuple, LatLon4Tuple, \
-                           _NamedBase, _NamedTuple, nameof, \
-                           _xnamed  # PYCHOK indent
+from pygeodesy.named import _NamedBase, _NamedTuple, nameof, \
+                            _xnamed
+from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
+                                  LatLon2Tuple, LatLon4Tuple
 from pygeodesy.streprs import fstr, strs
 from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.09.01'
+__version__ = '20.09.12'
 
-_CassiniSoldner0 =  None  # default projection
+_CassiniSoldner0 = None  # default projection
 
 
 def _CassiniSoldner(cs0):
@@ -38,7 +39,7 @@ def _CassiniSoldner(cs0):
     if cs0 is None:
         global _CassiniSoldner0
         if _CassiniSoldner0 is None:
-            _CassiniSoldner0 = CassiniSoldner(0, 0, name='Default')
+            _CassiniSoldner0 = CassiniSoldner(_0_0, _0_0, name='Default')
         cs0 = _CassiniSoldner0
     else:
         _xinstanceof(CassiniSoldner, cs0=cs0)
@@ -55,11 +56,11 @@ class CassiniSoldner(_NamedBase):
     '''Cassini-Soldner projection, a Python version of I{Karney}'s C++ class U{CassiniSoldner
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html>}.
     '''
-    _cb0      = 0
-    _datum    = Datums.WGS84  #: (INTERNAL) L{Datum}.
+    _cb0      = _0_0
+    _datum    =  Datums.WGS84  # L{Datum}
     _latlon0  = ()
-    _meridian = None
-    _sb0      = 0
+    _meridian =  None
+    _sb0      = _0_0
 
     def __init__(self, lat0, lon0, datum=Datums.WGS84, name=NN):
         '''New L{CassiniSoldner} projection.
@@ -157,10 +158,10 @@ class CassiniSoldner(_NamedBase):
         lat = Lat_(lat, Error=CSSError)
         d = M.AngDiff(self.lon0, Lon_(lon, Error=CSSError))[0]  # _2sum
         r = g.Inverse(lat, -abs(d), lat, abs(d))
-        z1, a = r.azi1, (r.a12 * 0.5)
-        z2, s = r.azi2, (r.s12 * 0.5)
+        z1, a = r.azi1, (r.a12 * _0_5)
+        z2, s = r.azi2, (r.s12 * _0_5)
         if s == 0:
-            z = M.AngDiff(z1, z2)[0] * 0.5  # _2sum
+            z = M.AngDiff(z1, z2)[0] * _0_5  # _2sum
             c = -90 if abs(d) > 90 else 90
             z1, z2 = c - z, c + z
         if d < 0:
@@ -238,7 +239,7 @@ class CassiniSoldner(_NamedBase):
                                     g.STANDARD | g.DISTANCE_IN)
         self._latlon0 = LatLon2Tuple(m.lat1, m.lon1)
         s, c = M.sincosd(m.lat1)  # == self.lat0 == self.LatitudeOrigin()
-        self._sb0, self._cb0 = M.norm(s * (1.0 - g.f), c)
+        self._sb0, self._cb0 = M.norm(s * (_1_0 - g.f), c)
 
     def reverse(self, easting, northing, LatLon=None, **LatLon_kwds):
         '''Convert a Cassini-Soldner location to (ellipsoidal) geodetic
@@ -288,11 +289,11 @@ class CassiniSoldner(_NamedBase):
         g = self.geodesic
 
         n = self._meridian.Position(northing)
-        r = g.Direct(n.lat2, n.lon2, n.azi2 + 90, easting, g.STANDARD | g.GEODESICSCALE)
+        r = g.Direct(n.lat2, n.lon2, n.azi2 + _90_0, easting, g.STANDARD | g.GEODESICSCALE)
         # include azimuth of easting direction and reciprocal of
         # azimuthal northing scale (see C++ member Direct() 5/6
         # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geodesic.html>)
-        r = LatLonAziRk4Tuple(r.lat2, r.lon2, r.azi2, r.M12)
+        r = LatLonAziRk4Tuple(r.lat2, r.lon2, r.azi2 % _360_0, r.M12)
         return self._xnamed(r)
 
     def toRepr(self, prec=6, **unused):  # PYCHOK expected
@@ -323,11 +324,11 @@ class CassiniSoldner(_NamedBase):
 class Css(_NamedBase):
     '''Cassini-Soldner East-/Northing location.
     '''
-    _cs0      = None  #: (INTERNAL) projection (L{CassiniSoldner})
-    _easting  = 0     #: (INTERNAL) Easting (C{float})
-    _height   = 0     #: (INTERNAL) Height (C{meter})
-    _northing = 0     #: (INTERNAL) Northing (C{float})
-    _reverse4 = None  #: (INTERNAL) Cached reverse4 (L{LatLonAziRk4Tuple})
+    _cs0      = None  # projection (L{CassiniSoldner})
+    _easting  = _0_0  # easting (C{float})
+    _height   =  0    # height (C{meter})
+    _northing = _0_0  # northing (C{float})
+    _reverse4 = None  # cached reverse4 (L{LatLonAziRk4Tuple})
 
     def __init__(self, e, n, h=0, cs0=_CassiniSoldner0, name=NN):
         '''New L{Css} Cassini-Soldner position.
@@ -498,12 +499,7 @@ class EasNorAziRk4Tuple(_NamedTuple):
        reciprocal, both in C{degrees}.
     '''
     _Names_ = (_easting_, _northing_, _azimuth_, _reciprocal_)
-
-    def __new__(cls, e, n, azi, rk):
-        return _NamedTuple.__new__(cls, Easting( e, Error=CSSError),
-                                        Northing(n, Error=CSSError),
-                                        Bearing(azi, Error=CSSError),
-                                        Scalar(  rk, Error=CSSError))
+    _Units_ = ( Easting,   Northing,   Bearing,   Scalar)
 
 
 class LatLonAziRk4Tuple(_NamedTuple):
@@ -512,12 +508,7 @@ class LatLonAziRk4Tuple(_NamedTuple):
        C{reciprocal} the reciprocal of azimuthal northing scale.
     '''
     _Names_ = (_lat_, _lon_, _azimuth_, _reciprocal_)
-
-    def __new__(cls, lat, lon, azi, rk):
-        return _NamedTuple.__new__(cls, Lat_(lat, Error=CSSError),
-                                        Lon_(lon, Error=CSSError),
-                                        Bearing(azi, Error=CSSError),
-                                        Scalar(rk,   Error=CSSError))
+    _Units_ = ( Lat_,  Lon_,  Bearing,   Scalar)
 
 
 def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=NN):

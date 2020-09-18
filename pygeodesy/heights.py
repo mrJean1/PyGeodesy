@@ -53,16 +53,16 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import EPS, PI, PI2, PI_2, _bkwds, isscalar, \
-                             len2, map1, map2, property_RO
+from pygeodesy.basics import _bkwds, isscalar, len2, map1, map2, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _AssertionError, LenError, PointsError, _SciPyIssue
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                            _scale_rad, thomas_, vincentys_  # PYCHOK indent
-from pygeodesy.interns import _beta_, _cubic_, _datum_, _distanceTo_, \
-                              _item_sq, _knots_, _len_, _linear_, NN
+from pygeodesy.interns import EPS, PI, PI2, PI_2, _beta_, _cubic_, _datum_, \
+                             _distanceTo_, _item_sq, _knots_, _len_, \
+                             _linear_, NN, _0_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
@@ -70,7 +70,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.09.01'
+__version__ = '20.09.15'
 
 
 class HeightError(PointsError):
@@ -148,7 +148,7 @@ def _xyhs(lls, off=True, name='llis'):
     # x: 0 <= lon <= PI2, y: 0 <= lat <= PI if off is True
     # else x: -PI <= lon <= PI, y: -PI_2 <= lat <= PI_2
     if off:
-        xf = yf = 0.0
+        xf = yf = _0_0
     else:  # undo offset
         xf, yf = PI, PI_2
     try:

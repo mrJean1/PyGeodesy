@@ -69,7 +69,7 @@
             |   |    
  <a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
                 |    
-named._NamedTuple --+
+<a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a> --+
                     |
                    <strong class="uidshort">Albers7Tuple</strong>
 </pre>
@@ -77,7 +77,7 @@ named._NamedTuple --+
 <hr />
 <p>7-Tuple <code>(x, y, lat, lon, gamma, scale, datum)</code>, in 
   <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
-  <code>degrees180</code>, <code>degrees360</code>, <code>float</code> and 
+  <code>degrees180</code>, <code>degrees360</code>, <code>scalar</code> and
   <code>Datum</code> where <code>(x, y)</code> is the projected, 
   <code>(lat, lon)</code> the geodetic location, <code>gamma</code> the 
   meridian convergence at point, the bearing of the y-axis measured 
@@ -95,18 +95,21 @@ named._NamedTuple --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedTuple</code></b>:
-      <code>__delattr__</code>,
-      <code>__getattr__</code>,
-      <code>__getitem__</code>,
-      <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__str__</code>,
-      <code>items</code>,
-      <code>iteritems</code>,
-      <code>toRepr</code>,
-      <code>toStr</code>,
-      <code>toStr2</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__delattr__">__delattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__getattr__">__getattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__getitem__">__getitem__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__setattr__">__setattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#items">items</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iteritems">iteritems</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iterunits">iterunits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr2">toStr2</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toUnits">toUnits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>tuple</code></b>:
       <code>__add__</code>,
@@ -153,29 +156,11 @@ named._NamedTuple --+
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Static Methods</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">a new object with type S, a subtype of T</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.albers.Albers7Tuple-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">cls</span>,
-        <span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">g</span>,
-        <span class="summary-sig-arg">k</span>,
-        <span class="summary-sig-arg">datum</span>)</span><br />
-      New _NamedTuple initialized with <b><code>positional</code></b> 
-      arguments.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__new__">__new__</a></code>
+      </p>
     </td>
   </tr>
 </table>
@@ -191,7 +176,17 @@ named._NamedTuple --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="_Names_"></a><span class="summary-name">_Names_</span> = <code title="('x', 'y', 'lat', 'lon', 'gamma', 'scale', 'datum')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lat</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lon</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">gamma</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">scale</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">datum</code><code class="variable-quote">'</code><code class="variable-group">)</code></code>
+        <a href="pygeodesy.albers.Albers7Tuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('x', 'y', 'lat', 'lon', 'gamma', 'scale', 'datum')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lat</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lon</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">gamma</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">scale</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">datum</code><code class="variable-quote">'</code><code class="variable-group">)</code></code><br />
+      Tuple specifying the <code>name</code> of each -Tuple item.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.albers.Albers7Tuple-class.html#_Units_" class="summary-name">_Units_</a> = <code title="Meter, Meter, Lat, Lon, Bearing, _Ks, _Pass"><code class="variable-group">(</code>&lt;class 'pygeodesy.units.Meter'&gt;<code class="variable-op">, </code>&lt;class 'pygeodesy.<code class="variable-ellipsis">...</code></code><br />
+      Tuple defining the <code>units</code> of the value of each -Tuple 
+      item.
     </td>
   </tr>
 </table>
@@ -205,8 +200,8 @@ named._NamedTuple --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedTuple</code></b>:
-      <code>iteration</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iteration">iteration</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -221,45 +216,55 @@ named._NamedTuple --+
     </td>
   </tr>
 </table>
-<!-- ==================== METHOD DETAILS ==================== -->
-<a name="section-MethodDetails"></a>
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr bgcolor="#70b0f0" class="table-header">
   <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Method Details</span></td>
+    <span class="table-header">Class Variable Details</span></td>
 </tr>
 </table>
-<a name="__new__"></a>
+<a name="_Names_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>&nbsp;(<span class="sig-arg">cls</span>,
-        <span class="sig-arg">x</span>,
-        <span class="sig-arg">y</span>,
-        <span class="sig-arg">lat</span>,
-        <span class="sig-arg">lon</span>,
-        <span class="sig-arg">g</span>,
-        <span class="sig-arg">k</span>,
-        <span class="sig-arg">datum</span>)</span>
-    <br /><em class="fname">Static Method</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>New _NamedTuple initialized with <b><code>positional</code></b> 
-  arguments.</p>
+  <h3 class="epydoc">_Names_</h3>
+  <p>Tuple specifying the <code>name</code> of each -Tuple item.</p>
   <dl class="fields">
-    <dt>Returns: a new object with type S, a subtype of T</dt>
-    <dt>Overrides:
-        object.__new__
-        <dd><em class="note">(inherited documentation)</em></dd>
-    </dt>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Specify at least 2 item names.
+      </p>
+</div>  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lat</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lon</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">gamma</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">scale</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">datum</code><code class="variable-quote">'</code><code class="variable-group">)</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_Units_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">_Units_</h3>
+  <p>Tuple defining the <code>units</code> of the value of each -Tuple 
+  item.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>len(_Units_)</code> must match <code>len(_Names_)</code>.
+      </p>
+</div>  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+Meter, Meter, Lat, Lon, Bearing, _Ks, _Pass
+</pre></td></tr></table>
+</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -295,7 +300,7 @@ named._NamedTuple --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep  5 15:12:13 2020
+    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:32 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

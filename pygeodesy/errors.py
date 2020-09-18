@@ -14,7 +14,7 @@ from pygeodesy.interns import _COLON_, _COMMA_, _COMMA_SPACE_, \
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.08.22'
+__version__ = '20.09.12'
 
 _limiterrors      =  True  # imported by .formy
 _not_ellipsoidal_ = 'not ellipsoidal'
@@ -207,6 +207,12 @@ class SciPyWarning(PointsError):
        #envvar-PYTHONWARNINGS>} or with C{python} command line option
        U{-W<https://docs.Python.org/3/using/cmdline.html#cmdoption-w>}
        as C{error}.
+    '''
+    pass
+
+
+class UnitError(_ValueError):
+    '''Default exception for L{units} issues.
     '''
     pass
 

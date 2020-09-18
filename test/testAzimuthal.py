@@ -4,7 +4,7 @@
 # Test azimuthal projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '20.08.24'
+__version__ = '20.09.11'
 
 from base import geographiclib, TestsBase, RandomLatLon
 
@@ -129,7 +129,7 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import azimuthal, equidistant, gnomonic, named
+    from pygeodesy import azimuthal, equidistant, gnomonic, namedTuples
 
     t = Tests(__file__, __version__, azimuthal)
 
@@ -193,7 +193,7 @@ if __name__ == '__main__':
         t.test('flattening', A.flattening, 0.0)
         t.test('iteration', A.iteration, A.iteration)
         t.test('latlon0', A.latlon0, (0.0, 0.0))
-        A.latlon0 = named.LatLon2Tuple(1, 2)
+        A.latlon0 = namedTuples.LatLon2Tuple(1, 2)
         t.test('latlon0', A.latlon0, (1.0, 2.0))
         t.test('name', A.name, 'coverage')
         t.test('radius', A.radius, 1.0)

@@ -4,16 +4,16 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.07.23'
+__version__ = '20.09.11'
 
 from base import geographiclib, TestsBase
 
 from pygeodesy import Datums, degrees  # PYCHOK expected
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.ecef import Ecef9Tuple
-from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
-                            PhiLam2Tuple, PhiLam3Tuple, PhiLam4Tuple, \
-                                          Vector3Tuple, Vector4Tuple  # PYCHOK hanging
+from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
+                                  PhiLam2Tuple, PhiLam3Tuple, PhiLam4Tuple, \
+                                                Vector3Tuple, Vector4Tuple  # PYCHOK hanging
 
 
 class Tests(TestsBase):
@@ -118,9 +118,9 @@ class Tests(TestsBase):
             self.test('intersections2', c.toStr(prec=6), '(-0.0035, -0.791926, 0.610589)')
             self.test('intersections2', r.toStr(prec=6), '0.031261', known=True)  # XXX G and g formats may add 1 decimal
             v1, v2 = intersections2(u, 0.0312705, v, 0.0421788, sphere=False)
-            self.test('intersections2', v1.toStr(prec=6), '(-0.021973, -0.766467, 0)')
+            self.test('intersections2', v1.toStr(prec=6), '(-0.021973, -0.766467, 0.0)')
             if v2 is not v1:
-                self.test('intersections2', v2.toStr(prec=6), '(0.027459, -0.797488, 0)')
+                self.test('intersections2', v2.toStr(prec=6), '(0.027459, -0.797488, 0.0)')
         except ImportError:
             pass
 

@@ -12,32 +12,32 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, property_doc_, property_RO, \
+from pygeodesy.basics import property_doc_, property_RO, \
                             _xinstanceof, _xkwds
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
-from pygeodesy.interns import _COMMA_SPACE_, _ellipsoidal_, NN, \
-                              _spherical_, _SQUARE_  # PYCHOK used!
+from pygeodesy.interns import EPS, _COMMA_SPACE_, _ellipsoidal_, NN, \
+                             _spherical_, _SQUARE_, _1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import LatLon4Tuple, Vector4Tuple
+from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple
 from pygeodesy.vector3d import Vector3d, _xyzhdn6
 
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '20.09.01'
+__version__ = '20.09.11'
 
 
 class CartesianBase(Vector3d):
     '''(INTERNAL) Base class for ellipsoidal and spherical C{Cartesian}.
     '''
-    _datum  = None        #: (INTERNAL) L{Datum}, to be overriden.
-    _Ecef   = EcefKarney  #: (INTERNAL) Preferred C{Ecef...} class.
-    _e9t    = None        #: (INTERNAL) Cached toEcef (L{Ecef9Tuple}).
-    _height = 0           #: (INTERNAL) Height (L{Height}).
-    _v4t    = None        #: (INTERNAL) Cached toNvector (L{Vector4Tuple}).
+    _datum  = None        # L{Datum}, to be overriden
+    _Ecef   = EcefKarney  # preferred C{Ecef...} class
+    _e9t    = None        # cached toEcef (L{Ecef9Tuple})
+    _height = 0           # height (L{Height})
+    _v4t    = None        # cached toNvector (L{Vector4Tuple})
 
     def __init__(self, xyz, y=None, z=None, datum=None, ll=None, name=NN):
         '''New C{Cartesian...}.
@@ -316,7 +316,7 @@ class CartesianBase(Vector3d):
             s = (p * q * E.e4) / (4 * r**3)
             t = cbrt(fsum_(1, s, sqrt(s * (2 + s))))
 
-            u = r * fsum_(1, t, 1 / t)
+            u = r * fsum_(_1_0, t, _1_0 / t)
             v = sqrt(u**2 + E.e4 * q)
             w = E.e2 * fsum_(u, v, -q) / (2 * v)
 
@@ -330,7 +330,7 @@ class CartesianBase(Vector3d):
             t = hypot_(e * x, e * y, z)  # == 1 / tmp
             if t < EPS:
                 raise _ValueError(origin=self)
-            h = fsum_(k, E.e2, -1) / k * t
+            h = fsum_(k, E.e2, -_1_0) / k * t
 
             s = e / t  # == e * tmp
             r = Vector4Tuple(x * s, y * s, z / t, h)
@@ -368,7 +368,7 @@ class CartesianBase(Vector3d):
               self._xnamed(Vector(self.x, self.y, self.z, **Vector_kwds))
 
 
-__all__ += _ALL_DOCS('CartesianBase')
+__all__ += _ALL_DOCS(CartesianBase)
 
 #   xyz = Vector3d.xyz
 #   '''Get this cartesian's X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).

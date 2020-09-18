@@ -5,44 +5,46 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
-from pygeodesy.basics import EPS, EPS1, PI, PI2, PI_2, R_M, len2
+from pygeodesy.basics import len2
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _spherical_datum
 from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
                              _limiterrors, PointsError, _ValueError
 from pygeodesy.fmath import fsum_, hypot, hypot2
-from pygeodesy.interns import _2_, _angle_, _item_sq, _lat_, _lat1_, \
-                              _lon_, _lon1_, _radius1_, _radius2_, \
-                              _too_distant_, _too_few_
+from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, R_M, _angle_, \
+                             _item_sq, _lat1_, _lat2_, _lon1_, _lon2_, \
+                             _radius1_, _radius2_, _too_distant_, \
+                             _too_few_, _0_0, _0_5, _1_0, _4_0, _8_0, \
+                             _16_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import Distance4Tuple, LatLon2Tuple, _NamedTuple, \
-                            PhiLam2Tuple, Points2Tuple, Vector3Tuple, _xnamed
+from pygeodesy.named import _NamedTuple, _xnamed
+from pygeodesy.namedTuples import Distance4Tuple, LatLon2Tuple, \
+                                  PhiLam2Tuple, Points2Tuple, \
+                                  Vector3Tuple
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, \
-                            Phi_, Radius, Radius_
-from pygeodesy.utily import degrees2m, degrees90, degrees180, degrees360, \
+                            Phi_, Radius, Radius_, Scalar
+from pygeodesy.utily import atan2b, degrees2m, degrees90, degrees180, \
                             isNumpy2, isTuple2, m2degrees, sincos2, unroll180, \
                             unrollPI, wrap90, wrap180, wrapPI, wrapPI_2
 
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.09.01'
+__version__ = '20.09.12'
 
-_D_I2_ =  1e5  # meter, 100 Km, about 0.9 degrees
-_lat2_ = _lat_ + _2_
-_lon2_ = _lon_ + _2_
+_D_I2_ = 1e5  # meter, 100 Km, about 0.9 degrees
 
 
 def _scale_deg(lat1, lat2):  # degrees
     # scale factor cos(mean of lats) for delta lon
-    m = abs(lat1 + lat2) * 0.5
-    return cos(radians(m)) if m < 90 else 0
+    m = abs(lat1 + lat2) * _0_5
+    return cos(radians(m)) if m < _90_0 else _0_0
 
 
 def _scale_rad(phi1,  phi2):  # radians, by .frechet, .hausdorff, .heights
     # scale factor cos(mean of phis) for delta lam
-    m = abs(phi1 + phi2) * 0.5
-    return cos(m) if m < PI_2 else 0
+    m = abs(phi1 + phi2) * _0_5
+    return cos(m) if m < PI_2 else _0_0
 
 
 def antipode(lat, lon):
@@ -56,7 +58,7 @@ def antipode(lat, lon):
 
        @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
-    return LatLon2Tuple(-wrap90(lat), wrap180(lon + 180))
+    return LatLon2Tuple(-wrap90(lat), wrap180(lon + _180_0))
 
 
 def antipode_(phi, lam):
@@ -149,7 +151,7 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     d_lon, _ = unroll180(lon1, lon2, wrap=wrap)
     if adjust:  # scale delta lon
         d_lon *= _scale_deg(lat1, lat2)
-    return degrees360(atan2(d_lon, lat2 - lat1))
+    return atan2b(d_lon, lat2 - lat1)
 
 
 def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
@@ -214,11 +216,11 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
             r1 = atan(E.b_a * s1 / c1)
             s2, c2, s1, c1 = sincos2(r2, r1)
             r = acos(s1 * s2 + c1 * c2 * c21)
-            sr, _, sr_2, cr_2 = sincos2(r, r / 2)
+            sr, _, sr_2, cr_2 = sincos2(r, r * _0_5)
             if abs(sr_2) > EPS and abs(cr_2) > EPS:
-                c = (sr - r) * ((s1 + s2) / cr_2)**2
-                s = (sr + r) * ((s1 - s2) / sr_2)**2
-                r += E.f * (c - s) / 8.0
+                c  = (sr - r) * ((s1 + s2) / cr_2)**2
+                s  = (sr + r) * ((s1 - s2) / sr_2)**2
+                r += E.f * (c - s) / _8_0
             return r
     # fall back to cosineLaw_
     return acos(s1 * s2 + c1 * c2 * c21)
@@ -296,8 +298,8 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
             e = 30 * s2r
             c = fsum_(30 * r, e / 2, s * cr)  # 8 * r2 / tan(r)
 
-            d = fsum_(a * x, b * y, -c * x**2, d * x * y, e * y**2) * E.f / 32.0
-            d = fsum_(d, -x * r, 3 * y * sr) * E.f / 4.0
+            d = fsum_(a * x, b * y, -c * x**2, d * x * y, e * y**2) * E.f / _32_0
+            d = fsum_(d, -x * r, 3 * y * sr) * E.f / _4_0
             r += d
     return r
 
@@ -470,7 +472,7 @@ def _euclidean(a, b):  # in .ellipsoidalBase._intersects2
     a, b = abs(a), abs(b)
     if a < b:
         a, b = b, a
-    return a + b * 0.5  # 0.4142135623731
+    return a + b * _0_5  # 0.4142135623731
 
 
 def euclidean_(phi2, phi1, lam21, adjust=True):
@@ -558,7 +560,7 @@ def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
              earth approximation <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
     E = _ellipsoidal_datum(datum, name=flatLocal_.__name__).ellipsoid
-    m, n = E.roc2_((phi2 + phi1) * 0.5, scaled=True)
+    m, n = E.roc2_((phi2 + phi1) * _0_5, scaled=True)
     return hypot(m * (phi2 - phi1), n * lam21)
 
 
@@ -619,7 +621,7 @@ def flatPolar_(phi2, phi1, lam21):
     a = max(a1, a2, ab)
     if a > EPS:
         s = fsum_((a1 / a)**2, (a2 / a)**2, -ab / a**2)
-        a *= sqrt(s) if s > 0 else 0
+        a *= sqrt(s) if s > 0 else _0_0
     return a
 
 
@@ -675,13 +677,13 @@ def haversine_(phi2, phi1, lam21):
        @note: See note at function L{vincentys_}.
     '''
     def _hsin(rad):
-        return sin(rad * 0.5)**2
+        return sin(rad * _0_5)**2
 
     h = _hsin(phi2 - phi1) + cos(phi1) * cos(phi2) * _hsin(lam21)  # haversine
     try:
         r = atan2(sqrt(h), sqrt(1 - h)) * 2  # == asin(sqrt(h)) * 2
     except ValueError:
-        r = 0 if h < 0.5 else PI
+        r = _0_0 if h < _0_5 else PI
     return r
 
 
@@ -711,8 +713,8 @@ def heightOf(angle, distance, radius=R_M):
 
     if d > EPS:
         d = d / h  # PyChecker chokes on ... /= ...
-        s = sin(Phi_(angle, name=_angle_, clip=180))
-        s = fsum_(1, 2 * s * d, d**2)
+        s = sin(Phi_(angle, name=_angle_, clip=_180_0))
+        s = fsum_(_1_0, 2 * s * d, d**2)
         if s > 0:
             return h * sqrt(s) - r
 
@@ -840,7 +842,7 @@ def isantipode(lat1, lon1, lat2, lon2, eps=EPS):
        @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
     return abs(wrap90(lat1) + wrap90(lat2)) < eps and \
-           abs(abs(wrap180(lon1) - wrap180(lon2)) % 360 - 180) < eps
+           abs(abs(wrap180(lon1) - wrap180(lon2)) % _360_0 - _180_0) < eps
 
 
 def isantipode_(phi1, lam1, phi2, lam2, eps=EPS):
@@ -969,8 +971,8 @@ def points2(points, closed=True, base=None, Error=PointsError):
 
 def _radical2(d, r1, r2):  # in .ellipsoidalBase, .sphericalTrigonometry, .vector3d
     # (INTERNAL) See C{radical2} below
-    r = fsum_(1.0, (r1 / d)**2, -(r2 / d)**2) * 0.5
-    return Radical2Tuple(max(0.0, min(1.0, r)), r * d)
+    r = fsum_(_1_0, (r1 / d)**2, -(r2 / d)**2) * _0_5
+    return Radical2Tuple(max(_0_0, min(_1_0, r)), r * d)
 
 
 def radical2(distance, radius1, radius2):
@@ -1005,9 +1007,10 @@ def radical2(distance, radius1, radius2):
 
 class Radical2Tuple(_NamedTuple):
     '''2-Tuple C{(ratio, xline)} of the I{radical} C{ratio} and
-       I{radical} C{xline}, both C{float} and C{0.0 <= ratio <= 1.0}
+       I{radical} C{xline}, both C{scalar} and C{0.0 <= ratio <= 1.0}
     '''
     _Names_ = ('ratio', 'xline')
+    _Units_ = ( Scalar,  Scalar)
 
 
 def thomas(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
@@ -1066,14 +1069,14 @@ def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
         r1 = atan(E.b_a * s1 / c1)
         r2 = atan(E.b_a * s2 / c2)
 
-        j = (r2 + r1) / 2.0
-        k = (r2 - r1) / 2.0
-        sj, cj, sk, ck, sl_2, _ = sincos2(j, k, lam21 / 2.0)
+        j = (r2 + r1) * _0_5
+        k = (r2 - r1) * _0_5
+        sj, cj, sk, ck, sl_2, _ = sincos2(j, k, lam21 * _0_5)
 
         h = fsum_(sk**2, (ck * sl_2)**2, -(sj * sl_2)**2)
         if EPS < abs(h) < EPS1:
-            u = 1 / (1 - h)
-            d = 2 * atan(sqrt(h * u))  # == acos(1 - 2 * h)
+            u = _1_0 / (_1_0 - h)
+            d = atan(sqrt(h * u)) * 2  # == acos(1 - 2 * h)
             sd, cd = sincos2(d)
             if abs(sd) > EPS:
                 u = 2 * (sj * ck)**2 * u
@@ -1086,10 +1089,10 @@ def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
                 e = 2 * cd
                 a = s * e
                 b = 2 * d
-                c = t - (a - e) / 2.0
+                c = t - (a - e) * _0_5
 
-                s = fsum_(a * x,  c * x**2, -b * y, -e * y**2, s * x * y) * E.f / 16.0
-                s = fsum_(t * x, -y, -s) * E.f / 4.0
+                s = fsum_(a * x,  c * x**2, -b * y, -e * y**2, s * x * y) * E.f / _16_0
+                s = fsum_(t * x, -y, -s) * E.f / _4_0
                 return d - s * sd
     # fall back to cosineLaw_
     return acos(s1 * s2 + c1 * c2 * c21)

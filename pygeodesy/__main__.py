@@ -9,16 +9,17 @@ import os.path as os_path
 import sys
 
 __all__ = ()
-__version__ = '19.10.09'
+__version__ = '20.09.08'
 
 try:
-    from pygeodesy import isLazy, pygeodesy_abspath, version, \
-                         _isfrozen
+    from pygeodesy import interns, isLazy, pygeodesy_abspath, version, \
+                                  _isfrozen
 
     p = ['.%s=%r' % t for t in (('version',           version),
                                 ('pygeodesy_abspath', pygeodesy_abspath),
                                 ('isLazy',            isLazy),
-                                ('_isfrozen',        _isfrozen))]
+                                ('_isfrozen',        _isfrozen),
+                                ('_floats',       len(interns._floats)))]
     v = []
     if '[PyPy ' in sys.version:
         v.append('PyPy ' + sys.version.split('[PyPy ')[1].split()[0])

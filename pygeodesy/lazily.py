@@ -25,9 +25,9 @@ imported by that top-level module.
              is not supported or not enabled, or C{False} if initializing
              C{lazy import} failed.
 '''
-from pygeodesy.interns import _areaOf_, _COMMA_SPACE_, _doesn_t_exist_, \
-                              _DOT_, _dot_, _dunder_name, _isclockwise_, \
-                              _ispolar_, _item_sq, _Missing, NN, \
+from pygeodesy.interns import __all__ as _interns_all, _areaOf_, _COMMA_SPACE_, \
+                              _doesn_t_exist_, _DOT_, _dot_, _dunder_name, \
+                              _isclockwise_, _ispolar_, _item_sq, _Missing, NN, \
                               _perimeterOf_, _UNDERSCORE_
 
 from os import environ as _environ
@@ -82,11 +82,11 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
                           bases=(),  # module and for backward compatibility only
-                         basics=('EPS', 'EPS1', 'EPS1_2', 'EPS_2', 'INF', 'MANTIS', 'MAX', 'MIN',  # constants
-                                 'NAN', 'NEG0', 'PI', 'PI2', 'PI_2', 'PI_4', 'R_M',
-                                 'clips', 'halfs2',
-                                 'isfinite', 'isinf', 'isint', 'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
-                                 'len2', 'map1', 'map2', 'property_doc_', 'property_RO'),
+                         basics=('clips', 'halfs2',
+                                 'isclass', 'isfinite',  'isidentifier',
+                                 'isinf', 'isint', 'iskeyword', 'isnan', 'isneg0',
+                                 'isscalar', 'issequence', 'isstr', 'issubclassof',
+                                 'len2', 'map1', 'map2', 'property_doc_', 'property_RO', 'ub2str'),
                           clipy=('ClipError',
                                  'clipCS3', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
@@ -117,7 +117,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        elliptic=('Elliptic', 'EllipticError'),
                            epsg=('Epsg', 'EPSGError'),
                          errors=('CrossError', 'IntersectionError', 'LenError', 'LimitError', 'PointsError',
-                                 'RangeError', 'SciPyError', 'SciPyWarning',
+                                 'RangeError', 'SciPyError', 'SciPyWarning', 'UnitError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'parseETM5', 'toEtm8'),
@@ -156,12 +156,13 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'HeightIDWeuclidean', 'HeightIDWflatLocal', 'HeightIDWflatPolar', 'HeightIDWhaversine',
                                  'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWthomas', 'HeightIDWvincentys',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
-                        interns=('NN',),
+                        interns=_interns_all,
                          karney=(),  # module only
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                            mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs'),
                           named=('callername', 'classname', 'classnaming', 'modulename', 'nameof', 'notImplemented', 'notOverloaded'),
+                    namedTuples=(),  # module only
                         nvector=(),  # module and for backward compatibility only
                            osgr=('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
                          points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
@@ -173,13 +174,14 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
                         streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=('RefFrame', 'RefFrames', 'TRFError', 'date2epoch', 'epoch2date'),
-                          units=('Band', 'Bearing', 'Bearing_', 'Degrees', 'Degrees_', 'Distance', 'Distance_', 'Easting',
+                          units=('Band', 'Bearing', 'Bearing_', 'Bool',
+                                 'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting',
                                  'Feet', 'Float', 'Float_', 'Height', 'Int', 'Int_',
                                  'Lam', 'Lam_', 'Lat', 'Lat_', 'Lon', 'Lon_', 'Meter', 'Northing', 'Number_',
-                                 'Phi', 'Phi_', 'Precision_', 'Radians',
-                                 'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'UnitError', 'Zone'),
+                                 'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians2',
+                                 'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'Zone'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
-                          utily=('acos1', 'asin1', 'atan2d',
+                          utily=('acos1', 'asin1', 'atan2b', 'atan2d',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
                                  'ft2m',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
@@ -210,7 +212,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.09.05'
+__version__ = '20.09.16'
 
 
 def _ALL_OTHER(*objs):

@@ -127,7 +127,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 05, 2020.*
+*Last updated: Sep 16, 2020.*
 
 License
 =======

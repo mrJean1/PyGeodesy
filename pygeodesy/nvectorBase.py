@@ -26,7 +26,7 @@ from pygeodesy.interns import _COMMA_SPACE_, _h_, _Missing, NN, \
                               _SouthPole_, _sumOf_
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import Vector3Tuple, Vector4Tuple
+from pygeodesy.namedTuples import Vector3Tuple, Vector4Tuple
 from pygeodesy.streprs import hstr
 from pygeodesy.units import Height
 from pygeodesy.vector3d import Vector3d, VectorError, \
@@ -36,18 +36,18 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 
 __all__ = (_NorthPole_, _SouthPole_,  # constants
            _sumOf_)  # functions
-__version__ = '20.08.31'
+__version__ = '20.09.11'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
     '''Base class for ellipsoidal and spherical C{Nvector}s.
     '''
-    _datum  = None        #: (INTERNAL) L{Datum}, overriden.
-    _Ecef   = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
-    _h      = 0           #: (INTERNAL) Height (C{meter}).
-    _H      = NN          #: Heigth prefix (C{str}), '↑' in JS version
-    _latlon = None        #: (INTERNAL) Cached latlon (L{LatlLon2Tuple}).
-    _philam = None        #: (INTERNAL) Cached philam (L{PhiLam2Tuple}).
+    _datum  = None        # L{Datum}, overriden
+    _Ecef   = EcefVeness  # preferred C{Ecef...} class, backward compatible
+    _h      = 0           # height (C{meter})
+    _H      = NN          # heigth prefix (C{str}), '↑' in JS version
+    _latlon = None        # cached latlon (L{LatlLon2Tuple})
+    _philam = None        # cached philam (L{PhiLam2Tuple})
 
     def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=NN):
         '''New n-vector normal to the earth's surface.
@@ -379,8 +379,8 @@ class NvectorBase(Vector3d):  # XXX kept private
         return self._xnamed(self.xyz.to4Tuple(self.h))
 
 
-NorthPole = NvectorBase(0, 0, +1, name=_NorthPole_)  #: North pole (C{Nvector}).
-SouthPole = NvectorBase(0, 0, -1, name=_SouthPole_)  #: South pole (C{Nvector}).
+NorthPole = NvectorBase(0, 0, +1, name=_NorthPole_)  # North pole (C{Nvector})
+SouthPole = NvectorBase(0, 0, -1, name=_SouthPole_)  # South pole (C{Nvector})
 
 
 class _N_vector_(NvectorBase):

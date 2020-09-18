@@ -13,16 +13,16 @@ from pygeodesy.interns import _COMMA_SPACE_, _DOT_, _EQUAL_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.07.08'
+__version__ = '20.09.10'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int
-_e      =  'e'  # imported by .datum
+_e      =  'e'  # imported by .ellispoids
 _E      =  'E'
 _g      =  'g'  # imported by .units
 _Gg     = ('G', _g)
 _EeFfGg = ('F', 'f', _E, _e) + _Gg  # float formats
-_Fmt    =  'F'  # imported by .datum, .named
+_Fmt    =  'F'  # imported by .ellipsoids, .named
 
 
 def _streprs(prec, objs, fmt, ints, force, strepr):
@@ -102,20 +102,19 @@ def enstr2(easting, northing, prec, *extras):
 
        @arg easting: Easting from false easting (C{meter}).
        @arg northing: Northing from from false northing (C{meter}).
-       @arg prec: Precision in number of digits (C{int}).
+       @arg prec: Precision in number of digits (C{int}, [1..5]).
        @arg extras: Optional leading items (C{str}s).
 
        @return: B{C{extras}} + 2-Tuple C{(eastingStr, northingStr)}.
 
        @raise ValueError: Invalid B{C{prec}}.
     '''
-    w = prec // 2
-    try:
-        p10 = (1e-4, 1e-3, 1e-2, 1e-1, 1)[w - 1]  # 10**(5 - w)
-    except IndexError:
+    w = int(prec) // 2
+    if not 0 < w < 6:
         raise _ValueError(prec=prec)
-    return extras + ('%0*d' % (w, int(easting  * p10)),
-                     '%0*d' % (w, int(northing * p10)))
+    p = (1e-4, 1e-3, 1e-2, 1e-1, 1)[w - 1]  # 10**(5 - w)
+    return extras + ('%0*d' % (w, int(easting  * p)),
+                     '%0*d' % (w, int(northing * p)))
 
 
 def fstr(floats, prec=6, fmt=_Fmt, ints=False, sep=_COMMA_SPACE_, strepr=None):

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.namedTuples</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        Module&nbsp;namedTuples
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.namedTuples-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module namedTuples</h1><p class="nomargin-top"></p>
+<p>(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code> and 
+  <code>_NamedTuple</code>, all with nameable instances and several 
+  subclasses thereof.</p>
+  <p>In addition, the items in a <code>_NamedDict</code> are accessable as 
+  attributes and the items in a <code>_NamedTuple</code> can be named to be
+  accessable as attributes, similar to standard Python 
+  <code>namedtuple</code>s.</p>
+  <p>Results previously returned as tuples by <code>pygeodesy</code> 
+  functions and class methods are now instances of some 
+  <code>...Tuple</code> class, all sub-classes of <code>_NamedTuple</code> 
+  defined here.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        20.09.16
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Bearing2Tuple-class.html" class="summary-name">Bearing2Tuple</a><br />
+      2-Tuple <code>(initial, final)</code> bearings, both in compass 
+        <code>degrees360</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Bounds2Tuple-class.html" class="summary-name">Bounds2Tuple</a><br />
+      2-Tuple <code>(latlonSW, latlonNE)</code> with the bounds' 
+        lower-left and upper-right corner as <code>LatLon</code> instance.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Bounds4Tuple-class.html" class="summary-name">Bounds4Tuple</a><br />
+      4-Tuple <code>(latS, lonW, latN, lonE)</code> with the bounds' 
+        lower-left <code>(LatS, LowW)</code> and upper-right <code>(latN, 
+        lonE)</code> corner lat- and longitudes.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Destination2Tuple-class.html" class="summary-name">Destination2Tuple</a><br />
+      2-Tuple <code>(destination, final)</code>, <code>destination</code>
+        in <code>LatLon</code> and <code>final</code> bearing in compass 
+        <code>degrees360</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Destination3Tuple-class.html" class="summary-name">Destination3Tuple</a><br />
+      3-Tuple <code>(lat, lon, final)</code>, destination 
+        <code>lat</code>, <code>lon</code> in and <code>final</code> 
+        bearing in compass <code>degrees360</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Distance2Tuple-class.html" class="summary-name">Distance2Tuple</a><br />
+      2-Tuple <code>(distance, initial)</code>, <code>distance</code> in 
+        <code>meter</code> and <code>initial</code> bearing in compass 
+        <code>degrees360</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Distance3Tuple-class.html" class="summary-name">Distance3Tuple</a><br />
+      3-Tuple <code>(distance, initial, final)</code>, 
+        <code>distance</code> in <code>meter</code> and 
+        <code>initial</code> and <code>final</code> bearing, both in 
+        compass <code>degrees360</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Distance4Tuple-class.html" class="summary-name">Distance4Tuple</a><br />
+      4-Tuple <code>(distance2, delta_lat, delta_lon, unroll_lon2)</code>
+        with the distance in <code>degrees squared</code>, the latitudinal 
+        <code>delta_lat</code> = 
+        <b><code>lat2</code></b>-<b><code>lat1</code></b>, the wrapped, 
+        unrolled and adjusted longitudinal <code>delta_lon</code> = 
+        <b><code>lon2</code></b>-<b><code>lon1</code></b> and 
+        <code>unroll_lon2</code>, the unrolled or original 
+        <b><code>lon2</code></b>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.EasNor2Tuple-class.html" class="summary-name">EasNor2Tuple</a><br />
+      2-Tuple <code>(easting, northing)</code>, both in 
+        <code>meter</code>, conventionally.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.EasNor3Tuple-class.html" class="summary-name">EasNor3Tuple</a><br />
+      3-Tuple <code>(easting, northing, height)</code>, all in 
+        <code>meter</code>, conventionally.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" class="summary-name">LatLon2Tuple</a><br />
+      2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
+        <code>degrees180</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.LatLon3Tuple-class.html" class="summary-name">LatLon3Tuple</a><br />
+      3-Tuple <code>(lat, lon, height)</code> in <code>degrees90</code>, 
+        <code>degrees180</code> and <code>meter</code>, conventionally.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.LatLon4Tuple-class.html" class="summary-name">LatLon4Tuple</a><br />
+      4-Tuple <code>(lat, lon, height, datum)</code> in 
+        <code>degrees90</code>, <code>degrees180</code>, <code>meter</code>
+        and <a href="pygeodesy.datums.Datum-class.html" 
+        class="link">Datum</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.LatLonDatum3Tuple-class.html" class="summary-name">LatLonDatum3Tuple</a><br />
+      3-Tuple <code>(lat, lon, datum)</code> in <code>degrees90</code>, 
+        <code>degrees180</code> and <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.LatLonPrec3Tuple-class.html" class="summary-name">LatLonPrec3Tuple</a><br />
+      3-Tuple <code>(lat, lon, precision)</code> in <code>degrees</code>,
+        <code>degrees</code> and <code>int</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.LatLonPrec5Tuple-class.html" class="summary-name">LatLonPrec5Tuple</a><br />
+      5-Tuple <code>(lat, lon, precision, height, radius)</code> in 
+        <code>degrees</code>, <code>degrees</code>, <code>int</code> and 
+        <code>height</code> or <code>radius</code> in <code>meter</code> 
+        (or <code>None</code> if missing).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.NearestOn3Tuple-class.html" class="summary-name">NearestOn3Tuple</a><br />
+      3-Tuple <code>(closest, distance, angle)</code> of the 
+        <code>closest</code> point on the polygon, either a 
+        <code>LatLon</code> instance or a <a 
+        href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+        class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> and 
+        the <code>distance</code> and <code>angle</code> to the 
+        <code>closest</code> point are in <code>meter</code> respectively 
+        compass <code>degrees360</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" class="summary-name">PhiLam2Tuple</a><br />
+      2-Tuple <code>(phi, lam)</code> with latitude <code>phi</code> in 
+        <code>radians[PI_2]</code> and longitude <code>lam</code> in 
+        <code>radians[PI]</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" class="summary-name">PhiLam3Tuple</a><br />
+      3-Tuple <code>(phi, lam, height)</code> with latitude 
+        <code>phi</code> in <code>radians[PI_2]</code>, longitude 
+        <code>lam</code> in <code>radians[PI]</code> and 
+        <code>height</code> in <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" class="summary-name">PhiLam4Tuple</a><br />
+      4-Tuple <code>(phi, lam, height, datum)</code> with latitude 
+        <code>phi</code> in <code>radians[PI_2]</code>, longitude 
+        <code>lam</code> in <code>radians[PI]</code>, <code>height</code> 
+        in <code>meter</code> and <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Points2Tuple-class.html" class="summary-name">Points2Tuple</a><br />
+      2-Tuple <code>(number, points)</code> with the <code>number</code> 
+        of points and -possible reduced- <code>list</code> or 
+        <code>tuple</code> of <code>points</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" class="summary-name">Vector3Tuple</a><br />
+      3-Tuple <code>(x, y, z)</code> of (geocentric) components, all in 
+        <code>meter</code> or <code>units</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Vector4Tuple-class.html" class="summary-name">Vector4Tuple</a><br />
+      4-Tuple <code>(x, y, z, h)</code> of (geocentric) components, all 
+        in <code>meter</code> or <code>units</code>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:32 2020
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

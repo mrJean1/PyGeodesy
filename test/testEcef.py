@@ -5,7 +5,7 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.08.11'
+__version__ = '20.09.08'
 
 from base import TestsBase
 
@@ -51,7 +51,7 @@ class Tests(TestsBase):
         t = g.reverse(302271.4, 5635928.4, 2979666.1)
         self.test('reverse', fstr(t[0:3], prec=1), '302271.4, 5635928.4, 2979666.1')
         self.test('reverse', fstr(t[3:6], prec=2), '27.99, 86.93, 8820.01', known=Sudano and _known(t, 27.99, 8820))
-        self.test('case', t.C, 2 if Karney else (5 if Sudano else 1))
+        self.test('case', t.C, 2 if Karney else (6 if Sudano else 1))
         self.test('iteration', t.iteration, t.iteration)
         self.test('name', t.name, 'Test')
 
@@ -59,7 +59,7 @@ class Tests(TestsBase):
         t = g.reverse(302e3, 5636e3, 2980e3)
         self.test('reverse', fstr(t[0:3], prec=1), '302000.0, 5636000.0, 2980000.0')
         self.test('reverse', fstr(t[3:6], prec=2), '27.99, 86.93, 9027.03', known=Sudano and _known(t, 27.99, 9027))
-        self.test('case', t.C, 2 if Karney else (5 if Sudano else 1))
+        self.test('case', t.C, 2 if Karney else (6 if Sudano else 1))
         self.test('iteration', t.iteration, t.iteration)
 
         t = g.forward(27.99, 86.93, 8820.0)
@@ -74,19 +74,25 @@ class Tests(TestsBase):
         t = g.reverse(3816209.6, 3737108.55, 3485109.57)
         self.test('reverse', fstr(t[0:3], prec=2), '3816209.6, 3737108.55, 3485109.57')
         self.test('reverse', fstr(t[3:6], prec=3), '33.3, 44.4, 5999.996', known=Sudano and _known(t, 33.3, 5999))
-        self.test('case', t.C, 2 if Karney else (5 if Sudano else 1))
+        self.test('case', t.C, 2 if Karney else (6 if Sudano else 1))
         self.test('iteration', t.iteration, t.iteration)
 
         # <https://GeographicLib.SourceForge.io/html/CartConvert.1.html>
         t = g.reverse(30000, 30000, 0)
         self.test('reverse', fstr(t[0:3], prec=1), '30000.0, 30000.0, 0.0')
         self.test('reverse', fstr(t[3:6], prec=3), '6.483, 45.0, -6335709.726', known=not Karney)
-        self.test('case', t.C, 3 if Karney else (0 if Sudano else 1))
+        self.test('case', t.C, 3 if Karney else (1 if Sudano else 1))
         self.test('iteration', t.iteration, t.iteration)
 
         t = g.forward(6.483, 45.0, -6335709.726)
         self.test('forward', fstr(t[3:6], prec=3), '6.483, 45.0, -6335709.726')
         self.test('forward', fstr(t[0:3], prec=1), '30000.0, 30000.0, -0.0', known=True)
+
+        # <https://Search.ProQuest.com/docview/847292978> pp 113-114
+        t = g.reverse(-2578.0e3, -504.9e3, 5792.9e3)
+        self.test('Vermeille', t.lonVermeille,      '-168.919', fmt='%.3f')
+        t = g.reverse(-2577.1e3, -498.1e3, 5793.9e3)
+        self.test('Vermeille', t.lonVermeille + 360, '190.939', fmt='%.3f')
 
         # Rey-Jer You <https://www.ResearchGate.net/publication/240359424>
         for i, (x, y, z, h) in enumerate(((-2259148.993, 3912960.837, 4488055.516, 1e3),
@@ -128,7 +134,7 @@ class Tests(TestsBase):
         self.test('reverse.lat', latDMS(t.lat, prec=4), '53°36′43.1653″N', known=Sudano)
         self.test('reverse.lon', lonDMS(t.lon, prec=4), '001°39′51.992″W')
         self.test('reverse.height', fstr(t.height, prec=-3), '299.800', known=Sudano)
-        self.test('case', t.C, 2 if Karney else (6 if Sudano else 1))
+        self.test('case', t.C, 2 if Karney else (7 if Sudano else 1))
         self.test('iteration', t.iteration, t.iteration)
 
         # coverage

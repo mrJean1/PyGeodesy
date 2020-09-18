@@ -13,26 +13,28 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, property_RO, _xkwds
+from pygeodesy.basics import property_RO, _xkwds
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
-from pygeodesy.interns import _datum_, _gamma_, _lat_, _lat0_, \
-                              _lat1_, _lat2_, _lon_, _lon0_, NN, \
-                              _no_convergence_fmt_, _scale_, _x_, _y_
+from pygeodesy.interns import EPS, _datum_, _gamma_, _lat_, _lat0_, \
+                             _lat1_, _lat2_, _lon_, _lon0_, NN, \
+                             _no_convergence_fmt_, _scale_, _x_, \
+                             _y_, _0_0, _0_5, _1_0, _2_0, _3_0, _90_0
 from pygeodesy.karney import _diff182, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
-from pygeodesy.units import Degrees, Float_, Lat_, Lon_, Scalar, Scalar_
+from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
+from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Lon_, \
+                            Meter, Scalar_
 from pygeodesy.utily import atan2d, degrees360, sincos2, sincos2d
 
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.09.02'
+__version__ = '20.09.14'
 
-_EPSX   = EPS**2
-_EPSX2  = EPS**4
+_EPS__2 = EPS**2
+_EPS__4 = EPS**4
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
 _TERMS  = 21  # XXX 9?
@@ -61,7 +63,7 @@ def _Dsn(x, y, sx, sy):
              <https://geographiclib.sourceforge.io/html/AlbersEqualArea_8hpp_source.html>}.
     '''
     # sx = x / hypot1(x)
-    d, t = 1, x * y
+    d, t = _1_0, x * y
     if t > 0:
         s = sx + sy
         if s:
@@ -73,22 +75,22 @@ def _Dsn(x, y, sx, sy):
     return d
 
 
-def _Ks(k, name):
+def _Ks(k, name, Error=AlbersError):
     '''(INTERNAL) Scale C{B{k} >= EPS}.
     '''
-    return Scalar_(k, name=name, Error=AlbersError, low=EPS)  # > 0
+    return Scalar_(k, name=name, Error=Error, low=EPS)  # > 0
 
 
-def _Lat_(lat, name=_lat_):
+def _Lat(lat, name=_lat_, Error=AlbersError):
     '''(INTERNAL) Latitude C{-90 <= B{lat} <= 90}.
     '''
-    return Lat_(lat, name=name, Error=AlbersError)
+    return Lat_(lat, name=name, Error=Error)
 
 
-def _Lon_(lon, name=_lon_):
+def _Lon(lon, name=_lon_, Error=AlbersError):
     '''(INTERNAL) Longitude C{-180 <= B{lon} <= 180}.
     '''
-    return Lon_(lon, name=name, Error=AlbersError)
+    return Lon_(lon, name=name, Error=Error)
 
 
 def _tol(tol, x):
@@ -112,10 +114,10 @@ class _AlbersBase(_NamedBase):
     _k0n0      = None  # (INTERNAL) k0 * no
     _k02       = None  # (INTERNAL) k0**2
     _k02n0     = None  # (INTERNAL) k02 * n0
-    _m0        = 0.0   # if polar else sqrt(m02)
+    _m0        = _0_0  # if polar else sqrt(m02)
     _m02       = None  # (INTERNAL) cached
     _n0        = None  # (INTERNAL) cached
-    _nrho0     = 0.0   # if polar else m0 * E.a
+    _nrho0     = _0_0  # if polar else m0 * E.a
     _polar     = False
     _qx        = None  # (INTERNAL) cached
     _qZ        = None  # (INTERNAL) cached
@@ -138,14 +140,14 @@ class _AlbersBase(_NamedBase):
         e2  = E.e2
         e12 = E.e12  # e2m = 1 - E.e2
 
-        self._qZ   = qZ = 1 + e12 * self._atanhee(1)
+        self._qZ   = qZ = _1_0 + e12 * self._atanhee(1)
         self._qZa2 = qZ * E.a2
-        self._qx   = qZ / (2 * e12)
+        self._qx   = qZ / (_2_0 * e12)
 
         c = min(ca1, ca2)
         if c < 0:
             raise AlbersError(clat1=ca1, clat2=ca2)
-        polar = c < _EPSX  # == 0
+        polar = c < _EPS__2  # == 0
         # determine hemisphere of tangent latitude
         if sa1 < 0:  # and sa2 < 0:
             self._sign = -1
@@ -157,36 +159,36 @@ class _AlbersBase(_NamedBase):
         if sa1 < 0:  # or sa2 < 0:
             raise AlbersError(slat1=sa1, slat2=sa2)
         # avoid singularities at poles
-        ca1, ca2 = max(_EPSX, ca1), max(_EPSX, ca2)
+        ca1, ca2 = max(_EPS__2, ca1), max(_EPS__2, ca2)
         ta1, ta2 = sa1 / ca1, sa2 / ca2
 
-        par1 = abs(ta1 - ta2) < _EPSX2  # ta1 == ta2
+        par1 = abs(ta1 - ta2) < _EPS__4  # ta1 == ta2
         if par1 or polar:
-            C, ta0 = 1, ta2
+            C, ta0 = _1_0, ta2
         else:
             s1_qZ, C = self._s1_qZ_C2(ca1, sa1, ta1, ca2, sa2, ta2)
 
-            ta0 = (ta2 + ta1) * 0.5
+            ta0 = (ta2 + ta1) * _0_5
             Ta0 = Fsum(ta0)
             tol = _tol(_TOL0, ta0)
             for self._iteration in range(1, _NUMIT0):
                 ta02  = ta0**2
-                sca02 = ta02 + 1
+                sca02 = ta02 + _1_0
                 sca0  = sqrt(sca02)
                 sa0   = ta0 / sca0
-                sa01  = sa0 + 1
+                sa01  = sa0 + _1_0
                 sa02  = sa0**2
                 # sa0m = 1 - sa0 = 1 / (sec(a0) * (tan(a0) + sec(a0)))
-                sa0m  = 1 / (sca0 * (ta0 + sca0))  # scb0^2 * sa0
-                g  = (1 + (b_a * ta0)**2) * sa0
-                dg = e12 * sca02 * (1 + 2 * ta02) + e2
-                D  = sa0m * (1 - e2 * (1 + sa01 * 2 * sa0)) / (e12 * sa01)  # dD/dsa0
-                dD =   -2 * (1 - e2 * sa02 * (3 + 2 * sa0)) / (e12 * sa01**2)
-                sa02_ = 1 - e2 * sa02
-                sa0m_ = sa0m / (1 - e2 * sa0)
+                sa0m  = _1_0 / (sca0 * (ta0 + sca0))  # scb0^2 * sa0
+                g  = (_1_0 + (b_a * ta0)**2) * sa0
+                dg = e12 * sca02 * (_1_0 + 2 * ta02) + e2
+                D  = sa0m * (_1_0 - e2 * (_1_0 + sa01 * 2 * sa0)) / (e12 * sa01)  # dD/dsa0
+                dD =   -2 * (_1_0 - e2 * sa02 * (_3_0 + 2 * sa0)) / (e12 * sa01**2)
+                sa02_ = _1_0 - e2 * sa02
+                sa0m_ = sa0m / (_1_0 - e2 * sa0)
                 BA = sa0m_ * (self._atanhx1(e2 * sa0m_**2) * e12 - e2 * sa0m) \
-                   - sa0m**2 * e2 * (2 + (1 + e2) * sa0) / (e12 * sa02_)  # == B + A
-                dAB = 2 * e2 * (2 - e2 * (1 + sa02)) / (e12 * sa02_**2 * sca02)
+                   - sa0m**2 * e2 * (2 + (_1_0 + e2) * sa0) / (e12 * sa02_)  # == B + A
+                dAB = 2 * e2 * (2 - e2 * (_1_0 + sa02)) / (e12 * sa02_**2 * sca02)
                 u_du = fsum_(s1_qZ *  g,  -D,  g * BA) \
                      / fsum_(s1_qZ * dg, -dD, dg * BA, g * dAB)  # == u/du
                 ta0, d = Ta0.fsum2_(-u_du * (sca0 * sca02))
@@ -195,19 +197,19 @@ class _AlbersBase(_NamedBase):
             else:
                 raise AlbersError(iteration=_NUMIT0, txt=_no_convergence_fmt_ % (tol,))
 
-        self._txi0  = txi0 = self._txif(ta0)
-        self._scxi0 =        hypot1(txi0)
-        self._sxi0  = sxi0 = txi0 / self._scxi0
-        self._m02   = m02  = 1.0 / (1.0 + (b_a * ta0)**2)
-        self._n0    = n0   = ta0 / hypot1(ta0)
+        self._txi0  = txi0 =  self._txif(ta0)
+        self._scxi0 =         hypot1(txi0)
+        self._sxi0  = sxi0 =  txi0 / self._scxi0
+        self._m02   = m02  = _1_0 / (_1_0 + (b_a * ta0)**2)
+        self._n0    = n0   =  ta0 / hypot1(ta0)
         if polar:
             self._polar = True
-            self._nrho0 = self._m0 = 0.0
+            self._nrho0 = self._m0 = _0_0
         else:
             self._m0    = sqrt(m02)  # == nrho0 / E.a
             self._nrho0 = E.a * self._m0  # == E.a * sqrt(m02)
-        self._k0_(1.0 if par1 else (k * sqrt(C / (m02 + n0 * qZ * sxi0))))
-        self._lat0 = _Lat_(self._sign * degrees(atan(ta0)), name=_lat0_)
+        self._k0_(_1_0 if par1 else (k * sqrt(C / (m02 + n0 * qZ * sxi0))))
+        self._lat0 = _Lat(self._sign * degrees(atan(ta0)), name=_lat0_)
 
     def _s1_qZ_C2(self, ca1, sa1, ta1, ca2, sa2, ta2):
         '''(INTERNAL) Compute C{sm1 / (s / qZ)} and C{C} for .__init__.
@@ -219,39 +221,39 @@ class _AlbersBase(_NamedBase):
         tb1   = b_a * ta1
         tb2   = b_a * ta2
         dtb12 = b_a * (tb1 + tb2)
-        scb12 = 1 + tb1**2
-        scb22 = 1 + tb2**2
+        scb12 = _1_0 + tb1**2
+        scb22 = _1_0 + tb2**2
 
-        es1  = 1 - e2 * sa1**2
-        es2  = 1 - e2 * sa2**2
-        es12 = 1 + e2 * sa1 * sa2
+        esa1_2 = (_1_0 - e2 * sa1**2) \
+               * (_1_0 - e2 * sa2**2)
+        esa12  =  _1_0 + e2 * sa1 * sa2
 
         dsn = _Dsn(ta2, ta1, sa2, sa1)
         axi, bxi, sxi = self._a_b_sxi3((ca1, sa1, ta1, scb12),
                                        (ca2, sa2, ta2, scb22))
 
-        dsxi = (es12 / (es2 * es1) + self._Datanhee(sa2, sa1)) * dsn / (2 * self._qx)
-        C = fsum_(sxi * dtb12 / dsxi, scb22, scb12) / (2 * scb22 * scb12)
+        dsxi = (esa12 / esa1_2 + self._Datanhee(sa2, sa1)) * dsn / (_2_0 * self._qx)
+        C = fsum_(sxi * dtb12 / dsxi, scb22, scb12) / (_2_0 * scb22 * scb12)
 
         sa12 = fsum_(sa1, sa2, sa1 * sa2)
-        axi *= (1 + e2 * sa12) / (1 + sa12)
-        bxi *= e2 * fsum_(sa1, sa2, es12) / (es1 * es2) + E.e12 * self._D2atanhee(sa1, sa2)
-        s1_qZ = dsn * (axi * self._qZ - bxi) / (2 * dtb12)
+        axi *= (_1_0 + e2 * sa12) / (_1_0 + sa12)
+        bxi *= e2 * fsum_(sa1, sa2, esa12) / esa1_2 + E.e12 * self._D2atanhee(sa1, sa2)
+        s1_qZ = dsn * (axi * self._qZ - bxi) / (_2_0 * dtb12)
         return s1_qZ, C
 
     def _a_b_sxi3(self, *ca_sa_ta_scb):
         '''(INTERNAL) Sum of C{sm1} terms and C{sin(xi)}s for ._s1_qZ_C2.
         '''
-        a = b = s = 0
+        a = b = s = _0_0
         for ca, sa, ta, scb in ca_sa_ta_scb:
             cxi, sxi, _ = self._cstxif3(ta)
             if sa > 0:
-                sa += 1
-                a  += (cxi / ca)**2 * sa / (1 + sxi)
+                sa += _1_0
+                a  += (cxi / ca)**2 * sa / (_1_0 + sxi)
                 b  += scb * ca**2 / sa
             else:
-                sa = 1 - sa
-                a += (1 - sxi) / sa
+                sa =  _1_0 - sa
+                a += (_1_0 - sxi) / sa
                 b += scb * sa
             s += sxi
         return a, b, s
@@ -306,27 +308,27 @@ class _AlbersBase(_NamedBase):
         nrho0 = self._nrho0
         txi0  = self._txi0
 
-        sa, ca = sincos2d(_Lat_(lat) * s)
-        ca = max(_EPSX, ca)
+        sa, ca = sincos2d(_Lat(lat) * s)
+        ca = max(_EPS__2, ca)
         ta = sa / ca
 
         _, sxi, txi = self._cstxif3(ta)
         dq = self._qZ * _Dsn(txi, txi0, sxi, self._sxi0) * (txi - txi0)
         drho = -E.a * dq / (sqrt(self._m02 - n0 * dq) + self._m0)
 
-        lon = _Lon_(lon)
+        lon = _Lon(lon)
         if lon0:
-            lon, _ = _diff182(_Lon_(lon0, name=_lon0_), lon)
+            lon, _ = _diff182(_Lon(lon0, name=_lon0_), lon)
         b = radians(lon)
 
         th = self._k02n0 * b
         sth, cth = sincos2(th)  # XXX sin, cos
         if n0:
             x = sth / n0
-            y = (1 - cth if cth < 0 else sth**2 / (1 + cth)) / n0
+            y = (_1_0 - cth if cth < 0 else sth**2 / (_1_0 + cth)) / n0
         else:
             x = self._k02 * b
-            y = 0
+            y = _0_0
         t = nrho0 + n0 * drho
         x = t * x / k0
         y = s * (nrho0 * y - drho * cth) / k0
@@ -335,7 +337,7 @@ class _AlbersBase(_NamedBase):
         if t:
             k0 *= t * hypot1(E.b_a * ta) / E.a
         t = Albers7Tuple(x, y, lat, lon, g, k0, self.datum)
-        return _xnamed(t, name or self.name)
+        return self._xnamed(t, name=name)
 
     @property_RO
     def ispolar(self):
@@ -373,7 +375,7 @@ class _AlbersBase(_NamedBase):
         '''
         return self._lat2
 
-    def rescale0(self, lat, k=1.0):
+    def rescale0(self, lat, k=1):
         '''Set the azimuthal scale for this projection.
 
            @arg lat: Northern latitude (C{degrees}).
@@ -383,7 +385,7 @@ class _AlbersBase(_NamedBase):
 
            @note: This allows a I{latitude of conformality} to be specified.
         '''
-        self._k0_(_Ks(k, 'k') / self.forward(lat, 0).scale)
+        self._k0_(_Ks(k, 'k') / self.forward(lat, _0_0).scale)
 
     def reverse(self, x, y, lon0=0, name=NN, LatLon=None, **LatLon_kwds):
         '''Convert an east- and northing location to geodetic lat- and longitude.
@@ -406,8 +408,8 @@ class _AlbersBase(_NamedBase):
                   B{C{x}} or B{C{y}} point is outside the valid projected
                   space the nearest pole is returned.
         '''
-        x = Scalar(x, name=_x_)
-        y = Scalar(y, name=_y_)
+        x = Meter(x, name=_x_)
+        y = Meter(y, name=_y_)
         E = self.datum.ellipsoid
 
         k0    = self._k0
@@ -423,11 +425,11 @@ class _AlbersBase(_NamedBase):
 
         drho = den = nrho0 + hypot(nx, y1)  # 0 implies origin with polar aspect
         if den:
-            drho = fsum_(x * nx, -2 * y_ * nrho0, y_ * ny) * k0 / den
+            drho = fsum_(x * nx, -_2_0 * y_ * nrho0, y_ * ny) * k0 / den
         # dsxia = scxi0 * dsxi
-        dsxia = -self._scxi0 * (2 * nrho0 + n0 * drho) * drho / self._qZa2
-        t = 1 - dsxia * (2 * txi0 + dsxia)
-        txi = (txi0 + dsxia) / (sqrt(t) if t > _EPSX2 else _EPSX)
+        dsxia = -self._scxi0 * (_2_0 * nrho0 + n0 * drho) * drho / self._qZa2
+        t = _1_0 - dsxia * (_2_0 * txi0 + dsxia)
+        txi = (txi0 + dsxia) / (sqrt(t) if t > _EPS__4 else _EPS__2)
 
         ta = self._tanf(txi)
         lat = degrees(atan(ta * self._sign))
@@ -435,7 +437,7 @@ class _AlbersBase(_NamedBase):
         b = atan2(nx, y1)
         lon = degrees(b / self._k02n0 if n0 else x / (y1 * k0))
         if lon0:
-            lon += _norm180(_Lon_(lon0, name=_lon0_))
+            lon += _norm180(_Lon(lon0, name=_lon0_))
         lon = _norm180(lon)
 
         if LatLon is None:
@@ -446,7 +448,7 @@ class _AlbersBase(_NamedBase):
         else:
             kwds = _xkwds(LatLon_kwds, datum=self.datum)
             r = LatLon(lat, lon, **kwds)
-        return _xnamed(r, name or self.name)
+        return self._xnamed(r, name=name)
 
     @property_RO
     def scale0(self):
@@ -464,17 +466,17 @@ class _AlbersBase(_NamedBase):
            x                                    if f = 0.
         '''
         E = self.datum.ellipsoid
-        if E.f > 0 :  # oblate
+        if E.isOblate:
             x = atanh(x * E.e) / E.e
-        elif E.f < 0:  # prolate
-            x = atan2(abs(x) * E.e, -1 if x < 0 else 1) / E.e
+        elif E.isProlate:
+            x = atan2(abs(x) * E.e, -_1_0 if x < 0 else _1_0) / E.e
         return x
 
     def _atanhx1(self, x):
         '''(INTERNAL) Function M{atanh(sqrt(x)) / sqrt(x) - 1}.
         '''
         s = abs(x)
-        if s < 0.5:  # for typical ...
+        if s < _0_5:  # for typical ...
             # x < E.e^2 = 2 * E.f use ...
             # x / 3 + x^2 / 5 + x^3 / 7 + ...
             y, k = x, 3
@@ -487,14 +489,14 @@ class _AlbersBase(_NamedBase):
                     break
         else:
             s = sqrt(s)
-            s = (atanh(s) if x > 0 else atan(s)) / s - 1
+            s = (atanh(s) if x > 0 else atan(s)) / s - _1_0
         return s
 
     def _cstxif3(self, ta):
         '''(INTERNAL) Get 3-tuple C{(cos, sin, tan)} of M{xi(ta)}.
         '''
         t = self._txif(ta)
-        c = 1 / hypot1(t)
+        c = _1_0 / hypot1(t)
         s = c * t
         return c, s, t
 
@@ -503,12 +505,12 @@ class _AlbersBase(_NamedBase):
            M{atanhee((x - y) / (1 - E.e^2 * x * y)) / (x - y)}.
         '''
         E = self.datum.ellipsoid
-        d = 1 - E.e2 * x * y
+        d = _1_0 - E.e2 * x * y
         t = x - y
         if t:
             s = self._atanhee(t / d) / t
         elif d:
-            s = 1 / d
+            s = _1_0 / d
         else:
             raise AlbersError(x=x, y=y, d=d, txt=_AlbersBase._Datanhee.__name__)
         return s
@@ -519,8 +521,9 @@ class _AlbersBase(_NamedBase):
         '''
         e2 = self.datum.ellipsoid.e2
 
-        if (abs(x) + abs(y)) * e2 < 0.5:
-            e = k = z = 1
+        if (abs(x) + abs(y)) * e2 < _0_5:
+            e = z = _1_0
+            k = 1
             C = Fsum()
             S = Fsum()
             T = Fsum()  # Taylor expansion
@@ -532,8 +535,8 @@ class _AlbersBase(_NamedBase):
                 s, d = S.fsum2_(e * C.fsum_(p, t) / k)
                 if not d:
                     break
-        elif (1 - x):
-            s = (self._Datanhee(1, y) - self._Datanhee(x, y)) / (1 - x)
+        elif (_1_0 - x):
+            s = (self._Datanhee(_1_0, y) - self._Datanhee(x, y)) / (_1_0 - x)
         else:
             raise AlbersError(x=x, y=y, txt=_AlbersBase._D2atanhee.__name__)
         return s
@@ -559,10 +562,10 @@ class _AlbersBase(_NamedBase):
         for self._iteration in range(1, _NUMIT):  # max 2, mean 1.99
             # dtxi/dta = (scxi / sca)^3 * 2 * (1 - e^2) / (qZ * (1 - e^2 * sa^2)^2)
             ta2  = ta**2
-            sca2 = 1 + ta2
+            sca2 = ta2 + _1_0
             txia = self._txif(ta)
-            s3qx = sqrt3(sca2 / (1 + txia**2)) * qx
-            ta, d = Ta.fsum2_((txi - txia) * s3qx * (1 - e2 * ta2 / sca2)**2)
+            s3qx = sqrt3(sca2 / (_1_0 + txia**2)) * qx
+            ta, d = Ta.fsum2_((txi - txia) * s3qx * (_1_0 - e2 * ta2 / sca2)**2)
             if abs(d) < tol:
                 return ta
         raise AlbersError(iteration=_NUMIT, txt=_no_convergence_fmt_ % (tol,))
@@ -572,14 +575,14 @@ class _AlbersBase(_NamedBase):
         '''
         E = self.datum.ellipsoid
 
-        ca2 = 1 / (1 + ta**2)
+        ca2 = _1_0 / (_1_0 + ta**2)
         sa  = sqrt(ca2) * abs(ta)  # enforce odd parity
 
         es1    = sa * E.e2
-        es2m1  = 1 - sa * es1
-        sp1    = 1 + sa
-        es1p1  = sp1 / (1 + es1)
-        es1m1  = sp1 * (1 - es1)
+        es2m1  = _1_0 - sa * es1
+        sp1    = _1_0 + sa
+        es1p1  = sp1 / (_1_0 + es1)
+        es1m1  = sp1 * (_1_0 - es1)
         es2m1a = es2m1 * E.e12  # e2m
         s = sqrt((ca2 / (es1p1 * es2m1a) + self._atanhee(ca2 / es1m1)) *
                         (es1m1 / es2m1a  + self._atanhee(es1p1)))
@@ -605,7 +608,7 @@ class AlbersEqualArea(_AlbersBase):
 
            @raise AlbertError: Invalid B{C{lat}}, B{C{k0}} or no convergence.
         '''
-        self._lat1 = self._lat2 = lat = _Lat_(lat, name=_lat1_)
+        self._lat1 = self._lat2 = lat = _Lat(lat, name=_lat1_)
         args = tuple(sincos2d(lat)) * 2 + (_Ks(k0, 'k0'), datum, name)
         _AlbersBase.__init__(self, *args)
 
@@ -628,8 +631,8 @@ class AlbersEqualArea2(_AlbersBase):
            @raise AlbertError: Invalid B{C{lat1}}m B{C{lat2}}, B{C{k1}}
                                or no convergence.
         '''
-        self._lat1, self._lat2 = lats = _Lat_(lat1, name=_lat1_), \
-                                        _Lat_(lat2, name=_lat2_)
+        self._lat1, self._lat2 = lats = _Lat(lat1, name=_lat1_), \
+                                        _Lat(lat2, name=_lat2_)
         args = tuple(sincos2d(*lats)) + (_Ks(k1, 'k1'), datum, name)
         _AlbersBase.__init__(self, *args)
 
@@ -657,8 +660,8 @@ class AlbersEqualArea4(_AlbersBase):
                                invalid B{C{k1}} or no convergence.
         '''
         def _Lat_s_c3(s, c, name):
-            L = _Lat_(atan2d(s, c), name=name)
-            r = 1.0 / Float_(hypot(s, c), Error=AlbersError, name=name)
+            L = _Lat(atan2d(s, c), name=name)
+            r = _1_0 / Float_(hypot(s, c), Error=AlbersError, name=name)
             return L, s * r, c * r
 
         self._lat1, sa1, ca1 = _Lat_s_c3(slat1, clat1, _lat1_)
@@ -670,7 +673,7 @@ class AlbersEqualAreaCylindrical(_AlbersBase):
     '''An L{AlbersEqualArea} projection at C{lat=0} and C{k0=1} degenerating
        to the cylindrical-equal-area projection.
     '''
-    _lat1 = _lat2 = _Lat_(0, name=_lat1_)
+    _lat1 = _lat2 = _Lat(_0_0, name=_lat1_)
 
     def __init__(self, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualAreaCylindrical} projection.
@@ -679,14 +682,14 @@ class AlbersEqualAreaCylindrical(_AlbersBase):
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
         '''
-        _AlbersBase.__init__(self, 0.0, 1.0, 0.0, 1.0, 1.0, datum, name)
+        _AlbersBase.__init__(self, _0_0, _1_0, _0_0, _1_0, _1_0, datum, name)
 
 
 class AlbersEqualAreaNorth(_AlbersBase):
     '''An azimuthal L{AlbersEqualArea} projection at C{lat=90} and C{k0=1}
        degenerating to the L{azimuthal} L{LambertEqualArea} projection.
     '''
-    _lat1 = _lat2 = _Lat_(90, name=_lat1_)
+    _lat1 = _lat2 = _Lat(_90_0, name=_lat1_)
 
     def __init__(self, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualAreaNorth} projection.
@@ -695,14 +698,14 @@ class AlbersEqualAreaNorth(_AlbersBase):
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
         '''
-        _AlbersBase.__init__(self, 1.0, 0.0, 1.0, 0.0, 1.0, datum, name)
+        _AlbersBase.__init__(self, _1_0, _0_0, _1_0, _0_0, _1_0, datum, name)
 
 
 class AlbersEqualAreaSouth(_AlbersBase):
     '''An azimuthal L{AlbersEqualArea} projection at C{lat=-90} and C{k0=1}
        degenerating to the L{azimuthal} L{LambertEqualArea} projection.
     '''
-    _lat1 = _lat2 = _Lat_(-90, name=_lat1_)
+    _lat1 = _lat2 = _Lat(-_90_0, name=_lat1_)
 
     def __init__(self, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualAreaSouth} projection.
@@ -711,26 +714,20 @@ class AlbersEqualAreaSouth(_AlbersBase):
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg name: Optional name for the projection (C{str}).
         '''
-        _AlbersBase.__init__(self, -1.0, 0.0, -1.0, 0.0, 1.0, datum, name)
+        _AlbersBase.__init__(self, -_1_0, _0_0, -_1_0, _0_0, _1_0, datum, name)
 
 
 class Albers7Tuple(_NamedTuple):
     '''7-Tuple C{(x, y, lat, lon, gamma, scale, datum)}, in C{meter},
-       C{meter}, C{degrees90}, C{degrees180}, C{degrees360}, C{float} and
+       C{meter}, C{degrees90}, C{degrees180}, C{degrees360}, C{scalar} and
        C{Datum} where C{(x, y)} is the projected, C{(lat, lon)} the geodetic
        location, C{gamma} the meridian convergence at point, the bearing of
        the y-axis measured clockwise from true North and C{scale} is the
        azimuthal scale of the projection at point.  The radial scale is
        the reciprocal C{1 / scale}.
     '''
-    _Names_ = (_x_, _y_, _lat_, _lon_, _gamma_, _scale_, _datum_)
-
-    def __new__(cls, x, y, lat, lon, g, k, datum):
-        return _NamedTuple.__new__(cls, Scalar(x, name=_x_, Error=AlbersError),
-                                        Scalar(y, name=_y_, Error=AlbersError),
-                                        _Lat_(lat), _Lon_(lon),
-                                        Degrees(g, name=_gamma_, Error=AlbersError),
-                                        _Ks(k, _scale_), datum)
+    _Names_ = (_x_,   _y_,   _lat_, _lon_, _gamma_,  _scale_, _datum_)
+    _Units_ = ( Meter, Meter, Lat,   Lon,   Bearing, _Ks,     _Pass)
 
 
 __all__ += _ALL_DOCS(Albers7Tuple, _AlbersBase)

@@ -69,7 +69,7 @@
             |   |    
  <a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
                 |    
-named._NamedTuple --+
+<a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a> --+
                     |
                    <strong class="uidshort">Ecef9Tuple</strong>
 </pre>
@@ -173,18 +173,21 @@ named._NamedTuple --+
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedTuple</code></b>:
-      <code>__delattr__</code>,
-      <code>__getattr__</code>,
-      <code>__getitem__</code>,
-      <code>__repr__</code>,
-      <code>__setattr__</code>,
-      <code>__str__</code>,
-      <code>items</code>,
-      <code>iteritems</code>,
-      <code>toRepr</code>,
-      <code>toStr</code>,
-      <code>toStr2</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__delattr__">__delattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__getattr__">__getattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__getitem__">__getitem__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__setattr__">__setattr__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#items">items</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iteritems">iteritems</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iterunits">iterunits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr2">toStr2</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#toUnits">toUnits</a></code>,
+      <code><a href="pygeodesy.named._NamedTuple-class.html#units">units</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>tuple</code></b>:
       <code>__add__</code>,
@@ -233,8 +236,8 @@ named._NamedTuple --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedTuple</code></b>:
-      <code>__new__</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#__new__">__new__</a></code>
       </p>
     </td>
   </tr>
@@ -251,7 +254,25 @@ named._NamedTuple --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('x', 'y', 'z', 'lat', 'lon', 'height', 'C', 'M', 'datum')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">z</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lat</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lon</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">height</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">C</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">M</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-ellipsis">...</code></code>
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#_Names_" class="summary-name">_Names_</a> = <code title="('x', 'y', 'z', 'lat', 'lon', 'height', 'C', 'M', 'datum')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">z</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lat</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lon</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">height</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">C</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">M</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-ellipsis">...</code></code><br />
+      Tuple specifying the <code>name</code> of each -Tuple item.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#_Units_" class="summary-name">_Units_</a> = <code title="(&lt;class 'pygeodesy.units.Meter'&gt;,
+ &lt;class 'pygeodesy.units.Meter'&gt;,
+ &lt;class 'pygeodesy.units.Meter'&gt;,
+ &lt;class 'pygeodesy.units.Lat'&gt;,
+ &lt;class 'pygeodesy.units.Lon'&gt;,
+ &lt;class 'pygeodesy.units.Height'&gt;,
+ &lt;class 'pygeodesy.units.Int'&gt;,
+ &lt;function _Pass at 0x7f91d6f03750&gt;,
+..."><code class="variable-group">(</code>&lt;class 'pygeodesy.units.Meter'&gt;<code class="variable-op">, </code>&lt;class 'pygeodesy.<code class="variable-ellipsis">...</code></code><br />
+      Tuple defining the <code>units</code> of the value of each -Tuple 
+      item.
     </td>
   </tr>
 </table>
@@ -275,9 +296,19 @@ named._NamedTuple --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#lamVermeille" class="summary-name">lamVermeille</a><br />
+      Get the longitude in radians <i class="math">[-PI*3/2..+PI*3/2]</i> 
+      after <a href="https://Search.ProQuest.com/docview/639493848" 
+      target="_top">Vermeille</a> (2004), p 95.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlon" class="summary-name">latlon</a><br />
       Get the lat-, longitude in <code>degrees</code> (<a 
-      href="pygeodesy.named.LatLon2Tuple-class.html" 
+      href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
       class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
     </td>
   </tr>
@@ -287,7 +318,7 @@ named._NamedTuple --+
     </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlonheight" class="summary-name">latlonheight</a><br />
       Get the lat-, longitude in <code>degrees</code> and height (<a 
-      href="pygeodesy.named.LatLon3Tuple-class.html" 
+      href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
       class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
     </td>
   </tr>
@@ -297,8 +328,18 @@ named._NamedTuple --+
     </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlonheightdatum" class="summary-name">latlonheightdatum</a><br />
       Get the lat-, longitude in <code>degrees</code> with height and datum
-      (<a href="pygeodesy.named.LatLon4Tuple-class.html" 
+      (<a href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
       class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#lonVermeille" class="summary-name">lonVermeille</a><br />
+      Get the longitude in degrees <i class="math">[-225..+225]</i> after 
+      <a href="https://Search.ProQuest.com/docview/639493848" 
+      target="_top">Vermeille</a> (2004), p 95.
     </td>
   </tr>
 <tr>
@@ -315,7 +356,7 @@ named._NamedTuple --+
     </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philam" class="summary-name">philam</a><br />
       Get the lat-, longitude in <code>radians</code> (<a 
-      href="pygeodesy.named.PhiLam2Tuple-class.html" 
+      href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
       class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
     </td>
   </tr>
@@ -325,7 +366,7 @@ named._NamedTuple --+
     </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philamheight" class="summary-name">philamheight</a><br />
       Get the lat-, longitude in <code>radians</code> and height (<a 
-      href="pygeodesy.named.PhiLam3Tuple-class.html" 
+      href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
       class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
     </td>
   </tr>
@@ -335,7 +376,7 @@ named._NamedTuple --+
     </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philamheightdatum" class="summary-name">philamheightdatum</a><br />
       Get the lat-, longitude in <code>radians</code> with height and datum
-      (<a href="pygeodesy.named.PhiLam4Tuple-class.html" 
+      (<a href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" 
       class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
     </td>
   </tr>
@@ -345,7 +386,7 @@ named._NamedTuple --+
     </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#xyz" class="summary-name">xyz</a><br />
       Get the geocentric <code>(x, y, z)</code> coordinates (<a 
-      href="pygeodesy.named.Vector3Tuple-class.html" 
+      href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
       class="link">Vector3Tuple</a><code>(x, y, z)</code>).
     </td>
   </tr>
@@ -355,14 +396,14 @@ named._NamedTuple --+
     </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#xyzh" class="summary-name">xyzh</a><br />
       Get the geocentric <code>(x, y, z)</code> coordinates and height (<a 
-      href="pygeodesy.named.Vector4Tuple-class.html" 
+      href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
       class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>named._NamedTuple</code></b>:
-      <code>iteration</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedTuple-class.html">named._NamedTuple</a></code></b>:
+      <code><a href="pygeodesy.named._NamedTuple-class.html#iteration">iteration</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
@@ -492,9 +533,10 @@ named._NamedTuple --+
         <dd>An instance of <code>LatLon</code><code>(lat, lon, 
           **_height_datum_kwds)</code> or if <b><code>LatLon</code></b> is 
           <code>None</code>, a <a 
-          href="pygeodesy.named.LatLon3Tuple-class.html" 
+          href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
-          respectively <a href="pygeodesy.named.LatLon4Tuple-class.html" 
+          respectively <a 
+          href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
           class="link">LatLon4Tuple</a><code>(lat, lon, height, 
           datum)</code> depending on whether <code>datum</code> is 
           un-/available.</dd>
@@ -534,7 +576,8 @@ named._NamedTuple --+
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>Vector</code><code>(x, y, z, **Vector_kwds)</code> 
-          instance or a <a href="pygeodesy.named.Vector3Tuple-class.html" 
+          instance or a <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
           class="link">Vector3Tuple</a><code>(x, y, z)</code> if 
           <b><code>Vector</code></b> is <code>None</code>.</dd>
   </dl>
@@ -559,13 +602,46 @@ named._NamedTuple --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">_Names_</h3>
-  
+  <p>Tuple specifying the <code>name</code> of each -Tuple item.</p>
   <dl class="fields">
   </dl>
-  <dl class="fields">
+<div class="fields">      <p><strong>Note:</strong>
+        Specify at least 2 item names.
+      </p>
+</div>  <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">x</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">y</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">z</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lat</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">lon</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">height</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">C</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">M</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">datum</code><code class="variable-quote">'</code><code class="variable-group">)</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_Units_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">_Units_</h3>
+  <p>Tuple defining the <code>units</code> of the value of each -Tuple 
+  item.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The <code>len(_Units_)</code> must match <code>len(_Names_)</code>.
+      </p>
+</div>  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">(</code>&lt;class 'pygeodesy.units.Meter'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Meter'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Meter'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Lat'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Lon'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Height'&gt;<code class="variable-op">,</code>
+ &lt;class 'pygeodesy.units.Int'&gt;<code class="variable-op">,</code>
+ &lt;function _Pass at 0x7f91d6f03750&gt;<code class="variable-op">,</code>
+<code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -601,6 +677,38 @@ named._NamedTuple --+
   </dl>
 </td></tr></table>
 </div>
+<a name="lamVermeille"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lamVermeille</h3>
+  <p>Get the longitude in radians <i class="math">[-PI*3/2..+PI*3/2]</i> 
+  after <a href="https://Search.ProQuest.com/docview/639493848" 
+  target="_top">Vermeille</a> (2004), p 95.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">lamVermeille(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitude in radians <i class="math">[-PI*3/2..+PI*3/2]</i> after 
+<a href="https://Search.ProQuest.com/docview/639493848" 
+target="_top">Vermeille</a> (2004), p 95.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://GeographicLib.SourceForge.io/html/geocentric.html"
+        target="_top">Karney</a>, <a 
+        href="https://Search.ProQuest.com/docview/847292978" 
+        target="_top">Vermeille</a> 2011, pp 112-113, 116 and <a 
+        href="https://Search.ProQuest.com/docview/872827242" 
+        target="_top">Featherstone, et.al.</a>, p 7.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="latlon"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -608,13 +716,13 @@ named._NamedTuple --+
 <tr><td>
   <h3 class="epydoc">latlon</h3>
   <p>Get the lat-, longitude in <code>degrees</code> (<a 
-  href="pygeodesy.named.LatLon2Tuple-class.html" 
+  href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
   class="link">LatLon2Tuple</a><code>(lat, lon)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat-, longitude in <code>degrees</code> (<a 
-href="pygeodesy.named.LatLon2Tuple-class.html" 
+href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
 class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -632,13 +740,13 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
 <tr><td>
   <h3 class="epydoc">latlonheight</h3>
   <p>Get the lat-, longitude in <code>degrees</code> and height (<a 
-  href="pygeodesy.named.LatLon3Tuple-class.html" 
+  href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
   class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">latlonheight(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat-, longitude in <code>degrees</code> and height (<a 
-href="pygeodesy.named.LatLon3Tuple-class.html" 
+href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
 class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -656,13 +764,13 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
 <tr><td>
   <h3 class="epydoc">latlonheightdatum</h3>
   <p>Get the lat-, longitude in <code>degrees</code> with height and datum 
-  (<a href="pygeodesy.named.LatLon4Tuple-class.html" 
+  (<a href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
   class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">latlonheightdatum(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat-, longitude in <code>degrees</code> with height and datum (<a 
-href="pygeodesy.named.LatLon4Tuple-class.html" 
+href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
 class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -672,6 +780,33 @@ class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
     </dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="lonVermeille"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">lonVermeille</h3>
+  <p>Get the longitude in degrees <i class="math">[-225..+225]</i> after <a
+  href="https://Search.ProQuest.com/docview/639493848" 
+  target="_top">Vermeille</a> (2004), p 95.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">lonVermeille(<span class="summary-sig-arg">self</span>)</span>
+        - Get the longitude in degrees <i class="math">[-225..+225]</i> after <a 
+href="https://Search.ProQuest.com/docview/639493848" 
+target="_top">Vermeille</a> (2004), p 95.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <code>lamVermeille</code>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="phi"></a>
 <div>
@@ -700,13 +835,13 @@ class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
 <tr><td>
   <h3 class="epydoc">philam</h3>
   <p>Get the lat-, longitude in <code>radians</code> (<a 
-  href="pygeodesy.named.PhiLam2Tuple-class.html" 
+  href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
   class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat-, longitude in <code>radians</code> (<a 
-href="pygeodesy.named.PhiLam2Tuple-class.html" 
+href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
 class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -724,13 +859,13 @@ class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
 <tr><td>
   <h3 class="epydoc">philamheight</h3>
   <p>Get the lat-, longitude in <code>radians</code> and height (<a 
-  href="pygeodesy.named.PhiLam3Tuple-class.html" 
+  href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
   class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">philamheight(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat-, longitude in <code>radians</code> and height (<a 
-href="pygeodesy.named.PhiLam3Tuple-class.html" 
+href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
 class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -748,13 +883,13 @@ class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
 <tr><td>
   <h3 class="epydoc">philamheightdatum</h3>
   <p>Get the lat-, longitude in <code>radians</code> with height and datum 
-  (<a href="pygeodesy.named.PhiLam4Tuple-class.html" 
+  (<a href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" 
   class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">philamheightdatum(<span class="summary-sig-arg">self</span>)</span>
         - Get the lat-, longitude in <code>radians</code> with height and datum (<a 
-href="pygeodesy.named.PhiLam4Tuple-class.html" 
+href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" 
 class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -772,13 +907,13 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
 <tr><td>
   <h3 class="epydoc">xyz</h3>
   <p>Get the geocentric <code>(x, y, z)</code> coordinates (<a 
-  href="pygeodesy.named.Vector3Tuple-class.html" 
+  href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
   class="link">Vector3Tuple</a><code>(x, y, z)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
         - Get the geocentric <code>(x, y, z)</code> coordinates (<a 
-href="pygeodesy.named.Vector3Tuple-class.html" 
+href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
 class="link">Vector3Tuple</a><code>(x, y, z)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -796,13 +931,13 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
 <tr><td>
   <h3 class="epydoc">xyzh</h3>
   <p>Get the geocentric <code>(x, y, z)</code> coordinates and height (<a 
-  href="pygeodesy.named.Vector4Tuple-class.html" 
+  href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
   class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">xyzh(<span class="summary-sig-arg">self</span>)</span>
         - Get the geocentric <code>(x, y, z)</code> coordinates and height (<a 
-href="pygeodesy.named.Vector4Tuple-class.html" 
+href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
 class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
     </dd>
     <dt>Set method:</dt>
@@ -845,7 +980,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep  5 15:12:14 2020
+    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:33 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -32,17 +32,19 @@ from pygeodesy.fmath import fdot, hypot_
 from pygeodesy.interns import _COMMA_SPACE_, _elevation_, NN, \
                               _pole_, _SQUARE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import LatLon3Tuple, _Named, _NamedTuple, _xnamed
+from pygeodesy.named import _Named, _NamedTuple, _xnamed
+from pygeodesy.namedTuples import LatLon3Tuple
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
 from pygeodesy.streprs import fstr, strs
-from pygeodesy.units import Bearing, Distance, Height, Radius, Scalar
-from pygeodesy.utily import degrees90, degrees360, sincos2d
+from pygeodesy.units import Bearing, Degrees, Distance, Height, \
+                     Radius, Scalar
+from pygeodesy.utily import atan2b, degrees90, sincos2d
 
-from math import asin, atan2
+from math import asin
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.09.01'
+__version__ = '20.09.11'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -110,10 +112,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
        >>> from ellipsoidalNvector import LatLon
        >>> p = LatLon(52.205, 0.119)  # height=0, datum=Datums.WGS84
     '''
-    _Ecef = EcefVeness  #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
-    _Nv   = None        #: (INTERNAL) Cached toNvector (L{Nvector}).
-#   _v3d  = None        #: (INTERNAL) Cached toVector3d (L{Vector3d}).
-    _r3   = None        #: (INTERNAL) Cached _rotation3 (3-Tuple L{Nvector}).
+    _Ecef = EcefVeness  # preferred C{Ecef...} class, backward compatible
+    _Nv   = None        # cached toNvector (L{Nvector})
+#   _v3d  = None        # cached toVector3d (L{Vector3d})
+    _r3   = None        # cached _rotation3 (3-Tuple L{Nvector})
 
     def _rotation3(self):
         '''(INTERNAL) Build the rotation matrix from n-vector
@@ -475,12 +477,12 @@ class Ned(_Named):
     '''North-Eeast-Down (NED), also known as Local Tangent Plane (LTP),
        is a vector in the local coordinate frame of a body.
     '''
-    _bearing   = None  #: (INTERNAL) Cache bearing (compass C{degrees360}).
-    _down      = None  #: (INTERNAL) Down component (C{meter}).
-    _east      = None  #: (INTERNAL) East component (C{meter}).
-    _elevation = None  #: (INTERNAL) Cache elevation (C{degrees}).
-    _length    = None  #: (INTERNAL) Cache length (C{float}).
-    _north     = None  #: (INTERNAL) North component (C{meter}).
+    _bearing   = None  # cached bearing (compass C{degrees360})
+    _down      = None  # Down component (C{meter})
+    _east      = None  # East component (C{meter})
+    _elevation = None  # cached elevation (C{degrees})
+    _length    = None  # cached length (C{float})
+    _north     = None  # North component (C{meter})
 
     def __init__(self, north, east, down, name=NN):
         '''New North-East-Down vector.
@@ -513,7 +515,7 @@ class Ned(_Named):
         '''Get the bearing of this NED vector (compass C{degrees360}).
         '''
         if self._bearing is None:
-            self._bearing = degrees360(atan2(self.east, self.north))
+            self._bearing = atan2b(self.east, self.north)
         return self._bearing
 
     @property_RO
@@ -608,10 +610,11 @@ class Ned(_Named):
 class Ned3Tuple(_NamedTuple):  # .ellipsoidalNvector.py
     '''3-Tuple C{(north, east, down)}, all in C{degrees}.
     '''
-    _Names_ = (_north_, _east_, _down_)
+    _Names_ = (_north_, _east_,  _down_)
+    _Units_ = ( Degrees, Degrees, Degrees)
 
 
-_Nvll = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
+_Nvll = LatLon(0, 0)  # Reference instance (L{LatLon})
 
 
 class Nvector(NvectorBase):
@@ -625,8 +628,8 @@ class Nvector(NvectorBase):
 
        Note commonality with L{sphericalNvector.Nvector}.
     '''
-    _datum = Datums.WGS84  #: (INTERNAL) Default datum (L{Datum}).
-    _Ecef  = EcefVeness    #: (INTERNAL) Preferred C{Ecef...} class, backward compatible.
+    _datum = Datums.WGS84  # default datum (L{Datum})
+    _Ecef  = EcefVeness    # preferred C{Ecef...} class, backward compatible
 
     def __init__(self, x, y, z, h=0, datum=None, ll=None, name=NN):
         '''New n-vector normal to the earth's surface.

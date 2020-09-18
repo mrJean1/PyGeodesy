@@ -17,19 +17,19 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import PI_2, isscalar, issubclassof, \
-                             property_RO, _xkwds, _xzipairs
+from pygeodesy.basics import isscalar, issubclassof, property_RO, \
+                            _xkwds, _xzipairs
 from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.ellipsoids import R_MA
 from pygeodesy.errors import _IsnotError, _parseX, _TypeError, _ValueError
-from pygeodesy.interns import _COMMA_, _COMMA_SPACE_, _easting_, \
-                              _ellipsoidal_, NN, _northing_, _radius_, \
-                              _SPACE_, _SQUARE_, _x_, _y_
+from pygeodesy.interns import PI_2, _COMMA_, _COMMA_SPACE_, _easting_, \
+                             _ellipsoidal_, NN, _northing_, _radius_, \
+                             _SPACE_, _SQUARE_, _x_, _y_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import LatLon2Tuple, _NamedBase, _NamedTuple, \
-                            nameof, PhiLam2Tuple, _xnamed
+from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
+from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
 from pygeodesy.streprs import strs
 from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, Phi_, \
                             Radius, Radius_
@@ -38,23 +38,19 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.09.01'
+__version__ = '20.09.12'
 
-# _FalseEasting  = 0   #: (INTERNAL) False Easting (C{meter}).
-# _FalseNorthing = 0   #: (INTERNAL) False Northing (C{meter}).
-_LatLimit = 85.051129  #: (INTERNAL) Latitudinal limit (C{degrees}).
-# _LonOrigin     = 0   #: (INTERNAL) Longitude of natural origin (C{degrees}).
+# _FalseEasting  = 0   # false Easting (C{meter})
+# _FalseNorthing = 0   # false Northing (C{meter})
+_LatLimit = Lat(85.051129, name='limit')  # latitudinal limit (C{degrees})
+# _LonOrigin     = 0   # longitude of natural origin (C{degrees})
 
 
 class EasNorRadius3Tuple(_NamedTuple):
     '''3-Tuple C{(easting, northing, radius)}, all in C{meter}.
     '''
     _Names_ = (_easting_, _northing_, _radius_)
-
-    def __new__(cls, e, n, r):
-        return _NamedTuple.__new__(cls, Easting( e, Error=WebMercatorError),
-                                        Northing(n, Error=WebMercatorError),
-                                        Radius(  r, Error=WebMercatorError))
+    _Units_ = ( Easting,   Northing,   Radius)
 
 
 class WebMercatorError(_ValueError):
@@ -66,11 +62,11 @@ class WebMercatorError(_ValueError):
 class Wm(_NamedBase):
     '''Web Mercator (WM) coordinate.
     '''
-    _latlon = None  #: (INTERNAL) cached (L{LatLon2Tuple}).
-    _philam = None  #: (INTERNAL) Cached (L{PhiLam2Tuple}).
-    _radius = 0     #: (INTERNAL) earth radius (C{meter}).
-    _x      = 0     #: (INTERNAL) easting (C{meter}).
-    _y      = 0     #: (INTERNAL) northing (C{meter}).
+    _latlon = None  # cached (L{LatLon2Tuple})
+    _philam = None  # cached (L{PhiLam2Tuple})
+    _radius = 0     # earth radius (C{meter})
+    _x      = 0     # Easting (C{meter})
+    _y      = 0     # Northing (C{meter})
 
     def __init__(self, x, y, radius=R_MA, name=NN):
         '''New L{Wm} Web Mercator (WM) coordinate.
@@ -275,8 +271,8 @@ class Wm(_NamedBase):
 
 
 def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
-    '''Parse a string representing a WM coordinate, consisting
-       of easting, northing and an optional radius.
+    '''Parse a string C{"e n [r]"} representing a WM coordinate,
+       consisting of easting, northing and an optional radius.
 
        @arg strWM: A WM coordinate (C{str}).
        @kwarg radius: Optional earth radius (C{meter}).

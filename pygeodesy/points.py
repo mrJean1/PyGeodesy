@@ -25,8 +25,8 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, isint, issequence, map1, PI_2, \
-                             property_doc_, property_RO, R_M, _Sequence, \
+from pygeodesy.basics import isclass, isint, issequence, map1, \
+                             property_doc_, property_RO, _Sequence, \
                             _xcopy, _xinstanceof, _xkwds  # PYCHOK indent
 from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
@@ -35,25 +35,28 @@ from pygeodesy.errors import CrossError, crosserrors, _incompatible, \
                             _ValueError, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
-from pygeodesy.interns import _COMMA_SPACE_, _datum_, _height_, _item_ps, \
-                              _item_sq, _lat_, _lon_, _name_, NN, _other_, \
-                              _point_, _UNDERSCORE_, _valid_, _x_, _y_
+from pygeodesy.interns import EPS, PI_2, R_M, _COMMA_SPACE_, _datum_, \
+                             _height_, _item_ps, _item_sq, _lat_, _lon_, \
+                             _name_, NN, _other_, _point_, _UNDERSCORE_, \
+                             _valid_, _x_, _y_, _0_0, _0_5, _1_0, _3_0, \
+                             _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import Bounds2Tuple, Bounds4Tuple, _callname, classname, \
-                            LatLon2Tuple, _NamedTuple, NearestOn3Tuple, nameof, \
-                            notImplemented, notOverloaded, PhiLam2Tuple, \
-                            Vector4Tuple, _xnamed
+from pygeodesy.named import _callname, classname, _NamedTuple, nameof, \
+                             notImplemented, notOverloaded, _Pass, _xnamed
+from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
+                                  LatLon2Tuple, NearestOn3Tuple, \
+                                  PhiLam2Tuple, Vector4Tuple
 from pygeodesy.nvectorBase import NvectorBase, _N_vector_
 from pygeodesy.streprs import hstr, instr, pairs
-from pygeodesy.units import Radius, Scalar_
-from pygeodesy.utily import degrees90, degrees180, degrees360, degrees2m, \
+from pygeodesy.units import Degrees, Lat, Lon, Meter, Number_, \
+                            Radius, Scalar_
+from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
                             unroll180, unrollPI, wrap90, wrap180
 
-from inspect import isclass
-from math import atan2, cos, fmod, hypot, radians, sin
+from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.09.01'
+__version__ = '20.09.15'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -705,7 +708,7 @@ class LatLon2psxy(_Basequence):
         self._len, self._array = points2(latlons, closed=closed)
         if radius:
             self._radius = radius
-            self._deg2m = degrees2m(1.0, radius)
+            self._deg2m = degrees2m(_1_0, radius)
         self._wrap = wrap
 
     def __contains__(self, xy):
@@ -874,6 +877,7 @@ class NearestOn5Tuple(_NamedTuple):
        at the closest point in C{meter} or C{0}.
     '''
     _Names_ = ('lat', 'lon', 'distance', 'angle', 'height')
+    _Units_ = ( Lat,   Lon,   Degrees,    Degrees, Degrees)
 
 
 class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
@@ -929,7 +933,8 @@ class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
 class Point3Tuple(_NamedTuple):
     '''3-Tuple C{(x, y, ll)} in C{meter}, C{meter} and C{LatLon}.
     '''
-    _Names_ = (_x_, _y_, 'll')
+    _Names_ = (_x_,   _y_,    'll')
+    _Units_ = ( Meter, Meter, _Pass)
 
 
 class Shape2Tuple(_NamedTuple):
@@ -937,6 +942,7 @@ class Shape2Tuple(_NamedTuple):
        both C{int}.
     '''
     _Names_ = ('nrows', 'ncols')
+    _Units_ = ( Number_, Number_)
 
 
 class Tuple2LatLon(_Array2LatLon):
@@ -1016,10 +1022,10 @@ def _area2(points, adjust, wrap):
             # approximate trapezoid by a rectangle, adjusting
             # the top width by the cosine of the latitudinal
             # average and bottom width by some fudge factor
-            h = (y2 + y1) * 0.5
+            h = (y2 + y1) * _0_5
             if adjust:
-                c = cos(h) if abs(h) < PI_2 else 0
-                w *= (c + 1.2876) * 0.5
+                c = cos(h) if abs(h) < PI_2 else _0_0
+                w *= (c + 1.2876) * _0_5
             yield h * w  # signed trapezoidal area
 
             x1, y1 = x2, y2
@@ -1124,10 +1130,10 @@ def centroidOf(points, wrap=True, LatLon=None):
        @raise ValueError: The B{C{points}} enclose a pole or
                           near-zero area.
 
-       @see: U{Centroid<https://WikiPedia.org/wiki/Centroid#Of_a_polygon>}
-             and U{Calculating The Area And Centroid Of A Polygon
-             <https://www.Seas.UPenn.edu/~sys502/extra_materials/
-             Polygon%20Area%20and%20Centroid.pdf>}.
+       @see: U{Centroid<https://WikiPedia.org/wiki/Centroid#Of_a_polygon>} and
+             Paul Bourke's U{Calculating The Area And Centroid Of A Polygon
+             <https://www.SEAS.UPenn.edu/~ese502/lab-content/extra_materials/
+             Polygon%20Area%20and%20Centroid.pdf>}, 1988.
     '''
     # setting radius=1 converts degrees to radians
     pts = LatLon2psxy(points, closed=True, radius=1, wrap=wrap)
@@ -1151,7 +1157,7 @@ def centroidOf(points, wrap=True, LatLon=None):
         # Y.fadd_(t1 * y1, t1 * y2, t2 * y1, t2 * y2)
         x1, y1 = x2, y2
 
-    A = A.fsum() * 3.0  # 6.0 / 2.0
+    A = A.fsum() * _3_0  # 6.0 / 2.0
     if abs(A) < EPS:
         raise _areaError(points, near_='near-')
     Y, X = degrees90(Y.fsum() / A), degrees180(X.fsum() / A)
@@ -1250,8 +1256,8 @@ def isconvex_(points, adjust=False, wrap=True):
     def _unroll_adjust(x1, y1, x2, y2, wrap):
         x21, x2 = unroll180(x1, x2, wrap=wrap)
         if adjust:
-            y = radians(y1 + y2) * 0.5
-            x21 *= cos(y) if abs(y) < PI_2 else 0
+            y = radians(y1 + y2) * _0_5
+            x21 *= cos(y) if abs(y) < PI_2 else _0_0
         return x21, x2
 
     pts = LatLon2psxy(points, closed=True, radius=None, wrap=wrap)
@@ -1334,15 +1340,15 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
             return dx, x2, y2
 
     else:
-        x0 = fmod(x0, 360.0)  # not x0 % 360
+        x0 = fmod(x0, _360_0)  # not x0 % 360
 
         def _dxy(x1, i):  # PYCHOK expected
             x, y, _ = pts[i]
-            x %= 360.0
-            if x < (x0 - 180):
-                x += 360
-            elif x >= (x0 + 180):
-                x -= 360
+            x %= _360_0
+            if x < (x0 - _180_0):
+                x += _360_0
+            elif x >= (x0 + _180_0):
+                x -= _360_0
             return (x - x1), x, y
 
     e = m = False
@@ -1430,10 +1436,10 @@ def luneOf(lon1, lon2, closed=False, LatLon=LatLon_, **LatLon_kwds):
        @see: U{Latitude-longitude quadrangle
              <https://www.MathWorks.com/help/map/ref/areaquad.html>}.
     '''
-    for ll in ((0, lon1), (90, lon1), (0, lon2), (-90, lon2)):
+    for ll in ((_0_0, lon1), (_90_0, lon1), (_0_0, lon2), (-_90_0, lon2)):
         yield LatLon(*ll, **LatLon_kwds)
     if closed:
-        yield LatLon(0, lon1, **LatLon_kwds)
+        yield LatLon(_0_0, lon1, **LatLon_kwds)
 
 
 def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
@@ -1512,7 +1518,7 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
 
     i, m = _imdex2(closed, n)
     p2 = c = points[i]
-    u2 = u = 0
+    u2 = u = _0_0
     d, dy, dx, _ = _d2yx(p2, point, u2, i)
     for i in range(m, n):
         p1, u1, p2 = p2, u2, points[i]
@@ -1532,14 +1538,14 @@ def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):
                         p1 = LatLon_(favg(p1.lat, p2.lat, f=f),
                                      favg(p1.lon, p2.lon + u2, f=f),
                               height=favg(_h(p1), _h(p2), f=f))
-                        u1 = 0
+                        u1 = _0_0
                     else:  # p2 is closest
                         p1, u1 = p2, u2
                     d2, y01, x01, _ = _d2yx(point, p1, u1, n)
             if d2 < d:  # p1 is closer, y01 and x01 inverted
                 c, u, d, dy, dx = p1, u1, d2, -y01, -x01
 
-    d, a, h = hypot(dx, dy), degrees360(atan2(dx, dy)), _h(c)
+    d, a, h = hypot(dx, dy), atan2b(dx, dy), _h(c)
     if LatLon is None:
         r = NearestOn5Tuple(c.lat, c.lon + u, d, a, h)
     else:
@@ -1580,7 +1586,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
     def _degs(n, pts, closed):  # angular edge lengths in degrees
         i, m = _imdex2(closed, n)
         x1, y1, _ = pts[i]
-        u = 0  # previous x2's unroll/wrap
+        u = _0_0  # previous x2's unroll/wrap
         for i in range(m, n):
             x2, y2, _ = pts[i]
             w = wrap if (not closed or i < (n - 1)) else False

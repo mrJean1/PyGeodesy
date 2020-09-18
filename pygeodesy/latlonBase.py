@@ -11,7 +11,7 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, R_M, map1, property_doc_, property_RO, \
+from pygeodesy.basics import map1, property_doc_, property_RO, \
                             _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS  # parseDMS, parseDMS2
 from pygeodesy.ecef import EcefKarney
@@ -22,10 +22,12 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, haversine, isantipode, \
                             latlon2n_xyz,points2, thomas_, vincentys
-from pygeodesy.interns import _COMMA_SPACE_, NN, _item_sq, _m_
+from pygeodesy.interns import EPS, R_M, _COMMA_SPACE_, NN, _item_sq, _m_, \
+                             _0_0, _0_5, _1_0
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import Bounds2Tuple, LatLon2Tuple, _NamedBase, \
-                            notOverloaded, PhiLam2Tuple, Vector3Tuple
+from pygeodesy.named import _NamedBase, notOverloaded
+from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, \
+                                  PhiLam2Tuple, Vector3Tuple
 from pygeodesy.streprs import hstr
 from pygeodesy.units import Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
@@ -34,25 +36,25 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '20.07.12'
+__version__ = '20.09.11'
 
 
 class LatLonBase(_NamedBase):
     '''(INTERNAL) Base class for C{LatLon} points on spherical or
        ellipsoidal earth models.
     '''
-    _datum  = None        #: (INTERNAL) L{Datum}, to be overriden.
-    _Ecef   = EcefKarney  #: (INTERNAL) Preferred C{Ecef...} class.
-    _e9t    = None        #: (INTERNAL) Cached toEcef (L{Ecef9Tuple}).
-    _height = 0           #: (INTERNAL) Height (C{meter}).
-    _lat    = 0           #: (INTERNAL) Latitude (C{degrees}).
-    _latlon = None        #: (INTERNAL) Cached (L{LatLon2Tuple}).
-    _lon    = 0           #: (INTERNAL) Longitude (C{degrees}).
-    _name   = NN          #: (INTERNAL) name (C{str}).
-    _philam = None        #: (INTERNAL) Cached (L{PhiLam2Tuple}).
-    _v3d    = None        #: (INTERNAL) Cached toVector3d (L{Vector3d}).
-    _xyz    = None        #: (INTERNAL) Cached xyz (L{Vector3Tuple}).
-    _xyzh   = None        #: (INTERNAL) Cached xyzh (L{Vector4Tuple}).
+    _datum  = None        # L{Datum}, to be overriden
+    _Ecef   = EcefKarney  # preferred C{Ecef...} class
+    _e9t    = None        # cached toEcef (L{Ecef9Tuple})
+    _height = 0           # height (C{meter})
+    _lat    = 0           # latitude (C{degrees})
+    _latlon = None        # cached (L{LatLon2Tuple})
+    _lon    = 0           # longitude (C{degrees})
+    _name   = NN          # name (C{str})
+    _philam = None        # cached (L{PhiLam2Tuple})
+    _v3d    = None        # cached toVector3d (L{Vector3d})
+    _xyz    = None        # cached xyz (L{Vector3Tuple})
+    _xyzh   = None        # cached xyzh (L{Vector4Tuple})
 
     def __init__(self, lat, lon, height=0, name=NN):
         '''New C{LatLon}.
@@ -90,7 +92,7 @@ class LatLonBase(_NamedBase):
     def __str__(self):
         return self.toStr(form=F_D, prec=6)
 
-    def _havg(self, other, f=0.5):
+    def _havg(self, other, f=_0_5):
         '''(INTERNAL) Weighted, average height.
 
            @arg other: An other point (C{LatLon}).
@@ -140,15 +142,12 @@ class LatLonBase(_NamedBase):
 
            @see: U{https://www.Movable-Type.co.UK/scripts/latlong-db.html}
         '''
-        w = Scalar_(wide, name='wide') * 0.5
-        h = Scalar_(high, name='high') * 0.5
+        w = Scalar_(wide, name='wide') * _0_5
+        h = Scalar_(high, name='high') * _0_5
         if radius is not None:
             r = Radius_(radius)
             c = cos(self.phi)
-            if c > EPS:
-                w = degrees(asin(w / r) / c)
-            else:
-                w = 0  # XXX
+            w = degrees(asin(w / r) / c) if c > EPS else _0_0  # XXX
             h = degrees(h / r)
         w, h = abs(w), abs(h)
 
@@ -375,7 +374,7 @@ class LatLonBase(_NamedBase):
         '''
         E = self.datum.ellipsoid
         r = self._distanceTo_(flatLocal_, other, wrap=wrap) * E.a2_
-        a = E.a if radius in (None, 1.0, 1) else Radius(radius)
+        a = E.a if radius in (None, 1, _1_0) else Radius(radius)
         return r * a
 
     hubenyTo = flatLocalTo  # for Karl Hubeny
@@ -505,7 +504,7 @@ class LatLonBase(_NamedBase):
         '''
         self.others(other)
 
-        e = 0 if eps in (None, 0, 0.0) else Scalar_(eps, name='eps')
+        e = _0_0 if eps in (None, 0, _0_0) else Scalar_(eps, name='eps')
         if e > 0:
             return max(map1(abs, self.lat - other.lat,
                                  self.lon - other.lon)) < e

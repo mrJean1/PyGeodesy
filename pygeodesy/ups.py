@@ -18,16 +18,18 @@ each end).
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, property_RO
+from pygeodesy.basics import property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoids import _TOL
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1
-from pygeodesy.interns import _COMMA_SPACE_, _inside_, _N_, NN, _pole_, \
-                              _range_, _S_, _SPACE_, _SQUARE_, _UTM_
+from pygeodesy.interns import EPS, _COMMA_SPACE_, _inside_, _N_, NN, \
+                             _pole_, _range_, _S_, _SPACE_, _SQUARE_, \
+                             _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import EasNor2Tuple, _xnamed
+from pygeodesy.named import _xnamed
+from pygeodesy.namedTuples import EasNor2Tuple
 from pygeodesy.units import Meter, Lat, Scalar, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2d
 from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
@@ -39,12 +41,13 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.09.01'
+__version__ = '20.09.11'
 
-_Bands   = 'A', 'B', 'Y', 'Z'    #: (INTERNAL) Polar bands.
-_Falsing = Meter(2000e3)  #: (INTERNAL) False easting and northing (C{meter}).
-_K0      = Scalar(0.994)  #: (INTERNAL) Central UPS scale factor.
-_K1      = Scalar(1.0)    #: (INTERNAL) Rescale point scale factor.
+_Bands   = 'A', 'B', 'Y', 'Z'  # polar bands
+_EPS__2  = EPS**2
+_Falsing = Meter(2000e3)  # false easting and northing (C{meter})
+_K0      = Scalar(0.994)  # central UPS scale factor
+_K1      = Scalar(_1_0)   # rescale point scale factor
 
 
 class UPSError(_ValueError):
@@ -67,13 +70,13 @@ def _scale(E, rho, tau):
 class Ups(UtmUpsBase):
     '''Universal Polar Stereographic (UPS) coordinate.
     '''
-    _band        = NN        #: (INTERNAL) Polar band ('A', 'B', 'Y' or 'Z').
-    _Error       = UPSError  #: (INTERNAL) Error
-    _latlon_args = True      #: (INTERNAL) unfalse from _latlon (C{bool}).
-    _pole        = NN        #: (INTERNAL) UPS projection top/center ('N' or 'S').
-    _scale       = None      #: (INTERNAL) Point scale factor (C{scalar}).
-    _scale0      = _K0       #: (INTERNAL) Central scale factor (C{scalar}).
-    _utm         = None      #: (INTERNAL) toUtm cache (L{Utm}).
+    _band        = NN        # polar band ('A', 'B', 'Y' or 'Z')
+    _Error       = UPSError  # Error class
+    _latlon_args = True      # unfalse from _latlon (C{bool})
+    _pole        = NN        # UPS projection top/center ('N' or 'S')
+    _scale       = None      # point scale factor (C{scalar})
+    _scale0      = _K0       # central scale factor (C{scalar})
+    _utm         = None      # cached toUtm (L{Utm})
 
     def __init__(self, zone, pole, easting, northing, band=NN,  # PYCHOK expected
                                    datum=Datums.WGS84, falsed=True,
@@ -220,8 +223,8 @@ class Ups(UtmUpsBase):
         x, y = self.to2en(falsed=not unfalse)
 
         r = hypot(x, y)
-        t = (r / (2 * self.scale0 * E.a / E.es_c)) if r > 0 else EPS**2
-        t = E.es_tauf((1 / t - t) * 0.5)
+        t = (r / (_2_0 * self.scale0 * E.a / E.es_c)) if r > 0 else _EPS__2
+        t = E.es_tauf((1 / t - t) * _0_5)
         if self._pole == _N_:
             a, b, c = atan(t), atan2(x, -y), 1
         else:
@@ -432,13 +435,13 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     N = p == _N_  # is north
 
     a = lat if N else -lat
-    A = abs(a - 90) < _TOL  # at pole
+    A = abs(a - _90_0) < _TOL  # at pole
 
     t = tan(radians(a))
     T = E.es_taupf(t)
     r = hypot1(T) + abs(T)
-    if T >= 0:
-        r = 0 if A else 1 / r
+    if T >= _0_0:
+        r = _0_0 if A else _1_0 / r
 
     k0 = getattr(Ups, '_scale0', _K0)  # Ups is class or None
     r *= 2 * k0 * E.a / E.es_c

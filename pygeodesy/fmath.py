@@ -12,12 +12,12 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import EPS, isfinite, isint, isscalar, \
+from pygeodesy.basics import isfinite, isint, isscalar, \
                              len2, _xcopy
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
-from pygeodesy.interns import _beta_, _item_ps, _item_sq, _Missing, \
-                               NN, _too_few_
+from pygeodesy.interns import EPS, _beta_, _item_ps, _item_sq, _Missing, \
+                              NN, _too_few_, _0_0, _1_0, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Int_
@@ -26,13 +26,13 @@ from math import copysign, hypot, sqrt  # pow
 from operator import mul as _mul_
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.07.19'
+__version__ = '20.09.15'
 
 _not_finite_ = 'not finite'
 
-_1_3rd = 1 / 3.0  #: (INTERNAL) One third (C{float})
-_2_3rd = 2 / 3.0  # PYCHOK exported to .datum
-_3_2nd = 3 / 2.0  #: (INTERNAL) Three halfs (C{float})
+_1_3rd = _1_0 / _3_0
+_2_3rd = _2_0 / _3_0
+_3_2nd = _3_0 / _2_0  # _1_5
 
 
 def _2even(s, r, p):
@@ -67,7 +67,8 @@ class Fsum(object):
        @note: Handling of exceptions, C{inf}, C{INF}, C{nan} and C{NAN}
               values is different from C{math.fsum}.
 
-       @see: U{Hettinger<https://code.ActiveState.com/recipes/393090>},
+       @see: U{Hettinger<https://GitHub.com/ActiveState/code/blob/master/recipes/Python/
+             393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>},
              U{Kahan<https://WikiPedia.org/wiki/Kahan_summation_algorithm>},
              U{Klein<https://Link.Springer.com/article/10.1007/s00607-005-0139-x>},
              Python 2.6+ file I{Modules/mathmodule.c} and the issue log
@@ -325,7 +326,7 @@ class Fsum(object):
         ps = self._ps
         i = len(ps) - 1
         if i < 0:
-            s = 0.0
+            s = _0_0
         else:
             s = ps[i]
             while i > 0:
@@ -452,7 +453,7 @@ class Fpolynomial(Fsum):
         if not cs:
             raise _ValueError(cs=cs, txt=_Missing)
 
-        x, cs, xp = float(x), list(cs), 1
+        x, cs, xp = float(x), list(cs), _1_0
 
         Fsum.__init__(self, cs.pop(0))
         while cs:
@@ -483,7 +484,7 @@ def cbrt2(x):
 
        @see: Functions L{cbrt} and L{sqrt3}.
     '''
-    return pow(abs(x), _1_3rd)**2  # XXX pow(abs(x), _2_3rd)
+    return pow(abs(x), _2_3rd)  # XXX pow(abs(x), _1_3rd)**2
 
 
 def favg(v1, v2, f=0.5):
@@ -685,7 +686,7 @@ try:
     from math import prod as fprod  # Python 3.8
 except ImportError:
 
-    def fprod(iterable, start=1.0):
+    def fprod(iterable, start=_1_0):
         '''Iterable product, like C{math.prod} or C{numpy.prod}.
 
            @arg iterable: Values to be multiplied (C{scalar}[]).
@@ -821,9 +822,9 @@ except TypeError:  # Python 3.7-
             if n > 0:
                 h = float(max(abs(x) for x in xs))
                 if h > 0 and n > 1:
-                    X = Fsum(1.0)
+                    X = Fsum(_1_0)
                     X.fadd((x / h)**2 for x in xs)
-                    h *= sqrt(X.fsum_(-1.0))
+                    h *= sqrt(X.fsum_(-_1_0))
                 return h
         raise _ValueError(xs=xs, txt=_too_few_)
 
@@ -835,7 +836,7 @@ def hypot1(x):
 
        @return: Norm (C{float}).
     '''
-    return hypot(1.0, x)
+    return hypot(_1_0, x) if x else _1_0
 
 
 def hypot2(x, y):
@@ -867,7 +868,7 @@ def sqrt3(x):
     '''
     if x < 0:
         raise _ValueError(x=x)
-    return pow(x, _3_2nd)
+    return pow(x, _3_2nd) if x else _0_0
 
 # **) MIT License
 #

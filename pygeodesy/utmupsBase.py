@@ -13,32 +13,36 @@ from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import ParseError, _parseX, _ValueError
 from pygeodesy.interns import _band_, _COMMA_, _COMMA_SPACE_, _convergence_, \
-                              _datum_, _easting_, _hemipole_, _invalid_, \
-                              _lat_, _lon_, _N_, _n_a_, NN, _northing_, _NS_, \
-                              _PLUS_, _scale_, _SPACE_, _SQUARE_, _zone_
+                              _datum_, _easting_, _float, _hemipole_, \
+                              _invalid_, _lat_, _lon_, _N_, _n_a_, NN, \
+                              _northing_, _NS_, _PLUS_, _scale_, _SPACE_, \
+                              _SQUARE_, _zone_, _0_0, _0_5, _180_0
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import EasNor2Tuple,_NamedBase, _NamedTuple, nameof, \
-                            notOverloaded, _xnamed
+from pygeodesy.named import _NamedBase, _NamedTuple, nameof, \
+                             notOverloaded, _Pass, _xnamed
+from pygeodesy.namedTuples import EasNor2Tuple
 from pygeodesy.streprs import fstr
-from pygeodesy.units import Band, Easting, Lat, Lon, Northing, \
-                            Scalar, Zone
+from pygeodesy.units import Band, Degrees, Easting, Lat, Lon, Northing, \
+                            Number_, Scalar, Str, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.08.31'
+__version__ = '20.09.14'
 
-_MGRS_TILE =  100e3  # PYCHOK block size (C{meter})
+_MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
-_UTM_LAT_MAX      =  84  # PYCHOK for export (C{degrees})
-_UTM_LAT_MIN      = -80  # PYCHOK for export (C{degrees})
-_UTM_ZONE_MAX     =  60  # PYCHOK for export
-_UTM_ZONE_MIN     =   1  # PYCHOK for export
-_UTM_ZONE_OFF_MAX =  60  # PYCHOK max Central meridian offset (C{degrees})
+_UTM_LAT_MAX  = _float( 84)          # PYCHOK for export (C{degrees})
+_UTM_LAT_MIN  = _float(-80)          # PYCHOK for export (C{degrees})
 
-_UPS_LAT_MAX  = _UTM_LAT_MAX - 0.5     # PYCHOK includes 30' UTM overlap
-_UPS_LAT_MIN  = _UTM_LAT_MIN + 0.5     # PYCHOK includes 30' UTM overlap
-_UPS_ZONE     = _UTM_ZONE_MIN - 1      # PYCHOK for export
-_UPS_ZONE_STR = '%02d' % (_UPS_ZONE,)  # PYCHOK for export
+_UPS_LAT_MAX  = _UTM_LAT_MAX - _0_5  # PYCHOK includes 30' UTM overlap
+_UPS_LAT_MIN  = _UTM_LAT_MIN + _0_5  # PYCHOK includes 30' UTM overlap
+
+_UTM_ZONE_MAX        =  60  # PYCHOK for export
+_UTM_ZONE_MIN        =   1  # PYCHOK for export
+_UTM_ZONE_OFF_MAX    =  60  # PYCHOK max Central meridian offset (C{degrees})
+
+_UPS_ZONE            = _UTM_ZONE_MIN - 1      # PYCHOK for export
+_UPS_ZONE_STR        = '%02d' % (_UPS_ZONE,)  # PYCHOK for export
 
 _UTMUPS_ZONE_INVALID = -4             # PYCHOK for export too
 _UTMUPS_ZONE_MAX     = _UTM_ZONE_MAX  # PYCHOK for export too, by .units.py
@@ -131,9 +135,9 @@ def _to3zll(lat, lon):  # imported by .ups, .utm
        @return: 3-Tuple (C{zone, lat, lon}) as (C{int}, C{degrees90},
                 C{degrees180}) where C{zone} is C{1..60} for UTM.
     '''
-    x = wrap360(lon + 180)  # use wrap360 to get ...
+    x = wrap360(lon + _180_0)  # use wrap360 to get ...
     z = int(x) // 6 + 1  # ... longitudinal UTM zone [1, 60] and ...
-    lon = x - 180.0  # ... lon [-180, 180) i.e. -180 <= lon < 180
+    lon = x - _180_0  # ... lon [-180, 180) i.e. -180 <= lon < 180
     return Zone(z), wrap90(lat), lon
 
 
@@ -143,32 +147,28 @@ class LatLonDatum5Tuple(_NamedTuple):
        and C{float}.
     '''
     _Names_ = (_lat_, _lon_, _datum_, _convergence_, _scale_)
-
-    def __new__(cls, lat, lon, d, c, s):
-        return _NamedTuple.__new__(cls, Lat(lat), Lon(lon), d,
-                                        Scalar(c, name=_convergence_),
-                                        Scalar(s, name=_scale_))
+    _Units_ = ( Lat,   Lon,  _Pass,    Degrees,       Scalar)
 
 
 class UtmUpsBase(_NamedBase):
     '''(INTERNAL) Base class for L{Utm} and L{Ups} coordinates.
     '''
-    _band        = NN    #: (INTERNAL) Latitude band letter ('A..Z').
-    _convergence = None  #: (INTERNAL) Meridian conversion (C{degrees}).
-    _datum       = Datums.WGS84  #: (INTERNAL) L{Datum}.
-    _easting     = 0     #: (INTERNAL) Easting, see B{C{falsed}} (C{meter}).
-    _Error       = None  #: (INTERNAL) I{Must be overloaded}.
-    _epsg        = None  #: (INTERNAL) toEpsg cache (L{Epsg}).
-    _falsed      = True  #: (INTERNAL) Falsed easting and northing (C{bool}).
-    _hemisphere  = NN    #: (INTERNAL) Hemisphere ('N' or 'S'), different from pole.
-    _latlon      = None  #: (INTERNAL) toLatLon cache (C{LatLon}).
-    _latlon_args = None  #: (INTERNAL) toLatLon args (varies).
-    _mgrs        = None  #: (INTERNAL) toMgrs cache (L{Mgrs}.
-    _northing    = 0     #: (INTERNAL) Northing, see B{C{falsed}} (C{meter}).
-    _scale       = None  #: (INTERNAL) Grid scale factor (C{scalar}) or C{None}.
-#   _scale0      = _K0   #: (INTERNAL) Central scale factor (C{scalar}).
-    _ups         = None  #: (INTERNAL) toUps cache (L{Ups}).
-    _utm         = None  #: (INTERNAL) toUtm cache (L{Utm}).
+    _band        = NN    # latitude band letter ('A..Z')
+    _convergence = None  # meridian conversion (C{degrees})
+    _datum       = Datums.WGS84  # L{Datum}
+    _easting     = _0_0  # Easting, see B{C{falsed}} (C{meter})
+    _Error       = None  # I{Must be overloaded}
+    _epsg        = None  # toEpsg cache (L{Epsg})
+    _falsed      = True  # falsed easting and northing (C{bool})
+    _hemisphere  = NN    # hemisphere ('N' or 'S'), different from pole
+    _latlon      = None  # toLatLon cache (C{LatLon})
+    _latlon_args = None  # toLatLon args (varies)
+    _mgrs        = None  # toMgrs cache (L{Mgrs}
+    _northing    = _0_0  # Northing, see B{C{falsed}} (C{meter})
+    _scale       = None  # grid scale factor (C{scalar}) or C{None}
+#   _scale0      = _K0   # central scale factor (C{scalar})
+    _ups         = None  # toUps cache (L{Ups})
+    _utm         = None  # toUtm cache (L{Utm})
 
     def __init__(self, easting, northing, band=NN, datum=None, falsed=True,
                                           convergence=None, scale=None):
@@ -240,7 +240,7 @@ class UtmUpsBase(_NamedBase):
         elif falsed and not self.falsed:
             pass
         else:
-            e = n = 0
+            e = n = _0_0
         return EasNor2Tuple(Easting( e + self.easting,  Error=self._Error),
                             Northing(n + self.northing, Error=self._Error))
 
@@ -338,7 +338,8 @@ class UtmUps2Tuple(_NamedTuple):  # imported by .espg
        C{zone} is C{1..60} for UTM or C{0} for UPS and C{hemipole}
        C{'N'|'S'} is the UTM hemisphere or the UPS pole.
     '''
-    _Names_ = (_zone_, _hemipole_)
+    _Names_ = (_zone_,  _hemipole_)
+    _Units_ = ( Number_, Str)
 
 
 class UtmUps5Tuple(_NamedTuple):  # imported by .mgrs
@@ -349,7 +350,8 @@ class UtmUps5Tuple(_NamedTuple):  # imported by .mgrs
        (longitudinal) UTM band C{'C'|'D'..'W'|'X'} or the (polar) UPS
        band C{'A'|'B'|'Y'|'Z'}.
     '''
-    _Names_ = (_zone_, _hemipole_, _easting_, _northing_, _band_)
+    _Names_ = (_zone_,  _hemipole_, _easting_, _northing_, _band_)
+    _Units_ = ( Number_, Str,        Easting,   Northing,   Band)
 
     def __new__(cls, z, h, e, n, B, Error=None):
         if Error is not None:
@@ -361,14 +363,16 @@ class UtmUps5Tuple(_NamedTuple):  # imported by .mgrs
 class UtmUps8Tuple(_NamedTuple):
     '''8-Tuple C{(zone, hemipole, easting, northing, band, datum,
        convergence, scale)} as C{int}, C{str}, C{meter}, C{meter},
-       C{band} letter, C{Datum}, C{degrees} and C{float}, where
+       C{band} letter, C{Datum}, C{degrees} and C{scalar}, where
        C{zone} is C{1..60} for UTM or C{0} for UPS, C{hemipole}
        C{'N'|'S'} is the UTM hemisphere or the UPS pole and C{band}
        is C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
        or the (polar) UPS band C{'A'|'B'|'Y'|'Z'}.
     '''
-    _Names_ = (_zone_, _hemipole_, _easting_, _northing_,
-               _band_, _datum_, _convergence_, _scale_)
+    _Names_ = (_zone_,  _hemipole_, _easting_, _northing_,
+               _band_,  _datum_, _convergence_, _scale_)
+    _Units_ = ( Number_, Str,        Easting,   Northing,
+                Band,   _Pass,    Degrees,       Scalar)
 
     def __new__(cls, z, h, e, n, B, d, c, s, Error=None):
         if Error is not None:
@@ -387,7 +391,8 @@ class UtmUpsLatLon5Tuple(_NamedTuple):
        or (polar) UPS band C{'A'|'B'|'Y'|'Z'} and C{hemipole}
        C{'N'|'S'} is the UTM hemisphere or the UPS pole.
     '''
-    _Names_ = (_zone_, _band_, _hemipole_, _lat_, _lon_)
+    _Names_ = (_zone_,  _band_, _hemipole_, _lat_, _lon_)
+    _Units_ = ( Number_, Band,   Str,        Lat,   Lon)
 
     def __new__(cls, z, B, h, lat, lon, Error=None):
         if Error is not None:

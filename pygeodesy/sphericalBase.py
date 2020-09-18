@@ -12,28 +12,29 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI, PI2, PI_2, property_doc_
+from pygeodesy.basics import property_doc_
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.ellipsoids import R_M, R_MA
 from pygeodesy.errors import IntersectionError
 from pygeodesy.fmath import favg, fsum_
-from pygeodesy.interns import _COMMA_, _exceed_PI_radians_, \
-                              _near_concentric_, NN, _radius_, \
-                              _spherical_, _too_distant_  # PYCHOK used!
+from pygeodesy.interns import EPS, PI, PI2, PI_2, _COMMA_, NN, \
+                             _exceed_PI_radians_, _near_concentric_, \
+                             _radius_, _too_distant_, _1_0, _180_0, _360_0
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import Bearing2Tuple, _xnamed
+from pygeodesy.named import _xnamed
+from pygeodesy.namedTuples import Bearing2Tuple
 from pygeodesy.nvectorBase import NvectorBase
 from pygeodesy.units import Bearing_, Distance, Height, Radius, Radius_
-from pygeodesy.utily import acos1, degrees90, degrees180, degrees360, \
+from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
                             sincos2, tanPI_2_2, wrapPI
 
-from math import atan2, cos, hypot, log, sin, sqrt
+from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.09.01'
+__version__ = '20.09.11'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -50,7 +51,7 @@ def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
     r1 = Radius_(rad1, name='rad1')
     r2 = Radius_(rad2, name='rad2')
     if radius is not None:  # convert radii to radians
-        r = 1.0 / Radius_(radius, name=_radius_)
+        r = _1_0 / Radius_(radius, name=_radius_)
         r1 *= r
         r2 *= r
 
@@ -66,8 +67,8 @@ def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
 class CartesianSphericalBase(CartesianBase):
     '''(INTERNAL) Base class for spherical C{Cartesian}s.
     '''
-    _datum = Datums.Sphere  #: (INTERNAL) L{Datum}.
-    _Ecef  = EcefKarney     #: (INTERNAL) Preferred C{Ecef...} class.
+    _datum = Datums.Sphere  # L{Datum}
+    _Ecef  = EcefKarney     # preferred C{Ecef...} class
 
     def intersections2(self, rad1, other, rad2, radius=R_M):
         '''Compute the intersection points of two circles each defined
@@ -113,7 +114,7 @@ class CartesianSphericalBase(CartesianBase):
         except ValueError:
             raise IntersectionError(center=self, rad1=rad1,
                                     other=other, rad2=rad2)
-        x = 1 - x0.dot(x0)
+        x = _1_0 - x0.dot(x0)
         if x < EPS:
             raise IntersectionError(center=self, rad1=rad1,
                                     other=other, rad2=rad2, txt=_too_distant_)
@@ -132,8 +133,8 @@ class CartesianSphericalBase(CartesianBase):
 class LatLonSphericalBase(LatLonBase):
     '''(INTERNAL) Base class for spherical C{LatLon}s.
     '''
-    _datum = Datums.Sphere  #: (INTERNAL) Spherical L{Datum}.
-    _Ecef  = EcefKarney     #: (INTERNAL) Preferred C{Ecef...} class.
+    _datum = Datums.Sphere  # spherical L{Datum}
+    _Ecef  = EcefKarney     # preferred C{Ecef...} class
 
     def __init__(self, lat, lon, height=0, datum=None, name=NN):
         '''Create a spherical C{LatLon} point frome the given
@@ -222,7 +223,7 @@ class LatLonSphericalBase(LatLonBase):
         # final bearing is the reverse of the other, initial one;
         # .initialBearingTo is inside .-Nvector and .-Trigonometry
         b = other.initialBearingTo(self, wrap=wrap, raiser=raiser)
-        return (b + 180) % 360  # == wrap360 since b >= 0
+        return (b + _180_0) % _360_0  # == wrap360 since b >= 0
 
     def maxLat(self, bearing):
         '''Return the maximum latitude reached when travelling
@@ -313,7 +314,7 @@ class LatLonSphericalBase(LatLonBase):
            >>> b = p.rhumbBearingTo(q)  # 116.7
         '''
         _, db, dp = self._rhumb3(other)
-        return degrees360(atan2(db, dp))
+        return atan2b(db, dp)
 
     def rhumbDestination(self, distance, bearing, radius=R_M, height=None):
         '''Return the destination point having travelled along a rhumb

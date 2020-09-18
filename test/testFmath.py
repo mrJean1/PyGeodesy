@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.01'
+__version__ = '20.09.09'
 
 from base import coverage, TestsBase
 
@@ -45,7 +45,8 @@ class Tests(TestsBase):
             self.test('Fsum', Fsum().fsum(t), s)
             t += t
 
-        # <https://code.ActiveState.com/recipes/393090>
+        # <https://GitHub.com/ActiveState/code/blob/master/recipes/Python/
+        #        393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
         t = 1.0, 0.0050, 0.0000000000010
         s = 1.0050000000010
         self.test('sum', sum(t), s, known=True)
@@ -55,8 +56,8 @@ class Tests(TestsBase):
         # <https://GitHub.com/python/cpython/blob/master/Modules/mathmodule.c>
         t = 1e-16, 1, 1e16
         s = '1.0000000000000002e+16'  # half-even rounded
-        self.test('fsum', fsum(t), s, fmt='%.16e')
-        self.test('Fsum', Fsum().fsum(t), s, fmt='%.16e')
+        self.test('fsum', fsum(t), s, prec=-16)
+        self.test('Fsum', Fsum().fsum(t), s, prec=-16)
 
         # <https://GitHub.com/ActiveState/code/blob/master/recipes/Python/
         #        393090_Binary_floating_point_summatiaccurate_full/recipe-393090.py>
@@ -81,7 +82,7 @@ class Tests(TestsBase):
 
         p = f * (f * 1e10)  # coverage Fsum.__imul__
         f *= f * 1e10
-        self.test('fmul', p.fsum(), f.fsum(), fmt='%0.8f')
+        self.test('fmul', p.fsum(), f.fsum(), prec=8)
 
         p = fpowers(2, 10)  # PYCHOK false!
         self.test('fpowers', len(p), 10)
@@ -98,14 +99,14 @@ class Tests(TestsBase):
 
         for _, E in sorted(Ellipsoids.items()):
             Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384)
-            self.test(E.name, Ah, E.A, fmt='%.10f', known=abs(Ah - E.A) < 1e-9)
+            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-9)
             Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 16384, 4096, 256, 64, 25) / 16384)
-            self.test(E.name, Ah, E.A, fmt='%.10f', known=abs(Ah - E.A) < 1e-9)
+            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-9)
 
             Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384, 49./65536)
-            self.test(E.name, Ah, E.A, fmt='%.10f', known=abs(Ah - E.A) < 1e-9)
+            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-9)
             Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 65536, 16384, 1024, 256, 100, 49) / 65536)
-            self.test(E.name, Ah, E.A, fmt='%.10f', known=abs(Ah - E.A) < 1e-9)
+            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-9)
 
         t = 1, 1e101, 1, -1e101
         for _ in range(10):
@@ -144,24 +145,24 @@ class Tests(TestsBase):
             self.test('_2sum', repr(x), repr(x))
 
         h = hypot_(1.0, 0.0050, 0.0000000000010)
-        self.test('hypot_', h, '1.0000124999219', fmt='%.13f')
+        self.test('hypot_', h, '1.0000124999219', prec=13)
         s = hypot3(1.0, 0.0050, 0.0000000000010)  # DEPRECATED
-        self.test('hypot3', s, h, fmt='%.13f')
+        self.test('hypot3', s, h, prec=13)
 
         h = hypot_(3000, 2000, 100)  # note, all C{int}
-        self.test('hypot_', h, '3606.937759', fmt='%.6f')
+        self.test('hypot_', h, '3606.937759', prec=6)
         s = hypot3(3000, 2000, 100)  # DEPRECATED
-        self.test('hypot3', s, h, fmt='%.6f')
+        self.test('hypot3', s, h, prec=6)
 
         h = hypot_(40000, 3000, 200, 10.0)
         s = sqrt(fsum_(40000**2, 3000**2, 200**2, 100))
         self.test('hypot_', h, s, fmt='%.3f')
 
-        self.test('cbrt', cbrt(27),   '3.0')
-        self.test('cbrt', cbrt(-27), '-3.0')
-        self.test('cbrt2', cbrt2(27),  '9.0')
-        self.test('cbrt2', cbrt2(-27), '9.0')
-        self.test('sqrt3', sqrt3(9),  '27.0')
+        self.test('cbrt',  cbrt(27),   '3.00', prec=2)
+        self.test('cbrt',  cbrt(-27), '-3.00', prec=2)
+        self.test('cbrt2', cbrt2(27),  '9.00', prec=2)
+        self.test('cbrt2', cbrt2(-27), '9.00', prec=2)
+        self.test('sqrt3', sqrt3(9),  '27.00', prec=2)
 
         # Knuth/Kulisch, TAOCP, vol 2, p 245, sec 4.2.2, item 31, see also .testKarney.py
         # <https://SeriousComputerist.Atariverse.com/media/pdf/book/
@@ -171,10 +172,10 @@ class Tests(TestsBase):
         self.test('ints', 2*y**2 +  9*x**4 - y**4, 1)
         self.test('ints', 2*y**2 + (3*x**2 - y**2) * (3*x**2 + y**2), 1)
         t = 2*float(y)**2, 9*float(x)**4, -(float(y)**4)
-        self.test('fsum ', fsum(t),          '1.0', fmt='%.12e', known=True)  # -3.589050987400773e+19
-        self.test('fsum_', fsum_(*t),        '1.0', fmt='%.12e', known=True)
-        self.test('Fsum ', Fsum().fsum_(*t), '1.0', fmt='%.12e', known=True)
-        self.test('sum  ',  sum(t),          '1.0', fmt='%.12e', known=True)
+        self.test('fsum ', fsum(t),          '1.0', prec=-12, known=True)  # -3.589050987400773e+19
+        self.test('fsum_', fsum_(*t),        '1.0', prec=-12, known=True)
+        self.test('Fsum ', Fsum().fsum_(*t), '1.0', prec=-12, known=True)
+        self.test('sum  ',  sum(t),          '1.0', prec=-12, known=True)
 
 
 if __name__ == '__main__':

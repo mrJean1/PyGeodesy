@@ -32,29 +32,29 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _parseX, _ValueError
 from pygeodesy.interns import _band_, _COMMA_SPACE_, _datum_, \
                               _easting_, NN, _northing_, _SPACE_, \
-                              _SQUARE_, _zone_
+                              _SQUARE_, _zone_, _0_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
+from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.streprs import enstr2
-from pygeodesy.units import Easting, Meter, Northing
+from pygeodesy.units import Easting, Meter, Northing, Str
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
 from pygeodesy.utmupsBase import _hemi, UtmUps5Tuple
 
 import re  # PYCHOK warning locale.Error
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.09.01'
+__version__ = '20.09.12'
 
-_100km  = Meter( 100e3)  #: (INTERNAL) 100 km in meter.
-_2000km = Meter(2000e3)  #: (INTERNAL) 2,000 km in meter.
+_100km  = Meter( 100e3)  # 100 km in meter
+_2000km = Meter(2000e3)  # 2,000 km in meter
 # 100 km grid square column (‘e’) letters repeat every third zone
-_Le100k = 'ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ'  #: (INTERNAL) Grid E colums.
+_Le100k = 'ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ'  # grid E colums
 # 100 km grid square row (‘n’) letters repeat every other zone
-_Ln100k = 'ABCDEFGHJKLMNPQRSTUV', 'FGHJKLMNPQRSTUVABCDE'  #: (INTERNAL) Grid N rows.
+_Ln100k = 'ABCDEFGHJKLMNPQRSTUV', 'FGHJKLMNPQRSTUVABCDE'  # grid N rows
 
 # split an MGRS string "12ABC1235..." into 3 parts
-_MGRSre = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)  #: (INTERNAL) Regex.
-_ZBGre  = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})', re.IGNORECASE)  #: (INTERNAL) Regex.
+_MGRSre = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)  # regex
+_ZBGre  = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})', re.IGNORECASE)  # regex
 
 
 class MGRSError(_ValueError):
@@ -67,13 +67,13 @@ class Mgrs(_NamedBase):
     '''Military Grid Reference System (MGRS/NATO) references,
        with method to convert to UTM coordinates.
     '''
-    _band     = NN    #: (INTERNAL) Latitudinal band (C..X).
-    _bandLat  = None  #: (INTERNAL) Band latitude (C{degrees90} or C{None}).
-    _datum    = Datums.WGS84  #: (INTERNAL) Datum (L{Datum}).
-    _easting  = 0   #: (INTERNAL) Easting (C{meter}), within 100 km grid square.
-    _en100k   = NN  #: (INTERNAL) Grid EN digraph (C{str}), 100 km grid square.
-    _northing = 0   #: (INTERNAL) Northing (C{meter}), within 100 km grid square.
-    _zone     = 0   #: (INTERNAL) Longitudinal zone (C{int}), 1..60.
+    _band     = NN    # latitudinal band (C..X)
+    _bandLat  = None  # band latitude (C{degrees90} or C{None})
+    _datum    = Datums.WGS84  # Datum (L{Datum})
+    _easting  = 0     # Easting (C{meter}), within 100 km grid square
+    _en100k   = NN    # grid EN digraph (C{str}), 100 km grid square
+    _northing = 0     # Northing (C{meter}), within 100 km grid square
+    _zone     = 0     # longitudinal zone (C{int}), 1..60
 
     def __init__(self, zone, en100k, easting, northing,
                              band=NN, datum=Datums.WGS84, name=NN):
@@ -233,7 +233,7 @@ class Mgrs(_NamedBase):
         '''
         # get northing of the band bottom, extended to
         # include entirety of bottom-most 100 km square
-        n  = toUtm8(self.bandLatitude, 0, datum=self.datum).northing
+        n  = toUtm8(self.bandLatitude, _0_0, datum=self.datum).northing
         nb = int(n / _100km) * _100km
 
         e, n = self._en100k2m()
@@ -263,6 +263,7 @@ class Mgrs4Tuple(_NamedTuple):
        C{digraph} as C{str}, C{easting} and C{northing} in C{meter}.
     '''
     _Names_ = (_zone_, 'digraph', _easting_, _northing_)
+    _Units_ = ( Str,    Str,       Easting,   Northing)
 
     def __new__(cls, z, di, e, n, Error=MGRSError):
         if Error is not None:
@@ -288,11 +289,12 @@ class Mgrs6Tuple(_NamedTuple):  # XXX only used in the line above
        C{northing} in C{meter} and C{datum} a L{Datum}.
     '''
     _Names_ = Mgrs4Tuple._Names_ + (_band_, _datum_)
+    _Units_ = Mgrs4Tuple._Units_ + ( Str,   _Pass)
 
 
 def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=NN):
     '''Parse a string representing a MGRS grid reference,
-       consisting of zoneBand, grid, easting and northing.
+       consisting of C{"zoneBand, grid, easting, northing"}.
 
        @arg strMGRS: MGRS grid reference (C{str}).
        @kwarg datum: Optional datum to use (L{Datum}).

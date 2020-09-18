@@ -4,7 +4,7 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '20.08.11'
+__version__ = '20.09.08'
 
 from base import TestsBase
 
@@ -71,8 +71,8 @@ class Tests(TestsBase):
 
     def testFormy(self):
 
-        self.test('antipode1', antipode( 89,  179), (-89, -1))
-        self.test('antipode2', antipode(-89, -179), (89, 1))
+        self.test('antipode1', antipode( 89,  179), (-89.0, -1.0))
+        self.test('antipode2', antipode(-89, -179), ( 89.0,  1.0))
 
         # roughly, Newport to New York
         self.test('bearing1', bearing(41.49, -71.31, 40.78, -73.97),              251.364, fmt='%.3f')

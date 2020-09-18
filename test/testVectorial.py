@@ -4,11 +4,11 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.08.09'
+__version__ = '20.09.12'
 
 from base import coverage, TestsBase
 
-from pygeodesy import F_D, fstr, sphericalNvector, vector3d, VectorError
+from pygeodesy import F_D, fstr, NEG0, sphericalNvector, vector3d, VectorError
 
 
 class Tests(TestsBase):
@@ -36,8 +36,8 @@ class Tests(TestsBase):
             self.test('ecef.M', fstr(p.M, prec=9), fstr(c.M, prec=9))
 
         if coverage:
-            from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, \
-                                        PhiLam2Tuple, PhiLam3Tuple
+            from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
+                                              PhiLam2Tuple, PhiLam3Tuple
 
             self.test('.isEllipsoidal', v.isEllipsoidal, not v.isSpherical)
             self.test('.isSpherical',   v.isSpherical,   not v.isEllipsoidal)
@@ -45,8 +45,8 @@ class Tests(TestsBase):
             self.test('.latlon', v.latlon, LatLon2Tuple(v.lat, v.lon))
             self.test('.philam', v.philam, PhiLam2Tuple(v.phi, v.lam))
 
-            self.test('.latlonheight', v.latlonheight, LatLon3Tuple(v.lat, v.lon, float(v.h)))
-            self.test('.philamheight', v.philamheight, PhiLam3Tuple(v.phi, v.lam, float(v.h)))
+            self.test('.latlonheight', v.latlonheight, LatLon3Tuple(v.lat, v.lon, v.h), known=v.h in (0, 0.0, NEG0))
+            self.test('.philamheight', v.philamheight, PhiLam3Tuple(v.phi, v.lam, v.h), known=v.h in (0, 0.0, NEG0))
 
             t = v.parse('0.5, 0.5, 0.707')
             self.test('parse', t, v)

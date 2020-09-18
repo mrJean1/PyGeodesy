@@ -14,20 +14,21 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import EPS, PI, PI2, PI_2, PI_4, R_M, \
-                             isscalar, map1, _xkwds
+from pygeodesy.basics import isscalar, map1, _xkwds
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                               IntersectionError, _ValueError, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _radical2, vincentys_
-from pygeodesy.interns import _1_, _2_, _center1_, _center2_, _coincident_, \
-                              _colinear_, _end_, _fraction_, _invalid_, \
-                              _item_sq, _near_concentric_, _not_convex_, \
-                              _points_, _start_, _start1_, _start2_, \
-                              _too_distant_fmt_
+from pygeodesy.interns import EPS, PI, PI2, PI_2, PI_4, R_M, _1_, _2_, \
+                             _center1_, _center2_, _coincident_, \
+                             _colinear_, _end_, _fraction_, _invalid_, \
+                             _item_sq, _near_concentric_, _not_convex_, \
+                             _points_, _start_, _start1_, _start2_, \
+                             _too_distant_fmt_, _0_0, _0_5, _4_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
-                           _xnamed
+from pygeodesy.named import _xnamed
+from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
+                                  NearestOn3Tuple
 from pygeodesy.nvectorBase import NvectorBase as _Nvector
 from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
@@ -41,9 +42,9 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.08.14'
+__version__ = '20.09.11'
 
-_EPS_I2    = 4.0 * EPS
+_EPS_I2    = EPS * _4_0
 _PI_EPS_I2 = PI - _EPS_I2
 if _PI_EPS_I2 >= PI:
     raise _AssertionError(_PI_EPS_I2=_PI_EPS_I2)
@@ -153,7 +154,7 @@ class LatLon(LatLonSphericalBase):
         if abs(cx) > EPS:
             return copysign(acos1(cos(r) / cx), cos(b)) * radius
         else:
-            return 0.0
+            return _0_0
 
     def bearingTo(self, other, wrap=False, raiser=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{initialBearingTo}.
@@ -691,7 +692,7 @@ class LatLon(LatLonSphericalBase):
         return LatLonSphericalBase.toCartesian(self, **kwds)
 
 
-_T00 = LatLon(0, 0)  #: (INTERNAL) Reference instance (L{LatLon}).
+_T00 = LatLon(0, 0)  # reference instance (L{LatLon})
 
 
 def areaOf(points, radius=R_M, wrap=True):
@@ -783,7 +784,7 @@ def _x3d2(start, end, wrap, n, hs):
         raise IntersectionError(start=start, end=end, txt='null path' + n)
 
     # note, in EdWilliams.org/avform.htm W is + and E is -
-    b21, b12 = db * 0.5, -(b1 + b2) * 0.5
+    b21, b12 = db * _0_5, -(b1 + b2) * _0_5
 
     sb21, cb21, sb12, cb12, \
     sa21,    _, sa12,    _ = sincos2(b21, b12, a1 - a2, a1 + a2)

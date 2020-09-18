@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.04.15'
+__version__ = '20.09.08'
 
 from base import TestsBase, geographiclib
 
-from pygeodesy import EPS, PI, PI2, PI_2, \
+from pygeodesy import EPS, PI, PI2, PI_2, atan2d, \
                       degrees90, degrees180, degrees360, degrees2m, \
                       ft2m, isPoints2, m2degrees, m2ft, \
                       radiansPI, radiansPI2, radiansPI_2, \
@@ -21,10 +21,10 @@ from math import cos, radians, sin
 
 if geographiclib:
     from geographiclib.geomath import Math
+    atand   = Math.atan2d
     sincosd = Math.sincosd
-    del Math
 else:
-    sincosd = None
+    Math = None
 
 
 class Tests(TestsBase):
@@ -75,26 +75,26 @@ class Tests(TestsBase):
         self.test('radiansPI2(-180)',     radiansPI2(-180),     PI)
         self.test('radiansPI2(-360)', abs(radiansPI2(-360)),   0.0)  # -0.0
 
-        self.test('wrap90(90)',   wrap90(90),    90)
-        self.test('wrap90(180)',  wrap90(180), -180)
-        self.test('wrap90(360)',  wrap90(360),    0)
-        self.test('wrap90(-90)',  wrap90(-90),   -90)
-        self.test('wrap90(-180)', wrap90(-180), -180)
-        self.test('wrap90(-360)', wrap90(-360),    0)
+        self.test('wrap90(90)',   wrap90(90),     90.0)
+        self.test('wrap90(180)',  wrap90(180),  -180.0)
+        self.test('wrap90(360)',  wrap90(360),     0.0)
+        self.test('wrap90(-90)',  wrap90(-90),   -90.0)
+        self.test('wrap90(-180)', wrap90(-180), -180.0)
+        self.test('wrap90(-360)', wrap90(-360),    0.0)
 
-        self.test('wrap180(90)',   wrap180(90),   90)
-        self.test('wrap180(180)',  wrap180(180), 180)
-        self.test('wrap180(360)',  wrap180(360),   0)
-        self.test('wrap180(-90)',  wrap180(-90),   -90)
-        self.test('wrap180(-180)', wrap180(-180), -180)
-        self.test('wrap180(-360)', wrap180(-360),    0)
+        self.test('wrap180(90)',   wrap180(90),     90.0)
+        self.test('wrap180(180)',  wrap180(180),   180.0)
+        self.test('wrap180(360)',  wrap180(360),     0.0)
+        self.test('wrap180(-90)',  wrap180(-90),   -90.0)
+        self.test('wrap180(-180)', wrap180(-180), -180.0)
+        self.test('wrap180(-360)', wrap180(-360),    0.0)
 
-        self.test('wrap360(90)',   wrap360(90),   90)
-        self.test('wrap360(180)',  wrap360(180), 180)
-        self.test('wrap360(360)',  wrap360(360),   0)
-        self.test('wrap360(-90)',  wrap360(-90),  270)
-        self.test('wrap360(-180)', wrap360(-180), 180)
-        self.test('wrap360(-360)', wrap360(-360),   0)
+        self.test('wrap360(90)',   wrap360(90),    90.0)
+        self.test('wrap360(180)',  wrap360(180),  180.0)
+        self.test('wrap360(360)',  wrap360(360),    0.0)
+        self.test('wrap360(-90)',  wrap360(-90),  270.0)
+        self.test('wrap360(-180)', wrap360(-180), 180.0)
+        self.test('wrap360(-360)', wrap360(-360),   0.0)
 
         self.test('wrapPI_2(PI_2)', wrapPI_2(PI_2), PI_2)
         self.test('wrapPI_2(PI)',   wrapPI_2(PI),    -PI)  # XXX
@@ -129,8 +129,8 @@ class Tests(TestsBase):
         self.test('unroll180', fstr(unroll180(-830, 90, wrap=True)), '-160.0, -990.0')
         self.test('unroll180', fstr(unroll180(-830, 90, wrap=False)), '920.0, 90.0')
 
-        e = d = g = f = 0
-        for a in range(-1000, 1000):
+        e = d = g = f = t = 0
+        for a in range(-1000, 1000, 2):
             a *= 0.47
             r = radians(a)
             sr, cr = sin(r), cos(r)
@@ -140,17 +140,19 @@ class Tests(TestsBase):
 
             sd, cd = sincos2d(a)
             d = max(d, abs(sr - sd), abs(cr - cd))
-            if sincosd:  # compare with geographiclib
+            if Math:  # compare with geographiclib
+                t = max(t, abs(atan2d(sr, cr) - atand(sr, cr)))
                 s, c = sincosd(a)
                 g = max(g, abs(sr - s), abs(cr - c))
                 f = max(f, abs(sd - s), abs(cd - c))
 
         EPS_ = EPS * 8
-        self.test('sincos2',  e, EPS, known=e < EPS_)
-        self.test('sincos2d', d, EPS, known=d < EPS_)
-        if sincosd:
-            self.test('sincosd ', g, EPS, known=g < EPS_)
-            self.test('sincos*d', f, EPS, known=f < EPS_)
+        self.test('sincos2',  e, EPS_, known=e < EPS_)
+        self.test('sincos2d', d, EPS_, known=d < EPS_)
+        if Math:
+            self.test('atand',    t, EPS,  known=t < EPS)
+            self.test('sincosd ', g, EPS_, known=g < EPS_)
+            self.test('sincos*d', f, EPS_, known=f < EPS_)
 
         # <https://www.CivilGeo.com/when-a-foot-isnt-really-a-foot/>
         self.test('iFt2m', ft2m( 614963.91), 187441, fmt='%.0f')

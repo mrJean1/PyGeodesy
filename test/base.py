@@ -8,9 +8,10 @@
 # and <https://www.Movable-Type.co.UK/scripts/latlong.html>.
 
 from copy import copy as _xcopy
+from glob import glob
 from inspect import isclass, isfunction, ismethod, ismodule
 from os import getenv
-from os.path import abspath, basename, dirname
+from os.path import abspath, basename, dirname, join as joined, splitext
 from platform import architecture, java_ver, mac_ver, win32_ver, uname
 import sys
 from time import time
@@ -39,8 +40,9 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anstr, clips, isLazy, iterNumpy2over, map2, normDMS, pairs, \
-                      property_RO, version as PyGeodesy_version  # PYCHOK expected
+from pygeodesy import anstr, clips, isLazy, issubclassof, iterNumpy2over, \
+                      LazyImportError, map2, normDMS, pairs, property_RO, \
+                      version as PyGeodesy_version  # PYCHOK expected
 
 __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
            'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
@@ -49,7 +51,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.07.26'
+__version__ = '20.09.14'
 
 try:
     _Ints = int, long
@@ -172,6 +174,37 @@ class TestsBase(object):
     def name(self):
         return self._name
 
+    def pygeodesy_classes(self, Base=None, deprecated=False):
+        '''Yield all PyGeodesy class definitions.
+        '''
+        B = Base if isclass(Base) else None
+        for m in self.pygeodesy_modules(deprecated=deprecated):
+            for n in dir(m):
+                C = getattr(m, n)
+                if isclass(C) and (issubclassof(C, B) if B else True) \
+                              and C.__module__ == m.__name__:
+                    yield C
+
+    def pygeodesy_modules(self, deprecated=False):
+        '''Yield all PyGeodesy modules.
+        '''
+        import pygeodesy as _p  # PYCHOK expected
+        for _, n in self.pygeodesy_names2(deprecated=deprecated):
+            try:
+                m = getattr(_p, splitext(n)[0])
+            except LazyImportError:
+                continue
+            if ismodule(m):
+                yield m
+
+    def pygeodesy_names2(self, deprecated=False):
+        '''Yield all PyGeodesy module files and basenames.
+        '''
+        for n in sorted(glob(joined(PyGeodesy_dir, 'pygeodesy', '[a-z]*.py'))):
+            m = basename(n)
+            if deprecated or not m.startswith('deprecated'):
+                yield n, m
+
     def printf(self, fmt, *args, **kwds):  # nl=0, nt=0
         '''Print a formatted line to sys.stdout.
         '''
@@ -222,11 +255,13 @@ class TestsBase(object):
         t = (basename(module.__name__), module.__version__) + pairs(kwds.items())
         self.printf('test%s(%s)', testing, ', '.join(t), nl=1)
 
-    def test(self, name, value, expect, fmt='%s', known=False, **kwds):
+    def test(self, name, value, expect, **kwds):
         '''Compare a test value with the expected result.
         '''
         if self._iterisk:
             name += self._iterisk
+
+        fmt, known, kwds = _fmt_known_kwds(**kwds)
 
         if not isinstance(expect, _Strs):
             expect = fmt % (expect,)  # expect as str
@@ -249,8 +284,7 @@ class TestsBase(object):
         if self._iterisk:
             name += self._iterisk
 
-        fmt   = kwds.pop('fmt',   '%s')
-        known = kwds.pop('known', False)
+        fmt, known, kwds = _fmt_known_kwds(**kwds)
 
         f, v = '', fmt % (value,)  # value as str
         for x in expects:
@@ -321,6 +355,16 @@ class TestsBase(object):
         '''Set verbosity (C{bool}).
         '''
         self._verbose = bool(v)
+
+
+def _fmt_known_kwds(fmt='%s', prec=0, known=False, **kwds):
+    '''(INTERNAL) Get C{fmt}, C{known} and other C{kwds}.
+    '''
+    if prec > 0:
+        fmt = '%%.%df' % (prec,)
+    elif prec < 0:
+        fmt = '%%.%de' % (-prec,)
+    return fmt, known, kwds
 
 
 if isiOS:

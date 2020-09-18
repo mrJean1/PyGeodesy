@@ -37,19 +37,19 @@ from pygeodesy.ellipsoidalBase import _intersections2, _TOL_M, \
 from pygeodesy.errors import _ValueError
 from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import Bearing2Tuple, Destination2Tuple
+from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.08.24'
+__version__ = '20.09.10'
 
 
 class Cartesian(CartesianEllipsoidalBase):
     '''Extended to convert C{Karney}-based L{Cartesian} to
        C{Karney}-based L{LatLon} points.
     '''
-    _Ecef = EcefKarney  #: (INTERNAL) Preferred C{Ecef...} class.
+    _Ecef = EcefKarney  # preferred C{Ecef...} class
 
     def toLatLon(self, **LatLon_datum_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to a C{Karney}-based
@@ -82,7 +82,7 @@ class LatLon(LatLonEllipsoidalBase):
        @note: This L{LatLon}'s methods require the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
     '''
-    _Ecef = EcefKarney  #: (INTERNAL) Preferred C{Ecef...} class.
+    _Ecef = EcefKarney  # preferred C{Ecef...} class
 
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{initialBearingTo}.

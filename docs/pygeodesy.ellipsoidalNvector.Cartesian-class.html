@@ -69,7 +69,7 @@
                                |            
                <a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a> --+        
                                    |        
-         cartesianBase.CartesianBase --+    
+         <a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a> --+    
                                        |    
 <a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html">ellipsoidalBase.CartesianEllipsoidalBase</a> --+
                                            |
@@ -137,13 +137,13 @@
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html">ellipsoidalBase.CartesianEllipsoidalBase</a></code></b>:
       <code><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#convertRefFrame">convertRefFrame</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>cartesianBase.CartesianBase</code></b>:
-      <code>__init__</code>,
-      <code>convertDatum</code>,
-      <code>to3llh</code>,
-      <code>toEcef</code>,
-      <code>toStr</code>,
-      <code>toVector</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></code></b>:
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#__init__">__init__</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#convertDatum">convertDatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to3llh">to3llh</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toEcef">toEcef</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toVector">toVector</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#__abs__">__abs__</a></code>,
@@ -223,18 +223,18 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>cartesianBase.CartesianBase</code></b>:
-      <code>Ecef</code>,
-      <code>datum</code>,
-      <code>height</code>,
-      <code>isEllipsoidal</code>,
-      <code>isSpherical</code>,
-      <code>latlon</code>,
-      <code>latlonheight</code>,
-      <code>latlonheightdatum</code>,
-      <code>philam</code>,
-      <code>philamheight</code>,
-      <code>philamheightdatum</code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></code></b>:
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#Ecef">Ecef</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#height">height</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#isEllipsoidal">isEllipsoidal</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#isSpherical">isSpherical</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#latlon">latlon</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheight">latlonheight</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#latlonheightdatum">latlonheightdatum</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philam">philam</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philamheight">philamheight</a></code>,
+      <code><a href="pygeodesy.cartesianBase.CartesianBase-class.html#philamheightdatum">philamheightdatum</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.vector3d.Vector3d-class.html">vector3d.Vector3d</a></code></b>:
       <code><a href="pygeodesy.vector3d.Vector3d-class.html#crosserrors">crosserrors</a></code>,
@@ -309,7 +309,7 @@
         other <b><code>LatLon_datum_kwds</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
-        cartesianBase.CartesianBase.toLatLon
+        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLatLon">cartesianBase.CartesianBase.toLatLon</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -348,7 +348,7 @@
         <dd>The <code>n-vector</code> components (<a 
           href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
           class="link">Nvector</a>) or a <a 
-          href="pygeodesy.named.Vector4Tuple-class.html" 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
           <b><code>Nvector=None</code></b>.</dd>
     <dt>Raises:</dt>
@@ -357,7 +357,7 @@
         other <b><code>Nvector_datum_kwds</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
-        cartesianBase.CartesianBase.toNvector
+        <a href="pygeodesy.cartesianBase.CartesianBase-class.html#toNvector">cartesianBase.CartesianBase.toNvector</a>
     </dt>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -400,7 +400,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Sep  5 15:12:14 2020
+    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:34 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

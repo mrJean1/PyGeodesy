@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{Datum} and L{Transform} and registries thereof L{Datums}
+u'''Classes L{Datum} and L{Transform} and registries thereof, L{Datums}
 and L{Transforms}, respectively.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
@@ -78,43 +78,44 @@ from pygeodesy.basics import isscalar, property_RO, _xinstanceof
 from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
                                  Ellipsoid2, Ellipsoids
 from pygeodesy.errors import _IsnotError
-from pygeodesy.fmath import _2_3rd, cbrt, cbrt2, fdot, fpowers, Fsum, \
-                             fsum_, hypot1, hypot2, sqrt3  # PYCHOK _2_3rd
-from pygeodesy.interns import _COMMA_SPACE_, _ellipsoid_, _flt, _name_, NN, \
-                              _spherical_, _transform_, _UNDERSCORE_
+from pygeodesy.fmath import fdot
+from pygeodesy.interns import _COMMA_SPACE_, _ellipsoid_, _float, _name_, NN, \
+                              _spherical_, _transform_, _UNDERSCORE_, \
+                              _0_0, _1_0, _2_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedEnum, _NamedEnumItem, Vector3Tuple
+from pygeodesy.named import _NamedEnum, _NamedEnumItem
+from pygeodesy.namedTuples import Vector3Tuple
 from pygeodesy.units import Radius_, Scalar
 
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '20.09.01'
+__version__ = '20.09.11'
 
 
 def _r_s2(s):
     '''(INTERNAL) rotation in C{radians} and C{degree seconds}.
     '''
-    return _flt(radians(s / 3600.0)), _flt(s)
+    return _float(radians(s / _3600_0)), _float(s)
 
 
 class Transform(_NamedEnumItem):
     '''Helmert transformation.
     '''
-    tx = 0  #: X translation (C{meter}).
-    ty = 0  #: Y translation (C{meter}).
-    tz = 0  #: Z translation (C{meter}).
+    tx = _0_0  # x translation (C{meter})
+    ty = _0_0  # y translation (C{meter})
+    tz = _0_0  # z translation (C{meter})
 
-    rx = 0  #: X rotation (C{radians}).
-    ry = 0  #: Y rotation (C{radians}).
-    rz = 0  #: Z rotation (C{radians}).
+    rx = _0_0  # x rotation (C{radians})
+    ry = _0_0  # y rotation (C{radians})
+    rz = _0_0  # z rotation (C{radians})
 
-    s  = 0  #: Scale ppm (C{float}).
-    s1 = 1  #: Scale + 1 (C{float}).
+    s  = _0_0  # scale ppm (C{float})
+    s1 = _1_0  # scale + 1 (C{float})
 
-    sx = 0  #: X rotation (degree seconds).
-    sy = 0  #: Y rotation (degree seconds).
-    sz = 0  #: Z rotation (degree seconds).
+    sx = _0_0  # x rotation (degree seconds)
+    sy = _0_0  # y rotation (degree seconds)
+    sz = _0_0  # z rotation (degree seconds)
 
     def __init__(self, name=NN, tx=0, ty=0, tz=0,
                                 sx=0, sy=0, sz=0, s=0):
@@ -132,11 +133,11 @@ class Transform(_NamedEnumItem):
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
         if tx:
-            self.tx = _flt(tx)
+            self.tx = _float(tx)
         if ty:
-            self.ty = _flt(ty)
+            self.ty = _float(ty)
         if tz:
-            self.tz = _flt(tz)
+            self.tz = _float(tz)
         if sx:  # secs to rads
             self.rx, self.sx = _r_s2(sx)
         if sy:
@@ -144,8 +145,8 @@ class Transform(_NamedEnumItem):
         if sz:
             self.rz, self.sz = _r_s2(sz)
         if s:
-            self.s  = _flt(s)
-            self.s1 = _flt(s * 1e-6 + 1)  # normalize ppm to (s + 1)
+            self.s  = _float(s)
+            self.s1 = _float(s * 1e-6 + _1_0)  # normalize ppm to (s + 1)
 
         self._register(Transforms, name)
 
@@ -200,10 +201,10 @@ class Transform(_NamedEnumItem):
            @return: A L{Vector3Tuple}C{(x, y, z)}, transformed.
         '''
         if inverse:
-            _xyz = -1, -x, -y, -z
-            _s1 = self.s1 - 2  # == -(1 - s * 1e-6)) == -(1 - (s1 - 1))
+            _xyz = -_1_0, -x, -y, -z
+            _s1 = self.s1 - _2_0  # == -(1 - s * 1e-6)) == -(1 - (s1 - 1))
         else:
-            _xyz =  1,  x,  y,  z
+            _xyz =  _1_0,  x,  y,  z
             _s1  = self.s1
         # x', y', z' = (.tx + x * .s1 - y * .rz + z * .ry,
         #               .ty + x * .rz + y * .s1 - z * .rx,
@@ -214,7 +215,7 @@ class Transform(_NamedEnumItem):
         return self._xnamed(r)
 
 
-Transforms = _NamedEnum('Transforms', Transform)  #: Registered transforms.
+Transforms = _NamedEnum('Transforms', Transform)  # registered transforms
 # <https://WikiPedia.org/wiki/Helmert_transformation> from WGS84
 Transforms._assert(
     BD72           = Transform('BD72', tx=106.868628, ty=-52.297783, tz=103.723893,
@@ -268,9 +269,9 @@ Transforms._assert(
 class Datum(_NamedEnumItem):
     '''Ellipsoid and transform parameters for an earth model.
     '''
-    _ellipsoid = Ellipsoids.WGS84  #: (INTERNAL) Default ellipsoid (L{Ellipsoid}, L{Ellipsoid2}).
-    _exactTM   = None              #: (INTERNAL) L{ExactTransverseMercator} projection.
-    _transform = Transforms.WGS84  #: (INTERNAL) Default transform (L{Transform}).
+    _ellipsoid = Ellipsoids.WGS84  # default ellipsoid (L{Ellipsoid}, L{Ellipsoid2})
+    _exactTM   = None              # L{ExactTransverseMercator} projection
+    _transform = Transforms.WGS84  # default transform (L{Transform})
 
     def __init__(self, ellipsoid, transform=None, name=NN):
         '''New L{Datum}.
@@ -422,7 +423,7 @@ def _spherical_datum(radius, name=NN, raiser=False):
     return d
 
 
-Datums = _NamedEnum('Datums', Datum)      #: Registered datums.
+Datums = _NamedEnum('Datums', Datum)  # registered datums
 # Datums with associated ellipsoid and Helmert transform parameters
 # to convert from WGS84 into the given datum.  More are available at
 # <https://Earth-Info.NGA.mil/GandG/coordsys/datums/NATO_DT.pdf> and

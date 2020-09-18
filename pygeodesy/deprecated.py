@@ -3,18 +3,18 @@
 
 u'''DEPRECATED classes, functions, etc. exported for backward compatibility.
 '''
-from pygeodesy.basics import EPS
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
-from pygeodesy.interns import _COMMA_SPACE_, _easting_, _hemipole_, NN, \
-                              _northing_, _scalar_, _UNDERSCORE_, _zone_
+from pygeodesy.interns import EPS, _COMMA_SPACE_, _easting_, _hemipole_, NN, \
+                             _northing_, _scalar_, _UNDERSCORE_, _zone_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.trf import TRFError as _TRFError
+from pygeodesy.units import Easting, Northing, Str
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '20.08.24'
+__version__ = '20.09.14'
 
 OK = 'OK'  # OK for test like I{if ... is OK: ...}
 
@@ -53,6 +53,7 @@ class UtmUps4Tuple(_NamedTuple):
        C{str}, C{meter} and C{meter}.
     '''
     _Names_ = (_zone_, _hemipole_, _easting_, _northing_)  # band
+    _Units_ = ( Str,    Str,        Easting,   Northing)
 
 
 def anStr(name, OKd='._-', sub=_UNDERSCORE_):

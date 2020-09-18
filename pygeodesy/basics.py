@@ -1,36 +1,36 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Basic constants, definitions and functions.
+u'''Basic definitions, decorators and functions.
 '''
 from pygeodesy.errors import _AttributeError, _IsnotError, \
                              _TypesError, _ValueError
-from pygeodesy.interns import _COMMA_SPACE_, NN, _UNDERSCORE_
+from pygeodesy.interns import _COMMA_SPACE_, NEG0, NN, \
+                              _UNDERSCORE_, _utf_8_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
-from inspect import isclass
-from math import copysign, isinf, isnan, pi as PI
-from sys import float_info as _float_info
+from inspect import isclass as _isclass
+from math import copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.08.08'
+__version__ = '20.09.16'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
-    from numbers import Integral as _Ints  #: (INTERNAL) Int objects
-except ImportError:  # PYCHOK no cover
-    try:  # _Ints imported by .utily
-        _Ints = int, long  #: (INTERNAL) Int objects (C{tuple})
-    except NameError:  # Python 3+
-        _Ints = int,  #: (INTERNAL) Int objects (C{tuple})
-
-try:  # similarly ...
-    from numbers import Real as _Scalars  #: (INTERNAL) Scalar objects
+    from numbers import Integral as _Ints  # int objects
 except ImportError:  # PYCHOK no cover
     try:
-        _Scalars = int, long, float  #: (INTERNAL) Scalar objects (C{tuple})
+        _Ints = int, long  # int objects (C{tuple})
+    except NameError:  # Python 3+
+        _Ints = int,  # int objects (C{tuple})
+
+try:  # similarly ...
+    from numbers import Real as _Scalars  # scalar objects
+except ImportError:  # PYCHOK no cover
+    try:
+        _Scalars = int, long, float  # scalar objects (C{tuple})
     except NameError:
-        _Scalars = int, float  #: (INTERNAL) Scalar objects (C{tuple})
+        _Scalars = int, float  # scalar objects (C{tuple})
 
 try:
     try:  # use C{from collections.abc import ...} in Python 3.9+
@@ -47,35 +47,11 @@ except ImportError:  # PYCHOK no cover
     _Seqs     = list, _Sequence  # , range for function len2 below
 
 try:
-    _Strs = basestring, str
+    _Bytes = unicode, bytearray  # PYCHOK expected
+    _Strs  = basestring, str
 except NameError:  # Python 3+
-    _Strs = str,
-
-try:
-    EPS    = _float_info.epsilon   #: System's epsilon (C{float})
-    MANTIS = _float_info.mant_dig  #: System's mantissa bits (C{int})
-    MAX    = _float_info.max       #: System's float max (C{float})
-    MIN    = _float_info.min       #: System's float min (C{float})
-except AttributeError:  # PYCHOK no cover
-    EPS    = 2.220446049250313e-16  #: Epsilon (C{float}) 2**-52?
-    MANTIS = 53  #: Mantissa bits ≈53 (C{int})
-    MAX    = pow(2.0,  1023) * (2 - EPS)  #: Float max (C{float}) ≈10**308, 2**1024?
-    MIN    = pow(2.0, -1021)  # Float min (C{float}) ≈10**-308, 2**-1021?
-EPS2   = EPS * 2.0    #: M{EPS * 2}   ≈4.440892098501e-16 (C{float})
-EPS_2  = EPS / 2.0    #: M{EPS / 2}   ≈1.110223024625e-16 (C{float})
-EPS1   = 1.0 - EPS    #: M{1 - EPS}   ≈0.9999999999999998 (C{float})
-EPS1_2 = 1.0 - EPS_2  #: M{1 - EPS_2} ≈0.9999999999999999 (C{float})
-# _1EPS  = 1.0 + EPS  #: M{1 + EPS}   ≈1.0000000000000002 (C{float})
-
-INF  = float('inf')  #: Infinity (C{float}), see function C{isinf}, C{isfinite}
-NAN  = float('nan')  #: Not-A-Number (C{float}), see function C{isnan}
-NEG0 = -0.0          #: Negative 0.0 (C{float}), see function C{isneg0}
-
-PI2  = PI * 2.0  #: Two PI, M{PI * 2} aka Tau (C{float})  # PYCHOK expected
-PI_2 = PI / 2.0  #: Half PI, M{PI / 2} (C{float})
-PI_4 = PI / 4.0  #: Quarter PI, M{PI / 4} (C{float})
-
-R_M  = 6371008.771415  #: Mean, spherical earth radius (C{meter}).
+    _Bytes = bytes, bytearray
+    _Strs  = str,
 
 
 def _bkwds(inst, Error=AttributeError, **name_value_pairs):  # in .frechet, .hausdorff, .heights
@@ -122,6 +98,17 @@ def halfs2(str2):
     return str2[:h], str2[h:]
 
 
+if _FOR_DOCS:  # XXX avoid epidoc Python 2.7 error
+    def isclass(obj):
+        '''Return C{True} if B{C{obj}} is a C{class}.
+
+           @see: Python's C{inspect.isclass}.
+        '''
+        return _isclass(obj)
+else:
+    isclass = _isclass
+
+
 try:
     from math import isfinite  # new in Python 3+
 except ImportError:
@@ -141,6 +128,17 @@ except ImportError:
         return not (isinf(obj) or isnan(obj))
 
 
+try:
+    isidentifier = str.isidentifier  # Python 3, must be str
+except AttributeError:  # Python 2-
+
+    def isidentifier(obj):
+        '''Return C{True} if B{C{obj}} is a valid Python identifier.
+        '''
+        return True if (obj and obj.replace(_UNDERSCORE_, NN).isalnum()
+                            and not obj[:1].isdigit()) else False
+
+
 def isint(obj, both=False):
     '''Check for C{int} type or an integer C{float} value.
 
@@ -158,6 +156,16 @@ def isint(obj, both=False):
     return isinstance(obj, _Ints)
 
 
+try:
+    from keyword import iskeyword  # Python 2.7+
+except ImportError:
+
+    def iskeyword(unused):
+        '''Not Implemented.  Return C{False}, always.
+        '''
+        return False
+
+
 def isneg0(obj):
     '''Check for L{NEG0}, negative 0.0.
 
@@ -166,8 +174,8 @@ def isneg0(obj):
        @return: C{True} if B{C{obj}} is C{NEG0} or -0.0,
                 C{False} otherwise.
     '''
-    return obj in (0.0, NEG0) and copysign(1, obj) < 0
-#                             and str(obj).rstrip(_0_) == '-0.'
+    return obj in (_0_0, NEG0) and copysign(1, obj) < 0
+#                              and str(obj).rstrip(_0_) == '-0.'
 
 
 def isscalar(obj):
@@ -290,12 +298,12 @@ class property_RO(property):
     # No __doc__ on purpose
 
     def __init__(self, method):  # PYCHOK signature
-        '''New immutable, read-only L{property_RO}.
+        '''New immutable, read-only L{property_RO} to be used as C{decorator}.
 
-           @arg method: The callable to be decorated as C{property.getter}.
+           @arg method: The callable being decorated as C{property.getter}.
 
-           @note: Like standard Python C{property} without a C{property.setter},
-                  but with a more descriptive error message when set.
+           @note: Like standard Python C{property} without a C{property.setter}
+                  and with a more descriptive error message when set.
         '''
         if _FOR_DOCS and method.__doc__:
             self.__doc__ = method.__doc__
@@ -326,6 +334,14 @@ class property_RO(property):
 #         raise AttributeError('%s property: %r.%s = %r' % t)
 #
 #     return property(method, Read_Only, None, method.__doc__ or 'N/A')
+
+
+def ub2str(ub):
+    '''Convert C{unicode} or C{bytes} to C{str}.
+    '''
+    if isinstance(ub, _Bytes):
+        ub = str(ub.decode(_utf_8_))
+    return ub
 
 
 def _xattrs(insto, other, *attrs):
