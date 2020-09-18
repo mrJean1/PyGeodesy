@@ -4,9 +4,9 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '19.09.16'
+__version__ = '19.09.17'
 
-from base import TestsBase, type2str
+from base import isPyPy, TestsBase, type2str
 
 
 class Tests(TestsBase):
@@ -38,17 +38,21 @@ if __name__ == '__main__':
         if ismodule(m):
             t.testModule(m)
 
-    # keyword.iskeyword.__module__ == None
-    pygeodesy.iskeyword.__module__ = 'keyword'
+    if not isPyPy:  # XXX because next line throws ...
+        # AttributeError: 'method' object has no attribute '__module__'
+        # at least when testing with PyPy on TravisCI
 
-    # check module for public functions, etc.
-    t.subtitle(pygeodesy, 'Public')
-    for a in sorted(pygeodesy.__all__):
-        f = getattr(pygeodesy, a)
-        m = getattr(f, '__module__', '.').split('.')[-1]
-        if m and m not in ('math', 'pygeodesy'):
-            n = a + type2str(pygeodesy, a)
-            t.test(n, m in pygeodesy.__all__ or a in ('freduce' , 'isclass', 'iskeyword'), True)
+        # keyword.iskeyword.__module__ == None
+        pygeodesy.iskeyword.__module__ = 'keyword'
+
+        # check module for public functions, etc.
+        t.subtitle(pygeodesy, 'Public')
+        for a in sorted(pygeodesy.__all__):
+            f = getattr(pygeodesy, a)
+            m = getattr(f, '__module__', '.').split('.')[-1]
+            if m and m not in ('math', 'pygeodesy'):
+                n = a + type2str(pygeodesy, a)
+                t.test(n, m in pygeodesy.__all__ or a in ('freduce' , 'isclass', 'iskeyword'), True)
 
     t.results()
     t.exit()
