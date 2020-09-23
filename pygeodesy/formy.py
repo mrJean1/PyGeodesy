@@ -30,7 +30,7 @@ from pygeodesy.utily import atan2b, degrees2m, degrees90, degrees180, \
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.09.12'
+__version__ = '20.09.19'
 
 _D_I2_ = 1e5  # meter, 100 Km, about 0.9 degrees
 
@@ -467,7 +467,7 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
     return r
 
 
-def _euclidean(a, b):  # in .ellipsoidalBase._intersects2
+def _euclidean(a, b):  # in .ellipsoidalBase._intersects2 and -._nearestOn
     # (INTERNAL) approx. distance for comparison
     a, b = abs(a), abs(b)
     if a < b:

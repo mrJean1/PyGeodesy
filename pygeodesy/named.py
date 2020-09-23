@@ -22,16 +22,15 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
                              _ValueError, UnitError
-from pygeodesy.interns import _AT_, _COLON_, _COLON_SPACE_, _COMMA_SPACE_, \
-                              _CURLY_, _doesn_t_exist_, _DOT_, _dot_, \
-                              _DUNDER_, _dunder_name, _EQUAL_, _item_ps, \
-                              _item_sq, _name_, NN, _other_, _PARENTH_, \
-                              _SQUARE_, _UNDERSCORE_, _valid_
+from pygeodesy.interns import NN, _AT_, _COLON_, _COLON_SPACE_, _COMMA_SPACE_, \
+                             _CURLY_, _doesn_t_exist_, _DOT_, _dot_, _DUNDER_, \
+                             _dunder_name, _EQUAL_, _item_ps, _item_sq, _name_, \
+                             _other_, _PARENTH_, _SQUARE_, _UNDERSCORE_, _valid_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.09.16'
+__version__ = '20.09.23'
 
 # __DUNDER gets mangled in class
 _immutable_ = 'immutable'
@@ -54,6 +53,26 @@ def _xnamed(inst, name, force=False):
             and (force or not inst.name):
         inst.name = name
     return inst
+
+
+def _xother3(inst, other, name=_other_, up=1, **name_other):
+    '''(INTERNAL) Get C{name} and C{up} for a named C{other}.
+    '''
+    if name_other:  # and not other
+        for name, other in name_other.items():
+            break
+    elif other and len(other) == 1:
+        other = other[0]
+    else:
+        raise _AssertionError(name, other, txt=classname(inst, prefixed=True))
+    return other, name, up
+
+
+def _xotherError(inst, other, name=_other_, up=1):
+    '''(INTERNAL) Return a C{_TypeError} for an incompatible, named C{other}.
+    '''
+    n = _callname(name, classname(inst, prefixed=True), inst.name, up=up + 1)
+    return _TypeError(name, other, txt=_incompatible(n))
 
 
 def _xvalid(name, _OK=False):
@@ -242,23 +261,31 @@ class _NamedBase(_Named):
 #       c = self.__class__.__name__
 #       return NotImplementedError(_dot_(c, attr))
 
-    def others(self, other, name=_other_, up=1):  # see .points.LatLon_.others
-        '''Check this and an other instance for type compatibility.
+    def others(self, *other, **name_other_up):  # see .points.LatLon_.others
+        '''Refined class comparison, invoked as C{.others(other=other)},
+           C{.others(name=other)} or C{.others(other, name='other')}.
 
-           @arg other: The other instance (any C{type}).
-           @kwarg name: Optional, name for other (C{str}).
-           @kwarg up: Number of call stack frames up (C{int}).
+           @arg other: The other instance (L{any}).
+           @kwarg name_other_up: Overriding C{name=other} and C{up=1}
+                                 keyword arguments.
 
-           @return: The B{C{other}} if compatible.
+           @return: The B{C{other}} iff compatible with this instance's
+                    C{class} or C{type}.
 
            @raise TypeError: Mismatch of the B{C{other}} and this
-                             C{class} or C{type}.
+                             instance's C{class} or C{type}.
         '''
-        if not (isinstance(self, other.__class__) or
-                isinstance(other, self.__class__)):
-            n = _callname(name, classname(self, prefixed=True), self.name, up=up + 1)
-            raise _TypeError(name, other, txt=_incompatible(n))
-        return other
+        if other:  # most common, just one arg B{C{other}}
+            other_ = other[0]
+            if isinstance(self, other_.__class__) or \
+               isinstance(other_, self.__class__):
+                return other_
+
+        other, name, up = _xother3(self, other, **name_other_up)
+        if isinstance(self, other.__class__) or \
+           isinstance(other, self.__class__):
+            return other
+        raise _xotherError(self, other, name=name, up=up + 1)
 
     def toRepr(self, **kwds):  # PYCHOK expected
         '''(INTERNAL) I{Could be overloaded}.
@@ -280,7 +307,7 @@ class _NamedBase(_Named):
     def toStr(self, **kwds):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.
 
-           @raise _AssertionError: Always, see function L{notOverloaded}.
+           @raise AssertionError: Always, see function L{notOverloaded}.
         '''
         notOverloaded(self, self.toStr, **kwds)
 
@@ -549,7 +576,7 @@ class _NamedEnumItem(_NamedBase):
     def unregister(self):
         '''Remove this instance from its C{_NamedEnum} registry.
 
-           @raise _AssertionError: Mismatch of this and registered item.
+           @raise AssertionError: Mismatch of this and registered item.
 
            @raise NameError: This item is unregistered.
         '''
@@ -874,7 +901,7 @@ def notImplemented(inst, name, *args, **kwds):  # PYCHOK no cover
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
     t = _notError(inst, name, args, kwds)
-    raise _NotImplementedError(t, txt=notImplemented.__name__)
+    raise _NotImplementedError(t, txt=notImplemented.__name__.replace('I', ' i'))
 
 
 def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
@@ -886,7 +913,7 @@ def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
     t = _notError(inst, name, args, kwds)
-    raise _AssertionError(t, txt=notOverloaded.__name__)
+    raise _AssertionError(t, txt=notOverloaded.__name__.replace('O', ' o'))
 
 
 def _Pass(arg, **unused):  # PYCHOK no cover

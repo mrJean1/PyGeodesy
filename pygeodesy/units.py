@@ -12,14 +12,14 @@ from pygeodesy.basics import isstr, issubclassof, property_doc_
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
 from pygeodesy.errors import _IsnotError, RangeError, UnitError
-from pygeodesy.interns import EPS, PI, PI_2, _band_, _bearing_, _degrees_, \
-                             _degrees2_, _distance_, _E_, _easting_, _EW_, \
-                             _feet_, _height_, _invalid_, _lam_, _lat_, \
-                             _LatLon_, _lon_, _meter_, _N_, NN, _northing_, \
-                             _NS_, _NSEW_, _number_, _PERCENT_, _phi_, \
-                             _precision_, _radians_, _radians2_, _radius_,\
-                             _S_, _scalar_, _SPACE_, _UNDERSCORE_, _units_, \
-                             _W_, _zone_
+from pygeodesy.interns import EPS, NN, PI, PI_2, _band_, _bearing_, \
+                             _degrees_, _degrees2_, _distance_, _E_, \
+                             _easting_, _EW_, _feet_, _height_, _invalid_, \
+                             _lam_, _lat_, _LatLon_, _lon_, _meter_, _N_, \
+                             _northing_, _NS_, _NSEW_, _number_, _PERCENT_, \
+                             _phi_, _precision_, _radians_, _radians2_, \
+                             _radius_, _S_, _scalar_, _SPACE_, _UNDERSCORE_, \
+                             _units_, _W_, _zone_
 from pygeodesy.interns import _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named
@@ -28,7 +28,7 @@ from pygeodesy.streprs import fstr, _g
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.09.16'
+__version__ = '20.09.22'
 
 
 class _NamedUnit(_Named):

@@ -30,31 +30,27 @@ to a normalised version of an (ECEF) cartesian coordinate.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isscalar, map1, _xinstanceof, _xkwds
+from pygeodesy.basics import isscalar, _xinstanceof, _xkwds
 from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.errors import _ValueError
-from pygeodesy.fmath import fidw, fmean, fsum, fsum_
-from pygeodesy.interns import EPS, EPS_2, PI, PI2, PI_2, R_M, \
-                             _1_, _2_, _bearing_, _coincident_, \
-                             _distance_, _end_, _fraction_, \
-                             _other_, _point_, _points_, _pole_, \
-                             _start_, _start1_, _start2_, _0_0
+from pygeodesy.fmath import fmean, fsum
+from pygeodesy.interns import EPS, PI, PI2, PI_2, R_M, _end_, \
+                             _fraction_, _other_, _point_, \
+                             _points_, _pole_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import NearestOn3Tuple
 from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
-                                  sumOf as _sumOf
+                                  sumOf as _sumOf, _triangulate, _trilaterate
 from pygeodesy.points import _imdex2, ispolar  # PYCHOK exported
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase
-from pygeodesy.streprs import unstr
-from pygeodesy.units import Bearing, Bearing_, Height, Radius, Radius_, Scalar
+from pygeodesy.units import Bearing, Bearing_, Height, Radius, Scalar
 from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 
-from math import atan2, fabs, sqrt
+from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '20.09.11'
+__version__ = '20.09.21'
 
 _paths_ = 'paths'
 
@@ -169,7 +165,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> e = LatLon(53.1887, 0.1334)
            >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
-        self.others(start, name=_start_)
+        self.others(start=start)
         gc, _, _ = self._gc3(start, end, _end_)
 
         p = self.toNvector()
@@ -208,7 +204,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            >>> e = LatLon(53.1887, 0.1334)
            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
-        self.others(start, name=_start_)
+        self.others(start=start)
         gc, _, _ = self._gc3(start, end, _end_)
 
         p = self.toNvector()
@@ -248,16 +244,17 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         n = p.times(ca).plus(q.times(sa))
         return n.toLatLon(height=height, LatLon=self.classof)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
-    def distanceTo(self, other, radius=R_M, **unused):  # for -DistanceTo
+    def distanceTo(self, other, radius=R_M, wrap=False):
         '''Compute the distance from this to an other point.
 
            @arg other: The other point (L{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg wrap: Wrap/unroll the angular distance (C{bool}).
 
            @return: Distance between this and the B{C{other}} point
                     (C{meter}, same units as B{C{radius}}).
 
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
+           @raise TypeError: Invalid B{C{other}} point.
 
            @example:
 
@@ -267,7 +264,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         self.others(other)
 
-        return self.toNvector().angleTo(other.toNvector()) * Radius(radius)
+        a = self.toNvector().angleTo(other.toNvector(), wrap=wrap)
+        return abs(a) * (radius if radius is R_M else Radius(radius))
 
     def greatCircle(self, bearing):
         '''Compute the vector normal to great circle obtained by
@@ -340,7 +338,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{bearingTo}.
         '''
-        self.others(other, name=_other_)
+        self.others(other)
         # see <https://MathForum.org/library/drmath/view/55417.html>
         n = self.toNvector()
 #       gc1 = self.greatCircleTo(other)
@@ -530,8 +528,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @JSname: I{isBetween}.
         '''
         n0 = self.toNvector()
-        n1 = self.others(point1, name='point1').toNvector()
-        n2 = self.others(point2, name='point2').toNvector()
+        n1 = self.others(point1=point1).toNvector()
+        n2 = self.others(point2=point2).toNvector()
 
         # corner case, null arc
         if n1.isequalTo(n2):
@@ -540,11 +538,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         if n0.dot(n1) < 0 or n0.dot(n2) < 0:  # different hemisphere
             return False  # PYCHOK returns
 
-        # get vectors representing d0=p0->p1 and d2=p2->p1
-        # and dot product d0⋅d2 tells us if p0 is on the
-        # p2 side of p1 or on the other side (similarly
-        # for d0=p0->p2 and d1=p1->p2 and dot product
-        # d0⋅d1 and p0 on the p1 side of p2 or not)
+        # get vectors representing d0=p0->p1 and d2=p2->p1 and the
+        # dot product d0⋅d2 tells us if p0 is on the p2 side of p1 or
+        # on the other side (similarly for d0=p0->p2 and d1=p1->p2
+        # and dot product d0⋅d1 and p0 on the p1 side of p2 or not)
         return n0.minus(n1).dot(n2.minus(n1)) >= 0 and \
                n0.minus(n2).dot(n1.minus(n2)) >= 0
 
@@ -576,22 +573,25 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         h = self._havg(other) if height is None else height
         return m.toLatLon(height=h, LatLon=self.classof)
 
-    def nearestOn(self, point1, point2, height=None):
+    def nearestOn(self, point1, point2, height=None, within=True, wrap=False):
         '''Locate the point on the great circle arc between two
            points closest to this point.
-
-           If this point is within the extent of the arc between both
-           end points, return the closest point on the arc.  Otherwise,
-           return the closest of the arc's end points.
 
            @arg point1: Start point of the arc (L{LatLon}).
            @arg point2: End point of the arc (L{LatLon}).
            @kwarg height: Optional height, overriding the mean height
                           for the point within the arc (C{meter}).
+           @kwarg within: If C{True} return the closest point between
+                          both given points, otherwise the closest
+                          point elsewhere on the arc (C{bool}).
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Closest point on the arc (L{LatLon}).
 
-           @raise TypeError: If B{C{point1}} or B{C{point2}} is not L{LatLon}.
+           @raise NotImplementedError: Keyword argument B{C{wrap}=True}
+                                       not supported.
+
+           @raise TypeError: Invalid B{C{point1}} or B{C{point2}}.
 
            @example:
 
@@ -608,23 +608,34 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @JSname: I{nearestPointOnSegment}.
         '''
+        if wrap:  # wrap=True throws C{NotImplementedError} always.
+            from pygeodesy.named import notImplemented
+            notImplemented(self, self.nearestOn, wrap=wrap)
+
         if self.isWithin(point1, point2) and not point1.isequalTo(point2, EPS):
             # closer to arc than to its endpoints,
             # find the closest point on the arc
             gc1 = point1.toNvector().cross(point2.toNvector())
             gc2 = self.toNvector().cross(gc1)
-            p = gc1.cross(gc2).toLatLon(height=height or 0, LatLon=self.classof)
-            if height is None:  # interpolate height
-                d = point1.distanceTo(point2)
-                f = 0.5 if d < EPS else point1.distanceTo(p) / d
-                p.height = point1._havg(point2, f=f)
+            n   = gc1.cross(gc2)
 
-        # beyond arc extent, take closer endpoint
-        elif self.distanceTo(point1) < self.distanceTo(point2):
-            p = point1
-        else:
-            p = point2
+        elif within:  # for backward compatibility
+            return point1 if self.distanceTo(point1) < self.distanceTo(point2) else point2
 
+        else:  # handle beyond arc extent by .vector3d.nearestOn
+            n1 = point1.toNvector()
+            n2 = point2.toNvector()
+            n  = self.toNvector().nearestOn(n1, n2, within=False)
+            if n is n1:
+                return point1
+            elif n is n2:
+                return point2
+
+        p = n.toLatLon(height=height or 0, LatLon=self.classof)
+        if height is None:  # interpolate height within extent
+            d = point1.distanceTo(point2)
+            f = 0.5 if d < EPS else max(0, min(1, point1.distanceTo(p) / d))
+            p.height = point1._havg(point2, f=f)
         return p
 
     def nearestOn2(self, points, **closed_radius_height):  # PYCHOK no cover
@@ -722,61 +733,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         kwds = _xkwds(Nvector_kwds, Nvector=Nvector)
         return LatLonNvectorBase.toNvector(self, **kwds)
-
-    def triangulate(self, bearing1, other, bearing2, height=None):
-        '''Locate a point given this and an other point and a bearing
-           at this and the other point.
-
-           @arg bearing1: Bearing at this point (compass C{degrees360}).
-           @arg other: The other point (L{LatLon}).
-           @arg bearing2: Bearing at the other point (compass C{degrees360}).
-           @kwarg height: Optional height at the triangulated point,
-                          overriding the mean height (C{meter}).
-
-           @return: Triangulated point (L{LatLon}).
-
-           @raise TypeError: The B{C{other}} point is not L{LatLon}.
-
-           @raise Valuerror: Points coincide.
-
-           @example:
-
-           >>> p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
-           >>> q = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
-           >>> t = p.triangulate(7, q, 295)  # 47.323667°N, 002.568501°W'
-        '''
-        return triangulate(self, bearing1, other, bearing2,
-                                 height=height, LatLon=self.classof)
-
-    def trilaterate(self, distance1, point2, distance2, point3, distance3,
-                          radius=R_M, height=None, useZ=False):
-        '''Locate a point at given distances from this and two other points.
-           See also U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}.
-
-           @arg distance1: Distance to this point (C{meter}, same units
-                           as B{C{radius}}).
-           @arg point2: Second reference point (L{LatLon}).
-           @arg distance2: Distance to point2 (C{meter}, same units as
-                           B{C{radius}}).
-           @arg point3: Third reference point (L{LatLon}).
-           @arg distance3: Distance to point3 (C{meter}, same units as
-                           B{C{radius}}).
-           @kwarg radius: Mean earth radius (C{meter}).
-           @kwarg height: Optional height at trilaterated point, overriding
-                          the mean height (C{meter}, same units as B{C{radius}}).
-           @kwarg useZ: Include Z component iff non-NaN, non-zero (C{bool}).
-
-           @return: Trilaterated point (L{LatLon}).
-
-           @raise TypeError: Some B{C{points}} are not L{LatLon}.
-
-           @raise ValueError: Distance(s) exceeds trilateration or
-                              some B{C{points}} coincide.
-        '''
-        return trilaterate(self, distance1, point2, distance2,
-                                            point3, distance3,
-                                 radius=radius, height=height,
-                                 LatLon=self.classof, useZ=useZ)
 
 
 class Nvector(NvectorBase):
@@ -969,8 +925,8 @@ def intersection(start1, end1, start2, end2,
        >>> q = LatLon(49.0034, 2.5735)
        >>> i = intersection(p, 108.55, q, 32.44)  # 50.9076°N, 004.5086°E
     '''
-    _Nvll.others(start1, name=_start1_)
-    _Nvll.others(start2, name=_start2_)
+    _Nvll.others(start1=start1)
+    _Nvll.others(start2=start2)
 
     # If gc1 and gc2 are great circles through start and end points
     # (or defined by start point and bearing), then the candidate
@@ -1163,36 +1119,15 @@ def triangulate(point1, bearing1, point2, bearing2,
        >>> q = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
        >>> t = triangulate(p, 7, q, 295)  # 47.323667°N, 002.568501°W'
     '''
-    _Nvll.others(point1, name='point1')
-    _Nvll.others(point2, name='point2')
-
-    if point1.isequalTo(point2, EPS):
-        raise _ValueError(points=point2, txt=_coincident_)
-
-    def _gc(p, b, i):
-        n = p.toNvector()
-        de = NorthPole.cross(n, raiser=_pole_).unit()  # east vector @ n
-        dn = n.cross(de)  # north vector @ n
-        s, c = sincos2d(Bearing(b, name=_bearing_ + i))
-        dest = de.times(s)
-        dnct = dn.times(c)
-        d = dnct.plus(dest)  # direction vector @ n
-        return n.cross(d)  # great circle point + bearing
-
-    gc1 = _gc(point1, bearing1, _1_)  # great circle p1 + b1
-    gc2 = _gc(point2, bearing2, _2_)  # great circle p2 + b2
-
-    n = gc1.cross(gc2, raiser=_points_)  # n-vector of intersection point
-
-    h = point1._havg(point2) if height is None else Height(height)
-    kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
-    return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
+    return _triangulate(_Nvll.others(point1=point1), bearing1,
+                        _Nvll.others(point2=point2), bearing2,
+                         height=height, LatLon=LatLon, **LatLon_kwds)
 
 
-def trilaterate(point1, distance1, point2, distance2, point3, distance3,
-                radius=R_M, height=None, useZ=False, LatLon=LatLon, **LatLon_kwds):
+def trilaterate(point1, distance1, point2, distance2, point3, distance3,  # PYCHOK args
+                                   radius=R_M, height=None, useZ=False,
+                                   LatLon=LatLon, **LatLon_kwds):
     '''Locate a point at given distances from three other points.
-       See also U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}.
 
        @arg point1: First point (L{LatLon}).
        @arg distance1: Distance to the first point (C{meter}, same units
@@ -1208,68 +1143,25 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,
                       the IDW height (C{meter}, same units as B{C{radius}}).
        @kwarg useZ: Include Z component iff non-NaN, non-zero (C{bool}).
        @kwarg LatLon: Optional class to return the trilaterated
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if B{C{LatLon=None}}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
+                           ignored if B{C{LatLon=None}}.
 
        @return: Trilaterated point (B{C{LatLon}}).
 
-       @raise TypeError: If B{C{point1}}, B{C{point2}} or B{C{point3}}
-                         is not L{LatLon}.
+       @raise IntersectionError: No intersection, trilateration failed.
 
-       @raise ValueError: Invalid B{C{distance1}}, B{C{distance2}},
-                          B{C{distance3}} or B{C{radius}}, or some
-                          B{C{distances}} exceed trilateration or
-                          some B{C{points}} coincide.
+       @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
+
+       @raise ValueError: Some B{C{points}} coincide or invalid B{C{distance1}},
+                          B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
+
+       @see: U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}.
     '''
-    def _nd2(p, d, r, i, *qs):
-        # return Nvector and angular distance squared
-        _Nvll.others(p, name=_point_ + i)
-        for q in qs:
-            if p.isequalTo(q, EPS):
-                raise _ValueError(points=p, txt=_coincident_)
-        return p.toNvector(), (Scalar(d, name=_distance_ + i) / r)**2
-
-    r = Radius_(radius)
-
-    n1, d12 = _nd2(point1, distance1, r, _1_)
-    n2, d22 = _nd2(point2, distance2, r, _2_, point1)
-    n3, d32 = _nd2(point3, distance3, r, '3', point1, point2)
-
-    # the following uses x,y coordinate system with origin at n1, x axis n1->n2
-    y = n3.minus(n1)
-    x = n2.minus(n1)
-
-    d = x.length  # distance n1->n2
-    if d > EPS_2:  # and y.length > EPS_2:
-        X = x.unit()  # unit vector in x direction n1->n2
-        i = X.dot(y)  # signed magnitude of x component of n1->n3
-        Y = y.minus(X.times(i)).unit()  # unit vector in y direction
-        j = Y.dot(y)  # signed magnitude of y component of n1->n3
-        if abs(j) > EPS_2:
-            # courtesy Carlos Freitas <https://GitHub.com/mrJean1/PyGeodesy/issues/33>
-            x = fsum_(d12, -d22, d**2) / (2 * d)  # n1->intersection x- and ...
-            y = fsum_(d12, -d32, i**2, j**2) / (2 * j) - (x * i / j)  # ... y-component
-
-            n = n1.plus(X.times(x)).plus(Y.times(y))  # .plus(Z.times(z))
-            if useZ:  # include non-NaN, non-zero Z component
-                z = fsum_(d12, -(x**2), -(y**2))
-                if z > EPS:
-                    Z = X.cross(Y)  # unit vector perpendicular to plane
-                    n = n.plus(Z.times(sqrt(z)))
-
-            if height is None:
-                h = fidw((point1.height, point2.height, point3.height),
-                         map1(fabs, distance1, distance2, distance3))
-            else:
-                h = Height(height)
-            kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
-            return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
-
-    # no intersection, d < EPS_2 or abs(j) < EPS_2
-    t = unstr(trilaterate.__name__, point1, distance1,
-                                    point2, distance2,
-                                    point3, distance3, useZ=useZ, d=d)
-    raise _ValueError('no intersection', txt=t)
+    return _trilaterate(_Nvll.others(points1=point1), distance1,
+                        _Nvll.others(points2=point2), distance2,
+                        _Nvll.others(points3=point3), distance3,
+                         radius=radius, height=height, useZ=useZ,
+                         LatLon=LatLon, **LatLon_kwds)
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon, Nvector,  # classes

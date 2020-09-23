@@ -4,7 +4,7 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '20.09.05'
+__version__ = '20.09.23'
 
 from base import TestsBase
 
@@ -72,8 +72,8 @@ class Tests(TestsBase):
             self.test('rocPrimeVertical', fstr(E.rocPrimeVertical(90), prec=3), '6399593.626')
 
         self.subtitle(ellipsoids, Ellipsoid.__init__)
-        self.test('a, b, None',  Ellipsoid(1000, 500, None, name='f_None').f_, 2.0)  # coverage
-        self.test('a, None, f_', Ellipsoid(1000, None, 2, name='b_None').b, 500.0)  # coverage
+        self.test('a, b, None',  Ellipsoid(1000, 500, None, name='_f_None').f_, 2.0)  # coverage
+        self.test('a, None, f_', Ellipsoid(1000, None, 2, name='_b_None').b, 500.0)  # coverage
 
         E = Ellipsoids.WGS84.copy()  # coverage
         self.subtitle(ellipsoids, E.name)

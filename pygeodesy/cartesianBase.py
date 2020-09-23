@@ -18,7 +18,7 @@ from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
-from pygeodesy.interns import EPS, _COMMA_SPACE_, _ellipsoidal_, NN, \
+from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _ellipsoidal_, \
                              _spherical_, _SQUARE_, _1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple
@@ -27,7 +27,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '20.09.11'
+__version__ = '20.09.22'
 
 
 class CartesianBase(Vector3d):

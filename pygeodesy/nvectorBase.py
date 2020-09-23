@@ -14,29 +14,34 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import len2, property_doc_, property_RO, \
-                            _xattrs, _xinstanceof
+from pygeodesy.basics import len2, map1, property_doc_, property_RO, \
+                            _xattrs, _xinstanceof, _xkwds
 from pygeodesy.datums import Datum
 from pygeodesy.ecef import EcefVeness
-from pygeodesy.errors import _xkwds_pop
-from pygeodesy.fmath import fsum, hypot_
+from pygeodesy.errors import IntersectionError, _ValueError, _xkwds_pop
+from pygeodesy.fmath import fidw, fsum, fsum_, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
-from pygeodesy.interns import _COMMA_SPACE_, _h_, _Missing, NN, \
-                              _NorthPole_, _other_, _PARENTH_, \
-                              _SouthPole_, _sumOf_
+from pygeodesy.interns import EPS, EPS1, EPS_2, NN, R_M, _bearing_, \
+                             _coincident_, _COMMA_SPACE_, _distance_, \
+                             _h_, _Missing, _no_intersection_, \
+                             _NorthPole_, _PARENTH_, _points_, _pole_, \
+                             _SPACE_, _SouthPole_, _sumOf_, _1_, _2_, _3_
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.namedTuples import Vector3Tuple, Vector4Tuple
-from pygeodesy.streprs import hstr
-from pygeodesy.units import Height
+from pygeodesy.named import _xother3
+from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
+                                  Vector4Tuple
+from pygeodesy.streprs import hstr, unstr
+from pygeodesy.units import Bearing, Height, Radius_, Scalar
+from pygeodesy.utily import sincos2d
 from pygeodesy.vector3d import Vector3d, VectorError, \
                                sumOf as _sumOf, _xyzhdn6
 
-# from math import atan2, cos, sin
+from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_,  # constants
            _sumOf_)  # functions
-__version__ = '20.09.11'
+__version__ = '20.09.23'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -411,22 +416,35 @@ class LatLonNvectorBase(LatLonBase):
                 self._Nv = None
             LatLonBase._update(self, updated, *attrs)
 
-    def others(self, other, name=_other_, up=1):
-        '''Refine the class comparison.
+#   def distanceTo(self, other, **kwds):  # PYCHOK no cover
+#       '''(INTERNAL) I{Must be overloaded}.
+#
+#          @raise AssertionError: Always, see function L{notOverloaded}.
+#       '''
+#       from pygeodesy.named import notOverloaded
+#       notOverloaded(self, self.distanceTo, other, **kwds)
 
-           @arg other: The other point (C{LatLon}).
-           @kwarg name: Optional, other's name (C{str}).
-           @kwarg up: Number of call stack frames up (C{int}).
+    def intersections2(self, radius1, other, radius2, **kwds):  # PYCHOK expected
+        '''I{Not implemented}, throws a C{NotImplementedError} always.
+        '''
+        from pygeodesy.named import notImplemented
+        notImplemented(self, LatLonNvectorBase.intersections2,
+                       radius1=radius1, other=other, radius2=radius2, **kwds)
+
+    def others(self, *other, **name_other_up):
+        '''Refined class comparison.
+
+           @arg other: The other vector (C{NvectorBase}).
+           @kwarg name_other_up: Overriding C{name=other} and C{up=1}
+                                 keyword arguments.
 
            @return: The B{C{other}} if compatible.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        try:
+        other, name, up = _xother3(self, other, **name_other_up)
+        if not isinstance(other, NvectorBase):
             LatLonBase.others(self, other, name=name, up=up + 1)
-        except TypeError:
-            if not isinstance(other, NvectorBase):
-                raise
         return other
 
     def toNvector(self, Nvector=NvectorBase, **Nvector_kwds):  # PYCHOK signature
@@ -442,6 +460,106 @@ class LatLonNvectorBase(LatLonBase):
            @raise TypeError: Invalid B{C{Nvector}} or B{C{Nvector_kwds}}.
         '''
         return LatLonBase.toNvector(self, Nvector=Nvector, **Nvector_kwds)
+
+    def triangulate(self, bearing1, other, bearing2, height=None):
+        '''Locate a point given this and an other point and a bearing
+           at this and the other point.
+
+           @arg bearing1: Bearing at this point (compass C{degrees360}).
+           @arg other: The other point (C{LatLon}).
+           @arg bearing2: Bearing at the other point (compass C{degrees360}).
+           @kwarg height: Optional height at the triangulated point,
+                          overriding the mean height (C{meter}).
+
+           @return: Triangulated point (C{LatLon}).
+
+           @raise TypeError: Invalid B{C{other}} point.
+
+           @raise Valuerror: Points coincide.
+
+           @example:
+
+           >>> p = LatLon("47°18.228'N","002°34.326'W")  # Basse Castouillet
+           >>> q = LatLon("47°18.664'N","002°31.717'W")  # Basse Hergo
+           >>> t = p.triangulate(7, q, 295)  # 47.323667°N, 002.568501°W'
+        '''
+        return _triangulate(self, bearing1, self.others(other), bearing2,
+                                  height=height, LatLon=self.classof)
+
+    def trilaterate(self, distance1, point2, distance2, point3, distance3,
+                          radius=R_M, height=None, useZ=False):
+        '''Locate a point at given distances from this and two other points.
+
+           @arg distance1: Distance to this point (C{meter}, same units
+                           as B{C{radius}}).
+           @arg point2: Second reference point (C{LatLon}).
+           @arg distance2: Distance to point2 (C{meter}, same units as
+                           B{C{radius}}).
+           @arg point3: Third reference point (C{LatLon}).
+           @arg distance3: Distance to point3 (C{meter}, same units as
+                           B{C{radius}}).
+           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg height: Optional height at trilaterated point, overriding
+                          the mean height (C{meter}, same units as B{C{radius}}).
+           @kwarg useZ: Include Z component iff non-NaN, non-zero (C{bool}).
+
+           @return: Trilaterated point (C{LatLon}).
+
+           @raise IntersectionError: No intersection, trilateration failed.
+
+           @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
+
+           @raise ValueError: Some B{C{points}} coincide or invalid B{C{distance1}},
+                              B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
+
+           @see: U{Trilateration<https://WikiPedia.org/wiki/Trilateration>},
+                 Veness' JavaScript U{Trilateration<https://www.Movable-Type.co.UK/
+                 scripts/latlong-vectors.html>} and method C{LatLon.trilaterate2}
+                 of other, non-C{Nvector LatLon} classes.
+        '''
+        return _trilaterate(self, distance1,
+                                  self.others(point2=point2), distance2,
+                                  self.others(point3=point3), distance3,
+                                  radius=radius, height=height, useZ=useZ,
+                                  LatLon=self.classof)
+
+    def trilaterate5(self, distance1, point2, distance2, point3, distance3,  # PYCHOK signature
+                           area=False, eps=EPS1, radius=R_M, wrap=False):
+        '''B{Not implemented} for C{B{area}=True} or C{B{wrap}=True}
+           and falls back to method C{trilaterate} otherwise.
+
+           @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
+                    with a single trilaterated intersection C{minPoint I{is}
+                    maxPoint}, C{min I{is} max} the nearest intersection
+                    margin and count C{n = 1}.
+
+           @raise IntersectionError: No intersection, trilateration failed.
+
+           @raise NotImplementedError: Keyword argument C{B{area}=True} or
+                                       B{C{wrap}=True} not (yet) supported.
+
+           @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
+
+           @raise ValueError: Some B{C{points}} coincide or invalid B{C{distance1}},
+                              B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
+        '''
+        if area or wrap:
+            from pygeodesy.named import notImplemented
+            notImplemented(self, self.trilaterate5, area=area, wrap=wrap)
+
+        t = _trilaterate(self, distance1, self.others(point2=point2), distance2,
+                                          self.others(point3=point3), distance3,
+                                          radius=radius, height=None, useZ=True,
+                                          LatLon=self.classof)
+        # ... and handle B{C{eps}} and C{IntersectionError} as
+        # method C{.latlonBase.LatLonBase.trilaterate2}
+        d = self.distanceTo(t, radius=radius, wrap=wrap)  # PYCHOK distanceTo
+        d = abs(distance1 - d), abs(distance2 - d), abs(distance3 - d)
+        d = float(min(d))
+        if d < eps:  # min is max, minPoint is maxPoint
+            return Trilaterate5Tuple(d, t, d, t, 1)  # n = 1
+        t = '%s (%s %.3f)' % (_no_intersection_, min.__name__, d)
+        raise IntersectionError(area=area, eps=eps, wrap=wrap, txt=t)
 
 
 def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
@@ -471,6 +589,90 @@ def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
     else:
         r = _sumOf(nvectors, Vector=Vector, h=h, **Vector_kwds)
     return r
+
+
+def _triangulate(point1, bearing1, point2, bearing2, height=None,
+                                 **LatLon_LatLon_kwds):
+    # (INTERNAL)Locate a point given two known points and initial
+    # bearings from those points, see LatLon.triangulate above
+
+    def _gc(p, b, _i_):
+        n = p.toNvector()
+        de = NorthPole.cross(n, raiser=_pole_).unit()  # east vector @ n
+        dn = n.cross(de)  # north vector @ n
+        s, c = sincos2d(Bearing(b, name=_bearing_ + _i_))
+        dest = de.times(s)
+        dnct = dn.times(c)
+        d = dnct.plus(dest)  # direction vector @ n
+        return n.cross(d)  # great circle point + bearing
+
+    if point1.isequalTo(point2, EPS):
+        raise _ValueError(points=point2, txt=_coincident_)
+
+    gc1 = _gc(point1, bearing1, _1_)  # great circle p1 + b1
+    gc2 = _gc(point2, bearing2, _2_)  # great circle p2 + b2
+
+    n = gc1.cross(gc2, raiser=_points_)  # n-vector of intersection point
+
+    h = point1._havg(point2) if height is None else Height(height)
+    kwds = _xkwds(LatLon_LatLon_kwds, height=h)
+    return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
+
+
+def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
+                                    radius=R_M, height=None, useZ=False,
+                                    **LatLon_LatLon_kwds):
+    # (INTERNAL) Locate a point at given distances from
+    # three other points, see LatLon.triangulate above
+
+    def _nd2(p, d, r, _i_, *qs):  # .toNvector and angular distance squared
+        for q in qs:
+            if p.isequalTo(q, EPS):
+                raise _ValueError(points=p, txt=_coincident_)
+        return p.toNvector(), (Scalar(d, name=_distance_ + _i_) / r)**2
+
+    r = Radius_(radius)
+
+    n1, r12 = _nd2(point1, distance1, r, _1_)
+    n2, r22 = _nd2(point2, distance2, r, _2_, point1)
+    n3, r32 = _nd2(point3, distance3, r, _3_, point1, point2)
+
+    # the following uses x,y coordinate system with origin at n1, x axis n1->n2
+    y = n3.minus(n1)
+    x = n2.minus(n1)
+    z = None
+
+    d = x.length  # distance n1->n2
+    if d > EPS_2:  # and y.length > EPS_2:
+        X = x.unit()  # unit vector in x direction n1->n2
+        i = X.dot(y)  # signed magnitude of x component of n1->n3
+        Y = y.minus(X.times(i)).unit()  # unit vector in y direction
+        j = Y.dot(y)  # signed magnitude of y component of n1->n3
+        if abs(j) > EPS_2:
+            # courtesy Carlos Freitas <https://GitHub.com/mrJean1/PyGeodesy/issues/33>
+            x = fsum_(r12, -r22, d**2) / (2 * d)  # n1->intersection x- and ...
+            y = fsum_(r12, -r32, i**2, j**2, -2 * x * i) / (2 * j)  # ... y-component
+            # courtesy AleixDev <https://GitHub.com/mrJean1/PyGeodesy/issues/43>
+            z = fsum_(max(r12, r22, r32), -(x**2), -(y**2))  # XXX not just r12!
+            if z > EPS:
+                n = n1.plus(X.times(x)).plus(Y.times(y))
+                if useZ:  # include Z component
+                    Z = X.cross(Y)  # unit vector perpendicular to plane
+                    n = n.plus(Z.times(sqrt(z)))
+                if height is None:
+                    h = fidw((point1.height, point2.height, point3.height),
+                             map1(fabs, distance1, distance2, distance3))
+                else:
+                    h = Height(height)
+                kwds = _xkwds(LatLon_LatLon_kwds, height=h)
+                return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
+
+    # no intersection, d < EPS_2 or abs(j) < EPS_2 or z < EPS
+    t = _no_intersection_ + _SPACE_
+    raise IntersectionError(point1=point1, distance1=distance1,
+                            point2=point2, distance2=distance2,
+                            point3=point3, distance3=distance3,
+                            txt=unstr(t, z=z, useZ=useZ))
 
 
 __all__ += _ALL_DOCS(LatLonNvectorBase, NvectorBase)  # classes

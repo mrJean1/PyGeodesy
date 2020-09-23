@@ -44,9 +44,10 @@ from pygeodesy.basics import isscalar, map1, property_RO
 from pygeodesy.datums import _ellipsoid, Transform
 from pygeodesy.ellipsoids import Ellipsoids
 from pygeodesy.errors import _ValueError, _TypeError
-from pygeodesy.interns import _COMMA_SPACE_, _ellipsoid_, _float as _F, \
-                              _floatuple as _T, _name_, NN, \
-                              _no_conversion_, _not_scalar_, _0_0
+from pygeodesy.interns import NN, _COMMA_SPACE_, _ellipsoid_, \
+                             _float as _F, _floatuple as _T, \
+                             _name_, _no_conversion_, \
+                             _not_scalar_, _0_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedDict as _D, \
                            _NamedEnum, _NamedEnumItem
@@ -56,7 +57,7 @@ from pygeodesy.units import Float_
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.09.10'
+__version__ = '20.09.22'
 
 _366_0  = _F(366)
 _epoch_ = 'epoch'

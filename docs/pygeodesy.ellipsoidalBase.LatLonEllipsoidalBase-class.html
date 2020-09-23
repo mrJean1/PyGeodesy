@@ -295,6 +295,30 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>)</span><br />
+      Locate the closest point between two other points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#parse" class="summary-sig-name">parse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">strllh</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
@@ -443,6 +467,32 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toWm" class="summary-sig-name">toWm</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Convert this <code>LatLon</code> point to a WM coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5" class="summary-sig-name">trilaterate5</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">distance2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">distance3</span>,
+        <span class="summary-sig-arg">area</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">1.0</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Trilaterate three points by area overlap or perimeter intersection of
+      three circles.</td>
           <td align="right" valign="top">
             
             
@@ -1076,9 +1126,68 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, antipodal, invalid or non-intersecting circles or no 
         convergence for <b><code>tol</code></b>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>other</code></b> is not <code>LatLon</code>.</li>
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> not installed or not found.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> or 
+        <b><code>equidistant</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
         <b><code>height</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="nearestOn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">within</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the closest point between two other points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point1</code></strong> - Start point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - End point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point <i>between</i> 
+          <b><code>point1</code></b> and <b><code>point2</code></b>, 
+          otherwise the closest point elsewhere on the arc 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height for the closest point (<code>meter</code>) or 
+          <code>None</code> to interpolate the height.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
+        <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection class (<a 
+          href="pygeodesy.azimuthal.Equidistant-class.html" 
+          class="link">Equidistant</a> or <a 
+          href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+          class="link">EquidistantKarney</a>), function <a 
+          href="pygeodesy.azimuthal-module.html#equidistant" 
+          class="link">azimuthal.equidistant</a> will be invoked if left 
+          unspecified.</li>
+        <li><strong class="pname"><code>tol</code></strong> - Convergence tolerance (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Closest point (<code>LatLon</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> not installed or not found.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b>, <b><code>point2</code></b> or 
+        <b><code>equidistant</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1366,6 +1475,94 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="trilaterate5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate5</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">distance2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">distance3</span>,
+        <span class="sig-arg">area</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">1.0</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Trilaterate three points by area overlap or perimeter intersection of 
+  three circles.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance1</code></strong> - Distance to this point (<code>meter</code>), same units as 
+          <b><code>eps</code></b>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second center point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>distance2</code></strong> - Distance to point2 (<code>meter</code>, same units as 
+          <b><code>eps</code></b>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third center point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>distance3</code></strong> - Distance to point3 (<code>meter</code>, same units as 
+          <b><code>eps</code></b>).</li>
+        <li><strong class="pname"><code>area</code></strong> - If <code>True</code> compute the area overlap, otherwise the the 
+          perimeter intersection of the circles (<code>bool</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - The required <i>minimal overlap</i> for 
+          <code><b>area</b>=True</code> or the <i>intersection margin</i> 
+          for <code><b>area</b>=False</code> (<code>meter</code>, 
+          conventionally).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap/unroll angular distances (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html" 
+          class="link">Trilaterate5Tuple</a><code>(min, minPoint, max, 
+          maxPoint, n)</code> with <code>min</code> and <code>max</code> in
+          <code>meter</code>, same units as <b><code>eps</code></b>, the 
+          corresponding trilaterated points <code>minPoint</code> and 
+          <code>maxPoint</code> as <i>ellipsoidal</i> <code>LatLon</code> 
+          and count <code>n</code>.  For <code><b>area</b>=True</code>, 
+          <code>min</code> and <code>max</code> are the smallest 
+          respectively largest <i>radial</i> overlap found.  For perimeter 
+          intersections <code><b>area</b>=False</code>, <code>min</code> 
+          and <code>max</code> represent the nearest respectively farthest 
+          intersection margin.  If only a single trilaterated point is 
+          found, <code>min <i>is</i> max</code>, <code>minPoint <i>is</i> 
+          maxPoint</code> and count <code>n = 1</code>.  If all 3 circles 
+          are concentric or near-concentric with 
+          <code><b>area</b>=True</code>, count <code>n = 0</code>, 
+          <code>minPoint</code> and <code>maxPoint</code> are both the 
+          <b><code>point#</code></b> with the smallest 
+          <b><code>distance#</code></b>, <code>min</code> is that smallest 
+          and <code>max</code> the largest <b><code>distance#</code></b> 
+          value.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Trilateration failed for the given <b><code>eps</code></b>, 
+        insufficient overlap for <code><b>area</b>=True</code> or no 
+        intersection or all (near-)concentric for 
+        <code><b>area</b>=False</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Some <b><code>points</code></b> coincide or invalid 
+        <b><code>distance1</code></b>, <b><code>distance2</code></b> or 
+        <b><code>distance3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Ellipsoidal trilateration invokes methods 
+        <code>LatLon.intersections2</code> and 
+        <code>LatLon.nearestOn</code>.  Install Karney's Python package <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> to obtain the most accurate results
+        for both <code>ellipsoidalVincenty.-</code> and 
+        <code>ellipsoidalKarney.LatLon</code> points.
+      </p>
+</div></td></tr></table>
+</div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
@@ -1548,7 +1745,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:34 2020
+    Generated by Epydoc 3.0.1 on Wed Sep 23 17:20:07 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

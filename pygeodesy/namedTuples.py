@@ -19,7 +19,7 @@ sub-classes of C{_NamedTuple} defined here.
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.interns import _angle_, _datum_, _distance_, _distance2_, \
                               _easting_, _h_, _height_, _lam_, _lat_, _lon_, \
-                              _northing_, _number_, _phi_, _points_, \
+                              _n_, _northing_, _number_, _phi_, _points_, \
                               _precision_, _radius_, _x_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedTuple, _Pass
@@ -28,7 +28,7 @@ from pygeodesy.units import Bearing, Degrees, Degrees2, Easting, Height, \
                             Precision_, Radius, Scalar
 
 __all__ = ()
-__version__ = '20.09.16'
+__version__ = '20.09.23'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
@@ -314,6 +314,25 @@ class Points2Tuple(_NamedTuple):  # .formy.py, .latlonBase.py
     _Units_ = ( Number_, _Pass)
 
 
+class Trilaterate5Tuple(_NamedTuple):  # .latlonBase.py, .nvector.py
+    '''5-Tuple C{(min, minPoint, max, maxPoint, n)} with C{min} and C{max}
+       in C{meter}, the corresponding trilaterated C{minPoint} and C{maxPoint}
+       as C{LatLon} and the number C{n}.  For area overlap, C{min} and C{max}
+       are the smallest respectively largest overlap found.  For perimeter
+       intersection, C{min} and C{max} represent the closest respectively
+       farthest intersection margin.  Count C{n} is the total number of
+       trilaterated overlaps or intersections found, C{0, 1, 2...6} with
+       C{0} meaning concentric.
+
+       @see: The C{ellipsoidalKarney-}, C{ellipsoidalVincenty-} and
+             C{sphericalTrigonometry.LatLon.trilaterate5} method for further
+             details on corner cases, like concentric or single trilaterated
+             results.
+   '''
+    _Names_ = (min.__name__, 'minPoint', max.__name__, 'maxPoint', _n_)
+    _Units_ = (Meter,        _Pass,      Meter,        _Pass,       Number_)
+
+
 class Vector3Tuple(_NamedTuple):
     '''3-Tuple C{(x, y, z)} of (geocentric) components, all in
        C{meter} or C{units}.
@@ -349,6 +368,7 @@ __all__ += _ALL_DOCS(Bearing2Tuple, Bounds2Tuple, Bounds4Tuple,
                      LatLonDatum3Tuple, LatLonPrec3Tuple, LatLonPrec5Tuple,
                      NearestOn3Tuple,
                      PhiLam2Tuple, PhiLam3Tuple, PhiLam4Tuple, Points2Tuple,
+                     Trilaterate5Tuple,
                      Vector3Tuple, Vector4Tuple)
 
 # **) MIT License

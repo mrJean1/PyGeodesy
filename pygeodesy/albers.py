@@ -17,8 +17,8 @@ from pygeodesy.basics import property_RO, _xkwds
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
-from pygeodesy.interns import EPS, _datum_, _gamma_, _lat_, _lat0_, \
-                             _lat1_, _lat2_, _lon_, _lon0_, NN, \
+from pygeodesy.interns import EPS, NN, _datum_, _gamma_, _lat_, \
+                             _lat0_, _lat1_, _lat2_, _lon_, _lon0_, \
                              _no_convergence_fmt_, _scale_, _x_, \
                              _y_, _0_0, _0_5, _1_0, _2_0, _3_0, _90_0
 from pygeodesy.karney import _diff182, _norm180
@@ -31,7 +31,7 @@ from pygeodesy.utily import atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.09.14'
+__version__ = '20.09.22'
 
 _EPS__2 = EPS**2
 _EPS__4 = EPS**4

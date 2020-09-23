@@ -24,9 +24,9 @@ from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.ellipsoids import R_MA
 from pygeodesy.errors import _IsnotError, _parseX, _TypeError, _ValueError
-from pygeodesy.interns import PI_2, _COMMA_, _COMMA_SPACE_, _easting_, \
-                             _ellipsoidal_, NN, _northing_, _radius_, \
-                             _SPACE_, _SQUARE_, _x_, _y_
+from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMA_SPACE_, _easting_, \
+                             _ellipsoidal_, _northing_, _radius_, _SPACE_, \
+                             _SQUARE_, _x_, _y_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
@@ -38,7 +38,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.09.12'
+__version__ = '20.09.22'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})

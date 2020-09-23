@@ -72,7 +72,7 @@ from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2, _scale_rad, thomas_, vincentys_
-from pygeodesy.interns import INF, _datum_, _distanceTo_, _item_sq, NN, \
+from pygeodesy.interns import INF, NN, _datum_, _distanceTo_, _item_sq, \
                              _points_, _units_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
@@ -85,7 +85,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '20.09.16'
+__version__ = '20.09.22'
 
 
 class HausdorffError(PointsError):

@@ -19,12 +19,10 @@ from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                               IntersectionError, _ValueError, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _radical2, vincentys_
-from pygeodesy.interns import EPS, PI, PI2, PI_2, PI_4, R_M, _1_, _2_, \
-                             _center1_, _center2_, _coincident_, \
-                             _colinear_, _end_, _fraction_, _invalid_, \
-                             _item_sq, _near_concentric_, _not_convex_, \
-                             _points_, _start_, _start1_, _start2_, \
-                             _too_distant_fmt_, _0_0, _0_5, _4_0
+from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, PI_4, R_M, _coincident_, \
+                             _colinear_, _end_, _fraction_, _invalid_, _item_sq, \
+                             _LatLon_, _near_concentric_, _not_convex_, _points_, \
+                             _too_distant_fmt_, _1_, _2_, _0_0, _0_5, _4_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -32,7 +30,7 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
 from pygeodesy.nvectorBase import NvectorBase as _Nvector
 from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
-                                     LatLonSphericalBase, _rads3
+                                     LatLonSphericalBase, _rads3, _trilaterate5
 from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
                             iterNumpy2, radiansPI2, sincos2, tan_2, \
@@ -42,7 +40,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.09.11'
+__version__ = '20.09.23'
 
 _EPS_I2    = EPS * _4_0
 _PI_EPS_I2 = PI - _EPS_I2
@@ -51,7 +49,7 @@ if _PI_EPS_I2 >= PI:
 
 
 def _destination2(a, b, r, t):
-    '''(INTERNAL) Destination phi- and longitude in C{radians}.
+    '''(INTERNAL) Destination lat- and longitude in C{radians}.
 
        @arg a: Latitude (C{radians}).
        @arg b: Longitude (C{radians}).
@@ -104,10 +102,10 @@ class LatLon(LatLonSphericalBase):
     '''
 
     def _trackDistanceTo3(self, start, end, radius, wrap):
-        '''(INTERNAL) Helper for along-/crossTrackDistanceTo.
+        '''(INTERNAL) Helper for .along-/crossTrackDistanceTo.
         '''
-        self.others(start, name=_start_)
-        self.others(end, name=_end_)
+        self.others(start=start)
+        self.others(end=end)
 
         r = Radius_(radius)
         r = start.distanceTo(self, r, wrap=wrap) / r
@@ -137,7 +135,7 @@ class LatLon(LatLonSphericalBase):
                     B{C{start}} toward the B{C{end}} point of the path or
                     negative if before the B{C{start}} point.
 
-           @raise TypeError: The B{C{start}} or B{C{end}} point is not L{LatLon}.
+           @raise TypeError: Invalid B{C{start}} or B{C{end}} point.
 
            @raise ValueError: Invalid B{C{radius}}.
 
@@ -281,7 +279,7 @@ class LatLon(LatLonSphericalBase):
 
         db, _ = unrollPI(b1, b2, wrap=wrap)
         r = vincentys_(a2, a1, db)
-        return r * Radius(radius)
+        return r * (radius if radius is R_M else Radius(radius))
 
     def greatCircle(self, bearing):
         '''Compute the vector normal to great circle obtained by heading
@@ -610,18 +608,48 @@ class LatLon(LatLonSphericalBase):
            @kwarg options: Optional keyword arguments for function
                            L{equirectangular_}.
 
-           @return: Closest point on the arc (L{LatLon}).
+           @return: Closest point on the great circle path (L{LatLon}).
 
            @raise LimitError: Lat- and/or longitudinal delta exceeds
                               B{C{limit}}, see function L{equirectangular_}.
 
-           @raise TypeError: If B{C{point1}} or B{C{point2}} is not L{LatLon}.
+           @raise NotImplementedError: Keyword argument C{B{within}=False}
+                                       is not (yet) supported.
 
-           @raise ValueError: Invalid B{C{radius}}.
+           @raise TypeError: Invalid B{C{point1}} or B{C{point2}}.
+
+           @raise ValueError: Invalid B{C{radius}} or B{C{options}}.
 
            @see: Functions L{equirectangular_} and L{nearestOn5} and
                  method L{sphericalTrigonometry.LatLon.nearestOn3}.
         '''
+        try:  # remove kwarg B{C{within}} if present
+            within = options.pop('within')
+            if not within:
+                from pygeodesy.named import notImplemented
+                notImplemented(self, self.nearestOn, within=within)
+
+#           # UNTESTED - handle C{B{within}=False} and B{C{within}=True}
+#           wrap = options.get('wrap', False)
+#           a = self.alongTrackDistanceTo(point1, point2, radius=radius, wrap=wrap)
+#           if abs(a) < EPS or (within and a < EPS):
+#               return point1
+#           d = point1.distanceTo(point2, radius=radius, wrap=wrap)
+#           if abs(d) < EPS:
+#               return point1  # or point2
+#           elif abs(d - a) < EPS or (a + EPS) > d:
+#               return point2
+#           f = a / d
+#           if within:
+#               if f > EPS1:
+#                   return point2
+#               elif f < EPS:
+#                   return point1
+#           return point1.intermediateTo(point2, f, wrap=wrap)
+
+        except KeyError:
+            pass
+        # without kwarg B{C{within}}, use backward compatible .nearestOn3
         return self.nearestOn3([point1, point2], closed=False, radius=radius,
                                                **options)[0]
 
@@ -662,11 +690,14 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
-           @raise ValueError: Invalid B{C{radius}}.
+           @raise ValueError: Invalid B{C{radius}} or B{C{options}}.
 
            @see: Functions L{compassAngle}, L{equirectangular_} and
                  L{nearestOn5}.
         '''
+        if _LatLon_ in options:
+            raise _ValueError(**options)
+
         lat, lon, d, c, h = _nearestOn5(self, points, closed=closed, **options)
         return NearestOn3Tuple(self.classof(lat, lon, height=h),
                                degrees2m(d, radius=radius), c)
@@ -690,6 +721,57 @@ class LatLon(LatLonSphericalBase):
         '''
         kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonSphericalBase.toCartesian(self, **kwds)
+
+    def trilaterate5(self, distance1, point2, distance2, point3, distance3,
+                           area=True, eps=EPS1, radius=R_M, wrap=False):
+        '''Trilaterate three points by area overlap or perimeter intersection
+           of three circles.
+
+           @arg distance1: Distance to this point (C{meter}, same units
+                           as B{C{radius}}).
+           @arg point2: Second center point (C{LatLon}).
+           @arg distance2: Distance to point2 (C{meter}, same units as
+                           B{C{radius}}).
+           @arg point3: Third center point (C{LatLon}).
+           @arg distance3: Distance to point3 (C{meter}, same units as
+                           B{C{radius}}).
+           @kwarg area: If C{True} compute the area overlap, otherwise the
+                        the perimeter intersection of the circles (C{bool}).
+           @kwarg eps: The required I{minimal overlap} for C{B{area}=True}
+                       or the I{intersection margin} for C{B{area}=False}
+                       (C{meter}, same units as B{C{radius}}).
+           @kwarg radius: Mean earth radius (C{meter}, conventionally).
+           @kwarg wrap: Wrap/unroll angular distances (C{bool}).
+
+           @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
+                    with C{min} and C{max} in C{meter}, same units as B{C{eps}},
+                    the corresponding trilaterated points C{minPoint} and
+                    C{maxPoint} as I{spherical} C{LatLon} and count C{n}.  For
+                    C{B{area}=True}, C{min} and C{max} are the smallest respectively
+                    largest I{radial} overlap found.  For perimeter intersections
+                    C{B{area}=False}, C{min} and C{max} represent the nearest
+                    respectively farthest intersection margin.  If only a single
+                    trilaterated point is found, C{min I{is} max}, C{minPoint
+                    I{is} maxPoint} and count C{n = 1}.  If all 3 circles are
+                    concentric or near-concentric with C{B{area}=True}, count
+                    C{n = 0}, C{minPoint} and C{maxPoint} are both the B{C{point#}}
+                    with the smallest B{C{distance#}}, C{min} is that smallest and
+                    C{max} the largest B{C{distance#}} value.
+
+           @raise IntersectionError: Trilateration failed for the given B{C{eps}},
+                                     insufficient overlap for C{B{area}=True} or
+                                     no intersection or all (near-)concentric for
+                                     C{B{area}=False}.
+
+           @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
+
+           @raise ValueError: Some B{C{points}} coincide or invalid B{C{distance1}},
+                              B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
+        '''
+        return _trilaterate5(self, distance1,
+                             self.others(point2=point2), distance2,
+                             self.others(point3=point3), distance3,
+                             area=area, radius=radius, eps=eps, wrap=wrap)
 
 
 _T00 = LatLon(0, 0)  # reference instance (L{LatLon})
@@ -835,8 +917,8 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
        >>> s = LatLon(49.0034, 2.5735)
        >>> i = intersection(p, 108.547, s, 32.435)  # '50.9078°N, 004.5084°E'
     '''
-    _T00.others(start1, name=_start1_)
-    _T00.others(start2, name=_start2_)
+    _T00.others(start1=start1)
+    _T00.others(start2=start2)
 
     hs = [start1.height, start2.height]
 
@@ -948,8 +1030,8 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,
        @see: This U{Answer<https://StackOverflow.com/questions/53324667/
              find-intersection-coordinates-of-two-circles-on-earth/53331953>}.
     '''
-    c1 = _T00.others(center1, name=_center1_)
-    c2 = _T00.others(center2, name=_center2_)
+    c1 = _T00.others(center1=center1)
+    c2 = _T00.others(center2=center2)
 
     try:
         return _intersects2(c1, rad1, c2, rad2, radius=radius,

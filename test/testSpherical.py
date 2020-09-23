@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.08.04'
+__version__ = '20.09.22'
 
 from base import RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -125,7 +125,7 @@ class Tests(_TestsLL, _TestsV):
             t = ', '.join(map(lonDMS, ps))
             self.test('crossingParallels', t, '009°35′38.65″E, 170°24′21.35″E')
 
-        if hasattr(LatLon, 'intersections2'):
+        if hasattr(LatLon, 'intersections2') and Sph:
 
             n = 'intersections2 (%s)' % (LatLon.__module__,)
 
@@ -194,6 +194,45 @@ class Tests(_TestsLL, _TestsV):
                         raise IntersectionError(d=d, fmt_name_value='%s (%g)', txt='over')
                 except IntersectionError as x:
                     self.test(n, str(x), 'd < %g m' % (d_m), known=True)  # too distant, near concetric, etc.
+
+            # courtesy AleixDev <https://GitHub.com/mrJean1/PyGeodesy/issues/43>
+            def _known(p):
+                return int(p.lat) == 42 and int(p.lon) == 2
+
+            n = 'trilaterate5 (%s) .' % (LatLon.__module__,)
+            d  = 5110  # meter
+            p1 = LatLon(42.688839, 2.438857)
+            p2 = LatLon(42.635421, 2.522570)
+
+            p3 = LatLon(42.630788, 2.500713)
+            t = p1.trilaterate5(d, p2, d, p3, d, area=True)  # overlap, default eps=EPS1
+            self.test(n + 'min',   t.min, '313.671', prec=3, known= 300 < t.min < 320)
+            p = t.minPoint
+            self.test(n + 'point', p.toStr(F_D, prec=8), '42.66937229°N, 002.48639477°E', known=_known(p))
+            self.test(n + 'max',   t.max, '1591.044', prec=3, known=1570 < t.max < 1610)
+            p = t.maxPoint
+            self.test(n + 'point', p.toStr(F_D, prec=8), '42.65153054°N, 002.46822157°E', known=_known(p))
+            self.test(n + 'n', t.n, t.n)
+
+            t = p1.trilaterate5(d, p2, d, p3, d, area=False, eps=200)  # intersection
+            self.test(n + 'min',   t.min, '133.815', prec=3, known= 100 < t.min < 200)
+            p = t.minPoint
+            self.test(n + 'inter', p.toStr(F_D, prec=8), '42.6767291°N, 002.49916157°E', known=_known(p))
+            self.test(n + 'n', t.n, t.n)
+
+            p3 = LatLon(42.64540, 2.504811)
+            t = p1.trilaterate5(d, p2, d, p3, d, area=True)  # overlap, default eps=EPS1
+            self.test(n + 'min',   t.min, '2403.293', prec=3, known=2390 < t.min < 2420)
+            self.test(n + 'max',   t.max, '2403.293', prec=3, known=2390 < t.max < 2420)
+            p = t.maxPoint
+            self.test(n + 'point', p.toStr(F_D, prec=8), '42.66135649°N, 002.47981645°E', known=_known(p))
+            self.test(n + 'min- is .maxPoint', t.minPoint is t.maxPoint, True)
+            self.test(n + 'n', t.n, t.n)
+            try:
+                t = p1.trilaterate5(d, p2, d, p3, d, area=False, eps=1000)  # no intersection in 1000 meter
+                self.test(n + 'inter', t.minPoint, IntersectionError.__name__)
+            except IntersectionError as x:
+                self.test(n + 'inter', str(x), str(x))
 
         if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)

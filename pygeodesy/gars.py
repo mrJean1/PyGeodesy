@@ -16,7 +16,7 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 from pygeodesy.basics import isstr, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
-from pygeodesy.interns import EPS1_2, _item_sq, NN, _prec_, _res_, \
+from pygeodesy.interns import EPS1_2, NN, _item_sq, _prec_, _res_, \
                              _0_5, _90_0
 from pygeodesy.interns import _1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
@@ -28,7 +28,7 @@ from pygeodesy.units import Int, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '20.09.14'
+__version__ = '20.09.22'
 
 _Digits  = '0123456789'
 _LatLen  =    2

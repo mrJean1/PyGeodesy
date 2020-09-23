@@ -25,10 +25,10 @@ imported by that top-level module.
              is not supported or not enabled, or C{False} if initializing
              C{lazy import} failed.
 '''
-from pygeodesy.interns import __all__ as _interns_all, _areaOf_, _COMMA_SPACE_, \
-                              _doesn_t_exist_, _DOT_, _dot_, _dunder_name, \
-                              _isclockwise_, _ispolar_, _item_sq, _Missing, NN, \
-                              _perimeterOf_, _UNDERSCORE_
+from pygeodesy.interns import NN, __all__ as _interns_all, _areaOf_, \
+                             _COMMA_SPACE_, _doesn_t_exist_, _DOT_, _dot_, \
+                             _dunder_name, _isclockwise_, _ispolar_, \
+                             _item_sq, _Missing, _perimeterOf_, _UNDERSCORE_
 
 from os import environ as _environ
 from os.path import basename as _basename
@@ -212,7 +212,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.09.16'
+__version__ = '20.09.22'
 
 
 def _ALL_OTHER(*objs):

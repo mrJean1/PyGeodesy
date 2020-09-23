@@ -9,7 +9,7 @@ __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'NN',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4',
            'R_M')  # import by .lazily
-__version__ = '20.09.16'
+__version__ = '20.09.22'
 
 NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
@@ -17,6 +17,7 @@ NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 _0_                  = '0'                    # PYCHOK expected
 _1_                  = '1'                    # PYCHOK expected
 _2_                  = '2'                    # PYCHOK expected
+_3_                  = '3'                    # PYCHOK expected
 _areaOf_             = 'areaOf'               # PYCHOK expected
 _ambiguous_          = 'ambiguous'            # PYCHOK expected
 _angle_              = 'angle'                # PYCHOK expected
@@ -27,8 +28,6 @@ _bearing_            = 'bearing'              # PYCHOK expected
 _beta_               = 'beta'                 # PYCHOK expected
 _C_                  = 'C'                    # PYCHOK expected
 _Cartesian_          = 'Cartesian'            # PYCHOK expected
-_center1_            = 'center1'              # PYCHOK expected
-_center2_            = 'center2'              # PYCHOK expected
 _coincident_         = 'coincident'           # PYCHOK expected
 _colinear_           = 'colinear'             # PYCHOK expected
 _COLON_              = ':'                    # PYCHOK expected
@@ -85,15 +84,18 @@ _M_                  = 'M'                    # PYCHOK expected
 _meanOf_             = 'meanOf'               # PYCHOK expected
 _meter_              = 'meter'                # PYCHOK expected
 _MGRS_               = 'MGRS'                 # PYCHOK expected
+_n_                  = 'n'                    # PYCHOK expected
 _N_                  = 'N'                    # PYCHOK expected
 _n_a_                = 'n/a'                  # PYCHOK expected
 _name_               = 'name'                 # PYCHOK expected
 _near_concentric_    = 'near-concentric'      # PYCHOK expected
 _nearestOn2_         = 'nearestOn2'           # PYCHOK expected
 _negative_           = 'negative'             # PYCHOK expected
+_no_intersection_    = 'no intersection'      # PYCHOK expected
 _no_convergence_     = 'no convergence'       # PYCHOK expected
 _no_convergence_fmt_ = 'no convergence (%g)'  # PYCHOK expected
 _no_conversion_      = 'no conversion'        # PYCHOK expected
+_no_overlap_         = 'no overlap'           # PYCHOK expected
 _northing_           = 'northing'             # PYCHOK expected
 _NorthPole_          = 'NorthPole'            # PYCHOK expected
 _not_convex_         = 'not convex'           # PYCHOK expected
@@ -130,8 +132,6 @@ _SPACE_              = ' '                    # PYCHOK expected
 _SQUARE_             = '[%s]'                 # PYCHOK expected
 _STAR_               = '*'                    # PYCHOK expected
 _start_              = 'start'                # PYCHOK expected
-_start1_             = 'start1'               # PYCHOK expected
-_start2_             = 'start2'               # PYCHOK expected
 _std_                = 'std'                  # PYCHOK expected
 _sumOf_              = 'sumOf'                # PYCHOK expected
 _too_distant_        = 'too distant'          # PYCHOK expected

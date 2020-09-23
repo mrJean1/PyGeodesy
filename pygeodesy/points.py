@@ -27,22 +27,21 @@ the index for the lat- and longitude index in each 2+tuple.
 
 from pygeodesy.basics import isclass, isint, issequence, map1, \
                              property_doc_, property_RO, _Sequence, \
-                            _xcopy, _xinstanceof, _xkwds  # PYCHOK indent
+                             _xcopy, _xinstanceof, _xkwds
 from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
-from pygeodesy.errors import CrossError, crosserrors, _incompatible, \
-                            _IndexError, _IsnotError, _TypeError, \
-                            _ValueError, _xkwds_pop
+from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
+                            _IsnotError, _TypeError, _ValueError, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
-from pygeodesy.interns import EPS, PI_2, R_M, _COMMA_SPACE_, _datum_, \
+from pygeodesy.interns import EPS, NN, PI_2, R_M, _COMMA_SPACE_, _datum_, \
                              _height_, _item_ps, _item_sq, _lat_, _lon_, \
-                             _name_, NN, _other_, _point_, _UNDERSCORE_, \
-                             _valid_, _x_, _y_, _0_0, _0_5, _1_0, _3_0, \
-                             _90_0, _180_0, _360_0
+                             _name_, _point_, _UNDERSCORE_, _valid_, _x_, \
+                             _y_, _0_0, _0_5, _1_0, _3_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _callname, classname, _NamedTuple, nameof, \
-                             notImplemented, notOverloaded, _Pass, _xnamed
+from pygeodesy.named import classname, _NamedTuple, nameof, \
+                            notImplemented, notOverloaded, _Pass, \
+                            _xnamed, _xother3, _xotherError
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, NearestOn3Tuple, \
                                   PhiLam2Tuple, Vector4Tuple
@@ -56,7 +55,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.09.15'
+__version__ = '20.09.23'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -162,22 +161,22 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         return _N_vector_(*latlon2n_xyz(self.lat, self.lon), h=self.height)
 
-    def others(self, other, name=_other_, up=1):  # see .named._namedBase.others
-        '''Check this and an other instance for type compatibility.
+    def others(self, *other, **name_other_up):  # see .named._namedBase.others
+        '''Refined class comparison.
 
-           @arg other: The other instance (any C{type}).
-           @kwarg name: Optional, name for other (C{str}).
-           @kwarg up: Number of call stack frames up (C{int}).
+           @arg other: The other instance (L{any}).
+           @kwarg name_other_up: Overriding C{name=other} and C{up=1}
+                                 keyword arguments.
 
            @return: The B{C{other}} if compatible.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        if not (isinstance(other, self.__class__) or
-                (hasattr(other, _lat_) and hasattr(other, _lon_))):
-            n = _callname(name, classname(self), self.name, up=up + 1)
-            raise _TypeError(name, other, txt=_incompatible(n))
-        return other
+        other, name, up = _xother3(self, other, **name_other_up)
+        if isinstance(other, self.__class__) or (hasattr(other, _lat_)
+                                             and hasattr(other, _lon_)):
+            return other
+        raise _xotherError(self, other, name=name, up=up + 1)
 
     @property_RO
     def philam(self):
@@ -1229,7 +1228,7 @@ def isconvex(points, adjust=False, wrap=True):
 
 
 def isconvex_(points, adjust=False, wrap=True):
-    '''Determine whether a polygon is convex and clockwise.
+    '''Determine whether a polygon is convex I{and clockwise}.
 
        @arg points: The polygon points (C{LatLon}[]).
        @kwarg adjust: Adjust the wrapped, unrolled longitudinal delta

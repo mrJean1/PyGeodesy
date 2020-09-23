@@ -38,7 +38,7 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
-from pygeodesy.interns import EPS, _COMMA_SPACE_, _float, _Missing, NN, \
+from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _float, _Missing, \
                              _NS_, _outside_, _range_, _SPACE_, _SQUARE_, \
                              _UTM_, _zone_, _1_0
 from pygeodesy.interns import _S_  # PYCHOK used!
@@ -60,7 +60,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.09.10'
+__version__ = '20.09.22'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N

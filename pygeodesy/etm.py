@@ -70,8 +70,8 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
-from pygeodesy.interns import EPS as _TOL, PI_2, PI_4, _COMMA_SPACE_, \
-                             _convergence_, _easting_, _lat_, _lon_, NN, \
+from pygeodesy.interns import EPS as _TOL, NN, PI_2, PI_4, _COMMA_SPACE_, \
+                             _convergence_, _easting_, _lat_, _lon_, \
                              _northing_, _no_convergence_, _scale_, _0_0, \
                              _0_1, _0_5, _1_0, _2_0, _3_0, _90_0, _180_0
 from pygeodesy.interns import _k0_, _lon0_  # PYCHOK used!
@@ -90,7 +90,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.09.14'
+__version__ = '20.09.22'
 
 _OVERFLOW = _1_0 / _TOL**2
 _TOL_10   = _0_1 * _TOL

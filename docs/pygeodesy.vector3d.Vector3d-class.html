@@ -479,7 +479,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#angleTo" class="summary-sig-name">angleTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">vSign</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">vSign</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the angle between this and an other vector.</td>
           <td align="right" valign="top">
             
@@ -626,6 +627,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">other1</span>,
+        <span class="summary-sig-arg">other2</span>,
+        <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Locate the point between two points closest to this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#negate" class="summary-sig-name">negate</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Return this vector in opposite direction.</td>
           <td align="right" valign="top">
@@ -644,9 +665,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#others" class="summary-sig-name">others</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">other</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">up</span>=<span class="summary-sig-default">1</span>)</span><br />
+        <span class="summary-sig-arg">*other</span>,
+        <span class="summary-sig-arg">**name_other_up</span>)</span><br />
       Refined class comparison.</td>
           <td align="right" valign="top">
             
@@ -1599,7 +1619,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">angleTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
-        <span class="sig-arg">vSign</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">vSign</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1617,6 +1638,7 @@
           the other), angle is signed positive if this-&gt;other is 
           clockwise looking along vSign or negative in opposite direction, 
           otherwise angle is unsigned.</li>
+        <li><strong class="pname"><code>warp</code></strong> - Wrap/unroll the angle to +/-PI (c{bool}).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Angle (<code>radians</code>).</dd>
@@ -1842,6 +1864,54 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="nearestOn"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">other1</span>,
+        <span class="sig-arg">other2</span>,
+        <span class="sig-arg">within</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate the point between two points closest to this point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other1</code></strong> - Start point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
+        <li><strong class="pname"><code>other2</code></strong> - End point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point between the given 
+          points, otherwise the closest point on the extended line through 
+          both points (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Closest point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>other1</code></b> or <b><code>other2</code></b> is not 
+        <a href="pygeodesy.vector3d.Vector3d-class.html" 
+        class="link">Vector3d</a>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.sphericalTrigonometry.LatLon-class.html#nearestOn3"
+        class="link">sphericalTrigonometry.LatLon.nearestOn3</a> and <a 
+        href="https://MathWorld.Wolfram.com/Point-LineDistance3-Dimensional.html"
+        target="_top">3-D Point-Line distance</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="negate"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1873,9 +1943,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">others</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">other</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">up</span>=<span class="sig-default">1</span>)</span>
+        <span class="sig-arg">*other</span>,
+        <span class="sig-arg">**name_other_up</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1889,8 +1958,8 @@
         <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, other's name (<code>str</code>).</li>
-        <li><strong class="pname"><code>up</code></strong> - Number of call stack frames up (<code>int</code>).</li>
+        <li><strong class="pname"><code>name_other_up</code></strong> - Overriding <code>name=other</code> and <code>up=1</code> keyword 
+          arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <b><code>other</code></b> if compatible.</dd>
@@ -2177,7 +2246,7 @@
         <dd>Vector as &quot;(x, y, z)&quot; (<code>str</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>_AssertionError</strong></code> - Always, see function <a 
+        <li><code><strong class='fraise'>AssertionError</strong></code> - Always, see function <a 
         href="pygeodesy.named-module.html#notOverloaded" 
         class="link">notOverloaded</a>.</li>
     </ul></dd>
@@ -2386,7 +2455,7 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:41 2020
+    Generated by Epydoc 3.0.1 on Wed Sep 23 17:20:14 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

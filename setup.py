@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.09.05'
+__version__ = '20.09.18'
 
 
 def _c2(*names):
@@ -75,7 +75,7 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Sudano', 'Sutherland', 'Sutherland-Hodgman',
              'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
              'Transverse', 'TransverseMercatorExact', 'TRF', 'trigonometry',
-             'unroll', 'UPS', 'UTM', 'UTM/UPS',
+             'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'Veness', 'Vermeille', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
              'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam', 'You')
 

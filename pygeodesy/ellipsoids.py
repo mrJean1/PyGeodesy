@@ -63,9 +63,9 @@ from pygeodesy.basics import property_doc_, property_RO, _xinstanceof
 from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import cbrt, cbrt2, fdot, fpowers, Fsum, fsum_, \
                             hypot1, hypot2, sqrt3
-from pygeodesy.interns import EPS, EPS1, INF, PI4 as _PI4, PI_2, R_M, \
+from pygeodesy.interns import EPS, EPS1, INF, NN, PI4 as _PI4, PI_2, R_M, \
                              _float, _floatuple as _T, _lat_, _lat0_, _lat1_, \
-                             _lon0_, _lon1_, _n_a_, _negative_, NN, _x_, \
+                             _lon0_, _lon1_, _n_a_, _negative_, _x_, \
                              _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, _4_0, _90_0
 from pygeodesy.interns import _8_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
@@ -95,7 +95,7 @@ R_VM = Radius(6366707.0194937, name='R_VM')  # Aviation/Navigation earth radius 
 # R_ = Radius(6372797.560856,  name='R_')    # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '20.09.12'
+__version__ = '20.09.22'
 
 _1_EPS = _1_0 / EPS        # largest abs(f_)
 _PI4_3 = _PI4 / _3_0       # PYCHOK used!

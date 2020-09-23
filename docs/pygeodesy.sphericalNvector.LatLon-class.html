@@ -195,7 +195,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#distanceTo" class="summary-sig-name">distanceTo</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">**unused</span>)</span><br />
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the distance from this to an other point.</td>
           <td align="right" valign="top">
             
@@ -429,7 +429,9 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#nearestOn" class="summary-sig-name">nearestOn</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">point1</span>,
         <span class="summary-sig-arg">point2</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">within</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Locate the point on the great circle arc between two points closest 
       to this point.</td>
           <td align="right" valign="top">
@@ -523,57 +525,14 @@
       
     </td>
   </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#triangulate" class="summary-sig-name">triangulate</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">bearing1</span>,
-        <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">bearing2</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Locate a point given this and an other point and a bearing at this 
-      and the other point.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector.LatLon-class.html#trilaterate" class="summary-sig-name">trilaterate</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">distance1</span>,
-        <span class="summary-sig-arg">point2</span>,
-        <span class="summary-sig-arg">distance2</span>,
-        <span class="summary-sig-arg">point3</span>,
-        <span class="summary-sig-arg">distance3</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Locate a point at given distances from this and two other points.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html">nvectorBase.LatLonNvectorBase</a></code></b>:
-      <code><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#others">others</a></code>
+      <code><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#intersections2">intersections2</a></code>,
+      <code><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#triangulate">triangulate</a></code>,
+      <code><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#trilaterate">trilaterate</a></code>,
+      <code><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#trilaterate5">trilaterate5</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html">sphericalBase.LatLonSphericalBase</a></code></b>:
       <code><a href="pygeodesy.sphericalBase.LatLonSphericalBase-class.html#__init__">__init__</a></code>,
@@ -879,7 +838,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">distanceTo</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">other</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">**unused</span>)</span>
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -894,15 +853,14 @@
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap/unroll the angular distance (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance between this and the <b><code>other</code></b> point 
           (<code>meter</code>, same units as <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
-        href="pygeodesy.sphericalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> point.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1355,7 +1313,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">nearestOn</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">point1</span>,
         <span class="sig-arg">point2</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">within</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1364,9 +1324,6 @@
   
   <p>Locate the point on the great circle arc between two points closest to
   this point.</p>
-  <p>If this point is within the extent of the arc between both end points,
-  return the closest point on the arc.  Otherwise, return the closest of 
-  the arc's end points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1378,6 +1335,10 @@
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height for the point within 
           the arc (<code>meter</code>).</li>
+        <li><strong class="pname"><code>within</code></strong> - If <code>True</code> return the closest point between both given 
+          points, otherwise the closest point elsewhere on the arc 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Closest point on the arc (<a 
@@ -1385,9 +1346,8 @@
           class="link">LatLon</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>point1</code></b> or <b><code>point2</code></b> is not 
-        <a href="pygeodesy.sphericalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
+        <li><code><strong class='fraise'>NotImplementedError</strong></code> - Keyword argument <b><code>wrap</code>=True</b> not supported.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point1</code></b> or <b><code>point2</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Example:</strong>
@@ -1592,117 +1552,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="triangulate"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">triangulate</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">bearing1</span>,
-        <span class="sig-arg">other</span>,
-        <span class="sig-arg">bearing2</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Locate a point given this and an other point and a bearing at this and
-  the other point.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at this point (compass <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>other</code></strong> - The other point (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the other point (compass <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height at the triangulated point, overriding the mean 
-          height (<code>meter</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Triangulated point (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
-        href="pygeodesy.sphericalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>Valuerror</strong></code> - Points coincide.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(<span class="py-string">&quot;47&#176;18.228'N&quot;</span>,<span class="py-string">&quot;002&#176;34.326'W&quot;</span>)  <span class="py-comment"># Basse Castouillet</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(<span class="py-string">&quot;47&#176;18.664'N&quot;</span>,<span class="py-string">&quot;002&#176;31.717'W&quot;</span>)  <span class="py-comment"># Basse Hergo</span>
-<span class="py-prompt">&gt;&gt;&gt; </span>t = p.triangulate(7, q, 295)  <span class="py-comment"># 47.323667&#176;N, 002.568501&#176;W'</span></pre>
-      </p>
-</div></td></tr></table>
-</div>
-<a name="trilaterate"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">distance1</span>,
-        <span class="sig-arg">point2</span>,
-        <span class="sig-arg">distance2</span>,
-        <span class="sig-arg">point3</span>,
-        <span class="sig-arg">distance3</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Locate a point at given distances from this and two other points. See 
-  also <a href="https://WikiPedia.org/wiki/Trilateration" 
-  target="_top">Trilateration</a>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>distance1</code></strong> - Distance to this point (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>point2</code></strong> - Second reference point (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance2</code></strong> - Distance to point2 (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>point3</code></strong> - Third reference point (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>distance3</code></strong> - Distance to point3 (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height at trilaterated point, overriding the mean height
-          (<code>meter</code>, same units as <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>useZ</code></strong> - Include Z component iff non-NaN, non-zero (<code>bool</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Trilaterated point (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
-        href="pygeodesy.sphericalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Distance(s) exceeds trilateration or some 
-        <b><code>points</code></b> coincide.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -1735,7 +1584,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:39 2020
+    Generated by Epydoc 3.0.1 on Wed Sep 23 17:20:12 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

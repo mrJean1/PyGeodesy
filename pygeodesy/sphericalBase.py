@@ -19,10 +19,10 @@ from pygeodesy.ecef import EcefKarney
 from pygeodesy.ellipsoids import R_M, R_MA
 from pygeodesy.errors import IntersectionError
 from pygeodesy.fmath import favg, fsum_
-from pygeodesy.interns import EPS, PI, PI2, PI_2, _COMMA_, NN, \
+from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
                              _exceed_PI_radians_, _near_concentric_, \
                              _radius_, _too_distant_, _1_0, _180_0, _360_0
-from pygeodesy.latlonBase import LatLonBase
+from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple
@@ -34,7 +34,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.09.11'
+__version__ = '20.09.22'
 
 
 def _angular(distance, radius):  # PYCHOK for export

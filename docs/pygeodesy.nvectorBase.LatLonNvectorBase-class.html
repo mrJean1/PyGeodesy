@@ -96,11 +96,32 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#others" class="summary-sig-name">others</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a name="intersections2"></a><span class="summary-sig-name">intersections2</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">radius1</span>,
         <span class="summary-sig-arg">other</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">other</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">up</span>=<span class="summary-sig-default">1</span>)</span><br />
-      Refine the class comparison.</td>
+        <span class="summary-sig-arg">radius2</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      <i>Not implemented</i>, throws a <code>NotImplementedError</code> 
+      always.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#others" class="summary-sig-name">others</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*other</span>,
+        <span class="summary-sig-arg">**name_other_up</span>)</span><br />
+      Refined class comparison.</td>
           <td align="right" valign="top">
             
             
@@ -121,6 +142,81 @@
         <span class="summary-sig-arg">**Nvector_kwds</span>)</span><br />
       Convert this point to <code>Nvector</code> components, <i>including 
       height</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#triangulate" class="summary-sig-name">triangulate</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">bearing1</span>,
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">bearing2</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Locate a point given this and an other point and a bearing at this 
+      and the other point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#trilaterate" class="summary-sig-name">trilaterate</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">distance2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">distance3</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">useZ</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Locate a point at given distances from this and two other points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html#trilaterate5" class="summary-sig-name">trilaterate5</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">distance2</span>,
+        <span class="summary-sig-arg">point3</span>,
+        <span class="summary-sig-arg">distance3</span>,
+        <span class="summary-sig-arg">area</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">1.0</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      <b>Not implemented</b> for <code><b>area</b>=True</code> or 
+      <code><b>wrap</b>=True</code> and falls back to method 
+      <code>trilaterate</code> otherwise.</td>
           <td align="right" valign="top">
             
             
@@ -259,22 +355,21 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">others</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">other</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">other</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">up</span>=<span class="sig-default">1</span>)</span>
+        <span class="sig-arg">*other</span>,
+        <span class="sig-arg">**name_other_up</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Refine the class comparison.</p>
+  <p>Refined class comparison.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional, other's name (<code>str</code>).</li>
-        <li><strong class="pname"><code>up</code></strong> - Number of call stack frames up (<code>int</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other vector (<code>NvectorBase</code>).</li>
+        <li><strong class="pname"><code>name_other_up</code></strong> - Overriding <code>name=other</code> and <code>up=1</code> keyword 
+          arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <b><code>other</code></b> if compatible.</dd>
@@ -328,6 +423,158 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="triangulate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triangulate</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">bearing1</span>,
+        <span class="sig-arg">other</span>,
+        <span class="sig-arg">bearing2</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate a point given this and an other point and a bearing at this and
+  the other point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bearing1</code></strong> - Bearing at this point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>other</code></strong> - The other point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>bearing2</code></strong> - Bearing at the other point (compass <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at the triangulated point, overriding the mean 
+          height (<code>meter</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Triangulated point (<code>LatLon</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>other</code></b> point.</li>
+        <li><code><strong class='fraise'>Valuerror</strong></code> - Points coincide.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Example:</strong>
+        <pre class="py-doctest">
+<span class="py-prompt">&gt;&gt;&gt; </span>p = LatLon(<span class="py-string">&quot;47&#176;18.228'N&quot;</span>,<span class="py-string">&quot;002&#176;34.326'W&quot;</span>)  <span class="py-comment"># Basse Castouillet</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>q = LatLon(<span class="py-string">&quot;47&#176;18.664'N&quot;</span>,<span class="py-string">&quot;002&#176;31.717'W&quot;</span>)  <span class="py-comment"># Basse Hergo</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>t = p.triangulate(7, q, 295)  <span class="py-comment"># 47.323667&#176;N, 002.568501&#176;W'</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="trilaterate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">distance2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">distance3</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">useZ</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Locate a point at given distances from this and two other points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance1</code></strong> - Distance to this point (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Second reference point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>distance2</code></strong> - Distance to point2 (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
+        <li><strong class="pname"><code>point3</code></strong> - Third reference point (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>distance3</code></strong> - Distance to point3 (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height at trilaterated point, overriding the mean height
+          (<code>meter</code>, same units as <b><code>radius</code></b>).</li>
+        <li><strong class="pname"><code>useZ</code></strong> - Include Z component iff non-NaN, non-zero (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Trilaterated point (<code>LatLon</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, trilateration failed.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Some <b><code>points</code></b> coincide or invalid 
+        <b><code>distance1</code></b>, <b><code>distance2</code></b>, 
+        <b><code>distance3</code></b> or <b><code>radius</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://WikiPedia.org/wiki/Trilateration" 
+        target="_top">Trilateration</a>, Veness' JavaScript <a 
+        href="https://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
+        target="_top">Trilateration</a> and method 
+        <code>LatLon.trilaterate2</code> of other, non-<code>Nvector 
+        LatLon</code> classes.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="trilaterate5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate5</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">distance2</span>,
+        <span class="sig-arg">point3</span>,
+        <span class="sig-arg">distance3</span>,
+        <span class="sig-arg">area</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">1.0</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p><b>Not implemented</b> for <code><b>area</b>=True</code> or 
+  <code><b>wrap</b>=True</code> and falls back to method 
+  <code>trilaterate</code> otherwise.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html" 
+          class="link">Trilaterate5Tuple</a><code>(min, minPoint, max, 
+          maxPoint, n)</code> with a single trilaterated intersection 
+          <code>minPoint <i>is</i> maxPoint</code>, <code>min <i>is</i> 
+          max</code> the nearest intersection margin and count <code>n = 
+          1</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, trilateration failed.</li>
+        <li><code><strong class='fraise'>NotImplementedError</strong></code> - Keyword argument <code><b>area</b>=True</code> or 
+        <b><code>wrap</code>=True</b> not (yet) supported.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point2</code></b> or <b><code>point3</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Some <b><code>points</code></b> coincide or invalid 
+        <b><code>distance1</code></b>, <b><code>distance2</code></b>, 
+        <b><code>distance3</code></b> or <b><code>radius</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -360,7 +607,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Sep 17 20:49:38 2020
+    Generated by Epydoc 3.0.1 on Wed Sep 23 17:20:12 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

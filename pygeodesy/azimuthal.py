@@ -33,11 +33,11 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError
 from pygeodesy.fmath import Fsum
-from pygeodesy.interns import EPS, EPS1, NAN, PI, PI_2, _azimuth_, \
+from pygeodesy.interns import EPS, EPS1, NAN, NN, PI, PI_2, _azimuth_, \
                              _COMMA_SPACE_, _datum_, _lat_, _lat0_, \
-                             _lon_, _lon0_, _name_, NN, \
-                             _no_convergence_fmt_, _scale_, _SPACE_, \
-                             _x_, _y_, _0_0, _0_5, _1_0, _2_0, _360_0
+                             _lon_, _lon0_, _name_, _no_convergence_fmt_, \
+                             _scale_, _SPACE_, _x_, _y_, _0_0, _0_5, \
+                             _1_0, _2_0, _360_0
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
@@ -50,7 +50,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.09.12'
+__version__ = '20.09.22'
 
 _EPS_Karney    =  sqrt(EPS) * 0.01  # Karney's eps_
 _over_horizon_ = 'over horizon'

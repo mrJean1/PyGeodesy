@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.09'
+__version__ = '20.09.23'
 
 from base import coverage, TestsBase
 
@@ -99,9 +99,9 @@ class Tests(TestsBase):
 
         for _, E in sorted(Ellipsoids.items()):
             Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384)
-            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-9)
+            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-5)  # b_None, f_None on iPhone
             Ah = E.a / (1 + E.n) * (fhorner(E.n**2, 16384, 4096, 256, 64, 25) / 16384)
-            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-9)
+            self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-5)  # b_None, f_None on iPhone
 
             Ah = E.a / (1 + E.n) * fhorner(E.n**2, 1., 1./4, 1./64, 1./256, 25./16384, 49./65536)
             self.test(E.name, Ah, E.A, prec=10, known=abs(Ah - E.A) < 1e-9)

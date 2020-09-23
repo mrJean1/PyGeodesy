@@ -79,9 +79,9 @@ from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
                                  Ellipsoid2, Ellipsoids
 from pygeodesy.errors import _IsnotError
 from pygeodesy.fmath import fdot
-from pygeodesy.interns import _COMMA_SPACE_, _ellipsoid_, _float, _name_, NN, \
-                              _spherical_, _transform_, _UNDERSCORE_, \
-                              _0_0, _1_0, _2_0, _3600_0
+from pygeodesy.interns import NN, _COMMA_SPACE_, _ellipsoid_, _float, \
+                             _name_, _spherical_, _transform_, \
+                             _UNDERSCORE_, _0_0, _1_0, _2_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem
 from pygeodesy.namedTuples import Vector3Tuple
@@ -90,7 +90,7 @@ from pygeodesy.units import Radius_, Scalar
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '20.09.11'
+__version__ = '20.09.22'
 
 
 def _r_s2(s):

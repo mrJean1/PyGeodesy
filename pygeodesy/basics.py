@@ -14,7 +14,7 @@ from inspect import isclass as _isclass
 from math import copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.09.16'
+__version__ = '20.09.23'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects

@@ -66,10 +66,10 @@ from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError
-from pygeodesy.interns import EPS, _COMMA_SPACE_, _cubic_, _E_, \
+from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _cubic_, _E_, \
                              _item_cs, _item_pr, _item_ps, _item_sq, \
                              _knots_, _lat_, _linear_, _lon_, _N_, \
-                             _n_a_, NN, _outside_, _S_, _W_, \
+                             _n_a_, _outside_, _S_, _W_, \
                              _0_0, _1_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
@@ -91,7 +91,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.09.14'
+__version__ = '20.09.22'
 
 # temporarily hold a single instance for each int value
 _intCs = {}

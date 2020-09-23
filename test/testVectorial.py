@@ -4,11 +4,12 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.12'
+__version__ = '20.09.23'
 
 from base import coverage, TestsBase
 
-from pygeodesy import F_D, fstr, NEG0, sphericalNvector, vector3d, VectorError
+from pygeodesy import F_D, fstr, IntersectionError, NEG0, \
+                      sphericalNvector, vector3d, VectorError
 
 
 class Tests(TestsBase):
@@ -85,6 +86,16 @@ class Tests(TestsBase):
                                         Nvector(1000, 0, 0), 500, sphere=False)
             self.test('intersections2', t[0], t[1])  # abutting
 
+            p1, p2 = Nvector(-100, -100, -100), Nvector(100, 100, 100)
+            t = vector3d.nearestOn(Nvector(0, 0, 0), p1, p2)
+            self.test('nearestOn', t, Nvector(0, 0, 0))
+            t = vector3d.nearestOn(Nvector(-200, -200, 0), p1, p2)
+            t = vector3d.nearestOn(Nvector(-200, -200, 0), p1, p2)
+            self.test('nearestOn', t is p1, True)
+            t = vector3d.nearestOn(Nvector(200, 200, 0), p1, p2)
+            self.test('nearestOn', t, p2)
+            self.test('nearestOn', t is p2, True)
+
     def testVectorial(self, module):  # MCCABE 14
 
         self.subtitle(module, 'Vectorial')
@@ -95,10 +106,10 @@ class Tests(TestsBase):
             p = LatLon(53.2611, -0.7972)
             s = LatLon(53.3206, -1.7297)
             d = p.crossTrackDistanceTo(s, 96.0)
-            self.test('crossTrackDistanceTo', d, '-305.67', fmt='%.2f')  # -305.7
+            self.test('crossTrackDistanceTo', d, '-305.67', prec=2)  # -305.7
             e = LatLon(53.1887, 0.1334)
             d = p.crossTrackDistanceTo(s, e)
-            self.test('crossTrackDistanceTo', d, '-307.55', fmt='%.2f')  # -307.5
+            self.test('crossTrackDistanceTo', d, '-307.55', prec=2)  # -307.5
 
         if hasattr(LatLon, 'enclosedby'):
             r = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
@@ -128,12 +139,12 @@ class Tests(TestsBase):
         self.test('sumOf', s, '(52.70504, 0.61904, 0.70705)')
         self.test('sumOf', s.__class__.__name__, 'Nv')
         self.test('sumOf', s._name, 'sumOf')
-        self.test('length', s.length, '52.7134151513', fmt='%.10f')
+        self.test('length', s.length, '52.7134151513', prec=10)
 
         c = v.copy()
         self.test('copy', c.isequalTo(v), True)
-        self.test('length', v.length, '52.2051356286', fmt='%.10f')
-        self.test('length', c.length, '52.2051356286', fmt='%.10f')
+        self.test('length', v.length, '52.2051356286', prec=10)
+        self.test('length', c.length, '52.2051356286', prec=10)
 
         if module is sphericalNvector:  # coverage
             c = p.toCartesian()
@@ -172,13 +183,26 @@ class Tests(TestsBase):
         if hasattr(LatLon, 'nearestOn'):
             s1 = LatLon(51.0, 1.0)
             s2 = LatLon(51.0, 2.0)
+
+            s = LatLon(41.0, 0.0)
+            p = s.nearestOn(s1, s2, within=True)
+            self.test('nearestOn', p.toStr(F_D, prec=3), '51.0°N, 001.0°E')
+            p = s.nearestOn(s1, s2, within=False)
+            self.test('nearestOn', p.toStr(F_D, prec=3), '50.987°N, 000.298°W')
+
+            s = LatLon(61.0, 3.0)
+            p = s.nearestOn(s1, s2, within=True)
+            self.test('nearestOn', p.toStr(F_D, prec=3), '51.0°N, 002.0°E')
+            p = s.nearestOn(s1, s2, within=False)
+            self.test('nearestOn', p.toStr(F_D, prec=3), '50.995°N, 002.655°E')
+
             s = LatLon(51.0, 1.9)
             p = s.nearestOn(s1, s2)  # 51.0004°N, 001.9000°E
-            self.test('nearestOn', p.toStr(F_D, prec=4), '51.0004°N, 001.9°E')
+            self.test('nearestOn', p.toStr(F_D, prec=3), '51.0°N, 001.9°E')
             self.test('nearestOn', isinstance(p, LatLon), True)
 
             d = p.distanceTo(s)  # 42.71 m
-            self.test('distanceTo', d, 42.712, fmt='%.3f')
+            self.test('distanceTo', d, 42.712 if module is sphericalNvector else 42.826, prec=3, known=int(d) == 42)
             s = LatLon(51.0, 2.1)
             p = s.nearestOn(s1, s2)  # 51.0000°N, 002.0000°E
             self.test('nearestOn', p.toStr(F_D), '51.0°N, 002.0°E')
@@ -200,7 +224,7 @@ class Tests(TestsBase):
             p = LatLon(1, 1).nearestOn(LatLon(2, 2), LatLon(2, 2))
             self.test('nearestOn', p, '02.0°N, 002.0°E')
             p = LatLon(2, 2).nearestOn(LatLon(2, 2), LatLon(2, 2))
-            self.test('nearestOn', p, '02.0°N, 002.0°E')
+            self.test('nearestOn', p, '02.0°N, 002.0°E')  # PYCHOK test attr?
 
         if hasattr(LatLon, 'triangulate'):
             # courtesy of pvezid  Feb 10, 2017
@@ -210,7 +234,7 @@ class Tests(TestsBase):
             self.test('BasseH', s, '47.311067°N, 002.528617°W')
             t = p.triangulate(7, s, 295)
             self.test('triangulate', t, '47.323667°N, 002.568501°W')
-            self.test('triangulate', isinstance(t, LatLon), True)
+            self.test('triangulate', isinstance(t, LatLon), True)  # PYCHOK test attr?
 
         if hasattr(LatLon, 'trilaterate'):
             # <https://GitHub.com/chrisveness/geodesy/blob/master/test/latlon-nvector-spherical-tests.js>
@@ -232,8 +256,20 @@ class Tests(TestsBase):
             self.test('trilaterate', t, p)
             self.test('trilaterate', isinstance(t, LatLon), True)
             t = b1.trilaterate(d1, b2, d2, b3, d3, useZ=True)
-            self.test('trilaterate', t, p)
+            self.test('trilaterate', t, p, known=abs(t.lon - p.lon) < 1e-5)
             self.test('trilaterate', isinstance(t, LatLon), True)
+
+            # courtesy AleixDev <https://GitHub.com/mrJean1/PyGeodesy/issues/43>
+            d  = 5110  # meter
+            p1 = LatLon(42.688839, 2.438857)
+            p2 = LatLon(42.635421, 2.522570)
+            t = p1.trilaterate(d, p2, d, LatLon(42.630788,2.500713), d)
+            self.test('trilaterate', t.toStr(F_D, prec=8), '42.67456065°N, 002.49539502°E')
+            try:
+                t = p1.trilaterate(d, p2, d, LatLon(42.64540, 2.504811), d)
+                self.test('trilaterate', t.toStr(F_D, prec=8), IntersectionError.__name__)
+            except IntersectionError as x:
+                self.test('trilaterate', str(x), str(x))  # PYCHOK test attr?
 
         self.testNvectorBase(module)
 

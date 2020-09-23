@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.11'
+__version__ = '20.09.22'
 
 from base import geographiclib, TestsBase
 
@@ -417,9 +417,90 @@ class Tests(TestsBase):
         if not Nv:
             # XXX prec=5 for NvectorBase.toStr vs prec=6 for Vector3Tuple.toStr
             self.test('toNvector', p.toNvector(), '(0.61566, 0.0, 0.78801)' if Sph
-                                             else '(0.615661, 0.0, 0.788011)')  # PYCHOK test
+                                             else '(0.615661, 0.0, 0.788011)')  # PYCHOK test attr?
         self.test('toVector',   p.toVector(), '(0.615661, 0.0, 0.788011)')
         self.test('toVector3d', p.toVector3d(), '(0.61566, 0.0, 0.78801)')
+
+        # courtesy AleixDev <https://GitHub.com/mrJean1/PyGeodesy/issues/43>
+        def _known(p):
+            return int(p.lat) == 42 and int(p.lon) == 2
+
+        n  = 'trilaterate5 (%s) .' % (LatLon.__module__,)
+        d  = 5110  # meter
+        p1 = LatLon(42.688839, 2.438857)
+        p2 = LatLon(42.635421, 2.522570)
+
+        p3 = LatLon(42.630788, 2.500713)
+        if Nv:  # coverage
+            t = p1.trilaterate5(d, p2, d, p3, d, area=False, eps=250)  # intersection
+            self.test(n + 'min', t.min, '223.305', prec=3, known=120 < t.min < 150)
+            p = t.maxPoint
+            self.test(n + 'point', p.toStr(F_D, prec=8), '42.67456065°N, 002.49539502°E', known=_known(p))
+            self.test(n + 'min- is .maxPoint', t.minPoint is t.maxPoint, True, known=Sph)
+            self.test(n + 'n', t.n, t.n)
+
+        try:
+            t = p1.trilaterate5(d, p2, d, p3, d, area=True)  # overlap
+            self.test(n + 'min', t.min, '313.671' if Sph
+                                  else ('305.091' if geographiclib
+                                  else  '311.234'), prec=3, known= 300 < t.min <  320)
+            p = t.minPoint
+            self.test(n + 'point', p.toStr(F_D, prec=8), '42.66937229°N, 002.48639477°E' if Sph
+                                                   else ('42.66933643°N, 002.48620262°E' if geographiclib
+                                                   else  '42.66938776°N, 002.48641176°E'), known=_known(p))
+            self.test(n + 'max', t.max, '1591.044' if Sph
+                                  else ('1592.545' if geographiclib
+                                  else  '1586.951'), prec=3, known=1570 < t.max < 1610)
+            p = t.maxPoint
+            self.test(n + 'point', p.toStr(F_D, prec=8), '42.65153054°N, 002.46822157°E' if Sph
+                                                   else ('42.65141232°N, 002.46816989°E' if geographiclib
+                                                   else  '42.65153156°N, 002.46821899°E'), known=_known(p))
+            self.test(n + 'n', t.n, t.n)
+
+            t = p1.trilaterate5(d, p2, d, p3, d, area=False, eps=250)  # intersection
+            self.test(n + 'min', t.min, '133.815' if Sph
+                                  else ('127.229' if geographiclib
+                                  else  '137.897'), prec=3, known=120 < t.min < 150)
+            self.test(n + 'max', t.max, '160.242' if Sph
+                                  else ('152.612' if geographiclib
+                                  else  '148.175'), prec=3, known=120 < t.max < 170)
+            p = t.maxPoint
+            self.test(n + 'point', p.toStr(F_D, prec=8), '42.67817811°N, 002.49966641°E' if Sph
+                                                   else ('42.67815375°N, 002.49950041°E' if geographiclib
+                                                   else  '42.67811504°N, 002.49959193°E'), known=_known(p))
+            self.test(n + 'n', t.n, t.n)
+
+            p3 = LatLon(42.64540, 2.504811)
+            t = p1.trilaterate5(d, p2, d, p3, d, area=True)  # overlap
+            x = '2403.293' if Sph else ('2400.293' if geographiclib else '2399.908')
+            self.test(n + 'min', t.min, x, prec=3, known=2380 < t.min < 2420)
+            self.test(n + 'max', t.max, x, prec=3, known=2380 < t.max < 2420)
+            p = t.maxPoint
+            self.test(n + 'point', p.toStr(F_D, prec=8), '42.66135649°N, 002.47981645°E' if Sph
+                                                   else ('42.66128984°N, 002.47973818°E' if geographiclib
+                                                   else  '42.6613586°N, 002.47981223°E'), known=_known(p))
+            self.test(n + 'min- is .maxPoint', t.minPoint is t.maxPoint, True)
+            self.test(n + 'n', t.n, t.n)
+
+            t = p1.trilaterate5(d, p2, d, p3, d, area=False, eps=1500)  # intersection
+            self.test(n + 'min', t.min, '1340.608' if Sph
+                                  else ('1343.743' if geographiclib
+                                  else  '1332.749'), prec=3, known=1320 < t.min < 1360)
+            p = t.minPoint
+            self.test(n + 'point', p.toStr(F_D, prec=8), '42.69128229°N, 002.50129001°E' if Sph
+                                                   else ('42.69131964°N, 002.50112167°E' if geographiclib
+                                                   else  '42.69124153°N, 002.50124031°E'), known=_known(p))
+            self.test(n + 'max', t.max, '1499.220' if Sph
+                                  else ('1445.554' if geographiclib
+                                  else  '1450.709'), prec=3, known=1420 < t.max < 1520)  # PYCHOK test attr?
+            p = t.maxPoint
+            self.test(n + 'point', p.toStr(F_D, prec=8), '42.64295864°N, 002.44242391°E' if Sph
+                                                   else ('42.67815375°N, 002.49950041°E' if geographiclib
+                                                   else  '42.67811504°N, 002.49959193°E'), known=_known(p))
+            self.test(n + 'n', t.n, t.n)
+
+        except NotImplementedError as x:
+            self.test(n + 'error', str(x), str(x) if Nv else NotImplementedError.__name__)  # PYCHOK test attr?
 
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__

@@ -8,13 +8,13 @@ u'''Error, exception classes and functions to format PyGeodesy errors,
     variable C{PYGEODESY_EXCEPTION_CHAINING} to 'std' or any other
     non-empty string to enable I{exception chaining}.
 '''
-from pygeodesy.interns import _COLON_, _COMMA_, _COMMA_SPACE_, \
-                              _datum_, _invalid_, _len_, _Missing, \
-                              _name_, NN, _SPACE_, _UNDERSCORE_
+from pygeodesy.interns import NN, _COLON_, _COMMA_, _COMMA_SPACE_, \
+                             _datum_, _invalid_, _len_, _Missing, \
+                             _name_, _SPACE_, _UNDERSCORE_
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.09.12'
+__version__ = '20.09.22'
 
 _limiterrors      =  True  # imported by .formy
 _not_ellipsoidal_ = 'not ellipsoidal'

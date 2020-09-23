@@ -7,13 +7,13 @@ u'''Floating point and other formatting utilities.
 
 from pygeodesy.basics import isint, isscalar
 from pygeodesy.errors import _IsnotError, _ValueError, _xkwds_pop
-from pygeodesy.interns import _COMMA_SPACE_, _DOT_, _EQUAL_, \
-                              _item_ps, NN, _PERCENT_, _scalar_, \
-                              _SPACE_, _STAR_, _UNDERSCORE_, _0_
+from pygeodesy.interns import NN, _COMMA_SPACE_, _DOT_, _EQUAL_, \
+                             _item_ps, _PERCENT_, _scalar_, \
+                             _SPACE_, _STAR_, _UNDERSCORE_, _0_
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.09.10'
+__version__ = '20.09.22'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int

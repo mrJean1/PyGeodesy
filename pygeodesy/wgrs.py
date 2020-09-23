@@ -14,8 +14,8 @@ also U{World Geographic Reference System
 from pygeodesy.basics import isstr, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
-from pygeodesy.interns import EPS1_2, _float, _height_, _item_sq, \
-                             _Missing, NN, _prec_, _radius_, _res_, \
+from pygeodesy.interns import EPS1_2, NN, _float, _height_, _item_sq, \
+                             _Missing, _prec_, _radius_, _res_, \
                              _0_5, _1_0, _2_0, _60_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof, _xnamed
@@ -27,7 +27,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '20.09.11'
+__version__ = '20.09.22'
 
 _Base    =  10
 _BaseLen =  4

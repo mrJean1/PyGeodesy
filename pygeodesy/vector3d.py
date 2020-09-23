@@ -13,25 +13,25 @@ U{Vector-based geodesy
 
 from pygeodesy.basics import isscalar, len2, map1, property_doc_, \
                              property_RO, _xkwds
-from pygeodesy.errors import CrossError, IntersectionError, _IsnotError, \
-                            _TypeError, _ValueError
+from pygeodesy.errors import CrossError, IntersectionError, \
+                            _IsnotError, _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fsum, fsum_, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2
-from pygeodesy.interns import EPS, EPS1, _coincident_, _colinear_, _COMMA_, \
-                             _COMMA_SPACE_, _datum_, _h_, _height_, _invalid_, \
-                             _Missing, _name_, _near_concentric_, NN, _other_, \
-                             _PARENTH_, _radius1_, _radius2_, _scalar_, \
-                             _too_distant_fmt_, _y_, _z_, _0_0, _1_0
+from pygeodesy.interns import EPS, EPS1, NN, PI, PI2, _coincident_, _colinear_, \
+                             _COMMA_, _COMMA_SPACE_, _datum_, _h_, _height_, \
+                             _invalid_, _Missing, _name_, _near_concentric_, \
+                             _PARENTH_, _point_, _radius1_, _radius2_, _scalar_, \
+                             _too_distant_fmt_, _y_, _z_, _1_, _2_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _NamedBase, _xnamed
+from pygeodesy.named import _NamedBase, _xnamed, _xother3
 from pygeodesy.namedTuples import Vector3Tuple
 from pygeodesy.streprs import strs
 from pygeodesy.units import Radius, Radius_
 
-from math import atan2, cos, sin, sqrt
+from math import atan2, copysign, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.09.11'
+__version__ = '20.09.23'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -313,7 +313,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             _NamedBase._update(self, updated, '_length',  # '_fromll'
                                    '_united', '_xyz', *attrs)
 
-    def angleTo(self, other, vSign=None):
+    def angleTo(self, other, vSign=None, wrap=False):
         '''Compute the angle between this and an other vector.
 
            @arg other: The other vector (L{Vector3d}).
@@ -322,6 +322,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                          positive if this->other is clockwise looking
                          along vSign or negative in opposite direction,
                          otherwise angle is unsigned.
+           @kwarg warp: Wrap/unroll the angle to +/-PI (c{bool}).
 
            @return: Angle (C{radians}).
 
@@ -334,7 +335,11 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         # use vSign as reference to get sign of s
         if vSign and x.dot(vSign) < 0:
             s = -s
-        return atan2(s, self.dot(other))
+
+        a = atan2(s, self.dot(other))
+        if wrap and abs(a) > PI:
+            a -= copysign(PI2, a)
+        return a
 
     def cross(self, other, raiser=None):
         '''Compute the cross product of this and an other vector.
@@ -459,6 +464,27 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                             self.y - other.y,
                             self.z - other.z)
 
+    def nearestOn(self, other1, other2, within=True):
+        '''Locate the point between two points closest to this point.
+
+           @arg other1: Start point (L{Vector3d}).
+           @arg other2: End point (L{Vector3d}).
+           @kwarg within: If C{True} return the closest point between
+                          the given points, otherwise the closest
+                          point on the extended line through both
+                          points (C{bool}).
+
+           @return: Closest point (L{Vector3d}).
+
+           @raise TypeError: If B{C{other1}} or B{C{other2}} is not L{Vector3d}.
+
+           @see: Method L{sphericalTrigonometry.LatLon.nearestOn3} and
+                 U{3-D Point-Line distance<https://MathWorld.Wolfram.com/
+                 Point-LineDistance3-Dimensional.html>}.
+        '''
+        return _nearestOn(self, self.others(other1=other1),
+                                self.others(other2=other2), within=within)
+
     def negate(self):
         '''Return this vector in opposite direction.
 
@@ -473,22 +499,20 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         from pygeodesy.nvectorBase import _N_vector_
         return _N_vector_(*(self._xyz or self.xyz))
 
-    def others(self, other, name=_other_, up=1):
+    def others(self, *other, **name_other_up):
         '''Refined class comparison.
 
            @arg other: The other vector (L{Vector3d}).
-           @kwarg name: Optional, other's name (C{str}).
-           @kwarg up: Number of call stack frames up (C{int}).
+           @kwarg name_other_up: Overriding C{name=other} and C{up=1}
+                                 keyword arguments.
 
            @return: The B{C{other}} if compatible.
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        try:
+        other, name, up = _xother3(self, other, **name_other_up)
+        if not isinstance(other, Vector3d):
             _NamedBase.others(self, other, name=name, up=up + 1)
-        except TypeError:
-            if not isinstance(other, Vector3d):
-                raise
         return other
 
     def parse(self, str3d, sep=_COMMA_, name=NN):
@@ -537,7 +561,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @JSname: I{rotateAround}.
         '''
-        a = self.others(axis, name='axis').unit()  # axis being rotated around
+        a = self.others(axis=axis).unit()  # axis being rotated around
 
         c = cos(theta)
         b = a.times(1 - c)
@@ -760,6 +784,63 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
         t = _xVector(c1, u, x, 0)
         t = t, t
     return t
+
+
+def nearestOn(point, point1, point2, within=True,
+                                     Vector=None, **Vector_kwds):
+    '''Locate the point between two points closest to this point.
+
+       @arg point1: Start point (L{Vector3d}, C{Vector3Tuple} or
+                                 C{Vector4Tuple}).
+       @arg point2: End point (L{Vector3d}, C{Vector3Tuple} or
+                               C{Vector4Tuple}).
+       @kwarg within: If C{True} return the closest point between
+                      both given points, otherwise the closest
+                      point on the extended line through both
+                      points (C{bool}).
+       @kwarg Vector: Class to return closest point (L{Vector3d} or
+                      C{Vector3Tuple}) or C{None} for L{Vector3d}.
+       @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
+                           arguments, ignored if B{C{Vector=None}}.
+
+       @return: Closest point (L{Vector3d} or C{Vector}).
+
+       @raise TypeError: Invalid B{C{point}}, B{C{point1}} or B{C{point2}}.
+
+       @see: Methods L{sphericalTrigonometry.LatLon.nearestOn3} and
+             L{sphericalTrigonometry.LatLon.nearestOn3}
+             U{3-D Point-Line distance<https://MathWorld.Wolfram.com/
+             Point-LineDistance3-Dimensional.html>}.
+    '''
+    def _v3d(p, _i_):
+        if not isinstance(p, Vector3d):
+            try:
+                p = Vector3d(p.x, p.y, p.z)
+            except (AttributeError, TypeError, ValueError) as x:
+                raise _TypeError(_point_ + _i_, p, txt=str(x))
+        return p
+
+    p = _nearestOn(_v3d(point, NN), _v3d(point1, _1_),
+                                    _v3d(point2, _2_), within)
+    if Vector is not None:
+        p = Vector(p.x, p.y, p.z, **Vector_kwds)
+    return p
+
+
+def _nearestOn(p0, p1, p2, within=True):
+    # (INTERNAL) Get closest point, see L{nearestOn} above,
+    # separated to allow callers to embellish any exceptions
+
+    p21 = p2.minus(p1)
+    d2 = p21.length**2
+    if d2 < EPS:  # coincident
+        p = p1  # ... or p2
+    else:
+        t = p0.minus(p1).dot(p21) / d2
+        p = p1 if (within and t < EPS)  else (
+            p2 if (within and t > EPS1) else
+            p1.plus(p21.times(t)))
+    return p
 
 
 def parse3d(str3d, sep=_COMMA_, name=NN, Vector=Vector3d, **Vector_kwds):

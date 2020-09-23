@@ -60,9 +60,9 @@ from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                            _scale_rad, thomas_, vincentys_  # PYCHOK indent
-from pygeodesy.interns import EPS, PI, PI2, PI_2, _beta_, _cubic_, _datum_, \
-                             _distanceTo_, _item_sq, _knots_, _len_, \
-                             _linear_, NN, _0_0
+from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _beta_, _cubic_, \
+                             _datum_, _distanceTo_, _item_sq, _knots_, \
+                             _len_, _linear_, _0_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
@@ -70,7 +70,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.09.15'
+__version__ = '20.09.22'
 
 
 class HeightError(PointsError):

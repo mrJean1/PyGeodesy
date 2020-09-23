@@ -12,11 +12,11 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import ParseError, _parseX, _ValueError
-from pygeodesy.interns import _band_, _COMMA_, _COMMA_SPACE_, _convergence_, \
-                              _datum_, _easting_, _float, _hemipole_, \
-                              _invalid_, _lat_, _lon_, _N_, _n_a_, NN, \
-                              _northing_, _NS_, _PLUS_, _scale_, _SPACE_, \
-                              _SQUARE_, _zone_, _0_0, _0_5, _180_0
+from pygeodesy.interns import NN, _band_, _COMMA_, _COMMA_SPACE_, \
+                             _convergence_, _datum_, _easting_, _float, \
+                             _hemipole_, _invalid_, _lat_, _lon_, _N_, \
+                             _n_a_, _northing_, _NS_, _PLUS_, _scale_, \
+                             _SPACE_, _SQUARE_, _zone_, _0_0, _0_5, _180_0
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, \
                              notOverloaded, _Pass, _xnamed
@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Degrees, Easting, Lat, Lon, Northing, \
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.09.14'
+__version__ = '20.09.22'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 

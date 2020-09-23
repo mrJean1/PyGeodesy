@@ -19,16 +19,16 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 
 from pygeodesy.basics import clips, ub2str
 from pygeodesy.errors import ParseError, _xkwds_get
-from pygeodesy.interns import _elevation_, _height_, _item_cs, \
-                              _item_ps, _lat_, _lon_, _n_a_, NN, \
-                              _SPACE_, _units_, _x_, _y_
+from pygeodesy.interns import NN, _elevation_, _height_, \
+                             _item_cs, _item_ps, _lat_, _lon_, \
+                             _n_a_, _SPACE_, _units_, _x_, _y_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '20.09.14'
+__version__ = '20.09.22'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup

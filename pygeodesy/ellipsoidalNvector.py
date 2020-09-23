@@ -29,8 +29,8 @@ from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.fmath import fdot, hypot_
-from pygeodesy.interns import _COMMA_SPACE_, _elevation_, NN, \
-                              _pole_, _SQUARE_
+from pygeodesy.interns import NN, _COMMA_SPACE_, _elevation_, \
+                             _pole_, _SQUARE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _Named, _NamedTuple, _xnamed
 from pygeodesy.namedTuples import LatLon3Tuple
@@ -44,7 +44,7 @@ from pygeodesy.utily import atan2b, degrees90, sincos2d
 from math import asin
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.09.11'
+__version__ = '20.09.22'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -165,7 +165,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #            >>> e = LatLon(53.1887, 0.1334)
 #            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
 #         '''
-#         self.others(start, name='start')
+#         self.others(start=start)
 #
 #         if isscalar(end):  # gc from point and bearing
 #             gc = start.greatCircle(end)
@@ -280,11 +280,12 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
         return v.toLatLon(datum=self.datum, LatLon=self.classof)  # Cartesian(v.x, v.y, v.z).toLatLon(...)
 
-    def distanceTo(self, other, radius=None, **unused):  # for -DistanceTo
+    def distanceTo(self, other, radius=None, wrap=False):
         '''Approximate the distance from this to an other point.
 
            @arg other: The other point (L{LatLon}).
            @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg wrap: Wrap/unroll the angular distance (C{bool}).
 
            @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -300,14 +301,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         self.others(other)
 
-        v1 = self._N_vector
-        v2 = other._N_vector
-
-        if radius is None:
-            r = self.datum.ellipsoid.R1
-        else:
-            r = Radius(radius)
-        return v1.angleTo(v2) * r
+        a = self._N_vector.angleTo(other._N_vector, wrap=wrap)
+        r = Radius(radius) if radius else self.datum.ellipsoid.R1
+        return abs(a) * r
 
     def equals(self, other, eps=None):  # PYCHOK no cover
         '''DEPRECATED, use method C{isequalTo}.

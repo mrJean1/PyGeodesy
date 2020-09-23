@@ -6,7 +6,7 @@ u'''DEPRECATED classes, functions, etc. exported for backward compatibility.
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
-from pygeodesy.interns import EPS, _COMMA_SPACE_, _easting_, _hemipole_, NN, \
+from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _easting_, _hemipole_, \
                              _northing_, _scalar_, _UNDERSCORE_, _zone_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedTuple
@@ -14,7 +14,7 @@ from pygeodesy.trf import TRFError as _TRFError
 from pygeodesy.units import Easting, Northing, Str
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '20.09.14'
+__version__ = '20.09.22'
 
 OK = 'OK'  # OK for test like I{if ... is OK: ...}
 

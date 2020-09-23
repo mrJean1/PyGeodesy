@@ -64,11 +64,11 @@ from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import _intersections2, _TOL_M, \
                                        CartesianEllipsoidalBase, \
-                                       LatLonEllipsoidalBase
-from pygeodesy.errors import _ValueError
+                                       LatLonEllipsoidalBase, _nearestOn
+from pygeodesy.errors import _ValueError, _xellipsoidal
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
-from pygeodesy.interns import EPS, _ambiguous_, NN, _no_convergence_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.interns import EPS, NN, _ambiguous_, _no_convergence_
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
@@ -79,7 +79,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.09.11'
+__version__ = '20.09.22'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 
@@ -237,7 +237,7 @@ class LatLon(LatLonEllipsoidalBase):
         r = self._direct(distance, bearing, True, height=height)
         return self._xnamed(r)
 
-    def distanceTo(self, other, wrap=False, **unused):  # for -DistanceTo
+    def distanceTo(self, other, wrap=False, **unused):  # ignore radius=R_M
         '''Compute the distance between this and an other point
            along a geodesic, using Vincenty's inverse method.
            See method L{distanceTo3} for more details.
@@ -635,8 +635,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                       line" between both centers (C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection class
-                           (L{EquidistantKarney} or L{equidistant})
-                           or C{None} for L{Equidistant}.
+                           (L{EquidistantKarney} or L{Equidistant})
+                           or C{None}.
        @kwarg tol: Convergence tolerance (C{meter}).
        @kwarg LatLon: Optional class to return the intersection points
                       (L{LatLon}) or C{None}.
@@ -652,7 +652,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                                  non-intersecting circles or no
                                  convergence for the B{C{tol}}.
 
-       @raise TypeError: If B{C{center1}} or B{C{center2}} not ellipsoidal.
+       @raise TypeError: Invalid or non-ellipsoidal B{C{center1}} or B{C{center2}}
+                         or invalid B{C{equidistant}}.
 
        @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
 
@@ -669,6 +670,47 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                                     equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
+def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
+              equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
+    '''Locate the closest point on the arc between two other points.
+
+       @arg point: Reference point (C{LatLon}).
+       @arg point1: Start point of the arc (C{LatLon}).
+       @arg point2: End point of the arc (C{LatLon}).
+       @kwarg within: If C{True} return the closest point I{between}
+                      B{C{point1}} and B{C{point2}}, otherwise the
+                      closest point elsewhere on the arc (C{bool}).
+       @kwarg height: Optional height for the closest point (C{meter})
+                      or C{None}.
+       @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+       @kwarg equidistant: An azimuthal equidistant projection class
+                           (L{Equidistant} or L{EquidistantKarney}),
+                           function L{azimuthal.equidistant} will be
+                           invoked if left unspecified.
+       @kwarg tol: Convergence tolerance (C{meter}).
+       @kwarg LatLon: Optional class to return the closest point
+                      (L{LatLon}) or C{None}.
+       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                           arguments, ignored if B{C{LatLon=None}}.
+
+       @return: Closest point (B{C{LatLon}}).
+
+       @raise ImportError: Package U{geographiclib
+                           <https://PyPI.org/project/geographiclib>}
+                           not installed or not found.
+
+       @raise TypeError: Invalid or non-ellipsoidal B{C{point}}, B{C{point1}}
+                         or B{C{point2}} or invalid B{C{equidistant}}.
+    '''
+    from pygeodesy.azimuthal import Equidistant
+    p = _xellipsoidal(point=point)
+    p1 = p.others(point1=point1)
+    p2 = p.others(point2=point2)
+    E = Equidistant if equidistant is None else equidistant
+    return _nearestOn(p, p1, p2, within=within, height=height, wrap=wrap,
+                      equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
+
+
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function C{ellipsoidalKarney.perimeterOf}.
     '''
@@ -677,7 +719,8 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):  # PYCHOK 
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,
-                      intersections2, ispolar)  # from .points
+                      intersections2, ispolar,  # from .points
+                      nearestOn) + _ALL_DOCS(perimeterOf)
 
 # **) MIT License
 #

@@ -20,7 +20,7 @@ from pygeodesy.units import Feet, Lam_, Meter, Phi_, Radius
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '20.09.10'
+__version__ = '20.09.18'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = _1_0 / _90_0  # 0.011111111111111111111111111111111111111111111111
@@ -125,7 +125,7 @@ def degrees2m(deg, radius=R_M, lat=0):
     m = Lam_(deg, name=_deg_, clip=0) * Radius(radius)
     if lat:
         m *= cos(Phi_(lat))
-    return float(m)
+    return Meter(m)
 
 
 def ft2m(feet, usurvey=False):

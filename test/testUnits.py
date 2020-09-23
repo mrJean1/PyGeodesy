@@ -4,7 +4,7 @@
 # Test units module.
 
 __all__ = ('Tests',)
-__version__ = '20.09.16'
+__version__ = '20.09.21'
 
 from base import TestsBase
 
@@ -44,15 +44,15 @@ class Tests(TestsBase):
         try:
             self.test('error', U('X'), ValueError, known=known)
         except ValueError as x:
-            self.test(n, str(x), str(x))  # PYCHOK test
+            self.test(n, str(x), str(x))  # PYCHOK test attr?
         try:
             self.test('error', U('X', name='U'), ValueError, known=known)
         except ValueError as x:
-            self.test(n, str(x), str(x))  # PYCHOK test
+            self.test(n, str(x), str(x))  # PYCHOK test attr?
         try:
             self.test('Error', U('X', Error=TypeError), TypeError, known=known)
         except TypeError as x:
-            self.test(n, x.__class__.__name__, TypeError.__name__)  # PYCHOK test
+            self.test(n, x.__class__.__name__, TypeError.__name__)  # PYCHOK test attr?
 
         u.name = 'Test'
         R = '%s (%r)' % (u.name, arg)
@@ -66,13 +66,13 @@ class Tests(TestsBase):
         self.test('.units', u.units, n)
 
         for a in ('name', '_name'):  # coverage
-            self.test('.'+a, getattr(u, a), 'Test')  # PYCHOK test
+            self.test('.'+a, getattr(u, a), 'Test')  # PYCHOK test attr?
         try:  # coverage
             self.test('.str', str(u), u)
         except AssertionError as x:
             self.test('.str', x, x)  # PYCHOK test
         try:  # coverage
-            self.test('.repr', repr(u), r if u.std_repr else R)  # PYCHOK test
+            self.test('.repr', repr(u), r if u.std_repr else R)  # PYCHOK test attr?
         except AssertionError as x:
             self.test('.repr', x, x)
 

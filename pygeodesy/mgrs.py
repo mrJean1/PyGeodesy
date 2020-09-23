@@ -30,9 +30,9 @@ from pygeodesy.basics import halfs2, property_RO, _xkwds, \
                             _xinstanceof, _xzipairs
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _parseX, _ValueError
-from pygeodesy.interns import _band_, _COMMA_SPACE_, _datum_, \
-                              _easting_, NN, _northing_, _SPACE_, \
-                              _SQUARE_, _zone_, _0_0
+from pygeodesy.interns import NN, _band_, _COMMA_SPACE_, _datum_, \
+                             _easting_, _northing_, _SPACE_, \
+                             _SQUARE_, _zone_, _0_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.streprs import enstr2
@@ -43,7 +43,7 @@ from pygeodesy.utmupsBase import _hemi, UtmUps5Tuple
 import re  # PYCHOK warning locale.Error
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.09.12'
+__version__ = '20.09.22'
 
 _100km  = Meter( 100e3)  # 100 km in meter
 _2000km = Meter(2000e3)  # 2,000 km in meter

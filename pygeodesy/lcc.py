@@ -22,9 +22,10 @@ from pygeodesy.basics import property_RO, _xinstanceof, \
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
-from pygeodesy.interns import EPS, PI_2, _COMMA_SPACE_, _ellipsoidal_, \
-                             _dot_, _h_, _k0_, _lat0_, _lon0_, _m_, NN, \
-                             _SPACE_, _SQUARE_, _0_0, _0_5, _1_0
+from pygeodesy.interns import EPS, NN, PI_2, _COMMA_SPACE_, \
+                             _ellipsoidal_, _dot_, _h_, _k0_, \
+                             _lat0_, _lon0_, _m_, _SPACE_, \
+                             _SQUARE_, _0_0, _0_5, _1_0
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
@@ -39,7 +40,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.09.11'
+__version__ = '20.09.22'
 
 _E0_   = 'E0'
 _N0_   = 'N0'

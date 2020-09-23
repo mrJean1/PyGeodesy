@@ -54,9 +54,9 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, LenError, _ValueError
 from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot1
-from pygeodesy.interns import EPS, EPS1, EPS_2, PI, PI_2, _C_, _datum_, \
+from pygeodesy.interns import EPS, EPS1, EPS_2, NN, PI, PI_2, _C_, _datum_, \
                              _ellipsoid_, _h_, _height_, _lat_, _lat0_, \
-                             _lon_, _lon0_, _M_, _name_, NN, _no_convergence_, \
+                             _lon_, _lon0_, _M_, _name_, _no_convergence_, \
                              _SPACE_, _x_, _y_, _z_, _0_, _0_0, _0_5, _1_0, \
                              _2_0, _3_0, _4_0, _6_0, _90_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
@@ -71,7 +71,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.09.16'
+__version__ = '20.09.22'
 
 _TRIPS = 17  # 8..9 sufficient, EcefSudano.reverse
 
