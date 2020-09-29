@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.27'
+__version__ = '20.09.29'
 
 from base import coverage, numpy_version, TestsBase
 
@@ -283,11 +283,11 @@ class Tests(TestsBase):
             c1, r1 = Vector(27.297, -4.953, 1.470), 3.851  # 3.857
             c2, r2 = Vector(25.475, -6.124, 2.360), 3.875  # 3.988
             c3, r3 = Vector(22.590,  0.524, 1.200), 3.514  # 3.497
-            t = _t3d2(c1, r1, c2, r2, c3, r3, Vector=Vector)
+            t = sorted(_t3d2(c1, r1, c2, r2, c3, r3, Vector=Vector))
             k = numpy_version < 1.12
             self.test(_t3d2.__name__, len(t), 2)
-            self.test(_t3d2.__name__, t[0], '(24.35062, -2.48109, 1.66673)', known=k)
-            self.test(_t3d2.__name__, t[1], '(24.31229, -2.52045, 1.53649)', known=k)
+            self.test(_t3d2.__name__, t[0], '(24.31229, -2.52045, 1.53649)', known=k)
+            self.test(_t3d2.__name__, t[1], '(24.35062, -2.48109, 1.66673)', known=k)
             try:  # concentric
                 t = _t3d2(c3, r1, c2, r2, c3, r3, Vector=Vector)
                 self.test(_t3d2.__name__, t, IntersectionError.__name__)
