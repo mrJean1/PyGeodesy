@@ -35,8 +35,7 @@ from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.fmath import fmean, fsum
 from pygeodesy.interns import EPS, PI, PI2, PI_2, R_M, _end_, \
-                             _fraction_, _other_, _point_, \
-                             _points_, _pole_, _0_0
+                             _other_, _point_, _points_, _pole_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import NearestOn3Tuple
 from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
@@ -50,7 +49,7 @@ from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '20.09.21'
+__version__ = '20.09.27'
 
 _paths_ = 'paths'
 
@@ -371,7 +370,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         self.others(other)
 
-        f = Scalar(fraction, name=_fraction_)
+        f = Scalar(fraction=fraction)
         i = other.toNvector().times(f).plus(
              self.toNvector().times(1 - f))
 #       i = other.toNvector() * f + \
@@ -406,7 +405,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         q = self.others(other).toNvector()
         p = self.toNvector()
-        f = Scalar(fraction, name=_fraction_)
+        f = Scalar(fraction=fraction)
 
         x = p.cross(q, raiser=_points_)
         d = x.unit().cross(p)  # unit(p × q) × p

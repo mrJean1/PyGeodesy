@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.03.24'
+__version__ = '20.09.24'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -396,22 +396,27 @@ if __name__ == '__main__':  # PYCHOK internal error?
                 else:
                     t.testGeoid(GeoidKarney, g, t.dat5llhs3(g), kind=2, eps=0.12)
                     t.testGeoid(GeoidKarney, g, t.dat5llhs3(g), kind=3)
-                    t.testGeoid(GeoidPGM,    g, t.dat5llhs3(g), crop=_CONUS)
+                    try:
+                        t.testGeoid(GeoidPGM,    g, t.dat5llhs3(g), crop=_CONUS)
+                    except ImportError as x:
+                        t.skip(str(x), n=231)
 
             elif g_.endswith('g2012bu0.bin'):
-                # .../G2012B/CONUS/g2012bu0.bin
-                t.testGeoid(GeoidG2012B, g,
-                    # centers of g2012bu*.bin grids
-                    ((41,  -95.0, -30.312),
-                     (49, -120.5, -16.112),
-                     (49, -103.5, -18.955),
-                     (49,  -86.5, -37.584),
-                     (49,  -69.5, -25.867),
-                     (33, -120.5, -39.554),
-                     (33, -103.5, -21.917),
-                     (33,  -86.5, -29.001),
-                     (33,  -69.5, -46.725)))
-                # t.testGeoid(GeoidG2012B, g, *t.dat5llhs3(g, hIndex=4))
+                try:  # .../G2012B/CONUS/g2012bu0.bin
+                    t.testGeoid(GeoidG2012B, g,
+                        # centers of g2012bu*.bin grids
+                        ((41,  -95.0, -30.312),
+                         (49, -120.5, -16.112),
+                         (49, -103.5, -18.955),
+                         (49,  -86.5, -37.584),
+                         (49,  -69.5, -25.867),
+                         (33, -120.5, -39.554),
+                         (33, -103.5, -21.917),
+                         (33,  -86.5, -29.001),
+                         (33,  -69.5, -46.725)))
+                    # t.testGeoid(GeoidG2012B, g, *t.dat5llhs3(g, hIndex=4))
+                except ImportError as x:
+                    t.skip(str(x), n=30)
 
             elif not g_.endswith('.bin'):
                 t.test('geoid', repr(g), "'.pgm' or '.bin'")

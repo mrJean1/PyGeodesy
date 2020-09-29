@@ -14,10 +14,10 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _datum_datum, _ValueError, _xellipsoidal
 from pygeodesy.interns import _azimuth_, _C_, _COMMA_SPACE_, _datum_, \
-                              _E_, _easting_, _h_, _lat_, _lat0_, _lon_, \
-                              _lon0_, _m_, _N_, _name_, NN, _northing_, \
-                              _reciprocal_, _SPACE_, _SQUARE_, _0_0, \
-                              _0_5, _1_0, _90_0, _360_0
+                              _E_, _easting_, _lat_, _lon_, _m_, _N_, \
+                              _name_, NN, _northing_, _reciprocal_, \
+                              _SPACE_, _SQUARE_, _0_0, _0_5, _1_0, \
+                              _90_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, \
                             _xnamed
@@ -28,7 +28,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.09.12'
+__version__ = '20.09.27'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -234,8 +234,8 @@ class CassiniSoldner(_NamedBase):
         '''
         g, M = self.datum.ellipsoid._geodesic_Math2
 
-        self._meridian = m = g.Line(Lat_(lat0, name=_lat0_, Error=CSSError),
-                                    Lon_(lon0, name=_lon0_, Error=CSSError), 0.0,
+        self._meridian = m = g.Line(Lat_(lat0=lat0, Error=CSSError),
+                                    Lon_(lon0=lon0, Error=CSSError), _0_0,
                                     g.STANDARD | g.DISTANCE_IN)
         self._latlon0 = LatLon2Tuple(m.lat1, m.lon1)
         s, c = M.sincosd(m.lat1)  # == self.lat0 == self.LatitudeOrigin()
@@ -359,7 +359,7 @@ class Css(_NamedBase):
         self._easting  = Easting(e,  Error=CSSError)
         self._northing = Northing(n, Error=CSSError)
         if h:
-            self._height = Height(h, name=_h_)
+            self._height = Height(h=h)
         if name:
             self.name = name
 

@@ -78,9 +78,10 @@
   module provides a geodetic <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> and a geocentric 
   <a href=pygeodesy-Cartesian-attributes-table.html><b><code>Cartesian</code></b></a> class with methods and functions to compute
   distance, area, perimeter, initial and final bearing, intermediate and 
-  nearest points, intersections of circles, path intersections, conversions
-  and unrolling, among other things.  For more information and further 
-  details see the <a href="https://mrJean1.GitHub.io/PyGeodesy" 
+  nearest points, intersections of circles, path intersections, 
+  trilateration (intersection, overlap and 3d), conversions and unrolling, 
+  among other things.  For more information and further details see the <a 
+  href="https://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a>, <a 
@@ -196,7 +197,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.8.5, 3.7.6 and 2.7.18 (all 
+    <p>The tests have been run with Python 3.8.6, 3.7.6 and 2.7.18 (all 
     with <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0, 
@@ -209,7 +210,7 @@
     tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.8.5 and 3.7.6 (both with <a 
+    4.5.4 using Python 3.8.6 and 3.7.6 (both with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0 
@@ -240,7 +241,7 @@
     <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
     2.7.10 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 
     1.14.0, 1.15.2 or 1.16.2), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 
-    3.7.5, 3.8 thru 3.8.3, <a href="https://PyPy.org" 
+    3.7.5, 3.8 thru 3.8.5, <a href="https://PyPy.org" 
     target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3), <a 
     href="https://PyPy.org" target="_top">PyPy</a> 7.3.0 (Python 2.7.13 and
     3.6.9) and <a 
@@ -306,7 +307,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.09.23
+        20.09.29
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -729,7 +730,8 @@
         href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a>,
         registry <a href="pygeodesy.trf-module.html#RefFrames" 
         class="link">RefFrames</a> and <a 
-        href="pygeodesy.trf.TRFError-class.html" class="link">TRFError</a>.</em>    </li>
+        href="pygeodesy.errors.TRFError-class.html" 
+        class="link">TRFError</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Sub-classes <code>Float</code>, <code>Int</code> and 
         <code>Str</code> from basic <code>float</code>, <code>int</code> 
         respectively <code>str</code> to named units as <a 
@@ -1269,6 +1271,15 @@
       Elliptic integral, function, convergence or other <a 
         href="pygeodesy.elliptic.Elliptic-class.html" 
         class="link">Elliptic</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Epoch-class.html" class="summary-name">Epoch</a><br />
+      Named <code>epoch</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a fractional calendar year.
     </td>
   </tr>
 <tr>
@@ -2474,7 +2485,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.RefFrameError-class.html" class="summary-name">RefFrameError</a><br />
-      DEPRECATED, use class <a href="pygeodesy.trf.TRFError-class.html" 
+      DEPRECATED, use class <a 
+        href="pygeodesy.errors.TRFError-class.html" 
         class="link">TRFError</a>.
     </td>
   </tr>
@@ -2537,10 +2549,12 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.trf.TRFError-class.html" class="summary-name">TRFError</a><br />
-      Terrestrial Reference Frame (TRF) or <a 
+        <a href="pygeodesy.errors.TRFError-class.html" class="summary-name">TRFError</a><br />
+      Terrestrial Reference Frame (TRF), <a 
+        href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, <a 
         href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a> 
-        conversion issue.
+        or <a href="pygeodesy.trf.RefFrame-class.html" 
+        class="link">RefFrame</a> conversion issue.
     </td>
   </tr>
 <tr>
@@ -2661,8 +2675,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" class="summary-name">a_f2Tuple</a><br />
       2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
-        <i>equatorial</i> radius (<code>meter</code>) and scalar 
-        <i>flattening</i>.
+        <i>equatorial</i> radius <code>a</code> (<code>meter</code>) and 
+        scalar <i>flattening</i> <code>f</code>.
     </td>
   </tr>
 <tr>
@@ -2696,6 +2710,82 @@
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Class-like function to create a UTM/UPS coordinate.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#a_b2e" class="summary-sig-name">a_b2e</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e</code>, the <i>eccentricity</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#a_b2e2" class="summary-sig-name">a_b2e2</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e2</code>, the <i>eccentricity squared</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#a_b2e22" class="summary-sig-name">a_b2e22</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e22</code>, the <i>2nd eccentricity squared</i> for a 
+      given <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#a_b2e32" class="summary-sig-name">a_b2e32</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e32</code>, the <i>3rd eccentricity squared</i> for a 
+      given <i>equatorial</i> and <i>polar</i> radius.</td>
           <td align="right" valign="top">
             
             
@@ -2770,7 +2860,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#a_b2n" class="summary-sig-name">a_b2n</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>)</span><br />
-      Return <code>n</code>, the <i>rd flattening</i> for a given 
+      Return <code>n</code>, the <i>3rd flattening</i> for a given 
       <i>equatorial</i> and <i>polar</i> radius.</td>
           <td align="right" valign="top">
             
@@ -4828,7 +4918,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f970c479ad0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff932550ad0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -5046,7 +5136,25 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot2" class="summary-sig-name">hypot2</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>)</span><br />
-      Compute the norm, <i>squared</i> <i class="math">x**2 + y**2</i>.</td>
+      Compute the <i>squared</i> norm <i class="math">x**2 + y**2</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot2_" class="summary-sig-name">hypot2_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Compute the <i>squared</i> norm <i class="math">sum(x**2 for x in 
+      xs)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -5083,8 +5191,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot_" class="summary-sig-name">hypot_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Compute the norm <i class="math">sqrt(sum(xs[i]**2)) for 
-      i=0..len(xs)</i>.</td>
+      Compute the norm <i class="math">sqrt(sum(x**2 for x in xs))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -5605,6 +5712,42 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#iterNumpy2over" class="summary-sig-name">iterNumpy2over</a>(<span class="summary-sig-arg">n</span>=<span class="summary-sig-default">None</span>)</span><br />
       Get or set the <a href="pygeodesy.utily-module.html#iterNumpy2" 
       class="link">iterNumpy2</a> threshold.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#joined" class="summary-sig-name">joined</a>(<span class="summary-sig-arg">*words</span>,
+        <span class="summary-sig-arg">**sep</span>)</span><br />
+      Joined words by separator <code>sep=NN</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#joined_" class="summary-sig-name">joined_</a>(<span class="summary-sig-arg">*words</span>,
+        <span class="summary-sig-arg">**sep</span>)</span><br />
+      Joined words by separator <code>sep=&quot; &quot;</code>.</td>
           <td align="right" valign="top">
             
             
@@ -7367,6 +7510,31 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#trilaterate3d2" class="summary-sig-name">trilaterate3d2</a>(<span class="summary-sig-arg">center1</span>,
+        <span class="summary-sig-arg">radius1</span>,
+        <span class="summary-sig-arg">center2</span>,
+        <span class="summary-sig-arg">radius2</span>,
+        <span class="summary-sig-arg">center3</span>,
+        <span class="summary-sig-arg">radius3</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
+        <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
+      Trilaterate three spheres each given as an 3d center and radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="ub2str"></a><span class="summary-sig-name">ub2str</span>(<span class="summary-sig-arg">ub</span>)</span><br />
       Convert <code>unicode</code> or <code>bytes</code> to 
       <code>str</code>.</td>
@@ -7744,7 +7912,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.9.23'"><code class="variable-quote">'</code><code class="variable-string">20.9.23</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.9.29'"><code class="variable-quote">'</code><code class="variable-string">20.9.29</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -8170,7 +8338,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     </td><td class="summary">
         <a name="NN"></a><span class="summary-name">NN</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
       Empty (<code>str</code>), <a href="https://Wiktionary.org/wiki/N.N." 
-      target="_top">Nomen Nescio</a>.
+      target="_top"><i>Nomen Nescio</i></a>.
     </td>
   </tr>
 <tr>
@@ -8290,14 +8458,14 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#RefFrames" class="summary-name">RefFrames</a> = <code title="RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005.0, ellipsoid=\
-Ellipsoid(name='GRS80'),
-RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994.0, ellipsoid=Ellips\
-oid(name='GRS80'),
-RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997.0, ellipsoid=\
-Ellipsoid(name='GRS80'),
-RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000.0, ellipsoid=\
-Ellipsoid(name='GRS80'),
+        <a href="pygeodesy-module.html#RefFrames" class="summary-name">RefFrames</a> = <code title="RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005, ellipsoid=El\
+lipsoid(name='GRS80'),
+RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoi\
+d(name='GRS80'),
+RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997, ellipsoid=El\
+lipsoid(name='GRS80'),
+RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000, ellipsoid=El\
+lipsoid(name='GRS80'),
 ...">RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoc<code class="variable-ellipsis">...</code></code><br />
       Registered reference frames (<code>enum-like</code>).
     </td>
@@ -8437,6 +8605,139 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="a_b2e"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e</code>, the <i>eccentricity</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The eccentricity (<code>float</code> or <code>0</code>), <i 
+          class="math">sqrt(1 - (b / a)**2)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is <code>0</code> for <i>prolate</i> and near-spherical 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2e2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e2</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e2</code>, the <i>eccentricity squared</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The eccentricity <i>squared</i> (<code>float</code> or 
+          <code>0</code>), <i class="math">1 - (b / a)**2</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2e22"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e22</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e22</code>, the <i>2nd eccentricity squared</i> for a 
+  given <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The 2nd eccentricity <i>squared</i> (<code>float</code> or 
+          <code>0</code>), <i class="math">(a / b)**2 - 1</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2e32"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e32</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e32</code>, the <i>3rd eccentricity squared</i> for a 
+  given <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The 3rd eccentricity <i>squared</i> (<code>float</code> or 
+          <code>0</code>), <i class="math">(a**2 - b**2) / (a**2 + 
+          b**2)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="a_b2f"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -8551,7 +8852,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Return <code>n</code>, the <i>rd flattening</i> for a given 
+  <p>Return <code>n</code>, the <i>3rd flattening</i> for a given 
   <i>equatorial</i> and <i>polar</i> radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -10241,7 +10542,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Epoch, the fractional year (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.trf.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>year</code></b>, <b><code>month</code></b> or 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>year</code></b>, <b><code>month</code></b> or 
         <b><code>day</code></b>.</li>
     </ul></dd>
   </dl>
@@ -10626,6 +10927,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>3-Tuple <code>(year, month, day)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - Invalid <b><code>epoch</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         Any <b><code>year</code></b> is considered a leap year, i.e. having
@@ -11474,7 +11779,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Using <b><code>beta</code></b><code>=0</code> returns the mean of 
+        Using <code><b>beta</b>=0</code> returns the mean of 
         <b><code>xs</code></b>.
       </p>
 </div></td></tr></table>
@@ -12397,7 +12702,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f970c479ad0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff932550ad0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -12907,7 +13212,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Compute the norm, <i>squared</i> <i class="math">x**2 + y**2</i>.</p>
+  <p>Compute the <i>squared</i> norm <i class="math">x**2 + y**2</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -12920,6 +13225,41 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (<code>float</code>).</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="hypot2_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot2_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>squared</i> norm <i class="math">sum(x**2 for x in 
+  xs)</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Squared norm (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid or no <b><code>xs</code></b> value.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#hypot_" 
+        class="link">hypot_</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="hypot_"></a>
 <div>
@@ -12935,8 +13275,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Compute the norm <i class="math">sqrt(sum(xs[i]**2)) for 
-  i=0..len(xs)</i>.</p>
+  <p>Compute the norm <i class="math">sqrt(sum(x**2 for x in xs))</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -13723,6 +14062,60 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>n</code></b>.</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="joined"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">joined</span>&nbsp;(<span class="sig-arg">*words</span>,
+        <span class="sig-arg">**sep</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Joined words by separator <code>sep=NN</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>words</code></strong> - One, two or more words (<code>str</code>s).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Separator C({str}), default <code>NN</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Joined <b><code>words</code></b> C({str}).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="joined_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">joined_</span>&nbsp;(<span class="sig-arg">*words</span>,
+        <span class="sig-arg">**sep</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Joined words by separator <code>sep=&quot; &quot;</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>words</code></strong> - One, two or more words (<code>str</code>s).</li>
+        <li><strong class="pname"><code>sep</code></strong> - Separator C({str}), default <code>&quot; &quot;</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Joined <b><code>words</code></b> C({str}).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -17458,6 +17851,90 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="trilaterate3d2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate3d2</span>&nbsp;(<span class="sig-arg">center1</span>,
+        <span class="sig-arg">radius1</span>,
+        <span class="sig-arg">center2</span>,
+        <span class="sig-arg">radius2</span>,
+        <span class="sig-arg">center3</span>,
+        <span class="sig-arg">radius3</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>,
+        <span class="sig-arg">Vector</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Vector_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Trilaterate three spheres each given as an 3d center and radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>center1</code></strong> - Center of the 1st sphere (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of this sphere (same <code>units</code> as <code>x</code>,
+          <code>y</code> and <code>z</code>).</li>
+        <li><strong class="pname"><code>center2</code></strong> - Center of the 2nd sphere (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of this sphere (same <code>units</code> as <code>x</code>,
+          <code>y</code> and <code>z</code>).</li>
+        <li><strong class="pname"><code>center3</code></strong> - Center of the 3rd sphere (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd sphere (same <code>units</code> as 
+          <code>x</code>, <code>y</code> and <code>z</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>float</code>).</li>
+        <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
+          <code>None</code> for <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>.</li>
+        <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
+          arguments, ignored if <b><code>Vector=None</code></b>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A 2-tuple <code>(tri1, tri2)</code> with both trilaterated points
+          (<b><code>Vector</code></b>).  Both <code>tri1</code> and 
+          <code>tri2</code> are the same instance if all three spheres abut
+          or intersect in a single point.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or not at least
+        version 1.15.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, near concentric, trilateration failed.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b>, <b><code>center2</code></b> or
+        <b><code>center3</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
+        <b><code>radius3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Package <a href="https://pypi.org/project/numpy" 
+        target="_top">numpy</a> is required, version 1.15 or later.
+      </p>
+      <p><strong>See Also:</strong>
+        Norrdine, A. <a 
+        href="https://www.ResearchGate.net/publication/275027725_An_Algebraic_Solution_to_the_Multilateration_Problem"
+        target="_top"><i>An Algebraic Solution to the Multilateration 
+        Problem</i></a> and <a 
+        href="https://www.ResearchGate.net/publication/288825016_Trilateration_Matlab_Code"
+        target="_top">implementation</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="unroll180"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -18218,14 +18695,14 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005.0, ellipsoid=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-Ellipsoid(name='GRS80'),
-RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994.0, ellipsoid=Ellips<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-oid(name='GRS80'),
-RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997.0, ellipsoid=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-Ellipsoid(name='GRS80'),
-RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000.0, ellipsoid=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-Ellipsoid(name='GRS80'),
+RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005, ellipsoid=El<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+lipsoid(name='GRS80'),
+RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoi<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+d(name='GRS80'),
+RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997, ellipsoid=El<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+lipsoid(name='GRS80'),
+RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000, ellipsoid=El<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+lipsoid(name='GRS80'),
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -18290,7 +18767,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 23 17:20:04 2020
+    Generated by Epydoc 3.0.1 on Tue Sep 29 10:26:33 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

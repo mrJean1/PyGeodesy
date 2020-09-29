@@ -18,7 +18,7 @@ each end).
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO
+from pygeodesy.basics import joined_, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoids import _TOL
@@ -41,7 +41,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.09.22'
+__version__ = '20.09.26'
 
 _Bands   = 'A', 'B', 'Y', 'Z'  # polar bands
 _EPS__2  = EPS**2
@@ -500,8 +500,8 @@ def upsZoneBand5(lat, lon, strict=True):
         z, B, p = _UPS_ZONE, _Band(lat, lon), _N_
 
     elif strict:
-        t = ' '.join((_inside_, _UTM_, _range_, '[%s,' % (_UPS_LAT_MIN,),
-                                                 '%s]' % (_UPS_LAT_MAX,)))
+        t = joined_(_inside_, _UTM_, _range_, '[%s,' % (_UPS_LAT_MIN,),
+                                               '%s]' % (_UPS_LAT_MAX,))
         raise RangeError(lat=degDMS(lat), txt=t)
 
     else:

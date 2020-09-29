@@ -4,7 +4,7 @@
 # Test some of the errors.
 
 __all__ = ('Tests',)
-__version__ = '20.08.22'
+__version__ = '20.09.27'
 
 from base import isPython3, TestsBase
 
@@ -75,15 +75,17 @@ class Tests(TestsBase):
         self.test(xkwds.__name__, xkwds({}, test='test1'), 'test1')
         self.test(xkwds.__name__, xkwds({'test': 'test2'}, test='test3'), 'test2')
         try:
+            x = AssertionError.__name__
             t = xkwds({})
-        except AssertionError as x:
-            t = str(x)
-        self.test(xkwds.__name__, t, t)
+        except AssertionError as a:
+            t = x = str(a)
+        self.test(xkwds.__name__, t, x)
         try:
+            x = AssertionError.__name__
             t = xkwds({}, n1='d1', n2='d2')
-        except AssertionError as x:
-            t = str(x)
-        self.test(xkwds.__name__, t, t)
+        except AssertionError as a:
+            t = x = str(a)
+        self.test(xkwds.__name__, t, x)
 
 
 if __name__ == '__main__':

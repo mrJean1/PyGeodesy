@@ -33,7 +33,7 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import len2, map2, property_RO
+from pygeodesy.basics import joined_, len2, map2, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
@@ -60,7 +60,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.09.22'
+__version__ = '20.09.26'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -185,14 +185,14 @@ def _to3zBll(lat, lon, cmoff=True):
     z, lat, lon = _to3zll(lat, lon)  # in .utmupsBase
 
     if _UTM_LAT_MIN > lat or lat >= _UTM_LAT_MAX:  # [-80, 84) like Veness
-        t = ' '.join((_outside_, _UTM_, _range_, '[%s,' % (_UTM_LAT_MIN,),
-                                                  '%s)' % (_UTM_LAT_MAX,)))
+        t = joined_(_outside_, _UTM_, _range_, '[%s,' % (_UTM_LAT_MIN,),
+                                                '%s)' % (_UTM_LAT_MAX,))
         raise RangeError(lat=degDMS(lat), txt=t)
     B = _Bands[int(lat + 80) >> 3]
 
     x = lon - _cmlon(z)  # z before Norway/Svaldbard
     if abs(x) > _UTM_ZONE_OFF_MAX:
-        t = ' '.join((_outside_, _UTM_, _zone_, str(z), 'by', degDMS(x, prec=6)))
+        t = joined_(_outside_, _UTM_, _zone_, str(z), 'by', degDMS(x, prec=6))
         raise RangeError(lon=degDMS(lon), txt=t)
 
     if B == 'X':  # and 0 <= int(lon) < 42: z = int(lon + 183) // 6 + 1

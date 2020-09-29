@@ -11,24 +11,25 @@ L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 from pygeodesy.basics import isstr, issubclassof, property_doc_
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
-from pygeodesy.errors import _IsnotError, RangeError, UnitError
+from pygeodesy.errors import _IsnotError, RangeError, TRFError, UnitError
 from pygeodesy.interns import EPS, NN, PI, PI_2, _band_, _bearing_, \
                              _degrees_, _degrees2_, _distance_, _E_, \
-                             _easting_, _EW_, _feet_, _height_, _invalid_, \
-                             _lam_, _lat_, _LatLon_, _lon_, _meter_, _N_, \
-                             _northing_, _NS_, _NSEW_, _number_, _PERCENT_, \
-                             _phi_, _precision_, _radians_, _radians2_, \
-                             _radius_, _S_, _scalar_, _SPACE_, _UNDERSCORE_, \
-                             _units_, _W_, _zone_
+                             _easting_, _epoch_, _EW_, _feet_, _height_, \
+                             _invalid_, _lam_, _lat_, _LatLon_, _lon_, \
+                             _meter_, _N_, _northing_, _NS_, _NSEW_, \
+                             _number_, _PERCENT_, _phi_, _precision_, \
+                             _radians_, _radians2_, _radius_, _S_, \
+                             _scalar_, _SPACE_, _UNDERSCORE_, \
+                             _units_, _W_, _zone_, _0_0
 from pygeodesy.interns import _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named
-from pygeodesy.streprs import fstr, _g
+from pygeodesy.streprs import _Fmt, fstr, _g
 
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 
 class _NamedUnit(_Named):
@@ -41,7 +42,7 @@ class _NamedUnit(_Named):
         '''(INTERNAL) Representation "<name> (<value>)" or "<classname>(<value>)".
         '''
         t = (self.name, _SPACE_) if self.name else (self.classname,)
-        return ''.join(t + ('(', str(value), ')'))
+        return NN.join(t + ('(', str(value), ')'))
 
     @property_doc_(' standard C{repr} or named C{toRepr} representation.')
     def std_repr(self):
@@ -75,18 +76,22 @@ class Float(float, _NamedUnit):
     '''
     # _std_repr = True  # set below
 
-    def __new__(cls, arg, name=NN, Error=UnitError):
+    def __new__(cls, arg=None, name=NN, Error=UnitError, **name_arg):
         '''New named C{float} instance.
 
-           @arg arg: The value (any C{type} convertable to C{float}).
+           @kwarg arg: The value (any C{type} convertable to C{float}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the
                          default L{UnitError}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
 
            @returns: A C{Float} instance.
 
            @raise Error: Invalid B{C{arg}}.
         '''
+        if name_arg:
+            name, arg = name_arg.popitem()
         try:
             self = float.__new__(cls, arg)
             if name:
@@ -140,23 +145,27 @@ class Float(float, _NamedUnit):
 class Float_(Float):
     '''Named C{float} with optional C{low} and C{high} limit.
     '''
-    def __new__(cls, arg, name=NN, Error=UnitError, low=EPS, high=None):
+    def __new__(cls, arg=None, name=NN, Error=UnitError, low=EPS, high=None, **name_arg):
         '''New named C{float} instance with limits.
 
            @arg cls: This class (C{Float_} or sub-class).
-           @arg arg: The value (any C{type} convertable to C{float}).
+           @kwarg arg: The value (any C{type} convertable to C{float}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg low: Optional lower B{C{arg}} limit (C{float} or C{None}).
            @kwarg high: Optional upper B{C{arg}} limit (C{float} or C{None}).
+           @kwarg name_arg: Optional C{name=arg} keyword argument, inlieu of
+                            B{C{name}} and B{C{arg}}.
 
            @returns: A C{Float_} instance.
 
            @raise Error: Invalid B{C{arg}} or B{C{arg}} below B{C{low}} or
                          above B{C{high}}.
         '''
-        self = Float.__new__(cls, arg, name=name, Error=Error)
+        if name_arg:
+            name, arg = name_arg.popitem()
+        self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if (low is not None) and self < low:
             raise _Error(cls, arg, name=name, Error=Error, txt='below %.6G limit' % (low,))
         if (high is not None) and self > high:
@@ -169,18 +178,22 @@ class Int(int, _NamedUnit):
     '''
     # _std_repr = True  # set below
 
-    def __new__(cls, arg, name=NN, Error=UnitError):
+    def __new__(cls, arg=None, name=NN, Error=UnitError, **name_arg):
         '''New named C{int} instance.
 
-           @arg arg: The value (any C{type} convertable to C{int}).
+           @kwarg arg: The value (any C{type} convertable to C{float}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the
                          default L{UnitError}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
 
            @returns: An C{Int} instance.
 
            @raise Error: Invalid B{C{arg}}.
         '''
+        if name_arg:
+            name, arg = name_arg.popitem()
         try:
             self = int.__new__(cls, arg)
             if name:
@@ -226,23 +239,27 @@ class Int(int, _NamedUnit):
 class Int_(Int):
     '''Named C{int} with optional limits C{low} and C{high}.
     '''
-    def __new__(cls, arg, name=NN, Error=UnitError, low=0, high=None):
+    def __new__(cls, arg=None, name=NN, Error=UnitError, low=0, high=None, **name_arg):
         '''New named C{int} instance with limits.
 
-           @arg cls: This class (C{Int_} or sub-class).
+           @kwarg cls: This class (C{Int_} or sub-class).
            @arg arg: The value (any C{type} convertable to C{int}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          C{UnitError}.
            @kwarg low: Optional lower B{C{arg}} limit (C{float} or C{None}).
            @kwarg high: Optional upper B{C{arg}} limit (C{float} or C{None}).
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
 
            @returns: An L{Int_} instance.
 
            @raise Error: Invalid B{C{arg}} or B{C{arg}} below B{C{low}} or
                          above B{C{high}}.
         '''
-        self = Int.__new__(cls, arg, name=name, Error=Error)
+        if name_arg:
+            name, arg = name_arg.popitem()
+        self = Int.__new__(cls, arg=arg, name=name, Error=Error)
         if (low is not None) and self < low:
             raise _Error(cls, arg, name=name, Error=Error, txt='below %s limit' % (low,))
         if (high is not None) and self > high:
@@ -256,18 +273,23 @@ class Bool(Int, _NamedUnit):
     # _std_repr = True  # set below
     _bool_True_or_False = None
 
-    def __new__(cls, arg, name=NN, Error=UnitError):
+    def __new__(cls, arg=None, name=NN, Error=UnitError, **name_arg):
         '''New named C{bool} instance.
 
-           @arg arg: The value (any C{type} convertable to C{bool}).
+           @kwarg cls: This class (C{Bool} or sub-class).
+           @kwarg arg: The value (any C{type} convertable to C{bool}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the
                          default L{UnitError}.
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
 
            @returns: A L{Bool}, a C{bool}-like instance.
 
            @raise Error: Invalid B{C{arg}}.
         '''
+        if name_arg:
+            name, arg = name_arg.popitem()
         try:
             b = bool(arg)
         except (TypeError, ValueError) as x:  # XXX not ... as x:
@@ -302,18 +324,23 @@ class Str(str, _NamedUnit):
     '''
     # _std_repr = True  # set below
 
-    def __new__(cls, arg, name=NN, Error=UnitError):
+    def __new__(cls, arg=None, name=NN, Error=UnitError, **name_arg):
         '''New named C{str} instance.
 
-           @arg arg: The value (any C{type} convertable to C{str}).
+           @kwarg cls: This class (C{Str} or sub-class).
+           @kwarg arg: The value (any C{type} convertable to C{str}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding
                          the default (C{ValueError}).
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
 
            @returns: A L{Str} instance.
 
            @raise Error: Invalid B{C{arg}}.
         '''
+        if name_arg:
+            name, arg = name_arg.popitem()
         try:
             self = str.__new__(cls, arg)
             if name:
@@ -370,10 +397,10 @@ _Str_radians2 = Str(_radians2_)  # PYCHOK in .frechet, .hausdorff
 class Band(Str):
     '''Named C{str} representing a UTM/UPS band letter, unchecked.
     '''
-    def __new__(cls, arg, name=_band_, Error=UnitError):
+    def __new__(cls, arg=None, name=_band_, **Error_name_arg):
         '''See L{Str}.
         '''
-        return Str.__new__(cls, arg, name=name, Error=Error)
+        return Str.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
 class Degrees(Float):
@@ -383,24 +410,28 @@ class Degrees(Float):
     _suf_ = S_NUL, S_NUL, S_NUL
     _sep_ = S_SEP
 
-    def __new__(cls, arg, name=_degrees_, Error=UnitError, suffix=_NSEW_, clip=0):
+    def __new__(cls, arg=None, name=_degrees_, Error=UnitError, suffix=_NSEW_, clip=0, **name_arg):
         '''New named C{Degrees} instance.
 
            @arg cls: This class (C{Degrees} or sub-class).
-           @arg arg: The value (any C{type} convertable to C{float} or
-                     parsable by L{parseDMS}).
+           @kwarg arg: The value (any C{type} convertable to C{float} or
+                       parsable by L{parseDMS}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
            @kwarg clip: Optional B{C{arg}} range B{C{-clip..+clip}}
                         (C{degrees} or C{0} or C{None} for unclipped).
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
 
            @returns: A C{Degrees} instance.
 
            @raise Error: Invalid B{C{arg}} or B{C{abs(deg)}} outside the
                          B{C{clip}} range and L{rangerrors} set to C{True}.
         '''
+        if name_arg:
+            name, arg = name_arg.popitem()
         try:
             return Float.__new__(cls, parseDMS(arg, suffix=suffix, clip=clip),
                                       name=name, Error=Error)
@@ -427,25 +458,29 @@ class Degrees(Float):
 class Degrees_(Degrees):
     '''Named C{Degrees} representing a coordinate in C{degrees} with optional limits C{low} and C{high}.
     '''
-    def __new__(cls, arg, name=_degrees_, Error=UnitError, suffix=_NSEW_, low=None, high=None):
+    def __new__(cls, arg=None, name=_degrees_, Error=UnitError, suffix=_NSEW_, low=None, high=None, **name_arg):
         '''New named C{Degrees} instance.
 
            @arg cls: This class (C{Degrees_} or sub-class).
-           @arg arg: The value (any C{type} convertable to C{float} or
-                     parsable by L{parseDMS}).
+           @kwarg arg: The value (any C{type} convertable to C{float} or
+                       parsable by L{parseDMS}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
            @kwarg low: Optional lower B{C{arg}} limit (C{float} or C{None}).
            @kwarg high: Optional upper B{C{arg}} limit (C{float} or C{None}).
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
 
            @returns: A C{Degrees} instance.
 
            @raise Error: Invalid B{C{arg}} or B{C{abs(deg)}} below B{C{low}}
                          or above B{C{high}}.
         '''
-        self = Degrees.__new__(cls, arg, name=name, Error=Error, suffix=suffix, clip=0)
+        if name_arg:
+            name, arg = name_arg.popitem()
+        self = Degrees.__new__(cls, arg=arg, name=name, Error=Error, suffix=suffix, clip=0)
         if (low is not None) and self < low:
             raise _Error(cls, arg, name=name, Error=Error, txt='below %s limit' % (low,))
         if (high is not None) and self > high:
@@ -456,33 +491,37 @@ class Degrees_(Degrees):
 class Degrees2(Float):
     '''Named C{float} representing a distance in C{degrees squared}.
     '''
-    def __new__(cls, arg, name=_degrees2_, Error=UnitError):
+    def __new__(cls, arg=None, name=_degrees2_, **Error_name_arg):
         '''See L{Float}.
         '''
-        return Float.__new__(cls, arg, name=name, Error=Error)
+        return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
 class Radians(Float):
     '''Named C{float} representing a coordinate in C{radians}, optionally clipped.
     '''
-    def __new__(cls, arg, name=_radians_, Error=UnitError, suffix=_NSEW_, clip=0):
+    def __new__(cls, arg=None, name=_radians_, Error=UnitError, suffix=_NSEW_, clip=0, **name_arg):
         '''New named C{Radians} instance.
 
            @arg cls: This class (C{Radians} or sub-class).
-           @arg arg: The value (any C{type} convertable to C{float} or
-                     parsable by L{parseRad}).
+           @kwarg arg: The value (any C{type} convertable to C{float} or
+                       parsable by L{parseRad}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
            @kwarg clip: Optional B{C{arg}} range B{C{-clip..+clip}}
                         (C{radians} or C{0} or C{None} for unclipped).
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
 
            @returns: A C{Radians} instance.
 
            @raise Error: Invalid B{C{arg}} or B{C{abs(deg)}} outside the
                          B{C{clip}} range and L{rangerrors} set to C{True}.
         '''
+        if name_arg:
+            name, arg = name_arg.popitem()
         try:
             return Float.__new__(cls, parseRad(arg, suffix=suffix, clip=clip),
                                       name=name, Error=Error)
@@ -502,10 +541,10 @@ class Radians(Float):
 class Radians2(Float):
     '''Named C{float} representing a distance in C{radians squared}.
     '''
-    def __new__(cls, arg, name=_radians2_, Error=UnitError):
+    def __new__(cls, arg=None, name=_radians2_, Error=UnitError):
         '''See L{Float}.
         '''
-        return Float.__new__(cls, arg, name=name, Error=Error)
+        return Float.__new__(cls, arg=arg, name=name, Error=Error)
 
 
 class Bearing(Degrees):
@@ -514,61 +553,67 @@ class Bearing(Degrees):
     _ddd_ =  1
     _suf_ = _N_ * 3  # always suffix N
 
-    def __new__(cls, arg, name=_bearing_, Error=UnitError, clip=0):
+    def __new__(cls, arg=None, name=_bearing_, Error=UnitError, clip=0, **name_arg):
         '''See L{Degrees}.
         '''
-        d = Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_N_, clip=clip)
+        if name_arg:
+            name, arg = name_arg.popitem()
+        d = Degrees.__new__(cls, arg=arg, name=name, Error=Error, suffix=_N_, clip=clip)
         b = d % 360
-        return d if b == d else Degrees.__new__(cls, b, name=name)
+        return d if b == d else Degrees.__new__(cls, arg=b, name=name, Error=Error)
 
 
 class Bearing_(Radians):
     '''Named C{float} representing a bearing in C{radians} from compass C{degrees} from (true) North.
     '''
-    def __new__(cls, arg, name=_bearing_, Error=UnitError, clip=0):
+    def __new__(cls, arg=None, name=_bearing_, clip=0, **Error_name_arg):
         '''See L{Bearing} and L{Radians}.
         '''
-        d = Bearing.__new__(cls, arg, name=name, Error=Error, clip=clip)
+        d = Bearing.__new__(cls, arg=arg, name=name, clip=clip, **Error_name_arg)
         return Radians.__new__(cls, radians(d), name=name)
 
 
 class Distance(Float):
     '''Named C{float} representing a distance, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name=_distance_, Error=UnitError):
+    def __new__(cls, arg=None, name=_distance_, **Error_name_arg):
         '''See L{Distance}.
         '''
-        return Float.__new__(cls, arg, name=name, Error=Error)
+        return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
 class Distance_(Float_):
     '''Named C{float} with optional C{low} and C{high} limits representing a distance, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name=_distance_, Error=UnitError, low=EPS, high=None):
+    def __new__(cls, arg=None, name=_distance_, low=EPS, **high_Error_name_arg):
         '''See L{Distance_}.
         '''
-        return Float_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
+        return Float_.__new__(cls, arg=arg, name=name, low=low, **high_Error_name_arg)
 
 
 class Easting(Float):
     '''Named C{float} representing an easting, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name=_easting_, Error=UnitError, falsed=False, osgr=False):
+    def __new__(cls, arg=None, name=_easting_, Error=UnitError, falsed=False, osgr=False, **name_arg):
         '''New named C{Easting} instance.
 
            @arg cls: This class (C{Easting} or sub-class).
-           @arg arg: The value (any C{type} convertable to C{float}).
+           @kwarg arg: The value (any C{type} convertable to C{float}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg falsed: The B{C{arg}} value includes false origin (C{bool}).
            @kwarg osgr: Check B{C{arg}} as an OSGR easting (C{bool}).
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
 
            @returns: An C{Easting} instance.
 
            @raise Error: Invalid B{C{arg}} or negative, falsed B{C{arg}}.
         '''
-        self = Float.__new__(cls, arg, name=name, Error=Error)
+        if name_arg:
+            name, arg = name_arg.popitem()
+        self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if osgr and (self < 0 or self > 700e3):  # like Veness
             raise _Error(cls, arg, name=name, Error=Error)
         elif falsed and self < 0:
@@ -576,40 +621,74 @@ class Easting(Float):
         return self
 
 
+class Epoch(Float_):  # by .ellipsoidalBase
+    '''Named C{epoch} with optional C{low} and C{high} limits representing a fractional calendar year.
+    '''
+
+    _std_repr = False
+
+    def __new__(cls, arg=None, name=_epoch_, Error=TRFError, low=1900, high=9999, **name_arg):
+        '''See L{Float_}.
+        '''
+        if name_arg:
+            name, arg = name_arg.popitem()
+        return arg if isinstance(arg, Epoch) else \
+               Float_.__new__(cls, arg=arg, name=name, Error=Error, low=low, high=high)
+
+    def toRepr(self, std=False, **unused):  # PYCHOK prec=3, fmt=_Fmt, ints=True
+        '''Return a representation of this C{Epoch}.
+
+           @kwarg std: Use the standard C{repr} or the named
+                       representation (C{bool}).
+
+           @see: Function L{fstr} for more documentation.
+        '''
+        return Float_.toRepr(self, prec=-3, fmt=_Fmt, ints=True, std=std)
+
+    def toStr(self, **unused):  # PYCHOK prec=3, fmt=_Fmt, ints=True
+        '''Format this C{Epoch} as C{str}.
+
+           @see: Function L{fstr} for more documentation.
+        '''
+        return Float_.toStr(self, prec=-3, fmt=_Fmt, ints=True)
+
+    __str__ = toStr  # PYCHOK default '%.3F', without trailing zeros and decimal point
+
+
 class Feet(Float):
     '''Named C{float} representing a distance or length in C{feet}.
     '''
-    def __new__(cls, arg, name=_feet_, Error=UnitError):
+    def __new__(cls, arg=None, name=_feet_, **Error_name_arg):
         '''See L{Float}.
         '''
-        return Float.__new__(cls, arg, name=name, Error=Error)
+        return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
 class Height(Float):  # here to avoid circular import
     '''Named C{float} representing a height, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name=_height_, Error=UnitError):
+    def __new__(cls, arg=None, name=_height_, **Error_name_arg):
         '''See L{Float}.
         '''
-        return Float.__new__(cls, arg, name=name, Error=Error)
+        return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
 class Lam(Radians):
     '''Named C{float} representing a longitude in C{radians}.
     '''
-    def __new__(cls, arg, name=_lam_, Error=UnitError, clip=PI):
+    def __new__(cls, arg=None, name=_lam_, clip=PI, **Error_name_arg):
         '''See L{Radians}.
         '''
-        return Radians.__new__(cls, arg, name=name, Error=Error, suffix=_EW_, clip=clip)
+        return Radians.__new__(cls, arg=arg, name=name, suffix=_EW_, clip=clip, **Error_name_arg)
 
 
 class Lam_(Lam):
     '''Named C{float} representing a longitude in C{radians} converted from C{degrees}.
     '''
-    def __new__(cls, arg, name=_lon_, Error=UnitError, clip=180):
+    def __new__(cls, arg=None, name=_lon_, clip=180, **Error_name_arg):
         '''See L{Degrees} and L{Radians}.
         '''
-        d = Lam.__new__(cls, arg, name=name, Error=Error, clip=clip)
+        d = Lam.__new__(cls, arg=arg, name=name, clip=clip, **Error_name_arg)
         return Radians.__new__(cls, radians(d), name=name)
 
 
@@ -619,10 +698,10 @@ class Lat(Degrees):
     _ddd_ =  2
     _suf_ = _N_, _S_, S_NUL  # no zero suffix
 
-    def __new__(cls, arg, name=_lat_, Error=UnitError, clip=90):
+    def __new__(cls, arg=None, name=_lat_, clip=90, **Error_name_arg):
         '''See L{Degrees}.
         '''
-        return Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_NS_, clip=clip)
+        return Degrees.__new__(cls, arg=arg, name=name, suffix=_NS_, clip=clip, **Error_name_arg)
 
 
 class Lat_(Degrees_):
@@ -631,10 +710,10 @@ class Lat_(Degrees_):
     _ddd_ =  2
     _suf_ = _N_, _S_, S_NUL  # no zero suffix
 
-    def __new__(cls, arg, name=_lat_, Error=UnitError, low=-90, high=90):
+    def __new__(cls, arg=None, name=_lat_, low=-90, high=90, **Error_name_arg):
         '''See L{Degrees_}.
         '''
-        return Degrees_.__new__(cls, arg, name=name, Error=Error, suffix=_NS_, low=low, high=high)
+        return Degrees_.__new__(cls, arg=arg, name=name, suffix=_NS_, low=low, high=high, **Error_name_arg)
 
 
 class Lon(Float):
@@ -643,10 +722,10 @@ class Lon(Float):
     _ddd_ =  3
     _suf_ = _E_, _W_, S_NUL  # no zero suffix
 
-    def __new__(cls, arg, name=_lon_, Error=UnitError, clip=180):
+    def __new__(cls, arg=None, name=_lon_, clip=180, **Error_name_arg):
         '''See L{Degrees}.
         '''
-        return Degrees.__new__(cls, arg, name=name, Error=Error, suffix=_EW_, clip=clip)
+        return Degrees.__new__(cls, arg=arg, name=name, suffix=_EW_, clip=clip, **Error_name_arg)
 
 
 class Lon_(Degrees_):
@@ -655,40 +734,44 @@ class Lon_(Degrees_):
     _ddd_ =  3
     _suf_ = _E_, _W_, S_NUL  # no zero suffix
 
-    def __new__(cls, arg, name=_lon_, Error=UnitError, low=-180, high=180):
+    def __new__(cls, arg=None, name=_lon_, low=-180, high=180, **Error_name_arg):
         '''See L{Degrees_}.
         '''
-        return Degrees_.__new__(cls, arg, name=name, Error=Error, suffix=_EW_, low=low, high=high)
+        return Degrees_.__new__(cls, arg=arg, name=name, suffix=_EW_, low=low, high=high, **Error_name_arg)
 
 
 class Meter(Float):
     '''Named C{float} representing a distance or length in C{meter}.
     '''
-    def __new__(cls, arg, name=_meter_, Error=UnitError):
+    def __new__(cls, arg=None, name=_meter_, **Error_name_arg):
         '''See L{Float}.
         '''
-        return Float.__new__(cls, arg, name=name, Error=Error)
+        return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
 class Northing(Float):
     '''Named C{float} representing a northing, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name=_northing_, Error=UnitError, falsed=False, osgr=False):
+    def __new__(cls, arg=None, name=_northing_, Error=UnitError, falsed=False, osgr=False, **name_arg):
         '''New named C{Northing} instance.
 
            @arg cls: This class (C{Northing} or sub-class).
-           @arg arg: The value (any C{type} convertable to C{float}).
+           @kwarg arg: The value (any C{type} convertable to C{float}).
            @kwarg name: Optional instance name (C{str}).
            @kwarg Error: Optional error to raise, overriding the default
                          L{UnitError}.
            @kwarg falsed: The B{C{arg}} value includes false origin (C{bool}).
            @kwarg osgr: Check B{C{arg}} as an OSGR northing (C{bool}).
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
 
            @returns: A C{Northing} instance.
 
            @raise Error: Invalid B{C{arg}} or negative, falsed B{C{arg}}.
         '''
-        self = Float.__new__(cls, arg, name=name, Error=Error)
+        if name_arg:
+            name, arg = name_arg.popitem()
+        self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if osgr and (self < 0 or self > 1300e3):  # like Veness
             raise _Error(cls, arg, name=name, Error=Error)
         elif falsed and self < 0:
@@ -699,84 +782,86 @@ class Northing(Float):
 class Number_(Int_):
     '''Named C{int} representing a non-negative number.
     '''
-    def __new__(cls, arg, name=_number_, Error=UnitError, low=0, high=None):
+    def __new__(cls, arg=None, name=_number_, low=0, **high_Error_name_arg):
         '''See L{Int_}.
         '''
-        return Int_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
+        return Int_.__new__(cls, arg=arg, name=name, low=low, **high_Error_name_arg)
 
 
 class Phi(Radians):
     '''Named C{float} representing a latitude in C{radians}.
     '''
-    def __new__(cls, arg, name=_phi_, Error=UnitError, clip=PI_2):
+    def __new__(cls, arg=None, name=_phi_, clip=PI_2, **Error_name_arg):
         '''See L{Radians}.
         '''
-        return Radians.__new__(cls, arg, name=name, Error=Error, suffix=_NS_, clip=clip)
+        return Radians.__new__(cls, arg=arg, name=name, suffix=_NS_, clip=clip, **Error_name_arg)
 
 
 class Phi_(Phi):
     '''Named C{float} representing a latitude in C{radians} converted from C{degrees}.
     '''
-    def __new__(cls, arg, name=_lat_, Error=UnitError, clip=90):
+    def __new__(cls, arg=None, name=_lat_, Error=UnitError, clip=90, **name_arg):
         '''See L{Degrees} and L{Radians}.
         '''
-        d = Phi.__new__(cls, arg, name=name, Error=Error, clip=clip)
-        return Radians.__new__(cls, radians(d), name=name)
+        if name_arg:
+            name, arg = name_arg.popitem()
+        d = Phi.__new__(cls, arg=arg, name=name, Error=Error, clip=clip)
+        return Radians.__new__(cls, arg=radians(d), name=name, Error=Error)
 
 
 class Precision_(Int_):
     '''Named C{int} with optional C{low} and C{high} limits representing a precision.
     '''
-    def __new__(cls, arg, name=_precision_, Error=UnitError, low=0, high=None):
+    def __new__(cls, arg=None, name=_precision_, low=0, **high_Error_name_arg):
         '''See L{Int_}.
         '''
-        return Int_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
+        return Int_.__new__(cls, arg=arg, name=name, low=low, **high_Error_name_arg)
 
 
 class Radius(Float):
     '''Named C{float} representing a radius, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name=_radius_, Error=UnitError):
+    def __new__(cls, arg=None, name=_radius_, **Error_name_arg):
         '''See L{Float}.
         '''
-        return Float.__new__(cls, arg, name=name, Error=Error)
+        return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
 class Radius_(Float_):
     '''Named C{float} with optional C{low} and C{high} limits representing a radius, conventionally in C{meter}.
     '''
-    def __new__(cls, arg, name=_radius_, Error=UnitError, low=EPS, high=None):
+    def __new__(cls, arg=None, name=_radius_, low=EPS, **high_Error_name_arg):
         '''See L{Float}.
         '''
-        return Float_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
+        return Float_.__new__(cls, arg=arg, name=name, low=low, **high_Error_name_arg)
 
 
 class Scalar(Float):
     '''Named C{float} representing a factor, fraction, scale, etc.
     '''
-    def __new__(cls, arg, name=_scalar_, Error=UnitError):
+    def __new__(cls, arg=None, name=_scalar_, **Error_name_arg):
         '''See L{Float}.
         '''
-        return Float.__new__(cls, arg, name=name, Error=Error)
+        return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
 class Scalar_(Float_):
     '''Named C{float} with optional C{low} and C{high} limits representing a factor, fraction, scale, etc.
     '''
-    def __new__(cls, arg, name=_scalar_, Error=UnitError, low=0.0, high=None):
+    def __new__(cls, arg=None, name=_scalar_, low=_0_0, **high_Error_name_arg):
         '''See L{Float_}.
         '''
-        return Float_.__new__(cls, arg, name=name, Error=Error, low=low, high=high)
+        return Float_.__new__(cls, arg=arg, name=name, low=low, **high_Error_name_arg)
 
 
 class Zone(Int):
     '''Named C{int} representing a UTM/UPS zone number.
     '''
-    def __new__(cls, arg, name=_zone_, Error=UnitError):
+    def __new__(cls, arg=None, name=_zone_, **Error_name_arg):
         '''See L{Int}
         '''
         # usually low=_UTMUPS_ZONE_MIN, high=_UTMUPS_ZONE_MAX
-        return Int_.__new__(cls, arg, name=name, Error=Error)
+        return Int_.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
 def _Error(clas, arg, name=NN, Error=UnitError, txt=_invalid_):

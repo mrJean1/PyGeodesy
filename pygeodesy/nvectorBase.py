@@ -23,9 +23,9 @@ from pygeodesy.fmath import fidw, fsum, fsum_, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
 from pygeodesy.interns import EPS, EPS1, EPS_2, NN, R_M, _bearing_, \
                              _coincident_, _COMMA_SPACE_, _distance_, \
-                             _h_, _Missing, _no_intersection_, \
-                             _NorthPole_, _PARENTH_, _points_, _pole_, \
-                             _SPACE_, _SouthPole_, _sumOf_, _1_, _2_, _3_
+                             _Missing, _no_intersection_, _NorthPole_, \
+                             _PARENTH_, _points_, _pole_, _SPACE_, \
+                             _SouthPole_, _sumOf_, _1_, _2_, _3_
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xother3
@@ -41,7 +41,7 @@ from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_,  # constants
            _sumOf_)  # functions
-__version__ = '20.09.23'
+__version__ = '20.09.27'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -119,7 +119,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @raise VectorError: If B{C{h}} invalid.
         '''
-        h = Height(h, name=_h_, Error=VectorError)
+        h = Height(h=h, Error=VectorError)
         self._update(h != self._h, '_latlon', '_philam')
         self._h = h
 
@@ -260,7 +260,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         x, y, z = self.x, self.y, self.z
 
-        h = self.h if h is None else Height(h, name=_h_)
+        h = self.h if h is None else Height(h=h)
         d = datum or self.datum
 
         E = d.ellipsoid
@@ -434,7 +434,7 @@ class LatLonNvectorBase(LatLonBase):
     def others(self, *other, **name_other_up):
         '''Refined class comparison.
 
-           @arg other: The other vector (C{NvectorBase}).
+           @arg other: The other instance (C{LatLonNvectorBase}).
            @kwarg name_other_up: Overriding C{name=other} and C{up=1}
                                  keyword arguments.
 
@@ -442,8 +442,13 @@ class LatLonNvectorBase(LatLonBase):
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
+        if other:
+            other0 = other[0]
+            if isinstance(other0, (self.__class__, LatLonNvectorBase)):  # XXX NvectorBase?
+                return other0
+
         other, name, up = _xother3(self, other, **name_other_up)
-        if not isinstance(other, NvectorBase):
+        if not isinstance(other, (self.__class__, LatLonNvectorBase)):  # XXX NvectorBase?
             LatLonBase.others(self, other, name=name, up=up + 1)
         return other
 

@@ -74,7 +74,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.09.22
+        20.09.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -90,8 +90,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" class="summary-name">a_f2Tuple</a><br />
       2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
-        <i>equatorial</i> radius (<code>meter</code>) and scalar 
-        <i>flattening</i>.
+        <i>equatorial</i> radius <code>a</code> (<code>meter</code>) and 
+        scalar <i>flattening</i> <code>f</code>.
     </td>
   </tr>
 <tr>
@@ -100,7 +100,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Curvature2Tuple-class.html" class="summary-name">Curvature2Tuple</a><br />
       2-Tuple <code>(meridional, prime_vertical)</code> of radii of 
-        curvature, both in <code>meter</code>, converionally.
+        curvature, both in <code>meter</code>, conventionally.
     </td>
   </tr>
 <tr>
@@ -133,6 +133,82 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Functions</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2e" class="summary-sig-name">a_b2e</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e</code>, the <i>eccentricity</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2e2" class="summary-sig-name">a_b2e2</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e2</code>, the <i>eccentricity squared</i> for a given 
+      <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2e22" class="summary-sig-name">a_b2e22</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e22</code>, the <i>2nd eccentricity squared</i> for a 
+      given <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2e32" class="summary-sig-name">a_b2e32</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Return <code>e32</code>, the <i>3rd eccentricity squared</i> for a 
+      given <i>equatorial</i> and <i>polar</i> radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -198,7 +274,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids-module.html#a_b2n" class="summary-sig-name">a_b2n</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>)</span><br />
-      Return <code>n</code>, the <i>rd flattening</i> for a given 
+      Return <code>n</code>, the <i>3rd flattening</i> for a given 
       <i>equatorial</i> and <i>polar</i> radius.</td>
           <td align="right" valign="top">
             
@@ -1004,6 +1080,139 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="a_b2e"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e</code>, the <i>eccentricity</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The eccentricity (<code>float</code> or <code>0</code>), <i 
+          class="math">sqrt(1 - (b / a)**2)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is <code>0</code> for <i>prolate</i> and near-spherical 
+        ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2e2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e2</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e2</code>, the <i>eccentricity squared</i> for a given 
+  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The eccentricity <i>squared</i> (<code>float</code> or 
+          <code>0</code>), <i class="math">1 - (b / a)**2</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2e22"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e22</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e22</code>, the <i>2nd eccentricity squared</i> for a 
+  given <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The 2nd eccentricity <i>squared</i> (<code>float</code> or 
+          <code>0</code>), <i class="math">(a / b)**2 - 1</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="a_b2e32"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">a_b2e32</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>e32</code>, the <i>3rd eccentricity squared</i> for a 
+  given <i>equatorial</i> and <i>polar</i> radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The 3rd eccentricity <i>squared</i> (<code>float</code> or 
+          <code>0</code>), <i class="math">(a**2 - b**2) / (a**2 + 
+          b**2)</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The result is negative for <i>prolate</i> or <code>0</code> for 
+        near-spherical ellipsoids.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="a_b2f"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1118,7 +1327,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     </td>
   </tr></table>
   
-  <p>Return <code>n</code>, the <i>rd flattening</i> for a given 
+  <p>Return <code>n</code>, the <i>3rd flattening</i> for a given 
   <i>equatorial</i> and <i>polar</i> radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -1638,7 +1847,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 23 17:20:04 2020
+    Generated by Epydoc 3.0.1 on Tue Sep 29 10:26:33 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

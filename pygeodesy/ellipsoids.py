@@ -1,9 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{a_f2Tuple}, L{Ellipsoid}, L{Ellipsoid2}, an L{Ellipsoids} registry
-and a dozen functions to convert I{equatorial} radius, I{polar} radius,
-I{eccentricities}, I{flattenings} and I{inverse flattening}.
+u'''Classes L{a_f2Tuple}, L{Ellipsoid}, L{Ellipsoid2}, an L{Ellipsoids} registry and
+a dozen functions to convert I{equatorial} radius, I{polar} radius, I{eccentricities},
+I{flattenings} and I{inverse flattening}.
 
 See module L{datums} for more information and other details.
 
@@ -64,8 +64,7 @@ from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import cbrt, cbrt2, fdot, fpowers, Fsum, fsum_, \
                             hypot1, hypot2, sqrt3
 from pygeodesy.interns import EPS, EPS1, INF, NN, PI4 as _PI4, PI_2, R_M, \
-                             _float, _floatuple as _T, _lat_, _lat0_, _lat1_, \
-                             _lon0_, _lon1_, _n_a_, _negative_, _x_, \
+                             _float, _floatuple as _T, _lat_, _n_a_, _negative_, \
                              _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, _4_0, _90_0
 from pygeodesy.interns import _8_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
@@ -80,22 +79,22 @@ from pygeodesy.utily import atan2b, atan2d, degrees90, degrees2m, \
 from math import asinh, atan, atanh, copysign, cos, degrees, \
                  exp, hypot, sin, sinh, sqrt, tan
 
-R_M  = Radius(R_M,       name='R_M')   # mean (spherical) earth radius (C{meter})
-R_MA = Radius(6378137.0, name='R_MA')  # equatorial (major) earth radius (C{meter}), WGS84, EPSG:3785
-R_MB = Radius(6356752.0, name='R_MB')  # polar (minor) earth radius (C{meter}), WGS84, EPSG:3785
-R_KM = Radius(m2km(R_M), name='R_KM')  # mean (spherical) earth radius (C{KM}, kilo meter)
-R_NM = Radius(m2NM(R_M), name='R_NM')  # mean (spherical) earth radius (C{NM}, nautical miles)
-R_SM = Radius(m2SM(R_M), name='R_SM')  # mean (spherical) earth radius (C{SM}, statute miles)
+R_M  = Radius(R_M =R_M)        # mean (spherical) earth radius (C{meter})
+R_MA = Radius(R_MA=6378137.0)  # equatorial (major) earth radius (C{meter}), WGS84, EPSG:3785
+R_MB = Radius(R_MB=6356752.0)  # polar (minor) earth radius (C{meter}), WGS84, EPSG:3785
+R_KM = Radius(R_KM=m2km(R_M))  # mean (spherical) earth radius (C{KM}, kilo meter)
+R_NM = Radius(R_NM=m2NM(R_M))  # mean (spherical) earth radius (C{NM}, nautical miles)
+R_SM = Radius(R_SM=m2SM(R_M))  # mean (spherical) earth radius (C{SM}, statute miles)
 # See <https://www.EdWilliams.org/avform.htm>,
 # <https://www.DTIC.mil/dtic/tr/fulltext/u2/a216843.pdf> and
 # <https://GitHub.com/NASA/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
 # based on International Standard Nautical Mile of 1,852 meter (1' latitude)
-R_FM = Radius(6371000.0,       name='R_FM')  # former FAI Sphere earth radius (C{meter})
-R_VM = Radius(6366707.0194937, name='R_VM')  # Aviation/Navigation earth radius (C{meter})
-# R_ = Radius(6372797.560856,  name='R_')    # XXX some other earth radius???
+R_FM = Radius(R_FM=6371000.0)        # former FAI Sphere earth radius (C{meter})
+R_VM = Radius(R_VM=6366707.0194937)  # Aviation/Navigation earth radius (C{meter})
+# R_ = Radius(R_  =6372797.560856)   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '20.09.22'
+__version__ = '20.09.28'
 
 _1_EPS = _1_0 / EPS        # largest abs(f_)
 _PI4_3 = _PI4 / _3_0       # PYCHOK used!
@@ -135,7 +134,7 @@ def _4Ecef(this, Ecef):
 
 class a_f2Tuple(_NamedTuple):
     '''2-Tuple C{(a, f)} specifying an ellipsoid by I{equatorial}
-       radius (C{meter}) and scalar I{flattening}.
+       radius C{a} (C{meter}) and scalar I{flattening} C{f}.
 
        @note: M{abs(f) < EPS} is forced to M{f = 0}, spherical.
 
@@ -156,10 +155,10 @@ class a_f2Tuple(_NamedTuple):
 
            @note: M{abs(f) < EPS} is forced to M{f = 0}, spherical.
         '''
-        a = Radius_(a, name=Ellipsoid.a.name)
-        f = Float_( f, name=Ellipsoid.f.name, low=None, high=EPS1)
+        a = Radius_(a=a)
+        f = Float_( f=f, low=None, high=EPS1)
         if abs(f) < EPS:  # force spherical
-            f = Float(_0_0, name=Ellipsoid.f.name)
+            f = Float(f=_0_0)
         return _NamedTuple.__new__(cls, a, f)
 
     @property_RO
@@ -177,7 +176,7 @@ class a_f2Tuple(_NamedTuple):
 
 class Curvature2Tuple(_NamedTuple):
     '''2-Tuple C{(meridional, prime_vertical)} of radii of curvature,
-       both in C{meter}, converionally.
+       both in C{meter}, conventionally.
     '''
     _Names_ = ('meridional', 'prime_vertical')
     _Units_ = ( Meter,        Meter)
@@ -209,10 +208,10 @@ class Ellipsoid(_NamedEnumItem):
     # eccentricities
     _e    = None  # (1st) eccentricity: sqrt(1 - (b / a)**2))  # for utm
     _e2   = None  # (1st) eccentricity squared: f * (2 - f) = 1 - (b / a)**2
-    _e22  = None  # 2nd eccentricity squared: e2 / (1 - e2) = (a / b)**2 - 1
-    _e32  = None  # 3rd eccentricity squared: e2 / (2 - e2) = (a**2 - b**2 / (a**2 + b**2)
+    _e22  = None  # 2nd eccentricity squared: e2 / (1 - e2) = e2 / (1 - f)**2 = (a / b)**2 - 1
+    _e32  = None  # 3rd eccentricity squared: e2 / (2 - e2) = e2 / (1 + (1 - f)**2) = (a**2 - b**2) / (a**2 + b**2)
     _e12  = None  # 1 - e2 = (1 - f)**2 for .ellipsoidalNvector.Cartesian.toNvector, .ecef .utm
-    _e4   = None  # e2=**4 = e2**2 for .ellipsoidalNvector.Cartesian.toNvector, .ecef
+    _e4   = None  # e**4 = e2**2 for .ellipsoidalNvector.Cartesian.toNvector, .ecef
     _es_c = None  # M{(1 - f) * exp(es_atanh(1))}
 
     # fixed earth radii from <https://WikiPedia.org/wiki/Earth_radius>
@@ -258,15 +257,15 @@ class Ellipsoid(_NamedEnumItem):
                   to M{1 / f_ = 0}, spherical.
         '''
         try:
-            a = Radius_(_float(a), name=Ellipsoid.a.name)  # low=EPS
+            a = Radius_(a=_float(a))  # low=EPS
             if b:
-                b = Radius_(_float(b), name=Ellipsoid.b.name)  # low=EPS
+                b = Radius_(b=_float(b))  # low=EPS
                 f = a_b2f(a, b)
                 if f_ is None:
                     f_ = f2f_(f)
             elif f_:
                 b = a_f_2b(a, f_)  # a * (f_ - 1) / f_
-                b = Radius_(_float(b), name=Ellipsoid.b.name)  # low=EPS
+                b = Radius_(b=_float(b))  # low=EPS
                 f = a_b2f(a, b)
             else:  # only a, spherical
                 f = f_ = 0
@@ -283,8 +282,8 @@ class Ellipsoid(_NamedEnumItem):
 
         self._a  = a
         self._b  = b
-        self._f  = Float(_float(f),  name=Ellipsoid.f.name)
-        self._f_ = Float(_float(f_), name=Ellipsoid.f_.name)
+        self._f  = Float(f =_float(f))
+        self._f_ = Float(f_=_float(f_))
 
         self._register(Ellipsoids, name)
 
@@ -325,7 +324,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def a(self):
-        '''Get the equatorial (major) radius, semi-axis (C{meter}).
+        '''Get the I{equatorial} (major) radius, semi-axis (C{meter}).
         '''
         return self._a
 
@@ -333,18 +332,18 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def a2(self):
-        '''Get the equatorial (major) radius I{squared} (C{float}), M{a**2}.
+        '''Get the I{equatorial} (major) radius I{squared} (C{float}), M{a**2}.
         '''
         if self._a2 is None:
-            self._a2 = Float(self.a**2, name=Ellipsoid.a2.name)
+            self._a2 = Float(a2=self.a**2)
         return self._a2
 
     @property_RO
     def a2_(self):
-        '''Get the inverse of the equatorial (major) radius I{squared} (C{float}), M{1 / a**2}.
+        '''Get the inverse of the I{equatorial} (major) radius I{squared} (C{float}), M{1 / a**2}.
         '''
         if self._a2_ is None:
-            self._a2_ = Float(_1_0 / self.a2, name=Ellipsoid.a2_.name)
+            self._a2_ = Float(a2_=_1_0 / self.a2)
         return self._a2_  # (1 / a**2)
 
     @property_RO
@@ -352,12 +351,12 @@ class Ellipsoid(_NamedEnumItem):
         '''Get ratio M{a / b} (C{float}).
         '''
         if self._a_b is None:
-            self._a_b = Float(self.a / self.b if self.f else 1, name=Ellipsoid.a_b.name)
+            self._a_b = Float(a_b=self.a / self.b if self.f else _1_0)
         return self._a_b
 
     @property_RO
     def a2_b(self):
-        '''Get the polar meridional radius of curvature (C{meter}), M{a**2 / b}, see C{rocPolar}.
+        '''Get the I{polar} meridional radius of curvature (C{meter}), M{a**2 / b}, see C{rocPolar}.
 
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
@@ -368,18 +367,18 @@ class Ellipsoid(_NamedEnumItem):
                   curvature<https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         if self._a2_b is None:
-            self._a2_b = Radius(self.a2 / self.b if self.f else self.a, name=Ellipsoid.a2_b.name)
+            self._a2_b = Radius(a2_b=self.a2 / self.b if self.f else self.a)
         return self._a2_b
 
     @property_RO
     def a_f(self):
-        '''Get equatorial radius and flattening (L{a_f2Tuple}).
+        '''Get I{equatorial} radius and I{flattening} (L{a_f2Tuple}).
         '''
         return self._xnamed(a_f2Tuple(self.a, self.f))
 
     @property_RO
     def A(self):
-        '''Get the UTM meridional radius (C{meter}).
+        '''Get the UTM I{meridional} radius (C{meter}).
         '''
         if self._A is None:
             # <https://GeographicLib.SourceForge.io/html/transversemercator.html>
@@ -392,7 +391,7 @@ class Ellipsoid(_NamedEnumItem):
                                                       49 * n**10) / 65536)
             # <https://www.MyGeodesy.id.AU/documents/Karney-Krueger%20equations.pdf>
             # A = self.a / (1 + n) * (fhorner(n**2, 16384, 4096, 256, 64, 25) / 16384)
-            self._A = Radius(A, name=Ellipsoid.A.name)
+            self._A = Radius(A=A)
         return self._A
 
     @property_RO
@@ -401,7 +400,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self._area is None:
             r = self.R2 if self.f else self.a  # authalic radius
-            self._area = Float(_PI4 * r**2, name=Ellipsoid.area.name)
+            self._area = Float(area=_PI4 * r**2)
         return self._area
 
     @property_RO
@@ -564,7 +563,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def b(self):
-        '''Get the polar (minor) radius, semi-axis (C{meter}).
+        '''Get the I{polar} (minor) radius, semi-axis (C{meter}).
         '''
         return self._b
 
@@ -580,21 +579,21 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def b2(self):
-        '''Get the polar (minor) radius I{squared} (C{float}), M{b**2}.
+        '''Get the I{polar} (minor) radius I{squared} (C{float}), M{b**2}.
         '''
         if self._b2 is None:
-            self._b2 = Float(self.b**2, name=Ellipsoid.b2.name)
+            self._b2 = Float(b2=self.b**2)
         return self._b2
 
     @property_RO
     def b2_a(self):
-        '''Get the equatorial meridional radius of curvature (C{meter}), M{b**2 / a}.
+        '''Get the I{equatorial} meridional radius of curvature (C{meter}), M{b**2 / a}, see C{rocMeridional(0)}.
 
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         if self._b2_a is None:
-            self._b2_a = Radius(self.b2 / self.a if self.f else self.b, name=Ellipsoid.b2_a.name)
+            self._b2_a = Radius(b2_a=self.b2 / self.a if self.f else self.b)
         return self._b2_a
 
     @property_RO
@@ -602,7 +601,7 @@ class Ellipsoid(_NamedEnumItem):
         '''Get ratio M{(b / a)**2} (C{float}), M{(1 - f)**2}, see C{e12}.
         '''
         if self._b2_a2 is None:
-            self._b2_a2 = Float(self.b_a**2 if self.f else _1_0, name=Ellipsoid.b2_a2.name)
+            self._b2_a2 = Float(b2_a2=self.b_a**2 if self.f else _1_0)
         return self._b2_a2
 
     @property_RO
@@ -673,48 +672,48 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: Function L{flatLocal}/L{hubeny}.
         '''
-        phi0 = Phi_(lat0, name=_lat0_)
+        phi0 = Phi_(lat0=lat0)
         m, n = self.roc2_(phi0, scaled=True)
-        m *= Phi_(lat1, name=_lat1_) - phi0
-        n *= Lam_(lon1, name=_lon1_) - Lam_(lon0, name=_lon0_)
+        m *= Phi_(lat1=lat1) - phi0
+        n *= Lam_(lon1=lon1) - Lam_(lon0=lon0)
         return Distance2Tuple(hypot(m, n), atan2b(n, m))
 
     @property_RO
     def e(self):
-        '''Get the (1st) eccentricity (C{float}), M{sqrt(1 - (b / a)**2))}.
+        '''Get the I{(1st) eccentricity} (C{float}), M{sqrt(1 - (b / a)**2))}, see C{a_b2e}.
         '''
         if self._e is None:
-            self._e = Float(sqrt(abs(self.e2)) if self.f else _0_0, name=Ellipsoid.e.name)
+            self._e = Float(e=sqrt(abs(self.e2)) if self.f else _0_0)
         return self._e
 
     eccentricity = e  # eccentricity
 
     @property_RO
     def e2(self):
-        '''Get the (1st) eccentricity I{squared} (C{float}), M{f * (2 - f) == 1 - (b / a)**2}.
+        '''Get the I{(1st) eccentricity squared} (C{float}), M{f * (2 - f) == 1 - (b / a)**2}, see C{a_b2e2}.
         '''
         if self._e2 is None:
-            self._e2 = self._assert(_1_0 - (self.b / self.a)**2, e2=f2e2(self.f))
+            self._e2 = self._assert(a_b2e2(self.a, self.b), e2=f2e2(self.f))
         return self._e2
 
     eccentricity2 = e2  # eccentricity squared
 
     @property_RO
     def e22(self):
-        '''Get the 2nd eccentricity I{squared} (C{float}), M{e2 / (1 - e2) == (a / b)**2 - 1}.
+        '''Get the I{2nd eccentricity squared} (C{float}), M{e2 / (1 - e2) == (a / b)**2 - 1}, see C{a_b2e22}.
         '''
         if self._e22 is None:
-            self._e22 = self._assert(self.a_b**2 - _1_0, e22=f2e22(self.f))
+            self._e22 = self._assert(a_b2e22(self.a, self.b), e22=f2e22(self.f))
         return self._e22
 
     eccentricity2nd2 = e2  # second eccentricity squared
 
     @property_RO
     def e32(self):
-        '''Get the 3rd eccentricity I{squared} (C{float}), M{e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)}.
+        '''Get the I{3rd eccentricity squared} (C{float}), M{e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)}, see C{a_b2e32}.
         '''
         if self._e32 is None:
-            self._e32 = self._assert((self.a2 - self.b2) / (self.a2 + self.b2), e32=f2e32(self.f))
+            self._e32 = self._assert(a_b2e32(self.a, self.b), e32=f2e32(self.f))
         return self._e32
 
     eccentricity3rd2 = e32  # third eccentricity squared
@@ -729,10 +728,10 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def e4(self):
-        '''Get the (1st) eccentricity to 4th power (C{float}), M{e**4 == e2**2}.
+        '''Get the I{(1st) eccentricity} to 4th power (C{float}), M{e**4 == e2**2}.
         '''
         if self._e4 is None:
-            self._e4 = Float(self.e2**2 if self.f else _0_0, name=Ellipsoid.e4.name)
+            self._e4 = Float(e4=self.e2**2 if self.f else _0_0)
         return self._e4
 
     def ecef(self, Ecef=None):
@@ -778,7 +777,7 @@ class Ellipsoid(_NamedEnumItem):
            @raise ValueError: Invalid B{C{s}}.
         '''
         try:
-            r = _1_0 - self.e2 * Scalar(s, name='s')**2
+            r = _1_0 - self.e2 * Scalar(s=s)**2
             if r < 0:
                 raise ValueError(_negative_)
         except (TypeError, ValueError) as x:
@@ -787,10 +786,10 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def es(self):
-        '''Get the (1st) eccentricity I{signed} (C{float}).
+        '''Get the I{(1st) eccentricity signed} (C{float}).
         '''
         # note, self.e is always non-negative
-        return Float(copysign(self.e, self.f), name=Ellipsoid.es.name)  # see .ups
+        return Float(es=copysign(self.e, self.f))  # see .ups
 
     def es_atanh(self, x):
         '''Compute M{es * atanh(es * x)} where I{es} is the I{signed}
@@ -803,9 +802,9 @@ class Ellipsoid(_NamedEnumItem):
         '''
         # note, self.e is always non-negative
         if self.f > 0:  # oblate
-            r = self.e * atanh(self.e * Scalar(x, name=_x_))
+            r = self.e * atanh(self.e * Scalar(x=x))
         elif self.f < 0:  # prolate
-            r = -self.e * atan(self.e * Scalar(x, name=_x_))
+            r = -self.e * atan(self.e * Scalar(x=x))
         else:
             r = 0
         return r
@@ -815,7 +814,7 @@ class Ellipsoid(_NamedEnumItem):
         '''Get M{(1 - f) * exp(es_atanh(1))} (C{float}), M{b_a * exp(es_atanh(1))}.
         '''
         if self._es_c is None:
-            self._es_c = Float(self.b_a * exp(self.es_atanh(_1_0)) if self.f else _1_0, name=Ellipsoid.es_c.name)
+            self._es_c = Float(es_c=(self.b_a * exp(self.es_atanh(_1_0))) if self.f else _1_0)
         return self._es_c
 
     def es_tauf(self, taup):
@@ -825,7 +824,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Math::tauf<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Math.html>}.
         '''
-        T_  = Scalar(taup, name='taup')
+        T_  = Scalar(taup=taup)
         tol = max(abs(T_), _1_0) * _TOL
         e12 = self.e12
         t = T_ / e12
@@ -845,14 +844,14 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Math::taupf<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Math.html>}.
         '''
-        T = Scalar(tau, name='tau')
+        T = Scalar(tau=tau)
         t = hypot1(T)
         s = sinh(self.es_atanh(T / t))
         return hypot1(s) * T - s * t
 
     @property_RO
     def f(self):
-        '''Get the flattening (C{float}), M{(a - b) / a}, C{0} for spherical.
+        '''Get the I{flattening} (C{float}), M{(a - b) / a}, C{0} for spherical.
         '''
         return self._f
 
@@ -860,13 +859,13 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def f_(self):
-        '''Get the I{inverse} flattening (C{float}), M{1 / f} == M{a / (a - b)}, C{0} for spherical.
+        '''Get the I{inverse flattening} (C{float}), M{1 / f} == M{a / (a - b)}, C{0} for spherical, see C{a_b2f_}.
         '''
         return self._f_
 
     @property_RO
     def f2(self):
-        '''Get the 2nd flattening (C{float}), M{(a - b) / b == f / (1 - f)}, C{0} for spherical.
+        '''Get the I{2nd flattening} (C{float}), M{(a - b) / b == f / (1 - f)}, C{0} for spherical, see C{a_b2f2}.
         '''
         if self._f2 is None:
             self._f2 = self._assert(self.a_b - _1_0, f2=f2f2(self.f))
@@ -976,7 +975,7 @@ class Ellipsoid(_NamedEnumItem):
                 L = self.b * self._elliptic_e22.cE
             else:  # spherical
                 L = self.a * PI_2
-            self._L = Distance(L, name=Ellipsoid.L.name)
+            self._L = Distance(L=L)
         return self._L
 
     quarteradius = L  # -meridian
@@ -992,7 +991,7 @@ class Ellipsoid(_NamedEnumItem):
                     hemisphere (C{meter}).
         '''
         L = self._elliptic_e22.fEd(self.auxParametric(lat)) if self.f else Phi_(lat)
-        return Distance(self.b * L, name=Ellipsoid.Llat.__name__)
+        return Distance(Llat=self.b * L)
 
     Lmeridian = Llat  # meridional distance
 
@@ -1031,7 +1030,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @property_RO
     def n(self):
-        '''Get the 3rd flattening (C{float}), M{f / (2 - f) == (a - b) / (a + b)}.
+        '''Get the I{3rd flattening} (C{float}), M{f / (2 - f) == (a - b) / (a + b)}, see C{a_b2n}.
         '''
         if self._n is None:
             self._n = self._assert(a_b2n(self.a, self.b), n=f2n(self.f))
@@ -1050,7 +1049,7 @@ class Ellipsoid(_NamedEnumItem):
             def _R1(a, b):
                 return fsum_(a, a, b) / _3_0
 
-            self._R1 = Radius(self._f_late(_R1), name=Ellipsoid.R1.name)
+            self._R1 = Radius(R1=self._f_late(_R1))
         return self._R1
 
     Rmean = R1
@@ -1076,7 +1075,7 @@ class Ellipsoid(_NamedEnumItem):
                 a = self.a
             r = a if e < EPS else \
                 a * sqrt((_1_0 + r * atanh(e) / e) * _0_5)
-            self._R2 = Radius(r, name=Ellipsoid.R2.name)
+            self._R2 = Radius(R2=r)
         return self._R2
 
     Rauthalic = R2
@@ -1091,17 +1090,17 @@ class Ellipsoid(_NamedEnumItem):
             def _R3(a, b):
                 return cbrt(a**2 * b)
 
-            self._R3 = Radius(self._f_late(_R3), name=Ellipsoid.R3.name)
+            self._R3 = Radius(R3=self._f_late(_R3))
         return self._R3
 
     Rvolumetric = R3
 
     @property_RO
     def Rbiaxial(self):
-        '''Get the I{biaxial}, I{quadratic} mean earth radius (C{meter}), M{sqrt((a**2 + b**2) / 2)}.
+        '''Get the I{biaxial, quadratic} mean earth radius (C{meter}), M{sqrt((a**2 + b**2) / 2)}.
         '''
         if self._Rb is None:
-            self._Rb = Radius(sqrt((self.a2 + self.b2) * _0_5) if self.f else self.a, name=Ellipsoid.Rbiaxial.name)
+            self._Rb = Radius(Rbiaxial=sqrt((self.a2 + self.b2) * _0_5) if self.f else self.a)
         return self._Rb
 
     Requatorial = a  # for consistent naming
@@ -1125,8 +1124,8 @@ class Ellipsoid(_NamedEnumItem):
         #    == sqrt(a2 * (c2 + (b2 / a2)**2 * s2) / (c2 + (b2 / a2) * s2))
         #    == a * sqrt((c2 + b2_a2 * b2_a2 * s2) / (c2 + b2_a2 * s2))
         #    == a * sqrt((c2 + b2_a2 * b2_a2_s2) / (c2 + b2_a2_s2))
-        return Radius(self.a * sqrt((c2 + self.b2_a2 * b2_a2_s2) / (c2 + b2_a2_s2)) if self.f else self.a,
-                      name=Ellipsoid.Rgeocentric.__name__)
+        return Radius(Rgeocentric=(self.a * sqrt((c2 + self.b2_a2 * b2_a2_s2) / (c2 + b2_a2_s2)))
+                                if self.f else self.a)
 
     @property_RO
     def Rgeometric(self):
@@ -1138,7 +1137,7 @@ class Ellipsoid(_NamedEnumItem):
             def _Rg(a, b):
                 return sqrt(a * b)
 
-            self._Rg = Radius(self._f_late(_Rg), name=Ellipsoid.Rgeometric.name)
+            self._Rg = Radius(Rgeometric=self._f_late(_Rg))
         return self._Rg
 
     Rs = Rgeometric  # for backward compatibility
@@ -1160,7 +1159,7 @@ class Ellipsoid(_NamedEnumItem):
         r = self.a
         if lat:
             r -= self._ab_90 * min(abs(Lat(lat, clip=0)), _90_0)
-        return Radius(r, name=Ellipsoid.Rlat.__name__)
+        return Radius(Rlat=r)
 
     Rquadratic = Rbiaxial  # synonyms
 
@@ -1174,7 +1173,7 @@ class Ellipsoid(_NamedEnumItem):
             def _Rr(a, b):
                 return cbrt2((sqrt3(a) + sqrt3(b)) * _0_5)
 
-            self._Rr = Radius(self._f_late(_Rr), name=Ellipsoid.Rrectifying.name)
+            self._Rr = Radius(Rrectifying=self._f_late(_Rr))
         return self._Rr
 
     Rr = Rrectifying
@@ -1228,8 +1227,8 @@ class Ellipsoid(_NamedEnumItem):
             m = n * self.e12
         if scaled:
             n *= cos(a) if a < PI_2 else _0_0
-        return Curvature2Tuple(Radius(m, name=Ellipsoid.rocMeridional.__name__),
-                               Radius(n, name=Ellipsoid.rocPrimeVertical.__name__))
+        return Curvature2Tuple(Radius(rocMeridional=m),
+                               Radius(rocPrimeVertical=n))
 
     def rocBearing(self, lat, bearing):
         '''Compute the I{directional} radius of curvature at a
@@ -1255,7 +1254,7 @@ class Ellipsoid(_NamedEnumItem):
         elif m < n:  # == m / (c2 + s2 * m / n)
             s2 *= m / n
             n = m
-        return Radius(n / (c2 + s2), name=Ellipsoid.rocBearing.__name__)  # == 1 / (c2 / m + s2 / n)
+        return Radius(rocBearing=n / (c2 + s2))  # == 1 / (c2 / m + s2 / n)
 
     def rocGauss(self, lat):
         '''Compute the I{Gaussian} radius of curvature at the given latitude.
@@ -1274,7 +1273,7 @@ class Ellipsoid(_NamedEnumItem):
         #    return sqrt(m * n)
         # ... requires 1 or 2 sqrt
         c2, s2 = _c2_s2(Phi_(lat))
-        return Radius(self.b / (c2 + self.b2_a2 * s2), name=Ellipsoid.rocGauss.__name__)
+        return Radius(rocGauss=self.b / (c2 + self.b2_a2 * s2))
 
     def rocMean(self, lat):
         '''Compute the I{mean} radius of curvature at the given latitude.
@@ -1289,7 +1288,7 @@ class Ellipsoid(_NamedEnumItem):
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
         m, n = self.roc2_(Phi_(lat))
-        return Radius(2 * m * n / (m + n), name=Ellipsoid.rocMean.__name__)  # == 2 / (1 / m + 1 / n)
+        return Radius(rocMean=2 * m * n / (m + n))  # == 2 / (1 / m + 1 / n)
 
     def rocMeridional(self, lat):
         '''Compute the I{meridional} radius of curvature at the given latitude.
@@ -1348,8 +1347,8 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the ellipsoid's I{volume} (C{meter**3}), M{4 / 3 * PI * a**2 * b}.
         '''
         if self._volume is None:
-            self._volume = Float(_PI4_3 * (self.a2 * self.b if self.f > 0 else
-                                           self.b2 * self.a), name=Ellipsoid.volume.name)
+            self._volume = Float(volume=((self.a2 * self.b) if self.f > 0 else
+                                         (self.b2 * self.a)) * _PI4_3)
         return self._volume
 
 
@@ -1370,8 +1369,8 @@ class Ellipsoid2(Ellipsoid):
            @note: M{abs(f) < EPS} is forced to M{f = 0}, spherical.
         '''
         try:
-            a = Float_(a, low=EPS, high=None)  # like Radius_
-            f = Float_(f, low=None, high=EPS1)
+            a = Float_(a=a, low=EPS, high=None)  # like Radius_
+            f = Float_(f=f, low=None, high=EPS1)
             Ellipsoid.__init__(self, a, a_f2b(a, f), name=name)
         except (TypeError, ValueError) as x:
             raise _ValueError(instr(self, a=a, f=f), txt=str(x))
@@ -1395,6 +1394,59 @@ def _spherical_a_b(a, b):
     return a < EPS or b < EPS or abs(a - b) < EPS
 
 
+def a_b2e(a, b):
+    '''Return C{e}, the I{eccentricity} for a given I{equatorial} and I{polar} radius.
+
+       @arg a: Equatorial (major) radius (C{scalar} > 0).
+       @arg b: Polar (minor) radius (C{scalar} > 0).
+
+       @return: The eccentricity (C{float} or C{0}), M{sqrt(1 - (b / a)**2)}.
+
+       @note: The result is C{0} for I{prolate} and near-spherical ellipsoids.
+    '''
+    return Float(e=sqrt(abs(a_b2e2(a, b))))
+
+
+def a_b2e2(a, b):
+    '''Return C{e2}, the I{eccentricity squared} for a given I{equatorial} and I{polar} radius.
+
+       @arg a: Equatorial (major) radius (C{scalar} > 0).
+       @arg b: Polar (minor) radius (C{scalar} > 0).
+
+       @return: The eccentricity I{squared} (C{float} or C{0}), M{1 - (b / a)**2}.
+
+       @note: The result is negative for I{prolate} or C{0} for near-spherical ellipsoids.
+    '''
+    return Float(e2=_0_0 if _spherical_a_b(a, b) else (_1_0 - (b / a)**2))
+
+
+def a_b2e22(a, b):
+    '''Return C{e22}, the I{2nd eccentricity squared} for a given I{equatorial} and I{polar} radius.
+
+       @arg a: Equatorial (major) radius (C{scalar} > 0).
+       @arg b: Polar (minor) radius (C{scalar} > 0).
+
+       @return: The 2nd eccentricity I{squared} (C{float} or C{0}), M{(a / b)**2 - 1}.
+
+       @note: The result is negative for I{prolate} or C{0} for near-spherical ellipsoids.
+    '''
+    return Float(e22=_0_0 if _spherical_a_b(a, b) else ((a / b)**2 - _1_0))
+
+
+def a_b2e32(a, b):
+    '''Return C{e32}, the I{3rd eccentricity squared} for a given I{equatorial} and I{polar} radius.
+
+       @arg a: Equatorial (major) radius (C{scalar} > 0).
+       @arg b: Polar (minor) radius (C{scalar} > 0).
+
+       @return: The 3rd eccentricity I{squared} (C{float} or C{0}), M{(a**2 - b**2) / (a**2 + b**2)}.
+
+       @note: The result is negative for I{prolate} or C{0} for near-spherical ellipsoids.
+    '''
+    a2, b2 = a**2, b**2
+    return Float(e32=_0_0 if _spherical_a_b(a2, b2) else ((a2 - b2) / (a2 + b2)))
+
+
 def a_b2f(a, b):
     '''Return C{f}, the I{flattening} for a given I{equatorial} and I{polar} radius.
 
@@ -1403,11 +1455,10 @@ def a_b2f(a, b):
 
        @return: The flattening (C{float} or C{0}), M{(a - b) / a}.
 
-       @note: The result is negative for I{prolate} or C{0} for
-              near-spherical ellipsoids.
+       @note: The result is negative for I{prolate} or C{0} for near-spherical ellipsoids.
     '''
-    f = 0 if _spherical_a_b(a, b) else float(a - b) / a
-    return Float(0 if _spherical(f) else f, name=Ellipsoid.f.name)
+    f = 0 if _spherical_a_b(a, b) else (float(a - b) / a)
+    return Float(f=_0_0 if _spherical(f) else f)
 
 
 def a_b2f_(a, b):
@@ -1418,11 +1469,10 @@ def a_b2f_(a, b):
 
        @return: The inverse flattening (C{float} or C{0}), M{a / (a - b)}.
 
-       @note: The result is negative for I{prolate} or C{0} for
-              near-spherical ellipsoids.
+       @note: The result is negative for I{prolate} or C{0} for near-spherical ellipsoids.
     '''
-    f_ = 0 if _spherical_a_b(a, b) else a / float(a - b)
-    return Float(0 if _spherical_(f_) else f_, name=Ellipsoid.f_.name)
+    f_ = 0 if _spherical_a_b(a, b) else (a / float(a - b))
+    return Float(f_=_0_0 if _spherical_(f_) else f_)
 
 
 def a_b2f2(a, b):
@@ -1433,26 +1483,24 @@ def a_b2f2(a, b):
 
        @return: The 2nd flattening (C{float} or C{0}), M{(a - b) / b}.
 
-       @note: The result is negative for I{prolate} or C{0} for
-              near-spherical ellipsoids.
+       @note: The result is negative for I{prolate} or C{0} for near-spherical ellipsoids.
     '''
     t = 0 if _spherical_a_b(a, b) else float(a - b)
-    return Float(0 if abs(t) < EPS else t / b, name=Ellipsoid.f2.name)
+    return Float(f2=_0_0 if abs(t) < EPS else (t / b))
 
 
 def a_b2n(a, b):
-    '''Return C{n}, the I{rd flattening} for a given I{equatorial} and I{polar} radius.
+    '''Return C{n}, the I{3rd flattening} for a given I{equatorial} and I{polar} radius.
 
        @arg a: Equatorial (major) radius (C{scalar} > 0).
        @arg b: Polar (minor) radius (C{scalar} > 0).
 
        @return: The 3rd flattening (C{float} or C{0}), M{(a - b) / (a + b)}.
 
-       @note: The result is negative for I{prolate} or C{0} for
-              near-spherical ellipsoids.
+       @note: The result is negative for I{prolate} or C{0} for near-spherical ellipsoids.
     '''
     t = 0 if _spherical_a_b(a, b) else float(a - b)
-    return Float(0 if abs(t) < EPS else t / (a + b), name=Ellipsoid.n.name)
+    return Float(n=_0_0 if abs(t) < EPS else (t / (a + b)))
 
 
 def a_f2b(a, f):
@@ -1463,7 +1511,7 @@ def a_f2b(a, f):
 
        @return: The polar (minor) radius (C{float}), M{a * (1 - f)}.
     '''
-    return Float(a if _spherical(f) else a * (_1_0 - f), name=Ellipsoid.b.name)
+    return Float(b=a if _spherical(f) else (a * (_1_0 - f)))
 
 
 def a_f_2b(a, f_):
@@ -1474,7 +1522,7 @@ def a_f_2b(a, f_):
 
        @return: The polar (minor) radius (C{float}), M{a * (f_ - 1) / f_}.
     '''
-    return Float(a if _spherical_(f_) else a * (f_ - _1_0) / f_, name=Ellipsoid.b.name)
+    return Float(b=a if _spherical_(f_) else (a * (f_ - _1_0) / f_))
 
 
 def b_f2a(b, f):
@@ -1486,7 +1534,7 @@ def b_f2a(b, f):
        @return: The equatorial (major) radius (C{float}), M{b / (1 - f)}.
     '''
     t = _1_0 - f
-    return Float(b if _spherical(f) or abs(t) < EPS else b / t, name=Ellipsoid.a.name)
+    return Float(a=b if _spherical(f) or abs(t) < EPS else (b / t))
 
 
 def b_f_2a(b, f_):
@@ -1498,7 +1546,7 @@ def b_f_2a(b, f_):
        @return: The equatorial (major) radius (C{float}), M{b * f_ / (f_ - 1)}.
     '''
     t = f_ - _1_0
-    return Float(b if _spherical_(f_) or abs(t) < EPS else b * f_ / t, name=Ellipsoid.a.name)
+    return Float(a=b if _spherical_(f_) or abs(t) < EPS else (b * f_ / t))
 
 
 def f2e2(f):
@@ -1515,7 +1563,7 @@ def f2e2(f):
              html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
-    return Float(0 if _spherical(f) else f * (_2_0 - f), name=Ellipsoid.e2.name)
+    return Float(e2=_0_0 if _spherical(f) else (f * (_2_0 - f)))
 
 
 def f2e22(f):
@@ -1534,7 +1582,7 @@ def f2e22(f):
     '''
     # e2 / (1 - e2) == f * (2 - f) / (1 - f)**2
     t = (_1_0 - f)**2
-    return Float(INF if t < EPS else f2e2(f) / t, name=Ellipsoid.e22.name)  # PYCHOK type
+    return Float(e22=INF if t < EPS else (f2e2(f) / t))  # PYCHOK type
 
 
 def f2e32(f):
@@ -1544,15 +1592,14 @@ def f2e32(f):
 
        @return: The 3rd eccentricity I{squared} (C{float}), M{f * (2 - f) / (1 + (1 - f)**2)}.
 
-       @note: The result is negative for I{prolate} or C{0} for
-              near-spherical ellipsoids.
+       @note: The result is negative for I{prolate} or C{0} for near-spherical ellipsoids.
 
        @see: U{Eccentricity conversions<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1Ellipsoid.html>}.
     '''
     # e2 / (2 - e2) == f * (2 - f) / (1 + (1 - f)**2)
     e2 = f2e2(f)
-    return Float(e2 / (_2_0 - e2), name=Ellipsoid.e32.name)
+    return Float(e32=e2 / (_2_0 - e2))
 
 
 def f_2f(f_):
@@ -1566,7 +1613,7 @@ def f_2f(f_):
               near-spherical ellipsoids.
     '''
     f = 0 if _spherical_(f_) else _1_0 / f_
-    return Float(0 if _spherical(f) else f, name=Ellipsoid.f.name)  # PYCHOK type
+    return Float(f=_0_0 if _spherical(f) else f)  # PYCHOK type
 
 
 def f2f_(f):
@@ -1580,7 +1627,7 @@ def f2f_(f):
               near-spherical ellipsoids.
     '''
     f_ = 0 if _spherical(f) else _1_0 / f
-    return Float(0 if _spherical_(f_) else f_, name=Ellipsoid.f_.name)  # PYCHOK type
+    return Float(f_=_0_0 if _spherical_(f_) else f_)  # PYCHOK type
 
 
 def f2f2(f):
@@ -1598,8 +1645,8 @@ def f2f2(f):
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = _1_0 - f
-    return Float(0 if _spherical(f) else
-              (INF if  abs(t) < EPS else f / t), name=Ellipsoid.f2.name)  # PYCHOK type
+    return Float(f2=_0_0 if _spherical(f) else
+                    (INF if  abs(t) < EPS else (f / t)))  # PYCHOK type
 
 
 def f2n(f):
@@ -1616,7 +1663,7 @@ def f2n(f):
              html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
-    return Float(0 if _spherical(f) else f / float(_2_0 - f), name=Ellipsoid.n.name)
+    return Float(n=_0_0 if _spherical(f) else (f / float(_2_0 - f)))
 
 
 def n2e2(n):
@@ -1632,8 +1679,8 @@ def n2e2(n):
        @see: U{Flattening<https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = (_1_0 + n)**2
-    return Float(0 if abs(n) < EPS else
-             (-INF if     t  < EPS else _4_0 * n / t), name=Ellipsoid.e2.name)
+    return Float(e2=_0_0 if abs(n) < EPS else
+                   (-INF if     t  < EPS else (_4_0 * n / t)))
 
 
 def n2f(n):
@@ -1649,7 +1696,7 @@ def n2f(n):
     '''
     t = n + _1_0
     f = 0 if abs(n) < EPS else (-INF if t < EPS else _2_0 * n / t)
-    return Float(0 if _spherical(f) else f, name=Ellipsoid.f.name)
+    return Float(f=_0_0 if _spherical(f) else f)
 
 
 Ellipsoids = _NamedEnum('Ellipsoids', Ellipsoid)  # registered ellipsods

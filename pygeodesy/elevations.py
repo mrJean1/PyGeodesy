@@ -19,16 +19,16 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 
 from pygeodesy.basics import clips, ub2str
 from pygeodesy.errors import ParseError, _xkwds_get
-from pygeodesy.interns import NN, _elevation_, _height_, \
-                             _item_cs, _item_ps, _lat_, _lon_, \
-                             _n_a_, _SPACE_, _units_, _x_, _y_
+from pygeodesy.interns import NN, _height_, _item_cs, _item_ps, \
+                             _lat_, _lon_, _n_a_, _SPACE_, \
+                             _units_, _x_, _y_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -39,8 +39,7 @@ except (ImportError, NameError):  # Python 3+
     # from urllib.parse import quote
     from urllib.error import HTTPError
 
-_timeout_ = 'timeout'
-_XML_     = 'XML'
+_XML_ = 'XML'
 
 try:
     from json import loads as _json
@@ -130,7 +129,7 @@ def _xml(tag, xml):
 class Elevation2Tuple(_NamedTuple):  # .elevations.py
     '''2-Tuple C{(elevation, data_source)} in C{meter} and C{str}.
     '''
-    _Names_ = (_elevation_, 'data_source')
+    _Names_ = ('elevation', 'data_source')
     _Units_ = ( Meter,       Str)
 
 
@@ -165,7 +164,7 @@ def elevation2(lat, lon, timeout=2.0):
                          '%s=%.6F' % (_y_, Lat(lat)),
                          '%s=%s' % (_units_, 'Meters'),  # 'Feet', capitalized
                          'output=xml'),  # json, case_sensitive
-                          timeout=Scalar(timeout, name=_timeout_))
+                          timeout=Scalar(timeout=timeout))
         if x[:6] == '<?xml ':
             e = _xml('Elevation', x)
             try:
@@ -222,7 +221,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
                         ('%s=%.6F' % (_lat_, Lat(lat)),
                          '%s=%.6F' % (_lon_, Lon(lon)),
                          '%s=%s' % ('model', model) if model else NN),
-                          timeout=Scalar(timeout, name=_timeout_))  # PYCHOK indent
+                          timeout=Scalar(timeout=timeout))  # PYCHOK indent
         if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
             d, e = _json(j), 'geoidHeight'
             if isinstance(_xkwds_get(d, error=_n_a_), float):

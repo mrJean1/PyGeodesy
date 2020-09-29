@@ -22,9 +22,9 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, haversine, isantipode, \
                             latlon2n_xyz,points2, thomas_, vincentys
-from pygeodesy.interns import EPS, EPS1, NN, R_M, _COMMA_SPACE_, _distance_, \
-                             _item_sq, _m_, _no_intersection_, _no_overlap_, \
-                             _1_, _2_, _3_, _0_0, _0_5, _1_0
+from pygeodesy.interns import EPS, EPS1, NN, R_M, _COMMA_SPACE_, _item_sq, \
+                             _m_, _near_concentric_, _no_intersection_, \
+                             _no_overlap_, _0_0, _0_5, _1_0
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, notOverloaded
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 
 class LatLonBase(_NamedBase):
@@ -933,9 +933,9 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
     # by perimeter intersection of three circles (radius is
     # only needed for spherical LatLon.distanceTo)
 
-    r1 = Distance_(d1, name=_distance_ + _1_)
-    r2 = Distance_(d2, name=_distance_ + _2_)
-    r3 = Distance_(d3, name=_distance_ + _3_)
+    r1 = Distance_(distance1=d1)
+    r2 = Distance_(distance2=d2)
+    r3 = Distance_(distance3=d3)
 
     m  = 0 if area else (r1 + r2 + r3)
     pc = 0
@@ -962,7 +962,7 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
                     m = min(m, d)
 
         except IntersectionError as x:
-            if 'concentric' in str(x):  # XXX ConcentricError?
+            if _near_concentric_ in str(x):  # XXX ConcentricError?
                 pc += 1
 
         p1, r1, p2, r2, p3, r3 = p2, r2, p3, r3, p1, r1  # rotate
@@ -971,13 +971,13 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
         t = tuple(sorted(t))
         n = len(t),  # as tuple
         # ... or for a single trilaterated result,
-        # min *is* max and minPoint *is* maxPoint
+        # min *is* max, min- *is* maxPoint and n=1
         return Trilaterate5Tuple(*(t[0] + t[-1] + n))
 
-    if area and pc == 3:  # all pairwise concentric
+    if area and pc == 3:  # all pairwise concentric ...
         r, p = min((r1, p1), (r2, p2), (r3, p3))
-        # return smallest point twice, the smallest and
-        # largest distance and count 0 for concentric
+        # ... return smallest point twice, the smallest
+        # and largest distance and n=0 for concentric
         return Trilaterate5Tuple(float(r), p, float(max(r1, r2, r3)), p, 0)
 
     t = _no_overlap_ if area else _no_intersection_

@@ -21,23 +21,23 @@ from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, 
                              _IsnotError, _ValueError, _xellipsoidal
 from pygeodesy.fmath import favg, fsum_
 from pygeodesy.formy import _euclidean, _radical2
-from pygeodesy.interns import EPS, EPS1, NN, PI, _COMMA_, _datum_, _ellipsoidal_, \
-                             _exceed_PI_radians_, _Missing, _N_, _near_concentric_, \
-                             _no_convergence_fmt_, _no_conversion_, _radius1_, \
-                             _radius2_, _too_distant_fmt_, _3_0  # PYCHOK used!
+from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
+from pygeodesy.interns import EPS, EPS1, NN, PI, _COMMA_, _datum_, _exceed_PI_radians_, \
+                             _Missing, _N_, _near_concentric_, _no_convergence_fmt_, \
+                             _no_conversion_, _too_distant_fmt_, _3_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import LatLon4Tuple, Vector3Tuple
-from pygeodesy.trf import _2epoch, RefFrame, TRFError, _reframeTransforms
-from pygeodesy.units import Radius_
+from pygeodesy.trf import RefFrame, TRFError, _reframeTransforms
+from pygeodesy.units import Epoch, Radius_
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '20.09.23'
+__version__ = '20.09.29'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
-_TRIPS = 16    # _intersects2 interations, 6 sufficient
+_TRIPS = 16    # _intersects2, _nearestOn interations, 6 is sufficient
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -67,7 +67,7 @@ class CartesianEllipsoidalBase(CartesianBase):
 
         c, d = self, self.datum
         for t in _reframeTransforms(reframe2, reframe, reframe.epoch if
-                                    epoch is None else _2epoch(epoch)):
+                                    epoch is None else Epoch(epoch)):
             c = c._applyHelmert(t, False, datum=d)
         return c
 
@@ -334,9 +334,9 @@ class LatLonEllipsoidalBase(LatLonBase):
             raise _ValueError(e.named2, txt=_incompatible(E.named2))
         return E
 
-    @property_doc_(''' this point's observed epoch (C{float}).''')
+    @property_doc_(''' this point's observed or C{reframe} epoch (C{float}).''')
     def epoch(self):
-        '''Get this point's observed epoch (C{float}) or C{None}.
+        '''Get this point's observed or C{reframe} epoch (C{float}) or C{None}.
         '''
         return self._epoch or (self.reframe.epoch if self.reframe else None)
 
@@ -345,11 +345,11 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''Set or clear this point's observed epoch.
 
            @arg epoch: Observed epoch, a fractional calendar year
-                       (C{scalar}) or C{None}.
+                       (L{Epoch}, C{scalar}) or C{None}.
 
-           @raise TypeError: The B{C{epoch}} is not C{scalar}.
+           @raise TRFError: Invalid B{C{epoch}}.
         '''
-        self._epoch = None if epoch is None else _2epoch(epoch)
+        self._epoch = None if epoch is None else Epoch(epoch)
 
     def geoidHeight2(self, adjust=False, datum=Datums.WGS84, timeout=2):
         '''Return geoid height of this point for its or the given datum.
@@ -399,7 +399,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg tol: Convergence tolerance (C{meter}).
 
            @return: 2-Tuple of the intersection points, each a C{LatLon}
-                    instance.  For abutting circles, the intersection
+                    instance.  For abutting circles, both intersection
                     points are the same instance.
 
            @raise IntersectionError: Concentric, antipodal, invalid or
@@ -453,7 +453,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @property_RO
     def iteration(self):
-        '''Get the iteration number (C{int} or C{None} if not available/applicable).
+        '''Get the iteration number (C{int} or C{None} if not available/applicable)
+           of the most recent C{intersections2} or C{nearestOn} invokation.
         '''
         return self._iteration
 
@@ -628,7 +629,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, wrap=False):
         '''Trilaterate three points by area overlap or perimeter intersection
-           of three circles.
+           three corresponding circles.
 
            @arg distance1: Distance to this point (C{meter}), same units
                            as B{C{eps}}).
@@ -639,7 +640,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @arg distance3: Distance to point3 (C{meter}, same units as
                            B{C{eps}}).
            @kwarg area: If C{True} compute the area overlap, otherwise the
-                        the perimeter intersection of the circles (C{bool}).
+                        perimeter intersection of the circles (C{bool}).
            @kwarg eps: The required I{minimal overlap} for C{B{area}=True}
                        or the I{intersection margin} for C{B{area}=False}
                        (C{meter}, conventionally).
@@ -648,17 +649,22 @@ class LatLonEllipsoidalBase(LatLonBase):
            @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
                     with C{min} and C{max} in C{meter}, same units as B{C{eps}},
                     the corresponding trilaterated points C{minPoint} and
-                    C{maxPoint} as I{ellipsoidal} C{LatLon} and count C{n}.  For
-                    C{B{area}=True}, C{min} and C{max} are the smallest respectively
-                    largest I{radial} overlap found.  For perimeter intersections
-                    C{B{area}=False}, C{min} and C{max} represent the nearest
-                    respectively farthest intersection margin.  If only a single
-                    trilaterated point is found, C{min I{is} max}, C{minPoint
-                    I{is} maxPoint} and count C{n = 1}.  If all 3 circles are
-                    concentric or near-concentric with C{B{area}=True}, count
-                    C{n = 0}, C{minPoint} and C{maxPoint} are both the B{C{point#}}
-                    with the smallest B{C{distance#}}, C{min} is that smallest and
-                    C{max} the largest B{C{distance#}} value.
+                    C{maxPoint} as I{ellipsoidal} C{LatLon} and C{n}, the number
+                    of trilatered points found for the given B{C{eps}}.
+
+                    If only a single trilaterated point is found, C{min I{is}
+                    max}, C{minPoint I{is} maxPoint} and C{n = 1}.
+
+                    For C{B{area}=True}, C{min} and C{max} are the smallest
+                    respectively largest I{radial} overlap found.
+
+                    For C{B{area}=False}, C{min} and C{max} represent the
+                    nearest respectively farthest intersection margin.
+
+                    If C{B{area}=True} and all 3 circles are concentric, C{n =
+                    0} and C{minPoint} and C{maxPoint} are both the B{C{point#}}
+                    with the smallest B{C{distance#}} C{min} and C{max} the
+                    largest B{C{distance#}}.
 
            @raise IntersectionError: Trilateration failed for the given B{C{eps}},
                                      insufficient overlap for C{B{area}=True} or
@@ -691,8 +697,8 @@ def _intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
     c1 = _xellipsoidal(center1=center1)
     c2 = c1.others(center2=center2)
 
-    r1 = Radius_(radius1, name=_radius1_)
-    r2 = Radius_(radius2, name=_radius2_)
+    r1 = Radius_(radius1=radius1)
+    r2 = Radius_(radius2=radius2)
 
     try:
         return _intersects2(c1, r1, c2, r2, height=height, wrap=wrap,
@@ -739,7 +745,7 @@ def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
     if fsum_(r1, r2, -m) < 0:
         raise ValueError(_too_distant_fmt_ % (m,))
 
-    f = _radical2(m, r1, r2).ratio  # "radical lat"
+    f = _radical2(m, r1, r2).ratio  # "radical fraction"
     r = E.rocMean(favg(c1.lat, c2.lat, f=f))
     e = max(m2degrees(tol, radius=r), EPS)
 
@@ -815,7 +821,7 @@ def _Equidistant(equidistant, datum):
 def _unrollon(p1, p2):  # unroll180 == .karney._unroll2
     # wrap, unroll and replace longitude if different
     _, lon = unroll180(p1.lon, p2.lon, wrap=True)
-    if abs(lon - p2.lon) < EPS:
+    if abs(lon - p2.lon) > EPS:
         p2 = p2.classof(p2.lat, lon, p2.height, datum=p2.datum)
     return p2
 

@@ -9,11 +9,11 @@ reference frames<https://www.Movable-Type.co.UK/scripts/geodesy-library.html>} J
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.07.07'
+__version__ = '20.09.27'
 
 from base import TestsBase
 
-from pygeodesy import date2epoch, epoch2date, F_D, F_DMS, RefFrames, TRFError
+from pygeodesy import date2epoch, Epoch, epoch2date, F_D, F_DMS, RefFrames, TRFError
 
 
 class Tests(TestsBase):
@@ -94,10 +94,10 @@ class Tests(TestsBase):
         self.test('TypeError', t, "type(reframe) ('ITRF2000'): not a RefFrame")
 
         try:
-            t = LatLon(0, 0, reframe=RefFrames.ITRF2000, epoch='2017')
-        except TypeError as x:
+            t = LatLon(0, 0, reframe=RefFrames.ITRF2000, epoch=1899)
+        except TRFError as x:
             t = str(x)
-        self.test('TypeError', t, "type(epoch) ('2017'): not scalar")
+        self.test(TRFError.__name__, t, "epoch (1899): below 1900 limit")
 
         try:
             t = LatLon(0, 0, reframe=RefFrames.ITRF2000).convertRefFrame('ITRF2000')
@@ -124,11 +124,11 @@ class Tests(TestsBase):
             t = str(x)
         self.test('TypeError', t, "type(reframe) ('ITRF2000'): not a RefFrame")
 
-        try:
-            t = c.convertRefFrame(RefFrames.ITRF2000, RefFrames.ITRF2000, '2000')
-        except TypeError as x:
-            t = str(x)
-        self.test('TypeError', t, "type(epoch) ('2000'): not scalar")
+#       try:
+#           t = c.convertRefFrame(RefFrames.ITRF2000, RefFrames.ITRF2000, '2000')
+#       except TypeError as x:
+#           t = str(x)
+#       self.test('TypeError', t, "type(epoch) ('2000'): not scalar")
 
     def testEpoch(self):
 
@@ -141,10 +141,10 @@ class Tests(TestsBase):
 
         r = RefFrames.GDA94
         t = r.toStr()
-        self.test('toStr', t, "name='GDA94', epoch=1994.0, ellipsoid=Ellipsoid(name='GRS80')")
+        self.test('toStr', t, "name='GDA94', epoch=1994, ellipsoid=Ellipsoid(name='GRS80')")
         self.test('str', str(r),t)
         t = r.toStr2()
-        self.test('toStr2', t, "RefFrame(name='GDA94', epoch=1994.0, ellipsoid=Ellipsoid(name='GRS80')")
+        self.test('toStr2', t, "RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoid(name='GRS80')")
         self.test('repr', repr(r), t)
 
         for y, m, d, x in ((2020,  1,  1, 2020.003),
@@ -156,6 +156,15 @@ class Tests(TestsBase):
             self.test('epoch', e, x, fmt='%.3f')
             t = epoch2date(e)
             self.test('y-m-d', t, (y, m, d), known=t[0] == 2021)
+
+        e = Epoch(Epoch=2020.)
+        self.test(e.toRepr() + '.std_repr', e.std_repr, False)
+        d = m = 0
+        for n in (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31):
+            m += 1
+            d += n
+            e = 2020.001 + d / 366.0
+            self.test(Epoch(Epoch=e).toRepr(), epoch2date(e), (2020, m, 1), known=m == 13)
 
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import favg
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
-from pygeodesy.interns import EPS, R_M, _E_, _N_, _NE_, NN, _NW_, _S_, \
+from pygeodesy.interns import EPS, NN, R_M, _E_, _N_, _NE_, _NW_, _S_, \
                              _SE_, _SW_, _W_, _0_5, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _NamedDict
@@ -34,7 +34,7 @@ from pygeodesy.utily import unrollPI
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '20.09.14'
+__version__ = '20.09.26'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -698,7 +698,7 @@ def encode(lat, lon, precision=None):
             gh.append(_GeohashBase32[i])
             b = i = 0
 
-    return ''.join(gh)
+    return NN.join(gh)
 
 
 def neighbors(geohash):

@@ -90,7 +90,7 @@ from pygeodesy.units import Radius_, Scalar
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 
 def _r_s2(s):

@@ -4,12 +4,12 @@
 # Test units module.
 
 __all__ = ('Tests',)
-__version__ = '20.09.21'
+__version__ = '20.09.27'
 
 from base import TestsBase
 
 from pygeodesy import Band, Bearing, Bearing_, Bool, \
-                      Epsg, Garef, Geohash, Georef, \
+                      Epoch, Epsg, Garef, Geohash, Georef, \
                       Int, Int_, Number_, Precision_, \
                       Lam_, Phi_, Str, Zone, Float, \
                       frechet, units
@@ -37,6 +37,7 @@ class Tests(TestsBase):
         self.test('.named2', u.named2, u.classname + ' %r' % (n,))
         self.test('.str', str(u), s)
         self.test('.toStr', u.toStr(), s)
+        self.test('.std_repr', u.std_repr, u.std_repr)
         self.test('.repr', repr(u), r if u.std_repr else R)
         self.test('.toRepr', u.toRepr(), R)
         self.test('.units', u.units, n)
@@ -82,7 +83,7 @@ class Tests(TestsBase):
     def testUnits(self):
         for U in self.pygeodesy_classes(_NamedUnit):
             if U not in (Band, Bool, Bearing_,
-                         Epsg, Garef, Geohash, Georef,
+                         Epoch, Epsg, Garef, Geohash, Georef,
                          Int, Int_, Number_, Precision_,
                          Str, Lam_, Phi_, Zone,
                          _FIx, _NamedUnit):
@@ -96,6 +97,9 @@ class Tests(TestsBase):
 
         for U in (Int, Int_, Number_, Precision_, Zone):
             self.testUnit(U, 2)
+
+        for U in (Epoch,):
+            self.testUnit(U, 1901, known=True)
 
         self.subtitle(units)  # courtesy JaapZee at Gmail
         self.test(Bearing.__name__,  Bearing(361), 1.0)

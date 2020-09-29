@@ -11,14 +11,14 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import issequence, isstr, map2
+from pygeodesy.basics import issequence, isstr, joined, map2
 from pygeodesy.errors import ParseError, _parseX,  RangeError, \
                             _rangerrors, _ValueError
-from pygeodesy.interns import _COMMA_, _deg_, _degrees_, _DOT_, _E_, \
-                              _EW_, _N_, _NE_, NN, _NS_, _NSEW_, _NW_, \
-                              _PLUS_, _prec_, _radians_, _S_, _SE_, \
-                              _SPACE_, _SW_, _W_, _0_, _0_5, _60_0, \
-                              _360_0, _3600_0  # PYCHOK used!
+from pygeodesy.interns import _COMMA_, _NE_, _NSEW_, _NW_, _SE_  # PYCHOK used!
+from pygeodesy.interns import NN, _deg_, _degrees_, _DOT_, _E_, \
+                             _EW_, _N_, _NS_, _PLUS_, _radians_, \
+                             _S_, _SPACE_, _SW_, _W_, _0_, _0_5, \
+                             _60_0, _360_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import fstr, fstrzs
 
@@ -29,7 +29,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '20.09.12'
+__version__ = '20.09.27'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix
@@ -129,15 +129,15 @@ def _toDMS(deg, form, prec, sep, ddd, suff):  # MCCABE 15 by .units.py
     if F is F_DMS:  # 'deg+min+sec'
         d, s = divmod(round(d * _3600_0, p), _3600_0)
         m, s = divmod(s, _60_0)
-        t = NN.join((_0wpF(ddd, 0, d), s_deg, sep,
-                     _0wpF(  2, 0, m), s_min, sep,
-                     _0wpF(w+2, p, s)))
+        t = joined(_0wpF(ddd, 0, d), s_deg, sep,
+                   _0wpF(  2, 0, m), s_min, sep,
+                   _0wpF(w+2, p, s))
         s = s_sec
 
     elif F is F_DM:  # 'deg+min'
         d, m = divmod(round(d * _60_0, p), _60_0)
-        t = NN.join((_0wpF(ddd, 0, d), s_deg, sep,
-                     _0wpF(w+2, p, m)))
+        t = joined(_0wpF(ddd, 0, d), s_deg, sep,
+                   _0wpF(w+2, p, m))
         s = s_min
 
     elif F is F_D:  # 'deg'
@@ -740,7 +740,7 @@ def precision(form, prec=None):
 
     if prec is not None:
         from pygeodesy.units import Precision_
-        _F_prec[form] = Precision_(prec, name=_prec_, low=-9, high=9)
+        _F_prec[form] = Precision_(prec=prec, low=-9, high=9)
 
     return p
 

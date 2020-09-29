@@ -17,20 +17,20 @@ sub-classes of C{_NamedTuple} defined here.
 
 # update imported names under if __name__ == '__main__':
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, issubclassof, \
-                             property_doc_, property_RO, _xcopy, _xkwds
+                             joined, joined_, property_doc_, property_RO, _xcopy, _xkwds
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
                              _ValueError, UnitError
 from pygeodesy.interns import NN, _AT_, _COLON_, _COLON_SPACE_, _COMMA_SPACE_, \
                              _CURLY_, _doesn_t_exist_, _DOT_, _dot_, _DUNDER_, \
-                             _dunder_name, _EQUAL_, _item_ps, _item_sq, _name_, \
-                             _other_, _PARENTH_, _SQUARE_, _UNDERSCORE_, _valid_
+                             _dunder_name, _EQUAL_, _invalid_, _item_ps, _item_sq, \
+                             _name_, _other_, _PARENTH_, _SQUARE_, _UNDERSCORE_, _valid_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.09.23'
+__version__ = '20.09.26'
 
 # __DUNDER gets mangled in class
 _immutable_ = 'immutable'
@@ -249,7 +249,7 @@ class _NamedBase(_Named):
                 if getattr(self, a, None) is not None:
                     setattr(self, a, None)
                 elif not hasattr(self, a):
-                    raise _AssertionError('.%s invalid: %r' % (a, self))
+                    raise _AssertionError('.%s %s: %r' % (a, _invalid_, self))
 
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
@@ -276,15 +276,16 @@ class _NamedBase(_Named):
                              instance's C{class} or C{type}.
         '''
         if other:  # most common, just one arg B{C{other}}
-            other_ = other[0]
-            if isinstance(self, other_.__class__) or \
-               isinstance(other_, self.__class__):
-                return other_
+            other0 = other[0]
+            if isinstance(other0, self.__class__) or \
+               isinstance(self, other0.__class__):
+                return other0
 
         other, name, up = _xother3(self, other, **name_other_up)
         if isinstance(self, other.__class__) or \
            isinstance(other, self.__class__):
             return other
+
         raise _xotherError(self, other, name=name, up=up + 1)
 
     def toRepr(self, **kwds):  # PYCHOK expected
@@ -804,7 +805,7 @@ def callername(up=1, dflt=NN, source=False):
             if n and (n.startswith(_DUNDER_) or
                   not n.startswith(_UNDERSCORE_)):
                 if source:
-                    n = NN.join((n, _AT_, f, _COLON_, str(s)))
+                    n = joined(n, _AT_, f, _COLON_, str(s))
                 return n
     except (AttributeError, ValueError):  # PYCHOK no cover
         pass
@@ -818,7 +819,7 @@ def _callname(name, class_name, self_name, up=1):  # imported by .points
     if c:
         n = _dot_(n, _item_ps(c, name))
     if self_name:
-        n = '%s %r' % (n, self_name)
+        n = joined_(n, repr(self_name))
     return n
 
 
@@ -832,9 +833,9 @@ def classname(inst, prefixed=None):
 
        @return: The B{C{inst}}'s C{[module.]class} name (C{str}).
     '''
-    return modulename(inst.__class__, prefixed or
-             (getattr(inst, 'classnaming', classnaming()) if
-                                      prefixed is None else False))
+    if prefixed is None:
+        prefixed = getattr(inst, classnaming.__name__, prefixed)
+    return modulename(inst.__class__, prefixed=prefixed)
 
 
 def classnaming(prefixed=None):
@@ -850,7 +851,7 @@ def classnaming(prefixed=None):
     return t
 
 
-def modulename(clas, prefixed=None):
+def modulename(clas, prefixed=None):  # in .basics._xversion
     '''Return the class name optionally prefixed with the
        module name.
 

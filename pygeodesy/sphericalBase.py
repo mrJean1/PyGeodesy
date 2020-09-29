@@ -21,7 +21,7 @@ from pygeodesy.errors import IntersectionError
 from pygeodesy.fmath import favg, fsum_
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
                              _exceed_PI_radians_, _near_concentric_, \
-                             _radius_, _too_distant_, _1_0, _180_0, _360_0
+                             _too_distant_, _1_0, _180_0, _360_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
@@ -34,7 +34,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -48,10 +48,10 @@ def _angular(distance, radius):  # PYCHOK for export
 def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
     '''(INTERNAL) Convert radii to radians.
     '''
-    r1 = Radius_(rad1, name='rad1')
-    r2 = Radius_(rad2, name='rad2')
+    r1 = Radius_(rad1=rad1)
+    r2 = Radius_(rad2=rad2)
     if radius is not None:  # convert radii to radians
-        r = _1_0 / Radius_(radius, name=_radius_)
+        r = _1_0 / Radius_(radius=radius)
         r1 *= r
         r2 *= r
 
@@ -94,7 +94,8 @@ class CartesianSphericalBase(CartesianBase):
            @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}} or B{C{radius}}.
 
            @see: U{Java code<https://GIS.StackExchange.com/questions/48937/
-                 calculating-intersection-of-two-circles>}.
+                 calculating-intersection-of-two-circles>} and function
+                 L{trilaterate3d2}.
         '''
         x1, x2 = self, self.others(other)
         r1, r2, x = _rads3(rad1, rad2, radius)

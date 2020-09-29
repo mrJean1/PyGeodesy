@@ -13,11 +13,11 @@ A pure Python implementation, partially transcribed from C++ class U{UTMUPS
 by I{Charles Karney}.
 '''
 
-from pygeodesy.basics import map1
+from pygeodesy.basics import joined_, map1
 from pygeodesy.datums import Datums
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
 from pygeodesy.interns import NN, _easting_, _MGRS_, _northing_, _NS_, \
-                             _outside_, _range_, _SPACE_, _UPS_, _UTM_
+                             _outside_, _range_, _UPS_, _UTM_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import modulename
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
@@ -28,7 +28,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                   UtmUps5Tuple, UtmUps8Tuple  # PYCHOK indent
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.09.22'
+__version__ = '20.09.26'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -204,8 +204,8 @@ def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
                 return
         except (TypeError, ValueError):
             pass
-        t = _SPACE_.join((_outside_, U, _range_, '[%.0F' % (lo,),
-                                                 '%.0F]' % (hi,)))
+        t = joined_(_outside_, U, _range_, '[%.0F' % (lo,),
+                                           '%.0F]' % (hi,))
         raise Error(ename, en, txt=t)
 
     if isinstance(coord, (Ups, Utm)):

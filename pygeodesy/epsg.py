@@ -25,7 +25,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
                                  _UTMUPS_ZONE_INVALID
 
 __all__ = _ALL_LAZY.epsg
-__version__ = '20.09.22'
+__version__ = '20.09.29'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -120,7 +120,7 @@ class Epsg(Int):
         h = s = self.hemisphere
         if h:
             s = _SPACE_
-        return ''.join(map(str, (z, b, s, h)))
+        return NN.join(map(str, (z, b, s, h)))
 
     @property_RO
     def zone(self):

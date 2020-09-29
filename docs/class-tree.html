@@ -227,13 +227,16 @@
         href="pygeodesy.dms-module.html#parseRad" 
         class="link">parseRad</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.trf.TRFError-class.html">pygeodesy.trf.TRFError</a></strong>:
-      <em class="summary">Terrestrial Reference Frame (TRF) or <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.TRFError-class.html">pygeodesy.errors.TRFError</a></strong>:
+      <em class="summary">Terrestrial Reference Frame (TRF), <a 
+        href="pygeodesy.units.Epoch-class.html" class="link">Epoch</a>, <a 
         href="pygeodesy.trf.RefFrame-class.html" class="link">RefFrame</a> 
-        conversion issue.</em>
+        or <a href="pygeodesy.trf.RefFrame-class.html" 
+        class="link">RefFrame</a> conversion issue.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.RefFrameError-class.html">pygeodesy.deprecated.RefFrameError</a></strong>:
-      <em class="summary">DEPRECATED, use class <a href="pygeodesy.trf.TRFError-class.html" 
+      <em class="summary">DEPRECATED, use class <a 
+        href="pygeodesy.errors.TRFError-class.html" 
         class="link">TRFError</a>.</em>
     </li>
     </ul>
@@ -1298,7 +1301,7 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.Curvature2Tuple-class.html">pygeodesy.ellipsoids.Curvature2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(meridional, prime_vertical)</code> of radii of 
-        curvature, both in <code>meter</code>, converionally.</em>
+        curvature, both in <code>meter</code>, conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Destination2Tuple-class.html">pygeodesy.namedTuples.Destination2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(destination, final)</code>, <code>destination</code>
@@ -1587,8 +1590,8 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.a_f2Tuple-class.html">pygeodesy.ellipsoids.a_f2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
-        <i>equatorial</i> radius (<code>meter</code>) and scalar 
-        <i>flattening</i>.</em>
+        <i>equatorial</i> radius <code>a</code> (<code>meter</code>) and 
+        scalar <i>flattening</i> <code>f</code>.</em>
     </li>
     </ul>
     </li>
@@ -1657,6 +1660,10 @@
       <em class="summary">Named <code>float</code> with optional <code>low</code> and 
         <code>high</code> limits representing a distance, conventionally in
         <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Epoch-class.html">pygeodesy.units.Epoch</a></strong>:
+      <em class="summary">Named <code>epoch</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a fractional calendar year.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Radius_-class.html">pygeodesy.units.Radius_</a></strong>:
       <em class="summary">Named <code>float</code> with optional <code>low</code> and 
@@ -1902,6 +1909,10 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>high</code> limits representing a distance, conventionally in
         <code>meter</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Epoch-class.html">pygeodesy.units.Epoch</a></strong>:
+      <em class="summary">Named <code>epoch</code> with optional <code>low</code> and 
+        <code>high</code> limits representing a fractional calendar year.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Radius_-class.html">pygeodesy.units.Radius_</a></strong>:
       <em class="summary">Named <code>float</code> with optional <code>low</code> and 
         <code>high</code> limits representing a radius, conventionally in 
@@ -2079,7 +2090,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.Curvature2Tuple-class.html">pygeodesy.ellipsoids.Curvature2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(meridional, prime_vertical)</code> of radii of 
-        curvature, both in <code>meter</code>, converionally.</em>
+        curvature, both in <code>meter</code>, conventionally.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Destination2Tuple-class.html">pygeodesy.namedTuples.Destination2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(destination, final)</code>, <code>destination</code>
@@ -2368,8 +2379,8 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.a_f2Tuple-class.html">pygeodesy.ellipsoids.a_f2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
-        <i>equatorial</i> radius (<code>meter</code>) and scalar 
-        <i>flattening</i>.</em>
+        <i>equatorial</i> radius <code>a</code> (<code>meter</code>) and 
+        scalar <i>flattening</i> <code>f</code>.</em>
     </li>
     </ul>
     </li>
@@ -2418,7 +2429,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Sep 23 17:20:03 2020
+    Generated by Epydoc 3.0.1 on Tue Sep 29 10:26:32 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

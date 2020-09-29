@@ -24,14 +24,6 @@ try:
     import geographiclib
 except ImportError:
     geographiclib = None
-try:
-    import numpy
-except ImportError:
-    numpy = None
-try:
-    import scipy
-except ImportError:
-    scipy = None
 
 test_dir = dirname(abspath(__file__))
 PyGeodesy_dir = dirname(test_dir)
@@ -44,14 +36,30 @@ from pygeodesy import anstr, clips, isLazy, issubclassof, iterNumpy2over, \
                       LazyImportError, map2, normDMS, pairs, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
 
-__all__ = ('coverage', 'geographiclib', 'numpy',  # constants
+__all__ = ('coverage', 'geographiclib', 'numpy', 'numpy_version',  # constants
            'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
            'isPython2', 'isPython3', 'isPython37', 'isWindows',
-           'PyGeodesy_dir', 'PythonX', 'scipy',
+           'PyGeodesy_dir', 'PythonX', 'scipy', 'scipy_version',
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.09.14'
+__version__ = '20.09.27'
+
+# don't test with numpy and/or scypi older than 1.9 resp. 1.0
+from pygeodesy import basics
+try:
+    numpy         = basics._xnumpy(basics, 1, 9)
+    numpy_version = float(numpy.__version__.rsplit('.', 1)[0])
+except ImportError:
+    numpy         = None
+    numpy_version = 0.0
+try:
+    scipy          = basics._xscipy(basics, 1, 0)
+    nscipy_version = float(scipy.__version__.rsplit('.', 1)[0])
+except ImportError:
+    scipy         = None
+    scipy_version = 0.0
+del basics
 
 try:
     _Ints = int, long
@@ -63,11 +71,6 @@ except NameError:  # Python 3+
 _os_bitstr = architecture()[0]  # XXX sys.maxsize
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 _SIsecs = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
-
-# don't test with numpy and/or scypi older than 1.9 resp. 1.0
-if (numpy and map2(int, numpy.__version__.split('.')[:2]) < (1, 9)) or \
-   (scipy and map2(int, scipy.__version__.split('.')[:2]) < (1, 0)):
-    numpy = scipy = None
 
 PythonX = sys.executable  # python or Pythonista path
 isIntelPython = 'intelpython' in PythonX

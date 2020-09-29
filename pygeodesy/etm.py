@@ -74,7 +74,7 @@ from pygeodesy.interns import EPS as _TOL, NN, PI_2, PI_4, _COMMA_SPACE_, \
                              _convergence_, _easting_, _lat_, _lon_, \
                              _northing_, _no_convergence_, _scale_, _0_0, \
                              _0_1, _0_5, _1_0, _2_0, _3_0, _90_0, _180_0
-from pygeodesy.interns import _k0_, _lon0_  # PYCHOK used!
+from pygeodesy.interns import _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
@@ -90,7 +90,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 _OVERFLOW = _1_0 / _TOL**2
 _TOL_10   = _0_1 * _TOL
@@ -482,7 +482,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise ETMError: Invalid B{C{k0}}.
         '''
-        self._k0 = Scalar_(k0, name=_k0_, Error=ETMError, low=_TOL_10, high=_1_0)
+        self._k0 = Scalar_(k0=k0, Error=ETMError, low=_TOL_10, high=_1_0)
         # if not self._k0 > 0:
         #     raise Scalar_.Error_(Scalar_, k0, name=_k0_, Error=ETMError)
         self._k0_a = self._k0 * self._a
@@ -499,7 +499,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise ValueError: Invalid B{C{lon0}}.
         '''
-        self._lon0 = _norm180(Lon(lon0, name=_lon0_))
+        self._lon0 = _norm180(Lon(lon0=lon0))
 
     def _reset(self, e, e2):
         '''(INTERNAL) Get elliptic functions and pre-compute some

@@ -29,8 +29,7 @@ from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.fmath import fdot, hypot_
-from pygeodesy.interns import NN, _COMMA_SPACE_, _elevation_, \
-                             _pole_, _SQUARE_
+from pygeodesy.interns import NN, _COMMA_SPACE_, _pole_, _SQUARE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _Named, _NamedTuple, _xnamed
 from pygeodesy.namedTuples import LatLon3Tuple
@@ -44,7 +43,7 @@ from pygeodesy.utily import atan2b, degrees90, sincos2d
 from math import asin
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -497,9 +496,9 @@ class Ned(_Named):
            >>> delta = Ned(110569, 111297, 1936)
            >>> delta.toStr(prec=0)  #  [N:110569, E:111297, D:1936]
         '''
-        self._north = Scalar(north or 0, name=_north_)
-        self._east  = Scalar(east  or 0, name=_east_)
-        self._down  = Scalar(down  or 0, name=_down_)
+        self._north = Scalar(north=north or 0)
+        self._east  = Scalar(east =east  or 0)
+        self._down  = Scalar(down =down  or 0)
         if name:
             self.name = name
 
@@ -801,7 +800,7 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
     d = Distance(distance)
 
     sb, cb, se, ce = sincos2d(Bearing(bearing),
-                               Height(elevation, name=_elevation_))
+                               Height(elevation=elevation))
     n  = cb * d * ce
     e  = sb * d * ce
     d *= se

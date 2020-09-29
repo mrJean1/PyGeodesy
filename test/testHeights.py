@@ -12,7 +12,7 @@ import warnings  # PYCHOK expected
 # warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings('ignore')  # or 'error'
 
-from base import coverage, geographiclib, scipy, TestsBase
+from base import coverage, geographiclib, TestsBase
 
 from pygeodesy import Datums, fstr, HeightError, \
                       HeightCubic, HeightLinear, \
@@ -166,7 +166,7 @@ class Tests(TestsBase):
         self.testIDW(HeightIDWvincentys,       kts, lli, '2.592742938', wrap=True)
         self.testIDW(HeightIDWvincentys,       kts, lli, '2.592742938', wrap=False)
 
-        if scipy:
+        try:
             interpolator = HeightLinear(kts)
             self.testCopy(interpolator)
             h = interpolator(lli)
@@ -208,8 +208,8 @@ class Tests(TestsBase):
                 self.test('SciPy 1.19 issue', str(x), str(x))
             self.testHeight(HeightSmoothBiSpline,     kts, lli, '2.598922541', lats, lons)
 
-        else:
-            self.skip('no scipy', n=80)
+        except ImportError as x:
+            self.skip(str(x), n=80)
 
 
 if __name__ == '__main__':  # PYCHOK internal error?

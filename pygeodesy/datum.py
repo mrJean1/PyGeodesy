@@ -3,13 +3,15 @@
 
 u'''DEPRECATED, use module L{datums} or L{ellipsoids} instead.
 '''
-from pygeodesy.ellipsoids import *  # R_M, R_MA, R_MB, R_KM, R_NM, R_SM, R_FM, R_VM, \
-from pygeodesy.ellipsoids import Curvature2Tuple  # Ellipsoid, Ellipsoids  # PYCHOK exported
-from pygeodesy.datums import *  # Datum, Datums, Transform, Transforms  # PYCHOK exported
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+# XXX only the items previously public
+from pygeodesy.ellipsoids import R_M, R_MA, R_MB, R_KM, R_NM, R_SM, R_FM, R_VM, \
+                                 Ellipsoid, Ellipsoids, Curvature2Tuple  # PYCHOK exported
+from pygeodesy.datums import Datum, Datums, Transform, Transforms  # PYCHOK exported
 
-__all__ = _ALL_LAZY.datums + _ALL_LAZY.ellipsoids + _ALL_DOCS(Curvature2Tuple)
-__version__ = '20.08.25'
+__all__ = ('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
+            Datum.__name__, Ellipsoid.__name__, Transform.__name__, Curvature2Tuple.__name__,
+           'Datums',       'Ellipsoids',       'Transforms')
+__version__ = '20.09.27'
 
 # **) MIT License
 #

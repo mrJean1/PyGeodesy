@@ -38,7 +38,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -83,8 +83,8 @@ class Wm(_NamedBase):
            >>> import pygeodesy
            >>> w = pygeodesy.Wm(448251, 5411932)
         '''
-        self._x = Easting( x, name=_x_, Error=WebMercatorError)
-        self._y = Northing(y, name=_y_, Error=WebMercatorError)
+        self._x = Easting( x=x, Error=WebMercatorError)
+        self._y = Northing(y=y, Error=WebMercatorError)
         self._radius = Radius_(radius, Error=WebMercatorError)
 
         if name:

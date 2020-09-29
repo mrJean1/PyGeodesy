@@ -9,7 +9,7 @@ __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'NN',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4',
            'R_M')  # import by .lazily
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
@@ -20,12 +20,10 @@ _2_                  = '2'                    # PYCHOK expected
 _3_                  = '3'                    # PYCHOK expected
 _areaOf_             = 'areaOf'               # PYCHOK expected
 _ambiguous_          = 'ambiguous'            # PYCHOK expected
-_angle_              = 'angle'                # PYCHOK expected
 _AT_                 = '@'                    # PYCHOK expected
 _azimuth_            = 'azimuth'              # PYCHOK expected
 _band_               = 'band'                 # PYCHOK expected
 _bearing_            = 'bearing'              # PYCHOK expected
-_beta_               = 'beta'                 # PYCHOK expected
 _C_                  = 'C'                    # PYCHOK expected
 _Cartesian_          = 'Cartesian'            # PYCHOK expected
 _coincident_         = 'coincident'           # PYCHOK expected
@@ -41,17 +39,16 @@ _deg_                = 'deg'                  # PYCHOK expected
 _degrees_            = 'degrees'              # PYCHOK expected
 _degrees2_           = 'degrees2'             # PYCHOK SQUARED
 _distance_           = 'distance'             # PYCHOK expected
-_distance2_          = 'distance2'            # PYCHOK SQUARED
 _distanceTo_         = 'distanceTo'           # PYCHOK expected
 _doesn_t_exist_      = "doesn't exist"        # PYCHOK expected
 _DOT_                = '.'                    # PYCHOK expected
 _E_                  = 'E'                    # PYCHOK expected
 _easting_            = 'easting'              # PYCHOK expected
-_elevation_          = 'elevation'            # PYCHOK expected
 _ellipsoid_          = 'ellipsoid'            # PYCHOK expected
 _ellipsoidal_        = 'ellipsoidal'          # PYCHOK expected
 _encode_             = 'encode'               # PYCHOK expected
 _end_                = 'end'                  # PYCHOK expected
+_epoch_              = 'epoch'                # PYCHOK expected
 _EQUAL_              = '='                    # PYCHOK expected
 _exceed_PI_radians_  = 'exceed PI radians'    # PYCHOK expected
 _feet_               = 'feet'                 # PYCHOK expected
@@ -77,8 +74,6 @@ _len_                = 'len'                  # PYCHOK expected
 _linear_             = 'linear'               # PYCHOK expected
 _lon_                = 'lon'                  # PYCHOK expected
 _lon0_               = 'lon0'                 # PYCHOK expected
-_lon1_               = 'lon1'                 # PYCHOK expected
-_lon2_               = 'lon2'                 # PYCHOK expected
 _m_                  = 'm'                    # PYCHOK expected
 _M_                  = 'M'                    # PYCHOK expected
 _meanOf_             = 'meanOf'               # PYCHOK expected
@@ -112,7 +107,6 @@ _PLUS_               = '+'                    # PYCHOK expected
 _point_              = 'point'                # PYCHOK expected
 _points_             = 'points'               # PYCHOK expected
 _pole_               = 'pole'                 # PYCHOK expected
-_prec_               = 'prec'                 # PYCHOK expected
 _precision_          = 'precision'            # PYCHOK expected
 _radians_            = 'radians'              # PYCHOK expected
 _radians2_           = 'radians2'             # PYCHOK SQUARED
@@ -121,7 +115,6 @@ _radius1_            = 'radius1'              # PYCHOK expected
 _radius2_            = 'radius2'              # PYCHOK expected
 _range_              = 'range'                # PYCHOK expected
 _reciprocal_         = 'reciprocal'           # PYCHOK expected
-_res_                = 'res'                  # PYCHOK expected
 _resolution_         = 'resolution'           # PYCHOK expected
 _S_                  = 'S'                    # PYCHOK expected
 _scalar_             = 'scalar'               # PYCHOK expected

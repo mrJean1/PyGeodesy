@@ -14,12 +14,14 @@ from pygeodesy.interns import NN, _COLON_, _COMMA_, _COMMA_SPACE_, \
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 _limiterrors      =  True  # imported by .formy
+_name_value_      =  repr('name=value')
 _not_ellipsoidal_ = 'not ellipsoidal'
 # _not_spherical_ = 'not spherical'
 _rangerrors       =  True  # imported by .dms
+_specified_       = 'specified'
 
 try:
     _exception_chaining = None  # not available
@@ -211,6 +213,13 @@ class SciPyWarning(PointsError):
     pass
 
 
+class TRFError(_ValueError):
+    '''Terrestrial Reference Frame (TRF), L{Epoch}, L{RefFrame}
+       or L{RefFrame} conversion issue.
+    '''
+    pass
+
+
 class UnitError(_ValueError):
     '''Default exception for L{units} issues.
     '''
@@ -286,14 +295,14 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
     elif name_value:
         t = str(name_value[0])
     else:
-        t = '%s %s' % (_Missing, _Missing)
+        t = _name_value_ + _SPACE_ +  str(_Missing)
 
     if txt is None:
         x = NN
     else:
         x = str(txt) or _invalid_
         c = _COMMA_ if _COLON_ in t else _COLON_
-        t = NN.join((t, c, _SPACE_, x))
+        t = t + c + _SPACE_ + x
     Error.__init__(inst, t)
 #   inst.__x_txt__ = x  # hold explanation
     _cause_(inst)  # no Python 3+ exception chaining
@@ -318,7 +327,7 @@ def exception_chaining(error=None):
 def _incompatible(this):
     '''(INTERNAL) Format an incompatible text.
     '''
-    return _SPACE_.join(('incompatible', 'with', str(this)))
+    return 'incompatible with ' + str(this)
 
 
 def _InvalidError(Error=_ValueError, **txt_name_values):  # txt=_invalid_, name=value [, ...]
@@ -355,11 +364,9 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeeError]
        @return: A C{TypeError} or an B{C{Error}} instance.
     '''
     Error = _xkwds_pop(name_value_Error, Error=TypeError)
-    for n, v in name_value_Error.items():
-        break
-    else:
-        n, v = repr('name=value'), _Missing
-    t = _or(*nouns) or 'specified'
+    n, v = name_value_Error.popitem() if name_value_Error else (
+          _name_value_, _Missing)  # XXX else tuple(...)
+    t = _or(*nouns) or _specified_
     if len(nouns) > 1:
         t = _an(t)
     e = Error('%s (%r) not %s' % (n, v, t))
@@ -392,7 +399,7 @@ def _or(*words):
         t = w.pop()
         if w:
             w = _COMMA_SPACE_.join(w)
-            t = ' or '.join((w, t))
+            t = w + ' or ' + t
     return t
 
 
@@ -443,7 +450,7 @@ def rangerrors(raiser=None):
 
 def _SciPyIssue(x, *extras):  # PYCHOK no cover
     t = map(str, extras) if extras else []
-    t = ' '.join(str(x).strip().split() + t)
+    t = _SPACE_.join(str(x).strip().split() + t)
     if isinstance(x, (RuntimeWarning, UserWarning)):
         X = SciPyWarning
     else:
@@ -480,21 +487,20 @@ def _xkwds_Error(_xkwds_func, kwds, name_default):
 def _xkwds_get(kwds, **name_default):
     '''(INTERNAL) Get a C{kwds} value by C{name}, or the C{default}.
     '''
-    if len(name_default) != 1:
-        raise _xkwds_Error(_xkwds_get, kwds, name_default)
+    if len(name_default) == 1:
+        for n, d in name_default.items():
+            return kwds.get(n, d)
 
-    for n, d in name_default.items():
-        return kwds.get(n, d)
+    raise _xkwds_Error(_xkwds_get, kwds, name_default)
 
 
 def _xkwds_pop(kwds, **name_default):
     '''(INTERNAL) Pop a C{kwds} value by C{name}, or the C{default}.
     '''
-    if len(name_default) != 1:
-        raise _xkwds_Error(_xkwds_pop, kwds, name_default)
+    if len(name_default) == 1:
+        return kwds.pop(*name_default.popitem())
 
-    for n, d in name_default.items():
-        return kwds.pop(n, d)
+    raise _xkwds_Error(_xkwds_pop, kwds, name_default)
 
 # **) MIT License
 #

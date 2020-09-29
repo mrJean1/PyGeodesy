@@ -17,9 +17,9 @@ sub-classes of C{_NamedTuple} defined here.
 
 # update imported names under if __name__ == '__main__':
 from pygeodesy.basics import _xinstanceof
-from pygeodesy.interns import _angle_, _datum_, _distance_, _distance2_, \
-                              _easting_, _h_, _height_, _lam_, _lat_, _lon_, \
-                              _n_, _northing_, _number_, _phi_, _points_, \
+from pygeodesy.interns import _datum_, _distance_, _easting_, _h_, \
+                              _height_, _lam_, _lat_, _lon_, _n_, \
+                              _northing_, _number_, _phi_, _points_, \
                               _precision_, _radius_, _x_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedTuple, _Pass
@@ -28,7 +28,7 @@ from pygeodesy.units import Bearing, Degrees, Degrees2, Easting, Height, \
                             Precision_, Radius, Scalar
 
 __all__ = ()
-__version__ = '20.09.23'
+__version__ = '20.09.27'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
@@ -102,7 +102,7 @@ class Distance4Tuple(_NamedTuple):  # .formy.py, .points.py
               to C{meter} as M{degrees2m(sqrt(distance2), ...)} or
               M{degrees2m(hypot(delta_lat, delta_lon), ...)}.
     '''
-    _Names_ = (_distance2_, 'delta_lat', 'delta_lon', 'unroll_lon2')
+    _Names_ = ('distance2', 'delta_lat', 'delta_lon', 'unroll_lon2')
     _Units_ = ( Degrees2,    Degrees,     Degrees,     Degrees)
 
 
@@ -226,7 +226,7 @@ class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
        and C{angle} to the C{closest} point are in C{meter}
        respectively compass C{degrees360}.
     '''
-    _Names_ = ('closest', _distance_, _angle_)
+    _Names_ = ('closest', _distance_, 'angle')
     _Units_ = (_Pass,      Meter,      Degrees)
 
 

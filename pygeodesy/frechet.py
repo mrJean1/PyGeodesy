@@ -100,7 +100,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '20.09.22'
+__version__ = '20.09.24'
 
 
 def _fraction(fraction, n):
@@ -232,7 +232,7 @@ class Frechet(_Named):
 
     @fraction.setter  # PYCHOK setter!
     def fraction(self, fraction):
-        '''Set the the index fraction (C{float} or C{1}).
+        '''Set the index fraction (C{float} or C{1}).
 
            @arg fraction: Index fraction (C{float} in L{EPS}..L{EPS1}) to
                           interpolate intermediate B{C{points}} or use

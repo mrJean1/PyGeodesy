@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.09.18'
+__version__ = '20.09.24'
 
 
 def _c2(*names):
@@ -65,7 +65,7 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'LocalCartesian', 'longitude', 'lune',
              'Mercator', 'MGRS',
              'nearest', 'numpy', 'n-vector', 'Nvector',
-             'oblate', 'orthographic', 'OSGR',
+             'oblate', 'orthographic', 'OSGR', 'overlap',
              'Parametric', 'path-intersection', 'perimeter',
              'Peucker', 'polar', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
@@ -74,7 +74,7 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'scipy', 'simplify', 'Snyder', 'Soldner', 'sphere', 'stereographic',
              'Sudano', 'Sutherland', 'Sutherland-Hodgman',
              'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
-             'Transverse', 'TransverseMercatorExact', 'TRF', 'trigonometry',
+             'Transverse', 'TransverseMercatorExact', 'TRF', 'trigonometry', 'trilateration',
              'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'Veness', 'Vermeille', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
              'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam', 'You')

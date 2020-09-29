@@ -40,28 +40,25 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
-from pygeodesy.basics import isscalar, map1, property_RO
+from pygeodesy.basics import map1, property_RO
 from pygeodesy.datums import _ellipsoid, Transform
 from pygeodesy.ellipsoids import Ellipsoids
-from pygeodesy.errors import _ValueError, _TypeError
+from pygeodesy.errors import TRFError
 from pygeodesy.interns import NN, _COMMA_SPACE_, _ellipsoid_, \
-                             _float as _F, _floatuple as _T, \
-                             _name_, _no_conversion_, \
-                             _not_scalar_, _0_0
+                             _epoch_, _float as _F, _floatuple as _T, \
+                             _name_, _no_conversion_, _0_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedDict as _D, \
                            _NamedEnum, _NamedEnumItem
-from pygeodesy.streprs import fstrzs
-from pygeodesy.units import Float_
+from pygeodesy.units import Epoch
 
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
-_366_0  = _F(366)
-_epoch_ = 'epoch'
-_mDays  = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
+_366_0 = _F(366)
+_mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
 
 
 class _S(object):
@@ -93,30 +90,16 @@ class _S(object):
 _S = _S()  # PYCHOK freeze
 
 
-def _2epoch(epoch):  # imported by .ellipsoidalBase
-    '''(INTERNAL) Validate an C{epoch}.
-    '''
-    if isscalar(epoch) and epoch > 0:  # XXX 1970?
-        return _F(epoch)
-    raise _TypeError(epoch=epoch, txt=_not_scalar_)
-
-
-class TRFError(_ValueError):
-    '''Terrestrial Reference Frame (TRF) or L{RefFrame} conversion issue.
-    '''
-    pass
-
-
 class RefFrame(_NamedEnumItem):
     '''Terrestrial Reference Frame (TRF) parameters.
     '''
     _ellipsoid = None  # ellipsoid GRS80 or WGS84 (L{Ellipsoid} or L{Ellipsoid2})
-    _epoch     = _0_0  # epoch, calendar year (C{float})
+    _epoch     = _0_0  # epoch, calendar year (L{Epoch} or C{float})
 
     def __init__(self, epoch, ellipsoid, name=NN):
         '''New L{RefFrame}.
 
-           @arg epoch: Epoch, a fractional calendar year (C{scalar}).
+           @arg epoch: Epoch, a fractional calendar year (C{scalar} or C{str}).
            @arg ellipsoid: The ellipsoid (L{Ellipsoid}, L{Ellipsoid2},
                            L{datum} or L{a_f2Tuple}).
            @kwarg name: Optional, unique name (C{str}).
@@ -124,11 +107,12 @@ class RefFrame(_NamedEnumItem):
            @raise NameError: A L{RefFrame} with that B{C{name}}
                              already exists.
 
-           @raise TypeError: If B{C{epoch}} is not C{scalar} or
-                             B{C{ellipsoid}} is invalid.
+           @raise TRFError: Invalid B{C{epoch}}.
+
+           @raise TypeError: Invalid B{C{ellipsoid}}.
         '''
         self._ellipsoid = _ellipsoid(ellipsoid, name=name)
-        self._epoch = _2epoch(epoch)
+        self._epoch = Epoch(epoch)
         self._register(RefFrames, name)
 
     @property_RO
@@ -139,7 +123,7 @@ class RefFrame(_NamedEnumItem):
 
     @property_RO
     def epoch(self):
-        '''Get this reference frame's epoch (C{float}).
+        '''Get this reference frame's epoch (C{Epoch}).
         '''
         return self._epoch
 
@@ -150,7 +134,7 @@ class RefFrame(_NamedEnumItem):
         '''
         e = self.ellipsoid
         t = ('%s=%r'        % (_name_, self.name),
-             '%s=%s'        % (_epoch_, fstrzs('%.3F' % (self.epoch,))),
+             '%s=%s'        % (_epoch_, self.epoch),
              '%s=%s(%s=%r)' % (_ellipsoid_, classname(e), _name_, e.name))
         return _COMMA_SPACE_.join(t)
 
@@ -190,7 +174,7 @@ def date2epoch(year, month, day):
     try:
         y, m, d = map1(int, year, month, day)
         if y > 0 and 1 <= m <= 12 and 1 <= d <= _mDays[m]:
-            return y + float(sum(_mDays[:m]) + d) / _366_0
+            return Epoch(y + float(sum(_mDays[:m]) + d) / _366_0, low=0)
 
         t = NN  # _invalid_
     except (TRFError, TypeError, ValueError) as x:
@@ -205,10 +189,12 @@ def epoch2date(epoch):
 
        @return: 3-Tuple C{(year, month, day)}.
 
+       @raise TRFError: Invalid B{C{epoch}}.
+
        @note: Any B{C{year}} is considered a leap year, i.e. having
               29 days in February.
     '''
-    e = Float_(epoch, name=_epoch_, Error=TRFError, low=0)
+    e = Epoch(epoch, Error=TRFError, low=0)
     y = int(e)
     d = int(ceil(_366_0 * (e - y)))
     for m, n in enumerate(_mDays[1:]):

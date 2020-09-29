@@ -4,9 +4,9 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.23'
+__version__ = '20.09.27'
 
-from base import coverage, TestsBase
+from base import coverage, numpy_version, TestsBase
 
 from pygeodesy import F_D, fstr, IntersectionError, NEG0, \
                       sphericalNvector, vector3d, VectorError
@@ -273,6 +273,34 @@ class Tests(TestsBase):
 
         self.testNvectorBase(module)
 
+    def testVector3d(self, module, Vector):
+
+        self.subtitle(module, Vector.__name__)
+        try:
+            _t3d2 = vector3d.trilaterate3d2
+            # <https://www.ResearchGate.net/publication/
+            #        275027725_An_Algebraic_Solution_to_the_Multilateration_Problem>
+            c1, r1 = Vector(27.297, -4.953, 1.470), 3.851  # 3.857
+            c2, r2 = Vector(25.475, -6.124, 2.360), 3.875  # 3.988
+            c3, r3 = Vector(22.590,  0.524, 1.200), 3.514  # 3.497
+            t = _t3d2(c1, r1, c2, r2, c3, r3, Vector=Vector)
+            k = numpy_version < 1.12
+            self.test(_t3d2.__name__, len(t), 2)
+            self.test(_t3d2.__name__, t[0], '(24.35062, -2.48109, 1.66673)', known=k)
+            self.test(_t3d2.__name__, t[1], '(24.31229, -2.52045, 1.53649)', known=k)
+            try:  # concentric
+                t = _t3d2(c3, r1, c2, r2, c3, r3, Vector=Vector)
+                self.test(_t3d2.__name__, t, IntersectionError.__name__)
+            except IntersectionError as x:
+                self.test(_t3d2.__name__, str(x), str(x))
+            try:  # too distant
+                t = _t3d2(c1, r1 * 0.1, c2, r2 * 0.1, c3, r3, Vector=Vector)
+                self.test(_t3d2.__name__, t, IntersectionError.__name__)
+            except IntersectionError as x:
+                self.test(_t3d2.__name__, str(x), str(x))
+        except ImportError as x:
+            self.skip(str(x), n=5)
+
 
 if __name__ == '__main__':
 
@@ -285,6 +313,9 @@ if __name__ == '__main__':
 
     t.testNvectorBase(nvectorBase, datum=Datums.Sphere)
     t.testNvectorBase(nvectorBase, datum=Datums.WGS84)
+
+    t.testVector3d(nvectorBase, nvectorBase.NvectorBase)
+    t.testVector3d(vector3d,    vector3d.Vector3d)
 
     t.results()
     t.exit()

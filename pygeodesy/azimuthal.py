@@ -34,10 +34,9 @@ from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError
 from pygeodesy.fmath import Fsum
 from pygeodesy.interns import EPS, EPS1, NAN, NN, PI, PI_2, _azimuth_, \
-                             _COMMA_SPACE_, _datum_, _lat_, _lat0_, \
-                             _lon_, _lon0_, _name_, _no_convergence_fmt_, \
-                             _scale_, _SPACE_, _x_, _y_, _0_0, _0_5, \
-                             _1_0, _2_0, _360_0
+                             _COMMA_SPACE_, _datum_, _lat_, _lon_, _name_, \
+                             _no_convergence_fmt_, _scale_, _SPACE_, \
+                             _x_, _y_, _0_0, _0_5, _1_0, _2_0, _360_0
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
@@ -50,7 +49,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 _EPS_Karney    =  sqrt(EPS) * 0.01  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -184,16 +183,16 @@ class _AzimuthalBase(_NamedBase):
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
-        self._latlon0 = LatLon2Tuple(Lat_(lat0, name=_lat0_, Error=AzimuthalError),
-                                     Lon_(lon0, name=_lon0_, Error=AzimuthalError))
+        self._latlon0 = LatLon2Tuple(Lat_(lat0=lat0, Error=AzimuthalError),
+                                     Lon_(lon0=lon0, Error=AzimuthalError))
         self._sc0     = tuple(sincos2d(self.lat0))
         self._radius  = None
 
     def _reverse(self, x, y, name, LatLon, LatLon_kwds, _c_t, lea):
         '''(INTERNAL) Azimuthal (spherical) reverse C{x, y} to C{lat, lon}.
         '''
-        x = Scalar(x, name=_x_)
-        y = Scalar(y, name=_y_)
+        x = Scalar(x=x)
+        y = Scalar(y=y)
 
         r = hypot(x, y)
         c, t = _c_t(r / self.radius)
@@ -461,8 +460,8 @@ class EquidistantKarney(_AzimuthalBaseKarney):
                   North and is C{1 / reciprocal} in the direction perpendicular
                   to this.
         '''
-        x = Meter(x, name=_x_)
-        y = Meter(y, name=_y_)
+        x = Meter(x=x)
+        y = Meter(y=y)
 
         z = atan2d(x, y)  # (x, y) for azimuth from true North
         s = hypot( x, y)
@@ -645,8 +644,8 @@ class GnomonicKarney(_AzimuthalBaseKarney):
                   direction and C{1 / reciprocal} in the direction perpendicular
                   to this.
         '''
-        x = Scalar(x, name=_x_)
-        y = Scalar(y, name=_y_)
+        x = Scalar(x=x)
+        y = Scalar(y=y)
 
         z = atan2d(x, y)  # (x, y) for azimuth from true North
         q = hypot( x, y)

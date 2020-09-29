@@ -31,7 +31,7 @@ from pygeodesy.utily import atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 _EPS__2 = EPS**2
 _EPS__4 = EPS**4
@@ -408,8 +408,8 @@ class _AlbersBase(_NamedBase):
                   B{C{x}} or B{C{y}} point is outside the valid projected
                   space the nearest pole is returned.
         '''
-        x = Meter(x, name=_x_)
-        y = Meter(y, name=_y_)
+        x = Meter(x=x)
+        y = Meter(y=y)
         E = self.datum.ellipsoid
 
         k0    = self._k0

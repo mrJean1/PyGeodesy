@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Degrees, Easting, Lat, Lon, Northing, \
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -192,9 +192,9 @@ class UtmUpsBase(_NamedBase):
             self._falsed = False
 
         if convergence is not self._convergence:
-            self._convergence = Scalar(convergence, name=_convergence_, Error=E)
+            self._convergence = Scalar(convergence=convergence, Error=E)
         if scale is not self._scale:
-            self._scale = Scalar(scale, name=_scale_, Error=E)
+            self._scale = Scalar(scale=scale, Error=E)
 
     def __repr__(self):
         return self.toRepr(B=True)
@@ -372,14 +372,14 @@ class UtmUps8Tuple(_NamedTuple):
     _Names_ = (_zone_,  _hemipole_, _easting_, _northing_,
                _band_,  _datum_, _convergence_, _scale_)
     _Units_ = ( Number_, Str,        Easting,   Northing,
-                Band,   _Pass,    Degrees,       Scalar)
+                Band,   _Pass,   _Pass,         _Pass)
 
     def __new__(cls, z, h, e, n, B, d, c, s, Error=None):
         if Error is not None:
             e = Easting( e, Error=Error)
             n = Northing(n, Error=Error)
-            c = Scalar(c, name=_convergence_, Error=Error)
-            s = Scalar(s, name=_scale_, Error=Error)
+            c = Degrees(convergence=c, Error=Error)
+            s = Scalar(scale=s, Error=Error)
         return _NamedTuple.__new__(cls, z, h, e, n, B, d, c, s)
 
 

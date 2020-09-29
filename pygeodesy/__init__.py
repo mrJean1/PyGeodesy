@@ -16,15 +16,15 @@ There are three modules for ellipsoidal earth models, C{ellipsoidalKarney},
 C{-Vincenty} and C{-Nvector} and two for spherical ones, C{sphericalTrigonometry}
 and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}} and a geocentric
 B{C{Cartesian}} class with methods and functions to compute distance, area,
-perimeter, initial and final bearing, intermediate and nearest points,
-intersections of circles, path intersections, conversions and unrolling, among
-other things.  For more information and further details see the U{documentation
-<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of U{Latitude/Longitude
-<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{Vincenty
-<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and U{Vector-based
-<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy, the original
-U{JavaScript source<https://GitHub.com/ChrisVeness/geodesy>} or U{docs
-<https://www.Movable-Type.co.UK/scripts/geodesy/docs>} and the Python
+perimeter, initial and final bearing, intermediate and nearest points, intersections
+of circles, path intersections, trilateration (intersection, overlap and 3d), conversions
+and unrolling, among other things.  For more information and further details see the
+U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of
+U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
+U{Vincenty<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and
+U{Vector-based<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy,
+the original U{JavaScript source<https://GitHub.com/ChrisVeness/geodesy>} or
+U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>} and the Python
 U{geographiclib<https://PyPI.org/project/geographiclib>}.
 
 Also included are modules for conversions to and from U{Cassini-Soldner
@@ -105,7 +105,7 @@ tests, the test results (on macOS only) and the complete U{documentation
 Tests
 =====
 
-The tests have been run with Python 3.8.5, 3.7.6 and 2.7.18 (all with
+The tests have been run with Python 3.8.6, 3.7.6 and 2.7.18 (all with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50, U{numpy
 <https://PyPI.org/project/numpy>} 1.19.0, 1.17.2 respectively 1.16.5 and
 U{scipy<https://SciPy.org/scipylib/download.html>} 1.5.0, 1.3.1 respectively
@@ -115,7 +115,7 @@ geographiclib, numpy and scipy), all on macOS 10.15.6 Catalina and all in
 The results of those tests are included in the distribution files.
 
 Test coverage has been measured with U{coverage
-<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.8.5 and 3.7.6
+<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.8.6 and 3.7.6
 (both with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.0 respectively 1.17.2 and
 U{scipy<https://SciPy.org/scipylib/download.html>} 1.5.0 respectively
@@ -140,7 +140,7 @@ Python 3.7.3 on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 1.14.0, 1.15.2
-or 1.16.2), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 3.7.5, 3.8 thru 3.8.3,
+or 1.16.2), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 3.7.5, 3.8 thru 3.8.5,
 U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3), U{PyPy
 <https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9) and U{Intel-Python
 <https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
@@ -246,7 +246,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var MIN:    System's M{float min} ≈ 2.225e-308 (C{float}).
 @var NAN:    Not-A-Number (C{float}), see function L{isnan}.
 @var NEG0:   Negative 0.0 (C{float}), see function L{isneg0}.
-@var NN:     Empty (C{str}), U{Nomen Nescio<https://Wiktionary.org/wiki/N.N.>}.
+@var NN:     Empty (C{str}), U{I{Nomen Nescio}<https://Wiktionary.org/wiki/N.N.>}.
 
 @var PI:   Constant M{math.pi} (C{float}).
 @var PI2:  Two PI, M{PI * 2}, aka I{Tau} (C{float}).
@@ -289,7 +289,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.09.23'
+__version__ = '20.09.29'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

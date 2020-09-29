@@ -53,16 +53,17 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import _bkwds, isscalar, len2, map1, map2, property_RO
+from pygeodesy.basics import _bkwds, isscalar, len2, map1, map2, property_RO, \
+                             _xnumpy, _xscipy
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _AssertionError, LenError, PointsError, _SciPyIssue
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
-                           _scale_rad, thomas_, vincentys_  # PYCHOK indent
-from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _beta_, _cubic_, \
-                             _datum_, _distanceTo_, _item_sq, _knots_, \
-                             _len_, _linear_, _0_0
+                            _scale_rad, thomas_, vincentys_
+from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _cubic_, _datum_, \
+                             _distanceTo_, _item_sq, _knots_, _len_, \
+                             _linear_, _0_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
@@ -70,7 +71,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 
 class HeightError(PointsError):
@@ -234,7 +235,7 @@ class _HeightBase(_Named):  # imported by .geoids
         return self._kmin
 
     def _NumSciPy(self, throwarnings=False):
-        '''(INTERNAL) Import C{numpy} and C{scipy}.
+        '''(INTERNAL) Import C{numpy} and C{scipy}, once.
         '''
         if throwarnings:  # raise SciPyWarnings, but ...
             # ... not if scipy has been imported already
@@ -243,16 +244,20 @@ class _HeightBase(_Named):  # imported by .geoids
                 import warnings
                 warnings.filterwarnings('error')
 
-        import scipy as sp
-        import scipy.interpolate as spi
-        import numpy as np
+        np  = _HeightBase._np
+        spi = _HeightBase._spi
+        if None in (np, spi):
 
-        _HeightBase._np   = np
-        _HeightBase._np_v = np.__version__
-        _HeightBase._spi  = spi
-        _HeightBase._sp_v = sp.__version__
+            sp = _xscipy(self.__class__, 1, 2)
+            import scipy.interpolate as spi
+            np = _xnumpy(self.__class__, 1, 9)
 
-        return np, spi
+            _HeightBase._np   = np
+            _HeightBase._np_v = np.__version__
+            _HeightBase._spi  = spi
+            _HeightBase._sp_v = sp.__version__
+
+        return np, spi  # XXX spi not sp!
 
     def _xyhs3(self, knots):
         return _xyhs3(self._np.array, self._kmin, knots)
@@ -461,7 +466,7 @@ class _HeightIDW(_HeightBase):
 
            @raise HeightError: Invalid B{C{beta}}.
         '''
-        self._beta = Int_(beta, name=_beta_, Error=HeightError, low=1, high=3)
+        self._beta = Int_(beta=beta, Error=HeightError, low=1, high=3)
 
     def height(self, lats, lons):
         '''Interpolate the height for one or several lat-/longitudes.

@@ -17,11 +17,11 @@ There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
 and *-Nvector*.  Each module provides a geodetic *LatLon* and a geocentric
 *Cartesian* class with methods and functions to compute distance, area,
 perimeter, initial and final bearing, intermediate and nearest points,
-intersections of circles, path intersections, conversions and unrolling, among
-other things.  For more information and further details see the documentation_,
-the descriptions of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_
-geodesy, the original `JavaScript source`_ or docs_ and the Python
-`geographiclib`_.
+intersections of circles, path intersections, trilateration (intersection,
+overlap and 3d), conversions and unrolling, among other things.  For more
+information and further details see the documentation_, the descriptions
+of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the
+original `JavaScript source`_ or docs_ and the Python `geographiclib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
 ECEF_ (Earth-Centered, Earth-Fixed cartesian), UPS_ (Universal Polar
@@ -74,7 +74,7 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.8.5, 3.7.6 and 2.7.18 (all with
+The tests have been run with Python 3.8.6, 3.7.6 and 2.7.18 (all with
 geographiclib_ 1.50, numpy_ 1.19.0, 1.17.2 respectively 1.16.5 and scipy_
 1.5.0, 1.3.1 respectively 1.2.2) and with Python 3.9.0rc1 and macOS'
 Python 2.7.16 (both without geographiclib, numpy and scipy), all on macOS
@@ -82,7 +82,7 @@ Python 2.7.16 (both without geographiclib, numpy and scipy), all on macOS
 ``lazy import`` for Python 3.  The results of those tests are included in
 the distribution files.
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.5
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.6
 and 3.7.6 (both with geographiclib_ 1.50, numpy_ 1.19.0 respectively
 1.17.2 and scipy_ 1.5.0 respectively 1.3.1) and macOS' Python 2.7.16
 (without geographiclib, numpy and scipy).  The full HMTL report and a
@@ -102,7 +102,7 @@ on macOS 10.13.6 High Sierra.
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 1.14.0,
 1.15.2, 1.16.2 or 1.16.5), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru
-3.7.5, 3.8 thru 3.8.3, PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3), PyPy_
+3.7.5, 3.8 thru 3.8.5, PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3), PyPy_
 7.3.0 (Python 2.7.13 and 3.6.9) and `Intel-Python`_ 3.5.3 (and numpy_
 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12
 Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave and/or macOS 10.15.3
@@ -127,7 +127,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 23, 2020.*
+*Last updated: Sep 29, 2020.*
 
 License
 =======

@@ -21,9 +21,9 @@ The origin of geocentric coordinates is at the center of the earth.  The C{z}
 axis goes thru the North pole, C{lat} = 90°.  The C{x} axis goes thru C{lat}
 = 0°, C{lon} = 0°.
 
-The origin of local cartesian coordinate system is at C{lat0}, C{lon0} and
-C{height0}.  The C{z} axis is normal to the ellipsoid, the C{y} axis points due
-North.  The plane C{z = -height0} is tangent to the ellipsoid.
+The local cartesian origin is at (C{lat0}, C{lon0}, C{height0}).  The C{z}
+axis is normal to the ellipsoid, the C{y} axis points due North.  The plane
+C{z = -height0} is tangent to the ellipsoid.
 
 Forward conversion from geodetic to geocentric (ECEF) coordinates is straightforward.
 
@@ -71,7 +71,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.09.22'
+__version__ = '20.09.28'
 
 _TRIPS = 17  # 8..9 sufficient, EcefSudano.reverse
 
@@ -395,7 +395,7 @@ class EcefKarney(_EcefBase):
                 # E.e4 * q / (v - u) because u ~ e^4 when q is small and u < 0.
                 uv = (e / (v - u)) if u < 0 else (u + v)  # u+v, guaranteed positive
                 # Need to guard against w going negative due to roundoff in uv - q.
-                w = max(0.0, self.e2a * (uv - q) / (2 * v))
+                w = max(_0_0, self.e2a * (uv - q) / (2 * v))
                 # Rearrange expression for k to avoid loss of accuracy due to
                 # subtraction.  Division by 0 not possible because uv > 0, w >= 0.
                 k1 = k2 = uv / (sqrt(uv + w**2) + w)

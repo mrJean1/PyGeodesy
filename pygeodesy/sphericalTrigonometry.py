@@ -20,8 +20,8 @@ from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
 from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _radical2, vincentys_
 from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, PI_4, R_M, _coincident_, \
-                             _colinear_, _end_, _fraction_, _invalid_, _item_sq, \
-                             _LatLon_, _near_concentric_, _not_convex_, _points_, \
+                             _colinear_, _end_, _invalid_, _item_sq, _LatLon_, \
+                             _near_concentric_, _not_convex_, _points_, \
                              _too_distant_fmt_, _1_, _2_, _0_0, _0_5, _4_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _xnamed
@@ -40,7 +40,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.09.23'
+__version__ = '20.09.27'
 
 _EPS_I2    = EPS * _4_0
 _PI_EPS_I2 = PI - _EPS_I2
@@ -374,7 +374,7 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        f = Scalar(fraction, name=_fraction_)
+        f = Scalar(fraction=fraction)
 
         a1, b1 = self.philam
         a2, b2 = other.philam
@@ -474,9 +474,13 @@ class LatLon(LatLonSphericalBase):
                               or B{C{height}}.
         '''
         c2 = self.others(other)
-        return intersections2(self, rad1, c2, rad2, radius=radius,
-                                                    height=height, wrap=wrap,
-                                                    LatLon=self.classof)
+        try:
+            return _intersects2(self, rad1, c2, rad2, radius=radius,
+                                                      height=height, wrap=wrap,
+                                                      LatLon=self.classof)
+        except (TypeError, ValueError) as x:
+            raise IntersectionError(center=self, rad1=rad1,
+                                    other=other, rad2=rad2, txt=str(x))
 
     def isenclosedBy(self, points):
         '''Check whether a (convex) polygon encloses this point.
@@ -725,7 +729,7 @@ class LatLon(LatLonSphericalBase):
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, radius=R_M, wrap=False):
         '''Trilaterate three points by area overlap or perimeter intersection
-           of three circles.
+           of three corresponding circles.
 
            @arg distance1: Distance to this point (C{meter}, same units
                            as B{C{radius}}).
@@ -736,7 +740,7 @@ class LatLon(LatLonSphericalBase):
            @arg distance3: Distance to point3 (C{meter}, same units as
                            B{C{radius}}).
            @kwarg area: If C{True} compute the area overlap, otherwise the
-                        the perimeter intersection of the circles (C{bool}).
+                        perimeter intersection of the circles (C{bool}).
            @kwarg eps: The required I{minimal overlap} for C{B{area}=True}
                        or the I{intersection margin} for C{B{area}=False}
                        (C{meter}, same units as B{C{radius}}).
@@ -746,17 +750,22 @@ class LatLon(LatLonSphericalBase):
            @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
                     with C{min} and C{max} in C{meter}, same units as B{C{eps}},
                     the corresponding trilaterated points C{minPoint} and
-                    C{maxPoint} as I{spherical} C{LatLon} and count C{n}.  For
-                    C{B{area}=True}, C{min} and C{max} are the smallest respectively
-                    largest I{radial} overlap found.  For perimeter intersections
-                    C{B{area}=False}, C{min} and C{max} represent the nearest
-                    respectively farthest intersection margin.  If only a single
-                    trilaterated point is found, C{min I{is} max}, C{minPoint
-                    I{is} maxPoint} and count C{n = 1}.  If all 3 circles are
-                    concentric or near-concentric with C{B{area}=True}, count
-                    C{n = 0}, C{minPoint} and C{maxPoint} are both the B{C{point#}}
-                    with the smallest B{C{distance#}}, C{min} is that smallest and
-                    C{max} the largest B{C{distance#}} value.
+                    C{maxPoint} as I{spherical} C{LatLon} and C{n}, the number
+                    of trilatered points found for the given B{C{eps}}.
+
+                    If only a single trilaterated point is found, C{min I{is}
+                    max}, C{minPoint I{is} maxPoint} and C{n = 1}.
+
+                    For C{B{area}=True}, C{min} and C{max} are the smallest
+                    respectively largest I{radial} overlap found.
+
+                    For C{B{area}=False}, C{min} and C{max} represent the
+                    nearest respectively farthest intersection margin.
+
+                    If C{B{area}=True} and all 3 circles are concentric, C{n =
+                    0} and C{minPoint} and C{maxPoint} are both the B{C{point#}}
+                    with the smallest B{C{distance#}} C{min} and C{max} the
+                    largest B{C{distance#}}.
 
            @raise IntersectionError: Trilateration failed for the given B{C{eps}},
                                      insufficient overlap for C{B{area}=True} or
@@ -850,20 +859,20 @@ def _xdot(d, a1, b1, a, b, wrap):
     return fdot(d, db, a - a1)
 
 
-def _x3d2(start, end, wrap, n, hs):
+def _x3d2(start, end, wrap, _i_, hs):
     # see <https://www.EdWilliams.org/intersect.htm> (5) ff
     a1, b1 = start.philam
 
     if isscalar(end):  # bearing, make a point
         a2, b2 = _destination2(a1, b1, PI_4, radians(end))
     else:  # must be a point
-        _T00.others(end, name=_end_ + n)
+        _T00.others(end, name=_end_ + _i_)
         hs.append(end.height)
         a2, b2 = end.philam
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     if max(abs(db), abs(a2 - a1)) < EPS:
-        raise IntersectionError(start=start, end=end, txt='null path' + n)
+        raise IntersectionError(start=start, end=end, txt='null path' + _i_)
 
     # note, in EdWilliams.org/avform.htm W is + and E is -
     b21, b12 = db * _0_5, -(b1 + b2) * _0_5

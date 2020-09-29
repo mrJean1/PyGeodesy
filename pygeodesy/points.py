@@ -34,10 +34,11 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _IsnotError, _TypeError, _ValueError, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
-from pygeodesy.interns import EPS, NN, PI_2, R_M, _COMMA_SPACE_, _datum_, \
-                             _height_, _item_ps, _item_sq, _lat_, _lon_, \
-                             _name_, _point_, _UNDERSCORE_, _valid_, _x_, \
-                             _y_, _0_0, _0_5, _1_0, _3_0, _90_0, _180_0, _360_0
+from pygeodesy.interns import EPS, NN, PI_2, R_M, _colinear_, _COMMA_SPACE_, \
+                             _datum_, _height_, _item_ps, _item_sq, _lat_, \
+                             _lon_, _name_, _point_, _SPACE_, _UNDERSCORE_, \
+                             _valid_, _x_, _y_, _0_0, _0_5, _1_0, _3_0, \
+                             _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import classname, _NamedTuple, nameof, \
                             notImplemented, notOverloaded, _Pass, \
@@ -55,7 +56,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.09.23'
+__version__ = '20.09.26'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -412,7 +413,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         # XXX use Python 3+ reprlib.repr
         t = repr(self._array[:1])  # only first row
         t = '%s ... %s[%s]' % (t[:-1], t[-1:], len(self))
-        t = ' '.join(t.split())  # coalesce spaces
+        t = _SPACE_.join(t.split())  # coalesce spaces
         return instr(self, t, **self._slicekwds())
 
     def _reversed(self):  # PYCHOK false
@@ -1288,7 +1289,7 @@ def isconvex_(points, adjust=False, wrap=True):
         elif c and fdot((x32, y1 - y2), y3 - y2, -x21) < 0:
             # colinear u-turn: x3, y3 not on the
             # opposite side of x2, y2 as x1, y1
-            raise CrossError(points=ll, txt='colinear')
+            raise CrossError(points=ll, txt=_colinear_)
 
         x1, y1, x2, y2, x21 = x2, y2, x3, y3, x32
 

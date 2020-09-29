@@ -13,16 +13,16 @@ from pygeodesy.interns import NN, _COMMA_SPACE_, _DOT_, _EQUAL_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int
-_e      =  'e'  # imported by .ellispoids
+_e      =  'e'  # imported by .ellipsoids
 _E      =  'E'
 _g      =  'g'  # imported by .units
 _Gg     = ('G', _g)
 _EeFfGg = ('F', 'f', _E, _e) + _Gg  # float formats
-_Fmt    =  'F'  # imported by .ellipsoids, .named
+_Fmt    =  'F'  # imported by .ellipsoids, .named, .trf
 
 
 def _streprs(prec, objs, fmt, ints, force, strepr):

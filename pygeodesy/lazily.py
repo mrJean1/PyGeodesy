@@ -83,10 +83,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'equidistant', 'gnomonic'),
                           bases=(),  # module and for backward compatibility only
                          basics=('clips', 'halfs2',
-                                 'isclass', 'isfinite',  'isidentifier',
-                                 'isinf', 'isint', 'iskeyword', 'isnan', 'isneg0',
-                                 'isscalar', 'issequence', 'isstr', 'issubclassof',
-                                 'len2', 'map1', 'map2', 'property_doc_', 'property_RO', 'ub2str'),
+                                 'isclass', 'isfinite', 'isidentifier', 'isinf', 'isint', 'iskeyword',
+                                 'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
+                                 'joined', 'joined_', 'len2', 'map1', 'map2',
+                                 'property_doc_', 'property_RO', 'ub2str'),
                           clipy=('ClipError',
                                  'clipCS3', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
@@ -112,12 +112,14 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
             ellipsoidalVincenty=('VincentyError',),  # nothing else
                      ellipsoids=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
                                  'a_f2Tuple', 'Ellipsoid', 'Ellipsoid2', 'Ellipsoids',
-                                 'a_b2f', 'a_b2f_', 'a_b2f2', 'a_b2n', 'a_f2b', 'a_f_2b', 'b_f2a', 'b_f_2a',
+                                 'a_b2e', 'a_b2e2', 'a_b2e22', 'a_b2e32',
+                                 'a_b2f', 'a_b2f_', 'a_b2f2', 'a_b2n',
+                                 'a_f2b', 'a_f_2b', 'b_f2a', 'b_f_2a',
                                  'f2e2', 'f2e22', 'f2e32', 'f_2f', 'f2f_', 'f2f2', 'f2n', 'n2e2', 'n2f'),
                        elliptic=('Elliptic', 'EllipticError'),
                            epsg=('Epsg', 'EPSGError'),
                          errors=('CrossError', 'IntersectionError', 'LenError', 'LimitError', 'PointsError',
-                                 'RangeError', 'SciPyError', 'SciPyWarning', 'UnitError',
+                                 'RangeError', 'SciPyError', 'SciPyWarning', 'TRFError', 'UnitError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'parseETM5', 'toEtm8'),
@@ -125,7 +127,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'cbrt', 'cbrt2',
                                  'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
-                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'sqrt3'),
+                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_', 'sqrt3'),
                           formy=('antipode', 'antipode_', 'bearing', 'bearing_',
                                  'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                  'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
@@ -173,9 +175,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
                         streprs=('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr', 'pairs', 'reprs', 'strs', 'unstr'),
-                            trf=('RefFrame', 'RefFrames', 'TRFError', 'date2epoch', 'epoch2date'),
+                            trf=('RefFrame', 'RefFrames', 'date2epoch', 'epoch2date'),
                           units=('Band', 'Bearing', 'Bearing_', 'Bool',
-                                 'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting',
+                                 'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
                                  'Feet', 'Float', 'Float_', 'Height', 'Int', 'Int_',
                                  'Lam', 'Lam_', 'Lat', 'Lat_', 'Lon', 'Lon_', 'Meter', 'Northing', 'Number_',
                                  'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians2',
@@ -193,7 +195,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Vector3d', 'VectorError', 'parse3d'),
+                       vector3d=('Vector3d', 'VectorError', 'parse3d', 'trilaterate3d2'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm'),
                            wgrs=('Georef', 'WGRSError'))
 
@@ -212,7 +214,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 
 def _ALL_OTHER(*objs):

@@ -16,8 +16,8 @@ from pygeodesy.basics import isfinite, isint, isscalar, \
                              len2, _xcopy
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
-from pygeodesy.interns import EPS, _beta_, _item_ps, _item_sq, _Missing, \
-                              NN, _too_few_, _0_0, _1_0, _2_0, _3_0
+from pygeodesy.interns import EPS, NN, _item_ps, _item_sq, _Missing, \
+                             _too_few_, _0_0, _1_0, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Int_
@@ -26,7 +26,7 @@ from math import copysign, hypot, sqrt  # pow
 from operator import mul as _mul_
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.09.15'
+__version__ = '20.09.28'
 
 _not_finite_ = 'not finite'
 
@@ -587,7 +587,7 @@ def fidw(xs, ds, beta=2):
                           weighted B{C{ds}} below L{EPS} or unequal
                           C{len}C{(}B{C{ds}}C{)} and C{len}C{(}B{C{xs}}C{)}.
 
-       @note: Using B{C{beta}}C{=0} returns the mean of B{C{xs}}.
+       @note: Using C{B{beta}=0} returns the mean of B{C{xs}}.
     '''
     n, xs = len2(xs)
     d, ds = len2(ds)
@@ -596,7 +596,7 @@ def fidw(xs, ds, beta=2):
 
     d, x = min(zip(ds, xs))
     if d > EPS and n > 1:
-        b = -Int_(beta, name=_beta_, low=0, high=3)
+        b = -Int_(beta=beta, low=0, high=3)
         if b < 0:
             ds = tuple(d**b for d in ds)
             d = fsum(ds)
@@ -795,7 +795,7 @@ try:
 except TypeError:  # Python 3.7-
 
     def hypot_(*xs):
-        '''Compute the norm M{sqrt(sum(xs[i]**2)) for i=0..len(xs)}.
+        '''Compute the norm M{sqrt(sum(x**2 for x in xs))}.
 
            @arg xs: X arguments, positional (C{scalar}[]).
 
@@ -817,16 +817,28 @@ except TypeError:  # Python 3.7-
                   c2 in zip(p1, p2)))}, provided I{p1} and I{p2} have the
                   same, non-zero length I{n}.
         '''
-        if xs:
-            n, xs = len2(xs)
-            if n > 0:
-                h = float(max(abs(x) for x in xs))
-                if h > 0 and n > 1:
+        h, x2 = _h_x2(xs)
+        return (h * sqrt(x2)) if x2 else _0_0
+
+
+def _h_x2(xs):
+    '''(INTERNAL) Helper for L{hypot_} and L{hypot2_}.
+    '''
+    if xs:
+        n, xs = len2(xs)
+        if n > 0:
+            h = float(max(abs(x) for x in xs))
+            if h > 0:
+                if n > 1:
                     X = Fsum(_1_0)
                     X.fadd((x / h)**2 for x in xs)
-                    h *= sqrt(X.fsum_(-_1_0))
-                return h
-        raise _ValueError(xs=xs, txt=_too_few_)
+                    x2 = X.fsum_(-_1_0)
+                else:
+                    x2 = _1_0
+            else:
+                h = x2 = _0_0
+            return h, x2
+    raise _ValueError(xs=xs, txt=_too_few_)
 
 
 def hypot1(x):
@@ -840,7 +852,7 @@ def hypot1(x):
 
 
 def hypot2(x, y):
-    '''Compute the norm, I{squared} M{x**2 + y**2}.
+    '''Compute the I{squared} norm M{x**2 + y**2}.
 
        @arg x: Argument (C{scalar}).
        @arg y: Argument (C{scalar}).
@@ -851,8 +863,25 @@ def hypot2(x, y):
     if x < y:
         x, y = y, x
     if y:  # and x
-        x *= 1 + y / x
+        x *= _1_0 + y / x
     return x
+
+
+def hypot2_(*xs):
+    '''Compute the I{squared} norm M{sum(x**2 for x in xs)}.
+
+       @arg xs: X arguments, positional (C{scalar}[]).
+
+       @return: Squared norm (C{float}).
+
+       @raise OverflowError: Partial C{2sum} overflow.
+
+       @raise ValueError: Invalid or no B{C{xs}} value.
+
+       @see: Function L{hypot_}.
+    '''
+    h, x2 = _h_x2(xs)
+    return (h**2 * x2) if x2 else _0_0
 
 
 def sqrt3(x):

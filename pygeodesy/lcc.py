@@ -23,9 +23,9 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.interns import EPS, NN, PI_2, _COMMA_SPACE_, \
-                             _ellipsoidal_, _dot_, _h_, _k0_, \
-                             _lat0_, _lon0_, _m_, _SPACE_, \
-                             _SQUARE_, _0_0, _0_5, _1_0
+                             _ellipsoidal_, _dot_, _k0_, _lat0_, \
+                             _lon0_, _m_, _SPACE_, _SQUARE_, \
+                             _0_0, _0_5, _1_0
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
@@ -40,7 +40,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.09.22'
+__version__ = '20.09.27'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -105,17 +105,17 @@ class Conic(_NamedEnumItem):
             _xinstanceof(_LLEB, latlon0=latlon0)
             self._phi0, self._lam0 = latlon0.philam
 
-            self._par1 = Phi_(par1, name=_par1_)
-            self._par2 = self._par1 if par2 is None else Phi_(par2, name=_par2_)
+            self._par1 = Phi_(par1=par1)
+            self._par2 = self._par1 if par2 is None else Phi_(par2=par2)
 
             if k0 != 1:
-                self._k0 = Scalar_(k0, name=_k0_)
+                self._k0 = Scalar_(k0=k0)
             if E0:
-                self._E0 = Northing(E0, name=_E0_, falsed=True)
+                self._E0 = Northing(E0=E0, falsed=True)
             if N0:
-                self._N0 = Easting(N0, name=_N0_, falsed=True)
+                self._N0 = Easting(N0=N0, falsed=True)
             if opt3:
-                self._opt3 = Lam_(opt3, name='opt3')
+                self._opt3 = Lam_(opt3=opt3)
 
             self.toDatum(latlon0.datum)._dup2(self)
             self._register(Conics, name)
@@ -399,7 +399,7 @@ class Lcc(_NamedBase):
         self._easting  = Easting(e,  falsed=conic.E0 > 0, Error=LCCError)
         self._northing = Northing(n, falsed=conic.N0 > 0, Error=LCCError)
         if h:
-            self._height = Height(h, name=_h_, Error=LCCError)
+            self._height = Height(h=h, Error=LCCError)
         if name:
             self.name = name
 
