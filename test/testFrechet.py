@@ -4,7 +4,7 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '20.08.02'
+__version__ = '20.10.03'
 
 from base import coverage, geographiclib, isPython3, isWindows, \
                  TestsBase
@@ -100,8 +100,8 @@ if __name__ == '__main__':  # MCCABE 13
         t.test2(FrechetEquirectangular, (7.1331,  8, 3, 138,  5400),
                                         (7.01295, 0, 0, 208, 10710))
 
-        t.test2(FrechetEuclidean, (2.84717, 8, 3, 138,  5400),
-                                  (2.76523, 0, 0, 208, 10710))
+        t.test2(FrechetEuclidean, (2.81124, 8, 3, 138,  5400),
+                                  (2.74296, 0, 0, 208, 10710))
 
         t.test2(FrechetFlatLocal, (7.13778, 8, 3, 138,  5400),
                                   (6.92262, 0, 0, 208, 10710))
@@ -188,8 +188,8 @@ if __name__ == '__main__':  # MCCABE 13
         t.test2(FrechetEquirectangular, ( 7.53702, 1, 3,   145,  5400),
                                         (12.58507, 0, 2.5, 203, 10710))
 
-        t.test2(FrechetEuclidean, (2.81941, 1, 3,   145,  5400),
-                                  (3.95734, 0, 2.5, 203, 10710))
+        t.test2(FrechetEuclidean, (2.80593, 1, 3,   145,  5400),
+                                  (3.83981, 0, 2.5, 203, 10710))
 
         t.test2(FrechetFlatLocal, ( 7.55994, 1, 3,   145,  5400),
                                   (12.61423, 0, 2.5, 203, 10710))

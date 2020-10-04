@@ -34,7 +34,7 @@ from pygeodesy.utily import unrollPI
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '20.09.26'
+__version__ = '20.10.02'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -368,7 +368,7 @@ class Geohash(Str):
 
            @arg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}},
-                               ignored if B{C{LatLon=None}}.
+                               ignored if C{B{LatLon}=None}.
 
            @return: This geohash location (B{C{LatLon}}).
 

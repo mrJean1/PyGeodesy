@@ -19,8 +19,8 @@ from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, \
                              _IsnotError, _ValueError, _xellipsoidal
-from pygeodesy.fmath import favg, fsum_
-from pygeodesy.formy import _euclidean, _radical2
+from pygeodesy.fmath import euclid, favg, fsum_
+from pygeodesy.formy import _radical2
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
 from pygeodesy.interns import EPS, EPS1, NN, PI, _COMMA_, _datum_, _exceed_PI_radians_, \
                              _Missing, _N_, _near_concentric_, _no_convergence_fmt_, \
@@ -34,7 +34,7 @@ from pygeodesy.units import Epoch, Radius_
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '20.09.29'
+__version__ = '20.10.03'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 16    # _intersects2, _nearestOn interations, 6 is sufficient
@@ -774,12 +774,12 @@ def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
                           sphere=False, too_d=m)
             # convert intersections back to geodetic
             t1 =  A.reverse(v1.x, v1.y)
-            d1 = _euclidean(t1.lat - t.lat, t1.lon - t.lon)
+            d1 = euclid(t1.lat - t.lat, t1.lon - t.lon)
             if v1 is v2:  # abutting
                 t, d = t1, d1
             else:
                 t2 =  A.reverse(v2.x, v2.y)
-                d2 = _euclidean(t2.lat - t.lat, t2.lon - t.lon)
+                d2 = euclid(t2.lat - t.lat, t2.lon - t.lon)
                 # consider only the closer intersection
                 t, d = (t1, d1) if d1 < d2 else (t2, d2)
             # break if below tolerance or if unchanged
@@ -877,7 +877,7 @@ def _nearestOn(p, p1, p2, within=True, height=None, wrap=True,
         v = _vnOn(p, _v(t1, h1), _v(t2, h2), within=within)
         # convert nearestOn back to geodetic
         r =  A.reverse(v.x, v.y)
-        d = _euclidean(r.lat - t.lat, r.lon - t.lon)
+        d = euclid(r.lat - t.lat, r.lon - t.lon)
         # break if below tolerance or if unchanged
         t = r
         if d < e or d == c:

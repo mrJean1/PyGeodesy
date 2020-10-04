@@ -60,7 +60,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.09.26'
+__version__ = '20.10.02'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -383,7 +383,7 @@ class Utm(UtmUpsBase):
            @kwarg unfalse: Unfalse B{C{easting}} and B{C{northing}}
                            if falsed (C{bool}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if B{C{LatLon=None}}.
+                               arguments, ignored if C{B{LatLon}=None}.
 
            @return: This UTM coordinate (B{C{LatLon}}) or if B{C{LatLon}}
                     is C{None}, a L{LatLonDatum5Tuple}C{(lat, lon, datum,

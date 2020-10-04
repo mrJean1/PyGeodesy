@@ -4,11 +4,11 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.29'
+__version__ = '20.10.03'
 
 from base import coverage, numpy_version, TestsBase
 
-from pygeodesy import F_D, fstr, IntersectionError, NEG0, \
+from pygeodesy import F_D, fstr, IntersectionError, joined_, NEG0, \
                       sphericalNvector, vector3d, VectorError
 
 
@@ -90,11 +90,15 @@ class Tests(TestsBase):
             t = vector3d.nearestOn(Nvector(0, 0, 0), p1, p2)
             self.test('nearestOn', t, Nvector(0, 0, 0))
             t = vector3d.nearestOn(Nvector(-200, -200, 0), p1, p2)
-            t = vector3d.nearestOn(Nvector(-200, -200, 0), p1, p2)
             self.test('nearestOn', t is p1, True)
             t = vector3d.nearestOn(Nvector(200, 200, 0), p1, p2)
             self.test('nearestOn', t, p2)
             self.test('nearestOn', t is p2, True)
+            t = vector3d.iscolinearWith(Nvector(200, 200, 0), p1, p2)
+            self.test('iscolinearWith', t, False)
+            t = vector3d.iscolinearWith(Nvector(0, 0, 0), p1, p2)
+            self.test('iscolinearWith', t, True)
+
 
     def testVectorial(self, module):  # MCCABE 14
 
@@ -125,8 +129,10 @@ class Tests(TestsBase):
         self.test('toNvector', c, '(0.50004, 0.50004, 0.70705)')  # 0.500, 0.500, 0.707
         self.test('isequalTo', c.isequalTo(v), False)
         self.test('isequalTo', c.isequalTo(v, units=True), True)
-        self.test('length', v.length, '0.99992449715', fmt='%.11f')
-        self.test('length', c.length, '1.0')
+        self.test('length', v.length, '0.99992449715', prec=11)
+        self.test('euclid', v.euclid, '0.99995577', prec=8)
+        self.test('length', c.length, '1.00', prec=2)
+        self.test('euclid', c.euclid, '1.0000', prec=4)
 
         s = meanOf((p, p, p, p), height=0, LatLon=LatLon)
         self.test('meanOf', s, '44.995674°N, 045.0°E')
@@ -273,38 +279,67 @@ class Tests(TestsBase):
 
         self.testNvectorBase(module)
 
-    def testVector3d(self, module, Vector):
+    def testTrilaterate3d(self, module, Vector):
 
         self.subtitle(module, Vector.__name__)
-        try:
-            _t3d2 = vector3d.trilaterate3d2
+        try:  # numpy
+            # <https://GISPoint.de/artikelarchiv/avn/2008/avn-ausgabe-12008/
+            # 2303-direkte-loesung-des-raeumlichen-bogenschnitts-mit-methoden-der-linearen-algebra.html>
+            c1, r1 = Vector( 50.0, 150.0, 13.0), 74.760
+            c2, r2 = Vector(100.0,  50.0, 11.0), 84.623
+            c3, r3 = Vector(200.0, 120.0, 12.0), 82.608
+            t = c1.trilaterate3d2(r1, c2, r2, c3, r3)
+            k = numpy_version < 1.12  # numpy too old?
+
+            n = joined_(c1.named3, Vector.trilaterate3d2.__name__, sep='.')
+            self.test(n, len(t), 2)
+            self.test(t[0].named3, fstr(t[0].xyz, prec=4), '119.8958, 130.6508, -5.1451', known=k)
+            self.test(t[1].named3, fstr(t[1].xyz, prec=4), '119.9999, 129.9999, 30.0019', known=k)
+
             # <https://www.ResearchGate.net/publication/
-            #        275027725_An_Algebraic_Solution_to_the_Multilateration_Problem>
+            # 275027725_An_Algebraic_Solution_to_the_Multilateration_Problem>
             c1, r1 = Vector(27.297, -4.953, 1.470), 3.851  # 3.857
             c2, r2 = Vector(25.475, -6.124, 2.360), 3.875  # 3.988
             c3, r3 = Vector(22.590,  0.524, 1.200), 3.514  # 3.497
-            t = sorted(_t3d2(c1, r1, c2, r2, c3, r3, Vector=Vector))
-            k = numpy_version < 1.12
-            self.test(_t3d2.__name__, len(t), 2)
-            self.test(_t3d2.__name__, t[0], '(24.31229, -2.52045, 1.53649)', known=k)
-            self.test(_t3d2.__name__, t[1], '(24.35062, -2.48109, 1.66673)', known=k)
-            try:  # concentric
-                t = _t3d2(c3, r1, c2, r2, c3, r3, Vector=Vector)
-                self.test(_t3d2.__name__, t, IntersectionError.__name__)
-            except IntersectionError as x:
-                self.test(_t3d2.__name__, str(x), str(x))
-            try:  # too distant
-                t = _t3d2(c1, r1 * 0.1, c2, r2 * 0.1, c3, r3, Vector=Vector)
-                self.test(_t3d2.__name__, t, IntersectionError.__name__)
-            except IntersectionError as x:
-                self.test(_t3d2.__name__, str(x), str(x))
+            for C, V in ((vector3d, dict(Vector=Vector)),
+                         (Vector, {})):  # method
+                f = C.trilaterate3d2
+                t = f(c1, r1, c2, r2, c3, r3, **V)
+                n = joined_(C.__name__, f.__name__, sep='.')
+
+                self.test(n, len(t), 2)
+                self.test(t[0].named3, fstr(t[0].xyz, prec=5), '24.31229, -2.52045, 1.53649', known=k)
+                self.test(t[1].named3, fstr(t[1].xyz, prec=5), '24.35062, -2.48109, 1.66673', known=k)
+
+                try:  # concentric
+                    t = f(c3, r1, c2, r2, c3, r3, **V)
+                    self.test(n, t, IntersectionError.__name__)
+                except IntersectionError as x:
+                    t = str(x)
+                    self.test(n, t, t)
+
+                try:  # too distant
+                    t = f(c1, r1 * 0.1, c2, r2 * 0.1, c3, r3, **V)
+                    self.test(n, t, IntersectionError.__name__)
+                except IntersectionError as x:
+                    t = str(x)
+                    self.test(n, t, t)
+
+                try:  # colinear
+                    t = f(Vector(0, 0, 0), 10, Vector(0, 9, 0), 10, Vector(0, -9, 0), 10)
+                    self.test(n, t, IntersectionError.__name__)
+                except IntersectionError as x:
+                    t = str(x)
+                    self.test(n, t, t)
+
         except ImportError as x:
-            self.skip(str(x), n=5)
+            self.skip(str(x), n=14)
 
 
 if __name__ == '__main__':
 
-    from pygeodesy import Datums, ellipsoidalNvector, nvectorBase
+    from pygeodesy import Datums, cartesianBase, ellipsoidalKarney, ellipsoidalNvector, \
+                          ellipsoidalVincenty, nvectorBase, sphericalTrigonometry
 
     t = Tests(__file__, __version__)
 
@@ -314,8 +349,15 @@ if __name__ == '__main__':
     t.testNvectorBase(nvectorBase, datum=Datums.Sphere)
     t.testNvectorBase(nvectorBase, datum=Datums.WGS84)
 
-    t.testVector3d(nvectorBase, nvectorBase.NvectorBase)
-    t.testVector3d(vector3d,    vector3d.Vector3d)
+    t.testTrilaterate3d(ellipsoidalKarney,     ellipsoidalKarney.Cartesian)
+    t.testTrilaterate3d(ellipsoidalNvector,    ellipsoidalNvector.Cartesian)
+    t.testTrilaterate3d(ellipsoidalVincenty,   ellipsoidalVincenty.Cartesian)
+    t.testTrilaterate3d(sphericalNvector,      sphericalNvector.Cartesian)
+    t.testTrilaterate3d(sphericalTrigonometry, sphericalTrigonometry.Cartesian)
+
+    t.testTrilaterate3d(cartesianBase,         cartesianBase.CartesianBase)
+    t.testTrilaterate3d(nvectorBase,           nvectorBase.NvectorBase)
+    t.testTrilaterate3d(vector3d,              vector3d.Vector3d)
 
     t.results()
     t.exit()

@@ -15,10 +15,10 @@ Karney (C) 2008-2020} and published under the same U{MIT License
 There are three modules for ellipsoidal earth models, C{ellipsoidalKarney},
 C{-Vincenty} and C{-Nvector} and two for spherical ones, C{sphericalTrigonometry}
 and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}} and a geocentric
-B{C{Cartesian}} class with methods and functions to compute distance, area,
-perimeter, initial and final bearing, intermediate and nearest points, intersections
-of circles, path intersections, trilateration (intersection, overlap and 3d), conversions
-and unrolling, among other things.  For more information and further details see the
+B{C{Cartesian}} class with methods and functions to compute distance, area, perimeter,
+initial and final bearing, intermediate and nearest points, intersections of circles,
+path intersections, trilateration (by intersection, overlap and 3d), conversions and
+unrolling, among other things.  For more information and further details see the
 U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
 U{Vincenty<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and
@@ -289,7 +289,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy        = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.09.29'
+__version__ = '20.10.03'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

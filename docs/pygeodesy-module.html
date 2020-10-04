@@ -79,9 +79,9 @@
   <a href=pygeodesy-Cartesian-attributes-table.html><b><code>Cartesian</code></b></a> class with methods and functions to compute
   distance, area, perimeter, initial and final bearing, intermediate and 
   nearest points, intersections of circles, path intersections, 
-  trilateration (intersection, overlap and 3d), conversions and unrolling, 
-  among other things.  For more information and further details see the <a 
-  href="https://mrJean1.GitHub.io/PyGeodesy" 
+  trilateration (by intersection, overlap and 3d), conversions and 
+  unrolling, among other things.  For more information and further details 
+  see the <a href="https://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a>, <a 
@@ -307,7 +307,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.09.29
+        20.10.03
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -4130,6 +4130,41 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#euclid" class="summary-sig-name">euclid</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Appoximate the norm M(sqrt(x**2 + y**2)} by M{max(abs(x), abs(y)) + min(abs(x), abs(y)) * 0.4141...}.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#euclid_" class="summary-sig-name">euclid_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#euclidean" class="summary-sig-name">euclidean</a>(<span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
         <span class="summary-sig-arg">lat2</span>,
@@ -4137,7 +4172,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Approximate the <code>Euclidian</code> distance between two 
+      Approximate the <code>Euclidean</code> distance between two 
       (spherical) points.</td>
           <td align="right" valign="top">
             
@@ -4918,7 +4953,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff932550ad0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8e28e90ad0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -5387,6 +5422,26 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Determine the direction of a path or polygon.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#iscolinearWith" class="summary-sig-name">iscolinearWith</a>(<span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
+      Check whether a point is colinear with two other points.</td>
           <td align="right" valign="top">
             
             
@@ -7519,7 +7574,7 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Trilaterate three spheres each given as an 3d center and radius.</td>
+      Trilaterate three spheres, each given as a (3d) center and radius.</td>
           <td align="right" valign="top">
             
             
@@ -7912,7 +7967,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.9.29'"><code class="variable-quote">'</code><code class="variable-string">20.9.29</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.10.3'"><code class="variable-quote">'</code><code class="variable-string">20.10.3</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11147,6 +11202,64 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
       </p>
 </div></td></tr></table>
 </div>
+<a name="euclid"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclid</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <pre class="literalblock">
+Appoximate the norm M(sqrt(x**2 + y**2)} by M{max(abs(x), abs(y)) + min(abs(x), abs(y)) * 0.4141...}.
+
+@arg x: X component (C{scalar}).
+@arg y: Y component (C{scalar}).
+
+@return: Norm (C{float}).
+
+@see: Function L{euclid}.
+
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="euclid_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclid_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <pre class="literalblock">
+Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
+
+@arg xs: X arguments, positional (C{scalar}[]).
+
+@return: Norm (C{float}).
+
+@see: Function L{euclid}.
+
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
 <a name="euclidean"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -11167,7 +11280,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Approximate the <code>Euclidian</code> distance between two 
+  <p>Approximate the <code>Euclidean</code> distance between two 
   (spherical) points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -12195,8 +12308,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>iterable</code></strong> - Values to be multiplied (<code>scalar</code>[]).</li>
-        <li><strong class="pname"><code>start</code></strong> - Initial product, also the value returned for an empty iterable 
+        <li><strong class="pname"><code>iterable</code></strong> - Terms to be multiplied (<code>scalar</code>[]).</li>
+        <li><strong class="pname"><code>start</code></strong> - Initial term, also the value returned for an empty iterable 
           (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -12240,7 +12353,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <i>fractional</i> point (<code>LatLon</code>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> keyword arguments, ignored of
-          <b><code>LatLon=None</code></b>.</li>
+          <code><b>LatLon</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> or if <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> is 
@@ -12702,7 +12815,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff932550ad0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8e28e90ad0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13384,7 +13497,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <b><code>Vector=None</code></b>.</li>
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple of the <code>center</code> and <code>radius</code> of the
@@ -13632,6 +13745,53 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <span class="py-prompt">&gt;&gt;&gt; </span>f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
 <span class="py-prompt">&gt;&gt;&gt; </span>isclockwise(f)  <span class="py-comment"># False</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>isclockwise(reversed(f))  <span class="py-comment"># True</span></pre>
+      </p>
+</div></td></tr></table>
+</div>
+<a name="iscolinearWith"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iscolinearWith</span>&nbsp;(<span class="sig-arg">point</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether a point is colinear with two other points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point</code></strong> - The point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>point1</code></strong> - Another point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Another point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>scalar</code>), same units as <code>x</code>, 
+          <code>y</code> and <code>z</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if colinear, <code>False</code> otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point</code></b>, <b><code>point1</code></b> or 
+        <b><code>point2</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector3d-module.html#nearestOn" 
+        class="link" onclick="show_private();">nearestOn</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -15195,7 +15355,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>Vector</code></strong> - Optional class (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional <b><code>Vector</code></b> keyword arguments, ignored if
-          <b><code>Vector=None</code></b>.</li>
+          <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New <b><code>Vector</code></b> or if <b><code>Vector</code></b> 
@@ -17873,7 +18033,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Trilaterate three spheres each given as an 3d center and radius.</p>
+  <p>Trilaterate three spheres, each given as a (3d) center and radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -17881,8 +18041,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>radius1</code></strong> - Radius of this sphere (same <code>units</code> as <code>x</code>,
-          <code>y</code> and <code>z</code>).</li>
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of the 1st sphere (same <code>units</code> as 
+          <code>x</code>, <code>y</code> and <code>z</code>).</li>
         <li><strong class="pname"><code>center2</code></strong> - Center of the 2nd sphere (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
@@ -17895,7 +18055,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           <code>Vector4Tuple</code>).</li>
         <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd sphere (same <code>units</code> as 
           <code>x</code>, <code>y</code> and <code>z</code>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>float</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>scalar</code>), same units as <code>x</code>, 
+          <code>y</code>, and <code>z</code>.</li>
         <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
@@ -17903,18 +18064,18 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <b><code>Vector=None</code></b>.</li>
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A 2-tuple <code>(tri1, tri2)</code> with both trilaterated points
-          (<b><code>Vector</code></b>).  Both <code>tri1</code> and 
-          <code>tri2</code> are the same instance if all three spheres abut
-          or intersect in a single point.</dd>
+        <dd>2-Tuple with two trilaterated points, each a 
+          <b><code>Vector</code></b> instance.  Both points are the same 
+          instance if all three spheres abut/intersect in a single point.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or not at least
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
         version 1.15.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, near concentric, trilateration failed.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, colinear or concentric centers or trilateration 
+        failed some other way.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b>, <b><code>center2</code></b> or
         <b><code>center3</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
@@ -17931,7 +18092,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         target="_top"><i>An Algebraic Solution to the Multilateration 
         Problem</i></a> and <a 
         href="https://www.ResearchGate.net/publication/288825016_Trilateration_Matlab_Code"
-        target="_top">implementation</a>.
+        target="_top"><i>implementation</i></a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -18767,7 +18928,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 29 10:26:33 2020
+    Generated by Epydoc 3.0.1 on Sun Oct  4 10:28:13 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

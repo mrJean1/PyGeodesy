@@ -124,7 +124,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
                                  'parseETM5', 'toEtm8'),
                           fmath=('Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
-                                 'cbrt', 'cbrt2',
+                                 'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                  'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_', 'sqrt3'),
@@ -195,7 +195,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Vector3d', 'VectorError', 'parse3d', 'trilaterate3d2'),
+                       vector3d=('Vector3d', 'VectorError', 'iscolinearWith', 'parse3d', 'trilaterate3d2'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm'),
                            wgrs=('Georef', 'WGRSError'))
 
@@ -214,7 +214,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.09.27'
+__version__ = '20.10.02'
 
 
 def _ALL_OTHER(*objs):

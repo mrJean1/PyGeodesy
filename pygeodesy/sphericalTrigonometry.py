@@ -40,7 +40,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.09.27'
+__version__ = '20.10.02'
 
 _EPS_I2    = EPS * _4_0
 _PI_EPS_I2 = PI - _EPS_I2
@@ -78,10 +78,10 @@ class Cartesian(CartesianSphericalBase):
 
            @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
                                      other keyword arguments, ignored if
-                                     B{C{LatLon=None}}.  Use
+                                     C{B{LatLon}=None}.  Use
                                      B{C{LatLon=...}} to override this
                                      L{LatLon} class or specify
-                                     B{C{LatLon=None}}.
+                                     C{B{LatLon}=None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
@@ -905,7 +905,7 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
        @kwarg LatLon: Optional class to return the intersection
                       point (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if B{C{LatLon=None}}.
+                           arguments, ignored if C{B{LatLon}=None}.
 
        @return: The intersection point (B{C{LatLon}}) or a
                 L{LatLon3Tuple}C{(lat, lon, height)} if B{C{LatLon}}
@@ -1019,7 +1019,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,
        @kwarg LatLon: Optional class to return the intersection
                       points (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if B{C{LatLon=None}}.
+                           arguments, ignored if C{B{LatLon}=None}.
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or L{LatLon3Tuple}C{(lat, lon, height)} if
@@ -1129,7 +1129,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
                            keyword arguments, ignored if
-                           B{C{LatLon=None}}.
+                           C{B{LatLon}=None}.
 
        @return: Point at geographic mean and height (B{C{LatLon}})
                 or a L{LatLon3Tuple}C{(lat, lon, height)} if

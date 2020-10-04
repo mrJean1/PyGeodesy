@@ -41,7 +41,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.09.26'
+__version__ = '20.10.02'
 
 _Bands   = 'A', 'B', 'Y', 'Z'  # polar bands
 _EPS__2  = EPS**2
@@ -205,7 +205,7 @@ class Ups(UtmUpsBase):
            @kwarg unfalse: Unfalse B{C{easting}} and B{C{northing}}
                            if falsed (C{bool}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if B{C{LatLon=None}}.
+                               arguments, ignored if C{B{LatLon}=None}.
 
            @return: This UPS coordinate (B{C{LatLon}}) or if B{C{LatLon}}
                     is C{None}, a L{LatLonDatum5Tuple}C{(lat, lon, datum,

@@ -43,7 +43,7 @@ from pygeodesy.utily import atan2b, degrees90, sincos2d
 from math import asin
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.09.27'
+__version__ = '20.10.02'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -61,10 +61,10 @@ class Cartesian(CartesianEllipsoidalBase):
 
            @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
                                      other keyword arguments, ignored if
-                                     B{C{LatLon=None}}.  Use
+                                     C{B{LatLon}=None}.  Use
                                      B{C{LatLon=...}} to override this
                                      L{LatLon} class or specify
-                                     B{C{LatLon=None}}.
+                                     C{B{LatLon}=None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
@@ -689,9 +689,9 @@ class Nvector(NvectorBase):
 
            @kwarg LatLon_height_datum_kwds: Optional L{LatLon}, B{C{height}},
                                             B{C{datum}} and other keyword arguments,
-                                            ignored if B{C{LatLon=None}}.  Use
+                                            ignored if C{B{LatLon}=None}.  Use
                                             B{C{LatLon=...}} to override this
-                                            L{LatLon} class or set B{C{LatLon=None}}.
+                                            L{LatLon} class or set C{B{LatLon}=None}.
 
            @return: The geodetic point (L{LatLon}) or a L{LatLon3Tuple}C{(lat,
                     lon, height)} if B{C{LatLon}} is C{None}.
@@ -736,7 +736,7 @@ def meanOf(points, datum=Datums.WGS84, height=None, LatLon=LatLon,
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
                            keyword arguments, ignored if
-                           B{C{LatLon=None}}.
+                           C{B{LatLon}=None}.
 
        @return: Geographic mean point and mean height (B{C{LatLon}})
                 or a L{LatLon3Tuple}C{(lat, lon, height)} if
@@ -766,7 +766,7 @@ def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
        @kwarg Vector: Optional class for the vectorial sum (L{Nvector}).
        @kwarg h: Optional height, overriding the mean height (C{meter}).
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                           arguments, ignored if B{C{Vector=None}}.
+                           arguments, ignored if C{B{Vector}=None}.
 
        @return: Vectorial sum (B{C{Vector}}).
 

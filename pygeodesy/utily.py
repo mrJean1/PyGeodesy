@@ -20,13 +20,13 @@ from pygeodesy.units import Feet, Lam_, Meter, Phi_, Radius
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '20.09.27'
+__version__ = '20.10.02'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = _1_0 / _90_0  # 0.011111111111111111111111111111111111111111111111
 _2_PI = _1_0 /  PI_2  # 0.63661977236758134307553505349005744813783858296182
-# sqrt(2) + 1 <https://wikipedia.org/wiki/Square_root_of_2>
-# _R2_1 = 2.4142135623730950488  # 0168872420969807856967187537694807317667973799
+# sqrt(2) + 1 <https://WikiPedia.org/wiki/Square_root_of_2>
+# _R2_1 = 2.41421356237309504880  # _16887_24209_69807_85696_71875_37694_80731_76679_73799
 
 _iterNumpy2len = 1  # adjustable for testing purposes
 

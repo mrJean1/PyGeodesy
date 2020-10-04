@@ -70,7 +70,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.09.28
+        20.10.03
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -136,6 +136,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#iscolinearWith" class="summary-sig-name">iscolinearWith</a>(<span class="summary-sig-arg">point</span>,
+        <span class="summary-sig-arg">point1</span>,
+        <span class="summary-sig-arg">point2</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
+      Check whether a point is colinear with two other points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d-module.html#parse3d" class="summary-sig-name">parse3d</a>(<span class="summary-sig-arg">str3d</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
@@ -185,7 +205,7 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Trilaterate three spheres each given as an 3d center and radius.</td>
+      Trilaterate three spheres, each given as a (3d) center and radius.</td>
           <td align="right" valign="top">
             
             
@@ -270,7 +290,7 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <b><code>Vector=None</code></b>.</li>
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple of the <code>center</code> and <code>radius</code> of the
@@ -291,6 +311,53 @@
         target="_top">Sphere-Sphere</a> and <a 
         href="https://MathWorld.Wolfram.com/Circle-CircleIntersection.html"
         target="_top">circle-circle</a> intersections.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="iscolinearWith"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iscolinearWith</span>&nbsp;(<span class="sig-arg">point</span>,
+        <span class="sig-arg">point1</span>,
+        <span class="sig-arg">point2</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.22044604925e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check whether a point is colinear with two other points.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>point</code></strong> - The point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>point1</code></strong> - Another point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>point2</code></strong> - Another point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
+          <code>Vector4Tuple</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>scalar</code>), same units as <code>x</code>, 
+          <code>y</code> and <code>z</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if colinear, <code>False</code> otherwise.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point</code></b>, <b><code>point1</code></b> or 
+        <b><code>point2</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.vector3d-module.html#nearestOn" 
+        class="link" onclick="show_private();">nearestOn</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -322,7 +389,7 @@
         <li><strong class="pname"><code>Vector</code></strong> - Optional class (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional <b><code>Vector</code></b> keyword arguments, ignored if
-          <b><code>Vector=None</code></b>.</li>
+          <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New <b><code>Vector</code></b> or if <b><code>Vector</code></b> 
@@ -363,7 +430,7 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional <b><code>Vector</code></b> keyword arguments, ignored if
-          <b><code>Vector=None</code></b>.</li>
+          <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Vectorial sum as <b><code>Vector</code></b> or if 
@@ -399,7 +466,7 @@
     </td>
   </tr></table>
   
-  <p>Trilaterate three spheres each given as an 3d center and radius.</p>
+  <p>Trilaterate three spheres, each given as a (3d) center and radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -407,8 +474,8 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>radius1</code></strong> - Radius of this sphere (same <code>units</code> as <code>x</code>,
-          <code>y</code> and <code>z</code>).</li>
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of the 1st sphere (same <code>units</code> as 
+          <code>x</code>, <code>y</code> and <code>z</code>).</li>
         <li><strong class="pname"><code>center2</code></strong> - Center of the 2nd sphere (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
@@ -421,7 +488,8 @@
           <code>Vector4Tuple</code>).</li>
         <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd sphere (same <code>units</code> as 
           <code>x</code>, <code>y</code> and <code>z</code>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>float</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>scalar</code>), same units as <code>x</code>, 
+          <code>y</code>, and <code>z</code>.</li>
         <li><strong class="pname"><code>Vector</code></strong> - Class to return intersections (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
@@ -429,18 +497,18 @@
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>.</li>
         <li><strong class="pname"><code>Vector_kwds</code></strong> - Optional, additional <b><code>Vector</code></b> keyword 
-          arguments, ignored if <b><code>Vector=None</code></b>.</li>
+          arguments, ignored if <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A 2-tuple <code>(tri1, tri2)</code> with both trilaterated points
-          (<b><code>Vector</code></b>).  Both <code>tri1</code> and 
-          <code>tri2</code> are the same instance if all three spheres abut
-          or intersect in a single point.</dd>
+        <dd>2-Tuple with two trilaterated points, each a 
+          <b><code>Vector</code></b> instance.  Both points are the same 
+          instance if all three spheres abut/intersect in a single point.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or not at least
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
         version 1.15.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, near concentric, trilateration failed.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, colinear or concentric centers or trilateration 
+        failed some other way.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b>, <b><code>center2</code></b> or
         <b><code>center3</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
@@ -457,7 +525,7 @@
         target="_top"><i>An Algebraic Solution to the Multilateration 
         Problem</i></a> and <a 
         href="https://www.ResearchGate.net/publication/288825016_Trilateration_Matlab_Code"
-        target="_top">implementation</a>.
+        target="_top"><i>implementation</i></a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -493,7 +561,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep 29 10:26:34 2020
+    Generated by Epydoc 3.0.1 on Sun Oct  4 10:28:14 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

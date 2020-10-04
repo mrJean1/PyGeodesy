@@ -79,7 +79,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.09.22'
+__version__ = '20.10.02'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 
@@ -102,10 +102,10 @@ class Cartesian(CartesianEllipsoidalBase):
 
            @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
                                      other keyword arguments, ignored if
-                                     B{C{LatLon=None}}.  Use
+                                     C{B{LatLon}=None}.  Use
                                      B{C{LatLon=...}} to override this
                                      L{LatLon} class or specify
-                                     B{C{LatLon=None}}.
+                                     C{B{LatLon}=None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is
                     C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -641,7 +641,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @kwarg LatLon: Optional class to return the intersection points
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if B{C{LatLon=None}}.
+                           arguments, ignored if C{B{LatLon}=None}.
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or L{LatLon4Tuple}C{(lat, lon, height, datum)}
@@ -691,7 +691,7 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        @kwarg LatLon: Optional class to return the closest point
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if B{C{LatLon=None}}.
+                           arguments, ignored if C{B{LatLon}=None}.
 
        @return: Closest point (B{C{LatLon}}).
 

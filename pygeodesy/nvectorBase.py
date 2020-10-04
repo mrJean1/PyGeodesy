@@ -41,7 +41,7 @@ from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_,  # constants
            _sumOf_)  # functions
-__version__ = '20.09.27'
+__version__ = '20.10.02'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -302,7 +302,7 @@ class NvectorBase(Vector3d):  # XXX kept private
                           (L{LatLon}) or C{None}.
            @kwarg datum: Optional, spherical datum (C{Datum}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if B{C{LatLon=None}}.
+                               arguments, ignored if C{B{LatLon}=None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
@@ -575,7 +575,7 @@ def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
                       or C{None}.
        @kwarg h: Optional height, overriding the mean height (C{meter}).
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                           arguments, ignored if B{C{Vector=None}}.
+                           arguments, ignored if C{B{Vector}=None}.
 
        @return: Vectorial sum (B{C{Vector}}) or a L{Vector4Tuple}C{(x, y,
                 z, h)} if B{C{Vector}} is C{None}.

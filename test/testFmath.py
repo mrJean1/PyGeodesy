@@ -4,13 +4,14 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.23'
+__version__ = '20.10.03'
 
 from base import coverage, TestsBase
 
-from pygeodesy import cbrt, cbrt2, Ellipsoids, fhorner, fmath, \
-                      fpolynomial, fpowers, Fsum, fsum, fsum_, \
-                      hypot3, hypot_, sqrt3
+from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, \
+                      fhorner, fmath, fpolynomial, fpowers, \
+                      Fsum, fsum, fsum_, hypot_, hypot2_, sqrt3, \
+                      hypot3  # DEPRECATED
 
 from math import sqrt
 from random import random, gauss, shuffle
@@ -145,18 +146,31 @@ class Tests(TestsBase):
             self.test('_2sum', repr(x), repr(x))
 
         h = hypot_(1.0, 0.0050, 0.0000000000010)
-        self.test('hypot_', h, '1.0000124999219', prec=13)
+        self.test('hypot_ ', h, '1.00001250', prec=8)
+        e = euclid_(1.0, 0.0050, 0.0000000000010)
+        self.test('euclid_', e, h, prec=8, known=abs(e - h) < h * 0.01)
+        t = hypot2_(1.0, 0.0050, 0.0000000000010)
+        self.test('hypot2_', t, '1.00002500', prec=8)
         s = hypot3(1.0, 0.0050, 0.0000000000010)  # DEPRECATED
-        self.test('hypot3', s, h, prec=13)
+        self.test('hypot3 ', s, h, prec=8)
 
         h = hypot_(3000, 2000, 100)  # note, all C{int}
-        self.test('hypot_', h, '3606.937759', prec=6)
+        self.test('hypot_ ', h, '3606.937759', prec=6)
+        e = euclid_(3000, 2000, 100)
+        self.test('euclid_', e, h * 1.07, prec=6, known=abs(e - h) < h * 0.07)
+        t = hypot2_(3000, 2000, 100)  # note, all C{int}
+        s = fsum_(3000**2, 2000**2, 100**2)
+        self.test('hypot2_', t, s, prec=1)
         s = hypot3(3000, 2000, 100)  # DEPRECATED
-        self.test('hypot3', s, h, prec=6)
+        self.test('hypot3 ', s, h, prec=6)
 
         h = hypot_(40000, 3000, 200, 10.0)
-        s = sqrt(fsum_(40000**2, 3000**2, 200**2, 100))
-        self.test('hypot_', h, s, fmt='%.3f')
+        s = fsum_(40000**2, 3000**2, 200**2, 100)
+        self.test('hypot_ ', h, sqrt(s), prec=3)
+        t = hypot2_(40000, 3000, 200, 10.0)
+        self.test('hypot2_', t, s, prec=1)
+        e = euclid_(40000, 3000, 200, 10.0)
+        self.test('euclid_', e, h * 1.03, prec=3, known=abs(e - h) < h * 0.03)
 
         self.test('cbrt',  cbrt(27),   '3.00', prec=2)
         self.test('cbrt',  cbrt(-27), '-3.00', prec=2)

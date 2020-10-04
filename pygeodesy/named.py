@@ -30,13 +30,19 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.09.26'
+__version__ = '20.10.01'
 
 # __DUNDER gets mangled in class
 _immutable_ = 'immutable'
 _name       = '_name'
 _Names_     = '_Names_'
 _Units_     = '_Units_'
+
+
+def _xjoined_(pref, name):
+    '''(INTERNAL) Join C{pref} and non-empty C{name}.
+    '''
+    return joined_(pref, repr(name)) if name and pref else (pref or name)
 
 
 def _xnamed(inst, name, force=False):
@@ -58,9 +64,8 @@ def _xnamed(inst, name, force=False):
 def _xother3(inst, other, name=_other_, up=1, **name_other):
     '''(INTERNAL) Get C{name} and C{up} for a named C{other}.
     '''
-    if name_other:  # and not other
-        for name, other in name_other.items():
-            break
+    if name_other:  # and not other and len(name_other) == 1
+        name, other = name_other.popitem()
     elif other and len(other) == 1:
         other = other[0]
     else:
@@ -185,8 +190,19 @@ class _Named(object):
     def named2(self):
         '''Get the class name I{and/or} the name or C{""} (C{str}).
         '''
-        n, c = self.name, self.classname
-        return ('%s %r' % (c, n)) if c and n else (c or n)
+        return _xjoined_(self.classname, self.name)
+
+    @property_RO
+    def named3(self):
+        '''Get the I{prefixed} class name I{and/or} the name or C{""} (C{str}).
+        '''
+        return _xjoined_(classname(self, prefixed=True),  self.name)
+
+    @property_RO
+    def named4(self):
+        '''Get the package.module.class name I{and/or} the name or C{""} (C{str}).
+        '''
+        return _xjoined_(_dot_(self.__module__, self.__class__.__name__),  self.name)
 
     def toRepr(self, **unused):  # PYCHOK expected
         '''Default C{repr(self)}.

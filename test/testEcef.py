@@ -5,7 +5,7 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.09.08'
+__version__ = '20.09.30'
 
 from base import TestsBase
 
@@ -116,7 +116,7 @@ class Tests(TestsBase):
             t = radians(t.lat), radians(t.lon)
             self.test('philam' + i, fstr(f, prec=4), fstr(t, prec=4))
 
-        # <https://www.researchgate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>
+        # <https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude>
         t = g.reverse(4588301.55696757, 0, 4558059.086984613)
         self.test('sudano', fstr(t[3:6], prec=3), '45.0, 0.0, 100000.0', known=Sudano)
 

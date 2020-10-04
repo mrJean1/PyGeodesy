@@ -9,7 +9,7 @@ from pygeodesy.basics import len2
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _spherical_datum
 from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
                              _limiterrors, PointsError, _ValueError
-from pygeodesy.fmath import fsum_, hypot, hypot2
+from pygeodesy.fmath import euclid, fsum_, hypot, hypot2
 from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, R_M, _item_sq, \
                              _too_distant_, _too_few_, _0_0, _0_5, _1_0, \
                              _4_0, _8_0, _16_0, _32_0, _90_0, _180_0, _360_0
@@ -28,7 +28,7 @@ from pygeodesy.utily import atan2b, degrees2m, degrees90, degrees180, \
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.09.27'
+__version__ = '20.10.03'
 
 _D_I2_ = 1e5  # meter, 100 Km, about 0.9 degrees
 
@@ -435,7 +435,7 @@ def equirectangular_(lat1, lon1, lat2, lon2,
 
 
 def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
-    '''Approximate the C{Euclidian} distance between two (spherical) points.
+    '''Approximate the C{Euclidean} distance between two (spherical) points.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
@@ -465,14 +465,6 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
     return r
 
 
-def _euclidean(a, b):  # in .ellipsoidalBase._intersects2 and -._nearestOn
-    # (INTERNAL) approx. distance for comparison
-    a, b = abs(a), abs(b)
-    if a < b:
-        a, b = b, a
-    return a + b * _0_5  # 0.4142135623731
-
-
 def euclidean_(phi2, phi1, lam21, adjust=True):
     '''Approximate the I{angular} C{Euclidean} distance between two
        (spherical) points.
@@ -493,7 +485,7 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
     '''
     if adjust:
         lam21 *= _scale_rad(phi2, phi1)
-    return _euclidean(phi2 - phi1, lam21)
+    return euclid(phi2 - phi1, lam21)
 
 
 def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):

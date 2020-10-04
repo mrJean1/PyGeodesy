@@ -27,7 +27,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '20.09.22'
+__version__ = '20.10.02'
 
 
 class CartesianBase(Vector3d):
@@ -76,12 +76,12 @@ class CartesianBase(Vector3d):
            @kwarg inverse: Optionally, apply the inverse
                            Helmert transform (C{bool}).
            @kwarg datum: Optional datum of the returned point,
-                         (B{C{datum=}}L{Datum}).
+                         (C{B{datum}=}L{Datum}).
 
            @return: The transformed point (C{Cartesian}).
 
-           @note: For B{C{inverse=True}} keyword B{C{datum}} must
-                  be B{C{datum=}}L{Datums.WGS84}.
+           @note: For C{B{inverse}=True} keyword B{C{datum}} must
+                  be C{B{datum}=}L{Datums.WGS84}.
         '''
         xyz = transform.transform(self.x, self.y, self.z, inverse)
         return self._xnamed(self.classof(xyz, **datum))
@@ -257,7 +257,7 @@ class CartesianBase(Vector3d):
                           (C{LatLon}) or C{None}.
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
                                keyword arguments, ignored if
-                               B{C{LatLon=None}}.
+                               C{B{LatLon}=None}.
 
            @return: The geodetic point (B{C{LatLon}}) or if B{C{LatLon}}
                     is C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon,
@@ -357,7 +357,7 @@ class CartesianBase(Vector3d):
            @kwarg Vector: Optional class to return the C{n-vector}
                           components (L{Vector3d}) or C{None}.
            @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                               arguments, ignored if B{C{Vector=None}}.
+                               arguments, ignored if C{B{Vector}=None}.
 
            @return: A B{C{Vector}} or an L{Vector3Tuple}C{(x, y, z)}
                     if B{C{Vector}} is C{None}.

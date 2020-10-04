@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.22'
+__version__ = '20.10.03'
 
 from base import geographiclib, TestsBase
 
@@ -268,8 +268,8 @@ class Tests(TestsBase):
         self.test('equirectangularTo', p.equirectangularTo(q), '124804.754', fmt='%.3f')
         self.test('equirectangularTo', q.equirectangularTo(p), '124804.754', fmt='%.3f')
 
-        self.test('euclideanTo', p.euclideanTo(q), '131273.287', fmt='%.3f')
-        self.test('euclideanTo', q.euclideanTo(p), '131273.287', fmt='%.3f')
+        self.test('euclideanTo', p.euclideanTo(q), '130015.089', prec=3)  # XXX 131273.287 @ _0_5
+        self.test('euclideanTo', q.euclideanTo(p), '130015.089', prec=3)
 
         self.test('flatLocalTo', p.flatLocalTo(q), '124804.754' if Sph else '125209.633', fmt='%.3f')
         self.test('flatLocalTo', q.flatLocalTo(p), '124804.754' if Sph else '125209.633', fmt='%.3f')

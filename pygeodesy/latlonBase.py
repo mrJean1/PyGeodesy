@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '20.09.27'
+__version__ = '20.10.02'
 
 
 class LatLonBase(_NamedBase):
@@ -853,7 +853,7 @@ class LatLonBase(_NamedBase):
                           components (L{Vector3d}) or C{None}.
            @kwarg Vector_kwds: Optional, additional B{C{Vector}}
                                keyword arguments, ignored if
-                               B{C{Vector=None}}.
+                               C{B{Vector}=None}.
 
            @return: A B{C{Vector}} or a L{Vector3Tuple}C{(x, y, z)}
                     if B{C{Vector}} is C{None}.

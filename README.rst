@@ -17,7 +17,7 @@ There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
 and *-Nvector*.  Each module provides a geodetic *LatLon* and a geocentric
 *Cartesian* class with methods and functions to compute distance, area,
 perimeter, initial and final bearing, intermediate and nearest points,
-intersections of circles, path intersections, trilateration (intersection,
+intersections of circles, path intersections, trilateration (by intersection,
 overlap and 3d), conversions and unrolling, among other things.  For more
 information and further details see the documentation_, the descriptions
 of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the
@@ -127,7 +127,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Sep 29, 2020.*
+*Last updated: Oct 03, 2020.*
 
 License
 =======

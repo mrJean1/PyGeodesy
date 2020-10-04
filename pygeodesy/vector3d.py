@@ -15,24 +15,23 @@ from pygeodesy.basics import isscalar, joined_, len2, map1, property_doc_, \
                              property_RO, _xnumpy, _xkwds
 from pygeodesy.errors import _AssertionError, CrossError, IntersectionError, \
                              _IsnotError, _TypeError, _ValueError
-from pygeodesy.fmath import fdot, fsum, fsum_, hypot_, hypot2_
+from pygeodesy.fmath import euclid_, fdot, fsum, fsum_, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2
 from pygeodesy.interns import EPS, EPS1, NN, PI, PI2, _coincident_, _colinear_, \
                              _COMMA_, _COMMA_SPACE_, _datum_, _h_, _height_, \
                              _invalid_, _Missing, _name_, _near_concentric_, \
-                             _no_intersection_, _PARENTH_, _point_, _scalar_, \
-                             _too_distant_fmt_, _y_, _z_, _1_, _2_, _3_, \
-                             _0_0, _0_5, _1_0
+                             _no_intersection_, _PARENTH_, _scalar_, \
+                             _too_distant_fmt_, _y_, _z_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, _xotherError
-from pygeodesy.namedTuples import Vector3Tuple
+from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
 from pygeodesy.streprs import strs
 from pygeodesy.units import Radius, Radius_
 
 from math import atan2, copysign, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.09.28'
+__version__ = '20.10.03'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -84,11 +83,12 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     '''
     _crosserrors = True  # un/set by .errors.crosserrors
 
-    _fromll = None  # original latlon
-    _length = None  # cached length
-    _numpy  = None  # module numpy iff imported by trilaterate3d2 below
-    _united = None  # cached norm, unit (L{Vector3d})
-    _xyz    = None  # cached xyz (L{Vector3Tuple})
+    _fromll  = None  # original latlon, '_fromll'
+    _length  = None  # cached length
+    _length2 = None  # cached length2
+    _numpy   = None  # module numpy iff imported by trilaterate3d2 below
+    _united  = None  # cached norm, unit (L{Vector3d})
+    _xyz     = None  # cached xyz (L{Vector3Tuple})
 
     _x = 0  # X component
     _y = 0  # Y component
@@ -115,6 +115,13 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         if name:
             self.name = name
 
+    def __abs__(self):
+        '''Return the norm of this vector.
+
+           @return: Norm, unit length (C{float});
+        '''
+        return self.length
+
     def __add__(self, other):
         '''Add this to an other vector (L{Vector3d}).
 
@@ -125,13 +132,6 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return self.plus(other)
 #   __iadd__ = __add__
     __radd__ = __add__
-
-    def __abs__(self):
-        '''Return the norm of this vector.
-
-           @return: Norm, unit length (C{float});
-        '''
-        return self.length
 
     def __cmp__(self, other):  # Python 2-
         '''Compare this and an other vector
@@ -312,7 +312,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''(INTERNAL) Zap cached attributes if updated.
         '''
         if updated:
-            _NamedBase._update(self, updated, '_length',  # '_fromll'
+            _NamedBase._update(self, updated,  # '_fromll'
+                                   '_length', '_length2',
                                    '_united', '_xyz', *attrs)
 
     def angleTo(self, other, vSign=None, wrap=False):
@@ -343,7 +344,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             a -= copysign(PI2, a)
         return a
 
-    def cross(self, other, raiser=None):
+    def cross(self, other, raiser=None):  # raiser=NN
         '''Compute the cross product of this and an other vector.
 
            @arg other: The other vector (L{Vector3d}).
@@ -408,14 +409,44 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        self.others(other)
-
-        return fdot(self.xyz, *other.xyz)
+        if other is self:
+            d = self.length2
+        else:
+            self.others(other)
+            d = fdot(self.xyz, *other.xyz)
+        return d
 
     def equals(self, other, units=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{isequalTo}.
         '''
         return self.isequalTo(other, units=units)
+
+    @property_RO
+    def euclid(self):
+        '''Approximate the length (morm, magnitude) of this vector.
+
+           @see: Function L{euclid}, methods C{length} and C{length2}.
+        '''
+        return euclid_(*self.xyz)
+
+    def iscolinearWith(self, point1, point2, eps=EPS):
+        '''Check whether this and two other points are colinear.
+
+           @arg point1: One point (L{Vector3d}, C{Vector3Tuple}
+                                   or C{Vector4Tuple}).
+           @arg point2: Another point (L{Vector3d}, C{Vector3Tuple}
+                                       or C{Vector4Tuple}).
+           @kwarg eps: Tolerance (C{scalar}), same units as C{x},
+                       C{y}, and C{z}.
+
+           @return: C{True} if colinear, C{False} otherwise.
+
+           @raise TypeError: Invalid B{C{point1}} or B{C{point2}}.
+
+           @see: Method L{nearestOn}.
+        '''
+        v = self if self.name else _otherV3d(this=self)
+        return _iscolinearWith(v, point1, point2, eps=eps)
 
     def isequalTo(self, other, units=False, eps=EPS):
         '''Check if this and an other vector are equal or equivalent.
@@ -423,7 +454,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @arg other: The other vector (L{Vector3d}).
            @kwarg units: Optionally, compare the normalized, unit
                          version of both vectors.
-           @kwarg eps: Tolerance for equality (C{scalar}).
+           @kwarg eps: Tolerance (C{scalar}), same units as C{x},
+                       C{y}, and C{z}.
 
            @return: C{True} if vectors are identical, C{False} otherwise.
 
@@ -446,6 +478,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     @property_RO
     def length(self):
         '''Get the length (norm, magnitude) of this vector (C{float}).
+
+           @see: Methods C{length2} and C{euclid}.
         '''
         if self._length is None:
             self._length = hypot_(self.x, self.y, self.z)
@@ -454,8 +488,12 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     @property_RO
     def length2(self):
         '''Get the length I{squared} of this vector (C{float}).
+
+           @see: Method C{length}.
         '''
-        return hypot2_(self.x, self.y, self.z)
+        if self._length2 is None:
+            self._length2 = hypot2_(self.x, self.y, self.z)
+        return self._length2
 
     def minus(self, other):
         '''Subtract an other vector from this vector.
@@ -490,8 +528,9 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                  U{3-D Point-Line distance<https://MathWorld.Wolfram.com/
                  Point-LineDistance3-Dimensional.html>}.
         '''
-        return _nearestOn(self, self.others(other1=other1),
-                                self.others(other2=other2), within=within)
+        return _nearestOn(self, _V3d(other1) or _otherV3d(other1=other1),
+                                _V3d(other2) or _otherV3d(other2=other2),
+                                within=within)
 
     def negate(self):
         '''Return this vector in opposite direction.
@@ -637,6 +676,55 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             t = fmt % (t,)
         return t
 
+    def trilaterate3d2(self, radius, center2, radius2, center3, radius3, eps=EPS):
+        '''Trilaterate this and two other spheres, each given as a (3d) center and radius.
+
+           @arg radius: Radius of this sphere (same C{units} as this C{x}, C{y}
+                        and C{z}).
+           @arg center2: Center of the 2nd sphere (L{Vector3d}, C{Vector3Tuple}
+                         or C{Vector4Tuple}).
+           @arg radius2: Radius of this sphere (same C{units} as this C{x}, C{y}
+                         and C{z}).
+           @arg center3: Center of the 3rd sphere (L{Vector3d}, C{Vector3Tuple}
+                         or C{Vector4Tuple}).
+           @arg radius3: Radius of the 3rd sphere (same C{units} as this C{x}, C{y}
+                         and C{z}).
+           @kwarg eps: Tolerance (C{scalar}), same units as C{x}, C{y}, and C{z}.
+
+           @return: 2-Tuple with two trilaterated points, each an instance of this
+                    L{Vector3d} (sub-)class.  Both points are the same instance if
+                    all three spheres intersect or abut in a single point.
+
+           @raise ImportError: Package C{numpy} not found, not installed or
+                               older than version 1.15.
+
+           @raise IntersectionError: No intersection, colinear or near concentric
+                                     centers or trilateration failed some other way.
+
+           @raise TypeError: Invalid B{C{center2}} or B{C{center3}}.
+
+           @raise ValueError: Invalid B{C{radius}}, B{C{radius2}} or B{C{radius3}}.
+
+           @note: Package U{numpy<https://pypi.org/project/numpy>} is required,
+                  version 1.15 or later.
+
+           @see: Norrdine, A. U{I{An Algebraic Solution to the Multilateration
+                 Problem}<https://www.ResearchGate.net/publication/
+                 275027725_An_Algebraic_Solution_to_the_Multilateration_Problem>}
+                 and U{I{implementation}<https://www.ResearchGate.net/publication/
+                 288825016_Trilateration_Matlab_Code>}.
+        '''
+        try:
+            return _trilaterate3d2(self if self.name else _otherV3d(center=self),
+                                   Radius_(radius, low=eps),
+                                   center2, radius2, center3, radius3,
+                                   eps=eps, Vector=self.classof)
+        except (AssertionError, FloatingPointError) as x:
+            raise IntersectionError(center=self,     radius=radius,
+                                    center2=center2, radius2=radius2,
+                                    center3=center3, radius3=radius3,
+                                    txt=str(x))
+
     def unit(self, ll=None):
         '''Normalize this vector to unit length.
 
@@ -702,7 +790,7 @@ def intersections2(center1, radius1, center2, radius2, sphere=True,  # MCCABE 14
        @kwarg Vector: Class to return intersections (L{Vector3d} or
                       C{Vector3Tuple}) or C{None} for L{Vector3d}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
-                           ignored if B{C{Vector=None}}.
+                           ignored if C{B{Vector}=None}.
 
        @return: 2-Tuple of the C{center} and C{radius} of the intersection of
                 the spheres if B{C{sphere}} is C{True}.  The C{radius} is C{0.0}
@@ -734,7 +822,7 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
     # (INTERNAL) Intersect two spheres or circles, see L{intersections2}
     # above, separated to allow callers to embellish any exceptions
 
-    def _Vector(x, y, z):
+    def _V3d(x, y, z):
         n = intersections2.__name__
         if Vector is None:
             v = Vector3d(x, y, z, name=n)
@@ -743,13 +831,13 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
             v = Vector(x, y, z, **kwds)
         return v
 
-    def _xVector(c1, u, x, y):
+    def _xV3d(c1, u, x, y):
         xy1 = x, y, _1_0  # transform to original space
-        return _Vector(fdot(xy1, u.x, -u.y, c1.x),
-                       fdot(xy1, u.y,  u.x, c1.y), _0_0)
+        return _V3d(fdot(xy1, u.x, -u.y, c1.x),
+                    fdot(xy1, u.y,  u.x, c1.y), _0_0)
 
-    c1 = _vother(sphere, center1=center1)
-    c2 = _vother(sphere, center2=center2)
+    c1 = _otherV3d(sphere=sphere, center1=center1)
+    c2 = _otherV3d(sphere=sphere, center2=center2)
 
     if r1 < r2:  # r1, r2 == R, r
         c1, c2 = c2, c1
@@ -782,20 +870,55 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
     if sphere:  # sphere radius and center
         c = c1 if x < EPS  else (
             c2 if x > EPS1 else c1.plus(u.times(x)))
-        t = _Vector(c.x, c.y, c.z), Radius(y)
+        t = _V3d(c.x, c.y, c.z), Radius(y)
 
     elif y > 0:  # intersecting circles
-        t = _xVector(c1, u, x, y), _xVector(c1, u, x, -y)
+        t = _xV3d(c1, u, x, y), _xV3d(c1, u, x, -y)
     else:  # abutting circles
-        t = _xVector(c1, u, x, 0)
+        t = _xV3d(c1, u, x, 0)
         t = t, t
     return t
 
 
+def iscolinearWith(point, point1, point2, eps=EPS):
+    '''Check whether a point is colinear with two other points.
+
+       @arg point: The point (L{Vector3d}, C{Vector3Tuple} or
+                              C{Vector4Tuple}).
+       @arg point1: Another point (L{Vector3d}, C{Vector3Tuple}
+                                   or C{Vector4Tuple}).
+       @arg point2: Another point (L{Vector3d}, C{Vector3Tuple}
+                                   or C{Vector4Tuple}).
+       @kwarg eps: Tolerance (C{scalar}), same units as C{x},
+                   C{y} and C{z}.
+
+       @return: C{True} if colinear, C{False} otherwise.
+
+       @raise TypeError: Invalid B{C{point}}, B{C{point1}} or
+                         B{C{point2}}.
+
+       @see: Function L{nearestOn}.
+    '''
+    return _iscolinearWith(_V3d(point) or _otherV3d(point=point),
+                            point1, point2, eps=eps)
+
+
+def _iscolinearWith(v, p1, p2, eps=EPS):
+    # (INTERNAL) Check colinear, see L{isColinear} above,
+    # separated to allow callers to embellish any exceptions
+
+    v1 = _V3d(p1) or _otherV3d(point1=p1)
+    v2 = _V3d(p2) or _otherV3d(point2=p2)
+    n  = _nearestOn(v, v1, v2, within=False, eps=eps)
+    return n is v1 or n.minus(v).length2 < eps
+
+
 def nearestOn(point, point1, point2, within=True,
                                      Vector=None, **Vector_kwds):
-    '''Locate the point between two points closest to this point.
+    '''Locate the point between two points closest to a reference.
 
+       @arg point: Reference point (L{Vector3d}, C{Vector3Tuple}
+                                    or C{Vector4Tuple}).
        @arg point1: Start point (L{Vector3d}, C{Vector3Tuple} or
                                  C{Vector4Tuple}).
        @arg point2: End point (L{Vector3d}, C{Vector3Tuple} or
@@ -807,7 +930,7 @@ def nearestOn(point, point1, point2, within=True,
        @kwarg Vector: Class to return closest point (L{Vector3d} or
                       C{Vector3Tuple}) or C{None} for L{Vector3d}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                           arguments, ignored if B{C{Vector=None}}.
+                           arguments, ignored if C{B{Vector}=None}.
 
        @return: Closest point (L{Vector3d} or C{Vector}).
 
@@ -818,35 +941,73 @@ def nearestOn(point, point1, point2, within=True,
              U{3-D Point-Line distance<https://MathWorld.Wolfram.com/
              Point-LineDistance3-Dimensional.html>}.
     '''
-    def _v3d(p, _i_):
-        if not isinstance(p, Vector3d):
-            try:
-                p = Vector3d(p.x, p.y, p.z)
-            except (AttributeError, TypeError, ValueError) as x:
-                raise _TypeError(_point_ + _i_, p, txt=str(x))
-        return p
-
-    p = _nearestOn(_v3d(point, NN), _v3d(point1, _1_),
-                                    _v3d(point2, _2_), within)
+    p = _nearestOn(_V3d(point)  or _otherV3d(point =point),
+                   _V3d(point1) or _otherV3d(point1=point1),
+                   _V3d(point2) or _otherV3d(point2=point2),
+                   within=within)
     if Vector is not None:
         p = Vector(p.x, p.y, p.z, **Vector_kwds)
     return p
 
 
-def _nearestOn(p0, p1, p2, within=True):
+def _nearestOn(p0, p1, p2, within=True, eps=EPS):
     # (INTERNAL) Get closest point, see L{nearestOn} above,
     # separated to allow callers to embellish any exceptions
 
     p21 = p2.minus(p1)
-    d2 = p21.length**2
-    if d2 < EPS:  # coincident
+    d2 = p21.length2
+    if d2 < eps:  # coincident
         p = p1  # ... or p2
     else:
         t = p0.minus(p1).dot(p21) / d2
-        p = p1 if (within and t < EPS)  else (
-            p2 if (within and t > EPS1) else
+        p = p1 if (within and t < eps) else (
+            p2 if (within and t > (_1_0 - eps)) else
             p1.plus(p21.times(t)))
     return p
+
+
+def _null_space2(numpy, A, eps):
+    # (INTERNAL) Return the nullspace and rank of matrix A
+    # @see: <https://SciPy-Cookbook.ReadTheDocs.io/items/RankNullspace.html>,
+    # <https://NumPy.org/doc/stable/reference/generated/numpy.linalg.svd.html>,
+    # <https://StackOverflow.com/questions/19820921>,
+    # <https://StackOverflow.com/questions/2992947> and
+    # <https://StackOverflow.com/questions/5889142>
+    A = numpy.array(A)
+    m = max(numpy.shape(A))
+    if m != 4:  # for this usage
+        raise _AssertionError(shape=m, txt=modulename(_null_space2, True))
+    # if needed, square A, pad with zeros
+    A = numpy.resize(A, m * m).reshape(m, m)
+#   try:  # no numpy.linalg.null_space <https://docs.SciPy.org/doc/>
+#       return scipy.linalg.null_space(A)  # XXX no spipy.linalg?
+#   except AttributeError:
+#       pass
+    _, s, v = numpy.linalg.svd(A)
+    t = max(eps, eps * s[0])  # tol, s[0] is largest singular
+    r = numpy.sum(s > t)  # rank
+    if r == 3:  # get null_space
+        n = numpy.transpose(v[r:])
+        s = numpy.shape(n)
+        if s != (m, 1):  # bad null_space shape
+            raise _AssertionError(shape=s, txt=modulename(_null_space2, True))
+        e = float(numpy.max(numpy.abs(numpy.dot(A, n))))
+        if e > t:  # residual not near-zero
+            raise _AssertionError(eps=e, txt=modulename(_null_space2, True))
+    else:  # coincident, colinear, concentric centers, ambiguous, etc.
+        n = None
+    # del A, s, vh  # release numpy
+    return n, r
+
+
+def _otherV3d(sphere=True, **name_v):
+    # check B{C{name#}} vector instance, return Vector3d
+    name, v = name_v.popitem()
+    try:
+        return Vector3d(v.x, v.y, v.z if sphere else _0_0, name=name)
+    except AttributeError:  # no _x_ or _y_ attr
+        pass
+    raise _xotherError(Vector3d(0, 0, 0), v, name=name, up=2)
 
 
 def parse3d(str3d, sep=_COMMA_, name=NN, Vector=Vector3d, **Vector_kwds):
@@ -857,7 +1018,7 @@ def parse3d(str3d, sep=_COMMA_, name=NN, Vector=Vector3d, **Vector_kwds):
        @kwarg name: Optional instance name (C{str}).
        @kwarg Vector: Optional class (L{Vector3d}).
        @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
-                           ignored if B{C{Vector=None}}.
+                           ignored if C{B{Vector}=None}.
 
        @return: New B{C{Vector}} or if B{C{Vector}} is C{None},
                 a L{Vector3Tuple}C{(x, y, z)}.
@@ -882,7 +1043,7 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
        @arg vectors: Vectors to be added (L{Vector3d}[]).
        @kwarg Vector: Optional class for the vectorial sum (L{Vector3d}).
        @kwarg Vector_kwds: Optional B{C{Vector}} keyword arguments,
-                           ignored if B{C{Vector=None}}.
+                           ignored if C{B{Vector}=None}.
 
        @return: Vectorial sum as B{C{Vector}} or if B{C{Vector}} is
                 C{None}, a L{Vector3Tuple}C{(x, y, z)}.
@@ -903,11 +1064,11 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
 
 def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                                      eps=EPS, Vector=None, **Vector_kwds):
-    '''Trilaterate three spheres each given as an 3d center and radius.
+    '''Trilaterate three spheres, each given as a (3d) center and radius.
 
        @arg center1: Center of the 1st sphere (L{Vector3d}, C{Vector3Tuple}
                      or C{Vector4Tuple}).
-       @arg radius1: Radius of this sphere (same C{units} as C{x}, C{y}
+       @arg radius1: Radius of the 1st sphere (same C{units} as C{x}, C{y}
                      and C{z}).
        @arg center2: Center of the 2nd sphere (L{Vector3d}, C{Vector3Tuple}
                      or C{Vector4Tuple}).
@@ -917,22 +1078,21 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                      or C{Vector4Tuple}).
        @arg radius3: Radius of the 3rd sphere (same C{units} as C{x}, C{y}
                      and C{z}).
-       @kwarg eps: Tolerance (C{float}).
+       @kwarg eps: Tolerance (C{scalar}), same units as C{x}, C{y}, and C{z}.
        @kwarg Vector: Class to return intersections (L{Vector3d} or
                       C{Vector3Tuple}) or C{None} for L{Vector3d}.
        @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
-                           ignored if B{C{Vector=None}}.
+                           ignored if C{B{Vector}=None}.
 
-       @return: A 2-tuple C{(tri1, tri2)} with both trilaterated points
-                (B{C{Vector}}).  Both C{tri1} and C{tri2} are the same
-                instance if all three spheres abut or intersect in a
-                single point.
+       @return: 2-Tuple with two trilaterated points, each a B{C{Vector}}
+                instance.  Both points are the same instance if all three
+                spheres abut/intersect in a single point.
 
        @raise ImportError: Package C{numpy} not found, not installed or
-                           not at least version 1.15.
+                           older than version 1.15.
 
-       @raise IntersectionError: No intersection, near concentric,
-                                 trilateration failed.
+       @raise IntersectionError: No intersection, colinear or concentric
+                                 centers or trilateration failed some other way.
 
        @raise TypeError: Invalid B{C{center1}}, B{C{center2}} or B{C{center3}}.
 
@@ -944,117 +1104,111 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
        @see: Norrdine, A. U{I{An Algebraic Solution to the Multilateration
              Problem}<https://www.ResearchGate.net/publication/
              275027725_An_Algebraic_Solution_to_the_Multilateration_Problem>}
-             and U{implementation<https://www.ResearchGate.net/publication/
+             and U{I{implementation}<https://www.ResearchGate.net/publication/
              288825016_Trilateration_Matlab_Code>}.
     '''
-    def _txt(c1, r1, _1, c2, r2, _2):
-        # check for too distant and concentric spheres
-        d = c1.minus(c2).length
-        if d > (r1 + r2):
-            t = _too_distant_fmt_ % (d,)
-        elif d < abs(r1 - r2):
-            t = _near_concentric_
-        else:
-            return NN
-        return 'center' + joined_(_1, 'and', _2, t)
+    try:
+        return _trilaterate3d2(_otherV3d(center1=center1),
+                                Radius_(radius1=radius1, low=eps),
+                                center2, radius2, center3, radius3,
+                                eps=eps, Vector=Vector, **Vector_kwds)
+    except (AssertionError, FloatingPointError) as x:
+        raise IntersectionError(center1=center1, radius1=radius1,
+                                center2=center2, radius2=radius2,
+                                center3=center3, radius3=radius3,
+                                txt=str(x))
 
-    def _vN(t01, x, z):
+
+def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds):  # MCCABE 13
+    # (INTERNAL) Intersect three spheres or circles, see L{trilaterate3d2}
+    # above, separated to allow callers to embellish any exceptions
+
+    def _0f3d(F):
+        # map numpy 4-vector to floats and split
+        F0, x, y, z = map(float, F)
+        return F0, Vector3d(x, y, z)
+
+    def _N3d(t01, x, z):
         # compute x, y and z and return as Vector
-        x, y, z = (float(x + t01 * z) for x, z in zip(x, z))
         n = trilaterate3d2.__name__
+        v = x.plus(z.times(t01))
         if Vector is None:
-            v = Vector3d(x, y, z, name=n)
+            v.name = n
         else:
             kwds = _xkwds(Vector_kwds, name=n)
-            v = Vector(x, y, z, **kwds)
+            v = Vector(*v.xyz, **kwds)
         return v
 
-    np = Vector3d._numpy
-    if np is None:  # get numpy, once
-        Vector3d._numpy = np = _xnumpy(trilaterate3d2, 1, 12)
+    def _real_roots(numpy, *coeffs):
+        # non-complex roots of a polynomial
+        rs = numpy.polynomial.polynomial.polyroots(coeffs)
+        return tuple(float(r) for r in rs if not numpy.iscomplex(r))
 
-    c1 = _vother(True, center1=center1)
-    c2 = _vother(True, center2=center2)
-    c3 = _vother(True, center3=center3)
+    def _txt(c1, r1, c2, r2):
+        # check for concentric or too distant spheres
+        d = c1.minus(c2).length
+        if d < abs(r1 - r2):
+            t = _near_concentric_
+        elif d > (r1 + r2):
+            t = _too_distant_fmt_ % (d,)
+        else:
+            return NN
+        return joined_(c1.name, 'and', c2.name, t)
+
+    np = Vector3d._numpy
+    if np is None:  # get numpy, once or ImportError
+        Vector3d._numpy = np = _xnumpy(trilaterate3d2, 1, 10)  # macOS' Python 2.7 numpy 1.8 OK
+
+    c2 = _otherV3d(center2=c2)
+    c3 = _otherV3d(center3=c3)
 
     A = []  # 3 x 4
-    b = []
-    for c, d in ((c1, Radius_(radius1=radius1, low=eps)),
-                 (c2, Radius_(radius2=radius2, low=eps)),
-                 (c3, Radius_(radius3=radius3, low=eps))):
+    b = []  # 1 x 3 or 3 x 1
+    for c, d in ((c1, r1),
+                 (c2, Radius_(radius2=r2, low=eps)),
+                 (c3, Radius_(radius3=r3, low=eps))):
         A.append((_1_0, -2 * c.x, -2 * c.y, -2 * c.z))
         b.append(d**2 - c.length2)
 
-    X = np.dot(np.linalg.pinv(A), b)  # Moore-Penrose pseudo-inverse
-    Z, _ = _null_space2(np, A, eps)
-    if np.shape(Z) != (4, 1):
-        t = None  # near concentric
-    else:
-        x = X[1:]
-        z = Z[1:]
-        # quadratic polynominal, ordered (^0, ^1, ^2)
-        p = (fdot(X, -_1_0, *x),
-             fdot(Z, -_0_5, *x) * 2,
-             fdot(Z,  _0_0, *z))
-        t = tuple(r for r in np.polynomial.polynomial.polyroots(p)
-                          if not np.iscomplex(r))  # too distant
+    try:  # <https://NumPy.org/doc/stable/reference/generated/numpy.seterr.html>
+        e = np.seterr(all='raise')  # throw FloatingPointError for numpy errors
 
-    if not t:  # near concentric, too distant, no intersection, etc.
-        t = _txt(c1, radius1, _1_, c2, radius2, _2_) or \
-            _txt(c1, radius1, _1_, c3, radius3, _3_) or \
-            _txt(c2, radius2, _2_, c3, radius3, _3_) or _no_intersection_
-        raise IntersectionError(center1=center2, radius1=radius1,
-                                center2=center2, radius2=radius2,
-                                center3=center3, radius3=radius3,
-                                txt=t)
+        X = np.dot(np.linalg.pinv(A), b)  # Moore-Penrose pseudo-inverse
+        Z, _ = _null_space2(np, A, eps)
+        if Z is None:
+            t = ()  # coincident, colinear, concentric, etc.
+        else:
+            X0, x = _0f3d(X)
+            Z0, z = _0f3d(Z)
+            # quadratic polynomial coefficients, ordered (^0, ^1, ^2)
+            t = _real_roots(np, x.length2    - X0,  # fdot(X, -_1_0, *x.xyz)
+                                z.dot(x) * 2 - Z0,  # fdot(Z, -_0_5, *x.xyz) * 2
+                                z.length2)          # fdot(Z,  _0_0, *z.xyz)
+
+    finally:  # restore numpy error handling
+        np.seterr(**e)
+
+    if not t:  # coincident, colinear, too distant, no intersection, etc.
+        raise FloatingPointError(_txt(c1, r1, c2, r2) or
+                                 _txt(c1, r1, c3, r3) or
+                                 _txt(c2, r2, c3, r3) or (_colinear_ if
+                                 _iscolinearWith(c1, c2, c3, eps=eps) else
+                                 _no_intersection_))
     elif len(t) < 2:  # one intersection
-        t = t[0], t[0]
+        t *= 2
 
-    v = _vN(t[0], x, z)
+    v = _N3d(t[0], x, z)
     if abs(t[0] - t[1]) < eps:  # abutting
         t = v, v
-    else:
-        t = v, _vN(t[1], x, z)
+    else:  # "lowest" intersection first (to avoid test failures)
+        u = _N3d(t[1], x, z)
+        t = (u, v) if u < v else (v, u)
     return t
 
 
-def _null_space2(numpy, A, eps):
-    # return the nullspace and rank of matrix A
-    # @see: <https://SciPy-Cookbook.ReadTheDocs.io/items/RankNullspace.html>,
-    # <https://NumPy.org/doc/stable/reference/generated/numpy.linalg.svd.html>,
-    # <https://StackOverflow.com/questions/19820921>,
-    # <https://StackOverflow.com/questions/2992947> and
-    # <https://StackOverflow.com/questions/5889142>
-    A = numpy.array(A)
-    m = max(numpy.shape(A))
-    if m != 4:  # for this usage
-        raise _AssertionError(shape=m, txt=modulename(_null_space2, True))
-    # if needed, square A, pad with zeros
-    A = numpy.resize(A, m * m).reshape(m, m)
-#   try:  # no numpy.linalg.null_space <https://docs.SciPy.org/doc/>
-#       return scipy.linalg.null_space(A)  # XXX no spipy.linalg?
-#   except AttributeError:
-#       pass
-    _, s, v = numpy.linalg.svd(A)
-    t = max(eps, eps * s[0])  # tol, s[0] is largest singular
-    r = numpy.sum(s > t)  # rank
-    n = numpy.transpose(v[r:])  # nullspace
-    # double check residual to be near-zero
-    e = float(numpy.max(numpy.abs(numpy.dot(A, n))))
-    if e > t:
-        raise _AssertionError(eps=e, txt=modulename(_null_space2, True))
-    # del A, s, vh  # release numpy
-    return n, r
-
-
-def _vother(sphere, **name_v):
-    # check B{C{center#}} vector instance, return Vector3d
-    name, v = name_v.popitem()
-    try:  # isinstance(v, (Vector3, Vector3Tuple, Vector4Tuple))
-        return Vector3d(v.x, v.y, v.z if sphere else _0_0)
-    except AttributeError:  # no _x_ or _y_ attr
-        pass
-    raise _xotherError(Vector3d(0, 0, 0), v, name=name, up=2)
+def _V3d(v3d):
+    # return v3d if it's a L{Vector3d} instance
+    return v3d if isinstance(v3d, Vector3d) else None
 
 
 __all__ += _ALL_DOCS(intersections2, sumOf)

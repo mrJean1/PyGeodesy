@@ -4,7 +4,7 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '20.08.02'
+__version__ = '20.10.03'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
@@ -126,8 +126,8 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffEquirectangular, *_4((0.25113, 35,  3,  90, 0.05965),
                                               (0.25113, 35,  3, 150, 0.05532)))
 
-        t.test4(HausdorffEuclidean, *_4((0.5434, 56, 51,  90, 0.23356),  # XXX different i, j?
-                                        (0.5434, 56, 51, 150, 0.22296)))
+        t.test4(HausdorffEuclidean, *_4((0.52803, 56, 51,  90, 0.22571),  # XXX different i, j?
+                                        (0.52803, 56, 51, 150, 0.21579)))
 
         t.test4(HausdorffFlatLocal, *_4((0.25116, 35, 3,  90, 0.05951),
                                         (0.25116, 35, 3, 150, 0.0552)))
@@ -222,8 +222,8 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffEquirectangular, *_4((0.33016, 49, 29,  90, 0.06075),
                                               (0.33016, 49, 29, 150, 0.04918)))
 
-        t.test4(HausdorffEuclidean, *_4((0.6418, 49, 29,  90, 0.22056),
-                                        (0.6418, 49, 29, 150, 0.19676)))
+        t.test4(HausdorffEuclidean, *_4((0.61785, 49, 29,  90, 0.21327),
+                                        (0.61785, 49, 29, 150, 0.19061)))
 
         t.test4(HausdorffFlatLocal, *_4((0.33092, 49, 29,  90, 0.06067),
                                         (0.33092, 49, 29, 150, 0.04912)))

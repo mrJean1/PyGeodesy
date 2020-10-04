@@ -71,7 +71,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.09.28'
+__version__ = '20.10.02'
 
 _TRIPS = 17  # 8..9 sufficient, EcefSudano.reverse
 
@@ -885,7 +885,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
            @kwarg Vector: Optional vector class to return C{(x, y, z)} or
                           C{None}.
            @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                               arguments, ignored if B{C{Vector=None}}.
+                               arguments, ignored if C{B{Vector}=None}.
 
            @return: A C{Vector}C{(x, y, z, **Vector_kwds)} instance or a
                     L{Vector3Tuple}C{(x, y, z)} if B{C{Vector}} is C{None}.

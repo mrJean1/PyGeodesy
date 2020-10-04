@@ -100,7 +100,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '20.09.24'
+__version__ = '20.10.02'
 
 
 def _fraction(fraction, n):
@@ -909,7 +909,7 @@ def fractional(points, fi, LatLon=None, **LatLon_kwds):
        @kwarg LatLon: Optional class to return the I{intermediate},
                       I{fractional} point (C{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional B{C{LatLon}} keyword arguments,
-                           ignored of B{C{LatLon=None}}.
+                           ignored of C{B{LatLon}=None}.
 
        @return: A B{C{LatLon}} or if B{C{LatLon}} is C{None}, a
                 L{LatLon2Tuple}C{(lat, lon)} for B{C{points[fi]}} if

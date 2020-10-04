@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Degrees, Easting, Lat, Lon, Northing, \
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.09.27'
+__version__ = '20.09.29'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -372,7 +372,7 @@ class UtmUps8Tuple(_NamedTuple):
     _Names_ = (_zone_,  _hemipole_, _easting_, _northing_,
                _band_,  _datum_, _convergence_, _scale_)
     _Units_ = ( Number_, Str,        Easting,   Northing,
-                Band,   _Pass,   _Pass,         _Pass)
+                Band,   _Pass,    Degrees,       Scalar)
 
     def __new__(cls, z, h, e, n, B, d, c, s, Error=None):
         if Error is not None:

@@ -23,16 +23,18 @@ from pygeodesy.streprs import unstr
 from pygeodesy.units import Int_
 
 from math import copysign, hypot, sqrt  # pow
-from operator import mul as _mul_
+from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.09.28'
+__version__ = '20.10.03'
 
 _not_finite_ = 'not finite'
 
-_1_3rd = _1_0 / _3_0
-_2_3rd = _2_0 / _3_0
-_3_2nd = _3_0 / _2_0  # _1_5
+# sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
+_0_4142 =  sqrt(_2_0) - _1_0  # 0.41421356237309504880
+_1_3rd  = _1_0 / _3_0
+_2_3rd  = _2_0 / _3_0
+_3_2nd  = _3_0 / _2_0  # _1_5
 
 
 def _2even(s, r, p):
@@ -396,7 +398,7 @@ class Fdot(Fsum):
             raise LenError(Fdot, a=len(a), b=len(b))
 
         Fsum.__init__(self)
-        self.fadd(map(_mul_, a, b))
+        self.fadd(map(_mul, a, b))
 
 
 class Fhorner(Fsum):
@@ -487,6 +489,40 @@ def cbrt2(x):
     return pow(abs(x), _2_3rd)  # XXX pow(abs(x), _1_3rd)**2
 
 
+def euclid(x, y):
+    '''Appoximate the norm M(sqrt(x**2 + y**2)} by M{max(abs(x), abs(y)) + min(abs(x), abs(y)) * 0.4141...}.
+
+       @arg x: X component (C{scalar}).
+       @arg y: Y component (C{scalar}).
+
+       @return: Norm (C{float}).
+
+       @see: Function L{euclid}.
+    '''
+    x, y = abs(x), abs(y)
+    if y > x:
+        x, y = y, x
+    return x + y * _0_4142  # XXX _0_5 before 20.10.02
+
+
+def euclid_(*xs):
+    '''Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
+
+       @arg xs: X arguments, positional (C{scalar}[]).
+
+       @return: Norm (C{float}).
+
+       @see: Function L{euclid}.
+    '''
+    e = _0_0
+    for x in sorted(map(abs, xs)):
+        # e = euclid(x, e)
+        if x > e:
+            e, x = x, e
+        e += x * _0_4142
+    return e
+
+
 def favg(v1, v2, f=0.5):
     '''Return the weighted average of two values.
 
@@ -519,7 +555,7 @@ def fdot(a, *b):
     if len(a) != len(b):
         raise LenError(fdot, a=len(a), b=len(b))
 
-    return fsum(map(_mul_, a, b))
+    return fsum(map(_mul, a, b))
 
 
 def fdot3(a, b, c, start=0):
@@ -689,8 +725,8 @@ except ImportError:
     def fprod(iterable, start=_1_0):
         '''Iterable product, like C{math.prod} or C{numpy.prod}.
 
-           @arg iterable: Values to be multiplied (C{scalar}[]).
-           @kwarg start: Initial product, also the value returned
+           @arg iterable: Terms to be multiplied (C{scalar}[]).
+           @kwarg start: Initial term, also the value returned
                          for an empty iterable (C{scalar}).
 
            @return: The product (C{float}).
@@ -698,7 +734,7 @@ except ImportError:
            @see: U{NumPy.prod<https://docs.SciPy.org/doc/
                  numpy/reference/generated/numpy.prod.html>}.
         '''
-        return freduce(_mul_, iterable, start)
+        return freduce(_mul, iterable, start)
 
 
 def frange(start, number, step=1):

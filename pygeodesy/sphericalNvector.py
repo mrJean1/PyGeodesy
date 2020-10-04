@@ -49,7 +49,7 @@ from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '20.09.27'
+__version__ = '20.10.02'
 
 _paths_ = 'paths'
 
@@ -63,9 +63,9 @@ class Cartesian(CartesianSphericalBase):
         '''Convert this cartesian to an C{Nvector}-based geodetic point.
 
            @kwarg LatLon_datum_kwds: Optional L{LatLon}, B{C{datum}} and
-                  other keyword arguments, ignored if B{C{LatLon=None}}.
+                  other keyword arguments, ignored if C{B{LatLon}=None}.
                   Use B{C{LatLon=...}} to override the L{LatLon} class
-                  or specify B{C{LatLon=None}}.
+                  or specify C{B{LatLon}=None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}} is
                     C{None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
@@ -777,10 +777,10 @@ class Nvector(NvectorBase):
 
            @kwarg LatLon_height_kwds: Optional L{LatLon}, B{C{height}} and
                                       other keyword arguments, ignored if
-                                      B{C{LatLon=None}}.  Use
+                                      C{B{LatLon}=None}.  Use
                                       B{C{LatLon=...}} to override this
                                       L{LatLon} class or specify
-                                      B{C{LatLon=None}}.
+                                      C{B{LatLon}=None}.
 
            @return: The geodetic point (L{LatLon}) or if B{C{LatLon}}
                     is C{None}, a L{LatLon3Tuple}C{(lat, lon, height)}.
@@ -906,7 +906,7 @@ def intersection(start1, end1, start2, end2,
        @kwarg LatLon: Optional class to return the intersection
                       point (L{LatLon}).
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if B{C{LatLon=None}}.
+                           arguments, ignored if C{B{LatLon}=None}.
 
        @return: The intersection point (B{C{LatLon}}) or 3-tuple
                 (C{degrees90}, C{degrees180}, height) if B{C{LatLon}}
@@ -987,7 +987,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
        @kwarg LatLon: Optional class to return the mean point
                       (L{LatLon}).
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if B{C{LatLon=None}}.
+                           arguments, ignored if C{B{LatLon}=None}.
 
        @return: Point at geographic mean and mean height (B{C{LatLon}}).
 
@@ -1104,7 +1104,7 @@ def triangulate(point1, bearing1, point2, bearing2,
        @kwarg LatLon: Optional class to return the triangulated point
                       (L{LatLon}).
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if B{C{LatLon=None}}.
+                           arguments, ignored if C{B{LatLon}=None}.
 
        @return: Triangulated point (B{C{LatLon}}).
 
@@ -1143,7 +1143,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,  # PYCH
        @kwarg useZ: Include Z component iff non-NaN, non-zero (C{bool}).
        @kwarg LatLon: Optional class to return the trilaterated
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
-                           ignored if B{C{LatLon=None}}.
+                           ignored if C{B{LatLon}=None}.
 
        @return: Trilaterated point (B{C{LatLon}}).
 

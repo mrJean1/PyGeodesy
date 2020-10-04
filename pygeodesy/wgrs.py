@@ -27,7 +27,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '20.09.27'
+__version__ = '20.10.02'
 
 _Base    =  10
 _BaseLen =  4
@@ -214,7 +214,7 @@ class Georef(Str):
            @kwarg LatLon: Class to use (C{LatLon}) or C{None}.
            @kwarg height: Optional height ({meter}).
            @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if B{C{LatLon=None}}.
+                               arguments, ignored if C{B{LatLon}=None}.
 
            @return: This georef location (B{C{LatLon}}) or if B{C{LatLon}}
                     is C{None}, a L{LatLon3Tuple}C{(lat, lon, height)}.
