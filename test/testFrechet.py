@@ -144,7 +144,7 @@ if __name__ == '__main__':  # MCCABE 13
         t.test2(FrechetEquirectangular, (5.88254, 41, 18,    90,  5400),
                                         (5.90078, 40, 15.5, 137, 10710))
 
-        t.test2(FrechetEuclidean, (2.52802, 50, 26,    73,   540),
+        t.test2(FrechetEuclidean, (2.52802, 50, 26,    73,  5400),
                                   (2.48948, 39, 22.5, 124, 10710))
 
         t.test2(FrechetFlatLocal, (5.85735, 42, 19,    88,  5400),
