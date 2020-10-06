@@ -20,6 +20,6 @@ install:
 
 script:
   - python -c 'import distro; print(distro.id(), repr(distro.name()))'
-  - python -c 'import platform; print(platform.uname(), platform.dist())'
+  - python -c 'import platform; print(platform.uname())'  # , platform.dist())'
   - python -c 'import geographiclib; print("geographiclib " + geographiclib.__version__)'
   - python test/run.py -failedonly
