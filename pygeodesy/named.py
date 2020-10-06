@@ -30,7 +30,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.10.01'
+__version__ = '20.10.06'
 
 # __DUNDER gets mangled in class
 _immutable_ = 'immutable'
@@ -188,19 +188,19 @@ class _Named(object):
 
     @property_RO
     def named2(self):
-        '''Get the class name I{and/or} the name or C{""} (C{str}).
+        '''Get the C{class} name I{and/or} the name or C{""} (C{str}).
         '''
         return _xjoined_(self.classname, self.name)
 
     @property_RO
     def named3(self):
-        '''Get the I{prefixed} class name I{and/or} the name or C{""} (C{str}).
+        '''Get the I{prefixed} C{class} name I{and/or} the name or C{""} (C{str}).
         '''
         return _xjoined_(classname(self, prefixed=True),  self.name)
 
     @property_RO
     def named4(self):
-        '''Get the package.module.class name I{and/or} the name or C{""} (C{str}).
+        '''Get the {Cpackage.module.class} name I{and/or} the name or C{""} (C{str}).
         '''
         return _xjoined_(_dot_(self.__module__, self.__class__.__name__),  self.name)
 

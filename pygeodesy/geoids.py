@@ -7,41 +7,40 @@ C{LatLon} locations or separate lat-/longitudes using different
 interpolation methods and C{geoid} files.
 
 L{GeoidKarney} is a transcription of I{Charles Karney}'s C++ class U{Geoid
-<https://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.
+<https://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.  The
+L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on U{scipy
+<https://SciPy.org>} and U{numpy<https://PyPI.org/project/numpy>} and
+require those packages to be installed.
 
-The L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on
-U{scipy<https://SciPy.org>} and U{numpy<https://PyPI.org/project/numpy>}
-and require those packages to be installed.
+In addition, each geoid interpolator needs C{grid knots} (down)loaded
+from a C{geoid} file, specific to the interpolator, more details below.
+For each interpolator, there are several interpolation choices, for
+example I{linear}, I{cubic}, etc.
 
-In addition, each geoid interpolator needs C{grid knots} to be
-(down)loaded from a geoid file, specific to the interpolator, more
-details below.  For each interpolator, there are several interpolation
-choices, like I{linear}, I{cubic}, etc.
+B{Typical usage} is as follows.  First, create an interpolator from a
+C{geoid} file, also referred to as the C{grid knots}.
 
-Typical usage is as follows.  First create an interpolator from a
-geoid file, also referred to as the C{grid knots}.
+C{>>> ginterpolator = GeoidXyz(grid_file, **options)}
 
-C{ginterpolator = GeoidXyz(grid_file, **options)}
+Then, get the interpolated geoid height of C{LatLon} location(s) with
 
-Get the interpolated geoid height of C{LatLon} location(s) with
-
-C{h = ginterpolator(ll)}
-
-or
-
-C{h0, h1, h2, ... = ginterpolator(ll0, ll1, ll2, ...)}
+C{>>> h = ginterpolator(ll)}
 
 or
 
-C{hs = ginterpolator(lls)}  # C{list, tuple, generator, ...}
-
-For separate lat-/longitudes invoke the C{.height} method
-
-C{h = ginterpolator.height(lat, lon)}
+C{>>> h0, h1, h2, ... = ginterpolator(ll0, ll1, ll2, ...)}
 
 or
 
-C{h0, h1, h2, ... = ginterpolator.height(lats, lons)}  # C{list, ...}
+C{>>> hs = ginterpolator(lls)  # list, tuple, generator, ...}
+
+For separate lat- and longitudes invoke the C{.height} method
+
+C{>>> h = ginterpolator.height(lat, lon)}
+
+or
+
+C{>>> h0, h1, h2, ... = ginterpolator.height(lats, lons)  # lists, tuples, ...}
 
 Errors from C{scipy} are raised as L{SciPyError}s.  Warnings issued by
 C{scipy} can be thrown as L{SciPyWarning} exceptions, provided Python
@@ -91,7 +90,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.09.22'
+__version__ = '20.10.06'
 
 # temporarily hold a single instance for each int value
 _intCs = {}

@@ -26,7 +26,7 @@ from math import copysign, hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.10.03'
+__version__ = '20.10.06'
 
 _not_finite_ = 'not finite'
 
@@ -490,14 +490,14 @@ def cbrt2(x):
 
 
 def euclid(x, y):
-    '''Appoximate the norm M(sqrt(x**2 + y**2)} by M{max(abs(x), abs(y)) + min(abs(x), abs(y)) * 0.4141...}.
+    '''Appoximate the norm M{sqrt(x**2 + y**2)} by M{max(abs(x), abs(y)) + min(abs(x), abs(y)) * 0.4141...}.
 
        @arg x: X component (C{scalar}).
        @arg y: Y component (C{scalar}).
 
        @return: Norm (C{float}).
 
-       @see: Function L{euclid}.
+       @see: Function L{euclid_}.
     '''
     x, y = abs(x), abs(y)
     if y > x:
@@ -506,7 +506,7 @@ def euclid(x, y):
 
 
 def euclid_(*xs):
-    '''Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
+    '''Appoximate the norm M{sqrt(sum(x**2 for x in xs))}.
 
        @arg xs: X arguments, positional (C{scalar}[]).
 

@@ -34,7 +34,7 @@ from pygeodesy.units import Epoch, Radius_
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '20.10.03'
+__version__ = '20.10.04'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 16    # _intersects2, _nearestOn interations, 6 is sufficient
@@ -251,11 +251,11 @@ class LatLonEllipsoidalBase(LatLonBase):
         self._datum = datum
 
     def distanceTo2(self, other):
-        '''Approximate the distance and (initial) bearing between this
+        '''I{Approximate} the distance and (initial) bearing between this
            and an other (ellipsoidal) point based on the radii of curvature.
 
-           Suitable only for short distances up to a few hundred Km
-           or Miles and only between non-near-polar points.
+           I{Suitable only for short distances up to a few hundred Km
+           or Miles and only between points not near-polar}.
 
            @arg other: The other point (C{LatLon}).
 
@@ -266,7 +266,9 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise ValueError: Incompatible datum ellipsoids.
 
            @see: Method L{Ellipsoid.distance2} and U{Local, flat earth
-                 approximation<https://www.EdWilliams.org/avform.htm#flat>}.
+                 approximation<https://www.EdWilliams.org/avform.htm#flat>}
+                 aka U{Hubeny<https://www.OVG.AT/de/vgi/files/pdf/3781/>}
+                 formula.
         '''
         return self.ellipsoids(other).distance2(self.lat,  self.lon,
                                                other.lat, other.lon)

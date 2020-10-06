@@ -49,7 +49,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.10.02'
+__version__ = '20.10.05'
 
 _EPS_Karney    =  sqrt(EPS) * 0.01  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -467,8 +467,8 @@ class EquidistantKarney(_AzimuthalBaseKarney):
         s = hypot( x, y)
 
         r = self.geodesic.Direct(self.lat0, self.lon0, z, s, self._mask)
-        t = self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds) if LatLon else \
-            self._7Tuple(x, y, r, self._1_rk(r))
+        t = self._7Tuple(x, y, r, self._1_rk(r)) if LatLon is None else \
+            self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds)
         return self._xnamed(t, name=name)
 
     def _1_rk(self, r):
@@ -672,8 +672,9 @@ class GnomonicKarney(_AzimuthalBaseKarney):
         else:
             raise AzimuthalError(x=x, y=y, txt=_no_convergence_fmt_ % (e,))
 
-        t = self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds) if LatLon else \
-            self._7Tuple(x, y, r, r.M12)
+        t = self._7Tuple(x, y, r, r.M12) if LatLon is None else \
+            self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds)
+
         t._iteration = self._iteration
         return self._xnamed(t, name=name)
 

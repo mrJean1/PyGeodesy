@@ -94,7 +94,7 @@ R_VM = Radius(R_VM=6366707.0194937)  # Aviation/Navigation earth radius (C{meter
 # R_ = Radius(R_  =6372797.560856)   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '20.09.28'
+__version__ = '20.10.05'
 
 _1_EPS = _1_0 / EPS        # largest abs(f_)
 _PI4_3 = _PI4 / _3_0       # PYCHOK used!
@@ -651,13 +651,13 @@ class Ellipsoid(_NamedEnumItem):
         return degrees2m(deg, radius=self.a, lat=lat)
 
     def distance2(self, lat0, lon0, lat1, lon1):
-        '''Approximate the distance and (initial) bearing between two
-           points based on the U{local, flat earth approximation
+        '''I{Approximate} the distance and (initial) bearing between
+           two points based on the U{local, flat earth approximation
            <https://www.EdWilliams.org/avform.htm#flat>} aka U{Hubeny
            <https://www.OVG.AT/de/vgi/files/pdf/3781/>} formula.
 
-           Suitable only for distances of several hundred Km or Miles
-           and only between points not near-polar.
+           I{Suitable only for distances of several hundred Km or Miles
+           and only between points not near-polar}.
 
            @arg lat0: From latitude (C{degrees}).
            @arg lon0: From longitude (C{degrees}).

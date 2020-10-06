@@ -29,7 +29,7 @@ from pygeodesy.streprs import _Fmt, fstr, _g
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.09.27'
+__version__ = '20.10.05'
 
 
 class _NamedUnit(_Named):
@@ -106,9 +106,9 @@ class Float(float, _NamedUnit):
 
            @see: Method C{Float.toRepr} and property C{Float.std_repr}.
 
-           @note: Use env variable {PYGEODESY_FLOAT_STD_REPR=std}
-                  to get the standard C{repr} or use C{-=named}
-                  for the named C{toRepr}.
+           @note: Use C{env} variable C{PYGEODESY_FLOAT_STD_REPR=std} prior
+                  to C{import pygeodesy} to get the standard C{repr} or use
+                  C{-=named} for the named C{toRepr} representation.
         '''
         return self.toRepr(std=self._std_repr)
 
@@ -208,9 +208,10 @@ class Int(int, _NamedUnit):
 
            @see: Method C{Int.toRepr} and property C{Int.std_repr}.
 
-           @note: Use env variable {PYGEODESY_INT_STD_REPR=std}
-                  to get the standard C{repr} or use C{...=named}
-                  for the named C{toRepr}.
+           @note: Use C{env} variable C{PYGEODESY_INT_STD_REPR=std}
+                  prior to C{import pygeodesy} to get the standard
+                  C{repr} or use C{-=named} for the named C{toRepr}
+                  representation.
         '''
         return self.toRepr(std=self._std_repr)
 
@@ -309,6 +310,11 @@ class Bool(Int, _NamedUnit):
 
            @kwarg std: Use the standard C{repr} or the named
                        representation (C{bool}).
+
+           @note: Use C{env} variable C{PYGEODESY_BOOL_STD_REPR=std}
+                  prior to C{import pygeodesy} to get the standard
+                  C{repr} or use C{-=named} for the named C{toRepr}
+                  representation.
         '''
         r = repr(self._bool_True_or_False)  # self.toStr()
         return r if std else self._toRepr(r)
@@ -355,9 +361,10 @@ class Str(str, _NamedUnit):
 
            @see: Method C{Str.toRepr} and property C{Str.std_repr}.
 
-           @note: Use env variable {PYGEODESY_STR_STD_REPR=std}
-                  to get the standard C{repr} or use C{...=named}
-                  for the named C{toRepr}.
+           @note: Use C{env} variable C{PYGEODESY_STR_STD_REPR=std}
+                  prior to C{import pygeodesy} to get the standard
+                  C{repr} or use C{-=named} for the named C{toRepr}
+                  representation.
         '''
         return self.toRepr(std=self._std_repr)  # see .test/testGars.py
 

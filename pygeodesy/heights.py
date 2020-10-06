@@ -8,39 +8,39 @@ L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
 L{HeightIDWhubeny}, L{HeightIDWkarney}, L{HeightIDWthomas}, L{HeightIDWvincentys},
 L{HeightLinear}, L{HeightLSQBiSpline} and L{HeightSmoothBiSpline}
 to interpolate the height of C{LatLon} locations or separate
-lat-/longitudes from a set of C{LatLon} points with known heights.
+lat-/longitudes from a set of C{LatLon} points with C{known} heights.
 
 Classes L{HeightCubic} and L{HeightLinear} require package U{numpy
 <https://PyPI.org/project/numpy>}, classes L{HeightLSQBiSpline} and
-L{HeightSmoothBiSpline} require package U{scipy<https://SciPy.org>} and
-classes L{HeightIDWdistanceTo} -iff used with L{ellipsoidalKarney.LatLon}
-points- and L{HeightIDWkarney} requires I{Karney}'s U{geographiclib
+L{HeightSmoothBiSpline} require package U{scipy<https://SciPy.org>}.
+Classes L{HeightIDWkarney} and L{HeightIDWdistanceTo} -iff used with
+L{ellipsoidalKarney.LatLon} points- require I{Karney}'s U{geographiclib
 <https://PyPI.org/project/geographiclib>} to be installed.
 
-Typical usage is as follows.  First create an interpolator from a
-given set of C{LatLon} points with known heights, called C{knots}.
+B{Typical usage} is as follows.  First, create an interpolator from a
+given set of C{LatLon} points with C{known} heights, called C{knots}.
 
-C{hinterpolator = HeightXyz(knots, **options)}
+C{>>> hinterpolator = HeightXyz(knots, **options)}
 
-Get the interpolated height of other C{LatLon} location(s) with
+Then, get the interpolated height of other C{LatLon} location(s) with
 
-C{h = hinterpolator(ll)}
-
-or
-
-C{h0, h1, h2, ... = hinterpolator(ll0, ll1, ll2, ...)}
+C{>>> h = hinterpolator(ll)}
 
 or
 
-C{hs = hinterpolator(lls)}  # C{list, tuple, generator, ...}
-
-For separate lat-/longitudes invoke the C{.height} method
-
-C{h = hinterpolator.height(lat, lon)}
+C{>>> h0, h1, h2, ... = hinterpolator(ll0, ll1, ll2, ...)}
 
 or
 
-C{h0, h1, h2, ... = hinterpolator.height(lats, lons)}  # C{list, ...}
+C{>>> hs = hinterpolator(lls)  # list, tuple, generator, ...}
+
+For separate lat- and longitudes invoke the C{.height} method
+
+C{>>> h = hinterpolator.height(lat, lon)}
+
+or
+
+C{>>> h0, h1, h2, ... = hinterpolator.height(lats, lons)  # lists, tuples, ...}
 
 
 The C{knots} do not need to be ordered for any of the height

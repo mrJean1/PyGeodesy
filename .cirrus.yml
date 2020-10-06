@@ -12,7 +12,7 @@ test_task:
     - pip install distro
     - pip install geographiclib
     - python -c 'import distro; print(distro.id(), repr(distro.name()), distro.version())'
-    - python -c 'import platform; print(platform.uname())'
+    - python -c 'import platform; print(platform.uname(), platform.dist())'
     - python -c 'import geographiclib; print("geographiclib " + geographiclib.__version__)'
     - python -B test/run.py -failedonly
     - env PYGEODESY_LAZY_IMPORT=0 python -B test/run.py -failedonly

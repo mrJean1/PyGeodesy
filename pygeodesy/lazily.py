@@ -10,20 +10,22 @@ C{Lazy import} is I{supported only for U{Python 3.7+
 default in U{PyGeodesy 18.11.10+<https://PyPI.org/project/PyGeodesy>}
 and later}.
 
-To disable C{lazy import}, set environment variable C{PYGEODESY_LAZY_IMPORT}
-to C{0} or an empty string.  Use C{2} or higher to print a message for
-each lazily imported module and attribute, similar to environment variable
-C{PYTHONVERBOSE} showing imports.  Using C{3} or higher also shows the
-importing file name and line number.
+To I{enable} C{lazy import}, set C{env} variable C{PYGEODESY_LAZY_IMPORT}
+to C{1}, C{2}, C{3} or higher prior to C{import pygeodesy}.  To I{disable}
+C{lazy import}, set C{env} variable C{PYGEODESY_LAZY_IMPORT} to C{0} or
+an empty string.  Use C{2} or higher to print a message for each lazily
+imported module and attribute, similar to C{env} variable C{PYTHONVERBOSE}
+showing imports.  Using C{3} or higher also shows the importing file name
+and line number.
 
 @note: C{Lazy import} applies only to top-level modules of C{pygeodesy}.
 A C{lazy import} of a top-level module also loads all sub-modules
 imported by that top-level module.
 
-@var isLazy: Lazy import setting (C{int} 0, 1, 2 or 3+) from environment
-             variable C{PYGEODESY_LAZY_IMPORT}, or C{None} if C{lazy import}
-             is not supported or not enabled, or C{False} if initializing
-             C{lazy import} failed.
+@var isLazy: Lazy import setting (C{int} 0, 1, 2 or 3+) from C{env} variable
+             C{PYGEODESY_LAZY_IMPORT}, or C{None} if C{lazy import} is not
+             supported or not enabled, or C{False} if initializing C{lazy
+             import} failed.
 '''
 from pygeodesy.interns import NN, __all__ as _interns_all, _areaOf_, \
                              _COMMA_SPACE_, _doesn_t_exist_, _DOT_, _dot_, \
@@ -214,7 +216,7 @@ _ALL_OVERRIDING = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.10.02'
+__version__ = '20.10.05'
 
 
 def _ALL_OTHER(*objs):

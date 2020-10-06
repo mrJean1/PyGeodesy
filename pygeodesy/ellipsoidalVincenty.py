@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Ellispodial classes for Vincenty's geodetic (lat-/longitude) L{LatLon},
+u'''Ellispodial classes for I{Vincenty}'s geodetic (lat-/longitude) L{LatLon},
 geocentric (ECEF) L{Cartesian} and L{VincentyError} and functions L{areaOf}
 and L{perimeterOf}.
 
@@ -79,13 +79,13 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.10.02'
+__version__ = '20.10.04'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 
 
 class VincentyError(_ValueError):
-    '''Error raised from Vincenty's direct and inverse methods
+    '''Error raised from I{Vincenty}'s C{direct} and C{inverse} methods
        for coincident points or lack of convergence.
     '''
     pass
@@ -119,7 +119,8 @@ class Cartesian(CartesianEllipsoidalBase):
 
 
 class LatLon(LatLonEllipsoidalBase):
-    '''Using the formulae devised by Thaddeus Vincenty (1975) with an
+    '''Using the formulae devised by U{I{Thaddeus Vincenty (1975)}
+       <https://WikiPedia.org/wiki/Vincenty's_formulae>} for an (oblate)
        ellipsoidal model of the earth to compute the geodesic distance
        and bearings between two given points or the destination point
        given an start point and initial bearing.
@@ -128,10 +129,10 @@ class LatLon(LatLonEllipsoidalBase):
        datum.  The default is Datums.WGS84, which is the most globally
        accurate.  For other models, see the Datums in module datum.
 
-       Note: This implementation of the Vincenty methods may not
-       converge for some valid points, raising a VincentyError.  In
-       that case, a result may be obtained by increasing the epsilon
-       and/or the iteration limit, see properties L{LatLon.epsilon}
+       Note: This implementation of I{Vincenty} methods may not converge
+       for some valid points, raising a L{VincentyError}.  In that case,
+       a result may be obtained by increasing the epsilon and/or the
+       iteration tolerance and/or limit, see properties L{LatLon.epsilon}
        and L{LatLon.iterations}.
     '''
     _Ecef       = EcefVeness  # preferred C{Ecef...} class, backward compatible
@@ -146,8 +147,8 @@ class LatLon(LatLonEllipsoidalBase):
 
     def bearingTo2(self, other, wrap=False):
         '''Compute the initial and final bearing (forward and reverse
-           azimuth) from this to an other point, using Vincenty's
-           inverse method.  See methods L{initialBearingTo} and
+           azimuth) from this to an other point, using I{Vincenty}'s
+           C{inverse} method.  See methods L{initialBearingTo} and
            L{finalBearingTo} for more details.
 
            @arg other: The other point (L{LatLon}).
@@ -171,7 +172,7 @@ class LatLon(LatLonEllipsoidalBase):
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
            for the given distance from this point along a geodesic
-           given by an initial bearing, using Vincenty's direct
+           given by an initial bearing, using I{Vincenty}'s C{direct}
            method.  See method L{destination2} for more details.
 
            @arg distance: Distance (C{meter}).
@@ -199,7 +200,7 @@ class LatLon(LatLonEllipsoidalBase):
         '''Compute the destination point and the final bearing (reverse
            azimuth) after having travelled for the given distance from
            this point along a geodesic given by an initial bearing,
-           using Vincenty's direct method.
+           using I{Vincenty}'s C{direct} method.
 
            The distance must be in the same units as this point's datum
            axes, conventionally C{meter}.  The distance is measured on
@@ -239,7 +240,7 @@ class LatLon(LatLonEllipsoidalBase):
 
     def distanceTo(self, other, wrap=False, **unused):  # ignore radius=R_M
         '''Compute the distance between this and an other point
-           along a geodesic, using Vincenty's inverse method.
+           along a geodesic, using I{Vincenty}'s C{inverse} method.
            See method L{distanceTo3} for more details.
 
            @arg other: The other point (L{LatLon}).
@@ -268,7 +269,7 @@ class LatLon(LatLonEllipsoidalBase):
     def distanceTo3(self, other, wrap=False):
         '''Compute the distance, the initial and final bearing along a
            geodesic between this and an other point, using Vincenty's
-           inverse method.
+           C{inverse} method.
 
            The distance is in the same units as this point's datum axes,
            conventially meter.  The distance is measured on the surface
@@ -316,7 +317,7 @@ class LatLon(LatLonEllipsoidalBase):
         '''Compute the final bearing (reverse azimuth) after having
            travelled for the given distance along a geodesic given
            by an initial bearing from this point, using Vincenty's
-           direct method.  See method L{destination2} for more details.
+           C{direct} method.  See method L{destination2} for more details.
 
            @arg distance: Distance (C{meter}).
            @arg bearing: Initial bearing (compass C{degrees360}).
@@ -343,7 +344,7 @@ class LatLon(LatLonEllipsoidalBase):
     def finalBearingTo(self, other, wrap=False):
         '''Compute the final bearing (reverse azimuth) after having
            travelled along a geodesic from this point to an other
-           point, using Vincenty's inverse method.  See method
+           point, using I{Vincenty}'s C{inverse} method.  See method
            L{distanceTo3} for more details.
 
            @arg other: The other point (L{LatLon}).
@@ -376,7 +377,7 @@ class LatLon(LatLonEllipsoidalBase):
     def initialBearingTo(self, other, wrap=False):
         '''Compute the initial bearing (forward azimuth) to travel
            along a geodesic from this point to an other point,
-           using Vincenty's inverse method.  See method
+           using I{Vincenty}'s C{inverse} method.  See method
            L{distanceTo3} for more details.
 
            @arg other: The other point (L{LatLon}).

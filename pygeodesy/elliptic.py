@@ -92,7 +92,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, floor, \
                  sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.09.14'
+__version__ = '20.10.05'
 
 _TolJAC = sqrt(EPS * 0.01)  # / _100_0
 _TolRD  =  pow(EPS * 0.002, 0.125)  # _1_0 / _8_0
@@ -423,7 +423,9 @@ class Elliptic(_Named):
             sn, cn, dn = self._sncndn3(phi)
             phi, e = Phi.fsum2_((x - self.fE(sn, cn, dn)) / dn)
             if abs(e) < _TolJAC:
-                return n * PI + phi
+                if n:
+                    phi = Phi.fsum_(n * PI)
+                return phi
         raise _convergenceError(self.fEinv, x)
 
     def fF(self, phi_or_sn, cn=None, dn=None):
@@ -761,7 +763,7 @@ def _Q(A, T, tol):
 
 
 def _RC(x, y):  # used by testElliptic.py
-    '''Degenerate symmetric integral of the first kind C{_RC}.
+    '''Degenerate symmetric integral of the first kind C{_RC(x, y)}.
 
        @return: C{_RC(x, y) = _RF(x, y, y)}.
 
@@ -785,13 +787,13 @@ def _RC(x, y):  # used by testElliptic.py
 
 
 def _RD_3(x, y, z):
-    '''Degenerate symmetric integral of the third kind C{_RD} / 3.
+    '''Degenerate symmetric integral of the third kind C{_RD(x, y, z) / 3}.
     '''
     return _RD(x, y, z) / _3_0
 
 
 def _RD(x, y, z):  # used by testElliptic.py
-    '''Degenerate symmetric integral of the third kind C{_RD}.
+    '''Degenerate symmetric integral of the third kind C{_RD(x, y, z)}.
 
        @return: C{_RD(x, y, z) = _RJ(x, y, z, z)}.
 
@@ -828,7 +830,7 @@ def _RD(x, y, z):  # used by testElliptic.py
 
 
 def _RF_(x, y):
-    '''Symmetric integral of the first kind C{_RF}.
+    '''Symmetric integral of the first kind C{_RF_(x, y)}.
 
        @return: C{_RF(x, y)}.
 
@@ -847,7 +849,7 @@ def _RF_(x, y):
 
 
 def _RF(x, y, z):  # used by testElliptic.py
-    '''Symmetric integral of the first kind C{_RF}.
+    '''Symmetric integral of the first kind C{_RF(x, y, z)}.
 
        @return: C{_RF(x, y, z)}.
 
@@ -884,7 +886,7 @@ def _RF(x, y, z):  # used by testElliptic.py
 
 
 def _RG_(x, y):
-    '''Symmetric integral of the second kind C{_RG}.
+    '''Symmetric integral of the second kind C{_RG_(x, y)}.
 
        @return: C{_RG(x, y)}.
 
@@ -899,7 +901,8 @@ def _RG_(x, y):
     S = Fsum((a + b)**2 / _4_0)
     for _ in range(_TRIPS):  # max 4 trips
         if abs(a - b) <= (_TolRG0 * a):
-            return S.fsum() * PI_2 / (a + b)
+            S *= PI_2 / (a + b)
+            return S.fsum()
         b, a = sqrt(a * b), (a + b) * _0_5
         S -= m * (a - b)**2
         m *= _2_0
@@ -908,7 +911,7 @@ def _RG_(x, y):
 
 
 def _RG(x, y, z):  # used by testElliptic.py
-    '''Symmetric integral of the second kind C{_RG}.
+    '''Symmetric integral of the second kind C{_RG(x, y, z)}.
 
        @return: C{_RG(x, y, z)}.
 
@@ -924,13 +927,13 @@ def _RG(x, y, z):  # used by testElliptic.py
 
 
 def _RJ_3(x, y, z, p):
-    '''Symmetric integral of the third kind C{_RJ} / 3.
+    '''Symmetric integral of the third kind C{_RJ(x, y, z, p) / 3}.
     '''
     return _RJ(x, y, z, p) / _3_0
 
 
 def _RJ(x, y, z, p):  # used by testElliptic.py
-    '''Symmetric integral of the third kind C{_RJ}.
+    '''Symmetric integral of the third kind C{_RJ(x, y, z, p)}.
 
        @return: C{_RJ(x, y, z, p)}.
 

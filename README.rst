@@ -14,8 +14,8 @@ published under the same `MIT License`_.
 
 There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
 *-Vincenty* and *-Nvector* and two for spherical ones, *sphericalTrigonometry*
-and *-Nvector*.  Each module provides a geodetic *LatLon* and a geocentric
-*Cartesian* class with methods and functions to compute distance, area,
+and *-Nvector*.  Each module provides a geodetic LatLon_ and a geocentric
+Cartesian_ class with methods and functions to compute distance, area,
 perimeter, initial and final bearing, intermediate and nearest points,
 intersections of circles, path intersections, trilateration (by intersection,
 overlap and 3d), conversions and unrolling, among other things.  For more
@@ -38,7 +38,7 @@ of *LatLon* points using the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_
 methods, functions to simplify_ or linearize a path of *LatLon* points (or a
 `numpy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
 the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
-versions of the former.  Other classes interpolate_ the height of *LatLon*
+versions of the former.  Other classes interpolate_ the *height* of *LatLon*
 points and several *Geoid* models or compute various `Fréchet`_ or Hausdorff_
 distances.
 
@@ -74,23 +74,22 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.8.6, 3.7.6 and 2.7.18 (all with
-geographiclib_ 1.50, numpy_ 1.19.0, 1.17.2 respectively 1.16.5 and scipy_
-1.5.0, 1.3.1 respectively 1.2.2) and with Python 3.9.0rc1 and macOS'
-Python 2.7.16 (both without geographiclib, numpy and scipy), all on macOS
-10.15.6 Catalina and all in 64-bit only.  The tests run with and without
-``lazy import`` for Python 3.  The results of those tests are included in
-the distribution files.
+The tests have been run with Python 3.9.0 (with geographiclib_ 1.50 only),
+Python 3.8.6 (with geographiclib_ 1.50, numpy_ 1.19.2 and scipy_ 1.5.2)
+and macOS' Python 2.7.16 (without geographiclib, numpy and scipy), all on
+macOS 10.15.7 Catalina and all in 64-bit only.  The tests run with and
+without ``lazy import`` for Python 3.  The results of those tests are
+included in the distribution files.
 
-Test coverage has been measured with coverage_ 4.5.4 using Python 3.8.6
-and 3.7.6 (both with geographiclib_ 1.50, numpy_ 1.19.0 respectively
-1.17.2 and scipy_ 1.5.0 respectively 1.3.1) and macOS' Python 2.7.16
-(without geographiclib, numpy and scipy).  The full HMTL report and a
-PDF summary are included in the distribution files.
+Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.0
+(with geographiclib_ 1.50 only), Python 3.8.6 (with geographiclib_ 1.50,
+numpy_ 1.19.2 and scipy_ 1.5.2) and macOS' Python 2.7.16 (without
+geographiclib, numpy and scipy).  The full coverage report in HTML and
+a PDF summary are included in the distribution files.
 
-The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1, 3.8.0 and
-PyPy_ 7.1.1 (Python 2.7.13 and 3.6.1) (and geographiclib_ 1.49 or 1.50)
-on `Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_ 1.49 or
+The tests also ran with Python 2.7.14, 3.6.3, 3.7.1, 3.8.0 and PyPy_
+7.1.1 (Python 2.7.13 and 3.6.1) (and geographiclib_ 1.49 or 1.50) on
+`Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_ 1.49 or
 1.50) on `Debian 9`_ all in 64-bit only and with Python 2.7.15, 3.6.8,
 3.7.2 and 3.8.0 (all with geographiclib_ 1.49 or 1.50) on `Windows
 Server 2012R2`_ in both 32- and 64-bit.
@@ -101,23 +100,24 @@ on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2),
 2.7.10 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 1.14.0,
-1.15.2, 1.16.2 or 1.16.5), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru
-3.7.5, 3.8 thru 3.8.5, PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3), PyPy_
-7.3.0 (Python 2.7.13 and 3.6.9) and `Intel-Python`_ 3.5.3 (and numpy_
-1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12
-Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave and/or macOS 10.15.3
-and 10.15.5 Catalina, with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2
-and 11.3 on iPad4, with Pythonista_ 3.2 (with geographiclib 1.49 or 1.50
-and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6
-and/or iPhone10, all in 64-bit only and with 32-bit Python 2.6.6 on
-Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
+1.15.2, 1.16.2, 1.16.5 or 1.19.0, scipy 1.5.0), 3.5.3, 3.6.2 thru 3.6.5,
+3.7.0, 3.7.2 thru 3.7.6, 3.8 thru 3.8.5, PyPy_ 6.0.0 (Python 2.7.13 and
+3.5.3), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9) and `Intel-Python`_ 3.5.3
+(and numpy_ 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan,
+macOS 10.12 Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave and/or
+macOS 10.15.3, 10.15.5 and 10.15.6 Catalina, with Pythonista_ 3.1 on iOS
+10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with Pythonista_ 3.2 (with
+geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and
+12.3 on iPad4, iPhone6 and/or iPhone10, all in 64-bit only and with 32-bit
+Python 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows
+10 Pro.
 
 Notes
 =====
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.8.3, both in 64-bit on macOS 10.15.6
+and with Flake8_ using Python 3.9.0, both in 64-bit on macOS 10.15.6
 Catalina.
 
 Classes with a name ending in ``-Karney`` and several more are transcribed
@@ -127,7 +127,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 03, 2020.*
+*Last updated: Oct 06, 2020.*
 
 License
 =======
@@ -171,6 +171,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 
 .. _Albers Equal-Area: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html
 .. _C++ classes: https://GeographicLib.SourceForge.io/html/annotated.html
+.. _Cartesian: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.pygeodesy-Cartesian-attributes-table.html
 .. _Cassini-Soldner: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html
 .. _checked: https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Cohen-Sutherland: https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
@@ -198,6 +199,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _John P. Snyder: https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf
 .. _karney: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html
 .. _Latitude/Longitude: https://www.Movable-Type.co.UK/scripts/latlong.html
+.. _LatLon: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.pygeodesy-LatLon-attributes-table.html
 .. _McCabe: https://PyPI.org/project/mccabe
 .. _MGRS: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
 .. _MIT License: https://OpenSource.org/licenses/MIT

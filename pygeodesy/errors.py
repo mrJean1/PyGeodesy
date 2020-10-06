@@ -14,7 +14,7 @@ from pygeodesy.interns import NN, _COLON_, _COMMA_, _COMMA_SPACE_, \
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.09.27'
+__version__ = '20.10.05'
 
 _limiterrors      =  True  # imported by .formy
 _name_value_      =  repr('name=value')
@@ -34,11 +34,11 @@ try:
 
     _exception_chaining = False  # turned off
 
-    def _cause_(inst, other=None):
+    def _error_chain(inst, other=None):
         '''(INTERNAL) Set or avoid Python 3+ exception chaining.
 
            Setting C{inst.__cause__ = None} is equivalent to syntax
-           C{raise Error(...) from None} to avoids exception chaining.
+           C{raise Error(...) from None} to avoid exception chaining.
 
            @arg inst: An error instance (C{Exception}).
            @kwarg other: The previous error instance (C{Exception}) or
@@ -51,12 +51,12 @@ try:
                  and U{here<https://StackOverflow.com/questions/1350671/
                  inner-exception-with-traceback-in-python>}.
         '''
-        inst.__cause__ = other  # no exception chaining
+        inst.__cause__ = other  # None, no exception chaining
         return inst
 
 except AttributeError:  # Python 2+
 
-    def _cause_(inst, **unused):  # PYCHOK expected
+    def _error_chain(inst, **unused):  # PYCHOK expected
         return inst  # no-op
 
 
@@ -262,15 +262,6 @@ def _datum_datum(datum1, datum2, Error=None):
         raise _AssertionError('%s %r not %r' % (_datum_, datum1.name, datum2.name))
 
 
-def _ename_(inst):
-    '''(INTERNAL) Remove leading underscore from instance' class name.
-    '''
-    n = inst.__class__.__name__
-    if n.startswith(_UNDERSCORE_):
-        inst.__class__.__name__ = n.lstrip(_UNDERSCORE_)
-    return inst
-
-
 def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
                                          txt=_invalid_, **name_values):  # by .lazily
     '''(INTERNAL) Format an error text and initialize an C{Error} instance.
@@ -305,12 +296,21 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
         t = t + c + _SPACE_ + x
     Error.__init__(inst, t)
 #   inst.__x_txt__ = x  # hold explanation
-    _cause_(inst)  # no Python 3+ exception chaining
-    _ename_(inst)
+    _error_chain(inst)  # no Python 3+ exception chaining
+    _error_under(inst)
+
+
+def _error_under(inst):
+    '''(INTERNAL) Remove leading underscore from instance' class name.
+    '''
+    n = inst.__class__.__name__
+    if n.startswith(_UNDERSCORE_):
+        inst.__class__.__name__ = n.lstrip(_UNDERSCORE_)
+    return inst
 
 
 def exception_chaining(error=None):
-    '''Get the previous exception or exception chaining setting.
+    '''Get the previous exception's or exception chaining setting.
 
        @kwarg error: An error instance (C{Exception}) or C{None}.
 
@@ -319,6 +319,10 @@ def exception_chaining(error=None):
                 if turned off and C{None} if not available.  If
                 B{C{error}} is not C{None}, return the previous,
                 chained error or C{None} otherwise.
+
+       @note: Set C{env} variable C{PYGEODESY_EXCEPTION_CHAINING}
+              to any non-empty value prior to C{import pygeodesy}
+              to enable exception chaining for C{pygeodesy} errors.
     '''
     return _exception_chaining if error is None else \
             getattr(error, '__cause__', None)
@@ -346,8 +350,8 @@ def _InvalidError(Error=_ValueError, **txt_name_values):  # txt=_invalid_, name=
     except TypeError:  # std *Error takes no keyword arguments
         e = _ValueError(**txt_name_values)
         e = Error(str(e))
-        _cause_(e)
-        _ename_(e)
+        _error_chain(e)
+        _error_under(e)
     return e
 
 
@@ -370,8 +374,8 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeeError]
     if len(nouns) > 1:
         t = _an(t)
     e = Error('%s (%r) not %s' % (n, v, t))
-    _cause_(e)
-    _ename_(e)
+    _error_chain(e)
+    _error_under(e)
     return e
 
 
@@ -455,7 +459,7 @@ def _SciPyIssue(x, *extras):  # PYCHOK no cover
         X = SciPyWarning
     else:
         X = SciPyError  # PYCHOK not really
-    return _cause_(X(t), other=x)
+    return _error_chain(X(t), other=x)
 
 
 def _xellipsoidal(**name_value):

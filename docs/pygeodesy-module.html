@@ -139,14 +139,14 @@
   href="https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm" 
   target="_top">Ramer-Douglas-Peucker</a> the <a 
   href="https://hydra.Hull.ac.UK/resources/hull:8338" 
-  target="_top">Visvalingam-Whyatt</a> and <a 
+  target="_top">Visvalingam-Whyatt</a> and the <a 
   href="https://psimpl.SourceForge.net/reumann-witkam.html" 
-  target="_top">Reumann-Witkam</a> the algorithms and modified versions of 
-  the former.  Other classes <a 
+  target="_top">Reumann-Witkam</a> algorithms and modified versions of the 
+  former.  Other classes <a 
   href="https://docs.SciPy.org/doc/scipy/reference/interpolate.html" 
-  target="_top">interpolate</a> the height of <code>LatLon</code> points 
-  and several <code>Geoid</code> models or compute various <a 
-  href="https://WikiPedia.org/wiki/Frechet_distance" 
+  target="_top">interpolate</a> the <a href=pygeodesy.heights-module.html><code>height</code></a> of 
+  <code>LatLon</code> points and several <a href=pygeodesy.geoids-module.html><code>Geoid</code></a> models or 
+  compute various <a href="https://WikiPedia.org/wiki/Frechet_distance" 
   target="_top">Fr&#233;chet</a> or <a 
   href="https://WikiPedia.org/wiki/Hausdorff_distance" 
   target="_top">Hausdorff</a> distances.</p>
@@ -197,31 +197,33 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.8.6, 3.7.6 and 2.7.18 (all 
-    with <a href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.50, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0, 
-    1.17.2 respectively 1.16.5 and <a 
-    href="https://SciPy.org/scipylib/download.html" target="_top">scipy</a>
-    1.5.0, 1.3.1 respectively 1.2.2) and with Python 3.9.0rc1 and macOS' 
-    Python 2.7.16 (both without geographiclib, numpy and scipy), all on 
-    macOS 10.15.6 Catalina and all in 64-bit only.  The tests run with and 
-    without <code>lazy import</code> for Python 3. The results of those 
-    tests are included in the distribution files.</p>
-    <p>Test coverage has been measured with <a 
-    href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.8.6 and 3.7.6 (both with <a 
+    <p>The tests have been run with Python 3.9.0 (with <a 
+    href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 1.50 only), Python 3.8.6 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0 
-    respectively 1.17.2 and <a 
-    href="https://SciPy.org/scipylib/download.html" target="_top">scipy</a>
-    1.5.0 respectively 1.3.1) and macOS' Python 2.7.16 (without 
-    geographiclib, numpy and scipy). The full HMTL report and a PDF summary
-    are included in the distribution files.</p>
-    <p>The tests also ran with Python 2.7.14, 3.5.6, 3.6.3, 3.7.1, 3.8.0 
-    and <a href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 
-    2.7.13 and 3.6.1) (and <a href="https://PyPI.org/project/geographiclib"
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
+    and <a href="https://SciPy.org/scipylib/download.html" 
+    target="_top">scipy</a> 1.5.2) and macOS' Python 2.7.16 (without 
+    geographiclib, numpy and scipy), all on macOS 10.15.7 Catalina and all 
+    in 64-bit only.  The tests run with and without <code>lazy 
+    import</code> for Python 3.  The results of those tests are included in
+    the distribution files.</p>
+    <p>Test coverage has been measured with <a 
+    href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
+    4.5.4 using Python 3.9.0 (with <a 
+    href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 1.50 only), Python 3.8.6 (with <a 
+    href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 1.50, <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
+    and <a href="https://SciPy.org/scipylib/download.html" 
+    target="_top">scipy</a> 1.5.2) and macOS' Python 2.7.16 (without 
+    geographiclib, numpy and scipy).  The full coverage report in HTML and 
+    a PDF summary are included in the distribution files.</p>
+    <p>The tests also ran with Python 2.7.14, 3.6.3, 3.7.1, 3.8.0 and <a 
+    href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 2.7.13 and
+    3.6.1) (and <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.49 or 1.50) on <a 
     href="https://Travis-CI.org/mrJean1/PyGeodesy" target="_top">Ubuntu 
     14.04</a> and with Python 3.7.3 (and <a 
@@ -239,18 +241,18 @@
     href="https://www.PyInstaller.org" target="_top">PyInstaller</a> 3.4 
     and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.</p>
     <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
-    2.7.10 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (and numpy 1.13.1, 
-    1.14.0, 1.15.2 or 1.16.2), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru 
-    3.7.5, 3.8 thru 3.8.5, <a href="https://PyPy.org" 
-    target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and 3.5.3), <a 
-    href="https://PyPy.org" target="_top">PyPy</a> 7.3.0 (Python 2.7.13 and
-    3.6.9) and <a 
+    2.7.10 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (with numpy 1.13.1, 
+    1.14.0, 1.15.2, 1.16.2 or 1.19.0 and scipy 1.5.0), 3.5.3, 3.6.2 thru 
+    3.6.5, 3.7.0, 3.7.2 thru 3.7.6, 3.8 thru 3.8.5, <a 
+    href="https://PyPy.org" target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and
+    3.5.3), <a href="https://PyPy.org" target="_top">PyPy</a> 7.3.0 (Python
+    2.7.13 and 3.6.9) and <a 
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
     on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 
     Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave and/or macOS 
-    10.15.3 and 10.15.5 Catalina, with <a 
+    10.15.3, 10.15.5 and 10.15.6 Catalina, with <a 
     href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
     3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with <a 
     href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
@@ -268,7 +270,7 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.8.3, both in 64-bit on macOS 
+    target="_top">Flake8</a> using Python 3.9.0, both in 64-bit on macOS 
     10.15.6 Catalina.</p>
     <p>Classes with a name ending in <code>-Karney</code> and several more 
     are transcribed from <i>Karney</i>'s <a 
@@ -307,7 +309,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.10.03
+        20.10.06
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -448,8 +450,8 @@
         class="link">meanOf</a> and <a 
         href="pygeodesy.ellipsoidalNvector-module.html#toNed" 
         class="link">toNed</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty-module.html">pygeodesy.ellipsoidalVincenty</a></strong>: <em class="summary">Ellispodial classes for Vincenty's geodetic (lat-/longitude) <a 
-        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty-module.html">pygeodesy.ellipsoidalVincenty</a></strong>: <em class="summary">Ellispodial classes for <i>Vincenty</i>'s geodetic (lat-/longitude)
+        <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>, geocentric (ECEF) <a 
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> and <a 
@@ -626,7 +628,7 @@
         href="pygeodesy.heights.HeightSmoothBiSpline-class.html" 
         class="link">HeightSmoothBiSpline</a> to interpolate the height of 
         <code>LatLon</code> locations or separate lat-/longitudes from a 
-        set of <code>LatLon</code> points with known heights.</em>    </li>
+        set of <code>LatLon</code> points with <code>known</code> heights.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.interns-module.html">pygeodesy.interns</a></strong>: <em class="summary">Single-instance floats and strings, <code>intern</code>'ed across 
         modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.karney-module.html">pygeodesy.karney</a></strong>: <em class="summary">Wrapper around <i>Charles Karney</i>'s Python classes 
@@ -816,8 +818,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" class="summary-name">VincentyError</a><br />
-      Error raised from Vincenty's direct and inverse methods for 
-        coincident points or lack of convergence.
+      Error raised from <i>Vincenty</i>'s <code>direct</code> and 
+        <code>inverse</code> methods for coincident points or lack of 
+        convergence.
     </td>
   </tr>
 <tr>
@@ -4132,7 +4135,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#euclid" class="summary-sig-name">euclid</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>)</span><br />
-      Appoximate the norm M(sqrt(x**2 + y**2)} by M{max(abs(x), abs(y)) + min(abs(x), abs(y)) * 0.4141...}.</td>
+      Appoximate the norm <i class="math">sqrt(x**2 + y**2)</i> by <i 
+      class="math">max(abs(x), abs(y)) + min(abs(x), abs(y)) * 
+      0.4141...</i>.</td>
           <td align="right" valign="top">
             
             
@@ -4149,7 +4154,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#euclid_" class="summary-sig-name">euclid_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.</td>
+      Appoximate the norm <i class="math">sqrt(sum(x**2 for x in xs))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -4211,7 +4216,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#exception_chaining" class="summary-sig-name">exception_chaining</a>(<span class="summary-sig-arg">error</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Get the previous exception or exception chaining setting.</td>
+      Get the previous exception's or exception chaining setting.</td>
           <td align="right" valign="top">
             
             
@@ -4953,7 +4958,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8e28e90ad0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ffdcce94ad0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -7967,7 +7972,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.10.3'"><code class="variable-quote">'</code><code class="variable-string">20.10.3</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.10.6'"><code class="variable-quote">'</code><code class="variable-string">20.10.6</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11217,20 +11222,23 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <pre class="literalblock">
-Appoximate the norm M(sqrt(x**2 + y**2)} by M{max(abs(x), abs(y)) + min(abs(x), abs(y)) * 0.4141...}.
-
-@arg x: X component (C{scalar}).
-@arg y: Y component (C{scalar}).
-
-@return: Norm (C{float}).
-
-@see: Function L{euclid}.
-
-</pre>
+  <p>Appoximate the norm <i class="math">sqrt(x**2 + y**2)</i> by <i 
+  class="math">max(abs(x), abs(y)) + min(abs(x), abs(y)) * 
+  0.4141...</i>.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Norm (<code>float</code>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#euclid_" 
+        class="link">euclid_</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="euclid_"></a>
 <div>
@@ -11246,19 +11254,21 @@ Appoximate the norm M(sqrt(x**2 + y**2)} by M{max(abs(x), abs(y)) + min(abs(x), 
     </td>
   </tr></table>
   
-  <pre class="literalblock">
-Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
-
-@arg xs: X arguments, positional (C{scalar}[]).
-
-@return: Norm (C{float}).
-
-@see: Function L{euclid}.
-
-</pre>
+  <p>Appoximate the norm <i class="math">sqrt(sum(x**2 for x in 
+  xs))</i>.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Norm (<code>float</code>).</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#euclid" 
+        class="link">euclid</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="euclidean"></a>
 <div>
@@ -11405,7 +11415,7 @@ Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
     </td>
   </tr></table>
   
-  <p>Get the previous exception or exception chaining setting.</p>
+  <p>Get the previous exception's or exception chaining setting.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -11419,7 +11429,13 @@ Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
           <code>None</code>, return the previous, chained error or 
           <code>None</code> otherwise.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        Set <code>env</code> variable 
+        <code>PYGEODESY_EXCEPTION_CHAINING</code> to any non-empty value 
+        prior to <code>import pygeodesy</code> to enable exception chaining
+        for <code>pygeodesy</code> errors.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="f2e2"></a>
 <div>
@@ -12694,7 +12710,7 @@ Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The returned <code>height</code> is <code>None</code> if 
+        The returned <a href=pygeodesy.heights-module.html><code>height</code></a> is <code>None</code> if 
         <b><code>lat</code></b> or <b><code>lon</code></b> is invalid or 
         outside the <code>Conterminous US (CONUS)</code>, if the 
         <b><code>model</code></b> was invalid, if conversion failed or if 
@@ -12815,7 +12831,7 @@ Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8e28e90ad0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ffdcce94ad0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13072,17 +13088,17 @@ Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>height</code></strong> - Altitude (<code>meter</code> or same units as 
+        <li><strong class="pname"><a href=pygeodesy.heights-module.html><code>height</code></a></strong> - Altitude (<code>meter</code> or same units as 
           <b><code>radius</code></b>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Optional mean earth radius (<code>meter</code>).</li>
         <li><strong class="pname"><code>refraction</code></strong> - Consider atmospheric refraction (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>height</code></b> and <b><code>radius</code></b>).</dd>
+          <b><a href=pygeodesy.heights-module.html><code>height</code></a></b> and <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b> or <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><a href=pygeodesy.heights-module.html><code>height</code></a></b> or <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -13113,7 +13129,7 @@ Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>height</code></strong> - Height value (<code>float</code>).</li>
+        <li><strong class="pname"><a href=pygeodesy.heights-module.html><code>height</code></a></strong> - Height value (<code>float</code>).</li>
         <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
@@ -15399,7 +15415,7 @@ Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>strllh</code></strong> - Latitude, longitude[, height] (<code>str</code>, ...).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional, default height (<code>meter</code>) or 
+        <li><strong class="pname"><a href=pygeodesy.heights-module.html><code>height</code></a></strong> - Optional, default height (<code>meter</code>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>sep</code></strong> - Optional separator (<code>str</code>).</li>
         <li><strong class="pname"><code>clipLat</code></strong> - Keep latitude in <b><code>-clipLat..+clipLat</code></b> 
@@ -15417,7 +15433,7 @@ Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Lat- or longitude value of <b><code>strllh</code></b> outside valid
         range and <a href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>strllh</code></b> or <b><code>height</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>strllh</code></b> or <b><a href=pygeodesy.heights-module.html><code>height</code></a></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -17353,7 +17369,7 @@ Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
         <li><strong class="pname"><code>cs0</code></strong> - Optional, the Cassini-Soldner projection to use (<a 
           href="pygeodesy.css.CassiniSoldner-class.html" 
           class="link">CassiniSoldner</a>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
+        <li><strong class="pname"><a href=pygeodesy.heights-module.html><code>height</code></a></strong> - Optional height for the point, overriding the default height 
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>Css</code></strong> - Optional class to return the location (<a 
           href="pygeodesy.css.Css-class.html" class="link">Css</a>) or 
@@ -17554,7 +17570,7 @@ Appoximate the norm M(sqrt(sum(x**2 for x in xs))}.
         <li><strong class="pname"><code>latlon</code></strong> - Ellipsoidal point (<code>LatLon</code>).</li>
         <li><strong class="pname"><code>conic</code></strong> - Optional Lambert projection to use (<a 
           href="pygeodesy.lcc.Conic-class.html" class="link">Conic</a>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height for the point, overriding the default height 
+        <li><strong class="pname"><a href=pygeodesy.heights-module.html><code>height</code></a></strong> - Optional height for the point, overriding the default height 
           (<code>meter</code>).</li>
         <li><strong class="pname"><code>Lcc</code></strong> - Optional class to return the <i>Lambert</i> location (<a 
           href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>).</li>
@@ -18928,7 +18944,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Oct  4 10:28:13 2020
+    Generated by Epydoc 3.0.1 on Tue Oct  6 17:13:12 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
