@@ -171,7 +171,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 
 .. _Albers Equal-Area: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html
 .. _C++ classes: https://GeographicLib.SourceForge.io/html/annotated.html
-.. _Cartesian: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.pygeodesy-Cartesian-attributes-table.html
+.. _Cartesian: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-Cartesian-attributes-table.html
 .. _Cassini-Soldner: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html
 .. _checked: https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
 .. _Cohen-Sutherland: https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm
@@ -199,7 +199,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _John P. Snyder: https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf
 .. _karney: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html
 .. _Latitude/Longitude: https://www.Movable-Type.co.UK/scripts/latlong.html
-.. _LatLon: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.pygeodesy-LatLon-attributes-table.html
+.. _LatLon: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-LatLon-attributes-table.html
 .. _McCabe: https://PyPI.org/project/mccabe
 .. _MGRS: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
 .. _MIT License: https://OpenSource.org/licenses/MIT
