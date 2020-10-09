@@ -9,15 +9,18 @@ u'''Error, exception classes and functions to format PyGeodesy errors,
     non-empty string to enable I{exception chaining}.
 '''
 from pygeodesy.interns import NN, _COLON_, _COMMA_, _COMMA_SPACE_, \
-                             _datum_, _invalid_, _len_, _Missing, \
-                             _name_, _SPACE_, _UNDERSCORE_
+                             _datum_, _invalid_, _item_pr, _item_ps, \
+                             joined_, _len_, _Missing, _name_, _no_, \
+                             _or_, _SPACE_, _UNDERSCORE_
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.10.05'
+__version__ = '20.10.09'
 
 _limiterrors      =  True  # imported by .formy
+_multiple_        = 'multiple'
 _name_value_      =  repr('name=value')
+_not_             = 'not'
 _not_ellipsoidal_ = 'not ellipsoidal'
 # _not_spherical_ = 'not spherical'
 _rangerrors       =  True  # imported by .dms
@@ -114,7 +117,7 @@ class _TypesError(_TypeError):
     '''(INTERNAL) Format a C{TypeError} without exception chaining.
     '''
     def __init__(self, name, value, *Types):
-        t = 'not ' + _an(_or(*(t.__name__ for t in Types)))
+        t = joined_(_not_, _an(_or(*(t.__name__ for t in Types))))
         _TypeError.__init__(self, name, value, txt=t)
 
 
@@ -156,7 +159,7 @@ class LenError(_ValueError):
         ns, vs = zip(*sorted(lens_txt.items()))
         ns = _COMMA_SPACE_.join(ns)
         vs = ' vs '.join(map(str, vs))
-        t = '%s(%s) %s %s' % (where.__name__, ns, _len_, vs)
+        t = joined_(_item_ps(where.__name__, ns), _len_, vs)
         _ValueError.__init__(self, t, txt=x)
 
 
@@ -230,7 +233,7 @@ def _an(noun):
     '''(INTERNAL) Prepend an article to a noun based
        on the pronounciation of the first letter.
     '''
-    return ('an ' if noun[:1].lower() in 'aeinoux' else 'a ') + noun
+    return joined_(('an' if noun[:1].lower() in 'aeinoux' else 'a'), noun)
 
 
 def crosserrors(raiser=None):
@@ -259,7 +262,8 @@ def _datum_datum(datum1, datum2, Error=None):
         if E1 != E2:
             raise Error(E2.named2, txt=_incompatible(E1.named2))
     elif datum1 != datum2:
-        raise _AssertionError('%s %r not %r' % (_datum_, datum1.name, datum2.name))
+        t = joined_(_datum_, repr(datum1.name), _not_, repr(datum2.name))
+        raise _AssertionError(t)
 
 
 def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
@@ -286,14 +290,14 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
     elif name_value:
         t = str(name_value[0])
     else:
-        t = _name_value_ + _SPACE_ +  str(_Missing)
+        t = joined_(_name_value_, str(_Missing))
 
     if txt is None:
         x = NN
     else:
         x = str(txt) or _invalid_
         c = _COMMA_ if _COLON_ in t else _COLON_
-        t = t + c + _SPACE_ + x
+        t = joined_(t + c, x)
     Error.__init__(inst, t)
 #   inst.__x_txt__ = x  # hold explanation
     _error_chain(inst)  # no Python 3+ exception chaining
@@ -373,7 +377,7 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeeError]
     t = _or(*nouns) or _specified_
     if len(nouns) > 1:
         t = _an(t)
-    e = Error('%s (%r) not %s' % (n, v, t))
+    e = Error(joined_(n, _item_pr(NN, v), _not_, t))
     _error_chain(e)
     _error_under(e)
     return e
@@ -396,14 +400,14 @@ def limiterrors(raiser=None):
 
 
 def _or(*words):
-    '''(INTERNAL) Join C{words} with C{', '} and C{' or '}.
+    '''(INTERNAL) Join C{words} with C{", "} and C{" or "}.
     '''
     t, w = NN, list(words)
     if w:
         t = w.pop()
         if w:
             w = _COMMA_SPACE_.join(w)
-            t = w + ' or ' + t
+            t =  joined_(w, _or_, t)
     return t
 
 
@@ -482,9 +486,10 @@ def _xellipsoidal(**name_value):
 
 
 def _xkwds_Error(_xkwds_func, kwds, name_default):
+    # Helper for _xkwds_get and _xkwds_pop below
     from pygeodesy.streprs import unstr
     t = unstr(_xkwds_func.__name__, kwds, **name_default)
-    n = ('multiple ' if name_default else 'no ') + _name_
+    n = joined_((_multiple_ if name_default else _no_), _name_)
     return _AssertionError(t, txt=n + '=default kwargs')
 
 

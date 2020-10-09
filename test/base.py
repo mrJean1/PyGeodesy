@@ -33,7 +33,7 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
 from pygeodesy import anstr, clips, isLazy, issubclassof, iterNumpy2over, \
-                      LazyImportError, map2, normDMS, pairs, property_RO, \
+                      LazyImportError, map2, NN, normDMS, pairs, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
 
 __all__ = ('coverage', 'geographiclib', 'numpy', 'numpy_version',  # constants
@@ -43,7 +43,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy', 'numpy_version',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.09.27'
+__version__ = '20.10.09'
 
 # don't test with numpy and/or scypi older than 1.9 resp. 1.0
 from pygeodesy import basics
@@ -71,6 +71,7 @@ except NameError:  # Python 3+
 _os_bitstr = architecture()[0]  # XXX sys.maxsize
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 _SIsecs = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
+_SPACE_ = ' '
 
 PythonX = sys.executable  # python or Pythonista path
 isIntelPython = 'intelpython' in PythonX
@@ -98,11 +99,11 @@ try:
         try:  # no subprocess.check_output ...
             v = distro.version()
         except AttributeError:  # ... Python 2.6
-            v = ''
+            v = NN
         return anstr(v), _os_bitstr
 
 except ImportError:
-    _Nix = ''  # not linux?
+    _Nix = NN  # not linux?
 
     def nix_ver():  # PYCHOK expected
         return _Nix, _os_bitstr
@@ -129,13 +130,13 @@ class TestsBase(object):
        and examples in <https://www.EdWilliams.org/avform.htm> or
        elsewhere as indicated.
     '''
-    _file     = ''
-    _name     = ''
-    _iterisk  = ''
-    _prefix   = '    '
-    _time     = 0
-    _verbose  = True  # print all tests, otherwise failures only
-    _versions = ''  # cached versions() string
+    _file     =  NN
+    _name     =  NN
+    _iterisk  =  NN
+    _prefix   = _SPACE_ * 4
+    _time     =  0
+    _verbose  =  True  # print all tests, otherwise failures only
+    _versions =  NN  # cached versions() string
 
     failed  = 0
     known   = 0
@@ -215,8 +216,8 @@ class TestsBase(object):
             nl = '\n' * kwds.get('nl', 0)
             nt = '\n' * kwds.get('nt', 0)
         else:
-            nl = nt = ''
-        print(''.join((nl, self._prefix, (fmt % args), nt)))
+            nl = nt = NN
+        print(NN.join((nl, self._prefix, (fmt % args), nt)))
 
     def results(self, passed='passed', nl=1):
         '''Summarize the test results.
@@ -226,7 +227,7 @@ class TestsBase(object):
         t = self.total
         f = self.failed
         if f:
-            k = self.known or ''
+            k = self.known or NN
             if k:
                 if k == f:
                     k = ', ALL KNOWN'
@@ -238,13 +239,13 @@ class TestsBase(object):
             n = 'all %d' % (t,)
         else:
             n = 'all'
-        k = self.skipped or ''
+        k = self.skipped or NN
         if k:
             k = ', %d skipped' % (k,)
         r = '%s%s (%s) %s' % (r, k, self._versions, secs2str(s))
         self.printf('%s %s tests %s', n, self._name, r, nl=nl)
 
-    def skip(self, text='', n=1):
+    def skip(self, text=NN, n=1):
         '''Skip this test, leave a message.
         '''
         self.skipped += n
@@ -269,7 +270,7 @@ class TestsBase(object):
         if not isinstance(expect, _Strs):
             expect = fmt % (expect,)  # expect as str
 
-        f, v = '', fmt % (value,)  # value as str
+        f, v = NN, fmt % (value,)  # value as str
         if v != expect and v != normDMS(expect):
             self.failed += 1  # failures
             if known:  # failed before
@@ -289,7 +290,7 @@ class TestsBase(object):
 
         fmt, known, kwds = _fmt_known_kwds(**kwds)
 
-        f, v = '', fmt % (value,)  # value as str
+        f, v = NN, fmt % (value,)  # value as str
         for x in expects:
             if v == x or v == normDMS(x):
                 break
@@ -331,7 +332,7 @@ class TestsBase(object):
         yield iterNumpy2over(100000)
         self._iterisk = '*'
         yield iterNumpy2over(1)
-        self._iterisk = ''
+        self._iterisk = NN
 
     def title(self, test, version, module=None):
         '''Print the title of the test suite.
@@ -340,11 +341,11 @@ class TestsBase(object):
             m = ' (module %s %s)' % (basename(module.__name__),
                                      module.__version__)
         else:
-            m = ''
+            m = NN
         if isLazy:
             z = ' isLazy=%s' % (isLazy,)
         else:
-            z = ''
+            z = NN
         self.printf('testing %s %s%s%s', test, version, m, z, nl=1)
 
     @property
@@ -378,7 +379,7 @@ if isiOS:
         # on iOS ('10.3.3', ..., 'iPad4,2')
         t = mac_ver()
         # append 'machine' iPad, iPhone to 'release'
-        r = t[0] + ' ' + t[2].split(',')[0]
+        r = t[0] + _SPACE_ + t[2].split(',')[0]
         return (r,) + t[1:]
 
 else:  # non-iOS
@@ -386,7 +387,7 @@ else:  # non-iOS
     def ios_ver(**unused):  # PYCHOK expected
         '''Get the iOS version information.
         '''
-        return ('', ('', '', ''), '')
+        return (NN, (NN, NN, NN), NN)
 
 
 def secs2str(secs):
@@ -434,13 +435,13 @@ def type2str(obj, attr):
     elif ismodule(t):
         t = ' module'
     elif isinstance(t, property):  # type(t) is property
-        t = ' ' + t.__class__.__name__
+        t = _SPACE_ + t.__class__.__name__
     elif isinstance(t, _Strs):
         t = ' str'
     else:
-        t = str(type(t)).replace("'", '')
+        t = str(type(t)).replace("'", NN)
         if t.startswith('<') and t.endswith('>'):
-            t = ' ' + t[1:-1]
+            t = _SPACE_ + t[1:-1]
         else:
             t = ' attribute'
     return t
@@ -482,7 +483,7 @@ def versions():
     if getenv('PYTHONDONTWRITEBYTECODE', None):
         vs += 'B',
 
-    return ' '.join(vs)
+    return _SPACE_.join(vs)
 
 
 if __name__ == '__main__':

@@ -18,14 +18,14 @@ each end).
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import joined_, property_RO
+from pygeodesy.basics import property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoids import _TOL
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1
-from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _inside_, _N_, \
-                             _pole_, _range_, _S_, _SPACE_, _SQUARE_, \
+from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _inside_, joined_, \
+                             _N_, _pole_, _range_, _S_, _SPACE_, _SQUARE_, \
                              _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
@@ -41,7 +41,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.10.02'
+__version__ = '20.10.08'
 
 _Bands   = 'A', 'B', 'Y', 'Z'  # polar bands
 _EPS__2  = EPS**2

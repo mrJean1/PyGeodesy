@@ -2,7 +2,7 @@ graft docs
 include docs.html
 graft test
 include test/testRoutesMap.jpg
-# graft testcoverage
+graft testcoverage
 include testcoverage.pdf
 include testcoverage.rc
 graft testresults

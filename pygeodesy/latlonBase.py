@@ -1,7 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) base classes for elliposiodal, spherical and vectorial C{LatLon}s.
+u'''(INTERNAL) base class L{LatLonBase} for elliposiodal, spherical and
+n-vectorial C{LatLon}s.
 
 After I{(C) Chris Veness 2011-2015} published under the same MIT Licence**,
 see U{https://www.Movable-Type.co.UK/scripts/latlong.html},

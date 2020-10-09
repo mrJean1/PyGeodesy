@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 u'''Ellipsoidal classes geodetic (lat-/longitude) L{LatLon} and
-geocentric (ECEF) L{Cartesian} and functions L{areaOf}, L{isclockwise}
-and L{perimeterOf}, all based on I{Charles Karney}'s Python
-U{geographiclib<https://PyPI.org/project/geographiclib>}.
+geocentric (ECEF) L{Cartesian} and functions L{areaOf},
+L{intersections2}, L{isclockwise}, L{nearestOn} and L{perimeterOf},
+all based on I{Charles Karney}'s Python U{geographiclib
+<https://PyPI.org/project/geographiclib>}.
 
 Here's an example usage of C{ellipsoidalKarney}:
 
@@ -31,7 +32,7 @@ or by converting to anothor datum:
 from pygeodesy.basics import property_RO, _xkwds
 from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.ellipsoidalBase import _intersections2, _TOL_M, \
+from pygeodesy.ellipsoidalBase import _TOL_M, _intersections2, \
                                        CartesianEllipsoidalBase, \
                                        LatLonEllipsoidalBase, _nearestOn
 from pygeodesy.errors import _ValueError, _xellipsoidal
@@ -42,7 +43,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.10.02'
+__version__ = '20.10.08'
 
 
 class Cartesian(CartesianEllipsoidalBase):

@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 u'''Ellispodial classes for I{Vincenty}'s geodetic (lat-/longitude) L{LatLon},
-geocentric (ECEF) L{Cartesian} and L{VincentyError} and functions L{areaOf}
-and L{perimeterOf}.
+geocentric (ECEF) L{Cartesian} and L{VincentyError} and functions L{areaOf},
+L{intersections2}, L{nearestOn} and L{perimeterOf}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}

@@ -5,8 +5,9 @@ u'''Basic definitions, decorators and functions.
 '''
 from pygeodesy.errors import _AttributeError, _IsnotError, \
                              _TypesError, _ValueError
-from pygeodesy.interns import NN, _COMMA_SPACE_, _DOT_, NEG0, \
-                             _SPACE_, _UNDERSCORE_, _utf_8_, _0_0
+from pygeodesy.interns import NEG0, NN, _COMMA_SPACE_, _DOT_, \
+                              joined_, _UNDERSCORE_, _utf_8_, \
+                              _version_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
@@ -14,7 +15,7 @@ from inspect import isclass as _isclass
 from math import copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.09.26'
+__version__ = '20.10.08'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -224,28 +225,6 @@ def issubclassof(Sub, Super):
     return isclass(Sub) and isclass(Super) and issubclass(Sub, Super)
 
 
-def joined(*words, **sep):
-    '''Joined words by separator C{sep=NN}.
-
-       @arg words: One, two or more words (C{str}s).
-       @kwarg sep: Separator C({str}), default C{NN}.
-
-       @return: Joined B{C{words}} C({str}).
-    '''
-    return sep.get('sep', NN).join(words)
-
-
-def joined_(*words, **sep):
-    '''Joined words by separator C{sep=" "}.
-
-       @arg words: One, two or more words (C{str}s).
-       @kwarg sep: Separator C({str}), default C{" "}.
-
-       @return: Joined B{C{words}} C({str}).
-    '''
-    return sep.get('sep', _SPACE_).join(words)
-
-
 def len2(items):
     '''Make built-in function L{len} work for generators, iterators,
        etc. since those can only be started exactly once.
@@ -434,7 +413,7 @@ def _xversion(module, where, *required):
     t = map2(int, module.__version__.split(_DOT_)[:2])
     if t < required:
         from pygeodesy.named import modulename as mn
-        t = joined_(module.__name__, 'version',
+        t = joined_(module.__name__, _version_,
                    _DOT_.join(map2(str, t)), 'below',
                    _DOT_.join(map2(str, required)),
                    'required', 'by', mn(where, True))

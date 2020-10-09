@@ -3,7 +3,8 @@
 
 u'''N-vector-based classes geodetic (lat-/longitude) L{LatLon}, geocentric
 (ECEF) L{Cartesian} and L{Nvector} and functions L{areaOf}, L{intersection},
-L{meanOf}, L{nearestOn2}, L{triangulate} and L{trilaterate}, I{all spherical}.
+L{meanOf}, L{nearestOn3}, L{perimeterOf}, L{sumOf}, L{triangulate} and
+L{trilaterate}, I{all spherical}.
 
 Pure Python implementation of n-vector-based spherical geodetic (lat-/longitude)
 methods, transcribed from JavaScript originals by I{(C) Chris Veness 2011-2016},

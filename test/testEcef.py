@@ -5,14 +5,14 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.09.30'
+__version__ = '20.10.08'
 
 from base import TestsBase
 
 from pygeodesy import Datums, EcefCartesian, EcefError, EcefKarney, \
                       EcefMatrix, EcefSudano, EcefVeness, EcefYou, \
                       Ellipsoids, fstr, latDMS, LatLon_, lonDMS, \
-                      nvector, parse3llh
+                      parse3llh, nvector  # deprecated.nvector
 
 from math import radians
 

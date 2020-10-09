@@ -3,8 +3,8 @@
 
 u'''Trigonometric classes geodetic (lat-/longitude) L{LatLon} and
 geocentric (ECEF) L{Cartesian} and functions L{areaOf}, L{intersection},
-L{isPoleEnclosedBy}, L{meanOf}, L{nearestOn2} and L{perimeterOf},
-I{all spherical}.
+L{intersections2}, L{isPoleEnclosedBy}, L{meanOf}, L{nearestOn3} and
+L{perimeterOf}, I{all spherical}.
 
 Pure Python implementation of geodetic (lat-/longitude) methods using
 spherical trigonometry, transcribed from JavaScript originals by
@@ -40,7 +40,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.10.02'
+__version__ = '20.10.08'
 
 _EPS_I2    = EPS * _4_0
 _PI_EPS_I2 = PI - _EPS_I2

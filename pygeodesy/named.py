@@ -17,7 +17,7 @@ sub-classes of C{_NamedTuple} defined here.
 
 # update imported names under if __name__ == '__main__':
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, issubclassof, \
-                             joined, joined_, property_doc_, property_RO, _xcopy, _xkwds
+                             property_doc_, property_RO, _xcopy, _xkwds
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
@@ -25,12 +25,13 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
 from pygeodesy.interns import NN, _AT_, _COLON_, _COLON_SPACE_, _COMMA_SPACE_, \
                              _CURLY_, _doesn_t_exist_, _DOT_, _dot_, _DUNDER_, \
                              _dunder_name, _EQUAL_, _invalid_, _item_ps, _item_sq, \
-                             _name_, _other_, _PARENTH_, _SQUARE_, _UNDERSCORE_, _valid_
+                             joined, joined_, _name_, _other_, _PARENTH_, _SQUARE_, \
+                             _UNDERSCORE_, _valid_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.10.06'
+__version__ = '20.10.08'
 
 # __DUNDER gets mangled in class
 _immutable_ = 'immutable'
@@ -39,10 +40,10 @@ _Names_     = '_Names_'
 _Units_     = '_Units_'
 
 
-def _xjoined_(pref, name):
+def _xjoined_(prefix, name):
     '''(INTERNAL) Join C{pref} and non-empty C{name}.
     '''
-    return joined_(pref, repr(name)) if name and pref else (pref or name)
+    return joined_(prefix, repr(name)) if name and prefix else (prefix or name)
 
 
 def _xnamed(inst, name, force=False):
@@ -613,19 +614,23 @@ class _NamedTuple(tuple, _Named):
     '''
     _iteration = None  # Iteration number (C{int} or C{None})
     _Names_    = ()  # item names, non-identifier, no leading underscore
-    '''Tuple specifying the C{name} of each -Tuple item.
+    '''Tuple specifying the C{name} of each C{Named-Tuple} item.
 
        @note: Specify at least 2 item names.
     '''
     _Units_    = ()    # .units classes
-    '''Tuple defining the C{units} of the value of each -Tuple item.
+    '''Tuple defining the C{units} of the value of each C{Named-Tuple} item.
 
        @note: The C{len(_Units_)} must match C{len(_Names_)}.
     '''
-    _validated = False  # set to True per sub-class!
+    _validated = False  # set to True I{per sub-class!}
 
-    def __new__(cls, *args):
+    def __new__(cls, *args, **name_only):
         '''New L{_NamedTuple} initialized with B{C{positional}} arguments.
+
+           @arg args: Tuple items (C{any}), all positional arguments.
+           @kwarg name_only: Only C{B{name}='name'} is used, anu other
+                             keyword arguments are I{silently} ignored.
 
            @raise LenError: The number of positional arguments does not
                             match the number of item names in the C{_Names_}
@@ -640,9 +645,14 @@ class _NamedTuple(tuple, _Named):
         self = tuple.__new__(cls, args)
         if not self._validated:
             self._validate()
+
         n = len(self._Names_)
         if len(args) != n:
             raise LenError(self.__class__, args=len(args), _Names_=n)
+        if name_only:  # name=NN
+            n = name_only.get(_name_, NN)
+            if n:
+                self.name = n
         return self
 
     def __delattr__(self, name):
@@ -709,7 +719,7 @@ class _NamedTuple(tuple, _Named):
         return self._iteration
 
     def _xtend(self, xTuple, *items):
-        '''(INTERNAL) Extend this C{_Tuple} with C{items} to an other C{xTuple}.
+        '''(INTERNAL) Extend this C{Named-Tuple} with C{items} to an other B{C{xTuple}}.
         '''
         if not (issubclassof(xTuple, _NamedTuple) and
                (len(self._Names_) + len(items)) == len(xTuple._Names_)
@@ -719,7 +729,7 @@ class _NamedTuple(tuple, _Named):
         return self._xnamed(xTuple(*(self + items)))
 
     def toRepr(self, prec=6, sep=_COMMA_SPACE_, **unused):  # PYCHOK signature
-        '''Return the -Tuple items as C{name=value} string(s).
+        '''Return this C{Named-Tuple} items as C{name=value} string(s).
 
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
@@ -734,7 +744,7 @@ class _NamedTuple(tuple, _Named):
     '''DEPRECATED, use method C{toRepr}.'''
 
     def toStr(self, prec=6, sep=_COMMA_SPACE_, **unused):  # PYCHOK signature
-        '''Return the -Tuple items as string(s).
+        '''Return this C{Named-Tuple} items as string(s).
 
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                         Trailing zero decimals are stripped for B{C{prec}} values
@@ -746,14 +756,14 @@ class _NamedTuple(tuple, _Named):
         return _PARENTH_ % (sep.join(reprs(self, prec=prec)),)
 
     def toUnits(self, Error=UnitError):  # overloaded in .frechet, .hausdorff
-        '''Return a copy of this -Tuple with each item value wrapped
+        '''Return a copy of this C{Named-Tuple} with each item value wrapped
            as an instance of its L{units} class.
 
            @kwarg Error: Error to raise for L{units} issues (C{UnitError}).
 
-           @return: A duplicate of this -Tuple (C{-Tuple}).
+           @return: A duplicate of this C{Named-Tuple} (C{C{Named-Tuple}}).
 
-           @raise Error: Invalid -Tuple item or L{units} class.
+           @raise Error: Invalid C{Named-Tuple} item or L{units} class.
         '''
         t = (v for _, v in self.units(Error=Error))
         return self.classof(*tuple(t))
@@ -764,7 +774,7 @@ class _NamedTuple(tuple, _Named):
 
            @kwarg Error: Error to raise for L{units} issues (C{UnitError}).
 
-           @raise Error: Invalid -Tuple item or L{units} class.
+           @raise Error: Invalid C{Named-Tuple} item or L{units} class.
 
            @see: Method C{.items}.
         '''

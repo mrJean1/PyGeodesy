@@ -72,9 +72,8 @@ class Tests(TestsBase):
 if __name__ == '__main__':
 
     from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
-                          nvector, \
                           sphericalNvector, sphericalTrigonometry, \
-                          vector3d  # PYCHOK expected
+                          vector3d, nvector  # deprecated.nvector
 
     t = Tests(__file__, __version__)
 

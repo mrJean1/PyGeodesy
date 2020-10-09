@@ -13,7 +13,7 @@ from pygeodesy.interns import NN, _COMMA_SPACE_, _DOT_, _EQUAL_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.09.27'
+__version__ = '20.10.08'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int
@@ -124,8 +124,8 @@ def fstr(floats, prec=6, fmt=_Fmt, ints=False, sep=_COMMA_SPACE_, strepr=None):
        @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
-       @kwarg fmt: Optional, float format (C{str}).
-       @kwarg ints: Optionally, remove the decimal dot (C{bool}).
+       @kwarg fmt: Optional, C{float} format (C{str}).
+       @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
        @kwarg sep: Separator joining the B{C{floats}} (C{str}).
        @kwarg strepr: Optional callable to format non-C{floats} (typically
                       C{repr}, C{str}) or C{None} to raise a TypeError.
@@ -180,8 +180,8 @@ def hstr(height, prec=2, fmt='%+.*f', ints=False, m=NN):
        @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
-       @kwarg fmt: Optional, float format (C{str}).
-       @kwarg ints: Optionally, remove the decimal dot (C{bool}).
+       @kwarg fmt: Optional, C{float} format (C{str}).
+       @kwarg ints: Optionally, remove the decimal dot for C{int} values (C{bool}).
        @kwarg m: Optional unit of the height (C{str}).
     '''
     h = next(_streprs(prec, (height,), fmt, ints, True, None))
@@ -208,8 +208,8 @@ def pairs(items, prec=6, fmt=_Fmt, ints=False, sep=_EQUAL_):
        @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
-       @kwarg fmt: Optional, float format (C{str}).
-       @kwarg ints: Optionally, remove the decimal dot (C{bool}).
+       @kwarg fmt: Optional, C{float} format (C{str}).
+       @kwarg ints: Optionally, remove the decimal dot fir C{int} values (C{bool}).
        @kwarg sep: Separator joining I{names} and I{values} (C{str}).
 
        @return: A C{tuple(sep.join(t) for t in zip(names, reprs(values,...)))}
@@ -235,8 +235,8 @@ def reprs(objs, prec=6, fmt=_Fmt, ints=False):
        @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
-       @kwarg fmt: Optional, float format (C{str}).
-       @kwarg ints: Optionally, remove the decimal dot (C{bool}).
+       @kwarg fmt: Optional, C{float} format (C{str}).
+       @kwarg ints: Optionally, remove the decimal dot fir C{int} values (C{bool}).
 
        @return: A C{tuple(map(fstr|repr, objs))} of C{str}s.
     '''
@@ -250,8 +250,8 @@ def strs(objs, prec=6, fmt=_Fmt, ints=False):
        @kwarg prec: The C{float} precision, number of decimal digits (0..9).
                     Trailing zero decimals are stripped if B{C{prec}} is
                     positive, but kept for negative B{C{prec}} values.
-       @kwarg fmt: Optional, float format (C{str}).
-       @kwarg ints: Optionally, remove the decimal dot (C{bool}).
+       @kwarg fmt: Optional, C{float} format (C{str}).
+       @kwarg ints: Optionally, remove the decimal dot fir C{int} values (C{bool}).
 
        @return: A C{tuple(map(fstr|str, objs))} of C{str}s.
     '''

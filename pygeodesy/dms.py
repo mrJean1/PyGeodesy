@@ -11,14 +11,14 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import issequence, isstr, joined, map2
+from pygeodesy.basics import issequence, isstr, map2
 from pygeodesy.errors import ParseError, _parseX,  RangeError, \
                             _rangerrors, _ValueError
 from pygeodesy.interns import _COMMA_, _NE_, _NSEW_, _NW_, _SE_  # PYCHOK used!
 from pygeodesy.interns import NN, _deg_, _degrees_, _DOT_, _E_, \
-                             _EW_, _N_, _NS_, _PLUS_, _radians_, \
-                             _S_, _SPACE_, _SW_, _W_, _0_, _0_5, \
-                             _60_0, _360_0, _3600_0
+                             _EW_, joined, _N_, _NS_, _PLUS_, \
+                             _radians_, _S_, _SPACE_, _SW_, _W_, \
+                             _0_, _0_5, _60_0, _360_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import fstr, fstrzs
 
@@ -29,7 +29,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '20.09.27'
+__version__ = '20.10.08'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix

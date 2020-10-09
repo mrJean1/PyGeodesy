@@ -8,8 +8,9 @@ __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0',
            'NN',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4',
-           'R_M')  # import by .lazily
-__version__ = '20.09.27'
+           'R_M',
+           'joined', 'joined_')  # import by .lazily
+__version__ = '20.10.09'
 
 NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
@@ -21,6 +22,7 @@ _3_                  = '3'                    # PYCHOK expected
 _areaOf_             = 'areaOf'               # PYCHOK expected
 _ambiguous_          = 'ambiguous'            # PYCHOK expected
 _AT_                 = '@'                    # PYCHOK expected
+_attribute_          = 'attribute'            # PYCHOK expected
 _azimuth_            = 'azimuth'              # PYCHOK expected
 _band_               = 'band'                 # PYCHOK expected
 _bearing_            = 'bearing'              # PYCHOK expected
@@ -79,6 +81,7 @@ _M_                  = 'M'                    # PYCHOK expected
 _meanOf_             = 'meanOf'               # PYCHOK expected
 _meter_              = 'meter'                # PYCHOK expected
 _MGRS_               = 'MGRS'                 # PYCHOK expected
+_module_             = 'module'               # PYCHOK expected
 _n_                  = 'n'                    # PYCHOK expected
 _N_                  = 'N'                    # PYCHOK expected
 _n_a_                = 'n/a'                  # PYCHOK expected
@@ -86,6 +89,7 @@ _name_               = 'name'                 # PYCHOK expected
 _near_concentric_    = 'near-concentric'      # PYCHOK expected
 _nearestOn2_         = 'nearestOn2'           # PYCHOK expected
 _negative_           = 'negative'             # PYCHOK expected
+_no_                 = 'no'                   # PYCHOK expected
 _no_intersection_    = 'no intersection'      # PYCHOK expected
 _no_convergence_     = 'no convergence'       # PYCHOK expected
 _no_convergence_fmt_ = 'no convergence (%g)'  # PYCHOK expected
@@ -94,9 +98,10 @@ _no_overlap_         = 'no overlap'           # PYCHOK expected
 _northing_           = 'northing'             # PYCHOK expected
 _NorthPole_          = 'NorthPole'            # PYCHOK expected
 _not_convex_         = 'not convex'           # PYCHOK expected
+_not_enabled_        = 'not enabled'          # PYCHOK expected
 _not_scalar_         = 'not scalar'           # PYCHOK expected
 _number_             = 'number'               # PYCHOK expected
-_Nvector_            = 'Nvector'              # PYCHOK expected
+_or_                 = 'or'                   # PYCHOK expected
 _other_              = 'other'                # PYCHOK expected
 _outside_            = 'outside'              # PYCHOK expected
 _PARENTH_            = '(%s)'                 # PYCHOK expected
@@ -108,6 +113,7 @@ _point_              = 'point'                # PYCHOK expected
 _points_             = 'points'               # PYCHOK expected
 _pole_               = 'pole'                 # PYCHOK expected
 _precision_          = 'precision'            # PYCHOK expected
+_pygeodesy_abspath_  = 'pygeodesy_abspath'    # PYCHOK expected
 _radians_            = 'radians'              # PYCHOK expected
 _radians2_           = 'radians2'             # PYCHOK SQUARED
 _radius_             = 'radius'               # PYCHOK expected
@@ -119,6 +125,7 @@ _resolution_         = 'resolution'           # PYCHOK expected
 _S_                  = 'S'                    # PYCHOK expected
 _scalar_             = 'scalar'               # PYCHOK expected
 _scale_              = 'scale'                # PYCHOK expected
+_sep_                = 'sep'                  # PYCHOK expected
 _spherical_          = 'spherical'            # PYCHOK expected
 _SouthPole_          = 'SouthPole'            # PYCHOK expected
 _SPACE_              = ' '                    # PYCHOK expected
@@ -126,7 +133,6 @@ _SQUARE_             = '[%s]'                 # PYCHOK expected
 _STAR_               = '*'                    # PYCHOK expected
 _start_              = 'start'                # PYCHOK expected
 _std_                = 'std'                  # PYCHOK expected
-_sumOf_              = 'sumOf'                # PYCHOK expected
 _too_distant_        = 'too distant'          # PYCHOK expected
 _too_distant_fmt_    = 'too distant (%.3g)'   # PYCHOK expected
 _too_few_            = 'too few'              # PYCHOK expected
@@ -138,6 +144,7 @@ _UPS_                = 'UPS'                  # PYCHOK expected
 _utf_8_              = 'utf-8'                # PYCHOK expected
 _UTM_                = 'UTM'                  # PYCHOK expected
 _valid_              = 'valid'                # PYCHOK expected
+_version_            = 'version'              # PYCHOK expected
 _W_                  = 'W'                    # PYCHOK expected
 _x_                  = 'x'                    # PYCHOK expected
 _y_                  = 'y'                    # PYCHOK expected
@@ -170,7 +177,7 @@ _Missing = _Missing()  # PYCHOK singleton
 
 
 def _dot_(*prefix_names):
-    '''(INTERNAL) Period-join C{prefix} and C{name}.
+    '''(INTERNAL) Period-joined C{prefix} and C{name}s.
     '''
     return _DOT_.join(prefix_names)
 
@@ -291,6 +298,28 @@ def _item_sq(*name_value_arg, **name_value_kwd):  # PYCHOK expected
     '''(INTERNAL) Return an indexed or keyed name.
     '''
     return _item_fmt('%s[%r]', name_value_arg, name_value_kwd)
+
+
+def joined(*words, **sep):
+    '''Joined words by separator C{sep=NN}.
+
+       @arg words: One, two or more words (C{str}s).
+       @kwarg sep: Separator C({str}), default C{NN}.
+
+       @return: Joined B{C{words}} C({str}).
+    '''
+    return sep.get(_sep_, NN).join(words)
+
+
+def joined_(*words, **sep):
+    '''Joined words by separator C{sep=" "}.
+
+       @arg words: One, two or more words (C{str}s).
+       @kwarg sep: Separator C({str}), default C{" "}.
+
+       @return: Joined B{C{words}} C({str}).
+    '''
+    return sep.get(_sep_, _SPACE_).join(words)
 
 # **) MIT License
 #

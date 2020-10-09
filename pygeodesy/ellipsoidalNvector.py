@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 u'''Ellispdoidal, N-vector-based classes geodetic (lat-/longitude) L{LatLon},
-geocentric (ECEF) L{Cartesian}, L{Ned} and L{Nvector} and functions L{meanOf}
-and L{toNed}.
+geocentric (ECEF) L{Cartesian}, L{Ned} and L{Nvector} and functions L{meanOf}.
+L{sumOf} and L{toNed}.
 
 Pure Python implementation of n-vector-based geodetic (lat-/longitude)
 methods by I{(C) Chris Veness 2011-2016} published under the same MIT
@@ -43,7 +43,7 @@ from pygeodesy.utily import atan2b, degrees90, sincos2d
 from math import asin
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.10.02'
+__version__ = '20.10.08'
 
 _down_  = 'down'
 _east_  = 'east'

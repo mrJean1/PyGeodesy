@@ -105,8 +105,6 @@
         class="link">equidistant</a> and <a 
         href="pygeodesy.azimuthal-module.html#gnomonic" 
         class="link">gnomonic</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.bases-module.html">pygeodesy.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
-        class="link" onclick="show_private();">latlonBase</a> instead.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Basic definitions, decorators and functions.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html" onclick="show_private();">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
@@ -120,10 +118,6 @@
         requiring <i>Charles Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib/" 
         target="_top">geographiclib</a> package to be installed.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.datums-module.html" 
-        class="link">datums</a> or <a 
-        href="pygeodesy.ellipsoids-module.html" class="link">ellipsoids</a>
-        instead.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datums-module.html">pygeodesy.datums</a></strong>: <em class="summary">Classes <a href="pygeodesy.datums.Datum-class.html" 
         class="link">Datum</a> and <a 
         href="pygeodesy.datums.Transform-class.html" 
@@ -131,7 +125,18 @@
         href="pygeodesy.datums-module.html#Datums" class="link">Datums</a> 
         and <a href="pygeodesy.datums-module.html#Transforms" 
         class="link">Transforms</a>, respectively.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED classes, functions, etc.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED classes, functions, etc.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases-module.html">pygeodesy.deprecated.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
+        class="link" onclick="show_private();">latlonBase</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.datum-module.html">pygeodesy.deprecated.datum</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.datums-module.html" 
+        class="link">datums</a> or <a 
+        href="pygeodesy.ellipsoids-module.html" class="link">ellipsoids</a>
+        instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector-module.html">pygeodesy.deprecated.nvector</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.nvectorBase-module.html" 
+        class="link" onclick="show_private();">nvectorBase</a> instead.</em>    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format bearing, compass, lat- and longitudes
         in various forms of degrees, minutes and seconds.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary">Geocentric conversions transcribed from <i>Charles Karney</i>'s C++
@@ -175,8 +180,12 @@
         class="link">Cartesian</a> and functions <a 
         href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
         class="link">areaOf</a>, <a 
+        href="pygeodesy.ellipsoidalKarney-module.html#intersections2" 
+        class="link">intersections2</a>, <a 
         href="pygeodesy.ellipsoidalKarney-module.html#isclockwise" 
-        class="link">isclockwise</a> and <a 
+        class="link">isclockwise</a>, <a 
+        href="pygeodesy.ellipsoidalKarney-module.html#nearestOn" 
+        class="link">nearestOn</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
         class="link">perimeterOf</a>, all based on <i>Charles Karney</i>'s 
         Python <a href="https://PyPI.org/project/geographiclib" 
@@ -191,9 +200,7 @@
         href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
         class="link">Nvector</a> and functions <a 
         href="pygeodesy.ellipsoidalNvector-module.html#meanOf" 
-        class="link">meanOf</a> and <a 
-        href="pygeodesy.ellipsoidalNvector-module.html#toNed" 
-        class="link">toNed</a>.</em>    </li>
+        class="link">meanOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty-module.html">pygeodesy.ellipsoidalVincenty</a></strong>: <em class="summary">Ellispodial classes for <i>Vincenty</i>'s geodetic (lat-/longitude)
         <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>, geocentric (ECEF) <a 
@@ -202,7 +209,11 @@
         href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
         class="link">VincentyError</a> and functions <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#areaOf" 
-        class="link" onclick="show_private();">areaOf</a> and <a 
+        class="link" onclick="show_private();">areaOf</a>, <a 
+        href="pygeodesy.ellipsoidalVincenty-module.html#intersections2" 
+        class="link">intersections2</a>, <a 
+        href="pygeodesy.ellipsoidalVincenty-module.html#nearestOn" 
+        class="link">nearestOn</a> and <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
         class="link">perimeterOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids-module.html">pygeodesy.ellipsoids</a></strong>: <em class="summary">Classes <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
@@ -382,8 +393,10 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a>, provided that package is 
         installed.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) base classes for elliposiodal, spherical and vectorial 
-        <code>LatLon</code>s.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) base class <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html" 
+        class="link">LatLonBase</a> for elliposiodal, spherical and 
+        n-vectorial <code>LatLon</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lazily-module.html">pygeodesy.lazily</a></strong>: <em class="summary">Lazily import <code>pygeodesy</code> modules and attributes, based 
         on <a href="https://modutil.ReadTheDocs.io/en/latest/#lazy_import" 
         target="_top">lazy_import</a> from Brett Cannon's <a 
@@ -408,16 +421,14 @@
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code> and
         <code>_NamedTuple</code>, all with nameable instances and several 
         subclasses thereof.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.nvector-module.html">pygeodesy.nvector</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.nvectorBase-module.html" 
-        class="link" onclick="show_private();">nvectorBase</a> instead.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html" onclick="show_private();">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Base classes <a 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html" onclick="show_private();">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html" 
-        class="link">LatLonNvectorBase</a> and <a 
+        class="link">LatLonNvectorBase</a> for <code>n-vectorial</code> 
+        ellipsoidal and spherical <code>LatLon</code>s, class <a 
         href="pygeodesy.nvectorBase.NvectorBase-class.html" 
-        class="link">NvectorBase</a> and function <a 
-        href="pygeodesy.nvectorBase-module.html#sumOf" 
-        class="link">sumOf</a> for <code>N-vectorial</code> ellipsoidal and
-        spherical <code>Cartesian</code>s and <code>LatLon</code>s.</em>    </li>
+        class="link">NvectorBase</a> for <code>Cartesian</code>s and 
+        function <a href="pygeodesy.nvectorBase-module.html#sumOf" 
+        class="link">sumOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordinance Survey Grid References (OSGR) classes <a 
         href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> an <a 
         href="pygeodesy.osgr.OSGRError-class.html" 
@@ -448,8 +459,12 @@
         class="link">intersection</a>, <a 
         href="pygeodesy.sphericalNvector-module.html#meanOf" 
         class="link">meanOf</a>, <a 
-        href="pygeodesy.sphericalNvector-module.html#nearestOn2" 
-        class="link">nearestOn2</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#nearestOn3" 
+        class="link" onclick="show_private();">nearestOn3</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#perimeterOf" 
+        class="link">perimeterOf</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#sumOf" 
+        class="link">sumOf</a>, <a 
         href="pygeodesy.sphericalNvector-module.html#triangulate" 
         class="link">triangulate</a> and <a 
         href="pygeodesy.sphericalNvector-module.html#trilaterate" 
@@ -463,12 +478,14 @@
         class="link">areaOf</a>, <a 
         href="pygeodesy.sphericalTrigonometry-module.html#intersection" 
         class="link">intersection</a>, <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#intersections2" 
+        class="link">intersections2</a>, <a 
         href="pygeodesy.sphericalTrigonometry-module.html#isPoleEnclosedBy"
         class="link">isPoleEnclosedBy</a>, <a 
         href="pygeodesy.sphericalTrigonometry-module.html#meanOf" 
         class="link">meanOf</a>, <a 
-        href="pygeodesy.sphericalTrigonometry-module.html#nearestOn2" 
-        class="link">nearestOn2</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#nearestOn3" 
+        class="link">nearestOn3</a> and <a 
         href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
         class="link">perimeterOf</a>, <i>all spherical</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
@@ -520,8 +537,20 @@
         for the UTM, UPS, Mgrs and Epsg classes/modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary">Generic 3-D vector base class <a 
         href="pygeodesy.vector3d.Vector3d-class.html" 
-        class="link">Vector3d</a> and function <a 
-        href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a>.</em>    </li>
+        class="link">Vector3d</a>, class <a 
+        href="pygeodesy.vector3d.VectorError-class.html" 
+        class="link">VectorError</a> and functions <a 
+        href="pygeodesy.vector3d-module.html#intersections2" 
+        class="link">intersections2</a>, <a 
+        href="pygeodesy.vector3d-module.html#iscolinearWith" 
+        class="link">iscolinearWith</a>, <a 
+        href="pygeodesy.vector3d-module.html#nearestOn" class="link" 
+        onclick="show_private();">nearestOn</a>, <a 
+        href="pygeodesy.vector3d-module.html#parse3d" 
+        class="link">parse3d</a>, <a 
+        href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a> 
+        and <a href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+        class="link">trilaterate3d2</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.webmercator-module.html">pygeodesy.webmercator</a></strong>: <em class="summary">Web Mercator (WM) classes <a 
         href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a> and 
         <a href="pygeodesy.webmercator.WebMercatorError-class.html" 
@@ -570,7 +599,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct  6 19:54:09 2020
+    Generated by Epydoc 3.0.1 on Fri Oct  9 12:25:22 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

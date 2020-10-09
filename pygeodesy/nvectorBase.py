@@ -1,9 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Base classes L{LatLonNvectorBase} and L{NvectorBase}
-and function L{sumOf} for C{N-vectorial} ellipsoidal and spherical
-C{Cartesian}s and C{LatLon}s.
+u'''(INTERNAL) Base class L{LatLonNvectorBase} for C{n-vectorial}
+ellipsoidal and spherical C{LatLon}s, class L{NvectorBase} for
+C{Cartesian}s and function L{sumOf}.
 
 Pure Python implementation of C{n-vector}-based geodesy tools for
 ellipsoidal earth models, transcribed from JavaScript originals by
@@ -25,7 +25,7 @@ from pygeodesy.interns import EPS, EPS1, EPS_2, NN, R_M, _bearing_, \
                              _coincident_, _COMMA_SPACE_, _distance_, \
                              _Missing, _no_intersection_, _NorthPole_, \
                              _PARENTH_, _points_, _pole_, _SPACE_, \
-                             _SouthPole_, _sumOf_, _1_, _2_, _3_
+                             _SouthPole_, _1_, _2_, _3_
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xother3
@@ -39,9 +39,8 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 
 from math import fabs, sqrt  # atan2, cos, sin
 
-__all__ = (_NorthPole_, _SouthPole_,  # constants
-           _sumOf_)  # functions
-__version__ = '20.10.02'
+__all__ = (_NorthPole_, _SouthPole_)  # constants
+__version__ = '20.10.08'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -680,7 +679,7 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
                             txt=unstr(t, z=z, useZ=useZ))
 
 
-__all__ += _ALL_DOCS(LatLonNvectorBase, NvectorBase)  # classes
+__all__ += _ALL_DOCS(LatLonNvectorBase, NvectorBase, sumOf)  # classes
 
 # **) MIT License
 #

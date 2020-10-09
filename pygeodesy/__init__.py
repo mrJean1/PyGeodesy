@@ -108,10 +108,10 @@ The tests have been run with Python 3.9.0 (with U{geographiclib
 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://SciPy.org/scipylib/download.html>} 1.5.2) and macOS' Python
-2.7.16 (without geographiclib, numpy and scipy), all on macOS 10.15.7
-Catalina and all in 64-bit only.  The tests run with and without
-C{lazy import} for Python 3.  The results of those tests are included
-in the distribution files.
+2.7.16 (and only U{numpy<https://PyPI.org/project/numpy>} 1.16.6),
+all on macOS 10.15.7 Catalina and all in 64-bit only.  The tests run
+with and without C{lazy import} for Python 3.  The results of those
+tests are included in the distribution files.
 
 Test coverage has been measured with U{coverage
 <https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.0 (with
@@ -119,8 +119,9 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50 only),
 Python 3.8.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://SciPy.org/scipylib/download.html>} 1.5.2) and macOS' Python
-2.7.16 (without geographiclib, numpy and scipy).  The full coverage
-report in HTML and a PDF summary are included in the distribution files.
+2.7.16 (and only U{numpy<https://PyPI.org/project/numpy>} 1.16.6).  The
+full coverage report in HTML and a PDF summary are included in the
+distribution files.
 
 The tests also ran with Python 2.7.14, 3.6.3, 3.7.1, 3.8.0 and U{PyPy
 <https://PyPy.org>} 7.1.1 (Python 2.7.13 and 3.6.1) (and U{geographiclib
@@ -286,9 +287,9 @@ import sys
 # <https://PyInstaller.ReadTheDocs.io/en/stable/runtime-information.html>
 _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
-_pygeodesy        = __package__ or basename(pygeodesy_abspath)
+_pygeodesy_       = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.10.06'
+__version__ = '20.10.09'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 
@@ -308,7 +309,7 @@ else:
     try:
         # lazily requires Python 3.7+, see lazily.__doc__
         from pygeodesy.lazily import LazyImportError, _lazy_import2  # PYCHOK expected
-        _, __getattr__ = _lazy_import2(_pygeodesy)  # PYCHOK expected
+        _, __getattr__ = _lazy_import2(_pygeodesy_)  # PYCHOK expected
 
     except (ImportError, LazyImportError, NotImplementedError):
         _lazy_import2 = None
@@ -318,11 +319,11 @@ if not _lazy_import2:  # import and set __all__
     # import all public modules and export as such
     import pygeodesy.albers                as albers                 # PYCHOK exported
     import pygeodesy.azimuthal             as azimuthal              # PYCHOK exported
-    import pygeodesy.bases                 as bases                  # PYCHOK DEPRECATED
+    import pygeodesy.deprecated.bases      as bases                  # PYCHOK DEPRECATED
     import pygeodesy.basics                as basics                 # PYCHOK exported
     import pygeodesy.clipy                 as clipy                  # PYCHOK exported
     import pygeodesy.css                   as css                    # PYCHOK exported
-    import pygeodesy.datum                 as datum                  # PYCHOK exported
+    import pygeodesy.deprecated.datum      as datum                  # PYCHOK DEPRECATED
     import pygeodesy.datums                as datums                 # PYCHOK exported
     import pygeodesy.deprecated            as deprecated             # PYCHOK exported
     import pygeodesy.dms                   as dms                    # PYCHOK exported
@@ -351,7 +352,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.mgrs                  as mgrs                   # PYCHOK exported
     import pygeodesy.named                 as named                  # PYCHOK exported
     import pygeodesy.namedTuples           as namedTuples            # PYCHOK exported
-    import pygeodesy.nvector               as nvector                # PYCHOK DEPRECATED
+    import pygeodesy.deprecated.nvector    as nvector                # PYCHOK DEPRECATED
     import pygeodesy.osgr                  as osgr                   # PYCHOK exported
     import pygeodesy.points                as points                 # PYCHOK exported
     import pygeodesy.simplify              as simplify               # PYCHOK exported
@@ -375,11 +376,9 @@ if not _lazy_import2:  # import and set __all__
     # vector and wgrs ... in order keep those as modules ONLY
     from pygeodesy.albers                import *  # PYCHOK __all__
     from pygeodesy.azimuthal             import *  # PYCHOK __all__
-#   from pygeodesy.bases                 import *  # PYCHOK __all__
     from pygeodesy.basics                import *  # PYCHOK __all__
     from pygeodesy.clipy                 import *  # PYCHOK __all__
     from pygeodesy.css                   import *  # PYCHOK __all__
-#   from pygeodesy.datum                 import *  # MODULE O_N_L_Y
     from pygeodesy.datums                import *  # PYCHOK __all__
     from pygeodesy.deprecated            import *  # PYCHOK __all__
     from pygeodesy.dms                   import *  # PYCHOK __all__
@@ -408,7 +407,6 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.mgrs                  import *  # PYCHOK __all__
     from pygeodesy.named                 import *  # PYCHOK __all__
 #   from pygeodesy.namedTuples           import -  # MODULE O_N_L_Y
-#   from pygeodesy.nvector               import -  # MODULE O_N_L_Y
     from pygeodesy.osgr                  import *  # PYCHOK __all__
     from pygeodesy.points                import *  # PYCHOK __all__
     from pygeodesy.simplify              import *  # PYCHOK __all__
@@ -426,32 +424,34 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK exported
 
     def _all(globalocals):
-        from pygeodesy.interns import _dot_  # PYCHOK expected
+        from pygeodesy.interns import NN as _NN, _attribute_, _COMMA_SPACE_, \
+                                     _dot_, _module_  # PYCHOK expected
         # collect all public module and attribute names and check
         # that modules are imported from this package, 'pygeodesy'
         # (but the latter only when not bundled with PyInstaller or
         # Py2Exe, since the file-layout is different.  Courtesy of
         # GilderGeek<https://GitHub.com/mrJean1/PyGeodesy/issues/31>)
         ns = list(lazily._ALL_INIT)
-# XXX   ps = () if _isfrozen else set([_pygeodesy] + __name__.split('.'))
+# XXX   ps = () if _isfrozen else set([_pygeodesy_] + __name__.split('.'))
         for mod, attrs in lazily._ALL_LAZY.enums():
             if mod not in globalocals:
-                raise ImportError('missing %s: %s' % ('module', _dot_(_pygeodesy, mod)))
+                raise ImportError('missing %s%s: %s' % (_module_, _NN, _dot_(_pygeodesy_, mod)))
             ns.append(mod)
             # check that all other public attributes do exist
             if attrs and isinstance(attrs, tuple):
-                for a in attrs:
-                    if a not in globalocals:
-                        raise ImportError('missing %s: %s' % ('attribute', _dot_(mod, a)))
+                t = tuple(_dot_(_pygeodesy_, mod, a) for a in attrs if a not in globalocals)
+                if t:
+                    a = ('s[%s]' % (len(t),)) if len(t) > 1 else _NN
+                    raise ImportError('missing %s%s: %s' % (_attribute_, a, _COMMA_SPACE_.join(t)))
                 ns.extend(attrs)
-# XXX       if ps:  # check that mod is a _pygeodesy module
+# XXX       if ps:  # check that mod is a _pygeodesy_ module
 # XXX           m = globalocals[mod]  # assert(m.__name__ == mod)
-# XXX           f = getattr(m, '__file__', NN)
+# XXX           f = getattr(m, '__file__', _NN)
 # XXX           d = dirname(abspath(f)) if f else pygeodesy_abspath
-# XXX           p = getattr(m, '__package__', NN) or _pygeodesy
+# XXX           p = getattr(m, '__package__', _NN) or _pygeodesy_
 # XXX           if p not in ps or d != pygeodesy_abspath:
 # XXX               raise ImportError('foreign module: %s from %r' % (_dot_(p, mod), f or p))
-        return tuple(set(ns))  # remove duplicates, only R_M?
+        return tuple(set(ns))  # remove duplicates
 
     __all__ = _all(globals())  # or locals()
 

@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.09.24'
+__version__ = '20.10.07'
 
 
 def _c2(*names):
@@ -64,7 +64,7 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh', 'linearize',
              'LocalCartesian', 'longitude', 'lune',
              'Mercator', 'MGRS',
-             'nearest', 'numpy', 'n-vector', 'Nvector',
+             'nearest', 'Norrdine', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'Parametric', 'path-intersection', 'perimeter',
              'Peucker', 'polar', 'prolate', 'Pseudo-Mercator',

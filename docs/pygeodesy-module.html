@@ -204,11 +204,11 @@
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://SciPy.org/scipylib/download.html" 
-    target="_top">scipy</a> 1.5.2) and macOS' Python 2.7.16 (without 
-    geographiclib, numpy and scipy), all on macOS 10.15.7 Catalina and all 
-    in 64-bit only.  The tests run with and without <code>lazy 
-    import</code> for Python 3.  The results of those tests are included in
-    the distribution files.</p>
+    target="_top">scipy</a> 1.5.2) and macOS' Python 2.7.16 (and only <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6), 
+    all on macOS 10.15.7 Catalina and all in 64-bit only.  The tests run 
+    with and without <code>lazy import</code> for Python 3.  The results of
+    those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
     4.5.4 using Python 3.9.0 (with <a 
@@ -218,9 +218,10 @@
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
     and <a href="https://SciPy.org/scipylib/download.html" 
-    target="_top">scipy</a> 1.5.2) and macOS' Python 2.7.16 (without 
-    geographiclib, numpy and scipy).  The full coverage report in HTML and 
-    a PDF summary are included in the distribution files.</p>
+    target="_top">scipy</a> 1.5.2) and macOS' Python 2.7.16 (and only <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6).
+    The full coverage report in HTML and a PDF summary are included in the 
+    distribution files.</p>
     <p>The tests also ran with Python 2.7.14, 3.6.3, 3.7.1, 3.8.0 and <a 
     href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 2.7.13 and
     3.6.1) (and <a href="https://PyPI.org/project/geographiclib" 
@@ -309,7 +310,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.10.06
+        20.10.09
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -361,8 +362,6 @@
         class="link">equidistant</a> and <a 
         href="pygeodesy.azimuthal-module.html#gnomonic" 
         class="link">gnomonic</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.bases-module.html">pygeodesy.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
-        class="link" onclick="show_private();">latlonBase</a> instead.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Basic definitions, decorators and functions.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html" onclick="show_private();">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
@@ -376,10 +375,6 @@
         requiring <i>Charles Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib/" 
         target="_top">geographiclib</a> package to be installed.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.datum-module.html">pygeodesy.datum</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.datums-module.html" 
-        class="link">datums</a> or <a 
-        href="pygeodesy.ellipsoids-module.html" class="link">ellipsoids</a>
-        instead.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datums-module.html">pygeodesy.datums</a></strong>: <em class="summary">Classes <a href="pygeodesy.datums.Datum-class.html" 
         class="link">Datum</a> and <a 
         href="pygeodesy.datums.Transform-class.html" 
@@ -387,7 +382,18 @@
         href="pygeodesy.datums-module.html#Datums" class="link">Datums</a> 
         and <a href="pygeodesy.datums-module.html#Transforms" 
         class="link">Transforms</a>, respectively.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED classes, functions, etc.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated-module.html">pygeodesy.deprecated</a></strong>: <em class="summary">DEPRECATED classes, functions, etc.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases-module.html">pygeodesy.deprecated.bases</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.latlonBase-module.html" 
+        class="link" onclick="show_private();">latlonBase</a> instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.datum-module.html">pygeodesy.deprecated.datum</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.datums-module.html" 
+        class="link">datums</a> or <a 
+        href="pygeodesy.ellipsoids-module.html" class="link">ellipsoids</a>
+        instead.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.nvector-module.html">pygeodesy.deprecated.nvector</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.nvectorBase-module.html" 
+        class="link" onclick="show_private();">nvectorBase</a> instead.</em>    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format bearing, compass, lat- and longitudes
         in various forms of degrees, minutes and seconds.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary">Geocentric conversions transcribed from <i>Charles Karney</i>'s C++
@@ -431,8 +437,12 @@
         class="link">Cartesian</a> and functions <a 
         href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
         class="link">areaOf</a>, <a 
+        href="pygeodesy.ellipsoidalKarney-module.html#intersections2" 
+        class="link">intersections2</a>, <a 
         href="pygeodesy.ellipsoidalKarney-module.html#isclockwise" 
-        class="link">isclockwise</a> and <a 
+        class="link">isclockwise</a>, <a 
+        href="pygeodesy.ellipsoidalKarney-module.html#nearestOn" 
+        class="link">nearestOn</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
         class="link">perimeterOf</a>, all based on <i>Charles Karney</i>'s 
         Python <a href="https://PyPI.org/project/geographiclib" 
@@ -447,9 +457,7 @@
         href="pygeodesy.ellipsoidalNvector.Nvector-class.html" 
         class="link">Nvector</a> and functions <a 
         href="pygeodesy.ellipsoidalNvector-module.html#meanOf" 
-        class="link">meanOf</a> and <a 
-        href="pygeodesy.ellipsoidalNvector-module.html#toNed" 
-        class="link">toNed</a>.</em>    </li>
+        class="link">meanOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty-module.html">pygeodesy.ellipsoidalVincenty</a></strong>: <em class="summary">Ellispodial classes for <i>Vincenty</i>'s geodetic (lat-/longitude)
         <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>, geocentric (ECEF) <a 
@@ -458,7 +466,11 @@
         href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
         class="link">VincentyError</a> and functions <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#areaOf" 
-        class="link" onclick="show_private();">areaOf</a> and <a 
+        class="link" onclick="show_private();">areaOf</a>, <a 
+        href="pygeodesy.ellipsoidalVincenty-module.html#intersections2" 
+        class="link">intersections2</a>, <a 
+        href="pygeodesy.ellipsoidalVincenty-module.html#nearestOn" 
+        class="link">nearestOn</a> and <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#perimeterOf" 
         class="link">perimeterOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids-module.html">pygeodesy.ellipsoids</a></strong>: <em class="summary">Classes <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
@@ -638,8 +650,10 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a>, provided that package is 
         installed.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) base classes for elliposiodal, spherical and vectorial 
-        <code>LatLon</code>s.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) base class <a 
+        href="pygeodesy.latlonBase.LatLonBase-class.html" 
+        class="link">LatLonBase</a> for elliposiodal, spherical and 
+        n-vectorial <code>LatLon</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lazily-module.html">pygeodesy.lazily</a></strong>: <em class="summary">Lazily import <code>pygeodesy</code> modules and attributes, based 
         on <a href="https://modutil.ReadTheDocs.io/en/latest/#lazy_import" 
         target="_top">lazy_import</a> from Brett Cannon's <a 
@@ -664,16 +678,14 @@
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code> and
         <code>_NamedTuple</code>, all with nameable instances and several 
         subclasses thereof.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.nvector-module.html">pygeodesy.nvector</a></strong>: <em class="summary">DEPRECATED, use module <a href="pygeodesy.nvectorBase-module.html" 
-        class="link" onclick="show_private();">nvectorBase</a> instead.</em>    </li>
-    <li class="private"> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html" onclick="show_private();">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Base classes <a 
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html" onclick="show_private();">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html" 
-        class="link">LatLonNvectorBase</a> and <a 
+        class="link">LatLonNvectorBase</a> for <code>n-vectorial</code> 
+        ellipsoidal and spherical <code>LatLon</code>s, class <a 
         href="pygeodesy.nvectorBase.NvectorBase-class.html" 
-        class="link">NvectorBase</a> and function <a 
-        href="pygeodesy.nvectorBase-module.html#sumOf" 
-        class="link">sumOf</a> for <code>N-vectorial</code> ellipsoidal and
-        spherical <code>Cartesian</code>s and <code>LatLon</code>s.</em>    </li>
+        class="link">NvectorBase</a> for <code>Cartesian</code>s and 
+        function <a href="pygeodesy.nvectorBase-module.html#sumOf" 
+        class="link">sumOf</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.osgr-module.html">pygeodesy.osgr</a></strong>: <em class="summary">Ordinance Survey Grid References (OSGR) classes <a 
         href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> an <a 
         href="pygeodesy.osgr.OSGRError-class.html" 
@@ -704,8 +716,12 @@
         class="link">intersection</a>, <a 
         href="pygeodesy.sphericalNvector-module.html#meanOf" 
         class="link">meanOf</a>, <a 
-        href="pygeodesy.sphericalNvector-module.html#nearestOn2" 
-        class="link">nearestOn2</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#nearestOn3" 
+        class="link" onclick="show_private();">nearestOn3</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#perimeterOf" 
+        class="link">perimeterOf</a>, <a 
+        href="pygeodesy.sphericalNvector-module.html#sumOf" 
+        class="link">sumOf</a>, <a 
         href="pygeodesy.sphericalNvector-module.html#triangulate" 
         class="link">triangulate</a> and <a 
         href="pygeodesy.sphericalNvector-module.html#trilaterate" 
@@ -719,12 +735,14 @@
         class="link">areaOf</a>, <a 
         href="pygeodesy.sphericalTrigonometry-module.html#intersection" 
         class="link">intersection</a>, <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#intersections2" 
+        class="link">intersections2</a>, <a 
         href="pygeodesy.sphericalTrigonometry-module.html#isPoleEnclosedBy"
         class="link">isPoleEnclosedBy</a>, <a 
         href="pygeodesy.sphericalTrigonometry-module.html#meanOf" 
         class="link">meanOf</a>, <a 
-        href="pygeodesy.sphericalTrigonometry-module.html#nearestOn2" 
-        class="link">nearestOn2</a> and <a 
+        href="pygeodesy.sphericalTrigonometry-module.html#nearestOn3" 
+        class="link">nearestOn3</a> and <a 
         href="pygeodesy.sphericalTrigonometry-module.html#perimeterOf" 
         class="link">perimeterOf</a>, <i>all spherical</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
@@ -776,8 +794,20 @@
         for the UTM, UPS, Mgrs and Epsg classes/modules.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector3d-module.html">pygeodesy.vector3d</a></strong>: <em class="summary">Generic 3-D vector base class <a 
         href="pygeodesy.vector3d.Vector3d-class.html" 
-        class="link">Vector3d</a> and function <a 
-        href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a>.</em>    </li>
+        class="link">Vector3d</a>, class <a 
+        href="pygeodesy.vector3d.VectorError-class.html" 
+        class="link">VectorError</a> and functions <a 
+        href="pygeodesy.vector3d-module.html#intersections2" 
+        class="link">intersections2</a>, <a 
+        href="pygeodesy.vector3d-module.html#iscolinearWith" 
+        class="link">iscolinearWith</a>, <a 
+        href="pygeodesy.vector3d-module.html#nearestOn" class="link" 
+        onclick="show_private();">nearestOn</a>, <a 
+        href="pygeodesy.vector3d-module.html#parse3d" 
+        class="link">parse3d</a>, <a 
+        href="pygeodesy.vector3d-module.html#sumOf" class="link">sumOf</a> 
+        and <a href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+        class="link">trilaterate3d2</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.webmercator-module.html">pygeodesy.webmercator</a></strong>: <em class="summary">Web Mercator (WM) classes <a 
         href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a> and 
         <a href="pygeodesy.webmercator.WebMercatorError-class.html" 
@@ -4137,7 +4167,7 @@
         <span class="summary-sig-arg">y</span>)</span><br />
       Appoximate the norm <i class="math">sqrt(x**2 + y**2)</i> by <i 
       class="math">max(abs(x), abs(y)) + min(abs(x), abs(y)) * 
-      0.4141...</i>.</td>
+      0.4142...</i>.</td>
           <td align="right" valign="top">
             
             
@@ -4154,7 +4184,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#euclid_" class="summary-sig-name">euclid_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Appoximate the norm <i class="math">sqrt(sum(x**2 for x in xs))</i>.</td>
+      Appoximate the norm <i class="math">sqrt(sum(x**2 for x in xs))</i> 
+      like function <a href="pygeodesy.fmath-module.html#euclid" 
+      class="link">euclid</a>.</td>
           <td align="right" valign="top">
             
             
@@ -4958,7 +4990,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa5b6ca7ad0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc8bf3accd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -7579,7 +7611,8 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Trilaterate three spheres, each given as a (3d) center and radius.</td>
+      Trilaterate three spheres, each given as a (3d) center point and 
+      radius.</td>
           <td align="right" valign="top">
             
             
@@ -7972,7 +8005,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.10.6'"><code class="variable-quote">'</code><code class="variable-string">20.10.6</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.10.9'"><code class="variable-quote">'</code><code class="variable-string">20.10.9</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11224,7 +11257,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   
   <p>Appoximate the norm <i class="math">sqrt(x**2 + y**2)</i> by <i 
   class="math">max(abs(x), abs(y)) + min(abs(x), abs(y)) * 
-  0.4141...</i>.</p>
+  0.4142...</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -11232,7 +11265,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Norm (<code>float</code>).</dd>
+        <dd>Appoximate norm (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fmath-module.html#euclid_" 
@@ -11254,15 +11287,16 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Appoximate the norm <i class="math">sqrt(sum(x**2 for x in 
-  xs))</i>.</p>
+  <p>Appoximate the norm <i class="math">sqrt(sum(x**2 for x in xs))</i> 
+  like function <a href="pygeodesy.fmath-module.html#euclid" 
+  class="link">euclid</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>xs</code></strong> - X arguments, positional (<code>scalar</code>[]).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Norm (<code>float</code>).</dd>
+        <dd>Appoximate norm (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.fmath-module.html#euclid" 
@@ -12544,8 +12578,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
           <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (<code>str</code>).</li>
-        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot for <code>int</code> values 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator joining the <b><code>floats</code></b> 
           (<code>str</code>).</li>
         <li><strong class="pname"><code>strepr</code></strong> - Optional callable to format non-<code>floats</code> (typically 
@@ -12831,7 +12866,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa5b6ca7ad0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc8bf3accd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13134,8 +13169,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
           <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (<code>str</code>).</li>
-        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot for <code>int</code> values 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>m</code></strong> - Optional unit of the height (<code>str</code>).</li>
     </ul></dd>
   </dl>
@@ -13516,12 +13552,13 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           arguments, ignored if <code><b>Vector</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>2-Tuple of the <code>center</code> and <code>radius</code> of the
-          intersection of the spheres if <b><code>sphere</code></b> is 
-          <code>True</code>.  The <code>radius</code> is <code>0.0</code> 
-          for abutting spheres.  Otherwise, a 2-tuple of the intersection 
-          points of two circles.  For abutting circles, both intersection 
-          points are the same <b><code>Vector</code></b> instance.</dd>
+        <dd>If <b><code>sphere</code></b> is <code>True</code>, a 2-Tuple of 
+          the <code>center</code> and <code>radius</code> of the 
+          intersection of the spheres.  The <code>radius</code> is 
+          <code>0.0</code> for abutting spheres.
+          <p>If <b><code>sphere</code></b> is <code>False</code>, a 2-tuple
+          of the intersection points of two circles.  For abutting circles,
+          both points are the same <b><code>Vector</code></b> instance.</p></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Concentric, invalid or non-intersecting spheres or circles.</li>
@@ -15332,8 +15369,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
           <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (<code>str</code>).</li>
-        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot fir <code>int</code> values 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>sep</code></strong> - Separator joining <i>names</i> and <i>values</i> 
           (<code>str</code>).</li>
     </ul></dd>
@@ -16569,8 +16607,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
           <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (<code>str</code>).</li>
-        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot fir <code>int</code> values 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>tuple(map(fstr|repr, objs))</code> of <code>str</code>s.</dd>
@@ -17135,8 +17174,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
           <b><code>prec</code></b> values.</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, float format (<code>str</code>).</li>
-        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot (<code>bool</code>).</li>
+        <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
+        <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot fir <code>int</code> values 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>tuple(map(fstr|str, objs))</code> of <code>str</code>s.</dd>
@@ -18049,7 +18089,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Trilaterate three spheres, each given as a (3d) center and radius.</p>
+  <p>Trilaterate three spheres, each given as a (3d) center point and 
+  radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -18094,7 +18135,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         failed some other way.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b>, <b><code>center2</code></b> or
         <b><code>center3</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
         <b><code>radius3</code></b>.</li>
     </ul></dd>
   </dl>
@@ -18944,7 +18985,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct  6 19:54:10 2020
+    Generated by Epydoc 3.0.1 on Fri Oct  9 12:25:23 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
