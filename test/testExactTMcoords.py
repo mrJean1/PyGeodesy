@@ -8,7 +8,7 @@ also available U{here<https://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
 '''
 
 __all__ = ('testExactTMcoords',)
-__version__ = '19.05.21'
+__version__ = '20.10.12'
 
 from testTMcoords import testTMcoords
 
@@ -33,7 +33,7 @@ class _ExactTM(object):
 
 def testExactTMcoords(name):
 
-    testTMcoords(etm, _ExactTM, name=name, eps1=4e-8, eps2=4e-8, lonE=360, Etm=_ExactTM)
+    testTMcoords(etm, _ExactTM, name=name, eps1=2e-7, eps2=4e-8, lonE=360, Etm=_ExactTM)  # eps1=4e-8
 
 
 if __name__ == '__main__':

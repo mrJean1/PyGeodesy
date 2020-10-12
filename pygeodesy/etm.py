@@ -72,8 +72,9 @@ from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
 from pygeodesy.interns import EPS as _TOL, NN, PI_2, PI_4, _COMMA_SPACE_, \
                              _convergence_, _easting_, _lat_, _lon_, \
-                             _northing_, _no_convergence_, _scale_, _0_0, \
-                             _0_1, _0_5, _1_0, _2_0, _3_0, _90_0, _180_0
+                             _northing_, _no_convergence_, _scale_, \
+                             _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, \
+                             _90_0, _180_0
 from pygeodesy.interns import _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
@@ -90,7 +91,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.09.27'
+__version__ = '20.10.12'
 
 _OVERFLOW = _1_0 / _TOL**2
 _TOL_10   = _0_1 * _TOL
@@ -278,16 +279,14 @@ class ExactTransverseMercator(_NamedBase):
        @see: C{U{TMExact(real a, real f, real k0, bool extendp)<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1TransverseMercatorExact.html#a72ffcc89eee6f30a6d1f4d061518a6f1>}}.
     '''
-    _a         = 0     # major radius
-    _datum     = None  # Datum
-    _e         = 0     # eccentricity
-    _E         = None  # Ellipsoid
-    _extendp   = True
-    _f         = 0     # flattening
-    _iteration = 0     # ._sigmaInv and ._zetaInv
-    _k0        = 1     # central scale factor
-    _k0_a      = 0
-    _lon0      = 0     # central meridian
+    _datum     =  None  # Datum
+    _e         = _0_0   # eccentricity
+    _E         =  None  # Ellipsoid
+    _extendp   =  True
+    _iteration =  0     # ._sigmaInv and ._zetaInv
+    _k0        = _1_0   # central scale factor
+    _k0_a      = _0_0
+    _lon0      = _0_0   # central meridian
 
 #   see ._reset() below:
 
@@ -348,7 +347,7 @@ class ExactTransverseMercator(_NamedBase):
             self.name = name
 
         self.datum = datum
-        self.lon0  = lon0
+        self.lon0  = Lon(lon0=lon0)
         self.k0    = k0
 
     @property_doc_(''' the datum (L{Datum}).''')
@@ -366,20 +365,15 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
-        d = _ellipsoidal_datum(datum, name=self.name)
-        E = d.ellipsoid
-        self._reset(E.e, E.e2)
-        self._a = E.a
-        self._f = E.f  # flattening = (a - b) / a
-
+        d = _ellipsoidal_datum(datum, name=self.name, raiser=True)
+        self._reset(d.ellipsoid)
         self._datum = d
-        self._E     = E
 
     @property_RO
     def equatoradius(self):
         '''Get the equatorial (major) radius, semi-axis (C{meter}).
         '''
-        return self._a
+        return self._E.a
 
     majoradius = equatoradius  # for backward compatibility
     '''DEPRECATED, use C{equatoradius}.'''
@@ -394,7 +388,7 @@ class ExactTransverseMercator(_NamedBase):
     def flattening(self):
         '''Get the flattening (C{float}).
         '''
-        return self._f
+        return self._E.f
 
     def forward(self, lat, lon, lon0=None):  # MCCABE 13
         '''Forward projection, from geographic to transverse Mercator.
@@ -413,7 +407,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise EllipticError: No convergence.
         '''
-        lat = _fix90(lat)
+        lat    = _fix90(lat)
         lon, _ = _diff182((self._lon0 if lon0 is None else lon0), lon)
         # Explicitly enforce the parity
         backside = _lat = _lon = False
@@ -485,7 +479,7 @@ class ExactTransverseMercator(_NamedBase):
         self._k0 = Scalar_(k0=k0, Error=ETMError, low=_TOL_10, high=_1_0)
         # if not self._k0 > 0:
         #     raise Scalar_.Error_(Scalar_, k0, name=_k0_, Error=ETMError)
-        self._k0_a = self._k0 * self._a
+        self._k0_a = self._k0 * self.equatoradius  # see ._reset
 
     @property_doc_(''' the central meridian (C{degrees180}).''')
     def lon0(self):
@@ -501,17 +495,17 @@ class ExactTransverseMercator(_NamedBase):
         '''
         self._lon0 = _norm180(Lon(lon0=lon0))
 
-    def _reset(self, e, e2):
-        '''(INTERNAL) Get elliptic functions and pre-compute some
-           frequently used values.
+    def _reset(self, E):
+        '''(INTERNAL) Get elliptic functions and pre-compute
+           some frequently used values.
 
-           @arg e: Eccentricity (C{float}).
-           @arg e2: Eccentricity squared (C{float}).
+           @arg E: An ellipsoid (L{Ellipsoid}).
 
            @raise EllipticError: No convergence.
         '''
-        # assert e2 == e**2
-        self._e          = e
+        e, e2 = E.e, E.e2
+        # assert e2 == e**2 != _0_0
+
         self._e_PI_2     = e *  PI_2
         self._e_PI_4     = e *  PI_4
         self._e_TAYTOL   = e * _TAYTOL
@@ -537,6 +531,9 @@ class ExactTransverseMercator(_NamedBase):
         self._Ev_cKE_5_4 = self._Ev.cKE * 1.25
 
         self._iteration  = 0
+
+        self._E    = E
+        self._k0_a = E.a * self.k0  # see .k0 setter
 
     def reverse(self, x, y, lon0=None):
         '''Reverse projection, from Transverse Mercator to geographic.
@@ -775,7 +772,7 @@ class ExactTransverseMercator(_NamedBase):
                                       real /*v*/, real snv, real cnv, real dnv,
                                       real &taup, real &lam)}
         '''
-        e = self._e
+        e = self._E.e
         # Lee 54.17 but write
         # atanh(snu * dnv)      = asinh(snu * dnv / sqrt(cnu^2 + _mv * snu^2 * snv^2))
         # atanh(_e * snu / dnv) = asinh(_e * snu / sqrt(_mu * cnu^2 + _mv * cnv^2))
@@ -874,8 +871,9 @@ class ExactTransverseMercator(_NamedBase):
             #  psi = _e + i * pi/2 - _e * atanh(cos(i * (w - w0)/(1 + _mu/2)))
             #
             # Inverting this gives:
-            h = sinh(1 - psi / self._e)
-            a = (PI_2 - lam) / self._e
+            e = self._E.e
+            h = sinh(1 - psi / e)
+            a = (PI_2 - lam) / e
             s, c = sincos2(a)
             u = self._Eu.cK - asinh(s / hypot(c, h)) * self._mu_2_1
             v = self._Ev.cK - atan2(c, h) * self._mu_2_1

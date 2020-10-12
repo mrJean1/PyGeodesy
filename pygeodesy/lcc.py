@@ -22,25 +22,25 @@ from pygeodesy.basics import property_RO, _xinstanceof, \
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
-from pygeodesy.interns import EPS, NN, PI_2, _COMMA_SPACE_, \
-                             _ellipsoidal_, _dot_, _k0_, _lat0_, \
-                             _lon0_, _m_, _SPACE_, _SQUARE_, \
-                             _0_0, _0_5, _1_0
+from pygeodesy.interns import EPS, NN, PI_2, _COMMA_SPACE_, _dot_, \
+                             _ellipsoidal_, _float as _F, _k0_, \
+                             _lat0_, _lon0_, _m_, _SPACE_, \
+                             _SQUARE_, _0_0, _0_5, _1_0
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
                              nameof, _xnamed
 from pygeodesy.namedTuples import EasNor3Tuple, LatLon2Tuple, \
-                                  LatLon4Tuple, LatLonDatum3Tuple, \
+                                  LatLonDatum3Tuple, _LatLon4Tuple, \
                                   PhiLam2Tuple
-from pygeodesy.streprs import fstr
+from pygeodesy.streprs import _fstrENH2
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 
 from math import atan, copysign, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.09.27'
+__version__ = '20.10.12'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -346,15 +346,24 @@ Conic._name = Conic.__name__
 
 Conics = _NamedEnum('Conics', Conic)  # registered conics
 Conics._assert(  # <https://SpatialReference.org/ref/sr-org/...>
-#   AsLb   = Conic(_LLEB(-14.2666667, 170, datum=Datums.NAD27), 0, 0, E0=500000, N0=0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
-    Be08Lb = Conic(_LLEB(50.7978150, 4.359215833, datum=Datums.GRS80), 49.833333, 51.166667, E0=649328.0, N0=665262.0, name='Be08Lb', auth='EPSG:9802'),  # Belgium
-    Be72Lb = Conic(_LLEB(90, 4.3674867, datum=Datums.NAD83), 49.8333339, 51.1666672, E0=150000.013, N0=5400088.438, name='Be72Lb', auth='EPSG:31370'),  # Belgium
-    Fr93Lb = Conic(_LLEB(46.5, 3, datum=Datums.WGS84), 49, 44, E0=700000, N0=6600000, name='Fr93Lb', auth='EPSG:2154'),  # RFG93, France
-    MaNLb  = Conic(_LLEB(33.3, -5.4, datum=Datums.NTF), 31.73, 34.87, E0=500000, N0=300000, name='MaNLb'),  # Marocco
-    MxLb   = Conic(_LLEB(12, -102, datum=Datums.WGS84), 17.5, 29.5, E0=2500000, N0=0, name='MxLb', auth='EPSG:2155'),  # Mexico
-    PyT_Lb = Conic(_LLEB(46.8, 2.33722917, datum=Datums.NTF), 45.89893890000052, 47.69601440000037, E0=600000, N0=200000, name='PyT_Lb', auth='Test'),  # France?
-    USA_Lb = Conic(_LLEB(23, -96, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='USA_Lb'),  # Conterminous, contiguous USA?
-    WRF_Lb = Conic(_LLEB(40, -97, datum=Datums.WGS84), 33, 45, E0=0, N0=0, name='WRF_Lb', auth='EPSG:4326')  # World
+#   AsLb   = Conic(_LLEB(-14.2666667, 170, datum=Datums.NAD27), _0_0, _0_0,
+#                        E0=_F(500000), N0=_0_0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
+    Be08Lb = Conic(_LLEB(50.7978150, 4.359215833, datum=Datums.GRS80), _F(49.833333), _F(51.166667),
+                         E0=_F(649328.0), N0=_F(665262.0), name='Be08Lb', auth='EPSG:9802'),  # Belgium
+    Be72Lb = Conic(_LLEB(90, 4.3674867, datum=Datums.NAD83), _F(49.8333339), _F(51.1666672),
+                         E0=_F(150000.013), N0=_F(5400088.438), name='Be72Lb', auth='EPSG:31370'),  # Belgium
+    Fr93Lb = Conic(_LLEB(46.5, 3, datum=Datums.WGS84), _F(49), _F(44),
+                         E0=_F(700000), N0=_F(6600000), name='Fr93Lb', auth='EPSG:2154'),  # RFG93, France
+    MaNLb  = Conic(_LLEB(33.3, -5.4, datum=Datums.NTF), _F(31.73), _F(34.87),
+                         E0=_F(500000), N0=_F(300000), name='MaNLb'),  # Marocco
+    MxLb   = Conic(_LLEB(12, -102, datum=Datums.WGS84), _F(17.5), _F(29.5),
+                         E0=_F(2500000), N0=_0_0, name='MxLb', auth='EPSG:2155'),  # Mexico
+    PyT_Lb = Conic(_LLEB(46.8, 2.33722917, datum=Datums.NTF), _F(45.89893890000052), _F(47.69601440000037),
+                         E0=_F(600000), N0=_F(200000), name='PyT_Lb', auth='Test'),  # France?
+    USA_Lb = Conic(_LLEB(23, -96, datum=Datums.WGS84), _F(33), _F(45),
+                         E0=_0_0, N0=_0_0, name='USA_Lb'),  # Conterminous, contiguous USA?
+    WRF_Lb = Conic(_LLEB(40, -97, datum=Datums.WGS84), _F(33), _F(45),
+                         E0=_0_0, N0=_0_0, name='WRF_Lb', auth='EPSG:4326')  # World
 )
 
 
@@ -464,7 +473,7 @@ class Lcc(_NamedBase):
             r = LatLonDatum3Tuple(r.lat, r.lon, r.datum)
         return self._xnamed(r)
 
-    def toLatLon(self, LatLon=None, datum=None, height=None):
+    def toLatLon(self, LatLon=None, datum=None, height=None, **LatLon_kwds):
         '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
 
            @kwarg LatLon: Optional, ellipsoidal class to return the
@@ -474,6 +483,8 @@ class Lcc(_NamedBase):
                          L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg height: Optional height for the point, overriding
                           the default height (C{meter}).
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, unused if C{B{LatLon}=None}.
 
            @return: The point (B{C{LatLon}}) or a
                     L{LatLon4Tuple}C{(lat, lon, height, datum)}
@@ -503,11 +514,8 @@ class Lcc(_NamedBase):
         lat = degrees90(x)
         lon = degrees180((atan(e / n) + c._opt3) * c._n_ + c._lam0)
 
-        h = self.height if height is None else height
-        d = c.datum
-
-        r = LatLon4Tuple(lat, lon, h, d) if LatLon is None else \
-                  LatLon(lat, lon, height=h, datum=d)
+        h = self.height if height is None else Height(height)
+        r = _LatLon4Tuple(lat, lon, h, c.datum, LatLon, LatLon_kwds)
         return self._xnamed(r)
 
     def toRepr(self, prec=0, fmt=_SQUARE_, sep=_COMMA_SPACE_, m=_m_, C=False, **unused):  # PYCHOK expected
@@ -522,12 +530,11 @@ class Lcc(_NamedBase):
            @return: This Lcc as "[E:meter, N:meter, H:m, C:Conic.Datum]"
                    (C{str}).
         '''
-        t = self.toStr(prec=prec, sep=None, m=m)
-        k = 'ENH'[:len(t)]
+        t, T = _fstrENH2(self, prec, m)
         if C:
-            k += _C_
-            t += [self.conic.name2]
-        return _xzipairs(k, t, sep=sep, fmt=fmt)
+            t +=  self.conic.name2,
+            T += _C_,
+        return _xzipairs(T, t, sep=sep, fmt=fmt)
 
     def toStr(self, prec=0, sep=_SPACE_, m=_m_):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
@@ -546,11 +553,8 @@ class Lcc(_NamedBase):
            >>> lb.toStr(4)  # 448251.0 5411932.0001
            >>> lb.toStr(sep=', ')  # 448251, 5411932
         '''
-        t = [fstr(self._easting, prec=prec),
-             fstr(self._northing, prec=prec)]
-        if self._height:
-            t += ['%+.2f%s' % (self._height, m)]
-        return tuple(t) if sep is None else sep.join(t)
+        t, _ = _fstrENH2(self, prec, m)
+        return t if sep is None else sep.join(t)
 
 
 def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=NN,

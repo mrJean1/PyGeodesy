@@ -27,7 +27,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '20.10.02'
+__version__ = '20.10.11'
 
 
 class CartesianBase(Vector3d):
@@ -274,8 +274,8 @@ class CartesianBase(Vector3d):
             r = c.Ecef(d).reverse(c, M=True)
 
         if LatLon is not None:  # class or .classof
-            r = LatLon(r.lat, r.lon, **_xkwds(LatLon_kwds,
-                                        datum=r.datum, height=r.height))
+            kwds = _xkwds(LatLon_kwds, datum=r.datum, height=r.height)
+            r = LatLon(r.lat, r.lon, **kwds)
         _datum_datum(r.datum, d)
         return self._xnamed(r)
 

@@ -310,7 +310,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.10.09
+        20.10.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -675,9 +675,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.named-module.html">pygeodesy.named</a></strong>: <em class="summary">(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code> and
         <code>_NamedTuple</code>, all with nameable instances and several 
         subclasses thereof.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code> and
-        <code>_NamedTuple</code>, all with nameable instances and several 
-        subclasses thereof.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">Results previously returned as tuples by <code>pygeodesy</code> 
+        functions and class methods are now instances of some 
+        <code>Named-Tuple</code> class, all sub-classes of 
+        <code>_NamedTuple</code> defined in <code>pygeodesy.named</code>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html" onclick="show_private();">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html" 
         class="link">LatLonNvectorBase</a> for <code>n-vectorial</code> 
@@ -4165,8 +4166,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#euclid" class="summary-sig-name">euclid</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>)</span><br />
-      Appoximate the norm <i class="math">sqrt(x**2 + y**2)</i> by <i 
-      class="math">max(abs(x), abs(y)) + min(abs(x), abs(y)) * 
+      <i>Appoximate</i> the norm <i class="math">sqrt(x**2 + y**2)</i> by 
+      <i class="math">max(abs(x), abs(y)) + min(abs(x), abs(y)) * 
       0.4142...</i>.</td>
           <td align="right" valign="top">
             
@@ -4184,8 +4185,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#euclid_" class="summary-sig-name">euclid_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Appoximate the norm <i class="math">sqrt(sum(x**2 for x in xs))</i> 
-      like function <a href="pygeodesy.fmath-module.html#euclid" 
+      <i>Appoximate</i> the norm <i class="math">sqrt(sum(x**2 for x in 
+      xs))</i> by cascaded <a href="pygeodesy.fmath-module.html#euclid" 
       class="link">euclid</a>.</td>
           <td align="right" valign="top">
             
@@ -4476,7 +4477,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#favg" class="summary-sig-name">favg</a>(<span class="summary-sig-arg">v1</span>,
         <span class="summary-sig-arg">v2</span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">0.5</span>)</span><br />
-      Return the weighted average of two values.</td>
+      Return the average of two values.</td>
           <td align="right" valign="top">
             
             
@@ -4990,7 +4991,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc8bf3accd0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb671654e50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -8005,7 +8006,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.10.9'"><code class="variable-quote">'</code><code class="variable-string">20.10.9</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.10.12'"><code class="variable-quote">'</code><code class="variable-string">20.10.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11255,7 +11256,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Appoximate the norm <i class="math">sqrt(x**2 + y**2)</i> by <i 
+  <p><i>Appoximate</i> the norm <i class="math">sqrt(x**2 + y**2)</i> by <i
   class="math">max(abs(x), abs(y)) + min(abs(x), abs(y)) * 
   0.4142...</i>.</p>
   <dl class="fields">
@@ -11287,8 +11288,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Appoximate the norm <i class="math">sqrt(sum(x**2 for x in xs))</i> 
-  like function <a href="pygeodesy.fmath-module.html#euclid" 
+  <p><i>Appoximate</i> the norm <i class="math">sqrt(sum(x**2 for x in 
+  xs))</i> by cascaded <a href="pygeodesy.fmath-module.html#euclid" 
   class="link">euclid</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -11773,7 +11774,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Return the weighted average of two values.</p>
+  <p>Return the average of two values.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -11813,8 +11814,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Dot product (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal <code>len</code>(<b><code>a</code></b>) and 
-        <code>len</code>(<b><code>b</code></b>).</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.LenError-class.html">LenError</a></strong></code> - Unequal <code>len(<b>a</b>)</code> and <code>len(<b>b</b>)</code>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -11854,12 +11854,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Dot product (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.LenError-class.html">LenError</a></strong></code> - Unequal <code>len(<b>a</b>)</code>, <code>len(<b>b</b>)</code> 
+        and/or <code>len(<b>c</b>)</code>.</li>
         <li><code><strong class='fraise'>OverflowError</strong></code> - Partial <code>2sum</code> overflow.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Unequal 
-        <code>len</code><code>(</code><b><code>a</code></b><code>)</code>, 
-        <code>len</code><code>(</code><b><code>b</code></b><code>)</code> 
-        and/or 
-        <code>len</code><code>(</code><b><code>c</code></b><code>)</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -11934,11 +11931,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>Interpolated value <code>x</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.LenError-class.html">LenError</a></strong></code> - Unequal or zero <code>len(<b>ds</b>)</code> and 
+        <code>len(<b>xs</b>)</code>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>beta</code></b>, negative <b><code>ds</code></b> 
-        value, weighted <b><code>ds</code></b> below EPS or unequal 
-        <code>len</code><code>(</code><b><code>ds</code></b><code>)</code> 
-        and 
-        <code>len</code><code>(</code><b><code>xs</code></b><code>)</code>.</li>
+        value, weighted <b><code>ds</code></b> below EPS.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -12866,7 +12862,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc8bf3accd0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb671654e50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18985,7 +18981,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct  9 12:25:23 2020
+    Generated by Epydoc 3.0.1 on Mon Oct 12 19:47:14 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

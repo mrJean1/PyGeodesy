@@ -1,22 +1,16 @@
 
 # -*- coding: utf-8 -*-
 
-u'''(INTERNAL) Classes C{_Named}, C{_NamedDict} and C{_NamedTuple},
-all with nameable instances and several subclasses thereof.
-
-In addition, the items in a C{_NamedDict} are accessable as attributes
-and the items in a C{_NamedTuple} can be named to be accessable as
-attributes, similar to standard Python C{namedtuple}s.
-
-Results previously returned as tuples by C{pygeodesy} functions and
-class methods are now instances of some C{...Tuple} class, all
-sub-classes of C{_NamedTuple} defined here.
+u'''Results previously returned as tuples by C{pygeodesy}
+functions and class methods are now instances of some
+C{Named-Tuple} class, all sub-classes of C{_NamedTuple}
+defined in C{pygeodesy.named}.
 
 @newfield example: Example, Examples
 '''
 
 # update imported names under if __name__ == '__main__':
-from pygeodesy.basics import _xinstanceof
+from pygeodesy.basics import _xinstanceof, _xkwds
 from pygeodesy.interns import _datum_, _distance_, _easting_, _h_, \
                               _height_, _lam_, _lat_, _lon_, _n_, \
                               _northing_, _number_, _phi_, _points_, \
@@ -28,7 +22,7 @@ from pygeodesy.units import Bearing, Degrees, Degrees2, Easting, Height, \
                             Precision_, Radius, Scalar
 
 __all__ = ()
-__version__ = '20.09.27'
+__version__ = '20.10.11'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
@@ -69,7 +63,8 @@ class Destination2Tuple(_NamedTuple):  # .ellipsoidalKarney.py, -Vincenty.py
 
 class Destination3Tuple(_NamedTuple):  # .karney.py
     '''3-Tuple C{(lat, lon, final)}, destination C{lat}, C{lon} in
-       and C{final} bearing in compass C{degrees360}.
+       C{degrees90} respectively C{degrees180} and C{final} bearing
+       in compass C{degrees360}.
     '''
     _Names_ = (_lat_, _lon_, _final_)
     _Units_ = ( Lat,   Lon,   Bearing)
@@ -181,6 +176,17 @@ class LatLon4Tuple(_NamedTuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.p
     '''
     _Names_ = (_lat_, _lon_, _height_, _datum_)
     _Units_ = ( Lat,   Lon,   Height,  _Pass)
+
+
+def _LatLon4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds):
+    '''(INTERNAL) Return a L{LatLon4Tuple} or an B{C{LatLon}} instance.
+    '''
+    if LatLon is None:
+        r = LatLon4Tuple(lat, lon, height, datum)
+    else:
+        kwds = _xkwds(LatLon_kwds, datum=datum, height=height)
+        r = LatLon(lat, lon, **kwds)
+    return r
 
 
 class LatLonDatum3Tuple(_NamedTuple):  # .lcc.py, .osgr.py

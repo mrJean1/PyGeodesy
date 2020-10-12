@@ -7,22 +7,22 @@ u'''Floating point and other formatting utilities.
 
 from pygeodesy.basics import isint, isscalar
 from pygeodesy.errors import _IsnotError, _ValueError, _xkwds_pop
-from pygeodesy.interns import NN, _COMMA_SPACE_, _DOT_, _EQUAL_, \
-                             _item_ps, _PERCENT_, _scalar_, \
+from pygeodesy.interns import NN, _COMMA_SPACE_, _DOT_, _E_, _EQUAL_, \
+                             _H_, _item_ps, _N_, _PERCENT_, _scalar_, \
                              _SPACE_, _STAR_, _UNDERSCORE_, _0_
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.10.08'
+__version__ = '20.10.12'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int
 _e      =  'e'  # imported by .ellipsoids
-_E      =  'E'
+_E      =  _E_
 _g      =  'g'  # imported by .units
 _Gg     = ('G', _g)
-_EeFfGg = ('F', 'f', _E, _e) + _Gg  # float formats
 _Fmt    =  'F'  # imported by .ellipsoids, .named, .trf
+_EeFfGg = (_Fmt, 'f', _E, _e) + _Gg  # float formats
 
 
 def _streprs(prec, objs, fmt, ints, force, strepr):
@@ -136,6 +136,18 @@ def fstr(floats, prec=6, fmt=_Fmt, ints=False, sep=_COMMA_SPACE_, strepr=None):
     if isscalar(floats):
         floats = (floats,)
     return sep.join(_streprs(prec, floats, fmt, ints, True, strepr))
+
+
+def _fstrENH2(inst, prec, m):
+    '''(INTERNAL) For C{Css.} and C{Lcc.} C{toRepr} and C{toStr}.
+    '''
+    t = (fstr(inst.easting,  prec=prec),
+         fstr(inst.northing, prec=prec))
+    T = _E_, _N_
+    if inst.height:  # abs(self.height) > EPS
+        t += ('%+.2f%s' % (inst.height, m)),
+        T += _H_,
+    return t, T
 
 
 def fstrzs(efstr, ap1z=False):

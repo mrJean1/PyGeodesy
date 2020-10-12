@@ -65,10 +65,10 @@ from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, \
                               _HeightBase, HeightError
-from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _cubic_, _E_, \
-                             _item_cs, _item_pr, _item_ps, _item_sq, \
-                             _knots_, _lat_, _linear_, _lon_, _N_, \
-                             _n_a_, _outside_, _S_, _W_, \
+from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _cubic_, _E_, _in_, \
+                             _item_cs, _item_pr, _item_ps, _item_sq, joined_, \
+                             _knots_, _lat_, _linear_, _lon_, _N_, _n_a_, \
+                             _on_, _outside_, _S_, _scipy_, _W_, _4_, \
                              _0_0, _1_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
@@ -90,14 +90,15 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.10.06'
+__version__ = '20.10.11'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
 _interp2d_ks = {-2: _linear_,
                 -3: _cubic_,
                 -5: 'quintic'}
-_not_supported_ = 'not supported'
+_non_increasing_ = 'non-increasing'
+_not_supported_  = 'not supported'
 
 
 class _GeoidBase(_HeightBase):
@@ -262,7 +263,7 @@ class _GeoidBase(_HeightBase):
         for i in range(1, m):
             e = a[i] - a[i-1]
             if e < EPS:  # non-increasing axis
-                raise GeoidError(_item_sq(name, i), e, txt='non-increasing')
+                raise GeoidError(_item_sq(name, i), e, txt=_non_increasing_)
         return self._np.array(a), d
 
     def _g2ll2(self, lat, lon):  # PYCHOK no cover
@@ -277,7 +278,7 @@ class _GeoidBase(_HeightBase):
         out = self.outside(lat, lon)
         if out:
             lli = fstr((lat, lon), strepr=repr)
-            raise RangeError('lli', lli, txt='%s on %s' % (_outside_, out))
+            raise RangeError(lli=lli, txt=joined_(_outside_, _on_, out))
         return float(self._ev(*self._ll2g2(lat, lon)))
 
     def _ll2g2(self, lat, lon):  # PYCHOK no cover
@@ -318,7 +319,7 @@ class _GeoidBase(_HeightBase):
         if name:
             _HeightBase.name.fset(self, name)  # recursion
         if smooth:
-            self._smooth = Int_(smooth, name='smooth', Error=GeoidError, low=0)
+            self._smooth = Int_(smooth=smooth, Error=GeoidError, low=0)
 
         return g
 
@@ -572,7 +573,7 @@ class _GeoidBase(_HeightBase):
             attrs( 'mean', 'stdev',           prec=prec, Nones=False) + \
             attrs(('kind', 'smooth')[:s],     prec=prec, Nones=False) + \
             attrs( 'cropped', 'dtype', 'endian', 'hits', _knots_, 'nBytes',
-                   'sizeB', 'scipy', 'numpy', prec=prec, Nones=False)
+                   'sizeB', _scipy_, 'numpy', prec=prec, Nones=False)
         return _item_cs(self, sep.join(t))
 
     def upperleft(self, LatLon=None):
@@ -697,7 +698,7 @@ class GeoidG2012B(_GeoidBase):
             _GeoidBase.__init__(self, hs, p)
 
         except Exception as x:
-            raise _SciPyIssue(x, 'in', repr(g2012b_bin))
+            raise _SciPyIssue(x, _in_, repr(g2012b_bin))
         finally:
             g.close()
 
@@ -862,7 +863,7 @@ class GeoidKarney(_GeoidBase):
         self._egm = g = self._open(egm_pgm, datum, kind, name, smooth)
         self._pgm = p = _PGM(g, pgm=egm_pgm, itemsize=self.u2B, sizeB=self.sizeB)
 
-        self._Rendian = self._4endian.replace('4', str(p.nlon))
+        self._Rendian = self._4endian.replace(_4_, str(p.nlon))
         self._Ru2B    = _calcsize(self._Rendian)
 
         self._knots  = p.knots  # grid knots
@@ -1230,7 +1231,7 @@ class GeoidPGM(_GeoidBase):
                 hs = np.flipud(hs)
             _GeoidBase.__init__(self, hs, p)
         except Exception as x:
-            raise _SciPyIssue(x, 'in', repr(egm_pgm))
+            raise _SciPyIssue(x, _in_, repr(egm_pgm))
         finally:
             g.close()
 
@@ -1505,10 +1506,11 @@ class _PGM(_Gpars):
         return c
 
     def _Errorf(self, fmt, *args):  # PYCHOK no cover
-        e = self.pgm or ''
+        t = fmt % args
+        e = self.pgm or NN
         if e:
-            e = ' in %r' % (e,)
-        return PGMError('%s%s' % ((fmt % args), e))
+            t = joined_(t, _in_, repr(e))
+        return PGMError(t)
 
     def _lle2yx2(self, lat, lon, flon):
         # earth (lat, lon) to grid indices (y, x)
@@ -1632,7 +1634,7 @@ if __name__ == '__main__':
             print(g.toStr())
 
         else:
-            raise GeoidError('unknown grid', txt=repr(geoid))
+            raise GeoidError(grid=repr(geoid))
 
 _I = int    # PYCHOK unused _I
 del _intCs  # trash ints cache

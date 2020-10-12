@@ -63,7 +63,7 @@ from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_
                             _scale_rad, thomas_, vincentys_
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _cubic_, _datum_, \
                              _distanceTo_, _item_sq, _knots_, _len_, \
-                             _linear_, _0_0
+                             _linear_, _scipy_, _0_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
@@ -71,7 +71,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.09.27'
+__version__ = '20.10.11'
 
 
 class HeightError(PointsError):
@@ -240,7 +240,7 @@ class _HeightBase(_Named):  # imported by .geoids
         if throwarnings:  # raise SciPyWarnings, but ...
             # ... not if scipy has been imported already
             import sys
-            if 'scipy' not in sys.modules:
+            if _scipy_ not in sys.modules:
                 import warnings
                 warnings.filterwarnings('error')
 
@@ -1088,8 +1088,7 @@ class HeightLSQBiSpline(_HeightBase):
            @raise HeightError: Insufficient number of B{C{knots}} or
                                an invalid B{C{knot}} or B{C{weight}}.
 
-           @raise LenError: Number of B{C{knots}} and B{C{weight}}s
-                            don't match.
+           @raise LenError: Unequal number of B{C{knots}} and B{C{weight}}s.
 
            @raise ImportError: Package C{numpy} or C{scipy} not found
                                or not installed.

@@ -71,7 +71,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.10.02'
+__version__ = '20.10.11'
 
 _TRIPS = 17  # 8..9 sufficient, EcefSudano.reverse
 
@@ -683,6 +683,8 @@ class EcefMatrix(_NamedTuple):
            @arg xyz0: Optional, local C{(x0, y0, z0)} origin (C{3-tuple}).
 
            @return: Rotated C{(x, y, z)} location (C{3-tuple}).
+
+           @raise LenError: Unequal C{len(B{xyz})} and C{len(B{xyz0})}.
         '''
         if xyz0:
             if len(xyz0) != len(xyz):
@@ -704,6 +706,8 @@ class EcefMatrix(_NamedTuple):
            @arg xyz0: Optional, local C{(x0, y0, z0)} origin (C{3-tuple}).
 
            @return: Unrotated C{(x, y, z)} location (C{3-tuple}).
+
+           @raise LenError: Unequal C{len(B{xyz})} and C{len(B{xyz0})}.
         '''
         if xyz0:
             if len(xyz0) != len(xyz):

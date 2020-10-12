@@ -8,9 +8,7 @@ In addition, the items in a C{_NamedDict} are accessable as attributes
 and the items in a C{_NamedTuple} can be named to be accessable as
 attributes, similar to standard Python C{namedtuple}s.
 
-Results previously returned as tuples by C{pygeodesy} functions and
-class methods are now instances of some C{...Tuple} class, all
-sub-classes of C{_NamedTuple} defined here.
+@see: Module L{pygeodesy.namedTuples} for the C{Named-Tuples}.
 
 @newfield example: Example, Examples
 '''
@@ -31,7 +29,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.10.08'
+__version__ = '20.10.11'
 
 # __DUNDER gets mangled in class
 _immutable_ = 'immutable'
@@ -201,7 +199,7 @@ class _Named(object):
 
     @property_RO
     def named4(self):
-        '''Get the {Cpackage.module.class} name I{and/or} the name or C{""} (C{str}).
+        '''Get the C{package.module.class} name I{and/or} the name or C{""} (C{str}).
         '''
         return _xjoined_(_dot_(self.__module__, self.__class__.__name__),  self.name)
 
@@ -632,15 +630,14 @@ class _NamedTuple(tuple, _Named):
            @kwarg name_only: Only C{B{name}='name'} is used, anu other
                              keyword arguments are I{silently} ignored.
 
-           @raise LenError: The number of positional arguments does not
-                            match the number of item names in the C{_Names_}
-                            attribute.
+           @raise LenError: Unequal number of positional arguments and
+                            number of item C{_Names_} or C{_Units_}.
 
-           @raise TypeError: The C{_Names_} attribute is not a C{tuple}
-                             of at least 2 item names.
+           @raise TypeError: The C{_Names_} or C{_Units_} attribute is
+                             not a C{tuple} of at least 2 items.
 
-           @raise ValueError: Item name is not a C{str}, C{identifier} or
-                              starts with C{underscore}.
+           @raise ValueError: Item name is not a C{str} or valid C{identifier}
+                              or starts with C{underscore}.
         '''
         self = tuple.__new__(cls, args)
         if not self._validated:

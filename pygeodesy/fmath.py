@@ -26,7 +26,7 @@ from math import copysign, hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.10.08'
+__version__ = '20.10.11'
 
 _not_finite_ = 'not finite'
 
@@ -390,7 +390,7 @@ class Fdot(Fsum):
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise ValueError: Unequal C{len}(B{C{a}}) and C{len}(B{C{b}}).
+           @raise LenError: Unequal C{len(B{a})} and C{len(B{b})}.
 
            @see: Function L{fdot} and method L{Fsum.fadd}.
         '''
@@ -490,7 +490,8 @@ def cbrt2(x):
 
 
 def euclid(x, y):
-    '''Appoximate the norm M{sqrt(x**2 + y**2)} by M{max(abs(x), abs(y)) + min(abs(x), abs(y)) * 0.4142...}.
+    '''I{Appoximate} the norm M{sqrt(x**2 + y**2)} by
+       M{max(abs(x), abs(y)) + min(abs(x), abs(y)) * 0.4142...}.
 
        @arg x: X component (C{scalar}).
        @arg y: Y component (C{scalar}).
@@ -506,7 +507,8 @@ def euclid(x, y):
 
 
 def euclid_(*xs):
-    '''Appoximate the norm M{sqrt(sum(x**2 for x in xs))} like function L{euclid}.
+    '''I{Appoximate} the norm M{sqrt(sum(x**2 for x in xs))}
+       by cascaded L{euclid}.
 
        @arg xs: X arguments, positional (C{scalar}[]).
 
@@ -524,7 +526,7 @@ def euclid_(*xs):
 
 
 def favg(v1, v2, f=0.5):
-    '''Return the weighted average of two values.
+    '''Return the average of two values.
 
        @arg v1: One value (C{scalar}).
        @arg v2: Other value (C{scalar}).
@@ -548,7 +550,7 @@ def fdot(a, *b):
 
        @return: Dot product (C{float}).
 
-       @raise ValueError: Unequal C{len}(B{C{a}}) and C{len}(B{C{b}}).
+       @raise LenError: Unequal C{len(B{a})} and C{len(B{b})}.
 
        @see: Class L{Fdot}.
     '''
@@ -569,11 +571,10 @@ def fdot3(a, b, c, start=0):
 
        @return: Dot product (C{float}).
 
-       @raise OverflowError: Partial C{2sum} overflow.
+       @raise LenError: Unequal C{len(B{a})}, C{len(B{b})}
+                        and/or C{len(B{c})}.
 
-       @raise ValueError: Unequal C{len}C{(}B{C{a}}C{)},
-                          C{len}C{(}B{C{b}}C{)} and/or
-                          C{len}C{(}B{C{c}}C{)}.
+       @raise OverflowError: Partial C{2sum} overflow.
     '''
     def _mul3(a, b, c):  # map function
         return a * b * c  # PYCHOK returns
@@ -619,9 +620,10 @@ def fidw(xs, ds, beta=2):
 
        @return: Interpolated value C{x} (C{float}).
 
+       @raise LenError: Unequal or zero C{len(B{ds})} and C{len(B{xs})}.
+
        @raise ValueError: Invalid B{C{beta}}, negative B{C{ds}} value,
-                          weighted B{C{ds}} below L{EPS} or unequal
-                          C{len}C{(}B{C{ds}}C{)} and C{len}C{(}B{C{xs}}C{)}.
+                          weighted B{C{ds}} below L{EPS}.
 
        @note: Using C{B{beta}=0} returns the mean of B{C{xs}}.
     '''

@@ -15,7 +15,7 @@ from inspect import isclass as _isclass
 from math import copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.10.08'
+__version__ = '20.10.10'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -407,20 +407,6 @@ def _xkwds(kwds, **dflts):
     return d
 
 
-def _xversion(module, where, *required):
-    '''(INTERNAL) Check required C{module} version.
-    '''
-    t = map2(int, module.__version__.split(_DOT_)[:2])
-    if t < required:
-        from pygeodesy.named import modulename as mn
-        t = joined_(module.__name__, _version_,
-                   _DOT_.join(map2(str, t)), 'below',
-                   _DOT_.join(map2(str, required)),
-                   'required', 'by', mn(where, True))
-        raise ImportError(t)
-    return module
-
-
 def _xnumpy(where, *required):
     '''(INTERNAL) Import C{numpy} and check required version
     '''
@@ -448,6 +434,20 @@ def _xsubclassof(Class, **name_value_pairs):
     for n, v in name_value_pairs.items():
         if not issubclassof(v, Class):
             raise _TypesError(n, v, Class)
+
+
+def _xversion(package, where, *required):  # in .karney
+    '''(INTERNAL) Check the C{package} version vs B{C{required}}.
+    '''
+    t = map2(int, package.__version__.split(_DOT_)[:2])
+    if t < required:
+        from pygeodesy.named import modulename as mn
+        t = joined_(package.__name__, _version_,
+                   _DOT_.join(map2(str, t)), 'below',
+                   _DOT_.join(map2(str, required)),
+                   'required', 'by', mn(where, True))
+        raise ImportError(t)
+    return package
 
 
 def _xzipairs(lefts, rights, sep=_COMMA_SPACE_, fmt=NN, pair='%s:%s'):

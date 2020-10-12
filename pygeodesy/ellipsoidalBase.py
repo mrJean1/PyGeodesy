@@ -13,7 +13,7 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 '''
 
 from pygeodesy.basics import issubclassof, property_doc_, property_RO, \
-                            _xinstanceof, _xkwds
+                            _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
 from pygeodesy.ecef import EcefVeness
@@ -28,13 +28,13 @@ from pygeodesy.interns import EPS, EPS1, NN, PI, _COMMA_, _datum_, _exceed_PI_ra
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
-from pygeodesy.namedTuples import LatLon4Tuple, Vector3Tuple
+from pygeodesy.namedTuples import _LatLon4Tuple, Vector3Tuple
 from pygeodesy.trf import RefFrame, TRFError, _reframeTransforms
 from pygeodesy.units import Epoch, Radius_
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '20.10.04'
+__version__ = '20.10.12'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 16    # _intersects2, _nearestOn interations, 6 is sufficient
@@ -720,11 +720,7 @@ def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
     from pygeodesy.vector3d import _intersects2 as _vi2
 
     def _latlon4(t, h, n):
-        if LatLon is None:
-            r = LatLon4Tuple(t.lat, t.lon, h, t.datum)
-        else:
-            kwds = _xkwds(LatLon_kwds, datum=t.datum, height=h)
-            r = LatLon(t.lat, t.lon, **kwds)
+        r = _LatLon4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds)
         r._iteration = t.iteration  # ._iteration for tests
         return _xnamed(r, n)
 
@@ -891,11 +887,7 @@ def _nearestOn(p, p1, p2, within=True, height=None, wrap=True,
     else:
         raise ValueError(_no_convergence_fmt_ % (tol,))
 
-    if LatLon is None:
-        r = LatLon4Tuple(t.lat, t.lon, h, t.datum)
-    else:
-        kwds = _xkwds(LatLon_kwds, datum=t.datum, height=h)
-        r = LatLon(t.lat, t.lon, **kwds)
+    r = _LatLon4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds)
     r._iteration = t.iteration  # ._iteration for tests
     return _xnamed(r, n)
 

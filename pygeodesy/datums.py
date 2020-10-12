@@ -79,9 +79,10 @@ from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
                                  Ellipsoid2, Ellipsoids
 from pygeodesy.errors import _IsnotError
 from pygeodesy.fmath import fdot
-from pygeodesy.interns import NN, _COMMA_SPACE_, _ellipsoid_, _float, \
-                             _name_, _spherical_, _transform_, \
-                             _UNDERSCORE_, _0_0, _1_0, _2_0, _3600_0
+from pygeodesy.interns import NN, _COMMA_SPACE_, _ellipsoid_, \
+                             _ellipsoidal_, _float, _name_, \
+                             _spherical_, _transform_, _UNDERSCORE_, \
+                             _0_0, _1_0, _2_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem
 from pygeodesy.namedTuples import Vector3Tuple
@@ -90,7 +91,7 @@ from pygeodesy.units import Radius_, Scalar
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '20.09.27'
+__version__ = '20.10.12'
 
 
 def _r_s2(s):
@@ -393,15 +394,19 @@ def _ellipsoid(ellipsoid, name=NN):  # in .trf
     return E
 
 
-def _ellipsoidal_datum(a_f, name=NN):
+def _ellipsoidal_datum(a_f, name=NN, raiser=False):
     '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid} or L{Ellipsoid2} or C{a_f2Tuple}.
     '''
     if isinstance(a_f, Datum):
-        return a_f
-    E, n = _En2(a_f, name)
-    if not E:
-        _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, datum=a_f)
-    return Datum(E, transform=Transforms.Identity, name=n)
+        d = a_f
+    else:
+        E, n = _En2(a_f, name)
+        if not E:
+            _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, datum=a_f)
+        d = Datum(E, transform=Transforms.Identity, name=n)
+    if raiser and not d.isEllipsoidal:
+        raise _IsnotError(_ellipsoidal_, datum=a_f)
+    return d
 
 
 def _spherical_datum(radius, name=NN, raiser=False):

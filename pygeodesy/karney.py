@@ -6,8 +6,11 @@ C{GeodesicLine} and functions C{AngDiff}, C{AngNormalize}, C{LatFix}
 and C{sum} from U{geographiclib<https://PyPI.org/project/geographiclib>},
 provided that package is installed.
 
+The I{wrapped} class methods return a C{named._NamedDict} instance providing
+access to the C{dict} items by key or attribute.
+
 Following are U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes
-and functions transcribed from I{Karney}'s original U{GeographicLib
+and functions I{transcribed} from I{Karney}'s original U{GeographicLib
 <https://GeographicLib.SourceForge.io/html/annotated.html>} in C++:
 
   - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
@@ -54,13 +57,13 @@ and functions transcribed from I{Karney}'s original U{GeographicLib
     classGeographicLib_1_1Math.html>}
 
 The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes and
-module are wrappers around some of I{Karney}'s Python U{geographiclib
+module are I{wrappers} around some of I{Karney}'s Python U{geographiclib
 <https://PyPI.org/project/geographiclib>}:
 
   - L{EquidistantKarney}, L{GnomonicKarney}, L{ellipsoidalKarney}, L{FrechetKarney}, L{HeightIDWkarney}, L{karney}
 '''
 
-from pygeodesy.basics import property_RO
+from pygeodesy.basics import property_RO, _xversion
 from pygeodesy.datums import Datums
 from pygeodesy.interns import NAN, _0_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
@@ -70,12 +73,12 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.09.12'
+__version__ = '20.10.11'
 
 
 class _Adict(dict):
-    '''(INTERNAL) Basic C{dict} with key I{and} attribute
-       access to the items (minimal version of _NamedDict).
+    '''(INTERNAL) Basic C{dict} with key I{and} attribute access
+       to the C{dict} items, minimal version of C{named._NamedDict}.
     '''
     def __getattr__(self, name):
         try:
@@ -88,18 +91,19 @@ class _Wrapped(object):
     ''''(INTERNAL) Wrapper for some of I{Karney}'s U{geographiclib
         <https://PyPI.org/project/geographiclib>} classes.
     '''
-    _Geodesic     = None
-    _GeodesicLine = None
-    _geoMath      = None
-    _Math         = None
+    _Geodesic      = None
+    _GeodesicLine  = None
+    _geographiclib = None
+    _Math          = False
 
     @property_RO
     def Geodesic(self):
-        '''(INTERNAL) Get the wrapped C{Geodesic} class, provided the
-           U{geographiclib<https://PyPI.org/project/geographiclib>}
-           package is installed, otherwise throw an C{ImportError}.
+        '''Get the I{wrapped} C{Geodesic} class, provided the U{geographiclib
+           <https://PyPI.org/project/geographiclib>} package is installed,
+           otherwise an C{ImportError}.
         '''
         if _Wrapped._Geodesic is None:
+            self._xgeographiclib(_Wrapped.Geodesic)
             from geographiclib.geodesic import Geodesic as _Geodesic
 
             class Geodesic(_Geodesic):
@@ -157,11 +161,12 @@ class _Wrapped(object):
 
     @property_RO
     def GeodesicLine(self):
-        '''(INTERNAL) Get the wrapped C{GeodesicLine} class, provided
-           the U{geographiclib<https://PyPI.org/project/geographiclib>}
-           package is installed, otherwise throw an C{ImportError}.
+        '''Get the I{wrapped} C{GeodesicLine} class, provided the U{geographiclib
+           <https://PyPI.org/project/geographiclib>} package is installed,
+           otherwise an C{ImportError}.
         '''
         if _Wrapped._GeodesicLine is None:
+            self._xgeographiclib(_Wrapped.GeodesicLine)
             from geographiclib.geodesicline import GeodesicLine as _GeodesicLine
 
             class GeodesicLine(_GeodesicLine):
@@ -184,35 +189,48 @@ class _Wrapped(object):
 
     @property_RO
     def Geodesic_WGS84(self):
-        '''(INTERNAL) Get the wrapped C{Geodesic.WGS84} I{instance} iff-
-           the U{geographiclib<https://PyPI.org/project/geographiclib>}
-           package is installed, otherwise throw an C{ImportError}.
+        '''Get the I{wrapped} C{Geodesic.WGS84} I{instance} provided the
+           U{geographiclib<https://PyPI.org/project/geographiclib>} package
+           is installed, otherwise an C{ImportError}.
         '''
         return Datums.WGS84.ellipsoid.geodesic
 
     @property_RO
-    def geoMath(self):
-        '''(INTERNAL) Get the C{Math} class if the U{geographiclib
-           <https://PyPI.org/project/geographiclib>} package is
-           installed or C{False} otherwise.
+    def geographiclib(self):
+        '''Get the imported C{geographiclib}, provided the U{geographiclib
+           <https://PyPI.org/project/geographiclib>} package is installed,
+           otherwise an C{ImportError}.
         '''
-        if self._geoMath is None:
-            try:
-                self._geoMath = self.Math
-            except ImportError:
-                self._geoMath = False
-        return self._geoMath
+        return self._xgeographiclib(_Wrapped.geographiclib)
 
     @property_RO
     def Math(self):
-        '''(INTERNAL) Get the C{Math} class, provided the
-           U{geographiclib<https://PyPI.org/project/geographiclib>}
-           package is installed, otherwise throw an C{ImportError}.
+        '''Get the C{Math} class, provided the U{geographiclib
+           <https://PyPI.org/project/geographiclib>} package is
+           installed, otherwise C{None}.
         '''
-        if _Wrapped._Math is None:
-            from geographiclib.geomath import Math
+        if _Wrapped._Math is False:
+            try:
+                self._xgeographiclib(_Wrapped.Math)
+                from geographiclib.geomath import Math
+                # override karney.- with Math.attrs
+                from pygeodesy import karney
+                karney._diff182 = Math.AngDiff
+                karney._fix90   = Math.LatFix
+                karney._norm180 = Math.AngNormalize
+                karney._sum2    = Math.sum
+            except ImportError:
+                Math = None
             _Wrapped._Math = Math
         return _Wrapped._Math
+
+    def _xgeographiclib(self, where):
+        '''(INTERNAL) Import C{geographiclib}.
+        '''
+        if self._geographiclib is None:
+            import geographiclib as g
+            self._geographiclib = _xversion(g, where.fget, 1, 49)
+        return self._geographiclib
 
 
 _wrapped = _Wrapped()  # imported by .datum
@@ -223,7 +241,7 @@ def _diff182(deg0, deg):  # mimick Math.AngDiff
 
        @return: 2-Tuple C{(delta_angle, residual)} in C{degrees}.
     '''
-    M = _wrapped.geoMath
+    M = _wrapped.Math
     if M:
         return M.AngDiff(deg0, deg)
 
@@ -239,7 +257,7 @@ def _fix90(deg):  # mimick Math.LatFix
 
        @return: Angle C{degrees} or NAN.
     '''
-    M = _wrapped.geoMath
+    M = _wrapped.Math
     if M:
         return M.LatFix(deg)
 
@@ -257,7 +275,7 @@ def _fsum2_(*vs):  # see .test/testKarney.py
 
        @see: U{Algorithm 4.1<http://www.ti3.TUHH.De/paper/rump/OgRuOi05.pdf>}.
     '''
-    s = r = _0_0
+    s = r = t = _0_0
     for v in vs:
         s, t = _sum2(s, float(v))
         if t:
@@ -270,7 +288,7 @@ def _norm180(deg):  # mimick Math.AngNormalize
 
        @return: Reduced angle C{degrees}.
     '''
-    M = _wrapped.geoMath
+    M = _wrapped.Math
     if M:
         return M.AngNormalize(deg)
 
@@ -307,7 +325,7 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
 
        @see: U{Algorithm 3.1<http://www.ti3.TUHH.De/paper/rump/OgRuOi05.pdf>}.
     '''
-    M = _wrapped.geoMath
+    M = _wrapped.Math
     if M:
         return M.sum(u, v)
 
@@ -327,7 +345,7 @@ def _sum2(u, v):  # mimick Math::sum, actually sum2
     return s, t
 
 
-def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBase._intersect22
+def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBase._intersects2
     '''Unroll B{C{lon2 - lon1}} like C{geodesic.Geodesic.Inverse}.
 
        @return: 2-Tuple C{(lon2 - lon1, lon2)} with B{C{lon2}} unrolled

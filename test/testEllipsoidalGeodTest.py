@@ -9,7 +9,7 @@ See also U{Geodesic calculations for an ellipsoid done right
 '''
 
 __all__ = ('Tests',)
-__version__ = '19.04.08'
+__version__ = '20.10.12'
 
 from base import geographiclib, TestsBase
 
@@ -22,23 +22,23 @@ _LLV = ellipsoidalVincenty.LatLon
 
 class Tests(TestsBase):
 
-    def testGeodTest(self, test, line, fmtV, epsV, fmtK, epsK):
+    def testGeodTest(self, test, line, precV, epsV, precK, epsK):
         # format: lat1 lon1 azimuth1 lat2 lon2 azimuth2 s12 as12 m12 S12
         lat1, lon1, azi1, lat2, lon2, azi2, s12, _, _, _ = map(float, test.split())
 
         try:  # compute Vincenty destination lat, lon and final bearing
             ll, fb = _LLV(lat1, lon1).destination2(s12, azi1)
-            self.test(line + 'lat', ll.lat, lat2, fmt=fmtV, known=abs(ll.lat - lat2) < epsV)
-            self.test(line + 'lon', ll.lon, lon2, fmt=fmtV, known=abs(ll.lon - lon2) < epsV)
-            self.test(line + 'fb',  fb,     azi2, fmt=fmtV, known=abs(fb - azi2) < epsV)
+            self.test(line + 'lat', ll.lat, lat2, prec=precV, known=abs(ll.lat - lat2) < epsV)
+            self.test(line + 'lon', ll.lon, lon2, prec=precV, known=abs(ll.lon - lon2) < epsV)
+            self.test(line + 'fb',  fb,     azi2, prec=precV, known=abs(fb - azi2) < epsV)
         except VincentyError as x:
             self.test(line + 'VincentyError', x, None, known=True)
 
         if geographiclib:  # compute Karney destination lat, lon and final bearing
             ll, b2 = _LLK(lat1, lon1).destination2(s12, azi1)
-            self.test(line + 'lat2', ll.lat, lat2, fmt=fmtK, known=abs(ll.lat - lat2) < epsK)
-            self.test(line + 'lon2', ll.lon, lon2, fmt=fmtK, known=abs(ll.lon - lon2) < epsK)
-            self.test(line + 'azi2', b2,     azi2, fmt=fmtK, known=abs(b2 - azi2) < epsK)
+            self.test(line + 'lat2', ll.lat, lat2, prec=precK, known=abs(ll.lat - lat2) < epsK)
+            self.test(line + 'lon2', ll.lon, lon2, prec=precK, known=abs(ll.lon - lon2) < epsK)
+            self.test(line + 'azi2', b2,     azi2, prec=precK, known=abs(b2 - azi2) < epsK)
 
 
 if __name__ == '__main__':
@@ -48,8 +48,8 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:  # get "GeodTest.dat" file
         tests = open(sys.argv[1], 'rb')
         v = False
-        fmtV, epsV = '%.3f', 1.9e-3
-        fmtK, epsK = '%.8f', 1.9e-8
+        precV, epsV = 3, 1.9e-3
+        precK, epsK = 8, 1.9e-8
 
     else:
         try:
@@ -57,8 +57,8 @@ if __name__ == '__main__':
         except ImportError:
             from io import StringIO
         v = True
-        fmtV, epsV = '%.6f',  1.5e-6
-        fmtK, epsK = '%.12f', 1.5e-12
+        precV, epsV = 6,  1.5e-6
+        precK, epsK = 12, 1.5e-12
 
         # first 500 of the 500,000 lines in file "GeodTest.dat"
         tests = StringIO('''
@@ -568,7 +568,7 @@ if __name__ == '__main__':
     t = Tests(__file__, __version__, m, verbose=v)
 
     for n, test in enumerate(tests.readlines()):
-        t.testGeodTest(test.rstrip(), 'line %d ' % (n + 1,), fmtV, epsV, fmtK, epsK)
+        t.testGeodTest(test.rstrip(), 'line %d ' % (n + 1,), precV, epsV, precK, epsK)
 
     # XXX Pythonista run_path doesn't reload modules
     E = Ellipsoids.WGS84

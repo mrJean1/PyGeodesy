@@ -10,7 +10,7 @@ __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4',
            'R_M',
            'joined', 'joined_')  # import by .lazily
-__version__ = '20.10.09'
+__version__ = '20.10.11'
 
 NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
@@ -19,6 +19,7 @@ _0_                  = '0'                    # PYCHOK expected
 _1_                  = '1'                    # PYCHOK expected
 _2_                  = '2'                    # PYCHOK expected
 _3_                  = '3'                    # PYCHOK expected
+_4_                  = '4'                    # PYCHOK expected
 _areaOf_             = 'areaOf'               # PYCHOK expected
 _ambiguous_          = 'ambiguous'            # PYCHOK expected
 _AT_                 = '@'                    # PYCHOK expected
@@ -57,8 +58,10 @@ _feet_               = 'feet'                 # PYCHOK expected
 _fraction_           = 'fraction'             # PYCHOK expected
 _gamma_              = 'gamma'                # PYCHOK expected
 _h_                  = 'h'                    # PYCHOK expected
+_H_                  = 'H'                    # PYCHOK expected
 _height_             = 'height'               # PYCHOK expected
 _hemipole_           = 'hemipole'             # PYCHOK expected
+_in_                 = 'in'                   # PYCHOK expected
 _intersection_       = 'intersection'         # PYCHOK expected
 _inside_             = 'inside'               # PYCHOK expected
 _invalid_            = 'invalid'              # PYCHOK expected
@@ -101,6 +104,7 @@ _not_convex_         = 'not convex'           # PYCHOK expected
 _not_enabled_        = 'not enabled'          # PYCHOK expected
 _not_scalar_         = 'not scalar'           # PYCHOK expected
 _number_             = 'number'               # PYCHOK expected
+_on_                 = 'on'                   # PYCHOK expected
 _or_                 = 'or'                   # PYCHOK expected
 _other_              = 'other'                # PYCHOK expected
 _outside_            = 'outside'              # PYCHOK expected
@@ -125,6 +129,7 @@ _resolution_         = 'resolution'           # PYCHOK expected
 _S_                  = 'S'                    # PYCHOK expected
 _scalar_             = 'scalar'               # PYCHOK expected
 _scale_              = 'scale'                # PYCHOK expected
+_scipy_              = 'scipy'                # PYCHOK expected
 _sep_                = 'sep'                  # PYCHOK expected
 _spherical_          = 'spherical'            # PYCHOK expected
 _SouthPole_          = 'SouthPole'            # PYCHOK expected
@@ -235,10 +240,10 @@ try:
     MAX    = _float(_float_info.max)       # PYCHOK system's MAX float
     MIN    = _float(_float_info.min)       # PYCHOK system's MIN float
 except (AttributeError, ImportError):  # PYCHOK no cover
-    EPS    = _float(2.220446049250313e-16)  # PYCHOK EPSilon 2**-52?, M{EPS +/- 1 != 1}
+    EPS    = _float(2.220446049250313e-16)  # PYCHOK EPSilon 2**-52, M{EPS +/- 1 != 1}
     MANTIS =  53  # PYCHOK mantissa bits ≈53 (C{int})
-    MAX    = _float(pow(_2_0,  1023) * (_2_0 - EPS))  # PYCHOK ≈ 10**308, 2**1024?
-    MIN    = _float(pow(_2_0, -1021))  # PYCHOK ≈ 10**-308, 2**-1021?
+    MAX    = _float(pow(_2_0,  1023) * (_2_0 - EPS))  # PYCHOK ≈ 10**308
+    MIN    = _float(pow(_2_0, -1022))  # PYCHOK ≈ 10**-308
 
 EPS2   = _float(EPS * _2_0)    # PYCHOK ≈ 4.440892098501e-16
 EPS_2  = _float(EPS / _2_0)    # PYCHOK ≈ 1.110223024625e-16
@@ -249,16 +254,16 @@ EPS1_2 = _float(_1_0 - EPS_2)  # PYCHOK ≈ 0.9999999999999999
 if not _0_0 < EPS < EPS1 < _1_0:  # for .frechet
     raise AssertionError('%s < %s: %s < %s < %.16f < %s' % ('EPS', 'EPS1', _0_0, EPS, EPS1, _1_0))
 
-INF    = _float( 'INF')  # PYCHOK INFinity, see function L{isinf}, L{isfinite}
-NAN    = _float( 'NAN')  # PYCHOK Not-A-Number, see function L{isnan}
-NEG0   =  float('-0.0')  # PYCHOK NEGative 0.0, see function L{isneg0}
+INF  = _float( 'INF')  # PYCHOK INFinity, see function L{isinf}, L{isfinite}
+NAN  = _float( 'NAN')  # PYCHOK Not-A-Number, see function L{isnan}
+NEG0 =  float('-0.0')  # PYCHOK NEGative 0.0, see function L{isneg0}
 
-PI2    = _float(PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
-PI4    = _float(PI * _4_0)  # PYCHOK Four PI, M{PI * 4}
-PI_2   = _float(PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
-PI_4   = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
+PI2  = _float(PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
+PI4  = _float(PI * _4_0)  # PYCHOK Four PI, M{PI * 4}
+PI_2 = _float(PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
+PI_4 = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 
-R_M    = _float(6371008.771415)  # PYCHOK mean, spherical earth radius
+R_M  = _float(6371008.771415)  # PYCHOK mean, spherical earth radius
 
 
 def _item_fmt(fmt, name_value_arg, name_value_kwd):

@@ -14,21 +14,21 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _datum_datum, _ValueError, _xellipsoidal
 from pygeodesy.interns import _azimuth_, _C_, _COMMA_SPACE_, _datum_, \
-                              _E_, _easting_, _lat_, _lon_, _m_, _N_, \
-                              _name_, NN, _northing_, _reciprocal_, \
-                              _SPACE_, _SQUARE_, _0_0, _0_5, _1_0, \
-                              _90_0, _360_0
+                              _easting_, _lat_, _lon_, _m_, _name_, NN, \
+                              _northing_, _reciprocal_, _SPACE_, \
+                              _SQUARE_, _0_0, _0_5, _1_0, _90_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, \
                             _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
-                                  LatLon2Tuple, LatLon4Tuple
-from pygeodesy.streprs import fstr, strs
+                                  LatLon2Tuple, _LatLon4Tuple, \
+                                  LatLon4Tuple
+from pygeodesy.streprs import _fstrENH2, strs
 from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.10.02'
+__version__ = '20.10.11'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -440,11 +440,9 @@ class Css(_NamedBase):
             _xsubclassof(_LLEB, LatLon=LatLon)
 
         lat, lon = self.latlon
-        d = self.cs0.datum
-        h = self.height if height is None else Height(height)
 
-        r = LatLon4Tuple(lat, lon, h, d) if LatLon is None else \
-                  LatLon(lat, lon, height=h, datum=d, **LatLon_kwds)
+        h = self.height if height is None else Height(height)
+        r = _LatLon4Tuple(lat, lon, h, self.cs0.datum, LatLon, LatLon_kwds)
         return self._xnamed(r)
 
     def toRepr(self, prec=6, fmt=_SQUARE_, sep=_COMMA_SPACE_, m=_m_, C=False):  # PYCHOK expected
@@ -459,15 +457,14 @@ class Css(_NamedBase):
            @return: This position as C{"[E:meter, N:meter, H:m, name:'',
                     C:Conic.Datum]"} (C{str}).
         '''
-        t = self.toStr(prec=prec, sep=None, m=m)
-        k = (_E_, _N_, 'H')[:len(t)]
+        t, T = _fstrENH2(self, prec, m)
         if self.name:
-            k += _name_,
             t +=  repr(self.name),
+            T += _name_,
         if C:
-            k += _C_,
             t +=  self.cs0.toRepr(prec=prec),
-        return _xzipairs(k, t, sep=sep, fmt=fmt)
+            T += _C_,
+        return _xzipairs(T, t, sep=sep, fmt=fmt)
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, used method L{Css.toRepr}.'''
@@ -484,19 +481,15 @@ class Css(_NamedBase):
                     C{meter} plus C{" height"} and C{'m'} if heigth
                     is non-zero (C{str}).
         '''
-        t = (fstr(self.easting,  prec=prec),
-             fstr(self.northing, prec=prec))
-        if self.height:  # abs(self.height) > EPS
-            t += ('%+.2f%s' % (self.height, m)),
+        t, _ = _fstrENH2(self, prec, m)
         return t if sep is None else sep.join(t)
 
 
 class EasNorAziRk4Tuple(_NamedTuple):
     '''4-Tuple C{(easting, northing, azimuth, reciprocal)} for the
        Cassini-Soldner location with C{easting} and C{northing} in
-       C{meters}, the C{azimuth} of easting direction azimuth and
-       C{reciprocal} the reciprocal of azimuthal northing scale
-       reciprocal, both in C{degrees}.
+       C{meters} and the C{azimuth} of easting direction and
+       C{reciprocal} of azimuthal northing scale, both in C{degrees}.
     '''
     _Names_ = (_easting_, _northing_, _azimuth_, _reciprocal_)
     _Units_ = ( Easting,   Northing,   Bearing,   Scalar)
