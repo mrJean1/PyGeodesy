@@ -13,7 +13,7 @@ from pygeodesy.interns import NN, _COMMA_SPACE_, _DOT_, _E_, _EQUAL_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.10.12'
+__version__ = '20.10.13'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int
@@ -133,19 +133,18 @@ def fstr(floats, prec=6, fmt=_Fmt, ints=False, sep=_COMMA_SPACE_, strepr=None):
        @return: The C{sep.join(strs(floats, ...)} joined (C{str}) or single
                 C{strs((floats,), ...)} (C{str}) if B{C{floats}} is C{scalar}.
     '''
-    if isscalar(floats):
-        floats = (floats,)
-    return sep.join(_streprs(prec, floats, fmt, ints, True, strepr))
+    t = (floats,) if isscalar(floats) else floats
+    return sep.join(_streprs(prec, t, fmt, ints, True, strepr))
 
 
-def _fstrENH2(inst, prec, m):
+def _fstrENH2(inst, prec, m):  # in .css, .lcc, .utmupsBase
     '''(INTERNAL) For C{Css.} and C{Lcc.} C{toRepr} and C{toStr}.
     '''
-    t = (fstr(inst.easting,  prec=prec),
-         fstr(inst.northing, prec=prec))
+    t = (inst.easting, inst.northing)
+    t = tuple(_streprs(prec, t, _Fmt, False, True, None))
     T = _E_, _N_
-    if inst.height:  # abs(self.height) > EPS
-        t += ('%+.2f%s' % (inst.height, m)),
+    if m is not None and abs(inst.height):  # abs(self.height) > EPS
+        t +=  hstr(inst.height, prec=-2, m=m),
         T += _H_,
     return t, T
 

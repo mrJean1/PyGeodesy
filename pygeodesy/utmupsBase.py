@@ -12,22 +12,22 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import ParseError, _parseX, _ValueError
-from pygeodesy.interns import NN, _band_, _COMMA_, _COMMA_SPACE_, \
-                             _convergence_, _datum_, _easting_, _float, \
-                             _hemipole_, _invalid_, _lat_, _lon_, _N_, \
-                             _n_a_, _northing_, _NS_, _PLUS_, _scale_, \
-                             _SPACE_, _SQUARE_, _zone_, _0_0, _0_5, _180_0
+from pygeodesy.interns import NN, _band_, _COMMA_, _convergence_, \
+                             _datum_, _easting_, _float, _hemipole_, \
+                             _invalid_, _lat_, _lon_, _N_, _n_a_, \
+                             _northing_, _NS_, _PLUS_, _scale_, \
+                             _SPACE_, _zone_, _0_0, _0_5, _180_0
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, \
                              notOverloaded, _Pass, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple
-from pygeodesy.streprs import fstr
+from pygeodesy.streprs import fstr, _fstrENH2
 from pygeodesy.units import Band, Degrees, Easting, Lat, Lon, Northing, \
                             Number_, Scalar, Str, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.09.29'
+__version__ = '20.10.13'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -313,18 +313,19 @@ class UtmUpsBase(_NamedBase):
             self._epsg = Epsg(self)
         return self._epsg
 
-    def _toRepr(self, prec=0, fmt=_SQUARE_, sep=_COMMA_SPACE_, B=False, cs=False, **unused):  # PYCHOK expected
-        '''(INTERNAL) Return a string representation of this UTM/UPS coordinate.
+    def _toRepr(self, fmt, B, cs, prec, sep):  # PYCHOK expected
+        '''(INTERNAL) Return a representation for this ETM/UTM/UPS coordinate.
         '''
-        t = self.toStr(prec=prec, sep=None, B=B, cs=cs)
-        return _xzipairs('ZHENCS', t, sep=sep, fmt=fmt)  # 'ZHENCS'[:len(t)]
+        t =  self.toStr(prec=prec, sep=None, B=B, cs=cs)  # hemipole
+        T = 'ZHENCS'[:len(t)]
+        return _xzipairs(T, t, sep=sep, fmt=fmt)
 
     def _toStr(self, hemipole, B, cs, prec, sep):
-        '''(INTERNAL) Return a string representation of this UTM/UPS coordinate.
+        '''(INTERNAL) Return a string for this ETM/UTM/UPS coordinate.
         '''
+        t, _ = _fstrENH2(self, prec, None)
         z = '%02d%s' % (self.zone, (self.band if B else NN))  # PYCHOK band
-        t = (z, hemipole, fstr(self.easting,  prec=prec),
-                          fstr(self.northing, prec=prec))
+        t = (z, hemipole) + t
         if cs:
             t += (_n_a_ if self.convergence is None else
                     degDMS(self.convergence, prec=8, pos=_PLUS_),

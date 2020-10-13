@@ -91,7 +91,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.10.12'
+__version__ = '20.10.13'
 
 _OVERFLOW = _1_0 / _TOL**2
 _TOL_10   = _0_1 * _TOL
@@ -280,7 +280,6 @@ class ExactTransverseMercator(_NamedBase):
              html/classGeographicLib_1_1TransverseMercatorExact.html#a72ffcc89eee6f30a6d1f4d061518a6f1>}}.
     '''
     _datum     =  None  # Datum
-    _e         = _0_0   # eccentricity
     _E         =  None  # Ellipsoid
     _extendp   =  True
     _iteration =  0     # ._sigmaInv and ._zetaInv

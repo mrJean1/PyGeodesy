@@ -60,7 +60,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.10.08'
+__version__ = '20.10.13'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -495,7 +495,7 @@ class Utm(UtmUpsBase):
                     N:meter]"} plus C{", C:degrees, S:float"} if B{C{cs}} is
                     C{True} (C{str}).
         '''
-        return self._toRepr(prec=prec, fmt=fmt, sep=sep, B=B, cs=cs, **unused)
+        return self._toRepr(fmt, B, cs, prec, sep)
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method L{Utm.toRepr}.'''

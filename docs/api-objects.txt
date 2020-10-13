@@ -2159,11 +2159,11 @@ pygeodesy.utmupsBase._UTMUPS_ZONE_INVALID	pygeodesy.utmupsBase-module.html#_UTMU
 pygeodesy.utmupsBase._MGRS_TILE	pygeodesy.utmupsBase-module.html#_MGRS_TILE
 pygeodesy.utmupsBase._to3zBhp	pygeodesy.utmupsBase-module.html#_to3zBhp
 pygeodesy.utmupsBase._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
+pygeodesy.utmupsBase.wrap360	pygeodesy.utily-module.html#wrap360
 pygeodesy.utmupsBase._UPS_LAT_MIN	pygeodesy.utmupsBase-module.html#_UPS_LAT_MIN
 pygeodesy.utmupsBase._UPS_LAT_MAX	pygeodesy.utmupsBase-module.html#_UPS_LAT_MAX
 pygeodesy.utmupsBase._UTM_ZONE_OFF_MAX	pygeodesy.utmupsBase-module.html#_UTM_ZONE_OFF_MAX
 pygeodesy.utmupsBase.isstr	pygeodesy.basics-module.html#isstr
-pygeodesy.utmupsBase.wrap360	pygeodesy.utily-module.html#wrap360
 pygeodesy.utmupsBase._parseUTMUPS5	pygeodesy.utmupsBase-module.html#_parseUTMUPS5
 pygeodesy.utmupsBase.nameof	pygeodesy.named-module.html#nameof
 pygeodesy.utmupsBase.notOverloaded	pygeodesy.named-module.html#notOverloaded
@@ -2177,6 +2177,7 @@ pygeodesy.utmupsBase.fstr	pygeodesy.streprs-module.html#fstr
 pygeodesy.utmupsBase._UTMUPS_ZONE_MIN	pygeodesy.utmupsBase-module.html#_UTMUPS_ZONE_MIN
 pygeodesy.utmupsBase._UTM_ZONE_MIN	pygeodesy.utmupsBase-module.html#_UTM_ZONE_MIN
 pygeodesy.utmupsBase.map1	pygeodesy.basics-module.html#map1
+pygeodesy.utmupsBase._fstrENH2	pygeodesy.streprs-module.html#_fstrENH2
 pygeodesy.vector3d	pygeodesy.vector3d-module.html
 pygeodesy.vector3d.nearestOn	pygeodesy.vector3d-module.html#nearestOn
 pygeodesy.vector3d._iscolinearWith	pygeodesy.vector3d-module.html#_iscolinearWith
@@ -6192,7 +6193,6 @@ pygeodesy.etm.ExactTransverseMercator.k0	pygeodesy.etm.ExactTransverseMercator-c
 pygeodesy.etm.ExactTransverseMercator.flattening	pygeodesy.etm.ExactTransverseMercator-class.html#flattening
 pygeodesy.etm.ExactTransverseMercator.extendp	pygeodesy.etm.ExactTransverseMercator-class.html#extendp
 pygeodesy.etm.ExactTransverseMercator.forward	pygeodesy.etm.ExactTransverseMercator-class.html#forward
-pygeodesy.etm.ExactTransverseMercator._e	pygeodesy.etm.ExactTransverseMercator-class.html#_e
 pygeodesy.etm.ExactTransverseMercator._lon0	pygeodesy.etm.ExactTransverseMercator-class.html#_lon0
 pygeodesy.named._Named.classname	pygeodesy.named._Named-class.html#classname
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__

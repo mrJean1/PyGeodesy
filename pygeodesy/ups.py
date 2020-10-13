@@ -41,7 +41,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.10.08'
+__version__ = '20.10.13'
 
 _Bands   = 'A', 'B', 'Y', 'Z'  # polar bands
 _EPS__2  = EPS**2
@@ -283,7 +283,7 @@ class Ups(UtmUpsBase):
            @note: Pseudo zone zero (C{"00"}) for UPS follows I{Karney}'s U{zone UPS
                   <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
         '''
-        return self._toRepr(prec=prec, fmt=fmt, sep=sep, B=B, cs=cs, **unused)
+        return self._toRepr(fmt, B, cs, prec, sep)
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method L{Ups.toRepr}.'''
