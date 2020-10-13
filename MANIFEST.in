@@ -1,5 +1,6 @@
 graft docs
 include docs.html
+graft pygeodesy/deprecated
 graft test
 include test/testRoutesMap.jpg
 graft testcoverage
