@@ -28,7 +28,7 @@ from pygeodesy.utily import atan2b, degrees2m, degrees90, degrees180, \
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.10.03'
+__version__ = '20.10.15'
 
 _D_I2_ = 1e5  # meter, 100 Km, about 0.9 degrees
 
@@ -756,13 +756,14 @@ def intersections2(lat1, lon1, radius1,
 
        @arg lat1: Latitude of the first circle center (C{degrees}).
        @arg lon1: Longitude of the first circle center (C{degrees}).
-       @arg radius1: Radius of the first circle (C{meter}).
+       @arg radius1: Radius of the first circle (C{meter}, conventionally).
        @arg lat2: Latitude of the second circle center (C{degrees}).
        @arg lon2: Longitude of the second circle center (C{degrees}).
-       @arg radius2: Radius of the second circle (C{meter}).
+       @arg radius2: Radius of the second circle (C{meter}, same units as B{C{radius1}}).
        @kwarg datum: Optional ellipsoidal or spherical datum (L{Datum},
                      L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple} or
-                     C{scalar} earth radius) or C{None}.
+                     C{scalar} earth radius in C{meter}, same units as
+                     B{C{radius1}} and B{C{radius2}}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
        @return: 2-Tuple of the intersection points, each a

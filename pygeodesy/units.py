@@ -11,7 +11,8 @@ L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 from pygeodesy.basics import isstr, issubclassof, property_doc_
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
-from pygeodesy.errors import _IsnotError, RangeError, TRFError, UnitError
+from pygeodesy.errors import _IsnotError, RangeError, TRFError, \
+                              UnitError, _xkwds_popitem
 from pygeodesy.interns import EPS, NN, PI, PI_2, _band_, _bearing_, \
                              _degrees_, _degrees2_, _distance_, _E_, \
                              _easting_, _epoch_, _EW_, _feet_, _height_, \
@@ -29,7 +30,7 @@ from pygeodesy.streprs import _Fmt, fstr, _g
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.10.05'
+__version__ = '20.10.15'
 
 
 class _NamedUnit(_Named):
@@ -91,7 +92,7 @@ class Float(float, _NamedUnit):
            @raise Error: Invalid B{C{arg}}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         try:
             self = float.__new__(cls, arg)
             if name:
@@ -164,7 +165,7 @@ class Float_(Float):
                          above B{C{high}}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if (low is not None) and self < low:
             raise _Error(cls, arg, name=name, Error=Error, txt='below %.6G limit' % (low,))
@@ -193,7 +194,7 @@ class Int(int, _NamedUnit):
            @raise Error: Invalid B{C{arg}}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         try:
             self = int.__new__(cls, arg)
             if name:
@@ -259,7 +260,7 @@ class Int_(Int):
                          above B{C{high}}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         self = Int.__new__(cls, arg=arg, name=name, Error=Error)
         if (low is not None) and self < low:
             raise _Error(cls, arg, name=name, Error=Error, txt='below %s limit' % (low,))
@@ -290,7 +291,7 @@ class Bool(Int, _NamedUnit):
            @raise Error: Invalid B{C{arg}}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         try:
             b = bool(arg)
         except (TypeError, ValueError) as x:  # XXX not ... as x:
@@ -346,7 +347,7 @@ class Str(str, _NamedUnit):
            @raise Error: Invalid B{C{arg}}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         try:
             self = str.__new__(cls, arg)
             if name:
@@ -438,7 +439,7 @@ class Degrees(Float):
                          B{C{clip}} range and L{rangerrors} set to C{True}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         try:
             return Float.__new__(cls, parseDMS(arg, suffix=suffix, clip=clip),
                                       name=name, Error=Error)
@@ -486,7 +487,7 @@ class Degrees_(Degrees):
                          or above B{C{high}}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         self = Degrees.__new__(cls, arg=arg, name=name, Error=Error, suffix=suffix, clip=0)
         if (low is not None) and self < low:
             raise _Error(cls, arg, name=name, Error=Error, txt='below %s limit' % (low,))
@@ -528,7 +529,7 @@ class Radians(Float):
                          B{C{clip}} range and L{rangerrors} set to C{True}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         try:
             return Float.__new__(cls, parseRad(arg, suffix=suffix, clip=clip),
                                       name=name, Error=Error)
@@ -564,7 +565,7 @@ class Bearing(Degrees):
         '''See L{Degrees}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         d = Degrees.__new__(cls, arg=arg, name=name, Error=Error, suffix=_N_, clip=clip)
         b = d % 360
         return d if b == d else Degrees.__new__(cls, arg=b, name=name, Error=Error)
@@ -619,7 +620,7 @@ class Easting(Float):
            @raise Error: Invalid B{C{arg}} or negative, falsed B{C{arg}}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if osgr and (self < 0 or self > 700e3):  # like Veness
             raise _Error(cls, arg, name=name, Error=Error)
@@ -638,7 +639,7 @@ class Epoch(Float_):  # by .ellipsoidalBase
         '''See L{Float_}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         return arg if isinstance(arg, Epoch) else \
                Float_.__new__(cls, arg=arg, name=name, Error=Error, low=low, high=high)
 
@@ -777,7 +778,7 @@ class Northing(Float):
            @raise Error: Invalid B{C{arg}} or negative, falsed B{C{arg}}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if osgr and (self < 0 or self > 1300e3):  # like Veness
             raise _Error(cls, arg, name=name, Error=Error)
@@ -811,7 +812,7 @@ class Phi_(Phi):
         '''See L{Degrees} and L{Radians}.
         '''
         if name_arg:
-            name, arg = name_arg.popitem()
+            name, arg = _xkwds_popitem(name_arg)
         d = Phi.__new__(cls, arg=arg, name=name, Error=Error, clip=clip)
         return Radians.__new__(cls, arg=radians(d), name=name, Error=Error)
 

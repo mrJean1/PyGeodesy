@@ -241,6 +241,7 @@ pygeodesy.S_DEG	pygeodesy-module.html#S_DEG
 pygeodesy.ispolar	pygeodesy-module.html#ispolar
 pygeodesy.modulename	pygeodesy-module.html#modulename
 pygeodesy.flatPolar	pygeodesy-module.html#flatPolar
+pygeodesy.isbool	pygeodesy-module.html#isbool
 pygeodesy.intersections2	pygeodesy-module.html#intersections2
 pygeodesy.fidw	pygeodesy-module.html#fidw
 pygeodesy.isconvex_	pygeodesy-module.html#isconvex_
@@ -343,7 +344,7 @@ pygeodesy.__main__.x	pygeodesy.__main__-module.html#x
 pygeodesy.albers	pygeodesy.albers-module.html
 pygeodesy.albers._Dsn	pygeodesy.albers-module.html#_Dsn
 pygeodesy.albers._diff182	pygeodesy.karney-module.html#_diff182
-pygeodesy.albers._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.albers._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.albers._tol	pygeodesy.albers-module.html#_tol
 pygeodesy.albers._Pass	pygeodesy.named-module.html#_Pass
 pygeodesy.albers._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
@@ -370,7 +371,7 @@ pygeodesy.albers._TOL	pygeodesy.albers-module.html#_TOL
 pygeodesy.albers.atan2d	pygeodesy.utily-module.html#atan2d
 pygeodesy.albers._TERMS	pygeodesy.albers-module.html#_TERMS
 pygeodesy.azimuthal	pygeodesy.azimuthal-module.html
-pygeodesy.azimuthal._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.azimuthal._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.azimuthal._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.azimuthal.property_doc_	pygeodesy.basics-module.html#property_doc_
 pygeodesy.azimuthal._EPS_Karney	pygeodesy.azimuthal-module.html#_EPS_Karney
@@ -394,7 +395,6 @@ pygeodesy.azimuthal.equidistant	pygeodesy.azimuthal-module.html#equidistant
 pygeodesy.basics	pygeodesy.basics-module.html
 pygeodesy.basics._bkwds	pygeodesy.basics-module.html#_bkwds
 pygeodesy.basics._IsnotError	pygeodesy.errors-module.html#_IsnotError
-pygeodesy.basics._xkwds	pygeodesy.basics-module.html#_xkwds
 pygeodesy.basics._xcopy	pygeodesy.basics-module.html#_xcopy
 pygeodesy.basics._xscipy	pygeodesy.basics-module.html#_xscipy
 pygeodesy.basics.len2	pygeodesy.basics-module.html#len2
@@ -423,6 +423,7 @@ pygeodesy.basics.__all__	pygeodesy.basics-module.html#__all__
 pygeodesy.basics.isstr	pygeodesy.basics-module.html#isstr
 pygeodesy.basics.halfs2	pygeodesy.basics-module.html#halfs2
 pygeodesy.basics.issequence	pygeodesy.basics-module.html#issequence
+pygeodesy.basics.isbool	pygeodesy.basics-module.html#isbool
 pygeodesy.basics._Bytes	pygeodesy.basics-module.html#_Bytes
 pygeodesy.basics._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.basics._xzipairs	pygeodesy.basics-module.html#_xzipairs
@@ -430,7 +431,7 @@ pygeodesy.basics.isfinite	pygeodesy.basics-module.html#isfinite
 pygeodesy.cartesianBase	pygeodesy.cartesianBase-module.html
 pygeodesy.cartesianBase._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.cartesianBase.cbrt	pygeodesy.fmath-module.html#cbrt
-pygeodesy.cartesianBase._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.cartesianBase._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.cartesianBase._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.cartesianBase.property_doc_	pygeodesy.basics-module.html#property_doc_
 pygeodesy.cartesianBase.hypot_	pygeodesy.fmath-module.html#hypot_
@@ -462,7 +463,7 @@ pygeodesy.clipy.clipSH	pygeodesy.clipy-module.html#clipSH
 pygeodesy.clipy._points2	pygeodesy.clipy-module.html#_points2
 pygeodesy.css	pygeodesy.css-module.html
 pygeodesy.css.toCss	pygeodesy.css-module.html#toCss
-pygeodesy.css._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.css._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.css._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.css._CassiniSoldner	pygeodesy.css-module.html#_CassiniSoldner
 pygeodesy.css._xnamed	pygeodesy.named-module.html#_xnamed
@@ -632,7 +633,7 @@ pygeodesy.dms.fstr	pygeodesy.streprs-module.html#fstr
 pygeodesy.dms.map2	pygeodesy.basics-module.html#map2
 pygeodesy.dms.F_DMS__	pygeodesy.dms-module.html#F_DMS__
 pygeodesy.ecef	pygeodesy.ecef-module.html
-pygeodesy.ecef._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.ecef._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.ecef.degrees90	pygeodesy.utily-module.html#degrees90
 pygeodesy.ecef.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.ecef._xsubclassof	pygeodesy.basics-module.html#_xsubclassof
@@ -676,12 +677,13 @@ pygeodesy.elevations._error	pygeodesy.elevations-module.html#_error
 pygeodesy.elevations.clips	pygeodesy.basics-module.html#clips
 pygeodesy.ellipsoidalBase	pygeodesy.ellipsoidalBase-module.html
 pygeodesy.ellipsoidalBase.unroll180	pygeodesy.utily-module.html#unroll180
+pygeodesy.ellipsoidalBase.property_doc_	pygeodesy.basics-module.html#property_doc_
 pygeodesy.ellipsoidalBase._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.ellipsoidalBase.favg	pygeodesy.fmath-module.html#favg
+pygeodesy.ellipsoidalBase._intermediateTo	pygeodesy.ellipsoidalBase-module.html#_intermediateTo
 pygeodesy.ellipsoidalBase._intersects2	pygeodesy.ellipsoidalBase-module.html#_intersects2
 pygeodesy.ellipsoidalBase.euclid	pygeodesy.fmath-module.html#euclid
 pygeodesy.ellipsoidalBase._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
-pygeodesy.ellipsoidalBase.property_doc_	pygeodesy.basics-module.html#property_doc_
 pygeodesy.ellipsoidalBase._LatLon4Tuple	pygeodesy.namedTuples-module.html#_LatLon4Tuple
 pygeodesy.ellipsoidalBase._reframeTransforms	pygeodesy.trf-module.html#_reframeTransforms
 pygeodesy.ellipsoidalBase.__package__	pygeodesy.ellipsoidalBase-module.html#__package__
@@ -703,8 +705,9 @@ pygeodesy.ellipsoidalBase._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.ellipsoidalBase._incompatible	pygeodesy.errors-module.html#_incompatible
 pygeodesy.ellipsoidalKarney	pygeodesy.ellipsoidalKarney-module.html
 pygeodesy.ellipsoidalKarney.unroll180	pygeodesy.utily-module.html#unroll180
-pygeodesy.ellipsoidalKarney._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.ellipsoidalKarney._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.ellipsoidalKarney.perimeterOf	pygeodesy.ellipsoidalKarney-module.html#perimeterOf
+pygeodesy.ellipsoidalKarney._intermediateTo	pygeodesy.ellipsoidalBase-module.html#_intermediateTo
 pygeodesy.ellipsoidalKarney.__package__	pygeodesy.ellipsoidalKarney-module.html#__package__
 pygeodesy.ellipsoidalKarney.intersections2	pygeodesy.ellipsoidalKarney-module.html#intersections2
 pygeodesy.ellipsoidalKarney.isclockwise	pygeodesy.ellipsoidalKarney-module.html#isclockwise
@@ -713,9 +716,9 @@ pygeodesy.ellipsoidalKarney.points2	pygeodesy.formy-module.html#points2
 pygeodesy.ellipsoidalKarney.nearestOn	pygeodesy.ellipsoidalKarney-module.html#nearestOn
 pygeodesy.ellipsoidalKarney._intersections2	pygeodesy.ellipsoidalBase-module.html#_intersections2
 pygeodesy.ellipsoidalKarney.wrap360	pygeodesy.utily-module.html#wrap360
-pygeodesy.ellipsoidalKarney._xellipsoidal	pygeodesy.errors-module.html#_xellipsoidal
-pygeodesy.ellipsoidalKarney.areaOf	pygeodesy.ellipsoidalKarney-module.html#areaOf
 pygeodesy.ellipsoidalKarney._nearestOn	pygeodesy.ellipsoidalBase-module.html#_nearestOn
+pygeodesy.ellipsoidalKarney.areaOf	pygeodesy.ellipsoidalKarney-module.html#areaOf
+pygeodesy.ellipsoidalKarney._xellipsoidal	pygeodesy.errors-module.html#_xellipsoidal
 pygeodesy.ellipsoidalKarney._areaError	pygeodesy.points-module.html#_areaError
 pygeodesy.ellipsoidalKarney.__all__	pygeodesy.ellipsoidalKarney-module.html#__all__
 pygeodesy.ellipsoidalKarney._ALL_OTHER	pygeodesy.lazily-module.html#_ALL_OTHER
@@ -738,7 +741,7 @@ pygeodesy.ellipsoidalNvector.atan2b	pygeodesy.utily-module.html#atan2b
 pygeodesy.ellipsoidalNvector._east_	pygeodesy.ellipsoidalNvector-module.html#_east_
 pygeodesy.ellipsoidalNvector.sumOf	pygeodesy.ellipsoidalNvector-module.html#sumOf
 pygeodesy.ellipsoidalNvector.sincos2d	pygeodesy.utily-module.html#sincos2d
-pygeodesy.ellipsoidalNvector._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.ellipsoidalNvector._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.ellipsoidalNvector.fstr	pygeodesy.streprs-module.html#fstr
 pygeodesy.ellipsoidalNvector._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.ellipsoidalNvector.__all__	pygeodesy.ellipsoidalNvector-module.html#__all__
@@ -749,10 +752,11 @@ pygeodesy.ellipsoidalNvector.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.ellipsoidalNvector._xzipairs	pygeodesy.basics-module.html#_xzipairs
 pygeodesy.ellipsoidalVincenty	pygeodesy.ellipsoidalVincenty-module.html
 pygeodesy.ellipsoidalVincenty.unroll180	pygeodesy.utily-module.html#unroll180
-pygeodesy.ellipsoidalVincenty._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.ellipsoidalVincenty._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.ellipsoidalVincenty.perimeterOf	pygeodesy.ellipsoidalVincenty-module.html#perimeterOf
 pygeodesy.ellipsoidalVincenty.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.ellipsoidalVincenty.degrees90	pygeodesy.utily-module.html#degrees90
+pygeodesy.ellipsoidalVincenty._intermediateTo	pygeodesy.ellipsoidalBase-module.html#_intermediateTo
 pygeodesy.ellipsoidalVincenty.intersections2	pygeodesy.ellipsoidalVincenty-module.html#intersections2
 pygeodesy.ellipsoidalVincenty._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.ellipsoidalVincenty.sincos2	pygeodesy.utily-module.html#sincos2
@@ -762,11 +766,12 @@ pygeodesy.ellipsoidalVincenty._dl	pygeodesy.ellipsoidalVincenty-module.html#_dl
 pygeodesy.ellipsoidalVincenty._intersections2	pygeodesy.ellipsoidalBase-module.html#_intersections2
 pygeodesy.ellipsoidalVincenty.__all__	pygeodesy.ellipsoidalVincenty-module.html#__all__
 pygeodesy.ellipsoidalVincenty.atan2b	pygeodesy.utily-module.html#atan2b
-pygeodesy.ellipsoidalVincenty.degrees180	pygeodesy.utily-module.html#degrees180
+pygeodesy.ellipsoidalVincenty._limit_	pygeodesy.ellipsoidalVincenty-module.html#_limit_
 pygeodesy.ellipsoidalVincenty._antipodal_	pygeodesy.ellipsoidalVincenty-module.html#_antipodal_
 pygeodesy.ellipsoidalVincenty._nearestOn	pygeodesy.ellipsoidalBase-module.html#_nearestOn
 pygeodesy.ellipsoidalVincenty.areaOf	pygeodesy.ellipsoidalVincenty-module.html#areaOf
 pygeodesy.ellipsoidalVincenty._xellipsoidal	pygeodesy.errors-module.html#_xellipsoidal
+pygeodesy.ellipsoidalVincenty.degrees180	pygeodesy.utily-module.html#degrees180
 pygeodesy.ellipsoidalVincenty.property_doc_	pygeodesy.basics-module.html#property_doc_
 pygeodesy.ellipsoidalVincenty.fpolynomial	pygeodesy.fmath-module.html#fpolynomial
 pygeodesy.ellipsoidalVincenty._ds	pygeodesy.ellipsoidalVincenty-module.html#_ds
@@ -900,6 +905,7 @@ pygeodesy.errors.joined_	pygeodesy.interns-module.html#joined_
 pygeodesy.errors._not_ellipsoidal_	pygeodesy.errors-module.html#_not_ellipsoidal_
 pygeodesy.errors._xkwds_Error	pygeodesy.errors-module.html#_xkwds_Error
 pygeodesy.errors._error_under	pygeodesy.errors-module.html#_error_under
+pygeodesy.errors._xkwds_popitem	pygeodesy.errors-module.html#_xkwds_popitem
 pygeodesy.errors._exception_chaining	pygeodesy.errors-module.html#_exception_chaining
 pygeodesy.errors._limiterrors	pygeodesy.errors-module.html#_limiterrors
 pygeodesy.errors._SciPyIssue	pygeodesy.errors-module.html#_SciPyIssue
@@ -907,6 +913,8 @@ pygeodesy.errors.__package__	pygeodesy.errors-module.html#__package__
 pygeodesy.errors._error_init	pygeodesy.errors-module.html#_error_init
 pygeodesy.errors.crosserrors	pygeodesy.errors-module.html#crosserrors
 pygeodesy.errors._xkwds_pop	pygeodesy.errors-module.html#_xkwds_pop
+pygeodesy.errors._xkwds	pygeodesy.errors-module.html#_xkwds
+pygeodesy.errors._xkwds_strs	pygeodesy.errors-module.html#_xkwds_strs
 pygeodesy.errors._not_	pygeodesy.errors-module.html#_not_
 pygeodesy.errors._an	pygeodesy.errors-module.html#_an
 pygeodesy.errors._datum_datum	pygeodesy.errors-module.html#_datum_datum
@@ -1140,7 +1148,7 @@ pygeodesy.geohash.neighbors	pygeodesy.geohash-module.html#neighbors
 pygeodesy.geohash._Sizes	pygeodesy.geohash-module.html#_Sizes
 pygeodesy.geohash.decode_error	pygeodesy.geohash-module.html#decode_error
 pygeodesy.geohash._DecodedBase32	pygeodesy.geohash-module.html#_DecodedBase32
-pygeodesy.geohash._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.geohash._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.geohash.encode	pygeodesy.geohash-module.html#encode
 pygeodesy.geohash.equirectangular_	pygeodesy.formy-module.html#equirectangular_
 pygeodesy.geohash.equirectangular	pygeodesy.formy-module.html#equirectangular
@@ -1584,7 +1592,7 @@ pygeodesy.lcc._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.lcc._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.lcc._fstrENH2	pygeodesy.streprs-module.html#_fstrENH2
 pygeodesy.mgrs	pygeodesy.mgrs-module.html
-pygeodesy.mgrs._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.mgrs._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.mgrs._Le100k	pygeodesy.mgrs-module.html#_Le100k
 pygeodesy.mgrs._Ln100k	pygeodesy.mgrs-module.html#_Ln100k
 pygeodesy.mgrs._Pass	pygeodesy.named-module.html#_Pass
@@ -1610,7 +1618,7 @@ pygeodesy.mgrs._xzipairs	pygeodesy.basics-module.html#_xzipairs
 pygeodesy.named	pygeodesy.named-module.html
 pygeodesy.named.joined_	pygeodesy.interns-module.html#joined_
 pygeodesy.named._IsnotError	pygeodesy.errors-module.html#_IsnotError
-pygeodesy.named._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.named._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.named.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.named._dunder_name	pygeodesy.interns-module.html#_dunder_name
 pygeodesy.named.modulename	pygeodesy.named-module.html#modulename
@@ -1635,6 +1643,7 @@ pygeodesy.named.nameof	pygeodesy.named-module.html#nameof
 pygeodesy.named._callname	pygeodesy.named-module.html#_callname
 pygeodesy.named._xjoined_	pygeodesy.named-module.html#_xjoined_
 pygeodesy.named._xcopy	pygeodesy.basics-module.html#_xcopy
+pygeodesy.named._xkwds_popitem	pygeodesy.errors-module.html#_xkwds_popitem
 pygeodesy.named.joined	pygeodesy.interns-module.html#joined
 pygeodesy.named._notError	pygeodesy.named-module.html#_notError
 pygeodesy.named.classnaming	pygeodesy.named-module.html#classnaming
@@ -1652,7 +1661,7 @@ pygeodesy.named.notImplemented	pygeodesy.named-module.html#notImplemented
 pygeodesy.named._xotherError	pygeodesy.named-module.html#_xotherError
 pygeodesy.named._Pass	pygeodesy.named-module.html#_Pass
 pygeodesy.namedTuples	pygeodesy.namedTuples-module.html
-pygeodesy.namedTuples._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.namedTuples._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.namedTuples.__package__	pygeodesy.namedTuples-module.html#__package__
 pygeodesy.namedTuples._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.namedTuples._final_	pygeodesy.namedTuples-module.html#_final_
@@ -1662,7 +1671,7 @@ pygeodesy.namedTuples._Pass	pygeodesy.named-module.html#_Pass
 pygeodesy.namedTuples._LatLon4Tuple	pygeodesy.namedTuples-module.html#_LatLon4Tuple
 pygeodesy.nvectorBase	pygeodesy.nvectorBase-module.html
 pygeodesy.nvectorBase._NorthPole_	pygeodesy.nvectorBase-module.html#_NorthPole_
-pygeodesy.nvectorBase._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.nvectorBase._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.nvectorBase.EPS	pygeodesy.nvectorBase-module.html#EPS
 pygeodesy.nvectorBase._COMMA_SPACE_	pygeodesy.nvectorBase-module.html#_COMMA_SPACE_
 pygeodesy.nvectorBase._PARENTH_	pygeodesy.nvectorBase-module.html#_PARENTH_
@@ -1746,7 +1755,7 @@ pygeodesy.osgr.map1	pygeodesy.basics-module.html#map1
 pygeodesy.osgr._E0	pygeodesy.osgr-module.html#_E0
 pygeodesy.points	pygeodesy.points-module.html
 pygeodesy.points.isenclosedBy	pygeodesy.points-module.html#isenclosedBy
-pygeodesy.points._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.points._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.points.perimeterOf	pygeodesy.points-module.html#perimeterOf
 pygeodesy.points.degrees90	pygeodesy.utily-module.html#degrees90
 pygeodesy.points.unrollPI	pygeodesy.utily-module.html#unrollPI
@@ -1837,7 +1846,7 @@ pygeodesy.sphericalBase._trilaterate5	pygeodesy.latlonBase-module.html#_trilater
 pygeodesy.sphericalBase.acos1	pygeodesy.utily-module.html#acos1
 pygeodesy.sphericalBase._spherical_datum	pygeodesy.datums-module.html#_spherical_datum
 pygeodesy.sphericalNvector	pygeodesy.sphericalNvector-module.html
-pygeodesy.sphericalNvector._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.sphericalNvector._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.sphericalNvector.triangulate	pygeodesy.sphericalNvector-module.html#triangulate
 pygeodesy.sphericalNvector.perimeterOf	pygeodesy.sphericalNvector-module.html#perimeterOf
 pygeodesy.sphericalNvector.meanOf	pygeodesy.sphericalNvector-module.html#meanOf
@@ -1867,7 +1876,7 @@ pygeodesy.sphericalNvector.ispolar	pygeodesy.sphericalNvector-module.html#ispola
 pygeodesy.sphericalNvector._Nvll	pygeodesy.sphericalNvector-module.html#_Nvll
 pygeodesy.sphericalNvector.trilaterate	pygeodesy.sphericalNvector-module.html#trilaterate
 pygeodesy.sphericalTrigonometry	pygeodesy.sphericalTrigonometry-module.html
-pygeodesy.sphericalTrigonometry._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.sphericalTrigonometry._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.sphericalTrigonometry._rads3	pygeodesy.sphericalBase-module.html#_rads3
 pygeodesy.sphericalTrigonometry.perimeterOf	pygeodesy.sphericalTrigonometry-module.html#perimeterOf
 pygeodesy.sphericalTrigonometry._PI_EPS_I2	pygeodesy.sphericalTrigonometry-module.html#_PI_EPS_I2
@@ -1986,6 +1995,7 @@ pygeodesy.units._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.units._xStrError	pygeodesy.units-module.html#_xStrError
 pygeodesy.units._Str_radians2	pygeodesy.units-module.html#_Str_radians2
 pygeodesy.units._Error	pygeodesy.units-module.html#_Error
+pygeodesy.units._xkwds_popitem	pygeodesy.errors-module.html#_xkwds_popitem
 pygeodesy.units._Str_radians	pygeodesy.units-module.html#_Str_radians
 pygeodesy.units.parseRad	pygeodesy.dms-module.html#parseRad
 pygeodesy.units.__package__	pygeodesy.units-module.html#__package__
@@ -2137,7 +2147,7 @@ pygeodesy.utmups._UPS_N_MAX	pygeodesy.utmups-module.html#_UPS_N_MAX
 pygeodesy.utmups.utmupsValidateOK	pygeodesy.utmups-module.html#utmupsValidateOK
 pygeodesy.utmups._UPS_S_MIN	pygeodesy.utmups-module.html#_UPS_S_MIN
 pygeodesy.utmupsBase	pygeodesy.utmupsBase-module.html
-pygeodesy.utmupsBase._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.utmupsBase._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.utmupsBase._xattrs	pygeodesy.basics-module.html#_xattrs
 pygeodesy.utmupsBase.isscalar	pygeodesy.basics-module.html#isscalar
 pygeodesy.utmupsBase._parseX	pygeodesy.errors-module.html#_parseX
@@ -2171,6 +2181,7 @@ pygeodesy.utmupsBase._float	pygeodesy.interns-module.html#_float
 pygeodesy.utmupsBase.__package__	pygeodesy.utmupsBase-module.html#__package__
 pygeodesy.utmupsBase._UTM_ZONE_MAX	pygeodesy.utmupsBase-module.html#_UTM_ZONE_MAX
 pygeodesy.utmupsBase._UPS_ZONE	pygeodesy.utmupsBase-module.html#_UPS_ZONE
+pygeodesy.utmupsBase.isint	pygeodesy.basics-module.html#isint
 pygeodesy.utmupsBase._UPS_ZONE_STR	pygeodesy.utmupsBase-module.html#_UPS_ZONE_STR
 pygeodesy.utmupsBase._to3zll	pygeodesy.utmupsBase-module.html#_to3zll
 pygeodesy.utmupsBase.fstr	pygeodesy.streprs-module.html#fstr
@@ -2183,7 +2194,7 @@ pygeodesy.vector3d.nearestOn	pygeodesy.vector3d-module.html#nearestOn
 pygeodesy.vector3d._iscolinearWith	pygeodesy.vector3d-module.html#_iscolinearWith
 pygeodesy.vector3d._IsnotError	pygeodesy.errors-module.html#_IsnotError
 pygeodesy.vector3d.hypot2_	pygeodesy.fmath-module.html#hypot2_
-pygeodesy.vector3d._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.vector3d._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.vector3d.fsum	pygeodesy.fmath-module.html#fsum
 pygeodesy.vector3d.euclid_	pygeodesy.fmath-module.html#euclid_
 pygeodesy.vector3d.modulename	pygeodesy.named-module.html#modulename
@@ -2207,6 +2218,7 @@ pygeodesy.vector3d.sumOf	pygeodesy.vector3d-module.html#sumOf
 pygeodesy.vector3d.len2	pygeodesy.basics-module.html#len2
 pygeodesy.vector3d.strs	pygeodesy.streprs-module.html#strs
 pygeodesy.vector3d.fdot	pygeodesy.fmath-module.html#fdot
+pygeodesy.vector3d._xkwds_popitem	pygeodesy.errors-module.html#_xkwds_popitem
 pygeodesy.vector3d._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.vector3d.n_xyz2latlon	pygeodesy.formy-module.html#n_xyz2latlon
 pygeodesy.vector3d._nearestOn	pygeodesy.vector3d-module.html#_nearestOn
@@ -2222,7 +2234,7 @@ pygeodesy.vector3d._xyzhdn6	pygeodesy.vector3d-module.html#_xyzhdn6
 pygeodesy.vector3d._xotherError	pygeodesy.named-module.html#_xotherError
 pygeodesy.webmercator	pygeodesy.webmercator-module.html
 pygeodesy.webmercator._IsnotError	pygeodesy.errors-module.html#_IsnotError
-pygeodesy.webmercator._xkwds	pygeodesy.basics-module.html#_xkwds
+pygeodesy.webmercator._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.webmercator._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.webmercator.degrees90	pygeodesy.utily-module.html#degrees90
 pygeodesy.webmercator._xnamed	pygeodesy.named-module.html#_xnamed
@@ -4668,7 +4680,7 @@ pygeodesy.latlonBase.LatLonBase._N_vector	pygeodesy.latlonBase.LatLonBase-class.
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.geoidHeight2	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#geoidHeight2
 pygeodesy.latlonBase.LatLonBase._distanceTo	pygeodesy.latlonBase.LatLonBase-class.html#_distanceTo
 pygeodesy.ellipsoidalKarney.LatLon.finalBearingOn	pygeodesy.ellipsoidalKarney.LatLon-class.html#finalBearingOn
-pygeodesy.ellipsoidalKarney.LatLon.nearestOn	pygeodesy.ellipsoidalKarney.LatLon-class.html#nearestOn
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
 pygeodesy.ellipsoidalKarney.LatLon.bearingTo	pygeodesy.ellipsoidalKarney.LatLon-class.html#bearingTo
 pygeodesy.latlonBase.LatLonBase._lon	pygeodesy.latlonBase.LatLonBase-class.html#_lon
 pygeodesy.latlonBase.LatLonBase.isantipode	pygeodesy.latlonBase.LatLonBase-class.html#isantipode
@@ -4731,7 +4743,8 @@ pygeodesy.latlonBase.LatLonBase._e9t	pygeodesy.latlonBase.LatLonBase-class.html#
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.latlonBase.LatLonBase.equals3	pygeodesy.latlonBase.LatLonBase-class.html#equals3
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
-pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
+pygeodesy.latlonBase.LatLonBase.toVector	pygeodesy.latlonBase.LatLonBase-class.html#toVector
+pygeodesy.ellipsoidalKarney.LatLon.nearestOn	pygeodesy.ellipsoidalKarney.LatLon-class.html#nearestOn
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.trilaterate5	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5
 pygeodesy.latlonBase.LatLonBase.points2	pygeodesy.latlonBase.LatLonBase-class.html#points2
 pygeodesy.ellipsoidalKarney.LatLon.destination	pygeodesy.ellipsoidalKarney.LatLon-class.html#destination
@@ -4784,7 +4797,7 @@ pygeodesy.ellipsoidalKarney.LatLon.bearingTo2	pygeodesy.ellipsoidalKarney.LatLon
 pygeodesy.latlonBase.LatLonBase.euclideanTo	pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo
 pygeodesy.latlonBase.LatLonBase.haversineTo	pygeodesy.latlonBase.LatLonBase-class.html#haversineTo
 pygeodesy.latlonBase.LatLonBase.lat	pygeodesy.latlonBase.LatLonBase-class.html#lat
-pygeodesy.latlonBase.LatLonBase.toVector	pygeodesy.latlonBase.LatLonBase-class.html#toVector
+pygeodesy.ellipsoidalKarney.LatLon.intermediateTo	pygeodesy.ellipsoidalKarney.LatLon-class.html#intermediateTo
 pygeodesy.latlonBase.LatLonBase.equirectangularTo	pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toOsgr	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr
 pygeodesy.ellipsoidalKarney.LatLon._direct	pygeodesy.ellipsoidalKarney.LatLon-class.html#_direct
@@ -5416,6 +5429,7 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.latlonBase.LatLonBase.equals3	pygeodesy.latlonBase.LatLonBase-class.html#equals3
 pygeodesy.ellipsoidalVincenty.LatLon.iterations	pygeodesy.ellipsoidalVincenty.LatLon-class.html#iterations
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
+pygeodesy.latlonBase.LatLonBase.toVector	pygeodesy.latlonBase.LatLonBase-class.html#toVector
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertRefFrame	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertRefFrame
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.trilaterate5	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#trilaterate5
 pygeodesy.latlonBase.LatLonBase.points2	pygeodesy.latlonBase.LatLonBase-class.html#points2
@@ -5471,7 +5485,7 @@ pygeodesy.ellipsoidalVincenty.LatLon.bearingTo2	pygeodesy.ellipsoidalVincenty.La
 pygeodesy.latlonBase.LatLonBase.euclideanTo	pygeodesy.latlonBase.LatLonBase-class.html#euclideanTo
 pygeodesy.latlonBase.LatLonBase.haversineTo	pygeodesy.latlonBase.LatLonBase-class.html#haversineTo
 pygeodesy.latlonBase.LatLonBase.lat	pygeodesy.latlonBase.LatLonBase-class.html#lat
-pygeodesy.latlonBase.LatLonBase.toVector	pygeodesy.latlonBase.LatLonBase-class.html#toVector
+pygeodesy.ellipsoidalVincenty.LatLon.intermediateTo	pygeodesy.ellipsoidalVincenty.LatLon-class.html#intermediateTo
 pygeodesy.latlonBase.LatLonBase.equirectangularTo	pygeodesy.latlonBase.LatLonBase-class.html#equirectangularTo
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toOsgr	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toOsgr
 pygeodesy.ellipsoidalVincenty.LatLon._direct	pygeodesy.ellipsoidalVincenty.LatLon-class.html#_direct

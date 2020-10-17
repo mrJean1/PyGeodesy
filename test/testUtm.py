@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.27'  # '19.10.31'
+__version__ = '20.10.15'  # '19.10.31'
 
 from base import TestsBase
 
@@ -139,6 +139,14 @@ class Tests(TestsBase):
             # u._latlon = None  # XXX hack to zap cache
             ll = fstr(u.toLatLon(eps=eps)[:2], prec=8)
             self.test('Utm111.toLatLon(eps=%.4e)' % (eps,), ll, '70.54298527, 40.28205459')
+
+        # <https://GitHub.com/chrisveness/geodesy/issues/86>
+        u = Utm(1, 'N', 100000, 0)  # XXX easting exceeds limit?
+        self.test('CV#86', u.toRepr(cs=6), '[Z:01, H:N, E:100000, N:0, C:n/a, S:n/a]')
+        ll = u.toLatLon(LatLon=LL)
+        self.test('CV#86', ll, '00.0°N, 179.407673°E')
+        u = ll.toUtm()
+        self.test('CV#86', u.toRepr(cs=6), '[Z:01, H:N, E:100000, N:0, ...]', known=True)  # [Z:60N, H:N, E:767993, N:0]
 
 
 if __name__ == '__main__':

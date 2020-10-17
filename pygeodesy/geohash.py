@@ -16,9 +16,9 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isstr, map2, property_RO, _xkwds
+from pygeodesy.basics import isstr, map2, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
-from pygeodesy.errors import _ValueError
+from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import favg
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
 from pygeodesy.interns import EPS, NN, R_M, _E_, _N_, _NE_, _NW_, _S_, \
@@ -34,7 +34,7 @@ from pygeodesy.utily import unrollPI
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '20.10.02'
+__version__ = '20.10.15'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),

@@ -5,13 +5,12 @@ u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
 for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
-from pygeodesy.basics import isscalar, isstr, map1, property_RO, \
-                            _xattrs, _xinstanceof, _xkwds, \
-                            _xsubclassof, _xzipairs
+from pygeodesy.basics import isint, isscalar, isstr, map1, property_RO, \
+                            _xattrs, _xinstanceof, _xsubclassof, _xzipairs
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.errors import ParseError, _parseX, _ValueError
+from pygeodesy.errors import ParseError, _parseX, _ValueError, _xkwds
 from pygeodesy.interns import NN, _band_, _COMMA_, _convergence_, \
                              _datum_, _easting_, _float, _hemipole_, \
                              _invalid_, _lat_, _lon_, _N_, _n_a_, \
@@ -27,7 +26,7 @@ from pygeodesy.units import Band, Degrees, Easting, Lat, Lon, Northing, \
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.10.13'
+__version__ = '20.10.15'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -323,14 +322,14 @@ class UtmUpsBase(_NamedBase):
     def _toStr(self, hemipole, B, cs, prec, sep):
         '''(INTERNAL) Return a string for this ETM/UTM/UPS coordinate.
         '''
-        t, _ = _fstrENH2(self, prec, None)
         z = '%02d%s' % (self.zone, (self.band if B else NN))  # PYCHOK band
-        t = (z, hemipole) + t
+        t = (z, hemipole) + _fstrENH2(self, prec, None)[0]
         if cs:
+            prec = cs if isint(cs) else 8  # for backward compatibility
             t += (_n_a_ if self.convergence is None else
-                    degDMS(self.convergence, prec=8, pos=_PLUS_),
+                    degDMS(self.convergence, prec=prec, pos=_PLUS_),
                   _n_a_ if self.scale is None else
-                      fstr(self.scale, prec=8))
+                      fstr(self.scale, prec=prec))
         return t if sep is None else sep.join(t)
 
 

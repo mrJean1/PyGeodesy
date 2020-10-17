@@ -27,11 +27,12 @@ the index for the lat- and longitude index in each 2+tuple.
 
 from pygeodesy.basics import isclass, isint, issequence, map1, \
                              property_doc_, property_RO, _Sequence, \
-                             _xcopy, _xinstanceof, _xkwds
+                             _xcopy, _xinstanceof
 from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
-                            _IsnotError, _TypeError, _ValueError, _xkwds_pop
+                            _IsnotError, _TypeError, _ValueError, \
+                            _xkwds, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
 from pygeodesy.interns import EPS, NN, PI_2, R_M, _colinear_, _COMMA_SPACE_, \
@@ -56,7 +57,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.09.26'
+__version__ = '20.10.15'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height

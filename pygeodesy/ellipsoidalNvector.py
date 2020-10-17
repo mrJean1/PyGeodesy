@@ -22,12 +22,12 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _xinstanceof, \
-                            _xkwds, _xzipairs
+from pygeodesy.basics import property_RO, _xinstanceof, _xzipairs
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
+from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fdot, hypot_
 from pygeodesy.interns import NN, _COMMA_SPACE_, _pole_, _SQUARE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
@@ -43,7 +43,7 @@ from pygeodesy.utily import atan2b, degrees90, sincos2d
 from math import asin
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.10.08'
+__version__ = '20.10.15'
 
 _down_  = 'down'
 _east_  = 'east'

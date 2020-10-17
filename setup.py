@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.10.13'
+__version__ = '20.10.15'
 
 
 def _c2(*names):
@@ -58,7 +58,8 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest', 'geographiclib',
              'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef', 'gnomonic',
              'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
-             'IDW', 'interpolate', 'intersect', 'intersections',
+             'IDW', 'intermediate', 'interpolate',
+             'intersect', 'intersection', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
              'Karney', 'Krueger', 'Krüger',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh', 'linearize',

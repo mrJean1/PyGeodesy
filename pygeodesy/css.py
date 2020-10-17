@@ -8,11 +8,12 @@ L{CSSError} requiring I{Charles Karney}'s U{geographiclib
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _xinstanceof, _xkwds, \
+from pygeodesy.basics import property_RO, _xinstanceof, \
                             _xsubclassof, _xzipairs
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.errors import _datum_datum, _ValueError, _xellipsoidal
+from pygeodesy.errors import _datum_datum, _ValueError, \
+                             _xellipsoidal, _xkwds
 from pygeodesy.interns import _azimuth_, _C_, _COMMA_SPACE_, _datum_, \
                               _easting_, _lat_, _lon_, _m_, _name_, NN, \
                               _northing_, _reciprocal_, _SPACE_, \
@@ -28,7 +29,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.10.11'
+__version__ = '20.10.15'
 
 _CassiniSoldner0 = None  # default projection
 

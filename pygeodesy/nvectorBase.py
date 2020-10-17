@@ -15,10 +15,11 @@ see U{Vector-based geodesy
 '''
 
 from pygeodesy.basics import len2, map1, property_doc_, property_RO, \
-                            _xattrs, _xinstanceof, _xkwds
+                            _xattrs, _xinstanceof
 from pygeodesy.datums import Datum
 from pygeodesy.ecef import EcefVeness
-from pygeodesy.errors import IntersectionError, _ValueError, _xkwds_pop
+from pygeodesy.errors import IntersectionError, _ValueError, \
+                            _xkwds, _xkwds_pop
 from pygeodesy.fmath import fidw, fsum, fsum_, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
 from pygeodesy.interns import EPS, EPS1, EPS_2, NN, R_M, _bearing_, \
@@ -40,7 +41,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '20.10.08'
+__version__ = '20.10.15'
 
 
 class NvectorBase(Vector3d):  # XXX kept private

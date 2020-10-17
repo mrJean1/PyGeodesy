@@ -51,7 +51,8 @@ PyGeodesy`` in a terminal or command window.
 Alternatively, download ``PyGeodesy-yy.m.d.zip`` from PyPI_ or GitHub_,
 ``unzip`` the downloaded file, ``cd`` to directory ``PyGeodesy-yy.m.d``
 and type ``python setup.py install``.  To run all PyGeodesy tests, type
-``python setup.py test`` before or after installation.
+``python test/run.py`` or type ``python test/unitTestSuite.py`` before
+or after installation.
 
 Installation of `geographiclib`_, `numpy`_ and `scipy`_ is optional.
 However, the former is required to use classes *EquidistantKarney*,
@@ -127,7 +128,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 15, 2020.*
+*Last updated: Oct 16, 2020.*
 
 License
 =======

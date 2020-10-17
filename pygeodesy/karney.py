@@ -73,7 +73,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.10.11'
+__version__ = '20.10.15'
 
 
 class _Adict(dict):
@@ -213,7 +213,7 @@ class _Wrapped(object):
             try:
                 self._xgeographiclib(_Wrapped.Math)
                 from geographiclib.geomath import Math
-                # override karney.- with Math.attrs
+                # replace karney. with Math. functions
                 from pygeodesy import karney
                 karney._diff182 = Math.AngDiff
                 karney._fix90   = Math.LatFix

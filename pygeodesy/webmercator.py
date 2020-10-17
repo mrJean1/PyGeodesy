@@ -17,13 +17,13 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isscalar, issubclassof, property_RO, \
-                            _xkwds, _xzipairs
+from pygeodesy.basics import isscalar, issubclassof, property_RO, _xzipairs
 from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.ellipsoids import R_MA
-from pygeodesy.errors import _IsnotError, _parseX, _TypeError, _ValueError
+from pygeodesy.errors import _IsnotError, _parseX, _TypeError, \
+                             _ValueError, _xkwds
 from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMA_SPACE_, _easting_, \
                              _ellipsoidal_, _northing_, _radius_, _SPACE_, \
                              _SQUARE_, _x_, _y_
@@ -38,11 +38,11 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.09.27'
+__version__ = '20.10.15'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
-_LatLimit = Lat(85.051129, name='limit')  # latitudinal limit (C{degrees})
+_LatLimit = Lat(limit=85.051129)  # latitudinal limit (C{degrees})
 # _LonOrigin     = 0   # longitude of natural origin (C{degrees})
 
 

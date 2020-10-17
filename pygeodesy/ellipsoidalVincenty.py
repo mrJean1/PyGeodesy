@@ -59,13 +59,13 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import property_doc_, _xkwds
+from pygeodesy.basics import property_doc_
 from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefVeness
-from pygeodesy.ellipsoidalBase import _intersections2, _TOL_M, \
-                                       CartesianEllipsoidalBase, \
+from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
+                                       CartesianEllipsoidalBase, _TOL_M, \
                                        LatLonEllipsoidalBase, _nearestOn
-from pygeodesy.errors import _ValueError, _xellipsoidal
+from pygeodesy.errors import _ValueError, _xellipsoidal, _xkwds
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
 from pygeodesy.interns import EPS, NN, _ambiguous_, _no_convergence_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
@@ -79,9 +79,10 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.10.04'
+__version__ = '20.10.15'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
+_limit_     = 'limit'  # PYCHOK not used
 
 
 class VincentyError(_ValueError):
@@ -123,7 +124,7 @@ class LatLon(LatLonEllipsoidalBase):
        <https://WikiPedia.org/wiki/Vincenty's_formulae>} for an (oblate)
        ellipsoidal model of the earth to compute the geodesic distance
        and bearings between two given points or the destination point
-       given an start point and initial bearing.
+       given an start point and (initial) bearing.
 
        Set the earth model to be used with the keyword argument
        datum.  The default is Datums.WGS84, which is the most globally
@@ -131,9 +132,9 @@ class LatLon(LatLonEllipsoidalBase):
 
        Note: This implementation of I{Vincenty} methods may not converge
        for some valid points, raising a L{VincentyError}.  In that case,
-       a result may be obtained by increasing the epsilon and/or the
-       iteration tolerance and/or limit, see properties L{LatLon.epsilon}
-       and L{LatLon.iterations}.
+       a result may be obtained by increasing the tolerance C{epsilon}
+       and/or iteration C{limit}, see properties L{LatLon.epsilon} and
+       L{LatLon.iterations}.
     '''
     _Ecef       = EcefVeness  # preferred C{Ecef...} class, backward compatible
     _epsilon    = 1.0e-12  # about 0.006 mm
@@ -409,6 +410,42 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         return self._inverse(other, True, wrap).initial
 
+    def intermediateTo(self, other, fraction, height=None, wrap=False):
+        '''Return the point at given fraction along the geodesic between
+           this and an other point, using I{Vincenty}'s C{direct} and
+           C{inverse} methods.
+
+           @arg other: The other point (L{LatLon}).
+           @arg fraction: Fraction between both points ranging from
+                          0, meaning this to 1, the other point (C{float}).
+           @kwarg height: Optional height, overriding the fractional
+                          height (C{meter}).
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+           @return: Intermediate point (L{LatLon}).
+
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
+
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
+                              ellipsoids are not compatible.
+
+           @raise UnitError: Invalid B{C{fraction}} or B{C{height}}.
+
+           @raise VincentyError: Vincenty fails to converge for the current
+                                 L{LatLon.epsilon} and L{LatLon.iterations}
+                                 limit and/or if this and the B{C{other}}
+                                 point are coincident or near-antipodal.
+
+           @see: Methods L{distanceTo3} and L{destination}.
+
+           @example:
+
+           >>> p = ellipsoidalVincenty.LatLon(52.205, 0.119)
+           >>> q = ellipsoidalVincenty.LatLon(48.857, 2.351)
+           >>> i = p.intermediateTo(q, 0.25)  # 51.372275°N, 000.707253°E
+        '''
+        return _intermediateTo(self, other, fraction, height, wrap)
+
     @property_doc_(''' the iteration limit (C{int}).''')
     def iterations(self):
         '''Get the iteration limit (C{int}).
@@ -425,7 +462,7 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise ValueError: Out-of-bounds B{C{limit}}.
         '''
-        self._iterations = Number_(limit, name='limit', low=4, high=500)
+        self._iterations = Number_(limit, name=_limit_, low=4, high=500)
 
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Vincenty}-based cartesian (ECEF)
@@ -628,9 +665,10 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
-       @arg radius1: Radius of the first circle (C{meter}).
+       @arg radius1: Radius of the first circle (C{meter}, conventionally).
        @arg center2: Center of the second circle (L{LatLon}).
-       @arg radius2: Radius of the second circle (C{meter}).
+       @arg radius2: Radius of the second circle (C{meter}, same units as
+                     B{C{radius2}}).
        @kwarg height: Optional height for the intersection points,
                       overriding the "radical height" at the "radical
                       line" between both centers (C{meter}) or C{None}.
@@ -638,7 +676,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @kwarg equidistant: An azimuthal equidistant projection class
                            (L{EquidistantKarney} or L{Equidistant})
                            or C{None}.
-       @kwarg tol: Convergence tolerance (C{meter}).
+       @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
+                   and B{C{radius2}}).
        @kwarg LatLon: Optional class to return the intersection points
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
@@ -646,7 +685,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or L{LatLon4Tuple}C{(lat, lon, height, datum)}
-                if B{C{LatLon}} is C{None}.  For abutting circles, the
+                if B{C{LatLon}} is C{None}.  For abutting circles, both
                 intersection points are the same instance.
 
        @raise IntersectionError: Concentric, antipodal, invalid or

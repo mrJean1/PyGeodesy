@@ -10,7 +10,8 @@ defined in C{pygeodesy.named}.
 '''
 
 # update imported names under if __name__ == '__main__':
-from pygeodesy.basics import _xinstanceof, _xkwds
+from pygeodesy.basics import _xinstanceof
+from pygeodesy.errors import _xkwds
 from pygeodesy.interns import _datum_, _distance_, _easting_, _h_, \
                               _height_, _lam_, _lat_, _lon_, _n_, \
                               _northing_, _number_, _phi_, _points_, \
@@ -22,7 +23,7 @@ from pygeodesy.units import Bearing, Degrees, Degrees2, Easting, Height, \
                             Precision_, Radius, Scalar
 
 __all__ = ()
-__version__ = '20.10.11'
+__version__ = '20.10.15'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'

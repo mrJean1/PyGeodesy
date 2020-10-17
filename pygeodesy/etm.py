@@ -91,7 +91,7 @@ from math import asinh, atan, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.10.13'
+__version__ = '20.10.15'
 
 _OVERFLOW = _1_0 / _TOL**2
 _TOL_10   = _0_1 * _TOL
@@ -240,7 +240,7 @@ class Etm(Utm):
             return self._latlon5(LatLon)
 
         f = not unfalse
-        e, n = self.to2en(falsed=f)
+        e, n = self.eastingnorthing2(falsed=f)
         # f  = unfalse == self.falsed
         #   == unfalse and self.falsed or (not unfalse and not self.falsed)
         #   == unfalse if self.falsed else not unfalse

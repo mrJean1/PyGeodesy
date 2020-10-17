@@ -26,13 +26,11 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import halfs2, property_RO, _xkwds, \
-                            _xinstanceof, _xzipairs
+from pygeodesy.basics import halfs2, property_RO, _xinstanceof, _xzipairs
 from pygeodesy.datums import Datums, _ellipsoidal_datum
-from pygeodesy.errors import _parseX, _ValueError
-from pygeodesy.interns import NN, _band_, _COMMA_SPACE_, _datum_, \
-                             _easting_, _northing_, _SPACE_, \
-                             _SQUARE_, _zone_, _0_0
+from pygeodesy.errors import _parseX, _ValueError, _xkwds
+from pygeodesy.interns import NN, _band_, _COMMA_SPACE_, _datum_, _easting_, \
+                             _northing_, _SPACE_, _SQUARE_, _zone_, _0_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.streprs import enstr2
@@ -43,7 +41,7 @@ from pygeodesy.utmupsBase import _hemi, UtmUps5Tuple
 import re  # PYCHOK warning locale.Error
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.09.22'
+__version__ = '20.10.15'
 
 _100km  = Meter( 100e3)  # 100 km in meter
 _2000km = Meter(2000e3)  # 2,000 km in meter
@@ -377,7 +375,7 @@ def toMgrs(utm, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
     '''
     _xinstanceof(Utm, utm=utm)  # Utm, Etm
 
-    e, n = utm.to2en(falsed=True)
+    e, n = utm.eastingnorthing2(falsed=True)
     # truncate east-/northing to within 100 km grid square
     # XXX add rounding to nm precision?
     E, e = divmod(e, _100km)

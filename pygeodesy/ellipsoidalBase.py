@@ -30,11 +30,11 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import _LatLon4Tuple, Vector3Tuple
 from pygeodesy.trf import RefFrame, TRFError, _reframeTransforms
-from pygeodesy.units import Epoch, Radius_
+from pygeodesy.units import Epoch, Height, Radius_, Scalar
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '20.10.12'
+__version__ = '20.10.15'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 16    # _intersects2, _nearestOn interations, 6 is sufficient
@@ -107,9 +107,14 @@ class LatLonEllipsoidalBase(LatLonBase):
                          (C{scalar}), a non-zero, fractional calendar year.
            @kwarg name: Optional name (string).
 
+           @raise RangeError: Value of B{C{lat}} or B{C{lon}} outside the valid
+                              range and C{rangerrors} set to C{True}.
+
            @raise TypeError: B{C{datum}} is not a L{datum}, B{C{reframe}}
                              is not a L{RefFrame} or B{C{epoch}} is not
                              C{scalar} non-zero.
+
+           @raise UnitError: Invalid B{C{lat}}, B{C{lon}} or B{C{height}}.
 
            @example:
 
@@ -387,9 +392,10 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''Compute the intersection points of two circles each defined
            by a center point and a radius.
 
-           @arg radius1: Radius of the this circle (C{meter}).
+           @arg radius1: Radius of the this circle (C{meter}, conventionally).
            @arg other: Center of the other circle (C{LatLon}).
-           @arg radius2: Radius of the other circle (C{meter}).
+           @arg radius2: Radius of the other circle (C{meter}, same units as
+                         B{C{radius1}}).
            @kwarg height: Optional height for the intersection points,
                           overriding the "radical height" at the "radical
                           line" between both centers (C{meter}) or C{None}.
@@ -398,7 +404,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                                (L{Equidistant} or L{EquidistantKarney}),
                                function L{azimuthal.equidistant} will be
                                invoked if left unspecified.
-           @kwarg tol: Convergence tolerance (C{meter}).
+           @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
+                       and B{C{radius2}}).
 
            @return: 2-Tuple of the intersection points, each a C{LatLon}
                     instance.  For abutting circles, both intersection
@@ -414,7 +421,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: Invalid B{C{other}} or B{C{equidistant}}.
 
-           @raise ValueError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
+           @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
         '''
         self.others(other)
         return _intersects2(self, radius1, other, radius2, height=height, wrap=wrap,
@@ -688,6 +695,15 @@ class LatLonEllipsoidalBase(LatLonBase):
                              self.others(point2=point2), distance2,
                              self.others(point3=point3), distance3,
                              area=area, eps=eps, wrap=wrap)
+
+
+def _intermediateTo(p1, p2, fraction, height, wrap):
+    # (INTERNAL) Helper for C{ellipsoidalKarney.LatLon.intermediateTo}
+    # and C{ellipsoidalVincenty.LatLon.intermediateTo}.
+    t = p1.distanceTo3(p2, wrap=wrap)
+    f = Scalar(fraction=fraction)
+    h = p1._havg(p2, f=f) if height is None else Height(height)
+    return p1.destination(t.distance * f, t.initial, height=h)
 
 
 def _intersections2(center1, radius1, center2, radius2, height=None, wrap=True,

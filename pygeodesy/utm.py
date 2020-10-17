@@ -60,7 +60,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.10.13'
+__version__ = '20.10.15'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -407,7 +407,7 @@ class Utm(UtmUpsBase):
 
         E = self.datum.ellipsoid  # XXX vs LatLon.datum.ellipsoid
 
-        x, y = self.to2en(falsed=not unfalse)
+        x, y = self.eastingnorthing2(falsed=not unfalse)
 
         # from Karney 2011 Eq 15-22, 36
         A0 = self.scale0 * E.A
@@ -489,7 +489,8 @@ class Utm(UtmUpsBase):
            @kwarg sep: Optional separator between name:value pairs (C{str}).
            @kwarg B: Optionally, include latitudinal band (C{bool}).
            @kwarg cs: Optionally, include meridian convergence and grid
-                      scale factor (C{bool}).
+                      scale factor (C{bool} or non-zero C{int} to specify
+                      the precison like B{C{prec}}).
 
            @return: This UTM as a string C{"[Z:09[band], H:N|S, E:meter,
                     N:meter]"} plus C{", C:degrees, S:float"} if B{C{cs}} is
@@ -514,7 +515,8 @@ class Utm(UtmUpsBase):
                        to return an unjoined C{tuple} of C{str}s.
            @kwarg B: Optionally, include latitudinal band (C{bool}).
            @kwarg cs: Optionally, include meridian convergence and grid
-                      scale factor (C{bool}).
+                      scale factor (C{bool} or non-zero C{int} to specify
+                      the precison like B{C{prec}}).
 
            @return: This UTM as a string with C{zone[band], hemisphere,
                     easting, northing, [convergence, scale]} in

@@ -14,9 +14,9 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isscalar, map1, _xkwds
+from pygeodesy.basics import isscalar, map1
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
-                              IntersectionError, _ValueError, _xkwds_get
+                              IntersectionError, _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _radical2, vincentys_
 from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, PI_4, R_M, _coincident_, \
@@ -40,7 +40,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.10.08'
+__version__ = '20.10.15'
 
 _EPS_I2    = EPS * _4_0
 _PI_EPS_I2 = PI - _EPS_I2
@@ -400,10 +400,7 @@ class LatLon(LatLonSphericalBase):
             a = favg(a1, a2, f=f)
             b = favg(b1, b2, f=f)
 
-        if height is None:
-            h = self._havg(other, f=f)
-        else:
-            h = Height(height)
+        h = self._havg(other, f=f) if height is None else Height(height)
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def intersection(self, end1, other, end2, height=None, wrap=False):

@@ -10,7 +10,7 @@ __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4',
            'R_M',
            'joined', 'joined_')  # import by .lazily
-__version__ = '20.10.11'
+__version__ = '20.10.15'
 
 NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
@@ -267,7 +267,7 @@ R_M  = _float(6371008.771415)  # PYCHOK mean, spherical earth radius
 
 
 def _item_fmt(fmt, name_value_arg, name_value_kwd):
-    '''(INTERNAL) Helper for C{_item_pr}, C{_item_ps} and C{_item_sq}.
+    '''(INTERNAL) Helper for C{_item_cs}, C{_item_pr}, C{_item_ps} and C{_item_sq}.
     '''
     for n_v in name_value_kwd.items():
         break

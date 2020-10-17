@@ -150,28 +150,32 @@ class Tests(TestsBase):
         if hasattr(LatLon, 'intermediateTo'):
             i = p.intermediateTo(q, 0.25)
             self.test('intermediateTo', i, '51.372084°N, 000.707337°E' if Sph
-                                      else '51.372294°N, 000.707192°E')
+                                     else ('51.372294°N, 000.707192°E' if Nv
+                                     else  '51.372275°N, 000.707253°E'))
             self.test('intermediateTo', isinstance(i, LatLon), True)
 
             if hasattr(p, 'distanceTo'):
                 d = p.distanceTo(q)
-                self.test('intermediateTo', d, '404279.721', fmt='%.3f')  # PYCHOK test attr?
+                self.test('intermediateTo', d, '404279.721' if Sph or Nv
+                                          else '404607.806', prec=3)  # PYCHOK test attr?
 
             i = p.intermediateTo(q, 5)
             self.test('intermediateTo+5', i, '35.160975°N, 008.989542°E' if Sph
-                                        else '35.560239°N, 008.833512°E')
+                                       else ('35.560239°N, 008.833512°E' if Nv
+                                       else  '35.139582°N, 008.994368°E'))
             if hasattr(p, 'distanceTo'):
-                self.test('intermediateTo+5', p.distanceTo(i) / d, '4.885' if Nv and not Sph else '5.000', fmt='%.3f')  # PYCHOK test attr?
+                self.test('intermediateTo+5', p.distanceTo(i) / d, '4.885' if Nv and not Sph else '5.000', prec=3)  # PYCHOK test attr?
 
             i = p.intermediateTo(q, -4)
             self.test('intermediateTo-4', i, '64.911647°N, 013.726301°W' if Sph
-                                        else '64.570387°N, 013.156352°W')
+                                       else ('64.570387°N, 013.156352°W' if Nv
+                                       else  '64.894124°N, 013.705689°W'))
             if hasattr(p, 'distanceTo'):
-                self.test('intermediateTo-4', p.distanceTo(i) / d, '3.885' if Nv and not Sph else '4.000', fmt='%.3f')  # PYCHOK test attr?
+                self.test('intermediateTo-4', p.distanceTo(i) / d, '3.885' if Nv and not Sph else '4.000', prec=3)  # PYCHOK test attr?
 
             # courtesy of <https://GitHub.com/bakakaldsas>
             i = LatLon(52, 0, 100).intermediateTo(LatLon(48, 2, 200), 0.25)
-            self.test('intermediateTo-h', i.height, '125.000', fmt='%.3f')  # PYCHOK test attr?
+            self.test('intermediateTo-h', i.height, '125.000', prec=3)  # PYCHOK test attr?
 
         if hasattr(LatLon, 'intermediateChordTo'):
             i = p.intermediateChordTo(q, 0.25)

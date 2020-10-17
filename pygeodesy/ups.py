@@ -41,7 +41,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.10.13'
+__version__ = '20.10.15'
 
 _Bands   = 'A', 'B', 'Y', 'Z'  # polar bands
 _EPS__2  = EPS**2
@@ -220,7 +220,7 @@ class Ups(UtmUpsBase):
 
         E = self.datum.ellipsoid  # XXX vs LatLon.datum.ellipsoid
 
-        x, y = self.to2en(falsed=not unfalse)
+        x, y = self.eastingnorthing2(falsed=not unfalse)
 
         r = hypot(x, y)
         t = (r / (_2_0 * self.scale0 * E.a / E.es_c)) if r > 0 else _EPS__2
@@ -270,7 +270,8 @@ class Ups(UtmUpsBase):
            @kwarg sep: Optional separator between name:value pairs (C{str}).
            @kwarg B: Optionally, include polar band letter (C{bool}).
            @kwarg cs: Optionally, include gamma meridian convergence and
-                      point scale factor (C{bool}).
+                      point scale factor (C{bool} or non-zero C{int} to
+                      specify the precison like B{C{prec}}).
 
            @return: This UPS as a string with C{00[Band] pole, easting,
                     northing, [convergence, scale]} as C{"[Z:00[Band],
@@ -299,7 +300,8 @@ class Ups(UtmUpsBase):
                        to return an unjoined C{tuple} of C{str}s.
            @kwarg B: Optionally, include and polar band letter (C{bool}).
            @kwarg cs: Optionally, include gamma meridian convergence and
-                      point scale factor (C{bool}).
+                      point scale factor (C{bool} or non-zero C{int} to
+                      specify the precison like B{C{prec}}).
 
            @return: This UPS as a string with C{00[Band] pole, easting,
                     northing, [convergence, scale]} as C{"00[B] N|S

@@ -15,11 +15,11 @@ attributes, similar to standard Python C{namedtuple}s.
 
 # update imported names under if __name__ == '__main__':
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, issubclassof, \
-                             property_doc_, property_RO, _xcopy, _xkwds
+                             property_doc_, property_RO, _xcopy
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
-                             _ValueError, UnitError
+                             _ValueError, UnitError, _xkwds, _xkwds_popitem
 from pygeodesy.interns import NN, _AT_, _COLON_, _COLON_SPACE_, _COMMA_SPACE_, \
                              _CURLY_, _doesn_t_exist_, _DOT_, _dot_, _DUNDER_, \
                              _dunder_name, _EQUAL_, _invalid_, _item_ps, _item_sq, \
@@ -29,7 +29,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.10.11'
+__version__ = '20.10.15'
 
 # __DUNDER gets mangled in class
 _immutable_ = 'immutable'
@@ -64,7 +64,7 @@ def _xother3(inst, other, name=_other_, up=1, **name_other):
     '''(INTERNAL) Get C{name} and C{up} for a named C{other}.
     '''
     if name_other:  # and not other and len(name_other) == 1
-        name, other = name_other.popitem()
+        name, other = _xkwds_popitem(name_other)
     elif other and len(other) == 1:
         other = other[0]
     else:

@@ -14,8 +14,10 @@ from pygeodesy.interns import NN, _COLON_, _COMMA_, _COMMA_SPACE_, \
                              _or_, _SPACE_, _UNDERSCORE_
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
+from copy import copy as _copy
+
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.10.09'
+__version__ = '20.10.15'
 
 _limiterrors      =  True  # imported by .formy
 _multiple_        = 'multiple'
@@ -372,8 +374,8 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeeError]
        @return: A C{TypeError} or an B{C{Error}} instance.
     '''
     Error = _xkwds_pop(name_value_Error, Error=TypeError)
-    n, v = name_value_Error.popitem() if name_value_Error else (
-          _name_value_, _Missing)  # XXX else tuple(...)
+    n, v  = _xkwds_popitem(name_value_Error) if name_value_Error else (
+                          _name_value_, _Missing)  # XXX else tuple(...)
     t = _or(*nouns) or _specified_
     if len(nouns) > 1:
         t = _an(t)
@@ -485,12 +487,23 @@ def _xellipsoidal(**name_value):
     raise _TypeError(n, v, txt=_not_ellipsoidal_)
 
 
-def _xkwds_Error(_xkwds_func, kwds, name_default):
+def _xkwds(kwds, **dflts):
+    '''(INTERNAL) Override C{dflts} with specified C{kwds}.
+    '''
+    d = dflts
+    if kwds:
+        d = _copy(d)
+        d.update(kwds)
+    return d
+
+
+def _xkwds_Error(_xkwds_func, kwds, name_txt, txt='=default'):
     # Helper for _xkwds_get and _xkwds_pop below
-    from pygeodesy.streprs import unstr
-    t = unstr(_xkwds_func.__name__, kwds, **name_default)
-    n = joined_((_multiple_ if name_default else _no_), _name_)
-    return _AssertionError(t, txt=n + '=default kwargs')
+    from pygeodesy.streprs import pairs
+    t = _COMMA_SPACE_.join(pairs(kwds) + pairs(name_txt))
+    t = _item_ps(_xkwds_func.__name__, t)
+    n = _multiple_ if name_txt else _no_
+    return _AssertionError(t, txt=joined_(n, _name_ + txt, 'kwargs'))
 
 
 def _xkwds_get(kwds, **name_default):
@@ -510,6 +523,22 @@ def _xkwds_pop(kwds, **name_default):
         return kwds.pop(*name_default.popitem())
 
     raise _xkwds_Error(_xkwds_pop, kwds, name_default)
+
+
+def _xkwds_popitem(name_value):
+    '''(INTERNAL) Return exactly one C{(name, value)} item.
+    '''
+    t = name_value.popitem()  # XXX AttributeError, KeyError
+    if not name_value:
+        return t
+
+    raise _xkwds_Error(_xkwds_popitem, (t,), name_value, txt='=value')
+
+
+def _xkwds_strs(kwds):
+    '''(INTERNAL) Force C{kwds} keys to C{str}.
+    '''
+    return dict(sorted((str(k), v) for k, v in kwds.items()))
 
 # **) MIT License
 #

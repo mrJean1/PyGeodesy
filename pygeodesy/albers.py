@@ -13,9 +13,9 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _xkwds
+from pygeodesy.basics import property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
-from pygeodesy.errors import _ValueError
+from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
 from pygeodesy.interns import EPS, NN, _datum_, _gamma_, _lat_, \
                              _lat0_, _lat1_, _lat2_, _lon_, _lon0_, \
@@ -31,7 +31,7 @@ from pygeodesy.utily import atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.10.02'
+__version__ = '20.10.15'
 
 _EPS__2 = EPS**2
 _EPS__4 = EPS**4

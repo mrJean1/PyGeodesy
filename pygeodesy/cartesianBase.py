@@ -12,11 +12,10 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_doc_, property_RO, \
-                            _xinstanceof, _xkwds
+from pygeodesy.basics import property_doc_, property_RO, _xinstanceof
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError
+from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
 from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _ellipsoidal_, \
                              _spherical_, _SQUARE_, _1_0  # PYCHOK used!
@@ -27,7 +26,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '20.10.11'
+__version__ = '20.10.15'
 
 
 class CartesianBase(Vector3d):

@@ -49,10 +49,10 @@ for further information on the errors.
 '''
 
 from pygeodesy.basics import isscalar, map1, property_RO, \
-                            _xinstanceof, _xkwds, _xsubclassof
+                            _xinstanceof, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoids import a_f2Tuple
-from pygeodesy.errors import _datum_datum, LenError, _ValueError
+from pygeodesy.errors import _datum_datum, LenError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot1
 from pygeodesy.interns import EPS, EPS1, EPS_2, NN, PI, PI_2, _C_, _datum_, \
                              _ellipsoid_, _h_, _height_, _lat_, _lat0_, \
@@ -71,7 +71,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.10.11'
+__version__ = '20.10.15'
 
 _TRIPS = 17  # 8..9 sufficient, EcefSudano.reverse
 

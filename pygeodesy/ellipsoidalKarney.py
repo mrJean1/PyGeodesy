@@ -29,13 +29,13 @@ or by converting to anothor datum:
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _xkwds
+from pygeodesy.basics import property_RO
 from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefKarney
-from pygeodesy.ellipsoidalBase import _TOL_M, _intersections2, \
-                                       CartesianEllipsoidalBase, \
+from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
+                                       CartesianEllipsoidalBase, _TOL_M, \
                                        LatLonEllipsoidalBase, _nearestOn
-from pygeodesy.errors import _ValueError, _xellipsoidal
+from pygeodesy.errors import _ValueError, _xellipsoidal, _xkwds
 from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple
@@ -43,7 +43,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.10.08'
+__version__ = '20.10.15'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -77,10 +77,10 @@ class LatLon(LatLonEllipsoidalBase):
        but using I{Charles F. F. Karney}'s Python U{geographiclib
        <https://PyPI.org/project/geographiclib>} to compute the geodesic
        distance, initial and final bearing (azimuths) between two given
-       points or the destination point given a start point and an initial
+       points or the destination point given a start point and an (initial)
        bearing.
 
-       @note: This L{LatLon}'s methods require the U{geographiclib
+       @note: This L{LatLon} require the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
     '''
     _Ecef = EcefKarney  # preferred C{Ecef...} class
@@ -332,22 +332,60 @@ class LatLon(LatLonEllipsoidalBase):
         '''
         return self._inverse(other, wrap).initial
 
+    def intermediateTo(self, other, fraction, height=None, wrap=False):
+        '''Return the point at given fraction along the geodesic between
+           this and an other point, using I{Karney}'s C{Direct} and
+           C{Inverse} methods.
+
+           @arg other: The other point (L{LatLon}).
+           @arg fraction: Fraction between both points ranging from
+                          0, meaning this to 1, the other point (C{float}).
+           @kwarg height: Optional height, overriding the fractional
+                          height (C{meter}).
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+           @return: Intermediate point (L{LatLon}).
+
+           @raise ImportError: Package U{geographiclib
+                               <https://PyPI.org/project/geographiclib>}
+                               not installed or not found.
+
+           @raise TypeError: The B{C{other}} point is not L{LatLon}.
+
+           @raise UnitError: Invalid B{C{fraction}} or B{C{height}}.
+
+           @raise ValueError: If this and the B{C{other}} point's L{Datum}
+                              ellipsoids are not compatible.
+
+           @see: Methods L{distanceTo3} and L{destination}.
+
+           @example:
+
+           >>> p = ellipsoidalKarney.LatLon(52.205, 0.119)
+           >>> q = ellipsoidalKarney.LatLon(48.857, 2.351)
+           >>> i = p.intermediateTo(q, 0.25)  # 51.372275°N, 000.707253°E
+        '''
+        return _intermediateTo(self, other, fraction, height, wrap)
+
     def intersections2(self, radius1, other, radius2, height=None, wrap=True,  # PYCHOK expected
                                                       tol=_TOL_M):
         '''Compute the intersection points of two circles each defined
            by a center point and a radius.
 
-           @arg radius1: Radius of the this circle (C{meter}).
+           @arg radius1: Radius of the this circle (C{meter}, conventionally).
            @arg other: Center of the other circle (C{LatLon}).
-           @arg radius2: Radius of the other circle (C{meter}).
+           @arg radius2: Radius of the other circle (C{meter}, same units as
+                         B{C{radius1}}).
            @kwarg height: Optional height for the intersection points,
                           overriding the "radical height" at the "radical
-                          line" between both centers (C{meter}) or C{None}.
+                          line" between both centers (C{meter}, conventionally)
+                          or C{None}.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-           @kwarg tol: Convergence tolerance (C{meter}).
+           @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
+                       and B{C{radius2}}).
 
            @return: 2-Tuple of the intersection points, each a C{LatLon}
-                    instance.  For abutting circles, the intersection
+                    instance.  For abutting circles, both intersection
                     points are the same instance.
 
            @raise IntersectionError: Concentric, antipodal, invalid or
@@ -360,7 +398,7 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise TypeError: Invalid B{C{other}} or B{C{equidistant}}.
 
-           @raise ValueError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
+           @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
         '''
         self.others(other)
         return intersections2(self, radius1, other, radius2, height=height, wrap=wrap,
@@ -501,17 +539,20 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        by an (ellipsoidal) center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
-       @arg radius1: Radius of the first circle (C{meter}).
+       @arg radius1: Radius of the first circle (C{meter}, conventionally).
        @arg center2: Center of the second circle (L{LatLon}).
-       @arg radius2: Radius of the second circle (C{meter}).
+       @arg radius2: Radius of the second circle (C{meter}, same units as
+                     B{C{radius1}}).
        @kwarg height: Optional height for the intersection points,
                       overriding the "radical height" at the "radical
-                      line" between both centers (C{meter}) or C{None}.
+                      line" between both centers (C{meter}, conventionally)
+                      or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection class
                            (L{Equidistant} or L{equidistant})
                            or C{None} for L{EquidistantKarney}.
-       @kwarg tol: Convergence tolerance (C{meter}).
+       @kwarg tol: Convergence tolerance (C{meter}, same units as
+                   B{C{radius1}} and B{C{radius2}}).
        @kwarg LatLon: Optional class to return the intersection points
                       (L{LatLon}) or C{None}.
        @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
@@ -519,7 +560,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or L{LatLon4Tuple}C{(lat, lon, height, datum)}
-                if B{C{LatLon}} is C{None}.  For abutting circles, the
+                if B{C{LatLon}} is C{None}.  For abutting circles, both
                 intersection points are the same instance.
 
        @raise ImportError: Package U{geographiclib

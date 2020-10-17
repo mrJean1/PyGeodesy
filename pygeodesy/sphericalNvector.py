@@ -31,9 +31,10 @@ to a normalised version of an (ECEF) cartesian coordinate.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isscalar, _xinstanceof, _xkwds
+from pygeodesy.basics import isscalar, _xinstanceof
 from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefKarney
+from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fmean, fsum
 from pygeodesy.interns import EPS, PI, PI2, PI_2, R_M, _end_, \
                              _other_, _point_, _points_, _pole_, _0_0
@@ -50,7 +51,7 @@ from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '20.10.02'
+__version__ = '20.10.15'
 
 _paths_ = 'paths'
 

@@ -75,8 +75,8 @@ Alternatively, download C{PyGeodesy-yy.m.d.zip} from U{PyPI
 <https://PyPI.org/project/PyGeodesy>} or U{GitHub
 <https://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded file,
 C{cd} to directory C{Pygeodesy-yy.m.d} and type C{python setup.py
-install}.  To run all PyGeodesy tests, type C{python setup.py test}
-before or after installation.
+install}.  To run all PyGeodesy tests, type C{python test/run.py} or
+type C{python test/unitTestSuite.py} before or after installation.
 
 Installation of U{geographiclib<https://PyPI.org/project/geographiclib>},
 U{numpy<https://PyPI.org/project/numpy>} and U{scipy
@@ -289,7 +289,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy_       = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.10.15'
+__version__ = '20.10.16'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

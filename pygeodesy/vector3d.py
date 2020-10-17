@@ -14,9 +14,10 @@ U{Vector-based geodesy
 '''
 
 from pygeodesy.basics import isscalar, len2, map1, property_doc_, \
-                             property_RO, _xnumpy, _xkwds
+                             property_RO, _xnumpy
 from pygeodesy.errors import _AssertionError, CrossError, IntersectionError, \
-                             _IsnotError, _TypeError, _ValueError
+                             _IsnotError, _TypeError, _ValueError, _xkwds, \
+                             _xkwds_popitem
 from pygeodesy.fmath import euclid_, fdot, fsum, fsum_, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2
 from pygeodesy.interns import EPS, EPS1, NN, PI, PI2, _coincident_, _colinear_, \
@@ -33,7 +34,7 @@ from pygeodesy.units import Radius, Radius_
 from math import atan2, copysign, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.10.08'
+__version__ = '20.10.15'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -1000,7 +1001,7 @@ def _null_space2(numpy, A, eps):
 
 def _otherV3d(sphere=True, **name_v):
     # check B{C{name#}} vector instance, return Vector3d
-    name, v = name_v.popitem()
+    name, v = _xkwds_popitem(name_v)
     try:
         return Vector3d(v.x, v.y, v.z if sphere else _0_0, name=name)
     except AttributeError:  # no _x_ or _y_ attr

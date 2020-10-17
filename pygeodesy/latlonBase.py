@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '20.10.02'
+__version__ = '20.10.15'
 
 
 class LatLonBase(_NamedBase):
@@ -71,7 +71,7 @@ class LatLonBase(_NamedBase):
            @raise RangeError: Value of B{C{lat}} or B{C{lon}} outside the valid
                               range and C{rangerrors} set to C{True}.
 
-           @raise ValueError: Invalid B{C{lat}} or B{C{lon}}.
+           @raise UnitError: Invalid B{C{lat}}, B{C{lon}} or B{C{height}}.
 
            @example:
 

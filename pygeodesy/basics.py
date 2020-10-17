@@ -15,7 +15,7 @@ from inspect import isclass as _isclass
 from math import copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.10.10'
+__version__ = '20.10.15'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -99,6 +99,18 @@ def halfs2(str2):
     return str2[:h], str2[h:]
 
 
+def isbool(obj):
+    '''Check whether an object is C{bool}ean.
+
+       @arg obj: The object (any C{type}).
+
+       @return: C{True} if B{C{obj}} is C{bool}ean,
+                C{False} otherwise.
+    '''
+    return isinstance(obj, bool)  # and (obj is True
+#                                     or obj is False)
+
+
 if _FOR_DOCS:  # XXX avoid epidoc Python 2.7 error
     def isclass(obj):
         '''Return C{True} if B{C{obj}} is a C{class}.
@@ -148,13 +160,16 @@ def isint(obj, both=False):
 
        @return: C{True} if B{C{obj}} is C{int} or an integer
                 C{float}, C{False} otherwise.
+
+       @note: C{isint(True)} or C{isint(False)} returns C{False} (and
+              no longer C{True}).
     '''
     if both and isinstance(obj, float):  # NOT _Scalars!
         try:
             return obj.is_integer()
         except AttributeError:  # PYCHOK no cover
             return False  # XXX float(int(obj)) == obj?
-    return isinstance(obj, _Ints)
+    return isinstance(obj, _Ints) and not isbool(obj)
 
 
 try:
@@ -248,7 +263,7 @@ def map1(func, *xs):  # XXX map_
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(func, xs))  # note, NO *xs
+    return tuple(map(func, xs))  # note xs, not *xs
 
 
 def map2(func, *xs):
@@ -264,7 +279,7 @@ def map2(func, *xs):
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(func, *xs))  # note, *xs
+    return tuple(map(func, *xs))  # note *xs, not xs
 
 
 def property_doc_(doc):
@@ -395,16 +410,6 @@ def _xinstanceof(*Types, **name_value_pairs):
     for n, v in name_value_pairs.items():
         if not isinstance(v, Types):
             raise _TypesError(n, v, *Types)
-
-
-def _xkwds(kwds, **dflts):
-    '''(INTERNAL) Override C{dflts} with C{kwds}.
-    '''
-    d = dflts
-    if kwds:
-        d = _copy(d)
-        d.update(kwds)
-    return d
 
 
 def _xnumpy(where, *required):
