@@ -45,12 +45,12 @@ from pygeodesy.streprs import strs
 from pygeodesy.units import Bearing, Lat_, Lon_, Meter, Scalar, Scalar_
 from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 
-from math import acos, asin, atan, atan2, degrees, hypot, sin, sqrt
+from math import acos, asin, atan, atan2, copysign, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.10.15'
+__version__ = '20.10.19'
 
-_EPS_Karney    =  sqrt(EPS) * 0.01  # Karney's eps_
+_Karney_eps    =  sqrt(EPS) * 0.010  # Karney's eps_
 _over_horizon_ = 'over horizon'
 _TRIPS         =  21  # numit, 4 sufficient
 
@@ -305,7 +305,7 @@ class Equidistant(_AzimuthalBase):
                 c = acos(c)  # XXX .utily.acos1
                 k = c / sin(c)
             else:
-                k = -_1_0 if c < 0 else _1_0  # copysign(1, c)
+                k = copysign(_1_0, c)
             return k, t
 
         return self._forward(lat, lon, name, _k_t)
@@ -374,9 +374,12 @@ class _AzimuthalBaseKarney(_AzimuthalBase):
         '''
         return self.datum.ellipsoid.geodesic
 
-    def _7Tuple(self, x, y, r, s):
+    def _7Tuple(self, x, y, r, M=None):
         '''(INTERNAL) Return an C{Azimuthal7Tuple}.
         '''
+        s = M
+        if s is None:  # compute the reciprocal, azimuthal scale
+            s = (r.m12 / r.s12) if r.a12 > _Karney_eps else _1_0
         return Azimuthal7Tuple(x, y, r.lat2, r.lon2, r.azi2 % _360_0, s, self.datum)
 
 
@@ -437,7 +440,7 @@ class EquidistantKarney(_AzimuthalBaseKarney):
        '''
         r = self.geodesic.Inverse(self.lat0, self.lon0, Lat_(lat), Lon_(lon), self._mask)
         x, y = sincos2d(r.azi1)
-        t = self._7Tuple(x * r.s12, y * r.s12, r, self._1_rk(r))
+        t = self._7Tuple(x * r.s12, y * r.s12, r)
         return self._xnamed(t, name=name)
 
     def reverse(self, x, y, name=NN, LatLon=None, **LatLon_kwds):
@@ -466,14 +469,9 @@ class EquidistantKarney(_AzimuthalBaseKarney):
         s = hypot( x, y)
 
         r = self.geodesic.Direct(self.lat0, self.lon0, z, s, self._mask)
-        t = self._7Tuple(x, y, r, self._1_rk(r)) if LatLon is None else \
+        t = self._7Tuple(x, y, r) if LatLon is None else \
             self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds)
         return self._xnamed(t, name=name)
-
-    def _1_rk(self, r):
-        '''(INTERNAL) Compute the reciprocal, azimuthal scale.
-        '''
-        return (r.m12 / r.s12) if r.a12 > _EPS_Karney else _1_0
 
 
 class Gnomonic(_AzimuthalBase):
@@ -501,10 +499,7 @@ class Gnomonic(_AzimuthalBase):
         '''
         def _k_t(c):
             t = c > EPS
-            if t:
-                k = _1_0 / c
-            else:
-                k = _1_0
+            k = (_1_0 / c) if t else _1_0
             return k, t
 
         return self._forward(lat, lon, name, _k_t)
@@ -659,7 +654,7 @@ class GnomonicKarney(_AzimuthalBaseKarney):
         else:  # little == True
             def _d(r, q):  # PYCHOK _d
                 return (q * r.M12 - r.m12) * r.M12  # negated
-        e *= _EPS_Karney
+        e *= _Karney_eps
 
         S = Fsum(s)
         g = self.geodesic.Line(self.lat0, self.lon0, z, self._mask)
@@ -704,10 +699,7 @@ class LambertEqualArea(_AzimuthalBase):
         def _k_t(c):
             c = c + _1_0
             t = c > EPS
-            if t:
-                k = sqrt(_2_0 / c)
-            else:
-                k = _1_0
+            k = sqrt(_2_0 / c) if t else _1_0
             return k, t
 
         return self._forward(lat, lon, name, _k_t)
@@ -825,10 +817,7 @@ class Stereographic(_AzimuthalBase):
         def _k_t(c):
             c = c + _1_0
             t = abs(c) > EPS
-            if t:
-                k = 2 * self._k0 / c
-            else:
-                k = _1_0
+            k = (2 * self._k0 / c) if t else _1_0
             return k, t
 
         return self._forward(lat, lon, name, _k_t)

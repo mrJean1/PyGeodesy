@@ -53,7 +53,7 @@ from pygeodesy.basics import isscalar, map1, property_RO, \
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, LenError, _ValueError, _xkwds
-from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot1
+from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot1, hypot2_
 from pygeodesy.interns import EPS, EPS1, EPS_2, NN, PI, PI_2, _C_, _datum_, \
                              _ellipsoid_, _h_, _height_, _lat_, _lat0_, \
                              _lon_, _lon0_, _M_, _name_, _no_convergence_, \
@@ -71,9 +71,13 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.10.15'
+__version__ = '20.10.20'
 
-_TRIPS = 17  # 8..9 sufficient, EcefSudano.reverse
+_a_        = 'a'
+_f_        = 'f'
+_prolate_  = 'prolate'
+_singular_ = 'singular'
+_TRIPS     =  17  # 8..9 sufficient, EcefSudano.reverse
 
 
 def _llhn4(latlonh, lon, height, suffix=NN):
@@ -153,23 +157,24 @@ class _EcefBase(_NamedBase):
         '''
         return self._E.a
 
+    equatoradius     = a
     equatorialRadius = a  # Karney property
 
     @property_RO
     def datum(self):
-        '''Get the datum (L{Datum} or C{None} if not available).
+        '''Get the datum (L{Datum}).
         '''
         return self._datum
 
     @property_RO
     def ellipsoid(self):
-        '''Get C{E}, the ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
+        '''Get the ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
         '''
         return self._E
 
     @property_RO
     def f(self):
-        '''Get C{E.f}, the flattening (C{float}), zero for sphere.
+        '''Get the flattening (C{float}), zero for sphere.
         '''
         return self._E.f
 
@@ -181,6 +186,25 @@ class _EcefBase(_NamedBase):
         notOverloaded(self, self.forward, latlonh, lon=lon,
                                       height=height, M=M)
 
+    def _forward(self, latlonh, lon, height, M, roc=True):
+        '''Common C{EcefKarney}, C{EcefVeness} and C{EcefSudano}.
+        '''
+        lat, lon, h, name = _llhn4(latlonh, lon, height)
+        sa, ca, sb, cb = sincos2d(lat, lon)
+
+        E = self.ellipsoid
+        if roc:  # normal, prime-vertical roc
+            n = E.roc1_(sa)
+        else:  # EcefYou.forward
+            # = E.a2 / hypot(E.a * ca, E.b * sa)
+            n = E.a / hypot(ca, E.b_a * sa)
+        z = (h + n * E.e12) * sa  # .e12 == .b2 / .a2
+        x = (h + n) * ca
+
+        m = self._Matrix(sa, ca, sb, cb) if M else None
+        r = Ecef9Tuple(x * cb, x * sb, z, lat, lon, h, 0, m, self.datum)
+        return self._xnamed(r, name=name)
+
     def _Matrix(self, sa, ca, sb, cb):
         '''Creation a rotation matrix.
 
@@ -189,7 +213,7 @@ class _EcefBase(_NamedBase):
            @arg sb: C{sin(lambda)} (C{float}).
            @arg cb: C{cos(lambda)} (C{float}).
 
-           @return: A L{EcefMatrix}.
+           @return: An L{EcefMatrix}.
         '''
         return self._xnamed(EcefMatrix(sa, ca, sb, cb))
 
@@ -198,20 +222,14 @@ class _EcefBase(_NamedBase):
         '''
         notOverloaded(self, self.reverse, xyz, y=y, z=z, M=M)
 
-    def toStr(self, prec=9):  # PYCHOK signature
+    def toStr(self, prec=9, **unused):  # PYCHOK signature
         '''Return this C{Ecef*} as a string.
 
            @kwarg prec: Optional precision, number of decimal digits (0..9).
 
            @return: This C{Ecef*} representation (C{str}).
         '''
-        return self.attrs('a', 'f', _datum_, _ellipsoid_, _name_, prec=prec)
-
-#   @property_RO
-#   def xyz(self):
-#       '''Get the geocentric C{(x, y, z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
-#       '''
-#       return self._xnamed(Vector3Tuple(self.x, self.y, self.z))
+        return self.attrs(_a_, _f_, _datum_, _ellipsoid_, _name_, prec=prec)
 
 
 class EcefKarney(_EcefBase):
@@ -243,7 +261,7 @@ class EcefKarney(_EcefBase):
 
     @property_RO
     def e2(self):
-        '''Get C{E.f * (2 - E.f)}, 1st eccentricty squared (C{float}).
+        '''Get the 1st eccentricty squared (C{float}).
         '''
         return self._E.e2
 
@@ -292,16 +310,7 @@ class EcefKarney(_EcefBase):
                   C{v0} in geocentric C{x, y, z} coordinates.  Then, M{v0 =
                   M ⋅ v1} where C{M} is the rotation matrix.
         '''
-        lat, lon, h, name = _llhn4(latlonh, lon, height)
-        sa, ca, sb, cb = sincos2d(lat, lon)
-
-        n = self.a / self.ellipsoid.e2s(sa)  # ... / sqrt(1 - self.e2 * sa**2)
-        z = (self.e2m * n + h) * sa
-        x = (n + h) * ca
-
-        m = self._Matrix(sa, ca, sb, cb) if M else None
-        r = Ecef9Tuple(x * cb, x * sb, z, lat, lon, h, 0, m, self.datum)
-        return self._xnamed(r, name=name)
+        return _EcefBase._forward(self, latlonh, lon, height, M)
 
     @property_RO
     def hmax(self):
@@ -453,7 +462,7 @@ class EcefCartesian(_NamedBase):
        geocentric L{EcefKarney}, by default the WGS84 datum/ellipsoid.
     '''
     _ecef = EcefKarney(Datums.WGS84)
-    _t0   = None
+    _t0   = None  # forward(lat0, lon0, height0) L{Ecef9Tuple}
 
     def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
         '''New L{EcefCartesian} converter.
@@ -962,20 +971,7 @@ class EcefVeness(_EcefBase):
                              C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
                              B{C{latlonh}} or C{abs(lat)} exceeds 90°.
         '''
-        lat, lon, h, name = _llhn4(latlonh, lon, height)
-        sa, ca, sb, cb = sincos2d(lat, lon)
-
-        E = self.ellipsoid
-
-        # radius of curvature in prime vertical
-        t = E.e2s2(sa)  # r, _ = E.roc2_(sa, 1)
-        r = _0_0 if t < EPS else (E.a if t > EPS1 else (E.a / sqrt(t)))
-        x = (h + r) * ca
-        z = (h + r * E.e12) * sa
-
-        m = self._Matrix(sa, ca, sb, cb) if M else None
-        r = Ecef9Tuple(x * cb, x * sb, z, lat, lon, h, 0, m, self.datum)
-        return self._xnamed(r, name=name)
+        return _EcefBase._forward(self, latlonh, lon, height, M)
 
     def reverse(self, xyz, y=None, z=None, **no_M):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
@@ -1106,16 +1102,17 @@ class EcefSudano(EcefVeness):
             t = e / E.e2s2(sa) - h / ca2
             if abs(t) < EPS_2:
                 break
+            a = None
             sa, t = S.fsum2_(-(z * ca + d * sa) / t)
             if abs(t) < EPS:
                 break
         else:
             raise EcefError(_no_convergence_, txt=unstr(self.reverse.__name__, x=x, y=y, z=z))
 
-        if C:
+        if a is None:
             a = copysign(asin(sa), z)
         h = fsum_(h * ca, abs(z * sa), -E.a * E.e2s(sa))  # use Veness',
-        # Sudano's Eq (7) doesn't seem to provide the correct height
+        # since Sudano's Eq (7) doesn't provide the correct height
         # h = (abs(z) + h - E.a * cos(a + E.e12) * sa / ca) / (ca + sa)
 
         r = Ecef9Tuple(x, y, z, degrees90(a), atan2d(y, x), h, C, None, self.datum)
@@ -1149,9 +1146,12 @@ class EcefYou(_EcefBase):
            @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
                              L{Datum} or L{a_f2Tuple} or C{scalar} or B{C{f}} not
                              C{scalar} or if C{scalar} B{C{a_ellipsoid}} not positive
-                             or B{C{f}} not less than 1.0.
+                             or B{C{f}} not less than 1.0 or if ellipsoid is prolate.
         '''
         _EcefBase.__init__(self, a_ellipsoid, f, name)
+        E = self.ellipsoid
+        if E.isProlate:
+            raise EcefError(ellipsoid=E, txt=_prolate_)
 
     def forward(self, latlonh, lon=None, height=0, M=False):
         '''Convert from geodetic C{(lat, lon, height)} to geocentric C{(x, y, z)}.
@@ -1173,17 +1173,7 @@ class EcefYou(_EcefBase):
                              C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
                              B{C{latlonh}} or C{abs(lat)} exceeds 90°.
         '''
-        lat, lon, h, name = _llhn4(latlonh, lon, height)
-        sa, ca, sb, cb = sincos2d(lat, lon)
-
-        E = self.ellipsoid
-        n = _1_0 / hypot(E.a * ca, E.b * sa)
-        z = (n * E.b2 + h) * sa
-        x = (n * E.a2 + h) * ca
-
-        m = self._Matrix(sa, ca, sb, cb) if M else None
-        r = Ecef9Tuple(x * cb, x * sb, z, lat, lon, h, 0, m, self.datum)
-        return self._xnamed(r, name=name)
+        return _EcefBase._forward(self, latlonh, lon, height, M, roc=False)
 
     def reverse(self, xyz, y=None, z=None, **no_M):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
@@ -1208,24 +1198,31 @@ class EcefYou(_EcefBase):
         '''
         x, y, z, name = _xyzn4(xyz, y, z, Error=EcefError)
 
-        x2, y2, z2 = x**2, y**2, z**2
-        r2 = fsum_(x2, y2, z2)  # = hypot3(x2, y2, z2)**2
+        r2 = hypot2_(x, y, z)
 
-        E = self.ellipsoid
-        e = sqrt(E.a2 - E.b2)
-        e2 = e**2
+        E  = self.ellipsoid
+        e2 = E.a2 - E.b2
+        if e2 < 0:
+            raise EcefError(ellipsoid=E, txt=_prolate_)
+        e = sqrt(e2)
 
-        u = sqrt(fsum_(r2, -e2, hypot(r2 - e2, 2 * e * z)) / 2)
+        u = fsum_(r2, -e2, hypot(r2 - e2, 2 * e * z))
+        if u < 0:
+            raise EcefError(x=x, y=y, z=z, txt=_singular_)
+        u = sqrt(u * _0_5)
         p = hypot(u, e)
         q = hypot(x, y)
         B = atan2(p * z, u * q)  # beta0 = atan(p / u * z / q)
         sB, cB = sincos2(B)
-        p *= E.a
-        B += fsum_(u * E.b, -p, e2) * sB / (p / cB - e2 * cB)
-        sB, cB = sincos2(B)
+        if cB and sB:
+            p *= E.a
+            d  = p - e2 * cB**2
+            if abs(d) > EPS:
+                B += fsum_(u * E.b, -p, e2) * sB * cB / d
+                sB, cB = sincos2(B)
 
         h = hypot(z - E.b * sB, q - E.a * cB)
-        if fsum_(x2, y2, z2 * E.a_b**2) < E.a2:
+        if hypot2_(x, y, z * E.a_b) < E.a2:
             h = -h  # inside ellipsoid
 
         r = Ecef9Tuple(x, y, z, atan2d(E.a * sB, E.b * cB),  # atan(E.a_b * tan(B))

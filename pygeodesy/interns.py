@@ -10,7 +10,7 @@ __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4',
            'R_M',
            'joined', 'joined_')  # import by .lazily
-__version__ = '20.10.15'
+__version__ = '20.10.20'
 
 NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
@@ -62,6 +62,7 @@ _H_                  = 'H'                    # PYCHOK expected
 _height_             = 'height'               # PYCHOK expected
 _hemipole_           = 'hemipole'             # PYCHOK expected
 _in_                 = 'in'                   # PYCHOK expected
+_INF_                = 'INF'                  # PYCHOK expected
 _intersection_       = 'intersection'         # PYCHOK expected
 _inside_             = 'inside'               # PYCHOK expected
 _invalid_            = 'invalid'              # PYCHOK expected
@@ -89,6 +90,7 @@ _n_                  = 'n'                    # PYCHOK expected
 _N_                  = 'N'                    # PYCHOK expected
 _n_a_                = 'n/a'                  # PYCHOK expected
 _name_               = 'name'                 # PYCHOK expected
+_NAN_                = 'NAN'                  # PYCHOK expected
 _near_concentric_    = 'near-concentric'      # PYCHOK expected
 _nearestOn2_         = 'nearestOn2'           # PYCHOK expected
 _negative_           = 'negative'             # PYCHOK expected
@@ -254,8 +256,8 @@ EPS1_2 = _float(_1_0 - EPS_2)  # PYCHOK ≈ 0.9999999999999999
 if not _0_0 < EPS < EPS1 < _1_0:  # for .frechet
     raise AssertionError('%s < %s: %s < %s < %.16f < %s' % ('EPS', 'EPS1', _0_0, EPS, EPS1, _1_0))
 
-INF  = _float( 'INF')  # PYCHOK INFinity, see function L{isinf}, L{isfinite}
-NAN  = _float( 'NAN')  # PYCHOK Not-A-Number, see function L{isnan}
+INF  = _float( _INF_)  # PYCHOK INFinity, see function L{isinf}, L{isfinite}
+NAN  = _float( _NAN_)  # PYCHOK Not-A-Number, see function L{isnan}
 NEG0 =  float('-0.0')  # PYCHOK NEGative 0.0, see function L{isneg0}
 
 PI2  = _float(PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}

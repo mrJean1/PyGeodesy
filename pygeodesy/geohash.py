@@ -21,8 +21,9 @@ from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import favg
 from pygeodesy.formy import equirectangular, equirectangular_, haversine_
-from pygeodesy.interns import EPS, NN, R_M, _E_, _N_, _NE_, _NW_, _S_, \
-                             _SE_, _SW_, _W_, _0_5, _90_0, _180_0, _360_0
+from pygeodesy.interns import EPS, NN, R_M, _COMMA_, _E_, _floatuple as _T, \
+                             _N_, _NE_, _NW_, _S_, _SE_, _SW_, _W_, _0_5, \
+                             _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _NamedDict
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple
@@ -34,7 +35,7 @@ from pygeodesy.utily import unrollPI
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '20.10.15'
+__version__ = '20.10.20'
 
 _Border = dict(
     N=('prxz',     'bcfguvyz'),
@@ -53,19 +54,19 @@ _Neighbor = dict(
 
 # lat-, longitudinal and radial cell size (in meter)
 _Sizes = (  # radius = sqrt(latHeight * lonWidth / PI)
-    (20032e3, 20000e3, 11292815.096),  # 0
-    ( 5003e3,  5000e3,  2821794.075),  # 1
-    (  650e3,  1225e3,   503442.397),  # 2
-    (  156e3,   156e3,    88013.575),  # 3
-    (  19500,   39100,    15578.683),  # 4
-    (   4890,    4890,     2758.887),  # 5
-    (    610,    1220,      486.710),  # 6
-    (    153,     153,       86.321),  # 7
-    (     19.1,    38.2,     15.239),  # 8
-    (      4.77,    4.77,     2.691),  # 9
-    (      0.596,   1.19,     0.475),  # 10
-    (      0.149,   0.149,    0.084),  # 11
-    (      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
+    _T(20032e3, 20000e3, 11292815.096),  # 0
+    _T( 5003e3,  5000e3,  2821794.075),  # 1
+    _T(  650e3,  1225e3,   503442.397),  # 2
+    _T(  156e3,   156e3,    88013.575),  # 3
+    _T(  19500,   39100,    15578.683),  # 4
+    _T(   4890,    4890,     2758.887),  # 5
+    _T(    610,    1220,      486.710),  # 6
+    _T(    153,     153,       86.321),  # 7
+    _T(     19.1,    38.2,     15.239),  # 8
+    _T(      4.77,    4.77,     2.691),  # 9
+    _T(      0.596,   1.19,     0.475),  # 10
+    _T(      0.149,   0.149,    0.084),  # 11
+    _T(      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
 
 # Geohash-specific base32 map
 _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'  # no a, i, j and o
@@ -154,7 +155,7 @@ class Geohash(Str):
             self = Str.__new__(cls, gh)
 
         elif isstr(cll):
-            if ',' in cll:
+            if _COMMA_ in cll:
                 lat, lon = _2fll(*parse3llh(cll))
                 gh = encode(lat, lon, precision=precision)
                 self = Str.__new__(cls, gh)

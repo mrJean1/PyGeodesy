@@ -75,18 +75,18 @@ pygeodesy``.
 Tests
 =====
 
-The tests have been run with Python 3.9.0 (with geographiclib_ 1.50 only),
+The tests have been run with Python 3.9.0 (with geographiclib_ 1.50),
 Python 3.8.6 (with geographiclib_ 1.50, numpy_ 1.19.2 and scipy_ 1.5.2)
-and macOS' Python 2.7.16 (and only numpy_ 1.16.6), all on macOS 10.15.7
+and macOS' Python 2.7.16 (with numpy_ 1.16.6), all on macOS 10.15.7
 Catalina and all in 64-bit only.  The tests run with and without ``lazy
 import`` for Python 3.  The results of those tests are included in the
 distribution files.
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.0
-(with geographiclib_ 1.50 only), Python 3.8.6 (with geographiclib_ 1.50,
-numpy_ 1.19.2 and scipy_ 1.5.2) and macOS' Python 2.7.16 (and only numpy_
-1.16.6).  The full coverage report in HTML and a PDF summary are included
-in the distribution files.
+(with geographiclib_ 1.50), Python 3.8.6 (with geographiclib_ 1.50, numpy_
+1.19.2 and scipy_ 1.5.2) and macOS' Python 2.7.16 (with numpy_ 1.16.6).
+The complete coverage report in HTML and a PDF summary are included in
+the distribution files.
 
 The tests also ran with Python 2.7.14, 3.6.3, 3.7.1, 3.8.0 and PyPy_
 7.1.1 (Python 2.7.13 and 3.6.1) (and geographiclib_ 1.49 or 1.50) on
@@ -128,7 +128,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 16, 2020.*
+*Last updated: Oct 20, 2020.*
 
 License
 =======

@@ -30,7 +30,7 @@ from pygeodesy.streprs import _Fmt, fstr, _g
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.10.15'
+__version__ = '20.10.20'
 
 
 class _NamedUnit(_Named):

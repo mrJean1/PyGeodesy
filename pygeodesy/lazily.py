@@ -207,15 +207,17 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians2',
                                  'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'Zone'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
-                          utily=('acos1', 'asin1', 'atan2b', 'atan2d',
+                          utily=('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atan2b', 'atan2d',
+                                 'chain2m',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
-                                 'ft2m',
+                                 'fathom2m', 'ft2m', 'furlong2m',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
-                                 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM',
+                                 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM', 'm2yard',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
                                  'sincos2', 'sincos2d', 'splice', 'tan_2', 'tanPI_2_2',
                                  'unroll180', 'unrollPI',
-                                 'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2'),
+                                 'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2',
+                                 'yard2m'),
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
@@ -238,7 +240,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.10.09'
+__version__ = '20.10.20'
 
 
 def _ALL_OTHER(*objs):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and
-C{GeodesicLine} and functions C{AngDiff}, C{AngNormalize}, C{LatFix}
+C{GeodesicLine} and C{Math} functions C{AngDiff}, C{AngNormalize}, C{LatFix}
 and C{sum} from U{geographiclib<https://PyPI.org/project/geographiclib>},
 provided that package is installed.
 
@@ -21,17 +21,17 @@ and functions I{transcribed} from I{Karney}'s original U{GeographicLib
   - L{CassiniSoldner} -- U{CassiniSoldner<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1CassiniSoldner.html>}
 
-  - L{EcefKarney} -- U{Geocentric<https://GeographicLib.SourceForge.io/html/
-    classGeographicLib_1_1Geocentric.html>}
-
   - L{EcefCartesian} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1LocalCartesian.html>}
 
-  - L{EquidistantKarney} -- U{AzimuthalEquidistant<https://GeographicLib.SourceForge.io/html/
-    classGeographicLib_1_1AzimuthalEquidistant.html>}
+  - L{EcefKarney} -- U{Geocentric<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1Geocentric.html>}
 
   - L{Elliptic} -- U{EllipticFunction<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1EllipticFunction.html>}
+
+  - L{EquidistantKarney} -- U{AzimuthalEquidistant<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1AzimuthalEquidistant.html>}
 
   - L{Etm}, L{ExactTransverseMercator} -- U{TransverseMercatorExact
     <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html>}
@@ -56,11 +56,10 @@ and functions I{transcribed} from I{Karney}'s original U{GeographicLib
   - L{atan2d}, L{sincos2}, L{sincos2d}-- U{Math<https://GeographicLib.sourceforge.io/html/
     classGeographicLib_1_1Math.html>}
 
-The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes and
-module are I{wrappers} around some of I{Karney}'s Python U{geographiclib
-<https://PyPI.org/project/geographiclib>}:
+The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} modules and classes are I{wrappers}
+around some of I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>}:
 
-  - L{EquidistantKarney}, L{GnomonicKarney}, L{ellipsoidalKarney}, L{FrechetKarney}, L{HeightIDWkarney}, L{karney}
+  - L{ellipsoidalKarney}, L{EquidistantKarney}, L{FrechetKarney}, L{GnomonicKarney}, L{HeightIDWkarney}, L{karney}
 '''
 
 from pygeodesy.basics import property_RO, _xversion
@@ -73,7 +72,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.10.15'
+__version__ = '20.10.20'
 
 
 class _Adict(dict):

@@ -160,7 +160,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ecef._EcefBase-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">9</span>)</span><br />
+        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">9</span>,
+        <span class="summary-sig-arg">**unused</span>)</span><br />
       Return this <code>Ecef*</code> as a string.</td>
           <td align="right" valign="top">
             
@@ -222,6 +223,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ecef._EcefBase-class.html#equatoradius" class="summary-name">equatoradius</a><br />
+      Get <code>E.a</code>, the major, equatorial radius 
+      (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#equatorialRadius" class="summary-name">equatorialRadius</a><br />
       Get <code>E.a</code>, the major, equatorial radius 
       (<code>meter</code>).
@@ -233,7 +243,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#datum" class="summary-name">datum</a><br />
       Get the datum (<a href="pygeodesy.datums.Datum-class.html" 
-      class="link">Datum</a> or <code>None</code> if not available).
+      class="link">Datum</a>).
     </td>
   </tr>
 <tr>
@@ -241,7 +251,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
-      Get <code>E</code>, the ellipsoid (<a 
+      Get the ellipsoid (<a 
       href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
       class="link">Ellipsoid</a> or <a 
       href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
@@ -253,8 +263,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#f" class="summary-name">f</a><br />
-      Get <code>E.f</code>, the flattening (<code>float</code>), zero for 
-      sphere.
+      Get the flattening (<code>float</code>), zero for sphere.
     </td>
   </tr>
 <tr>
@@ -262,8 +271,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef._EcefBase-class.html#flattening" class="summary-name">flattening</a><br />
-      Get <code>E.f</code>, the flattening (<code>float</code>), zero for 
-      sphere.
+      Get the flattening (<code>float</code>), zero for sphere.
     </td>
   </tr>
   <tr>
@@ -326,7 +334,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">9</span>)</span>
+        <span class="sig-arg">prec</span>=<span class="sig-default">9</span>,
+        <span class="sig-arg">**unused</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -384,6 +393,27 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="equatoradius"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">equatoradius</h3>
+  <p>Get <code>E.a</code>, the major, equatorial radius 
+  (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
+        - Get <code>E.a</code>, the major, equatorial radius (<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="equatorialRadius"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -412,12 +442,12 @@
 <tr><td>
   <h3 class="epydoc">datum</h3>
   <p>Get the datum (<a href="pygeodesy.datums.Datum-class.html" 
-  class="link">Datum</a> or <code>None</code> if not available).</p>
+  class="link">Datum</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">datum(<span class="summary-sig-arg">self</span>)</span>
         - Get the datum (<a href="pygeodesy.datums.Datum-class.html" 
-class="link">Datum</a> or <code>None</code> if not available).
+class="link">Datum</a>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
@@ -433,17 +463,16 @@ class="link">Datum</a> or <code>None</code> if not available).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">ellipsoid</h3>
-  <p>Get <code>E</code>, the ellipsoid (<a 
-  href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+  <p>Get the ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
   class="link">Ellipsoid</a> or <a 
   href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
   class="link">Ellipsoid2</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
-        - Get <code>E</code>, the ellipsoid (<a 
-href="pygeodesy.ellipsoids.Ellipsoid-class.html" class="link">Ellipsoid</a>
-or <a href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+        - Get the ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+class="link">Ellipsoid</a> or <a 
+href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
 class="link">Ellipsoid2</a>).
     </dd>
     <dt>Set method:</dt>
@@ -460,12 +489,11 @@ class="link">Ellipsoid2</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">f</h3>
-  <p>Get <code>E.f</code>, the flattening (<code>float</code>), zero for 
-  sphere.</p>
+  <p>Get the flattening (<code>float</code>), zero for sphere.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get <code>E.f</code>, the flattening (<code>float</code>), zero for sphere.
+        - Get the flattening (<code>float</code>), zero for sphere.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
@@ -481,12 +509,11 @@ class="link">Ellipsoid2</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">flattening</h3>
-  <p>Get <code>E.f</code>, the flattening (<code>float</code>), zero for 
-  sphere.</p>
+  <p>Get the flattening (<code>float</code>), zero for sphere.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">f(<span class="summary-sig-arg">self</span>)</span>
-        - Get <code>E.f</code>, the flattening (<code>float</code>), zero for sphere.
+        - Get the flattening (<code>float</code>), zero for sphere.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
@@ -528,7 +555,7 @@ class="link">Ellipsoid2</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 16 20:52:54 2020
+    Generated by Epydoc 3.0.1 on Wed Oct 21 14:53:06 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

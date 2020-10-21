@@ -92,9 +92,9 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, floor, \
                  sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.10.05'
+__version__ = '20.10.19'
 
-_TolJAC = sqrt(EPS * 0.01)  # / _100_0
+_TolJAC = sqrt(EPS * 0.010)  # sqrt(EPS) * _0_1
 _TolRD  =  pow(EPS * 0.002, 0.125)  # _1_0 / _8_0
 _TolRF  =  pow(EPS * 0.030, 0.125)  # _1_0 / _8_0
 _TolRG0 = _TolJAC  * 2.7

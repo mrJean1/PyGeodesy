@@ -20,7 +20,7 @@ from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
 from pygeodesy.units import Bool, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '20.09.15'
+__version__ = '20.10.18'
 
 
 class ClipError(_ValueError):
@@ -361,11 +361,11 @@ class _SH(_Named):
 
     def dot2(self, p):  # dot product of point p to the current
         # clip corner c1 and clip edge c1 to c2, indicating whether
-        # points[i] is located to the right, to the left or on top
+        # point p is located to the right, to the left or on top
         # of the (extended) clip edge from c1 to c2
         d = self._dx * float(p.lat - self._y1) - \
             self._dy * float(p.lon - self._x1)
-        # clockwise corners, +1 means points[i] is to the right
+        # clockwise corners, +1 means point p is to the right
         # of, -1 means on the left of, 0 means on edge c1 to c2
         d = (-self._cw) if d < 0 else (self._cw if d > 0 else 0)
         return d, p

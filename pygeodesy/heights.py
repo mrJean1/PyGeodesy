@@ -71,7 +71,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.10.11'
+__version__ = '20.10.20'
 
 
 class HeightError(PointsError):
@@ -988,7 +988,7 @@ class HeightIDWkarney(_HeightIDW):
         return _as(map(self._hIDW, *zip(*_xy2(llis))))
 
     if _FOR_DOCS:
-        height   = _HeightIDW.height
+        height = _HeightIDW.height
 
 
 class HeightIDWthomas(_HeightIDW):

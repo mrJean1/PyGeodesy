@@ -104,24 +104,24 @@ Tests
 =====
 
 The tests have been run with Python 3.9.0 (with U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.50 only), Python 3.8.6
-(with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
+<https://PyPI.org/project/geographiclib>} 1.50), Python 3.8.6 (with
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://SciPy.org/scipylib/download.html>} 1.5.2) and macOS' Python
-2.7.16 (and only U{numpy<https://PyPI.org/project/numpy>} 1.16.6),
-all on macOS 10.15.7 Catalina and all in 64-bit only.  The tests run
+2.7.16 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all
+on macOS 10.15.7 Catalina and all in 64-bit only.  The tests run
 with and without C{lazy import} for Python 3.  The results of those
 tests are included in the distribution files.
 
 Test coverage has been measured with U{coverage
 <https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.0 (with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50 only),
-Python 3.8.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50), Python
+3.8.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://SciPy.org/scipylib/download.html>} 1.5.2) and macOS' Python
-2.7.16 (and only U{numpy<https://PyPI.org/project/numpy>} 1.16.6).  The
-full coverage report in HTML and a PDF summary are included in the
-distribution files.
+2.7.16 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6).  The
+complete coverage report in HTML and a PDF summary are included in
+the distribution files.
 
 The tests also ran with Python 2.7.14, 3.6.3, 3.7.1, 3.8.0 and U{PyPy
 <https://PyPy.org>} 7.1.1 (Python 2.7.13 and 3.6.1) (and U{geographiclib
@@ -289,7 +289,7 @@ _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy_       = __package__ or basename(pygeodesy_abspath)
 
-__version__ = '20.10.16'
+__version__ = '20.10.20'
 # see setup.py for similar logic
 version = '.'.join(map(str, map(int, __version__.split('.'))))
 

@@ -31,7 +31,7 @@ from pygeodesy.utily import atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.10.15'
+__version__ = '20.10.19'
 
 _EPS__2 = EPS**2
 _EPS__4 = EPS**4
@@ -51,13 +51,12 @@ class AlbersError(_ValueError):
 
 
 def _Dsn(x, y, sx, sy):
-    '''(INTERNAL) Divided differences, defined as
-       M{Df(x, y) = (f(x) - f(y)) / (x - y)} with
-       M{sn(x) = x / sqrt(1 + x^2)}: M{Dsn(x, y) =
-       (x + y) / ((sn(x) + sn(y)) * (1 + x^2) * (1 + y^2))}.
+    '''(INTERNAL) Divided differences, defined as M{Df(x, y) = (f(x) - f(y)) / (x - y)}
+       with M{sn(x) = x / sqrt(1 + x^2)}: M{Dsn(x, y) = (x + y) / ((sn(x) + sn(y)) *
+       (1 + x^2) * (1 + y^2))}.
 
-       @see: U{W. M. Kahan and R. J. Fateman, "Sympbolic omputation of divided
-             differences"<https://people.EECS.Berkeley.EDU/~fateman/papers/divdiff.pdf>},
+       @see: U{W. M. Kahan and R. J. Fateman, "Sympbolic Computation of Divided
+             Differences"<https://People.EECS.Berkeley.EDU/~fateman/papers/divdiff.pdf>},
              U{ACM SIGSAM Bulletin 33(2), 7-28 (1999)<https://DOI.org/10.1145/334714.334716>}
              and U{AlbersEqualArea.hpp
              <https://geographiclib.sourceforge.io/html/AlbersEqualArea_8hpp_source.html>}.

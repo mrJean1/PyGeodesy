@@ -15,12 +15,12 @@ from pygeodesy.errors import _xkwds_get, _ValueError
 from pygeodesy.interns import PI, PI2, PI_2, R_M, _Missing, \
                              _0_0, _0_5, _1_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.units import Feet, Lam_, Meter, Phi_, Radius
+from pygeodesy.units import Feet, Float, Lam_, Meter, Phi_, Radius
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '20.10.02'
+__version__ = '20.10.20'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = _1_0 / _90_0  # 0.011111111111111111111111111111111111111111111111
@@ -35,6 +35,32 @@ def acos1(x):
     '''Return M{math.acos(max(-1, min(1, x)))}.
     '''
     return acos(max(-_1_0, min(_1_0, x)))
+
+
+def acre2ha(acres):
+    '''Convert acres to hectare.
+
+       @arg acres: Value in acres (C{scalar}).
+
+       @return: Value in C{hectare} (C{float}).
+
+       @raise ValueError: Invalid B{C{acres}}.
+    '''
+    # 0.40468564224 == acre2m2(1) / 10_000
+    return Float(acres) * 0.40468564224
+
+
+def acre2m2(acres):
+    '''Convert acres to I{square} meter.
+
+       @arg acres: Value in acres (C{scalar}).
+
+       @return: Value in C{meter^2} (C{float}).
+
+       @raise ValueError: Invalid B{C{acres}}.
+    '''
+    # 4046.8564224 == chain2m(1) * furlong2m(1)
+    return Float(acres) * 4046.8564224
 
 
 def asin1(x):
@@ -72,6 +98,19 @@ def atan2d(y, x):
     else:
         d = -_90_0 if y < 0 else (_90_0 if y > 0 else _0_0)
     return d
+
+
+def chain2m(chains):
+    '''Convert I{UK} chains to meter.
+
+       @arg chains: Value in chains (C{scalar}).
+
+       @return: Value in C{meter} (C{float}).
+
+       @raise ValueError: Invalid B{C{chains}}.
+    '''
+    # 20.1168 = 22 * yard2m(1)
+    return Float(chains) * 20.1168
 
 
 def degrees90(rad):
@@ -128,6 +167,19 @@ def degrees2m(deg, radius=R_M, lat=0):
     return Meter(m)
 
 
+def fathom2m(fathoms):
+    '''Convert I{UK} fathom to meter.
+
+       @arg fathoms: Value in fathoms (C{scalar}).
+
+       @return: Value in C{meter} (C{float}).
+
+       @raise ValueError: Invalid B{C{fathoms}}.
+    '''
+    # 1.8288 == 2 * yard2m(1)
+    return Float(fathoms) * 1.8288
+
+
 def ft2m(feet, usurvey=False):
     '''Convert I{International} or I{US Survey} feet to meter.
 
@@ -139,8 +191,22 @@ def ft2m(feet, usurvey=False):
 
        @raise ValueError: Invalid B{C{feet}}.
     '''
-    # US Survey 1200./3937. == 0.3048006096012192
-    return Feet(feet) * (0.3048006096012192 if usurvey else 0.3048)
+    # US Survey 1200 / 3937 == 0.3048006096012192
+    # Int'l 0.3048 == 254 * 12 / 10_000
+    return Feet(feet) * (0.3048006096 if usurvey else 0.3048)
+
+
+def furlong2m(furlongs):
+    '''Convert a I{UK} furlong to meter.
+
+       @arg furlongs: Value in furlongs (C{scalar}).
+
+       @return: Value in C{meter} (C{float}).
+
+       @raise ValueError: Invalid B{C{furlongs}}.
+    '''
+    # 201.168 = 220 * yard2m(1)
+    return Float(furlongs) * 201.168
 
 
 def isNumpy2(obj):
@@ -251,8 +317,9 @@ def m2ft(meter, usurvey=False):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    # US Survey == 3937./1200. = 3.2808333333333333
-    return Meter(meter) * (3.2808333333333333 if usurvey else 3.2808399)
+    # US Survey == 3937 / 1200  == 3.2808333333333333
+    # Int'l 10_000 / (254 * 12) == 3.2808398950131235
+    return Meter(meter) * (3.280833333 if usurvey else 3.280839895)
 
 
 def m2km(meter):
@@ -276,7 +343,7 @@ def m2NM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Meter(meter) * 5.39956804e-4  # == * _1_0 / 1852.0
+    return Meter(meter) * 5.39956804e-4  # == * _1_0 / 1852
 
 
 def m2SM(meter):
@@ -289,6 +356,19 @@ def m2SM(meter):
        @raise ValueError: Invalid B{C{meter}}.
     '''
     return Meter(meter) * 6.21369949e-4  # == _1_0 / 1609.344
+
+
+def m2yard(meter):
+    '''Convert meter to I{UK} yards.
+
+       @arg meter: Value in meter (C{scalar}).
+
+       @return: Value in yards (C{float}).
+
+       @raise ValueError: Invalid B{C{meter}}.
+    '''
+    # 1.0936132983377078 == 10_000 / (254 * 12 * 3)
+    return Meter(meter) * 1.09361329833771
 
 
 def radiansPI(deg):
@@ -574,6 +654,19 @@ def wrapPI_2(rad):
        @return: Radians, wrapped (C{radiansPI_2}).
     '''
     return _wrap(rad, PI_2, PI2)
+
+
+def yard2m(yards):
+    '''Convert I{UK} yards to meter.
+
+       @arg yards: Value in yards (C{scalar}).
+
+       @return: Value in C{meter} (C{float}).
+
+       @raise ValueError: Invalid B{C{yards}}.
+    '''
+    # 0.9144 == 254 * 12 * 3 / 10_000 == 3 * ft2m(1) Int'l
+    return Float(yards) * 0.9144
 
 # **) MIT License
 #

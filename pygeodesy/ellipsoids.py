@@ -94,7 +94,7 @@ R_VM = Radius(R_VM=6366707.0194937)  # Aviation/Navigation earth radius (C{meter
 # R_ = Radius(R_  =6372797.560856)   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '20.10.05'
+__version__ = '20.10.20'
 
 _1_EPS = _1_0 / EPS        # largest abs(f_)
 _PI4_3 = _PI4 / _3_0       # PYCHOK used!
@@ -199,7 +199,7 @@ class Ellipsoid(_NamedEnumItem):
     _a2_ = None  # (1 / a**2)  for .ellipsiodalNvector.Cartesian.toNvector
     _a_b = None  # (a / b) = 1 / (1 - f)  for .ellipsoidalNvector.Nvector.toCartesian
     _b2  = None  # b**2
-    _b_a = None  # (b / a) = 1 - f  for .formy, .R2, .Rgeocentric below
+    _b_a = None  # (b / a) = 1 - f  for .ecef, .formy, .R2, .Rgeocentric below
 
     # curvatures <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>
     _a2_b = None  # meridional radius of curvature at poles: a**2 / b (C{meter})
@@ -1179,6 +1179,19 @@ class Ellipsoid(_NamedEnumItem):
     Rr = Rrectifying
     '''DEPRECATED, use C{Rrectifying}.'''
 
+    def roc1_(self, sa):
+        '''Compute the I{prime-vertical}, I{normal} radius of curvature
+           at the given C{sin(latitude)}.
+
+           @arg sa: Sine of the latitude (C{float}).
+
+           @return: The prime-vertical radius of curvature (C{float}).
+
+           @see: Method C{roc2_}.
+        '''
+        r = self.e2s2(sa)  # see .roc2_
+        return _0_0 if r < EPS else (self.a if r > EPS1 else (self.a / sqrt(r)))
+
     def roc2(self, lat, scaled=False):
         '''Compute the I{meridional} and I{prime-vertical}, I{normal}
            radii of curvature at the given latitude.
@@ -1191,9 +1204,9 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{lat}}.
 
-           @see: Method C{roc2_}, U{Local, flat earth approximation
-                 <https://www.EdWilliams.org/avform.htm#flat>} and
-                 U{Radii of Curvature
+           @see: Methods C{roc2_}, C{roc1_}, U{Local, flat earth
+                 approximation<https://www.EdWilliams.org/avform.htm#flat>}
+                 and meridional and prime vertical U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         return self.roc2_(Phi_(lat), scaled=scaled)
@@ -1210,9 +1223,9 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{phi}}.
 
-           @see: Method C{roc2}, U{Local, flat earth approximation
-                 <https://www.EdWilliams.org/avform.htm#flat>} and meridional
-                 and prime vertical U{Radii of Curvature
+           @see: Methods C{roc2}, C{roc1_}, U{Local, flat earth
+                 approximation<https://www.EdWilliams.org/avform.htm#flat>}
+                 and meridional and prime vertical U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         a = abs(Phi(phi))

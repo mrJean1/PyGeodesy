@@ -4,18 +4,20 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.08'
+__version__ = '20.10.20'
 
 from base import TestsBase, geographiclib
 
-from pygeodesy import EPS, PI, PI2, PI_2, atan2d, \
+from pygeodesy import EPS, PI, PI2, PI_2, \
+                      acre2ha, acre2m2, atan2d, chain2m, \
                       degrees90, degrees180, degrees360, degrees2m, \
-                      ft2m, isPoints2, m2degrees, m2ft, \
+                      fathom2m, ft2m, furlong2m, isPoints2, \
+                      m2degrees, m2ft, m2yard, \
                       radiansPI, radiansPI2, radiansPI_2, \
                       sincos2, sincos2d, unroll180, \
                       wrap90, wrap180, wrap360, \
                       wrapPI, wrapPI2, wrapPI_2, \
-                      fstr  # DEPRECATED, use fstr
+                      yard2m, fstr  # DEPRECATED, use fstr
 
 from math import cos, radians, sin
 
@@ -160,10 +162,16 @@ class Tests(TestsBase):
         self.test('sFt2m', ft2m( 614962.68, usurvey=True), 187441, fmt='%.0f')
         self.test('sFt2m', ft2m(2483754.87, usurvey=True), 757050, fmt='%.0f')
 
-        self.test('m2iFt', m2ft(187441),  614963.91, fmt='%.0f')
-        self.test('m2iFt', m2ft(757050), 2483759.84, fmt='%.0f')
-        self.test('m2sFt', m2ft(187441, usurvey=True),  614962.68, fmt='%.0f')
-        self.test('m2sFt', m2ft(757050, usurvey=True), 2483754.87, fmt='%.0f')
+        self.test('m2iFt', m2ft(187441),  614963.91, prec=2)
+        self.test('m2iFt', m2ft(757050), 2483759.84, prec=2)
+        self.test('m2sFt', m2ft(187441, usurvey=True),  614962.68, prec=2)
+        self.test('m2sFt', m2ft(757050, usurvey=True), 2483754.87, prec=2)
+
+        for f, m in ((m2yard,      '1.093613'),
+                     (acre2ha,     '0.404686'), (acre2m2, '4046.856422'),
+                     (chain2m,    '20.116800'), (fathom2m,   '1.828800'),
+                     (furlong2m, '201.168000'), (yard2m,     '0.914400')):
+            self.test(f.__name__, f(1), m, prec=6)
 
         self.test('degrees2m', fstr(degrees2m(90), prec=4),        '10007557.1761')
         self.test('degrees2m', fstr(degrees2m(90, lat=30), prec=4), '8666798.7443')
@@ -173,9 +181,10 @@ class Tests(TestsBase):
         self.test('degrees2m', fstr(degrees2m(180, lat=3-0), prec=4), '19987684.3336')
         self.test('m2degrees', fstr(m2degrees(degrees2m(180)), prec=1),    '180.0')
 
+        t = 'm2degrees2m(%s, lat=%s)'
         for a in range(0, 90, 7):
             d = m2degrees(degrees2m(45, lat=a), lat=a)
-            self.test('m2-degrees-2m(%s, lat=%s)' % (45, a), d, '45.00', fmt='%.2f')
+            self.test(t % (45, a), d, '45.00', prec=2)
 
         self.test('isPoints2', isPoints2(None), False)
 

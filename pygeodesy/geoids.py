@@ -63,13 +63,12 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
-from pygeodesy.heights import _allis2, _ascalar, \
-                              _HeightBase, HeightError
-from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _cubic_, _E_, _in_, \
-                             _item_cs, _item_pr, _item_ps, _item_sq, joined_, \
-                             _knots_, _lat_, _linear_, _lon_, _N_, _n_a_, \
-                             _on_, _outside_, _S_, _scipy_, _W_, _4_, \
-                             _0_0, _1_0, _180_0, _360_0
+from pygeodesy.heights import _allis2, _ascalar, _HeightBase, HeightError
+from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _cubic_, _E_, \
+                             _float as _F, _in_, _item_cs, _item_pr, \
+                             _item_ps, _item_sq, joined_, _knots_, _lat_, \
+                             _linear_, _lon_, _N_, _n_a_, _on_, _outside_, \
+                             _S_, _scipy_, _W_, _4_, _0_0, _1_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
 from pygeodesy.namedTuples import LatLon3Tuple
@@ -90,7 +89,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.10.11'
+__version__ = '20.10.20'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -752,7 +751,7 @@ class GeoidKarney(_GeoidBase):
        <https://GeographicLib.SourceForge.io/html/geoid.html#geoidinst>}
        datasets.
     '''
-    _C0 = (372.0, 240.0, 372.0)  # n, _ and s common denominators
+    _C0 = _F(372), _F(240), _F(372)  # n, _ and s common denominators
     # matrices c3n_, c3, c3s_, transposed from GeographicLib/Geoid.cpp
     _C3 = ((_T(0,    0,   62,  124,  124,  62,    0,   0,   0,   0,    0,   0),
             _T(0,    0,    0,    0,    0,   0,    0,   0,   0,   0,    0,   0),
@@ -805,27 +804,27 @@ class GeoidKarney(_GeoidBase):
            _T( 0,  2),
            _T( 1,  2))
 
-    _egm     = None   # open geoid file
+    _egm     =  None   # open geoid file
     _endian  = '>H'   # struct.unpack 1 ushort (big endian, unsigned short)
     _4endian = '>4H'  # struct.unpack 4 ushorts
-    _Rendian = NN     # struct.unpack a row of ushorts
+    _Rendian =  NN     # struct.unpack a row of ushorts
 #   _highest = (-8.4,   147.367, 85.839) if egm2008-1.pgm else (
 #              (-8.167, 147.25,  85.422) if egm96-5.pgm else
 #              (-4.5,   148.75,  81.33)   # egm84-15.pgm)
 #   _lowest  = (4.7,   78.767, -106.911) if egm2008-1.pgm else (
 #              (4.667, 78.833, -107.043) if egm96-5.pgm else
 #              (4.75,  79.25,  -107.34)   # egm84-15.pgm
-    _mean    = -1.317  # from egm2008-1, -1.438 egm96-5, -0.855 egm84-15
-    _nBytes  = None  # not applicable
-    _nterms  = len(_C3[0])  # columns length, number of row
-    _smooth  = None  # not applicable
-    _stdev   = 29.244  # from egm2008-1, 29.227 egm96-5, 29.183 egm84-15
+    _mean    = _F(-1.317)  # from egm2008-1, -1.438 egm96-5, -0.855 egm84-15
+    _nBytes  =  None  # not applicable
+    _nterms  =  len(_C3[0])  # columns length, number of row
+    _smooth  =  None  # not applicable
+    _stdev   = _F(29.244)  # from egm2008-1, 29.227 egm96-5, 29.183 egm84-15
     _u2B     = _calcsize(_endian)  # pixelsize_ in bytes
     _4u2B    = _calcsize(_4endian)  # 4 pixelsize_s in bytes
-    _Ru2B    = 0   # row of pixelsize_s in bytes
+    _Ru2B    =  0  # row of pixelsize_s in bytes
     _yxH     = ()  # cache (y, x) indices
     _yxHt    = ()  # cached 4- or 10-tuple for _ev2H resp. _ev3H
-    _yx_hits = 0   # cache hits
+    _yx_hits =  0  # cache hits
 
     def __init__(self, egm_pgm, crop=None, datum=None,  # WGS84
                                 kind=3, name=NN, smooth=None):
@@ -963,7 +962,8 @@ class GeoidKarney(_GeoidBase):
         # real h = t[0] + fx * (t[1] + fx * (t[3] + fx * t[6])) +
         #                 fy * (t[2] + fx * (t[4] + fx * t[7]) +
         #                 fy * (t[5] + fx *  t[8] + fy * t[9]));
-        H = Fdot((1, fx, fy), t[5], t[8], t[9]) * fy
+        v = _1_0, fx, fy
+        H =  Fdot(v, t[5], t[8], t[9]) * fy
         H = (Fhorner(fx, t[2], t[4], t[7]) + H) * fy
         H += Fhorner(fx, t[0], t[1], t[3], t[6])
         return H
@@ -1151,7 +1151,7 @@ class GeoidPGM(_GeoidBase):
        especially with 32-bit Python, see properties C{.nBytes} and C{.sizeB}.
     '''
     _endian = '>u2'
-    _u2B    = 0  # np.itemsize
+    _u2B    =  0  # np.itemsize
 
     def __init__(self, egm_pgm, crop=None, datum=None,  # WGS84
                                 kind=3, name=NN, smooth=0):
