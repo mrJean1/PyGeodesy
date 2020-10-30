@@ -19,16 +19,16 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 
 from pygeodesy.basics import clips, ub2str
 from pygeodesy.errors import ParseError, _xkwds_get
-from pygeodesy.interns import NN, _height_, _item_cs, _item_ps, \
-                             _lat_, _lon_, _n_a_, _SPACE_, \
-                             _units_, _x_, _y_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.interns import NN, _height_, _item_cs, _item_is, \
+                             _item_ps, _lat_, _lon_, _n_a_, \
+                             _SPACE_, _units_, _x_, _y_
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '20.09.27'
+__version__ = '20.10.29'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -160,10 +160,10 @@ def elevation2(lat, lon, timeout=2.0):
     '''
     try:
         x = _qURL('https://NED.USGS.gov/epqs/pqs.php',  # 'https://NationalMap.gov/epqs/pqs.php'
-                        ('%s=%.6F' % (_x_, Lon(lon)),
-                         '%s=%.6F' % (_y_, Lat(lat)),
-                         '%s=%s' % (_units_, 'Meters'),  # 'Feet', capitalized
-                         'output=xml'),  # json, case_sensitive
+                        (_item_is(_x_, Lon(lon).toStr(prec=6)),
+                         _item_is(_y_, Lat(lat).toStr(prec=6)),
+                         _item_is(_units_, 'Meters'),  # 'Feet', capitalized
+                         _item_is('output', 'xml')),  # 'json', lowercase only
                           timeout=Scalar(timeout=timeout))
         if x[:6] == '<?xml ':
             e = _xml('Elevation', x)
@@ -218,9 +218,9 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
     '''
     try:
         j = _qURL('https://Geodesy.NOAA.gov/api/geoid/ght',
-                        ('%s=%.6F' % (_lat_, Lat(lat)),
-                         '%s=%.6F' % (_lon_, Lon(lon)),
-                         '%s=%s' % ('model', model) if model else NN),
+                        (_item_is(_lat_, Lat(lat).toStr(prec=6)),
+                         _item_is(_lon_, Lon(lon).toStr(prec=6)),
+                         _item_is('model', model) if model else NN),
                           timeout=Scalar(timeout=timeout))  # PYCHOK indent
         if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
             d, e = _json(j), 'geoidHeight'
@@ -238,13 +238,11 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
     return GeoidHeight2Tuple(None, e)
 
 
-__all__ += _ALL_DOCS(Elevation2Tuple, GeoidHeight2Tuple)
-
 if __name__ == '__main__':
 
     # <https://WikiPedia.org/wiki/Mount_Diablo>
     for f in (elevation2,     # (1173.79, '3DEP 1/3 arc-second')
-              geoidHeight2):  # (-31.703, 'GEOID12B')
+              geoidHeight2):  # (-31.699, u'GEOID12B')
         t = f(37.8816, -121.9142)
         print(_item_cs(f.__name__, t))
 

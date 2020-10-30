@@ -5,14 +5,28 @@ u'''Single-instance floats and strings, C{intern}'ed across modules.
 from math import pi as PI
 
 __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
-           'INF', 'MANTIS', 'MAX', 'MIN', 'NAN', 'NEG0',
-           'NN',
+           'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
+           'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4',
            'R_M',
-           'joined', 'joined_')  # import by .lazily
-__version__ = '20.10.20'
+           'joined', 'joined_')  # imported by .lazily
+__version__ = '20.10.29'
 
-NN = ''  # no name, empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
+
+class MISSING(object):
+    '''(INTERNAL) Singleton.
+    '''
+    def toRepr(self, **unused):
+        return self.__class__.__name__
+
+    __repr__ = toRepr
+    __str__  = toRepr
+    toStr    = toRepr
+
+MISSING          = MISSING()  # PYCHOK singleton
+MISSING.__name__ = str(MISSING)
+
+NN = ''  # empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
 # __DUNDER__ would get mangled in classes
 _0_                  = '0'                    # PYCHOK expected
@@ -20,6 +34,9 @@ _1_                  = '1'                    # PYCHOK expected
 _2_                  = '2'                    # PYCHOK expected
 _3_                  = '3'                    # PYCHOK expected
 _4_                  = '4'                    # PYCHOK expected
+_a_                  = 'a'                    # PYCHOK expected
+_angle_              = 'angle'                # PYCHOK expected
+_ANGLE_fmt_          = '<%s>'                 # PYCHOK expected
 _areaOf_             = 'areaOf'               # PYCHOK expected
 _ambiguous_          = 'ambiguous'            # PYCHOK expected
 _AT_                 = '@'                    # PYCHOK expected
@@ -35,7 +52,7 @@ _COLON_              = ':'                    # PYCHOK expected
 _COMMA_              = ','                    # PYCHOK expected
 _convergence_        = 'convergence'          # PYCHOK expected
 _cubic_              = 'cubic'                # PYCHOK expected
-_CURLY_              = '{%s}'                 # PYCHOK expected
+_CURLY_fmt_          = '{%s}'                 # PYCHOK expected
 _datum_              = 'datum'                # PYCHOK expected
 _decode3_            = 'decode3'              # PYCHOK expected
 _deg_                = 'deg'                  # PYCHOK expected
@@ -54,6 +71,8 @@ _end_                = 'end'                  # PYCHOK expected
 _epoch_              = 'epoch'                # PYCHOK expected
 _EQUAL_              = '='                    # PYCHOK expected
 _exceed_PI_radians_  = 'exceed PI radians'    # PYCHOK expected
+_exceeds_eps_fmt_    = 'exceeds eps (%g)'     # PYCHOK expected
+_f_                  = 'f'                    # PYCHOK expected
 _feet_               = 'feet'                 # PYCHOK expected
 _fraction_           = 'fraction'             # PYCHOK expected
 _gamma_              = 'gamma'                # PYCHOK expected
@@ -83,6 +102,7 @@ _lon0_               = 'lon0'                 # PYCHOK expected
 _m_                  = 'm'                    # PYCHOK expected
 _M_                  = 'M'                    # PYCHOK expected
 _meanOf_             = 'meanOf'               # PYCHOK expected
+_meridional_         = 'meridional'           # PYCHOK expected
 _meter_              = 'meter'                # PYCHOK expected
 _MGRS_               = 'MGRS'                 # PYCHOK expected
 _module_             = 'module'               # PYCHOK expected
@@ -110,7 +130,7 @@ _on_                 = 'on'                   # PYCHOK expected
 _or_                 = 'or'                   # PYCHOK expected
 _other_              = 'other'                # PYCHOK expected
 _outside_            = 'outside'              # PYCHOK expected
-_PARENTH_            = '(%s)'                 # PYCHOK expected
+_PAREN_fmt_          = '(%s)'                 # PYCHOK expected
 _PERCENT_            = '%'                    # PYCHOK expected
 _perimeterOf_        = 'perimeterOf'          # PYCHOK expected
 _phi_                = 'phi'                  # PYCHOK expected
@@ -119,6 +139,7 @@ _point_              = 'point'                # PYCHOK expected
 _points_             = 'points'               # PYCHOK expected
 _pole_               = 'pole'                 # PYCHOK expected
 _precision_          = 'precision'            # PYCHOK expected
+_prime_vertical_     = 'prime_vertical'       # PYCHOK expected
 _pygeodesy_abspath_  = 'pygeodesy_abspath'    # PYCHOK expected
 _radians_            = 'radians'              # PYCHOK expected
 _radians2_           = 'radians2'             # PYCHOK SQUARED
@@ -136,7 +157,7 @@ _sep_                = 'sep'                  # PYCHOK expected
 _spherical_          = 'spherical'            # PYCHOK expected
 _SouthPole_          = 'SouthPole'            # PYCHOK expected
 _SPACE_              = ' '                    # PYCHOK expected
-_SQUARE_             = '[%s]'                 # PYCHOK expected
+_SQUARE_fmt_         = '[%s]'                 # PYCHOK expected
 _STAR_               = '*'                    # PYCHOK expected
 _start_              = 'start'                # PYCHOK expected
 _std_                = 'std'                  # PYCHOK expected
@@ -152,6 +173,7 @@ _utf_8_              = 'utf-8'                # PYCHOK expected
 _UTM_                = 'UTM'                  # PYCHOK expected
 _valid_              = 'valid'                # PYCHOK expected
 _version_            = 'version'              # PYCHOK expected
+_vs_                 = 'vs'                   # PYCHOK expected
 _W_                  = 'W'                    # PYCHOK expected
 _x_                  = 'x'                    # PYCHOK expected
 _y_                  = 'y'                    # PYCHOK expected
@@ -168,19 +190,6 @@ _NSEW_               = _NS_ + _EW_            # PYCHOK expected
 _NW_                 = _N_  + _W_             # PYCHOK expected
 _SE_                 = _S_  + _E_             # PYCHOK expected
 _SW_                 = _S_  + _W_             # PYCHOK negative ones
-
-
-class _Missing(object):
-    '''(INTERNAL) Singleton.
-    '''
-    def toRepr(self, **unused):
-        return 'MISSING'  # self.__class__.__name__.strip(_UNDERSCORE_),lower()
-
-    __repr__ = toRepr
-    __str__  = toRepr
-    toStr    = toRepr
-
-_Missing = _Missing()  # PYCHOK singleton
 
 
 def _dot_(*prefix_names):
@@ -216,23 +225,25 @@ _floats = {}      # PYCHOK floats cache, in .__main__
 # _float = float  # PYCHOK expected
 # del _floats     # XXX zap floats cache never
 
-_0_0    = _float(   0)    # PYCHOK expected
-_0_1    = _float(   0.1)  # PYCHOK expected
-_0_5    = _float(   0.5)  # PYCHOK expected
-_1_0    = _float(   1)    # PYCHOK expected
-_2_0    = _float(   2)    # PYCHOK expected
-_3_0    = _float(   3)    # PYCHOK expected
-_4_0    = _float(   4)    # PYCHOK expected
-_5_0    = _float(   5)    # PYCHOK expected
-_6_0    = _float(   6)    # PYCHOK expected
-_8_0    = _float(   8)    # PYCHOK expected
-_16_0   = _float(  16)    # PYCHOK expected
-_32_0   = _float(  32)    # PYCHOK expected
-_60_0   = _float(  60)    # PYCHOK expected
-_90_0   = _float(  90)    # PYCHOK expected
-_180_0  = _float( 180)    # PYCHOK expected
-_360_0  = _float( 360)    # PYCHOK expected
-_3600_0 = _float(3600)    # PYCHOK expected
+_0_0    = _float(   0)      # PYCHOK expected
+_0_1    = _float(   0.1)    # PYCHOK expected
+_0_125  = _float(   0.125)  # PYCHOK expected
+_0_25   = _float(   0.25)   # PYCHOK expected
+_0_5    = _float(   0.5)    # PYCHOK expected
+_1_0    = _float(   1)      # PYCHOK expected
+_2_0    = _float(   2)      # PYCHOK expected
+_3_0    = _float(   3)      # PYCHOK expected
+_4_0    = _float(   4)      # PYCHOK expected
+_5_0    = _float(   5)      # PYCHOK expected
+_6_0    = _float(   6)      # PYCHOK expected
+_8_0    = _float(   8)      # PYCHOK expected
+_16_0   = _float(  16)      # PYCHOK expected
+_32_0   = _float(  32)      # PYCHOK expected
+_60_0   = _float(  60)      # PYCHOK expected
+_90_0   = _float(  90)      # PYCHOK expected
+_180_0  = _float( 180)      # PYCHOK expected
+_360_0  = _float( 360)      # PYCHOK expected
+_3600_0 = _float(3600)      # PYCHOK expected
 
 try:
     from sys import float_info as _float_info
@@ -252,6 +263,8 @@ EPS_2  = _float(EPS / _2_0)    # PYCHOK ≈ 1.110223024625e-16
 EPS1   = _float(_1_0 - EPS)    # PYCHOK ≈ 0.9999999999999998
 EPS1_2 = _float(_1_0 - EPS_2)  # PYCHOK ≈ 0.9999999999999999
 # _1EPS  = _float(_1_0 + EPS)  # PYCHOK ≈ 1.0000000000000002
+_1_EPS = _float(_1_0 / EPS)    # PYCHOK = 4503599627370496.0
+# _2_EPS = _float(_2_0 / EPS)  # PYCHOK = 9007199254740992.0
 
 if not _0_0 < EPS < EPS1 < _1_0:  # for .frechet
     raise AssertionError('%s < %s: %s < %s < %.16f < %s' % ('EPS', 'EPS1', _0_0, EPS, EPS1, _1_0))
@@ -277,9 +290,9 @@ def _item_fmt(fmt, name_value_arg, name_value_kwd):
         if len(name_value_arg) > 1:
             n_v = name_value_arg[:2]
         elif name_value_arg:
-            n_v = name_value_arg, _Missing
+            n_v = name_value_arg, MISSING
         else:
-            n_v = _Missing, _Missing
+            n_v = MISSING, MISSING
     return fmt % n_v
 
 
@@ -287,6 +300,18 @@ def _item_cs(*name_value_arg, **name_value_kwd):  # PYCHOK expected
     '''(INTERNAL) Return a named value string.
     '''
     return _item_fmt('%s: %s', name_value_arg, name_value_kwd)
+
+
+def _item_ir(*name_value_arg, **name_value_kwd):  # PYCHOK expected
+    '''(INTERNAL) Return a named value string.
+    '''
+    return _item_fmt('%s=%r', name_value_arg, name_value_kwd)
+
+
+def _item_is(*name_value_arg, **name_value_kwd):  # PYCHOK expected
+    '''(INTERNAL) Return a named value string.
+    '''
+    return _item_fmt('%s=%s', name_value_arg, name_value_kwd)
 
 
 def _item_pr(*name_value_arg, **name_value_kwd):  # PYCHOK expected
@@ -307,7 +332,7 @@ def _item_sq(*name_value_arg, **name_value_kwd):  # PYCHOK expected
     return _item_fmt('%s[%r]', name_value_arg, name_value_kwd)
 
 
-def joined(*words, **sep):
+def joined(*words, **sep):  # sep=NN
     '''Joined words by separator C{sep=NN}.
 
        @arg words: One, two or more words (C{str}s).
@@ -315,10 +340,10 @@ def joined(*words, **sep):
 
        @return: Joined B{C{words}} C({str}).
     '''
-    return sep.get(_sep_, NN).join(words)
+    return sep.get(_sep_, NN).join(map(str, words))
 
 
-def joined_(*words, **sep):
+def joined_(*words, **sep):  # sep=" "
     '''Joined words by separator C{sep=" "}.
 
        @arg words: One, two or more words (C{str}s).
@@ -326,7 +351,7 @@ def joined_(*words, **sep):
 
        @return: Joined B{C{words}} C({str}).
     '''
-    return sep.get(_sep_, _SPACE_).join(words)
+    return sep.get(_sep_, _SPACE_).join(map(str, words))
 
 # **) MIT License
 #

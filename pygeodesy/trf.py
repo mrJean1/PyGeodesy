@@ -8,6 +8,9 @@ U{latlon-ellipsoidal-referenceframe.js<https://GitHub.com/chrisveness/geodesy/bl
 latlon-ellipsoidal-referenceframe.js>} and U{latlon-ellipsoidal-referenceframe-txparams.js
 <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe-txparams.js>}.
 
+Following is a copy of I{Veness}' B{U{latlon-ellipsoidal-referenceframe.js
+<https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>}} comments.
+
 Modern geodetic reference frames: a latitude/longitude point defines a geographic location on,
 above or below the earth’s surface, measured in degrees from the equator and the U{International
 Reference Meridian<https://WikiPedia.org/wiki/IERS_Reference_Meridian>} (IRM) and metres above
@@ -46,7 +49,8 @@ from pygeodesy.ellipsoids import Ellipsoids
 from pygeodesy.errors import TRFError
 from pygeodesy.interns import NN, _COMMA_SPACE_, _ellipsoid_, \
                              _epoch_, _float as _F, _floatuple as _T, \
-                             _name_, _no_conversion_, _0_0, _0_1, _0_5
+                             _item_ir, _item_is, _item_ps, _name_, \
+                             _no_conversion_, _0_0, _0_1, _0_5
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedDict as _D, \
                            _NamedEnum, _NamedEnumItem
@@ -55,7 +59,7 @@ from pygeodesy.units import Epoch
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.10.20'
+__version__ = '20.10.29'
 
 _366_0 = _F(366)
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
@@ -93,8 +97,8 @@ _S = _S()  # PYCHOK freeze
 class RefFrame(_NamedEnumItem):
     '''Terrestrial Reference Frame (TRF) parameters.
     '''
-    _ellipsoid = None  # ellipsoid GRS80 or WGS84 (L{Ellipsoid} or L{Ellipsoid2})
-    _epoch     = _0_0  # epoch, calendar year (L{Epoch} or C{float})
+    _ellipsoid =  None  # ellipsoid GRS80 or WGS84 (L{Ellipsoid} or L{Ellipsoid2})
+    _epoch     = _0_0   # epoch, calendar year (L{Epoch} or C{float})
 
     def __init__(self, epoch, ellipsoid, name=NN):
         '''New L{RefFrame}.
@@ -133,9 +137,10 @@ class RefFrame(_NamedEnumItem):
            @return: This L{RefFrame}'s attributes (C{str}).
         '''
         e = self.ellipsoid
-        t = ('%s=%r'        % (_name_, self.name),
-             '%s=%s'        % (_epoch_, self.epoch),
-             '%s=%s(%s=%r)' % (_ellipsoid_, classname(e), _name_, e.name))
+        t = (_item_ir(_name_, self.name),
+             _item_is(_epoch_, self.epoch),
+             _item_ps(_item_is(_ellipsoid_, classname(e)),
+                      _item_ir(_name_, e.name)))
         return _COMMA_SPACE_.join(t)
 
 

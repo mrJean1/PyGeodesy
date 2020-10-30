@@ -33,22 +33,22 @@ from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
 from pygeodesy.fmath import Fsum
 from pygeodesy.interns import EPS, EPS1, NAN, NN, PI, PI_2, _azimuth_, \
-                             _COMMA_SPACE_, _datum_, _lat_, _lon_, _name_, \
-                             _no_convergence_fmt_, _scale_, _SPACE_, \
-                             _x_, _y_, _0_0, _0_5, _1_0, _2_0, _360_0
+                             _datum_, _lat_, _lon_, _no_convergence_fmt_, \
+                             _scale_, _SPACE_, _x_, _y_, _0_0, _0_5, \
+                             _1_0, _2_0, _360_0
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
-from pygeodesy.streprs import strs
+from pygeodesy.streprs import _fstrLL0
 from pygeodesy.units import Bearing, Lat_, Lon_, Meter, Scalar, Scalar_
 from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 
 from math import acos, asin, atan, atan2, copysign, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.10.19'
+__version__ = '20.10.29'
 
 _Karney_eps    =  sqrt(EPS) * 0.010  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -99,11 +99,12 @@ class _AzimuthalBase(_NamedBase):
 
     @property_RO
     def equatoradius(self):
-        '''Get the geodesic's equatorial (major) radius, semi-axis (C{meter}).
+        '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
         return self.datum.ellipsoid.a
 
-    majoradius = equatoradius  # for compatibility
+    majoradius = equatoradius  # for backward compatibility
+    '''DEPRECATED, use C{equatoradius}.'''
 
     @property_RO
     def iteration(self):
@@ -232,11 +233,7 @@ class _AzimuthalBase(_NamedBase):
            @return: This projection as C{"<classname>(lat0, lon0, ...)"}
                     (C{str}).
         '''
-        t = self.toStr(prec=prec, sep=_COMMA_SPACE_)
-        n = self.name or NN
-        if n:
-            n = ', %s=%r' % (_name_, n)
-        return '%s(%s%s)' % (self.classname, t, n)
+        return _fstrLL0(self, prec, True)
 
     def toStr(self, prec=6, sep=_SPACE_, **unused):  # PYCHOK expected
         '''Return a string representation of this projection.
@@ -246,7 +243,8 @@ class _AzimuthalBase(_NamedBase):
 
            @return: This projection as C{"lat0 lon0"} (C{str}).
         '''
-        return sep.join(strs(self.latlon0, prec=prec))
+        t = _fstrLL0(self, prec, False)
+        return t if sep is None else sep.join(t)
 
 
 class AzimuthalError(_ValueError):
@@ -863,7 +861,7 @@ class Stereographic(_AzimuthalBase):
         return self._reverse(x, y, name, LatLon, LatLon_kwds, _c_t, False)
 
 
-__all__ += _ALL_DOCS(Azimuthal7Tuple, _AzimuthalBase)
+__all__ += _ALL_DOCS(_AzimuthalBase)
 
 # **) MIT License
 #

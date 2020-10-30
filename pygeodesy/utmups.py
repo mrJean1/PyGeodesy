@@ -20,15 +20,15 @@ from pygeodesy.interns import NN, _easting_, joined_, _MGRS_, _northing_, _NS_, 
                              _outside_, _range_, _UPS_, _UTM_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import modulename
+from pygeodesy.namedTuples import UtmUps5Tuple, UtmUps8Tuple
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
 from pygeodesy.utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
 from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UPS_ZONE, _UPS_ZONE_STR, \
-                                 _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX, \
-                                  UtmUps5Tuple, UtmUps8Tuple  # PYCHOK indent
+                                 _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.10.08'
+__version__ = '20.10.29'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE

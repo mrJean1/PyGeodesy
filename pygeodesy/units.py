@@ -30,7 +30,7 @@ from pygeodesy.streprs import _Fmt, fstr, _g
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.10.20'
+__version__ = '20.10.29'
 
 
 class _NamedUnit(_Named):
@@ -724,7 +724,7 @@ class Lat_(Degrees_):
         return Degrees_.__new__(cls, arg=arg, name=name, suffix=_NS_, low=low, high=high, **Error_name_arg)
 
 
-class Lon(Float):
+class Lon(Degrees):
     '''Named C{float} representing a longitude in C{degrees}.
     '''
     _ddd_ =  3

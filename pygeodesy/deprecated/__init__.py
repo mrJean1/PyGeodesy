@@ -5,15 +5,15 @@ u'''DEPRECATED classes, functions, etc. exported for backward compatibility,
 including deprecated modules C{pygeodesy.bases}, C{pygeodesy.datum} and
 C{pygeodesy,nvector}, previously inside the C{pygeodesy} package.
 
-Use either C{from pygeodesy import bases} or C{from pygeodesy.deprecated
-import bases}.  Likewise for C{datum} and C{nvector}.
+Use either C{from pygeodesy import bases} or C{from pygeodesy.deprecated import
+bases}.  Likewise for C{datum} and C{nvector}.
 '''
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
-from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _easting_, _hemipole_, \
+from pygeodesy.interns import EPS, NN, R_M, _COMMA_SPACE_, _easting_, _hemipole_, \
                              _northing_, _scalar_, _UNDERSCORE_, _zone_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, isLazy
+from pygeodesy.lazily import _ALL_LAZY, isLazy
 from pygeodesy.named import _NamedTuple
 from pygeodesy.trf import TRFError as _TRFError
 from pygeodesy.units import Easting, Northing, Str
@@ -23,10 +23,11 @@ if isLazy:  # force import of the deprecated modules
            pygeodesy.deprecated.nvector as nvector  # PYCHOK unused
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '20.10.09'
+__version__ = '20.10.29'
 
-OK   = 'OK'  # OK for test like I{if ... is OK: ...}
-_R_M = _WGS84 = _UTM = object()
+OK      = 'OK'  # OK for test like I{if ... is OK: ...}
+_value_ = 'value'
+_WGS84  = _UTM = object()
 
 
 # DEPRECATED classes, for export only
@@ -71,13 +72,11 @@ def anStr(name, OKd='._-', sub=_UNDERSCORE_):
     return anstr(name, OKd=OKd, sub=sub)
 
 
-def areaof(points, adjust=True, radius=_R_M, wrap=True):
+def areaof(points, adjust=True, radius=R_M, wrap=True):
     '''DEPRECATED, use function L{areaOf}.
     '''
     from pygeodesy.points import areaOf
-    from pygeodesy.utily import R_M  # PYCHOK shadows?
-    r = R_M if radius is _R_M else radius  # PYCHOK shadows?
-    return areaOf(points, adjust=adjust, radius=r, wrap=wrap)
+    return areaOf(points, adjust=adjust, radius=radius, wrap=wrap)
 
 
 def bounds(points, wrap=True, LatLon=None):
@@ -139,7 +138,7 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):
     return tuple(equirectangular_(lat1, lon1, lat2, lon2, **options)[:3])
 
 
-def false2f(value, name='value', false=True, Error=ValueError):  # PYCHOK no cover
+def false2f(value, name=_value_, false=True, Error=ValueError):  # PYCHOK no cover
     '''DEPRECATED, use function L{falsed2f}.
     '''
     return falsed2f(falsed=false, Error=Error, **{name: value})
@@ -242,13 +241,11 @@ def parseUTM(strUTM, datum=_WGS84, Utm=_UTM, name=NN):  # PYCHOK datum
     return r
 
 
-def perimeterof(points, closed=False, adjust=True, radius=_R_M, wrap=True):
+def perimeterof(points, closed=False, adjust=True, radius=R_M, wrap=True):
     '''DEPRECATED, use function L{perimeterOf}.
     '''
     from pygeodesy.points import perimeterOf
-    from pygeodesy.utily import R_M  # PYCHOK shadows?
-    r = R_M if radius is _R_M else radius  # PYCHOK shadows?
-    return perimeterOf(points, closed=closed, adjust=adjust, radius=r, wrap=wrap)
+    return perimeterOf(points, closed=closed, adjust=adjust, radius=radius, wrap=wrap)
 
 
 def polygon(points, closed=True, base=None):
@@ -277,13 +274,11 @@ def scalar(value, low=EPS, high=1.0, name=_scalar_, Error=ValueError):  # PYCHOK
     return C_(value, name=name, Error=Error, low=low, high=high)
 
 
-def simplify2(points, pipe, radius=_R_M, shortest=False, indices=False, **options):
+def simplify2(points, pipe, radius=R_M, shortest=False, indices=False, **options):
     '''DEPRECATED, use function L{simplifyRW}.
     '''
     from pygeodesy.simplify import simplifyRW
-    from pygeodesy.utily import R_M  # PYCHOK shadows?
-    r = R_M if radius is _R_M else radius  # PYCHOK shadows?
-    return simplifyRW(points, pipe, radius=r, shortest=shortest, indices=indices, **options)
+    return simplifyRW(points, pipe, radius=radius, shortest=shortest, indices=indices, **options)
 
 
 def toUtm(latlon, lon=None, datum=None, Utm=_UTM, cmoff=True, name=NN):  # PYCHOK datum
@@ -317,9 +312,6 @@ def utmZoneBand2(lat, lon):
     from pygeodesy.utm import utmZoneBand5
     r = utmZoneBand5(lat, lon)  # UtmUpsLatLon5Tuple
     return r.zone, r.band
-
-
-__all__  += _ALL_DOCS(UtmUps4Tuple)
 
 # **) MIT License
 #

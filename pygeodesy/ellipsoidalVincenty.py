@@ -18,17 +18,15 @@ several ellipsoidal earth models.  The default model is WGS-84, the
 most accurate and widely used globally-applicable model for the earth
 ellipsoid.
 
-Other ellipsoids offering a better fit to the local geoid include
-Airy (1830) in the UK, Clarke (1880) in Africa, International 1924
-in much of Europe, and GRS-67 in South America.  North America
-(NAD83) and Australia (GDA) use GRS-80, which is equivalent to the
-WGS-84 model.
+Other ellipsoids offering a better fit to the local geoid include Airy
+(1830) in the UK, Clarke (1880) in Africa, International 1924 in much of
+Europe, and GRS-67 in South America.  North America (NAD83) and Australia
+(GDA) use GRS-80, which is equivalent to the WGS-84 model.
 
-Great-circle distance uses a spherical model of the earth with the
-mean earth radius defined by the International Union of Geodesy and
-Geophysics (IUGG) as M{(2 * a + b) / 3 = 6371008.7714150598} meter or
-approx. 6371009 meter (for WGS-84, resulting in an error of up to
-about 0.5%).
+Great-circle distance uses a spherical model of the earth with the mean
+earth radius defined by the International Union of Geodesy and Geophysics
+(IUGG) as M{(2 * a + b) / 3 = 6371008.7714150598} meter or approx. 6371009
+meter (for WGS-84, resulting in an error of up to about 0.5%).
 
 Here's an example usage of C{ellipsoidalVincenty}:
 
@@ -79,7 +77,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.10.15'
+__version__ = '20.10.27'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK not used
@@ -426,10 +424,10 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
+           @raise UnitError: Invalid B{C{fraction}} or B{C{height}}.
+
            @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
-
-           @raise UnitError: Invalid B{C{fraction}} or B{C{height}}.
 
            @raise VincentyError: Vincenty fails to converge for the current
                                  L{LatLon.epsilon} and L{LatLon.iterations}
@@ -659,6 +657,13 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover
     return areaOf(points, datum=datum, wrap=wrap)
 
 
+def _Equidistant(equidistant):
+    # (INTERNAL) Get the C{Equidistant} class.
+    if equidistant is None or not callable(equidistant):
+        from pygeodesy.azimuthal import Equidistant as equidistant
+    return equidistant
+
+
 def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                    equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
     '''Iteratively compute the intersection points of two circles each defined
@@ -674,8 +679,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                       line" between both centers (C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection class
-                           (L{EquidistantKarney} or L{Equidistant})
-                           or C{None}.
+                           (L{EquidistantKarney} or L{equidistant})
+                           or C{None} for L{Equidistant}.
        @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
                    and B{C{radius2}}).
        @kwarg LatLon: Optional class to return the intersection points
@@ -699,13 +704,12 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
 
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>}, U{Karney's paper
-             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section 14 I{Maritime Boundaries},
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{I{14. MARITIME BOUNDARIES}},
              U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.
     '''
-    from pygeodesy.azimuthal import Equidistant
-    E = Equidistant if equidistant is None else equidistant
+    E = _Equidistant(equidistant)
     return _intersections2(center1, radius1, center2, radius2, height=height, wrap=wrap,
                                     equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
@@ -742,17 +746,20 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        @raise TypeError: Invalid or non-ellipsoidal B{C{point}}, B{C{point1}}
                          or B{C{point2}} or invalid B{C{equidistant}}.
     '''
-    from pygeodesy.azimuthal import Equidistant
     p = _xellipsoidal(point=point)
     p1 = p.others(point1=point1)
     p2 = p.others(point2=point2)
-    E = Equidistant if equidistant is None else equidistant
+    E = _Equidistant(equidistant)
     return _nearestOn(p, p1, p2, within=within, height=height, wrap=wrap,
                       equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function C{ellipsoidalKarney.perimeterOf}.
+
+       @raise ImportError: Package U{geographiclib
+                           <https://PyPI.org/project/geographiclib>}
+                           not installed or not found.
     '''
     from pygeodesy.ellipsoidalKarney import perimeterOf
     return perimeterOf(points, closed=closed, datum=datum, wrap=wrap)

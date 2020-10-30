@@ -11,9 +11,9 @@ from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
                              _limiterrors, PointsError, _ValueError
 from pygeodesy.fmath import euclid, fsum_, hypot, hypot2
 from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, R_M, _item_sq, \
-                             _too_distant_, _too_few_, _0_0, _0_5, _1_0, \
-                             _4_0, _8_0, _16_0, _32_0, _90_0, _180_0, _360_0
-from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+                             _too_distant_, _too_few_, _0_0, _0_125, _0_25, \
+                             _0_5, _1_0, _16_0, _32_0, _90_0, _180_0, _360_0
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Distance4Tuple, LatLon2Tuple, \
                                   PhiLam2Tuple, Points2Tuple, \
@@ -28,7 +28,7 @@ from pygeodesy.utily import atan2b, degrees2m, degrees90, degrees180, \
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.10.15'
+__version__ = '20.10.27'
 
 _D_I2_ = 1e5  # meter, 100 Km, about 0.9 degrees
 
@@ -218,7 +218,7 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
             if abs(sr_2) > EPS and abs(cr_2) > EPS:
                 c  = (sr - r) * ((s1 + s2) / cr_2)**2
                 s  = (sr + r) * ((s1 - s2) / sr_2)**2
-                r += E.f * (c - s) / _8_0
+                r += E.f * (c - s) * _0_125
             return r
     # fall back to cosineLaw_
     return acos(s1 * s2 + c1 * c2 * c21)
@@ -297,7 +297,7 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
             c = fsum_(30 * r, e / 2, s * cr)  # 8 * r2 / tan(r)
 
             d = fsum_(a * x, b * y, -c * x**2, d * x * y, e * y**2) * E.f / _32_0
-            d = fsum_(d, -x * r, 3 * y * sr) * E.f / _4_0
+            d = fsum_(d, -x * r, 3 * y * sr) * E.f * _0_25
             r += d
     return r
 
@@ -1083,7 +1083,7 @@ def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
                 c = t - (a - e) * _0_5
 
                 s = fsum_(a * x,  c * x**2, -b * y, -e * y**2, s * x * y) * E.f / _16_0
-                s = fsum_(t * x, -y, -s) * E.f / _4_0
+                s = fsum_(t * x, -y, -s) * E.f * _0_25
                 return d - s * sd
     # fall back to cosineLaw_
     return acos(s1 * s2 + c1 * c2 * c21)
@@ -1150,9 +1150,6 @@ def vincentys_(phi2, phi1, lam21):
     x = sa1 * sa2 + ca1 * c
     y = ca1 * sa2 - sa1 * c
     return atan2(hypot(ca2 * sb21, y), x)
-
-
-__all__ += _ALL_OTHER(Radical2Tuple)
 
 # **) MIT License
 #

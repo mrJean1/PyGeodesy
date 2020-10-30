@@ -10,7 +10,7 @@ Python class L{ExactTransverseMercator} implements the C{Exact Transverse
 Mercator} (ETM) projection.  Instances of class L{Etm} represent ETM
 C{easting, nothing} locations.
 
-Following is a copy of Karney's U{TransverseMercatorExact.hpp
+Following is a copy of I{Karney}'s U{TransverseMercatorExact.hpp
 <https://GeographicLib.SourceForge.io/html/TransverseMercatorExact_8hpp_source.html>}
 file C{Header}.
 
@@ -65,37 +65,37 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import property_doc_, property_RO, _xinstanceof
+from pygeodesy.basics import neg, neg_, property_doc_, property_RO, \
+                            _xinstanceof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
-from pygeodesy.interns import EPS as _TOL, NN, PI_2, PI_4, _COMMA_SPACE_, \
-                             _convergence_, _easting_, _lat_, _lon_, \
-                             _northing_, _no_convergence_, _scale_, \
-                             _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, \
+from pygeodesy.interns import EPS, _1_EPS, NN, PI_2, PI_4, \
+                             _COMMA_SPACE_, _convergence_, _easting_, \
+                             _lat_, _lon_, _northing_, _no_convergence_, \
+                             _scale_, _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, \
                              _90_0, _180_0
 from pygeodesy.interns import _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
 from pygeodesy.streprs import pairs, unstr
-from pygeodesy.units import Degrees, Easting, Lat, Lon, Northing, \
+from pygeodesy.units import Degrees, Easting, Lat,Lon, Northing, \
                             Scalar, Scalar_
-from pygeodesy.utily import sincos2
-from pygeodesy.utm import _cmlon, _K0, _parseUTM5, Utm, UTMError, \
+from pygeodesy.utily import atand, atan2d, sincos2
+from pygeodesy.utm import _cmlon, _K0, _LLEB, _parseUTM5, Utm, UTMError, \
                           _toXtm8, _to7zBlldfn
-from pygeodesy.utmupsBase import _LLEB
 
-from math import asinh, atan, atan2, copysign, degrees, radians, \
+from math import asinh, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
-_OVERFLOW = _1_0 / _TOL**2
-_TOL_10   = _0_1 * _TOL
-_TAYTOL   =  pow(_TOL, 0.6)
+_OVERFLOW = _1_EPS**2
+_TOL_10   = _0_1 * EPS
+_TAYTOL   =  pow(EPS, 0.6)
 _TAYTOL2  = _2_0 * _TAYTOL
 
 
@@ -370,7 +370,7 @@ class ExactTransverseMercator(_NamedBase):
 
     @property_RO
     def equatoradius(self):
-        '''Get the equatorial (major) radius, semi-axis (C{meter}).
+        '''Get the equatorial radius, semi-axis (C{meter}).
         '''
         return self._E.a
 
@@ -447,9 +447,9 @@ class ExactTransverseMercator(_NamedBase):
         if backside:
             g = _180_0 - g
         if _lat:
-            y, g = -y, -g
+            y, g = neg_(y, g)
         if _lon:
-            x, g = -x, -g
+            x, g = neg_(x, g)
 
         r = EasNorExact4Tuple(x, y, g, k)
         r._iteration = self._iteration
@@ -578,9 +578,9 @@ class ExactTransverseMercator(_NamedBase):
         if backside:
             lon, g = (_180_0 - lon), (_180_0 - g)
         if _lat:
-            lat, g = -lat, -g
+            lat, g = neg_(lat, g)
         if _lon:
-            lon, g = -lon, -g
+            lon, g = neg_(lon, g)
 
         lon += self._lon0 if lon0 is None else _norm180(lon0)
         r = LatLonExact4Tuple(_norm180(lat), _norm180(lon), g, k)
@@ -604,7 +604,7 @@ class ExactTransverseMercator(_NamedBase):
         cnudnv = cnu * dnv
         # Lee 55.12 -- negated for our sign convention.  g gives
         # the bearing (clockwise from true north) of grid north
-        g = atan2(mv * cnv * snv * snu, cnudnv * dnu)
+        g = atan2d(mv * cnv * snv * snu, cnudnv * dnu)
         # Lee 55.13 with nu given by Lee 9.1 -- in sqrt change
         # the numerator from
         #
@@ -623,7 +623,7 @@ class ExactTransverseMercator(_NamedBase):
         # k = sqrt(mv + mu / sec2) * sqrt(sec2) * sqrt(q2)
         #   = sqrt(mv + mv * tau**2 + mu) * sqrt(q2)
         k = sqrt(fsum_(mu, mv, mv * tau**2)) * sqrt(q2)
-        return degrees(g), k * self._k0
+        return g, k * self._k0
 
     def _sigma3(self, v, snu, cnu, dnu, snv, cnv, dnv):  # PYCHOK unused
         '''(INTERNAL) C{sigma}.
@@ -656,10 +656,10 @@ class ExactTransverseMercator(_NamedBase):
         # Reciprocal of 55.9: dw / ds = dn(w)^2/_mv,
         # expanding complex dn(w) using A+S 16.21.4
         d = self._mv * (cnv**2 + self._mu * snuv**2)**2
-        r =  cnv * dnu * dnv
-        i = -cnu * snuv * self._mu
+        r = cnv * dnu * dnv
+        i = cnu * snuv * self._mu
         du = (r**2 - i**2) / d
-        dv = 2 * r * i / d
+        dv = neg(2 * i * r / d)
         return du, dv
 
     def _sigmaInv(self, xi, eta):
@@ -810,10 +810,10 @@ class ExactTransverseMercator(_NamedBase):
         # Lee 54.21 but write
         # (1 - dnu^2 * snv^2) = (cnv^2 + _mu * snu^2 * snv^2)
         # (see A+S 16.21.4)
-        d  =  self._mv   * (cnv2 + snuv2)**2
-        du =  cnu * dnuv * (cnv2 - snuv2) / d
-        dv = -cnv * snuv * (cnu2 + dnuv2) / d
-        return du, dv
+        d  = self._mv   * (cnv2 + snuv2)**2
+        du = cnu * dnuv * (cnv2 - snuv2) / d
+        dv = cnv * snuv * (cnu2 + dnuv2) / d
+        return du, neg(dv)
 
     def _zetaInv(self, taup, lam):
         '''(INTERNAL) Invert C{zeta} using Newton's method.
@@ -931,7 +931,7 @@ class ExactTransverseMercator(_NamedBase):
         tau = self._E.es_tauf(t)
         r = self._scaled(tau, d2, *sncndn6)
         if ll:
-            r += degrees(atan(tau)), degrees(lam)
+            r += atand(tau), degrees(lam)
         return r
 
 
@@ -1021,9 +1021,6 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,
 
     return _toXtm8(Etm, z, lat, x, y, B, d, g, k, f,
                         name, latlon, d.exactTM, Error=ETMError)
-
-
-__all__ += _ALL_DOCS(EasNorExact4Tuple, LatLonExact4Tuple)
 
 # **) MIT License
 #

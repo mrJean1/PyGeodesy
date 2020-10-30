@@ -17,15 +17,15 @@ from pygeodesy.basics import isint, isstr, property_RO, _xinstanceof
 from pygeodesy.errors import _ValueError
 from pygeodesy.interns import NN, _item_ps, _N_, _NS_, _S_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.namedTuples import UtmUps2Tuple
 from pygeodesy.units import Int
 from pygeodesy.ups import Ups
 from pygeodesy.utm import Utm
 from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
-                                 _UTM_ZONE_MAX, UtmUps2Tuple, \
-                                 _UTMUPS_ZONE_INVALID
+                                 _UTM_ZONE_MAX, _UTMUPS_ZONE_INVALID
 
 __all__ = _ALL_LAZY.epsg
-__version__ = '20.09.29'
+__version__ = '20.10.29'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N

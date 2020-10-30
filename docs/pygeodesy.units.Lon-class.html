@@ -61,19 +61,21 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Lon</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-      object --+        
-               |        
-           float --+    
-                   |    
-  object --+       |    
-           |       |    
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |    
-               |   |    
-      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+    
-                   |    
-               <a href="pygeodesy.units.Float-class.html">Float</a> --+
-                       |
-                      <strong class="uidshort">Lon</strong>
+      object --+            
+               |            
+           float --+        
+                   |        
+  object --+       |        
+           |       |        
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+   |        
+               |   |        
+      <a href="pygeodesy.units._NamedUnit-class.html">_NamedUnit</a> --+        
+                   |        
+               <a href="pygeodesy.units.Float-class.html">Float</a> --+    
+                       |    
+                 <a href="pygeodesy.units.Degrees-class.html">Degrees</a> --+
+                           |
+                          <strong class="uidshort">Lon</strong>
 </pre>
 
 <hr />
@@ -90,11 +92,13 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Degrees-class.html">Degrees</a></code></b>:
+      <code><a href="pygeodesy.units.Degrees-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.units.Degrees-class.html#toStr">toStr</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Float-class.html">Float</a></code></b>:
       <code><a href="pygeodesy.units.Float-class.html#__repr__">__repr__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#toRepr">toRepr</a></code>,
-      <code><a href="pygeodesy.units.Float-class.html#toStr">toStr</a></code>
+      <code><a href="pygeodesy.units.Float-class.html#__str__">__str__</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>float</code></b>:
       <code>__abs__</code>,
@@ -214,6 +218,13 @@
         <a name="_suf_"></a><span class="summary-name">_suf_</span> = <code title="('E', 'W', '')"><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">E</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">W</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code><code class="variable-group">)</code></code>
     </td>
   </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.units.Degrees-class.html">Degrees</a></code></b>:
+      <code><a href="pygeodesy.units.Degrees-class.html#_sep_">_sep_</a></code>
+      </p>
+    </td>
+  </tr>
 </table>
 <!-- ==================== PROPERTIES ==================== -->
 <a name="section-Properties"></a>
@@ -281,20 +292,30 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>cls</code></strong> - This class (<code>Degrees</code> or sub-class).</li>
         <li><strong class="pname"><code>arg</code></strong> - The value (any <code>type</code> convertable to 
-          <code>float</code>).</li>
+          <code>float</code> or parsable by <a 
+          href="pygeodesy.dms-module.html#parseDMS" 
+          class="link">parseDMS</a>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional instance name (<code>str</code>).</li>
         <li><strong class="pname"><code>Error</code></strong> - Optional error to raise, overriding the default <a 
           href="pygeodesy.errors.UnitError-class.html" 
           class="link">UnitError</a>.</li>
+        <li><strong class="pname"><code>suffix</code></strong> - Optional, valid compass direction suffixes (<code>NSEW</code>).</li>
+        <li><strong class="pname"><code>clip</code></strong> - Optional <b><code>arg</code></b> range 
+          <b><code>-clip..+clip</code></b> (<code>degrees</code> or 
+          <code>0</code> or <code>None</code> for unclipped).</li>
         <li><strong class="pname"><code>name_arg</code></strong> - Optional <code>name=arg</code> keyword argument, inlieu of 
           <b><code>name</code></b> and <b><code>arg</code></b>.</li>
     </ul></dd>
     <dt>Returns: a new object with type S, a subtype of T</dt>
-        <dd>A <code>Float</code> instance.</dd>
+        <dd>A <code>Degrees</code> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b>.</li>
+        <li><code><strong class='fraise'>Error</strong></code> - Invalid <b><code>arg</code></b> or <b><code>abs(deg)</code></b> 
+        outside the <b><code>clip</code></b> range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__new__
@@ -334,7 +355,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 21 14:53:13 2020
+    Generated by Epydoc 3.0.1 on Fri Oct 30 15:50:00 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

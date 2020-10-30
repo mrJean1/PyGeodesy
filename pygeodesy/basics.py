@@ -6,16 +6,16 @@ u'''Basic definitions, decorators and functions.
 from pygeodesy.errors import _AttributeError, _IsnotError, \
                              _TypesError, _ValueError
 from pygeodesy.interns import NEG0, NN, _COMMA_SPACE_, _DOT_, \
-                              joined_, _UNDERSCORE_, _utf_8_, \
-                              _version_, _0_0
+                             _item_ir, joined_, _SPACE_, _0_0, \
+                             _UNDERSCORE_, _utf_8_, _version_
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
 from inspect import isclass as _isclass
-from math import copysign, isinf, isnan
+from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -61,8 +61,8 @@ def _bkwds(inst, Error=AttributeError, **name_value_pairs):  # in .frechet, .hau
     for n, v in name_value_pairs.items():
         b = getattr(inst, n, None)
         if b is None:  # invalid bool attr
-            t = n, v, inst.__class__.__name__  # XXX .classname
-            raise Error('not applicable: %s=%r for %s' % t)
+            t = joined_(_item_ir(n, v), 'for', inst.__class__.__name__)  # XXX .classname
+            raise Error(t, txt='not applicable')
         if v in (False, True) and v != b:
             setattr(inst, _UNDERSCORE_ + n, v)
 
@@ -82,6 +82,14 @@ def clips(bstr, limit=50, white=NN):
     if white:  # replace whitespace
         bstr = type(bstr)(white).join(bstr.split())
     return bstr
+
+
+def copysign(x, y):
+    '''Like C{math.copysign(x, y)} except C{zero}, I{unsigned} .
+
+       @return: C{math.copysign(B{x}, B{y})} if B{C{x}} else C{0.0}.
+    '''
+    return _copysign(x, y) if x else _0_0
 
 
 def halfs2(str2):
@@ -183,15 +191,15 @@ except ImportError:
 
 
 def isneg0(obj):
-    '''Check for L{NEG0}, negative 0.0.
+    '''Check for L{NEG0}, negative C{0.0}.
 
        @arg obj: Value (C{scalar}).
 
-       @return: C{True} if B{C{obj}} is C{NEG0} or -0.0,
+       @return: C{True} if B{C{obj}} is C{NEG0} or C{-0.0},
                 C{False} otherwise.
     '''
-    return obj in (_0_0, NEG0) and copysign(1, obj) < 0
-#                              and str(obj).rstrip(_0_) == '-0.'
+    return obj in (_0_0, NEG0) and _copysign(1, obj) < 0
+#                              and str(obj).startswith('-')
 
 
 def isscalar(obj):
@@ -282,6 +290,23 @@ def map2(func, *xs):
     return tuple(map(func, *xs))  # note *xs, not xs
 
 
+def neg(x):
+    '''Negate C{x} uless C{zero} or C{NEG0}.
+
+       @return: C{-B{x}} if B{C{x}} else C{0.0}.
+    '''
+    return -x if x else _0_0
+
+
+def neg_(*xs):
+    '''Negate all of C{xs} like L{neg}.
+
+       @return: Yield C{neg(x) for x in B{xs}}.
+    '''
+    for x in xs:
+        yield -x if x else _0_0
+
+
 def property_doc_(doc):
     '''Decorator for a property with documentation.
 
@@ -304,7 +329,7 @@ def property_doc_(doc):
     def _property(method):
         '''(INTERNAL) Return C{method} as documented C{property.getter}.
         '''
-        t = 'get and set' if doc.startswith(' ') else NN
+        t = 'get and set' if doc.startswith(_SPACE_) else NN
         return property(method, None, None, 'Property to ' + t + doc)
 
     return _property

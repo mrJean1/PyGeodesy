@@ -35,12 +35,13 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
-from pygeodesy.interns import EPS, NN, PI_2, R_M, _colinear_, _COMMA_SPACE_, \
-                             _datum_, _height_, _item_ps, _item_sq, _lat_, \
-                             _lon_, _name_, _point_, _SPACE_, _UNDERSCORE_, \
-                             _valid_, _x_, _y_, _0_0, _0_5, _1_0, _3_0, \
+from pygeodesy.interns import EPS, NN, PI_2, R_M, _angle_, _colinear_, \
+                             _COMMA_SPACE_, _datum_, _distance_, _height_, \
+                             _item_ps, _item_sq, _lat_, _lon_, _name_, \
+                             _point_, _SPACE_, _UNDERSCORE_, _valid_, \
+                             _x_, _y_, _0_0, _0_5, _1_0, _3_0, \
                              _90_0, _180_0, _360_0
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedTuple, nameof, \
                             notImplemented, notOverloaded, _Pass, \
                             _xnamed, _xother3, _xotherError
@@ -57,7 +58,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.10.15'
+__version__ = '20.10.27'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -877,7 +878,7 @@ class NearestOn5Tuple(_NamedTuple):
        L{compassAngle}.  The C{height} is the (interpolated) height
        at the closest point in C{meter} or C{0}.
     '''
-    _Names_ = ('lat', 'lon', 'distance', 'angle', 'height')
+    _Names_ = (_lat_, _lon_, _distance_, _angle_, _height_)
     _Units_ = ( Lat,   Lon,   Degrees,    Degrees, Degrees)
 
 
@@ -1396,7 +1397,7 @@ def ispolar(points, wrap=False):
                          have C{bearingTo2}, C{initialBearingTo}
                          and C{finalBearingTo} methods.
     '''
-    n, points = points2(points, closed=True)
+    n, points = points2(points, closed=True)  # PYCHOK non-sequence
 
     def _cds(n, points):  # iterate over course deltas
         p1 = points[n-1]
@@ -1595,7 +1596,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
             _, dy, dx, u = equirectangular_(y1, x1 + u, y2, x2,
                                             adjust=adjust,
                                             limit=None,
-                                            wrap=w)
+                                            wrap=w)  # PYCHOK non-sequence
             yield hypot(dx, dy)
             x1, y1 = x2, y2
 
@@ -1622,9 +1623,6 @@ def quadOf(lat1, lon1, lat2, lon2, closed=False, LatLon=LatLon_, **LatLon_kwds):
         yield LatLon(*ll, **LatLon_kwds)
     if closed:
         yield LatLon(lat1, lon1, **LatLon_kwds)
-
-
-__all__ += _ALL_DOCS(NearestOn5Tuple, Point3Tuple, Shape2Tuple)
 
 # **) MIT License
 #

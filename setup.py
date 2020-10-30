@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.10.15'
+__version__ = '20.10.28'
 
 
 def _c2(*names):
@@ -54,7 +54,7 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'earth', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
              'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
              'Euclidean', 'ExactTM',
-             'flattening', 'fmath', 'Forsythe', 'fractional', 'Fréchet',
+             'flattening', 'fmath', 'Forsythe', 'fractional', 'Frechet', 'Fréchet',
              'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest', 'geographiclib',
              'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef', 'gnomonic',
              'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
@@ -72,7 +72,8 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
-             'scipy', 'simplify', 'Snyder', 'Soldner', 'sphere', 'stereographic',
+             'scipy', 'simplify', 'Snyder', 'Soldner',
+             'sphere', 'sphere-intersections', 'stereographic',
              'Sudano', 'Sutherland', 'Sutherland-Hodgman',
              'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
              'Transverse', 'TransverseMercatorExact', 'TRF', 'trigonometry', 'trilateration',

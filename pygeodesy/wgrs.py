@@ -14,9 +14,10 @@ also U{World Geographic Reference System
 from pygeodesy.basics import isstr, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
-from pygeodesy.interns import EPS1_2, NN, _float, _height_, \
-                             _item_sq, _Missing, _radius_, \
-                             _0_5, _1_0, _2_0, _60_0, _90_0
+from pygeodesy.interns import EPS1_2, MISSING, NN, _float, \
+                             _height_, _item_sq, joined_, \
+                             _radius_, _0_5, _1_0, _2_0, \
+                             _60_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
@@ -27,18 +28,22 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '20.10.02'
+__version__ = '20.10.29'
 
+_1000_0  = _float(1000)
 _Base    =  10
 _BaseLen =  4
 _DegChar = 'ABCDEFGHJKLMNPQ'
 _Digits  = '0123456789'
+_Height_ = 'Height'
+_INV_    = 'INV'
 _LatOrig = -90
 _LatTile = 'ABCDEFGHJKLM'
 _LonOrig = -180
 _LonTile = 'ABCDEFGHJKLMNPQRSTUVWXYZ'
 _M_      =  60000000000  # == 60_000_000_000 == 60 * pow(10, 9)
 _MaxPrec =  11
+_Radius_ = 'Radius'
 _Tile    =  15  # tile size in degrees
 
 _MaxLen  = _BaseLen + 2 * _MaxPrec
@@ -47,6 +52,7 @@ _MinLen  = _BaseLen - 2
 _LatOrig_M_ = _LatOrig * _M_
 _LonOrig_M_ = _LonOrig * _M_
 
+_float_Tile   = _float(_Tile)
 _LatOrig_Tile = _float(_LatOrig) / _Tile
 _LonOrig_Tile = _float(_LonOrig) / _Tile
 
@@ -75,7 +81,7 @@ def _2geostr2(georef):
         n, geostr = len(georef), georef.upper()
         p, o = divmod(n, 2)
         if o or n < _MinLen or n > _MaxLen \
-             or geostr[:3] == 'INV' \
+             or geostr[:3] == _INV_ \
              or not geostr.isalnum():
             raise ValueError
         return geostr, _2Precision(p - 1)
@@ -99,10 +105,10 @@ class WGRSError(_ValueError):
 class Georef(Str):
     '''Georef class, a named C{str}.
     '''
-    _height    = _Missing  # meter
-    _latlon    =  None     # cached latlon property
-    _precision =  None
-    _radius    = _Missing  # meter
+    _height    = MISSING  # meter
+    _latlon    = None     # cached latlon property
+    _precision = None
+    _radius    = MISSING  # meter
 
     # no str.__init__ in Python 3
     def __new__(cls, cll, precision=3, name=NN):
@@ -154,7 +160,7 @@ class Georef(Str):
             self = Str.__new__(cls, g)
             self._latlon = LatLon2Tuple(lat, lon)
 
-        if h not in (None, _Missing):
+        if h not in (None, MISSING):
             self._height = Height(h)
         if self._precision is None:
             self._precision = _2Precision(precision)
@@ -170,16 +176,16 @@ class Georef(Str):
             self._latlon = LatLon2Tuple(lat, lon)
         if self._precision is None:
             self._precision = p
-        if self._height is _Missing:
+        if self._height is MISSING:
             self._height = h
-        if self._radius is _Missing:
+        if self._radius is MISSING:
             self._radius = r
 
     @property_RO
     def height(self):
         '''Get this georef's height in C{meter} or C{None} if missing.
         '''
-        if self._height is _Missing:
+        if self._height is MISSING:
             self._decode()
         return self._height
 
@@ -203,7 +209,7 @@ class Georef(Str):
     def radius(self):
         '''Get this georef's radius in C{meter} or C{None} if missing.
         '''
-        if self._radius is _Missing:
+        if self._radius is MISSING:
             self._decode()
         return self._radius
 
@@ -295,7 +301,7 @@ def decode5(georef, center=True):
                          or odd length B{C{georef}}.
     '''
     def _h2m(kft, name):
-        return Height(ft2m(kft * 1000.0), name=name, Error=WGRSError)
+        return Height(ft2m(kft * _1000_0), name=name, Error=WGRSError)
 
     def _r2m(NM, name):
         return Radius(NM / m2NM(1), name=name, Error=WGRSError)
@@ -303,14 +309,14 @@ def decode5(georef, center=True):
     def _split2(g, name, _2m):
         i = max(g.find(name[0]), g.rfind(name[0]))
         if i > _BaseLen:
-            return g[:i], _2m(int(g[i+1:]), '%s %s' % (georef, name))
+            return g[:i], _2m(int(g[i+1:]), joined_(georef, name))
         else:
             return g, None
 
     g = Str(georef, Error=WGRSError)
 
-    g, h = _split2(g, 'Height', _h2m)  # H is last
-    g, r = _split2(g, 'Radius', _r2m)  # R before H
+    g, h = _split2(g, _Height_, _h2m)  # H is last
+    g, r = _split2(g, _Radius_, _r2m)  # R before H
 
     return decode3(g, center=center).to5Tuple(h, r)
 
@@ -408,7 +414,7 @@ def resolution(prec):
     if p > 1:
         r = _1_0 / (_60_0 * pow(_Base, min(p, _MaxPrec) - 1))
     elif p < 1:
-        r = float(_Tile)
+        r = _float_Tile
     else:
         r = _1_0
     return r

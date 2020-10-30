@@ -74,13 +74,13 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import isscalar, property_RO, _xinstanceof
+from pygeodesy.basics import isscalar, neg_, property_RO, _xinstanceof
 from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
                                  Ellipsoid2, Ellipsoids
 from pygeodesy.errors import _IsnotError
 from pygeodesy.fmath import fdot
-from pygeodesy.interns import NN, _COMMA_SPACE_, _ellipsoid_, \
-                             _ellipsoidal_, _float, _name_, \
+from pygeodesy.interns import NN, _COMMA_SPACE_, _ellipsoid_, _ellipsoidal_, \
+                             _float, _item_ir, _item_is, joined, _name_, \
                              _spherical_, _transform_, _UNDERSCORE_, \
                              _0_0, _1_0, _2_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
@@ -91,7 +91,7 @@ from pygeodesy.units import Radius_, Scalar
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '20.10.12'
+__version__ = '20.10.29'
 
 
 def _r_s2(s):
@@ -202,8 +202,8 @@ class Transform(_NamedEnumItem):
            @return: A L{Vector3Tuple}C{(x, y, z)}, transformed.
         '''
         if inverse:
-            _xyz = -_1_0, -x, -y, -z
-            _s1 = self.s1 - _2_0  # == -(1 - s * 1e-6)) == -(1 - (s1 - 1))
+            _xyz = tuple(neg_(_1_0, x, y, z))
+            _s1  = self.s1 - _2_0  # == -(1 - s * 1e-6)) == -(1 - (s1 - 1))
         else:
             _xyz =  _1_0,  x,  y,  z
             _s1  = self.s1
@@ -341,8 +341,20 @@ class Datum(_NamedEnumItem):
         return self._ellipsoid.isEllipsoidal
 
     @property_RO
+    def isOblate(self):
+        '''Check whether this datum's ellipsoidal is I{oblate} (C{bool}).
+        '''
+        return self._ellipsoid.isOblate
+
+    @property_RO
+    def isProlate(self):
+        '''Check whether this datum's ellipsoidal is I{prolate} (C{bool}).
+        '''
+        return self._ellipsoid.isProlate
+
+    @property_RO
     def isSpherical(self):
-        '''Check whether this datum is spherical (C{bool}).
+        '''Check whether this datum is (near-)spherical (C{bool}).
         '''
         return self._ellipsoid.isSpherical
 
@@ -351,10 +363,10 @@ class Datum(_NamedEnumItem):
 
            @return: Datum attributes (C{str}).
         '''
-        t = ['%s=%r' % (_name_, self.named)]
+        t = [_item_ir(_name_, self.named)]
         for a in (_ellipsoid_, _transform_):
             v = getattr(self, a)
-            t.append('%s=%ss.%s' % (a, v.classname, v.name))
+            t.append(joined(_item_is(a, v.classname), 's.', v.name))
         return _COMMA_SPACE_.join(t)
 
     @property_RO

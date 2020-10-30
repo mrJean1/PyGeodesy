@@ -13,17 +13,17 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isscalar, len2, map1, property_doc_, \
+from pygeodesy.basics import isscalar, len2, map1, neg, property_doc_, \
                              property_RO, _xnumpy
 from pygeodesy.errors import _AssertionError, CrossError, IntersectionError, \
                              _IsnotError, _TypeError, _ValueError, _xkwds, \
                              _xkwds_popitem
 from pygeodesy.fmath import euclid_, fdot, fsum, fsum_, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2
-from pygeodesy.interns import EPS, EPS1, NN, PI, PI2, _coincident_, _colinear_, \
-                             _COMMA_, _COMMA_SPACE_, _datum_, _h_, _height_, \
-                             _invalid_, joined_, _Missing, _name_, \
-                             _near_concentric_, _no_intersection_, _PARENTH_, \
+from pygeodesy.interns import EPS, EPS1, MISSING, NN, PI, PI2, _coincident_, \
+                             _colinear_, _COMMA_, _COMMA_SPACE_, _datum_, \
+                             _h_, _height_, _invalid_, joined_, _name_, \
+                             _near_concentric_, _no_intersection_, _PAREN_fmt_, \
                              _scalar_, _too_distant_fmt_, _y_, _z_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, _xotherError
@@ -34,7 +34,7 @@ from pygeodesy.units import Radius, Radius_
 from math import atan2, copysign, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -340,7 +340,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             return _0_0
         # use vSign as reference to get sign of s
         if vSign and x.dot(vSign) < 0:
-            s = -s
+            s = neg(s)
 
         a = atan2(s, self.dot(other))
         if wrap and abs(a) > PI:
@@ -665,7 +665,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return self.xyz
 
-    def toStr(self, prec=5, fmt=_PARENTH_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toStr(self, prec=5, fmt=_PAREN_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this vector.
 
            @kwarg prec: Optional number of decimal places (C{int}).
@@ -1049,7 +1049,7 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
     '''
     n, vectors = len2(vectors)
     if n < 1:
-        raise VectorError(vectors=n, txt=_Missing)
+        raise VectorError(vectors=n, txt=MISSING)
 
     v = Vector3Tuple(fsum(v.x for v in vectors),
                      fsum(v.y for v in vectors),

@@ -5,28 +5,24 @@ u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
 for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
-from pygeodesy.basics import isint, isscalar, isstr, map1, property_RO, \
+from pygeodesy.basics import isint, isscalar, isstr, map1, neg_, property_RO, \
                             _xattrs, _xinstanceof, _xsubclassof, _xzipairs
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import ParseError, _parseX, _ValueError, _xkwds
-from pygeodesy.interns import NN, _band_, _COMMA_, _convergence_, \
-                             _datum_, _easting_, _float, _hemipole_, \
-                             _invalid_, _lat_, _lon_, _N_, _n_a_, \
-                             _northing_, _NS_, _PLUS_, _scale_, \
-                             _SPACE_, _zone_, _0_0, _0_5, _180_0
+from pygeodesy.interns import NN, _COMMA_, _float, _invalid_, _N_, _n_a_, \
+                             _NS_, _PLUS_, _SPACE_, _0_0, _0_5, _180_0
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import _NamedBase, _NamedTuple, nameof, \
-                             notOverloaded, _Pass, _xnamed
-from pygeodesy.namedTuples import EasNor2Tuple
+from pygeodesy.named import _NamedBase, nameof, \
+                             notOverloaded, _xnamed
+from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
 from pygeodesy.streprs import fstr, _fstrENH2
-from pygeodesy.units import Band, Degrees, Easting, Lat, Lon, Northing, \
-                            Number_, Scalar, Str, Zone
+from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -140,15 +136,6 @@ def _to3zll(lat, lon):  # imported by .ups, .utm
     return Zone(z), wrap90(lat), lon
 
 
-class LatLonDatum5Tuple(_NamedTuple):
-    '''5-Tuple C{(lat, lon, datum, convergence, scale)} in
-       C{degrees90}, C{degrees180}, L{Datum}, C{degrees}
-       and C{float}.
-    '''
-    _Names_ = (_lat_, _lon_, _datum_, _convergence_, _scale_)
-    _Units_ = ( Lat,   Lon,  _Pass,    Degrees,       Scalar)
-
-
 class UtmUpsBase(_NamedBase):
     '''(INTERNAL) Base class for L{Utm} and L{Ups} coordinates.
     '''
@@ -235,7 +222,7 @@ class UtmUpsBase(_NamedBase):
         '''
         e, n = self.falsed2
         if self.falsed and not falsed:
-            e, n = -e, -n
+            e, n = neg_(e, n)
         elif falsed and not self.falsed:
             pass
         else:
@@ -333,74 +320,6 @@ class UtmUpsBase(_NamedBase):
         return t if sep is None else sep.join(t)
 
 
-class UtmUps2Tuple(_NamedTuple):  # imported by .espg
-    '''2-Tuple C{(zone, hemipole)} as C{int} and C{str}, where
-       C{zone} is C{1..60} for UTM or C{0} for UPS and C{hemipole}
-       C{'N'|'S'} is the UTM hemisphere or the UPS pole.
-    '''
-    _Names_ = (_zone_,  _hemipole_)
-    _Units_ = ( Number_, Str)
-
-
-class UtmUps5Tuple(_NamedTuple):  # imported by .mgrs
-    '''5-Tuple C{(zone, hemipole, easting, northing, band)} as C{int},
-       C{str}, C{meter}, C{meter} and C{band} letter, where C{zone}
-       is C{1..60} for UTM or C{0} for UPS, C{hemipole} C{'N'|'S'} is
-       the UTM hemisphere or the UPS pole and C{band} is C{""} or the
-       (longitudinal) UTM band C{'C'|'D'..'W'|'X'} or the (polar) UPS
-       band C{'A'|'B'|'Y'|'Z'}.
-    '''
-    _Names_ = (_zone_,  _hemipole_, _easting_, _northing_, _band_)
-    _Units_ = ( Number_, Str,        Easting,   Northing,   Band)
-
-    def __new__(cls, z, h, e, n, B, Error=None):
-        if Error is not None:
-            e = Easting( e, Error=Error)
-            n = Northing(n, Error=Error)
-        return _NamedTuple.__new__(cls, z, h, e, n, B)
-
-
-class UtmUps8Tuple(_NamedTuple):
-    '''8-Tuple C{(zone, hemipole, easting, northing, band, datum,
-       convergence, scale)} as C{int}, C{str}, C{meter}, C{meter},
-       C{band} letter, C{Datum}, C{degrees} and C{scalar}, where
-       C{zone} is C{1..60} for UTM or C{0} for UPS, C{hemipole}
-       C{'N'|'S'} is the UTM hemisphere or the UPS pole and C{band}
-       is C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
-       or the (polar) UPS band C{'A'|'B'|'Y'|'Z'}.
-    '''
-    _Names_ = (_zone_,  _hemipole_, _easting_, _northing_,
-               _band_,  _datum_, _convergence_, _scale_)
-    _Units_ = ( Number_, Str,        Easting,   Northing,
-                Band,   _Pass,    Degrees,       Scalar)
-
-    def __new__(cls, z, h, e, n, B, d, c, s, Error=None):
-        if Error is not None:
-            e = Easting( e, Error=Error)
-            n = Northing(n, Error=Error)
-            c = Degrees(convergence=c, Error=Error)
-            s = Scalar(scale=s, Error=Error)
-        return _NamedTuple.__new__(cls, z, h, e, n, B, d, c, s)
-
-
-class UtmUpsLatLon5Tuple(_NamedTuple):
-    '''5-Tuple C{(zone, band, hemipole, lat, lon)} as C{int},
-       C{str}, C{str}, C{degrees90} and C{degrees180}, where
-       C{zone} is C{1..60} for UTM or C{0} for UPS, C{band} is
-       C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
-       or (polar) UPS band C{'A'|'B'|'Y'|'Z'} and C{hemipole}
-       C{'N'|'S'} is the UTM hemisphere or the UPS pole.
-    '''
-    _Names_ = (_zone_,  _band_, _hemipole_, _lat_, _lon_)
-    _Units_ = ( Number_, Band,   Str,        Lat,   Lon)
-
-    def __new__(cls, z, B, h, lat, lon, Error=None):
-        if Error is not None:
-            lat = Lat(lat, Error=Error)
-            lon = Lon(lon, Error=Error)
-        return _NamedTuple.__new__(cls, z, B, h, lat, lon)
-
-
 def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band=NN, sep=_COMMA_):
     '''(INTERNAL) Parse a string representing a UTM or UPS coordinate
        consisting of C{"zone[band] hemisphere/pole easting northing"}.
@@ -445,11 +364,7 @@ def _parseUTMUPS5(strUTMUPS, UPS, Error=ParseError, band=NN, sep=_COMMA_):
                               strUTMUPS=strUTMUPS, Error=Error)
 
 
-__all__ += _ALL_DOCS(UtmUpsBase, LatLonDatum5Tuple,
-                     UtmUps2Tuple,
-                     UtmUps5Tuple,
-                     UtmUps8Tuple,
-                     UtmUpsLatLon5Tuple)
+__all__ += _ALL_DOCS(UtmUpsBase)
 
 # **) MIT License
 #

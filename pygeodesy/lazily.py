@@ -27,11 +27,11 @@ imported by that top-level module.
              supported or not enabled, or C{False} if initializing C{lazy
              import} failed.
 '''
-from pygeodesy.interns import NN, __all__ as _interns_a_l_l_, _areaOf_, \
-                             _attribute_, _COMMA_SPACE_, _doesn_t_exist_, \
-                             _DOT_, _dot_, _dunder_name, _isclockwise_, \
-                             _ispolar_, _item_sq, joined, joined_, _Missing, \
-                             _module_, _no_, _not_enabled_, _or_, _perimeterOf_, \
+from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, _areaOf_, \
+                             _attribute_, _COMMA_SPACE_, _doesn_t_exist_, _DOT_, \
+                             _dot_, _dunder_name, _isclockwise_, _ispolar_, \
+                             _item_sq, joined, joined_, _module_, _no_, \
+                             _not_enabled_, _or_, _perimeterOf_, \
                              _pygeodesy_abspath_, _UNDERSCORE_, _version_
 
 from os import environ as _environ
@@ -103,22 +103,25 @@ _ALL_INIT = _pygeodesy_abspath_, _version_
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          albers=('AlbersEqualArea', 'AlbersEqualArea2', 'AlbersEqualArea4',
                                  'AlbersEqualAreaCylindrical', 'AlbersEqualAreaNorth', 'AlbersEqualAreaSouth',
-                                 'AlbersError'),
-                      azimuthal=('AzimuthalError', 'Equidistant', 'EquidistantKarney', 'Gnomonic', 'GnomonicKarney',
+                                 'AlbersError', 'Albers7Tuple'),
+                      azimuthal=('AzimuthalError', 'Azimuthal7Tuple',
+                                 'Equidistant', 'EquidistantKarney', 'Gnomonic', 'GnomonicKarney',
                                  'LambertEqualArea', 'Orthographic', 'Stereographic',
                                  'equidistant', 'gnomonic'),
-                         basics=('clips', 'halfs2',
+                         basics=('clips', 'copysign', 'halfs2',
                                  'isbool', 'isclass', 'isfinite', 'isidentifier', 'isinf', 'isint', 'iskeyword',
                                  'isnan', 'isneg0', 'isscalar', 'issequence', 'isstr', 'issubclassof',
-                                 'len2', 'map1', 'map2',
+                                 'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'property_doc_', 'property_RO', 'ub2str'),
                           clipy=('ClipError',
+                                 'ClipCS3Tuple', 'ClipSH3Tuple',
                                  'clipCS3', 'clipSH', 'clipSH3'),
-                            css=('CassiniSoldner', 'Css', 'CSSError', 'toCss'),
+                            css=('CassiniSoldner', 'Css', 'CSSError', 'toCss',
+                                 'EasNorAziRk4Tuple', 'LatLonAziRk4Tuple'),
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('OK',  # DEPRECATED contants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
-                                 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError',  # DEPRECATED classes
+                                 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError', 'UtmUps4Tuple',  # DEPRECATED classes
                                  'anStr', 'areaof', 'bounds', 'clipDMS', 'clipStr', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
                                  'equirectangular3', 'enStr2', 'false2f', 'falsed2f', 'fStr', 'fStrzs', 'hypot3',  # ... except ellipsoidal, spherical flavors
                                  'inStr', 'isenclosedby', 'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
@@ -130,27 +133,30 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'bearingDMS', 'clipDegrees', 'clipRadians', 'compassDMS', 'compassPoint',
                                  'degDMS', 'latDMS', 'latlonDMS', 'lonDMS', 'normDMS',
                                  'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
-                           ecef=('EcefCartesian', 'EcefError', 'EcefKarney', 'EcefMatrix', 'EcefSudano', 'EcefVeness', 'EcefYou'),
-                     elevations=('elevation2', 'geoidHeight2'),
+                           ecef=('EcefCartesian', 'EcefError', 'EcefKarney', 'EcefMatrix', 'EcefSudano', 'Ecef9Tuple', 'EcefVeness', 'EcefYou'),
+                     elevations=('elevation2', 'geoidHeight2',
+                                 'Elevation2Tuple', 'GeoidHeight2Tuple'),
               ellipsoidalKarney=(),  # module only
-             ellipsoidalNvector=(),  # module only
+             ellipsoidalNvector=('Ned3Tuple',),  # nothing else
             ellipsoidalVincenty=('VincentyError',),  # nothing else
                      ellipsoids=('R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
-                                 'a_f2Tuple', 'Ellipsoid', 'Ellipsoid2', 'Ellipsoids',
+                                 'a_f2Tuple', 'Curvature2Tuple',
+                                 'Ellipsoid', 'Ellipsoid2', 'Ellipsoids',
                                  'a_b2e', 'a_b2e2', 'a_b2e22', 'a_b2e32',
                                  'a_b2f', 'a_b2f_', 'a_b2f2', 'a_b2n',
                                  'a_f2b', 'a_f_2b', 'b_f2a', 'b_f_2a',
                                  'f2e2', 'f2e22', 'f2e32', 'f_2f', 'f2f_', 'f2f2', 'f2n', 'n2e2', 'n2f'),
-                       elliptic=('Elliptic', 'EllipticError'),
+                       elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=('Epsg', 'EPSGError'),
                          errors=('CrossError', 'IntersectionError', 'LenError', 'LimitError', 'PointsError',
                                  'RangeError', 'SciPyError', 'SciPyWarning', 'TRFError', 'UnitError',
                                  'crosserrors', 'exception_chaining', 'limiterrors', 'rangerrors'),
                             etm=('Etm', 'ETMError', 'ExactTransverseMercator',
+                                 'EasNorExact4Tuple', 'LatLonExact4Tuple',
                                  'parseETM5', 'toEtm8'),
                           fmath=('Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
                                  'cbrt', 'cbrt2', 'euclid', 'euclid_',
-                                 'favg', 'fdot', 'fdot3', 'fmean', 'fhorner', 'fidw', 'fpolynomial',
+                                 'favg', 'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_', 'sqrt3'),
                           formy=('antipode', 'antipode_', 'bearing', 'bearing_',
@@ -161,21 +167,24 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
                                  'intersections2', 'isantipode', 'isantipode_',
                                  'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
-                                 'philam2n_xyz', 'points2', 'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_'),
+                                 'philam2n_xyz', 'points2', 'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_',
+                                 'Radical2Tuple'),
                         frechet=('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                  'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
                                  'FrechetCosineLaw', 'FrechetDistanceTo', 'FrechetEquirectangular',
                                  'FrechetEuclidean', 'FrechetFlatLocal', 'FrechetFlatPolar', 'FrechetHaversine',
-                                 'FrechetHubeny', 'FrechetKarney', 'FrechetThomas', 'FrechetVincentys',
+                                 'FrechetHubeny', 'FrechetKarney', 'FrechetThomas', 'FrechetVincentys', 'Frechet6Tuple',
                                  'fractional', 'frechet_'),
                            gars=('Garef', 'GARSError'),
-                        geohash=('Geohash', 'GeohashError'),
-                         geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights', 'PGMError'),
+                        geohash=('Geohash', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple'),
+                         geoids=('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights',
+                                 'PGMError', 'GeoidHeight5Tuple'),
                       hausdorff=('Hausdorff', 'HausdorffDegrees', 'HausdorffError', 'HausdorffRadians',
                                  'HausdorffCosineAndoyerLambert', 'HausdorffCosineForsytheAndoyerLambert',
                                  'HausdorffCosineLaw', 'HausdorffDistanceTo', 'HausdorffEquirectangular',
                                  'HausdorffEuclidean', 'HausdorffFlatLocal', 'HausdorffFlatPolar', 'HausdorffHaversine',
                                  'HausdorffHubeny', 'HausdorffKarney', 'HausdorffThomas', 'HausdorffVincentys',
+                                 'Hausdorff6Tuple',
                                  'hausdorff_', 'randomrangenerator'),
                         heights=('HeightError',
                                  'HeightIDWcosineAndoyerLambert', 'HeightIDWcosineForsytheAndoyerLambert',
@@ -187,11 +196,23 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          karney=(),  # module only
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
-                           mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs'),
+                           mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
                           named=('callername', 'classname', 'classnaming', 'modulename', 'nameof', 'notImplemented', 'notOverloaded'),
-                    namedTuples=(),  # module only
+                    namedTuples=('Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
+                                 'Destination2Tuple', 'Destination3Tuple',
+                                 'Distance2Tuple', 'Distance3Tuple', 'Distance4Tuple',
+                                 'EasNor2Tuple', 'EasNor3Tuple',
+                                 'LatLon2Tuple', 'LatLon3Tuple', 'LatLon4Tuple',
+                                 'LatLonDatum3Tuple', 'LatLonDatum5Tuple',
+                                 'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
+                                 'NearestOn3Tuple',
+                                 'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Points2Tuple',
+                                 'Trilaterate5Tuple',
+                                 'UtmUps2Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple', 'UtmUpsLatLon5Tuple',
+                                 'Vector3Tuple', 'Vector4Tuple'),
                            osgr=('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
                          points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
+                                 'NearestOn5Tuple', 'Point3Tuple', 'Shape2Tuple',
                                  _areaOf_, 'boundsOf', 'centroidOf',
                                  _isclockwise_, 'isconvex', 'isconvex_', 'isenclosedBy', _ispolar_,
                                  'luneOf', 'nearestOn5', _perimeterOf_, 'quadOf'),
@@ -207,7 +228,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians2',
                                  'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'Zone'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
-                          utily=('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atan2b', 'atan2d',
+                          utily=('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atand', 'atan2b', 'atan2d',
                                  'chain2m',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
                                  'fathom2m', 'ft2m', 'furlong2m',
@@ -222,7 +243,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
                        vector3d=('Vector3d', 'VectorError', 'iscolinearWith', 'parse3d', 'trilaterate3d2'),
-                    webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm'),
+                    webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm', 'EasNorRadius3Tuple'),
                            wgrs=('Georef', 'WGRSError'))
 
 # DEPRECATED __all__ names overloading those in _ALL_LAZY.deprecated where
@@ -240,7 +261,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.10.20'
+__version__ = '20.10.30'
 
 
 def _ALL_OTHER(*objs):
@@ -362,10 +383,10 @@ def _lazy_import2(_pygeodesy_):  # MCCABE 15
                 raise LazyImportError(_dot_(mod, '__package__'), imported.__package__)
             # import the module or module attribute
             if attr:
-                imported = getattr(imported, attr, _Missing)
+                imported = getattr(imported, attr, MISSING)
             elif name != mod:
-                imported = getattr(imported, name, _Missing)
-            if imported is _Missing:
+                imported = getattr(imported, name, MISSING)
+            if imported is MISSING:
                 raise LazyImportError(joined_(_no_, _attribute_),
                                       txt=_dot_(mod, attr or name))
 

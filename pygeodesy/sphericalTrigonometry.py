@@ -14,7 +14,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isscalar, map1
+from pygeodesy.basics import copysign, isscalar, map1
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                               IntersectionError, _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
@@ -37,10 +37,10 @@ from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
                             unrollPI, wrapPI
 from pygeodesy.vector3d import sumOf, Vector3d
 
-from math import asin, atan2, copysign, cos, degrees, hypot, radians, sin
+from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 _EPS_I2    = EPS * _4_0
 _PI_EPS_I2 = PI - _EPS_I2

@@ -26,8 +26,8 @@ from pygeodesy.errors import _IsnotError, _parseX, _TypeError, \
                              _ValueError, _xkwds
 from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMA_SPACE_, _easting_, \
                              _ellipsoidal_, _northing_, _radius_, _SPACE_, \
-                             _SQUARE_, _x_, _y_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+                             _SQUARE_fmt_, _x_, _y_
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
 from pygeodesy.streprs import strs
@@ -38,7 +38,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -206,7 +206,7 @@ class Wm(_NamedBase):
         r = LatLon(r.lat, r.lon, **kwds)
         return self._xnamed(r)
 
-    def toRepr(self, prec=3, fmt=_SQUARE_, sep=_COMMA_SPACE_, radius=False, **unused):  # PYCHOK expected
+    def toRepr(self, prec=3, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, radius=False, **unused):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -359,9 +359,6 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
     r = EasNorRadius3Tuple(e, n, r) if Wm is None else \
                         Wm(e, n, **_xkwds(Wm_kwds, radius=r))
     return _xnamed(r, name)
-
-
-__all__ += _ALL_DOCS(EasNorRadius3Tuple)
 
 # **) MIT License
 #

@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.10.15
+        20.10.29
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -133,6 +133,25 @@
         <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">50</span>,
         <span class="summary-sig-arg">white</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
       Clip a string to the given length limit.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#copysign" class="summary-sig-name">copysign</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Like <code>math.copysign(x, y)</code> except <code>zero</code>, 
+      <i>unsigned</i> .</td>
           <td align="right" valign="top">
             
             
@@ -273,7 +292,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isneg0" class="summary-sig-name">isneg0</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Check for NEG0, negative 0.0.</td>
+      Check for NEG0, negative <code>0.0</code>.</td>
           <td align="right" valign="top">
             
             
@@ -415,6 +434,41 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#neg" class="summary-sig-name">neg</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Negate <code>x</code> uless <code>zero</code> or <code>NEG0</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#neg_" class="summary-sig-name">neg_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Negate all of <code>xs</code> like <a 
+      href="pygeodesy.basics-module.html#neg" class="link">neg</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#property_doc_" class="summary-sig-name">property_doc_</a>(<span class="summary-sig-arg">doc</span>)</span><br />
       Decorator for a property with documentation.</td>
           <td align="right" valign="top">
@@ -496,6 +550,30 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The clipped or unclipped <b><code>bstr</code></b>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="copysign"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copysign</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Like <code>math.copysign(x, y)</code> except <code>zero</code>, 
+  <i>unsigned</i> .</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>math.copysign(<b>x</b>, <b>y</b>)</code> if 
+          <b><code>x</code></b> else <code>0.0</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -655,7 +733,7 @@
     </td>
   </tr></table>
   
-  <p>Check for NEG0, negative 0.0.</p>
+  <p>Check for NEG0, negative <code>0.0</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -663,7 +741,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>obj</code></b> is <code>NEG0</code>
-          or -0.0, <code>False</code> otherwise.</dd>
+          or <code>-0.0</code>, <code>False</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -870,6 +948,51 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="neg"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">neg</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Negate <code>x</code> uless <code>zero</code> or 
+  <code>NEG0</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd><code>-<b>x</b></code> if <b><code>x</code></b> else 
+          <code>0.0</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="neg_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">neg_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Negate all of <code>xs</code> like <a 
+  href="pygeodesy.basics-module.html#neg" class="link">neg</a>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Yield <code>neg(x) for x in <b>xs</b></code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="property_doc_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -935,7 +1058,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 21 14:53:03 2020
+    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:51 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

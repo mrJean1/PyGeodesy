@@ -20,53 +20,38 @@ from pygeodesy.basics import isstr, map2, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import favg
-from pygeodesy.formy import equirectangular, equirectangular_, haversine_
-from pygeodesy.interns import EPS, NN, R_M, _COMMA_, _E_, _floatuple as _T, \
-                             _N_, _NE_, _NW_, _S_, _SE_, _SW_, _W_, _0_5, \
-                             _90_0, _180_0, _360_0
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import _NamedDict
-from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple
+from pygeodesy.formy import equirectangular, equirectangular_, haversine
+from pygeodesy.interns import EPS, NN, R_M, _COMMA_, _E_, _floatuple, \
+                             _N_, _NE_, _NW_, _S_, _SE_, _SW_, _W_, \
+                             _0_0, _0_5, _90_0, _180_0, _360_0
+from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
+from pygeodesy.named import _NamedDict, _NamedTuple, _xnamed
+from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
+                                  LatLon2Tuple, PhiLam2Tuple
 from pygeodesy.streprs import fstr
-from pygeodesy.units import Int, Lat, Lon, Precision_, Radius, \
-                            Scalar_, Str, _xStrError
-from pygeodesy.utily import unrollPI
+from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
+                           _xStrError
 
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '20.10.20'
+__version__ = '20.10.30'
 
-_Border = dict(
-    N=('prxz',     'bcfguvyz'),
-    S=('028b',     '0145hjnp'),
-    E=('bcfguvyz', 'prxz'),
-    W=('0145hjnp', '028b'))
+
+def _4d(n, e, s, w):  # helper
+    return dict(N=(n, e), S=(s, w),
+                E=(e, n), W=(w, s))
+
+
+_Border   = _4d('prxz', 'bcfguvyz', '028b', '0145hjnp')
+_Neighbor = _4d('p0r21436x8zb9dcf5h7kjnmqesgutwvy',
+                'bc01fg45238967deuvhjyznpkmstqrwx',
+                '14365h7k9dcfesgujnmqp0r2twvyx8zb',
+                '238967debc01fg45kmstqrwxuvhjyznp')
+del _4d
 
 _Bounds4 = -_90_0, -_180_0, _90_0, _180_0
-_MaxPrec = 12
-
-_Neighbor = dict(
-    N=('p0r21436x8zb9dcf5h7kjnmqesgutwvy', 'bc01fg45238967deuvhjyznpkmstqrwx'),
-    S=('14365h7k9dcfesgujnmqp0r2twvyx8zb', '238967debc01fg45kmstqrwxuvhjyznp'),
-    E=('bc01fg45238967deuvhjyznpkmstqrwx', 'p0r21436x8zb9dcf5h7kjnmqesgutwvy'),
-    W=('238967debc01fg45kmstqrwxuvhjyznp', '14365h7k9dcfesgujnmqp0r2twvyx8zb'))
-
-# lat-, longitudinal and radial cell size (in meter)
-_Sizes = (  # radius = sqrt(latHeight * lonWidth / PI)
-    _T(20032e3, 20000e3, 11292815.096),  # 0
-    _T( 5003e3,  5000e3,  2821794.075),  # 1
-    _T(  650e3,  1225e3,   503442.397),  # 2
-    _T(  156e3,   156e3,    88013.575),  # 3
-    _T(  19500,   39100,    15578.683),  # 4
-    _T(   4890,    4890,     2758.887),  # 5
-    _T(    610,    1220,      486.710),  # 6
-    _T(    153,     153,       86.321),  # 7
-    _T(     19.1,    38.2,     15.239),  # 8
-    _T(      4.77,    4.77,     2.691),  # 9
-    _T(      0.596,   1.19,     0.475),  # 10
-    _T(      0.149,   0.149,    0.084),  # 11
-    _T(      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
+_MaxPrec =  12
 
 # Geohash-specific base32 map
 _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'  # no a, i, j and o
@@ -74,6 +59,22 @@ _GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'  # no a, i, j and o
 _DecodedBase32 = dict((c, i) for i, c in enumerate(_GeohashBase32))
 c = i = None
 del c, i
+
+# lat-, longitudinal and radial size (in meter)
+_Sizes = (  # radius = sqrt(latHeight * lonWidth / PI)
+    _floatuple(20032e3, 20000e3, 11292815.096),  # 0
+    _floatuple( 5003e3,  5000e3,  2821794.075),  # 1
+    _floatuple(  650e3,  1225e3,   503442.397),  # 2
+    _floatuple(  156e3,   156e3,    88013.575),  # 3
+    _floatuple(  19500,   39100,    15578.683),  # 4
+    _floatuple(   4890,    4890,     2758.887),  # 5
+    _floatuple(    610,    1220,      486.710),  # 6
+    _floatuple(    153,     153,       86.321),  # 7
+    _floatuple(     19.1,    38.2,     15.239),  # 8
+    _floatuple(      4.77,    4.77,     2.691),  # 9
+    _floatuple(      0.596,   1.19,     0.475),  # 10
+    _floatuple(      0.149,   0.149,    0.084),  # 11
+    _floatuple(      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
 
 
 def _2bounds(LatLon, LatLon_kwds, s, w, n, e):
@@ -137,8 +138,7 @@ class Geohash(Str):
         '''New L{Geohash} from an other L{Geohash} instance or C{str}
            or from a C{LatLon} instance or C{str}.
 
-           @arg cll: Cell or location (L{Geohash} or C{str}, C{LatLon}
-                     or C{str}).
+           @arg cll: Cell or location (L{Geohash}, C{LatLon} or C{str}).
            @kwarg precision: Optional, the desired geohash length (C{int}
                              1..12), see function L{geohash.encode} for
                              some examples.
@@ -146,43 +146,35 @@ class Geohash(Str):
 
            @return: New L{Geohash}.
 
-           @raise TypeError: Invalid B{C{cll}}.
-
            @raise GeohashError: INValid or non-alphanumeric B{C{cll}}.
+
+           @raise TypeError: Invalid B{C{cll}}.
         '''
         if isinstance(cll, Geohash):
             gh = _2geostr(str(cll))
-            self = Str.__new__(cls, gh)
+            ll = None
 
         elif isstr(cll):
             if _COMMA_ in cll:
-                lat, lon = _2fll(*parse3llh(cll))
+                lat, lon = ll = _2fll(*parse3llh(cll))
                 gh = encode(lat, lon, precision=precision)
-                self = Str.__new__(cls, gh)
-                self._latlon = lat, lon
             else:
                 gh = _2geostr(cll)
-                self = Str.__new__(cls, gh)
+                ll = None
 
         else:  # assume LatLon
             try:
-                lat, lon = _2fll(cll.lat, cll.lon)
+                lat, lon = ll = _2fll(cll.lat, cll.lon)
             except AttributeError:
-                raise _xStrError(Geohash, cll=cll)  # Error=GeohashError
+                raise _xStrError(Geohash, cll=cll, Error=GeohashError)
             gh = encode(lat, lon, precision=precision)
-            self = Str.__new__(cls, gh)
-            self._latlon = lat, lon
 
+        self = Str.__new__(cls, gh)
+        if ll:
+            self._latlon = ll
         if name:
             self.name = name
         return self
-
-    @property_RO
-    def ab(self):
-        '''Get the lat- and longitude of (the approximate center of)
-           this geohash as a 2-tuple (lat, lon) in C{radians}.
-        '''
-        return map2(radians, self.latlon)
 
     def adjacent(self, direction):
         '''Determine the adjacent cell in given compass direction.
@@ -230,16 +222,11 @@ class Geohash(Str):
             self._bounds = bounds(self)
         return _2bounds(LatLon, LatLon_kwds, *self._bounds)
 
-    def distance1(self, other):  # PYCHOK no cover
-        '''DEPRECATED, use method C{distance1To}.
-        '''
-        return self.distance1To(other)
-
     def distance1To(self, other):
         '''Estimate the distance between this and an other geohash
            (from the cell sizes).
 
-           @arg other: The other geohash (L{Geohash}).
+           @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
 
            @return: Approximate distance (C{meter}).
 
@@ -252,28 +239,25 @@ class Geohash(Str):
         for n in range(n):
             if self[n] != other[n]:
                 break
-        return float(_Sizes[n][2])
+        return _Sizes[n][2]
 
-    def distance2(self, other, radius=R_M, adjust=False, wrap=False):  # PYCHOK no cover
-        '''DEPRECATED, use method C{distance2To}.
-        '''
-        return self.distance2To(other, radius=radius, adjust=adjust, wrap=wrap)
+    distance1 = distance1To  # for backward compatibility
+    '''DEPRECATED, use method L{distance1To}.'''
 
     def distance2To(self, other, radius=R_M, adjust=False, wrap=False):
-        '''Compute the distance between this and an other geohash
-           using the U{Equirectangular Approximation / Projection
-           <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
+        '''Approximate the distance between this and an other geohash
+           using the L{equirectangular}.
 
-           @arg other: The other geohash (L{Geohash}).
+           @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg adjust: Adjust the wrapped, unrolled longitudinal
                           delta by the cosine of the mean latitude
                           C{bool}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Approximate distance (C{meter}, same units as I{radius})
-                    or distance squared (C{degrees squared}) if I{radius}
-                    is C{None} or 0.
+           @return: Approximate distance (C{meter}, same units as
+                    B{C{radius}}) or distance I{squared} (C{degrees
+                    squared}) if C{B{radius}=None} or C{B{radius}=0}.
 
            @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
                              or C{str}.
@@ -283,26 +267,19 @@ class Geohash(Str):
         '''
         other = _2Geohash(other)
 
-        a1, b1 = self.latlon
-        a2, b2 = other.latlon
-        if radius:
-            return equirectangular(a1, b1, a2, b2, radius=radius,
-                                   adjust=adjust, limit=None, wrap=wrap)
-        else:
-            return equirectangular_(a1, b1, a2, b2,
-                                    adjust=adjust, limit=None, wrap=wrap)[0]
+        lls  = self.latlon + other.latlon
+        kwds = dict(adjust=adjust, limit=None, wrap=wrap)
+        return equirectangular( *lls, radius=radius, **kwds) if radius else \
+               equirectangular_(*lls, **kwds).distance2
 
-    def distance3(self, other, radius=R_M, wrap=False):  # PYCHOK no cover
-        '''DEPRECATED, use method C{distance3To}.
-        '''
-        return self.distance3To(other, radius=radius, wrap=wrap)
+    distance2 = distance2To  # for backward compatibility
+    '''DEPRECATED, use method L{distance2To}.'''
 
     def distance3To(self, other, radius=R_M, wrap=False):
-        '''Compute the great-circle distance between this and an other
-           geohash using the U{Haversine
-           <https://www.Movable-Type.co.UK/scripts/latlong.html>} formula.
+        '''Compute the distance between this and an other geohash using
+           the L{haversine} formula.
 
-           @arg other: The other geohash (L{Geohash}).
+           @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
            @kwarg radius: Mean earth radius (C{meter}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
@@ -311,15 +288,15 @@ class Geohash(Str):
            @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
                              or C{str}.
 
-           @raise ValueError: Invalid B{C{radius}}.
+           @raise UnitError: Invalid B{C{radius}}.
         '''
         other = _2Geohash(other)
 
-        a1, b1 = self.ab
-        a2, b2 = other.ab
+        lls = self.latlon + other.latlon
+        return haversine(*lls, radius=radius, wrap=wrap)
 
-        db, _ = unrollPI(b1, b2, wrap=wrap)
-        return haversine_(a2, a1, db) * Radius(radius)
+    distance3 = distance3To  # for backward compatibility
+    '''DEPRECATED, use method L{distance3To}.'''
 
     @property_RO
     def latlon(self):
@@ -349,6 +326,16 @@ class Geohash(Str):
         return self._xnamed(r)
 
     @property_RO
+    def philam(self):
+        '''Get the lat- and longitude of (the approximate center of)
+           this geohash as a L{PhiLam2Tuple}C{(phi, lam)} in C{radians}.
+        '''
+        return PhiLam2Tuple(*map2(radians, self.latlon))
+
+    ab = philam  # for backward compatibility
+    '''DEPRECATED, use property L{philam}.'''
+
+    @property_RO
     def precision(self):
         '''Get this geohash's precision (C{int}).
         '''
@@ -361,7 +348,7 @@ class Geohash(Str):
            height and longitudinal width in (C{meter}).
         '''
         n = min(len(_Sizes) - 1, self.precision or 1)
-        return LatLon2Tuple(*map2(float, _Sizes[n][:2]))  # XXX Height, Width
+        return LatLon2Tuple(*_Sizes[n][:2])  # XXX Height, Width
 
     def toLatLon(self, LatLon=None, **LatLon_kwds):
         '''Return (the approximate center of) this geohash cell
@@ -450,7 +437,7 @@ class GeohashError(_ValueError):
     pass
 
 
-class Neighbors8Dict(_NamedDict):  # replacing Neighbors8Dict
+class Neighbors8Dict(_NamedDict):
     '''8-Dict C{(N, NE, E, SE, S, SW, W, NW)} of L{Geohash}es,
        providing key I{and} attribute access to the items.
     '''
@@ -471,7 +458,8 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
        @arg geohash: To be bound (L{Geohash}).
        @kwarg LatLon: Optional class to return the bounds (C{LatLon})
                       or C{None}.
-       @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}}.
+       @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}},
+                           ignored if C{B{LatLon}=None}.
 
        @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)} of B{C{LatLon}}s
                 or if B{C{LatLon}} is C{None}, a L{Bounds4Tuple}C{(latS,
@@ -494,37 +482,42 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
         raise GeohashError(geohash=geohash)
 
     s, w, n, e = _Bounds4
-
-    d = True
-    for c in gh:  # .lower():
-        try:
+    try:
+        d = True
+        for c in gh.lower():
             i = _DecodedBase32[c]
-        except KeyError:
-            raise GeohashError(geohash=geohash)
-
-        for m in (16, 8, 4, 2, 1):
-            if d:  # longitude
-                if i & m:
-                    w = favg(w, e)
-                else:
-                    e = favg(w, e)
-            else:  # latitude
-                if i & m:
-                    s = favg(s, n)
-                else:
-                    n = favg(s, n)
-            d = not d
+            for m in (16, 8, 4, 2, 1):
+                if d:  # longitude
+                    if i & m:
+                        w = favg(w, e)
+                    else:
+                        e = favg(w, e)
+                else:  # latitude
+                    if i & m:
+                        s = favg(s, n)
+                    else:
+                        n = favg(s, n)
+                d = not d
+    except KeyError:
+        raise GeohashError(geohash=geohash)
 
     return _2bounds(LatLon, LatLon_kwds, s, w, n, e)
 
 
+def _bounds3(geohash):
+    '''(INTERNAL) Return 3-tuple C{(bounds, height, width)}.
+    '''
+    b = bounds(geohash)
+    return b, (b.latN - b.latS), (b.lonE - b.lonW)
+
+
 def decode(geohash):
     '''Decode a geohash to lat-/longitude of the (approximate
-       centre of) geohash cell, to reasonable precision.
+       centre of) geohash cell to reasonable precision.
 
        @arg geohash: To be decoded (L{Geohash}).
 
-       @return: 2-Tuple C{"(latStr, lonStr)"} in (C{str}).
+       @return: 2-Tuple C{(latStr, lonStr)}, both C{str}.
 
        @raise TypeError: The B{C{geohash}} is not a L{Geohash},
                          C{LatLon} or C{str}.
@@ -539,13 +532,36 @@ def decode(geohash):
        >>> geohash.decode('reef')  # '-24.87', '162.95'  Coral Sea
        >>> geohash.decode('geek')  # '65.48', '-17.75'  Iceland
     '''
-    b = bounds(geohash)
+    b, h, w  = _bounds3(geohash)
     lat, lon = _2center(b)
 
-    # round to near centre without excessive precision
+    # round to near centre without excessive precision to
     # ⌊2-log10(Δ°)⌋ decimal places, strip trailing zeros
-    return (fstr(lat, prec=int(2 - log10(b.latN - b.latS))),
-            fstr(lon, prec=int(2 - log10(b.lonE - b.lonW))))  # strings
+    return (fstr(lat, prec=int(2 - log10(h))),
+            fstr(lon, prec=int(2 - log10(w))))  # strs!
+
+
+def decode2(geohash, LatLon=None, **LatLon_kwds):
+    '''Decode a geohash to lat-/longitude of the (approximate
+       centre of) geohash cell to reasonable precision.
+
+       @arg geohash: To be decoded (L{Geohash}).
+       @kwarg LatLon: Optional class to return the location (C{LatLon})
+                      or C{None}.
+       @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}},
+                           ignored if C{B{LatLon}=None}.
+
+       @return: L{LatLon2Tuple}C{(lat, lon)}, both C{degrees} if
+                C{B{LatLon}=None}, otherwise a B{C{LatLon}} instance.
+
+       @raise TypeError: The B{C{geohash}} is not a L{Geohash},
+                         C{LatLon} or C{str}.
+
+       @raise GeohashError: Invalid or null B{C{geohash}}.
+    '''
+    t = map2(float, decode(geohash))
+    r = LatLon2Tuple(*t) if LatLon is None else LatLon(*t, **LatLon_kwds)
+    return _xnamed(r, decode2.__name__)
 
 
 def decode_error(geohash):
@@ -569,67 +585,69 @@ def decode_error(geohash):
        >>> geohash.decode_error('fu')  # 2.8125, 5.625
        >>> geohash.decode_error('f')  # 22.5, 22.5
     '''
-    b = bounds(geohash)
-    return LatLon2Tuple((b.latN - b.latS) * _0_5,  # Height
-                        (b.lonE - b.lonW) * _0_5)  # Width
+    _, h, w = _bounds3(geohash)
+    return LatLon2Tuple(h * _0_5,  # Height error
+                        w * _0_5)  # Width error
 
 
 def distance1(geohash1, geohash2):
     '''Estimate the distance between two geohash (from the cell sizes).
 
-       @arg geohash1: First geohash (L{Geohash}).
-       @arg geohash2: Second geohash (L{Geohash}).
+       @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
+       @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
 
        @return: Approximate distance (C{meter}).
 
-       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is not a
-                         L{Geohash}, C{LatLon} or C{str}.
+       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
+                         not a L{Geohash}, C{LatLon} or C{str}.
 
        @example:
 
        >>> geohash.distance1('u120fxwsh', 'u120fxws0')  # 15.239
     '''
-    return _2Geohash(geohash1).distance1(geohash2)
+    return _2Geohash(geohash1).distance1To(geohash2)
 
 
 def distance2(geohash1, geohash2, radius=R_M):
-    '''Approximate the distance between two geohashes (with
-       Pythagoras' theorem).
+    '''Approximate the distance between two geohashes using the
+       L{equirectangular} formula.
 
-       @arg geohash1: First geohash (L{Geohash}).
-       @arg geohash2: Second geohash (L{Geohash}).
+       @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
+       @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
        @kwarg radius: Mean earth radius (C{meter}) or C{None}.
 
-       @return: Approximate distance (C{meter}, same units as B{C{radius}}).
+       @return: Approximate distance (C{meter}, same units as
+                B{C{radius}}).
 
-       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is not a
-                         L{Geohash}, C{LatLon} or C{str}.
+       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
+                         not a L{Geohash}, C{LatLon} or C{str}.
 
        @example:
 
        >>> geohash.distance2('u120fxwsh', 'u120fxws0')  # 19.0879
     '''
-    return _2Geohash(geohash1).distance2(geohash2, radius=radius)
+    return _2Geohash(geohash1).distance2To(geohash2, radius=radius)
 
 
 def distance3(geohash1, geohash2, radius=R_M):
     '''Compute the great-circle distance between two geohashes
-       (using the Haversine formula).
+       using the L{haversine} formula.
 
-       @arg geohash1: First geohash (L{Geohash}).
-       @arg geohash2: Second geohash (L{Geohash}).
+       @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
+       @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
        @kwarg radius: Mean earth radius (C{meter}).
 
-       @return: Great-circle distance (C{meter}, same units as B{C{radius}}).
+       @return: Great-circle distance (C{meter}, same units as
+                B{C{radius}}).
 
-       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is not a
-                         L{Geohash}, C{LatLon} or C{str}.
+       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
+                         not a L{Geohash}, C{LatLon} or C{str}.
 
        @example:
 
        >>> geohash.distance3('u120fxwsh', 'u120fxws0')  # 11.6978
     '''
-    return _2Geohash(geohash1).distance3(geohash2, radius=radius)
+    return _2Geohash(geohash1).distance3To(geohash2, radius=radius)
 
 
 def encode(lat, lon, precision=None):
@@ -669,12 +687,11 @@ def encode(lat, lon, precision=None):
     else:
         p = Precision_(precision, Error=GeohashError, low=1, high=_MaxPrec)
 
-    s, w, n, e = _Bounds4
-
     b = i = 0
     d, gh = True, []
+    s, w, n, e = _Bounds4
 
-    while len(gh) < p:
+    while p > 0:
         i += i
         if d:  # bisect longitude
             m = favg(e, w)
@@ -697,7 +714,8 @@ def encode(lat, lon, precision=None):
             # 5 bits gives a character:
             # append it and start over
             gh.append(_GeohashBase32[i])
-            b = i = 0
+            b  = i = 0
+            p -= 1
 
     return NN.join(gh)
 
@@ -720,56 +738,74 @@ def neighbors(geohash):
 
 
 def precision(res1, res2=None):
-    '''Determine the L{Geohash} precisions to meet a given (geographic)
-       resolutions.
+    '''Determine the L{Geohash} precisions to meet a or both given
+       (geographic) resolutions.
 
-       @arg res1: The required, primary (longitudinal) resolution (C{degrees}).
-       @kwarg res2: Optional, required, secondary (latitudinal resolution (C{degrees}).
+       @arg res1: The required primary I{(longitudinal)} resolution
+                  (C{degrees}).
+       @kwarg res2: Optional, required secondary I{(latitudinal)}
+                    resolution (C{degrees}).
 
-       @return: The L{Geohash} precision or length (C{int} 1..12).
+       @return: The L{Geohash} precision or length (C{int}, 1..12).
 
-       @raise ValueError: Invalid B{C{res1}} or B{C{res2}}.
+       @raise GeohashError: Invalid B{C{res1}} or B{C{res2}}.
 
        @see: C++ class U{Geohash
              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html>}.
     '''
-    r1 = Scalar_(res1, name='res1')
-    r2 = r1 if res2 is None else Scalar_(res2, name='res2')
-    for p in range(1, _MaxPrec):
-        if resolution2(p, None if res2 is None else p) <= (r1, r2):
-            return p
+    r = Degrees_(res1=res1, low=_0_0, Error=GeohashError)
+    if res2 is None:
+        t = r, r
+        for p in range(1, _MaxPrec):
+            if resolution2(p, None) <= t:
+                return p
+
+    else:
+        t = r, Degrees_(res2=res2, low=_0_0, Error=GeohashError)
+        for p in range(1, _MaxPrec):
+            if resolution2(p, p) <= t:
+                return p
+
     return _MaxPrec
+
+
+class Resolutions2Tuple(_NamedTuple):
+    '''2-Tuple C{(res1, res2)} with the primary I{(longitudinal)} and
+       secondary I{(latitudinal)} resolution, both in C{degrees}.
+    '''
+    _Names_ = ('res1',   'res2')
+    _Units_ = ( Degrees_, Degrees_)
 
 
 def resolution2(prec1, prec2=None):
     '''Determine the (geographic) resolutions of given L{Geohash}
        precisions.
 
-       @arg prec1: The given primary (longitudinal) precision
+       @arg prec1: The given primary I{(longitudinal)} precision
                    (C{int} 1..12).
-       @kwarg prec2: Optional, secondary (latitudinal) precision
+       @kwarg prec2: Optional, secondary I{(latitudinal)} precision
                      (C{int} 1..12).
 
-       @return: 2-Tuple (C{res1, res2}) with the (geographic) resolutions
-                (C{degrees}) where C{res2} is C{res1} if no I{prec2} is
-                given.
+       @return: L{Resolutions2Tuple}C{(res1, res2)} with the
+                (geographic) resolutions C{degrees}, where C{res2}
+                B{C{is}} C{res1} if no B{C{prec2}} is given.
 
-       @raise ValueError: Invalid B{C{prec1}} or B{C{prec2}}.
+       @raise GeohashError: Invalid B{C{prec1}} or B{C{prec2}}.
 
-       @see: C++ class U{Geohash
+       @see: I{Karney}'s C++ class U{Geohash
              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geohash.html>}.
     '''
-    res1, res2 = _360_0, _180_0
+    res1, res2 = _360_0, _180_0  # note ... lon, lat!
 
     if prec1:
-        p = 5 * max(0, min(Int(prec1, name='prec1', Error=GeohashError), _MaxPrec))
+        p = 5 * max(0, min(Int(prec1=prec1, Error=GeohashError), _MaxPrec))
         res1 = res2 = ldexp(res1, -(p - p // 2))
 
     if prec2:
-        p = 5 * max(0, min(Int(prec2, name='prec2', Error=GeohashError), _MaxPrec))
+        p = 5 * max(0, min(Int(prec2=prec2, Error=GeohashError), _MaxPrec))
         res2 = ldexp(res2, -(p // 2))
 
-    return res1, res2
+    return Resolutions2Tuple(res1, res2)
 
 
 def sizes(geohash):
@@ -788,9 +824,10 @@ def sizes(geohash):
 
 
 __all__ += _ALL_OTHER(bounds,  # functions
-                      decode, decode_error, distance1, distance2, distance3,
+                      decode, decode2, decode_error,
+                      distance1, distance2, distance3,
                       encode, neighbors, precision, resolution2,
-                      sizes) + _ALL_DOCS(Neighbors8Dict)
+                      sizes)
 
 # **) MIT License
 #

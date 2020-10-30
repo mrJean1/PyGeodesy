@@ -20,22 +20,30 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
                              _ValueError, UnitError, _xkwds, _xkwds_popitem
-from pygeodesy.interns import NN, _AT_, _COLON_, _COLON_SPACE_, _COMMA_SPACE_, \
-                             _CURLY_, _doesn_t_exist_, _DOT_, _dot_, _DUNDER_, \
-                             _dunder_name, _EQUAL_, _invalid_, _item_ps, _item_sq, \
-                             joined, joined_, _name_, _other_, _PARENTH_, _SQUARE_, \
-                             _UNDERSCORE_, _valid_
+from pygeodesy.interns import NN, _ANGLE_fmt_, _AT_, _COLON_, _COLON_SPACE_, \
+                             _COMMA_SPACE_, _CURLY_fmt_, _doesn_t_exist_, _DOT_, \
+                             _dot_, _DUNDER_, _dunder_name, _EQUAL_, _invalid_, \
+                             _item_ir, _item_ps, _item_sq, joined, joined_, _name_, \
+                             _other_, _PAREN_fmt_, _SQUARE_fmt_, _UNDERSCORE_, \
+                             _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
-# __DUNDER gets mangled in class
+_del_       = 'del'
+_exists_    = 'exists'
+_I_         = 'I'
 _immutable_ = 'immutable'
-_name       = '_name'
-_Names_     = '_Names_'
-_Units_     = '_Units_'
+_item_      = 'item'
+_MRO_       = 'MRO'
+_O_         = 'O'
+# __DUNDER gets mangled in class
+_name   = '_name'
+_NN_    = '__name__'  # no __name__
+_Names_ = '_Names_'
+_Units_ = '_Units_'
 
 
 def _xjoined_(prefix, name):
@@ -264,7 +272,8 @@ class _NamedBase(_Named):
                 if getattr(self, a, None) is not None:
                     setattr(self, a, None)
                 elif not hasattr(self, a):
-                    raise _AssertionError('.%s %s: %r' % (a, _invalid_, self))
+                    a = _dot_(NN, joined_(a, _invalid_))
+                    raise _AssertionError(a, txt=repr(self))
 
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
@@ -394,7 +403,7 @@ class _NamedDict(dict, _Named):
         '''Set item B{C{key}} to B{C{value}}.
         '''
         if key == _name_:
-            raise KeyError('%s = %r' % (_item_sq(self.classname, key), value))
+            raise KeyError(joined_(_item_sq(self.classname, key), _EQUAL_, repr(value)))
         dict.__setitem__(self, key, value)
 
     def __str__(self):
@@ -415,7 +424,7 @@ class _NamedDict(dict, _Named):
         '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
         '''
         t = pairs(self.items(), prec=prec, fmt=fmt, sep=_COLON_SPACE_)
-        return _CURLY_ % (_COMMA_SPACE_.join(sorted(t)),)
+        return _CURLY_fmt_ % (_COMMA_SPACE_.join(sorted(t)),)
 
 
 class _NamedEnum(_NamedDict):
@@ -493,9 +502,9 @@ class _NamedEnum(_NamedDict):
             if not (n and isstr(n) and isidentifier(n)):
                 raise ValueError
         except (AttributeError, ValueError, TypeError) as x:
-            raise _NameError(_dot_('item', _name_), item, txt=str(x))
+            raise _NameError(_dot_(_item_, _name_), item, txt=str(x))
         if n in self:
-            raise _NameError(self._dot_(n), item, txt='exists')
+            raise _NameError(self._dot_(n), item, txt=_exists_)
         if not (self._item_Classes and isinstance(item, self._item_Classes)):
             raise _TypesError(self._dot_(n), item, *self._item_Classes)
         self[n] = item
@@ -553,7 +562,7 @@ class _NamedEnumItem(_NamedBase):
     def _instr(self, prec, *attrs, **kwds):
         '''(INTERNAL) Format, used by C{Conic}, C{Ellipsoid}, C{Transform}.
         '''
-        t = ('%s=%r' % (_name_, self.name),)
+        t = _item_ir(_name_, self.name),
         if attrs:
             t += pairs(((a, getattr(self, a)) for a in attrs),
                        prec=prec, ints=True)
@@ -600,7 +609,8 @@ class _NamedEnumItem(_NamedBase):
         if enum and self.name and self.name in enum:
             item = enum.unregister(self.name)
             if item is not self:
-                raise _AssertionError('%r vs %r' % (item, self))
+                t = joined_(repr(item), _vs_, repr(self))
+                raise _AssertionError(t)
 
 
 class _NamedTuple(tuple, _Named):
@@ -658,9 +668,9 @@ class _NamedTuple(tuple, _Named):
            @note: Items can not be deleted.
         '''
         if name in self._Names_:
-            raise _TypeError('del', _dot_(self.classname, name), txt=_immutable_)
+            raise _TypeError(_del_, _dot_(self.classname, name), txt=_immutable_)
         elif name in (_name_, _name):
-            _Named.__setattr__(self, name, '')  # XXX _Named.name.fset(self, '')
+            _Named.__setattr__(self, name, NN)  # XXX _Named.name.fset(self, NN)
         else:
             tuple.__delattr__(self, name)
 
@@ -670,7 +680,7 @@ class _NamedTuple(tuple, _Named):
         try:
             return tuple.__getitem__(self, self._Names_.index(name))
         except IndexError:
-            raise _IndexError(_dot_(self.classname, '<name>'), name)
+            raise _IndexError(_dot_(self.classname, _ANGLE_fmt_ % (_name_,)), name)
         except ValueError:
             return tuple.__getattribute__(self, name)
 
@@ -721,8 +731,9 @@ class _NamedTuple(tuple, _Named):
         if not (issubclassof(xTuple, _NamedTuple) and
                (len(self._Names_) + len(items)) == len(xTuple._Names_)
                 and self._Names_ == xTuple._Names_[:len(self)]):
-            raise TypeError('%s%r vs %s%r' % (self.classname, self._Names_,
-                            xTuple.__name__, xTuple._Names_))
+            c = joined(self.classname,  repr(self._Names_))
+            x = joined(xTuple.__name__, repr(xTuple._Names_))
+            raise TypeError(joined_(c, _vs_, x))
         return self._xnamed(xTuple(*(self + items)))
 
     def toRepr(self, prec=6, sep=_COMMA_SPACE_, **unused):  # PYCHOK signature
@@ -750,7 +761,7 @@ class _NamedTuple(tuple, _Named):
 
            @return: Tuple items (C{str}).
         '''
-        return _PARENTH_ % (sep.join(reprs(self, prec=prec)),)
+        return _PAREN_fmt_ % (sep.join(reprs(self, prec=prec)),)
 
     def toUnits(self, Error=UnitError):  # overloaded in .frechet, .hausdorff
         '''Return a copy of this C{Named-Tuple} with each item value wrapped
@@ -795,7 +806,7 @@ class _NamedTuple(tuple, _Named):
             raise _TypeError(_dot_(self.classname, _Names_), ns)
         for i, n in enumerate(ns):
             if not _xvalid(n, _OK=_OK):
-                t = _Names_ + (_SQUARE_ % (i,))
+                t = _Names_ + (_SQUARE_fmt_ % (i,))
                 raise _ValueError(_dot_(self.classname, t), n)
 
         us = self._Units_
@@ -805,7 +816,7 @@ class _NamedTuple(tuple, _Named):
             raise LenError(self.__class__, _Units_=len(us), _Names_=len(ns))
         for i, u in enumerate(us):
             if not (u is None or callable(u)):
-                t = _Units_ + (_SQUARE_ % (i,))
+                t = _Units_ + (_SQUARE_fmt_ % (i,))
                 raise _TypeError(_dot_(self.classname, t), u)
 
         self.__class__._validated = True
@@ -887,7 +898,7 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
     try:
         n = clas.__name__
     except AttributeError:
-        n = '--'
+        n = _NN_
     if prefixed or (classnaming() if prefixed is None else False):
         try:
             m = clas.__module__.rsplit(_DOT_, 1)
@@ -912,8 +923,7 @@ def _notError(inst, name, args, kwds):  # PYCHOK no cover
     '''
     n = _dot_(classname(inst, prefixed=True), _dunder_name(name, name))
     m = _COMMA_SPACE_.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
-    t = '%s, MRO(%s)' % (unstr(n, *args, **kwds), m)
-    return t
+    return joined(unstr(n, *args, **kwds), _COMMA_SPACE_, _item_ps(_MRO_, m))
 
 
 def notImplemented(inst, name, *args, **kwds):  # PYCHOK no cover
@@ -925,7 +935,7 @@ def notImplemented(inst, name, *args, **kwds):  # PYCHOK no cover
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
     t = _notError(inst, name, args, kwds)
-    raise _NotImplementedError(t, txt=notImplemented.__name__.replace('I', ' i'))
+    raise _NotImplementedError(t, txt=notImplemented.__name__.replace(_I_, ' i'))
 
 
 def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
@@ -937,7 +947,7 @@ def notOverloaded(inst, name, *args, **kwds):  # PYCHOK no cover
        @arg kwds: Method or property keyword arguments (any C{type}s).
     '''
     t = _notError(inst, name, args, kwds)
-    raise _AssertionError(t, txt=notOverloaded.__name__.replace('O', ' o'))
+    raise _AssertionError(t, txt=notOverloaded.__name__.replace(_O_, ' o'))
 
 
 def _Pass(arg, **unused):  # PYCHOK no cover

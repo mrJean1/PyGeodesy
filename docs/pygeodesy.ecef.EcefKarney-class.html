@@ -196,39 +196,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefKarney-class.html#e2" class="summary-name">e2</a><br />
-      Get the 1st eccentricty squared (<code>float</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefKarney-class.html#e2a" class="summary-name">e2a</a><br />
-      Get <code>abs(E.e2)</code> (<code>float</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefKarney-class.html#e2m" class="summary-name">e2m</a><br />
-      Get <code>1 - E.e2a</code> == <code>(1 - E.f)**2</code> 
-      (<code>float</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefKarney-class.html#e4a" class="summary-name">e4a</a><br />
-      Get <code>E.e2a**2</code> (<code>float</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.ecef.EcefKarney-class.html#hmax" class="summary-name">hmax</a><br />
       Get the distance limit (<code>float</code>).
     </td>
@@ -298,7 +265,7 @@
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
           or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>) or <code>scalar</code> for the 
-          equatorial (major) radius of the ellipsoid (<code>meter</code>).</li>
+          equatorial radius of the ellipsoid (<code>meter</code>).</li>
         <li><strong class="pname"><code>f</code></strong> - <code>None</code> or the ellipsoid flattening 
           (<code>scalar</code>), required for <code>scalar</code> 
           <b><code>a_ellipsoid</code></b>, <b><code>f=0</code></b> 
@@ -480,88 +447,6 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="e2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">e2</h3>
-  <p>Get the 1st eccentricty squared (<code>float</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 1st eccentricty squared (<code>float</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="e2a"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">e2a</h3>
-  <p>Get <code>abs(E.e2)</code> (<code>float</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e2a(<span class="summary-sig-arg">self</span>)</span>
-        - Get <code>abs(E.e2)</code> (<code>float</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="e2m"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">e2m</h3>
-  <p>Get <code>1 - E.e2a</code> == <code>(1 - E.f)**2</code> 
-  (<code>float</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e2m(<span class="summary-sig-arg">self</span>)</span>
-        - Get <code>1 - E.e2a</code> == <code>(1 - E.f)**2</code> 
-(<code>float</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="e4a"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">e4a</h3>
-  <p>Get <code>E.e2a**2</code> (<code>float</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">e4a(<span class="summary-sig-arg">self</span>)</span>
-        - Get <code>E.e2a**2</code> (<code>float</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="hmax"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -614,7 +499,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 21 14:53:06 2020
+    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:53 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

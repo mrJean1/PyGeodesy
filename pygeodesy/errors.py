@@ -8,16 +8,17 @@ u'''Error, exception classes and functions to format PyGeodesy errors,
     variable C{PYGEODESY_EXCEPTION_CHAINING} to 'std' or any other
     non-empty string to enable I{exception chaining}.
 '''
-from pygeodesy.interns import NN, _COLON_, _COMMA_, _COMMA_SPACE_, \
-                             _datum_, _invalid_, _item_pr, _item_ps, \
-                             joined_, _len_, _Missing, _name_, _no_, \
-                             _or_, _SPACE_, _UNDERSCORE_
+from pygeodesy.interns import MISSING, NN, _COLON_, _COMMA_, \
+                             _COMMA_SPACE_, _datum_, _invalid_, \
+                             _item_pr, _item_ps, joined_, \
+                             _len_, _name_, _no_, _or_, \
+                             _SPACE_, _UNDERSCORE_
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 _limiterrors      =  True  # imported by .formy
 _multiple_        = 'multiple'
@@ -292,7 +293,7 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
     elif name_value:
         t = str(name_value[0])
     else:
-        t = joined_(_name_value_, str(_Missing))
+        t = joined_(_name_value_, str(MISSING))
 
     if txt is None:
         x = NN
@@ -375,7 +376,7 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeeError]
     '''
     Error = _xkwds_pop(name_value_Error, Error=TypeError)
     n, v  = _xkwds_popitem(name_value_Error) if name_value_Error else (
-                          _name_value_, _Missing)  # XXX else tuple(...)
+                          _name_value_, MISSING)  # XXX else tuple(...)
     t = _or(*nouns) or _specified_
     if len(nouns) > 1:
         t = _an(t)
@@ -481,7 +482,7 @@ def _xellipsoidal(**name_value):
                 return v
             break
         else:
-            n = v = _Missing
+            n = v = MISSING
     except AttributeError:
         pass
     raise _TypeError(n, v, txt=_not_ellipsoidal_)

@@ -17,7 +17,7 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _xinstanceof, \
+from pygeodesy.basics import copysign, property_RO, _xinstanceof, \
                             _xsubclassof, _xzipairs
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
@@ -25,7 +25,7 @@ from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.interns import EPS, NN, PI_2, _COMMA_SPACE_, _dot_, \
                              _ellipsoidal_, _float as _F, _k0_, \
                              _lat0_, _lon0_, _m_, _SPACE_, \
-                             _SQUARE_, _0_0, _0_5, _1_0
+                             _SQUARE_fmt_, _0_0, _0_5, _1_0
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
@@ -37,10 +37,10 @@ from pygeodesy.streprs import _fstrENH2
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 
-from math import atan, copysign, hypot, log, radians, sin, sqrt
+from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.10.12'
+__version__ = '20.10.29'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -518,7 +518,7 @@ class Lcc(_NamedBase):
         r = _LatLon4Tuple(lat, lon, h, c.datum, LatLon, LatLon_kwds)
         return self._xnamed(r)
 
-    def toRepr(self, prec=0, fmt=_SQUARE_, sep=_COMMA_SPACE_, m=_m_, C=False, **unused):  # PYCHOK expected
+    def toRepr(self, prec=0, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, m=_m_, C=False, **unused):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).

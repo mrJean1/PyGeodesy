@@ -8,7 +8,7 @@ L{CSSError} requiring I{Charles Karney}'s U{geographiclib
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _xinstanceof, \
+from pygeodesy.basics import copysign, neg, property_RO, _xinstanceof, \
                             _xsubclassof, _xzipairs
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -17,19 +17,18 @@ from pygeodesy.errors import _datum_datum, _ValueError, \
 from pygeodesy.interns import _azimuth_, _C_, _COMMA_SPACE_, _datum_, \
                               _easting_, _lat_, _lon_, _m_, _name_, NN, \
                               _northing_, _reciprocal_, _SPACE_, \
-                              _SQUARE_, _0_0, _0_5, _1_0, _90_0, _360_0
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _NamedBase, _NamedTuple, nameof, \
-                            _xnamed
+                              _SQUARE_fmt_, _0_0, _0_5, _1_0, _90_0, _360_0
+from pygeodesy.lazily import _ALL_LAZY
+from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
                                   LatLon2Tuple, _LatLon4Tuple, \
                                   LatLon4Tuple
-from pygeodesy.streprs import _fstrENH2, strs
+from pygeodesy.streprs import _fstrENH2, _fstrLL0
 from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -109,11 +108,12 @@ class CassiniSoldner(_NamedBase):
 
     @property_RO
     def equatoradius(self):
-        '''Get the geodesic's equatorial (major) radius, semi-axis (C{meter}).
+        '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
         return self.geodesic.a
 
-    majoradius = equatoradius
+    majoradius = equatoradius  # for backward compatibility
+    '''DEPRECATED, use C{equatoradius}.'''
 
     @property_RO
     def flattening(self):
@@ -160,25 +160,25 @@ class CassiniSoldner(_NamedBase):
         d = M.AngDiff(self.lon0, Lon_(lon, Error=CSSError))[0]  # _2sum
         r = g.Inverse(lat, -abs(d), lat, abs(d))
         z1, a = r.azi1, (r.a12 * _0_5)
-        z2, s = r.azi2, (r.s12 * _0_5)
-        if s == 0:
+        z2, e = r.azi2, (r.s12 * _0_5)
+        if e == 0:
             z = M.AngDiff(z1, z2)[0] * _0_5  # _2sum
             c = -90 if abs(d) > 90 else 90
             z1, z2 = c - z, c + z
         if d < 0:
-            a, s, z2 = -a, -s, z1
+            a, e, z2 = neg(a), neg(e), z1
 
         # z: azimuth of easting direction
-        e, z = s, M.AngNormalize(z2)
+        z = M.AngNormalize(z2)
         p = g.Line(lat, d, z, g.DISTANCE | g.GEODESICSCALE)
         # rk: reciprocal of azimuthal northing scale
-        rk = p.ArcPosition(-a, g.GEODESICSCALE).M21
+        rk = p.ArcPosition(neg(a), g.GEODESICSCALE).M21
         # rk = p._GenPosition(True, -a, g.DISTANCE)[7]
 
         # s, c = M.sincosd(p.EquatorialAzimuth())
         s, c = M.sincosd(M.atan2d(p._salp0, p._calp0))
-        sb1 = -c if lat < 0 else c
-        cb1 = -abs(s) if abs(d) > 90 else abs(s)  # copysign(s, 90 - abs(d))
+        sb1 = copysign(c, lat)  # -c if lat < 0 else c
+        cb1 = copysign(s, 90 - abs(d))  # -abs(s) if abs(d) > 90 else abs(s)
         d = M.atan2d(sb1 * self._cb0 - cb1 * self._sb0,
                      cb1 * self._cb0 + sb1 * self._sb0)
         n = self._meridian.ArcPosition(d, g.DISTANCE).s12
@@ -305,11 +305,7 @@ class CassiniSoldner(_NamedBase):
            @return: This projection as C{"<classname>(lat0, lon0, ...)"}
                     (C{str}).
         '''
-        t = self.toStr(prec=prec, sep=_COMMA_SPACE_)
-        n = self.name or NN
-        if n:
-            n = ', %s=%r' % (_name_, n)
-        return '%s(%s%s)' % (self.classname, t, n)
+        return _fstrLL0(self, prec, True)
 
     def toStr(self, prec=6, sep=_SPACE_, **unused):  # PYCHOK expected
         '''Return a string representation of this projection.
@@ -319,7 +315,8 @@ class CassiniSoldner(_NamedBase):
 
            @return: This projection as C{"lat0 lon0"} (C{str}).
         '''
-        return sep.join(strs(self.latlon0, prec=prec))
+        t = _fstrLL0(self, prec, False)
+        return t if sep is None else sep.join(t)
 
 
 class Css(_NamedBase):
@@ -446,7 +443,7 @@ class Css(_NamedBase):
         r = _LatLon4Tuple(lat, lon, h, self.cs0.datum, LatLon, LatLon_kwds)
         return self._xnamed(r)
 
-    def toRepr(self, prec=6, fmt=_SQUARE_, sep=_COMMA_SPACE_, m=_m_, C=False):  # PYCHOK expected
+    def toRepr(self, prec=6, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, m=_m_, C=False):  # PYCHOK expected
         '''Return a string representation of this L{Css} position.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -543,9 +540,6 @@ def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=NN):
         r._latlon = LatLon2Tuple(latlon.lat, latlon.lon)
         r._azi, r._rk = c.azimuth, c.reciprocal
     return _xnamed(r, name or nameof(latlon))
-
-
-__all__ += _ALL_DOCS(EasNorAziRk4Tuple, LatLonAziRk4Tuple)
 
 # **) MIT License
 #

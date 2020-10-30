@@ -12,18 +12,20 @@ defined in C{pygeodesy.named}.
 # update imported names under if __name__ == '__main__':
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.errors import _xkwds
-from pygeodesy.interns import _datum_, _distance_, _easting_, _h_, \
-                              _height_, _lam_, _lat_, _lon_, _n_, \
+from pygeodesy.interns import _angle_, _band_, _convergence_, _datum_, \
+                              _distance_, _easting_, _h_, _height_, \
+                              _hemipole_, _lam_, _lat_, _lon_, _n_, \
                               _northing_, _number_, _phi_, _points_, \
-                              _precision_, _radius_, _x_, _y_, _z_
-from pygeodesy.lazily import _ALL_DOCS
+                              _precision_, _radius_, _scale_, \
+                              _x_, _y_, _z_, _zone_
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _Pass
-from pygeodesy.units import Bearing, Degrees, Degrees2, Easting, Height, \
-                            Lam, Lat, Lon, Meter, Northing, Number_, Phi, \
-                            Precision_, Radius, Scalar
+from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
+                            Height, Lam, Lat, Lon, Meter, Northing, \
+                            Number_, Phi, Precision_, Radius, Scalar, Str
 
-__all__ = ()
-__version__ = '20.10.15'
+__all__ = _ALL_LAZY.namedTuples
+__version__ = '20.10.29'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
@@ -89,10 +91,10 @@ class Distance3Tuple(_NamedTuple):  # .ellipsoidalKarney.py, -Vincenty.py
 
 class Distance4Tuple(_NamedTuple):  # .formy.py, .points.py
     '''4-Tuple C{(distance2, delta_lat, delta_lon, unroll_lon2)} with
-       the distance in C{degrees squared}, the latitudinal C{delta_lat}
-       = B{C{lat2}}-B{C{lat1}}, the wrapped, unrolled and adjusted
-       longitudinal C{delta_lon} = B{C{lon2}}-B{C{lon1}} and
-       C{unroll_lon2}, the unrolled or original B{C{lon2}}.
+       the distance in C{degrees squared}, the latitudinal C{delta_lat
+       = B{lat2} - B{lat1}}, the wrapped, unrolled and adjusted
+       longitudinal C{delta_lon = B{lon2} - B{lon1}} and C{unroll_lon2},
+       the unrolled or original B{C{lon2}}.
 
        @note: Use Function L{degrees2m} to convert C{degrees squared}
               to C{meter} as M{degrees2m(sqrt(distance2), ...)} or
@@ -198,6 +200,15 @@ class LatLonDatum3Tuple(_NamedTuple):  # .lcc.py, .osgr.py
     _Units_ = ( Lat,   Lon,  _Pass)
 
 
+class LatLonDatum5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmupsBase.py
+    '''5-Tuple C{(lat, lon, datum, convergence, scale)} in
+       C{degrees90}, C{degrees180}, L{Datum}, C{degrees}
+       and C{float}.
+    '''
+    _Names_ = (_lat_, _lon_, _datum_, _convergence_, _scale_)
+    _Units_ = ( Lat,   Lon,  _Pass,    Degrees,       Scalar)
+
+
 class LatLonPrec3Tuple(_NamedTuple):  # .gars.py, .wgrs.py
     '''3-Tuple C{(lat, lon, precision)} in C{degrees}, C{degrees}
        and C{int}.
@@ -233,7 +244,7 @@ class NearestOn3Tuple(_NamedTuple):  # .points.py, .sphericalTrigonometry.py
        and C{angle} to the C{closest} point are in C{meter}
        respectively compass C{degrees360}.
     '''
-    _Names_ = ('closest', _distance_, 'angle')
+    _Names_ = ('closest', _distance_, _angle_)
     _Units_ = (_Pass,      Meter,      Degrees)
 
 
@@ -340,6 +351,74 @@ class Trilaterate5Tuple(_NamedTuple):  # .latlonBase.py, .nvector.py
     _Units_ = (Meter,        _Pass,      Meter,        _Pass,       Number_)
 
 
+class UtmUps2Tuple(_NamedTuple):  # .epsg.py
+    '''2-Tuple C{(zone, hemipole)} as C{int} and C{str}, where
+       C{zone} is C{1..60} for UTM or C{0} for UPS and C{hemipole}
+       C{'N'|'S'} is the UTM hemisphere or the UPS pole.
+    '''
+    _Names_ = (_zone_,  _hemipole_)
+    _Units_ = ( Number_, Str)
+
+
+class UtmUps5Tuple(_NamedTuple):  # .mgrs.py, .ups.py, .utm.py, .utmups.py
+    '''5-Tuple C{(zone, hemipole, easting, northing, band)} as C{int},
+       C{str}, C{meter}, C{meter} and C{band} letter, where C{zone}
+       is C{1..60} for UTM or C{0} for UPS, C{hemipole} C{'N'|'S'} is
+       the UTM hemisphere or the UPS pole and C{band} is C{""} or the
+       (longitudinal) UTM band C{'C'|'D'..'W'|'X'} or the (polar) UPS
+       band C{'A'|'B'|'Y'|'Z'}.
+    '''
+    _Names_ = (_zone_,  _hemipole_, _easting_, _northing_, _band_)
+    _Units_ = ( Number_, Str,        Easting,   Northing,   Band)
+
+    def __new__(cls, z, h, e, n, B, Error=None):
+        if Error is not None:
+            e = Easting( e, Error=Error)
+            n = Northing(n, Error=Error)
+        return _NamedTuple.__new__(cls, z, h, e, n, B)
+
+
+class UtmUps8Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
+    '''8-Tuple C{(zone, hemipole, easting, northing, band, datum,
+       convergence, scale)} as C{int}, C{str}, C{meter}, C{meter},
+       C{band} letter, C{Datum}, C{degrees} and C{scalar}, where
+       C{zone} is C{1..60} for UTM or C{0} for UPS, C{hemipole}
+       C{'N'|'S'} is the UTM hemisphere or the UPS pole and C{band}
+       is C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
+       or the (polar) UPS band C{'A'|'B'|'Y'|'Z'}.
+    '''
+    _Names_ = (_zone_,  _hemipole_, _easting_, _northing_,
+               _band_,  _datum_, _convergence_, _scale_)
+    _Units_ = ( Number_, Str,        Easting,   Northing,
+                Band,   _Pass,    Degrees,       Scalar)
+
+    def __new__(cls, z, h, e, n, B, d, c, s, Error=None):
+        if Error is not None:
+            e = Easting( e, Error=Error)
+            n = Northing(n, Error=Error)
+            c = Degrees(convergence=c, Error=Error)
+            s = Scalar(scale=s, Error=Error)
+        return _NamedTuple.__new__(cls, z, h, e, n, B, d, c, s)
+
+
+class UtmUpsLatLon5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
+    '''5-Tuple C{(zone, band, hemipole, lat, lon)} as C{int},
+       C{str}, C{str}, C{degrees90} and C{degrees180}, where
+       C{zone} is C{1..60} for UTM or C{0} for UPS, C{band} is
+       C{""} or the (longitudinal) UTM band C{'C'|'D'..'W'|'X'}
+       or (polar) UPS band C{'A'|'B'|'Y'|'Z'} and C{hemipole}
+       C{'N'|'S'} is the UTM hemisphere or the UPS pole.
+    '''
+    _Names_ = (_zone_,  _band_, _hemipole_, _lat_, _lon_)
+    _Units_ = ( Number_, Band,   Str,        Lat,   Lon)
+
+    def __new__(cls, z, B, h, lat, lon, Error=None):
+        if Error is not None:
+            lat = Lat(lat, Error=Error)
+            lon = Lon(lon, Error=Error)
+        return _NamedTuple.__new__(cls, z, B, h, lat, lon)
+
+
 class Vector3Tuple(_NamedTuple):
     '''3-Tuple C{(x, y, z)} of (geocentric) components, all in
        C{meter} or C{units}.
@@ -365,18 +444,6 @@ class Vector4Tuple(_NamedTuple):  # .nvector.py
     '''
     _Names_ = (_x_,    _y_,    _z_,    _h_)
     _Units_ = ( Scalar, Scalar, Scalar, Height)
-
-
-__all__ += _ALL_DOCS(Bearing2Tuple, Bounds2Tuple, Bounds4Tuple,
-                     Destination2Tuple, Destination3Tuple,
-                     Distance2Tuple, Distance3Tuple, Distance4Tuple,
-                     EasNor2Tuple, EasNor3Tuple,
-                     LatLon2Tuple, LatLon3Tuple, LatLon4Tuple,
-                     LatLonDatum3Tuple, LatLonPrec3Tuple, LatLonPrec5Tuple,
-                     NearestOn3Tuple,
-                     PhiLam2Tuple, PhiLam3Tuple, PhiLam4Tuple, Points2Tuple,
-                     Trilaterate5Tuple,
-                     Vector3Tuple, Vector4Tuple)
 
 # **) MIT License
 #

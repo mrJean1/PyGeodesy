@@ -33,34 +33,33 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import len2, map2, property_RO
+from pygeodesy.basics import len2, map2, neg, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
-from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _float, joined_, \
-                             _Missing, _NS_, _outside_, _range_, \
-                             _SPACE_, _SQUARE_, _UTM_, _zone_, _1_0
+from pygeodesy.interns import EPS, MISSING, NN, _COMMA_SPACE_, \
+                             _float, joined_, _NS_, _outside_, _range_, \
+                             _SPACE_, _SQUARE_fmt_, _UTM_, _zone_, _1_0
 from pygeodesy.interns import _S_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
-from pygeodesy.namedTuples import EasNor2Tuple
+from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
+                                  UtmUps8Tuple, UtmUpsLatLon5Tuple
 from pygeodesy.units import Band, Int, Lat, Lon, Zone
 from pygeodesy.utily import degrees90, degrees180, sincos2  # splice
 from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
                                  _to4lldn, _to3zBhp, _to3zll, \
                                  _UTM_LAT_MAX, _UTM_LAT_MIN, \
                                  _UTM_ZONE_MIN, _UTM_ZONE_MAX, \
-                                 _UTM_ZONE_OFF_MAX, UtmUpsBase, \
-                                  UtmUps5Tuple, UtmUps8Tuple, \
-                                  UtmUpsLatLon5Tuple  # PYCHOK indent
+                                 _UTM_ZONE_OFF_MAX, UtmUpsBase
 
 from math import asinh, atan, atanh, atan2, cos, cosh, \
                  degrees, radians, sin, sinh, tan, tanh
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -168,7 +167,7 @@ def _to3zBlat(zone, band, Error=UTMError):  # imported by .mgrs
         b = Int((b << 3) - 80, name='bandLat')
         B = Band(B)
     elif Error is not UTMError:
-        raise Error(band=band, txt=_Missing)
+        raise Error(band=band, txt=MISSING)
 
     return Zone(z), B, b
 
@@ -417,8 +416,8 @@ class Utm(UtmUpsBase):
         y /= A0  # ξ ksi
 
         K = _Kseries(E.BetaKs, x, y)  # Krüger series
-        y = -K.ys(-y)  # ξ'
-        x = -K.xs(-x)  # η'
+        y = neg(K.ys(-y))  # ξ'
+        x = neg(K.xs(-x))  # η'
 
         shx = sinh(x)
         sy, cy = sincos2(y)
@@ -430,7 +429,7 @@ class Utm(UtmUpsBase):
         T = t0 = sy / H  # τʹ
         S = Fsum(T)
         q = _1_0 / E.e12
-        P = 7  # -/+ toggle trips
+        P =  7  # -/+ toggle trips
         d = _1_0 + eps
         while abs(d) > eps and P > 0:
             p = -d  # previous d, toggled
@@ -451,8 +450,8 @@ class Utm(UtmUpsBase):
         ll = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
 
         # convergence: Karney 2011 Eq 26, 27
-        p = -K.ps(-1)
-        q =  K.qs(0)
+        p = neg(K.ps(-1))
+        q =     K.qs(0)
         ll._convergence = degrees(atan(tan(y) * tanh(x)) + atan2(q, p))
 
         # scale: Karney 2011 Eq 28
@@ -478,7 +477,7 @@ class Utm(UtmUpsBase):
             self._mgrs = toMgrs(self, name=self.name)
         return self._mgrs
 
-    def toRepr(self, prec=0, fmt=_SQUARE_, sep=_COMMA_SPACE_, B=False, cs=False, **unused):  # PYCHOK expected
+    def toRepr(self, prec=0, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, B=False, cs=False, **unused):  # PYCHOK expected
         '''Return a string representation of this UTM coordinate.
 
            Note that UTM coordinates are rounded, not truncated (unlike

@@ -46,7 +46,7 @@ from pygeodesy.errors import _parseX, _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_
 from pygeodesy.interns import NN, _COLON_, _COMMA_, _COMMA_SPACE_, \
                              _dot_, _item_ps, _no_convergence_, \
-                             _SPACE_, _SQUARE_, _1_0
+                             _SPACE_, _SQUARE_fmt_, _1_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum3Tuple
@@ -57,7 +57,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.09.22'
+__version__ = '20.09.29'
 
 _10um  = 1e-5    # 0.01 millimeter (C{meter})
 _100km = 100000  # 100 km (int meter)
@@ -286,7 +286,7 @@ class Osgr(_NamedBase):
         r._iteration = ll._iteration
         return _xnamed(r, ll)
 
-    def toRepr(self, prec=10, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toRepr(self, prec=10, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
 
            @kwarg prec: Optional number of digits (C{int}).

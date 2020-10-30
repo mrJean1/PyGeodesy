@@ -255,8 +255,8 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var PI_4: Quarter PI, M{PI / 4} (C{float}).
 
 @var R_M:  Mean (spherical) earth radius (C{meter}).
-@var R_MA: Equatorial (major) earth radius (C{meter}), WGS84, EPSG:3785.
-@var R_MB: Polar (minor) earth radius (C{meter}), WGS84, EPSG:3785.
+@var R_MA: Equatorial earth radius (C{meter}), WGS84, EPSG:3785.
+@var R_MB: Polar earth radius (C{meter}), WGS84, EPSG:3785.
 @var R_KM: Mean (spherical) earth radius (C{km}, kilometer).
 @var R_NM: Mean (spherical) earth radius (C{NM}, nautical miles).
 @var R_SM: Mean (spherical) earth radius (C{SM}, statute miles).
@@ -288,10 +288,6 @@ import sys
 _isfrozen         = getattr(sys, 'frozen', False)
 pygeodesy_abspath = dirname(abspath(__file__))  # sys._MEIPASS + '/pygeodesy'
 _pygeodesy_       = __package__ or basename(pygeodesy_abspath)
-
-__version__ = '20.10.20'
-# see setup.py for similar logic
-version = '.'.join(map(str, map(int, __version__.split('.'))))
 
 if _isfrozen:  # avoid lazy import
     _lazy_import2 = None
@@ -384,34 +380,35 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.dms                   import *  # PYCHOK __all__
     from pygeodesy.ecef                  import *  # PYCHOK __all__
     from pygeodesy.elevations            import *  # PYCHOK __all__
-#   from pygeodesy.ellipsoidalKarney     import -  # MODULE O_N_L_Y
-#   from pygeodesy.ellipsoidalNvector    import -  # MODULE O_N_L_Y
-    from pygeodesy.ellipsoidalVincenty   import VincentyError  # PYCHOK exported
+#   from pygeodesy.ellipsoidalKarney     import *  # PYCHOK __(_)__
+    from pygeodesy.ellipsoidalNvector    import Ned3Tuple  # PYCHOK lazily
+    from pygeodesy.ellipsoidalVincenty   import VincentyError  # PYCHOK lazily
     from pygeodesy.ellipsoids            import *  # PYCHOK __all__
     from pygeodesy.elliptic              import *  # PYCHOK __all__
-    from pygeodesy.epsg                  import Epsg, EPSGError  # PYCHOK exported
+    from pygeodesy.epsg                  import Epsg, EPSGError  # PYCHOK lazily
     from pygeodesy.etm                   import *  # PYCHOK __all__
     from pygeodesy.errors                import *  # PYCHOK __all__
     from pygeodesy.fmath                 import *  # PYCHOK __all__
     from pygeodesy.formy                 import *  # PYCHOK __all__
     from pygeodesy.frechet               import *  # PYCHOK __all__
-    from pygeodesy.gars                  import Garef, GARSError  # PYCHOK exported
-    from pygeodesy.geohash               import Geohash, GeohashError  # PYCHOK exported
+    from pygeodesy.gars                  import Garef, GARSError  # PYCHOK lazily
+    from pygeodesy.geohash               import Geohash, GeohashError, \
+                                                Neighbors8Dict, Resolutions2Tuple  # PYCHOK lazily
     from pygeodesy.geoids                import *  # PYCHOK __all__
     from pygeodesy.hausdorff             import *  # PYCHOK __all__
     from pygeodesy.heights               import *  # PYCHOK __all__
     from pygeodesy.interns               import *  # PYCHOK __all__
-#   from pygeodesy.karney                import *  # MODULE O_N_L_Y
+#   from pygeodesy.karney                import *  # PYCHOK __(_)__
     from pygeodesy.lazily                import *  # PYCHOK __all__
     from pygeodesy.lcc                   import *  # PYCHOK __all__
     from pygeodesy.mgrs                  import *  # PYCHOK __all__
     from pygeodesy.named                 import *  # PYCHOK __all__
-#   from pygeodesy.namedTuples           import -  # MODULE O_N_L_Y
+    from pygeodesy.namedTuples           import *  # PYCHOK __all__
     from pygeodesy.osgr                  import *  # PYCHOK __all__
     from pygeodesy.points                import *  # PYCHOK __all__
     from pygeodesy.simplify              import *  # PYCHOK __all__
-#   from pygeodesy.sphericalNvector      import -  # MODULE O_N_L_Y
-#   from pygeodesy.sphericalTrigonometry import -  # MODULE O_N_L_Y
+#   from pygeodesy.sphericalNvector      import *  # PYCHOK __(_)__
+#   from pygeodesy.sphericalTrigonometry import *  # PYCHOK __(_)__
     from pygeodesy.streprs               import *  # PYCHOK __all__
     from pygeodesy.trf                   import *  # PYCHOK __all__
     from pygeodesy.units                 import *  # PYCHOK __all__
@@ -421,7 +418,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.utmups                import *  # PYCHOK __all__
     from pygeodesy.vector3d              import *  # PYCHOK __all__
     from pygeodesy.webmercator           import *  # PYCHOK __all__
-    from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK exported
+    from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK lazily
 
     def _all(globalocals):
         from pygeodesy.interns import NN as _NN, _attribute_, _COMMA_SPACE_, \
@@ -455,8 +452,13 @@ if not _lazy_import2:  # import and set __all__
 
     __all__ = _all(globals())  # or locals()
 
-# XXX del ellipsoidalBase, sphericalBase  # PYCHOK expected
-del abspath, basename, dirname, _lazy_import2, sys
+from pygeodesy.interns import _DOT_  # PYCHOK import
+__version__ = '20.10.30'
+# see setup.py for similar logic
+version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
+
+# XXX del ellipsoidalBase, sphericalBase, utmupsBase  # PYCHOK expected
+del abspath, basename, dirname, _DOT_, _lazy_import2, sys
 
 # **) MIT License
 #

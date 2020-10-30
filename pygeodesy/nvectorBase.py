@@ -22,10 +22,10 @@ from pygeodesy.errors import IntersectionError, _ValueError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import fidw, fsum, fsum_, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
-from pygeodesy.interns import EPS, EPS1, EPS_2, NN, R_M, _bearing_, \
-                             _coincident_, _COMMA_SPACE_, _distance_, \
-                             _Missing, _no_intersection_, _NorthPole_, \
-                             _PARENTH_, _points_, _pole_, _SPACE_, \
+from pygeodesy.interns import EPS, EPS1, EPS_2, MISSING, NN, R_M, \
+                             _bearing_, _coincident_, _COMMA_SPACE_, \
+                             _distance_, _no_intersection_, _NorthPole_, \
+                             _PAREN_fmt_, _points_, _pole_, _SPACE_, \
                              _SouthPole_, _1_, _2_, _3_
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
@@ -41,7 +41,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -325,7 +325,7 @@ class NvectorBase(Vector3d):  # XXX kept private
             r = LatLon(r.lat, r.lon, r.height, datum=r.datum, **LatLon_kwds)
         return self._xnamed(r)
 
-    def toStr(self, prec=5, fmt=_PARENTH_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toStr(self, prec=5, fmt=_PAREN_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this n-vector.
 
            Height component is only included if non-zero.
@@ -584,7 +584,7 @@ def sumOf(nvectors, Vector=None, h=None, **Vector_kwds):
     '''
     n, nvectors = len2(nvectors)
     if n < 1:
-        raise VectorError(nvectors=n, txt=_Missing)
+        raise VectorError(nvectors=n, txt=MISSING)
 
     if h is None:
         h = fsum(v.h for v in nvectors) / float(n)

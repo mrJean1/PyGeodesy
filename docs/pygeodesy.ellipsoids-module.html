@@ -74,7 +74,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.10.20
+        20.10.29
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -90,7 +90,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" class="summary-name">a_f2Tuple</a><br />
       2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
-        <i>equatorial</i> radius <code>a</code> (<code>meter</code>) and 
+        <i>equatorial</i> radius <code>a</code> in <code>meter</code> and 
         scalar <i>flattening</i> <code>f</code>.
     </td>
   </tr>
@@ -692,7 +692,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='Clarke1880IGN', a=6378249.2, b=6356515, 
       f_=293.46602129, f=0.00340755, f2=0.0034192, n=0.00170668, 
       e=0.08248326, e2=0.00680349, e22=0.00685009, e32=0.00341336, 
-      L=10001867.69724906, R1=6371004.46666667, R2=6371002.82383112, 
+      L=10001867.69724907, R1=6371004.46666667, R2=6371002.82383112, 
       R3=6370996.22212394)
     </td>
   </tr>
@@ -940,7 +940,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='OSU91A', a=6378136.3, b=6356751.6165948, 
       f_=298.2572236, f=0.00335281, f2=0.00336409, n=0.00167922, 
       e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, 
-      L=10001964.63159991, R1=6371008.07219827, R2=6371006.48170186, 
+      L=10001964.6315999, R1=6371008.07219827, R2=6371006.48170186, 
       R3=6371000.09079324)
     </td>
   </tr>
@@ -951,7 +951,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Plessis1817"></a><span class="summary-name">Ellipsoids.Plessis1817</span><br />
       Ellipsoid(name='Plessis1817', a=6376523, b=6355862.93325557, 
       f_=308.64, f=0.00324002, f2=0.00325055, n=0.00162264, e=0.08043347, 
-      e2=0.00646954, e22=0.00651167, e32=0.00324527, L=9999999.1100364, 
+      e2=0.00646954, e22=0.00651167, e32=0.00324527, L=9999999.11003639, 
       R1=6369636.31108519, R2=6369634.82608583, R3=6369628.85999667)
     </td>
   </tr>
@@ -1014,7 +1014,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Struve1860"></a><span class="summary-name">Ellipsoids.Struve1860</span><br />
       Ellipsoid(name='Struve1860', a=6378298.3, b=6356657.14266956, 
       f_=294.73, f=0.00339294, f2=0.00340449, n=0.00169935, e=0.0823065, 
-      e2=0.00677436, e22=0.00682056, e32=0.00339869, L=10002017.83655713, 
+      e2=0.00677436, e22=0.00682056, e32=0.00339869, L=10002017.83655714, 
       R1=6371084.58088985, R2=6371082.95208988, R3=6371076.40691418)
     </td>
   </tr>
@@ -1025,7 +1025,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.WGS60"></a><span class="summary-name">Ellipsoids.WGS60</span><br />
       Ellipsoid(name='WGS60', a=6378165, b=6356783.28695944, f_=298.3, 
       f=0.00335233, f2=0.00336361, n=0.00167898, e=0.08181333, 
-      e2=0.00669342, e22=0.00673853, e32=0.00335795, L=10002012.04438139, 
+      e2=0.00669342, e22=0.00673853, e32=0.00335795, L=10002012.0443814, 
       R1=6371037.76231981, R2=6371036.17227197, R3=6371029.78316993)
     </td>
   </tr>
@@ -1093,16 +1093,16 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
-        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The eccentricity (<code>float</code> or <code>0</code>), <i 
           class="math">sqrt(1 - (b / a)**2)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is <code>0</code> for <i>prolate</i> and near-spherical 
-        ellipsoids.
+        The result is always non-negative and <code>0</code> for 
+        <i>near-spherical</i> ellipsoids.
       </p>
 </div></td></tr></table>
 </div>
@@ -1126,16 +1126,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
-        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The eccentricity <i>squared</i> (<code>float</code> or 
           <code>0</code>), <i class="math">1 - (b / a)**2</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
 </div></td></tr></table>
 </div>
@@ -1159,16 +1160,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
-        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The 2nd eccentricity <i>squared</i> (<code>float</code> or 
           <code>0</code>), <i class="math">(a / b)**2 - 1</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
 </div></td></tr></table>
 </div>
@@ -1192,8 +1194,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
-        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The 3rd eccentricity <i>squared</i> (<code>float</code> or 
@@ -1201,8 +1203,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
           b**2)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
 </div></td></tr></table>
 </div>
@@ -1226,16 +1229,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
-        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The flattening (<code>float</code> or <code>0</code>), <i 
           class="math">(a - b) / a</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
 </div></td></tr></table>
 </div>
@@ -1259,16 +1263,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
-        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
           class="math">a / (a - b)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
 </div></td></tr></table>
 </div>
@@ -1292,16 +1297,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
-        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The 2nd flattening (<code>float</code> or <code>0</code>), <i 
           class="math">(a - b) / b</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
 </div></td></tr></table>
 </div>
@@ -1325,16 +1331,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
-        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The 3rd flattening (<code>float</code> or <code>0</code>), <i 
           class="math">(a - b) / (a + b)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
 </div></td></tr></table>
 </div>
@@ -1358,12 +1365,13 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
-        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The polar (minor) radius (<code>float</code>), <i class="math">a 
-          * (1 - f)</i>.</dd>
+        <dd>The polar radius (<code>float</code>), <i class="math">a * (1 - 
+          f)</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1387,12 +1395,12 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>a</code></strong> - Equatorial (major) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>a</code></strong> - Equatorial radius (<code>scalar</code> &gt; 0).</li>
         <li><strong class="pname"><code>f_</code></strong> - Inverse flattening (<code>scalar</code> &gt;&gt;&gt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The polar (minor) radius (<code>float</code>), <i class="math">a 
-          * (f_ - 1) / f_</i>.</dd>
+        <dd>The polar radius (<code>float</code>), <i class="math">a * (f_ - 
+          1) / f_</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1416,12 +1424,13 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
-        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The equatorial (major) radius (<code>float</code>), <i 
-          class="math">b / (1 - f)</i>.</dd>
+        <dd>The equatorial radius (<code>float</code>), <i class="math">b / 
+          (1 - f)</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1445,12 +1454,12 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>b</code></strong> - Polar (minor) radius (<code>scalar</code> &gt; 0).</li>
+        <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
         <li><strong class="pname"><code>f_</code></strong> - Inverse flattening (<code>scalar</code> &gt;&gt;&gt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The equatorial (major) radius (<code>float</code>), <i 
-          class="math">b * f_ / (f_ - 1)</i>.</dd>
+        <dd>The equatorial radius (<code>float</code>), <i class="math">b * 
+          f_ / (f_ - 1)</i>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1473,15 +1482,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The (1st) eccentricity <i>squared</i> (<code>float</code> &lt; 
           1), <i class="math">f * (2 - f)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
       <p><strong>See Also:</strong>
         <a 
@@ -1511,7 +1522,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The 2nd eccentricity <i>squared</i> (<code>float</code> &gt; -1 
@@ -1519,8 +1531,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
           f)**2</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for near-spherical ellipsoids.
       </p>
       <p><strong>See Also:</strong>
         <a 
@@ -1548,15 +1560,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The 3rd eccentricity <i>squared</i> (<code>float</code>), <i 
           class="math">f * (2 - f) / (1 + (1 - f)**2)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
       <p><strong>See Also:</strong>
         <a 
@@ -1591,8 +1605,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
           class="math">1 / f_</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
 </div></td></tr></table>
 </div>
@@ -1615,15 +1630,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
           class="math">1 / f</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
 </div></td></tr></table>
 </div>
@@ -1646,15 +1663,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The 2nd flattening (<code>float</code> or <code>INF</code>), <i 
           class="math">f / (1 - f)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
       <p><strong>See Also:</strong>
         <a 
@@ -1684,15 +1703,17 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1).</li>
+        <li><strong class="pname"><code>f</code></strong> - Flattening (<code>scalar</code> &lt; 1, negative for 
+          <i>prolate</i>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The 3rd flattening (-1 &lt; <code>float</code> &lt; 1), <i 
+        <dd>The 3rd flattening (-1 &lt;= <code>float</code> &lt; 1), <i 
           class="math">f / (2 - f)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
       <p><strong>See Also:</strong>
         <a 
@@ -1722,15 +1743,16 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt; <code>scalar</code> &lt; 1).</li>
+        <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The (1st) eccentricity <i>squared</i> (<code>float</code> or 
           -INF), <i class="math">4 * n / (1 + n)**2</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        The result is negative for <i>prolate</i> or <code>0</code> for 
-        near-spherical ellipsoids.
+        The result is positive for <i>oblate</i>, negative for 
+        <i>prolate</i> or <code>0</code> for <i>near-spherical</i> 
+        ellipsoids.
       </p>
       <p><strong>See Also:</strong>
         <a href="https://WikiPedia.org/wiki/Flattening" 
@@ -1757,7 +1779,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt;= 1).</li>
+        <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The flattening (<code>float</code> or -INF), <i class="math">2 * 
@@ -1840,7 +1862,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 21 14:53:04 2020
+    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:51 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

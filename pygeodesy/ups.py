@@ -18,30 +18,30 @@ each end).
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO
+from pygeodesy.basics import neg, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoids import _TOL
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1
 from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _inside_, joined_, \
-                             _N_, _pole_, _range_, _S_, _SPACE_, _SQUARE_, \
+                             _N_, _pole_, _range_, _S_, _SPACE_, _SQUARE_fmt_, \
                              _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
-from pygeodesy.namedTuples import EasNor2Tuple
+from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
+                                  UtmUps8Tuple, UtmUpsLatLon5Tuple
 from pygeodesy.units import Meter, Lat, Scalar, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2d
 from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
                                  _to4lldn, _to3zBhp, _to3zll, \
                                  _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
-                                 _UPS_ZONE_STR, UtmUpsBase, UtmUps5Tuple, \
-                                  UtmUps8Tuple, UtmUpsLatLon5Tuple  # PYCHOK indent
+                                 _UPS_ZONE_STR, UtmUpsBase
 
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 _Bands   = 'A', 'B', 'Y', 'Z'  # polar bands
 _EPS__2  = EPS**2
@@ -228,7 +228,7 @@ class Ups(UtmUpsBase):
         if self._pole == _N_:
             a, b, c = atan(t), atan2(x, -y), 1
         else:
-            a, b, c = -atan(t), atan2(x, y), -1
+            a, b, c = neg(atan(t)), atan2(x, y), -1
 
         a, b = degrees90(a), degrees180(b)
         if not self._band:
@@ -259,7 +259,7 @@ class Ups(UtmUpsBase):
             self._mgrs = self.toUtm(None).toMgrs()  # via .toUtm
         return self._mgrs
 
-    def toRepr(self, prec=0, fmt=_SQUARE_, sep=_COMMA_SPACE_, B=False, cs=False, **unused):  # PYCHOK expected
+    def toRepr(self, prec=0, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, B=False, cs=False, **unused):  # PYCHOK expected
         '''Return a string representation of this UPS coordinate.
 
            Note that UPS coordinates are rounded, not truncated (unlike
@@ -454,9 +454,9 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     x *= r
     y *= r
     if N:
-        y = -y
+        y = neg(y)
     else:
-        c = -c
+        c = neg(c)
 
     if falsed:
         x += _Falsing

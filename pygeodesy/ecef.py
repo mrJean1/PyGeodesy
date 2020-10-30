@@ -12,6 +12,9 @@ Cartesian<https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal
 and class L{EcefYou} implementing I{Rey-Jer You}'s U{transformations
 <https://www.ResearchGate.net/publication/240359424>}.
 
+Following is a copy of I{Karney}'s U{Detailed Description
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>}.
+
 Convert between geodetic coordinates C{lat}-, C{lon}gitude and height C{h}
 (measured vertically from the surface of the ellipsoid) to geocentric C{x},
 C{y} and C{z} coordinates, also known as I{Earth-Centered, Earth-Fixed}
@@ -48,17 +51,17 @@ See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/html/geocentri
 for further information on the errors.
 '''
 
-from pygeodesy.basics import isscalar, map1, property_RO, \
+from pygeodesy.basics import copysign, isscalar, neg, property_RO, \
                             _xinstanceof, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, LenError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot1, hypot2_
-from pygeodesy.interns import EPS, EPS1, EPS_2, NN, PI, PI_2, _C_, _datum_, \
-                             _ellipsoid_, _h_, _height_, _lat_, _lat0_, \
-                             _lon_, _lon0_, _M_, _name_, _no_convergence_, \
-                             _SPACE_, _x_, _y_, _z_, _0_, _0_0, _0_5, _1_0, \
-                             _2_0, _3_0, _4_0, _6_0, _90_0
+from pygeodesy.interns import EPS, EPS1, EPS_2, NN, PI, PI_2, _a_, _C_, \
+                             _datum_, _ellipsoid_, _f_, _h_, _height_, \
+                             joined_, _lat_, _lat0_, _lon_, _lon0_, _M_, \
+                             _name_, _no_convergence_, _x_, _y_, _z_, _0_, \
+                             _0_0, _0_5, _1_0, _2_0, _3_0, _4_0, _6_0, _90_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -68,13 +71,11 @@ from pygeodesy.units import Height, Int, Lat, Lon, Meter, Scalar
 from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 from pygeodesy.vector3d import _xyzn4
 
-from math import asin, atan2, copysign, cos, degrees, hypot, radians, sqrt
+from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.10.20'
+__version__ = '20.10.29'
 
-_a_        = 'a'
-_f_        = 'f'
 _prolate_  = 'prolate'
 _singular_ = 'singular'
 _TRIPS     =  17  # 8..9 sufficient, EcefSudano.reverse
@@ -89,7 +90,7 @@ def _llhn4(latlonh, lon, height, suffix=NN):
     except AttributeError:
         llh = latlonh, lon, height
     try:
-        lat, lon, h = map1(float, *llh)
+        lat, lon, h = map(float, llh)
     except (TypeError, ValueError) as x:
         t = _lat_, _lon_, _height_
         if suffix:
@@ -144,7 +145,7 @@ class _EcefBase(_NamedBase):
 
         except (TypeError, ValueError) as x:
             t = unstr(self.classname, a=a_ellipsoid, f=f)
-            raise EcefError(t + _SPACE_ + _ellipsoid_, txt=str(x))
+            raise EcefError(joined_(t, _ellipsoid_), txt=str(x))
 
         self._datum = d
         self._E = E
@@ -152,13 +153,12 @@ class _EcefBase(_NamedBase):
             self.name = name
 
     @property_RO
-    def a(self):
-        '''Get C{E.a}, the major, equatorial radius (C{meter}).
+    def equatoradius(self):
+        '''Get the I{equatorial} radius, semi-axis (C{meter}).
         '''
         return self._E.a
 
-    equatoradius     = a
-    equatorialRadius = a  # Karney property
+    equatorialRadius = a = equatoradius  # Karney property
 
     @property_RO
     def datum(self):
@@ -173,12 +173,13 @@ class _EcefBase(_NamedBase):
         return self._E
 
     @property_RO
-    def f(self):
-        '''Get the flattening (C{float}), zero for sphere.
+    def flattening(self):  # Karney property
+        '''Get the I{flattening} (C{float}), M{(a - b) / a}, posiive for I{oblate},
+           negative for I{prolate} and C{0} for I{near-spherical}.
         '''
         return self._E.f
 
-    flattening = f  # Karney property
+    f = flattening
 
     def forward(self, latlonh, lon=None, height=0, M=False):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.
@@ -186,19 +187,16 @@ class _EcefBase(_NamedBase):
         notOverloaded(self, self.forward, latlonh, lon=lon,
                                       height=height, M=M)
 
-    def _forward(self, latlonh, lon, height, M, roc=True):
-        '''Common C{EcefKarney}, C{EcefVeness} and C{EcefSudano}.
+    def _forward(self, latlonh, lon, height, M, You=False):
+        '''(INTERNAL) Common C{EcefKarney}, C{EcefVeness},
+           C{EcefSudano} and C{EcefYou} forward.
         '''
         lat, lon, h, name = _llhn4(latlonh, lon, height)
         sa, ca, sb, cb = sincos2d(lat, lon)
 
         E = self.ellipsoid
-        if roc:  # normal, prime-vertical roc
-            n = E.roc1_(sa)
-        else:  # EcefYou.forward
-            # = E.a2 / hypot(E.a * ca, E.b * sa)
-            n = E.a / hypot(ca, E.b_a * sa)
-        z = (h + n * E.e12) * sa  # .e12 == .b2 / .a2
+        n = E.roc1_(sa, ca) if You else E.roc1_(sa)
+        z = (h + n * E.e12) * sa
         x = (h + n) * ca
 
         m = self._Matrix(sa, ca, sb, cb) if M else None
@@ -238,14 +236,14 @@ class EcefKarney(_EcefBase):
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html>}
        methods.
     '''
-    _hmax = 0  # 12M light years
+    _hmax = 0  # max height, 12M lightyears
 
     def __init__(self, a_ellipsoid, f=None, name=NN):
         '''New L{EcefKarney} converter.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}
                              or L{a_f2Tuple}) or C{scalar} for the equatorial
-                             (major) radius of the ellipsoid (C{meter}).
+                             radius of the ellipsoid (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
                      for C{scalar} B{C{a_ellipsoid}}, B{C{f=0}} represents a
                      sphere, negative B{C{f}} a prolate ellipsoid.
@@ -257,31 +255,7 @@ class EcefKarney(_EcefBase):
                              or B{C{f}} not less than 1.0.
         '''
         _EcefBase.__init__(self, a_ellipsoid, f, name)
-        self._hmax = self.a / EPS_2
-
-    @property_RO
-    def e2(self):
-        '''Get the 1st eccentricty squared (C{float}).
-        '''
-        return self._E.e2
-
-    @property_RO
-    def e2a(self):
-        '''Get C{abs(E.e2)} (C{float}).
-        '''
-        return abs(self._E.e2)
-
-    @property_RO
-    def e2m(self):
-        '''Get C{1 - E.e2a} == C{(1 - E.f)**2} (C{float}).
-        '''
-        return self._E.e12  # == (1 - E.f)**2
-
-    @property_RO
-    def e4a(self):
-        '''Get C{E.e2a**2} (C{float}).
-        '''
-        return self._E.e4
+        self._hmax = self.equatoradius / EPS_2  # self.equatoradius * _2_EPS
 
     def forward(self, latlonh, lon=None, height=0, M=False):
         '''Convert from geodetic C{(lat, lon, height)} to geocentric C{(x, y, z)}.
@@ -350,32 +324,35 @@ class EcefKarney(_EcefBase):
                   The returned C{lon} is in the range [−180°, 180°].  Like
                   C{forward} above, M{v1 = Transpose(M) ⋅ v0}.
         '''
+        E = self.ellipsoid
+
         x, y, z, name = _xyzn4(xyz, y, z, Error=EcefError)
 
-        sb, cb, d = _sch3(y, x)
-        h = hypot(d, z)  # distance to earth center
+        sb, cb, R = _sch3(y, x)
+        h = hypot(R, z)  # distance to earth center
         if h > self._hmax:  # PYCHOK no cover
             # We are really far away (> 12M light years).  Treat the earth
-            # as a point and h, above, is an acceptable approximation to the
-            # height.  This avoids overflow, e.g., in the computation of d
+            # as a point and h, above as an acceptable approximation to the
+            # height.  This avoids overflow, e.g., in the computation of disc
             # below.  It's possible that h has overflowed to INF, that's OK.
-            # Treat finite x, y, but r overflows to +INF by scaling by 2.
-            sb, cb, r = _sch3(y * _0_5, x * _0_5)
-            sa, ca, _ = _sch3(z * _0_5, r)
+            # Treat finite x, y, but R overflows to +INF by scaling by 2.
+            sb, cb, R = _sch3(y * _0_5, x * _0_5)
+            sa, ca, _ = _sch3(z * _0_5, R)
             C = 1
 
-        elif self.e4a:
-            # Treat prolate spheroids by swapping R and Z here and by switching
-            # the arguments to phi = atan2(...) at the end.
-            p = (d / self.a)**2
-            q = self.e2m * (z / self.a)**2
-            if self.f < 0:
+        elif E.e4:  # E.isEllipsoidal
+            prolate = E.isProlate
+            # Treat prolate spheroids by swapping R and Z here and by
+            # switching the arguments to phi = atan2(...) at the end.
+            p = (R / E.a)**2
+            q = E.e12 * (z / E.a)**2
+            if prolate:
                 p, q = q, p
-            r = p + q - self.e4a
-            e = self.e4a * q
+            r = p + q - E.e4
+            e = E.e4 * q
             if e or r > 0:
                 # Avoid possible division by zero when r = 0 by multiplying
-                # equations for s and t by r^3 and r, resp.
+                # equations for s and t by r^3 and r, respectively.
                 s = e * p / _4_0  # s = r^3 * s
                 u = r = r / _6_0
                 r2 = r**2
@@ -383,14 +360,14 @@ class EcefKarney(_EcefBase):
                 t3 = s + r3
                 disc = s * (r3 + t3)
                 if disc < 0:
-                    # t is complex, but the way u is defined the result is real.
+                    # t is complex, but the way u is defined, the result is real.
                     # There are three possible cube roots.  We choose the root
                     # which avoids cancellation.  Note, disc < 0 implies r < 0.
                     u += _2_0 * r * cos(atan2(sqrt(-disc), -t3) / _3_0)
                 else:
                     # Pick the sign on the sqrt to maximize abs(T3).  This
                     # minimizes loss of precision due to cancellation.  The
-                    # result is unchanged because of the way the T is used
+                    # result is unchanged because of the way the t is used
                     # in definition of u.
                     if disc > 0:
                         t3 += copysign(sqrt(disc), t3)  # t3 = (r * t)^3
@@ -398,49 +375,49 @@ class EcefKarney(_EcefBase):
                     t = cbrt(t3)  # t = r * t
                     # t can be zero; but then r2 / t -> 0.
                     if t:
-                        u += t + r2 / t
-                v = sqrt(u**2 + e)  # guaranteed positive
+                        u = fsum_(u, t, r2 / t)
+                v = sqrt(e + u**2)  # guaranteed positive
                 # Avoid loss of accuracy when u < 0.  Underflow doesn't occur in
                 # E.e4 * q / (v - u) because u ~ e^4 when q is small and u < 0.
                 uv = (e / (v - u)) if u < 0 else (u + v)  # u+v, guaranteed positive
                 # Need to guard against w going negative due to roundoff in uv - q.
-                w = max(_0_0, self.e2a * (uv - q) / (2 * v))
+                w = max(_0_0, E.e2abs * (uv - q) / (_2_0 * v))
                 # Rearrange expression for k to avoid loss of accuracy due to
                 # subtraction.  Division by 0 not possible because uv > 0, w >= 0.
                 k1 = k2 = uv / (sqrt(uv + w**2) + w)
-                if self.f < 0:
-                    k1 -= self.e2
+                if prolate:
+                    k1 -= E.e2
                 else:
-                    k2 += self.e2
-                sa, ca, h = _sch3(z / k1, d / k2)
-                h *= k1 - self.e2m
-                C = 2
+                    k2 += E.e2
+                sa, ca, h = _sch3(z / k1, R / k2)
+                h *= k1 - E.e12
+                C  = 2
 
-            else:  # e = self.e4a * q == 0 and r <= 0
+            else:  # e = E.e4 * q == 0 and r <= 0
                 # This leads to k = 0 (oblate, equatorial plane) and k + E.e^2 = 0
                 # (prolate, rotation axis) and the generation of 0/0 in the general
                 # formulas for phi and h, using the general formula and division
                 # by 0 in formula for h.  Handle this case by taking the limits:
                 #   f > 0: z -> 0, k        ->  E.e2 * sqrt(q) / sqrt(E.e4 - p)
                 #   f < 0: r -> 0, k + E.e2 -> -E.e2 * sqrt(q) / sqrt(E.e4 - p)
-                q = self.e4a - p
-                if self.f < 0:
-                    p, q, e = q, p, -_1_0
+                q = E.e4 - p
+                if prolate:
+                    p, q = q, p
+                    e = E.a
                 else:
-                    e = -self.e2m
-                sa, ca, h = _sch3(sqrt(q / self.e2m), sqrt(p))
-                h *= self.a * e / self.e2a
+                    e = E.b2_a
+                sa, ca, h = _sch3(sqrt(q / E.e12), sqrt(p))
                 if z < 0:
-                    sa = -sa  # for tiny negative z, not for prolate
-                C = 3
+                    sa = neg(sa)  # for tiny negative z, not for prolate
+                h *= neg(e / E.e2abs)
+                C  = 3
 
-        else:  # self.e4a == 0
-            # Treat the spherical case.  Dealing with underflow in the general
-            # case with E.e2 = 0 is difficult.  Origin maps to North pole, same
-            # as with ellipsoid.
-            sa, ca, _ = _sch3(z if h else _1_0, d)
-            h -= self.a
-            C = 4
+        else:  # E.e4 == 0, spherical case
+            # Dealing with underflow in the general case with E.e2 = 0 is
+            # difficult.  Origin maps to North pole, same as with ellipsoid.
+            sa, ca, _ = _sch3(z if h else _1_0, R)
+            h -= E.a
+            C  = 4
 
         r = Ecef9Tuple(x, y, z, atan2d(sa, ca),
                                 atan2d(sb, cb), h, C,
@@ -638,7 +615,7 @@ class EcefMatrix(_NamedTuple):
             t += _m  # ... from .multiply
 
         elif max(map(abs, t)) > 1:
-            raise EcefError(EcefMatrix.__name__, t)
+            raise EcefError(unstr(EcefMatrix.__name__, *t))
 
         else:  # build matrix from the following quaternion operations
             #   qrot(lam, [0,0,1]) * qrot(phi, [0,-1,0]) * [1,1,1,1]/2
@@ -938,7 +915,7 @@ class EcefVeness(_EcefBase):
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}
                              or L{a_f2Tuple}) or C{scalar} for the equatorial
-                             (major) radius of the ellipsoid (C{meter}).
+                             radius of the ellipsoid (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
                      for C{scalar} B{C{a_ellipsoid}}, B{C{f=0}} represents a
                      sphere, negative B{C{f}} a prolate ellipsoid.
@@ -1107,7 +1084,7 @@ class EcefSudano(EcefVeness):
             if abs(t) < EPS:
                 break
         else:
-            raise EcefError(_no_convergence_, txt=unstr(self.reverse.__name__, x=x, y=y, z=z))
+            raise EcefError(unstr(self.reverse.__name__, x=x, y=y, z=z), txt=_no_convergence_)
 
         if a is None:
             a = copysign(asin(sa), z)
@@ -1137,7 +1114,7 @@ class EcefYou(_EcefBase):
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}
                              or L{a_f2Tuple}) or C{scalar} for the equatorial
-                             (major) radius of the ellipsoid (C{meter}).
+                             radius of the ellipsoid (C{meter}).
            @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
                      for C{scalar} B{C{a_ellipsoid}}, B{C{f=0}} represents a
                      sphere, negative B{C{f}} a prolate ellipsoid.
@@ -1150,7 +1127,7 @@ class EcefYou(_EcefBase):
         '''
         _EcefBase.__init__(self, a_ellipsoid, f, name)
         E = self.ellipsoid
-        if E.isProlate:
+        if (E.a2 - E.b2) < 0:
             raise EcefError(ellipsoid=E, txt=_prolate_)
 
     def forward(self, latlonh, lon=None, height=0, M=False):
@@ -1173,7 +1150,7 @@ class EcefYou(_EcefBase):
                              C{scalar} or B{C{lon}} not C{scalar} for C{scalar}
                              B{C{latlonh}} or C{abs(lat)} exceeds 90°.
         '''
-        return _EcefBase._forward(self, latlonh, lon, height, M, roc=False)
+        return _EcefBase._forward(self, latlonh, lon, height, M, You=True)
 
     def reverse(self, xyz, y=None, z=None, **no_M):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}
@@ -1216,14 +1193,14 @@ class EcefYou(_EcefBase):
         sB, cB = sincos2(B)
         if cB and sB:
             p *= E.a
-            d  = p - e2 * cB**2
+            d  = (p / cB - e2 * cB) / sB
             if abs(d) > EPS:
-                B += fsum_(u * E.b, -p, e2) * sB * cB / d
+                B += fsum_(u * E.b, -p, e2) / d
                 sB, cB = sincos2(B)
 
         h = hypot(z - E.b * sB, q - E.a * cB)
         if hypot2_(x, y, z * E.a_b) < E.a2:
-            h = -h  # inside ellipsoid
+            h = neg(h)  # inside ellipsoid
 
         r = Ecef9Tuple(x, y, z, atan2d(E.a * sB, E.b * cB),  # atan(E.a_b * tan(B))
                                 atan2d(y, x), h, 1,  # C=1
@@ -1232,7 +1209,7 @@ class EcefYou(_EcefBase):
         return self._xnamed(r, name=name)
 
 
-__all__ += _ALL_DOCS(_EcefBase, Ecef9Tuple)
+__all__ += _ALL_DOCS(_EcefBase)
 
 # **) MIT License
 #

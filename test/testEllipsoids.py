@@ -4,18 +4,18 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '20.09.23'
+__version__ = '20.10.24'
 
 from base import TestsBase
 
 from pygeodesy import a_b2f_, a_b2f2, a_b2n, a_f2Tuple, b_f2a, b_f_2a, \
                       EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, \
-                      ellipsoids, f_2f, fstr, n2e2, n2f, R_M, PI_2
+                      ellipsoids, f_2f, fstr, n2e2, n2f, R_M, PI_2, sincos2d
 
 
 class Tests(TestsBase):
 
-    def testEllipsoids(self):
+    def testEllipsoids(self):  # MCCABE 14
         # datum module tests
         E = Ellipsoid(1000, 1000, 0, name='TestEllipsiod')
         self.test('ellipsoid', E is Ellipsoids.TestEllipsiod, True)
@@ -185,6 +185,20 @@ class Tests(TestsBase):
             self.test('%s(%s)' % (n2e2.__name__, E.name), e2, E.e2, fmt='%.8f', known=abs(e2 - E.e2) < _TOL)
             f = n2f(E.n)
             self.test('%s(%s)' % (n2f.__name__, E.name), f, E.f, fmt='%.8f', known=abs(f - E.f) < _TOL)
+
+        t = P.roc1_.__name__ + ' '
+        for E, x in ((Ellipsoids.WGS84, 1.863e-9), (P, 1.863e-9),
+                     (Ellipsoids.SphereAuthalic, '0.0')):
+            self.subtitle(ellipsoids, E.name)
+            for d in range(0, 91, 5):
+                s, c = sincos2d(d)
+                n = E.roc1_(s)
+                h = E.roc1_(s, c)
+                e = abs(n - h)  # delta in meter
+                self.test(t + str(d), e, x, known=e < 1.864e-9)
+                n = E.roc2(d).prime_vertical
+                e = abs(n - h)  # delta in meter
+                self.test(t + str(d), e, x, known=e < 1.864e-9)
 
 
 if __name__ == '__main__':

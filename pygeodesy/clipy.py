@@ -13,14 +13,14 @@ from pygeodesy.fmath import fsum_
 from pygeodesy.formy import points2
 from pygeodesy.interns import EPS, _dot_, _end_, _lat_, _lon_, _name_, \
                               NN, _not_convex_, _start_, _too_few_, _0_0
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple, _Pass
 from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
                              LatLon_ as LL_
 from pygeodesy.units import Bool, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '20.10.18'
+__version__ = '20.10.27'
 
 
 class ClipError(_ValueError):
@@ -453,9 +453,6 @@ def clipSH3(points, corners, closed=False, inull=False):
             p1, e1 = p2, e2
             p2, e2 = sh.clipped2(pts[i])
             yield ClipSH3Tuple(p1, p2, not bool(e1 and e2 and e1 == e2))
-
-
-__all__ += _ALL_DOCS(ClipCS3Tuple, ClipSH3Tuple)
 
 # **) MIT License
 #

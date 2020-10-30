@@ -1336,12 +1336,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Distance4Tuple-class.html">pygeodesy.namedTuples.Distance4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(distance2, delta_lat, delta_lon, unroll_lon2)</code>
         with the distance in <code>degrees squared</code>, the latitudinal 
-        <code>delta_lat</code> = 
-        <b><code>lat2</code></b>-<b><code>lat1</code></b>, the wrapped, 
-        unrolled and adjusted longitudinal <code>delta_lon</code> = 
-        <b><code>lon2</code></b>-<b><code>lon1</code></b> and 
-        <code>unroll_lon2</code>, the unrolled or original 
-        <b><code>lon2</code></b>.</em>
+        <code>delta_lat = <b>lat2</b> - <b>lat1</b></code>, the wrapped, 
+        unrolled and adjusted longitudinal <code>delta_lon = <b>lon2</b> - 
+        <b>lon1</b></code> and <code>unroll_lon2</code>, the unrolled or 
+        original <b><code>lon2</code></b>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.EasNor2Tuple-class.html">pygeodesy.namedTuples.EasNor2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(easting, northing)</code>, both in 
@@ -1448,7 +1446,7 @@
         <code>degrees180</code> and <a 
         href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.LatLonDatum5Tuple-class.html">pygeodesy.utmupsBase.LatLonDatum5Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLonDatum5Tuple-class.html">pygeodesy.namedTuples.LatLonDatum5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
         <code>degrees90</code>, <code>degrees180</code>, <a 
         href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
@@ -1533,6 +1531,11 @@
         <code>ratio</code> and <i>radical</i> <code>xline</code>, both 
         <code>scalar</code> and <code>0.0 &lt;= ratio &lt;= 1.0</code></em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geohash.Resolutions2Tuple-class.html">pygeodesy.geohash.Resolutions2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(res1, res2)</code> with the primary 
+        <i>(longitudinal)</i> and secondary <i>(latitudinal)</i> 
+        resolution, both in <code>degrees</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.points.Shape2Tuple-class.html">pygeodesy.points.Shape2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(nrows, ncols)</code>, the number of rows and 
         columns, both <code>int</code>.</em>
@@ -1544,7 +1547,7 @@
         <code>maxPoint</code> as <code>LatLon</code> and the number 
         <code>n</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUps2Tuple-class.html">pygeodesy.utmupsBase.UtmUps2Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.UtmUps2Tuple-class.html">pygeodesy.namedTuples.UtmUps2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(zone, hemipole)</code> as <code>int</code> and 
         <code>str</code>, where <code>zone</code> is <code>1..60</code> for
         UTM or <code>0</code> for UPS and <code>hemipole</code> 
@@ -1552,11 +1555,11 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">pygeodesy.deprecated.UtmUps4Tuple</a></strong>:
       <em class="summary">OBSOLETE, expect a <a 
-        href="pygeodesy.utmupsBase.UtmUps5Tuple-class.html" 
+        href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
         class="link">UtmUps5Tuple</a> from method 
         <code>Mgrs.toUtm(utm=None)</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUps5Tuple-class.html">pygeodesy.utmupsBase.UtmUps5Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.UtmUps5Tuple-class.html">pygeodesy.namedTuples.UtmUps5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(zone, hemipole, easting, northing, band)</code> as 
         <code>int</code>, <code>str</code>, <code>meter</code>, 
         <code>meter</code> and <code>band</code> letter, where 
@@ -1567,7 +1570,7 @@
         <code>'C'|'D'..'W'|'X'</code> or the (polar) UPS band 
         <code>'A'|'B'|'Y'|'Z'</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUps8Tuple-class.html">pygeodesy.utmupsBase.UtmUps8Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.UtmUps8Tuple-class.html">pygeodesy.namedTuples.UtmUps8Tuple</a></strong>:
       <em class="summary">8-Tuple <code>(zone, hemipole, easting, northing, band, datum, 
         convergence, scale)</code> as <code>int</code>, <code>str</code>, 
         <code>meter</code>, <code>meter</code>, <code>band</code> letter, 
@@ -1579,7 +1582,7 @@
         <code>'C'|'D'..'W'|'X'</code> or the (polar) UPS band 
         <code>'A'|'B'|'Y'|'Z'</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUpsLatLon5Tuple-class.html">pygeodesy.utmupsBase.UtmUpsLatLon5Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html">pygeodesy.namedTuples.UtmUpsLatLon5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(zone, band, hemipole, lat, lon)</code> as 
         <code>int</code>, <code>str</code>, <code>str</code>, 
         <code>degrees90</code> and <code>degrees180</code>, where 
@@ -1599,7 +1602,7 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.a_f2Tuple-class.html">pygeodesy.ellipsoids.a_f2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
-        <i>equatorial</i> radius <code>a</code> (<code>meter</code>) and 
+        <i>equatorial</i> radius <code>a</code> in <code>meter</code> and 
         scalar <i>flattening</i> <code>f</code>.</em>
     </li>
     </ul>
@@ -1641,6 +1644,10 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Lat-class.html">pygeodesy.units.Lat</a></strong>:
       <em class="summary">Named <code>float</code> representing a latitude in 
+        <code>degrees</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Lon-class.html">pygeodesy.units.Lon</a></strong>:
+      <em class="summary">Named <code>float</code> representing a longitude in 
         <code>degrees</code>.</em>
     </li>
     </ul>
@@ -1689,10 +1696,6 @@
     <li> <strong class="uidlink"><a href="pygeodesy.units.Height-class.html">pygeodesy.units.Height</a></strong>:
       <em class="summary">Named <code>float</code> representing a height, conventionally in 
         <code>meter</code>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Lon-class.html">pygeodesy.units.Lon</a></strong>:
-      <em class="summary">Named <code>float</code> representing a longitude in 
-        <code>degrees</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Meter-class.html">pygeodesy.units.Meter</a></strong>:
       <em class="summary">Named <code>float</code> representing a distance or length in 
@@ -1891,6 +1894,10 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">Named <code>float</code> representing a latitude in 
         <code>degrees</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Lon-class.html">pygeodesy.units.Lon</a></strong>:
+      <em class="summary">Named <code>float</code> representing a longitude in 
+        <code>degrees</code>.</em>
+    </li>
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Degrees2-class.html">pygeodesy.units.Degrees2</a></strong>:
@@ -1937,10 +1944,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.units.Height-class.html">pygeodesy.units.Height</a></strong>:
       <em class="summary">Named <code>float</code> representing a height, conventionally in 
         <code>meter</code>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Lon-class.html">pygeodesy.units.Lon</a></strong>:
-      <em class="summary">Named <code>float</code> representing a longitude in 
-        <code>degrees</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Meter-class.html">pygeodesy.units.Meter</a></strong>:
       <em class="summary">Named <code>float</code> representing a distance or length in 
@@ -2126,12 +2129,10 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Distance4Tuple-class.html">pygeodesy.namedTuples.Distance4Tuple</a></strong>:
       <em class="summary">4-Tuple <code>(distance2, delta_lat, delta_lon, unroll_lon2)</code>
         with the distance in <code>degrees squared</code>, the latitudinal 
-        <code>delta_lat</code> = 
-        <b><code>lat2</code></b>-<b><code>lat1</code></b>, the wrapped, 
-        unrolled and adjusted longitudinal <code>delta_lon</code> = 
-        <b><code>lon2</code></b>-<b><code>lon1</code></b> and 
-        <code>unroll_lon2</code>, the unrolled or original 
-        <b><code>lon2</code></b>.</em>
+        <code>delta_lat = <b>lat2</b> - <b>lat1</b></code>, the wrapped, 
+        unrolled and adjusted longitudinal <code>delta_lon = <b>lon2</b> - 
+        <b>lon1</b></code> and <code>unroll_lon2</code>, the unrolled or 
+        original <b><code>lon2</code></b>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.EasNor2Tuple-class.html">pygeodesy.namedTuples.EasNor2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(easting, northing)</code>, both in 
@@ -2238,7 +2239,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>degrees180</code> and <a 
         href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.LatLonDatum5Tuple-class.html">pygeodesy.utmupsBase.LatLonDatum5Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLonDatum5Tuple-class.html">pygeodesy.namedTuples.LatLonDatum5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(lat, lon, datum, convergence, scale)</code> in 
         <code>degrees90</code>, <code>degrees180</code>, <a 
         href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
@@ -2323,6 +2324,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>ratio</code> and <i>radical</i> <code>xline</code>, both 
         <code>scalar</code> and <code>0.0 &lt;= ratio &lt;= 1.0</code></em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geohash.Resolutions2Tuple-class.html">pygeodesy.geohash.Resolutions2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(res1, res2)</code> with the primary 
+        <i>(longitudinal)</i> and secondary <i>(latitudinal)</i> 
+        resolution, both in <code>degrees</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.points.Shape2Tuple-class.html">pygeodesy.points.Shape2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(nrows, ncols)</code>, the number of rows and 
         columns, both <code>int</code>.</em>
@@ -2334,7 +2340,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>maxPoint</code> as <code>LatLon</code> and the number 
         <code>n</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUps2Tuple-class.html">pygeodesy.utmupsBase.UtmUps2Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.UtmUps2Tuple-class.html">pygeodesy.namedTuples.UtmUps2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(zone, hemipole)</code> as <code>int</code> and 
         <code>str</code>, where <code>zone</code> is <code>1..60</code> for
         UTM or <code>0</code> for UPS and <code>hemipole</code> 
@@ -2342,11 +2348,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.UtmUps4Tuple-class.html">pygeodesy.deprecated.UtmUps4Tuple</a></strong>:
       <em class="summary">OBSOLETE, expect a <a 
-        href="pygeodesy.utmupsBase.UtmUps5Tuple-class.html" 
+        href="pygeodesy.namedTuples.UtmUps5Tuple-class.html" 
         class="link">UtmUps5Tuple</a> from method 
         <code>Mgrs.toUtm(utm=None)</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUps5Tuple-class.html">pygeodesy.utmupsBase.UtmUps5Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.UtmUps5Tuple-class.html">pygeodesy.namedTuples.UtmUps5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(zone, hemipole, easting, northing, band)</code> as 
         <code>int</code>, <code>str</code>, <code>meter</code>, 
         <code>meter</code> and <code>band</code> letter, where 
@@ -2357,7 +2363,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>'C'|'D'..'W'|'X'</code> or the (polar) UPS band 
         <code>'A'|'B'|'Y'|'Z'</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUps8Tuple-class.html">pygeodesy.utmupsBase.UtmUps8Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.UtmUps8Tuple-class.html">pygeodesy.namedTuples.UtmUps8Tuple</a></strong>:
       <em class="summary">8-Tuple <code>(zone, hemipole, easting, northing, band, datum, 
         convergence, scale)</code> as <code>int</code>, <code>str</code>, 
         <code>meter</code>, <code>meter</code>, <code>band</code> letter, 
@@ -2369,7 +2375,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>'C'|'D'..'W'|'X'</code> or the (polar) UPS band 
         <code>'A'|'B'|'Y'|'Z'</code>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.utmupsBase.UtmUpsLatLon5Tuple-class.html">pygeodesy.utmupsBase.UtmUpsLatLon5Tuple</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html">pygeodesy.namedTuples.UtmUpsLatLon5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(zone, band, hemipole, lat, lon)</code> as 
         <code>int</code>, <code>str</code>, <code>str</code>, 
         <code>degrees90</code> and <code>degrees180</code>, where 
@@ -2389,7 +2395,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.a_f2Tuple-class.html">pygeodesy.ellipsoids.a_f2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
-        <i>equatorial</i> radius <code>a</code> (<code>meter</code>) and 
+        <i>equatorial</i> radius <code>a</code> in <code>meter</code> and 
         scalar <i>flattening</i> <code>f</code>.</em>
     </li>
     </ul>
@@ -2439,7 +2445,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Oct 21 14:53:02 2020
+    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:49 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

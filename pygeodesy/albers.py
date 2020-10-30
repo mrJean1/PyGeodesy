@@ -13,25 +13,24 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO
+from pygeodesy.basics import neg, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
-from pygeodesy.interns import EPS, NN, _datum_, _gamma_, _lat_, \
-                             _lat0_, _lat1_, _lat2_, _lon_, _lon0_, \
-                             _no_convergence_fmt_, _scale_, _x_, \
-                             _y_, _0_0, _0_5, _1_0, _2_0, _3_0, _90_0
+from pygeodesy.interns import EPS, NN, _datum_, _gamma_, _lat_, _lon_, \
+                             _lat1_, _lat2_, _no_convergence_fmt_, _scale_, \
+                             _x_, _y_, _0_0, _0_5, _1_0, _2_0, _3_0, _90_0
 from pygeodesy.karney import _diff182, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Lon_, \
                             Meter, Scalar_
-from pygeodesy.utily import atan2d, degrees360, sincos2, sincos2d
+from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.10.19'
+__version__ = '20.10.29'
 
 _EPS__2 = EPS**2
 _EPS__4 = EPS**4
@@ -74,22 +73,22 @@ def _Dsn(x, y, sx, sy):
     return d
 
 
-def _Ks(k, name, Error=AlbersError):
+def _Ks(**name_k):
     '''(INTERNAL) Scale C{B{k} >= EPS}.
     '''
-    return Scalar_(k, name=name, Error=Error, low=EPS)  # > 0
+    return Scalar_(Error=AlbersError, low=EPS, **name_k)  # > 0
 
 
-def _Lat(lat, name=_lat_, Error=AlbersError):
+def _Lat(**name_lat):
     '''(INTERNAL) Latitude C{-90 <= B{lat} <= 90}.
     '''
-    return Lat_(lat, name=name, Error=Error)
+    return Lat_(Error=AlbersError, **name_lat)
 
 
-def _Lon(lon, name=_lon_, Error=AlbersError):
+def _Lon(**name_lon):
     '''(INTERNAL) Longitude C{-180 <= B{lon} <= 180}.
     '''
-    return Lon_(lon, name=name, Error=Error)
+    return Lon_(Error=AlbersError, **name_lon)
 
 
 def _tol(tol, x):
@@ -151,7 +150,7 @@ class _AlbersBase(_NamedBase):
         if sa1 < 0:  # and sa2 < 0:
             self._sign = -1
             # internally, tangent latitude positive
-            sa1, sa2 = -sa1, -sa2
+            sa1, sa2 = -sa1, neg(sa2)
         if sa1 > sa2:  # make phi1 < phi2
             sa1, sa2 = sa2, sa1
             ca1, ca2 = ca2, ca1
@@ -168,7 +167,7 @@ class _AlbersBase(_NamedBase):
             s1_qZ, C = self._s1_qZ_C2(ca1, sa1, ta1, ca2, sa2, ta2)
 
             ta0 = (ta2 + ta1) * _0_5
-            Ta0 = Fsum(ta0)
+            Ta0 =  Fsum(ta0)
             tol = _tol(_TOL0, ta0)
             for self._iteration in range(1, _NUMIT0):
                 ta02  = ta0**2
@@ -208,7 +207,7 @@ class _AlbersBase(_NamedBase):
             self._m0    = sqrt(m02)  # == nrho0 / E.a
             self._nrho0 = E.a * self._m0  # == E.a * sqrt(m02)
         self._k0_(_1_0 if par1 else (k * sqrt(C / (m02 + n0 * qZ * sxi0))))
-        self._lat0 = _Lat(self._sign * degrees(atan(ta0)), name=_lat0_)
+        self._lat0 = _Lat(lat0=self._sign * atand(ta0))
 
     def _s1_qZ_C2(self, ca1, sa1, ta1, ca2, sa2, ta2):
         '''(INTERNAL) Compute C{sm1 / (s / qZ)} and C{C} for .__init__.
@@ -217,9 +216,9 @@ class _AlbersBase(_NamedBase):
         b_a = E.b_a
         e2  = E.e2
 
-        tb1   = b_a * ta1
-        tb2   = b_a * ta2
-        dtb12 = b_a * (tb1 + tb2)
+        tb1   =  b_a * ta1
+        tb2   =  b_a * ta2
+        dtb12 =  b_a * (tb1 + tb2)
         scb12 = _1_0 + tb1**2
         scb22 = _1_0 + tb2**2
 
@@ -265,11 +264,12 @@ class _AlbersBase(_NamedBase):
 
     @property_RO
     def equatoradius(self):
-        '''Get the geodesic's equatorial (major) radius, semi-axis (C{meter}).
+        '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
         return self.datum.ellipsoid.a
 
-    majoradius = equatoradius  # for compatibility
+    majoradius = equatoradius  # for backward compatibility
+    '''DEPRECATED, use C{equatoradius}.'''
 
     @property_RO
     def iteration(self):
@@ -307,7 +307,7 @@ class _AlbersBase(_NamedBase):
         nrho0 = self._nrho0
         txi0  = self._txi0
 
-        sa, ca = sincos2d(_Lat(lat) * s)
+        sa, ca = sincos2d(_Lat(lat=lat) * s)
         ca = max(_EPS__2, ca)
         ta = sa / ca
 
@@ -315,9 +315,7 @@ class _AlbersBase(_NamedBase):
         dq = self._qZ * _Dsn(txi, txi0, sxi, self._sxi0) * (txi - txi0)
         drho = -E.a * dq / (sqrt(self._m02 - n0 * dq) + self._m0)
 
-        lon = _Lon(lon)
-        if lon0:
-            lon, _ = _diff182(_Lon(lon0, name=_lon0_), lon)
+        lon, _ = _diff182(lon0, lon)
         b = radians(lon)
 
         th = self._k02n0 * b
@@ -334,7 +332,7 @@ class _AlbersBase(_NamedBase):
 
         g = degrees360(s * th)
         if t:
-            k0 *= t * hypot1(E.b_a * ta) / E.a
+            k0 = self._azik(t, ta)
         t = Albers7Tuple(x, y, lat, lon, g, k0, self.datum)
         return self._xnamed(t, name=name)
 
@@ -384,7 +382,7 @@ class _AlbersBase(_NamedBase):
 
            @note: This allows a I{latitude of conformality} to be specified.
         '''
-        self._k0_(_Ks(k, 'k') / self.forward(lat, _0_0).scale)
+        self._k0_(_Ks(k=k) / self.forward(lat, _0_0).scale)
 
     def reverse(self, x, y, lon0=0, name=NN, LatLon=None, **LatLon_kwds):
         '''Convert an east- and northing location to geodetic lat- and longitude.
@@ -409,7 +407,6 @@ class _AlbersBase(_NamedBase):
         '''
         x = Meter(x=x)
         y = Meter(y=y)
-        E = self.datum.ellipsoid
 
         k0    = self._k0
         n0    = self._n0
@@ -430,19 +427,19 @@ class _AlbersBase(_NamedBase):
         t = _1_0 - dsxia * (_2_0 * txi0 + dsxia)
         txi = (txi0 + dsxia) / (sqrt(t) if t > _EPS__4 else _EPS__2)
 
-        ta = self._tanf(txi)
-        lat = degrees(atan(ta * self._sign))
+        ta  = self._tanf(txi)
+        lat = atand(ta * self._sign)
 
-        b = atan2(nx, y1)
-        lon = degrees(b / self._k02n0 if n0 else x / (y1 * k0))
+        th  = atan2(nx, y1)
+        lon = degrees(th / self._k02n0 if n0 else x / (y1 * k0))
         if lon0:
-            lon += _norm180(_Lon(lon0, name=_lon0_))
+            lon += _norm180(lon0)
         lon = _norm180(lon)
 
         if LatLon is None:
-            g = degrees360(self._sign * b)
+            g = degrees360(self._sign * th)
             if den:
-                k0 *= (nrho0 + n0 * drho) * hypot1(E.b_a * ta) / E.a
+                k0 = self._azik(nrho0 + n0 * drho, ta)
             r = Albers7Tuple(x, y, lat, lon, g, k0, self.datum)
         else:
             kwds = _xkwds(LatLon_kwds, datum=self.datum)
@@ -490,6 +487,12 @@ class _AlbersBase(_NamedBase):
             s = sqrt(s)
             s = (atanh(s) if x > 0 else atan(s)) / s - _1_0
         return s
+
+    def _azik(self, t, ta):
+        '''(INTERNAL) Compute the azimuthal scale C{_Ks(k0=k0)}.
+        '''
+        E = self.datum.ellipsoid
+        return _Ks(k=self._k0 * t * hypot1(E.b_a * ta) / E.a)
 
     def _cstxif3(self, ta):
         '''(INTERNAL) Get 3-tuple C{(cos, sin, tan)} of M{xi(ta)}.
@@ -543,7 +546,7 @@ class _AlbersBase(_NamedBase):
     def _k0_(self, k):
         '''(INTERNAL) Set C{._k0}, C{._k02}, etc.
         '''
-        self._k0    = k  = _Ks(k, 'k0')
+        self._k0    = k  = _Ks(k0=k)
         self._k02   = k2 =  k**2
         self._k0n0  = k  * self._n0
         self._k02n0 = k2 * self._n0
@@ -587,14 +590,14 @@ class _AlbersBase(_NamedBase):
                         (es1m1 / es2m1a  + self._atanhee(es1p1)))
         t = (sa / es2m1 + self._atanhee(sa)) / s
         if ta < 0:
-            t = -t
+            t = neg(t)
         return t
 
 
 class AlbersEqualArea(_AlbersBase):
     '''An Albers equal-area (authalic) projection with a single standard parallel.
 
-       @see: L{AlbersEqualArea4} and L{AlbersEqualArea}.
+       @see: L{AlbersEqualArea2} and L{AlbersEqualArea4}.
     '''
     def __init__(self, lat, k0=1, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualArea} projection.
@@ -607,15 +610,15 @@ class AlbersEqualArea(_AlbersBase):
 
            @raise AlbertError: Invalid B{C{lat}}, B{C{k0}} or no convergence.
         '''
-        self._lat1 = self._lat2 = lat = _Lat(lat, name=_lat1_)
-        args = tuple(sincos2d(lat)) * 2 + (_Ks(k0, 'k0'), datum, name)
+        self._lat1 = self._lat2 = lat = _Lat(lat1=lat)
+        args = tuple(sincos2d(lat)) * 2 + (_Ks(k0=k0), datum, name)
         _AlbersBase.__init__(self, *args)
 
 
 class AlbersEqualArea2(_AlbersBase):
     '''An Albers equal-area (authalic) projection with two standard parallels.
 
-       @see: L{AlbersEqualArea4} and L{AlbersEqualArea}.
+       @see: L{AlbersEqualArea} and L{AlbersEqualArea4}.
     '''
     def __init__(self, lat1, lat2, k1=1, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualArea2} projection.
@@ -630,9 +633,8 @@ class AlbersEqualArea2(_AlbersBase):
            @raise AlbertError: Invalid B{C{lat1}}m B{C{lat2}}, B{C{k1}}
                                or no convergence.
         '''
-        self._lat1, self._lat2 = lats = _Lat(lat1, name=_lat1_), \
-                                        _Lat(lat2, name=_lat2_)
-        args = tuple(sincos2d(*lats)) + (_Ks(k1, 'k1'), datum, name)
+        self._lat1, self._lat2 = lats = _Lat(lat1=lat1), _Lat(lat2=lat2)
+        args = tuple(sincos2d(*lats)) + (_Ks(k1=k1), datum, name)
         _AlbersBase.__init__(self, *args)
 
 
@@ -640,7 +642,7 @@ class AlbersEqualArea4(_AlbersBase):
     '''An Albers equal-area (authalic) projection specified by the C{sin}
        and C{cos} of both standard parallels.
 
-       @see: L{AlbersEqualArea2} and L{AlbersEqualArea}.
+       @see: L{AlbersEqualArea} and L{AlbersEqualArea2}.
     '''
     def __init__(self, slat1, clat1, slat2, clat2, k1=1, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualArea4} projection.
@@ -658,21 +660,21 @@ class AlbersEqualArea4(_AlbersBase):
                                and B{C{slat2}} have opposite signs (hemispheres),
                                invalid B{C{k1}} or no convergence.
         '''
-        def _Lat_s_c3(s, c, name):
-            L = _Lat(atan2d(s, c), name=name)
-            r = _1_0 / Float_(hypot(s, c), Error=AlbersError, name=name)
+        def _Lat_s_c3(name, s, c):
+            L =  Lat_(atan2d(s, c), name=name, Error=AlbersError)
+            r = _1_0 / Float_(hypot(s, c), name=name, Error=AlbersError)
             return L, s * r, c * r
 
-        self._lat1, sa1, ca1 = _Lat_s_c3(slat1, clat1, _lat1_)
-        self._lat2, sa2, ca2 = _Lat_s_c3(slat2, clat2, _lat2_)
-        _AlbersBase.__init__(self, sa1, ca1, sa2, ca2, _Ks(k1, 'k1'), datum, name)
+        self._lat1, sa1, ca1 = _Lat_s_c3(_lat1_, slat1, clat1)
+        self._lat2, sa2, ca2 = _Lat_s_c3(_lat2_, slat2, clat2)
+        _AlbersBase.__init__(self, sa1, ca1, sa2, ca2, _Ks(k1=k1), datum, name)
 
 
 class AlbersEqualAreaCylindrical(_AlbersBase):
     '''An L{AlbersEqualArea} projection at C{lat=0} and C{k0=1} degenerating
        to the cylindrical-equal-area projection.
     '''
-    _lat1 = _lat2 = _Lat(_0_0, name=_lat1_)
+    _lat1 = _lat2 = _Lat(lat1=_0_0)
 
     def __init__(self, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualAreaCylindrical} projection.
@@ -688,7 +690,7 @@ class AlbersEqualAreaNorth(_AlbersBase):
     '''An azimuthal L{AlbersEqualArea} projection at C{lat=90} and C{k0=1}
        degenerating to the L{azimuthal} L{LambertEqualArea} projection.
     '''
-    _lat1 = _lat2 = _Lat(_90_0, name=_lat1_)
+    _lat1 = _lat2 = _Lat(lat1=_90_0)
 
     def __init__(self, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualAreaNorth} projection.
@@ -704,7 +706,7 @@ class AlbersEqualAreaSouth(_AlbersBase):
     '''An azimuthal L{AlbersEqualArea} projection at C{lat=-90} and C{k0=1}
        degenerating to the L{azimuthal} L{LambertEqualArea} projection.
     '''
-    _lat1 = _lat2 = _Lat(-_90_0, name=_lat1_)
+    _lat1 = _lat2 = _Lat(lat1=-_90_0)
 
     def __init__(self, datum=Datums.WGS84, name=NN):
         '''New L{AlbersEqualAreaSouth} projection.
@@ -726,10 +728,10 @@ class Albers7Tuple(_NamedTuple):
        the reciprocal C{1 / scale}.
     '''
     _Names_ = (_x_,   _y_,   _lat_, _lon_, _gamma_,  _scale_, _datum_)
-    _Units_ = ( Meter, Meter, Lat,   Lon,   Bearing, _Ks,     _Pass)
+    _Units_ = ( Meter, Meter, Lat,   Lon,   Bearing, _Pass,   _Pass)
 
 
-__all__ += _ALL_DOCS(Albers7Tuple, _AlbersBase)
+__all__ += _ALL_DOCS(_AlbersBase)
 
 # **) MIT License
 #

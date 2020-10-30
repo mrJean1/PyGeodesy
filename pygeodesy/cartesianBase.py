@@ -18,7 +18,7 @@ from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
 from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _ellipsoidal_, \
-                             _spherical_, _SQUARE_, _1_0  # PYCHOK used!
+                             _spherical_, _SQUARE_fmt_, _1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple
 from pygeodesy.vector3d import Vector3d, _xyzhdn6
@@ -26,7 +26,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 
 class CartesianBase(Vector3d):
@@ -339,7 +339,7 @@ class CartesianBase(Vector3d):
             r = Nvector(r.x, r.y, r.z, h=r.h, datum=d, **Nvector_kwds)
         return self._xnamed(r)
 
-    def toStr(self, prec=3, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toStr(self, prec=3, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return the string representation of this cartesian.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).

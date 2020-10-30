@@ -11,7 +11,7 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import issequence, isstr, map2
+from pygeodesy.basics import copysign, issequence, isstr, map2, neg
 from pygeodesy.errors import ParseError, _parseX,  RangeError, \
                             _rangerrors, _ValueError
 from pygeodesy.interns import _COMMA_, _NE_, _NSEW_, _NW_, _SE_  # PYCHOK used!
@@ -22,14 +22,14 @@ from pygeodesy.interns import NN, _deg_, _degrees_, _DOT_, _E_, \
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import fstr, fstrzs
 
-from math import copysign, modf, radians
+from math import modf, radians
 try:
     from string import letters as _LETTERS
 except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '20.10.08'
+__version__ = '20.10.29'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix
@@ -289,7 +289,7 @@ def compassPoint(bearing, prec=3):
         raise _ValueError(prec=prec)
     # not round(), i.e. half-even rounding in Python 3,
     # but round-away-from-zero as int(b + 0.5) iff b is
-    # non-negative, otherwise int(b + copysign(0.5, b))
+    # non-negative, otherwise int(b + copysign(_0_5, b))
     q = int((bearing % _360_0) * m / _360_0 + _0_5) % m
     return _WINDS[q * x]
 
@@ -546,7 +546,7 @@ def _dms2deg(s, P, deg, min, sec):
     '''
     deg += (min + (sec / _60_0)) / _60_0
     if s == _MINUS_ or P in _SW_:
-        deg = -deg
+        deg = neg(deg)
     return deg
 
 
@@ -710,7 +710,7 @@ def parseRad(strRad, suffix=_NSEW_, clip=0):
 
             r = float(strRad.lstrip(_MINUS_PLUS_).rstrip(suffix.upper()).strip())
             if strRad[:1] == _MINUS_ or strRad[-1:] in _SW_:
-                r = -r
+                r = neg(r)
 
         return clipRadians(r, float(clip)) if clip else r
 

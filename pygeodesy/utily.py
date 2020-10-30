@@ -12,7 +12,7 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 
 from pygeodesy.basics import isint
 from pygeodesy.errors import _xkwds_get, _ValueError
-from pygeodesy.interns import PI, PI2, PI_2, R_M, _Missing, \
+from pygeodesy.interns import MISSING, PI, PI2, PI_2, R_M, \
                              _0_0, _0_5, _1_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.units import Feet, Float, Lam_, Meter, Phi_, Radius
@@ -20,7 +20,7 @@ from pygeodesy.units import Feet, Float, Lam_, Meter, Phi_, Radius
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '20.10.20'
+__version__ = '20.10.29'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = _1_0 / _90_0  # 0.011111111111111111111111111111111111111111111111
@@ -64,13 +64,21 @@ def acre2m2(acres):
 
 
 def asin1(x):
-    '''Return M{math.asin(max(-1, min(1, x)))}.
+    '''Return C{math.asin(max(-1, min(1, B{x})))}.
     '''
     return asin(max(-_1_0, min(_1_0, x)))
 
 
+def atand(y_x):
+    '''Return C{atan(B{y_x})} angle in C{degrees}.
+
+       @see: Function L{atan2d}.
+    '''
+    return atan2d(y_x, 1)
+
+
 def atan2b(y, x):
-    '''Compute C{atan2(y, x)} as degrees M{[0..+360]}.
+    '''Return C{atan2(B{y}, B{x})} in degrees M{[0..+360]}.
 
        @see: Function L{atan2d}.
     '''
@@ -81,7 +89,7 @@ def atan2b(y, x):
 
 
 def atan2d(y, x):
-    '''Compute C{atan2(y, x)} as degrees M{[-180..+180]}.
+    '''Return C{atan2(B{y}, B{x})} in degrees M{[-180..+180]}.
 
        @see: I{Karney}'s C++ function U{Math.atan2d
              <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Math.html>}.
@@ -503,8 +511,8 @@ def splice(iterable, n=2, **fill):
     if not isinstance(t, (list, tuple)):
         t = tuple(t)  # force tuple, also for PyPy3
     if n > 1:
-        fill = _xkwds_get(fill, fill=_Missing)
-        if fill is not _Missing:
+        fill = _xkwds_get(fill, fill=MISSING)
+        if fill is not MISSING:
             m = len(t) % n
             if m > 0:  # fill with same type
                 t += type(t)((fill,)) * (n - m)

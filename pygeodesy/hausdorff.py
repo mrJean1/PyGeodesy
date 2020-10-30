@@ -74,7 +74,7 @@ from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_
                             points2, _scale_rad, thomas_, vincentys_
 from pygeodesy.interns import INF, NN, _datum_, _distanceTo_, _item_sq, \
                              _points_, _units_, _0_0
-from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _FOR_DOCS
+from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import PhiLam2Tuple
 from pygeodesy.units import Float, Number_, _Str_degrees, _Str_meter, _Str_NN, \
@@ -85,7 +85,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '20.09.22'
+__version__ = '20.10.27'
 
 
 class HausdorffError(PointsError):
@@ -940,8 +940,8 @@ def hausdorff_(model, target, both=False, early=True, seed=None, units=NN,
     if not callable(point):
         raise _IsnotError(callable.__name__, point=point)
 
-    _, ps1 = points2(model,  closed=False, Error=HausdorffError)
-    _, ps2 = points2(target, closed=False, Error=HausdorffError)
+    _, ps1 = points2(model,  closed=False, Error=HausdorffError)  # PYCHOK non-sequence
+    _, ps2 = points2(target, closed=False, Error=HausdorffError)  # PYCHOK non-sequence
     return _hausdorff_(ps1, ps2, both, early, seed, units, distance, point)
 
 
@@ -1028,9 +1028,6 @@ def randomrangenerator(seed):
             yield s.pop(0)
 
     return _range
-
-
-__all__ += _ALL_DOCS(Hausdorff6Tuple)
 
 # **) MIT License
 #

@@ -16,7 +16,7 @@ from pygeodesy.basics import isfinite, isint, isscalar, \
                              len2, _xcopy
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
-from pygeodesy.interns import EPS, NN, _item_ps, _item_sq, _Missing, \
+from pygeodesy.interns import EPS, MISSING, NN, _item_ps, _item_sq, \
                              _too_few_, _0_0, _1_0, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import unstr
@@ -26,7 +26,7 @@ from math import copysign, hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.10.11'
+__version__ = '20.10.29'
 
 _not_finite_ = 'not finite'
 
@@ -231,7 +231,7 @@ class Fsum(object):
             iterable = tuple(iterable)
 
         ps = self._ps
-        for a in iterable:  # _iter()
+        for a in map(float, iterable):  # _iter()
             if not isfinite(a):
                 raise _ValueError(iterable=a, txt=_not_finite_)
             i = 0
@@ -281,9 +281,9 @@ class Fsum(object):
         if not isfinite(factor):
             raise _ValueError(factor=factor, txt=_not_finite_)
 
-        ps = self._ps
+        f, ps = float(factor), self._ps
         if ps:  # multiply and adjust partial sums
-            ps[:] = [p * factor for p in ps]
+            ps[:] = [p * f for p in ps]
             self.fadd_(ps.pop())
             self._n -= 1
         # assert self._ps is ps
@@ -422,7 +422,7 @@ class Fhorner(Fsum):
         if not isfinite(x):
             raise _ValueError(x=x, txt=_not_finite_)
         if not cs:
-            raise _ValueError(cs=cs, txt=_Missing)
+            raise _ValueError(cs=cs, txt=MISSING)
 
         x, cs = float(x), list(cs)
 
@@ -453,7 +453,7 @@ class Fpolynomial(Fsum):
         if not isfinite(x):
             raise _ValueError(x=x, txt=_not_finite_)
         if not cs:
-            raise _ValueError(cs=cs, txt=_Missing)
+            raise _ValueError(cs=cs, txt=MISSING)
 
         x, cs, xp = float(x), list(cs), _1_0
 
@@ -666,6 +666,21 @@ def fmean(xs):
     raise _ValueError(xs=xs)
 
 
+def fmean_(*xs):
+    '''Compute the accurate mean M{sum(xs[i] for
+       i=0..len(xs)) / len(xs)}.
+
+       @arg xs: Values (C{scalar}s).
+
+       @return: Mean value (C{float}).
+
+       @raise OverflowError: Partial C{2sum} overflow.
+
+       @raise ValueError: No B{C{xs}} values.
+    '''
+    return fmean(xs)
+
+
 def fpolynomial(x, *cs):
     '''Evaluate the polynomial M{sum(cs[i] * x**i for
        i=0..len(cs))}.
@@ -770,11 +785,11 @@ except ImportError:  # PYCHOK no cover
             if start:
                 r = v = start[0]
             else:
-                r, v = 0, _Missing
+                r, v = 0, MISSING
             for v in iterable:
                 r = f(r, v)
-            if v is _Missing:
-                raise _TypeError(iterable=(), start=_Missing)
+            if v is MISSING:
+                raise _TypeError(iterable=(), start=MISSING)
             return r
 
 

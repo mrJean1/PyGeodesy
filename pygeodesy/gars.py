@@ -16,7 +16,8 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 from pygeodesy.basics import isstr, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
-from pygeodesy.interns import EPS1_2, NN, _item_sq, _0_5, _90_0
+from pygeodesy.interns import EPS1_2, NN, _floatuple, _item_sq, \
+                             _0_5, _90_0
 from pygeodesy.interns import _1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof, _xnamed
@@ -27,7 +28,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '20.09.27'
+__version__ = '20.09.29'
 
 _Digits  = '0123456789'
 _LatLen  =    2
@@ -51,7 +52,7 @@ _LonOrig_M_ = _LonOrig * _M_
 _LatOrig_M1   = _LatOrig * _M1
 _LonOrig_M1_1 = _LonOrig * _M1 - 1
 
-_Resolutions = tuple(_1_0 / _ for _ in (_M1, _M1 * _M2, _M_))
+_Resolutions = _floatuple(*(_1_0 / _ for _ in (_M1, _M1 * _M2, _M_)))
 
 
 def _2divmod2(ll, Orig_M_):

@@ -89,7 +89,7 @@ from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_
                             points2 as _points2, _scale_rad, thomas_, vincentys_
 from pygeodesy.interns import EPS, EPS1, INF, NN, _datum_, _distanceTo_, \
                              _dot_, _item_sq, _points_, _units_, _0_0
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
+from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
 from pygeodesy.units import Float, Float_, Int, Number_, _Str_degrees, _Str_meter, \
@@ -100,7 +100,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '20.10.02'
+__version__ = '20.10.27'
 
 
 def _fraction(fraction, n):
@@ -1057,9 +1057,6 @@ class Frechet6Tuple(_NamedTuple):
 #   def __lt__(self, other):
 #       _xinstanceof(Frechet6Tuple, other=other)
 #       return self if self.fd < other.fd else other  # PYCHOK .fd=[0]
-
-
-__all__ += _ALL_DOCS(Frechet6Tuple)
 
 # **) MIT License
 #

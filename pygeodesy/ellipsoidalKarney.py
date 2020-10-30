@@ -43,7 +43,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.10.15'
+__version__ = '20.10.27'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -388,17 +388,24 @@ class LatLon(LatLonEllipsoidalBase):
                     instance.  For abutting circles, both intersection
                     points are the same instance.
 
-           @raise IntersectionError: Concentric, antipodal, invalid or
-                                     non-intersecting circles or no
-                                     convergence.
-
            @raise ImportError: Package U{geographiclib
                                <https://PyPI.org/project/geographiclib>}
                                not installed or not found.
 
+           @raise IntersectionError: Concentric, antipodal, invalid or
+                                     non-intersecting circles or no
+                                     convergence.
+
            @raise TypeError: Invalid B{C{other}} or B{C{equidistant}}.
 
            @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
+
+           @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
+                 calculating-intersection-of-two-circles>}, U{Karney's paper
+                 <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{I{14. MARITIME BOUNDARIES}},
+                 U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
+                 U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
+                 intersections.
         '''
         self.others(other)
         return intersections2(self, radius1, other, radius2, height=height, wrap=wrap,
@@ -481,6 +488,13 @@ class LatLon(LatLonEllipsoidalBase):
         return g.Inverse3(self.lat, self.lon, other.lat, lon)
 
 
+def _EquidistantKarney(equidistant):
+    # (INTERNAL) Get the C{EquidistantKarney} class.
+    if equidistant is None or not callable(equidistant):
+        from pygeodesy.azimuthal import EquidistantKarney as equidistant
+    return equidistant
+
+
 def _geodesic(datum, points, closed, line, wrap):
     # Compute the area or perimeter of a polygon,
     # using the geographiclib package, iff installed
@@ -505,7 +519,7 @@ def _geodesic(datum, points, closed, line, wrap):
 
 
 def areaOf(points, datum=Datums.WGS84, wrap=True):
-    '''Compute the area of a (n ellipsoidal) polygon.
+    '''Compute the area of an (ellipsoidal) polygon.
 
        @arg points: The polygon points (L{LatLon}[]).
        @kwarg datum: Optional datum (L{Datum}).
@@ -515,16 +529,17 @@ def areaOf(points, datum=Datums.WGS84, wrap=True):
                 ellipsoid, squared).
 
        @raise ImportError: Package U{geographiclib
-              <https://PyPI.org/project/geographiclib>} missing.
-
-       @raise TypeError: Some B{C{points}} are not L{LatLon}.
+                           <https://PyPI.org/project/geographiclib>}
+                           not installed or not found.
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
-       @raise ValueError: Invalid B{C{wrap}}, longitudes not
-                          wrapped, unrolled.
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @note: This function requires installation of the U{geographiclib
+       @raise ValueError: Invalid C{B{wrap}=False}, unwrapped,
+                          unrolled longitudes not supported.
+
+       @note: This function requires the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
@@ -549,8 +564,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                       or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection class
-                           (L{Equidistant} or L{equidistant})
-                           or C{None} for L{EquidistantKarney}.
+                           (L{Equidistant} or L{equidistant}) or
+                           C{None} for L{EquidistantKarney}.
        @kwarg tol: Convergence tolerance (C{meter}, same units as
                    B{C{radius1}} and B{C{radius2}}).
        @kwarg LatLon: Optional class to return the intersection points
@@ -578,13 +593,12 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
 
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>}, U{Karney's paper
-             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section 14 I{Maritime Boundaries},
+             <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{I{14. MARITIME BOUNDARIES}},
              U{circle-circle<https://MathWorld.Wolfram.com/Circle-CircleIntersection.html>} and
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.
     '''
-    from pygeodesy.azimuthal import EquidistantKarney
-    E = EquidistantKarney if equidistant is None else equidistant
+    E = _EquidistantKarney(equidistant)
     return _intersections2(center1, radius1, center2, radius2, height=height, wrap=wrap,
                                     equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
@@ -598,14 +612,18 @@ def isclockwise(points, datum=Datums.WGS84, wrap=True):
 
        @return: C{True} if B{C{points}} are clockwise, C{False} otherwise.
 
-       @raise TypeError: Some B{C{points}} are not C{LatLon}.
+       @raise ImportError: Package U{geographiclib
+                           <https://PyPI.org/project/geographiclib>}
+                           not installed or not found.
 
        @raise PointsError: Insufficient number of B{C{points}}.
+
+       @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
        @raise ValueError: The B{C{points}} enclose a pole or zero
                           area.
 
-       @note: This function requires installation of the U{geographiclib
+       @note: This function requires the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.isclockwise}.
@@ -632,9 +650,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection class
-                           (L{Equidistant} or L{EquidistantKarney}),
-                           function L{azimuthal.equidistant} will be
-                           invoked if left unspecified.
+                           (L{Equidistant} or L{equidistant}) or
+                           C{None} for L{EquidistantKarney}.
        @kwarg tol: Convergence tolerance (C{meter}).
        @kwarg LatLon: Optional class to return the closest point
                       (L{LatLon}) or C{None}.
@@ -650,17 +667,16 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        @raise TypeError: Invalid or non-ellipsoidal B{C{point}}, B{C{point1}}
                          or B{C{point2}} or invalid B{C{equidistant}}.
     '''
-    from pygeodesy.azimuthal import EquidistantKarney
     p = _xellipsoidal(point=point)
     p1 = p.others(point1=point1)
     p2 = p.others(point2=point2)
-    E = EquidistantKarney if equidistant is None else equidistant
+    E = _EquidistantKarney(equidistant)
     return _nearestOn(p, p1, p2, within=within, height=height, wrap=wrap,
                       equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
 def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
-    '''Compute the perimeter of a (n ellipsoidal) polygon.
+    '''Compute the perimeter of an (ellipsoidal) polygon.
 
        @arg points: The polygon points (L{LatLon}[]).
        @kwarg closed: Optionally, close the polygon (C{bool}).
@@ -671,16 +687,17 @@ def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
                 ellipsoid).
 
        @raise ImportError: Package U{geographiclib
-              <https://PyPI.org/project/geographiclib>} missing.
-
-       @raise TypeError: Some B{C{points}} are not L{LatLon}.
+                           <https://PyPI.org/project/geographiclib>}
+                           not installed or not found.
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
-       @raise ValueError: Invalid B{C{wrap}}, longitudes not
-                          wrapped, unrolled.
+       @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @note: This function requires installation of the U{geographiclib
+       @raise ValueError: Invalid C{B{wrap}=False}, unwrapped,
+                          unrolled longitudes not supported.
+
+       @note: This function requires the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
 
        @see: L{pygeodesy.perimeterOf} and L{sphericalTrigonometry.perimeterOf}.

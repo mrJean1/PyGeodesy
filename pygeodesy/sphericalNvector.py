@@ -31,7 +31,7 @@ to a normalised version of an (ECEF) cartesian coordinate.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isscalar, _xinstanceof
+from pygeodesy.basics import isscalar, neg, _xinstanceof
 from pygeodesy.datums import Datums
 from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _xkwds
@@ -51,7 +51,7 @@ from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 _paths_ = 'paths'
 
@@ -971,7 +971,7 @@ def intersection(start1, end1, start2, end2,
             # intersection is at further-away intersection
             # point, take opposite intersection from mid-
             # point of v1 and v2 [is this always true?]
-            d = -s1.plus(s2).dot(i1)
+            d = neg(s1.plus(s2).dot(i1))
 
     i = i1 if d > 0 else gc2.cross(gc1, raiser=_paths_)
 

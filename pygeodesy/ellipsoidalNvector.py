@@ -22,15 +22,16 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO, _xinstanceof, _xzipairs
+from pygeodesy.basics import neg, property_RO, _xinstanceof, \
+                            _xzipairs
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fdot, hypot_
-from pygeodesy.interns import NN, _COMMA_SPACE_, _pole_, _SQUARE_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
+from pygeodesy.interns import NN, _COMMA_SPACE_, _pole_, _SQUARE_fmt_
+from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _Named, _NamedTuple, _xnamed
 from pygeodesy.namedTuples import LatLon3Tuple
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
@@ -43,7 +44,7 @@ from pygeodesy.utily import atan2b, degrees90, sincos2d
 from math import asin
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -531,7 +532,7 @@ class Ned(_Named):
            horizontal, i.e. tangent to ellipsoid surface (C{degrees90}).
         '''
         if self._elevation is None:
-            self._elevation = -degrees90(asin(self.down / self.length))
+            self._elevation = neg(degrees90(asin(self.down / self.length)))
         return self._elevation
 
     @property_RO
@@ -562,7 +563,7 @@ class Ned(_Named):
         '''
         return self.ned
 
-    def toRepr(self, prec=None, fmt=_SQUARE_, sep=_COMMA_SPACE_, **unused):  # PYCHOK expected
+    def toRepr(self, prec=None, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, **unused):  # PYCHOK expected
         '''Return a string representation of this NED vector as
            length, bearing and elevation.
 
@@ -581,7 +582,7 @@ class Ned(_Named):
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, used method L{Ned.toRepr}.'''
 
-    def toStr(self, prec=3, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toStr(self, prec=3, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this NED vector.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -811,7 +812,7 @@ def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon, Ned, Nvector,  # classes
-                      meanOf, sumOf, toNed) + _ALL_DOCS(Ned3Tuple)
+                      meanOf, sumOf, toNed)
 
 # **) MIT License
 #

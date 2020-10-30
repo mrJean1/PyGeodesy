@@ -18,9 +18,10 @@ For each interpolator, there are several interpolation choices, for
 example I{linear}, I{cubic}, etc.
 
 B{Typical usage} is as follows.  First, create an interpolator from a
-C{geoid} file, also referred to as the C{grid knots}.
+C{geoid} file, containing locations with known heights also referred
+to as the C{grid knots}.
 
-C{>>> ginterpolator = GeoidXyz(grid_file, **options)}
+C{>>> ginterpolator = GeoidXyz(geoid_file, **options)}
 
 Then, get the interpolated geoid height of C{LatLon} location(s) with
 
@@ -89,7 +90,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.10.20'
+__version__ = '20.10.27'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -1581,7 +1582,7 @@ def egmGeoidHeights(GeoidHeights_dat):
             yield GeoidHeight5Tuple(lat, lon, egm84, egm96, egm2008)
 
 
-__all__ += _ALL_DOCS(GeoidHeight5Tuple, _GeoidBase)
+__all__ += _ALL_DOCS(_GeoidBase)
 
 if __name__ == '__main__':
 

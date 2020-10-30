@@ -76,13 +76,14 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import map2, property_RO
+from pygeodesy.basics import map2, neg, property_RO
 from pygeodesy.errors import _ValueError
-from pygeodesy.fmath import fdot, Fsum, fsum_, hypot1
+from pygeodesy.fmath import fdot, fmean_, Fsum, fsum_, hypot1
 from pygeodesy.interns import EPS, INF, PI, PI_2, PI_4, \
-                             _no_convergence_, _0_0, _0_5, \
-                             _1_0, _2_0, _3_0, _4_0, _5_0, _360_0
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+                             _no_convergence_, _0_0, _0_125, \
+                             _0_25, _0_5, _1_0, _2_0, _3_0, \
+                             _4_0, _5_0, _360_0
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
 # from pygeodesy.streprs import unstr
 from pygeodesy.units import Scalar, Scalar_
@@ -92,11 +93,12 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, floor, \
                  sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.10.19'
+__version__ = '20.10.29'
 
+_0_2    = _1_0 / _5_0
 _TolJAC = sqrt(EPS * 0.010)  # sqrt(EPS) * _0_1
-_TolRD  =  pow(EPS * 0.002, 0.125)  # _1_0 / _8_0
-_TolRF  =  pow(EPS * 0.030, 0.125)  # _1_0 / _8_0
+_TolRD  =  pow(EPS * 0.002, _0_125)
+_TolRF  =  pow(EPS * 0.030, _0_125)
 _TolRG0 = _TolJAC  * 2.7
 _TRIPS  =  15  # Max depth for sncndn, etc, 5..7 might be enough
 
@@ -315,7 +317,7 @@ class Elliptic(_Named):
             raise _invokationError(t, sn, cn, dn)
 
         if cn < 0:
-            cn, sn = -cn, -sn
+            cn, sn = -cn, neg(sn)
         return fX(sn, cn, dn) * PI_2 / cX - atan2(sn, cn)
 
     @property_RO
@@ -677,9 +679,9 @@ class Elliptic(_Named):
         mc = self.kp2
         if mc:  # never negative ...
             if mc < 0:  # PYCHOK no cover
-                d = _1_0 - mc
-                mc = -mc / d  # /= -d chokes PyChecker
-                d = sqrt(d)
+                d  = _1_0 - mc
+                mc = neg(mc / d)  # /= -d chokes PyChecker
+                d  = sqrt(d)
                 x *= d
             else:
                 d = 0
@@ -803,7 +805,7 @@ def _RD(x, y, z):  # used by testElliptic.py
     # Carlson, eqs 2.28 - 2.34
     m = _1_0
     S = Fsum()
-    A = fsum_(x, y, z, z, z) / _5_0
+    A = fsum_(x, y, 3 * z) * _0_2
     T = (A, x, y, z)
     Q = _Q(A, T, _TolRD)
     for _ in range(_TRIPS):
@@ -858,7 +860,7 @@ def _RF(x, y, z):  # used by testElliptic.py
     '''
     # Carlson, eqs 2.2 - 2.7
     m = _1_0
-    A = fsum_(x, y, z) / _3_0
+    A = fmean_(x, y, z)
     T = (A, x, y, z)
     Q = _Q(A, T, _TolRF)
     for _ in range(_TRIPS):
@@ -872,7 +874,7 @@ def _RF(x, y, z):  # used by testElliptic.py
     m *= T[0]  # An
     x = (A - x) / m
     y = (A - y) / m
-    z = -(x + y)
+    z = neg(x + y)
 
     e2 = x * y - z**2
     e3 = x * y * z
@@ -898,7 +900,7 @@ def _RG_(x, y):
     if a < b:
         a, b = b, a
     m = _0_5
-    S = Fsum((a + b)**2 / _4_0)
+    S = Fsum(_0_25 * (a + b)**2)
     for _ in range(_TRIPS):  # max 4 trips
         if abs(a - b) <= (_TolRG0 * a):
             S *= PI_2 / (a + b)
@@ -946,8 +948,8 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
     # Carlson, eqs 2.17 - 2.25
     m = m3 = _1_0
     S = Fsum()
-    D = -_xyzp(x, y, z, -p)
-    A = fsum_(x, y, z, 2 * p) / _5_0
+    D = neg(_xyzp(x, y, z, -p))
+    A = fsum_(x, y, z, 2 * p) * _0_2
     T = (A, x, y, z, p)
     Q = _Q(A, T, _TolRD)
     for _ in range(_TRIPS):
@@ -967,7 +969,7 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
     y = (A - y) / m
     z = (A - z) / m
     xyz = x * y * z
-    p = -(x + y + z) * _0_5
+    p  = neg(x + y + z) * _0_5
     p2 = p**2
 
     e2 = fsum_(x * y, x * z, y * z, -3 * p2)
@@ -982,11 +984,8 @@ def _rsT(T):
     '''
     s = map2(sqrt, T[1:])
     r = fdot(s[:3], s[1], s[2], s[0])
-    T = tuple((t + r) / _4_0 for t in T)
+    T = tuple((t + r) * _0_25 for t in T)
     return r, s, T
-
-
-__all__ += _ALL_DOCS(Elliptic3Tuple)
 
 # **) MIT License
 #

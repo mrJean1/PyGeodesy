@@ -30,18 +30,19 @@ from pygeodesy.basics import halfs2, property_RO, _xinstanceof, _xzipairs
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _parseX, _ValueError, _xkwds
 from pygeodesy.interns import NN, _band_, _COMMA_SPACE_, _datum_, _easting_, \
-                             _northing_, _SPACE_, _SQUARE_, _zone_, _0_0
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+                             _northing_, _SPACE_, _SQUARE_fmt_, _zone_, _0_0
+from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
+from pygeodesy.namedTuples import UtmUps5Tuple
 from pygeodesy.streprs import enstr2
 from pygeodesy.units import Easting, Meter, Northing, Str
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
-from pygeodesy.utmupsBase import _hemi, UtmUps5Tuple
+from pygeodesy.utmupsBase import _hemi
 
 import re  # PYCHOK warning locale.Error
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.10.15'
+__version__ = '20.10.29'
 
 _100km  = Meter( 100e3)  # 100 km in meter
 _2000km = Meter(2000e3)  # 2,000 km in meter
@@ -178,7 +179,7 @@ class Mgrs(_NamedBase):
         return parseMGRS(strMGRS, datum=self.datum, Mgrs=self.classof,
                                   name=name or self.name)
 
-    def toRepr(self, prec=10, fmt=_SQUARE_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toRepr(self, prec=10, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
 
            @kwarg prec: Optional number of digits (C{int}), 4:km, 10:m.
@@ -395,9 +396,6 @@ def toMgrs(utm, Mgrs=Mgrs, name=NN, **Mgrs_kwds):
         kwds = _xkwds(Mgrs_kwds, band=utm.band, datum=utm.datum)
         r = Mgrs(utm.zone, en, e, n, **kwds)
     return _xnamed(r, name or utm.name)
-
-
-__all__ += _ALL_DOCS(Mgrs4Tuple, Mgrs6Tuple)
 
 # **) MIT License
 #

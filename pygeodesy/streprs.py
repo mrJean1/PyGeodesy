@@ -8,12 +8,13 @@ u'''Floating point and other formatting utilities.
 from pygeodesy.basics import isint, isscalar
 from pygeodesy.errors import _IsnotError, _ValueError, _xkwds_pop
 from pygeodesy.interns import NN, _COMMA_SPACE_, _DOT_, _E_, _EQUAL_, \
-                             _H_, _item_ps, _N_, _PERCENT_, _scalar_, \
-                             _SPACE_, _STAR_, _UNDERSCORE_, _0_
+                             _H_, _item_ir, _item_ps, _N_, _name_, \
+                             _PERCENT_, _scalar_, _SPACE_, _STAR_, \
+                             _UNDERSCORE_, _0_
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.10.13'
+__version__ = '20.10.29'
 
 # formats %G and %.g drop all trailing zeros and the
 # decimal point making the float appear as an int
@@ -138,15 +139,25 @@ def fstr(floats, prec=6, fmt=_Fmt, ints=False, sep=_COMMA_SPACE_, strepr=None):
 
 
 def _fstrENH2(inst, prec, m):  # in .css, .lcc, .utmupsBase
-    '''(INTERNAL) For C{Css.} and C{Lcc.} C{toRepr} and C{toStr}.
-    '''
-    t = (inst.easting, inst.northing)
+    # (INTERNAL) For C{Css.} and C{Lcc.} C{toRepr} and C{toStr} and C{UtmUpsBase._toStr}.
+    t = inst.easting, inst.northing
     t = tuple(_streprs(prec, t, _Fmt, False, True, None))
     T = _E_, _N_
     if m is not None and abs(inst.height):  # abs(self.height) > EPS
         t +=  hstr(inst.height, prec=-2, m=m),
         T += _H_,
     return t, T
+
+
+def _fstrLL0(inst, prec, toRepr):  # in .azimuthal, .css
+    # (INTERNAL) For C{_AzimuthalBase.} and C{CassiniSoldner.} C{toStr} and C{toRepr}.
+    t = tuple(_streprs(prec, inst.latlon0, _Fmt, False, True, None))
+    if toRepr:
+        n = inst.name or NN
+        if n:
+            t += _item_ir(_name_, n),
+        t = _item_ps(inst.classname, _COMMA_SPACE_.join(t))
+    return t
 
 
 def fstrzs(efstr, ap1z=False):
