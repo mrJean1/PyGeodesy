@@ -18,14 +18,14 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 '''
 
 from pygeodesy.basics import copysign, property_RO, _xinstanceof, \
-                            _xsubclassof, _xzipairs
+                            _xsubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
-from pygeodesy.interns import EPS, NN, PI_2, _COMMA_SPACE_, _dot_, \
+from pygeodesy.interns import EPS, NN, PI_2, _COMMASPACE_, \
                              _ellipsoidal_, _float as _F, _k0_, \
                              _lat0_, _lon0_, _m_, _SPACE_, \
-                             _SQUARE_fmt_, _0_0, _0_5, _1_0
+                             _0_0, _0_5, _1_0
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
@@ -33,14 +33,14 @@ from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
 from pygeodesy.namedTuples import EasNor3Tuple, LatLon2Tuple, \
                                   LatLonDatum3Tuple, _LatLon4Tuple, \
                                   PhiLam2Tuple
-from pygeodesy.streprs import _fstrENH2
+from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.10.29'
+__version__ = '20.11.06'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -182,7 +182,7 @@ class Conic(_NamedEnumItem):
     def name2(self):
         '''Get the conic and datum names as "conic.datum" (C{str}).
         '''
-        return _dot_(self.name, self.datum.name)
+        return self._DOT_(self.datum.name)
 
     @property_RO
     def opt3(self):
@@ -344,7 +344,7 @@ class Conic(_NamedEnumItem):
 
 Conic._name = Conic.__name__
 
-Conics = _NamedEnum('Conics', Conic)  # registered conics
+Conics = _NamedEnum(Conic)  # registered Conics
 Conics._assert(  # <https://SpatialReference.org/ref/sr-org/...>
 #   AsLb   = Conic(_LLEB(-14.2666667, 170, datum=Datums.NAD27), _0_0, _0_0,
 #                        E0=_F(500000), N0=_0_0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
@@ -518,7 +518,7 @@ class Lcc(_NamedBase):
         r = _LatLon4Tuple(lat, lon, h, c.datum, LatLon, LatLon_kwds)
         return self._xnamed(r)
 
-    def toRepr(self, prec=0, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, m=_m_, C=False, **unused):  # PYCHOK expected
+    def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, m=_m_, C=False, **unused):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -597,10 +597,12 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=NN,
 
 if __name__ == '__main__':
 
+    from pygeodesy.interns import  _NL_, _NL_hash_
+
     # print all
     for c in (Conics,):
-        c = '\n' + repr(c)
-        print('\n# '.join(c.split('\n')))
+        c = _NL_ + repr(c)
+        print(_NL_hash_.join(c.split(_NL_)))
 
 # **) MIT License
 #

@@ -75,7 +75,7 @@ See:
 from pygeodesy.basics import len2
 from pygeodesy.errors import _AttributeError, _ValueError
 from pygeodesy.formy import equirectangular_
-from pygeodesy.interns import EPS, R_M, _too_small_, _1_0
+from pygeodesy.interns import EPS, R_M, _small_, _too_, _1_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.utily import isNumpy2, isTuple2
 
@@ -139,7 +139,7 @@ class _Sy(object):
         if radius:
             self.radius = float(radius)
         if self.radius < self.eps:
-            raise _ValueError(radius=radius, txt=_too_small_)
+            raise _ValueError(radius=radius, txt=_too_(_small_))
 
         if options:
             self.options = options
@@ -147,7 +147,7 @@ class _Sy(object):
         # tolerance converted to degrees squared
         self.s2 = degrees(tolerance / self.radius)**2
         if min(self.s2, tolerance) < self.eps:
-            raise _ValueError(tolerance=tolerance, txt=_too_small_)
+            raise _ValueError(tolerance=tolerance, txt=_too_(_small_))
         self.s2e = self.s2 + 1  # sentinel
 
         # compute either the shortest or perpendicular distance

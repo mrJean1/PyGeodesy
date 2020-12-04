@@ -243,7 +243,7 @@
         <span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">z</span>,
         <span class="summary-sig-arg">ll</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New 3-D <a href="pygeodesy.vector3d.Vector3d-class.html" 
       class="link">Vector3d</a>.</td>
           <td align="right" valign="top">
@@ -705,8 +705,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#parse" class="summary-sig-name">parse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">str3d</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">','</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse an <code>&quot;x, y, z&quot;</code> string to a similar <a 
       href="pygeodesy.vector3d.Vector3d-class.html" 
       class="link">Vector3d</a> instance.</td>
@@ -870,8 +870,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3d.Vector3d-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">5</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">(%s)</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'(%s)'</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>)</span><br />
       Return a string representation of this vector.</td>
           <td align="right" valign="top">
             
@@ -932,7 +932,7 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
@@ -1281,7 +1281,7 @@
         <span class="sig-arg">y</span>,
         <span class="sig-arg">z</span>,
         <span class="sig-arg">ll</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -2088,8 +2088,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parse</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">str3d</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default">','</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2332,8 +2332,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">5</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">(%s)</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'(%s)'</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2510,7 +2510,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
         - Approximate the length (norm, magnitude) of this vector.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2536,7 +2536,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
         - Get the length (norm, magnitude) of this vector (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2559,7 +2559,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
         - Get the length <i>squared</i> of this vector (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2582,7 +2582,7 @@ class="link">CrossError</a> exceptions (<code>bool</code>).
         - Get the X component (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2606,7 +2606,7 @@ href="pygeodesy.namedTuples.Vector3Tuple-class.html"
 class="link">Vector3Tuple</a><code>(x, y, z)</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2626,7 +2626,7 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
         - Get the Y component (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2646,7 +2646,7 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
         - Get the Z component (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2685,7 +2685,7 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 30 15:50:00 2020
+    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:21 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

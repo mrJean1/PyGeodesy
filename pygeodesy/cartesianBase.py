@@ -14,29 +14,29 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 
 from pygeodesy.basics import property_doc_, property_RO, _xinstanceof
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
-from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
-from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _ellipsoidal_, \
-                             _spherical_, _SQUARE_fmt_, _1_0  # PYCHOK used!
+from pygeodesy.interns import EPS, NN, _COMMASPACE_, _ellipsoidal_, _1_0
+from pygeodesy.interns import _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple
+from pygeodesy.streprs import Fmt
 from pygeodesy.vector3d import Vector3d, _xyzhdn6
 
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '20.10.29'
+__version__ = '20.11.05'
 
 
 class CartesianBase(Vector3d):
     '''(INTERNAL) Base class for ellipsoidal and spherical C{Cartesian}.
     '''
-    _datum  = None        # L{Datum}, to be overriden
-    _Ecef   = EcefKarney  # preferred C{Ecef...} class
-    _e9t    = None        # cached toEcef (L{Ecef9Tuple})
-    _height = 0           # height (L{Height})
-    _v4t    = None        # cached toNvector (L{Vector4Tuple})
+    _datum  = None   # L{Datum}, to be overriden
+    _Ecef   = None   # preferred C{EcefKarney} class
+    _e9t    = None   # cached toEcef (L{Ecef9Tuple})
+    _height = 0      # height (L{Height})
+    _v4t    = None   # cached toNvector (L{Vector4Tuple})
 
     def __init__(self, xyz, y=None, z=None, datum=None, ll=None, name=NN):
         '''New C{Cartesian...}.
@@ -144,6 +144,15 @@ class CartesianBase(Vector3d):
         self._datum = datum
 
     @property_RO
+    def Ecef(self):
+        '''Get the ECEF I{class} (L{EcefKarney}).
+        '''
+        if CartesianBase._Ecef is None:
+            from pygeodesy.ecef import EcefKarney
+            CartesianBase._Ecef = EcefKarney  # default
+        return CartesianBase._Ecef
+
+    @property_RO
     def height(self):
         '''Get the height (C{meter}).
         '''
@@ -160,12 +169,6 @@ class CartesianBase(Vector3d):
         '''Check whether this cartesian is spherical (C{bool} or C{None} if unknown).
         '''
         return self.datum.isSpherical if self._datum else None
-
-    @property_RO
-    def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney} or L{EcefVeness}).
-        '''
-        return self._Ecef
 
     @property_RO
     def latlon(self):
@@ -339,7 +342,7 @@ class CartesianBase(Vector3d):
             r = Nvector(r.x, r.y, r.z, h=r.h, datum=d, **Nvector_kwds)
         return self._xnamed(r)
 
-    def toStr(self, prec=3, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return the string representation of this cartesian.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).

@@ -29,37 +29,38 @@ Note WGS84(G730/G873/G1150) are coincident with ITRF at 10-centimetre level, see
 to agree at the centimeter level’, see also U{QPS/QINSy<https://Confluence.QPS.NL/qinsy/
 en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45353274.html>}.
 
-@var RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005.0, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994.0, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997.0, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000.0, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF2008: RefFrame(name='ITRF2008', epoch=2005.0, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF2014: RefFrame(name='ITRF2014', epoch=2010.0, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF91: RefFrame(name='ITRF91', epoch=1988.0, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.ITRF93: RefFrame(name='ITRF93', epoch=1988.0, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.NAD83: RefFrame(name='NAD83', epoch=1997.0, ellipsoid=Ellipsoid(name='GRS80')
-@var RefFrames.WGS84g1150: RefFrame(name='WGS84g1150', epoch=2001.0, ellipsoid=Ellipsoid(name='WGS84')
-@var RefFrames.WGS84g1674: RefFrame(name='WGS84g1674', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
-@var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005.0, ellipsoid=Ellipsoid(name='WGS84')
+@var RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005, ellipsoid=Ellipsoid(name='GRS80')
+@var RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoid(name='GRS80')
+@var RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997, ellipsoid=Ellipsoid(name='GRS80')
+@var RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000, ellipsoid=Ellipsoid(name='GRS80')
+@var RefFrames.ITRF2008: RefFrame(name='ITRF2008', epoch=2005, ellipsoid=Ellipsoid(name='GRS80')
+@var RefFrames.ITRF2014: RefFrame(name='ITRF2014', epoch=2010, ellipsoid=Ellipsoid(name='GRS80')
+@var RefFrames.ITRF91: RefFrame(name='ITRF91', epoch=1988, ellipsoid=Ellipsoid(name='GRS80')
+@var RefFrames.ITRF93: RefFrame(name='ITRF93', epoch=1988, ellipsoid=Ellipsoid(name='GRS80')
+@var RefFrames.NAD83: RefFrame(name='NAD83', epoch=1997, ellipsoid=Ellipsoid(name='GRS80')
+@var RefFrames.WGS84g1150: RefFrame(name='WGS84g1150', epoch=2001, ellipsoid=Ellipsoid(name='WGS84')
+@var RefFrames.WGS84g1674: RefFrame(name='WGS84g1674', epoch=2005, ellipsoid=Ellipsoid(name='WGS84')
+@var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
 from pygeodesy.basics import map1, property_RO
 from pygeodesy.datums import _ellipsoid, Transform
 from pygeodesy.ellipsoids import Ellipsoids
 from pygeodesy.errors import TRFError
-from pygeodesy.interns import NN, _COMMA_SPACE_, _ellipsoid_, \
-                             _epoch_, _float as _F, _floatuple as _T, \
-                             _item_ir, _item_is, _item_ps, _name_, \
-                             _no_conversion_, _0_0, _0_1, _0_5
+from pygeodesy.interns import NN, _COMMASPACE_, _conversion_, \
+                             _ellipsoid_, _epoch_, _float as _F, \
+                             _floatuple as _T, _name_, _no_, \
+                             _to_, _0_0, _0_1, _0_5
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedDict as _D, \
                            _NamedEnum, _NamedEnumItem
+from pygeodesy.streprs import Fmt
 from pygeodesy.units import Epoch
 
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.10.29'
+__version__ = '20.11.06'
 
 _366_0 = _F(366)
 _mDays = (0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0)
@@ -137,14 +138,14 @@ class RefFrame(_NamedEnumItem):
            @return: This L{RefFrame}'s attributes (C{str}).
         '''
         e = self.ellipsoid
-        t = (_item_ir(_name_, self.name),
-             _item_is(_epoch_, self.epoch),
-             _item_ps(_item_is(_ellipsoid_, classname(e)),
-                      _item_ir(_name_, e.name)))
-        return _COMMA_SPACE_.join(t)
+        t = (Fmt.EQUAL(_name_, repr(self.name)),
+             Fmt.EQUAL(_epoch_, self.epoch),
+             Fmt.PAREN(Fmt.EQUAL(_ellipsoid_, classname(e)),
+                       Fmt.EQUAL(_name_, repr(e.name))))
+        return _COMMASPACE_.join(t)
 
 
-RefFrames = _NamedEnum('RefFrames', RefFrame)  # registered reference frames
+RefFrames = _NamedEnum(RefFrame)  # registered reference frames
 # <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>
 RefFrames._assert(
 #   ITRF2014AU = RefFrame(_F(2020), Ellipsoids.GRS80, _S.ITRF2014AU),
@@ -401,8 +402,8 @@ def _reframeTransforms(rf2, rf, epoch):
         return (_2Transform((n, n1), epoch, _Reverse),  # PYCHOK returns
                 _2Transform((n2, n), epoch, _Reverse))
 
-    t = '%s %r to %r' % (RefFrame.__name__, n1, n2)
-    raise TRFError(_no_conversion_, txt=t)
+    t = _SPACE_(RefFrame.__name__, repr(n1), _to_, repr(n2))
+    raise TRFError(_no_(_conversion_), txt=t)
 
 
 def _2Transform(n1_n2, epoch, _Forward_Reverse):
@@ -419,14 +420,17 @@ def _2Transform(n1_n2, epoch, _Forward_Reverse):
 
 if __name__ == '__main__':
 
+    from pygeodesy.interns import _COMMA_, _SPACE_, _NL_, _NL_var_
+
+    n, y = date2epoch.__name__, 2020
     for m in range(1, 13):
-        y, d = 2020, _mDays[m]
-        e = date2epoch(y, m, d)
-        print('%s(%d, %d, %d) %.3F' % (date2epoch.__name__, y, m, d, e))
+        for d in (1, _mDays[m]):
+            e =  date2epoch(y, m, d)
+            print(_SPACE_(Fmt.PAREN(n, _COMMASPACE_(y, m, d)), Fmt.f(e, prec=3)))
 
     # __doc__ of this file
-    t = [NN] + repr(RefFrames).split('\n')
-    print('\n@var '.join(i.strip(',') for i in t))
+    t = [NN] + repr(RefFrames).split(_NL_)
+    print(_NL_var_.join(i.strip(_COMMA_) for i in t))
 
 # **) MIT License
 #
@@ -451,17 +455,28 @@ if __name__ == '__main__':
 # OTHER DEALINGS IN THE SOFTWARE.
 
 # % python -m pygeodesy.trf
-# len(_trfFs) 216 / len(_trfXs) 627: 34.4%
 #
+# date2epoch(2020, 1, 1) 2020.003
 # date2epoch(2020, 1, 31) 2020.085
+# date2epoch(2020, 2, 1) 2020.087
 # date2epoch(2020, 2, 29) 2020.164
+# date2epoch(2020, 3, 1) 2020.167
 # date2epoch(2020, 3, 31) 2020.249
+# date2epoch(2020, 4, 1) 2020.251
 # date2epoch(2020, 4, 30) 2020.331
+# date2epoch(2020, 5, 1) 2020.333
 # date2epoch(2020, 5, 31) 2020.415
+# date2epoch(2020, 6, 1) 2020.418
 # date2epoch(2020, 6, 30) 2020.497
+# date2epoch(2020, 7, 1) 2020.500
 # date2epoch(2020, 7, 31) 2020.582
+# date2epoch(2020, 8, 1) 2020.585
 # date2epoch(2020, 8, 31) 2020.667
+# date2epoch(2020, 9, 1) 2020.669
 # date2epoch(2020, 9, 30) 2020.749
+# date2epoch(2020, 10, 1) 2020.751
 # date2epoch(2020, 10, 31) 2020.833
+# date2epoch(2020, 11, 1) 2020.836
 # date2epoch(2020, 11, 30) 2020.915
+# date2epoch(2020, 12, 1) 2020.918
 # date2epoch(2020, 12, 31) 2021.000

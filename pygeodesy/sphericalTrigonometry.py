@@ -19,10 +19,11 @@ from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                               IntersectionError, _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _radical2, vincentys_
-from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, PI_4, R_M, _coincident_, \
-                             _colinear_, _end_, _invalid_, _item_sq, _LatLon_, \
-                             _near_concentric_, _not_convex_, _points_, \
-                             _too_distant_fmt_, _1_, _2_, _0_0, _0_5, _4_0
+from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, PI_4, R_M, \
+                             _coincident_, _colinear_, _convex_, _end_, \
+                             _invalid_, _LatLon_, _near_concentric_, \
+                             _not_, _points_, _too_, _1_, _2_, \
+                             _0_0, _0_5, _4_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -31,6 +32,7 @@ from pygeodesy.nvectorBase import NvectorBase as _Nvector
 from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase, _rads3, _trilaterate5
+from pygeodesy.streprs import Fmt
 from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
                             iterNumpy2, radiansPI2, sincos2, tan_2, \
@@ -40,7 +42,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 _EPS_I2    = EPS * _4_0
 _PI_EPS_I2 = PI - _EPS_I2
@@ -519,7 +521,7 @@ class LatLon(LatLonSphericalBase):
                     return False  # outside
 
                 if gc1.angleTo(gc, vSign=n0) < 0:
-                    raise _ValueError(_item_sq(points=i), points[i], txt=_not_convex_)
+                    raise _ValueError(Fmt.SQUARE(points=i), points[i], txt=_not_(_convex_))
                 gc1 = gc
 
         else:
@@ -545,7 +547,7 @@ class LatLon(LatLonSphericalBase):
             for i, gc2 in enumerate(gc):
                 # angle between gc vectors, signed by direction of n0
                 if gc1.angleTo(gc2, vSign=n0) < 0:
-                    raise _ValueError(_item_sq(points=i), points[i], txt=_not_convex_)
+                    raise _ValueError(Fmt.SQUARE(points=i), points[i], txt=_not_(_convex_))
                 gc1 = gc2
 
         return True  # inside
@@ -1081,7 +1083,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._interse
 
     elif x < 0:
         t = (d * radius) if too_d is None else too_d
-        raise ValueError(_too_distant_fmt_ % (t,))
+        raise ValueError(_too_(Fmt.distant(t)))
 
     if height is None:  # "radical height"
         f = _radical2(d, r1, r2).ratio

@@ -4,7 +4,7 @@
 # Test formatting functions.
 
 __all__ = ('Tests',)
-__version__ = '20.05.03'
+__version__ = '20.11.08'
 
 from base import TestsBase
 
@@ -13,6 +13,12 @@ from pygeodesy import INF, NEG0, NAN, \
 
 
 class Tests(TestsBase):
+
+    def testFmt(self, fmt, x):
+        self.test(fmt.name,  fmt(1e-3, prec=6), x)
+        self.test(fmt.name, (fmt % 1e-3), x)
+        self.test(fmt.name,  fmt % (1e-3,), x)
+        self.test(fmt.name,  fmt % (6, 1e-3), x)
 
     def testStreprs(self):
 
@@ -26,7 +32,8 @@ class Tests(TestsBase):
         try:  # coverage
             self.test('fstr', fstr(1, fmt='X'), ValueError.__name__)
         except ValueError as x:
-            self.test('fstr', str(x), "fmt ('X'): not '[%.*]F|f|E|e|G|g'")
+            from pygeodesy.streprs import _Fspec_
+            self.test('fstr', str(x), "fmt ('X'): not %r" % (_Fspec_,))
 
         for f, x in ((1,      '1.0'),
                      (1.0,    '1.0'),
@@ -79,5 +86,11 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__, streprs)
     t.testStreprs()
+    t.testFmt(streprs.Fmt.F, '0.001')
+    t.testFmt(streprs.Fmt.f, '0.001')
+    t.testFmt(streprs.Fmt.E, '1.0E-03')
+    t.testFmt(streprs.Fmt.e, '1.0e-03')
+    t.testFmt(streprs.Fmt.G, '0.001')
+    t.testFmt(streprs.Fmt.g, '0.001')
     t.results()
     t.exit()

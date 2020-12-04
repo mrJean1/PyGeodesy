@@ -65,15 +65,16 @@ from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, _HeightBase, HeightError
-from pygeodesy.interns import EPS, NN, _COMMA_SPACE_, _cubic_, _E_, \
-                             _float as _F, _in_, _item_cs, _item_pr, \
-                             _item_ps, _item_sq, joined_, _knots_, _lat_, \
-                             _linear_, _lon_, _N_, _n_a_, _on_, _outside_, \
-                             _S_, _scipy_, _W_, _4_, _0_0, _1_0, _180_0, _360_0
+from pygeodesy.interns import EPS, NN, _COLONSPACE_, _COMMASPACE_, _cubic_, \
+                             _E_, _float as _F, _in_, _knots_, _lat_, \
+                             _linear_, _lon_, _N_, _n_a_, _not_, _on_, \
+                             _outside_, _S_, _scipy_, _SPACE_, \
+                             _supported_, _tbd_, _W_, _4_, \
+                             _0_0, _1_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
 from pygeodesy.namedTuples import LatLon3Tuple
-from pygeodesy.streprs import attrs, fstr, pairs
+from pygeodesy.streprs import attrs, Fmt, fstr, pairs
 from pygeodesy.units import Height, Int_, Lat, Lon
 
 from math import floor
@@ -90,7 +91,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.10.27'
+__version__ = '20.11.06'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -98,7 +99,6 @@ _interp2d_ks = {-2: _linear_,
                 -3: _cubic_,
                 -5: 'quintic'}
 _non_increasing_ = 'non-increasing'
-_not_supported_  = 'not supported'
 
 
 class _GeoidBase(_HeightBase):
@@ -106,7 +106,7 @@ class _GeoidBase(_HeightBase):
     '''
     _cropped  = None
     _datum    = Datums.WGS84
-    _endian   = 'tbd'
+    _endian   = _tbd_
     _geoid    = _n_a_
     _hs_y_x   = None  # numpy 2darray, row-major order
     _interp2d = None  # interp2d interpolation
@@ -225,7 +225,7 @@ class _GeoidBase(_HeightBase):
         return self.toStr()
 
     def __str__(self):
-        return _item_pr(self.classname, self.name)
+        return Fmt.PAREN(self.classname, repr(self.name))
 
     def _called(self, llis, scipy):
         # handle __call__
@@ -238,7 +238,7 @@ class _GeoidBase(_HeightBase):
 
         except (GeoidError, RangeError) as x:
             # XXX avoid str(LatLon()) degree symbols
-            t = 'lli' if _as is _ascalar else _item_sq(llis=i)
+            t = 'lli' if _as is _ascalar else Fmt.SQUARE(llis=i)
             lli = fstr((lli.lat, lli.lon), strepr=repr)
             raise type(x)(t, lli, txt=str(x))
         except Exception as x:
@@ -263,7 +263,7 @@ class _GeoidBase(_HeightBase):
         for i in range(1, m):
             e = a[i] - a[i-1]
             if e < EPS:  # non-increasing axis
-                raise GeoidError(_item_sq(name, i), e, txt=_non_increasing_)
+                raise GeoidError(Fmt.SQUARE(name, i), e, txt=_non_increasing_)
         return self._np.array(a), d
 
     def _g2ll2(self, lat, lon):  # PYCHOK no cover
@@ -278,7 +278,7 @@ class _GeoidBase(_HeightBase):
         out = self.outside(lat, lon)
         if out:
             lli = fstr((lat, lon), strepr=repr)
-            raise RangeError(lli=lli, txt=joined_(_outside_, _on_, out))
+            raise RangeError(lli=lli, txt=_SPACE_(_outside_, _on_, out))
         return float(self._ev(*self._ll2g2(lat, lon)))
 
     def _ll2g2(self, lat, lon):  # PYCHOK no cover
@@ -554,7 +554,7 @@ class _GeoidBase(_HeightBase):
             self._stdev = float(self._np.std(self._hs_y_x))
         return self._stdev
 
-    def toStr(self, prec=3, sep=_COMMA_SPACE_):  # PYCHOK signature
+    def toStr(self, prec=3, sep=_COMMASPACE_):  # PYCHOK signature
         '''This geoid and all geoid attributes as a string.
 
            @kwarg prec: Optional number of decimal digits (0..9 or
@@ -566,15 +566,15 @@ class _GeoidBase(_HeightBase):
            @return: Geoid name and attributes (C{str}).
         '''
         s = 1 if self.kind < 0 else 2
-        t = tuple(_item_ps(m.__name__, fstr(m(), prec=prec)) for m in
-                                      (self.lowerleft, self.upperright,
-                                       self.center,
-                                       self.highest, self.lowest)) + \
+        t = tuple(Fmt.PAREN(m.__name__, fstr(m(), prec=prec)) for m in
+                                       (self.lowerleft, self.upperright,
+                                        self.center,
+                                        self.highest, self.lowest)) + \
             attrs( 'mean', 'stdev',           prec=prec, Nones=False) + \
             attrs(('kind', 'smooth')[:s],     prec=prec, Nones=False) + \
             attrs( 'cropped', 'dtype', 'endian', 'hits', _knots_, 'nBytes',
                    'sizeB', _scipy_, 'numpy', prec=prec, Nones=False)
-        return _item_cs(self, sep.join(t))
+        return _COLONSPACE_(self, sep.join(t))
 
     def upperleft(self, LatLon=None):
         '''Return the upper-left location and height of this geoid.
@@ -668,7 +668,7 @@ class GeoidG2012B(_GeoidBase):
            @raise TypeError: Invalid B{C{datum}}.
         '''
         if crop is not None:
-            raise GeoidError(crop=crop, txt=_not_supported_)
+            raise GeoidError(crop=crop, txt=_not_(_supported_))
 
         np, _ = self._NumSciPy()
         g = self._open(g2012b_bin, datum, kind, name, smooth)
@@ -853,7 +853,7 @@ class GeoidKarney(_GeoidBase):
            @see: Class L{GeoidPGM} and function L{egmGeoidHeights}.
         '''
         if smooth is not None:
-            raise GeoidError(smooth=smooth, txt=_not_supported_)
+            raise GeoidError(smooth=smooth, txt=_not_(_supported_))
 
         if kind in (2,):
             self._evH = self._ev2H
@@ -1287,13 +1287,13 @@ class _Gpars(_Named):
     skip  = 0  # header bytes to skip (C{int})
 
     def __repr__(self):
-        t = _COMMA_SPACE_.join(pairs((a, getattr(self, a)) for a in
-                                             dir(self.__class__) if
-                             a[:1].isupper()))
-        return _item_cs(self, t)
+        t = _COMMASPACE_.join(pairs((a, getattr(self, a)) for
+                                     a in dir(self.__class__)
+                                       if a[:1].isupper()))
+        return _COLONSPACE_(self, t)
 
     def __str__(self):
-        return _item_pr(self.classname, self.name)
+        return Fmt.PAREN(self.classname, repr(self.name))
 
 
 class _PGM(_Gpars):
@@ -1510,7 +1510,7 @@ class _PGM(_Gpars):
         t = fmt % args
         e = self.pgm or NN
         if e:
-            t = joined_(t, _in_, repr(e))
+            t = _SPACE_(t, _in_, repr(e))
         return PGMError(t)
 
     def _lle2yx2(self, lat, lon, flon):
@@ -1628,7 +1628,7 @@ if __name__ == '__main__':
                     h, ll = g.height(*ll), fstr(ll, prec=6)
                     print('%s.height(%s): %.4F vs %s' % (t, ll, h, k))
                 except (GeoidError, RangeError) as x:
-                    print(_item_cs(t, str(x)))
+                    print(_COLONSPACE_(t, str(x)))
 
         elif geoid[-4:].lower() in ('.bin',):
             g = GeoidG2012B(geoid, kind=_kind)

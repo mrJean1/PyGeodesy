@@ -16,26 +16,24 @@ from pygeodesy.basics import issubclassof, property_doc_, property_RO, \
                             _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
-from pygeodesy.ecef import EcefVeness
 from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, \
-                             _IsnotError, _ValueError, _xellipsoidal
+                             _IsnotError, TRFError, _ValueError, _xellipsoidal
 from pygeodesy.fmath import euclid, favg, fmean_, fsum_
 from pygeodesy.formy import _radical2
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
 from pygeodesy.interns import EPS, EPS1, MISSING, NN, PI, _COMMA_, \
-                             _datum_, _exceed_PI_radians_, _N_, \
-                             _near_concentric_, _no_convergence_fmt_, \
-                             _no_conversion_, _too_distant_fmt_
+                             _conversion_, _datum_, _DOT_, _exceed_PI_radians_, \
+                             _N_, _no_, _near_concentric_, _SPACE_, _too_
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import _LatLon4Tuple, Vector3Tuple
-from pygeodesy.trf import RefFrame, TRFError, _reframeTransforms
+from pygeodesy.streprs import Fmt
 from pygeodesy.units import Epoch, Height, Radius_, Scalar
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 17    # _intersects2, _nearestOn interations, 6 is sufficient
@@ -45,7 +43,6 @@ class CartesianEllipsoidalBase(CartesianBase):
     '''(INTERNAL) Base class for ellipsoidal C{Cartesian}s.
     '''
     _datum = Datums.WGS84  # L{Datum}
-    _Ecef  = EcefVeness    # preferred C{Ecef...} class, backward compatible
 
     def convertRefFrame(self, reframe2, reframe, epoch=None):
         '''Convert this cartesian point from one to an other reference frame.
@@ -64,6 +61,7 @@ class CartesianEllipsoidalBase(CartesianBase):
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a
                              L{RefFrame} or B{C{epoch}} not C{scalar}.
         '''
+        from pygeodesy.trf import RefFrame, _reframeTransforms
         _xinstanceof(RefFrame, reframe2=reframe2, reframe=reframe)
 
         c, d = self, self.datum
@@ -218,10 +216,12 @@ class LatLonEllipsoidalBase(LatLonBase):
            >>> p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  # default Datums.WGS84
            >>> p.convertRefFrame(RefFrames.ITRF2014)  # 51.477803°N, 000.001597°W, +0.01m
         '''
+        from pygeodesy.trf import RefFrame, _reframeTransforms
         _xinstanceof(RefFrame, reframe2=reframe2)
 
         if not self.reframe:
-            raise TRFError(_no_conversion_, txt='%r.reframe %s' % (self, MISSING))
+            t = _SPACE_(_DOT_(repr(self), 'reframe'), MISSING)
+            raise TRFError(_no_(_conversion_), txt=t)
 
         ts = _reframeTransforms(reframe2, self.reframe, self.epoch)
         if ts:
@@ -515,6 +515,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise TypeError: The B{C{reframe}} is not a L{RefFrame}.
         '''
         if reframe is not None:
+            from pygeodesy.trf import RefFrame
             _xinstanceof(RefFrame, reframe=reframe)
             self._reframe = reframe
         elif self.reframe is not None:
@@ -779,7 +780,7 @@ def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
     if m < max(r1 - r2, EPS):
         raise ValueError(_near_concentric_)
     if fsum_(r1, r2, -m) < 0:
-        raise ValueError(_too_distant_fmt_ % (m,))
+        raise ValueError(_too_(Fmt.distant(m)))
 
     f = _radical2(m, r1, r2).ratio  # "radical fraction"
     r = E.rocMean(favg(c1.lat, c2.lat, f=f))
@@ -828,7 +829,7 @@ def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
                 break
             p = d
         else:
-            raise ValueError(_no_convergence_fmt_ % (tol,))
+            raise ValueError(_no_(Fmt.convergence(tol)))
 
     if ta:  # abutting circles
         r = _latlon4(ta, h, n)
@@ -911,7 +912,7 @@ def _nearestOn(p, p1, p2, within=True, height=None, wrap=True,
             break
         c = d
     else:
-        raise ValueError(_no_convergence_fmt_ % (tol,))
+        raise ValueError(_no_(Fmt.convergence(tol)))
 
     r = _LatLon4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds)
     r._iteration = t.iteration  # ._iteration for tests

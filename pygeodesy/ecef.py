@@ -58,9 +58,9 @@ from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, LenError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot1, hypot2_
 from pygeodesy.interns import EPS, EPS1, EPS_2, NN, PI, PI_2, _a_, _C_, \
-                             _datum_, _ellipsoid_, _f_, _h_, _height_, \
-                             joined_, _lat_, _lat0_, _lon_, _lon0_, _M_, \
-                             _name_, _no_convergence_, _x_, _y_, _z_, _0_, \
+                             _convergence_, _datum_, _ellipsoid_, _f_, _h_, \
+                             _height_, _lat_, _lat0_, _lon_, _lon0_, _M_, \
+                             _name_, _no_, _SPACE_, _x_, _y_, _z_, _0_, \
                              _0_0, _0_5, _1_0, _2_0, _3_0, _4_0, _6_0, _90_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
@@ -74,7 +74,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.10.29'
+__version__ = '20.11.02'
 
 _prolate_  = 'prolate'
 _singular_ = 'singular'
@@ -145,7 +145,7 @@ class _EcefBase(_NamedBase):
 
         except (TypeError, ValueError) as x:
             t = unstr(self.classname, a=a_ellipsoid, f=f)
-            raise EcefError(joined_(t, _ellipsoid_), txt=str(x))
+            raise EcefError(_SPACE_(t, _ellipsoid_), txt=str(x))
 
         self._datum = d
         self._E = E
@@ -1084,7 +1084,7 @@ class EcefSudano(EcefVeness):
             if abs(t) < EPS:
                 break
         else:
-            raise EcefError(unstr(self.reverse.__name__, x=x, y=y, z=z), txt=_no_convergence_)
+            raise EcefError(unstr(self.reverse.__name__, x=x, y=y, z=z), txt=_no_(_convergence_))
 
         if a is None:
             a = copysign(asin(sa), z)

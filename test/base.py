@@ -43,7 +43,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy', 'numpy_version',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.10.09'
+__version__ = '20.11.05'
 
 # don't test with numpy and/or scypi older than 1.9 resp. 1.0
 from pygeodesy import basics
@@ -134,6 +134,7 @@ class TestsBase(object):
     _name     =  NN
     _iterisk  =  NN
     _prefix   = _SPACE_ * 4
+    _raiser   =  False
     _time     =  0
     _verbose  =  True  # print all tests, otherwise failures only
     _versions =  NN  # cached versions() string
@@ -143,7 +144,7 @@ class TestsBase(object):
     skipped = 0
     total   = 0
 
-    def __init__(self, testfile, version, module=None, verbose=True):
+    def __init__(self, testfile, version, module=None, verbose=True, raiser=False):
         if not self._versions:  # get versions once
             TestsBase._versions = versions()
         self._file = testfile
@@ -151,6 +152,7 @@ class TestsBase(object):
         self.title(self._name, version, module=module)
         self._time = time()
         self._verbose = verbose
+        self._raiser = raiser if raiser else '-raiser'.startswith(sys.argv[-1])
 
     def errors(self):
         '''Return the number of tests failures,
@@ -270,17 +272,21 @@ class TestsBase(object):
         if not isinstance(expect, _Strs):
             expect = fmt % (expect,)  # expect as str
 
-        f, v = NN, fmt % (value,)  # value as str
+        f, r, v = NN, False, fmt % (value,)  # value as str
         if v != expect and v != normDMS(expect):
             self.failed += 1  # failures
             if known:  # failed before
                 self.known += 1
                 f = ', KNOWN'
+            else:
+                r = True
             f = '  FAILED%s, expected %s' % (f, expect)
 
         self.total += 1  # tests
         if f or self._verbose:
             self.printf('test %d %s: %s%s', self.total, name, v, f, **kwds)
+        if r and self._raiser:
+            raise TestError('test %d %s', self.total, name)
 
     def test_(self, name, value, *expects, **kwds):
         '''Compare a test value with one or several expected results.
@@ -290,7 +296,7 @@ class TestsBase(object):
 
         fmt, known, kwds = _fmt_known_kwds(**kwds)
 
-        f, v = NN, fmt % (value,)  # value as str
+        f, r, v = NN, False, fmt % (value,)  # value as str
         for x in expects:
             if v == x or v == normDMS(x):
                 break
@@ -299,11 +305,15 @@ class TestsBase(object):
             if known:  # failed before
                 self.known += 1
                 f = ', KNOWN'
+            else:
+                r = True
             f = '  FAILED%s, expected %s' % (f, ' or '.join(expects))
 
         self.total += 1  # tests
         if f or self._verbose:
             self.printf('test %d %s: %s%s', self.total, name, v, f, **kwds)
+        if r and self._raiser:
+            raise TestError('test %d %s', self.total, name)
 
     def test__(self, fmt, *args, **kwds):
         '''Print subtotal test line.
@@ -359,6 +369,13 @@ class TestsBase(object):
         '''Set verbosity (C{bool}).
         '''
         self._verbose = bool(v)
+
+
+class TestError(ValueError):
+    '''Error to show the line number of a test failure.
+    '''
+    def __init__(self, fmt, *args):
+        ValueError.__init__(self, fmt % args)
 
 
 def _fmt_known_kwds(fmt='%s', prec=0, known=False, **kwds):

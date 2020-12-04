@@ -5,9 +5,10 @@ u'''Basic definitions, decorators and functions.
 '''
 from pygeodesy.errors import _AttributeError, _IsnotError, \
                              _TypesError, _ValueError
-from pygeodesy.interns import NEG0, NN, _COMMA_SPACE_, _DOT_, \
-                             _item_ir, joined_, _SPACE_, _0_0, \
-                             _UNDERSCORE_, _utf_8_, _version_
+from pygeodesy.interns import NEG0, NN, _by_, _DOT_, \
+                             _EQUALSPACED_, _immutable_, \
+                             _N_A_, _SPACE_, _UNDER_, \
+                             _utf_8_, _version_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
@@ -15,7 +16,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.10.29'
+__version__ = '20.11.08'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -55,18 +56,6 @@ except NameError:  # Python 3+
     _Strs  = str,
 
 
-def _bkwds(inst, Error=AttributeError, **name_value_pairs):  # in .frechet, .hausdorff, .heights
-    '''(INTERNAL) Set applicable C{bool} properties/attributes.
-    '''
-    for n, v in name_value_pairs.items():
-        b = getattr(inst, n, None)
-        if b is None:  # invalid bool attr
-            t = joined_(_item_ir(n, v), 'for', inst.__class__.__name__)  # XXX .classname
-            raise Error(t, txt='not applicable')
-        if v in (False, True) and v != b:
-            setattr(inst, _UNDERSCORE_ + n, v)
-
-
 def clips(bstr, limit=50, white=NN):
     '''Clip a string to the given length limit.
 
@@ -78,7 +67,7 @@ def clips(bstr, limit=50, white=NN):
     '''
     if len(bstr) > limit > 8:
         h = limit // 2
-        bstr = bstr[:h] + type(bstr)('....') + bstr[-h:]
+        bstr = NN(bstr[:h], type(bstr)('....'), bstr[-h:])
     if white:  # replace whitespace
         bstr = type(bstr)(white).join(bstr.split())
     return bstr
@@ -156,7 +145,7 @@ except AttributeError:  # Python 2-
     def isidentifier(obj):
         '''Return C{True} if B{C{obj}} is a valid Python identifier.
         '''
-        return True if (obj and obj.replace(_UNDERSCORE_, NN).isalnum()
+        return True if (obj and obj.replace(_UNDER_, NN).isalnum()
                             and not obj[:1].isdigit()) else False
 
 
@@ -330,7 +319,7 @@ def property_doc_(doc):
         '''(INTERNAL) Return C{method} as documented C{property.getter}.
         '''
         t = 'get and set' if doc.startswith(_SPACE_) else NN
-        return property(method, None, None, 'Property to ' + t + doc)
+        return property(method, None, None, NN('Property to ', t, doc))
 
     return _property
 
@@ -345,36 +334,27 @@ class property_RO(property):
 
            @note: Like standard Python C{property} without a C{property.setter}
                   and with a more descriptive error message when set.
+
+           @see: Python 3' U{functools.cached_property<https://docs.Python.org/3/
+                 library/functools.html#functools.cached_property>} and U{-.cache
+                 <https://docs.python.org/3/library/functools.html#functools.cache>}
+                 to I{memoize} the property value.
         '''
         if _FOR_DOCS and method.__doc__:
             self.__doc__ = method.__doc__
         self.name = method.__name__  # == self.fget.__name__
 
         # U{Descriptor HowTo Guide<https://docs.Python.org/3/howto/descriptor.html>}
-        def immutable(inst, value):
+        def _immutable(inst, value):
             '''Throws an C{AttributeError}, always.
             '''
-            t = immutable.__name__, inst, method.__name__, value
-            raise _AttributeError('%s property: %r.%s = %r' % t)
+            from pygeodesy.named import classname
+            s = _DOT_(repr(inst), self.name)
+            s = _EQUALSPACED_(s, repr(value))
+            t = _SPACE_(_immutable_, classname(self))
+            raise _AttributeError(s, txt=t)
 
-        property.__init__(self, method, immutable, None, method.__doc__ or 'N/A')
-
-
-# def property_RO(method):  # OBSOLETE
-#     '''An immutable property (C{Read Only}).
-#
-#        @arg method: The callable to be decorated as C{property.getter}.
-#
-#        @note: Like standard Python C{property} without a C{property.setter},
-#               but with a more descriptive error message when set.
-#     '''
-#     def Read_Only(inst, value):
-#         '''Throws an C{AttributeError}, always.
-#         '''
-#         t = Read_Only.__name__, inst, method.__name__, value
-#         raise AttributeError('%s property: %r.%s = %r' % t)
-#
-#     return property(method, Read_Only, None, method.__doc__ or 'N/A')
+        property.__init__(self, method, _immutable, None, method.__doc__ or _N_A_)
 
 
 def ub2str(ub):
@@ -383,31 +363,6 @@ def ub2str(ub):
     if isinstance(ub, _Bytes):
         ub = str(ub.decode(_utf_8_))
     return ub
-
-
-def _xattrs(insto, other, *attrs):
-    '''(INTERNAL) Copy attribute values from B{C{other}} to B{C{insto}}.
-
-       @arg insto: Object to copy attribute values to (any C{type}).
-       @arg other: Object to copy attribute values from (any C{type}).
-       @arg attrs: One or more attribute names (C{str}s).
-
-       @return: Object B{C{insto}}, updated.
-
-       @raise AttributeError: An B{C{attrs}} doesn't exist
-                              or is not settable.
-    '''
-    def _getattr(o, a):
-        if hasattr(o, a):
-            return getattr(o, a)
-        raise _AttributeError('.%s' % (a,), o)
-
-    for a in attrs:
-        s = _getattr(other, a)
-        g = _getattr(insto, a)
-        if (g is None and s is not None) or g != s:
-            setattr(insto, a, s)  # not settable?
-    return insto
 
 
 def _xcopy(inst, deep=False):
@@ -472,21 +427,12 @@ def _xversion(package, where, *required):  # in .karney
     t = map2(int, package.__version__.split(_DOT_)[:2])
     if t < required:
         from pygeodesy.named import modulename as mn
-        t = joined_(package.__name__, _version_,
+        t = _SPACE_(package.__name__, _version_,
                    _DOT_.join(map2(str, t)), 'below',
                    _DOT_.join(map2(str, required)),
-                   'required', 'by', mn(where, True))
+                   'required', _by_, mn(where, True))
         raise ImportError(t)
     return package
-
-
-def _xzipairs(lefts, rights, sep=_COMMA_SPACE_, fmt=NN, pair='%s:%s'):
-    '''(INTERNAL) Zip C{lefts} and C{rights} into a C{str}.
-    '''
-    t = sep.join(pair % t for t in zip(lefts, rights))
-    if fmt:
-        t = fmt % (t,)
-    return t
 
 # **) MIT License
 #

@@ -4,10 +4,10 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.09.14'
+__version__ = '20.11.03'
 
 from base import TestsBase
-from pygeodesy import geohash, Datums, named, namedTuples, ub2str
+from pygeodesy import geohash, Datum, Datums, named, namedTuples, ub2str
 
 from os import linesep
 
@@ -207,7 +207,7 @@ if __name__ == '__main__':
     t.testNamed(named._Named)
     t.testNamed(named._NamedBase)
     t.testNamed(named._NamedDict)
-    t.testNamed(named._NamedEnum, 'Test', known=True)
+    t.testNamed(named._NamedEnum, Datum, known=True)
     t.testNamed(named._NamedEnumItem)
     t.testNamed(namedTuples.LatLon2Tuple, 0, 0)  # _NamedTuple
 

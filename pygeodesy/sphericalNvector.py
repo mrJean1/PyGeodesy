@@ -33,7 +33,6 @@ to a normalised version of an (ECEF) cartesian coordinate.
 
 from pygeodesy.basics import isscalar, neg, _xinstanceof
 from pygeodesy.datums import Datums
-from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fmean, fsum
 from pygeodesy.interns import EPS, PI, PI2, PI_2, R_M, _end_, \
@@ -51,7 +50,7 @@ from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 _paths_ = 'paths'
 
@@ -751,7 +750,6 @@ class Nvector(NvectorBase):
        Note commonality with L{ellipsoidalNvector.Nvector}.
     '''
     _datum = Datums.Sphere  # default datum (L{Datum})
-    _Ecef  = EcefKarney     # preferred C{Ecef...} class
 
     def toCartesian(self, **Cartesian_h_kwds):  # PYCHOK Cartesian=Cartesian
         '''Convert this n-vector to C{Nvector}-based cartesian

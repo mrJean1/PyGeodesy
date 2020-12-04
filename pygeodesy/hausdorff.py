@@ -65,18 +65,19 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.basics import _bkwds, property_doc_, property_RO
+from pygeodesy.basics import property_doc_, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, PointsError
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2, _scale_rad, thomas_, vincentys_
-from pygeodesy.interns import INF, NN, _datum_, _distanceTo_, _item_sq, \
-                             _points_, _units_, _0_0
+from pygeodesy.interns import INF, NN, _datum_, _distanceTo_, _points_, _units_, \
+                             _0_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import PhiLam2Tuple
+from pygeodesy.streprs import _boolkwds, Fmt
 from pygeodesy.units import Float, Number_, _Str_degrees, _Str_meter, _Str_NN, \
                            _Str_radians, _Str_radians2, _xUnit, _xUnits
 from pygeodesy.utily import unrollPI
@@ -85,7 +86,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '20.10.27'
+__version__ = '20.11.06'
 
 
 class HausdorffError(PointsError):
@@ -133,7 +134,7 @@ class Hausdorff(_Named):
         if units:  # and not self.units:
             self.units = units
         if wrap_adjust:
-            _bkwds(self, Error=HausdorffError, **wrap_adjust)
+            _boolkwds(self, **wrap_adjust)
 
     @property_RO
     def adjust(self):
@@ -481,7 +482,7 @@ class HausdorffDistanceTo(Hausdorff):
         np, ps = Hausdorff._points2(self, points)
         for i, p in enumerate(ps):
             if not callable(getattr(p, _distanceTo_, None)):
-                raise HausdorffError(_item_sq(_points_, i), p, txt=_distanceTo_)
+                raise HausdorffError(Fmt.SQUARE(_points_, i), p, txt=_distanceTo_)
         return np, ps
 
 

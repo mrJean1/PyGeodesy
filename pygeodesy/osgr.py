@@ -37,27 +37,26 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import halfs2, map1, property_RO, \
-                            _xsubclassof, _xzipairs
+from pygeodesy.basics import halfs2, map1, property_RO, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_
-from pygeodesy.interns import NN, _COLON_, _COMMA_, _COMMA_SPACE_, \
-                             _dot_, _item_ps, _no_convergence_, \
-                             _SPACE_, _SQUARE_fmt_, _1_0
+from pygeodesy.interns import NN, _A_, _COLON_, _COMMA_, \
+                             _COMMASPACE_, _convergence_, _DOT_, \
+                             _latlon_, _no_, _not_, _SPACE_, _1_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum3Tuple
-from pygeodesy.streprs import enstr2
+from pygeodesy.streprs import enstr2, Fmt, _xzipairs, _0wd, _0wpF
 from pygeodesy.units import Easting, Lam_, Northing, Phi_, Scalar
 from pygeodesy.utily import degrees90, degrees180, sincos2
 
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.09.29'
+__version__ = '20.11.04'
 
 _10um  = 1e-5    # 0.01 millimeter (C{meter})
 _100km = 100000  # 100 km (int meter)
@@ -69,9 +68,8 @@ _N0 = Northing(-100e3)  # Northing of true origin (C{meter})
 _F0 = Scalar(0.9996012717)  # NatGrid scale of central meridian (C{float})
 
 _Datums_OSGB36    =  Datums.OSGB36  # Airy130 ellipsoid
-_latlon_          = 'latlon'
 _no_convertDatum_ = 'no .convertDatum'
-_ord_A            =  ord('A')
+_ord_A            =  ord(_A_)
 _TRIPS            =  33  # .toLatLon convergence
 
 
@@ -82,7 +80,7 @@ def _ll2datum(ll, datum, name):
         try:
             ll = ll.convertDatum(datum)
         except AttributeError:
-            raise _TypeError(name, ll, txt=_item_ps(_no_convertDatum_, datum.name))
+            raise _TypeError(name, ll, txt=Fmt.PAREN(_no_convertDatum_, datum.name))
     return ll
 
 
@@ -234,9 +232,9 @@ class Osgr(_NamedBase):
             if abs(m) < _10um:
                 break
         else:
-            t = _dot_(_item_ps(self.classname, self.toStr(prec=-3)),
-                               self.toLatLon.__name__)
-            raise OSGRError(_no_convergence_, txt=t)
+            t = _DOT_(Fmt.PAREN(self.classname, self.toStr(prec=-3)),
+                                self.toLatLon.__name__)
+            raise OSGRError(_no_(_convergence_), txt=t)
         sa, ca = sincos2(a)
 
         s = E.e2s2(sa)  # r, v = E.roc2_(sa, _F0)
@@ -286,7 +284,7 @@ class Osgr(_NamedBase):
         r._iteration = ll._iteration
         return _xnamed(r, ll)
 
-    def toRepr(self, prec=10, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toRepr(self, prec=10, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
 
            @kwarg prec: Optional number of digits (C{int}).
@@ -297,8 +295,13 @@ class Osgr(_NamedBase):
                     "[OSGR:meter,meter]" if B{C{prec}} is non-positive.
         '''
         t = self.toStr(prec=prec, sep=None)
-        return _xzipairs('GEN', t, sep=sep, fmt=fmt) if prec > 0 else \
-               (fmt % (_COLON_.join((Osgr.__name__.upper(), t)),))
+        if prec > 0:
+            t = _xzipairs('GEN', t, sep=sep, fmt=fmt)
+        else:
+            t = _COLON_(Osgr.__name__.upper(), t)
+            if fmt:
+                t = fmt % (t,)
+        return t
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method L{Osgr.toRepr}.'''
@@ -347,9 +350,9 @@ class Osgr(_NamedBase):
 
         elif -6 < prec < 0:
             w = 6 + 1 - prec
-            t = ['%0*.*f' % (w, -prec, t) for t in (e, n)]
+            t = [_0wpF(w, -prec, t) for t in (e, n)]
         else:
-            t = ['%06d' % int(t) for t in (e, n)]
+            t = [_0wd(6, int(t)) for t in (e, n)]
 
         return tuple(t) if s is None else s.join(t)
 
@@ -473,7 +476,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
         # XXX fix failing _LLEB.convertDatum()
         latlon = _LLEB(*parseDMS2(latlon, lon), datum=datum)
     elif lon is not None:
-        raise OSGRError(lon=lon, txt='not %s' % (None,))
+        raise OSGRError(lon=lon, txt=_not_(None))
     elif not name:  # use latlon.name
         name = nameof(latlon)
 

@@ -31,7 +31,6 @@ or by converting to anothor datum:
 
 from pygeodesy.basics import property_RO
 from pygeodesy.datums import Datums
-from pygeodesy.ecef import EcefKarney
 from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
                                        CartesianEllipsoidalBase, _TOL_M, \
                                        LatLonEllipsoidalBase, _nearestOn
@@ -43,14 +42,13 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.10.27'
+__version__ = '20.11.04'
 
 
 class Cartesian(CartesianEllipsoidalBase):
     '''Extended to convert C{Karney}-based L{Cartesian} to
        C{Karney}-based L{LatLon} points.
     '''
-    _Ecef = EcefKarney  # preferred C{Ecef...} class
 
     def toLatLon(self, **LatLon_datum_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to a C{Karney}-based
@@ -83,7 +81,6 @@ class LatLon(LatLonEllipsoidalBase):
        @note: This L{LatLon} require the U{geographiclib
               <https://PyPI.org/project/geographiclib>} package.
     '''
-    _Ecef = EcefKarney  # preferred C{Ecef...} class
 
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{initialBearingTo}.

@@ -8,29 +8,31 @@ L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isstr, issubclassof, property_doc_
+from pygeodesy.basics import isstr, issubclassof, \
+                             property_doc_, property_RO
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
 from pygeodesy.errors import _IsnotError, RangeError, TRFError, \
                               UnitError, _xkwds_popitem
-from pygeodesy.interns import EPS, NN, PI, PI_2, _band_, _bearing_, \
-                             _degrees_, _degrees2_, _distance_, _E_, \
-                             _easting_, _epoch_, _EW_, _feet_, _height_, \
-                             _invalid_, _lam_, _lat_, _LatLon_, _lon_, \
-                             _meter_, _N_, _northing_, _NS_, _NSEW_, \
-                             _number_, _PERCENT_, _phi_, _precision_, \
-                             _radians_, _radians2_, _radius_, _S_, \
-                             _scalar_, _SPACE_, _UNDERSCORE_, \
-                             _units_, _W_, _zone_, _0_0
+from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, _band_, \
+                             _bearing_, _degrees_, _degrees2_, \
+                             _distance_, _E_, _easting_, _epoch_, \
+                             _EW_, _feet_, _height_, _invalid_, \
+                             _lam_, _lat_, _LatLon_, _lon_, \
+                             _meter_, _N_, _northing_, _NS_, \
+                             _NSEW_, _number_, _PERCENT_, _phi_, \
+                             _precision_, _radians_, _radians2_, \
+                             _radius_, _S_, _scalar_, _SPACE_, \
+                             _UNDER_, _units_, _W_, _zone_, _0_0
 from pygeodesy.interns import _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named
-from pygeodesy.streprs import _Fmt, fstr, _g
+from pygeodesy.streprs import Fmt, fstr
 
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.10.29'
+__version__ = '20.12.03'
 
 
 class _NamedUnit(_Named):
@@ -42,8 +44,8 @@ class _NamedUnit(_Named):
     def _toRepr(self, value):
         '''(INTERNAL) Representation "<name> (<value>)" or "<classname>(<value>)".
         '''
-        t = (self.name, _SPACE_) if self.name else (self.classname,)
-        return NN.join(t + ('(', str(value), ')'))
+        t = NN(self.name, _SPACE_) if self.name else self.classname
+        return Fmt.PAREN(t, value)
 
     @property_doc_(' standard C{repr} or named C{toRepr} representation.')
     def std_repr(self):
@@ -122,7 +124,7 @@ class Float(float, _NamedUnit):
         # super(Float, self).__repr__() mimicks this behavior
         return super(Float, self).__repr__()  # see .test.testCss.py
 
-    def toRepr(self, prec=12, fmt=_g, ints=False, std=False):  # PYCHOK prec=8, ...
+    def toRepr(self, prec=12, fmt=Fmt.g, ints=False, std=False):  # PYCHOK prec=8, ...
         '''Return a representation of this C{Float}.
 
            @kwarg std: Use the standard C{repr} or the named
@@ -135,7 +137,7 @@ class Float(float, _NamedUnit):
         return super(Float, self).__repr__() if std else \
                self._toRepr(fstr(self, prec=prec, fmt=fmt, ints=ints))
 
-    def toStr(self, prec=12, fmt=_g, ints=False):  # PYCHOK prec=8, ...
+    def toStr(self, prec=12, fmt=Fmt.g, ints=False):  # PYCHOK prec=8, ...
         '''Format this C{Float} as C{str}.
 
            @see: Function L{fstr} for more documentation.
@@ -168,10 +170,12 @@ class Float_(Float):
             name, arg = _xkwds_popitem(name_arg)
         self = Float.__new__(cls, arg=arg, name=name, Error=Error)
         if (low is not None) and self < low:
-            raise _Error(cls, arg, name=name, Error=Error, txt='below %.6G limit' % (low,))
-        if (high is not None) and self > high:
-            raise _Error(cls, arg, name=name, Error=Error, txt='above %.6G limit' % (high,))
-        return self
+            txt = Fmt.limit(below=Fmt.g(low, prec=6, ints=isinstance(self, Epoch)))
+        elif (high is not None) and self > high:
+            txt = Fmt.limit(above=Fmt.g(high, prec=6, ints=isinstance(self, Epoch)))
+        else:
+            return self
+        raise _Error(cls, arg, name=name, Error=Error, txt=txt)
 
 
 class Int(int, _NamedUnit):
@@ -263,10 +267,12 @@ class Int_(Int):
             name, arg = _xkwds_popitem(name_arg)
         self = Int.__new__(cls, arg=arg, name=name, Error=Error)
         if (low is not None) and self < low:
-            raise _Error(cls, arg, name=name, Error=Error, txt='below %s limit' % (low,))
-        if (high is not None) and self > high:
-            raise _Error(cls, arg, name=name, Error=Error, txt='above %s limit' % (high,))
-        return self
+            txt = Fmt.limit(below=low)
+        elif (high is not None) and self > high:
+            txt = Fmt.limit(above=high)
+        else:
+            return self
+        raise _Error(cls, arg, name=name, Error=Error, txt=txt)
 
 
 class Bool(Int, _NamedUnit):
@@ -490,10 +496,12 @@ class Degrees_(Degrees):
             name, arg = _xkwds_popitem(name_arg)
         self = Degrees.__new__(cls, arg=arg, name=name, Error=Error, suffix=suffix, clip=0)
         if (low is not None) and self < low:
-            raise _Error(cls, arg, name=name, Error=Error, txt='below %s limit' % (low,))
-        if (high is not None) and self > high:
-            raise _Error(cls, arg, name=name, Error=Error, txt='above %s limit' % (high,))
-        return self
+            txt = Fmt.limit(below=low)
+        elif (high is not None) and self > high:
+            txt = Fmt.limit(above=high)
+        else:
+            return self
+        raise _Error(cls, arg, name=name, Error=Error, txt=txt)
 
 
 class Degrees2(Float):
@@ -643,7 +651,7 @@ class Epoch(Float_):  # by .ellipsoidalBase
         return arg if isinstance(arg, Epoch) else \
                Float_.__new__(cls, arg=arg, name=name, Error=Error, low=low, high=high)
 
-    def toRepr(self, std=False, **unused):  # PYCHOK prec=3, fmt=_Fmt, ints=True
+    def toRepr(self, std=False, **unused):  # PYCHOK prec=3, fmt=Fmt.F, ints=True
         '''Return a representation of this C{Epoch}.
 
            @kwarg std: Use the standard C{repr} or the named
@@ -651,14 +659,14 @@ class Epoch(Float_):  # by .ellipsoidalBase
 
            @see: Function L{fstr} for more documentation.
         '''
-        return Float_.toRepr(self, prec=-3, fmt=_Fmt, ints=True, std=std)
+        return Float_.toRepr(self, prec=-3, fmt=Fmt.F, ints=True, std=std)
 
-    def toStr(self, **unused):  # PYCHOK prec=3, fmt=_Fmt, ints=True
+    def toStr(self, **unused):  # PYCHOK prec=3, fmt=Fmt.F, ints=True
         '''Format this C{Epoch} as C{str}.
 
            @see: Function L{fstr} for more documentation.
         '''
-        return Float_.toStr(self, prec=-3, fmt=_Fmt, ints=True)
+        return Float_.toStr(self, prec=-3, fmt=Fmt.F, ints=True)
 
     __str__ = toStr  # PYCHOK default '%.3F', without trailing zeros and decimal point
 
@@ -670,6 +678,71 @@ class Feet(Float):
         '''See L{Float}.
         '''
         return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
+
+
+class FIx(Float_):
+    '''A named I{Fractional Index}, an C{int} or C{float} index into
+       a C{list} or C{tuple} of C{points}, typically.  A C{float}
+       I{Fractional Index} C{fi} represents a location on the edge
+       between C{points[int(fi)]} and C{points[(int(fi) + 1) %
+       len(points)]}.
+    '''
+    _fin = 0
+
+    def __new__(cls, fi, fin=None, **name_Error):
+        '''New I{Fractional Index} in a C{list} or C{tuple} of points.
+
+           @arg fi: The fractional index (C{float} or C{int}).
+           @kwarg fin: Optional C{len} of the original C{list} or
+                       C{tuple}, wrapping index C{[n]} to C{[0]}.
+           @kwarg name_Error: Optional keyword argument C{name=<name>}
+                              and/or C{Error=<Exception>}.
+
+           @return: The B{C{fi}} (named L{FIx}).
+
+           @note: The returned B{C{fi}} may exceed the B{C{flen}} of
+                  the original C{points} in certain open/closed cases.
+
+           @see: Method L{fractional} or function L{pygeodesy.fractional}.
+        '''
+        n = fin if fin is None else int(fin)
+        f = Float_.__new__(cls, fi, low=_0_0, high=n, **name_Error)
+        i = int(f)
+        r = f - float(i)
+        if r < EPS:  # see .points._fractional
+            f = Float_.__new__(cls, i)
+        elif r > EPS1:
+            f = Float_.__new__(cls, i + 1, high=n, **name_Error)
+        if n:
+            f._fin = n
+        return f
+
+    @property_RO
+    def fin(self):
+        '''Get the original C{len}, wrapping index C{[n]} to C{[0]} (C{int}).
+        '''
+        return self._fin
+
+    def fractional(self, points, **LatLon_LatLon_kwds):
+        '''Return the point at this I{Fractional Index}.
+
+           @arg points: The points (C{LatLon}[], L{Numpy2LatLon}[],
+                        L{Tuple2LatLon}[] or C{other}[]).
+           @kwarg **LatLon_LatLon_kwds: Optional class to return the
+                                        I{intermediate}, I{fractional}
+                                        point (C{LatLon}) or C{None}
+                                        and optional B{C{LatLon}} keyword
+                                        arguments thereof.
+
+           @return: See function L{pygeodesy.fractional}.
+
+           @raise IndexError: Fractional index invalid for B{C{points}}
+                              or B{C{points}} not subscriptable or not
+                              closed.
+        '''
+        from pygeodesy.points import fractional
+        # fi = 0 if self == self.fin else self
+        return fractional(points, self, **LatLon_LatLon_kwds)
 
 
 class Height(Float):  # here to avoid circular import
@@ -884,7 +957,7 @@ def _Error(clas, arg, name=NN, Error=UnitError, txt=_invalid_):
 
        @returns: An B{C{Error}} instance.
     '''
-    n = name if name else modulename(clas).lstrip(_UNDERSCORE_)
+    n = name if name else modulename(clas).lstrip(_UNDER_)
     return Error(n, arg, txt=txt)
 
 

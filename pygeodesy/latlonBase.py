@@ -15,7 +15,6 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 from pygeodesy.basics import map1, property_doc_, property_RO, \
                             _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS  # parseDMS, parseDMS2
-from pygeodesy.ecef import EcefKarney
 from pygeodesy.errors import _datum_datum, IntersectionError, _ValueError
 from pygeodesy.fmath import favg
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
@@ -23,14 +22,14 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, haversine, isantipode, \
                             latlon2n_xyz,points2, thomas_, vincentys
-from pygeodesy.interns import EPS, EPS1, NN, R_M, _COMMA_SPACE_, _item_sq, \
-                             _m_, _near_concentric_, _no_intersection_, \
-                             _no_overlap_, _0_0, _0_5, _1_0
+from pygeodesy.interns import EPS, EPS1, NN, R_M, _COMMASPACE_, \
+                             _intersection_, _m_, _near_concentric_, \
+                             _no_, _overlap_, _0_0, _0_5, _1_0
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, notOverloaded
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
-from pygeodesy.streprs import hstr
+from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
 from pygeodesy.vector3d import Vector3d
@@ -38,25 +37,25 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '20.10.15'
+__version__ = '20.11.05'
 
 
 class LatLonBase(_NamedBase):
     '''(INTERNAL) Base class for C{LatLon} points on spherical or
        ellipsoidal earth models.
     '''
-    _datum  = None        # L{Datum}, to be overriden
-    _Ecef   = EcefKarney  # preferred C{Ecef...} class
-    _e9t    = None        # cached toEcef (L{Ecef9Tuple})
-    _height = 0           # height (C{meter})
-    _lat    = 0           # latitude (C{degrees})
-    _latlon = None        # cached (L{LatLon2Tuple})
-    _lon    = 0           # longitude (C{degrees})
-    _name   = NN          # name (C{str})
-    _philam = None        # cached (L{PhiLam2Tuple})
-    _v3d    = None        # cached toVector3d (L{Vector3d})
-    _xyz    = None        # cached xyz (L{Vector3Tuple})
-    _xyzh   = None        # cached xyzh (L{Vector4Tuple})
+    _datum  = None  # L{Datum}, to be overriden
+    _Ecef   = None  # preferred C{EcefKarney} class
+    _e9t    = None  # cached toEcef (L{Ecef9Tuple})
+    _height = 0     # height (C{meter})
+    _lat    = 0     # latitude (C{degrees})
+    _latlon = None  # cached (L{LatLon2Tuple})
+    _lon    = 0     # longitude (C{degrees})
+    _name   = NN    # name (C{str})
+    _philam = None  # cached (L{PhiLam2Tuple})
+    _v3d    = None  # cached toVector3d (L{Vector3d})
+    _xyz    = None  # cached xyz (L{Vector3Tuple})
+    _xyzh   = None  # cached xyzh (L{Vector4Tuple})
 
     def __init__(self, lat, lon, height=0, name=NN):
         '''New C{LatLon}.
@@ -283,9 +282,12 @@ class LatLonBase(_NamedBase):
 
     @property_RO
     def Ecef(self):
-        '''Get the ECEF C{class} (L{EcefKarney} or L{EcefVeness}).
+        '''Get the ECEF I{class} (L{EcefKarney}).
         '''
-        return self._Ecef
+        if LatLonBase._Ecef is None:
+            from pygeodesy.ecef import EcefKarney
+            LatLonBase._Ecef = EcefKarney  # default
+        return LatLonBase._Ecef
 
     def equals(self, other, eps=None):  # PYCHOK no cover
         '''DEPRECATED, use method C{isequalTo}.
@@ -593,7 +595,7 @@ class LatLonBase(_NamedBase):
         _xinstanceof(list, tuple, latlonh=latlonh)
 
         if len(latlonh) == 3:
-            h = Height(latlonh[2], name=_item_sq(latlonh=2))
+            h = Height(latlonh[2], name=Fmt.SQUARE(latlonh=2))
         elif len(latlonh) != 2:
             raise _ValueError(latlonh=latlonh)
         else:
@@ -820,7 +822,7 @@ class LatLonBase(_NamedBase):
         return self.toVector(Vector=Nvector, h=self.height if h is None else h,
                                             ll=self, **Nvector_kwds)
 
-    def toStr(self, form=F_DMS, prec=None, m=_m_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toStr(self, form=F_DMS, prec=None, m=_m_, sep=_COMMASPACE_):  # PYCHOK expected
         '''Convert this point to a "lat, lon [+/-height]" string,
            formatted in the given form.
 
@@ -981,10 +983,10 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
         # and largest distance and n=0 for concentric
         return Trilaterate5Tuple(float(r), p, float(max(r1, r2, r3)), p, 0)
 
-    t = _no_overlap_ if area else _no_intersection_
-    f = max if area else min
-    raise IntersectionError(area=area, eps=eps, wrap=wrap,
-                            txt='%s (%s %.3f)' % (t, f.__name__, m))
+    f =  max if area else min
+    t = _no_(_overlap_ if area else _intersection_)
+    t = '%s (%s %.3f)' % (t, f.__name__, m)
+    raise IntersectionError(area=area, eps=eps, wrap=wrap, txt=t)
 
 
 __all__ += _ALL_DOCS(LatLonBase)

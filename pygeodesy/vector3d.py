@@ -21,20 +21,20 @@ from pygeodesy.errors import _AssertionError, CrossError, IntersectionError, \
 from pygeodesy.fmath import euclid_, fdot, fsum, fsum_, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2
 from pygeodesy.interns import EPS, EPS1, MISSING, NN, PI, PI2, _coincident_, \
-                             _colinear_, _COMMA_, _COMMA_SPACE_, _datum_, \
-                             _h_, _height_, _invalid_, joined_, _name_, \
-                             _near_concentric_, _no_intersection_, _PAREN_fmt_, \
-                             _scalar_, _too_distant_fmt_, _y_, _z_, _0_0, _1_0
+                             _colinear_, _COMMA_, _COMMASPACE_, _datum_, _h_, \
+                             _height_, _invalid_, _intersection_, _name_, \
+                             _near_concentric_, _no_, _scalar_, _SPACE_, \
+                             _too_, _y_, _z_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, _xotherError
 from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
-from pygeodesy.streprs import strs
+from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Radius, Radius_
 
 from math import atan2, copysign, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -665,7 +665,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return self.xyz
 
-    def toStr(self, prec=5, fmt=_PAREN_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toStr(self, prec=5, fmt=Fmt.PAREN, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this vector.
 
            @kwarg prec: Optional number of decimal places (C{int}).
@@ -675,9 +675,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @return: Vector as "(x, y, z)" (C{str}).
         '''
         t = sep.join(strs(self.xyz, prec=prec))
-        if fmt:
-            t = fmt % (t,)
-        return t
+        return (fmt % (t,)) if fmt else t
 
     def trilaterate3d2(self, radius, center2, radius2, center3, radius3, eps=EPS):
         '''Trilaterate this and two other spheres, each given as a (3d) center and radius.
@@ -863,7 +861,7 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in .ellip
             y = _0_0
     elif o < 0:
         t = d if too_d is None else too_d
-        raise ValueError(_too_distant_fmt_ % (t,))
+        raise ValueError(_too_(Fmt.distant(t)))
     else:  # abutting
         x, y = r1, _0_0
 
@@ -1140,10 +1138,10 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
         if d < abs(r1 - r2):
             t = _near_concentric_
         elif d > (r1 + r2):
-            t = _too_distant_fmt_ % (d,)
+            t = _too_(Fmt.distant(d))
         else:
             return NN
-        return joined_(c1.name, 'and', c2.name, t)
+        return _SPACE_(c1.name, 'and', c2.name, t)
 
     np = Vector3d._numpy
     if np is None:  # get numpy, once or ImportError
@@ -1183,7 +1181,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
                                  _txt(c1, r1, c3, r3) or
                                  _txt(c2, r2, c3, r3) or (_colinear_ if
                                  _iscolinearWith(c1, c2, c3, eps=eps) else
-                                 _no_intersection_))
+                                 _no_(_intersection_)))
     elif len(t) < 2:  # one intersection
         t *= 2
 

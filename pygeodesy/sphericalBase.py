@@ -15,13 +15,12 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 from pygeodesy.basics import property_doc_
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datums, _spherical_datum
-from pygeodesy.ecef import EcefKarney
 from pygeodesy.ellipsoids import R_M, R_MA
 from pygeodesy.errors import IntersectionError
 from pygeodesy.fmath import favg, fsum_
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
-                             _exceed_PI_radians_, _near_concentric_, \
-                             _too_distant_, _1_0, _180_0, _360_0
+                             _too_, _distant_, _exceed_PI_radians_, \
+                             _near_concentric_, _1_0, _180_0, _360_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
@@ -34,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.09.30'
+__version__ = '20.11.02'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -68,7 +67,6 @@ class CartesianSphericalBase(CartesianBase):
     '''(INTERNAL) Base class for spherical C{Cartesian}s.
     '''
     _datum = Datums.Sphere  # L{Datum}
-    _Ecef  = EcefKarney     # preferred C{Ecef...} class
 
     def intersections2(self, rad1, other, rad2, radius=R_M):
         '''Compute the intersection points of two circles each defined
@@ -118,7 +116,7 @@ class CartesianSphericalBase(CartesianBase):
         x = _1_0 - x0.length2  # XXX x0.dot(x0)
         if x < EPS:
             raise IntersectionError(center=self, rad1=rad1,
-                                    other=other, rad2=rad2, txt=_too_distant_)
+                                    other=other, rad2=rad2, txt=_too_(_distant_))
         n = n.times(sqrt(x / n2))
         if n.length > EPS:
             x1, x2 = x0.plus(n), x0.minus(n)
@@ -135,7 +133,6 @@ class LatLonSphericalBase(LatLonBase):
     '''(INTERNAL) Base class for spherical C{LatLon}s.
     '''
     _datum = Datums.Sphere  # spherical L{Datum}
-    _Ecef  = EcefKarney     # preferred C{Ecef...} class
 
     def __init__(self, lat, lon, height=0, datum=None, name=NN):
         '''Create a spherical C{LatLon} point frome the given

@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.05.06'
+__version__ = '20.12.02'
 
 from base import TestsBase
 
-from pygeodesy import F_D, clipCS3, ClipError, clipSH, clipSH3
+from pygeodesy import F_D, clipCS3, ClipError, clipLB6, clipSH, clipSH3
 
 
 def _lles3(*lles):
@@ -36,12 +36,28 @@ class Tests(TestsBase):
             self.test('clipCS3.p2', p2, '62.857143°N, 130.0°E')
             self.test('clipCS3.i', i, 1)
 
+        for p1, p2, i, fi, fj, j in clipLB6(ps, ll, ur):
+            self.test('clipLB4.p1', p1, '60.0°N, 123.333333°E')
+            self.test('clipLB4.p2', p2, '62.857143°N, 130.0°E')
+            self.test('clipLB4.i',   i, 0)
+            self.test('clipLB4.fi', fi, 0.666667, prec=6)
+            self.test('clipLB4.fj', fj, 0.714286, prec=6)
+            self.test('clipLB4.j',   j, 1)
+
         ll, ur = LatLon(15, 15), LatLon(20, 20)
         ps = LatLon(15, 10), LatLon(25, 20), LatLon(20, 30)
         for p1, p2, i in clipCS3(ps, ll, ur, closed=True, inull=False):
             self.test('clipCS3.p1', p1, '17.5°N, 020.0°E')
             self.test('clipCS3.p2', p2, '16.25°N, 015.0°E')
             self.test('clipCS3.i', i, 0)  # closing edge
+
+        for p1, p2, i, fi, fj, j in clipLB6(ps, ll, ur, closed=True, inull=False):
+            self.test('clipLB4.p1', p1, '17.5°N, 020.0°E')
+            self.test('clipLB4.p2', p2, '16.25°N, 015.0°E')
+            self.test('clipLB4.i',   i, 2)  # closing edge
+            self.test('clipLB4.fi', fi, 2.500, prec=3)  # closing edge
+            self.test('clipLB4.fj', fj, 2.750, prec=3)  # closing edge
+            self.test('clipLB4.j',   j, 0)  # closing edge
 
         # ps = LatLon(15, 10), LatLon(25, 20), LatLon(20, 30)
         sh = tuple(clipSH(ps, (ll, ur)))

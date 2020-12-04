@@ -13,43 +13,39 @@ attributes, similar to standard Python C{namedtuple}s.
 @newfield example: Example, Examples
 '''
 
-# update imported names under if __name__ == '__main__':
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, issubclassof, \
                              property_doc_, property_RO, _xcopy
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
                              _ValueError, UnitError, _xkwds, _xkwds_popitem
-from pygeodesy.interns import NN, _ANGLE_fmt_, _AT_, _COLON_, _COLON_SPACE_, \
-                             _COMMA_SPACE_, _CURLY_fmt_, _doesn_t_exist_, _DOT_, \
-                             _dot_, _DUNDER_, _dunder_name, _EQUAL_, _invalid_, \
-                             _item_ir, _item_ps, _item_sq, joined, joined_, _name_, \
-                             _other_, _PAREN_fmt_, _SQUARE_fmt_, _UNDERSCORE_, \
-                             _valid_, _vs_
+from pygeodesy.interns import NN, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
+                             _doesn_t_exist_, _DOT_, _DUNDER_, _dunder_name, \
+                             _EQUAL_, _immutable_, _invalid_, _name_, _other_, \
+                             _s_, _SPACE_, _UNDER_, _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
-from pygeodesy.streprs import attrs, _Fmt, pairs, reprs, unstr
+from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
-_del_       = 'del'
-_exists_    = 'exists'
-_I_         = 'I'
-_immutable_ = 'immutable'
-_item_      = 'item'
-_MRO_       = 'MRO'
-_O_         = 'O'
+_del_    = 'del'
+_exists_ = 'exists'
+_I_      = 'I'
+_item_   = 'item'
+_MRO_    = 'MRO'
+_O_      = 'O'
 # __DUNDER gets mangled in class
-_name   = '_name'
-_NN_    = '__name__'  # no __name__
-_Names_ = '_Names_'
-_Units_ = '_Units_'
+_name     = '_name'
+_n_a_m_e_ = '__name__'  # no __name__
+_Names_   = '_Names_'
+_Units_   = '_Units_'
 
 
 def _xjoined_(prefix, name):
     '''(INTERNAL) Join C{pref} and non-empty C{name}.
     '''
-    return joined_(prefix, repr(name)) if name and prefix else (prefix or name)
+    return _SPACE_(prefix, repr(name)) if name and prefix else (prefix or name)
 
 
 def _xnamed(inst, name, force=False):
@@ -92,7 +88,7 @@ def _xvalid(name, _OK=False):
     '''
     return True if (name and isstr(name)
                          and name != _name_
-                         and (_OK or not name.startswith(_UNDERSCORE_))
+                         and (_OK or not name.startswith(_UNDER_))
                          and (not iskeyword(name))
                          and isidentifier(name)) else False
 
@@ -106,7 +102,7 @@ class _Named(object):
     def __repr__(self):
         '''Default C{repr(self)}.
         '''
-        return '<%s at %#x>' % (self, id(self))
+        return Fmt.ANGLE(_SPACE_(self, 'at %#x' % (id(self),)))
 
     def __str__(self):
         '''Default C{str(self)}.
@@ -121,7 +117,7 @@ class _Named(object):
 
            @return: All C{name=value} pairs joined (C{str}).
         '''
-        return _COMMA_SPACE_.join(attrs(self, *names, **kwds))
+        return _COMMASPACE_.join(attrs(self, *names, **kwds))
 
     @property_RO
     def classname(self):
@@ -164,10 +160,10 @@ class _Named(object):
         '''
         return _xcopy(self, deep=deep)
 
-    def _dot_(self, name):
-        '''(INTERNAL) Period-join C{self.name} and C{name}.
+    def _DOT_(self, *names):
+        '''(INTERNAL) Period-join C{self.name} and C{names}.
         '''
-        return _dot_(self.name, name)
+        return _DOT_(self.name, *names)
 
     @property_doc_(''' the name (C{str}).''')
     def name(self):
@@ -203,13 +199,13 @@ class _Named(object):
     def named3(self):
         '''Get the I{prefixed} C{class} name I{and/or} the name or C{""} (C{str}).
         '''
-        return _xjoined_(classname(self, prefixed=True),  self.name)
+        return _xjoined_(classname(self, prefixed=True), self.name)
 
     @property_RO
     def named4(self):
         '''Get the C{package.module.class} name I{and/or} the name or C{""} (C{str}).
         '''
-        return _xjoined_(_dot_(self.__module__, self.__class__.__name__),  self.name)
+        return _xjoined_(_DOT_(self.__module__, self.__class__.__name__),  self.name)
 
     def toRepr(self, **unused):  # PYCHOK expected
         '''Default C{repr(self)}.
@@ -272,7 +268,7 @@ class _NamedBase(_Named):
                 if getattr(self, a, None) is not None:
                     setattr(self, a, None)
                 elif not hasattr(self, a):
-                    a = _dot_(NN, joined_(a, _invalid_))
+                    a = NN(_DOT_, a, _SPACE_, _invalid_)
                     raise _AssertionError(a, txt=repr(self))
 
 #   def notImplemented(self, attr):
@@ -283,7 +279,7 @@ class _NamedBase(_Named):
 #          @raise NotImplementedError: No such attribute.
 #       '''
 #       c = self.__class__.__name__
-#       return NotImplementedError(_dot_(c, attr))
+#       return NotImplementedError(_DOT_(c, attr))
 
     def others(self, *other, **name_other_up):  # see .points.LatLon_.others
         '''Refined class comparison, invoked as C{.others(other=other)},
@@ -320,14 +316,14 @@ class _NamedBase(_Named):
            @return: C{toStr}() with keyword arguments (as C{str}).
         '''
         t = self.toStr(**kwds).lstrip('([{').rstrip('}])')
-        return _item_ps(self.classname, t)  # XXX (self.named, t)
+        return Fmt.PAREN(self.classname, t)  # XXX (self.named, t)
 
 #   def toRepr(self, **kwds)
 #       if kwds:
 #           s = NN.join(reprs((self,), **kwds))
 #       else:  # super().__repr__ only for Python 3+
 #           s = super(self.__class__, self).__repr__()
-#       return _item_ps(self.named, s)  # clips(s)
+#       return Fmt.PAREN(self.named, s)  # clips(s)
 
     def toStr(self, **kwds):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.
@@ -383,7 +379,7 @@ class _NamedDict(dict, _Named):
         '''Get the value of an item by B{C{key}}.
         '''
         if key == _name_:
-            raise KeyError(_item_sq(self.classname, key))
+            raise KeyError(Fmt.SQUARE(self.classname, key))
         return dict.__getitem__(self, key)
 
     def __repr__(self):
@@ -403,7 +399,7 @@ class _NamedDict(dict, _Named):
         '''Set item B{C{key}} to B{C{value}}.
         '''
         if key == _name_:
-            raise KeyError(joined_(_item_sq(self.classname, key), _EQUAL_, repr(value)))
+            raise KeyError(_EQUAL_(Fmt.SQUARE(self.classname, key), repr(value)))
         dict.__setitem__(self, key, value)
 
     def __str__(self):
@@ -411,20 +407,20 @@ class _NamedDict(dict, _Named):
         '''
         return self.toStr()
 
-    def toRepr(self, prec=6, fmt=_Fmt):  # PYCHOK _Named
+    def toRepr(self, prec=6, fmt=Fmt.F):  # PYCHOK _Named
         '''Like C{repr(dict)} but with C{name} and  C{floats} formatting by C{fstr}.
         '''
         t = pairs(self.items(), prec=prec, fmt=fmt, sep=_EQUAL_)
-        return _item_ps(self.name, _COMMA_SPACE_.join(sorted(t)))
+        return Fmt.PAREN(self.name, _COMMASPACE_.join(sorted(t)))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method C{toRepr}.'''
 
-    def toStr(self, prec=6, fmt=_Fmt):  # PYCHOK _Named
+    def toStr(self, prec=6, fmt=Fmt.F):  # PYCHOK _Named
         '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
         '''
-        t = pairs(self.items(), prec=prec, fmt=fmt, sep=_COLON_SPACE_)
-        return _CURLY_fmt_ % (_COMMA_SPACE_.join(sorted(t)),)
+        t = pairs(self.items(), prec=prec, fmt=fmt, sep=_COLONSPACE_)
+        return Fmt.CURLY(_COMMASPACE_.join(sorted(t)))
 
 
 class _NamedEnum(_NamedDict):
@@ -433,17 +429,17 @@ class _NamedEnum(_NamedDict):
     '''
     _item_Classes = ()
 
-    def __init__(self, name, *Classes):
+    def __init__(self, Class, *Classes, **name):
         '''New C{_NamedEnum}.
 
-           @arg name: Name (C{str}).
-           @arg Classes: One or more classes or types acceptable
-                         as enum values (C{class}- or C{type}s).
+           @arg Class: Initial class or type acceptable as enum
+                       values (C{str}).
+           @arg Classes: Additional, acceptable classes or types.
         '''
-        if Classes:
-            self._item_Classes = Classes
-        if name and _xvalid(name, _OK=True):
-            _Named.name.fset(self, name)  # see _Named.name
+        self._item_Classes = (Class,) + Classes
+        n = name.get(_name_, NN) or NN(Class.__name__, _s_)
+        if n and _xvalid(n, _OK=True):
+            _Named.name.fset(self, n)  # see _Named.name
 
     def __getattr__(self, name):
         '''Get the value of an attribute or enum by B{C{name}}.
@@ -453,7 +449,7 @@ class _NamedEnum(_NamedDict):
         except KeyError:
             if name == _name_:
                 return _NamedDict.name.fget(self)
-        raise _AttributeError(item=self._dot_(name), txt=_doesn_t_exist_)
+        raise _AttributeError(item=self._DOT_(name), txt=_doesn_t_exist_)
 
     def __repr__(self):
         '''Default C{repr(self)}.
@@ -502,11 +498,11 @@ class _NamedEnum(_NamedDict):
             if not (n and isstr(n) and isidentifier(n)):
                 raise ValueError
         except (AttributeError, ValueError, TypeError) as x:
-            raise _NameError(_dot_(_item_, _name_), item, txt=str(x))
+            raise _NameError(_DOT_(_item_, _name_), item, txt=str(x))
         if n in self:
-            raise _NameError(self._dot_(n), item, txt=_exists_)
+            raise _NameError(self._DOT_(n), item, txt=_exists_)
         if not (self._item_Classes and isinstance(item, self._item_Classes)):
-            raise _TypesError(self._dot_(n), item, *self._item_Classes)
+            raise _TypesError(self._DOT_(n), item, *self._item_Classes)
         self[n] = item
 
     def unregister(self, name_or_item):
@@ -528,15 +524,15 @@ class _NamedEnum(_NamedDict):
         try:
             item = dict.pop(self, name)
         except KeyError:
-            raise _NameError(item=self._dot_(name), txt=_doesn_t_exist_)
+            raise _NameError(item=self._DOT_(name), txt=_doesn_t_exist_)
         item._enum = None
         return item
 
-    def toRepr(self, prec=6, fmt=_Fmt, sep=',\n'):  # PYCHOK _NamedDict
+    def toRepr(self, prec=6, fmt=Fmt.F, sep=',\n'):  # PYCHOK _NamedDict
         '''Like C{repr(dict)} but with C{name} and C{floats} formatting by C{fstr}.
         '''
-        t = sorted((self._dot_(n), v) for n, v in self.items())
-        return sep.join(pairs(t, prec=prec, fmt=fmt, sep=_COLON_SPACE_))
+        t = sorted((self._DOT_(n), v) for n, v in self.items())
+        return sep.join(pairs(t, prec=prec, fmt=fmt, sep=_COLONSPACE_))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method C{toRepr}.'''
@@ -544,7 +540,7 @@ class _NamedEnum(_NamedDict):
     def toStr(self, *unused):  # PYCHOK _NamedDict
         '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
         '''
-        return self._dot_(', .'.join(sorted(self.keys())))
+        return self._DOT_(', .'.join(sorted(self.keys())))
 
 
 class _NamedEnumItem(_NamedBase):
@@ -562,13 +558,13 @@ class _NamedEnumItem(_NamedBase):
     def _instr(self, prec, *attrs, **kwds):
         '''(INTERNAL) Format, used by C{Conic}, C{Ellipsoid}, C{Transform}.
         '''
-        t = _item_ir(_name_, self.name),
+        t = Fmt.EQUAL(_name_, repr(self.name)),
         if attrs:
             t += pairs(((a, getattr(self, a)) for a in attrs),
                        prec=prec, ints=True)
         if kwds:
             t += pairs(kwds, prec=prec)
-        return _COMMA_SPACE_.join(t)
+        return _COMMASPACE_.join(t)
 
     @property_doc_(''' the I{registered} name (C{str}).''')
     def name(self):
@@ -609,7 +605,7 @@ class _NamedEnumItem(_NamedBase):
         if enum and self.name and self.name in enum:
             item = enum.unregister(self.name)
             if item is not self:
-                t = joined_(repr(item), _vs_, repr(self))
+                t = _SPACE_(repr(item), _vs_, repr(self))
                 raise _AssertionError(t)
 
 
@@ -668,7 +664,7 @@ class _NamedTuple(tuple, _Named):
            @note: Items can not be deleted.
         '''
         if name in self._Names_:
-            raise _TypeError(_del_, _dot_(self.classname, name), txt=_immutable_)
+            raise _TypeError(_del_, _DOT_(self.classname, name), txt=_immutable_)
         elif name in (_name_, _name):
             _Named.__setattr__(self, name, NN)  # XXX _Named.name.fset(self, NN)
         else:
@@ -680,7 +676,7 @@ class _NamedTuple(tuple, _Named):
         try:
             return tuple.__getitem__(self, self._Names_.index(name))
         except IndexError:
-            raise _IndexError(_dot_(self.classname, _ANGLE_fmt_ % (_name_,)), name)
+            raise _IndexError(_DOT_(self.classname, Fmt.ANGLE(_name_)), name)
         except ValueError:
             return tuple.__getattribute__(self, name)
 
@@ -698,7 +694,7 @@ class _NamedTuple(tuple, _Named):
         '''Set attribute or item B{C{name}} to B{C{value}}.
         '''
         if name in self._Names_:
-            raise _TypeError(_dot_(self.classname, name), value, txt=_immutable_)
+            raise _TypeError(_DOT_(self.classname, name), value, txt=_immutable_)
         elif name in (_name_, _name):
             _Named.__setattr__(self, name, value)  # XXX _Named.name.fset(self, value)
         else:
@@ -731,12 +727,12 @@ class _NamedTuple(tuple, _Named):
         if not (issubclassof(xTuple, _NamedTuple) and
                (len(self._Names_) + len(items)) == len(xTuple._Names_)
                 and self._Names_ == xTuple._Names_[:len(self)]):
-            c = joined(self.classname,  repr(self._Names_))
-            x = joined(xTuple.__name__, repr(xTuple._Names_))
-            raise TypeError(joined_(c, _vs_, x))
+            c = NN(self.classname,  repr(self._Names_))
+            x = NN(xTuple.__name__, repr(xTuple._Names_))
+            raise TypeError(_SPACE_(c, _vs_, x))
         return self._xnamed(xTuple(*(self + items)))
 
-    def toRepr(self, prec=6, sep=_COMMA_SPACE_, **unused):  # PYCHOK signature
+    def toRepr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as C{name=value} string(s).
 
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
@@ -746,12 +742,12 @@ class _NamedTuple(tuple, _Named):
 
            @return: Tuple items (C{str}).
         '''
-        return _item_ps(self.named, sep.join(pairs(self.items(), prec=prec)))
+        return Fmt.PAREN(self.named, sep.join(pairs(self.items(), prec=prec)))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method C{toRepr}.'''
 
-    def toStr(self, prec=6, sep=_COMMA_SPACE_, **unused):  # PYCHOK signature
+    def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as string(s).
 
            @kwarg prec: The C{float} precision, number of decimal digits (0..9).
@@ -761,7 +757,7 @@ class _NamedTuple(tuple, _Named):
 
            @return: Tuple items (C{str}).
         '''
-        return _PAREN_fmt_ % (sep.join(reprs(self, prec=prec)),)
+        return Fmt.PAREN(sep.join(reprs(self, prec=prec)))
 
     def toUnits(self, Error=UnitError):  # overloaded in .frechet, .hausdorff
         '''Return a copy of this C{Named-Tuple} with each item value wrapped
@@ -803,21 +799,21 @@ class _NamedTuple(tuple, _Named):
         '''
         ns = self._Names_
         if not (isinstance(ns, tuple) and len(ns) > 1):  # XXX > 0
-            raise _TypeError(_dot_(self.classname, _Names_), ns)
+            raise _TypeError(_DOT_(self.classname, _Names_), ns)
         for i, n in enumerate(ns):
             if not _xvalid(n, _OK=_OK):
-                t = _Names_ + (_SQUARE_fmt_ % (i,))
-                raise _ValueError(_dot_(self.classname, t), n)
+                t = Fmt.SQUARE(_Names_, i)
+                raise _ValueError(_DOT_(self.classname, t), n)
 
         us = self._Units_
         if not isinstance(us, tuple):
-            raise _TypeError(_dot_(self.classname, _Units_), us)
+            raise _TypeError(_DOT_(self.classname, _Units_), us)
         if len(us) != len(ns):
             raise LenError(self.__class__, _Units_=len(us), _Names_=len(ns))
         for i, u in enumerate(us):
             if not (u is None or callable(u)):
-                t = _Units_ + (_SQUARE_fmt_ % (i,))
-                raise _TypeError(_dot_(self.classname, t), u)
+                t = Fmt.SQUARE(_Units_, i)
+                raise _TypeError(_DOT_(self.classname, t), u)
 
         self.__class__._validated = True
 
@@ -837,9 +833,9 @@ def callername(up=1, dflt=NN, source=False):
         for u in range(up, up + 32):
             n, f, s = _caller3(u)
             if n and (n.startswith(_DUNDER_) or
-                  not n.startswith(_UNDERSCORE_)):
+                  not n.startswith(_UNDER_)):
                 if source:
-                    n = joined(n, _AT_, f, _COLON_, str(s))
+                    n = NN(n, _AT_, f, _COLON_, str(s))
                 return n
     except (AttributeError, ValueError):  # PYCHOK no cover
         pass
@@ -851,9 +847,9 @@ def _callname(name, class_name, self_name, up=1):  # imported by .points
     '''
     n, c = class_name, callername(up=up + 1)
     if c:
-        n = _dot_(n, _item_ps(c, name))
+        n = _DOT_(n, Fmt.PAREN(c, name))
     if self_name:
-        n = joined_(n, repr(self_name))
+        n = _SPACE_(n, repr(self_name))
     return n
 
 
@@ -898,11 +894,11 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
     try:
         n = clas.__name__
     except AttributeError:
-        n = _NN_
+        n = _n_a_m_e_
     if prefixed or (classnaming() if prefixed is None else False):
         try:
-            m = clas.__module__.rsplit(_DOT_, 1)
-            n = _dot_(*(m[1:] + [n]))
+            m =  clas.__module__.rsplit(_DOT_, 1)
+            n = _DOT_.join(m[1:] + [n])
         except AttributeError:
             pass
     return n
@@ -921,9 +917,9 @@ def nameof(inst):
 def _notError(inst, name, args, kwds):  # PYCHOK no cover
     '''(INTERNAL) Format an error message.
     '''
-    n = _dot_(classname(inst, prefixed=True), _dunder_name(name, name))
-    m = _COMMA_SPACE_.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
-    return joined(unstr(n, *args, **kwds), _COMMA_SPACE_, _item_ps(_MRO_, m))
+    n = _DOT_(classname(inst, prefixed=True), _dunder_name(name, name))
+    m = _COMMASPACE_.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
+    return _COMMASPACE_(unstr(n, *args, **kwds), Fmt.PAREN(_MRO_, m))
 
 
 def notImplemented(inst, name, *args, **kwds):  # PYCHOK no cover

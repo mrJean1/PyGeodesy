@@ -17,20 +17,20 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isscalar, issubclassof, property_RO, _xzipairs
+from pygeodesy.basics import isscalar, issubclassof, property_RO
 from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.ellipsoids import R_MA
 from pygeodesy.errors import _IsnotError, _parseX, _TypeError, \
                              _ValueError, _xkwds
-from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMA_SPACE_, _easting_, \
-                             _ellipsoidal_, _northing_, _radius_, _SPACE_, \
-                             _SQUARE_fmt_, _x_, _y_
+from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMASPACE_, \
+                             _easting_, _ellipsoidal_, _northing_, \
+                             _radius_, _SPACE_, _x_, _y_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
-from pygeodesy.streprs import strs
+from pygeodesy.streprs import Fmt, strs, _xzipairs
 from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, Phi_, \
                             Radius, Radius_
 from pygeodesy.utily import degrees90, degrees180
@@ -38,7 +38,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -206,7 +206,7 @@ class Wm(_NamedBase):
         r = LatLon(r.lat, r.lon, **kwds)
         return self._xnamed(r)
 
-    def toRepr(self, prec=3, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, radius=False, **unused):  # PYCHOK expected
+    def toRepr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_, radius=False, **unused):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).

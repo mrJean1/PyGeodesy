@@ -16,24 +16,25 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 from pygeodesy.basics import isstr, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
-from pygeodesy.interns import EPS1_2, NN, _floatuple, _item_sq, \
-                             _0_5, _90_0
+from pygeodesy.interns import EPS1_2, NN, _AtoZnoIO_, \
+                             _floatuple, _0to9_, _0_5, _90_0
 from pygeodesy.interns import _1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
+from pygeodesy.streprs import Fmt
 from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
                             Str, _xStrError
 
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '20.09.29'
+__version__ = '20.11.04'
 
-_Digits  = '0123456789'
+_Digits  = _0to9_
 _LatLen  =    2
 _LatOrig =  -90
-_Letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ'
+_Letters = _AtoZnoIO_
 _LonLen  =    3
 _LonOrig = -180
 _MaxPrec =    2
@@ -221,7 +222,7 @@ def decode3(garef, center=True):
                          or bad length B{C{garef}}.
     '''
     def _Error(i):
-        return GARSError(garef=_item_sq(repr(garef), i))
+        return GARSError(garef=Fmt.SQUARE(repr(garef), i))
 
     def _ll(chars, g, i, j, lo, hi):
         ll, b = 0, len(chars)

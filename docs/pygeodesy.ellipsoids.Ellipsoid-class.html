@@ -102,7 +102,7 @@
         <span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">f_</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
       class="link">Ellipsoid</a> from <i>equatorial</i> and <i>polar</i> 
       radius or <i>equatorial</i> radius and <i>inverse flattening</i>.</td>
@@ -748,7 +748,7 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
@@ -1491,7 +1491,7 @@
         <span class="sig-arg">a</span>,
         <span class="sig-arg">b</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">f_</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -2713,7 +2713,7 @@
         - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2733,7 +2733,7 @@
         - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2755,7 +2755,7 @@
 class="math">a**2</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2777,7 +2777,7 @@ class="math">a**2</i>.
 (<code>float</code>), <i class="math">1 / a**2</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2799,7 +2799,7 @@ class="math">a**2</i>.
 (<code>float</code>), <i class="math">a / b</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2823,7 +2823,7 @@ class="math">a**2</i>.
 <i class="math">a**2 / b</i>, see <code class="link">rocPolar</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2860,7 +2860,7 @@ class="math">a**2</i>.
 (1 - e**2)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2884,7 +2884,7 @@ href="pygeodesy.ellipsoids.a_f2Tuple-class.html"
 class="link">a_f2Tuple</a>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2904,7 +2904,7 @@ class="link">a_f2Tuple</a>).
         - Get the UTM <i>meridional</i> radius (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2926,7 +2926,7 @@ class="link">a_f2Tuple</a>).
 * PI * R2**2</i> or <i class="math">4 * PI * a**2</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2953,7 +2953,7 @@ target="_top">Alpha series coefficients</a> (<code
 class="link">KsOrder</code><code>-tuple</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2973,7 +2973,7 @@ class="link">KsOrder</code><code>-tuple</code>).
         - Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -2993,7 +2993,7 @@ class="link">KsOrder</code><code>-tuple</code>).
         - Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3017,7 +3017,7 @@ class="link">KsOrder</code><code>-tuple</code>).
 f</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3039,7 +3039,7 @@ f</i>.
 class="math">b**2</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3064,7 +3064,7 @@ class="math">b**2</i>.
 class="link">rocMeridional</code><code>(0)</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3096,7 +3096,7 @@ class="link">rocMeridional</code><code>(0)</code>.
 class="link">e12</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3123,7 +3123,7 @@ target="_top">Beta series coefficients</a> (<code
 class="link">KsOrder</code><code>-tuple</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3146,7 +3146,7 @@ class="link">KsOrder</code><code>-tuple</code>).
 class="link">R2</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3184,7 +3184,7 @@ class="math">sqrt(1 - (b / a)**2))</i>, see <code
 class="link">a_b2e</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3208,7 +3208,7 @@ class="math">sqrt(1 - (b / a)**2))</i>, see <code
 class="link">a_b2e</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3233,7 +3233,7 @@ class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code
 class="link">a_b2e2</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3258,7 +3258,7 @@ class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code
 class="link">a_b2e2</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3280,7 +3280,7 @@ class="link">a_b2e2</code>.
 (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3306,7 +3306,7 @@ class="math">1 - e**2</i> == <i class="math">(1 - f)**2</i> == <i
 class="math">b**2 / a**2</i>, see <code class="link">b2_a2</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3331,7 +3331,7 @@ class="math">e2 / (1 - e2) == (a / b)**2 - 1</i>, see <code
 class="link">a_b2e22</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3356,7 +3356,7 @@ class="math">f * (2 - f) == 1 - (b / a)**2</i>, see <code
 class="link">a_b2e2</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3378,7 +3378,7 @@ class="link">a_b2e2</code>.
 (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3403,7 +3403,7 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see <code
 class="link">a_b2e32</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3428,7 +3428,7 @@ class="math">e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)</i>, see <code
 class="link">a_b2e32</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3450,7 +3450,7 @@ class="link">a_b2e32</code>.
 (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3472,7 +3472,7 @@ class="link">a_b2e32</code>.
 class="math">e**4 == e2**2</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3492,7 +3492,7 @@ class="math">e**4 == e2**2</i>.
         - Get the <i>(1st) eccentricity signed</i> (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3514,7 +3514,7 @@ class="math">e**4 == e2**2</i>.
 class="math">b_a * exp(es_atanh(1))</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3536,7 +3536,7 @@ class="math">b_a * exp(es_atanh(1))</i>.
 a</i>, <code>0</code> for spherical, negative for prolate.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3558,7 +3558,7 @@ a</i>, <code>0</code> for spherical, negative for prolate.
 a</i>, <code>0</code> for spherical, negative for prolate.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3583,7 +3583,7 @@ f</i> == <i class="math">a / (a - b)</i>, <code>0</code> for spherical, see
 <code class="link">a_b2f_</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3608,7 +3608,7 @@ f</i> == <i class="math">a / (a - b)</i>, <code>0</code> for spherical, see
 class="link">a_b2f2</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3633,7 +3633,7 @@ class="link">a_b2f2</code>.
 class="link">a_b2f2</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3661,7 +3661,7 @@ href="https://PyPI.org/project/geographiclib"
 target="_top">geographiclib</a> package is installed.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3681,7 +3681,7 @@ target="_top">geographiclib</a> package is installed.
         - Is this model <i>ellipsoidal</i> (<code>bool</code>)?
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3703,7 +3703,7 @@ target="_top">geographiclib</a> package is installed.
 spherical otherwise.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3725,7 +3725,7 @@ spherical otherwise.
 spherical otherwise.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3745,7 +3745,7 @@ spherical otherwise.
         - Is this model <i>spherical</i> (<code>bool</code>)?
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3798,7 +3798,7 @@ distance along a meridian between the equator and a pole
 <i class="math">a * PI / 2</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3821,7 +3821,7 @@ distance along a meridian between the equator and a pole
 <i class="math">a * PI / 2</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3843,7 +3843,7 @@ distance along a meridian between the equator and a pole
 <code>Airy130</code> only.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3863,7 +3863,7 @@ distance along a meridian between the equator and a pole
         - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3883,7 +3883,7 @@ distance along a meridian between the equator and a pole
         - Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3906,7 +3906,7 @@ distance along a meridian between the equator and a pole
 - f) == (a - b) / (a + b)</i>, see <code class="link">a_b2n</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3929,7 +3929,7 @@ distance along a meridian between the equator and a pole
 - f) == (a - b) / (a + b)</i>, see <code class="link">a_b2n</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3951,7 +3951,7 @@ distance along a meridian between the equator and a pole
 class="math">(2 * a + b) / 3</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -3977,7 +3977,7 @@ class="math">(2 * a + b) / 3</i>.
 class="math">(2 * a + b) / 3</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4003,7 +4003,7 @@ class="math">(2 * a + b) / 3</i>.
 class="math">sqrt((a**2 + b**2 * atanh(e) / e) / 2)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4031,7 +4031,7 @@ class="math">sqrt((a**2 + b**2 * atanh(e) / e) / 2)</i>.
 class="math">sqrt((a**2 + b**2 * atanh(e) / e) / 2)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4059,7 +4059,7 @@ class="math">sqrt((a**2 + b**2 * atanh(e) / e) / 2)</i>.
 class="math">(a * a * b)**(1/3)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4085,7 +4085,7 @@ class="math">(a * a * b)**(1/3)</i>.
 class="math">(a * a * b)**(1/3)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4111,7 +4111,7 @@ class="math">(a * a * b)**(1/3)</i>.
 <i class="math">sqrt((a**2 + b**2) / 2)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4131,7 +4131,7 @@ class="math">(a * a * b)**(1/3)</i>.
         - Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4153,7 +4153,7 @@ class="math">(a * a * b)**(1/3)</i>.
 class="math">sqrt(a * b)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4177,7 +4177,7 @@ class="math">sqrt(a * b)</i>.
 class="math">sqrt(a * b)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4200,7 +4200,7 @@ class="math">sqrt(a * b)</i>.
         - Get the <i>polar</i> radius, semi-axis (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4222,7 +4222,7 @@ class="math">sqrt(a * b)</i>.
 <i class="math">sqrt((a**2 + b**2) / 2)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4244,7 +4244,7 @@ class="math">sqrt(a * b)</i>.
 class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4269,7 +4269,7 @@ class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
 class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4296,7 +4296,7 @@ class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
 class="link">a2_b</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4318,7 +4318,7 @@ class="link">a2_b</code>.
 class="math">4 / 3 * PI * a**2 * b</i>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -4357,7 +4357,7 @@ class="math">4 / 3 * PI * a**2 * b</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:54 2020
+    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:16 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

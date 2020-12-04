@@ -92,7 +92,7 @@
         <span class="summary-sig-arg">n</span>,
         <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New <a href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> 
       Lamber conformal conic position.</td>
           <td align="right" valign="top">
@@ -152,8 +152,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.lcc.Lcc-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'[%s]'</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
         <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">C</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
@@ -176,7 +176,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.lcc.Lcc-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">' '</span>,
         <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>)</span><br />
       Return a string representation of this <a 
       href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> position.</td>
@@ -197,7 +197,7 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
@@ -317,7 +317,7 @@
         <span class="sig-arg">n</span>,
         <span class="sig-arg">h</span>=<span class="sig-default">0</span>,
         <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -450,8 +450,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'[%s]'</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
         <span class="sig-arg">m</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">C</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**unused</span>)</span>
@@ -490,7 +490,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">' '</span>,
         <span class="sig-arg">m</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -557,7 +557,7 @@
 class="link">Conic</a>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -577,7 +577,7 @@ class="link">Conic</a>).
         - Get the easting (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -597,7 +597,7 @@ class="link">Conic</a>).
         - Get the height (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -621,7 +621,7 @@ href="pygeodesy.namedTuples.LatLon2Tuple-class.html"
 class="link">LatLon2Tuple</a>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -641,7 +641,7 @@ class="link">LatLon2Tuple</a>).
         - Get the northing (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -665,7 +665,7 @@ href="pygeodesy.namedTuples.PhiLam2Tuple-class.html"
 class="link">PhiLam2Tuple</a>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -704,7 +704,7 @@ class="link">PhiLam2Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:57 2020
+    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:19 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

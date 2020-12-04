@@ -129,7 +129,9 @@
   Snyder, &quot;Map Projections -- A Working Manual&quot;, 1987</a>), 
   functions to clip a path or polygon of <code>LatLon</code> points using 
   the <a href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
-  target="_top">Cohen&#8211;Sutherland</a> and the <a 
+  target="_top">Cohen&#8211;Sutherland</a>, the <a 
+  href="https://WikiPedia.org/wiki/Liang&#8211;Barsky_algorithm" 
+  target="_top">Liang&#8211;Barsky</a> and the <a 
   href="https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm" 
   target="_top">Sutherland-Hodgman</a> methods, functions to <a 
   href="https://Bost.Ocks.org/mike/simplify" target="_top">simplify</a> or 
@@ -207,9 +209,9 @@
     and <a href="https://SciPy.org/scipylib/download.html" 
     target="_top">scipy</a> 1.5.2) and macOS' Python 2.7.16 (with <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6), 
-    all on macOS 10.15.7 Catalina and all in 64-bit only.  The tests run 
-    with and without <code>lazy import</code> for Python 3.  The results of
-    those tests are included in the distribution files.</p>
+    all on macOS 11.0.1 (10.16) Big Sur and all in 64-bit only.  The tests 
+    run with and without <code>lazy import</code> for Python 3.  The 
+    results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
     4.5.4 using Python 3.9.0 (with <a 
@@ -223,21 +225,21 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6).
     The complete coverage report in HTML and a PDF summary are included in 
     the distribution files.</p>
-    <p>The tests also ran with Python 2.7.14, 3.6.3, 3.7.1, 3.8.0 and <a 
-    href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 2.7.13 and
-    3.6.1) (and <a href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.49 or 1.50) on <a 
+    <p>The tests also ran with Python 3.8.0, 3.7.1, 3.6.3, 2.7.14 and <a 
+    href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 3.6.1 and 
+    2.7.13) (and <a href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 1.50 or 1.49) on <a 
     href="https://Travis-CI.org/mrJean1/PyGeodesy" target="_top">Ubuntu 
     14.04</a> and with Python 3.7.3 (and <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.49 or 1.50) on <a 
+    target="_top">geographiclib</a> 1.50 or 1.49) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
-    target="_top">Debian 9</a> all in 64-bit only and with Python 2.7.15, 
-    3.6.8, 3.7.2, and 3.8.0 (all with <a 
+    target="_top">Debian 9</a> all in 64-bit only and with Python 3.8.0, 
+    3.7.2, 3.6.8 and 2.7.15 (all with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 1.49 or 1.50) on <a 
+    target="_top">geographiclib</a> 1.50 or 1.49) on <a 
     href="https://CI.AppVeyor.com/project/mrJean1/pygeodesy" 
-    target="_top">Windows Server 2012R2</a> in both 32- and 64-bit.</p>
+    target="_top">Windows Server 2012R2</a> in both 64- and 32-bit.</p>
     <p>A single-File and single-Directory application with 
     <code>pygeodesy</code> has been bundled using <a 
     href="https://www.PyInstaller.org" target="_top">PyInstaller</a> 3.4 
@@ -311,7 +313,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.10.30
+        20.12.03
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1091,7 +1093,9 @@
         href="pygeodesy.azimuthal.Orthographic-class.html" 
         class="link">Orthographic</a>, <a 
         href="pygeodesy.azimuthal.Stereographic-class.html" 
-        class="link">Stereographic</a> or {Azimuthal7Tuple} issue.
+        class="link">Stereographic</a> or <a 
+        href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html" 
+        class="link">Azimuthal7Tuple</a> issue.
     </td>
   </tr>
 <tr>
@@ -1197,6 +1201,22 @@
     </td><td class="summary">
         <a href="pygeodesy.clipy.ClipError-class.html" class="summary-name">ClipError</a><br />
       Clip box or clip region issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.clipy.ClipLB6Tuple-class.html" class="summary-name">ClipLB6Tuple</a><br />
+      6-Tuple <code>(start, end, i, fi, fj, j)</code> for each edge of 
+        the <i>clipped</i> path with the <code>start</code> and 
+        <code>end</code> points (<code>LatLon</code>) of the portion of the
+        edge inside or on the clip box, indices <code>i</code> and 
+        <code>j</code> (<code>int</code>) of the original path edge points 
+        and <i>fractional</i> indices <code>fi</code> and <code>fj</code> 
+        (<a href="pygeodesy.units.FIx-class.html" class="link">FIx</a>) of 
+        the <code>start</code> and <code>end</code> points along the edge 
+        of the original path.
     </td>
   </tr>
 <tr>
@@ -1629,6 +1649,16 @@
         target="_top">TransverseMercatorExact</a> C++ class, a numerically 
         exact transverse mercator projection, here referred to as 
         <code>TMExact</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.FIx-class.html" class="summary-name">FIx</a><br />
+      A named <i>Fractional Index</i>, an <code>int</code> or 
+        <code>float</code> index into a <code>list</code> or 
+        <code>tuple</code> of <code>points</code>, typically.
     </td>
   </tr>
 <tr>
@@ -3367,10 +3397,10 @@
         <span class="summary-sig-arg">hemipole</span>,
         <span class="summary-sig-arg">easting</span>,
         <span class="summary-sig-arg">northing</span>,
-        <span class="summary-sig-arg">band</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">band</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Class-like function to create a UTM/UPS coordinate.</td>
           <td align="right" valign="top">
             
@@ -3630,7 +3660,7 @@
         <tr>
           <td><span class="summary-sig"><a name="anStr"></a><span class="summary-sig-name">anStr</span>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default">'_'</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.streprs-module.html#anstr" class="link">anstr</a>.</td>
           <td align="right" valign="top">
@@ -3650,7 +3680,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#anstr" class="summary-sig-name">anstr</a>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default">'_'</span>)</span><br />
       Make a valid name of alphanumeric and OKd characters.</td>
           <td align="right" valign="top">
             
@@ -3902,7 +3932,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#bearingDMS" class="summary-sig-name">bearingDMS</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert bearing to a string.</td>
           <td align="right" valign="top">
             
@@ -3984,7 +4014,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#callername" class="summary-sig-name">callername</a>(<span class="summary-sig-arg">up</span>=<span class="summary-sig-default">1</span>,
-        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">source</span>=<span class="summary-sig-default">False</span>)</span><br />
       Get the name of the calling callable.</td>
           <td align="right" valign="top">
@@ -4170,6 +4200,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#clipLB6" class="summary-sig-name">clipLB6</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">lowerleft</span>,
+        <span class="summary-sig-arg">upperright</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Clip a path against a rectangular clip box using the <a 
+      href="https://www.Skytopia.com/project/articles/compsci/clipping.html"
+      target="_top">Liang-Barsky</a> algorithm.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#clipRadians" class="summary-sig-name">clipRadians</a>(<span class="summary-sig-arg">rad</span>,
         <span class="summary-sig-arg">limit</span>)</span><br />
       Clip a lat- or longitude to the given range.</td>
@@ -4234,7 +4287,7 @@
         <tr>
           <td><span class="summary-sig"><a name="clipStr"></a><span class="summary-sig-name">clipStr</span>(<span class="summary-sig-arg">bstr</span>,
         <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">50</span>,
-        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.basics-module.html#clips"
       class="link">clips</a>.</td>
           <td align="right" valign="top">
@@ -4254,7 +4307,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#clips" class="summary-sig-name">clips</a>(<span class="summary-sig-arg">bstr</span>,
         <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">50</span>,
-        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default">''</span>)</span><br />
       Clip a string to the given length limit.</td>
           <td align="right" valign="top">
             
@@ -4297,7 +4350,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#compassDMS" class="summary-sig-name">compassDMS</a>(<span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert bearing to a string suffixed with compass point.</td>
           <td align="right" valign="top">
             
@@ -4556,8 +4609,8 @@
         <span class="summary-sig-arg">s_D</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">s_M</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">s_S</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default">'-'</span>,
+        <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert degrees to a string in degrees, minutes <b><i>or</i></b> 
       seconds.</td>
           <td align="right" valign="top">
@@ -4728,8 +4781,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#encodeEPSG" class="summary-sig-name">encodeEPSG</a>(<span class="summary-sig-arg">zone</span>,
-        <span class="summary-sig-arg">hemipole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">band</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">hemipole</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">band</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.epsg-module.html#encode" 
       class="link">epsg.encode</a>.</td>
           <td align="right" valign="top">
@@ -4787,7 +4840,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#equidistant" class="summary-sig-name">equidistant</a>(<span class="summary-sig-arg">lat0</span>,
         <span class="summary-sig-arg">lon0</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       If <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
       target="_top">geographiclib</a> package is installed, return an <a 
       href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
@@ -5090,9 +5143,9 @@
         <tr>
           <td><span class="summary-sig"><a name="fStr"></a><span class="summary-sig-name">fStr</span>(<span class="summary-sig-arg">floats</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">%.*f</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'f'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.streprs-module.html#fstr"
       class="link">fstr</a>.</td>
           <td align="right" valign="top">
@@ -5537,7 +5590,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#frechet_" class="summary-sig-name">frechet_</a>(<span class="summary-sig-arg">points1</span>,
         <span class="summary-sig-arg">points2</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>)</span><br />
       Compute the <i>discrete</i> <a 
       href="https://WikiPedia.org/wiki/Frechet_distance" 
       target="_top">Fr&#233;chet</a> distance between two paths given as sets of
@@ -5580,9 +5633,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fstr" class="summary-sig-name">fstr</a>(<span class="summary-sig-arg">floats</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
         <span class="summary-sig-arg">strepr</span>=<span class="summary-sig-default">None</span>)</span><br />
       Convert one or more floats to string, optionally stripped of trailing
       zero decimals.</td>
@@ -5712,7 +5765,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#gnomonic" class="summary-sig-name">gnomonic</a>(<span class="summary-sig-arg">lat0</span>,
         <span class="summary-sig-arg">lon0</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       If <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
       target="_top">geographiclib</a> package is installed, return an <a 
       href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
@@ -5756,9 +5809,9 @@
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">early</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fcb311a75d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fcecf1e12d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -5869,9 +5922,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hstr" class="summary-sig-name">hstr</a>(<span class="summary-sig-arg">height</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">%+.*f</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'%+.*f'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">m</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return a string for the height value.</td>
           <td align="right" valign="top">
             
@@ -6604,9 +6657,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#joined" class="summary-sig-name">joined</a>(<span class="summary-sig-arg">*words</span>,
+          <td><span class="summary-sig"><a name="joined"></a><span class="summary-sig-name">joined</span>(<span class="summary-sig-arg">*words</span>,
         <span class="summary-sig-arg">**sep</span>)</span><br />
-      Joined words by separator <code>sep=NN</code>.</td>
+      DEPRECATED, use <code>NN(...)</code>, <code>NN.join_</code> or 
+      <code><b>sep</b>.join</code>.</td>
           <td align="right" valign="top">
             
             
@@ -6622,9 +6676,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#joined_" class="summary-sig-name">joined_</a>(<span class="summary-sig-arg">*words</span>,
+          <td><span class="summary-sig"><a name="joined_"></a><span class="summary-sig-name">joined_</span>(<span class="summary-sig-arg">*words</span>,
         <span class="summary-sig-arg">**sep</span>)</span><br />
-      Joined words by separator <code>sep=&quot; &quot;</code>.</td>
+      DEPRECATED, use <code>_SPACE_(...)</code>, <code>_SPACE_.join_</code>
+      or <code><b>sep</b>.join</code>.</td>
           <td align="right" valign="top">
             
             
@@ -6643,7 +6698,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#latDMS" class="summary-sig-name">latDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert latitude to a string, optionally suffixed with N or S.</td>
           <td align="right" valign="top">
             
@@ -6739,7 +6794,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#lonDMS" class="summary-sig-name">lonDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert longitude to a string, optionally suffixed with E or W.</td>
           <td align="right" valign="top">
             
@@ -7139,7 +7194,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#normDMS" class="summary-sig-name">normDMS</a>(<span class="summary-sig-arg">strDMS</span>,
-        <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">norm</span>=<span class="summary-sig-default">''</span>)</span><br />
       Normalize all degree &#730;, minute ' and second &quot; symbols in a 
       string to the default symbols %s, %s and %s.</td>
           <td align="right" valign="top">
@@ -7201,9 +7256,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#pairs" class="summary-sig-name">pairs</a>(<span class="summary-sig-arg">items</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">=</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">'='</span>)</span><br />
       Convert items to <i>name=value</i> strings, with <code>float</code>s 
       handled like <a href="pygeodesy.streprs-module.html#fstr" 
       class="link">fstr</a>.</td>
@@ -7223,8 +7278,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parse3d" class="summary-sig-name">parse3d</a>(<span class="summary-sig-arg">str3d</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">','</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
       Parse an <code>&quot;x, y, z&quot;</code> string.</td>
@@ -7245,7 +7300,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parse3llh" class="summary-sig-name">parse3llh</a>(<span class="summary-sig-arg">strllh</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">','</span>,
         <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
         <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>)</span><br />
       Parse a string <code>&quot;lat lon [h]&quot;</code> representing 
@@ -7268,7 +7323,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseDDDMMSS" class="summary-sig-name">parseDDDMMSS</a>(<span class="summary-sig-arg">strDDDMMSS</span>,
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">clip</span>=<span class="summary-sig-default">0</span>)</span><br />
       Parse a lat- or longitude represention form [D]DDMMSS in degrees.</td>
           <td align="right" valign="top">
@@ -7288,7 +7343,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseDMS" class="summary-sig-name">parseDMS</a>(<span class="summary-sig-arg">strDMS</span>,
         <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">clip</span>=<span class="summary-sig-default">0</span>)</span><br />
       Parse a lat- or longitude representation <code>&quot;lat, 
       lon&quot;</code> in <code>degrees</code>.</td>
@@ -7309,7 +7364,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseDMS2" class="summary-sig-name">parseDMS2</a>(<span class="summary-sig-arg">strLat</span>,
         <span class="summary-sig-arg">strLon</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">clipLat</span>=<span class="summary-sig-default">90</span>,
         <span class="summary-sig-arg">clipLon</span>=<span class="summary-sig-default">180</span>)</span><br />
       Parse a lat- and a longitude representions in <code>degrees</code>.</td>
@@ -7332,7 +7387,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Etm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse a string representing a UTM coordinate, consisting of 
       <code>&quot;zone[band] hemisphere easting northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -7353,7 +7408,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseMGRS" class="summary-sig-name">parseMGRS</a>(<span class="summary-sig-arg">strMGRS</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse a string representing a MGRS grid reference, consisting of 
       <code>&quot;zoneBand, grid, easting, northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -7373,7 +7428,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseOSGR" class="summary-sig-name">parseOSGR</a>(<span class="summary-sig-arg">strOSGR</span>,
         <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse a string representing an OSGR grid reference, consisting of 
       <code>&quot;[grid] easting northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -7414,7 +7469,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse a string representing a UPS coordinate, consisting of 
       <code>&quot;[zone][band] pole easting northing&quot;</code> where 
       <b><code>zone</code></b> is pseudo zone 
@@ -7438,7 +7493,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseUTM" class="summary-sig-name">parseUTM</a>(<span class="summary-sig-arg">strUTM</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">_UTM</span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">_UTM</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.utm-module.html#parseUTM5" 
       class="link">parseUTM5</a>.</td>
@@ -7461,7 +7516,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse a string representing a UTM coordinate, consisting of 
       <code>&quot;zone[band] hemisphere easting northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -7483,7 +7538,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse a string representing a UTM or UPS coordinate, consisting of 
       <code>&quot;zone[band] hemisphere/pole easting northing&quot;</code>.</td>
           <td align="right" valign="top">
@@ -7504,7 +7559,7 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#parseWM" class="summary-sig-name">parseWM</a>(<span class="summary-sig-arg">strWM</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>,
         <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse a string <code>&quot;e n [r]&quot;</code> representing a WM 
       coordinate, consisting of easting, northing and an optional radius.</td>
           <td align="right" valign="top">
@@ -7811,7 +7866,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#reprs" class="summary-sig-name">reprs</a>(<span class="summary-sig-arg">objs</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
       Convert objects to <code>repr</code> strings, with 
       <code>float</code>s handled like <a 
@@ -8088,7 +8143,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#strs" class="summary-sig-name">strs</a>(<span class="summary-sig-arg">objs</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
       Convert objects to <code>str</code> strings, with <code>float</code>s
       handled like <a href="pygeodesy.streprs-module.html#fstr" 
@@ -8192,7 +8247,7 @@
         <span class="summary-sig-arg">cs0</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Css</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.css.Css'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert an (ellipsoidal) geodetic point to a Cassini-Soldner 
       location.</td>
           <td align="right" valign="top">
@@ -8213,10 +8268,10 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toDMS" class="summary-sig-name">toDMS</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">form</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">ddd</span>=<span class="summary-sig-default">2</span>,
-        <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">neg</span>=<span class="summary-sig-default">'-'</span>,
+        <span class="summary-sig-arg">pos</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert <i>signed</i> <code>degrees</code> to string, without suffix.</td>
           <td align="right" valign="top">
             
@@ -8238,7 +8293,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Etm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">zone</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**cmoff</span>)</span><br />
       Convert a lat-/longitude point to an ETM coordinate.</td>
@@ -8261,7 +8316,7 @@
         <span class="summary-sig-arg">conic</span>=<span class="summary-sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Lcc</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**Lcc_kwds</span>)</span><br />
       Convert an (ellipsoidal) geodetic point to a <i>Lambert</i> location.</td>
           <td align="right" valign="top">
@@ -8281,7 +8336,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#toMgrs" class="summary-sig-name">toMgrs</a>(<span class="summary-sig-arg">utm</span>,
         <span class="summary-sig-arg">Mgrs</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**Mgrs_kwds</span>)</span><br />
       Convert a UTM coordinate to an MGRS grid reference.</td>
           <td align="right" valign="top">
@@ -8303,7 +8358,7 @@
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">Osgr</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**Osgr_kwds</span>)</span><br />
       Convert a lat-/longitude point to an OSGR coordinate.</td>
           <td align="right" valign="top">
@@ -8325,10 +8380,10 @@
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
-        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert a lat-/longitude point to a UPS coordinate.</td>
           <td align="right" valign="top">
             
@@ -8350,7 +8405,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">_UTM</span>,
         <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.utm-module.html#toUtm8" 
       class="link">toUtm8</a>.</td>
           <td align="right" valign="top">
@@ -8373,7 +8428,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">zone</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**cmoff</span>)</span><br />
       Convert a lat-/longitude point to a UTM coordinate.</td>
@@ -8398,8 +8453,8 @@
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="summary-sig-arg">Ups</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
-        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**cmoff</span>)</span><br />
       Convert a lat-/longitude point to a UTM or UPS coordinate.</td>
           <td align="right" valign="top">
@@ -8421,7 +8476,7 @@
         <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6378137.0</span>,
         <span class="summary-sig-arg">Wm</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">**Wm_kwds</span>)</span><br />
       Convert a lat-/longitude point to a WM coordinate.</td>
           <td align="right" valign="top">
@@ -8859,7 +8914,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.10.30'"><code class="variable-quote">'</code><code class="variable-string">20.10.30</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.12.3'"><code class="variable-quote">'</code><code class="variable-string">20.12.3</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -8900,7 +8955,7 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.22044604925e-16">2.22044604925e-16</code><br />
-      System's <i class="math">epsilon</i> &#8776; 2.2202e-16 
+      System's <i class="math">epsilon</i> &#8776; 2.220446049e-16 
       (<code>float</code>).
     </td>
   </tr>
@@ -8909,7 +8964,7 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS1"></a><span class="summary-name">EPS1</span> = <code title="1.0">1.0</code><br />
-      <i class="math">1 - EPS</i> &#8776; 0.9999999999999998 
+      <i class="math">1 - EPS</i>   &#8776; 0.9999999999999998 
       (<code>float</code>).
     </td>
   </tr>
@@ -8927,7 +8982,7 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS2"></a><span class="summary-name">EPS2</span><br />
-      <i class="math">EPS * 2</i> &#8776; 4.4409e-16 (<code>float</code>).
+      <i class="math">EPS * 2</i> &#8776; 4.440892099e-16 (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -8935,7 +8990,7 @@ sform=Transforms.WGS84),
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="EPS_2"></a><span class="summary-name">EPS_2</span> = <code title="1.11022302463e-16">1.11022302463e-16</code><br />
-      <i class="math">EPS / 2</i> &#8776; 1.1102e-16 (<code>float</code>).
+      <i class="math">EPS / 2</i> &#8776; 1.110223025e-16 (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -8959,8 +9014,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="F_D"></a><span class="summary-name">F_D</span> = <code title="'d'"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></code><br />
-      Format degrees as unsigned &quot;deg&#176;&quot; plus suffix 
-      (<code>str</code>).
+      Format degrees as unsigned &quot;deg&#176;&quot; plus suffix <code>N, S, 
+      W</code> or <code>E</code> (<code>str</code>).
     </td>
   </tr>
 <tr>
@@ -9283,7 +9338,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="NN"></a><span class="summary-name">NN</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
+        <a name="NN"></a><span class="summary-name">NN</span> = <code title="''">''</code><br />
       Empty (<code>str</code>), <a href="https://Wiktionary.org/wiki/N.N." 
       target="_top"><i>Nomen Nescio</i></a>.
     </td>
@@ -9356,7 +9411,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.77141">6371008.77141</code><br />
+        <a name="R_M"></a><span class="summary-name">R_M</span> = <code title="6371008.771415">6371008.771415</code><br />
       Mean (spherical) earth radius (<code>meter</code>).
     </td>
   </tr>
@@ -9436,7 +9491,7 @@ lipsoid(name='GRS80'),
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
+        <a name="S_RAD"></a><span class="summary-name">S_RAD</span> = <code title="''">''</code><br />
       Radians symbol &quot;&quot; (<code>str</code>).
     </td>
   </tr>
@@ -9452,7 +9507,7 @@ lipsoid(name='GRS80'),
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="S_SEP"></a><span class="summary-name">S_SEP</span> = <code title="''"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></code><br />
+        <a name="S_SEP"></a><span class="summary-name">S_SEP</span> = <code title="''">''</code><br />
       Separator between deg&#176;, min&#8242; and sec&#8243; &quot;&quot; 
       (<code>str</code>).
     </td>
@@ -9502,10 +9557,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">hemipole</span>,
         <span class="sig-arg">easting</span>,
         <span class="sig-arg">northing</span>,
-        <span class="sig-arg">band</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">band</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -9949,7 +10004,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">anstr</span>&nbsp;(<span class="sig-arg">name</span>,
         <span class="sig-arg">OKd</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">sub</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sub</span>=<span class="sig-default">'_'</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -9968,7 +10023,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <dd>The modified name (<code>str</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Leading and trailing whitespace characters are removed and 
+        Leading and trailing whitespace characters are removed, 
         intermediate whitespace characters are coalesced and substituted.
       </p>
 </div></td></tr></table>
@@ -10310,7 +10365,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">bearingDMS</span>&nbsp;(<span class="sig-arg">bearing</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -10499,7 +10554,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">callername</span>&nbsp;(<span class="sig-arg">up</span>=<span class="sig-default">1</span>,
-        <span class="sig-arg">dflt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">dflt</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">source</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -10745,7 +10800,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>Yield a <a href="pygeodesy.clipy.ClipCS3Tuple-class.html" 
           class="link">ClipCS3Tuple</a><code>(start, end, index)</code> for
-          each edge of the clipped path.</dd>
+          each edge of the <i>clipped</i> path.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - The <b><code>lowerleft</code></b> and 
@@ -10788,6 +10843,55 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="clipLB6"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clipLB6</span>&nbsp;(<span class="sig-arg">points</span>,
+        <span class="sig-arg">lowerleft</span>,
+        <span class="sig-arg">upperright</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">inull</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Clip a path against a rectangular clip box using the <a 
+  href="https://www.Skytopia.com/project/articles/compsci/clipping.html" 
+  target="_top">Liang-Barsky</a> algorithm.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>points</code></strong> - The points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>lowerleft</code></strong> - Bottom-left corner of the clip box (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>upperright</code></strong> - Top-right corner of the clip box (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path (<code>bool</code>).</li>
+        <li><strong class="pname"><code>inull</code></strong> - Optionally, retain null edges if inside (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Yield a <a href="pygeodesy.clipy.ClipLB6Tuple-class.html" 
+          class="link">ClipLB6Tuple</a><code>(start, end, i, fi, fj, 
+          j)</code> for each edge of the <i>clipped</i> path.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - The <b><code>lowerleft</code></b> and 
+        <b><code>upperright</code></b> corners specify an invalid clip box.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://www.CSE.UNT.edu/~renka/4230/LineClipping.pdf" 
+        target="_top">Line Clipping</a> and <a 
+        href="https://WikiPedia.org/wiki/Liang&#8211;Barsky_algorithm" 
+        target="_top">Liang&#8211;Barsky algorithm</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="clipRadians"></a>
 <div>
@@ -10897,7 +11001,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Returns:</dt>
         <dd>Yield a <a href="pygeodesy.clipy.ClipSH3Tuple-class.html" 
           class="link">ClipSH3Tuple</a><code>(start, end, original)</code> 
-          for each edge of the clipped polygon.</dd>
+          for each edge of the <i>clipped</i> polygon.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.clipy.ClipError-class.html">ClipError</a></strong></code> - The <b><code>corners</code></b> specify a polar, zero-area, 
@@ -10916,7 +11020,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">clips</span>&nbsp;(<span class="sig-arg">bstr</span>,
         <span class="sig-arg">limit</span>=<span class="sig-default">50</span>,
-        <span class="sig-arg">white</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">white</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -10994,7 +11098,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">compassDMS</span>&nbsp;(<span class="sig-arg">bearing</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -11676,8 +11780,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">s_D</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&deg;</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">s_M</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">\xe2\x80\xb2</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">s_S</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">&Prime;</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">neg</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">pos</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">neg</span>=<span class="sig-default">'-'</span>,
+        <span class="sig-arg">pos</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -11943,8 +12047,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">encodeEPSG</span>&nbsp;(<span class="sig-arg">zone</span>,
-        <span class="sig-arg">hemipole</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">band</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">hemipole</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">band</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -12038,7 +12142,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">equidistant</span>&nbsp;(<span class="sig-arg">lat0</span>,
         <span class="sig-arg">lon0</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13462,7 +13566,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           class="link">Numpy2LatLon</a>[], <a 
           href="pygeodesy.points.Tuple2LatLon-class.html" 
           class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
-        <li><strong class="pname"><code>fi</code></strong> - The fractional index (<code>float</code> or <code>int</code>).</li>
+        <li><strong class="pname"><code>fi</code></strong> - The fractional index (<a href="pygeodesy.units.FIx-class.html" 
+          class="link">FIx</a>, <code>float</code> or <code>int</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the <i>intermediate</i>, 
           <i>fractional</i> point (<code>LatLon</code>) or 
           <code>None</code>.</li>
@@ -13483,10 +13588,15 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>IndexError</strong></code> - Fractional index <b><code>fi</code></b> invalid or 
-        <b><code>points</code></b> not subscriptable.</li>
+        <b><code>points</code></b> not subscriptable or not closed.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Class <a href="pygeodesy.units.FIx-class.html" class="link">FIx</a>
+        and method <a href="pygeodesy.units.FIx-class.html#fractional" 
+        class="link">FIx.fractional</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="frange"></a>
 <div>
@@ -13532,7 +13642,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">frechet_</span>&nbsp;(<span class="sig-arg">points1</span>,
         <span class="sig-arg">points2</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">units</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13622,9 +13732,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fstr</span>&nbsp;(<span class="sig-arg">floats</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">ints</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
         <span class="sig-arg">strepr</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -13641,7 +13751,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
-          <b><code>prec</code></b> values.</li>
+          <b><code>prec</code></b> values.  In addition, trailing decimal 
+          zeros are stripped for <a 
+          href="https://docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting"
+          target="_top">alternate, form '#'</a>.</li>
         <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot for <code>int</code> values 
           (<code>bool</code>).</li>
@@ -13873,7 +13986,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">gnomonic</span>&nbsp;(<span class="sig-arg">lat0</span>,
         <span class="sig-arg">lon0</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -13957,9 +14070,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">both</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">early</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fcb311a75d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fcecf1e12d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -14244,9 +14357,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hstr</span>&nbsp;(<span class="sig-arg">height</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">%+.*f</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'%+.*f'</span>,
         <span class="sig-arg">ints</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">m</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">m</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15401,60 +15514,6 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
-<a name="joined"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">joined</span>&nbsp;(<span class="sig-arg">*words</span>,
-        <span class="sig-arg">**sep</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Joined words by separator <code>sep=NN</code>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>words</code></strong> - One, two or more words (<code>str</code>s).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator C({str}), default <code>NN</code>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Joined <b><code>words</code></b> C({str}).</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="joined_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">joined_</span>&nbsp;(<span class="sig-arg">*words</span>,
-        <span class="sig-arg">**sep</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Joined words by separator <code>sep=&quot; &quot;</code>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>words</code></strong> - One, two or more words (<code>str</code>s).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Separator C({str}), default <code>&quot; &quot;</code>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Joined <b><code>words</code></b> C({str}).</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="latDMS"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -15465,7 +15524,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">latDMS</span>&nbsp;(<span class="sig-arg">deg</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15713,7 +15772,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">lonDMS</span>&nbsp;(<span class="sig-arg">deg</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16454,7 +16513,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">normDMS</span>&nbsp;(<span class="sig-arg">strDMS</span>,
-        <span class="sig-arg">norm</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">norm</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16546,9 +16605,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">pairs</span>&nbsp;(<span class="sig-arg">items</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">ints</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">=</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default">'='</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16587,8 +16646,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parse3d</span>&nbsp;(<span class="sig-arg">str3d</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">','</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">Vector</span>=<span class="sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
         <span class="sig-arg">**Vector_kwds</span>)</span>
   </h3>
@@ -16630,7 +16689,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parse3llh</span>&nbsp;(<span class="sig-arg">strllh</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">','</span>,
         <span class="sig-arg">clipLat</span>=<span class="sig-default">90</span>,
         <span class="sig-arg">clipLon</span>=<span class="sig-default">180</span>)</span>
   </h3>
@@ -16700,7 +16759,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseDDDMMSS</span>&nbsp;(<span class="sig-arg">strDDDMMSS</span>,
         <span class="sig-arg">suffix</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">clip</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -16777,7 +16836,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseDMS</span>&nbsp;(<span class="sig-arg">strDMS</span>,
         <span class="sig-arg">suffix</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">NSEW</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">clip</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -16840,7 +16899,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseDMS2</span>&nbsp;(<span class="sig-arg">strLat</span>,
         <span class="sig-arg">strLon</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">clipLat</span>=<span class="sig-default">90</span>,
         <span class="sig-arg">clipLon</span>=<span class="sig-default">180</span>)</span>
   </h3>
@@ -16902,7 +16961,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Etm</span>=<span class="sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16961,7 +17020,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseMGRS</span>&nbsp;(<span class="sig-arg">strMGRS</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17015,7 +17074,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseOSGR</span>&nbsp;(<span class="sig-arg">strOSGR</span>,
         <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17110,7 +17169,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17159,7 +17218,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUTM</span>&nbsp;(<span class="sig-arg">strUTM</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">_UTM</span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">_UTM</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17188,7 +17247,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17248,7 +17307,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17303,7 +17362,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseWM</span>&nbsp;(<span class="sig-arg">strWM</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>,
         <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17786,7 +17845,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">reprs</span>&nbsp;(<span class="sig-arg">objs</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">ints</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -18353,7 +18412,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">strs</span>&nbsp;(<span class="sig-arg">objs</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">ints</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -18589,7 +18648,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">cs0</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Css</span>=<span class="sig-default">&lt;class 'pygeodesy.css.Css'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18640,10 +18699,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toDMS</span>&nbsp;(<span class="sig-arg">deg</span>,
         <span class="sig-arg">form</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">dms</code><code class="variable-quote">'</code></span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">ddd</span>=<span class="sig-default">2</span>,
-        <span class="sig-arg">neg</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">-</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">pos</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">neg</span>=<span class="sig-default">'-'</span>,
+        <span class="sig-arg">pos</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18722,7 +18781,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Etm</span>=<span class="sig-default">&lt;class 'pygeodesy.etm.Etm'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">zone</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**cmoff</span>)</span>
   </h3>
@@ -18792,7 +18851,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">conic</span>=<span class="sig-default">Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Lcc</span>=<span class="sig-default">&lt;class 'pygeodesy.lcc.Lcc'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**Lcc_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -18838,7 +18897,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>&nbsp;(<span class="sig-arg">utm</span>,
         <span class="sig-arg">Mgrs</span>=<span class="sig-default">&lt;class 'pygeodesy.mgrs.Mgrs'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**Mgrs_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -18894,7 +18953,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">Osgr</span>=<span class="sig-default">&lt;class 'pygeodesy.osgr.Osgr'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**Osgr_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -18956,10 +19015,10 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
-        <span class="sig-arg">pole</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">pole</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19033,7 +19092,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">_UTM</span>,
         <span class="sig-arg">cmoff</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19063,7 +19122,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">zone</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**cmoff</span>)</span>
   </h3>
@@ -19146,8 +19205,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">&lt;class 'pygeodesy.utm.Utm'&gt;</span>,
         <span class="sig-arg">Ups</span>=<span class="sig-default">&lt;class 'pygeodesy.ups.Ups'&gt;</span>,
-        <span class="sig-arg">pole</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">pole</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**cmoff</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -19218,7 +19277,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6378137.0</span>,
         <span class="sig-arg">Wm</span>=<span class="sig-default">&lt;class 'pygeodesy.webmercator.Wm'&gt;</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">**Wm_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -20212,7 +20271,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:51 2020
+    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:13 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

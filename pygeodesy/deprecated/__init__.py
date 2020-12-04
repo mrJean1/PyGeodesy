@@ -11,11 +11,12 @@ bases}.  Likewise for C{datum} and C{nvector}.
 from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangular, \
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
-from pygeodesy.interns import EPS, NN, R_M, _COMMA_SPACE_, _easting_, _hemipole_, \
-                             _northing_, _scalar_, _UNDERSCORE_, _zone_
+from pygeodesy.errors import TRFError as _TRFError
+from pygeodesy.interns import EPS, NN, R_M, _COMMASPACE_, _easting_, _hemipole_, \
+                             _northing_, _scalar_, _sep_, _SPACE_,  _UNDER_, _zone_
 from pygeodesy.lazily import _ALL_LAZY, isLazy
 from pygeodesy.named import _NamedTuple
-from pygeodesy.trf import TRFError as _TRFError
+from pygeodesy.streprs import Fmt as _Fmt
 from pygeodesy.units import Easting, Northing, Str
 if isLazy:  # force import of the deprecated modules
     import pygeodesy.deprecated.bases as bases, \
@@ -23,7 +24,7 @@ if isLazy:  # force import of the deprecated modules
            pygeodesy.deprecated.nvector as nvector  # PYCHOK unused
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '20.10.29'
+__version__ = '20.11.05'
 
 OK      = 'OK'  # OK for test like I{if ... is OK: ...}
 _value_ = 'value'
@@ -65,7 +66,7 @@ class UtmUps4Tuple(_NamedTuple):
     _Units_ = ( Str,    Str,        Easting,   Northing)
 
 
-def anStr(name, OKd='._-', sub=_UNDERSCORE_):
+def anStr(name, OKd='._-', sub=_UNDER_):
     '''DEPRECATED, use function L{anstr}.
     '''
     from pygeodesy.streprs import anstr
@@ -172,7 +173,7 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
     raise _InvalidError(Error=Error, txt=t, **name_value)
 
 
-def fStr(floats, prec=6, fmt='%.*f', ints=False, sep=_COMMA_SPACE_):
+def fStr(floats, prec=6, fmt=_Fmt.f, ints=False, sep=_COMMASPACE_):
     '''DEPRECATED, use function L{fstr}.
     '''
     from pygeodesy.streprs import fstr
@@ -205,6 +206,18 @@ def isenclosedby(point, points, wrap=False):
     '''
     from pygeodesy.points import isenclosedBy
     return isenclosedBy(point, points, wrap=wrap)
+
+
+def joined(*words, **sep):  # sep=NN
+    '''DEPRECATED, use C{NN(...)}, C{NN.join_} or C{B{sep}.join}.
+    '''
+    return sep.get(_sep_, NN).join(map(str, words))
+
+
+def joined_(*words, **sep):  # sep=" "
+    '''DEPRECATED, use C{_SPACE_(...)}, C{_SPACE_.join_} or C{B{sep}.join}.
+    '''
+    return sep.get(_sep_, _SPACE_).join(map(str, words))
 
 
 def nearestOn3(point, points, closed=False, wrap=False, **options):

@@ -19,7 +19,7 @@ class Nvector(NvectorBase):
 
 __all__ = _ALL_DOCS(LatLonNvectorBase, Nvector, sumOf) + (
           _NorthPole_, _SouthPole_)  # constants
-__version__ = '20.10.08'
+__version__ = '20.11.03'
 
 # **) MIT License
 #

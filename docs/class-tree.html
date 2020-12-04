@@ -115,7 +115,9 @@
         href="pygeodesy.azimuthal.Orthographic-class.html" 
         class="link">Orthographic</a>, <a 
         href="pygeodesy.azimuthal.Stereographic-class.html" 
-        class="link">Stereographic</a> or {Azimuthal7Tuple} issue.</em>
+        class="link">Stereographic</a> or <a 
+        href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html" 
+        class="link">Azimuthal7Tuple</a> issue.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css.CSSError-class.html">pygeodesy.css.CSSError</a></strong>:
       <em class="summary">Cassini-Soldner (CSS) conversion or other <a 
@@ -1299,6 +1301,17 @@
         edge inside or on the clip box and the <code>index</code> 
         (<code>int</code>) of the edge in the original path.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipLB6Tuple-class.html">pygeodesy.clipy.ClipLB6Tuple</a></strong>:
+      <em class="summary">6-Tuple <code>(start, end, i, fi, fj, j)</code> for each edge of 
+        the <i>clipped</i> path with the <code>start</code> and 
+        <code>end</code> points (<code>LatLon</code>) of the portion of the
+        edge inside or on the clip box, indices <code>i</code> and 
+        <code>j</code> (<code>int</code>) of the original path edge points 
+        and <i>fractional</i> indices <code>fi</code> and <code>fj</code> 
+        (<a href="pygeodesy.units.FIx-class.html" class="link">FIx</a>) of 
+        the <code>start</code> and <code>end</code> points along the edge 
+        of the original path.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipSH3Tuple-class.html">pygeodesy.clipy.ClipSH3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(start, end, original)</code> for each edge of a 
         <i>clipped</i> polygon, the <code>start</code> and <code>end</code>
@@ -1681,6 +1694,11 @@
       <em class="summary">Named <code>epoch</code> with optional <code>low</code> and 
         <code>high</code> limits representing a fractional calendar year.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.FIx-class.html">pygeodesy.units.FIx</a></strong>:
+      <em class="summary">A named <i>Fractional Index</i>, an <code>int</code> or 
+        <code>float</code> index into a <code>list</code> or 
+        <code>tuple</code> of <code>points</code>, typically.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Radius_-class.html">pygeodesy.units.Radius_</a></strong>:
       <em class="summary">Named <code>float</code> with optional <code>low</code> and 
         <code>high</code> limits representing a radius, conventionally in 
@@ -1929,6 +1947,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">Named <code>epoch</code> with optional <code>low</code> and 
         <code>high</code> limits representing a fractional calendar year.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.FIx-class.html">pygeodesy.units.FIx</a></strong>:
+      <em class="summary">A named <i>Fractional Index</i>, an <code>int</code> or 
+        <code>float</code> index into a <code>list</code> or 
+        <code>tuple</code> of <code>points</code>, typically.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Radius_-class.html">pygeodesy.units.Radius_</a></strong>:
       <em class="summary">Named <code>float</code> with optional <code>low</code> and 
         <code>high</code> limits representing a radius, conventionally in 
@@ -2091,6 +2114,17 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>end</code> points (<code>LatLon</code>) of the portion of the
         edge inside or on the clip box and the <code>index</code> 
         (<code>int</code>) of the edge in the original path.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipLB6Tuple-class.html">pygeodesy.clipy.ClipLB6Tuple</a></strong>:
+      <em class="summary">6-Tuple <code>(start, end, i, fi, fj, j)</code> for each edge of 
+        the <i>clipped</i> path with the <code>start</code> and 
+        <code>end</code> points (<code>LatLon</code>) of the portion of the
+        edge inside or on the clip box, indices <code>i</code> and 
+        <code>j</code> (<code>int</code>) of the original path edge points 
+        and <i>fractional</i> indices <code>fi</code> and <code>fj</code> 
+        (<a href="pygeodesy.units.FIx-class.html" class="link">FIx</a>) of 
+        the <code>start</code> and <code>end</code> points along the edge 
+        of the original path.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy.ClipSH3Tuple-class.html">pygeodesy.clipy.ClipSH3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(start, end, original)</code> for each edge of a 
@@ -2445,7 +2479,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:49 2020
+    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:11 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

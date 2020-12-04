@@ -26,15 +26,16 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import halfs2, property_RO, _xinstanceof, _xzipairs
+from pygeodesy.basics import halfs2, property_RO, _xinstanceof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _parseX, _ValueError, _xkwds
-from pygeodesy.interns import NN, _band_, _COMMA_SPACE_, _datum_, _easting_, \
-                             _northing_, _SPACE_, _SQUARE_fmt_, _zone_, _0_0
+from pygeodesy.interns import NN, _AtoZnoIO_ as _L, _band_, \
+                             _COMMASPACE_, _datum_, _easting_, \
+                             _northing_, _SPACE_, _zone_, _0_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import UtmUps5Tuple
-from pygeodesy.streprs import enstr2
+from pygeodesy.streprs import enstr2, Fmt, _xzipairs
 from pygeodesy.units import Easting, Meter, Northing, Str
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
 from pygeodesy.utmupsBase import _hemi
@@ -42,14 +43,14 @@ from pygeodesy.utmupsBase import _hemi
 import re  # PYCHOK warning locale.Error
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 _100km  = Meter( 100e3)  # 100 km in meter
 _2000km = Meter(2000e3)  # 2,000 km in meter
 # 100 km grid square column (‘e’) letters repeat every third zone
-_Le100k = 'ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ'  # grid E colums
+_Le100k = _L.tillH, _L.fromJ.tillR, _L.fromS  # grid E colums
 # 100 km grid square row (‘n’) letters repeat every other zone
-_Ln100k = 'ABCDEFGHJKLMNPQRSTUV', 'FGHJKLMNPQRSTUVABCDE'  # grid N rows
+_Ln100k = _L.tillV, _L.fromF.tillV + _L.tillE  # grid N rows
 
 # split an MGRS string "12ABC1235..." into 3 parts
 _MGRSre = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)  # regex
@@ -179,7 +180,7 @@ class Mgrs(_NamedBase):
         return parseMGRS(strMGRS, datum=self.datum, Mgrs=self.classof,
                                   name=name or self.name)
 
-    def toRepr(self, prec=10, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toRepr(self, prec=10, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this MGRS grid reference.
 
            @kwarg prec: Optional number of digits (C{int}), 4:km, 10:m.
@@ -210,7 +211,7 @@ class Mgrs(_NamedBase):
            >>> m = Mgrs(31, 'DQ', 48251, 11932, band='U')
            >>> m.toStr()  # '31U DQ 48251 11932'
         '''
-        t = '%02d%s' % (self._zone, self._band)
+        t = NN(Fmt.zone(self._zone), self._band)
         t = enstr2(self._easting, self._northing, prec, t, self._en100k)
         return t if sep is None else sep.join(t)
 

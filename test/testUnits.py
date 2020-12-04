@@ -4,16 +4,14 @@
 # Test units module.
 
 __all__ = ('Tests',)
-__version__ = '20.09.27'
+__version__ = '20.12.02'
 
 from base import TestsBase
 
 from pygeodesy import Band, Bearing, Bearing_, Bool, \
-                      Epoch, Epsg, Garef, Geohash, Georef, \
-                      Int, Int_, Number_, Precision_, \
-                      Lam_, Phi_, Str, Zone, Float, \
-                      frechet, units
-_FIx       = frechet._FIx
+                      Epoch, Epsg, FIx, Garef, Geohash, Georef, \
+                      Int, Int_, Number_, Precision_, Lam_, Phi_, \
+                      Str, Zone, Float, units
 _NamedUnit = units._NamedUnit
 
 
@@ -83,10 +81,12 @@ class Tests(TestsBase):
     def testUnits(self):
         for U in self.pygeodesy_classes(_NamedUnit):
             if U not in (Band, Bool, Bearing_,
-                         Epoch, Epsg, Garef, Geohash, Georef,
-                         Int, Int_, Number_, Precision_,
-                         Str, Lam_, Phi_, Zone,
-                         _FIx, _NamedUnit):
+                         Epoch, Epsg, FIx,
+                         Garef, Geohash, Georef,
+                         Int, Int_, Number_,
+                         Precision_, Str,
+                         Lam_, Phi_, Zone,
+                        _NamedUnit):
                 self.testUnit(U, 1.0)  # sample
 
         for U in (Band, Str):
@@ -108,8 +108,8 @@ class Tests(TestsBase):
         self.test(Lam_.__name__, Lam_(361, clip=0), 6.3, fmt='%.2f')
         self.test(Phi_.__name__, Phi_(361, clip=0), 6.3, fmt='%.2f')
 
-        self.test(_FIx.__name__, _FIx(1),   Int(1),)
-        self.test(_FIx.__name__, _FIx(1.5), Float(1.5),)
+        self.test(FIx.__name__, FIx(1),   Int(1), known=True)
+        self.test(FIx.__name__, FIx(1.5), Float(1.5),)
 
 
 if __name__ == '__main__':

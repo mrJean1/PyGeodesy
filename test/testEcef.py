@@ -5,7 +5,7 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.10.08'
+__version__ = '20.11.05'
 
 from base import TestsBase
 
@@ -214,11 +214,21 @@ class Tests(TestsBase):
 
         self.testCopy(I)
 
-    def testLatLonEcef(self, module):
+    def testLatLonEcef(self, module, Ecef, _Ecef):
 
-        self.test(module.__name__, 'LatLon', 'LatLon', nl=1)
+        C = module.Cartesian
+        self.test(module.__name__, C.__name__, C.__name__, nl=1)
+        self.test('_Ecef', C._Ecef, _Ecef)
+        self.test('Ecef', C(0, 0, 0).Ecef, Ecef)
+        self.test('_Ecef', C._Ecef, Ecef)
 
-        ll = module.LatLon(48.833, 2.333, name='Paris')
+        LL = module.LatLon
+        self.test(module.__name__, LL.__name__, LL.__name__)
+        self.test('_Ecef', LL._Ecef, _Ecef)
+        ll = LL(48.833, 2.333, name='Paris')
+        self.test('Ecef', ll.Ecef, Ecef)
+        self.test('_Ecef', LL._Ecef, Ecef)
+
         t = ll.toEcef()
         self.test('forward', fstr(t[3:6], prec=3), '48.833, 2.333, 0.0')
         self.test('forward', fstr(t[0:3], prec=2), '4202946.8, 171232.47, 4778354.17' if ll.isEllipsoidal
@@ -229,10 +239,11 @@ class Tests(TestsBase):
         self.test('reverse', fstr(e[3:6], prec=3), '48.833, 2.333, 0.0')
         self.test('name', e.name, 'Paris')
 
-        ll = e.toLatLon(module.LatLon)
+        ll = e.toLatLon(LL)
         self.test('toLatLon', repr(ll), 'LatLon(48°49′58.8″N, 002°19′58.8″E, +0.00m)' if ll.isEllipsoidal
                                    else 'LatLon(48°49′58.8″N, 002°19′58.8″E)')
         self.test('name', ll.name, 'Paris')
+        self.test('Ecef', ll.Ecef, Ecef)
 
         t = e.toLatLon(LatLon=None)
         self.test('to4Tuple', t.classname, 'LatLon4Tuple')
@@ -247,9 +258,15 @@ class Tests(TestsBase):
                                  else '(4190278.55277, 170716.34863, 4796058.20898)')
         self.test('name', v.name, 'Paris')
 
-        c = e.toCartesian(module.Cartesian)
+        c = e.toCartesian(C)
         self.test('forward', c.toStr(prec=2), '[4202946.8, 171232.47, 4778354.17]' if ll.isEllipsoidal
                                          else '[4190278.55, 170716.35, 4796058.21]')
+        self.test('Ecef', c.Ecef, Ecef)
+
+        self.test('Ecef', C._Ecef, Ecef)
+        self.test('Ecef', LL._Ecef, Ecef)
+        self.test('_Ecef', C._Ecef, Ecef)
+        self.test('_Ecef', LL._Ecef, Ecef)
 
 
 if __name__ == '__main__':
@@ -264,10 +281,10 @@ if __name__ == '__main__':
     t.testEcef(EcefSudano)
     t.testEcef(EcefYou)
     t.testEcefMatrix()
-    t.testLatLonEcef(ellipsoidalKarney)
-    t.testLatLonEcef(ellipsoidalNvector)
-    t.testLatLonEcef(ellipsoidalVincenty)
-    t.testLatLonEcef(sphericalNvector)
-    t.testLatLonEcef(sphericalTrigonometry)
+    t.testLatLonEcef(ellipsoidalKarney, EcefKarney, None)
+    t.testLatLonEcef(ellipsoidalNvector, EcefVeness, None)
+    t.testLatLonEcef(ellipsoidalVincenty, EcefVeness, None)
+    t.testLatLonEcef(sphericalNvector, EcefKarney, EcefKarney)
+    t.testLatLonEcef(sphericalTrigonometry, EcefKarney, EcefKarney)
     t.results()
     t.exit()

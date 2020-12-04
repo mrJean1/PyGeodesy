@@ -4,7 +4,7 @@
 # Test geohash module.
 
 __all__ = ('Tests',)
-__version__ = '20.10.30'
+__version__ = '20.11.05'
 
 from base import TestsBase
 
@@ -35,7 +35,7 @@ class Tests(TestsBase):
         self.test('ab', fstr(g.ab, prec=7), '1.1412817, -0.3129321')
         self.test('decode', geohash.decode(g), "('65.390646', '-17.929709')")
         self.test('decode2', geohash.decode2(g), '(65.390646, -17.929709)')
-        self.test('decode_error', fstr(geohash.decode_error(g), fmt='%*e'), '2.145767e-05, 2.145767e-05')
+        self.test('decode_error', fstr(geohash.decode_error(g), fmt='%.*e'), '2.145767e-05, 2.145767e-05')
         self.test('distance1To', g.distance1To('geehpb'), '2758.887', prec=3)
         self.test('distance2To', g.distance2To('geehpb'),  '682.760', prec=3)
         self.test('distance3To', g.distance3To('geehpb'),  '397.404', prec=3)
@@ -81,7 +81,7 @@ class Tests(TestsBase):
         self.test('encode', geohash.encode(52.205, 0.1188), 'u120fxw')
         self.test('decode', geohash.decode('u120fxw'), "('52.205', '0.1188')")
         self.test('decode2', geohash.decode2('u120fxw'), '(52.205, 0.1188)')
-        self.test('decode_error', fstr(geohash.decode_error('u120fxw'), fmt='%*e'), '6.866455e-04, 6.866455e-04')
+        self.test('decode_error', fstr(geohash.decode_error('u120fxw'), fmt='%.*e'), '6.866455e-04, 6.866455e-04')
         self.test('distance1', geohash.distance1('u120fxw', 'u120fxws0'), '486.710', prec=3)
         self.test('distance2', geohash.distance2('u120fxw', 'u120fxws0'),   '3.374', prec=3)
         self.test('distance3', geohash.distance3('u120fxw', 'u120fxws0'),   '2.798', prec=3)

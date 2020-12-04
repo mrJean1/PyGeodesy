@@ -9,16 +9,18 @@ import os.path as os_path
 import sys
 
 __all__ = ()
-__version__ = '20.10.29'
+__version__ = '20.11.03'
 
-try:  # MCCABE 14
+try:  # MCCABE 16
     from pygeodesy import interns, isLazy, pygeodesy_abspath, version, \
                                   _isfrozen
-    from pygeodesy.interns import _COMMA_SPACE_, _dot_, _item_ir, joined_, \
-                                   NN, _pygeodesy_abspath_, _version_
+    from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, \
+                                 _pygeodesy_abspath_, _Python_, \
+                                 _SPACE_, _version_
+    from pygeodesy.streprs import Fmt
 
     def _dot_attr(name, value):
-        return _dot_(NN, _item_ir(name, value))
+        return Fmt.DOT(Fmt.EQUAL(name, value))
 
     p = [_dot_attr(*t) for t in ((_version_,           version),
                                  (_pygeodesy_abspath_, pygeodesy_abspath),
@@ -27,12 +29,13 @@ try:  # MCCABE 14
                                  ('_floats',       len(interns._floats)))]
 
     def _name_version(pkg):
-        return joined_(pkg.__name__, pkg.__version__)
+        return _SPACE_(pkg.__name__, pkg.__version__)
 
     v = []
-    if '[PyPy ' in sys.version:
-        v.append(joined_('PyPy', sys.version.split('[PyPy ')[1].split()[0]))
-    v.append(joined_('Python', sys.version.split(None, 1)[0]))
+
+    if '[PyPy ' in sys.version:  # see test/base.py
+        v.append(_SPACE_('PyPy', sys.version.split('[PyPy ')[1].split()[0]))
+    v.append(_SPACE_(_Python_, sys.version.split(None, 1)[0]))
     try:
         import platform
         v.append(platform.architecture()[0])  # bits
@@ -54,12 +57,12 @@ try:  # MCCABE 14
     except ImportError:
         pass
     x = os_path.basename(pygeodesy_abspath)
-    print('%s%s (%s)' % (x, _COMMA_SPACE_.join(p), _COMMA_SPACE_.join(v)))
+    print('%s%s (%s)' % (x, _COMMASPACE_.join(p), _COMMASPACE_.join(v)))
 
 except ImportError:
-    m = os_path.dirname(__file__).replace(os.getcwd(), '.').strip()
+    m = os_path.dirname(__file__).replace(os.getcwd(), _DOT_).strip()
     if len(m.split()) > 1:
-        m = '"%s"' % (m,)
+        m = Fmt.QUOTE2(m)
     v = sys.version_info[0]
     if v < 3:
         v = NN

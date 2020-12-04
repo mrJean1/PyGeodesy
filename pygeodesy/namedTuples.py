@@ -9,7 +9,6 @@ defined in C{pygeodesy.named}.
 @newfield example: Example, Examples
 '''
 
-# update imported names under if __name__ == '__main__':
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.errors import _xkwds
 from pygeodesy.interns import _angle_, _band_, _convergence_, _datum_, \
@@ -25,7 +24,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Number_, Phi, Precision_, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '20.10.29'
+__version__ = '20.11.02'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'

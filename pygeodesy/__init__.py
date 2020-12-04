@@ -51,7 +51,8 @@ html/classGeographicLib_1_1AlbersEqualArea.html>} projections, azimuthal project
 and Lambert conformal conic projections and positions (from U{John P. Snyder, "Map
 Projections -- A Working Manual", 1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}),
 functions to clip a path or polygon of C{LatLon} points using the U{Cohen–Sutherland
-<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} and the U{Sutherland-Hodgman
+<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>}, the U{Liang–Barsky
+<https://WikiPedia.org/wiki/Liang–Barsky_algorithm>} and the U{Sutherland-Hodgman
 <https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>} methods, functions to
 U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize a path of C{tLon}
 points (or a U{NumPy array <https://docs.SciPy.org/doc/numpy/reference/generated/
@@ -109,9 +110,9 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://SciPy.org/scipylib/download.html>} 1.5.2) and macOS' Python
 2.7.16 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all
-on macOS 10.15.7 Catalina and all in 64-bit only.  The tests run
-with and without C{lazy import} for Python 3.  The results of those
-tests are included in the distribution files.
+on macOS 11.0.1 (10.16) Big Sur and all in 64-bit only.  The tests
+run with and without C{lazy import} for Python 3.  The results of
+those tests are included in the distribution files.
 
 Test coverage has been measured with U{coverage
 <https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.0 (with
@@ -123,16 +124,16 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50), Python
 complete coverage report in HTML and a PDF summary are included in
 the distribution files.
 
-The tests also ran with Python 2.7.14, 3.6.3, 3.7.1, 3.8.0 and U{PyPy
-<https://PyPy.org>} 7.1.1 (Python 2.7.13 and 3.6.1) (and U{geographiclib
-<https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on U{Ubuntu 14.04
+The tests also ran with Python 3.8.0, 3.7.1, 3.6.3, 2.7.14 and U{PyPy
+<https://PyPy.org>} 7.1.1 (Python 3.6.1 and 2.7.13) (and U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on U{Ubuntu 14.04
 <https://Travis-CI.org/mrJean1/PyGeodesy>} and with Python 3.7.3 (and
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49 or 1.50) on
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on
 U{Debian 9<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} all in
-64-bit only and with Python 2.7.15, 3.6.8, 3.7.2, and 3.8.0 (all
-with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.49 or 1.50)
+64-bit only and with Python 3.8.0, 3.7.2, 3.6.8 and 2.7.15 (all with
+U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50 or 1.49)
 on U{Windows Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
-in both 32- and 64-bit.
+in both 64- and 32-bit.
 
 A single-File and single-Directory application with C{pygeodesy} has been
 bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4 and 64-bit
@@ -201,13 +202,13 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @newfield example: Example, Examples
 @newfield JSname: JS name, JS names
 
-@var EPS:    System's M{epsilon} ≈ 2.2202e-16 (C{float}).
-@var EPS2:   M{EPS * 2} ≈ 4.4409e-16 (C{float}).
-@var EPS_2:  M{EPS / 2} ≈ 1.1102e-16 (C{float}).
-@var EPS1:   M{1 - EPS} ≈ 0.9999999999999998 (C{float}).
+@var EPS:    System's M{epsilon} ≈ 2.220446049e-16 (C{float}).
+@var EPS2:   M{EPS * 2} ≈ 4.440892099e-16 (C{float}).
+@var EPS_2:  M{EPS / 2} ≈ 1.110223025e-16 (C{float}).
+@var EPS1:   M{1 - EPS}   ≈ 0.9999999999999998 (C{float}).
 @var EPS1_2: M{1 - EPS_2} ≈ 0.9999999999999999 (C{float}).
 
-@var F_D:   Format degrees as unsigned "deg°" plus suffix (C{str}).
+@var F_D:   Format degrees as unsigned "deg°" plus suffix C{N, S, W} or C{E} (C{str}).
 @var F_DM:  Format degrees as unsigned "deg°min′" plus suffix (C{str}).
 @var F_DMS: Format degrees as unsigned "deg°min′sec″" plus suffix (C{str}).
 @var F_DEG: Format degrees as unsigned "[D]DD" plus suffix without symbol (C{str}).
@@ -421,25 +422,28 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.wgrs                  import Georef, WGRSError  # PYCHOK lazily
 
     def _all(globalocals):
-        from pygeodesy.interns import NN as _NN, _attribute_, _COMMA_SPACE_, \
-                                     _dot_, _module_  # PYCHOK expected
+        from pygeodesy.interns import NN as _NN, _attribute_, _COMMASPACE_, \
+                                     _DOT_, _module_, _s_  # PYCHOK expected
+        from pygeodesy.streprs import Fmt as _Fmt  # PYCHOK expected
         # collect all public module and attribute names and check
         # that modules are imported from this package, 'pygeodesy'
         # (but the latter only when not bundled with PyInstaller or
         # Py2Exe, since the file-layout is different.  Courtesy of
         # GilderGeek<https://GitHub.com/mrJean1/PyGeodesy/issues/31>)
         ns = list(lazily._ALL_INIT)
-# XXX   ps = () if _isfrozen else set([_pygeodesy_] + __name__.split('.'))
+# XXX   ps = () if _isfrozen else set([_pygeodesy_] + __name__.split(_DOT_))
         for mod, attrs in lazily._ALL_LAZY.enums():
             if mod not in globalocals:
-                raise ImportError('missing %s%s: %s' % (_module_, _NN, _dot_(_pygeodesy_, mod)))
+                t = _DOT_(_pygeodesy_, mod)
+                raise ImportError('missing %s%s: %s' % (_module_, _NN, t))
             ns.append(mod)
             # check that all other public attributes do exist
             if attrs and isinstance(attrs, tuple):
-                t = tuple(_dot_(_pygeodesy_, mod, a) for a in attrs if a not in globalocals)
+                t = tuple(a for a in attrs if a not in globalocals)
                 if t:
-                    a = ('s[%s]' % (len(t),)) if len(t) > 1 else _NN
-                    raise ImportError('missing %s%s: %s' % (_attribute_, a, _COMMA_SPACE_.join(t)))
+                    s = _Fmt.SQUARE(_s_, len(t)) if len(t) > 1 else _NN
+                    t = _COMMASPACE_.join(_DOT_(_pygeodesy_, mod, a) for a in t)
+                    raise ImportError('missing %s%s: %s' % (_attribute_, s, t))
                 ns.extend(attrs)
 # XXX       if ps:  # check that mod is a _pygeodesy_ module
 # XXX           m = globalocals[mod]  # assert(m.__name__ == mod)
@@ -447,13 +451,13 @@ if not _lazy_import2:  # import and set __all__
 # XXX           d = dirname(abspath(f)) if f else pygeodesy_abspath
 # XXX           p = getattr(m, '__package__', _NN) or _pygeodesy_
 # XXX           if p not in ps or d != pygeodesy_abspath:
-# XXX               raise ImportError('foreign module: %s from %r' % (_dot_(p, mod), f or p))
+# XXX               raise ImportError('foreign module: %s from %r' % (_DOT_(p, mod), f or p))
         return tuple(set(ns))  # remove duplicates
 
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '20.10.30'
+__version__ = '20.12.03'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

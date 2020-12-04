@@ -38,14 +38,16 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
-from pygeodesy.interns import EPS, MISSING, NN, _COMMA_SPACE_, \
-                             _float, joined_, _NS_, _outside_, _range_, \
-                             _SPACE_, _SQUARE_fmt_, _UTM_, _zone_, _1_0
+from pygeodesy.interns import EPS, MISSING, NN, _by_, \
+                             _COMMASPACE_, _float, _NS_, \
+                             _outside_, _range_, _SPACE_, \
+                             _UTM_, _V_, _X_, _zone_, _1_0
 from pygeodesy.interns import _S_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
+from pygeodesy.streprs import Fmt
 from pygeodesy.units import Band, Int, Lat, Lon, Zone
 from pygeodesy.utily import degrees90, degrees180, sincos2  # splice
 from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
@@ -59,14 +61,14 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # latitude bands
 _FalseEasting  = _float(  500e3)  # falsed offset (C{meter})
 _FalseNorthing = _float(10000e3)  # falsed offset (C{meter})
-_K0            = _float(0.9996)   # UTM scale central meridian
+_K0            = _float(0.9996)   # UTM scale, central meridian
 
 
 class UTMError(_ValueError):
@@ -184,21 +186,21 @@ def _to3zBll(lat, lon, cmoff=True):
     z, lat, lon = _to3zll(lat, lon)  # in .utmupsBase
 
     if _UTM_LAT_MIN > lat or lat >= _UTM_LAT_MAX:  # [-80, 84) like Veness
-        t = joined_(_outside_, _UTM_, _range_, '[%s,' % (_UTM_LAT_MIN,),
-                                                '%s)' % (_UTM_LAT_MAX,))
+        r = _range_(_UTM_LAT_MIN, _UTM_LAT_MAX, ropen=True)
+        t = _SPACE_(_outside_, _UTM_, _range_, r)
         raise RangeError(lat=degDMS(lat), txt=t)
     B = _Bands[int(lat + 80) >> 3]
 
     x = lon - _cmlon(z)  # z before Norway/Svaldbard
     if abs(x) > _UTM_ZONE_OFF_MAX:
-        t = joined_(_outside_, _UTM_, _zone_, str(z), 'by', degDMS(x, prec=6))
+        t = _SPACE_(_outside_, _UTM_, _zone_, str(z), _by_, degDMS(x, prec=6))
         raise RangeError(lon=degDMS(lon), txt=t)
 
-    if B == 'X':  # and 0 <= int(lon) < 42: z = int(lon + 183) // 6 + 1
+    if B == _X_:  # and 0 <= int(lon) < 42: z = int(lon + 183) // 6 + 1
         x = {32: 9, 34: 21, 36: 33}.get(z, None)
         if x:  # Svalbard
             z += 1 if lon >= x else -1
-    elif B == 'V' and z == 31 and lon >= 3:
+    elif B == _V_ and z == 31 and lon >= 3:
         z += 1  # SouthWestern Norway
 
     if cmoff:  # lon off central meridian
@@ -477,7 +479,7 @@ class Utm(UtmUpsBase):
             self._mgrs = toMgrs(self, name=self.name)
         return self._mgrs
 
-    def toRepr(self, prec=0, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, B=False, cs=False, **unused):  # PYCHOK expected
+    def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, B=False, cs=False, **unused):  # PYCHOK expected
         '''Return a string representation of this UTM coordinate.
 
            Note that UTM coordinates are rounded, not truncated (unlike

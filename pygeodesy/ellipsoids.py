@@ -64,16 +64,16 @@ from pygeodesy.basics import copysign, property_doc_, property_RO, \
 from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import cbrt, cbrt2, fdot, fpowers, Fsum, fsum_, \
                             hypot1, hypot2, sqrt3
-from pygeodesy.interns import EPS, EPS1, _1_EPS, INF, NN, PI4, PI_2, R_M, _a_, \
-                             _exceeds_eps_fmt_, _f_, _float, _floatuple as _T, \
-                             _item_is, joined_, _lat_, _meridional_, _negative_, \
-                             _prime_vertical_, _vs_, _0_0, _0_1, _0_5, \
-                             _1_0, _2_0, _4_0, _90_0
+from pygeodesy.interns import EPS, EPS1, _1_EPS, INF, NN, PI4, PI_2, R_M, \
+                             _a_, _e_, _f_, _float, _floatuple as _T, \
+                             _lat_, _meridional_, _n_, _negative_, \
+                             _prime_vertical_, _SPACE_, _vs_, \
+                             _0_0, _0_1, _0_5, _1_0, _2_0, _4_0, _90_0
 from pygeodesy.interns import _0_125, _0_25, _3_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, _NamedTuple, _Pass
 from pygeodesy.namedTuples import Distance2Tuple
-from pygeodesy.streprs import _e, _g, instr, _Fmt, fstr, strs, unstr
+from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
 from pygeodesy.units import Bearing_, Distance, Float, Float_, Lam_, Lat, \
                             Meter, Phi, Phi_, Radius, Radius_, Scalar
 from pygeodesy.utily import atand, atan2b, degrees90, degrees2m, \
@@ -97,7 +97,7 @@ R_VM = Radius(R_VM=6366707.0194937)  # Aviation/Navigation earth radius (C{meter
 # R_ = Radius(R_  =6372797.560856)   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '20.10.29'
+__version__ = '20.11.06'
 
 _TOL = sqrt(_0_1 * EPS)  # for Ellipsoid.estauf, in .ups, testEllipsoidal.py
 
@@ -133,7 +133,7 @@ class a_f2Tuple(_NamedTuple):
 
        @see: Class L{Ellipsoid2}.
     '''
-    _Names_ = (_a_,   _f_)
+    _Names_ = (_a_,   _f_)  # XXX not _f_!
     _Units_ = (_Pass, _Pass)
 
     def __new__(cls, a, f):
@@ -429,11 +429,11 @@ class Ellipsoid(_NamedEnumItem):
         for n, v in name_value.items():
             if abs(v - val) > eps:
                 t = (v, _vs_, val)
-                t =  joined_(*strs(t, prec=12, fmt=_g))
-                t = _item_is(self._dot_(n), t)
-                raise _AssertionError(t, txt=_exceeds_eps_fmt_ % (eps,))
+                t = _SPACE_.join(strs(t, prec=12, fmt=Fmt.g))
+                t =  Fmt.EQUAL(self._DOT_(n), t)
+                raise _AssertionError(t, txt=Fmt.exceeds_eps(eps))
             return Float(v if self.f else f0, name=n)
-        raise _AssertionError(unstr(self._dot_(self._assert.__name__), val,
+        raise _AssertionError(unstr(self._DOT_(self._assert.__name__), val,
                                     eps=eps, f0=f0, **name_value))
 
     def auxAuthalic(self, lat, inverse=False):
@@ -806,7 +806,7 @@ class Ellipsoid(_NamedEnumItem):
             if r < 0:
                 raise ValueError(_negative_)
         except (TypeError, ValueError) as x:
-            raise _ValueError(self._dot_(Ellipsoid.e2s2.__name__), s, txt=str(x))
+            raise _ValueError(self._DOT_(Ellipsoid.e2s2.__name__), s, txt=str(x))
         return r
 
     @property_RO
@@ -1387,8 +1387,8 @@ class Ellipsoid(_NamedEnumItem):
 
            @return: Ellipsoid attributes (C{str}).
         '''
-        return self._instr(prec, 'a', 'b', 'f_', 'f', 'f2', 'n',
-                                 'e', 'e2', 'e22', 'e32', 'L',
+        return self._instr(prec, _a_, 'b', 'f_', _f_, 'f2', _n_,
+                                 _e_, 'e2', 'e22', 'e32', 'L',
                                  'R1', 'R2', 'R3')
 
     @property_RO
@@ -1757,7 +1757,7 @@ def n2f(n):
     return Float(f=_0_0 if _spherical(f) else f)
 
 
-Ellipsoids = _NamedEnum('Ellipsoids', Ellipsoid)  # registered ellipsods
+Ellipsoids = _NamedEnum(Ellipsoid)  # registered Ellipsods
 # <https://www.GNU.org/software/gama/manual/html_node/Supported-ellipsoids.html>
 # <https://w3.Energistics.org/archive/Epicentre/Epicentre_v3.0/DataModel/
 #         LogicalDictionary/StandardValues/ellipsoid.html>
@@ -1813,24 +1813,27 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
 
 if __name__ == '__main__':
 
+    from pygeodesy.interns import _COMMA_, _DOT_, _NL_, _NL_var_
+
     for E in (Ellipsoids.WGS84, Ellipsoids.GRS80,  # NAD83,
               Ellipsoids.Sphere, Ellipsoids.SpherePopular,
               Ellipsoid(Ellipsoids.WGS84.b, Ellipsoids.WGS84.a, name='_Prolate')):
         e = f2n(E.f) - E.n
         t = (E.toStr(prec=10),
-            'A=%r, e=%s, f_=%s, n=%s(%s)' % (E.A,  fstr(E.e, prec=13, fmt=_e),
-                                             E.f_, fstr(E.n, prec=13, fmt=_Fmt),
-                                                   fstr(e,   prec=3,  fmt=_e),),
+            'A=%r, e=%s, f_=%s, n=%s(%s)' % (E.A,  fstr(E.e, prec=13, fmt=Fmt.e),
+                                             E.f_, fstr(E.n, prec=13, fmt=Fmt.F),
+                                                   fstr(e,   prec=3,  fmt=Fmt.e),),
             '%s=(%s)'   % (Ellipsoid.AlphaKs.name, fstr(E.AlphaKs, prec=20),),
             '%s= (%s)'  % (Ellipsoid.BetaKs.name,  fstr(E.BetaKs,  prec=20),),
             '%s= %s'    % ('KsOrder',                   E.KsOrder),
             '%s=  (%s)' % (Ellipsoid.Mabcd.name,   fstr(E.Mabcd,   prec=20),))
-        print('\nEllipsoid.%s: %s' % (E.name, ',\n    '.join(t)))
+        E = _DOT_(E.classname, E.name)
+        print('%s%s: %s' % (_NL_, E, ',\n    '.join(t)))
 
     # __doc__ of this file
     for e in (Ellipsoids,):
-        t = [NN] + repr(e).split('\n')
-        print('\n@var '.join(i.strip(',') for i in t))
+        t = [NN] + repr(e).split(_NL_)
+        print(_NL_var_.join(i.strip(_COMMA_) for i in t))
 
 # **) MIT License
 #

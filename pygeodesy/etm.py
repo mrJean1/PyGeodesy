@@ -72,9 +72,9 @@ from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
 from pygeodesy.interns import EPS, _1_EPS, NN, PI_2, PI_4, \
-                             _COMMA_SPACE_, _convergence_, _easting_, \
-                             _lat_, _lon_, _northing_, _no_convergence_, \
-                             _scale_, _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, \
+                             _COMMASPACE_, _convergence_, _easting_, \
+                             _lat_, _lon_, _no_, _northing_,  _scale_, \
+                             _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, \
                              _90_0, _180_0
 from pygeodesy.interns import _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
@@ -91,7 +91,7 @@ from math import asinh, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.10.29'
+__version__ = '20.11.02'
 
 _OVERFLOW = _1_EPS**2
 _TOL_10   = _0_1 * EPS
@@ -691,7 +691,7 @@ class ExactTransverseMercator(_NamedBase):
                 trip = hypot2(du, dv) < _TOL_10
             else:
                 t = unstr(self._sigmaInv.__name__, xi, eta)
-                raise EllipticError(_no_convergence_, txt=t)
+                raise EllipticError(_no_(_convergence_), txt=t)
         return u, v
 
     def _sigmaInv0(self, xi, eta):
@@ -760,7 +760,7 @@ class ExactTransverseMercator(_NamedBase):
         d = dict(name=self.name) if self.name else {}
         d = dict(datum=self.datum.name, lon0=self.lon0,
                  k0=self.k0, extendp=self.extendp, **d)
-        return _COMMA_SPACE_.join(pairs(d, **kwds))
+        return _COMMASPACE_.join(pairs(d, **kwds))
 
     def _zeta3(self, snu, cnu, dnu, snv, cnv, dnv):
         '''(INTERNAL) C{zeta}.
@@ -847,7 +847,7 @@ class ExactTransverseMercator(_NamedBase):
                 trip = hypot2(du, dv) < stol2
             else:
                 t = unstr(self._zetaInv.__name__, taup, lam)
-                raise EllipticError(_no_convergence_, txt=t)
+                raise EllipticError(_no_(_convergence_), txt=t)
         return u, v
 
     def _zetaInv0(self, psi, lam):

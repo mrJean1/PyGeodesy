@@ -79,10 +79,10 @@ del division
 from pygeodesy.basics import map2, neg, property_RO
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fdot, fmean_, Fsum, fsum_, hypot1
-from pygeodesy.interns import EPS, INF, PI, PI_2, PI_4, \
-                             _no_convergence_, _0_0, _0_125, \
-                             _0_25, _0_5, _1_0, _2_0, _3_0, \
-                             _4_0, _5_0, _360_0
+from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
+                             _convergence_, _no_, _SPACE_, \
+                             _0_0, _0_125, _0_25, _0_5, _1_0, \
+                             _2_0, _3_0, _4_0, _5_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
 # from pygeodesy.streprs import unstr
@@ -93,7 +93,7 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, floor, \
                  sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.10.29'
+__version__ = '20.11.02'
 
 _0_2    = _1_0 / _5_0
 _TolJAC = sqrt(EPS * 0.010)  # sqrt(EPS) * _0_1
@@ -733,7 +733,8 @@ class Elliptic(_Named):
 def _convergenceError(where, *args):  # PYCHOK no cover
     '''(INTERNAL) Return an L{EllipticError}.
     '''
-    return EllipticError(_no_convergence_, txt='%s%r' % (where.__name__, args))  # unstr
+    t = _SPACE_(where.__name__, repr(args))
+    return EllipticError(_no_(_convergence_), txt=t)  # unstr
 
 
 def _horner(e0, e1, e2, e3, e4, e5):
@@ -755,7 +756,7 @@ def _horner(e0, e1, e2, e3, e4, e5):
 def _invokationError(name, *args):  # PYCHOK no cover
     '''(INTERNAL) Return an L{EllipticError}.
     '''
-    return EllipticError('%s %s%r' % ('invokation', name, args))  # unstr
+    return EllipticError(_SPACE_('invokation', NN(name, repr(args))))  # unstr
 
 
 def _Q(A, T, tol):

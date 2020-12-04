@@ -19,16 +19,15 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 
 from pygeodesy.basics import clips, ub2str
 from pygeodesy.errors import ParseError, _xkwds_get
-from pygeodesy.interns import NN, _height_, _item_cs, _item_is, \
-                             _item_ps, _lat_, _lon_, _n_a_, \
-                             _SPACE_, _units_, _x_, _y_
+from pygeodesy.interns import NN, _COLONSPACE_, _height_, \
+                             _n_a_, _no_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple
-from pygeodesy.streprs import fstr
+from pygeodesy.streprs import Fmt, fstr
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '20.10.29'
+__version__ = '20.11.06'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -39,17 +38,14 @@ except (ImportError, NameError):  # Python 3+
     # from urllib.parse import quote
     from urllib.error import HTTPError
 
-_XML_ = 'XML'
+_JSON_ = 'JSON'
+_XML_  = 'XML'
 
 try:
     from json import loads as _json
 except ImportError:  # PYCHOK no cover
 
-    from pygeodesy.interns import _COMMA_
-    # _QUOTE1_ = "'"
-    _QUOTE2_   = '"'  # PYCHOK used!
-    # _QUOTE3_ = "'''"
-    # _QUOTE6_ = '"""'
+    from pygeodesy.interns import _COMMA_, _QUOTE2_
 
     def _json(ngs):
         '''(INTERNAL) Convert an NGS response in JSON to a C{dict}.
@@ -86,14 +82,16 @@ except ImportError:  # PYCHOK no cover
 def _error(fun, lat, lon, e):
     '''(INTERNAL) Format an error
     '''
-    return _item_cs(_item_ps(fun.__name__, fstr((lat, lon))), e)
+    return _COLONSPACE_(Fmt.PAREN(fun.__name__, fstr((lat, lon))), e)
 
 
-def _qURL(url, params, timeout=2):
+def _qURL(url, timeout=2, **params):
     '''(INTERNAL) Build B{C{url}} query, get and verify response.
     '''
-    if params:  # build url query, do not map(quote, params)!
-        url += '?' + '&'.join(_ for _ in map(str, params) if _)
+    if params:  # build url query, don't map(quote, params)!
+        p = '&'.join(Fmt.EQUAL(p, v) for p, v in params.items() if v)
+        if p:
+            url = NN(url, '?', p)
     u = urlopen(url, timeout=timeout)  # secs
 
     s = u.getcode()
@@ -117,13 +115,13 @@ def _xml(tag, xml):
     #     <Units>Feet</Units>
     #    </Elevation_Query>
     #   </USGS_Elevation_Point_Query_Service>'
-    i = xml.find('<%s>' % (tag,))
+    i = xml.find(Fmt.TAG(tag))
     if i > 0:
         i += len(tag) + 2
-        j = xml.find('</%s>' % (tag,), i)
+        j = xml.find(Fmt.TAGEND(tag), i)
         if j > i:
             return Str(xml[i:j].strip(), name=tag)
-    return 'no %s tag <%s>' % (_XML_, tag)
+    return _no_(_XML_, Fmt.TAG(tag))
 
 
 class Elevation2Tuple(_NamedTuple):  # .elevations.py
@@ -160,11 +158,11 @@ def elevation2(lat, lon, timeout=2.0):
     '''
     try:
         x = _qURL('https://NED.USGS.gov/epqs/pqs.php',  # 'https://NationalMap.gov/epqs/pqs.php'
-                        (_item_is(_x_, Lon(lon).toStr(prec=6)),
-                         _item_is(_y_, Lat(lat).toStr(prec=6)),
-                         _item_is(_units_, 'Meters'),  # 'Feet', capitalized
-                         _item_is('output', 'xml')),  # 'json', lowercase only
-                          timeout=Scalar(timeout=timeout))
+                         x=Lon(lon).toStr(prec=6),
+                         y=Lat(lat).toStr(prec=6),
+                         units='Meters',  # 'Feet', capitalized
+                         output=_XML_.lower(),  # _JSON_, lowercase only
+                         timeout=Scalar(timeout=timeout))
         if x[:6] == '<?xml ':
             e = _xml('Elevation', x)
             try:
@@ -175,7 +173,7 @@ def elevation2(lat, lon, timeout=2.0):
             except (TypeError, ValueError):
                 pass
         else:
-            e = 'no %s "%s"' % (_XML_, clips(x, limit=128, white=_SPACE_),)
+            e = _no_(_XML_, Fmt.QUOTE2(clips(x, limit=128, white=_SPACE_)))
     except (HTTPError, IOError, TypeError, ValueError) as x:
         e = repr(x)
     e = _error(elevation2, lat, lon, e)
@@ -218,10 +216,10 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
     '''
     try:
         j = _qURL('https://Geodesy.NOAA.gov/api/geoid/ght',
-                        (_item_is(_lat_, Lat(lat).toStr(prec=6)),
-                         _item_is(_lon_, Lon(lon).toStr(prec=6)),
-                         _item_is('model', model) if model else NN),
-                          timeout=Scalar(timeout=timeout))  # PYCHOK indent
+                         lat=Lat(lat).toStr(prec=6),
+                         lon=Lon(lon).toStr(prec=6),
+                         model=(model if model else NN),
+                         timeout=Scalar(timeout=timeout))  # PYCHOK indent
         if j[:1] == '{' and j[-1:] == '}' and j.find('"error":') > 0:
             d, e = _json(j), 'geoidHeight'
             if isinstance(_xkwds_get(d, error=_n_a_), float):
@@ -230,8 +228,8 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
                     m = _xkwds_get(d, geoidModel=_n_a_)
                     return GeoidHeight2Tuple(h, m)
         else:
-            e = 'JSON'
-        e = 'no %s "%s"' % (e, clips(j, limit=256, white=_SPACE_))
+            e = _JSON_
+        e = _no_(e, Fmt.QUOTE2(clips(j, limit=256, white=_SPACE_)))
     except (HTTPError, IOError, ParseError, TypeError, ValueError) as x:
         e = repr(x)
     e = _error(geoidHeight2, lat, lon, e)
@@ -244,7 +242,7 @@ if __name__ == '__main__':
     for f in (elevation2,     # (1173.79, '3DEP 1/3 arc-second')
               geoidHeight2):  # (-31.699, u'GEOID12B')
         t = f(37.8816, -121.9142)
-        print(_item_cs(f.__name__, t))
+        print(_COLONSPACE_(f.__name__, t))
 
 # **) MIT License
 #

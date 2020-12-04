@@ -79,19 +79,20 @@ from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
                                  Ellipsoid2, Ellipsoids
 from pygeodesy.errors import _IsnotError
 from pygeodesy.fmath import fdot
-from pygeodesy.interns import NN, _COMMA_SPACE_, _ellipsoid_, _ellipsoidal_, \
-                             _float, _item_ir, _item_is, joined, _name_, \
-                             _spherical_, _transform_, _UNDERSCORE_, \
+from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, _ellipsoid_, \
+                             _ellipsoidal_, _float, _name_, _s_, \
+                             _spherical_, _transform_, _UNDER_, \
                              _0_0, _1_0, _2_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem
 from pygeodesy.namedTuples import Vector3Tuple
+from pygeodesy.streprs import Fmt
 from pygeodesy.units import Radius_, Scalar
 
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '20.10.29'
+__version__ = '20.11.06'
 
 
 def _r_s2(s):
@@ -188,7 +189,7 @@ class Transform(_NamedEnumItem):
            @return: Transform attributes (C{str}).
         '''
         return self._instr(prec, 'tx', 'ty', 'tz',
-                                 'rx', 'ry', 'rz', 's', 's1',
+                                 'rx', 'ry', 'rz', _s_, 's1',
                                  'sx', 'sy', 'sz')
 
     def transform(self, x, y, z, inverse=False):
@@ -205,8 +206,8 @@ class Transform(_NamedEnumItem):
             _xyz = tuple(neg_(_1_0, x, y, z))
             _s1  = self.s1 - _2_0  # == -(1 - s * 1e-6)) == -(1 - (s1 - 1))
         else:
-            _xyz =  _1_0,  x,  y,  z
-            _s1  = self.s1
+            _xyz = _1_0,  x,  y,  z
+            _s1  =  self.s1
         # x', y', z' = (.tx + x * .s1 - y * .rz + z * .ry,
         #               .ty + x * .rz + y * .s1 - z * .rx,
         #               .tz - x * .ry + y * .rx + z * .s1)
@@ -216,7 +217,7 @@ class Transform(_NamedEnumItem):
         return self._xnamed(r)
 
 
-Transforms = _NamedEnum('Transforms', Transform)  # registered transforms
+Transforms = _NamedEnum(Transform)  # registered Transforms
 # <https://WikiPedia.org/wiki/Helmert_transformation> from WGS84
 Transforms._assert(
     BD72           = Transform('BD72', tx=106.868628, ty=-52.297783, tz=103.723893,
@@ -363,11 +364,11 @@ class Datum(_NamedEnumItem):
 
            @return: Datum attributes (C{str}).
         '''
-        t = [_item_ir(_name_, self.named)]
+        t = [Fmt.EQUAL(_name_, repr(self.named))]
         for a in (_ellipsoid_, _transform_):
             v = getattr(self, a)
-            t.append(joined(_item_is(a, v.classname), 's.', v.name))
-        return _COMMA_SPACE_.join(t)
+            t.append(NN(Fmt.EQUAL(a, v.classname), _s_, _DOT_, v.name))
+        return _COMMASPACE_.join(t)
 
     @property_RO
     def transform(self):
@@ -381,15 +382,15 @@ def _En2(arg, name):
     '''
     if isinstance(arg, (Ellipsoid, Ellipsoid2)):
         E = arg
-        n = _UNDERSCORE_ + (name or E.name)
+        n = NN(_UNDER_, name or E.name)
     elif isinstance(arg, Datum):
         E = arg.ellipsoid
-        n = _UNDERSCORE_ + (name or arg.name)
+        n = NN(_UNDER_, name or arg.name)
     elif isinstance(arg, a_f2Tuple):
-        n = _UNDERSCORE_ + (name or arg.name)
+        n = NN(_UNDER_, name or arg.name)
         E = Ellipsoid(arg.a, arg.b, name=n)
     elif isinstance(arg, (tuple, list)) and len(arg) == 2:
-        n = _UNDERSCORE_ + (name or getattr(arg, _name_, NN))
+        n = NN(_UNDER_, name or getattr(arg, _name_, NN))
         a_f = a_f2Tuple(*arg)
         E = Ellipsoid(a_f.a, a_f.b, name=n)  # PYCHOK .a
     else:
@@ -431,7 +432,7 @@ def _spherical_datum(radius, name=NN, raiser=False):
     if d is None:
         if not isscalar(radius):
             _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, Scalar, datum=radius)
-        n = _UNDERSCORE_ + name
+        n = NN(_UNDER_, name)
         r = Radius_(radius, Error=TypeError)
         E = Ellipsoid(r, r, name=n)
         d = Datum(E, transform=Transforms.Identity, name=n)
@@ -440,7 +441,7 @@ def _spherical_datum(radius, name=NN, raiser=False):
     return d
 
 
-Datums = _NamedEnum('Datums', Datum)  # registered datums
+Datums = _NamedEnum(Datum)  # registered Datums
 # Datums with associated ellipsoid and Helmert transform parameters
 # to convert from WGS84 into the given datum.  More are available at
 # <https://Earth-Info.NGA.mil/GandG/coordsys/datums/NATO_DT.pdf> and
@@ -507,10 +508,12 @@ Datums._assert(
 
 if __name__ == '__main__':
 
+    from pygeodesy.interns import _COMMA_, _NL_, _NL_var_
+
     # __doc__ of this file
     for e in (Datums, Transforms):
-        t = [NN] + repr(e).split('\n')
-        print('\n@var '.join(i.strip(',') for i in t))
+        t = [NN] + repr(e).split(_NL_)
+        print(_NL_var_.join(i.strip(_COMMA_) for i in t))
 
 # **) MIT License
 #

@@ -53,8 +53,8 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import _bkwds, isscalar, len2, map1, map2, property_RO, \
-                             _xnumpy, _xscipy
+from pygeodesy.basics import isscalar, len2, map1, map2, property_RO, \
+                            _xnumpy, _xscipy
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _AssertionError, LenError, PointsError, _SciPyIssue
 from pygeodesy.fmath import fidw, hypot2
@@ -62,16 +62,17 @@ from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             _scale_rad, thomas_, vincentys_
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _cubic_, _datum_, \
-                             _distanceTo_, _item_sq, _knots_, _len_, \
-                             _linear_, _scipy_, _0_0
+                             _distanceTo_, _knots_, _len_, _linear_, _scipy_, \
+                             _0_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
+from pygeodesy.streprs import _boolkwds, Fmt
 from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.10.20'
+__version__ = '20.11.06'
 
 
 class HeightError(PointsError):
@@ -157,7 +158,7 @@ def _xyhs(lls, off=True, name='llis'):
             yield (max(0.0, radiansPI2(ll.lon + 180.0)) - xf), \
                   (max(0.0, radiansPI( ll.lat +  90.0)) - yf), ll.height
     except AttributeError as x:
-        raise HeightError(_item_sq(name, i), ll, txt=str(x))
+        raise HeightError(Fmt.SQUARE(name, i), ll, txt=str(x))
 
 
 def _xyhs3(atype, m, knots, off=True):
@@ -400,7 +401,7 @@ class _HeightIDW(_HeightBase):
         if name:
             self.name = name
         if wrap_adjust:
-            _bkwds(self, Error=HeightError, **wrap_adjust)
+            _boolkwds(self, **wrap_adjust)
 
     def __call__(self, *llis):
         '''Interpolate the height for one or several locations.
@@ -649,7 +650,7 @@ class HeightIDWdistanceTo(_HeightIDW):
             raise _insufficientError(self._kmin, knots=n)
         for i, k in enumerate(self._ks):
             if not callable(getattr(k, _distanceTo_, None)):
-                raise HeightError(_item_sq(_knots_, i), k, txt=_distanceTo_)
+                raise HeightError(Fmt.SQUARE(_knots_, i), k, txt=_distanceTo_)
 
         # use knots[0] class and datum to create
         # compatible points in _HeightBase._height
@@ -982,7 +983,7 @@ class HeightIDWkarney(_HeightIDW):
                 for i, ll in enumerate(lls):
                     yield ll.lon, ll.lat
             except AttributeError as x:
-                raise HeightError(_item_sq('llis', i), ll, txt=str(x))
+                raise HeightError(Fmt.SQUARE(llis=i), ll, txt=str(x))
 
         _as, llis = _allis2(llis)
         return _as(map(self._hIDW, *zip(*_xy2(llis))))
@@ -1116,7 +1117,7 @@ class HeightLSQBiSpline(_HeightBase):
             w = map2(float, w)
             m = min(w)
             if m <= 0:
-                raise HeightError(_item_sq(weight=w.find(m)), m)
+                raise HeightError(Fmt.SQUARE(weight=w.find(m)), m)
         try:
             T = 1.0e-4  # like SciPy example
             ps = np.array(_ordedup(xs, T, PI2 - T))

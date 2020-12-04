@@ -91,7 +91,7 @@
         <span class="summary-sig-arg">easting</span>,
         <span class="summary-sig-arg">northing</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       New <a href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a> 
       National Grid Reference.</td>
           <td align="right" valign="top">
@@ -111,7 +111,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.osgr.Osgr-class.html#parse" class="summary-sig-name">parse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">strOSGR</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Parse a string to a similar <a href="pygeodesy.osgr.Osgr-class.html" 
       class="link">Osgr</a> instance.</td>
           <td align="right" valign="top">
@@ -150,8 +150,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.osgr.Osgr-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">10</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'[%s]'</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>)</span><br />
       Return a string representation of this OSGR coordinate.</td>
           <td align="right" valign="top">
             
@@ -170,8 +170,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.osgr.Osgr-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">10</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'[%s]'</span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>)</span><br />
       DEPRECATED, use method <a 
       href="pygeodesy.osgr.Osgr-class.html#toRepr" 
       class="link">Osgr.toRepr</a>.</td>
@@ -192,7 +192,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.osgr.Osgr-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">10</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">' '</span>)</span><br />
       Return a string representation of this OSGR coordinate.</td>
           <td align="right" valign="top">
             
@@ -211,7 +211,7 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
@@ -310,7 +310,7 @@
         <span class="sig-arg">easting</span>,
         <span class="sig-arg">northing</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -354,7 +354,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parse</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">strOSGR</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -454,8 +454,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">10</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'[%s]'</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -489,8 +489,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">10</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">[%s]</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'[%s]'</span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -525,7 +525,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">10</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"> </code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default">' '</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -588,7 +588,7 @@
 class="link">Datum</a>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -608,7 +608,7 @@ class="link">Datum</a>).
         - Get the easting (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -630,7 +630,7 @@ class="link">Datum</a>).
 (<code>int</code> or <code>0</code> if not available/applicable).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -650,7 +650,7 @@ class="link">Datum</a>).
         - Get the northing (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">immutable(<span class="summary-sig-arg">inst</span>,
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">value</span>)</span>
         - Throws an <code>AttributeError</code>, always.
     </dd>
@@ -689,7 +689,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:58 2020
+    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:19 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

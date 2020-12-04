@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.10.29
+        20.11.05
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -169,7 +169,7 @@
         <tr>
           <td><span class="summary-sig"><a name="anStr"></a><span class="summary-sig-name">anStr</span>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default">'_'</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.streprs-module.html#anstr" class="link">anstr</a>.</td>
           <td align="right" valign="top">
@@ -251,7 +251,7 @@
         <tr>
           <td><span class="summary-sig"><a name="clipStr"></a><span class="summary-sig-name">clipStr</span>(<span class="summary-sig-arg">bstr</span>,
         <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">50</span>,
-        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">white</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.basics-module.html#clips"
       class="link">clips</a>.</td>
           <td align="right" valign="top">
@@ -288,8 +288,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#encodeEPSG" class="summary-sig-name">encodeEPSG</a>(<span class="summary-sig-arg">zone</span>,
-        <span class="summary-sig-arg">hemipole</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">band</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">hemipole</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">band</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.epsg-module.html#encode" 
       class="link">epsg.encode</a>.</td>
           <td align="right" valign="top">
@@ -394,9 +394,9 @@
         <tr>
           <td><span class="summary-sig"><a name="fStr"></a><span class="summary-sig-name">fStr</span>(<span class="summary-sig-arg">floats</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">%.*f</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'f'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.streprs-module.html#fstr"
       class="link">fstr</a>.</td>
           <td align="right" valign="top">
@@ -493,6 +493,44 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="joined"></a><span class="summary-sig-name">joined</span>(<span class="summary-sig-arg">*words</span>,
+        <span class="summary-sig-arg">**sep</span>)</span><br />
+      DEPRECATED, use <code>NN(...)</code>, <code>NN.join_</code> or 
+      <code><b>sep</b>.join</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="joined_"></a><span class="summary-sig-name">joined_</span>(<span class="summary-sig-arg">*words</span>,
+        <span class="summary-sig-arg">**sep</span>)</span><br />
+      DEPRECATED, use <code>_SPACE_(...)</code>, <code>_SPACE_.join_</code>
+      or <code><b>sep</b>.join</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#nearestOn3" class="summary-sig-name">nearestOn3</a>(<span class="summary-sig-arg">point</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
@@ -542,7 +580,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.deprecated-module.html#parseUTM" class="summary-sig-name">parseUTM</a>(<span class="summary-sig-arg">strUTM</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">_UTM</span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">_UTM</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.utm-module.html#parseUTM5" 
       class="link">parseUTM5</a>.</td>
@@ -656,7 +694,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">Utm</span>=<span class="summary-sig-default">_UTM</span>,
         <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       DEPRECATED, use function <a href="pygeodesy.utm-module.html#toUtm8" 
       class="link">toUtm8</a>.</td>
           <td align="right" valign="top">
@@ -798,8 +836,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">encodeEPSG</span>&nbsp;(<span class="sig-arg">zone</span>,
-        <span class="sig-arg">hemipole</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">band</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">hemipole</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">band</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -940,7 +978,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">parseUTM</span>&nbsp;(<span class="sig-arg">strUTM</span>,
         <span class="sig-arg">datum</span>=<span class="sig-default">_UTM</span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">_UTM</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1010,7 +1048,7 @@
         <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">Utm</span>=<span class="sig-default">_UTM</span>,
         <span class="sig-arg">cmoff</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">name</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1084,7 +1122,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:51 2020
+    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:13 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

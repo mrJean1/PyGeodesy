@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.03.10'
+__version__ = '20.11.05'
 
 from base import TestsBase
 
@@ -56,6 +56,7 @@ class Tests(TestsBase):
         self.test('fStr', fStr((0.123, 456.789), prec=+6), '0.123, 456.789')
         self.test('fStr', fStr(0.123, prec=-5, fmt='%.*e'), '1.23000e-01')
         self.test('fStr', fStr(0.123, prec=+5, fmt='%.*e'), '1.23e-01')
+        self.test('fStr', fStr(0.123, prec=+6, fmt='%.*f'), '0.123')
 
         h = hypot3(3000, 200, 10)
         s = sqrt(3000**2 + 200**2 + 10**2)

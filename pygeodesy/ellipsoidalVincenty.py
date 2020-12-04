@@ -57,15 +57,15 @@ if not division:
     raise ImportError('%s 1/2 == %d' % ('division', division))
 del division
 
-from pygeodesy.basics import property_doc_
+from pygeodesy.basics import property_doc_, property_RO
 from pygeodesy.datums import Datums
-from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
                                        CartesianEllipsoidalBase, _TOL_M, \
                                        LatLonEllipsoidalBase, _nearestOn
 from pygeodesy.errors import _ValueError, _xellipsoidal, _xkwds
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
-from pygeodesy.interns import EPS, NN, _ambiguous_, _no_convergence_
+from pygeodesy.interns import EPS, NN, _ambiguous_, _convergence_, \
+                             _no_, _SPACE_, _to_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Distance3Tuple
@@ -77,10 +77,10 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.10.27'
+__version__ = '20.11.05'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
-_limit_     = 'limit'  # PYCHOK not used
+_limit_     = 'limit'  # PYCHOK used!
 
 
 class VincentyError(_ValueError):
@@ -94,6 +94,16 @@ class Cartesian(CartesianEllipsoidalBase):
     '''Extended to convert geocentric, L{Cartesian} points to
        Vincenty-based, ellipsoidal, geodetic L{LatLon}.
     '''
+    _Ecef = None  # preferred C{EcefVeness} class
+
+    @property_RO
+    def Ecef(self):
+        '''Get the ECEF I{class} (L{EcefVeness}).
+        '''
+        if Cartesian._Ecef is None:
+            from pygeodesy.ecef import EcefVeness
+            Cartesian._Ecef = EcefVeness
+        return Cartesian._Ecef
 
     def toLatLon(self, **LatLon_datum_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to a C{Vincenty}-based
@@ -134,7 +144,7 @@ class LatLon(LatLonEllipsoidalBase):
        and/or iteration C{limit}, see properties L{LatLon.epsilon} and
        L{LatLon.iterations}.
     '''
-    _Ecef       = EcefVeness  # preferred C{Ecef...} class, backward compatible
+    _Ecef       = None     # preferred C{EcefVeness} class
     _epsilon    = 1.0e-12  # about 0.006 mm
     _iteration  = 0        # iteration number
     _iterations = 100      # vs Veness' 500
@@ -293,6 +303,15 @@ class LatLon(LatLonEllipsoidalBase):
                                  point are coincident or near-antipodal.
         '''
         return self._xnamed(self._inverse(other, True, wrap))
+
+    @property_RO
+    def Ecef(self):
+        '''Get the ECEF I{class} (L{EcefVeness}).
+        '''
+        if LatLon._Ecef is None:
+            from pygeodesy.ecef import EcefVeness
+            LatLon._Ecef = EcefVeness
+        return LatLon._Ecef
 
     @property_doc_(''' the convergence epsilon (C{scalar}).''')
     def epsilon(self):
@@ -520,7 +539,7 @@ class LatLon(LatLonEllipsoidalBase):
             if abs(s - s_) < self._epsilon:
                 break
         else:
-            raise VincentyError(_no_convergence_, txt=repr(self))  # self.toRepr()
+            raise VincentyError(_no_(_convergence_), txt=repr(self))  # self.toRepr()
 
         t = s1 * ss - c1 * cs * ci
         # final bearing (reverse azimuth +/- 180)
@@ -596,7 +615,8 @@ class LatLon(LatLonEllipsoidalBase):
 #                                  _antipodal_, other))
         else:
             t = _antipodal_ if self.isantipodeTo(other, eps=self._epsilon) else NN
-            raise VincentyError(_no_convergence_, txt='%r %sto %r' % (self, t, other))
+            t = _SPACE_(repr(self), NN(t, _to_), repr(other))
+            raise VincentyError(_no_(_convergence_), txt=t)
 
         if c2a:  # e22 == (a / b)**2 - 1
             A, B = _p2(c2a * E.e22)

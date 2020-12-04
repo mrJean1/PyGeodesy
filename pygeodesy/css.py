@@ -9,26 +9,26 @@ L{CSSError} requiring I{Charles Karney}'s U{geographiclib
 '''
 
 from pygeodesy.basics import copysign, neg, property_RO, _xinstanceof, \
-                            _xsubclassof, _xzipairs
+                            _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _datum_datum, _ValueError, \
                              _xellipsoidal, _xkwds
-from pygeodesy.interns import _azimuth_, _C_, _COMMA_SPACE_, _datum_, \
-                              _easting_, _lat_, _lon_, _m_, _name_, NN, \
-                              _northing_, _reciprocal_, _SPACE_, \
-                              _SQUARE_fmt_, _0_0, _0_5, _1_0, _90_0, _360_0
+from pygeodesy.interns import NN, _azimuth_, _C_, _COMMASPACE_, _datum_, \
+                             _easting_, _lat_, _lon_, _m_, _name_, \
+                             _northing_, _reciprocal_, _SPACE_, \
+                             _0_0, _0_5, _1_0, _90_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
                                   LatLon2Tuple, _LatLon4Tuple, \
                                   LatLon4Tuple
-from pygeodesy.streprs import _fstrENH2, _fstrLL0
+from pygeodesy.streprs import Fmt, _fstrENH2, _fstrLL0, _xzipairs
 from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -443,7 +443,7 @@ class Css(_NamedBase):
         r = _LatLon4Tuple(lat, lon, h, self.cs0.datum, LatLon, LatLon_kwds)
         return self._xnamed(r)
 
-    def toRepr(self, prec=6, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, m=_m_, C=False):  # PYCHOK expected
+    def toRepr(self, prec=6, fmt=Fmt.SQUARE, sep=_COMMASPACE_, m=_m_, C=False):  # PYCHOK expected
         '''Return a string representation of this L{Css} position.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).

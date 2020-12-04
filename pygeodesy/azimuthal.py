@@ -32,23 +32,23 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
 from pygeodesy.fmath import Fsum
-from pygeodesy.interns import EPS, EPS1, NAN, NN, PI, PI_2, _azimuth_, \
-                             _datum_, _lat_, _lon_, _no_convergence_fmt_, \
-                             _scale_, _SPACE_, _x_, _y_, _0_0, _0_5, \
-                             _1_0, _2_0, _360_0
+from pygeodesy.interns import EPS, EPS1, NAN, NN, PI, PI_2, \
+                             _azimuth_, _datum_, _lat_, _lon_, \
+                             _no_, _scale_, _SPACE_, _x_, _y_, \
+                             _0_0, _0_5, _1_0, _2_0, _360_0
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
-from pygeodesy.streprs import _fstrLL0
+from pygeodesy.streprs import Fmt, _fstrLL0
 from pygeodesy.units import Bearing, Lat_, Lon_, Meter, Scalar, Scalar_
 from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 
 from math import acos, asin, atan, atan2, copysign, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.10.29'
+__version__ = '20.12.03'
 
 _Karney_eps    =  sqrt(EPS) * 0.010  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -250,7 +250,7 @@ class _AzimuthalBase(_NamedBase):
 class AzimuthalError(_ValueError):
     '''An azimuthal L{Equidistant}, L{EquidistantKarney}, L{Gnomonic},
        L{LambertEqualArea}, L{Orthographic}, L{Stereographic} or
-       {Azimuthal7Tuple} issue.
+       L{Azimuthal7Tuple} issue.
     '''
     pass
 
@@ -662,7 +662,7 @@ class GnomonicKarney(_AzimuthalBaseKarney):
                 break
             s, d = S.fsum2_(_d(r, q))
         else:
-            raise AzimuthalError(x=x, y=y, txt=_no_convergence_fmt_ % (e,))
+            raise AzimuthalError(x=x, y=y, txt=_no_(Fmt.convergence(e)))
 
         t = self._7Tuple(x, y, r, r.M12) if LatLon is None else \
             self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds)

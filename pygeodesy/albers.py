@@ -17,12 +17,13 @@ from pygeodesy.basics import neg, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
-from pygeodesy.interns import EPS, NN, _datum_, _gamma_, _lat_, _lon_, \
-                             _lat1_, _lat2_, _no_convergence_fmt_, _scale_, \
-                             _x_, _y_, _0_0, _0_5, _1_0, _2_0, _3_0, _90_0
+from pygeodesy.interns import EPS, NN, _datum_, _gamma_, _lat_, _lat1_, \
+                             _lat2_, _lon_, _no_, _scale_, _x_, _y_, \
+                             _0_0, _0_5, _1_0, _2_0, _3_0, _90_0
 from pygeodesy.karney import _diff182, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
+from pygeodesy.streprs import Fmt
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Lon_, \
                             Meter, Scalar_
 from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
@@ -30,7 +31,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 _EPS__2 = EPS**2
 _EPS__4 = EPS**4
@@ -193,7 +194,7 @@ class _AlbersBase(_NamedBase):
                 if abs(d) < tol:
                     break
             else:
-                raise AlbersError(iteration=_NUMIT0, txt=_no_convergence_fmt_ % (tol,))
+                raise AlbersError(iteration=_NUMIT0, txt=_no_(Fmt.convergence(tol)))
 
         self._txi0  = txi0 =  self._txif(ta0)
         self._scxi0 =         hypot1(txi0)
@@ -570,7 +571,7 @@ class _AlbersBase(_NamedBase):
             ta, d = Ta.fsum2_((txi - txia) * s3qx * (_1_0 - e2 * ta2 / sca2)**2)
             if abs(d) < tol:
                 return ta
-        raise AlbersError(iteration=_NUMIT, txt=_no_convergence_fmt_ % (tol,))
+        raise AlbersError(iteration=_NUMIT, txt=_no_(Fmt.convergence(tol)))
 
     def _txif(self, ta):  # called from .Ellipsoid.auxAuthalic
         '''(INTERNAL) Function M{tan-xi from tan-phi}.

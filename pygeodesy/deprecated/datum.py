@@ -8,10 +8,11 @@ from pygeodesy.ellipsoids import R_M, R_MA, R_MB, R_KM, R_NM, R_SM, R_FM, R_VM, 
                                  Ellipsoid, Ellipsoids, Curvature2Tuple  # PYCHOK exported
 from pygeodesy.datums import Datum, Datums, Transform, Transforms  # PYCHOK exported
 
-__all__ = ('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
-            Datum.__name__, Ellipsoid.__name__, Transform.__name__, Curvature2Tuple.__name__,
-           'Datums',       'Ellipsoids',       'Transforms')
-__version__ = '20.09.27'
+__all__ = (R_M.name,  R_MA.name, R_MB.name,
+           R_KM.name, R_NM.name, R_SM.name, R_FM.name, R_VM.name,
+           Datum.__name__, Ellipsoid.__name__, Transform.__name__, Curvature2Tuple.__name__,
+          'Datums',       'Ellipsoids',       'Transforms')
+__version__ = '20.11.02'
 
 # **) MIT License
 #

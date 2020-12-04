@@ -6,23 +6,24 @@ for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
 from pygeodesy.basics import isint, isscalar, isstr, map1, neg_, property_RO, \
-                            _xattrs, _xinstanceof, _xsubclassof, _xzipairs
+                            _xinstanceof, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import ParseError, _parseX, _ValueError, _xkwds
-from pygeodesy.interns import NN, _COMMA_, _float, _invalid_, _N_, _n_a_, \
-                             _NS_, _PLUS_, _SPACE_, _0_0, _0_5, _180_0
+from pygeodesy.interns import NN, _COMMA_, _float, _invalid_, \
+                             _N_, _n_a_, _NS_, _PLUS_, _SPACE_, \
+                             _0_0, _0_5, _180_0
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, nameof, \
                              notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
-from pygeodesy.streprs import fstr, _fstrENH2
+from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xattrs, _xzipairs
 from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -36,8 +37,8 @@ _UTM_ZONE_MAX        =  60  # PYCHOK for export
 _UTM_ZONE_MIN        =   1  # PYCHOK for export
 _UTM_ZONE_OFF_MAX    =  60  # PYCHOK max Central meridian offset (C{degrees})
 
-_UPS_ZONE            = _UTM_ZONE_MIN - 1      # PYCHOK for export
-_UPS_ZONE_STR        = '%02d' % (_UPS_ZONE,)  # PYCHOK for export
+_UPS_ZONE            = _UTM_ZONE_MIN - 1     # PYCHOK for export
+_UPS_ZONE_STR        =  Fmt.zone(_UPS_ZONE)  # PYCHOK for export
 
 _UTMUPS_ZONE_INVALID = -4             # PYCHOK for export too
 _UTMUPS_ZONE_MAX     = _UTM_ZONE_MAX  # PYCHOK for export too, by .units.py
@@ -309,7 +310,7 @@ class UtmUpsBase(_NamedBase):
     def _toStr(self, hemipole, B, cs, prec, sep):
         '''(INTERNAL) Return a string for this ETM/UTM/UPS coordinate.
         '''
-        z = '%02d%s' % (self.zone, (self.band if B else NN))  # PYCHOK band
+        z = NN(Fmt.zone(self.zone), (self.band if B else NN))  # PYCHOK band
         t = (z, hemipole) + _fstrENH2(self, prec, None)[0]
         if cs:
             prec = cs if isint(cs) else 8  # for backward compatibility

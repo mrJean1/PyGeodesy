@@ -7,10 +7,8 @@ from math import pi as PI
 __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
-           'PI', 'PI2', 'PI4', 'PI_2', 'PI_4',
-           'R_M',
-           'joined', 'joined_')  # imported by .lazily
-__version__ = '20.10.29'
+           'PI', 'PI2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
+__version__ = '20.11.06'
 
 
 class MISSING(object):
@@ -26,176 +24,280 @@ class MISSING(object):
 MISSING          = MISSING()  # PYCHOK singleton
 MISSING.__name__ = str(MISSING)
 
-NN = ''  # empty str, Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
-# __DUNDER__ would get mangled in classes
-_0_                  = '0'                    # PYCHOK expected
-_1_                  = '1'                    # PYCHOK expected
-_2_                  = '2'                    # PYCHOK expected
-_3_                  = '3'                    # PYCHOK expected
-_4_                  = '4'                    # PYCHOK expected
-_a_                  = 'a'                    # PYCHOK expected
-_angle_              = 'angle'                # PYCHOK expected
-_ANGLE_fmt_          = '<%s>'                 # PYCHOK expected
-_areaOf_             = 'areaOf'               # PYCHOK expected
-_ambiguous_          = 'ambiguous'            # PYCHOK expected
-_AT_                 = '@'                    # PYCHOK expected
-_attribute_          = 'attribute'            # PYCHOK expected
-_azimuth_            = 'azimuth'              # PYCHOK expected
-_band_               = 'band'                 # PYCHOK expected
-_bearing_            = 'bearing'              # PYCHOK expected
-_C_                  = 'C'                    # PYCHOK expected
-_Cartesian_          = 'Cartesian'            # PYCHOK expected
-_coincident_         = 'coincident'           # PYCHOK expected
-_colinear_           = 'colinear'             # PYCHOK expected
-_COLON_              = ':'                    # PYCHOK expected
-_COMMA_              = ','                    # PYCHOK expected
-_convergence_        = 'convergence'          # PYCHOK expected
-_cubic_              = 'cubic'                # PYCHOK expected
-_CURLY_fmt_          = '{%s}'                 # PYCHOK expected
-_datum_              = 'datum'                # PYCHOK expected
-_decode3_            = 'decode3'              # PYCHOK expected
-_deg_                = 'deg'                  # PYCHOK expected
-_degrees_            = 'degrees'              # PYCHOK expected
-_degrees2_           = 'degrees2'             # PYCHOK SQUARED
-_distance_           = 'distance'             # PYCHOK expected
-_distanceTo_         = 'distanceTo'           # PYCHOK expected
-_doesn_t_exist_      = "doesn't exist"        # PYCHOK expected
-_DOT_                = '.'                    # PYCHOK expected
-_E_                  = 'E'                    # PYCHOK expected
-_easting_            = 'easting'              # PYCHOK expected
-_ellipsoid_          = 'ellipsoid'            # PYCHOK expected
-_ellipsoidal_        = 'ellipsoidal'          # PYCHOK expected
-_encode_             = 'encode'               # PYCHOK expected
-_end_                = 'end'                  # PYCHOK expected
-_epoch_              = 'epoch'                # PYCHOK expected
-_EQUAL_              = '='                    # PYCHOK expected
-_exceed_PI_radians_  = 'exceed PI radians'    # PYCHOK expected
-_exceeds_eps_fmt_    = 'exceeds eps (%g)'     # PYCHOK expected
-_f_                  = 'f'                    # PYCHOK expected
-_feet_               = 'feet'                 # PYCHOK expected
-_fraction_           = 'fraction'             # PYCHOK expected
-_gamma_              = 'gamma'                # PYCHOK expected
-_h_                  = 'h'                    # PYCHOK expected
-_H_                  = 'H'                    # PYCHOK expected
-_height_             = 'height'               # PYCHOK expected
-_hemipole_           = 'hemipole'             # PYCHOK expected
-_in_                 = 'in'                   # PYCHOK expected
-_INF_                = 'INF'                  # PYCHOK expected
-_intersection_       = 'intersection'         # PYCHOK expected
-_inside_             = 'inside'               # PYCHOK expected
-_invalid_            = 'invalid'              # PYCHOK expected
-_isclockwise_        = 'isclockwise'          # PYCHOK expected
-_ispolar_            = 'ispolar'              # PYCHOK expected
-_k0_                 = 'k0'                   # PYCHOK expected
-_knots_              = 'knots'                # PYCHOK expected
-_lam_                = 'lam'                  # PYCHOK expected
-_lat_                = 'lat'                  # PYCHOK expected
-_lat0_               = 'lat0'                 # PYCHOK expected
-_lat1_               = 'lat1'                 # PYCHOK expected
-_lat2_               = 'lat2'                 # PYCHOK expected
-_LatLon_             = 'LatLon'               # PYCHOK expected
-_len_                = 'len'                  # PYCHOK expected
-_linear_             = 'linear'               # PYCHOK expected
-_lon_                = 'lon'                  # PYCHOK expected
-_lon0_               = 'lon0'                 # PYCHOK expected
-_m_                  = 'm'                    # PYCHOK expected
-_M_                  = 'M'                    # PYCHOK expected
-_meanOf_             = 'meanOf'               # PYCHOK expected
-_meridional_         = 'meridional'           # PYCHOK expected
-_meter_              = 'meter'                # PYCHOK expected
-_MGRS_               = 'MGRS'                 # PYCHOK expected
-_module_             = 'module'               # PYCHOK expected
-_n_                  = 'n'                    # PYCHOK expected
-_N_                  = 'N'                    # PYCHOK expected
-_n_a_                = 'n/a'                  # PYCHOK expected
-_name_               = 'name'                 # PYCHOK expected
-_NAN_                = 'NAN'                  # PYCHOK expected
-_near_concentric_    = 'near-concentric'      # PYCHOK expected
-_nearestOn2_         = 'nearestOn2'           # PYCHOK expected
-_negative_           = 'negative'             # PYCHOK expected
-_no_                 = 'no'                   # PYCHOK expected
-_no_intersection_    = 'no intersection'      # PYCHOK expected
-_no_convergence_     = 'no convergence'       # PYCHOK expected
-_no_convergence_fmt_ = 'no convergence (%g)'  # PYCHOK expected
-_no_conversion_      = 'no conversion'        # PYCHOK expected
-_no_overlap_         = 'no overlap'           # PYCHOK expected
-_northing_           = 'northing'             # PYCHOK expected
-_NorthPole_          = 'NorthPole'            # PYCHOK expected
-_not_convex_         = 'not convex'           # PYCHOK expected
-_not_enabled_        = 'not enabled'          # PYCHOK expected
-_not_scalar_         = 'not scalar'           # PYCHOK expected
-_number_             = 'number'               # PYCHOK expected
-_on_                 = 'on'                   # PYCHOK expected
-_or_                 = 'or'                   # PYCHOK expected
-_other_              = 'other'                # PYCHOK expected
-_outside_            = 'outside'              # PYCHOK expected
-_PAREN_fmt_          = '(%s)'                 # PYCHOK expected
-_PERCENT_            = '%'                    # PYCHOK expected
-_perimeterOf_        = 'perimeterOf'          # PYCHOK expected
-_phi_                = 'phi'                  # PYCHOK expected
-_PLUS_               = '+'                    # PYCHOK expected
-_point_              = 'point'                # PYCHOK expected
-_points_             = 'points'               # PYCHOK expected
-_pole_               = 'pole'                 # PYCHOK expected
-_precision_          = 'precision'            # PYCHOK expected
-_prime_vertical_     = 'prime_vertical'       # PYCHOK expected
-_pygeodesy_abspath_  = 'pygeodesy_abspath'    # PYCHOK expected
-_radians_            = 'radians'              # PYCHOK expected
-_radians2_           = 'radians2'             # PYCHOK SQUARED
-_radius_             = 'radius'               # PYCHOK expected
-_radius1_            = 'radius1'              # PYCHOK expected
-_radius2_            = 'radius2'              # PYCHOK expected
-_range_              = 'range'                # PYCHOK expected
-_reciprocal_         = 'reciprocal'           # PYCHOK expected
-_resolution_         = 'resolution'           # PYCHOK expected
-_S_                  = 'S'                    # PYCHOK expected
-_scalar_             = 'scalar'               # PYCHOK expected
-_scale_              = 'scale'                # PYCHOK expected
-_scipy_              = 'scipy'                # PYCHOK expected
-_sep_                = 'sep'                  # PYCHOK expected
-_spherical_          = 'spherical'            # PYCHOK expected
-_SouthPole_          = 'SouthPole'            # PYCHOK expected
-_SPACE_              = ' '                    # PYCHOK expected
-_SQUARE_fmt_         = '[%s]'                 # PYCHOK expected
-_STAR_               = '*'                    # PYCHOK expected
-_start_              = 'start'                # PYCHOK expected
-_std_                = 'std'                  # PYCHOK expected
-_too_distant_        = 'too distant'          # PYCHOK expected
-_too_distant_fmt_    = 'too distant (%.3g)'   # PYCHOK expected
-_too_few_            = 'too few'              # PYCHOK expected
-_too_small_          = 'too small'            # PYCHOK expected
-_transform_          = 'transform'            # PYCHOK expected
-_UNDERSCORE_         = '_'                    # PYCHOK expected
-_units_              = 'units'                # PYCHOK expected
-_UPS_                = 'UPS'                  # PYCHOK expected
-_utf_8_              = 'utf-8'                # PYCHOK expected
-_UTM_                = 'UTM'                  # PYCHOK expected
-_valid_              = 'valid'                # PYCHOK expected
-_version_            = 'version'              # PYCHOK expected
-_vs_                 = 'vs'                   # PYCHOK expected
-_W_                  = 'W'                    # PYCHOK expected
-_x_                  = 'x'                    # PYCHOK expected
-_y_                  = 'y'                    # PYCHOK expected
-_z_                  = 'z'                    # PYCHOK expected
-_zone_               = 'zone'                 # PYCHOK expected
-
-_COLON_SPACE_        = _COLON_ + _SPACE_      # PYCHOK expected
-_COMMA_SPACE_        = _COMMA_ + _SPACE_      # PYCHOK expected
-_DUNDER_             = _UNDERSCORE_ * 2       # PYCHOK expected
-_EW_                 = _E_  + _W_             # PYCHOK common cardinals
-_NE_                 = _N_  + _E_             # PYCHOK expected
-_NS_                 = _N_  + _S_             # PYCHOK expected
-_NSEW_               = _NS_ + _EW_            # PYCHOK expected
-_NW_                 = _N_  + _W_             # PYCHOK expected
-_SE_                 = _S_  + _E_             # PYCHOK expected
-_SW_                 = _S_  + _W_             # PYCHOK negative ones
-
-
-def _dot_(*prefix_names):
-    '''(INTERNAL) Period-joined C{prefix} and C{name}s.
+class _Slicer(str):
+    '''(INTERNAL) String slicer C{.fromX} or C{.tillY}.
     '''
-    return _DOT_.join(prefix_names)
+    def __getattr__(self, name):  # .fromX, .tillY
+        if name.startswith(_till_):
+            i = self.find(name[len(_till_):])
+            if 0 < i < len(self):
+                return _Slicer(self[:i + 1])
+        elif name.startswith(_from_):
+            i = self.find(name[len(_from_):])
+            if 0 < (i + 1) < len(self):
+                return _Slicer(self[i:])
+        else:
+            return getattr(str, name)
+        return self
+
+
+class _Join(str):
+    '''(INTERNAL) Extended C{str}.
+    '''
+    def join_(self, *args):
+        '''Join all B{C{args}} like C{str.join(B{args})}.
+        '''
+        return _Join(str.join(self, map(str, args)))
+
+    __call__ = join_
+
+
+class _Prefix(_Join):
+    '''(INTERNAL) Extended C{str} for prefix.
+    '''
+    def __call__(self, *args):
+        '''Join C{self} plus all B{C{args}} like C{str.join((self,) + B{args})}.
+        '''
+        return _SPACE_.join_(self, *args)
+
+
+class _Python_(str):  # overwritten below
+    '''(INTERNAL) Extended C{str} for C{Python} string.
+    '''
+    def __call__(self, sys):
+        '''Return C{"Python <version>"}.
+        '''
+        return _SPACE_(self, sys.version.split()[0])
+
+
+NN = _Join('')  # Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
+
+# __DUNDER__-style names would get mangled in classes
+_0_                   = '0'                  # PYCHOK expected
+_0to9_                = '0123456789'         # PYCHOK expected
+_1_                   = '1'                  # PYCHOK expected
+_2_                   = '2'                  # PYCHOK expected
+_3_                   = '3'                  # PYCHOK expected
+_4_                   = '4'                  # PYCHOK expected
+_a_                   = 'a'                  # PYCHOK expected
+_A_                   = 'A'                  # PYCHOK expected
+_an_                  = 'an'                 # PYCHOK expected
+_angle_               = 'angle'              # PYCHOK expected
+_areaOf_              = 'areaOf'             # PYCHOK expected
+_ambiguous_           = 'ambiguous'          # PYCHOK expected
+# _AMPERSAND_   = _Join('&')                 # PYCHOK expected
+# _AND_               = _AMPERSAND_          # PYCHOK expected
+_AT_            = _Join('@')                 # PYCHOK expected
+_AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in C{gars}, C{mgrs} and C{wgrs}
+_attribute_           = 'attribute'          # PYCHOK expected
+_azimuth_             = 'azimuth'            # PYCHOK expected
+_band_                = 'band'               # PYCHOK expected
+_BAR_           = _Join('|')                 # PYCHOK expected
+_bearing_             = 'bearing'            # PYCHOK expected
+_by_                  = 'by'                 # PYCHOK expected
+_C_                   = 'C'                  # PYCHOK expected
+_Cartesian_           = 'Cartesian'          # PYCHOK expected
+_coincident_          = 'coincident'         # PYCHOK expected
+_colinear_            = 'colinear'           # PYCHOK expected
+_COLON_         = _Join(':')                 # PYCHOK expected
+_COLONSPACE_    = _Join(': ')                # PYCHOK expected
+_COMMA_         = _Join(',')                 # PYCHOK expected
+_COMMASPACE_    = _Join(', ')                # PYCHOK expected
+_convergence_ = _Prefix('convergence')       # PYCHOK expected
+_conversion_          = 'conversion'         # PYCHOK expected
+_convex_              = 'convex'             # PYCHOK expected
+_cubic_               = 'cubic'              # PYCHOK expected
+_DASH_          = _Join('-')                 # PYCHOK == _MINUS_
+_datum_               = 'datum'              # PYCHOK expected
+_decode3_             = 'decode3'            # PYCHOK expected
+_deg_                 = 'deg'                # PYCHOK expected
+_degrees_             = 'degrees'            # PYCHOK expected
+_degrees2_            = 'degrees2'           # PYCHOK SQUARED
+_distance_            = 'distance'           # PYCHOK expected
+_distanceTo_          = 'distanceTo'         # PYCHOK expected
+_distant_     = _Prefix('distant')           # PYCHOK expected
+_doesn_t_exist_       = "doesn't exist"      # PYCHOK expected
+_DOT_           = _Join('.')                 # PYCHOK expected
+_e_                   = 'e'                  # PYCHOK expected
+_E_                   = 'E'                  # PYCHOK expected
+_easting_             = 'easting'            # PYCHOK expected
+_ELLIPSIS_      = _Join('...')               # PYCHOK expected
+# _ELLIPSISPACED_ = _Join(' ... ')           # PYCHOK <https://www.ThePunctuationGuide.com/ellipses.html>
+_ellipsoid_           = 'ellipsoid'          # PYCHOK expected
+_ellipsoidal_         = 'ellipsoidal'        # PYCHOK expected
+_enabled_             = 'enabled'            # PYCHOK expected
+_encode_              = 'encode'             # PYCHOK expected
+_end_                 = 'end'                # PYCHOK expected
+_epoch_               = 'epoch'              # PYCHOK expected
+_EQUAL_         = _Join('=')                 # PYCHOK expected
+_EQUALSPACED_   = _Join(' = ')               # PYCHOK expected
+_exceed_PI_radians_   = 'exceed PI radians'  # PYCHOK expected
+_exceeds_     = _Prefix('exceeds')           # PYCHOK expected
+_f_                   = 'f'                  # PYCHOK expected
+_feet_                = 'feet'               # PYCHOK expected
+_few_                 = 'few'                # PYCHOK expected
+_finite_              = 'finite'             # PYCHOK expected
+_fraction_            = 'fraction'           # PYCHOK expected
+_from_                = 'from'               # PYCHOK expected
+_g_                   = 'g'                  # PYCHOK expected
+_gamma_               = 'gamma'              # PYCHOK expected
+_h_                   = 'h'                  # PYCHOK expected
+_H_                   = 'H'                  # PYCHOK expected
+_height_              = 'height'             # PYCHOK expected
+_hemipole_            = 'hemipole'           # PYCHOK expected
+_immutable_           = 'immutable'          # PYCHOK expected
+_in_                  = 'in'                 # PYCHOK expected
+_INF_                 = 'INF'                # PYCHOK expected
+_initial_             = 'initial'            # PYCHOK expected
+_intersection_        = 'intersection'       # PYCHOK expected
+_inside_              = 'inside'             # PYCHOK expected
+_invalid_             = 'invalid'            # PYCHOK expected
+_isclockwise_         = 'isclockwise'        # PYCHOK expected
+_ispolar_             = 'ispolar'            # PYCHOK expected
+_k0_                  = 'k0'                 # PYCHOK expected
+_knots_               = 'knots'              # PYCHOK expected
+#_LANGLE_             = '<'                  # PYCHOK expected
+_lam_                 = 'lam'                # PYCHOK expected
+_lat_                 = 'lat'                # PYCHOK expected
+_lat0_                = 'lat0'               # PYCHOK expected
+_lat1_                = 'lat1'               # PYCHOK expected
+_lat2_                = 'lat2'               # PYCHOK expected
+_latlon_              = 'latlon'             # PYCHOK expected
+_LatLon_              = 'LatLon'             # PYCHOK expected
+#_LCURLY_             = '{'                  # PYCHOK LBRACE
+_len_                 = 'len'                # PYCHOK expected
+_linear_              = 'linear'             # PYCHOK expected
+#_LPAREN_             = '('                  # PYCHOK expected
+_lon_                 = 'lon'                # PYCHOK expected
+_lon0_                = 'lon0'               # PYCHOK expected
+#_LSQUARE_            = '['                  # PYCHOK LBRACK
+_m_                   = 'm'                  # PYCHOK expected
+_M_                   = 'M'                  # PYCHOK expected
+_meanOf_              = 'meanOf'             # PYCHOK expected
+_meridional_          = 'meridional'         # PYCHOK expected
+_meter_               = 'meter'              # PYCHOK expected
+_MGRS_                = 'MGRS'               # PYCHOK expected
+_MINUS_               = _DASH_
+_module_              = 'module'             # PYCHOK expected
+_n_                   = 'n'                  # PYCHOK expected
+_N_                   = 'N'                  # PYCHOK expected
+_n_a_                 = 'n/a'                # PYCHOK expected
+_N_A_                 = 'N/A'                # PYCHOK expected
+_name_                = 'name'               # PYCHOK expected
+_NAN_                 = 'NAN'                # PYCHOK expected
+_near_concentric_     = 'near-concentric'    # PYCHOK expected
+_nearestOn2_          = 'nearestOn2'         # PYCHOK expected
+_negative_            = 'negative'           # PYCHOK expected
+_NL_            = _Join('\n')                # PYCHOK expected
+_NL_hash_       = _Join(_NL_ + '# ')         # PYCHOK expected
+_NL_var_        = _Join(_NL_ + '@var ')      # PYCHOK expected
+_no_          = _Prefix('no')                # PYCHOK expected
+_northing_            = 'northing'           # PYCHOK expected
+_NorthPole_           = 'NorthPole'          # PYCHOK expected
+_not_         = _Prefix('not')               # PYCHOK expected
+_number_              = 'number'             # PYCHOK expected
+_OKd_                 = '._-'                # PYCHOK expected
+_on_                  = 'on'                 # PYCHOK expected
+_or_                  = 'or'                 # PYCHOK expected
+_other_               = 'other'              # PYCHOK expected
+_outside_             = 'outside'            # PYCHOK expected
+_overlap_             = 'overlap'            # PYCHOK expected
+_PERCENT_             = '%'                  # PYCHOK expected
+_PERCENTDOTSTAR_      = '%.*'                # PYCHOK _DOT_(_PERCENT_, _STAR_)
+_perimeterOf_         = 'perimeterOf'        # PYCHOK expected
+_phi_                 = 'phi'                # PYCHOK expected
+_PLUS_          = _Join('+')                 # PYCHOK expected
+_PLUSMINUS_           = _PLUS_ + _MINUS_     # PYCHOK expected
+_point_               = 'point'              # PYCHOK expected
+_points_              = 'points'             # PYCHOK expected
+_pole_                = 'pole'               # PYCHOK expected
+_precision_           = 'precision'          # PYCHOK expected
+_prime_vertical_      = 'prime_vertical'     # PYCHOK expected
+_pygeodesy_abspath_   = 'pygeodesy_abspath'  # PYCHOK expected
+_Python_     = _Python_('Python')            # PYCHOK singleton
+# _QUOTE1_            = "'"                  # PYCHOK expected
+_QUOTE2_              = '"'                  # PYCHOK expected
+# _QUOTE3_            = "'''"                # PYCHOK expected
+# _QUOTE6_            = '"""'                # PYCHOK expected
+_radians_             = 'radians'            # PYCHOK expected
+_radians2_            = 'radians2'           # PYCHOK SQUARED
+_radius_              = 'radius'             # PYCHOK expected
+_radius1_             = 'radius1'            # PYCHOK expected
+_radius2_             = 'radius2'            # PYCHOK expected
+# _range_        = _Range('range')           # moved down
+#_RANGLE_             = '>'                  # PYCHOK expected
+#_RCURLY_             = '}'                  # PYCHOK RBRACE
+_reciprocal_          = 'reciprocal'         # PYCHOK expected
+_resolution_          = 'resolution'         # PYCHOK expected
+#_RPAREN_             = ')'                  # PYCHOK expected
+#_RSQUARE_            = ']'                  # PYCHOK RBRACK
+_s_                   = 's'                  # PYCHOK expected
+_S_                   = 'S'                  # PYCHOK expected
+_scalar_              = 'scalar'             # PYCHOK expected
+_scale_               = 'scale'              # PYCHOK expected
+_scipy_               = 'scipy'              # PYCHOK expected
+_sep_                 = 'sep'                # PYCHOK expected
+_small_               = 'small'              # PYCHOK expected
+_spherical_           = 'spherical'          # PYCHOK expected
+_SouthPole_           = 'SouthPole'          # PYCHOK expected
+_SPACE_         = _Join(' ')                 # PYCHOK expected
+_STAR_          = _Join('*')                 # PYCHOK expected
+_start_               = 'start'              # PYCHOK expected
+_std_                 = 'std'                # PYCHOK expected
+_supported_           = 'supported'          # PYCHOK expected
+_tbd_                 = 'tbd'                # PYCHOK expected
+_till_                = 'till'               # PYCHOK expected
+_to_                  = 'to'                 # PYCHOK expected
+_too_         = _Prefix('too')               # PYCHOK expected
+_transform_           = 'transform'          # PYCHOK expected
+_UNDER_         = _Join('_')                 # PYCHOK expected
+_units_               = 'units'              # PYCHOK expected
+_UPS_                 = 'UPS'                # PYCHOK expected
+_utf_8_               = 'utf-8'              # PYCHOK expected
+_UTM_                 = 'UTM'                # PYCHOK expected
+_V_                   = 'V'                  # PYCHOK expected
+_valid_               = 'valid'              # PYCHOK expected
+_version_             = 'version'            # PYCHOK expected
+_vs_                  = 'vs'                 # PYCHOK expected
+_W_                   = 'W'                  # PYCHOK expected
+_x_                   = 'x'                  # PYCHOK expected
+_X_                   = 'X'                  # PYCHOK expected
+_y_                   = 'y'                  # PYCHOK expected
+_z_                   = 'z'                  # PYCHOK expected
+_zone_                = 'zone'               # PYCHOK expected
+
+_EW_                  = _E_  + _W_           # PYCHOK common cardinals
+_NE_                  = _N_  + _E_           # PYCHOK expected
+_NS_                  = _N_  + _S_           # PYCHOK expected
+_NSEW_                = _NS_ + _EW_          # PYCHOK expected
+_NW_                  = _N_  + _W_           # PYCHOK expected
+_SE_                  = _S_  + _E_           # PYCHOK expected
+_SW_                  = _S_  + _W_           # PYCHOK negative ones
+
+_DDOT_          = _Join(_DOT_ * 2)           # PYCHOK expected
+# _DEQUAL_      = _Join(_EQUAL_ * 2)         # PYCHOK expected
+_DUNDER_        = _Join(_UNDER_ * 2)         # PYCHOK expected
+
+
+class _Range(str):
+    '''(INTERNAL) Extended C{str} for C{range} strings.
+    '''
+    def __call__(self, lo, hi, prec=0, lopen=False, ropen=False,
+                               join=_COMMASPACE_):
+        '''Return the range as C{"(lo, hi)"}, C{"(lo, hi]"},
+           C{"[lo, hi)"} or C{"[lo, hi]"}.
+        '''
+        from pygeodesy.streprs import Fmt  # PYCHOK re-imported
+        r = NN(Fmt.f(lo, prec=prec), join,
+               Fmt.f(hi, prec=prec))
+        if lopen:
+            r = Fmt.PAREN(r) if ropen else Fmt.LOPEN(r)
+        else:
+            r = Fmt.ROPEN(r) if ropen else Fmt.SQUARE(r)
+        return r
+
+_range_ = _Range('range')  # PYCHOK expected
 
 
 def _dunder_name(inst, *dflt):
@@ -266,9 +368,6 @@ EPS1_2 = _float(_1_0 - EPS_2)  # PYCHOK ≈ 0.9999999999999999
 _1_EPS = _float(_1_0 / EPS)    # PYCHOK = 4503599627370496.0
 # _2_EPS = _float(_2_0 / EPS)  # PYCHOK = 9007199254740992.0
 
-if not _0_0 < EPS < EPS1 < _1_0:  # for .frechet
-    raise AssertionError('%s < %s: %s < %s < %.16f < %s' % ('EPS', 'EPS1', _0_0, EPS, EPS1, _1_0))
-
 INF  = _float( _INF_)  # PYCHOK INFinity, see function L{isinf}, L{isfinite}
 NAN  = _float( _NAN_)  # PYCHOK Not-A-Number, see function L{isnan}
 NEG0 =  float('-0.0')  # PYCHOK NEGative 0.0, see function L{isneg0}
@@ -279,79 +378,6 @@ PI_2 = _float(PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
 PI_4 = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 
 R_M  = _float(6371008.771415)  # PYCHOK mean, spherical earth radius
-
-
-def _item_fmt(fmt, name_value_arg, name_value_kwd):
-    '''(INTERNAL) Helper for C{_item_cs}, C{_item_pr}, C{_item_ps} and C{_item_sq}.
-    '''
-    for n_v in name_value_kwd.items():
-        break
-    else:
-        if len(name_value_arg) > 1:
-            n_v = name_value_arg[:2]
-        elif name_value_arg:
-            n_v = name_value_arg, MISSING
-        else:
-            n_v = MISSING, MISSING
-    return fmt % n_v
-
-
-def _item_cs(*name_value_arg, **name_value_kwd):  # PYCHOK expected
-    '''(INTERNAL) Return a named value string.
-    '''
-    return _item_fmt('%s: %s', name_value_arg, name_value_kwd)
-
-
-def _item_ir(*name_value_arg, **name_value_kwd):  # PYCHOK expected
-    '''(INTERNAL) Return a named value string.
-    '''
-    return _item_fmt('%s=%r', name_value_arg, name_value_kwd)
-
-
-def _item_is(*name_value_arg, **name_value_kwd):  # PYCHOK expected
-    '''(INTERNAL) Return a named value string.
-    '''
-    return _item_fmt('%s=%s', name_value_arg, name_value_kwd)
-
-
-def _item_pr(*name_value_arg, **name_value_kwd):  # PYCHOK expected
-    '''(INTERNAL) Return a parenthesized name representation.
-    '''
-    return _item_fmt('%s(%r)', name_value_arg, name_value_kwd)
-
-
-def _item_ps(*name_value_arg, **name_value_kwd):  # PYCHOK expected
-    '''(INTERNAL) Return a parenthesized name string.
-    '''
-    return _item_fmt('%s(%s)', name_value_arg, name_value_kwd)
-
-
-def _item_sq(*name_value_arg, **name_value_kwd):  # PYCHOK expected
-    '''(INTERNAL) Return an indexed or keyed name.
-    '''
-    return _item_fmt('%s[%r]', name_value_arg, name_value_kwd)
-
-
-def joined(*words, **sep):  # sep=NN
-    '''Joined words by separator C{sep=NN}.
-
-       @arg words: One, two or more words (C{str}s).
-       @kwarg sep: Separator C({str}), default C{NN}.
-
-       @return: Joined B{C{words}} C({str}).
-    '''
-    return sep.get(_sep_, NN).join(map(str, words))
-
-
-def joined_(*words, **sep):  # sep=" "
-    '''Joined words by separator C{sep=" "}.
-
-       @arg words: One, two or more words (C{str}s).
-       @kwarg sep: Separator C({str}), default C{" "}.
-
-       @return: Joined B{C{words}} C({str}).
-    '''
-    return sep.get(_sep_, _SPACE_).join(map(str, words))
 
 # **) MIT License
 #

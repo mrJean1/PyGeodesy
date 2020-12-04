@@ -158,7 +158,7 @@
   <code>int</code> indices into the respective points set.</p>
   <p>For example, <code>fractional</code> index value 2.5 means an 
   intermediate point halfway between points[2] and points[3].  Use function
-  <a href="pygeodesy.frechet-module.html#fractional" 
+  <a href="pygeodesy.points-module.html#fractional" 
   class="link">fractional</a> to obtain the intermediate point for a 
   <i>fractional</i> index in the corresponding set of points.</p>
   <p>The <code>Fr&#233;chet</code> distance was introduced in 1906 by <a 
@@ -174,7 +174,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.10.27
+        20.12.03
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -406,30 +406,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.frechet-module.html#fractional" class="summary-sig-name">fractional</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">fi</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Return the point at a given <i>fractional</i> index.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.frechet-module.html#frechet_" class="summary-sig-name">frechet_</a>(<span class="summary-sig-arg">points1</span>,
         <span class="summary-sig-arg">points2</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>)</span><br />
       Compute the <i>discrete</i> <a 
       href="https://WikiPedia.org/wiki/Frechet_distance" 
       target="_top">Fr&#233;chet</a> distance between two paths given as sets of
@@ -469,58 +449,6 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
-<a name="fractional"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">fractional</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">fi</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return the point at a given <i>fractional</i> index.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - The points (<code>LatLon</code>[], <a 
-          href="pygeodesy.points.Numpy2LatLon-class.html" 
-          class="link">Numpy2LatLon</a>[], <a 
-          href="pygeodesy.points.Tuple2LatLon-class.html" 
-          class="link">Tuple2LatLon</a>[] or <code>other</code>[]).</li>
-        <li><strong class="pname"><code>fi</code></strong> - The fractional index (<code>float</code> or <code>int</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the <i>intermediate</i>, 
-          <i>fractional</i> point (<code>LatLon</code>) or 
-          <code>None</code>.</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional <b><code>LatLon</code></b> keyword arguments, ignored of
-          <code><b>LatLon</b>=None</code>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A <b><code>LatLon</code></b> or if <b><code>LatLon</code></b> is 
-          <code>None</code>, a <a 
-          href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-          class="link">LatLon2Tuple</a><code>(lat, lon)</code> for 
-          <b><code>points[fi]</code></b> if <i>fractional</i> index 
-          <b><code>fi</code></b> is <code>int</code>, otherwise the 
-          intermediate point between <b><code>points[int(fi)]</code></b> 
-          and <b><code>points[int(fi) + 1]</code></b> for 
-          <code>float</code> <i>fractional</i> index 
-          <b><code>fi</code></b>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>IndexError</strong></code> - Fractional index <b><code>fi</code></b> invalid or 
-        <b><code>points</code></b> not subscriptable.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="frechet_"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -531,7 +459,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">frechet_</span>&nbsp;(<span class="sig-arg">points1</span>,
         <span class="sig-arg">points2</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">units</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">units</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -617,7 +545,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:51 2020
+    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:14 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

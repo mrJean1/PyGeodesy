@@ -16,19 +16,18 @@ from pygeodesy.basics import isfinite, isint, isscalar, \
                              len2, _xcopy
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
-from pygeodesy.interns import EPS, MISSING, NN, _item_ps, _item_sq, \
-                             _too_few_, _0_0, _1_0, _2_0, _3_0
+from pygeodesy.interns import EPS, MISSING, NN, _finite_, \
+                             _few_, _not_, _SPACE_, _too_, \
+                             _0_0, _1_0, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.streprs import unstr
+from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Int_
 
 from math import copysign, hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.10.29'
-
-_not_finite_ = 'not finite'
+__version__ = '20.11.04'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  sqrt(_2_0) - _1_0  # 0.41421356237309504880
@@ -127,7 +126,7 @@ class Fsum(object):
         elif isinstance(other, Fsum):
             self.fadd(other._ps)
         else:
-            raise _TypeError('%s += %r' % (self, other))
+            raise _TypeError(_SPACE_(self, '+=', repr(other)))
         return self
 
     def __imul__(self, other):
@@ -156,7 +155,7 @@ class Fsum(object):
                 self._ps = []  # zero
                 self._fsum2_ = None
         else:
-            raise _TypeError('%s *= %r' % (self, other))
+            raise _TypeError(_SPACE_(self, '*=', repr(other)))
         return self
 
     def __isub__(self, other):
@@ -178,7 +177,7 @@ class Fsum(object):
         elif isinstance(other, Fsum):
             self.fadd(-p for p in other._ps)
         else:
-            raise _TypeError('%s -= %r' % (self, other))
+            raise _TypeError(_SPACE_(self, '-=', repr(other)))
         return self
 
     def __len__(self):
@@ -201,7 +200,7 @@ class Fsum(object):
 
     def __str__(self):
         from pygeodesy.named import classname
-        return _item_ps(classname(self, prefixed=True), NN)
+        return Fmt.PAREN(classname(self, prefixed=True), NN)
 
     def __sub__(self, other):
         '''Difference of this and an other instance or a scalar.
@@ -233,7 +232,7 @@ class Fsum(object):
         ps = self._ps
         for a in map(float, iterable):  # _iter()
             if not isfinite(a):
-                raise _ValueError(iterable=a, txt=_not_finite_)
+                raise _ValueError(iterable=a, txt=_not_(_finite_))
             i = 0
             for p in ps:
                 a, p = _2sum(a, p)
@@ -279,7 +278,7 @@ class Fsum(object):
            @see: Method L{Fsum.fadd}.
         '''
         if not isfinite(factor):
-            raise _ValueError(factor=factor, txt=_not_finite_)
+            raise _ValueError(factor=factor, txt=_not_(_finite_))
 
         f, ps = float(factor), self._ps
         if ps:  # multiply and adjust partial sums
@@ -420,7 +419,7 @@ class Fhorner(Fsum):
            @see: Function L{fhorner} and methods L{Fsum.fadd} and L{Fsum.fmul}.
         '''
         if not isfinite(x):
-            raise _ValueError(x=x, txt=_not_finite_)
+            raise _ValueError(x=x, txt=_not_(_finite_))
         if not cs:
             raise _ValueError(cs=cs, txt=MISSING)
 
@@ -451,7 +450,7 @@ class Fpolynomial(Fsum):
            @see: Function L{fpolynomial} and method L{Fsum.fadd}.
         '''
         if not isfinite(x):
-            raise _ValueError(x=x, txt=_not_finite_)
+            raise _ValueError(x=x, txt=_not_(_finite_))
         if not cs:
             raise _ValueError(cs=cs, txt=MISSING)
 
@@ -644,7 +643,7 @@ def fidw(xs, ds, beta=2):
         else:
             x = fmean(xs)
     elif d < 0:
-        raise _ValueError(_item_sq('ds', ds.index(d)), d)
+        raise _ValueError(Fmt.SQUARE(ds=ds.index(d)), d)
     return x
 
 
@@ -717,7 +716,7 @@ def fpowers(x, n, alts=0):
        @raise ValueError: Non-finite B{C{x}} or non-positive B{C{n}}.
     '''
     if not isfinite(x):
-        raise _ValueError(x=x, txt=_not_finite_)
+        raise _ValueError(x=x, txt=_not_(_finite_))
     if not isint(n):
         raise _IsnotError(int.__name__, n=n)
     elif n < 1:
@@ -891,7 +890,7 @@ def _h_x2(xs):
             else:
                 h = x2 = _0_0
             return h, x2
-    raise _ValueError(xs=xs, txt=_too_few_)
+    raise _ValueError(xs=xs, txt=_too_(_few_))
 
 
 def hypot1(x):

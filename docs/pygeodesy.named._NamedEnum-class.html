@@ -96,8 +96,9 @@ new empty dictionary
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">name</span>,
-        <span class="summary-sig-arg">*Classes</span>)</span><br />
+        <span class="summary-sig-arg">Class</span>,
+        <span class="summary-sig-arg">*Classes</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
       New <code>_NamedEnum</code>.</td>
           <td align="right" valign="top">
             
@@ -222,7 +223,7 @@ new empty dictionary
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>)</span><br />
       Like <code>repr(dict)</code> but with <code>name</code> and 
       <code>floats</code> formatting by <code>fstr</code>.</td>
@@ -243,7 +244,7 @@ new empty dictionary
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>)</span><br />
       DEPRECATED, use method <code>toRepr</code>.</td>
           <td align="right" valign="top">
@@ -317,7 +318,7 @@ new empty dictionary
       <code>viewvalues</code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">_Named</a></code></b>:
-      <code><a href="pygeodesy.named._Named-class.html#_dot_">_dot_</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>
       </p>
@@ -388,8 +389,9 @@ new empty dictionary
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">name</span>,
-        <span class="sig-arg">*Classes</span>)</span>
+        <span class="sig-arg">Class</span>,
+        <span class="sig-arg">*Classes</span>,
+        <span class="sig-arg">**name</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -401,9 +403,9 @@ new empty dictionary
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Name (<code>str</code>).</li>
-        <li><strong class="pname"><code>Classes</code></strong> - One or more classes or types acceptable as enum values 
-          (<code>class</code>- or <code>type</code>s).</li>
+        <li><strong class="pname"><code>Class</code></strong> - Initial class or type acceptable as enum values 
+          (<code>str</code>).</li>
+        <li><strong class="pname"><code>Classes</code></strong> - Additional, acceptable classes or types.</li>
     </ul></dd>
     <dt>Returns: <pre class="literalblock">
 new empty dictionary
@@ -584,7 +586,7 @@ new empty dictionary
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -610,7 +612,7 @@ new empty dictionary
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -682,7 +684,7 @@ new empty dictionary
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:58 2020
+    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:19 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

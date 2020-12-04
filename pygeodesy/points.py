@@ -25,7 +25,7 @@ the index for the lat- and longitude index in each 2+tuple.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isclass, isint, issequence, map1, \
+from pygeodesy.basics import isclass, isint, isscalar, issequence, map1, \
                              property_doc_, property_RO, _Sequence, \
                              _xcopy, _xinstanceof
 from pygeodesy.datums import _spherical_datum
@@ -35,12 +35,11 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
-from pygeodesy.interns import EPS, NN, PI_2, R_M, _angle_, _colinear_, \
-                             _COMMA_SPACE_, _datum_, _distance_, _height_, \
-                             _item_ps, _item_sq, _lat_, _lon_, _name_, \
-                             _point_, _SPACE_, _UNDERSCORE_, _valid_, \
-                             _x_, _y_, _0_0, _0_5, _1_0, _3_0, \
-                             _90_0, _180_0, _360_0
+from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, _angle_, _colinear_, \
+                             _COMMASPACE_, _datum_, _distance_, _ELLIPSIS_, \
+                             _height_, _lat_, _lon_, _name_, _not_, _point_, \
+                             _SPACE_, _UNDER_, _valid_, _x_, _y_, _0_0, _0_5, \
+                             _1_0, _3_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedTuple, nameof, \
                             notImplemented, notOverloaded, _Pass, \
@@ -49,7 +48,7 @@ from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, NearestOn3Tuple, \
                                   PhiLam2Tuple, Vector4Tuple
 from pygeodesy.nvectorBase import NvectorBase, _N_vector_
-from pygeodesy.streprs import hstr, instr, pairs
+from pygeodesy.streprs import Fmt, hstr, instr, pairs
 from pygeodesy.units import Degrees, Lat, Lon, Meter, Number_, \
                             Radius, Scalar_
 from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
@@ -58,7 +57,10 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.10.27'
+__version__ = '20.12.03'
+
+_DEQUAL_   = ' == '
+_elel_     = 'll'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -255,12 +257,12 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @return: Class instance (C{str}).
         '''
         _ = _xkwds_pop(kwds, std=None)  # PYCHOK std unused
-        return _item_ps(classname(self), self.toStr(**kwds))
+        return Fmt.PAREN(classname(self), self.toStr(**kwds))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, used method L{LatLon_.toRepr}.'''
 
-    def toStr(self, form=F_D, prec=6, sep=_COMMA_SPACE_, **kwds):
+    def toStr(self, form=F_D, prec=6, sep=_COMMASPACE_, **kwds):
         '''This L{LatLon_} as a string "<degrees>, <degrees>".
 
            @kwarg form: Optional format, F_D, F_DM, F_DMS for
@@ -359,7 +361,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''
         for i in self._findall(point, start_end):
             return i
-        raise _IndexError(self._itemname, point, txt='not found')
+        raise _IndexError(self._itemname, point, txt=_not_('found'))
 
     @property_RO
     def isNumpy2(self):  # PYCHOK no cover
@@ -413,8 +415,8 @@ class _Basequence(_Sequence):  # immutable, on purpose
         '''(INTERNAL) Return a string representation.
         '''
         # XXX use Python 3+ reprlib.repr
-        t = repr(self._array[:1])  # only first row
-        t = '%s ... %s[%s]' % (t[:-1], t[-1:], len(self))
+        t =  repr(self._array[:1])  # only first row
+        t = _SPACE_(t[:-1], _ELLIPSIS_, Fmt.SQUARE(t[-1:], len(self)))
         t = _SPACE_.join(t.split())  # coalesce spaces
         return instr(self, t, **self._slicekwds())
 
@@ -481,8 +483,8 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
                 raise _ValueError(ai, i)
             for aj, j in ais[:n]:
                 if int(j) == i:
-                    raise _ValueError(' == '.join(map1(str, ai, aj, i)))
-            setattr(self, _UNDERSCORE_ + ai, i)
+                    raise _ValueError(_DEQUAL_.join(map1(str, ai, aj, i)))
+            setattr(self, NN(_UNDER_, ai), i)
 
     def __contains__(self, latlon):
         '''Check for a specific lat-/longitude.
@@ -672,9 +674,9 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         n = len(self)
         for i, v in enumerate(indices):
             if not isint(v):
-                raise _TypeError(_item_sq(indices=i), v)
+                raise _TypeError(Fmt.SQUARE(indices=i), v)
             elif not 0 <= v < n:
-                raise _IndexError(_item_sq(indices=i), v)
+                raise _IndexError(Fmt.SQUARE(indices=i), v)
 
         return self._subset(indices)
 
@@ -935,7 +937,7 @@ class Numpy2LatLon(_Array2LatLon):  # immutable, on purpose
 class Point3Tuple(_NamedTuple):
     '''3-Tuple C{(x, y, ll)} in C{meter}, C{meter} and C{LatLon}.
     '''
-    _Names_ = (_x_,   _y_,    'll')
+    _Names_ = (_x_,   _y_,    _elel_)
     _Units_ = ( Meter, Meter, _Pass)
 
 
@@ -1038,7 +1040,8 @@ def _area2(points, adjust, wrap):
 def _areaError(pts, near_=NN):  # imported by .ellipsoidalKarney
     '''(INTERNAL) Area issue.
     '''
-    return _ValueError(near_ + 'zero or polar area', txt='%s ...' % (pts[:3],))
+    t = _ELLIPSIS_(pts[:3], NN)
+    return _ValueError(NN(near_, 'zero or polar area'), txt=t)
 
 
 def areaOf(points, adjust=True, radius=R_M, wrap=True):
@@ -1164,6 +1167,59 @@ def centroidOf(points, wrap=True, LatLon=None):
         raise _areaError(points, near_='near-')
     Y, X = degrees90(Y.fsum() / A), degrees180(X.fsum() / A)
     return LatLon2Tuple(Y, X) if LatLon is None else LatLon(Y, X)
+
+
+def _fractional(points, fi, fin=None):  # wrap [n] to [0]
+    '''(INTERNAL) Compute point at L{fractional} index.
+    '''
+    i = int(fi)
+    p = points[i]
+    r = fi - float(i)
+    if r > EPS:
+        i += 1
+        q  = points[0 if i == fin else i]
+        if r < EPS1:
+            p = LatLon2Tuple(favg(p.lat, q.lat, f=r),
+                             favg(p.lon, q.lon, f=r))
+        else:
+            p = q
+    return p
+
+
+def fractional(points, fi, LatLon=None, **LatLon_kwds):
+    '''Return the point at a given I{fractional} index.
+
+       @arg points: The points (C{LatLon}[], L{Numpy2LatLon}[],
+                    L{Tuple2LatLon}[] or C{other}[]).
+       @arg fi: The fractional index (L{FIx}, C{float} or C{int}).
+       @kwarg LatLon: Optional class to return the I{intermediate},
+                      I{fractional} point (C{LatLon}) or C{None}.
+       @kwarg LatLon_kwds: Optional B{C{LatLon}} keyword arguments,
+                           ignored of C{B{LatLon}=None}.
+
+       @return: A B{C{LatLon}} or if B{C{LatLon}} is C{None}, a
+                L{LatLon2Tuple}C{(lat, lon)} for B{C{points[fi]}} if
+                I{fractional} index B{C{fi}} is C{int}, otherwise the
+                intermediate point between B{C{points[int(fi)]}} and
+                B{C{points[int(fi) + 1]}} for C{float} I{fractional}
+                index B{C{fi}}.
+
+       @raise IndexError: Fractional index B{C{fi}} invalid or
+                          B{C{points}} not subscriptable or not
+                          closed.
+
+       @see: Class L{FIx} and method L{FIx.fractional}.
+    '''
+    try:
+        if not isscalar(fi) or fi < 0:
+            raise IndexError
+        p = _fractional(points, fi, fin=getattr(fi, 'fin', 0))  # see .units.FIx
+    except (IndexError, TypeError):
+        raise _IndexError(fractional.__name__, fi)
+
+    if LatLon and isinstance(p, LatLon2Tuple):
+        p = LatLon(*p, **LatLon_kwds)
+    return p
 
 
 def _imdex2(closed, n):  # imported by sphericalNvector, -Trigonometry

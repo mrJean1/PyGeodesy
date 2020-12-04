@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.10.29
+        20.11.06
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -81,7 +81,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.streprs-module.html#anstr" class="summary-sig-name">anstr</a>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default">'_'</span>)</span><br />
       Make a valid name of alphanumeric and OKd characters.</td>
           <td align="right" valign="top">
             
@@ -141,9 +141,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.streprs-module.html#fstr" class="summary-sig-name">fstr</a>(<span class="summary-sig-arg">floats</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
         <span class="summary-sig-arg">strepr</span>=<span class="summary-sig-default">None</span>)</span><br />
       Convert one or more floats to string, optionally stripped of trailing
       zero decimals.</td>
@@ -182,9 +182,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.streprs-module.html#hstr" class="summary-sig-name">hstr</a>(<span class="summary-sig-arg">height</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">2</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">%+.*f</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'%+.*f'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">m</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return a string for the height value.</td>
           <td align="right" valign="top">
             
@@ -222,9 +222,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.streprs-module.html#pairs" class="summary-sig-name">pairs</a>(<span class="summary-sig-arg">items</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">=</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">'='</span>)</span><br />
       Convert items to <i>name=value</i> strings, with <code>float</code>s 
       handled like <a href="pygeodesy.streprs-module.html#fstr" 
       class="link">fstr</a>.</td>
@@ -245,7 +245,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.streprs-module.html#reprs" class="summary-sig-name">reprs</a>(<span class="summary-sig-arg">objs</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
       Convert objects to <code>repr</code> strings, with 
       <code>float</code>s handled like <a 
@@ -267,7 +267,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.streprs-module.html#strs" class="summary-sig-name">strs</a>(<span class="summary-sig-arg">objs</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
         <span class="summary-sig-arg">ints</span>=<span class="summary-sig-default">False</span>)</span><br />
       Convert objects to <code>str</code> strings, with <code>float</code>s
       handled like <a href="pygeodesy.streprs-module.html#fstr" 
@@ -335,7 +335,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">anstr</span>&nbsp;(<span class="sig-arg">name</span>,
         <span class="sig-arg">OKd</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">sub</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sub</span>=<span class="sig-default">'_'</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -354,7 +354,7 @@
         <dd>The modified name (<code>str</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        Leading and trailing whitespace characters are removed and 
+        Leading and trailing whitespace characters are removed, 
         intermediate whitespace characters are coalesced and substituted.
       </p>
 </div></td></tr></table>
@@ -440,9 +440,9 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fstr</span>&nbsp;(<span class="sig-arg">floats</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">ints</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">, </code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
         <span class="sig-arg">strepr</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -459,7 +459,10 @@
         <li><strong class="pname"><code>prec</code></strong> - The <code>float</code> precision, number of decimal digits 
           (0..9). Trailing zero decimals are stripped if 
           <b><code>prec</code></b> is positive, but kept for negative 
-          <b><code>prec</code></b> values.</li>
+          <b><code>prec</code></b> values.  In addition, trailing decimal 
+          zeros are stripped for <a 
+          href="https://docs.Python.org/3/library/stdtypes.html#printf-style-string-formatting"
+          target="_top">alternate, form '#'</a>.</li>
         <li><strong class="pname"><code>fmt</code></strong> - Optional, <code>float</code> format (<code>str</code>).</li>
         <li><strong class="pname"><code>ints</code></strong> - Optionally, remove the decimal dot for <code>int</code> values 
           (<code>bool</code>).</li>
@@ -514,9 +517,9 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hstr</span>&nbsp;(<span class="sig-arg">height</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">2</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">%+.*f</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'%+.*f'</span>,
         <span class="sig-arg">ints</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">m</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">m</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -578,9 +581,9 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">pairs</span>&nbsp;(<span class="sig-arg">items</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">ints</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">=</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default">'='</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -620,7 +623,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">reprs</span>&nbsp;(<span class="sig-arg">objs</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">ints</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -657,7 +660,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">strs</span>&nbsp;(<span class="sig-arg">objs</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">F</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
         <span class="sig-arg">ints</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -746,7 +749,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Oct 30 15:49:52 2020
+    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:14 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

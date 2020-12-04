@@ -4,12 +4,12 @@
 # Test namedTuples module.
 
 __all__ = ('Tests',)
-__version__ = '20.09.16'
+__version__ = '20.12.02'
 
 from base import TestsBase
-from pygeodesy import issubclassof
+from pygeodesy import FIx, issubclassof
 from pygeodesy.albers import _Ks
-from pygeodesy.frechet import _FIx, Frechet6Tuple
+from pygeodesy.frechet import Frechet6Tuple
 from pygeodesy.hausdorff import Hausdorff6Tuple
 from pygeodesy.named import _Pass
 from pygeodesy.namedTuples import _NamedTuple
@@ -31,7 +31,7 @@ class Tests(TestsBase):
             self.test(m, e, len(t))
 
         for i, u in enumerate(U):  # check _Units_ types
-            if not (callable(u) and (u in (_FIx, _Ks, _Pass) or
+            if not (callable(u) and (u in (FIx, _Ks, _Pass) or
                                      issubclassof(u, _NamedUnit))):
                 e = '%s[%s] %r' % (n, i, u)
                 self.test(m, e, callable.__name__)

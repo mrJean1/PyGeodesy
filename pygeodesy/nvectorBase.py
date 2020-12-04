@@ -15,24 +15,23 @@ see U{Vector-based geodesy
 '''
 
 from pygeodesy.basics import len2, map1, property_doc_, property_RO, \
-                            _xattrs, _xinstanceof
+                            _xinstanceof
 from pygeodesy.datums import Datum
-from pygeodesy.ecef import EcefVeness
 from pygeodesy.errors import IntersectionError, _ValueError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import fidw, fsum, fsum_, hypot_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam
 from pygeodesy.interns import EPS, EPS1, EPS_2, MISSING, NN, R_M, \
-                             _bearing_, _coincident_, _COMMA_SPACE_, \
-                             _distance_, _no_intersection_, _NorthPole_, \
-                             _PAREN_fmt_, _points_, _pole_, _SPACE_, \
-                             _SouthPole_, _1_, _2_, _3_
+                             _bearing_, _coincident_, _COMMASPACE_, \
+                             _distance_, _intersection_, _no_, _NorthPole_, \
+                             _points_, _pole_, _SPACE_, _SouthPole_, \
+                             _1_, _2_, _3_
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple
-from pygeodesy.streprs import hstr, unstr
+from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d
 from pygeodesy.vector3d import Vector3d, VectorError, \
@@ -41,18 +40,18 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '20.10.29'
+__version__ = '20.11.05'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
     '''Base class for ellipsoidal and spherical C{Nvector}s.
     '''
-    _datum  = None        # L{Datum}, overriden
-    _Ecef   = EcefVeness  # preferred C{Ecef...} class, backward compatible
-    _h      = 0           # height (C{meter})
-    _H      = NN          # heigth prefix (C{str}), '↑' in JS version
-    _latlon = None        # cached latlon (L{LatlLon2Tuple})
-    _philam = None        # cached philam (L{PhiLam2Tuple})
+    _datum  = None  # L{Datum}, overriden
+    _Ecef   = None  # preferred C{EcefEcefKarney} class
+    _h      = 0     # height (C{meter})
+    _H      = NN    # heigth prefix (C{str}), '↑' in JS version
+    _latlon = None  # cached latlon (L{LatlLon2Tuple})
+    _philam = None  # cached philam (L{PhiLam2Tuple})
 
     def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=NN):
         '''New n-vector normal to the earth's surface.
@@ -99,9 +98,12 @@ class NvectorBase(Vector3d):  # XXX kept private
 
     @property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney} or L{EcefVeness}).
+        '''Get the ECEF I{class} (L{EcefKarney}).
         '''
-        return self._Ecef
+        if NvectorBase._Ecef is None:
+            from pygeodesy.ecef import EcefKarney
+            NvectorBase._Ecef = EcefKarney  # default
+        return NvectorBase._Ecef
 
     @property_doc_(''' the height above surface (C{meter}).''')
     def h(self):
@@ -145,7 +147,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @see: Function L{hstr}.
         '''
-        return self.H + hstr(self.h, prec=prec, m=m)
+        return NN(self.H, hstr(self.h, prec=prec, m=m))
 
     @property_RO
     def isEllipsoidal(self):
@@ -325,7 +327,7 @@ class NvectorBase(Vector3d):  # XXX kept private
             r = LatLon(r.lat, r.lon, r.height, datum=r.datum, **LatLon_kwds)
         return self._xnamed(r)
 
-    def toStr(self, prec=5, fmt=_PAREN_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toStr(self, prec=5, fmt=Fmt.PAREN, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this n-vector.
 
            Height component is only included if non-zero.
@@ -345,7 +347,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         t = Vector3d.toStr(self, prec=prec, fmt=NN, sep=sep)
         if self.h:
             t = sep.join((t, self.hStr()))
-        return t if not fmt else (fmt % (t,))
+        return (fmt % (t,)) if fmt else t
 
     def toVector3d(self, norm=True):
         '''Convert this n-vector to a 3-D vector, I{ignoring
@@ -563,7 +565,7 @@ class LatLonNvectorBase(LatLonBase):
         d = float(min(d))
         if d < eps:  # min is max, minPoint is maxPoint
             return Trilaterate5Tuple(d, t, d, t, 1)  # n = 1
-        t = '%s (%s %.3f)' % (_no_intersection_, min.__name__, d)
+        t = _SPACE_(_no_(_intersection_), Fmt.PAREN(min.__name__, Fmt.f(d, prec=3)))
         raise IntersectionError(area=area, eps=eps, wrap=wrap, txt=t)
 
 
@@ -673,7 +675,7 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
                 return n.toLatLon(**kwds)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
     # no intersection, d < EPS_2 or abs(j) < EPS_2 or z < EPS
-    t = _no_intersection_ + _SPACE_
+    t = NN(_no_, _intersection_, _SPACE_)
     raise IntersectionError(point1=point1, distance1=distance1,
                             point2=point2, distance2=distance2,
                             point3=point3, distance3=distance3,

@@ -4,7 +4,7 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '20.10.24'
+__version__ = '20.11.05'
 
 from base import TestsBase
 
@@ -17,11 +17,11 @@ class Tests(TestsBase):
 
     def testEllipsoids(self):  # MCCABE 14
         # datum module tests
-        E = Ellipsoid(1000, 1000, 0, name='TestEllipsiod')
-        self.test('ellipsoid', E is Ellipsoids.TestEllipsiod, True)
+        E = Ellipsoid(1000, 1000, 0, name='TestEllipsoid')
+        self.test('ellipsoid', E is Ellipsoids.TestEllipsoid, True)
 #       print(Ellipsoid())
 
-        e = Ellipsoids.unregister('TestEllipsiod')
+        e = Ellipsoids.unregister('TestEllipsoid')
         self.test(e.name, e, E)
 
         # to show WGS84 and NAD83 are identical up to 3 decimals
@@ -72,8 +72,8 @@ class Tests(TestsBase):
             self.test('rocPrimeVertical', fstr(E.rocPrimeVertical(90), prec=3), '6399593.626')
 
         self.subtitle(ellipsoids, Ellipsoid.__init__)
-        self.test('a, b, None',  Ellipsoid(1000, 500, None, name='_f_None').f_, 2.0)  # coverage
-        self.test('a, None, f_', Ellipsoid(1000, None, 2, name='_b_None').b, 500.0)  # coverage
+        self.test('a, b, None',  Ellipsoid(1000, 500, None, name='_f_None').f_,  2.0)  # coverage
+        self.test('a, None, f_', Ellipsoid(1000, None, 2,   name='_b_None').b, 500.0)  # coverage
 
         E = Ellipsoids.WGS84.copy()  # coverage
         self.subtitle(ellipsoids, E.name)
@@ -81,11 +81,11 @@ class Tests(TestsBase):
         self.test('WGS84.copy', E == Ellipsoids.WGS84, True)
         self.test('WGS84.find', Ellipsoids.find(E), None)
 
-        self.test('WGS84.a2_b', E.a2_b, E.a2 / E.b, fmt='%.6f')
-        self.test('WGS84.b2_a', E.b2_a, E.b2 / E.a, fmt='%.6f')
-        self.test('WGS84.c',    E.c,    E.R2,       fmt='%.6f')
-        self.test('WGS84.es',   E.es,   E.e,        fmt='%.6f')
-        self.test('WGS84.f2',   E.f2, (E.a - E.b) / E.b, fmt='%.6f')
+        self.test('WGS84.a2_b', E.a2_b, E.a2 / E.b, prec=6)
+        self.test('WGS84.b2_a', E.b2_a, E.b2 / E.a, prec=6)
+        self.test('WGS84.c',    E.c,    E.R2,       prec=6)
+        self.test('WGS84.es',   E.es,   E.e,        prec=6)
+        self.test('WGS84.f2',   E.f2, (E.a - E.b) / E.b, prec=6)
         self.test('WGS84.m2degrees', int(E.m2degrees(E.a * PI_2)), 90)
         self.test('WGS84.area',   E.area,   '5.101e+14', fmt='%.3e')
         self.test('WGS84.volume', E.volume, '1.083e+21', fmt='%.3e')
@@ -103,8 +103,8 @@ class Tests(TestsBase):
 
         def _AB(E, K, A, B):
             E.KsOrder = K
-            self.test('WGS84.AlphaKs', fstr(E.AlphaKs, prec=12, fmt='%.*e', ints=True), A)
-            self.test('WGS84.BetaKs ', fstr(E.BetaKs,  prec=12, fmt='%.*e', ints=True), B)
+            self.test('WGS84.AlphaKs', fstr(E.AlphaKs, prec=12, fmt='e', ints=True), A)
+            self.test('WGS84.BetaKs ', fstr(E.BetaKs,  prec=12, fmt='e', ints=True), B)
 
         _AB(E, 8, '8.377318206245e-04, 7.608527773573e-07, 1.197645503243e-09, 2.429170680397e-12, 5.711818370428e-15, 1.47999793138e-17, 4.107624109371e-20, 1.210785038923e-22',
                   '8.37732164058e-04, 5.90587015222e-08, 1.673482665344e-10, 2.164798110491e-13, 3.787930968626e-16, 7.236769021816e-19, 1.493479824778e-21, 3.259522545838e-24')

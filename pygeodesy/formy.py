@@ -10,15 +10,15 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum, _spherical_datum
 from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
                              _limiterrors, PointsError, _ValueError
 from pygeodesy.fmath import euclid, fsum_, hypot, hypot2
-from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, R_M, _item_sq, \
-                             _too_distant_, _too_few_, _0_0, _0_125, _0_25, \
+from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, R_M, \
+                             _distant_, _few_, _too_, _0_0, _0_125, _0_25, \
                              _0_5, _1_0, _16_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Distance4Tuple, LatLon2Tuple, \
                                   PhiLam2Tuple, Points2Tuple, \
                                   Vector3Tuple
-from pygeodesy.streprs import unstr
+from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, \
                             Phi_, Radius, Radius_, Scalar
 from pygeodesy.utily import atan2b, degrees2m, degrees90, degrees180, \
@@ -28,7 +28,7 @@ from pygeodesy.utily import atan2b, degrees2m, degrees90, degrees180, \
 from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.10.27'
+__version__ = '20.11.04'
 
 _D_I2_ = 1e5  # meter, 100 Km, about 0.9 degrees
 
@@ -951,11 +951,11 @@ def points2(points, closed=True, base=None, Error=PointsError):
         points = points[:n]  # XXX numpy.array slice is a view!
 
     if n < (3 if closed else 1):
-        raise Error(points=n, txt=_too_few_)
+        raise Error(points=n, txt=_too_(_few_))
 
     if base and not (isNumpy2(points) or isTuple2(points)):
         for i in range(n):
-            base.others(points[i], name=_item_sq(points=i))
+            base.others(points[i], name=Fmt.SQUARE(points=i))
 
     return Points2Tuple(n, points)
 
@@ -992,7 +992,7 @@ def radical2(distance, radius1, radius2):
     r2 = Radius_(radius2=radius2)
     if d > (r1 + r2):
         raise IntersectionError(distance=d, radius1=r1, radius2=r2,
-                                            txt=_too_distant_)
+                                            txt=_too_(_distant_))
     return _radical2(d, r1, r2)
 
 

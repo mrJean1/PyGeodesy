@@ -79,20 +79,22 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-from pygeodesy.basics import _bkwds, isscalar, property_doc_, property_RO, \
-                             _xinstanceof
+from pygeodesy.basics import isscalar, property_doc_, property_RO, \
+                            _xinstanceof
 from pygeodesy.datums import Datums, Datum
-from pygeodesy.errors import _IndexError, _IsnotError, PointsError
-from pygeodesy.fmath import favg, hypot2
+from pygeodesy.errors import _IsnotError, PointsError
+from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2 as _points2, _scale_rad, thomas_, vincentys_
-from pygeodesy.interns import EPS, EPS1, INF, NN, _datum_, _distanceTo_, \
-                             _dot_, _item_sq, _points_, _units_, _0_0
+from pygeodesy.interns import EPS, EPS1, INF, NN, _datum_, _distanceTo_, _DOT_, \
+                             _points_, _units_
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
-from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
-from pygeodesy.units import Float, Float_, Int, Number_, _Str_degrees, _Str_meter, \
+from pygeodesy.namedTuples import PhiLam2Tuple
+from pygeodesy.points import _fractional
+from pygeodesy.streprs import _boolkwds, Fmt
+from pygeodesy.units import FIx, Float, Number_, _Str_degrees, _Str_meter, \
                            _Str_NN, _Str_radians, _Str_radians2, _xUnit, _xUnits
 from pygeodesy.utily import unrollPI
 
@@ -100,7 +102,7 @@ from collections import defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '20.10.27'
+__version__ = '20.12.03'
 
 
 def _fraction(fraction, n):
@@ -162,7 +164,7 @@ class Frechet(_Named):
         if units:  # and not self.units:
             self.units = units
         if wrap_adjust:
-            _bkwds(self, Error=FrechetError, **wrap_adjust)
+            _boolkwds(self, **wrap_adjust)
 
     @property_RO
     def adjust(self):
@@ -216,7 +218,7 @@ class Frechet(_Named):
         try:
             return _frechet_(self._n1, f1, n2, f2, dF, self.units)
         except TypeError as x:
-            t = _dot_(self.classname, self.discrete.__name__)
+            t = _DOT_(self.classname, self.discrete.__name__)
             raise FrechetError(t, txt=str(x))
 
     def distance(self, point1, point2):  # PYCHOK no cover
@@ -517,7 +519,7 @@ class FrechetDistanceTo(Frechet):
         np, ps = Frechet._points2(self, points)
         for i, p in enumerate(ps):
             if not callable(getattr(p, _distanceTo_, None)):
-                raise FrechetError(_item_sq(_points_, i), p, txt=_distanceTo_)
+                raise FrechetError(Fmt.SQUARE(_points_, i), p, txt=_distanceTo_)
         return np, ps
 
 
@@ -871,68 +873,6 @@ class FrechetVincentys(FrechetRadians):
         return vincentys_(p2.phi, p1.phi, d)
 
 
-def _FIx(fi, **name_Error):
-    '''Return a I{fractional index} as L{Float_} or L{Int}.
-    '''
-    f = Float_(fi, low=_0_0, **name_Error)
-    i = int(f)
-    r = f - float(i)
-    if r > EPS:  # like function _fractional
-        if r < EPS1:
-            return f
-        i += 1
-    return Int(i, **name_Error)  # PYCHOK _NamedUnit
-
-
-def _fractional(points, fi):
-    '''(INTERNAL) Compute point at L{fractional} index.
-    '''
-    i = int(fi)
-    p = points[i]
-    r = fi - float(i)
-    if r > EPS:  # like function _FIx
-        if r < EPS1:
-            q = points[i + 1]
-            p = LatLon2Tuple(favg(p.lat, q.lat, f=r),
-                             favg(p.lon, q.lon, f=r))
-        else:
-            p = points[i + 1]
-    return p
-
-
-def fractional(points, fi, LatLon=None, **LatLon_kwds):
-    '''Return the point at a given I{fractional} index.
-
-       @arg points: The points (C{LatLon}[], L{Numpy2LatLon}[],
-                    L{Tuple2LatLon}[] or C{other}[]).
-       @arg fi: The fractional index (C{float} or C{int}).
-       @kwarg LatLon: Optional class to return the I{intermediate},
-                      I{fractional} point (C{LatLon}) or C{None}.
-       @kwarg LatLon_kwds: Optional B{C{LatLon}} keyword arguments,
-                           ignored of C{B{LatLon}=None}.
-
-       @return: A B{C{LatLon}} or if B{C{LatLon}} is C{None}, a
-                L{LatLon2Tuple}C{(lat, lon)} for B{C{points[fi]}} if
-                I{fractional} index B{C{fi}} is C{int}, otherwise the
-                intermediate point between B{C{points[int(fi)]}} and
-                B{C{points[int(fi) + 1]}} for C{float} I{fractional}
-                index B{C{fi}}.
-
-       @raise IndexError: Fractional index B{C{fi}} invalid or
-                          B{C{points}} not subscriptable.
-    '''
-    try:
-        if not (isscalar(fi) and 0 <= fi < len(points)):
-            raise IndexError
-        p = _fractional(points, fi)
-    except (IndexError, TypeError):
-        raise _IndexError(fractional.__name__, fi)
-
-    if LatLon and isinstance(p, LatLon2Tuple):
-        p = LatLon(*p, **LatLon_kwds)
-    return p
-
-
 def _frechet_(ni, fi, nj, fj, dF, units):  # MCCABE 14
     '''(INTERNAL) Recursive core of function L{frechet_}
        and method C{discrete} of C{Frechet...} classes.
@@ -1041,7 +981,7 @@ class Frechet6Tuple(_NamedTuple):
        I{fractional} index.
     '''
     _Names_ = ('fd',  'fi1', 'fi2', 'r',     'n',      _units_)
-    _Units_ = (_Pass, _FIx,  _FIx,   Number_, Number_, _Pass)
+    _Units_ = (_Pass,  FIx,  FIx,  Number_, Number_, _Pass)
 
     def toUnits(self, **Error):  # PYCHOK expected
         '''Overloaded C{_NamedTuple.toUnits} for C{fd} units.

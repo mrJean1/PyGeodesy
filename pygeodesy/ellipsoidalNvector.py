@@ -22,21 +22,19 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import neg, property_RO, _xinstanceof, \
-                            _xzipairs
+from pygeodesy.basics import neg, property_RO, _xinstanceof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
-from pygeodesy.ecef import EcefVeness
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fdot, hypot_
-from pygeodesy.interns import NN, _COMMA_SPACE_, _pole_, _SQUARE_fmt_
+from pygeodesy.interns import NN, _COMMASPACE_, _pole_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _Named, _NamedTuple, _xnamed
 from pygeodesy.namedTuples import LatLon3Tuple
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
-from pygeodesy.streprs import fstr, strs
+from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
 from pygeodesy.units import Bearing, Degrees, Distance, Height, \
                      Radius, Scalar
 from pygeodesy.utily import atan2b, degrees90, sincos2d
@@ -44,7 +42,7 @@ from pygeodesy.utily import atan2b, degrees90, sincos2d
 from math import asin
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.10.29'
+__version__ = '20.11.05'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -55,6 +53,17 @@ class Cartesian(CartesianEllipsoidalBase):
     '''Extended to convert geocentric, L{Cartesian} points to
        L{Nvector} and n-vector-based, geodetic L{LatLon}.
     '''
+
+    _Ecef = None  # preferred C{EcefVeness} class
+
+    @property_RO
+    def Ecef(self):
+        '''Get the ECEF I{class} (L{EcefVeness}).
+        '''
+        if Cartesian._Ecef is None:
+            from pygeodesy.ecef import EcefVeness
+            Cartesian._Ecef = EcefVeness
+        return Cartesian._Ecef
 
     def toLatLon(self, **LatLon_datum_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to an C{Nvector}-based
@@ -112,10 +121,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
        >>> from ellipsoidalNvector import LatLon
        >>> p = LatLon(52.205, 0.119)  # height=0, datum=Datums.WGS84
     '''
-    _Ecef = EcefVeness  # preferred C{Ecef...} class, backward compatible
-    _Nv   = None        # cached toNvector (L{Nvector})
-#   _v3d  = None        # cached toVector3d (L{Vector3d})
-    _r3   = None        # cached _rotation3 (3-Tuple L{Nvector})
+    _Ecef = None  # preferred C{EcefVeness} class
+    _Nv   = None  # cached toNvector (L{Nvector})
+#   _v3d  = None  # cached toVector3d (L{Vector3d})
+    _r3   = None  # cached _rotation3 (3-Tuple L{Nvector})
 
     def _rotation3(self):
         '''(INTERNAL) Build the rotation matrix from n-vector
@@ -304,6 +313,15 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         a = self._N_vector.angleTo(other._N_vector, wrap=wrap)
         r = Radius(radius) if radius else self.datum.ellipsoid.R1
         return abs(a) * r
+
+    @property_RO
+    def Ecef(self):
+        '''Get the ECEF I{class} (L{EcefVeness}).
+        '''
+        if LatLon._Ecef is None:
+            from pygeodesy.ecef import EcefVeness
+            LatLon._Ecef = EcefVeness
+        return LatLon._Ecef
 
     def equals(self, other, eps=None):  # PYCHOK no cover
         '''DEPRECATED, use method C{isequalTo}.
@@ -563,7 +581,7 @@ class Ned(_Named):
         '''
         return self.ned
 
-    def toRepr(self, prec=None, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_, **unused):  # PYCHOK expected
+    def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):  # PYCHOK expected
         '''Return a string representation of this NED vector as
            length, bearing and elevation.
 
@@ -582,7 +600,7 @@ class Ned(_Named):
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, used method L{Ned.toRepr}.'''
 
-    def toStr(self, prec=3, fmt=_SQUARE_fmt_, sep=_COMMA_SPACE_):  # PYCHOK expected
+    def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this NED vector.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -625,7 +643,6 @@ class Nvector(NvectorBase):
        Note commonality with L{sphericalNvector.Nvector}.
     '''
     _datum = Datums.WGS84  # default datum (L{Datum})
-    _Ecef  = EcefVeness    # preferred C{Ecef...} class, backward compatible
 
     def __init__(self, x, y, z, h=0, datum=None, ll=None, name=NN):
         '''New n-vector normal to the earth's surface.

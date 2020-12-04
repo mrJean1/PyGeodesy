@@ -14,13 +14,13 @@ also U{World Geographic Reference System
 from pygeodesy.basics import isstr, property_RO
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
-from pygeodesy.interns import EPS1_2, MISSING, NN, _float, \
-                             _height_, _item_sq, joined_, \
-                             _radius_, _0_5, _1_0, _2_0, \
-                             _60_0, _90_0
+from pygeodesy.interns import EPS1_2, MISSING, NN, _AtoZnoIO_, \
+                             _float, _height_, _radius_, _SPACE_, \
+                             _0to9_, _0_5, _1_0, _2_0, _60_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
+from pygeodesy.streprs import Fmt, _0wd
 from pygeodesy.units import Height, Int, Lat, Lon, Precision_, \
                             Radius, Scalar_, Str, _xStrError
 from pygeodesy.utily import ft2m, m2ft, m2NM
@@ -28,22 +28,22 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 _1000_0  = _float(1000)
 _Base    =  10
 _BaseLen =  4
-_DegChar = 'ABCDEFGHJKLMNPQ'
-_Digits  = '0123456789'
-_Height_ = 'Height'
+_DegChar = _AtoZnoIO_.tillQ
+_Digits  = _0to9_
+_Height_ =  Height.__name__
 _INV_    = 'INV'
 _LatOrig = -90
-_LatTile = 'ABCDEFGHJKLM'
+_LatTile = _AtoZnoIO_.tillM
 _LonOrig = -180
-_LonTile = 'ABCDEFGHJKLMNPQRSTUVWXYZ'
+_LonTile = _AtoZnoIO_
 _M_      =  60000000000  # == 60_000_000_000 == 60 * pow(10, 9)
 _MaxPrec =  11
-_Radius_ = 'Radius'
+_Radius_ =  Radius.__name__
 _Tile    =  15  # tile size in degrees
 
 _MaxLen  = _BaseLen + 2 * _MaxPrec
@@ -252,7 +252,7 @@ def decode3(georef, center=True):
         return ll * m + d
 
     def _Error(i):
-        return WGRSError(_item_sq(georef=i), georef)
+        return WGRSError(Fmt.SQUARE(georef=i), georef)
 
     def _index(chars, g, i):
         k = chars.find(g[i])
@@ -309,7 +309,7 @@ def decode5(georef, center=True):
     def _split2(g, name, _2m):
         i = max(g.find(name[0]), g.rfind(name[0]))
         if i > _BaseLen:
-            return g[:i], _2m(int(g[i+1:]), joined_(georef, name))
+            return g[:i], _2m(int(g[i+1:]), _SPACE_(georef, name))
         else:
             return g, None
 
@@ -348,10 +348,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
     '''
     def _option(name, m, m2_, K):
         f = Scalar_(m, name=name, Error=WGRSError)
-        return '%s%d' % (name[0].upper(), int(m2_(f * K) + _0_5))
-
-    def _pstr(p, x):
-        return '%0*d' % (p, x)
+        return NN(name[0].upper(), int(m2_(f * K) + _0_5))
 
     p = _2Precision(precision)
 
@@ -367,9 +364,9 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
         g += _DegChar[xd], _DegChar[yd]
         p -= 1
         if p > 0:
-            d = pow(_Base, _MaxPrec - p)
-            x = _pstr(p, x // d)
-            y = _pstr(p, y // d)
+            d =  pow(_Base, _MaxPrec - p)
+            x = _0wd(p, x // d)
+            y = _0wd(p, y // d)
             g += x, y
 
     if radius is not None:  # R before H

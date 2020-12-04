@@ -11,16 +11,17 @@ from pygeodesy.basics import len2
 from pygeodesy.errors import _AssertionError, PointsError, _ValueError
 from pygeodesy.fmath import fsum_
 from pygeodesy.formy import points2
-from pygeodesy.interns import EPS, _dot_, _end_, _lat_, _lon_, _name_, \
-                              NN, _not_convex_, _start_, _too_few_, _0_0
+from pygeodesy.interns import EPS, NN, _convex_, _DOT_, _end_, \
+                             _few_, _lat_, _lon_, _name_, _not_, \
+                             _SPACE_, _start_, _too_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple, _Pass
 from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
                              LatLon_ as LL_
-from pygeodesy.units import Bool, Number_
+from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '20.10.27'
+__version__ = '20.12.03'
 
 
 class ClipError(_ValueError):
@@ -36,10 +37,22 @@ class ClipError(_ValueError):
         '''
         if len(name_n_corners) == 3:
             t, n, v = name_n_corners
-            n = 'box' if n == 2 else 'region'
-            n = '%s clip %s' % (t, n)
+            n = _SPACE_(t, 'clip', 'box' if n == 2 else 'region')
             name_n_corners = n, v
         _ValueError.__init__(self, *name_n_corners, **txt)
+
+
+def _box4(lowerleft, upperright, name):
+    '''(INTERNAL) Get the clip box edges.
+    '''
+    try:
+        ymin, ymax = lowerleft.lat, upperright.lat
+        xmin, xmax = lowerleft.lon, upperright.lon
+        if xmin > xmax or ymin > ymax:
+            raise ValueError
+    except (AttributeError, TypeError, ValueError) as x:
+        raise ClipError(name, 2, (lowerleft, upperright), txt=str(x))
+    return xmin, ymin, xmax, ymax
 
 
 def _eq(p1, p2):
@@ -55,7 +68,7 @@ def _neq(p1, p2):
            abs(p1.lon - p2.lon) > EPS
 
 
-def _points2(points, closed, inull):
+def _pts2(points, closed, inull):
     '''(INTERNAL) Get the points to clip.
     '''
     if closed and inull:
@@ -64,8 +77,8 @@ def _points2(points, closed, inull):
         if n > 1 and _eq(pts[n-1], pts[0]):
             n -= 1
             pts = pts[:n]
-        if n < 3:
-            raise PointsError(points=n, txt=_too_few_)
+        if n < 2:
+            raise PointsError(points=n, txt=_too_(_few_))
     else:
         n, pts = points2(points, closed=closed)
     return n, list(pts)
@@ -92,13 +105,8 @@ class _CS(_Named):
     _ymin = _0_0  # clip box lowerleft.lat
 
     def __init__(self, lowerleft, upperright, name=__name__):
-        try:
-            self._ymin, self._ymax = lowerleft.lat, upperright.lat
-            self._xmin, self._xmax = lowerleft.lon, upperright.lon
-            if self._xmin > self._xmax or self._ymin > self._ymax:
-                raise ValueError
-        except (AttributeError, TypeError, ValueError) as x:
-            raise ClipError(name, 2, (lowerleft, upperright), txt=str(x))
+        self._xmin, self._ymin, \
+        self._xmax, self._ymax = _box4(lowerleft, upperright, name)
         self.name = name
 
 #   def clip4(self, p, c):  # clip point p for code c
@@ -111,7 +119,7 @@ class _CS(_Named):
 #       elif c & _CS._XMAX:
 #           return self.lat4(p, self._xmax)
 #       # should never get here
-#       raise _AssertionError(_dot_(self._name, self.clip4.__name__))
+#       raise _AssertionError(self._DOT_(self.clip4.__name__))
 
     def code4(self, p):  # compute code for point p
         if p.lat < self._ymin:
@@ -153,7 +161,7 @@ class _CS(_Named):
 
     def nop4(self, b, p):  # PYCHOK no cover
         if p:  # should never get here
-            raise _AssertionError(_dot_(self.name, self.nop4.__name__))
+            raise _AssertionError(self._DOT_(self.nop4.__name__))
         return _CS._IN, self.nop4, b, p
 
 
@@ -178,16 +186,15 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):
        @kwarg inull: Optionally, retain null edges if inside (C{bool}).
 
        @return: Yield a L{ClipCS3Tuple}C{(start, end, index)} for each
-                edge of the clipped path.
+                edge of the I{clipped} path.
 
        @raise ClipError: The B{C{lowerleft}} and B{C{upperright}} corners
                          specify an invalid clip box.
 
        @raise PointsError: Insufficient number of B{C{points}}.
     '''
-
     cs = _CS(lowerleft, upperright, name=clipCS3.__name__)
-    n, pts = _points2(points, closed, inull)
+    n, pts = _pts2(points, closed, inull)
 
     i, m = _imdex2(closed, n)
     cmbp = cs.code4(pts[i])
@@ -217,7 +224,118 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):
             if c1 & c2:  # edge outside
                 break
         else:  # PYCHOK no cover
-            raise _AssertionError(_dot_(cs.name, 'for_else'))
+            raise _AssertionError(_DOT_(cs.name, 'for_else'))
+
+
+class ClipLB6Tuple(_NamedTuple):
+    '''6-Tuple C{(start, end, i, fi, fj, j)} for each edge of
+       the I{clipped} path with the C{start} and C{end} points
+       (C{LatLon}) of the portion of the edge inside or on the
+       clip box, indices C{i} and C{j} (C{int}) of the original
+       path edge points and I{fractional} indices C{fi} and
+       C{fj} (L{FIx}) of the C{start} and C{end} points along
+       the edge of the original path.
+
+       @see: Class L{FIx} and function L{fractional}.
+    '''
+    _Names_ = (_start_, _end_, 'i',      'fi',  'fj', 'j')
+    _Units_ = (_Pass,   _Pass,  Number_, _Pass, _Pass, Number_)
+
+
+def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
+    '''Clip a path against a rectangular clip box using the U{Liang-Barsky
+       <https://www.Skytopia.com/project/articles/compsci/clipping.html>}
+       algorithm.
+
+       @arg points: The points (C{LatLon}[]).
+       @arg lowerleft: Bottom-left corner of the clip box (C{LatLon}).
+       @arg upperright: Top-right corner of the clip box (C{LatLon}).
+       @kwarg closed: Optionally, close the path (C{bool}).
+       @kwarg inull: Optionally, retain null edges if inside (C{bool}).
+
+       @return: Yield a L{ClipLB6Tuple}C{(start, end, i, fi, fj, j)} for
+                each edge of the I{clipped} path.
+
+       @raise ClipError: The B{C{lowerleft}} and B{C{upperright}} corners
+                         specify an invalid clip box.
+
+       @raise PointsError: Insufficient number of B{C{points}}.
+
+       @see: U{Line Clipping<https://www.CSE.UNT.edu/~renka/4230/
+             LineClipping.pdf>} and U{Liang–Barsky algorithm
+             <https://WikiPedia.org/wiki/Liang–Barsky_algorithm>}.
+    '''
+    xmin, ymin, \
+    xmax, ymax = _box4(lowerleft, upperright, clipLB6.__name__)
+
+    n, pts = _pts2(points, closed, inull)
+
+    fin =  n if closed else None  # wrapping fi [n] to [0]
+    _LB = _clipLB
+
+    i, m = _imdex2(closed, n)
+    pi = pts[i]
+    for j in range(m, n):
+        p1 = pi
+        y1 = p1.lat
+        x1 = p1.lon
+
+        p2 = pi = pts[j]
+        dy = float(p2.lat - y1)
+        dx = float(p2.lon - x1)
+        if abs(dx) > EPS or abs(dy) > EPS:
+            # non-null edge pts[i]...pts[j]
+            t = [_0_0, _1_0]
+            if _LB(-dx, -xmin + x1, t) and \
+               _LB( dx,  xmax - x1, t) and \
+               _LB(-dy, -ymin + y1, t) and \
+               _LB( dy,  ymax - y1, t):
+                # clip edge pts[i]...pts[j]
+                # from fraction t[0] to t[1]
+                if t[0] > _0_0:  # EPS
+                    p1 = p1.classof(y1 + t[0] * dy,
+                                    x1 + t[0] * dx)
+                    fi = i + t[0]
+                else:
+                    fi = i
+                fi = FIx(fi, fin=fin)
+                if t[0] < t[1]:
+                    if t[1] < _1_0:  # EPS1
+                        p2 = p2.classof(y1 + t[1] * dy,
+                                        x1 + t[1] * dx)
+                        fj = i + t[1]
+                    else:
+                        fj = j
+                    fj = FIx(fj, fin=fin)
+                    yield ClipLB6Tuple(p1, p2, i, fi, fj, j)
+
+                elif inull and (t[0] + EPS) > t[1]:
+                    yield ClipLB6Tuple(p1, p1, i, fi, fi, j)
+#           else:  # outside
+#               pass
+        elif inull:  # null edge
+            yield ClipLB6Tuple(p1, p2, i, FIx(i, fin=fin),
+                                          FIx(j, fin=fin), j)
+        i = j
+
+
+def _clipLB(p, q, t):
+    # Liang-Barsky core, adjusting t[0] or t[1]
+    if p < 0:
+        r = q / p
+        if r > t[1]:
+            return False  # outside
+        elif r > t[0]:
+            t[0] = r
+    elif p > 0:
+        r = q / p
+        if r < t[0]:
+            return False  # outside
+        elif r < t[1]:
+            t[1] = r
+    elif q < 0:
+        return False  # outside
+    return True
 
 
 class _List(list):
@@ -271,7 +389,7 @@ class _SH(_Named):
             self._nc = n
             self._cw = isconvex_(cs, adjust=False, wrap=False)
             if not self._cw:
-                raise ValueError(_not_convex_)
+                raise ValueError(_not_(_convex_))
             if areaOf(cs, adjust=True, radius=1, wrap=True) < EPS:
                 raise ValueError('near-zero area')
         except (PointsError, TypeError, ValueError) as x:
@@ -279,7 +397,7 @@ class _SH(_Named):
         self.name = name
 
     def clip2(self, points, closed, inull):  # MCCABE 17, clip points
-        np, pts = _points2(points, closed, inull)
+        np, pts = _pts2(points, closed, inull)
         pcs = _List(inull)  # clipped points
 
         ne = 0  # number of non-null clip edges
@@ -316,7 +434,7 @@ class _SH(_Named):
                 np = len(pts)
 
         if ne < 3:
-            raise ClipError(self.name, ne, self._cs, txt=_too_few_)
+            raise ClipError(self.name, ne, self._cs, txt=_too_(_few_))
 
         # ni is True iff all points are on or on the
         # right side (i.e. inside) of all clip edges,
@@ -380,7 +498,7 @@ class _SH(_Named):
         fx = float(p2.lon - p1.lon)
         fp = fy * self._dx - fx * self._dy
         if abs(fp) < EPS:  # PYCHOK no cover
-            raise _AssertionError(_dot_(self.name, self.intersect.__name__))
+            raise _AssertionError(self._DOT_(self.intersect.__name__))
         r = fsum_(self._xy, -p1.lat * self._dx, p1.lon * self._dy) / fp
         y = p1.lat + r * fy
         x = p1.lon + r * fx
@@ -417,7 +535,7 @@ def clipSH(points, corners, closed=False, inull=False):
                          region.
 
        @raise PointsError: Insufficient number of B{C{points}}.
-   '''
+    '''
     sh = _SH(corners, name=clipSH.__name__)
     n, pts = sh.clip2(points, closed, inull)
     for i in range(n):
@@ -437,7 +555,7 @@ def clipSH3(points, corners, closed=False, inull=False):
        @kwarg inull: Optionally, include null edges (C{bool}).
 
        @return: Yield a L{ClipSH3Tuple}C{(start, end, original)} for
-                each edge of the clipped polygon.
+                each edge of the I{clipped} polygon.
 
        @raise ClipError: The B{C{corners}} specify a polar, zero-area,
                          non-convex or otherwise invalid clip box or

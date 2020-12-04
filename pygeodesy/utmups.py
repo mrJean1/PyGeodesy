@@ -16,11 +16,12 @@ by I{Charles Karney}.
 from pygeodesy.basics import map1
 from pygeodesy.datums import Datums
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
-from pygeodesy.interns import NN, _easting_, joined_, _MGRS_, _northing_, _NS_, \
-                             _outside_, _range_, _UPS_, _UTM_
+from pygeodesy.interns import NN, _easting_, _MGRS_, _northing_, _NS_, \
+                             _outside_, _range_, _SPACE_, _UPS_, _UTM_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import modulename
 from pygeodesy.namedTuples import UtmUps5Tuple, UtmUps8Tuple
+from pygeodesy.streprs import Fmt
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
 from pygeodesy.utm import parseUTM5, toUtm8, Utm, UTMError, utmZoneBand5
 from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
@@ -28,7 +29,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.10.29'
+__version__ = '20.11.04'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -204,8 +205,7 @@ def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
                 return
         except (TypeError, ValueError):
             pass
-        t = joined_(_outside_, U, _range_, '[%.0F' % (lo,),
-                                           '%.0F]' % (hi,))
+        t = _SPACE_(_outside_, U, _range_, _range_(lo, hi))
         raise Error(ename, en, txt=t)
 
     if isinstance(coord, (Ups, Utm)):
@@ -238,7 +238,7 @@ def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
     if i < 0 or z < _UTMUPS_ZONE_MIN \
              or z > _UTMUPS_ZONE_MAX \
              or B not in u._Bands:
-        t = '%s(%s%s %s)' % (U, z,B, h)
+        t = Fmt.PAREN(U, repr(_SPACE_(NN(Fmt.zone(z), B), h)))
         raise Error(coord=t, zone=zone, band=band, hemisphere=hemi)
 
     if enMM:

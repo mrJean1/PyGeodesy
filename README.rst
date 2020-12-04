@@ -34,13 +34,13 @@ decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 Other modules provide `Albers Equal-Area`_ projections, azimuthal projections
 and Lambert conformal conic projections and positions (from `John P. Snyder`_,
 *Map Projections -- A Working Manual*, 1987), functions to clip a path or polygon
-of *LatLon* points using the `Cohen-Sutherland`_ and the `Sutherland-Hodgman`_
-methods, functions to simplify_ or linearize a path of *LatLon* points (or a
-`numpy array`_), including implementations of the `Ramer-Douglas-Peucker`_,
-the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_ algorithms and modified
-versions of the former.  Other classes interpolate_ the *height* of *LatLon*
-points and several *Geoid* models or compute various `Fréchet`_ or Hausdorff_
-distances.
+of *LatLon* points using the `Cohen-Sutherland`_, the `Liang–Barsky`_ and the
+`Sutherland-Hodgman`_ methods, functions to simplify_ or linearize a path of
+*LatLon* points (or a `numpy array`_), including implementations of the
+`Ramer-Douglas-Peucker`_, the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_
+algorithms and modified versions of the former.  Other classes interpolate_
+the *height* of *LatLon* points and several *Geoid* models or compute various
+`Fréchet`_ or Hausdorff_ distances.
 
 Installation
 ============
@@ -77,10 +77,10 @@ Tests
 
 The tests have been run with Python 3.9.0 (with geographiclib_ 1.50),
 Python 3.8.6 (with geographiclib_ 1.50, numpy_ 1.19.2 and scipy_ 1.5.2)
-and macOS' Python 2.7.16 (with numpy_ 1.16.6), all on macOS 10.15.7
-Catalina and all in 64-bit only.  The tests run with and without ``lazy
-import`` for Python 3.  The results of those tests are included in the
-distribution files.
+and macOS' Python 2.7.16 (with numpy_ 1.16.6), all on macOS 11.0.1
+(10.16) Big Sur and all in 64-bit only.  The tests run with and without
+``lazy import`` for Python 3.  The results of those tests are included
+in the distribution files.
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.0
 (with geographiclib_ 1.50), Python 3.8.6 (with geographiclib_ 1.50, numpy_
@@ -88,15 +88,15 @@ Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.0
 The complete coverage report in HTML and a PDF summary are included in
 the distribution files.
 
-The tests also ran with Python 2.7.14, 3.6.3, 3.7.1, 3.8.0 and PyPy_
-7.1.1 (Python 2.7.13 and 3.6.1) (and geographiclib_ 1.49 or 1.50) on
-`Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_ 1.49 or
-1.50) on `Debian 9`_ all in 64-bit only and with Python 2.7.15, 3.6.8,
-3.7.2 and 3.8.0 (all with geographiclib_ 1.49 or 1.50) on `Windows
-Server 2012R2`_ in both 32- and 64-bit.
+The tests also ran with Python 3.8.0, 3.7.1, 3.6.3, 2.7.14 and PyPy_
+7.1.1 (Python 3.6.1 and 2.7.13) (and geographiclib_ 1.50 or 1.49) on
+`Ubuntu 14.04`_ and with Python 3.7.3 (and geographiclib_ 1.50 or
+1.49) on `Debian 9`_ all in 64-bit only and with Python 3.8.0, 3.7.2,
+3.6.8 and 2.7.15 (all with geographiclib_ 1.50 or 1.49) on `Windows
+Server 2012R2`_ in both 64- and 32-bit.
 
 A single-File and single-Directory application with ``pygeodesy`` has
-been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.3 and 3.7.4
+been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3
 on macOS 10.13.6 High Sierra.
 
 Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2),
@@ -106,12 +106,12 @@ Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2),
 3.5.3), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9) and `Intel-Python`_ 3.5.3
 (and numpy_ 1.11.3) on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan,
 macOS 10.12 Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave and/or
-macOS 10.15.3, 10.15.5 and 10.15.6 Catalina, with Pythonista_ 3.1 on iOS
-10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with Pythonista_ 3.2 (with
-geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and
-12.3 on iPad4, iPhone6 and/or iPhone10, all in 64-bit only and with 32-bit
-Python 2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows
-10 Pro.
+macOS 10.15.3, 10.15.5, 10.15.6 and 10.15.7 Catalina, with Pythonista_
+3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with Pythonista_
+3.2 (with geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 11.4.1,
+12.0, 12.2 and 12.3 on iPad4, iPhone6 and/or iPhone10, all in 64-bit
+only and with 32-bit Python 2.6.6 on Windows XP SP3 and with 32-bit
+Python 2.7.14 on Windows 10 Pro.
 
 Notes
 =====
@@ -128,7 +128,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Oct 30, 2020.*
+*Last updated: Dec 03, 2020.*
 
 License
 =======
@@ -201,6 +201,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _karney: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html
 .. _Latitude/Longitude: https://www.Movable-Type.co.UK/scripts/latlong.html
 .. _LatLon: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-LatLon-attributes-table.html
+.. _Liang–Barsky: https://WikiPedia.org/wiki/Liang–Barsky_algorithm
 .. _McCabe: https://PyPI.org/project/mccabe
 .. _MGRS: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
 .. _MIT License: https://OpenSource.org/licenses/MIT

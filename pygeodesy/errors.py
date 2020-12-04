@@ -8,26 +8,21 @@ u'''Error, exception classes and functions to format PyGeodesy errors,
     variable C{PYGEODESY_EXCEPTION_CHAINING} to 'std' or any other
     non-empty string to enable I{exception chaining}.
 '''
-from pygeodesy.interns import MISSING, NN, _COLON_, _COMMA_, \
-                             _COMMA_SPACE_, _datum_, _invalid_, \
-                             _item_pr, _item_ps, joined_, \
-                             _len_, _name_, _no_, _or_, \
-                             _SPACE_, _UNDERSCORE_
+from pygeodesy.interns import MISSING, NN, _a_,_an_, _COLON_, \
+                             _COMMA_, _COMMASPACE_, _datum_, \
+                             _ellipsoidal_, _EQUAL_, _invalid_, \
+                             _len_, _name_, _no_, _not_, _or_, \
+                             _SPACE_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
-from copy import copy as _copy
-
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.10.29'
+__version__ = '20.12.02'
 
-_limiterrors      =  True  # imported by .formy
-_multiple_        = 'multiple'
-_name_value_      =  repr('name=value')
-_not_             = 'not'
-_not_ellipsoidal_ = 'not ellipsoidal'
-# _not_spherical_ = 'not spherical'
-_rangerrors       =  True  # imported by .dms
-_specified_       = 'specified'
+_limiterrors =  True  # imported by .formy
+_multiple_   = 'multiple'
+_name_value_ =  repr('name=value')
+_rangerrors  =  True  # imported by .dms
+_specified_  = 'specified'
 
 try:
     _exception_chaining = None  # not available
@@ -120,7 +115,7 @@ class _TypesError(_TypeError):
     '''(INTERNAL) Format a C{TypeError} without exception chaining.
     '''
     def __init__(self, name, value, *Types):
-        t = joined_(_not_, _an(_or(*(t.__name__ for t in Types))))
+        t = _not_(_an(_or(*(t.__name__ for t in Types))))
         _TypeError.__init__(self, name, value, txt=t)
 
 
@@ -158,11 +153,12 @@ class LenError(_ValueError):
            @kwarg lens_txt: Two or more C{name=len(name)} pairs
                             (C{keyword arguments}).
         '''
+        from pygeodesy.streprs import Fmt as _Fmt
         x = _xkwds_pop(lens_txt, txt=_invalid_)
         ns, vs = zip(*sorted(lens_txt.items()))
-        ns = _COMMA_SPACE_.join(ns)
+        ns = _COMMASPACE_.join(ns)
         vs = ' vs '.join(map(str, vs))
-        t = joined_(_item_ps(where.__name__, ns), _len_, vs)
+        t  = _SPACE_(_Fmt.PAREN(where.__name__, ns), _len_, vs)
         _ValueError.__init__(self, t, txt=x)
 
 
@@ -236,7 +232,7 @@ def _an(noun):
     '''(INTERNAL) Prepend an article to a noun based
        on the pronounciation of the first letter.
     '''
-    return joined_(('an' if noun[:1].lower() in 'aeinoux' else 'a'), noun)
+    return _SPACE_((_an_ if noun[:1].lower() in 'aeinoux' else _a_), noun)
 
 
 def crosserrors(raiser=None):
@@ -265,7 +261,7 @@ def _datum_datum(datum1, datum2, Error=None):
         if E1 != E2:
             raise Error(E2.named2, txt=_incompatible(E1.named2))
     elif datum1 != datum2:
-        t = joined_(_datum_, repr(datum1.name), _not_, repr(datum2.name))
+        t = _SPACE_(_datum_, repr(datum1.name), _not_, repr(datum2.name))
         raise _AssertionError(t)
 
 
@@ -293,14 +289,14 @@ def _error_init(Error, inst, name_value, fmt_name_value='%s (%r)',
     elif name_value:
         t = str(name_value[0])
     else:
-        t = joined_(_name_value_, str(MISSING))
+        t = _SPACE_(_name_value_, str(MISSING))
 
     if txt is None:
         x = NN
     else:
-        x = str(txt) or _invalid_
+        x =  str(txt) or _invalid_
         c = _COMMA_ if _COLON_ in t else _COLON_
-        t = joined_(t + c, x)
+        t = _SPACE_(t + c, x)
     Error.__init__(inst, t)
 #   inst.__x_txt__ = x  # hold explanation
     _error_chain(inst)  # no Python 3+ exception chaining
@@ -311,8 +307,8 @@ def _error_under(inst):
     '''(INTERNAL) Remove leading underscore from instance' class name.
     '''
     n = inst.__class__.__name__
-    if n.startswith(_UNDERSCORE_):
-        inst.__class__.__name__ = n.lstrip(_UNDERSCORE_)
+    if n.startswith(_UNDER_):
+        inst.__class__.__name__ = n.lstrip(_UNDER_)
     return inst
 
 
@@ -374,13 +370,14 @@ def _IsnotError(*nouns, **name_value_Error):  # name=value [, Error=TypeeError]
 
        @return: A C{TypeError} or an B{C{Error}} instance.
     '''
+    from pygeodesy.streprs import Fmt as _Fmt
     Error = _xkwds_pop(name_value_Error, Error=TypeError)
     n, v  = _xkwds_popitem(name_value_Error) if name_value_Error else (
                           _name_value_, MISSING)  # XXX else tuple(...)
     t = _or(*nouns) or _specified_
     if len(nouns) > 1:
         t = _an(t)
-    e = Error(joined_(n, _item_pr(NN, v), _not_, t))
+    e = Error(_SPACE_(n, _Fmt.PAREN(repr(v)), _not_, t))
     _error_chain(e)
     _error_under(e)
     return e
@@ -409,8 +406,8 @@ def _or(*words):
     if w:
         t = w.pop()
         if w:
-            w = _COMMA_SPACE_.join(w)
-            t =  joined_(w, _or_, t)
+            w = _COMMASPACE_.join(w)
+            t = _SPACE_(w, _or_, t)
     return t
 
 
@@ -485,26 +482,39 @@ def _xellipsoidal(**name_value):
             n = v = MISSING
     except AttributeError:
         pass
-    raise _TypeError(n, v, txt=_not_ellipsoidal_)
+    raise _TypeError(n, v, txt=_not_(_ellipsoidal_))
 
 
-def _xkwds(kwds, **dflts):
-    '''(INTERNAL) Override C{dflts} with specified C{kwds}.
-    '''
-    d = dflts
-    if kwds:
-        d = _copy(d)
-        d.update(kwds)
-    return d
+try:
+    _ = {}.__or__  # Python 3.9+
+
+    def _xkwds(kwds, **dflts):
+        '''(INTERNAL) Override C{dflts} with specified C{kwds}.
+        '''
+        return (dflts | kwds) if kwds else dflts
+
+except AttributeError:
+
+    from copy import copy as _copy
+
+    def _xkwds(kwds, **dflts):  # PYCHOK expected
+        '''(INTERNAL) Override C{dflts} with specified C{kwds}.
+        '''
+        d = dflts
+        if kwds:
+            d = _copy(d)
+            d.update(kwds)
+        return d
 
 
-def _xkwds_Error(_xkwds_func, kwds, name_txt, txt='=default'):
+def _xkwds_Error(_xkwds_func, kwds, name_txt, txt='default'):
     # Helper for _xkwds_get and _xkwds_pop below
-    from pygeodesy.streprs import pairs
-    t = _COMMA_SPACE_.join(pairs(kwds) + pairs(name_txt))
-    t = _item_ps(_xkwds_func.__name__, t)
-    n = _multiple_ if name_txt else _no_
-    return _AssertionError(t, txt=joined_(n, _name_ + txt, 'kwargs'))
+    from pygeodesy.streprs import Fmt, pairs
+    f = _COMMASPACE_.join(pairs(kwds) + pairs(name_txt))
+    f =  Fmt.PAREN(_xkwds_func.__name__, f)
+    t = _multiple_ if name_txt else _no_
+    t = _SPACE_(t, _EQUAL_(_name_, txt), 'kwargs')
+    return _AssertionError(f, txt=t)
 
 
 def _xkwds_get(kwds, **name_default):
@@ -533,7 +543,7 @@ def _xkwds_popitem(name_value):
     if not name_value:
         return t
 
-    raise _xkwds_Error(_xkwds_popitem, (t,), name_value, txt='=value')
+    raise _xkwds_Error(_xkwds_popitem, (t,), name_value, txt='value')
 
 
 def _xkwds_strs(kwds):
