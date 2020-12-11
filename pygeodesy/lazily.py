@@ -121,15 +121,15 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'len2', 'map1', 'map2', 'neg', 'neg_',
                                  'property_doc_', 'property_RO', 'ub2str'),
                           clipy=('ClipError',
-                                 'ClipCS3Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
-                                 'clipCS3', 'clipLB6', 'clipSH', 'clipSH3'),
+                                 'ClipCS4Tuple', 'ClipLB6Tuple', 'ClipSH3Tuple',
+                                 'clipCS4', 'clipLB6', 'clipSH', 'clipSH3'),
                             css=('CassiniSoldner', 'Css', 'CSSError', 'toCss',
                                  'EasNorAziRk4Tuple', 'LatLonAziRk4Tuple'),
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('OK',  # DEPRECATED contants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
-                                 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError', 'UtmUps4Tuple',  # DEPRECATED classes
-                                 'anStr', 'areaof', 'bounds', 'clipDMS', 'clipStr', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
+                                 'ClipCS3Tuple', 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError', 'UtmUps4Tuple',  # DEPRECATED classes
+                                 'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
                                  'equirectangular3', 'enStr2', 'false2f', 'falsed2f', 'fStr', 'fStrzs',  # ... except ellipsoidal, spherical flavors
                                  'hypot3', 'inStr', 'isenclosedby', 'joined', 'joined_',
                                  'nearestOn3', 'nearestOn4', 'parseUTM', 'perimeterof', 'polygon',
@@ -269,7 +269,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.12.03'
+__version__ = '20.12.05'
 
 
 def _ALL_OTHER(*objs):
@@ -471,7 +471,7 @@ def _lazy_init3(_pygeodesy_):
 
 # **) MIT License
 #
-# Copyright (C) 2018-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2018-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

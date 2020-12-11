@@ -4,8 +4,9 @@
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
 # Tested with 64-bit Python 2.6.9, 2.7,13, 3.5.3, 3.6.4, 3.6.5 and
-# 3.7.0 on macOS 10.12 Sierra and 10.13 High Sierra and with
-# Pythonista 3.1 and 3.2 on iOS 10.3, 11.0, 11.1, 11.3 and 11.4.
+# 3.7.0 on macOS 10.12 Sierra, 10.13 High Sierra, 10.15.5-7 Catalina
+# and 11.0.1 (10.16) Big Sur and with Pythonista 3.1 and 3.2 on iOS
+# 10.3, 11.0, 11.1, 11.3 and 11.4.
 
 from base import clips, coverage, isiOS, PyGeodesy_dir, PythonX, \
                  secs2str, test_dir, tilde, versions  # PYCHOK expected
@@ -14,7 +15,7 @@ from os import access, environ, F_OK, linesep as NL
 import sys
 
 __all__ = ('run2',)
-__version__ = '20.04.26'
+__version__ = '20.12.06'
 
 if isiOS:  # MCCABE 14
 
@@ -250,7 +251,7 @@ if __name__ == '__main__':  # MCCABE 19
 
 # **) MIT License
 #
-# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

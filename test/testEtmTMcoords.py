@@ -8,7 +8,7 @@ also available U{here<https://Zenodo.org/record/32470>}, file C{TMcoords.dat}.
 '''
 
 __all__ = ('testEtmTMcoords',)
-__version__ = '19.05.20'
+__version__ = '20.12.06'
 
 from testTMcoords import testTMcoords
 
@@ -17,7 +17,7 @@ def testEtmTMcoords(name):
 
     from pygeodesy import etm, Etm, toEtm8
 
-    testTMcoords(etm, toEtm8, name=name, eps1=1e-7, eps2=1e-7, lonE=360, Etm=Etm)
+    testTMcoords(etm, toEtm8, name=name, eps1=2e-7, eps2=1e-7, lonE=360, Etm=Etm)
 
 
 if __name__ == '__main__':

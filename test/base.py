@@ -43,7 +43,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy', 'numpy_version',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.11.05'
+__version__ = '20.11.06'
 
 # don't test with numpy and/or scypi older than 1.9 resp. 1.0
 from pygeodesy import basics
@@ -509,7 +509,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

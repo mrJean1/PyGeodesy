@@ -118,8 +118,8 @@ Notes
 
 All Python source code has been statically checked_ with PyChecker_,
 PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
-and with Flake8_ using Python 3.9.0, both in 64-bit on macOS 10.15.6
-Catalina.
+and with Flake8_ using Python 3.9.0, both in 64-bit on macOS 11.0.1
+(10.16) Big Sur.
 
 Classes with a name ending in ``-Karney`` and several more are transcribed
 from *Karney*'s `C++ classes`_ or require *Karney*'s geographiclib_ package
@@ -128,12 +128,12 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Dec 03, 2020.*
+*Last updated: Dec 10, 2020.*
 
 License
 =======
 
-``Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.``
+``Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.``
 
 ``Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -201,7 +201,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _karney: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html
 .. _Latitude/Longitude: https://www.Movable-Type.co.UK/scripts/latlong.html
 .. _LatLon: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-LatLon-attributes-table.html
-.. _Liang–Barsky: https://WikiPedia.org/wiki/Liang–Barsky_algorithm
+.. _Liang–Barsky: https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html
 .. _McCabe: https://PyPI.org/project/mccabe
 .. _MGRS: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
 .. _MIT License: https://OpenSource.org/licenses/MIT

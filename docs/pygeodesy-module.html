@@ -130,7 +130,7 @@
   functions to clip a path or polygon of <code>LatLon</code> points using 
   the <a href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
   target="_top">Cohen&#8211;Sutherland</a>, the <a 
-  href="https://WikiPedia.org/wiki/Liang&#8211;Barsky_algorithm" 
+  href="https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html" 
   target="_top">Liang&#8211;Barsky</a> and the <a 
   href="https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm" 
   target="_top">Sutherland-Hodgman</a> methods, functions to <a 
@@ -275,7 +275,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.9.0, both in 64-bit on macOS 
-    10.15.6 Catalina.</p>
+    11.0.1 (10.16) Big Sur.</p>
     <p>Classes with a name ending in <code>-Karney</code> and several more 
     are transcribed from <i>Karney</i>'s <a 
     href="https://GeographicLib.SourceForge.io/html/annotated.html" 
@@ -290,7 +290,7 @@
     JavaScript name.</p>
   <h1 class="heading">License</h1>
     <p>**) <a href="https://OpenSource.org/licenses/MIT" 
-    target="_top">Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights
+    target="_top">Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights
     Reserved.</a></p>
     <p><code>Permission is hereby granted, free of charge, to any person 
     obtaining a copy of this software and associated documentation files 
@@ -313,7 +313,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.12.03
+        20.12.10
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -369,7 +369,7 @@
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html" onclick="show_private();">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Functions to <i>clip</i> a path or polygon of <code>LatLon</code> 
-        points against a rectangular box or clip region.</em>    </li>
+        points against a rectangular box or a (convex) clip region.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.css-module.html">pygeodesy.css</a></strong>: <em class="summary">Cassini-Soldner projection classes <a 
         href="pygeodesy.css.CassiniSoldner-class.html" 
         class="link">CassiniSoldner</a>, <a 
@@ -1187,12 +1187,23 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.clipy.ClipCS3Tuple-class.html" class="summary-name">ClipCS3Tuple</a><br />
-      3-Tuple <code>(start, end, index)</code> for each edge of a 
+        <a href="pygeodesy.deprecated.ClipCS3Tuple-class.html" class="summary-name">ClipCS3Tuple</a><br />
+      3-Tuple <code>(start, end, index)</code> DEPRECATED, see function 
+        <a href="pygeodesy.deprecated-module.html#clipCS3" 
+        class="link">clipCS3</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.clipy.ClipCS4Tuple-class.html" class="summary-name">ClipCS4Tuple</a><br />
+      4-Tuple <code>(start, end, i, j)</code> for each edge of a 
         <i>clipped</i> path with the <code>start</code> and 
         <code>end</code> points (<code>LatLon</code>) of the portion of the
-        edge inside or on the clip box and the <code>index</code> 
-        (<code>int</code>) of the edge in the original path.
+        edge inside or on the clip box and the indices <code>i</code> and 
+        <code>j</code> (<code>int</code>) of the edge start and end points 
+        in the original path.
     </td>
   </tr>
 <tr>
@@ -1212,11 +1223,11 @@
         the <i>clipped</i> path with the <code>start</code> and 
         <code>end</code> points (<code>LatLon</code>) of the portion of the
         edge inside or on the clip box, indices <code>i</code> and 
-        <code>j</code> (<code>int</code>) of the original path edge points 
-        and <i>fractional</i> indices <code>fi</code> and <code>fj</code> 
-        (<a href="pygeodesy.units.FIx-class.html" class="link">FIx</a>) of 
-        the <code>start</code> and <code>end</code> points along the edge 
-        of the original path.
+        <code>j</code> (<code>int</code>) of the original path edge start 
+        and end points and <i>fractional</i> indices <code>fi</code> and 
+        <code>fj</code> (<a href="pygeodesy.units.FIx-class.html" 
+        class="link">FIx</a>) of the <code>start</code> and 
+        <code>end</code> points along the edge of the original path.
     </td>
   </tr>
 <tr>
@@ -4144,6 +4155,28 @@
         <span class="summary-sig-arg">upperright</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
+      DEPRECATED, use function <a 
+      href="pygeodesy.clipy-module.html#clipCS4" class="link">clipCS4</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#clipCS4" class="summary-sig-name">clipCS4</a>(<span class="summary-sig-arg">points</span>,
+        <span class="summary-sig-arg">lowerleft</span>,
+        <span class="summary-sig-arg">upperright</span>,
+        <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a path against a rectangular clip box using the <a 
       href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
       target="_top">Cohen-Sutherland</a> algorithm.</td>
@@ -4206,7 +4239,7 @@
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">inull</span>=<span class="summary-sig-default">False</span>)</span><br />
       Clip a path against a rectangular clip box using the <a 
-      href="https://www.Skytopia.com/project/articles/compsci/clipping.html"
+      href="https://www.CSE.UNT.edu/~renka/4230/LineClipping.pdf" 
       target="_top">Liang-Barsky</a> algorithm.</td>
           <td align="right" valign="top">
             
@@ -5811,7 +5844,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fcecf1e12d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbbdad31350&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -8914,7 +8947,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.12.3'"><code class="variable-quote">'</code><code class="variable-string">20.12.3</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.12.10'"><code class="variable-quote">'</code><code class="variable-string">20.12.10</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -10785,6 +10818,34 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
+  <p>DEPRECATED, use function <a href="pygeodesy.clipy-module.html#clipCS4"
+  class="link">clipCS4</a>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Yield a <a href="pygeodesy.deprecated.ClipCS3Tuple-class.html" 
+          class="link">ClipCS3Tuple</a><code>(start, end, index)</code> for
+          each edge of the <i>clipped</i> path.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="clipCS4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clipCS4</span>&nbsp;(<span class="sig-arg">points</span>,
+        <span class="sig-arg">lowerleft</span>,
+        <span class="sig-arg">upperright</span>,
+        <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">inull</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
   <p>Clip a path against a rectangular clip box using the <a 
   href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
   target="_top">Cohen-Sutherland</a> algorithm.</p>
@@ -10798,8 +10859,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>inull</code></strong> - Optionally, retain null edges if inside (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield a <a href="pygeodesy.clipy.ClipCS3Tuple-class.html" 
-          class="link">ClipCS3Tuple</a><code>(start, end, index)</code> for
+        <dd>Yield a <a href="pygeodesy.clipy.ClipCS4Tuple-class.html" 
+          class="link">ClipCS4Tuple</a><code>(start, end, i, j)</code> for 
           each edge of the <i>clipped</i> path.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -10863,7 +10924,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>Clip a path against a rectangular clip box using the <a 
-  href="https://www.Skytopia.com/project/articles/compsci/clipping.html" 
+  href="https://www.CSE.UNT.edu/~renka/4230/LineClipping.pdf" 
   target="_top">Liang-Barsky</a> algorithm.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -10886,8 +10947,11 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://www.CSE.UNT.edu/~renka/4230/LineClipping.pdf" 
-        target="_top">Line Clipping</a> and <a 
+        <a 
+        href="https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html"
+        target="_top">Liang-Barsky Line Clipping</a>, <a 
+        href="https://www.Skytopia.com/project/articles/compsci/clipping.html"
+        target="_top">Liang-Barsky line clipping algorithm</a> and <a 
         href="https://WikiPedia.org/wiki/Liang&#8211;Barsky_algorithm" 
         target="_top">Liang&#8211;Barsky algorithm</a>.
       </p>
@@ -14072,7 +14136,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fcecf1e12d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbbdad31350&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20271,7 +20335,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Dec  4 15:25:13 2020
+    Generated by Epydoc 3.0.1 on Tue Dec  8 11:25:16 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -5,7 +5,7 @@
 
 # Tested with 64-bit Python 2.7.13-18, 3.6.1-2, 3.7.0-6 and 3.8.0-5
 # (using setuptools 28.8.0), but only on macOS 10.12.3-6 Sierra,
-# 10.13.0-6 High Sierra and 10.15.5-6 Catalina
+# 10.13.0-6 High Sierra, 10.15.5-7 Catalina and 11.0.1 (10.16) Big Sur
 
 # python setup.py sdist --formats=gztar,bztar,zip  # ztar,tar
 # python setup.py bdist_wheel --universal  # XXX
@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.12.02'
+__version__ = '20.12.06'
 
 
 def _c2(*names):

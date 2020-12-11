@@ -12,19 +12,20 @@ from pygeodesy.heights import HeightIDWequirectangular as _HeightIDWequirectangu
                               HeightIDWeuclidean as _HeightIDWeuclidean, \
                               HeightIDWhaversine as _HeightIDWhaversine
 from pygeodesy.errors import TRFError as _TRFError
-from pygeodesy.interns import EPS, NN, R_M, _COMMASPACE_, _easting_, _hemipole_, \
-                             _northing_, _scalar_, _sep_, _SPACE_,  _UNDER_, _zone_
+from pygeodesy.interns import EPS, NN, R_M, _COMMASPACE_, _easting_, _end_, _hemipole_, \
+                             _northing_, _scalar_, _sep_, _SPACE_, _start_, _UNDER_, _zone_
 from pygeodesy.lazily import _ALL_LAZY, isLazy
-from pygeodesy.named import _NamedTuple
+from pygeodesy.named import _NamedTuple, _Pass
 from pygeodesy.streprs import Fmt as _Fmt
-from pygeodesy.units import Easting, Northing, Str
-if isLazy:  # force import of the deprecated modules
+from pygeodesy.units import Easting, Northing, Number_, Scalar_, Str
+if isLazy:  # XXX force import of all deprecated modules
     import pygeodesy.deprecated.bases as bases, \
            pygeodesy.deprecated.datum as datum, \
            pygeodesy.deprecated.nvector as nvector  # PYCHOK unused
+    # XXX instead, use module_property or enhance .lazily
 
 __all__ = _ALL_LAZY.deprecated
-__version__ = '20.11.05'
+__version__ = '20.12.06'
 
 OK      = 'OK'  # OK for test like I{if ... is OK: ...}
 _value_ = 'value'
@@ -32,6 +33,13 @@ _WGS84  = _UTM = object()
 
 
 # DEPRECATED classes, for export only
+class ClipCS3Tuple(_NamedTuple):
+    '''3-Tuple C{(start, end, index)} DEPRECATED, see function L{clipCS3}.
+    '''
+    _Names_ = (_start_, _end_, 'index')
+    _Units_ = (_Pass,   _Pass,  Number_)
+
+
 class HeightIDW(_HeightIDWeuclidean):  # PYCHOK exported
     '''DEPRECATED, use class L{HeightIDWeuclidean}.
     '''
@@ -89,6 +97,18 @@ def bounds(points, wrap=True, LatLon=None):
     '''
     from pygeodesy.points import boundsOf
     return tuple(boundsOf(points, wrap=wrap, LatLon=LatLon))
+
+
+def clipCS3(points, lowerleft, upperright, closed=False, inull=False):
+    '''DEPRECATED, use function L{clipCS4}.
+
+       @return: Yield a L{ClipCS3Tuple}C{(start, end, index)} for each
+                edge of the I{clipped} path.
+    '''
+    from pygeodesy.clipy import clipCS4
+    for p1, p2, _, j in clipCS4(points, lowerleft, upperright,
+                                        closed=closed, inull=inull):
+        yield ClipCS3Tuple(p1, p2, j)
 
 
 def clipDMS(deg, limit):  # PYCHOK no cover
@@ -282,7 +302,6 @@ def scalar(value, low=EPS, high=1.0, name=_scalar_, Error=ValueError):  # PYCHOK
        @raise Error: Invalid B{C{value}}.
     '''
     from pygeodesy.basics import isint
-    from pygeodesy.units import Number_, Scalar_
     C_ = Number_ if isint(low) else Scalar_
     return C_(value, name=name, Error=Error, low=low, high=high)
 
@@ -328,7 +347,7 @@ def utmZoneBand2(lat, lon):
 
 # **) MIT License
 #
-# Copyright (C) 2018-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2018-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

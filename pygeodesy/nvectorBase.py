@@ -40,7 +40,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '20.11.05'
+__version__ = '20.12.08'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -427,7 +427,7 @@ class LatLonNvectorBase(LatLonBase):
 #       notOverloaded(self, self.distanceTo, other, **kwds)
 
     def intersections2(self, radius1, other, radius2, **kwds):  # PYCHOK expected
-        '''I{Not implemented}, throws a C{NotImplementedError} always.
+        '''B{Not implemented}, throws a C{NotImplementedError} always.
         '''
         from pygeodesy.named import notImplemented
         notImplemented(self, LatLonNvectorBase.intersections2,
@@ -686,7 +686,7 @@ __all__ += _ALL_DOCS(LatLonNvectorBase, NvectorBase, sumOf)  # classes
 
 # **) MIT License
 #
-# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

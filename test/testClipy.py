@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.12.02'
+__version__ = '20.12.05'
 
 from base import TestsBase
 
-from pygeodesy import F_D, clipCS3, ClipError, clipLB6, clipSH, clipSH3
+from pygeodesy import F_D, clipCS4, ClipError, clipLB6, clipSH, clipSH3
 
 
 def _lles3(*lles):
@@ -27,37 +27,85 @@ def _llsTrue3(lls):
 
 class Tests(TestsBase):
 
-    def testClipy(self, LatLon):  # MCCABE 13
+    def testClipy(self, module):  # MCCABE 15
+
+        self.subtitle(module)
+        LatLon = module.LatLon
+
+        # <https://www.CS.Helsinki.Fi/group/goa/viewing/leikkaus/example1.html>
+        ll, ur = LatLon(0, 0), LatLon(10, 10)
+        ps = LatLon(3, -5), LatLon(5, 5), LatLon(5, 5), LatLon(9, 15)
+        t = tuple(clipCS4(ps, ll, ur, closed=True, inull=True))
+        p1, p2, i, j = t[0]  # closing edge
+        self.test('clipCS4.p1', p1, '07.5°N, 010.0°E')
+        self.test('clipCS4.p2', p2, '04.5°N, 000.0°E')
+        self.test('clipCS4.i', i, 3)
+        self.test('clipCS4.j', j, 0)
+        p1, p2, i, j = t[2]  # only null edge
+        self.test('clipCS4.p1', p1, '05.0°N, 005.0°E')
+        self.test('clipCS4.p2', p2, '05.0°N, 005.0°E')
+        self.test('clipCS4.i', i, 1)
+        self.test('clipCS4.j', j, 2)
+
+        t = tuple(clipLB6(ps, ll, ur, closed=True, inull=True))
+        p1, p2, i, fi, fj, j = t[0]  # closing edge
+        self.test('clipLB6.p1', p1, '07.5°N, 010.0°E')
+        self.test('clipLB6.p2', p2, '04.5°N, 000.0°E')
+        self.test('clipLB6.i',   i, 3)
+        self.test('clipLB6.fi', fi, 3.25, prec=2)
+        self.test('clipLB6.fi', fi.fractional(ps, LatLon=LatLon), p1)
+        self.test('clipLB6.fj', fj, 3.75, prec=2)
+        self.test('clipLB6.fj', fj.fractional(ps, LatLon=LatLon), p2)
+        self.test('clipLB6.j',   j, 0)
+        self.test('clipLB6.fin', fi.fin, 4)
+        p1, p2, i, fi, fj, j = t[2]  # only null edge
+        self.test('clipLB6.p1', p1, '05.0°N, 005.0°E')
+        self.test('clipLB6.p2', p2, '05.0°N, 005.0°E')
+        self.test('clipLB6.i',   i, 1)
+        self.test('clipLB6.fi', fi, 1.00, prec=2)
+        self.test('clipLB6.fi', fi.fractional(ps, LatLon=LatLon), p1)
+        self.test('clipLB6.fj', fj, 2.00, prec=2)
+        self.test('clipLB6.fj', fj.fractional(ps, LatLon=LatLon), p2)
+        self.test('clipLB6.j',   j, 2)
+        self.test('clipLB6.fin', fi.fin, 4)
 
         ll, ur = LatLon(60, 70), LatLon(70, 130)
         ps = LatLon(20, 30), LatLon(80, 170)
-        for p1, p2, i in clipCS3(ps, ll, ur):
-            self.test('clipCS3.p1', p1, '60.0°N, 123.333333°E')
-            self.test('clipCS3.p2', p2, '62.857143°N, 130.0°E')
-            self.test('clipCS3.i', i, 1)
+        for p1, p2, i, j in clipCS4(ps, ll, ur):
+            self.test('clipCS4.p1', p1, '60.0°N, 123.333333°E')
+            self.test('clipCS4.p2', p2, '62.857143°N, 130.0°E')
+            self.test('clipCS4.i', i, 0)
+            self.test('clipCS4.j', j, 1)
 
         for p1, p2, i, fi, fj, j in clipLB6(ps, ll, ur):
-            self.test('clipLB4.p1', p1, '60.0°N, 123.333333°E')
-            self.test('clipLB4.p2', p2, '62.857143°N, 130.0°E')
-            self.test('clipLB4.i',   i, 0)
-            self.test('clipLB4.fi', fi, 0.666667, prec=6)
-            self.test('clipLB4.fj', fj, 0.714286, prec=6)
-            self.test('clipLB4.j',   j, 1)
+            self.test('clipLB6.p1', p1, '60.0°N, 123.333333°E')
+            self.test('clipLB6.p2', p2, '62.857143°N, 130.0°E')
+            self.test('clipLB6.i',   i, 0)
+            self.test('clipLB6.fi', fi, 0.666667, prec=6)
+            self.test('clipLB6.fi', fi.fractional(ps, LatLon=LatLon), p1)
+            self.test('clipLB6.fj', fj, 0.714286, prec=6)
+            self.test('clipLB6.fj', fj.fractional(ps, LatLon=LatLon), p2)
+            self.test('clipLB6.j',   j, 1)
+            self.test('clipLB6.fin', fi.fin, 0)
 
         ll, ur = LatLon(15, 15), LatLon(20, 20)
         ps = LatLon(15, 10), LatLon(25, 20), LatLon(20, 30)
-        for p1, p2, i in clipCS3(ps, ll, ur, closed=True, inull=False):
-            self.test('clipCS3.p1', p1, '17.5°N, 020.0°E')
-            self.test('clipCS3.p2', p2, '16.25°N, 015.0°E')
-            self.test('clipCS3.i', i, 0)  # closing edge
+        for p1, p2, i, j in clipCS4(ps, ll, ur, closed=True, inull=False):
+            self.test('clipCS4.p1', p1, '17.5°N, 020.0°E')
+            self.test('clipCS4.p2', p2, '16.25°N, 015.0°E')
+            self.test('clipCS4.i', i, 2)  # closing edge
+            self.test('clipCS4.j', j, 0)
 
         for p1, p2, i, fi, fj, j in clipLB6(ps, ll, ur, closed=True, inull=False):
-            self.test('clipLB4.p1', p1, '17.5°N, 020.0°E')
-            self.test('clipLB4.p2', p2, '16.25°N, 015.0°E')
-            self.test('clipLB4.i',   i, 2)  # closing edge
-            self.test('clipLB4.fi', fi, 2.500, prec=3)  # closing edge
-            self.test('clipLB4.fj', fj, 2.750, prec=3)  # closing edge
-            self.test('clipLB4.j',   j, 0)  # closing edge
+            self.test('clipLB6.p1', p1, '17.5°N, 020.0°E')
+            self.test('clipLB6.p2', p2, '16.25°N, 015.0°E')
+            self.test('clipLB6.i',   i, 2)  # closing edge
+            self.test('clipLB6.fi', fi, 2.500, prec=3)  # closing edge
+            self.test('clipLB6.fi', fi.fractional(ps, LatLon=LatLon), p1)
+            self.test('clipLB6.fj', fj, 2.750, prec=3)  # closing edge
+            self.test('clipLB6.fj', fj.fractional(ps, LatLon=LatLon), p2)
+            self.test('clipLB6.j',   j, 0)  # closing edge
+            self.test('clipLB6.fin', fi.fin, 3)
 
         # ps = LatLon(15, 10), LatLon(25, 20), LatLon(20, 30)
         sh = tuple(clipSH(ps, (ll, ur)))
@@ -135,9 +183,9 @@ if __name__ == '__main__':
                           sphericalNvector, sphericalTrigonometry
 
     t = Tests(__file__, __version__)
-    t.testClipy(ellipsoidalNvector.LatLon)
-    t.testClipy(ellipsoidalVincenty.LatLon)
-    t.testClipy(sphericalNvector.LatLon)
-    t.testClipy(sphericalTrigonometry.LatLon)
+    t.testClipy(ellipsoidalNvector)
+    t.testClipy(ellipsoidalVincenty)
+    t.testClipy(sphericalNvector)
+    t.testClipy(sphericalTrigonometry)
     t.results()
     t.exit()

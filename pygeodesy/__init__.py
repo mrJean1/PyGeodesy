@@ -52,13 +52,13 @@ and Lambert conformal conic projections and positions (from U{John P. Snyder, "M
 Projections -- A Working Manual", 1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}),
 functions to clip a path or polygon of C{LatLon} points using the U{Cohen–Sutherland
 <https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>}, the U{Liang–Barsky
-<https://WikiPedia.org/wiki/Liang–Barsky_algorithm>} and the U{Sutherland-Hodgman
-<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>} methods, functions to
-U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize a path of C{tLon}
-points (or a U{NumPy array <https://docs.SciPy.org/doc/numpy/reference/generated/
-numpy.array.html>}), including implementations of the U{Ramer-Douglas-Peucker
-<https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>} the
-U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/resources/hull:8338>} and the
+<https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html>} and the
+U{Sutherland-Hodgman<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
+methods, functions to U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize
+a path of C{tLon} points (or a U{NumPy array <https://docs.SciPy.org/doc/numpy/
+reference/generated/numpy.array.html>}), including implementations of the
+U{Ramer-Douglas-Peucker<https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}
+the U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/resources/hull:8338>} and the
 U{Reumann-Witkam<https://psimpl.SourceForge.net/reumann-witkam.html>} algorithms
 and modified versions of the former.  Other classes U{interpolate
 <https://docs.SciPy.org/doc/scipy/reference/interpolate.html>} the C{height}
@@ -164,7 +164,7 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8
 <https://PyPI.org/project/flake8>} using Python 3.9.0, both in 64-bit
-on macOS 10.15.6 Catalina.
+on macOS 11.0.1 (10.16) Big Sur.
 
 Classes with a name ending in C{-Karney} and several more are transcribed from
 I{Karney}'s U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
@@ -178,7 +178,7 @@ cases documentation tag B{JS name:} shows the original JavaScript name.
 License
 =======
 
-**) U{Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+**) U{Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 <https://OpenSource.org/licenses/MIT>}
 
 C{Permission is hereby granted, free of charge, to any person obtaining a
@@ -457,7 +457,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '20.12.03'
+__version__ = '20.12.10'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 
@@ -466,7 +466,7 @@ del abspath, basename, dirname, _DOT_, _lazy_import2, sys
 
 # **) MIT License
 #
-# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -33,7 +33,7 @@ from pygeodesy.units import Epoch, Height, Radius_, Scalar
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '20.11.04'
+__version__ = '20.12.06'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 17    # _intersects2, _nearestOn interations, 6 is sufficient
@@ -647,7 +647,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, wrap=False):
         '''Trilaterate three points by area overlap or perimeter intersection
-           three corresponding circles.
+           of three intersecting circles.
 
            @arg distance1: Distance to this point (C{meter}), same units
                            as B{C{eps}}).
@@ -679,10 +679,10 @@ class LatLonEllipsoidalBase(LatLonBase):
                     For C{B{area}=False}, C{min} and C{max} represent the
                     nearest respectively farthest intersection margin.
 
-                    If C{B{area}=True} and all 3 circles are concentric, C{n =
-                    0} and C{minPoint} and C{maxPoint} are the B{C{point#}}
-                    with the smallest B{C{distance#}} C{min} respectively
-                    C{max} the largest B{C{distance#}}.
+                    If C{B{area}=True} and all 3 circles are concentric, C{n=0}
+                    and C{minPoint} and C{maxPoint} are the B{C{point#}} with
+                    the smallest B{C{distance#}} C{min} respectively C{max} the
+                    largest B{C{distance#}}.
 
            @raise IntersectionError: Trilateration failed for the given B{C{eps}},
                                      insufficient overlap for C{B{area}=True} or
@@ -923,7 +923,7 @@ __all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

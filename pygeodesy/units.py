@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.12.03'
+__version__ = '20.12.06'
 
 
 class _NamedUnit(_Named):
@@ -693,8 +693,8 @@ class FIx(Float_):
         '''New I{Fractional Index} in a C{list} or C{tuple} of points.
 
            @arg fi: The fractional index (C{float} or C{int}).
-           @kwarg fin: Optional C{len} of the original C{list} or
-                       C{tuple}, wrapping index C{[n]} to C{[0]}.
+           @kwarg fin: Optional C{len}, the number of C{points}, the index
+                       C{[n]} wrapped to C{[0]} (C{int} or C{None}).
            @kwarg name_Error: Optional keyword argument C{name=<name>}
                               and/or C{Error=<Exception>}.
 
@@ -705,7 +705,7 @@ class FIx(Float_):
 
            @see: Method L{fractional} or function L{pygeodesy.fractional}.
         '''
-        n = fin if fin is None else int(fin)
+        n = Int_(fin=fin, low=0) if fin else None
         f = Float_.__new__(cls, fi, low=_0_0, high=n, **name_Error)
         i = int(f)
         r = f - float(i)
@@ -719,7 +719,7 @@ class FIx(Float_):
 
     @property_RO
     def fin(self):
-        '''Get the original C{len}, wrapping index C{[n]} to C{[0]} (C{int}).
+        '''Get the given C{len}, the index C{[n]} wrapped to C{[0]} (C{int}).
         '''
         return self._fin
 
@@ -1008,7 +1008,7 @@ __all__ += _ALL_DOCS(_NamedUnit)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

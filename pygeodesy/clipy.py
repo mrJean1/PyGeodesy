@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''Functions to I{clip} a path or polygon of C{LatLon} points
-against a rectangular box or clip region.
+against a rectangular box or a (convex) clip region.
 
 @newfield example: Example, Examples
 '''
@@ -21,7 +21,7 @@ from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '20.12.03'
+__version__ = '20.12.06'
 
 
 class ClipError(_ValueError):
@@ -165,17 +165,18 @@ class _CS(_Named):
         return _CS._IN, self.nop4, b, p
 
 
-class ClipCS3Tuple(_NamedTuple):
-    '''3-Tuple C{(start, end, index)} for each edge of a I{clipped}
+class ClipCS4Tuple(_NamedTuple):
+    '''4-Tuple C{(start, end, i, j)} for each edge of a I{clipped}
        path with the C{start} and C{end} points (C{LatLon}) of the
-       portion of the edge inside or on the clip box and the C{index}
-       (C{int}) of the edge in the original path.
+       portion of the edge inside or on the clip box and the indices
+       C{i} and C{j} (C{int}) of the edge start and end points in
+       the original path.
     '''
-    _Names_ = (_start_, _end_, 'index')
-    _Units_ = (_Pass,   _Pass,  Number_)
+    _Names_ = (_start_, _end_, 'i',     'j')
+    _Units_ = (_Pass,   _Pass,  Number_, Number_)
 
 
-def clipCS3(points, lowerleft, upperright, closed=False, inull=False):
+def clipCS4(points, lowerleft, upperright, closed=False, inull=False):
     '''Clip a path against a rectangular clip box using the U{Cohen-Sutherland
        <https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>} algorithm.
 
@@ -185,7 +186,7 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):
        @kwarg closed: Optionally, close the path (C{bool}).
        @kwarg inull: Optionally, retain null edges if inside (C{bool}).
 
-       @return: Yield a L{ClipCS3Tuple}C{(start, end, index)} for each
+       @return: Yield a L{ClipCS4Tuple}C{(start, end, i, j)} for each
                 edge of the I{clipped} path.
 
        @raise ClipError: The B{C{lowerleft}} and B{C{upperright}} corners
@@ -193,38 +194,37 @@ def clipCS3(points, lowerleft, upperright, closed=False, inull=False):
 
        @raise PointsError: Insufficient number of B{C{points}}.
     '''
-    cs = _CS(lowerleft, upperright, name=clipCS3.__name__)
+    cs = _CS(lowerleft, upperright, name=clipCS4.__name__)
     n, pts = _pts2(points, closed, inull)
 
     i, m = _imdex2(closed, n)
     cmbp = cs.code4(pts[i])
-    for i in range(m, n):
+    for j in range(m, n):
         c1, m1, b1, p1 = cmbp
-        c2, m2, b2, p2 = cmbp = cs.code4(pts[i])
+        c2, m2, b2, p2 = cmbp = cs.code4(pts[j])
         if c1 & c2:  # edge outside
-            continue
+            pass
+        elif cs.edge(p1, p2):
+            for _ in range(5):
+                if c1:  # clip p1
+                    c1, m1, b1, p1 = m1(b1, p1)
+                elif c2:  # clip p2
+                    c2, m2, b2, p2 = m2(b2, p2)
+                else:  # inside
+                    if inull or _neq(p1, p2):
+                        yield ClipCS4Tuple(p1, p2, i, j)
+                    break
+                if c1 & c2:  # edge outside
+                    break
+            else:  # PYCHOK no cover
+                raise _AssertionError(_DOT_(cs.name, 'for_else'))
 
-        if not cs.edge(p1, p2):
-            if inull:  # null edge
-                if not c1:
-                    yield ClipCS3Tuple(p1, p1, i)
-                elif not c2:
-                    yield ClipCS3Tuple(p2, p2, i)
-            continue
+        elif inull and not c1:  # null edge
+            yield ClipCS4Tuple(p1, p1, i, j)
+        elif inull and not c2:
+            yield ClipCS4Tuple(p2, p2, i, j)
 
-        for _ in range(5):
-            if c1:  # clip p1
-                c1, m1, b1, p1 = m1(b1, p1)
-            elif c2:  # clip p2
-                c2, m2, b2, p2 = m2(b2, p2)
-            else:  # inside
-                if inull or _neq(p1, p2):
-                    yield ClipCS3Tuple(p1, p2, i)
-                break
-            if c1 & c2:  # edge outside
-                break
-        else:  # PYCHOK no cover
-            raise _AssertionError(_DOT_(cs.name, 'for_else'))
+        i = j
 
 
 class ClipLB6Tuple(_NamedTuple):
@@ -232,9 +232,9 @@ class ClipLB6Tuple(_NamedTuple):
        the I{clipped} path with the C{start} and C{end} points
        (C{LatLon}) of the portion of the edge inside or on the
        clip box, indices C{i} and C{j} (C{int}) of the original
-       path edge points and I{fractional} indices C{fi} and
-       C{fj} (L{FIx}) of the C{start} and C{end} points along
-       the edge of the original path.
+       path edge start and end points and I{fractional} indices
+       C{fi} and C{fj} (L{FIx}) of the C{start} and C{end} points
+       along the edge of the original path.
 
        @see: Class L{FIx} and function L{fractional}.
     '''
@@ -244,8 +244,7 @@ class ClipLB6Tuple(_NamedTuple):
 
 def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
     '''Clip a path against a rectangular clip box using the U{Liang-Barsky
-       <https://www.Skytopia.com/project/articles/compsci/clipping.html>}
-       algorithm.
+       <https://www.CSE.UNT.edu/~renka/4230/LineClipping.pdf>} algorithm.
 
        @arg points: The points (C{LatLon}[]).
        @arg lowerleft: Bottom-left corner of the clip box (C{LatLon}).
@@ -261,9 +260,10 @@ def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
-       @see: U{Line Clipping<https://www.CSE.UNT.edu/~renka/4230/
-             LineClipping.pdf>} and U{Liang–Barsky algorithm
-             <https://WikiPedia.org/wiki/Liang–Barsky_algorithm>}.
+       @see: U{Liang-Barsky Line Clipping<https://www.CS.Helsinki.FI/group/goa/
+             viewing/leikkaus/intro.html>}, U{Liang-Barsky line clipping algorithm
+             <https://www.Skytopia.com/project/articles/compsci/clipping.html>}
+             and U{Liang–Barsky algorithm<https://WikiPedia.org/wiki/Liang–Barsky_algorithm>}.
     '''
     xmin, ymin, \
     xmax, ymax = _box4(lowerleft, upperright, clipLB6.__name__)
@@ -271,7 +271,7 @@ def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
     n, pts = _pts2(points, closed, inull)
 
     fin =  n if closed else None  # wrapping fi [n] to [0]
-    _LB = _clipLB
+    _LB = _LBtrim
 
     i, m = _imdex2(closed, n)
     pi = pts[i]
@@ -291,14 +291,13 @@ def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
                _LB(-dy, -ymin + y1, t) and \
                _LB( dy,  ymax - y1, t):
                 # clip edge pts[i]...pts[j]
-                # from fraction t[0] to t[1]
+                # at fractions t[0] to t[1]
                 if t[0] > _0_0:  # EPS
                     p1 = p1.classof(y1 + t[0] * dy,
                                     x1 + t[0] * dx)
                     fi = i + t[0]
                 else:
                     fi = i
-                fi = FIx(fi, fin=fin)
                 if t[0] < t[1]:
                     if t[1] < _1_0:  # EPS1
                         p2 = p2.classof(y1 + t[1] * dy,
@@ -306,10 +305,12 @@ def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
                         fj = i + t[1]
                     else:
                         fj = j
+                    fi = FIx(fi, fin=fin)
                     fj = FIx(fj, fin=fin)
                     yield ClipLB6Tuple(p1, p2, i, fi, fj, j)
 
                 elif inull and (t[0] + EPS) > t[1]:
+                    fi = FIx(fi, fin=fin)
                     yield ClipLB6Tuple(p1, p1, i, fi, fi, j)
 #           else:  # outside
 #               pass
@@ -319,22 +320,22 @@ def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
         i = j
 
 
-def _clipLB(p, q, t):
-    # Liang-Barsky core, adjusting t[0] or t[1]
+def _LBtrim(p, q, t):
+    # Liang-Barsky trim t[0] or t[1]
     if p < 0:
         r = q / p
         if r > t[1]:
-            return False  # outside
+            return False  # too far above
         elif r > t[0]:
             t[0] = r
     elif p > 0:
         r = q / p
         if r < t[0]:
-            return False  # outside
+            return False  # too far below
         elif r < t[1]:
             t[1] = r
-    elif q < 0:
-        return False  # outside
+    elif q < 0:  # vertical or horizontal
+        return False  # ... outside
     return True
 
 
@@ -574,7 +575,7 @@ def clipSH3(points, corners, closed=False, inull=False):
 
 # **) MIT License
 #
-# Copyright (C) 2018-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2018-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

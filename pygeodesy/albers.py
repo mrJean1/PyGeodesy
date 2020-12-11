@@ -31,7 +31,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.11.04'
+__version__ = '20.12.08'
 
 _EPS__2 = EPS**2
 _EPS__4 = EPS**4
@@ -323,7 +323,7 @@ class _AlbersBase(_NamedBase):
         sth, cth = sincos2(th)  # XXX sin, cos
         if n0:
             x = sth / n0
-            y = (_1_0 - cth if cth < 0 else sth**2 / (_1_0 + cth)) / n0
+            y = ((_1_0 - cth) if cth < 0 else (sth**2 / (_1_0 + cth))) / n0
         else:
             x = self._k02 * b
             y = _0_0
@@ -736,7 +736,7 @@ __all__ += _ALL_DOCS(_AlbersBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2020 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
