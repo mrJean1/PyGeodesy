@@ -4,7 +4,7 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '20.11.05'
+__version__ = '20.12.19'
 
 from base import TestsBase
 
@@ -144,6 +144,7 @@ class Tests(TestsBase):
                     self.test('inverse', aux(a, inverse=True).toRepr(prec=2), x)
 
         self.subtitle(ellipsoids, 'Flattenings')
+
         self.test('_TOL', _TOL, _TOL)
         for n, E in Ellipsoids.items():  # includes f_None, b_None, Prolate
             if E.f and E.f_:

@@ -12,10 +12,12 @@ projection-conversions/lambert-conformal-conic-geographic>},
 U{Lambert Conformal Conic Projection
 <https://MathWorld.Wolfram.com/LambertConformalConicProjection.html>}
 and John P. Snyder U{'Map Projections - A Working Manual'
-<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, 1987, pp 107-109.
+<https://Pubs.USGS.gov/pp/1395/report.pdf>}, 1987, pp 107-109.
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import copysign, property_RO, _xinstanceof, \
                             _xsubclassof
@@ -40,7 +42,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.11.06'
+__version__ = '20.12.18'
 
 _E0_   = 'E0'
 _N0_   = 'N0'

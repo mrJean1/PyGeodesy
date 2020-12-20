@@ -42,7 +42,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.11.04'
+__version__ = '20.12.19'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -560,8 +560,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                       line" between both centers (C{meter}, conventionally)
                       or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-       @kwarg equidistant: An azimuthal equidistant projection class
-                           (L{Equidistant} or L{equidistant}) or
+       @kwarg equidistant: An azimuthal equidistant projection (class
+                           L{Equidistant} or function L{equidistant}) or
                            C{None} for L{EquidistantKarney}.
        @kwarg tol: Convergence tolerance (C{meter}, same units as
                    B{C{radius1}} and B{C{radius2}}).
@@ -635,7 +635,7 @@ def isclockwise(points, datum=Datums.WGS84, wrap=True):
 
 def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
               equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Locate the closest point on the arc between two other points.
+    '''Iteratively locate the closest point on the arc between two other points.
 
        @arg point: Reference point (C{LatLon}).
        @arg point1: Start point of the arc (C{LatLon}).
@@ -646,8 +646,8 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        @kwarg height: Optional height for the closest point (C{meter})
                       or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-       @kwarg equidistant: An azimuthal equidistant projection class
-                           (L{Equidistant} or L{equidistant}) or
+       @kwarg equidistant: An azimuthal equidistant projection (class
+                           L{Equidistant} or function L{equidistant}) or
                            C{None} for L{EquidistantKarney}.
        @kwarg tol: Convergence tolerance (C{meter}).
        @kwarg LatLon: Optional class to return the closest point

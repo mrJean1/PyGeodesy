@@ -20,12 +20,11 @@ from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
 from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _radical2, vincentys_
 from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, PI_4, R_M, \
-                             _coincident_, _colinear_, _convex_, _end_, \
-                             _invalid_, _LatLon_, _near_concentric_, \
-                             _not_, _points_, _too_, _1_, _2_, \
-                             _0_0, _0_5, _4_0
+                             _EPS4, _coincident_, _colinear_, _convex_, \
+                             _end_, _invalid_, _LatLon_, _near_concentric_, \
+                             _not_, _points_, _too_, _1_, _2_, _0_0, _0_5
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import _xnamed
+from pygeodesy.named import notImplemented, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   NearestOn3Tuple
 from pygeodesy.nvectorBase import NvectorBase as _Nvector
@@ -42,12 +41,11 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.11.04'
+__version__ = '20.12.19'
 
-_EPS_I2    = EPS * _4_0
-_PI_EPS_I2 = PI - _EPS_I2
-if _PI_EPS_I2 >= PI:
-    raise _AssertionError(_PI_EPS_I2=_PI_EPS_I2)
+_PI_EPS4 = PI - _EPS4
+if _PI_EPS4 >= PI:
+    raise _AssertionError(EPS4=_EPS4, PI=PI, PI_EPS4=_PI_EPS4)
 
 
 def _destination2(a, b, r, t):
@@ -406,7 +404,7 @@ class LatLon(LatLonSphericalBase):
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def intersection(self, end1, other, end2, height=None, wrap=False):
-        '''Locate the intersection point of two paths both defined
+        '''Compute the intersection point of two paths both defined
            by two points or a start point and bearing from North.
 
            @arg end1: End point of this path (L{LatLon}) or the
@@ -521,7 +519,8 @@ class LatLon(LatLonSphericalBase):
                     return False  # outside
 
                 if gc1.angleTo(gc, vSign=n0) < 0:
-                    raise _ValueError(Fmt.SQUARE(points=i), points[i], txt=_not_(_convex_))
+                    ti = Fmt.SQUARE(points=i)
+                    raise _ValueError(ti, points[i], txt=_not_(_convex_))
                 gc1 = gc
 
         else:
@@ -547,7 +546,8 @@ class LatLon(LatLonSphericalBase):
             for i, gc2 in enumerate(gc):
                 # angle between gc vectors, signed by direction of n0
                 if gc1.angleTo(gc2, vSign=n0) < 0:
-                    raise _ValueError(Fmt.SQUARE(points=i), points[i], txt=_not_(_convex_))
+                    ti = Fmt.SQUARE(points=i)
+                    raise _ValueError(ti, points[i], txt=_not_(_convex_))
                 gc1 = gc2
 
         return True  # inside
@@ -629,7 +629,6 @@ class LatLon(LatLonSphericalBase):
         try:  # remove kwarg B{C{within}} if present
             within = options.pop('within')
             if not within:
-                from pygeodesy.named import notImplemented
                 notImplemented(self, self.nearestOn, within=within)
 
 #           # UNTESTED - handle C{B{within}=False} and B{C{within}=True}
@@ -994,7 +993,7 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
 
     h = fmean(hs) if height is None else Height(height)
     return _latlon3(degrees90(a), degrees180(b), h,
-                    intersection, LatLon, **LatLon_kwds)
+                    intersection, LatLon, LatLon_kwds)
 
 
 def intersections2(center1, rad1, center2, rad2, radius=R_M,
@@ -1021,7 +1020,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,
                            arguments, ignored if C{B{LatLon}=None}.
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
-                instance or L{LatLon3Tuple}C{(lat, lon, height)} if
+                instance or a L{LatLon3Tuple}C{(lat, lon, height)} if
                 B{C{LatLon}} is C{None}.  For abutting circles, both
                 intersection points are the same instance.
 
@@ -1059,7 +1058,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._interse
     def _dest3(bearing, h):
         a, b = _destination2(a1, b1, r1, bearing)
         return _latlon3(degrees90(a), degrees180(b), h,
-                        intersections2, LatLon, **LatLon_kwds)
+                        intersections2, LatLon, LatLon_kwds)
 
     r1, r2, f = _rads3(rad1, rad2, radius)
     if f:  # swapped
@@ -1092,9 +1091,9 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._interse
         h = Height(height)
 
     b = bearing_(a1, b1, a2, b2, final=False, wrap=wrap)
-    if x < _EPS_I2:  # externally ...
+    if x < _EPS4:  # externally ...
         r = _dest3(b, h)
-    elif x > _PI_EPS_I2:  # internally ...
+    elif x > _PI_EPS4:  # internally ...
         r = _dest3(b + PI, h)
     else:
         return _dest3(b + x, h), _dest3(b - x, h)
@@ -1107,7 +1106,7 @@ def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover
     return ispolar(points, wrap=wrap)
 
 
-def _latlon3(lat, lon, height, func, LatLon, **LatLon_kwds):
+def _latlon3(lat, lon, height, func, LatLon, LatLon_kwds):
     '''(INTERNAL) Helper for L{intersection}, L{intersections2} and L{meanof}.
     '''
     if LatLon is None:
@@ -1148,7 +1147,7 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
         h = fmean(points[i].height for i in range(n))
     else:
         h = Height(height)
-    return _latlon3(lat, lon, h, meanOf, LatLon, **LatLon_kwds)
+    return _latlon3(lat, lon, h, meanOf, LatLon, LatLon_kwds)
 
 
 def nearestOn2(point, points, **closed_radius_LatLon_options):  # PYCHOK no cover

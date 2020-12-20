@@ -51,33 +51,27 @@ See module L{datums} for more information and other details.
 @var Ellipsoids.WGS72: Ellipsoid(name='WGS72', a=6378135, b=6356750.52001609, f_=298.26, f=0.00335278, f2=0.00336406, n=0.0016792, e=0.08181881, e2=0.00669432, e22=0.00673943, e32=0.0033584, L=10001962.74919858, R1=6371006.84000536, R2=6371005.24953886, R3=6370998.85875069)
 @var Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, L=10001965.72931272, R1=6371008.77141506, R2=6371007.18091847, R3=6371000.79000915)
 '''
-
-# make sure int/int division yields float quotient
+# make sure int/int division yields float quotient, see .basics
 from __future__ import division
-division = 1 / 2  # double check int division, see .datums, .fmath, .utily
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
 
-from pygeodesy.basics import copysign, property_doc_, property_RO, \
-                            _xinstanceof
+from pygeodesy.basics import copysign, property_doc_, property_RO, _xinstanceof
 from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import cbrt, cbrt2, fdot, fpowers, Fsum, fsum_, \
                             hypot1, hypot2, sqrt3
-from pygeodesy.interns import EPS, EPS1, _1_EPS, INF, NN, PI4, PI_2, R_M, \
-                             _a_, _e_, _f_, _float, _floatuple as _T, \
-                             _lat_, _meridional_, _n_, _negative_, \
-                             _prime_vertical_, _SPACE_, _vs_, \
-                             _0_0, _0_1, _0_5, _1_0, _2_0, _4_0, _90_0
-from pygeodesy.interns import _0_125, _0_25, _3_0  # PYCHOK used!
+from pygeodesy.interns import EPS, EPS1, INF, NN, PI4, PI_2, R_M, \
+                             _1_EPS, _EPStol as _TOL, _a_, _DOT_, _e_, _f_, \
+                             _float, _floatuple as _T, _lat_, _meridional_, \
+                             _n_, _negative_, _prime_vertical_, _SPACE_, _vs_, \
+                             _0_0, _0_5, _1_0, _2_0, _4_0, _90_0
+from pygeodesy.interns import _0_125, _0_25, _3_0, _24_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, _NamedTuple, _Pass
 from pygeodesy.namedTuples import Distance2Tuple
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
-from pygeodesy.units import Bearing_, Distance, Float, Float_, Lam_, Lat, \
-                            Meter, Phi, Phi_, Radius, Radius_, Scalar
-from pygeodesy.utily import atand, atan2b, degrees90, degrees2m, \
-                            m2degrees, m2km, m2NM, m2SM
+from pygeodesy.units import Bearing_, Distance, Float, Float_, Lam_, Lat, Meter, \
+                            Phi, Phi_, Radius, Radius_, Scalar
+from pygeodesy.utily import atand, atan2b, degrees90, degrees2m, m2degrees, \
+                            m2km, m2NM, m2SM
 
 from math import asinh, atan, atanh, cos, degrees, exp, hypot, \
                  sin, sinh, sqrt, tan
@@ -97,9 +91,7 @@ R_VM = Radius(R_VM=6366707.0194937)  # Aviation/Navigation earth radius (C{meter
 # R_ = Radius(R_  =6372797.560856)   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '20.11.06'
-
-_TOL = sqrt(_0_1 * EPS)  # for Ellipsoid.estauf, in .ups, testEllipsoidal.py
+__version__ = '20.12.19'
 
 
 def _aux(lat, inverse, auxLat, clip=90):
@@ -284,7 +276,7 @@ class Ellipsoid(_NamedEnumItem):
 
         if f and f_:  # see .test/testEllipsoidal.py
             self._assert(_1_0 / f,  f_=f_, eps=_TOL)
-            self._assert(_1_0 / f_, f=f,   eps=_TOL)
+            self._assert(_1_0 / f_, f =f,  eps=_TOL)
         self._assert(self.b2_a2, e12=self.e12, eps=EPS)
 
     def __eq__(self, other):
@@ -295,9 +287,8 @@ class Ellipsoid(_NamedEnumItem):
            @return: C{True} if equal, C{False} otherwise.
         '''
         return self is other or (isinstance(other, Ellipsoid) and
-                                 self.a == other.a and
-                                (self.b == other.b or
-                                 self.f == other.f))
+                                  self.a == other.a and
+                                 (self.b == other.b or self.f == other.f))
 
     def _Kseries(self, *AB8Ks):
         '''(INTERNAL) Compute the 4-, 6- or 8-th order I{Krüger} Alpha
@@ -313,7 +304,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: I{Karney}s 30-th order U{TMseries30
                  <https://GeographicLib.SourceForge.io/html/tmseries30.html>}.
         '''
-        k = self.KsOrder
+        k  = self.KsOrder
         ns = fpowers(self.n, k)
         return tuple(fdot(AB8Ks[i][:k-i], *ns[i:]) for i in range(k))
 
@@ -448,7 +439,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Inverse-/AuthalicLatitude<https://geographiclib.sourceforge.io/
                  html/classGeographicLib_1_1Ellipsoid.html>}, U{Authalic latitude
                  <https://WikiPedia.org/wiki/Latitude#Authalic_latitude>}, and
-                 U{Snyder<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, p 16.
+                 U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, p 16.
 
         '''
         if self.isEllipsoidal:
@@ -472,7 +463,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Inverse-/ConformalLatitude<https://geographiclib.sourceforge.io/
                  html/classGeographicLib_1_1Ellipsoid.html>}, U{Conformal latitude
                  <https://WikiPedia.org/wiki/Latitude#Conformal_latitude>}, and
-                 U{Snyder<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, pp 15-16.
+                 U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 15-16.
         '''
         if self.isEllipsoidal:
             f = self.es_tauf if inverse else self.es_taupf  # PYCHOK attr
@@ -491,7 +482,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Inverse-/GeocentricLatitude<https://geographiclib.sourceforge.io/
                  html/classGeographicLib_1_1Ellipsoid.html>}, U{Geocentric latitude
                  <https://WikiPedia.org/wiki/Latitude#Geocentric_latitude>}, and
-                 U{Snyder<<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, pp 17-18.
+                 U{Snyder<<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 17-18.
         '''
         if self.isEllipsoidal:
             f = self.a2_b2 if inverse else self.b2_a2
@@ -514,7 +505,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Inverse-/IsometricLatitude<https://geographiclib.sourceforge.io/
                  html/classGeographicLib_1_1Ellipsoid.html>}, U{Isometric latitude
                  <https://WikiPedia.org/wiki/Latitude#Isometric_latitude>}, and
-                 U{Snyder<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, pp 15-16.
+                 U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 15-16.
         '''
         if self.isEllipsoidal:
             r = Phi_(lat, clip=0)
@@ -535,7 +526,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Inverse-/ParametricLatitude<https://geographiclib.sourceforge.io/
                  html/classGeographicLib_1_1Ellipsoid.html>}, U{Parametric latitude
                  <https://WikiPedia.org/wiki/Latitude#Parametric_(or_reduced)_latitude>},
-                 and U{Snyder<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, p 18.
+                 and U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, p 18.
         '''
         if self.isEllipsoidal:
             f = self.a_b if inverse else self.b_a
@@ -556,7 +547,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Inverse-/RectifyingLatitude<https://geographiclib.sourceforge.io/
                  html/classGeographicLib_1_1Ellipsoid.html>}, U{Rectifying latitude
                  <https://WikiPedia.org/wiki/Latitude#Rectifying_latitude>}, and
-                 U{Snyder<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, pp 16-17.
+                 U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 16-17.
         '''
         lat = Lat(lat)
         if 0 < abs(lat) < _90_0 and self.isEllipsoidal:
@@ -827,9 +818,9 @@ class Ellipsoid(_NamedEnumItem):
         '''
         # note, self.e is always non-negative
         if self.f > 0:  # oblate
-            r = self.e * atanh(self.e * Scalar(x=x))
+            r = atanh(self.e * Scalar(x=x)) * self.e
         elif self.f < 0:  # prolate
-            r = -self.e * atan(self.e * Scalar(x=x))
+            r = -atan(self.e * Scalar(x=x)) * self.e
         else:
             r = _0_0
         return r
@@ -853,14 +844,17 @@ class Ellipsoid(_NamedEnumItem):
         # guess tau = taup / (1 - e^2) = taup * a^2 / b^2.  This starting
         # guess is the geocentric latitude which, to first order in the
         # flattening, is equal to the conformal latitude, auxConformal.
-        T_  = Scalar(taup=taup)
-        tol = max(abs(T_), _1_0) * _TOL
+        tp  = Scalar(taup=taup)
+        tol = max(abs(tp), _1_0) * _TOL
         e = self.a2_b2  # == _1_0 / self.e12
-        t = T_ * e
+        t = tp * e
         T = Fsum(t)
         for _ in range(9):
-            a = self.es_taupf(t)
-            d = (T_ - a) * (e + t**2) / (hypot1(t) * hypot1(a))
+            # unroll a = self.es_taupf(t) to preserve h
+            h = hypot1(t)
+            s = sinh(self.es_atanh(t / h))
+            a = hypot1(s) * t - s * h
+            d = (tp - a) * (e + t**2) / (h * hypot1(a))
             t, d = T.fsum2_(d)
             if abs(d) < tol:
                 break
@@ -873,10 +867,10 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Math::taupf<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Math.html>}.
         '''
-        T = Scalar(tau=tau)
-        t = hypot1(T)
-        s = sinh(self.es_atanh(T / t))
-        return hypot1(s) * T - s * t
+        t = Scalar(tau=tau)
+        h = hypot1(t)
+        s = sinh(self.es_atanh(t / h))
+        return hypot1(s) * t - s * h
 
     @property_RO
     def f(self):
@@ -907,7 +901,7 @@ class Ellipsoid(_NamedEnumItem):
         '''
         if self.f > 0:  # oblate, a > b
             return _f_a_b(self.a, self.b)
-        elif self.f < 0:  # prolate, a < b
+        elif self.f < 0:  # prolate, b > a
             return _f_a_b(self.b, self.a)
         else:
             return self.a
@@ -1045,11 +1039,11 @@ class Ellipsoid(_NamedEnumItem):
         '''Get the OSGR meridional coefficients (C{4-Tuple}), C{Airy130} only.
         '''
         if self._Mabcd is None:
-            n, n2, n3 = fpowers(self.n, 3)  # PYCHOK false!
-            self._Mabcd = (fdot((1, n, n2, n3), 4, 4, 5, 5) * _0_25,
-                           fdot(   (n, n2, n3), 24, 24, 21) * _0_125,
-                           fdot(      (n2, n3), 15, 15) * _0_125,
-                                      35 * n3 / 24.0)
+            n1, n2, n3 = fpowers(self.n, 3)  # PYCHOK false!
+            self._Mabcd = (fsum_(4, 4 * n1,  5 * n2,  5 * n3) * _0_25,
+                           fsum_(  24 * n1, 24 * n2, 21 * n3) * _0_125,
+                           fsum_(           15 * n2, 15 * n3) * _0_125,
+                                                     35 * n3 / _24_0)
         return self._Mabcd
 
     majoradius = a
@@ -1768,7 +1762,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
 #   ANS            = Ellipsoid(6378160.0,   None,              298.25,        'ANS'),  # b=6356774.719
     Australia1966  = Ellipsoid(6378160.0,   None,              298.25,        'Australia1966'),  # b=6356774.719
 #   Bessel1841     = Ellipsoid(6377397.155, 6356078.963,       299.152815351, 'Bessel1841'),
-    Bessel1841     = Ellipsoid(6377397.155, 6356078.962818,    299.1528128,   'Bessel1841'),
+    Bessel1841     = Ellipsoid(6377397.155, 6356078.962818,    299.152812797, 'Bessel1841'),
     Clarke1866     = Ellipsoid(6378206.4,   6356583.8,         294.978698214, 'Clarke1866'),
     Clarke1880     = Ellipsoid(6378249.145, 6356514.86954978,  293.465,       'Clarke1880'),
     Clarke1880IGN  = Ellipsoid(6378249.2,   6356515.0,         293.466021294, 'Clarke1880IGN'),
@@ -1776,7 +1770,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     CPM1799        = Ellipsoid(6375738.7,   6356671.92557493,  334.39,        'CPM1799'),  # Comm. des Poids et Mesures
     Delambre1810   = Ellipsoid(6376428.0,   6355957.92616372,  311.5,         'Delambre1810'),  # Belgium
     Engelis1985    = Ellipsoid(6378136.05,  6356751.32272154,  298.2566,      'Engelis1985'),
-    Everest1969    = Ellipsoid(6377295.664, 6356094.667915,    300.8017,      'Everest1969'),
+    Everest1969    = Ellipsoid(6377295.664, 6356094.667915,    300.801699997, 'Everest1969'),
     Fisher1968     = Ellipsoid(6378150.0,   6356768.33724438,  298.3,         'Fisher1968'),
     GEM10C         = Ellipsoid(6378137.0,   6356752.31424783,  298.2572236,   'GEM10C'),
     GRS67          = Ellipsoid(6378160.0,   None,              298.247167427, 'GRS67'),  # Lucerne b=6356774.516
@@ -1813,7 +1807,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
 
 if __name__ == '__main__':
 
-    from pygeodesy.interns import _COMMA_, _DOT_, _NL_, _NL_var_
+    from pygeodesy.interns import _COMMA_, _NL_, _NL_var_
 
     for E in (Ellipsoids.WGS84, Ellipsoids.GRS80,  # NAD83,
               Ellipsoids.Sphere, Ellipsoids.SpherePopular,

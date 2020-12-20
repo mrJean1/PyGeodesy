@@ -125,7 +125,7 @@
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html"
   target="_top">Albers Equal-Area</a> projections, azimuthal projections 
   and Lambert conformal conic projections and positions (from <a 
-  href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" target="_top">John P.
+  href="https://Pubs.USGS.gov/pp/1395/report.pdf" target="_top">John P. 
   Snyder, &quot;Map Projections -- A Working Manual&quot;, 1987</a>), 
   functions to clip a path or polygon of <code>LatLon</code> points using 
   the <a href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
@@ -135,7 +135,7 @@
   href="https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm" 
   target="_top">Sutherland-Hodgman</a> methods, functions to <a 
   href="https://Bost.Ocks.org/mike/simplify" target="_top">simplify</a> or 
-  linearize a path of <code>tLon</code> points (or a <a 
+  linearize a path of <code>LatLon</code> points (or a <a 
   href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html"
   target="_top">NumPy array</a>), including implementations of the <a 
   href="https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm" 
@@ -161,9 +161,10 @@
     href="https://GitHub.com/mrJean1/PyGeodesy" target="_top">GitHub</a>, 
     <code>unzip</code> the downloaded file, <code>cd</code> to directory 
     <code>Pygeodesy-yy.m.d</code> and type <code>python setup.py 
-    install</code>.  To run all PyGeodesy tests, type <code>python 
-    test/run.py</code> or type <code>python test/unitTestSuite.py</code> 
-    before or after installation.</p>
+    install</code>.</p>
+    <p>To run all PyGeodesy tests, type <code>python setup.py test</code> 
+    or type <code>python test/run.py</code> or type <code>python 
+    test/unitTestSuite.py</code> before or after installation.</p>
     <p>Installation of <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a>, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> and <a 
@@ -183,11 +184,9 @@
     <code>intersections2</code> and <code>perimeterOf</code> and for the <a
     href="pygeodesy.heights.HeightIDWkarney-class.html" 
     class="link">HeightIDWkarney</a> interpolator.  Both the latter are 
-    needed for the <code>Geoid...</code> and <code>Height...</code> 
-    interpolator classes, except the <a 
-    href="pygeodesy.geoids.GeoidKarney-class.html" 
-    class="link">GeoidKarney</a> and all <code>HeightIDW...</code> 
-    classes.</p>
+    needed for most <code>Geoid...</code> and <code>Height...</code> 
+    interpolator classes, but not for the other <code>HeightIDW...</code> 
+    ones.</p>
   <h1 class="heading">Documentation</h1>
     <p>In addition to the <code>pygeodesy</code> package, the <a 
     href="https://PyPI.org/project/PyGeodesy" target="_top">PyGeodesy</a> 
@@ -200,42 +199,42 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.9.0 (with <a 
+    <p>The tests have been run with Python 3.9.1 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50), Python 3.8.6 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
-    and <a href="https://SciPy.org/scipylib/download.html" 
-    target="_top">scipy</a> 1.5.2) and macOS' Python 2.7.16 (with <a 
+    and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
+    1.5.2) and macOS' Python 2.7.16 (with <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6), 
-    all on macOS 11.0.1 (10.16) Big Sur and all in 64-bit only.  The tests 
+    all on macOS 11.1 (10.16) Big Sur and all in 64-bit only.  The tests 
     run with and without <code>lazy import</code> for Python 3.  The 
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.9.0 (with <a 
+    4.5.4 using Python 3.9.1 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50), Python 3.8.6 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.2 
-    and <a href="https://SciPy.org/scipylib/download.html" 
-    target="_top">scipy</a> 1.5.2) and macOS' Python 2.7.16 (with <a 
+    and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
+    1.5.2) and macOS' Python 2.7.16 (with <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6).
     The complete coverage report in HTML and a PDF summary are included in 
     the distribution files.</p>
-    <p>The tests also ran with Python 3.8.0, 3.7.1, 3.6.3, 2.7.14 and <a 
+    <p>The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and <a 
     href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 3.6.1 and 
     2.7.13) (and <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50 or 1.49) on <a 
     href="https://Travis-CI.org/mrJean1/PyGeodesy" target="_top">Ubuntu 
-    14.04</a> and with Python 3.7.3 (and <a 
+    14.04</a> and with Python 3.9.1 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50 or 1.49) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
-    target="_top">Debian 9</a> all in 64-bit only and with Python 3.8.0, 
-    3.7.2, 3.6.8 and 2.7.15 (all with <a 
+    target="_top">Debian 9</a>, all in 64-bit only and with Python 3.8.0, 
+    3.7.5 and 2.7.17 (all with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50 or 1.49) on <a 
     href="https://CI.AppVeyor.com/project/mrJean1/pygeodesy" 
@@ -244,26 +243,26 @@
     <code>pygeodesy</code> has been bundled using <a 
     href="https://www.PyInstaller.org" target="_top">PyInstaller</a> 3.4 
     and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 
-    2.7.10 (and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (with numpy 1.13.1, 
-    1.14.0, 1.15.2, 1.16.2 or 1.19.0 and scipy 1.5.0), 3.5.3, 3.6.2 thru 
-    3.6.5, 3.7.0, 3.7.2 thru 3.7.6, 3.8 thru 3.8.5, <a 
-    href="https://PyPy.org" target="_top">PyPy</a> 6.0.0 (Python 2.7.13 and
-    3.5.3), <a href="https://PyPy.org" target="_top">PyPy</a> 7.3.0 (Python
-    2.7.13 and 3.6.9) and <a 
+    <p>Previously, the tests were run with Python 3.8.0-5, 3.7.2-6, 3.7.0, 
+    3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0, 
+    1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and <a 
+    href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.5.0), 
+    <a href="https://PyPy.org" target="_top">PyPy</a> 7.3.0 (Python 2.7.13 
+    and 3.6.9), <a href="https://PyPy.org" target="_top">PyPy</a> 6.0.0 
+    (Python 2.7.13 and 3.5.3) and <a 
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on MacOS X 10.10 Yosemite, MacOS X 10.11 El Capitan, macOS 10.12 
-    Sierra, macOS 10.13.6 High Sierra, macOS 10.14 Mojave and/or macOS 
-    10.15.3, 10.15.5 and 10.15.6 Catalina, with <a 
-    href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
-    3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, with <a 
-    href="https://OMZ-Software.com/pythonista" target="_top">Pythonista 
-    3.2</a> (with geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 
-    11.4.1, 12.0, 12.2 and 12.3 on iPad4, iPhone6 and/or iPhone10, all in 
-    64-bit only and with 32-bit Python 2.6.6 on Windows XP SP3 and with 
-    32-bit Python 2.7.14 on Windows 10 Pro.</p>
+    on macOS 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6
+    High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS 
+    X 10.10 Yosemite, with <a href="https://OMZ-Software.com/pythonista" 
+    target="_top">Pythonista 3.2</a> (with geographiclib 1.49 or 1.50 and 
+    numpy 1.8.0) on iOS 11.4.1, 12.0-3 on iPad4, iPhone6 and/or iPhone10, 
+    with <a href="https://OMZ-Software.com/pythonista" 
+    target="_top">Pythonista 3.1</a> on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
+    on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows 
+    10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.</p>
   <h1 class="heading">Notes</h1>
     <p>All Python source code has been statically <a 
     href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
@@ -274,8 +273,8 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.9.0, both in 64-bit on macOS 
-    11.0.1 (10.16) Big Sur.</p>
+    target="_top">Flake8</a> using Python 3.9.1, both in 64-bit on macOS 
+    11.1 (10.16) Big Sur.</p>
     <p>Classes with a name ending in <code>-Karney</code> and several more 
     are transcribed from <i>Karney</i>'s <a 
     href="https://GeographicLib.SourceForge.io/html/annotated.html" 
@@ -313,7 +312,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.12.10
+        20.12.20
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -432,7 +431,10 @@
         target="_top">USGS10mElev.py</a>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase-module.html" onclick="show_private();">pygeodesy.ellipsoidalBase</a></strong>: <em class="summary">(INTERNAL) Ellipsoidal base classes 
         <code>CartesianEllipsoidalBase</code> and 
-        <code>LatLonEllipsoidalBase</code>.</em>    </li>
+        <code>LatLonEllipsoidalBase</code> and several ellipsoidal 
+        functions, all used by <code>.ellipsoidalKarney</code>, 
+        <code>.ellipsoidalNvector</code> or 
+        <code>.ellipsoidalVincenty</code>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney-module.html">pygeodesy.ellipsoidalKarney</a></strong>: <em class="summary">Ellipsoidal classes geodetic (lat-/longitude) <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> and geocentric (ECEF) <a 
@@ -706,7 +708,9 @@
         <code>LatLon</code> points.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html" onclick="show_private();">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Spherical base classes 
         <code>CartesianSphericalBase</code> and 
-        <code>LatLonSphericalBase</code>.</em>    </li>
+        <code>LatLonSphericalBase</code> used by 
+        <code>.sphericalNvector</code> or 
+        <code>.sphericalTrigonometry</code>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalNvector-module.html">pygeodesy.sphericalNvector</a></strong>: <em class="summary">N-vector-based classes geodetic (lat-/longitude) <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html" 
         class="link">LatLon</a>, geocentric (ECEF) <a 
@@ -1618,7 +1622,7 @@
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.Equidistant-class.html" class="summary-name">Equidistant</a><br />
       Azimuthal equidistant projection for the sphere**, see <a 
-        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
         target="_top">Snyder, pp 195-197</a> and <a 
         href="https://MathWorld.Wolfram.com/AzimuthalEquidistantProjection.html"
         target="_top">MathWorld-Wolfram</a>.
@@ -1741,9 +1745,9 @@
         <i>discrete</i> <a 
         href="https://WikiPedia.org/wiki/Frechet_distance" 
         target="_top">Fr&#233;chet</a> distance <code>fd</code>, 
-        <i>fractional</i> indices <code>fi1</code> and <code>fi2</code>, 
-        the recursion depth <code>r</code>, the number of distances 
-        computed <code>n</code> and the <a 
+        <i>fractional</i> indices <code>fi1</code> and <code>fi2</code> as 
+        <code>FIx</code>, the recursion depth <code>r</code>, the number of
+        distances computed <code>n</code> and the <a 
         href="pygeodesy.named._NamedTuple-class.html#units" 
         class="link">units</a> class or class or name of the distance 
         <code>units</code>.
@@ -2039,7 +2043,7 @@
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.Gnomonic-class.html" class="summary-name">Gnomonic</a><br />
       Azimuthal gnomonic projection for the sphere**, see <a 
-        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
         target="_top">Snyder, pp 164-168</a> and <a 
         href="https://MathWorld.Wolfram.com/GnomonicProjection.html" 
         target="_top">MathWorld-Wolfram</a>.
@@ -2578,7 +2582,7 @@
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.LambertEqualArea-class.html" class="summary-name">LambertEqualArea</a><br />
       Lambert-equal-area projection for the sphere**, see <a 
-        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
         target="_top">Snyder, pp 185-187</a> and <a 
         href="https://MathWorld.Wolfram.com/LambertAzimuthalEqual-AreaProjection.html"
         target="_top">MathWorld-Wolfram</a>.
@@ -2880,7 +2884,7 @@
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.Orthographic-class.html" class="summary-name">Orthographic</a><br />
       Orthographic projection for the sphere**, see <a 
-        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
         target="_top">Snyder, pp 148-153</a> and <a 
         href="https://MathWorld.Wolfram.com/OrthographicProjection.html" 
         target="_top">MathWorld-Wolfram</a>.
@@ -3134,7 +3138,7 @@
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.Stereographic-class.html" class="summary-name">Stereographic</a><br />
       Stereographic projection for the sphere**, see <a 
-        href="https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf" 
+        href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
         target="_top">Snyder, pp 157-160</a> and <a 
         href="https://MathWorld.Wolfram.com/StereographicProjection.html" 
         target="_top">MathWorld-Wolfram</a>.
@@ -5800,7 +5804,7 @@
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       If <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-      target="_top">geographiclib</a> package is installed, return an <a 
+      target="_top">geographiclib</a> package is installed, return a <a 
       href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
       class="link">GnomonicKarney</a> otherwise an <a 
       href="pygeodesy.azimuthal.Gnomonic-class.html" 
@@ -5844,7 +5848,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbbdad31350&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fab16599250&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6974,7 +6978,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">func</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#map1" class="summary-sig-name">map1</a>(<span class="summary-sig-arg">fun1</span>,
         <span class="summary-sig-arg">*xs</span>)</span><br />
       Apply each argument to a single-argument function and return a 
       <code>tuple</code> of results.</td>
@@ -7192,7 +7196,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#neg" class="summary-sig-name">neg</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Negate <code>x</code> uless <code>zero</code> or <code>NEG0</code>.</td>
+      Negate <code>x</code> unless <code>zero</code> or <code>NEG0</code>.</td>
           <td align="right" valign="top">
             
             
@@ -8947,7 +8951,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.12.10'"><code class="variable-quote">'</code><code class="variable-string">20.12.10</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.12.20'"><code class="variable-quote">'</code><code class="variable-string">20.12.20</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12243,7 +12247,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b>, <b><code>lon0</code></b> or 
-        sperical <b><code>datum</code></b>.</li>
+        (spherical) <b><code>datum</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
@@ -13559,7 +13563,8 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           (<code>int</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Powers of <b><code>x</code></b> (<code>float</code>[]).</dd>
+        <dd>Powers of <b><code>x</code></b> (<code>float</code>s or 
+          <code>int</code>s).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x</code></b> or <b><code>n</code></b> not 
@@ -14058,7 +14063,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </tr></table>
   
   <p>If <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> package is installed, return an <a 
+  target="_top">geographiclib</a> package is installed, return a <a 
   href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
   class="link">GnomonicKarney</a> otherwise an <a 
   href="pygeodesy.azimuthal.Gnomonic-class.html" class="link">Gnomonic</a> 
@@ -14080,14 +14085,14 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>name</code></strong> - Optional name for the projection (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <a href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+        <dd>A <a href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
           class="link">GnomonicKarney</a> or <a 
           href="pygeodesy.azimuthal.Gnomonic-class.html" 
           class="link">Gnomonic</a> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b>, <b><code>lon0</code></b> or 
-        sperical <b><code>datum</code></b>.</li>
+        (spherical) <b><code>datum</code></b>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
     </ul></dd>
   </dl>
@@ -14136,7 +14141,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbbdad31350&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fab16599250&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16143,7 +16148,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">map1</span>&nbsp;(<span class="sig-arg">func</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">map1</span>&nbsp;(<span class="sig-arg">fun1</span>,
         <span class="sig-arg">*xs</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -16156,7 +16161,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>func</code></strong> - Function to apply (<code>callable</code>).</li>
+        <li><strong class="pname"><code>fun1</code></strong> - 1-Arg function to apply (<code>callable</code>).</li>
         <li><strong class="pname"><code>xs</code></strong> - Arguments to apply (<code>any positional</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -16538,7 +16543,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Negate <code>x</code> uless <code>zero</code> or 
+  <p>Negate <code>x</code> unless <code>zero</code> or 
   <code>NEG0</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
@@ -18747,7 +18752,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><code><strong class='fraise'><a href="pygeodesy.css.CSSError-class.html">CSSError</a></strong></code> - Ellipsoidal mismatch of <b><code>latlon</code></b> and 
         <b><code>cs0</code></b>.</li>
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a> missing.</li>
+        target="_top">geographiclib</a> not installed or not found.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>latlon</code></b> is not ellipsoidal.</li>
     </ul></dd>
   </dl>
@@ -20335,7 +20340,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Dec  8 11:25:16 2020
+    Generated by Epydoc 3.0.1 on Sun Dec 20 12:23:37 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

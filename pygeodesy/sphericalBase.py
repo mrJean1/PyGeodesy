@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''(INTERNAL) Spherical base classes C{CartesianSphericalBase} and
-C{LatLonSphericalBase}.
+C{LatLonSphericalBase} used by C{.sphericalNvector} or C{.sphericalTrigonometry}.
 
 Pure Python implementation of geodetic (lat-/longitude) functions,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2011-2016}
@@ -12,12 +12,12 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_doc_
+from pygeodesy.basics import map1, property_doc_
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ellipsoids import R_M, R_MA
 from pygeodesy.errors import IntersectionError
-from pygeodesy.fmath import favg, fsum_
+from pygeodesy.fmath import favg, fdot
 from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
                              _too_, _distant_, _exceed_PI_radians_, \
                              _near_concentric_, _1_0, _180_0, _360_0
@@ -33,7 +33,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.11.02'
+__version__ = '20.12.18'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -91,9 +91,10 @@ class CartesianSphericalBase(CartesianBase):
 
            @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}} or B{C{radius}}.
 
-           @see: U{Java code<https://GIS.StackExchange.com/questions/48937/
-                 calculating-intersection-of-two-circles>} and function
-                 L{trilaterate3d2}.
+           @see: U{Calculating intersection of two Circles
+                 <https://GIS.StackExchange.com/questions/48937/
+                 calculating-intersection-of-two-circles>} and method
+                 or function C{trilaterate3d2}.
         '''
         x1, x2 = self, self.others(other)
         r1, r2, x = _rads3(rad1, rad2, radius)
@@ -428,8 +429,8 @@ class LatLonSphericalBase(LatLonBase):
                 f = log(f)
                 if abs(f) > EPS:
                     f3 = tanPI_2_2(a3)
-                    b3 = fsum_(b1 * log(f2),
-                              -b2 * log(f1), (b2 - b1) * log(f3)) / f
+                    b3 = fdot(map1(log, f1, f2, f3),
+                                       -b2, b1, b2 - b1) / f
 
         h = self._havg(other) if height is None else Height(height)
         return self.classof(degrees90(a3), degrees180(b3), height=h)

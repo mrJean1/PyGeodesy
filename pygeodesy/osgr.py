@@ -30,12 +30,8 @@ U{Transverse Mercator: Redfearn series
 
 @newfield example: Example, Examples
 '''
-# make sure int/int division yields float quotient
+# make sure int/int division yields float quotient, see .basics
 from __future__ import division
-division = 1 / 2  # double check int division, see .datum.py, .utily.py
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
 
 from pygeodesy.basics import halfs2, map1, property_RO, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
@@ -43,9 +39,10 @@ from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_
-from pygeodesy.interns import NN, _A_, _COLON_, _COMMA_, \
-                             _COMMASPACE_, _convergence_, _DOT_, \
-                             _latlon_, _no_, _not_, _SPACE_, _1_0
+from pygeodesy.interns import NN, _A_, _COLON_, _COMMA_, _COMMASPACE_, \
+                             _convergence_, _DOT_, _float, _latlon_, \
+                             _no_, _not_, _SPACE_, _1_0, _2_0, _6_0, \
+                             _24_0, _120_0, _720_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum3Tuple
@@ -56,10 +53,12 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.11.04'
+__version__ = '20.12.18'
 
-_10um  = 1e-5    # 0.01 millimeter (C{meter})
-_100km = 100000  # 100 km (int meter)
+_10um   = 1e-5    # 0.01 millimeter (C{meter})
+_100km  = 100000  # 100 km (int meter)
+
+_5040_0 = _float(5040)
 
 _A0 = Phi_(49)  # NatGrid true origin latitude, 49°N
 _B0 = Lam_(-2)  # NatGrid true origin longitude, 2°W
@@ -225,9 +224,9 @@ class Osgr(_NamedBase):
         n_N0 = n - _N0
 
         a, m = _A0, n_N0
-        sa = Fsum(a)
+        A = Fsum(a)
         for self._iteration in range(1, _TRIPS):
-            a = sa.fsum_(m / a_F0)
+            a = A.fsum_(m / a_F0)
             m = n_N0 - b_F0 * _M(E.Mabcd, a)  # meridional arc
             if abs(m) < _10um:
                 break
@@ -245,25 +244,23 @@ class Osgr(_NamedBase):
         x2 = vr - _1_0  # η2
         ta = tan(a)
 
-        v3, v5, v7 = fpowers(v, 7, 3)  # PYCHOK false!
+        v3, v5, v7 = fpowers(v, 7, alts=3)  # PYCHOK false!
         ta2, ta4, ta6 = fpowers(ta**2, 3)  # PYCHOK false!
 
-        tar = ta / r
-        V4 = (a,
-              tar / (  2 * v),
-              tar / ( 24 * v3) * fdot((1, 3, -9), 5 + x2, ta2, ta2 * x2),
-              tar / (720 * v5) * fdot((61, 90, 45), _1_0, ta2, ta4))
+        d1, d2, d3, d4, d5, d6, d7 = fpowers(e - _E0, 7)  # PYCHOK false!
 
-        csa = _1_0 / ca
-        X5 = (_B0,
-              csa / v,
-              csa / (   6 * v3) * fsum_(vr, ta2, ta2),
-              csa / ( 120 * v5) * fdot((5, 28, 24), _1_0, ta2, ta4),
-              csa / (5040 * v7) * fdot((61, 662, 1320, 720), _1_0, ta2, ta4, ta6))
+        t = ta / r
+        a = fsum_(a,
+                 -d2 * t / (  _2_0 * v),
+                  d4 * t / ( _24_0 * v3) * fsum_(5, x2, 3 * ta2, -9 * ta2 * x2),
+                 -d6 * t / (_720_0 * v5) * fsum_(61, 90 * ta2, 45 * ta4))
 
-        d, d2, d3, d4, d5, d6, d7 = fpowers(e - _E0, 7)  # PYCHOK false!
-        a = fdot(V4, _1_0,    -d2, d4, -d6)
-        b = fdot(X5, _1_0, d, -d3, d5, -d7)
+        t = _1_0 / ca
+        b = fsum_(_B0,
+                   d1 * t /            v,
+                  -d3 * t / (   _6_0 * v3) * fsum_(vr, ta2, ta2),
+                   d5 * t / ( _120_0 * v5) * fsum_(5,   28 * ta2,   24 * ta4),
+                  -d7 * t / (_5040_0 * v7) * fsum_(61, 662 * ta2, 1320 * ta4, 720 * ta6))
 
         r = _LLEB(degrees90(a), degrees180(b), datum=self.datum, name=self.name)
         r._iteration = self._iteration  # only ellipsoidal LatLon
@@ -497,23 +494,23 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
     x2 = r - _1_0  # η2
     ta = tan(a)
 
-    ca3, ca5 = fpowers(ca, 5, 3)  # PYCHOK false!
-    ta2, ta4 = fpowers(ta, 4, 2)  # PYCHOK false!
+    ca3, ca5 = fpowers(ca, 5, alts=3)  # PYCHOK false!
+    ta2, ta4 = fpowers(ta, 4, alts=2)  # PYCHOK false!
 
-    vsa = v * sa
-    I4 = (E.b * _F0 * _M(E.Mabcd, a) + _N0,
-         (vsa /   2) * ca,
-         (vsa /  24) * ca3 * fsum_(5, -ta2, 9 * x2),
-         (vsa / 720) * ca5 * fsum_(61, ta4, -58 * ta2))
+    d1, d2, d3, d4, d5, d6 = fpowers(b - _B0, 6)  # PYCHOK false!
 
-    V4 = (_E0,
-         (v        * ca),
-         (v /   6) * ca3 * (r - ta2),
-         (v / 120) * ca5 * fdot((-18, 1, 14, -58), ta2, 5 + ta4, x2, ta2 * x2))
+    t = fsum_(-18 * ta2, 5, ta4, 14 * x2, -58 * ta2 * x2)
+    e = fsum_(_E0,
+               d1 * v          * ca,
+               d3 * v /   _6_0 * ca3 * (r - ta2),
+               d5 * v / _120_0 * ca5 * t)
 
-    d, d2, d3, d4, d5, d6 = fpowers(b - _B0, 6)  # PYCHOK false!
-    n = fdot(I4, _1_0, d2, d4, d6)
-    e = fdot(V4, _1_0, d,  d3, d5)
+    t = v * sa
+    n = fsum_(_N0,
+              _F0 * E.b * _M(E.Mabcd, a),
+               d2 * t /   _2_0 * ca,
+               d4 * t /  _24_0 * ca3 * fsum_(5, -ta2,   9 * x2),
+               d6 * t / _720_0 * ca5 * fsum_(61, ta4, -58 * ta2))
 
     if Osgr is None:
         r = EasNor2Tuple(e, n)

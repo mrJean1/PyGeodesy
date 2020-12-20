@@ -40,9 +40,8 @@ from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
 from pygeodesy.interns import EPS, MISSING, NN, _by_, \
                              _COMMASPACE_, _float, _NS_, \
-                             _outside_, _range_, _SPACE_, \
+                             _outside_, _range_, _S_, _SPACE_, \
                              _UTM_, _V_, _X_, _zone_, _1_0
-from pygeodesy.interns import _S_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -61,7 +60,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.11.04'
+__version__ = '20.12.14'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -143,7 +142,7 @@ def _false2(e, n, h):
     # <https://GeographicLib.SourceForge.io/html/transversemercator.html>
     # and <https://Zenodo.org/record/32470#.W4LEJS2ZON8>
     e += _FalseEasting  # make e relative to central meridian
-    if h == 'S':
+    if h == _S_:
         n += _FalseNorthing  # make n relative to equator
     return e, n
 

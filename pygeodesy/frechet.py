@@ -88,7 +88,7 @@ from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2 as _points2, _scale_rad, thomas_, vincentys_
 from pygeodesy.interns import EPS, EPS1, INF, NN, _datum_, _distanceTo_, _DOT_, \
-                             _points_, _units_
+                             _n_, _points_, _units_
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import PhiLam2Tuple
@@ -98,11 +98,11 @@ from pygeodesy.units import FIx, Float, Number_, _Str_degrees, _Str_meter, \
                            _Str_NN, _Str_radians, _Str_radians2, _xUnit, _xUnits
 from pygeodesy.utily import unrollPI
 
-from collections import defaultdict
+from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '20.12.03'
+__version__ = '20.12.18'
 
 
 def _fraction(fraction, n):
@@ -519,7 +519,8 @@ class FrechetDistanceTo(Frechet):
         np, ps = Frechet._points2(self, points)
         for i, p in enumerate(ps):
             if not callable(getattr(p, _distanceTo_, None)):
-                raise FrechetError(Fmt.SQUARE(_points_, i), p, txt=_distanceTo_)
+                i = Fmt.SQUARE(_points_, i)
+                raise FrechetError(i, p, txt=_distanceTo_)
         return np, ps
 
 
@@ -882,7 +883,7 @@ def _frechet_(ni, fi, nj, fj, dF, units):  # MCCABE 14
     def iF(i):  # cache index, depth ints and floats
         return iFs.setdefault(i, i)
 
-    cF = defaultdict(dict)
+    cF = _defaultdict(dict)
 
     def rF(i, j, r):  # recursive Fréchet
         i = iF(i)
@@ -966,13 +967,13 @@ def frechet_(points1, points2, distance=None, units=NN):
 class Frechet6Tuple(_NamedTuple):
     '''6-Tuple C{(fd, fi1, fi2, r, n, units)} with the I{discrete}
        U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} distance
-       C{fd}, I{fractional} indices C{fi1} and C{fi2}, the recursion
-       depth C{r}, the number of distances computed C{n} and the
-       L{units} class or class or name of the distance C{units}.
+       C{fd}, I{fractional} indices C{fi1} and C{fi2} as C{FIx}, the
+       recursion depth C{r}, the number of distances computed C{n} and
+       the L{units} class or class or name of the distance C{units}.
 
-       If I{fractional} indices C{fi1} and C{fi2} are type C{int}, the
+       If I{fractional} indices C{fi1} and C{fi2} are C{int}, the
        returned C{fd} is the distance between C{points1[fi1]} and
-       C{points2[fi2]}.  For type C{float} indices, the distance is
+       C{points2[fi2]}.  For C{float} indices, the distance is
        between an intermediate point along C{points1[int(fi1)]} and
        C{points1[int(fi1) + 1]} respectively an intermediate point
        along C{points2[int(fi2)]} and C{points2[int(fi2) + 1]}.
@@ -980,8 +981,8 @@ class Frechet6Tuple(_NamedTuple):
        Use function L{fractional} to compute the point at a
        I{fractional} index.
     '''
-    _Names_ = ('fd',  'fi1', 'fi2', 'r',     'n',      _units_)
-    _Units_ = (_Pass,  FIx,  FIx,  Number_, Number_, _Pass)
+    _Names_ = ('fd',  'fi1', 'fi2', 'r',     _n_,      _units_)
+    _Units_ = (_Pass,  FIx,   FIx,   Number_, Number_, _Pass)
 
     def toUnits(self, **Error):  # PYCHOK expected
         '''Overloaded C{_NamedTuple.toUnits} for C{fd} units.

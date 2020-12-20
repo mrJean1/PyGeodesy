@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.09.30'
+__version__ = '20.12.18'
 
 from base import geographiclib, TestsBase
 
@@ -97,9 +97,9 @@ class Tests(TestsBase):
             c = CartesianBase(c)  # PYCHOK attribute
 
         if hasattr(Cartesian, 'intersections2'):
-            n = classname(Cartesian(0, 0, 0), prefixed=True) + '.intersections2'
             # <https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>
             c = Cartesian(-0.00323306, -0.7915, 0.61116)
+            n = classname(c, prefixed=True) + '.intersections2'
             self.test(n, c.toLatLon(height=0), '37.673442°N, 090.234036°W')
             d = Cartesian(-0.0134464, -0.807775, 0.589337)
             self.test(n, d.toLatLon(height=0), '36.109987°N, 090.95367°W')
@@ -118,6 +118,7 @@ class Tests(TestsBase):
                 self.test(n, j.toStr(prec=6), '[0.025768, -0.798347, 0.601646]', known=y.minus(j).length < 5e-5)
             except ImportError as x:
                 self.skip(str(x), n=2)
+
         try:
             from pygeodesy.vector3d import intersections2
             n = modulename(intersections2, prefixed=True)

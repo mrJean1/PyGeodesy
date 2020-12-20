@@ -9,6 +9,8 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import isint
 from pygeodesy.errors import _xkwds_get, _ValueError
@@ -20,7 +22,7 @@ from pygeodesy.units import Feet, Float, Lam_, Meter, Phi_, Radius
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '20.10.29'
+__version__ = '20.12.18'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = _1_0 / _90_0  # 0.011111111111111111111111111111111111111111111111

@@ -16,7 +16,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _COLON_, \
 from pygeodesy.lazily import _ALL_LAZY, _environ
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.12.02'
+__version__ = '20.12.12'
 
 _limiterrors =  True  # imported by .formy
 _multiple_   = 'multiple'
@@ -544,12 +544,6 @@ def _xkwds_popitem(name_value):
         return t
 
     raise _xkwds_Error(_xkwds_popitem, (t,), name_value, txt='value')
-
-
-def _xkwds_strs(kwds):
-    '''(INTERNAL) Force C{kwds} keys to C{str}.
-    '''
-    return dict(sorted((str(k), v) for k, v in kwds.items()))
 
 # **) MIT License
 #

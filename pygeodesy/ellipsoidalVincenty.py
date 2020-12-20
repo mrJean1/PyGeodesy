@@ -49,13 +49,8 @@ or by converting to anothor datum:
 
 @newfield example: Example, Examples
 '''
-
-# make sure int division yields float quotient
+# make sure int/int division yields float quotient, see .basics
 from __future__ import division
-division = 1 / 2  # double check int division, see .datum.py
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
 
 from pygeodesy.basics import property_doc_, property_RO
 from pygeodesy.datums import Datums
@@ -64,8 +59,7 @@ from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
                                        LatLonEllipsoidalBase, _nearestOn
 from pygeodesy.errors import _ValueError, _xellipsoidal, _xkwds
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
-from pygeodesy.interns import EPS, NN, _ambiguous_, _convergence_, \
-                             _no_, _SPACE_, _to_
+from pygeodesy.interns import EPS, NN, _ambiguous_, _convergence_, _no_, _to_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Distance3Tuple
@@ -77,7 +71,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.11.05'
+__version__ = '20.12.19'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -588,7 +582,7 @@ class LatLon(LatLonEllipsoidalBase):
             ss = hypot(c2 * sll, c1s2 - s1c2 * cll)
             if ss < EPS:  # coincident or antipodal, ...
                 if self.isantipodeTo(other, eps=self._epsilon):
-                    t = '%r %sto %r' % (self, _antipodal_, other)
+                    t = '%r %s%s %r' % (self, _antipodal_, _to_, other)
                     raise VincentyError(_ambiguous_, txt=t)
                 # return zeros like Karney, but unlike Veness
                 return Distance3Tuple(0.0, 0, 0)
@@ -615,7 +609,7 @@ class LatLon(LatLonEllipsoidalBase):
 #                                  _antipodal_, other))
         else:
             t = _antipodal_ if self.isantipodeTo(other, eps=self._epsilon) else NN
-            t = _SPACE_(repr(self), NN(t, _to_), repr(other))
+            t = '%r %s%s %r' % (self, t, _to_, other)
             raise VincentyError(_no_(_convergence_), txt=t)
 
         if c2a:  # e22 == (a / b)**2 - 1
@@ -698,8 +692,8 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                       overriding the "radical height" at the "radical
                       line" between both centers (C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-       @kwarg equidistant: An azimuthal equidistant projection class
-                           (L{EquidistantKarney} or L{equidistant})
+       @kwarg equidistant: An azimuthal equidistant projection (class
+                           L{EquidistantKarney} or function L{equidistant}),
                            or C{None} for L{Equidistant}.
        @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
                    and B{C{radius2}}).
@@ -716,6 +710,10 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @raise IntersectionError: Concentric, antipodal, invalid or
                                  non-intersecting circles or no
                                  convergence for the B{C{tol}}.
+
+       @raise ImportError: Package U{geographiclib
+                           <https://PyPI.org/project/geographiclib>}
+                           not installed or not found.
 
        @raise TypeError: Invalid or non-ellipsoidal B{C{center1}} or B{C{center2}}
                          or invalid B{C{equidistant}}.
@@ -736,7 +734,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
 
 def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
               equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''Locate the closest point on the arc between two other points.
+    '''Iteratively locate the closest point on the arc between two other points.
 
        @arg point: Reference point (C{LatLon}).
        @arg point1: Start point of the arc (C{LatLon}).
@@ -747,10 +745,9 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
        @kwarg height: Optional height for the closest point (C{meter})
                       or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
-       @kwarg equidistant: An azimuthal equidistant projection class
-                           (L{Equidistant} or L{EquidistantKarney}),
-                           function L{azimuthal.equidistant} will be
-                           invoked if left unspecified.
+       @kwarg equidistant: An azimuthal equidistant projection (class
+                           L{EquidistantKarney} or function L{equidistant}),
+                           or C{None} for L{Equidistant}.
        @kwarg tol: Convergence tolerance (C{meter}).
        @kwarg LatLon: Optional class to return the closest point
                       (L{LatLon}) or C{None}.

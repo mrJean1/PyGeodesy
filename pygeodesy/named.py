@@ -27,8 +27,9 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.11.04'
+__version__ = '20.12.18'
 
+_at_     = 'at'
 _del_    = 'del'
 _exists_ = 'exists'
 _I_      = 'I'
@@ -102,7 +103,7 @@ class _Named(object):
     def __repr__(self):
         '''Default C{repr(self)}.
         '''
-        return Fmt.ANGLE(_SPACE_(self, 'at %#x' % (id(self),)))
+        return Fmt.ANGLE(_SPACE_(self, _at_, hex(id(self))))
 
     def __str__(self):
         '''Default C{str(self)}.
@@ -802,7 +803,7 @@ class _NamedTuple(tuple, _Named):
             raise _TypeError(_DOT_(self.classname, _Names_), ns)
         for i, n in enumerate(ns):
             if not _xvalid(n, _OK=_OK):
-                t = Fmt.SQUARE(_Names_, i)
+                t = Fmt.SQUARE(_Names_=i)
                 raise _ValueError(_DOT_(self.classname, t), n)
 
         us = self._Units_
@@ -812,7 +813,7 @@ class _NamedTuple(tuple, _Named):
             raise LenError(self.__class__, _Units_=len(us), _Names_=len(ns))
         for i, u in enumerate(us):
             if not (u is None or callable(u)):
-                t = Fmt.SQUARE(_Units_, i)
+                t = Fmt.SQUARE(_Units_=i)
                 raise _TypeError(_DOT_(self.classname, t), u)
 
         self.__class__._validated = True

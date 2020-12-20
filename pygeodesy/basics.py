@@ -3,6 +3,13 @@
 
 u'''Basic definitions, decorators and functions.
 '''
+# make sure int/int division yields float quotient
+from __future__ import division
+division = 1 / 2  # .albers, .datums, .ellipsoidalVincenty, .ellipsoids,
+if not division:  # .elliptic, .etm, .fmath, .lcc, .osgr, .utily
+    raise ImportError('%s 1/2 == %s' % ('division', division))
+del division
+
 from pygeodesy.errors import _AttributeError, _IsnotError, \
                              _TypesError, _ValueError
 from pygeodesy.interns import NEG0, NN, _by_, _DOT_, \
@@ -16,7 +23,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.11.08'
+__version__ = '20.12.20'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -251,16 +258,16 @@ def len2(items):
     return len(items), items
 
 
-def map1(func, *xs):  # XXX map_
+def map1(fun1, *xs):  # XXX map_
     '''Apply each argument to a single-argument function and
        return a C{tuple} of results.
 
-       @arg func: Function to apply (C{callable}).
+       @arg fun1: 1-Arg function to apply (C{callable}).
        @arg xs: Arguments to apply (C{any positional}).
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(func, xs))  # note xs, not *xs
+    return tuple(map(fun1, xs))  # note xs, not *xs
 
 
 def map2(func, *xs):
@@ -280,7 +287,7 @@ def map2(func, *xs):
 
 
 def neg(x):
-    '''Negate C{x} uless C{zero} or C{NEG0}.
+    '''Negate C{x} unless C{zero} or C{NEG0}.
 
        @return: C{-B{x}} if B{C{x}} else C{0.0}.
     '''

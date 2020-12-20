@@ -91,7 +91,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.11.06'
+__version__ = '20.12.18'
 
 # temporarily hold a single instance for each int value
 _intCs = {}
@@ -263,7 +263,8 @@ class _GeoidBase(_HeightBase):
         for i in range(1, m):
             e = a[i] - a[i-1]
             if e < EPS:  # non-increasing axis
-                raise GeoidError(Fmt.SQUARE(name, i), e, txt=_non_increasing_)
+                i = Fmt.SQUARE(name, i)
+                raise GeoidError(i, e, txt=_non_increasing_)
         return self._np.array(a), d
 
     def _g2ll2(self, lat, lon):  # PYCHOK no cover

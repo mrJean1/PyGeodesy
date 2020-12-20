@@ -2,13 +2,13 @@
 
 u'''Single-instance floats and strings, C{intern}'ed across modules.
 '''
-from math import pi as PI
+from math import pi as PI, sqrt
 
 __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '20.11.06'
+__version__ = '20.12.19'
 
 
 class MISSING(object):
@@ -147,6 +147,7 @@ _H_                   = 'H'                  # PYCHOK expected
 _height_              = 'height'             # PYCHOK expected
 _hemipole_            = 'hemipole'           # PYCHOK expected
 _immutable_           = 'immutable'          # PYCHOK expected
+_i_                   = 'i'                  # PYCHOK expected
 _in_                  = 'in'                 # PYCHOK expected
 _INF_                 = 'INF'                # PYCHOK expected
 _initial_             = 'initial'            # PYCHOK expected
@@ -155,6 +156,7 @@ _inside_              = 'inside'             # PYCHOK expected
 _invalid_             = 'invalid'            # PYCHOK expected
 _isclockwise_         = 'isclockwise'        # PYCHOK expected
 _ispolar_             = 'ispolar'            # PYCHOK expected
+_j_                   = 'j'                  # PYCHOK expected
 _k0_                  = 'k0'                 # PYCHOK expected
 _knots_               = 'knots'              # PYCHOK expected
 #_LANGLE_             = '<'                  # PYCHOK expected
@@ -328,9 +330,11 @@ _floats = {}      # PYCHOK floats cache, in .__main__
 # del _floats     # XXX zap floats cache never
 
 _0_0    = _float(   0)      # PYCHOK expected
+_0_01   = _float(   0.01)   # PYCHOK expected
 _0_1    = _float(   0.1)    # PYCHOK expected
 _0_125  = _float(   0.125)  # PYCHOK expected
 _0_25   = _float(   0.25)   # PYCHOK expected
+_0_26   = _float(   0.26)   # PYCHOK expected
 _0_5    = _float(   0.5)    # PYCHOK expected
 _1_0    = _float(   1)      # PYCHOK expected
 _2_0    = _float(   2)      # PYCHOK expected
@@ -339,12 +343,16 @@ _4_0    = _float(   4)      # PYCHOK expected
 _5_0    = _float(   5)      # PYCHOK expected
 _6_0    = _float(   6)      # PYCHOK expected
 _8_0    = _float(   8)      # PYCHOK expected
+_9_0    = _float(   9)      # PYCHOK expected
 _16_0   = _float(  16)      # PYCHOK expected
+_24_0   = _float(  24)      # PYCHOK expected
 _32_0   = _float(  32)      # PYCHOK expected
 _60_0   = _float(  60)      # PYCHOK expected
 _90_0   = _float(  90)      # PYCHOK expected
+_120_0  = _float( 120)      # PYCHOK expected
 _180_0  = _float( 180)      # PYCHOK expected
 _360_0  = _float( 360)      # PYCHOK expected
+_720_0  = _float( 720)      # PYCHOK expected
 _3600_0 = _float(3600)      # PYCHOK expected
 
 try:
@@ -360,13 +368,16 @@ except (AttributeError, ImportError):  # PYCHOK no cover
     MAX    = _float(pow(_2_0,  1023) * (_2_0 - EPS))  # PYCHOK ≈ 10**308
     MIN    = _float(pow(_2_0, -1022))  # PYCHOK ≈ 10**-308
 
-EPS2   = _float(EPS * _2_0)    # PYCHOK ≈ 4.440892098501e-16
-EPS_2  = _float(EPS / _2_0)    # PYCHOK ≈ 1.110223024625e-16
-EPS1   = _float(_1_0 - EPS)    # PYCHOK ≈ 0.9999999999999998
-EPS1_2 = _float(_1_0 - EPS_2)  # PYCHOK ≈ 0.9999999999999999
-# _1EPS  = _float(_1_0 + EPS)  # PYCHOK ≈ 1.0000000000000002
-_1_EPS = _float(_1_0 / EPS)    # PYCHOK = 4503599627370496.0
-# _2_EPS = _float(_2_0 / EPS)  # PYCHOK = 9007199254740992.0
+EPS2    = _float(EPS * _2_0)      # PYCHOK ≈ 4.440892098501e-16
+EPS_2   = _float(EPS / _2_0)      # PYCHOK ≈ 1.110223024625e-16
+EPS1    = _float(_1_0 - EPS)      # PYCHOK ≈ 0.9999999999999998
+EPS1_2  = _float(_1_0 - EPS_2)    # PYCHOK ≈ 0.9999999999999999
+# _1EPS   = _float(_1_0 + EPS)    # PYCHOK ≈ 1.0000000000000002
+_1_EPS  = _float(_1_0 / EPS)      # PYCHOK = 4503599627370496.0
+# _2_EPS  = _float(_2_0 / EPS)    # PYCHOK = 9007199254740992.0
+_EPS4   = _float(EPS * _4_0)      # PYCHOK ≈ 8.881784197001e-16
+_EPSqrt = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
+_EPStol = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09
 
 INF  = _float( _INF_)  # PYCHOK INFinity, see function L{isinf}, L{isfinite}
 NAN  = _float( _NAN_)  # PYCHOK Not-A-Number, see function L{isnan}

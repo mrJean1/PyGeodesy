@@ -69,20 +69,16 @@ The notation follows U{NIST Digital Library of Mathematical Functions
 <https://DLMF.NIST.gov>} chapters U{19<https://DLMF.NIST.gov/19>} and
 U{22<https://DLMF.NIST.gov/22>}.
 '''
-# make sure int/int division yields float quotient
+# make sure int/int division yields float quotient, see .basics
 from __future__ import division
-division = 1 / 2  # double check int division, see .datum.py, .utily.py
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
 
 from pygeodesy.basics import map2, neg, property_RO
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fdot, fmean_, Fsum, fsum_, hypot1
 from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
-                             _convergence_, _no_, _SPACE_, \
-                             _0_0, _0_125, _0_25, _0_5, _1_0, \
-                             _2_0, _3_0, _4_0, _5_0, _360_0
+                             _EPStol as _TolJAC, _convergence_, _no_, \
+                             _SPACE_, _0_0, _0_125, _0_25, _0_5, _1_0, \
+                             _2_0, _3_0, _4_0, _5_0, _6_0, _8_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
 # from pygeodesy.streprs import unstr
@@ -93,10 +89,9 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, floor, \
                  sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.11.02'
+__version__ = '20.12.19'
 
 _0_2    = _1_0 / _5_0
-_TolJAC = sqrt(EPS * 0.010)  # sqrt(EPS) * _0_1
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)
 _TolRG0 = _TolJAC  * 2.7
@@ -340,7 +335,7 @@ class Elliptic(_Named):
            @raise EllipticError: Invalid invokation or no convergence.
         '''
         def _fD(sn, cn, dn):
-            return abs(sn) * sn**2 * _RD_3(cn**2, dn**2, 1)
+            return abs(sn) * sn**2 * _RD_3(cn**2, dn**2, _1_0)
 
         return self._fXf(phi_or_sn, cn, dn, self.cD,
                                             self.deltaD, _fD)
@@ -374,13 +369,13 @@ class Elliptic(_Named):
             sn2, cn2, dn2 = sn**2, cn**2, dn**2
             kp2, k2 = self.kp2, self.k2
             if k2 <= 0:  # Carlson, eq. 4.6, <https://DLMF.NIST.gov/19.25.E9>
-                ei = _RF(cn2, dn2, 1) - k2 * sn2 * _RD_3(cn2, dn2, 1)
+                ei = _RF(cn2, dn2, _1_0) - k2 * sn2 * _RD_3(cn2, dn2, _1_0)
             elif kp2 >= 0:  # <https://DLMF.NIST.gov/19.25.E10>
-                ei = fsum_(kp2 * _RF(cn2, dn2, 1),
-                           kp2 * k2 * sn2 * _RD_3(cn2, 1, dn2),
+                ei = fsum_(kp2 * _RF(cn2, dn2, _1_0),
+                           kp2 * k2 * sn2 * _RD_3(cn2, _1_0, dn2),
                            k2 * abs(cn) / dn)
             else:  # <https://DLMF.NIST.gov/19.25.E11>
-                ei = dn / abs(cn) - kp2 * sn2 * _RD_3(dn2, 1, cn2)
+                ei = dn / abs(cn) - kp2 * sn2 * _RD_3(dn2, _1_0, cn2)
             return ei * abs(sn)
 
         return self._fXf(phi_or_sn, cn, dn, self.cE,
@@ -539,7 +534,7 @@ class Elliptic(_Named):
         if cn > 0:  # enforce usual trig-like symmetries
             xi = fX(sn, cn, dn)
         elif cn < 0:
-            xi = 2 * cX - fX(sn, cn, dn)
+            xi = _2_0 * cX - fX(sn, cn, dn)
         else:
             xi = cX
         return copysign(xi, sn)
@@ -608,17 +603,17 @@ class Elliptic(_Named):
         # G( alpha2, 1) = H(alpha2, 1) = RC(1, alphap2)
         if k2:
             if kp2:
-                self._eps = k2 / (sqrt(kp2) + 1)**2
+                self._eps = k2 / (sqrt(kp2) + _1_0)**2
                 # D(k) = (K(k) - E(k))/k2, Carlson eq.4.3
                 # <https://DLMF.NIST.gov/19.25.E1>
-                self._cD = _RD_3(0, kp2, 1)
+                self._cD = _RD_3(0, kp2, _1_0)
                 self._cKE = k2 * self.cD
                 # Complete elliptic integral E(k), Carlson eq. 4.2
                 # <https://DLMF.NIST.gov/19.25.E1>
-                self._cE = _RG_(kp2, 1) * 2
+                self._cE = _RG_(kp2, _1_0) * _2_0
                 # Complete elliptic integral K(k), Carlson eq. 4.1
                 # <https://DLMF.NIST.gov/19.25.E1>
-                self._cK = _RF_(kp2, 1)
+                self._cK = _RF_(kp2, _1_0)
             else:
                 self._eps = k2
                 self._cD  = self._cK = self._cKE = INF
@@ -633,7 +628,7 @@ class Elliptic(_Named):
             if alphap2:
                 # <https://DLMF.NIST.gov/19.25.E2>
                 if kp2:
-                    rj_3 = _RJ_3(0, kp2, 1, alphap2)
+                    rj_3 = _RJ_3(0, kp2, _1_0, alphap2)
                     # G(alpha2, k)
                     self._cG = self.cK + (alpha2 - k2) * rj_3
                     # H(alpha2, k)
@@ -661,7 +656,7 @@ class Elliptic(_Named):
             #   RF(x, 1) - RD(0, x, 1)/3 = x * RD(0, 1, x)/3 for x > 0
             # For k2 = 1 and alpha2 = 0, we have
             #   cH = int(cos(phi),...) = 1
-            self._cH = kp2 * _RD_3(0, 1, kp2) if kp2 else _1_0
+            self._cH = kp2 * _RD_3(0, _1_0, kp2) if kp2 else _1_0
 
         self._iteration = 0
 
@@ -778,7 +773,7 @@ def _RC(x, y):  # used by testElliptic.py
         # <https://DLMF.NIST.gov/19.2.E18>
         d = -d
         r = atan(sqrt(d / x)) if x > 0 else PI_2
-    elif d == _0_0:  # d < EPS?
+    elif d == _0_0:  # XXX d < EPS?
         r, d = _1_0, y
     elif y > 0:  # <https://DLMF.NIST.gov/19.2.E19>
         r = asinh(sqrt(d / y))  # atanh(sqrt((x - y) / x))
@@ -806,14 +801,14 @@ def _RD(x, y, z):  # used by testElliptic.py
     # Carlson, eqs 2.28 - 2.34
     m = _1_0
     S = Fsum()
-    A = fsum_(x, y, 3 * z) * _0_2
+    A = fsum_(x, y, _3_0 * z) * _0_2
     T = (A, x, y, z)
     Q = _Q(A, T, _TolRD)
     for _ in range(_TRIPS):
         if Q < abs(m * T[0]):  # max 7 trips
             break
         t = T[3]  # z0
-        r, s, T = _rsT(T)
+        r, s, T = _rsT3(T)
         S += _1_0 / (m * s[2] * (t + r))
         m *= _4_0
     else:
@@ -826,9 +821,9 @@ def _RD(x, y, z):  # used by testElliptic.py
     z2 = z**2
     xy = x * y
     return _horner(3 * S.fsum(), m * sqrt(T[0]),
-                   xy - 6 * z2,
-                  (xy * 3 - 8 * z2) * z,
-                  (xy - z2) * 3 * z2,
+                   xy - _6_0 * z2,
+                  (xy * _3_0 - _8_0 * z2) * z,
+                  (xy - z2) * _3_0 * z2,
                    xy * z2 * z)
 
 
@@ -867,7 +862,7 @@ def _RF(x, y, z):  # used by testElliptic.py
     for _ in range(_TRIPS):
         if Q < abs(m * T[0]):  # max 6 trips
             break
-        _, _, T = _rsT(T)
+        _, _, T = _rsT3(T)
         m *= _4_0
     else:
         raise _convergenceError(_RF, x, y, z)
@@ -950,16 +945,16 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
     m = m3 = _1_0
     S = Fsum()
     D = neg(_xyzp(x, y, z, -p))
-    A = fsum_(x, y, z, 2 * p) * _0_2
+    A = fsum_(x, y, z, _2_0 * p) * _0_2
     T = (A, x, y, z, p)
     Q = _Q(A, T, _TolRD)
     for _ in range(_TRIPS):
         if Q < abs(m * T[0]):  # max 7 trips
             break
-        _, s, T = _rsT(T)
+        _, s, T = _rsT3(T)
         d = _xyzp(*s)
         e = D / (m3 * d**2)
-        S += _RC(1, 1 + e) / (m * d)
+        S += _RC(_1_0, _1_0 + e) / (m * d)
         m *= _4_0
         m3 *= 64
     else:
@@ -974,13 +969,13 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
     p2 = p**2
 
     e2 = fsum_(x * y, x * z, y * z, -3 * p2)
-    return _horner(6 * S.fsum(), m * sqrt(T[0]), e2,
-                   fsum_(xyz, 2 * p * e2, 4 * p * p2),
-                   fsum_(xyz * 2, p * e2, 3 * p * p2) * p,
+    return _horner(_6_0 * S.fsum(), m * sqrt(T[0]), e2,
+                   fsum_(xyz, _2_0 * p * e2, _4_0 * p * p2),
+                   fsum_(xyz * _2_0, p * e2, _3_0 * p * p2) * p,
                    p2 * xyz)
 
 
-def _rsT(T):
+def _rsT3(T):
     '''(INTERNAL) Helper for C{_RD}, C{_RF} and C{_RJ}.
     '''
     s = map2(sqrt, T[1:])

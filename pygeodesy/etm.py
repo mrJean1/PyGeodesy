@@ -58,12 +58,8 @@ attempt to control round-off.  For example, C{atanh(sin(phi))} is
 replaced by C{asinh(tan(phi))} which maintains accuracy near
 C{phi = pi/2}.  Such changes are noted in the code.
 '''
-# make sure int/int division yields float quotient
+# make sure int/int division yields float quotient, see .basics
 from __future__ import division
-division = 1 / 2  # double check int division, see .datum.py, .utily.py
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
 
 from pygeodesy.basics import neg, neg_, property_doc_, property_RO, \
                             _xinstanceof
@@ -73,8 +69,8 @@ from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
 from pygeodesy.interns import EPS, _1_EPS, NN, PI_2, PI_4, \
                              _COMMASPACE_, _convergence_, _easting_, \
-                             _lat_, _lon_, _no_, _northing_,  _scale_, \
-                             _0_0, _0_1, _0_5, _1_0, _2_0, _3_0, \
+                             _lat_, _lon_, _no_, _northing_, _scale_, \
+                             _0_0, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
                              _90_0, _180_0
 from pygeodesy.interns import _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
@@ -91,7 +87,7 @@ from math import asinh, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.11.02'
+__version__ = '20.12.18'
 
 _OVERFLOW = _1_EPS**2
 _TOL_10   = _0_1 * EPS
@@ -301,7 +297,7 @@ class ExactTransverseMercator(_NamedBase):
 #   _mu_2_1     = (_e**2 + _2_0) * _0_5
 
 #   _Eu         =  Elliptic(_mu)
-#   _Eu_cE_1_4  = _Eu.cE * 0.25
+#   _Eu_cE_1_4  = _Eu.cE * _0_25
 #   _Eu_cK_cE   = _Eu.cK / _Eu.cE
 #   _Eu_cK_PI_2 = _Eu.cK / PI_2
 
@@ -517,7 +513,7 @@ class ExactTransverseMercator(_NamedBase):
         self._mu_2_1     = (e2 + _2_0) * _0_5
 
         self._Eu         = Elliptic(self._mu)
-        self._Eu_cE_1_4  = self._Eu.cE * 0.25
+        self._Eu_cE_1_4  = self._Eu.cE * _0_25
         self._Eu_cK_cE   = self._Eu.cK / self._Eu.cE
         self._Eu_cK_PI_2 = self._Eu.cK / PI_2
 
@@ -659,7 +655,7 @@ class ExactTransverseMercator(_NamedBase):
         r = cnv * dnu * dnv
         i = cnu * snuv * self._mu
         du = (r**2 - i**2) / d
-        dv = neg(2 * i * r / d)
+        dv = neg(_2_0 * i * r / d)
         return du, dv
 
     def _sigmaInv(self, xi, eta):
@@ -871,7 +867,7 @@ class ExactTransverseMercator(_NamedBase):
             #
             # Inverting this gives:
             e = self._E.e
-            h = sinh(1 - psi / e)
+            h = sinh(_1_0 - psi / e)
             a = (PI_2 - lam) / e
             s, c = sincos2(a)
             u = self._Eu.cK - asinh(s / hypot(c, h)) * self._mu_2_1
@@ -901,7 +897,7 @@ class ExactTransverseMercator(_NamedBase):
             # the range [-90, 180] in zeta space maps to [-90, 0] in
             # w space as required.
             r = cbrt(r * self._3_mv_e)
-            a = atan2(d - psi, psi + d) / 3.0 - PI_4
+            a = atan2(d - psi, psi + d) / _3_0 - PI_4
             s, c = sincos2(a)
             u = r * c
             v = r * s + self._Ev.cK

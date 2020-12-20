@@ -66,13 +66,8 @@ guide-coordinate-systems-great-britain.pdf>}.
 @var Transforms.WGS72: Transform(name='WGS72', tx=0, ty=0, tz=-4.5, rx=0, ry=0, rz=0, s=-0.22, s1=1, sx=0, sy=0, sz=0.554)
 @var Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 '''
-
-# make sure int/int division yields float quotient
+# make sure int/int division yields float quotient, see .basics
 from __future__ import division
-division = 1 / 2  # double check int division, see .ellipsoids, .fmath, .utily
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
 
 from pygeodesy.basics import isscalar, neg_, property_RO, _xinstanceof
 from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
@@ -82,7 +77,7 @@ from pygeodesy.fmath import fdot
 from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, _ellipsoid_, \
                              _ellipsoidal_, _float, _name_, _s_, \
                              _spherical_, _transform_, _UNDER_, \
-                             _0_0, _1_0, _2_0, _3600_0
+                             _0_0, _0_26, _1_0, _2_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem
 from pygeodesy.namedTuples import Vector3Tuple
@@ -92,7 +87,7 @@ from pygeodesy.units import Radius_, Scalar
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '20.11.06'
+__version__ = '20.12.18'
 
 
 def _r_s2(s):
@@ -246,10 +241,10 @@ Transforms._assert(
                                           sx=  -1.042, sy= -0.214, sz=  -0.631,
                                            s=  -1.1),
     Krassovski1940 = Transform('Krassovski1940', tx=-24.0,  ty=123.0,  tz=94.0,
-                                                 sx= -0.02, sy=  0.26, sz= 0.13,
+                                                 sx= -0.02, sy= _0_26, sz= 0.13,
                                                   s= -2.423),  # spelling
     Krassowsky1940 = Transform('Krassowsky1940', tx=-24.0,  ty=123.0,  tz=94.0,
-                                                 sx= -0.02, sy=  0.26, sz= 0.13,
+                                                 sx= -0.02, sy= _0_26, sz= 0.13,
                                                   s= -2.423),  # spelling
     MGI            = Transform('MGI', tx=-577.326, ty=-90.129, tz=-463.920,
                                       sx=   5.137, sy=  1.474, sz=   5.297,
@@ -436,7 +431,7 @@ def _spherical_datum(radius, name=NN, raiser=False):
         r = Radius_(radius, Error=TypeError)
         E = Ellipsoid(r, r, name=n)
         d = Datum(E, transform=Transforms.Identity, name=n)
-    elif raiser and not d.isSpherical:  # raiser if no spherical
+    elif raiser and not d.isSpherical:
         raise _IsnotError(_spherical_, datum=radius)
     return d
 

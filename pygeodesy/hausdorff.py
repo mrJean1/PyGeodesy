@@ -72,8 +72,8 @@ from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
                             cosineLaw_, euclidean_, flatPolar_, haversine_, \
                             points2, _scale_rad, thomas_, vincentys_
-from pygeodesy.interns import INF, NN, _datum_, _distanceTo_, _points_, _units_, \
-                             _0_0
+from pygeodesy.interns import INF, NN, _datum_, _distanceTo_, _i_, _j_, \
+                             _points_, _units_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import PhiLam2Tuple
@@ -86,7 +86,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '20.11.06'
+__version__ = '20.12.18'
 
 
 class HausdorffError(PointsError):
@@ -482,7 +482,8 @@ class HausdorffDistanceTo(Hausdorff):
         np, ps = Hausdorff._points2(self, points)
         for i, p in enumerate(ps):
             if not callable(getattr(p, _distanceTo_, None)):
-                raise HausdorffError(Fmt.SQUARE(_points_, i), p, txt=_distanceTo_)
+                i = Fmt.SQUARE(_points_, i)
+                raise HausdorffError(i, p, txt=_distanceTo_)
         return np, ps
 
 
@@ -964,7 +965,7 @@ class Hausdorff6Tuple(_NamedTuple):
        U{early breaking<https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}
        was enabled by keyword argument C{early=True}.
     '''
-    _Names_ = ('hd', 'i',     'j',     'mn',     'md',  _units_)
+    _Names_ = ('hd', _i_,     _j_,     'mn',     'md',  _units_)
     _Units_ = (_Pass, Number_, Number_, Number_, _Pass, _Pass)
 
     def toUnits(self, **Error):  # PYCHOK expected

@@ -72,7 +72,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.11.06'
+__version__ = '20.12.18'
 
 
 class HeightError(PointsError):
@@ -158,7 +158,8 @@ def _xyhs(lls, off=True, name='llis'):
             yield (max(0.0, radiansPI2(ll.lon + 180.0)) - xf), \
                   (max(0.0, radiansPI( ll.lat +  90.0)) - yf), ll.height
     except AttributeError as x:
-        raise HeightError(Fmt.SQUARE(name, i), ll, txt=str(x))
+        i = Fmt.SQUARE(name, i)
+        raise HeightError(i, ll, txt=str(x))
 
 
 def _xyhs3(atype, m, knots, off=True):
@@ -650,7 +651,8 @@ class HeightIDWdistanceTo(_HeightIDW):
             raise _insufficientError(self._kmin, knots=n)
         for i, k in enumerate(self._ks):
             if not callable(getattr(k, _distanceTo_, None)):
-                raise HeightError(Fmt.SQUARE(_knots_, i), k, txt=_distanceTo_)
+                i = Fmt.SQUARE(_knots_, i)
+                raise HeightError(i, k, txt=_distanceTo_)
 
         # use knots[0] class and datum to create
         # compatible points in _HeightBase._height
@@ -983,7 +985,8 @@ class HeightIDWkarney(_HeightIDW):
                 for i, ll in enumerate(lls):
                     yield ll.lon, ll.lat
             except AttributeError as x:
-                raise HeightError(Fmt.SQUARE(llis=i), ll, txt=str(x))
+                i = Fmt.SQUARE(llis=i)
+                raise HeightError(i, ll, txt=str(x))
 
         _as, llis = _allis2(llis)
         return _as(map(self._hIDW, *zip(*_xy2(llis))))
@@ -1117,7 +1120,8 @@ class HeightLSQBiSpline(_HeightBase):
             w = map2(float, w)
             m = min(w)
             if m <= 0:
-                raise HeightError(Fmt.SQUARE(weight=w.find(m)), m)
+                w = Fmt.SQUARE(weight=w.find(m))
+                raise HeightError(w, m)
         try:
             T = 1.0e-4  # like SciPy example
             ps = np.array(_ordedup(xs, T, PI2 - T))

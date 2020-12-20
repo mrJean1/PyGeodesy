@@ -9,14 +9,14 @@ L{EquidistantKarney} and L{GnomonicKarney} require I{Charles Karney}'s Python
 U{geographiclib<https://PyPI.org/project/geographiclib/>} package to be installed.
 
 Other azimuthal classes implement only (**) U{Snyder's FORMULAS FOR THE SPHERE
-<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} and use those for any datum,
+<https://Pubs.USGS.gov/pp/1395/report.pdf>} and use those for any datum,
 spherical and ellipsoidal.  The radius used for the latter is the ellipsoid's
 I{mean radius of curvature} at the latitude of the projection center point.  For
 further justification, see the first paragraph under U{Snyder's FORMULAS FOR THE
-ELLIPSOID, page 197<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}.
+ELLIPSOID, page 197<https://Pubs.USGS.gov/pp/1395/report.pdf>}.
 
 Page numbers in C{Snyder} references apply to U{John P. Snyder, "Map Projections
--- A Working Manual", 1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}.
+-- A Working Manual", 1987<https://Pubs.USGS.gov/pp/1395/report.pdf>}.
 
 See also U{here<https://WikiPedia.org/wiki/Azimuthal_equidistant_projection>},
 especially the U{Comparison of the Azimuthal equidistant projection and some
@@ -32,10 +32,10 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
 from pygeodesy.fmath import Fsum
-from pygeodesy.interns import EPS, EPS1, NAN, NN, PI, PI_2, \
-                             _azimuth_, _datum_, _lat_, _lon_, \
-                             _no_, _scale_, _SPACE_, _x_, _y_, \
-                             _0_0, _0_5, _1_0, _2_0, _360_0
+from pygeodesy.interns import EPS, EPS1, _EPStol, NAN, NN, PI, PI_2, \
+                             _azimuth_, _datum_, _lat_, _lon_, _no_, \
+                             _scale_, _SPACE_, _x_, _y_, _0_0, \
+                             _0_1, _0_5, _1_0, _2_0, _360_0
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
@@ -48,9 +48,9 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, asin, atan, atan2, copysign, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.12.03'
+__version__ = '20.12.19'
 
-_Karney_eps    =  sqrt(EPS) * 0.010  # Karney's eps_
+_Karney_eps    = _EPStol * _0_1  # Karney's eps_
 _over_horizon_ = 'over horizon'
 _TRIPS         =  21  # numit, 4 sufficient
 
@@ -79,7 +79,7 @@ class _AzimuthalBase(_NamedBase):
                          radius (C{meter}).
            @kwarg name: Optional name for the projection (C{str}).
 
-           @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or spherical B{C{datum}}.
+           @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or (spherical) B{C{datum}}.
 
            @raise TypeError: Invalid B{C{datum}}.
        '''
@@ -269,12 +269,12 @@ class Azimuthal7Tuple(_NamedTuple):
 
 class Equidistant(_AzimuthalBase):
     '''Azimuthal equidistant projection for the sphere**, see U{Snyder, pp 195-197
-       <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} and U{MathWorld-Wolfram
+       <https://Pubs.USGS.gov/pp/1395/report.pdf>} and U{MathWorld-Wolfram
        <https://MathWorld.Wolfram.com/AzimuthalEquidistantProjection.html>}.
 
        @note: Results from this L{Equidistant} and the L{EquidistantKarney}
-              projection C{may differ} up to 10% or more.  For an example,
-              see method C{testDiscrepancies} in module C{testAzimuthal.py}.
+              projection C{may differ} by 10% or more.  For an example, see
+              method C{testDiscrepancies} in module C{testAzimuthal.py}.
     '''
     if _FOR_DOCS:
         __init__ = _AzimuthalBase.__init__
@@ -347,7 +347,7 @@ def equidistant(lat0, lon0, datum=Datums.WGS84, name=NN):
 
        @return: An L{EquidistantKarney} or L{Equidistant} instance.
 
-       @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or sperical B{C{datum}}.
+       @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or (spherical) B{C{datum}}.
 
        @raise TypeError: Invalid B{C{datum}}.
     '''
@@ -406,8 +406,8 @@ class EquidistantKarney(_AzimuthalBaseKarney):
                          radius (C{meter}).
            @kwarg name: Optional name for the projection (C{str}).
 
-           @raise ImportError: Package U{geographiclib<https://PyPI.org/
-                               project/geographiclib>} missing.
+           @raise ImportError: Package U{geographiclib<https://PyPI.org/project/geographiclib>}
+                               not installed or not found.
 
            @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or B{C{datum}}.
         '''
@@ -474,7 +474,7 @@ class EquidistantKarney(_AzimuthalBaseKarney):
 
 class Gnomonic(_AzimuthalBase):
     '''Azimuthal gnomonic projection for the sphere**, see U{Snyder, pp 164-168
-       <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} and U{MathWorld-Wolfram
+       <https://Pubs.USGS.gov/pp/1395/report.pdf>} and U{MathWorld-Wolfram
        <https://MathWorld.Wolfram.com/GnomonicProjection.html>}.
     '''
     if _FOR_DOCS:
@@ -529,7 +529,7 @@ class Gnomonic(_AzimuthalBase):
 
 def gnomonic(lat0, lon0, datum=Datums.WGS84, name=NN):
     '''If I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
-       package is installed, return an L{GnomonicKarney} otherwise an
+       package is installed, return a L{GnomonicKarney} otherwise an
        L{Gnomonic} instance.
 
        @arg lat0: Latitude of center point (C{degrees90}).
@@ -539,9 +539,9 @@ def gnomonic(lat0, lon0, datum=Datums.WGS84, name=NN):
                      radius (C{meter}).
        @kwarg name: Optional name for the projection (C{str}).
 
-       @return: An L{GnomonicKarney} or L{Gnomonic} instance.
+       @return: A L{GnomonicKarney} or L{Gnomonic} instance.
 
-       @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or sperical B{C{datum}}.
+       @raise AzimuthalError: Invalid B{C{lat0}}, B{C{lon0}} or (spherical) B{C{datum}}.
 
        @raise TypeError: Invalid B{C{datum}}.
     '''
@@ -569,8 +569,8 @@ class GnomonicKarney(_AzimuthalBaseKarney):
                          radius (C{meter}).
            @kwarg name: Optional name for the projection (C{str}).
 
-           @raise ImportError: Package U{geographiclib<https://PyPI.org/
-                               project/geographiclib>} missing.
+           @raise ImportError: Package U{geographiclib<https://PyPI.org/project/geographiclib>}
+                               not installed or not found.
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
@@ -673,7 +673,7 @@ class GnomonicKarney(_AzimuthalBaseKarney):
 
 class LambertEqualArea(_AzimuthalBase):
     '''Lambert-equal-area projection for the sphere**, see U{Snyder, pp 185-187
-       <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} and U{MathWorld-Wolfram
+       <https://Pubs.USGS.gov/pp/1395/report.pdf>} and U{MathWorld-Wolfram
        <https://MathWorld.Wolfram.com/LambertAzimuthalEqual-AreaProjection.html>}.
     '''
     if _FOR_DOCS:
@@ -733,7 +733,7 @@ class LambertEqualArea(_AzimuthalBase):
 
 class Orthographic(_AzimuthalBase):
     '''Orthographic projection for the sphere**, see U{Snyder, pp 148-153
-       <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} and U{MathWorld-Wolfram
+       <https://Pubs.USGS.gov/pp/1395/report.pdf>} and U{MathWorld-Wolfram
        <https://MathWorld.Wolfram.com/OrthographicProjection.html>}.
     '''
     if _FOR_DOCS:
@@ -789,7 +789,7 @@ class Orthographic(_AzimuthalBase):
 
 class Stereographic(_AzimuthalBase):
     '''Stereographic projection for the sphere**, see U{Snyder, pp 157-160
-       <https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>} and U{MathWorld-Wolfram
+       <https://Pubs.USGS.gov/pp/1395/report.pdf>} and U{MathWorld-Wolfram
        <https://MathWorld.Wolfram.com/StereographicProjection.html>}.
     '''
     _k0 = _1_0  # central scale factor (C{scalar})

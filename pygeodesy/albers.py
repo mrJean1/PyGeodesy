@@ -7,19 +7,21 @@ L{AlbersError}, a transcription of I{Charles Karney}'s C++ class U{AlbersEqualAr
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html>}.
 
 See also I{Albers Equal-Area Conic Projection} in U{John P. Snyder, "Map Projections
--- A Working Manual", 1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}, pp 98-106
+-- A Working Manual", 1987<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 98-106
 and the Albers Conical Equal-Area examples on pp 291-294.
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import neg, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
-from pygeodesy.interns import EPS, NN, _datum_, _gamma_, _lat_, _lat1_, \
-                             _lat2_, _lon_, _no_, _scale_, _x_, _y_, \
-                             _0_0, _0_5, _1_0, _2_0, _3_0, _90_0
+from pygeodesy.interns import EPS, NN, _EPSqrt as _TOL, _datum_, _gamma_, \
+                             _lat_, _lat1_, _lat2_, _lon_, _no_, _scale_, \
+                             _x_, _y_, _0_0, _0_5, _1_0, _2_0, _3_0, _90_0
 from pygeodesy.karney import _diff182, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
@@ -28,17 +30,16 @@ from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Lon_, \
                             Meter, Scalar_
 from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 
-from math import atan, atan2, atanh, degrees, radians, sqrt
+from math import atan, atan2, atanh, copysign, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.12.08'
+__version__ = '20.12.20'
 
-_EPS__2 = EPS**2
+_EPS__2 = EPS**2  # see .ups
 _EPS__4 = EPS**4
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
 _TERMS  = 21  # XXX 9?
-_TOL    = sqrt(EPS)
 _TOL0   = sqrt3(_TOL)
 
 
@@ -106,13 +107,13 @@ class _AlbersBase(_NamedBase):
     '''
     _datum     = Datums.WGS84
     _iteration = None
-    _lat0      = None  # lat origin
-    _lat1      = None  # let 1st parallel
-    _lat2      = None  # lat 2nd parallel
     _k0        = None  # scale
     _k0n0      = None  # (INTERNAL) k0 * no
     _k02       = None  # (INTERNAL) k0**2
     _k02n0     = None  # (INTERNAL) k02 * n0
+    _lat0      = None  # lat origin
+    _lat1      = None  # let 1st parallel
+    _lat2      = None  # lat 2nd parallel
     _m0        = _0_0  # if polar else sqrt(m02)
     _m02       = None  # (INTERNAL) cached
     _n0        = None  # (INTERNAL) cached
@@ -323,13 +324,13 @@ class _AlbersBase(_NamedBase):
         sth, cth = sincos2(th)  # XXX sin, cos
         if n0:
             x = sth / n0
-            y = ((_1_0 - cth) if cth < 0 else (sth**2 / (_1_0 + cth))) / n0
+            y = ((_1_0 - cth) if cth < 0 else (sth**2 / (_1_0 + cth))) * nrho0 / n0
         else:
             x = self._k02 * b
             y = _0_0
         t = nrho0 + n0 * drho
         x = t * x / k0
-        y = s * (nrho0 * y - drho * cth) / k0
+        y = s * (y - drho * cth) / k0
 
         g = degrees360(s * th)
         if t:
@@ -466,7 +467,7 @@ class _AlbersBase(_NamedBase):
         if E.isOblate:
             x = atanh(x * E.e) / E.e
         elif E.isProlate:
-            x = atan2(abs(x) * E.e, -_1_0 if x < 0 else _1_0) / E.e
+            x = atan2(abs(x) * E.e, copysign(_1_0, x)) / E.e
         return x
 
     def _atanhx1(self, x):
@@ -485,7 +486,7 @@ class _AlbersBase(_NamedBase):
                 if not d:
                     break
         else:
-            s = sqrt(s)
+            s =  sqrt(s)
             s = (atanh(s) if x > 0 else atan(s)) / s - _1_0
         return s
 
@@ -507,16 +508,16 @@ class _AlbersBase(_NamedBase):
         '''(INTERNAL) Function M{Datanhee(x, y)}, defined as
            M{atanhee((x - y) / (1 - E.e^2 * x * y)) / (x - y)}.
         '''
-        E = self.datum.ellipsoid
-        d = _1_0 - E.e2 * x * y
-        t = x - y
-        if t:
-            s = self._atanhee(t / d) / t
-        elif d:
-            s = _1_0 / d
+        e2 = self.datum.ellipsoid.e2
+        d  = _1_0 - e2 * x * y
+        if d:
+            d = _1_0 / d
+            t =  x - y
+            if t:
+                d = self._atanhee(t * d) / t
         else:
-            raise AlbersError(x=x, y=y, d=d, txt=_AlbersBase._Datanhee.__name__)
-        return s
+            raise AlbersError(x=x, y=y, txt=_AlbersBase._Datanhee.__name__)
+        return d
 
     def _D2atanhee(self, x, y):
         '''(INTERNAL) Function M{D2atanhee(x, y)}, defined as
@@ -552,7 +553,7 @@ class _AlbersBase(_NamedBase):
         self._k0n0  = k  * self._n0
         self._k02n0 = k2 * self._n0
 
-    def _tanf(self, txi):  # called from .Ellipsoid.auxAuthalic
+    def _tanf(self, txi):  # called by .Ellipsoid.auxAuthalic
         '''(INTERNAL) Function M{tan-phi from tan-xi}.
         '''
         tol = _tol(_TOL, txi)

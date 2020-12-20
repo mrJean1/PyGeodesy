@@ -28,7 +28,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.11.04'
+__version__ = '20.12.19'
 
 _CassiniSoldner0 = None  # default projection
 
@@ -74,7 +74,8 @@ class CassiniSoldner(_NamedBase):
            @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
 
            @raise ImportError: Package U{geographiclib<https://PyPI.org/
-                               project/geographiclib>} missing.
+                               project/geographiclib>} not installed or
+                               not found.
 
            @example:
 
@@ -343,7 +344,8 @@ class Css(_NamedBase):
            @raise CSSError: If B{C{e}} or B{C{n}} is invalid.
 
            @raise ImportError: Package U{geographiclib<https://PyPI.org/
-                               project/geographiclib>} missing.
+                               project/geographiclib>} not installed or
+                               not found.
 
            @raise TypeError: If B{C{cs0}} is not L{CassiniSoldner}.
 
@@ -521,7 +523,8 @@ def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=NN):
        @raise CSSError: Ellipsoidal mismatch of B{C{latlon}} and B{C{cs0}}.
 
        @raise ImportError: Package U{geographiclib<https://PyPI.org/
-                           project/geographiclib>} missing.
+                           project/geographiclib>} not installed or
+                           not found.
 
        @raise TypeError: If B{C{latlon}} is not ellipsoidal.
     '''

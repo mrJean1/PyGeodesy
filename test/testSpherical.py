@@ -4,13 +4,13 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.09.22'
+__version__ = '20.12.18'
 
 from base import RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
-from pygeodesy import F_D, F_DMS, PI_4, R_M, \
+from pygeodesy import F_D, F_DEG_, F_DMS, PI_4, R_M, \
                       classname, IntersectionError, latlonDMS, lonDMS
 from math import radians
 
@@ -138,7 +138,9 @@ class Tests(_TestsLL, _TestsV):
             p = LatLon(37.673442, -90.234036)  # (-0.00323306, -0.7915,   0.61116)
             q = LatLon(36.109997, -90.953669)  # (-0.0134464,  -0.807775, 0.589337)
             t = p.intersections2(0.0312705, q, 0.0421788, radius=None, height=0)  # radii in radians
-            self.test(n, latlonDMS(t, form=F_D, sep=', '), '36.98931°N, 088.151425°W, 38.23838°N, 092.390487°W')
+            self.test(n, latlonDMS(t, form=F_D, sep=', ', prec=6), '36.98931°N, 088.151425°W, 38.23838°N, 092.390487°W')
+            # 36.989311051533505, -88.15142628069133, 38.2383796094578, -92.39048549120287
+            self.test(n, latlonDMS(t, form=F_DEG_, sep=', ', prec=9), '36.989310429, -088.151425243, 38.238379679, -092.390486808', known=True)
 
             t = LatLon(30, 0).intersections2(PI_4, LatLon(-30, 0), PI_4, radius=None)  # radii in radians
             s = latlonDMS(t, form=F_D, sep=', ')

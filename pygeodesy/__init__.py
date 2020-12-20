@@ -49,13 +49,13 @@ U{Garefs (GARS)<https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
 Other modules provide U{Albers Equal-Area<https://GeographicLib.SourceForge.io/
 html/classGeographicLib_1_1AlbersEqualArea.html>} projections, azimuthal projections
 and Lambert conformal conic projections and positions (from U{John P. Snyder, "Map
-Projections -- A Working Manual", 1987<https://pubs.er.USGS.gov/djvu/PP/PP_1395.pdf>}),
+Projections -- A Working Manual", 1987<https://Pubs.USGS.gov/pp/1395/report.pdf>}),
 functions to clip a path or polygon of C{LatLon} points using the U{Cohen–Sutherland
 <https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>}, the U{Liang–Barsky
 <https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html>} and the
 U{Sutherland-Hodgman<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
 methods, functions to U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize
-a path of C{tLon} points (or a U{NumPy array <https://docs.SciPy.org/doc/numpy/
+a path of C{LatLon} points (or a U{NumPy array <https://docs.SciPy.org/doc/numpy/
 reference/generated/numpy.array.html>}), including implementations of the
 U{Ramer-Douglas-Peucker<https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}
 the U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/resources/hull:8338>} and the
@@ -76,19 +76,22 @@ Alternatively, download C{PyGeodesy-yy.m.d.zip} from U{PyPI
 <https://PyPI.org/project/PyGeodesy>} or U{GitHub
 <https://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded file,
 C{cd} to directory C{Pygeodesy-yy.m.d} and type C{python setup.py
-install}.  To run all PyGeodesy tests, type C{python test/run.py} or
-type C{python test/unitTestSuite.py} before or after installation.
+install}.
+
+To run all PyGeodesy tests, type C{python setup.py test} or type
+C{python test/run.py} or type C{python test/unitTestSuite.py} before
+or after installation.
 
 Installation of U{geographiclib<https://PyPI.org/project/geographiclib>},
 U{numpy<https://PyPI.org/project/numpy>} and U{scipy
-<https://PyPI.org/project/scipy>} is optional.  However, the former is
-required to use classes L{EquidistantKarney}, L{GnomonicKarney},
+<https://PyPI.org/project/scipy>} is optional.  However, the former
+is required to use classes L{EquidistantKarney}, L{GnomonicKarney},
 L{CassiniSoldner} and L{Css} and function L{toCss}, for module
 L{ellipsoidalKarney} classes C{LatLon} and C{Cartesian} and functions
 C{areaOf}, C{intersections2} and C{perimeterOf} and for the
-L{HeightIDWkarney} interpolator.  Both the latter are needed for the
-C{Geoid...} and C{Height...} interpolator classes, except the
-L{GeoidKarney} and all C{HeightIDW...} classes.
+L{HeightIDWkarney} interpolator.  Both the latter are needed for
+most C{Geoid...} and C{Height...} interpolator classes, but not for the
+other C{HeightIDW...} ones.
 
 Documentation
 =============
@@ -104,55 +107,55 @@ tests, the test results (on macOS only) and the complete U{documentation
 Tests
 =====
 
-The tests have been run with Python 3.9.0 (with U{geographiclib
+The tests have been run with Python 3.9.1 (with U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.50), Python 3.8.6 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
-<https://SciPy.org/scipylib/download.html>} 1.5.2) and macOS' Python
-2.7.16 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all
-on macOS 11.0.1 (10.16) Big Sur and all in 64-bit only.  The tests
+<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
+(with U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all on
+macOS 11.1 (10.16) Big Sur and all in 64-bit only.  The tests
 run with and without C{lazy import} for Python 3.  The results of
 those tests are included in the distribution files.
 
 Test coverage has been measured with U{coverage
-<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.0 (with
+<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.1 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50), Python
 3.8.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
-<https://SciPy.org/scipylib/download.html>} 1.5.2) and macOS' Python
-2.7.16 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6).  The
+<https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
+(with U{numpy<https://PyPI.org/project/numpy>} 1.16.6).  The
 complete coverage report in HTML and a PDF summary are included in
 the distribution files.
 
-The tests also ran with Python 3.8.0, 3.7.1, 3.6.3, 2.7.14 and U{PyPy
+The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and U{PyPy
 <https://PyPy.org>} 7.1.1 (Python 3.6.1 and 2.7.13) (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on U{Ubuntu 14.04
-<https://Travis-CI.org/mrJean1/PyGeodesy>} and with Python 3.7.3 (and
+<https://Travis-CI.org/mrJean1/PyGeodesy>} and with Python 3.9.1 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on
-U{Debian 9<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} all in
-64-bit only and with Python 3.8.0, 3.7.2, 3.6.8 and 2.7.15 (all with
-U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50 or 1.49)
-on U{Windows Server 2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
-in both 64- and 32-bit.
+U{Debian 9<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}, all in
+64-bit only and with Python 3.8.0, 3.7.5 and 2.7.17 (all with U{geographiclib
+<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on U{Windows Server
+2012R2<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in both 64- and
+32-bit.
 
 A single-File and single-Directory application with C{pygeodesy} has been
 bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4 and 64-bit
 Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 2.6.9 (and numpy 1.6.2), 2.7.10
-(and numpy 1.8.0rc1), 2.7.13 thru 2.7.17 (with numpy 1.13.1, 1.14.0, 1.15.2,
-1.16.2 or 1.19.0 and scipy 1.5.0), 3.5.3, 3.6.2 thru 3.6.5, 3.7.0, 3.7.2 thru
-3.7.6, 3.8 thru 3.8.5, U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3),
-U{PyPy<https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9) and U{Intel-Python
-<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on MacOS X 10.10 Yosemite, MacOS
-X 10.11 El Capitan, macOS 10.12 Sierra, macOS 10.13.6 High Sierra, macOS 10.14
-Mojave and/or macOS 10.15.3, 10.15.5 and 10.15.6 Catalina, with U{Pythonista
-3.1<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
-on iPad4, with U{Pythonista 3.2<https://OMZ-Software.com/pythonista>} (with
-geographiclib 1.49 or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0, 12.2 and 12.3
-on iPad4, iPhone6 and/or iPhone10, all in 64-bit only and with 32-bit Python
-2.6.6 on Windows XP SP3 and with 32-bit Python 2.7.14 on Windows 10 Pro.
+Previously, the tests were run with Python 3.8.0-5, 3.7.2-6, 3.7.0, 3.6.2-5,
+3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and U{numpy<https://PyPI.org/project/numpy>}
+1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy
+<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0
+(Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13
+and 3.5.3) and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>}
+3.5.3 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on macOS 10.15.3,
+10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS 10.12
+Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista
+3.2<https://OMZ-Software.com/pythonista>} (with geographiclib 1.49 or 1.50 and
+numpy 1.8.0) on iOS 11.4.1, 12.0-3 on iPad4, iPhone6 and/or iPhone10, with
+U{Pythonista 3.1<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3,
+11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on
+Windows 10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
@@ -163,8 +166,8 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8
-<https://PyPI.org/project/flake8>} using Python 3.9.0, both in 64-bit
-on macOS 11.0.1 (10.16) Big Sur.
+<https://PyPI.org/project/flake8>} using Python 3.9.1, both in 64-bit
+on macOS 11.1 (10.16) Big Sur.
 
 Classes with a name ending in C{-Karney} and several more are transcribed from
 I{Karney}'s U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
@@ -457,7 +460,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '20.12.10'
+__version__ = '20.12.20'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

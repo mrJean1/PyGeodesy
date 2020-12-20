@@ -11,8 +11,8 @@ from pygeodesy.basics import len2
 from pygeodesy.errors import _AssertionError, PointsError, _ValueError
 from pygeodesy.fmath import fsum_
 from pygeodesy.formy import points2
-from pygeodesy.interns import EPS, NN, _convex_, _DOT_, _end_, \
-                             _few_, _lat_, _lon_, _name_, _not_, \
+from pygeodesy.interns import EPS, NN, _convex_, _DOT_, _end_, _few_, \
+                             _i_, _j_, _lat_, _lon_, _name_, _not_, \
                              _SPACE_, _start_, _too_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple, _Pass
@@ -21,7 +21,10 @@ from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '20.12.06'
+__version__ = '20.12.16'
+
+_fi_ = 'fi'
+_fj_ = 'fj'
 
 
 class ClipError(_ValueError):
@@ -172,7 +175,7 @@ class ClipCS4Tuple(_NamedTuple):
        C{i} and C{j} (C{int}) of the edge start and end points in
        the original path.
     '''
-    _Names_ = (_start_, _end_, 'i',     'j')
+    _Names_ = (_start_, _end_, _i_,     _j_)
     _Units_ = (_Pass,   _Pass,  Number_, Number_)
 
 
@@ -238,7 +241,7 @@ class ClipLB6Tuple(_NamedTuple):
 
        @see: Class L{FIx} and function L{fractional}.
     '''
-    _Names_ = (_start_, _end_, 'i',      'fi',  'fj', 'j')
+    _Names_ = (_start_, _end_, _i_,      _fi_,  _fj_, _j_)
     _Units_ = (_Pass,   _Pass,  Number_, _Pass, _Pass, Number_)
 
 

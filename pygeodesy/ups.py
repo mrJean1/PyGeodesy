@@ -21,12 +21,11 @@ each end).
 from pygeodesy.basics import neg, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
-from pygeodesy.ellipsoids import _TOL
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1
-from pygeodesy.interns import EPS, NN, _A_, _COMMASPACE_, _inside_, \
-                             _N_, _pole_, _range_, _S_, _SPACE_, _to_, \
-                             _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
+from pygeodesy.interns import EPS, NN, _EPStol as _TOL, _A_, _COMMASPACE_, \
+                             _inside_, _N_, _pole_, _range_, _S_, _SPACE_, \
+                             _to_, _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
@@ -42,10 +41,10 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.11.04'
+__version__ = '20.12.19'
 
 _Bands   = _A_, 'B', 'Y', 'Z'  # polar bands
-_EPS__2  = EPS**2
+_EPS__2  = EPS**2  # see .albers
 _Falsing = Meter(2000e3)  # false easting and northing (C{meter})
 _K0      = Scalar(0.994)  # central UPS scale factor
 _K1      = Scalar(_1_0)   # rescale point scale factor
@@ -245,7 +244,7 @@ class Ups(UtmUpsBase):
         return self._latlon5(LatLon, **LatLon_kwds)
 
     def _latlon_to(self, ll, unfalse):
-        '''(INTERNAL) See C{.toLatLon}, C{toUps8}.
+        '''(INTERNAL) See method C{.toLatLon}, function C{toUps8}.
         '''
         self._latlon, self._latlon_args = ll, unfalse
 
@@ -322,7 +321,7 @@ class Ups(UtmUpsBase):
            @kwarg pole: Optional top/center of the UPS projection,
                         (C{str}, 'N[orth]'|'S[outh]').
 
-           @return: A copt of this UPS coordinate (L{Ups}).
+           @return: A copy of this UPS coordinate (L{Ups}).
 
            @raise UPSError: Invalid B{C{pole}} or attempt to transfer
                             the projection top/center.

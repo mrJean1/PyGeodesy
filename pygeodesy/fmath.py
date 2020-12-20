@@ -5,12 +5,8 @@ u'''Precision floating point functions, utilities and constants.
 
 @newfield example: Example, Examples
 '''
-# make sure int/int division yields float quotient
+# make sure int/int division yields float quotient, see .basics
 from __future__ import division
-division = 1 / 2  # double check int division, see .datum.py, .utily.py
-if not division:
-    raise ImportError('%s 1/2 == %d' % ('division', division))
-del division
 
 from pygeodesy.basics import isfinite, isint, isscalar, \
                              len2, _xcopy
@@ -27,10 +23,10 @@ from math import copysign, hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.11.04'
+__version__ = '20.12.18'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
-_0_4142 =  sqrt(_2_0) - _1_0  # 0.41421356237309504880
+_0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
 _1_3rd  = _1_0 / _3_0
 _2_3rd  = _2_0 / _3_0
 _3_2nd  = _3_0 / _2_0  # _1_5
@@ -215,31 +211,32 @@ class Fsum(object):
         f -= other
         return f
 
-    def fadd(self, iterable):
+    def fadd(self, xs):
         '''Accumulate more values from an iterable.
 
-           @arg iterable: Sequence, list, tuple, etc. (C{scalar}s).
+           @arg xs: Iterable, list, tuple, etc. (C{scalar}s).
 
            @raise OverflowError: Partial C{2sum} overflow.
 
-           @raise TypeError: Non-scalar B{C{iterable}} value.
+           @raise TypeError: Non-scalar B{C{xs}} value.
 
-           @raise ValueError: Invalid or non-finite B{C{iterable}} value.
+           @raise ValueError: Invalid or non-finite B{C{xs}} value.
         '''
-        if isscalar(iterable):  # for backward compatibility
-            iterable = tuple(iterable)
+        if isscalar(xs):  # for backward compatibility
+            xs = (xs,)
 
         ps = self._ps
-        for a in map(float, iterable):  # _iter()
-            if not isfinite(a):
-                raise _ValueError(iterable=a, txt=_not_(_finite_))
+        for i, x in enumerate(map(float, xs)):  # _iter()
+            if not isfinite(x):
+                i = Fmt.SQUARE(xs=i)
+                raise _ValueError(i, x, txt=_not_(_finite_))
             i = 0
             for p in ps:
-                a, p = _2sum(a, p)
+                x, p = _2sum(x, p)
                 if p:
                     ps[i] = p
                     i += 1
-            ps[i:] = [a]
+            ps[i:] = [x]
             self._n += 1
         # assert self._ps is ps
         self._fsum2_ = None
@@ -249,7 +246,11 @@ class Fsum(object):
 
            @arg xs: Values to add (C{scalar}s), all positional.
 
-           @see: Method L{Fsum.fadd}.
+           @raise OverflowError: Partial C{2sum} overflow.
+
+           @raise TypeError: Non-scalar B{C{xs}} value.
+
+           @raise ValueError: Invalid or non-finite B{C{xs}} value.
         '''
         self.fadd(xs)
 
@@ -643,7 +644,8 @@ def fidw(xs, ds, beta=2):
         else:
             x = fmean(xs)
     elif d < 0:
-        raise _ValueError(Fmt.SQUARE(ds=ds.index(d)), d)
+        i = Fmt.SQUARE(ds=ds.index(d))
+        raise _ValueError(i, d)
     return x
 
 
@@ -709,7 +711,7 @@ def fpowers(x, n, alts=0):
        @kwarg alts: Only alternating powers, starting with
                     this exponent (C{int}).
 
-       @return: Powers of B{C{x}} (C{float}[]).
+       @return: Powers of B{C{x}} (C{float}s or C{int}s).
 
        @raise TypeError: Non-scalar B{C{x}} or B{C{n}} not C{int}.
 
@@ -730,7 +732,6 @@ def fpowers(x, n, alts=0):
         # XXX PyChecker chokes on xs[alts-1::2]
         xs = xs[slice(alts-1, None, 2)]
 
-    # XXX PyChecker claims result is None
     return xs
 
 
@@ -805,7 +806,7 @@ def fsum_(*xs):
 
        @raise ValueError: Invalid or non-finite B{C{xs}} value.
     '''
-    return fsum(xs)
+    return fsum(map(float, xs))
 
 
 try:
@@ -814,7 +815,7 @@ try:
     # make sure fsum works as expected (XXX check
     # float.__getformat__('float')[:4] == 'IEEE'?)
     if fsum_(1, 1e101, 1, -1e101) != 2:
-        del fsum  # no, remove fsum ...
+        del fsum  # nope, remove fsum ...
         raise ImportError  # ... use fsum below
 
 except ImportError:  # PYCHOK no cover

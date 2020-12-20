@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 u'''(INTERNAL) Ellipsoidal base classes C{CartesianEllipsoidalBase} and
-C{LatLonEllipsoidalBase}.
+C{LatLonEllipsoidalBase} and several ellipsoidal functions, all used by
+C{.ellipsoidalKarney}, C{.ellipsoidalNvector} or C{.ellipsoidalVincenty}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed in part from JavaScript originals by I{(C) Chris Veness 2005-2016}
@@ -33,7 +34,7 @@ from pygeodesy.units import Epoch, Height, Radius_, Scalar
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '20.12.06'
+__version__ = '20.12.19'
 
 _TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
 _TRIPS = 17    # _intersects2, _nearestOn interations, 6 is sufficient
@@ -403,8 +404,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection class
                                (L{Equidistant} or L{EquidistantKarney}),
-                               function L{azimuthal.equidistant} will be
-                               invoked if left unspecified.
+                               function L{equidistant} will be invoked
+                               if left unspecified.
            @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
                        and B{C{radius2}}).
 
@@ -450,8 +451,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection class
                                (L{Equidistant} or L{EquidistantKarney}),
-                               function L{azimuthal.equidistant} will be
-                               invoked if left unspecified.
+                               function L{equidistant} will be invoked
+                               if left unspecified.
            @kwarg tol: Convergence tolerance (C{meter}).
 
            @return: Closest point (C{LatLon}).
@@ -832,13 +833,15 @@ def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
             raise ValueError(_no_(Fmt.convergence(tol)))
 
     if ta:  # abutting circles
-        r = _latlon4(ta, h, n)
+        pass
     elif len(ts) == 2:
-        return _latlon4(ts[0], h, n), _latlon4(ts[1], h, n)
-    elif len(ts) == 1:  # XXX assume abutting
-        r = _latlon4(ts[0], h, n)
+        return (_latlon4(ts[0], h, n),
+                _latlon4(ts[1], h, n))
+    elif len(ts) == 1:
+        ta = ts[0]  # assume abutting
     else:
         raise _AssertionError(ts=ts)
+    r = _latlon4(ta, h, n)
     return r, r
 
 
