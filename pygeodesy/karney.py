@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 u'''Wrapper around I{Charles Karney}'s Python classes C{Geodesic} and
-C{GeodesicLine} and C{Math} functions C{AngDiff}, C{AngNormalize}, C{LatFix}
-and C{sum} from U{geographiclib<https://PyPI.org/project/geographiclib>},
-provided that package is installed.
+C{GeodesicLine} and C{Math} functions C{AngDiff}, C{AngNormalize}, C{LatFix} and
+C{sum} from I{Karney's} U{geographiclib<https://PyPI.org/project/geographiclib>},
+Python package, provided that package is installed.
 
 The I{wrapped} class methods return a C{named._NamedDict} instance providing
 access to the C{dict} items by key or attribute.

@@ -47,23 +47,22 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum3Tuple
 from pygeodesy.streprs import enstr2, Fmt, _xzipairs, _0wd, _0wpF
-from pygeodesy.units import Easting, Lam_, Northing, Phi_, Scalar
+from pygeodesy.units import Easting, Lam_, Northing, Phi_, Scalar, \
+                           _10um, _100km
 from pygeodesy.utily import degrees90, degrees180, sincos2
 
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.12.18'
+__version__ = '20.12.22'
 
-_10um   = 1e-5    # 0.01 millimeter (C{meter})
-_100km  = 100000  # 100 km (int meter)
+_100_000 =  int(_100km)  # 100 km (int C{meter})
+_5040_0  = _float(5040)
 
-_5040_0 = _float(5040)
-
-_A0 = Phi_(49)  # NatGrid true origin latitude, 49°N
-_B0 = Lam_(-2)  # NatGrid true origin longitude, 2°W
-_E0 = Easting(400e3)    # Easting of true origin (C{meter})
-_N0 = Northing(-100e3)  # Northing of true origin (C{meter})
+_A0 = Phi_(49)              # NatGrid true origin latitude, 49°N
+_B0 = Lam_(-2)              # NatGrid true origin longitude, 2°W
+_E0 = Easting(400e3)        # Easting of true origin (C{meter})
+_N0 = Northing(-_100km)     # Northing of true origin (C{meter})
 _F0 = Scalar(0.9996012717)  # NatGrid scale of central meridian (C{float})
 
 _Datums_OSGB36    =  Datums.OSGB36  # Airy130 ellipsoid
@@ -332,8 +331,8 @@ class Osgr(_NamedBase):
 
         e, n, s = self._easting, self._northing, _COMMA_
         if prec > 0:
-            E, e = divmod(e, _100km)
-            N, n = divmod(n, _100km)
+            E, e = divmod(e, _100_000)
+            N, n = divmod(n, _100_000)
             E, N = int(E), int(N)
             if 0 > E or E > 6 or \
                0 > N or N > 12:

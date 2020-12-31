@@ -11,6 +11,8 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import map1, property_doc_
 from pygeodesy.cartesianBase import CartesianBase
@@ -33,7 +35,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.12.18'
+__version__ = '20.12.22'
 
 
 def _angular(distance, radius):  # PYCHOK for export

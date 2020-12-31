@@ -1,10 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Results previously returned as tuples by C{pygeodesy}
-functions and class methods are now instances of some
-C{Named-Tuple} class, all sub-classes of C{_NamedTuple}
-defined in C{pygeodesy.named}.
+u'''Tuples returned by C{pygeodesy} functions and class methods
+are all instances of some C{Named...Tuple} class, all sub-classes
+of C{_NamedTuple} defined in C{pygeodesy.named}.
 
 @newfield example: Example, Examples
 '''
@@ -24,7 +23,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Number_, Phi, Precision_, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '20.11.02'
+__version__ = '20.12.22'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'

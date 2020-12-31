@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.12.18
+        20.12.28
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -120,7 +120,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="acos1"></a><span class="summary-sig-name">acos1</span>(<span class="summary-sig-arg">x</span>)</span><br />
-      Return <i class="math">math.acos(max(-1, min(1, x)))</i>.</td>
+      Return <code>math.acos(max(-1, min(1, <b>x</b>)))</code>.</td>
           <td align="right" valign="top">
             
             
@@ -259,6 +259,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#circle4" class="summary-sig-name">circle4</a>(<span class="summary-sig-arg">earth</span>,
+        <span class="summary-sig-arg">lat</span>)</span><br />
+      Get the equatorial or a parallel <i>circle of latitude</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees90" class="summary-sig-name">degrees90</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Convert radians to degrees and wrap <i class="math">[-270..+90]</i>.</td>
           <td align="right" valign="top">
@@ -313,8 +331,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert angle to distance along the equator or along a parallel at an
-      other latitude.</td>
+      Convert an angle to a distance along the equator or along the 
+      parallel at an other (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -469,11 +487,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">meter</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert distance to angle along equator or along a parallel at an 
-      other latitude.</td>
+      Convert a distance to an angle along the equator or along the 
+      parallel at an other (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -527,6 +545,26 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2NM" class="summary-sig-name">m2NM</a>(<span class="summary-sig-arg">meter</span>)</span><br />
       Convert meter to nautical miles (NM).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2radians" class="summary-sig-name">m2radians</a>(<span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Convert a distance to an angle along the equator or along the 
+      parallel at an other (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -613,6 +651,26 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#radiansPI_2" class="summary-sig-name">radiansPI_2</a>(<span class="summary-sig-arg">deg</span>)</span><br />
       Convert and wrap degrees to radians <i 
       class="math">[-3PI/2..+PI/2]</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#radians2m" class="summary-sig-name">radians2m</a>(<span class="summary-sig-arg">rad</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Convert an angle to a distance along the equator or along the 
+      parallel at an other (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -1055,6 +1113,50 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="circle4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circle4</span>&nbsp;(<span class="sig-arg">earth</span>,
+        <span class="sig-arg">lat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the equatorial or a parallel <i>circle of latitude</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>earth</code></strong> - The earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Geodetic latitude (<code>degrees90</code>, <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.ellipsoids.Circle4Tuple-class.html" 
+          class="link">Circle4Tuple</a><code>(radius, height, lat, 
+          beta)</code> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - <b><code>earth</code></b> or <b><code>lat</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="degrees90"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1148,29 +1250,40 @@
     </td>
   </tr></table>
   
-  <p>Convert angle to distance along the equator or along a parallel at an 
-  other latitude.</p>
+  <p>Convert an angle to a distance along the equator or along the parallel
+  at an other (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - The angle (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</dd>
+          <b><code>radius</code></b> or ellipsoidal and polar radii) or 
+          <code>0</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>deg</code></b>, <b><code>radius</code></b> or 
         <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utily-module.html#m2degrees" 
+        Function <a href="pygeodesy.utily-module.html#radians2m" 
+        class="link">radians2m</a> and <a 
+        href="pygeodesy.utily-module.html#m2degrees" 
         class="link">m2degrees</a>.
       </p>
 </div></td></tr></table>
@@ -1409,7 +1522,7 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>&nbsp;(<span class="sig-arg">meter</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>&nbsp;(<span class="sig-arg">distance</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
   </h3>
@@ -1418,29 +1531,40 @@
     </td>
   </tr></table>
   
-  <p>Convert distance to angle along equator or along a parallel at an 
-  other latitude.</p>
+  <p>Convert a distance to an angle along the equator or along the parallel
+  at an other (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Distance (<code>meter</code>, same units as 
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, an <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle (<code>degrees</code>).</dd>
+        <dd>Angle (<code>degrees</code>) or <code>INF</code> for near-polar 
+          <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>, <b><code>radius</code></b> or 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>radius</code></b> or
         <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utily-module.html#degrees2m" 
+        Function <a href="pygeodesy.utily-module.html#m2radians" 
+        class="link">m2radians</a> and <a 
+        href="pygeodesy.utily-module.html#degrees2m" 
         class="link">degrees2m</a>.
       </p>
 </div></td></tr></table>
@@ -1535,6 +1659,60 @@
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="m2radians"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2radians</span>&nbsp;(<span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a distance to an angle along the equator or along the parallel
+  at an other (geodetic) latitude.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, an <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>radians</code>) or <code>INF</code> for near-polar 
+          <b><code>lat</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>radius</code></b> or
+        <b><code>lat</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#m2degrees" 
+        class="link">m2degrees</a> and <a 
+        href="pygeodesy.utily-module.html#radians2m" 
+        class="link">radians2m</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="m2SM"></a>
 <div>
@@ -1671,6 +1849,60 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="radians2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">radians2m</span>&nbsp;(<span class="sig-arg">rad</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an angle to a distance along the equator or along the parallel
+  at an other (geodetic) latitude.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - The angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b> or ellipsoidal and polar radii) or 
+          <code>0</code> for near-polar <b><code>lat</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>rad</code></b>, <b><code>radius</code></b> or 
+        <b><code>lat</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#degrees2m" 
+        class="link">degrees2m</a> and <a 
+        href="pygeodesy.utily-module.html#m2radians" 
+        class="link">m2radians</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="sincos2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1771,7 +2003,7 @@
           class="math">iterable[i::n] for i=0..n</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>n</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>n</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -2137,7 +2369,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Dec 20 12:23:38 2020
+    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:04 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -130,7 +130,7 @@ the distribution files.
 The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and U{PyPy
 <https://PyPy.org>} 7.1.1 (Python 3.6.1 and 2.7.13) (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on U{Ubuntu 14.04
-<https://Travis-CI.org/mrJean1/PyGeodesy>} and with Python 3.9.1 (and
+<https://Travis-CI.com/mrJean1/PyGeodesy>} and with Python 3.9.1 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50 or 1.49) on
 U{Debian 9<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>}, all in
 64-bit only and with Python 3.8.0, 3.7.5 and 2.7.17 (all with U{geographiclib
@@ -460,7 +460,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '20.12.20'
+__version__ = '20.12.30'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

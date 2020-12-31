@@ -71,6 +71,8 @@ See:
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import len2
 from pygeodesy.errors import _AttributeError, _ValueError
@@ -82,7 +84,7 @@ from pygeodesy.utily import isNumpy2, isTuple2
 from math import degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '20.09.10'
+__version__ = '20.12.22'
 
 
 # try:

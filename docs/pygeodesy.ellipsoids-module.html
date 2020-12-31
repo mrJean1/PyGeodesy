@@ -62,7 +62,7 @@
 <p>Classes <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
   class="link">a_f2Tuple</a>, <a 
   href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-  class="link">Ellipsoid</a>, <a 
+  class="link">Ellipsoid</a> and <a 
   href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
   class="link">Ellipsoid2</a>, an <a 
   href="pygeodesy.ellipsoids-module.html#Ellipsoids" 
@@ -74,7 +74,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.12.19
+        20.12.30
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -92,6 +92,19 @@
       2-Tuple <code>(a, f)</code> specifying an ellipsoid by 
         <i>equatorial</i> radius <code>a</code> in <code>meter</code> and 
         scalar <i>flattening</i> <code>f</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Circle4Tuple-class.html" class="summary-name">Circle4Tuple</a><br />
+      4-Tuple <code>(radius, height, lat, beta)</code> of the 
+        <code>radius</code> and <code>height</code>, both conventionally in
+        <code>meter</code> of a parallel <i>circle of latitude</i> at 
+        (geodetic) latitude <code>lat</code> and the <i>parametric (or 
+        reduced) auxiliary latitude</i> <code>beta</code>, both in 
+        <code>degrees</code>.
     </td>
   </tr>
 <tr>
@@ -601,12 +614,12 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
 56.90923729, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.00167322\
-, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, L=10001\
-126.0807165, R1=6370461.23374576, R2=6370459.65470808, R3=6370453.3099\
-4572),
-Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
- b=6356034.44793853, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.\
-00167322, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643,\
+, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, A=63669\
+14.60892522, L=10001126.0807165, R1=6370461.23374576, R2=6370459.65470\
+808, R3=6370453.30994572),
+Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
+8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371008.771\
+415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415, R3=637\
 ...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
@@ -618,8 +631,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='Airy1830', a=6377563.396, b=6356256.90923729, 
       f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.00167322, 
       e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, 
-      L=10001126.0807165, R1=6370461.23374576, R2=6370459.65470808, 
-      R3=6370453.30994572)
+      A=6366914.60892522, L=10001126.0807165, R1=6370461.23374576, 
+      R2=6370459.65470808, R3=6370453.30994572)
     </td>
   </tr>
 <tr>
@@ -630,8 +643,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='AiryModified', a=6377340.189, b=6356034.44793853, 
       f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.00167322, 
       e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, 
-      L=10000776.05340819, R1=6370238.27531284, R2=6370236.69633043, 
-      R3=6370230.35179012)
+      A=6366691.77461988, L=10000776.05340819, R1=6370238.27531284, 
+      R2=6370236.69633043, R3=6370230.35179012)
     </td>
   </tr>
 <tr>
@@ -641,8 +654,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Australia1966"></a><span class="summary-name">Ellipsoids.Australia1966</span><br />
       Ellipsoid(name='Australia1966', a=6378160, b=6356774.71919531, 
       f_=298.25, f=0.00335289, f2=0.00336417, n=0.00167926, e=0.08182018, 
-      e2=0.00669454, e22=0.00673966, e32=0.00335851, L=10002001.39064442, 
-      R1=6371031.5730651, R2=6371029.9824858, R3=6371023.59124343)
+      e2=0.00669454, e22=0.00673966, e32=0.00335851, A=6367471.84853228, 
+      L=10002001.39064442, R1=6371031.5730651, R2=6371029.9824858, 
+      R3=6371023.59124343)
     </td>
   </tr>
 <tr>
@@ -653,8 +667,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='Bessel1841', a=6377397.155, b=6356078.962818, 
       f_=299.1528128, f=0.00334277, f2=0.00335398, n=0.00167418, 
       e=0.08169683, e2=0.00667437, e22=0.00671922, e32=0.00334836, 
-      L=10000855.76443237, R1=6370291.09093933, R2=6370289.51012659, 
-      R3=6370283.15821522)
+      A=6366742.52023395, L=10000855.76443237, R1=6370291.09093933, 
+      R2=6370289.51012659, R3=6370283.15821522)
     </td>
   </tr>
 <tr>
@@ -664,8 +678,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.CPM1799"></a><span class="summary-name">Ellipsoids.CPM1799</span><br />
       Ellipsoid(name='CPM1799', a=6375738.7, b=6356671.92557493, f_=334.39,
       f=0.00299052, f2=0.00299949, n=0.0014975, e=0.07727934, e2=0.0059721,
-      e22=0.00600798, e32=0.00299499, L=10000017.52721564, 
-      R1=6369383.10852498, R2=6369381.8434158, R3=6369376.76247021)
+      e22=0.00600798, e32=0.00299499, A=6366208.88184784, 
+      L=10000017.52721564, R1=6369383.10852498, R2=6369381.8434158, 
+      R3=6369376.76247021)
     </td>
   </tr>
 <tr>
@@ -676,8 +691,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='Clarke1866', a=6378206.4, b=6356583.8, 
       f_=294.97869821, f=0.00339008, f2=0.00340161, n=0.00169792, 
       e=0.08227185, e2=0.00676866, e22=0.00681478, e32=0.00339582, 
-      L=10001888.04298286, R1=6370998.86666667, R2=6370997.240633, 
-      R3=6370990.70659881)
+      A=6367399.68916978, L=10001888.04298286, R1=6370998.86666667, 
+      R2=6370997.240633, R3=6370990.70659881)
     </td>
   </tr>
 <tr>
@@ -687,8 +702,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Clarke1880"></a><span class="summary-name">Ellipsoids.Clarke1880</span><br />
       Ellipsoid(name='Clarke1880', a=6378249.145, b=6356514.86954978, 
       f_=293.465, f=0.00340756, f2=0.00341921, n=0.00170669, e=0.0824834, 
-      e2=0.00680351, e22=0.00685012, e32=0.00341337, L=10001867.55164747, 
-      R1=6371004.38651659, R2=6371002.74366963, R3=6370996.1419165)
+      e2=0.00680351, e22=0.00685012, e32=0.00341337, A=6367386.64398051, 
+      L=10001867.55164747, R1=6371004.38651659, R2=6371002.74366963, 
+      R3=6370996.1419165)
     </td>
   </tr>
 <tr>
@@ -699,8 +715,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='Clarke1880IGN', a=6378249.2, b=6356515, 
       f_=293.46602129, f=0.00340755, f2=0.0034192, n=0.00170668, 
       e=0.08248326, e2=0.00680349, e22=0.00685009, e32=0.00341336, 
-      L=10001867.69724907, R1=6371004.46666667, R2=6371002.82383112, 
-      R3=6370996.22212394)
+      A=6367386.73667336, L=10001867.69724907, R1=6371004.46666667, 
+      R2=6371002.82383112, R3=6370996.22212394)
     </td>
   </tr>
 <tr>
@@ -710,8 +726,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Clarke1880Mod"></a><span class="summary-name">Ellipsoids.Clarke1880Mod</span><br />
       Ellipsoid(name='Clarke1880Mod', a=6378249.145, b=6356514.96582849, 
       f_=293.4663, f=0.00340755, f2=0.0034192, n=0.00170668, e=0.08248322, 
-      e2=0.00680348, e22=0.00685009, e32=0.00341335, L=10001867.62720001, 
-      R1=6371004.4186095, R2=6371002.77577708, R3=6370996.17408252)
+      e2=0.00680348, e22=0.00685009, e32=0.00341335, A=6367386.69207875, 
+      L=10001867.62720001, R1=6371004.4186095, R2=6371002.77577708, 
+      R3=6370996.17408252)
     </td>
   </tr>
 <tr>
@@ -721,8 +738,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Delambre1810"></a><span class="summary-name">Ellipsoids.Delambre1810</span><br />
       Ellipsoid(name='Delambre1810', a=6376428, b=6355957.92616372, 
       f_=311.5, f=0.00321027, f2=0.00322061, n=0.00160772, e=0.08006397, 
-      e2=0.00641024, e22=0.0064516, e32=0.00321543, L=9999998.98395793, 
-      R1=6369604.64205457, R2=6369603.18419749, R3=6369597.32739068)
+      e2=0.00641024, e22=0.0064516, e32=0.00321543, A=6366197.07684334, 
+      L=9999998.98395793, R1=6369604.64205457, R2=6369603.18419749, 
+      R3=6369597.32739068)
     </td>
   </tr>
 <tr>
@@ -732,8 +750,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Engelis1985"></a><span class="summary-name">Ellipsoids.Engelis1985</span><br />
       Ellipsoid(name='Engelis1985', a=6378136.05, b=6356751.32272154, 
       f_=298.2566, f=0.00335282, f2=0.0033641, n=0.00167922, e=0.08181928, 
-      e2=0.00669439, e22=0.00673951, e32=0.00335844, L=10001964.20447208, 
-      R1=6371007.80757385, R2=6371006.21707085, R3=6370999.82613572)
+      e2=0.00669439, e22=0.00673951, e32=0.00335844, A=6367448.17507971, 
+      L=10001964.20447208, R1=6371007.80757385, R2=6371006.21707085, 
+      R3=6370999.82613572)
     </td>
   </tr>
 <tr>
@@ -743,8 +762,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Everest1969"></a><span class="summary-name">Ellipsoids.Everest1969</span><br />
       Ellipsoid(name='Everest1969', a=6377295.664, b=6356094.667915, 
       f_=300.8017, f=0.00332445, f2=0.00333554, n=0.00166499, e=0.08147298,
-      e2=0.00663785, e22=0.0066822, e32=0.00332998, L=10000788.3115495, 
-      R1=6370228.665305, R2=6370227.10178537, R3=6370220.81951617)
+      e2=0.00663785, e22=0.0066822, e32=0.00332998, A=6366699.57839501, 
+      L=10000788.3115495, R1=6370228.665305, R2=6370227.10178537, 
+      R3=6370220.81951617)
     </td>
   </tr>
 <tr>
@@ -754,8 +774,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Fisher1968"></a><span class="summary-name">Ellipsoids.Fisher1968</span><br />
       Ellipsoid(name='Fisher1968', a=6378150, b=6356768.33724438, f_=298.3,
       f=0.00335233, f2=0.00336361, n=0.00167898, e=0.08181333, 
-      e2=0.00669342, e22=0.00673853, e32=0.00335795, L=10001988.52191361, 
-      R1=6371022.77908146, R2=6371021.18903735, R3=6371014.79995034)
+      e2=0.00669342, e22=0.00673853, e32=0.00335795, A=6367463.65604381, 
+      L=10001988.52191361, R1=6371022.77908146, R2=6371021.18903735, 
+      R3=6371014.79995034)
     </td>
   </tr>
 <tr>
@@ -766,8 +787,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='GEM10C', a=6378137, b=6356752.31424783, 
       f_=298.2572236, f=0.00335281, f2=0.00336409, n=0.00167922, 
       e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, 
-      L=10001965.7293148, R1=6371008.77141594, R2=6371007.18091936, 
-      R3=6371000.79001004)
+      A=6367449.14582474, L=10001965.7293148, R1=6371008.77141594, 
+      R2=6371007.18091936, R3=6371000.79001004)
     </td>
   </tr>
 <tr>
@@ -778,8 +799,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='GRS67', a=6378160, b=6356774.51609071, 
       f_=298.24716743, f=0.00335292, f2=0.0033642, n=0.00167928, 
       e=0.08182057, e2=0.00669461, e22=0.00673973, e32=0.00335854, 
-      L=10002001.2312605, R1=6371031.50536357, R2=6371029.91475409, 
-      R3=6371023.52339014)
+      A=6367471.74706533, L=10002001.2312605, R1=6371031.50536357, 
+      R2=6371029.91475409, R3=6371023.52339014)
     </td>
   </tr>
 <tr>
@@ -790,8 +811,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='GRS80', a=6378137, b=6356752.31414035, 
       f_=298.2572221, f=0.00335281, f2=0.00336409, n=0.00167922, 
       e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, 
-      L=10001965.72923046, R1=6371008.77138012, R2=6371007.18088351, 
-      R3=6371000.78997413)
+      A=6367449.14577104, L=10001965.72923046, R1=6371008.77138012, 
+      R2=6371007.18088351, R3=6371000.78997413)
     </td>
   </tr>
 <tr>
@@ -801,8 +822,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Helmert1906"></a><span class="summary-name">Ellipsoids.Helmert1906</span><br />
       Ellipsoid(name='Helmert1906', a=6378200, b=6356818.16962789, 
       f_=298.3, f=0.00335233, f2=0.00336361, n=0.00167898, e=0.08181333, 
-      e2=0.00669342, e22=0.00673853, e32=0.00335795, L=10002066.93013953, 
-      R1=6371072.7232093, R2=6371071.13315272, R3=6371064.74401563)
+      e2=0.00669342, e22=0.00673853, e32=0.00335795, A=6367513.57227074, 
+      L=10002066.93013953, R1=6371072.7232093, R2=6371071.13315272, 
+      R3=6371064.74401563)
     </td>
   </tr>
 <tr>
@@ -812,8 +834,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.IERS1989"></a><span class="summary-name">Ellipsoids.IERS1989</span><br />
       Ellipsoid(name='IERS1989', a=6378136, b=6356751.30156878, f_=298.257,
       f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181922, 
-      e2=0.00669438, e22=0.0067395, e32=0.00335843, L=10001964.14856985, 
-      R1=6371007.76718959, R2=6371006.17669088, R3=6370999.78577296)
+      e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367448.13949125, 
+      L=10001964.14856985, R1=6371007.76718959, R2=6371006.17669088, 
+      R3=6370999.78577296)
     </td>
   </tr>
 <tr>
@@ -824,8 +847,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='IERS1992TOPEX', a=6378136.3, b=6356751.61659215, 
       f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, 
       e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, 
-      L=10001964.63159783, R1=6371008.07219738, R2=6371006.48170097, 
-      R3=6371000.09079235)
+      A=6367448.44699641, L=10001964.63159783, R1=6371008.07219738, 
+      R2=6371006.48170097, R3=6371000.09079235)
     </td>
   </tr>
 <tr>
@@ -835,8 +858,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.IERS2003"></a><span class="summary-name">Ellipsoids.IERS2003</span><br />
       Ellipsoid(name='IERS2003', a=6378136.6, b=6356751.85797165, 
       f_=298.25642, f=0.00335282, f2=0.0033641, n=0.00167922, e=0.0818193, 
-      e2=0.0066944, e22=0.00673951, e32=0.00335844, L=10001965.05683465, 
-      R1=6371008.35265722, R2=6371006.76215217, R3=6371000.37120876)
+      e2=0.0066944, e22=0.00673951, e32=0.00335844, A=6367448.71771058, 
+      L=10001965.05683465, R1=6371008.35265722, R2=6371006.76215217, 
+      R3=6371000.37120876)
     </td>
   </tr>
 <tr>
@@ -846,8 +870,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Intl1924"></a><span class="summary-name">Ellipsoids.Intl1924</span><br />
       Ellipsoid(name='Intl1924', a=6378388, b=6356911.94612795, f_=297, 
       f=0.003367, f2=0.00337838, n=0.00168634, e=0.08199189, e2=0.00672267,
-      e22=0.00676817, e32=0.00337267, L=10002288.29898944, 
-      R1=6371229.31537598, R2=6371227.71133444, R3=6371221.26587487)
+      e22=0.00676817, e32=0.00337267, A=6367654.50005758, 
+      L=10002288.29898944, R1=6371229.31537598, R2=6371227.71133444, 
+      R3=6371221.26587487)
     </td>
   </tr>
 <tr>
@@ -857,8 +882,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Intl1967"></a><span class="summary-name">Ellipsoids.Intl1967</span><br />
       Ellipsoid(name='Intl1967', a=6378157.5, b=6356772.2, f_=298.24961539,
       f=0.0033529, f2=0.00336418, n=0.00167926, e=0.08182023, 
-      e2=0.00669455, e22=0.00673967, e32=0.00335852, L=10001997.44859308, 
-      R1=6371029.06666667, R2=6371027.47608389, R3=6371021.08482752)
+      e2=0.00669455, e22=0.00673967, e32=0.00335852, A=6367469.33894446, 
+      L=10001997.44859308, R1=6371029.06666667, R2=6371027.47608389, 
+      R3=6371021.08482752)
     </td>
   </tr>
 <tr>
@@ -868,8 +894,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Krassovski1940"></a><span class="summary-name">Ellipsoids.Krassovski1940</span><br />
       Ellipsoid(name='Krassovski1940', a=6378245, b=6356863.01877305, 
       f_=298.3, f=0.00335233, f2=0.00336361, n=0.00167898, e=0.08181333, 
-      e2=0.00669342, e22=0.00673853, e32=0.00335795, L=10002137.49754285, 
-      R1=6371117.67292435, R2=6371116.08285656, R3=6371109.69367439)
+      e2=0.00669342, e22=0.00673853, e32=0.00335795, A=6367558.49687498, 
+      L=10002137.49754285, R1=6371117.67292435, R2=6371116.08285656, 
+      R3=6371109.69367439)
     </td>
   </tr>
 <tr>
@@ -879,8 +906,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Krassowsky1940"></a><span class="summary-name">Ellipsoids.Krassowsky1940</span><br />
       Ellipsoid(name='Krassowsky1940', a=6378245, b=6356863.01877305, 
       f_=298.3, f=0.00335233, f2=0.00336361, n=0.00167898, e=0.08181333, 
-      e2=0.00669342, e22=0.00673853, e32=0.00335795, L=10002137.49754285, 
-      R1=6371117.67292435, R2=6371116.08285656, R3=6371109.69367439)
+      e2=0.00669342, e22=0.00673853, e32=0.00335795, A=6367558.49687498, 
+      L=10002137.49754285, R1=6371117.67292435, R2=6371116.08285656, 
+      R3=6371109.69367439)
     </td>
   </tr>
 <tr>
@@ -890,8 +918,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Maupertuis1738"></a><span class="summary-name">Ellipsoids.Maupertuis1738</span><br />
       Ellipsoid(name='Maupertuis1738', a=6397300, b=6363806.28272251, 
       f_=191, f=0.0052356, f2=0.00526316, n=0.00262467, e=0.10219488, 
-      e2=0.01044379, e22=0.01055402, e32=0.00524931, L=10022566.69846922, 
-      R1=6386135.42757417, R2=6386131.54144847, R3=6386115.88628229)
+      e2=0.01044379, e22=0.01055402, e32=0.00524931, A=6380564.13011837, 
+      L=10022566.69846922, R1=6386135.42757417, R2=6386131.54144847, 
+      R3=6386115.88628229)
     </td>
   </tr>
 <tr>
@@ -901,8 +930,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Mercury1960"></a><span class="summary-name">Ellipsoids.Mercury1960</span><br />
       Ellipsoid(name='Mercury1960', a=6378166, b=6356784.28360711, 
       f_=298.3, f=0.00335233, f2=0.00336361, n=0.00167898, e=0.08181333, 
-      e2=0.00669342, e22=0.00673853, e32=0.00335795, L=10002013.61254591, 
-      R1=6371038.76120237, R2=6371037.17115427, R3=6371030.78205124)
+      e2=0.00669342, e22=0.00673853, e32=0.00335795, A=6367479.62923643, 
+      L=10002013.61254591, R1=6371038.76120237, R2=6371037.17115427, 
+      R3=6371030.78205124)
     </td>
   </tr>
 <tr>
@@ -912,8 +942,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Mercury1968Mod"></a><span class="summary-name">Ellipsoids.Mercury1968Mod</span><br />
       Ellipsoid(name='Mercury1968Mod', a=6378150, b=6356768.33724438, 
       f_=298.3, f=0.00335233, f2=0.00336361, n=0.00167898, e=0.08181333, 
-      e2=0.00669342, e22=0.00673853, e32=0.00335795, L=10001988.52191361, 
-      R1=6371022.77908146, R2=6371021.18903735, R3=6371014.79995034)
+      e2=0.00669342, e22=0.00673853, e32=0.00335795, A=6367463.65604381, 
+      L=10001988.52191361, R1=6371022.77908146, R2=6371021.18903735, 
+      R3=6371014.79995034)
     </td>
   </tr>
 <tr>
@@ -923,8 +954,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.NWL1965"></a><span class="summary-name">Ellipsoids.NWL1965</span><br />
       Ellipsoid(name='NWL1965', a=6378145, b=6356759.76948868, f_=298.25, 
       f=0.00335289, f2=0.00336417, n=0.00167926, e=0.08182018, 
-      e2=0.00669454, e22=0.00673966, e32=0.00335851, L=10001977.86818326, 
-      R1=6371016.58982956, R2=6371014.999254, R3=6371008.60802666)
+      e2=0.00669454, e22=0.00673966, e32=0.00335851, A=6367456.87366841, 
+      L=10001977.86818326, R1=6371016.58982956, R2=6371014.999254, 
+      R3=6371008.60802666)
     </td>
   </tr>
 <tr>
@@ -935,8 +967,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='OSU86F', a=6378136.2, b=6356751.51693008, 
       f_=298.2572236, f=0.00335281, f2=0.00336409, n=0.00167922, 
       e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, 
-      L=10001964.47478349, R1=6371007.97231003, R2=6371006.38181364, 
-      R3=6370999.99090512)
+      A=6367448.3471653, L=10001964.47478349, R1=6371007.97231003, 
+      R2=6371006.38181364, R3=6370999.99090512)
     </td>
   </tr>
 <tr>
@@ -947,8 +979,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='OSU91A', a=6378136.3, b=6356751.6165948, 
       f_=298.2572236, f=0.00335281, f2=0.00336409, n=0.00167922, 
       e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, 
-      L=10001964.6315999, R1=6371008.07219827, R2=6371006.48170186, 
-      R3=6371000.09079324)
+      A=6367448.44699773, L=10001964.6315999, R1=6371008.07219827, 
+      R2=6371006.48170186, R3=6371000.09079324)
     </td>
   </tr>
 <tr>
@@ -958,8 +990,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Plessis1817"></a><span class="summary-name">Ellipsoids.Plessis1817</span><br />
       Ellipsoid(name='Plessis1817', a=6376523, b=6355862.93325557, 
       f_=308.64, f=0.00324002, f2=0.00325055, n=0.00162264, e=0.08043347, 
-      e2=0.00646954, e22=0.00651167, e32=0.00324527, L=9999999.11003639, 
-      R1=6369636.31108519, R2=6369634.82608583, R3=6369628.85999667)
+      e2=0.00646954, e22=0.00651167, e32=0.00324527, A=6366197.15710739, 
+      L=9999999.11003639, R1=6369636.31108519, R2=6369634.82608583, 
+      R3=6369628.85999667)
     </td>
   </tr>
 <tr>
@@ -969,8 +1002,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.SGS85"></a><span class="summary-name">Ellipsoids.SGS85</span><br />
       Ellipsoid(name='SGS85', a=6378136, b=6356751.30156878, f_=298.257, 
       f=0.00335281, f2=0.00336409, n=0.00167922, e=0.08181922, 
-      e2=0.00669438, e22=0.0067395, e32=0.00335843, L=10001964.14856985, 
-      R1=6371007.76718959, R2=6371006.17669087, R3=6370999.78577296)
+      e2=0.00669438, e22=0.0067395, e32=0.00335843, A=6367448.13949125, 
+      L=10001964.14856985, R1=6371007.76718959, R2=6371006.17669087, 
+      R3=6370999.78577296)
     </td>
   </tr>
 <tr>
@@ -980,8 +1014,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.SoAmerican1969"></a><span class="summary-name">Ellipsoids.SoAmerican1969</span><br />
       Ellipsoid(name='SoAmerican1969', a=6378160, b=6356774.71919531, 
       f_=298.25, f=0.00335289, f2=0.00336417, n=0.00167926, e=0.08182018, 
-      e2=0.00669454, e22=0.00673966, e32=0.00335851, L=10002001.39064442, 
-      R1=6371031.5730651, R2=6371029.98248581, R3=6371023.59124343)
+      e2=0.00669454, e22=0.00673966, e32=0.00335851, A=6367471.84853228, 
+      L=10002001.39064442, R1=6371031.5730651, R2=6371029.98248581, 
+      R3=6371023.59124343)
     </td>
   </tr>
 <tr>
@@ -990,8 +1025,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     </td><td class="summary">
         <a name="Ellipsoids.Sphere"></a><span class="summary-name">Ellipsoids.Sphere</span><br />
       Ellipsoid(name='Sphere', a=6371008.771415, b=6371008.771415, f_=0, 
-      f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, L=10007557.17611675, 
-      R1=6371008.771415, R2=6371008.771415, R3=6371008.771415)
+      f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371008.771415, 
+      L=10007557.17611675, R1=6371008.771415, R2=6371008.771415, 
+      R3=6371008.771415)
     </td>
   </tr>
 <tr>
@@ -1000,8 +1036,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     </td><td class="summary">
         <a name="Ellipsoids.SphereAuthalic"></a><span class="summary-name">Ellipsoids.SphereAuthalic</span><br />
       Ellipsoid(name='SphereAuthalic', a=6371000, b=6371000, f_=0, f=0, 
-      f2=0, n=0, e=0, e2=0, e22=0, e32=0, L=10007543.39801029, R1=6371000, 
-      R2=6371000, R3=6371000)
+      f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371000, L=10007543.39801029, 
+      R1=6371000, R2=6371000, R3=6371000)
     </td>
   </tr>
 <tr>
@@ -1010,8 +1046,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     </td><td class="summary">
         <a name="Ellipsoids.SpherePopular"></a><span class="summary-name">Ellipsoids.SpherePopular</span><br />
       Ellipsoid(name='SpherePopular', a=6378137, b=6378137, f_=0, f=0, 
-      f2=0, n=0, e=0, e2=0, e22=0, e32=0, L=10018754.17139462, R1=6378137, 
-      R2=6378137, R3=6378137)
+      f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6378137, L=10018754.17139462, 
+      R1=6378137, R2=6378137, R3=6378137)
     </td>
   </tr>
 <tr>
@@ -1021,8 +1057,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.Struve1860"></a><span class="summary-name">Ellipsoids.Struve1860</span><br />
       Ellipsoid(name='Struve1860', a=6378298.3, b=6356657.14266956, 
       f_=294.73, f=0.00339294, f2=0.00340449, n=0.00169935, e=0.0823065, 
-      e2=0.00677436, e22=0.00682056, e32=0.00339869, L=10002017.83655714, 
-      R1=6371084.58088985, R2=6371082.95208988, R3=6371076.40691418)
+      e2=0.00677436, e22=0.00682056, e32=0.00339869, A=6367482.31832549, 
+      L=10002017.83655714, R1=6371084.58088985, R2=6371082.95208988, 
+      R3=6371076.40691418)
     </td>
   </tr>
 <tr>
@@ -1032,8 +1069,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.WGS60"></a><span class="summary-name">Ellipsoids.WGS60</span><br />
       Ellipsoid(name='WGS60', a=6378165, b=6356783.28695944, f_=298.3, 
       f=0.00335233, f2=0.00336361, n=0.00167898, e=0.08181333, 
-      e2=0.00669342, e22=0.00673853, e32=0.00335795, L=10002012.0443814, 
-      R1=6371037.76231981, R2=6371036.17227197, R3=6371029.78316993)
+      e2=0.00669342, e22=0.00673853, e32=0.00335795, A=6367478.63091189, 
+      L=10002012.0443814, R1=6371037.76231981, R2=6371036.17227197, 
+      R3=6371029.78316993)
     </td>
   </tr>
 <tr>
@@ -1043,8 +1081,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.WGS66"></a><span class="summary-name">Ellipsoids.WGS66</span><br />
       Ellipsoid(name='WGS66', a=6378145, b=6356759.76948868, f_=298.25, 
       f=0.00335289, f2=0.00336417, n=0.00167926, e=0.08182018, 
-      e2=0.00669454, e22=0.00673966, e32=0.00335851, L=10001977.86818326, 
-      R1=6371016.58982956, R2=6371014.999254, R3=6371008.60802666)
+      e2=0.00669454, e22=0.00673966, e32=0.00335851, A=6367456.87366841, 
+      L=10001977.86818326, R1=6371016.58982956, R2=6371014.999254, 
+      R3=6371008.60802666)
     </td>
   </tr>
 <tr>
@@ -1054,8 +1093,9 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
         <a name="Ellipsoids.WGS72"></a><span class="summary-name">Ellipsoids.WGS72</span><br />
       Ellipsoid(name='WGS72', a=6378135, b=6356750.52001609, f_=298.26, 
       f=0.00335278, f2=0.00336406, n=0.0016792, e=0.08181881, 
-      e2=0.00669432, e22=0.00673943, e32=0.0033584, L=10001962.74919858, 
-      R1=6371006.84000536, R2=6371005.24953886, R3=6370998.85875069)
+      e2=0.00669432, e22=0.00673943, e32=0.0033584, A=6367447.24862383, 
+      L=10001962.74919858, R1=6371006.84000536, R2=6371005.24953886, 
+      R3=6370998.85875069)
     </td>
   </tr>
 <tr>
@@ -1066,8 +1106,8 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       Ellipsoid(name='WGS84', a=6378137, b=6356752.31424518, 
       f_=298.25722356, f=0.00335281, f2=0.00336409, n=0.00167922, 
       e=0.08181919, e2=0.00669438, e22=0.0067395, e32=0.00335843, 
-      L=10001965.72931272, R1=6371008.77141506, R2=6371007.18091847, 
-      R3=6371000.79000915)
+      A=6367449.14582341, L=10001965.72931272, R1=6371008.77141506, 
+      R2=6371007.18091847, R3=6371000.79000915)
     </td>
   </tr>
 </table>
@@ -1825,12 +1865,12 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
       <dd><table><tr><td><pre class="variable">
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 56.90923729, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.00167322<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, L=10001<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-126.0807165, R1=6370461.23374576, R2=6370459.65470808, R3=6370453.3099<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-4572),
-Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- b=6356034.44793853, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-00167322, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, A=63669<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+14.60892522, L=10001126.0807165, R1=6370461.23374576, R2=6370459.65470<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+808, R3=6370453.30994572),
+Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371008.771<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415, R3=637<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -1869,7 +1909,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Dec 20 12:23:38 2020
+    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:04 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

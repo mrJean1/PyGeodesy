@@ -21,6 +21,8 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import neg, property_RO, _xinstanceof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
@@ -37,12 +39,10 @@ from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
 from pygeodesy.units import Bearing, Degrees, Distance, Height, \
                      Radius, Scalar
-from pygeodesy.utily import atan2b, degrees90, sincos2d
-
-from math import asin
+from pygeodesy.utily import asin1, atan2b, degrees90, sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.11.05'
+__version__ = '20.12.22'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -550,7 +550,7 @@ class Ned(_Named):
            horizontal, i.e. tangent to ellipsoid surface (C{degrees90}).
         '''
         if self._elevation is None:
-            self._elevation = neg(degrees90(asin(self.down / self.length)))
+            self._elevation = neg(degrees90(asin1(self.down / self.length)))
         return self._elevation
 
     @property_RO

@@ -32,10 +32,10 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
 from pygeodesy.fmath import Fsum
-from pygeodesy.interns import EPS, EPS1, _EPStol, NAN, NN, PI, PI_2, \
-                             _azimuth_, _datum_, _lat_, _lon_, _no_, \
-                             _scale_, _SPACE_, _x_, _y_, _0_0, \
-                             _0_1, _0_5, _1_0, _2_0, _360_0
+from pygeodesy.interns import EPS, EPS1, _EPStol, NAN, NN, _azimuth_, \
+                             _datum_, _lat_, _lon_, _no_, _scale_, \
+                             _SPACE_, _x_, _y_, _0_0, _0_1, _0_5, \
+                             _1_0, _2_0, _360_0
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
@@ -45,12 +45,12 @@ from pygeodesy.streprs import Fmt, _fstrLL0
 from pygeodesy.units import Bearing, Lat_, Lon_, Meter, Scalar, Scalar_
 from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 
-from math import acos, asin, atan, atan2, copysign, degrees, hypot, sin, sqrt
+from math import acos, atan, atan2, copysign, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.12.19'
+__version__ = '20.12.30'
 
-_Karney_eps    = _EPStol * _0_1  # Karney's eps_
+_EPS_K         = _EPStol * _0_1  # Karney's eps_
 _over_horizon_ = 'over horizon'
 _TRIPS         =  21  # numit, 4 sufficient
 
@@ -59,9 +59,9 @@ class _AzimuthalBase(_NamedBase):
     '''(INTERNAL) Base class for azimuthal projections.
 
        @see: I{Karney}'s C++ class U{AzimuthalEquidistant<https://GeographicLib.SourceForge.io/
-       html/classGeographicLib_1_1AzimuthalEquidistant.html>} or L{EquidistantKarney} or
-       U{Gnomonic<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>}
-       or L{GnomonicKarney}.
+       html/classGeographicLib_1_1AzimuthalEquidistant.html>} and U{Gnomonic
+       <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>} or the
+       Python versions L{EquidistantKarney} and L{GnomonicKarney}, respectively.
     '''
     _datum     = Datums.WGS84  # L{Datum}
     _iteration = None          # iteration number for L{GnomonicKarney}
@@ -121,7 +121,8 @@ class _AzimuthalBase(_NamedBase):
     def _forward(self, lat, lon, name, _k_t):
         '''(INTERNAL) Azimuthal (spherical) forward C{lat, lon} to C{x, y}.
         '''
-        sa, ca, sb, cb = sincos2d(Lat_(lat), Lon_(lon) - self.lon0)
+        lat, lon = Lat_(lat), Lon_(lon)
+        sa, ca, sb, cb = sincos2d(lat, lon - self.lon0)
         s0, c0 = self._sc0
 
         k, t = _k_t(s0 * sa + c0 * ca * cb)
@@ -300,7 +301,7 @@ class Equidistant(_AzimuthalBase):
         def _k_t(c):
             t = abs(c) < EPS1
             if t:
-                c = acos(c)  # XXX .utily.acos1
+                c = acos(c)
                 k = c / sin(c)
             else:
                 k = copysign(_1_0, c)
@@ -377,7 +378,7 @@ class _AzimuthalBaseKarney(_AzimuthalBase):
         '''
         s = M
         if s is None:  # compute the reciprocal, azimuthal scale
-            s = (r.m12 / r.s12) if r.a12 > _Karney_eps else _1_0
+            s = (r.m12 / r.s12) if r.a12 > _EPS_K else _1_0
         return Azimuthal7Tuple(x, y, r.lat2, r.lon2, r.azi2 % _360_0, s, self.datum)
 
 
@@ -652,7 +653,7 @@ class GnomonicKarney(_AzimuthalBaseKarney):
         else:  # little == True
             def _d(r, q):  # PYCHOK _d
                 return (q * r.M12 - r.m12) * r.M12  # negated
-        e *= _Karney_eps
+        e *= _EPS_K
 
         S = Fsum(s)
         g = self.geodesic.Line(self.lat0, self.lon0, z, self._mask)
@@ -672,8 +673,9 @@ class GnomonicKarney(_AzimuthalBaseKarney):
 
 
 class LambertEqualArea(_AzimuthalBase):
-    '''Lambert-equal-area projection for the sphere**, see U{Snyder, pp 185-187
-       <https://Pubs.USGS.gov/pp/1395/report.pdf>} and U{MathWorld-Wolfram
+    '''Lambert-equal-area projection for the sphere** (aka U{Lambert zenithal equal-area
+       projection<https://WikiPedia.org/wiki/Lambert_azimuthal_equal-area_projection>}, see
+       U{Snyder, pp 185-187<https://Pubs.USGS.gov/pp/1395/report.pdf>} and U{MathWorld-Wolfram
        <https://MathWorld.Wolfram.com/LambertAzimuthalEqual-AreaProjection.html>}.
     '''
     if _FOR_DOCS:
@@ -725,7 +727,7 @@ class LambertEqualArea(_AzimuthalBase):
             c = c * _0_5
             t = c > EPS
             if t:
-                c = PI if c > EPS1 else (2 * asin(c))  # utily.asin1
+                c = 2 * asin1(c)
             return c, t
 
         return self._reverse(x, y, name, LatLon, LatLon_kwds, _c_t, True)
@@ -781,7 +783,7 @@ class Orthographic(_AzimuthalBase):
         def _c_t(c):
             t = c > EPS
             if t:
-                c = PI_2 if c > EPS1 else asin(c)  # utily.asin1
+                c = asin1(c)
             return c, t
 
         return self._reverse(x, y, name, LatLon, LatLon_kwds, _c_t, False)

@@ -4,10 +4,11 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.11.03'
+__version__ = '20.12.30'
 
 from base import TestsBase
-from pygeodesy import geohash, Datum, Datums, named, namedTuples, ub2str
+from pygeodesy import geohash, Datum, Datums, named, \
+                      namedTuples, nameof, ub2str
 
 from os import linesep
 
@@ -165,37 +166,49 @@ class Tests(TestsBase):
 
     def testUnregister(self):
         self.subtitle(named, 'ing %s ' % ('unregister',))
-        from pygeodesy import Conics, Ellipsoids, RefFrames, Transforms
+        from pygeodesy import Conics, Ellipsoid, Ellipsoids, RefFrames, Transforms
 
+        self.test('Conics', len(Conics), 1, known=True)
+        t = tuple(Conics.items(all=True))
         self.test('Conics', len(Conics), 8)
-        for n, c in tuple(Conics.items()):
+        for n, c in t:
             c.unregister()  # coverage _NamedEnum.unregister
             self.test('Conics.' + n + '.unregister', getattr(Conics, n, None), None)
         self.test('Conics', len(Conics), 0)
 
+        self.test('Datums', len(Datums), 6, known=True)
+        t = tuple(Datums.items(all=True))
         self.test('Datums', len(Datums), 18)
-        for n, d in tuple(Datums.items()):
+        for n, d in t:
             Datums.unregister(d)  # coverage _NamedEnum.unregister
             self.test('Datums.unregister(%s)' % (n,), getattr(Datums, n, None), None)
         self.test('Datums', len(Datums), 0)
 
-        self.test('Ellipsoids', len(Ellipsoids), 41)
-        for n, e in tuple(Ellipsoids.items()):
-            e.unregister()  # coverage _NamedEnum.unregister
-            self.test('Ellipsoids.' + n + '.unregister', getattr(Ellipsoids, n, None), None)
-        self.test('Ellipsoids', len(Ellipsoids), 0)
-
-        self.test('RefFrames', len(RefFrames), 12)
-        for n, r in tuple(RefFrames.items()):
+        self.test('RefFrames', len(RefFrames), 0, known=True)
+        t = tuple(RefFrames.items(all=True))
+        self.test('RefFrames', len(RefFrames), 13)
+        for n, r in t:
             r.unregister()  # coverage _NamedEnum.unregister
             self.test('RefFrames.' + n + '.unregister', getattr(RefFrames, n, None), None)
         self.test('RefFrames', len(RefFrames), 0)
 
+        self.test('Ellipsoids', len(Ellipsoids), 12, known=True)
+        t = tuple(Ellipsoids.items(all=True))
+        self.test('Ellipsoids', len(Ellipsoids), 41)
+        for n, e in t:
+            e.unregister()  # coverage _NamedEnum.unregister
+            self.test('Ellipsoids.' + n + '.unregister', getattr(Ellipsoids, n, None), None)
+        self.test('Ellipsoids', len(Ellipsoids), 0)
+
+        self.test('Transforms', len(Transforms), 15, known=True)
+        t = tuple(Transforms.items(all=True))
         self.test('Transforms', len(Transforms), 18)
-        for n, x in tuple(Transforms.items()):
+        for n, x in t:
             x.unregister()  # coverage _NamedEnumItem.unregister
             self.test('Transforms.' + n + '.unregister', getattr(Transforms, n, None), None)
         self.test('Transforms', len(Transforms), 0)
+
+        self.test('nameof', nameof(Ellipsoid.KsOrder), 'KsOrder')
 
 
 if __name__ == '__main__':

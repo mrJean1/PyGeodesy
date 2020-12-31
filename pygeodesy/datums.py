@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Classes L{Datum} and L{Transform} and registries thereof, L{Datums}
-and L{Transforms}, respectively.
+u'''Classes L{Datum} and L{Transform} and registries L{Datums} and
+L{Transforms}, respectively.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 including datums and ellipsoid parameters for different geographic coordinate
@@ -74,26 +74,44 @@ from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
                                  Ellipsoid2, Ellipsoids
 from pygeodesy.errors import _IsnotError
 from pygeodesy.fmath import fdot
-from pygeodesy.interns import NN, _COMMASPACE_, _DOT_, _ellipsoid_, \
-                             _ellipsoidal_, _float, _name_, _s_, \
-                             _spherical_, _transform_, _UNDER_, \
-                             _0_0, _0_26, _1_0, _2_0, _3600_0
+from pygeodesy.interns import NN, _Airy1830_, _AiryModified_, _Bessel1841_, \
+                             _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, \
+                             _DOT_, _ellipsoid_, _ellipsoidal_, _float as _F, \
+                             _GRS80_, _Intl1924_, _Krassovski1940_, _NAD27_, \
+                             _Krassowsky1940_, _NAD83_, _name_, _s_, _Sphere_, \
+                             _spherical_, _transform_, _UNDER_, _WGS72_, \
+                             _WGS84_, _0_0, _0_26, _1_0, _2_0, _8_0, _3600_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedEnum, _NamedEnumItem
+from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
+                                    _lazyNamedEnumItem as _lazy
 from pygeodesy.namedTuples import Vector3Tuple
 from pygeodesy.streprs import Fmt
-from pygeodesy.units import Radius_, Scalar
+from pygeodesy.units import Radius_
 
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '20.12.18'
+__version__ = '20.12.30'
+
+_BD72_       = 'BD72'
+_DHDN_       = 'DHDN'
+_ED50_       = 'ED50'
+_GDA2020_    = 'GDA2020'
+_Identity_   = 'Identity'
+_Inverse_    = 'Inverse'
+_Irl1965_    = 'Irl1965'
+_Irl1975_    = 'Irl1975'
+_MGI_        = 'MGI'
+_NTF_        = 'NTF'
+_OSGB36_     = 'OSGB36'
+_Potsdam_    = 'Potsdam'
+_TokyoJapan_ = 'TokyoJapan'
 
 
-def _r_s2(s):
+def _r_s2(s_):
     '''(INTERNAL) rotation in C{radians} and C{degree seconds}.
     '''
-    return _float(radians(s / _3600_0)), _float(s)
+    return _F(radians(s_ / _3600_0)), s_
 
 
 class Transform(_NamedEnumItem):
@@ -130,11 +148,11 @@ class Transform(_NamedEnumItem):
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
         if tx:
-            self.tx = _float(tx)
+            self.tx = tx
         if ty:
-            self.ty = _float(ty)
+            self.ty = ty
         if tz:
-            self.tz = _float(tz)
+            self.tz = tz
         if sx:  # secs to rads
             self.rx, self.sx = _r_s2(sx)
         if sy:
@@ -142,8 +160,8 @@ class Transform(_NamedEnumItem):
         if sz:
             self.rz, self.sz = _r_s2(sz)
         if s:
-            self.s  = _float(s)
-            self.s1 = _float(s * 1e-6 + _1_0)  # normalize ppm to (s + 1)
+            self.s  =    s
+            self.s1 = _F(s * 1e-6 + _1_0)  # normalize ppm to (s + 1)
 
         self._register(Transforms, name)
 
@@ -172,7 +190,7 @@ class Transform(_NamedEnumItem):
 
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
-        return Transform(name=name or (self.name + 'Inverse'),
+        return Transform(name=name or (self.name + _Inverse_),
                          tx=-self.tx, ty=-self.ty, tz=-self.tz,
                          sx=-self.sx, sy=-self.sy, sz=-self.sz, s=-self.s)
 
@@ -212,54 +230,63 @@ class Transform(_NamedEnumItem):
         return self._xnamed(r)
 
 
-Transforms = _NamedEnum(Transform)  # registered Transforms
+class Transforms(_NamedEnum):
+    '''(INTERNAL) L{Transform} registry, I{must} be a sub-class
+       to accommodate the L{_LazyNamedEnumItem} properties.
+    '''
+    def _Lazy(self, **tx_ty_tz_sx_sy_sz_s):
+        '''(INTERNAL) Instantiate the C{Transform}.
+        '''
+        return Transform(**tx_ty_tz_sx_sy_sz_s)
+
+Transforms = Transforms(Transform)  # PYCHOK singleton
 # <https://WikiPedia.org/wiki/Helmert_transformation> from WGS84
 Transforms._assert(
-    BD72           = Transform('BD72', tx=106.868628, ty=-52.297783, tz=103.723893,
+    BD72           = _lazy(_BD72_, tx=_F(106.868628), ty=_F(-52.297783), tz=_F(103.723893),
                      # <https://www.NGI.BE/FR/FR4-4.shtm> ETRS89 == WG84
                      # <https://GeoRepository.com/transformation_15929/BD72-to-WGS-84-3.html>
-                                       sx=-0.33657,   sy= -0.456955, sz= -1.84218,
-                                        s= 1.2727),
-    Bessel1841     = Transform('Bessel1841', tx=-582.0,  ty=-105.0, tz=-414.0,
-                                             sx=  -1.04, sy= -0.35, sz=   3.08,
-                                              s=  -8.3),
-    Clarke1866     = Transform('Clarke1866', tx=8, ty=-160, tz=-176),
-    DHDN           = Transform('DHDN', tx=-591.28,  ty=-81.35,   tz=-396.39,
-                                       sx=   1.477, sy= -0.0736, sz=  -1.458,
-                                        s=  -9.82),  # Germany
-    ED50           = Transform('ED50', tx=89.5, ty=93.8, tz=123.1,
-                     # <https://GeoNet.ESRI.com/thread/36583> sz=-0.156
+                                    sx=_F(-0.33657),   sy=_F( -0.456955), sz=_F( -1.84218),
+                                     s=_F( 1.2727)),
+    Bessel1841     = _lazy(_Bessel1841_, tx=_F(-582.0),  ty=_F(-105.0),  tz=_F(-414.0),
+                                         sx=_F(  -1.04), sy=_F(  -0.35), sz=_F(   3.08),
+                                          s=_F(  -8.3)),
+    Clarke1866     = _lazy(_Clarke1866_, tx=_F(8), ty=_F(-160), tz=_F(-176)),
+    DHDN           = _lazy(_DHDN_, tx=_F(-591.28),  ty=_F(-81.35),   tz=_F(-396.39),
+                                   sx=_F(   1.477), sy=_F( -0.0736), sz=_F(  -1.458),
+                                    s=_F(  -9.82)),  # Germany
+    ED50           = _lazy(_ED50_, tx=_F(89.5), ty=_F(93.8), tz=_F(123.1),
+                     # <https://GeoNet.ESRI.com/thread/36583> sz=_F(-0.156)
                      # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal.js>
                      # <https://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
-                                                         sz=  0.156, s=-1.2),
-    Identity       = Transform('Identity'),
-    Irl1965        = Transform('Irl1965', tx=-482.530, ty=130.596, tz=-564.557,
-                                          sx=   1.042, sy=  0.214, sz=   0.631,
-                                           s=  -8.15),
-    Irl1975        = Transform('Irl1975', tx=-482.530, ty=130.596, tz=-564.557,
+                                                     sz=_F(  0.156), s=_F(-1.2)),
+    Identity       = _lazy(_Identity_),
+    Irl1965        = _lazy(_Irl1965_, tx=_F(-482.530), ty=_F(130.596), tz=_F(-564.557),
+                                      sx=_F(   1.042), sy=_F(  0.214), sz=_F(   0.631),
+                                       s=_F(  -8.15)),
+    Irl1975        = _lazy(_Irl1975_, tx=_F(-482.530), ty=_F(130.596), tz=_F(-564.557),
                      # XXX rotation signs may be opposite, to be checked
-                                          sx=  -1.042, sy= -0.214, sz=  -0.631,
-                                           s=  -1.1),
-    Krassovski1940 = Transform('Krassovski1940', tx=-24.0,  ty=123.0,  tz=94.0,
-                                                 sx= -0.02, sy= _0_26, sz= 0.13,
-                                                  s= -2.423),  # spelling
-    Krassowsky1940 = Transform('Krassowsky1940', tx=-24.0,  ty=123.0,  tz=94.0,
-                                                 sx= -0.02, sy= _0_26, sz= 0.13,
-                                                  s= -2.423),  # spelling
-    MGI            = Transform('MGI', tx=-577.326, ty=-90.129, tz=-463.920,
-                                      sx=   5.137, sy=  1.474, sz=   5.297,
-                                       s=  -2.423),  # Austria
-    NAD27          = Transform('NAD27', tx=8, ty=-160, tz=-176),
-    NAD83          = Transform('NAD83', tx= 1.004,  ty=-1.910,   tz=-0.515,
-                                        sx= 0.0267, sy= 0.00034, sz= 0.011,
-                                         s=-0.0015),
-    NTF            = Transform('NTF', tx=-168, ty= -60, tz=320),  # XXX verify
-    OSGB36         = Transform('OSGB36', tx=-446.448,  ty=125.157,  tz=-542.060,
-                                         sx=  -0.1502, sy= -0.2470, sz=  -0.8421,
-                                          s=  20.4894),
-    TokyoJapan     = Transform('TokyoJapan', tx=148, ty=-507, tz=-685),
-    WGS72          = Transform('WGS72', tz=-4.5, sz=0.554, s=-0.22),
-    WGS84          = Transform('WGS84'),  # unity
+                                      sx=_F(  -1.042), sy=_F( -0.214), sz=_F(  -0.631),
+                                       s=_F(  -1.1)),
+    Krassovski1940 = _lazy(_Krassovski1940_, tx=_F(-24.0),  ty=_F(123.0), tz=_F(94.0),
+                                             sx=_F( -0.02), sy=    _0_26, sz=_F( 0.13),
+                                              s=_F( -2.423)),  # spelling
+    Krassowsky1940 = _lazy(_Krassowsky1940_, tx=_F(-24.0),  ty=_F(123.0), tz=_F(94.0),
+                                             sx=_F( -0.02), sy=    _0_26, sz=_F( 0.13),
+                                              s=_F( -2.423)),  # spelling
+    MGI            = _lazy(_MGI_, tx=_F(-577.326), ty=_F(-90.129), tz=_F(-463.920),
+                                  sx=_F(   5.137), sy=_F(  1.474), sz=_F(   5.297),
+                                   s=_F(  -2.423)),  # Austria
+    NAD27          = _lazy(_NAD27_, tx=_8_0, ty=_F(-160), tz=_F(-176)),
+    NAD83          = _lazy(_NAD83_, tx=_F( 1.004),  ty=_F(-1.910),   tz=_F(-0.515),
+                                    sx=_F( 0.0267), sy=_F( 0.00034), sz=_F( 0.011),
+                                     s=_F(-0.0015)),
+    NTF            = _lazy(_NTF_, tx=_F(-168), ty=_F(-60), tz=_F(320)),  # XXX verify
+    OSGB36         = _lazy(_OSGB36_, tx=_F(-446.448),  ty=_F(125.157),  tz=_F(-542.060),
+                                     sx=_F(  -0.1502), sy=_F( -0.2470), sz=_F(  -0.8421),
+                                      s=_F(  20.4894)),
+    TokyoJapan     = _lazy(_TokyoJapan_, tx=_F(148), ty=_F(-507), tz=_F(-685)),
+    WGS72          = _lazy(_WGS72_, tz=_F(-4.5), sz=_F(0.554), s=_F(-0.22)),
+    WGS84          = _lazy(_WGS84_),  # unity
 )
 
 
@@ -420,23 +447,29 @@ def _ellipsoidal_datum(a_f, name=NN, raiser=False):
 def _spherical_datum(radius, name=NN, raiser=False):
     '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2} or scalar earth C{radius}.
     '''
-    try:
-        d = _ellipsoidal_datum(radius, name=name)
-    except TypeError:
-        d = None
-    if d is None:
-        if not isscalar(radius):
-            _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, Scalar, datum=radius)
+    if isscalar(radius):
         n = NN(_UNDER_, name)
         r = Radius_(radius, Error=TypeError)
         E = Ellipsoid(r, r, name=n)
         d = Datum(E, transform=Transforms.Identity, name=n)
-    elif raiser and not d.isSpherical:
+    else:
+        d = _ellipsoidal_datum(radius, name=name)
+    if raiser and not d.isSpherical:
         raise _IsnotError(_spherical_, datum=radius)
     return d
 
 
-Datums = _NamedEnum(Datum)  # registered Datums
+class Datums(_NamedEnum):
+    '''(INTERNAL) L{Datum} registry, I{must} be a sub-class
+       to accommodate the L{_LazyNamedEnumItem} properties.
+    '''
+    def _Lazy(self, ellipsoid_name, transform_name, name=NN):
+        '''(INTERNAL) Instantiate the L{Datum}.
+        '''
+        return Datum(Ellipsoids.get(ellipsoid_name),
+                     Transforms.get(transform_name), name=name)
+
+Datums = Datums(Datum)  # PYCHOK singleton
 # Datums with associated ellipsoid and Helmert transform parameters
 # to convert from WGS84 into the given datum.  More are available at
 # <https://Earth-Info.NGA.mil/GandG/coordsys/datums/NATO_DT.pdf> and
@@ -445,69 +478,70 @@ Datums._assert(
     # Belgian Datum 1972, based on Hayford ellipsoid.
     # <https://NL.WikiPedia.org/wiki/Belgian_Datum_1972>
     # <https://SpatialReference.org/ref/sr-org/7718/html/>
-    BD72           = Datum(Ellipsoids.Intl1924, Transforms.BD72),
+    BD72           = _lazy(_BD72_, _Intl1924_, _BD72_),
 
     # Germany <https://WikiPedia.org/wiki/Bessel-Ellipsoid>
     #         <https://WikiPedia.org/wiki/Helmert_transformation>
-    DHDN           = Datum(Ellipsoids.Bessel1841, Transforms.DHDN),
+    DHDN           = _lazy(_DHDN_, _Bessel1841_, _DHDN_),
 
     # <https://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
-    ED50           = Datum(Ellipsoids.Intl1924, Transforms.ED50),
+    ED50           = _lazy(_ED50_, _Intl1924_, _ED50_),
 
     # Australia <https://ICSM.Gov.AU/datum/gda2020-and-gda94-technical-manuals>
-#   ADG66          = Datum(Ellipsoids.ANS, Transforms.WGS84, name='ADG66'),  # XXX Transform?
-#   ADG84          = Datum(Ellipsoids.ANS, Transforms.WGS84, name='ADG84'),  # XXX Transform?
-#   GDA94          = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GDA94'),
-    GDA2020        = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GDA2020'),  # XXX Transform?
+#   ADG66          = _lazy(_ADG66_, _ANS_, _WGS84_),  # XXX Transform?
+#   ADG84          = _lazy(_ADG84_, _ANS_, _WGS84_),  # XXX Transform?
+#   GDA94          = _lazy(_GDA94_, _GRS80_, _WGS84_),
+    GDA2020        = _lazy(_GDA2020_, _GRS80_, _WGS84_),  # XXX Transform?
 
     # <https://WikiPedia.org/wiki/GRS_80>
-    GRS80          = Datum(Ellipsoids.GRS80, Transforms.WGS84, name='GRS80'),
+    GRS80          = _lazy(_GRS80_, _GRS80_, _WGS84_),
 
     # <https://OSI.IE/OSI/media/OSI/Content/Publications/transformations_booklet.pdf>
-    Irl1975        = Datum(Ellipsoids.AiryModified, Transforms.Irl1975),
+#   Irl1975        = _lazy(_Irl1965_, _AiryModified_, _Irl1965_),
+    Irl1975        = _lazy(_Irl1975_, _AiryModified_, _Irl1975_),
 
     # Germany <https://WikiPedia.org/wiki/Helmert_transformation>
-    Krassovski1940 = Datum(Ellipsoids.Krassovski1940, Transforms.Krassovski1940),  # XXX spelling?
-    Krassowsky1940 = Datum(Ellipsoids.Krassowsky1940, Transforms.Krassowsky1940),  # XXX spelling?
+    Krassovski1940 = _lazy(_Krassovski1940_, _Krassovski1940_, _Krassovski1940_),  # XXX spelling?
+    Krassowsky1940 = _lazy(_Krassowsky1940_, _Krassowsky1940_, _Krassowsky1940_),  # XXX spelling?
 
     # Austria <https://DE.WikiPedia.org/wiki/Datum_Austria>
-    MGI            = Datum(Ellipsoids.Bessel1841, Transforms.MGI),
+    MGI            = _lazy(_MGI_, _Bessel1841_, _MGI_),
 
     # <https://WikiPedia.org/wiki/Helmert_transformation>
-    NAD27          = Datum(Ellipsoids.Clarke1866, Transforms.NAD27),
+    NAD27          = _lazy(_NAD27_, _Clarke1866_, _NAD27_),
 
     # NAD83 (2009) == WGS84 - <https://www.UVM.edu/giv/resources/WGS84_NAD83.pdf>
     # (If you *really* must convert WGS84<->NAD83, you need more than this!)
-    NAD83          = Datum(Ellipsoids.GRS80, Transforms.NAD83),
+    NAD83          = _lazy(_NAD83_, _GRS80_, _NAD83_),
 
     #  Nouvelle Triangulation Francaise (Paris)  XXX verify
-    NTF            = Datum(Ellipsoids.Clarke1880IGN, Transforms.NTF),
+    NTF            = _lazy(_NTF_, _Clarke1880IGN_, _NTF_),
 
     # <https://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>
-    OSGB36         = Datum(Ellipsoids.Airy1830, Transforms.OSGB36),
+    OSGB36         = _lazy(_OSGB36_, _Airy1830_, _OSGB36_),
 
     # Germany <https://WikiPedia.org/wiki/Helmert_transformation>
-    Potsdam        = Datum(Ellipsoids.Bessel1841, Transforms.Bessel1841, name='Potsdam'),
+    Potsdam        = _lazy(_Potsdam_, _Bessel1841_, _Bessel1841_),
 
     # XXX psuedo-ellipsoids for spherical LatLon
-    Sphere         = Datum(Ellipsoids.Sphere, Transforms.WGS84, name='Sphere'),
+    Sphere         = _lazy(_Sphere_, _Sphere_, _WGS84_),
 
     # <https://www.GeoCachingToolbox.com?page=datumEllipsoidDetails>
-    TokyoJapan     = Datum(Ellipsoids.Bessel1841, Transforms.TokyoJapan),
+    TokyoJapan     = _lazy(_TokyoJapan_, _Bessel1841_, _TokyoJapan_),
 
     # <https://www.ICAO.int/safety/pbn/documentation/eurocontrol/eurocontrol%20wgs%2084%20implementation%20manual.pdf>
-    WGS72          = Datum(Ellipsoids.WGS72, Transforms.WGS72),
+    WGS72          = _lazy(_WGS72_, _WGS72_, _WGS72_),
 
-    WGS84          = Datum(Ellipsoids.WGS84, Transforms.WGS84),
+    WGS84          = _lazy(_WGS84_, _WGS84_, _WGS84_),
 )
 
 if __name__ == '__main__':
 
     from pygeodesy.interns import _COMMA_, _NL_, _NL_var_
 
-    # __doc__ of this file
-    for e in (Datums, Transforms):
-        t = [NN] + repr(e).split(_NL_)
+    # __doc__ of this file, force all into registery
+    for r in (Datums, Transforms):
+        t = [NN] + r.toRepr(all=True).split(_NL_)
         print(_NL_var_.join(i.strip(_COMMA_) for i in t))
 
 # **) MIT License

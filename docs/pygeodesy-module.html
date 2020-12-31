@@ -228,7 +228,7 @@
     href="https://PyPy.org" target="_top">PyPy</a> 7.1.1 (Python 3.6.1 and 
     2.7.13) (and <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50 or 1.49) on <a 
-    href="https://Travis-CI.org/mrJean1/PyGeodesy" target="_top">Ubuntu 
+    href="https://Travis-CI.com/mrJean1/PyGeodesy" target="_top">Ubuntu 
     14.04</a> and with Python 3.9.1 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50 or 1.49) on <a 
@@ -312,7 +312,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.12.20
+        20.12.30
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -376,11 +376,11 @@
         href="pygeodesy.css.CSSError-class.html" class="link">CSSError</a> 
         requiring <i>Charles Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib/" 
-        target="_top">geographiclib</a> package to be installed.</em>    </li>
+        target="_top">geographiclib</a> Python package to be installed.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datums-module.html">pygeodesy.datums</a></strong>: <em class="summary">Classes <a href="pygeodesy.datums.Datum-class.html" 
         class="link">Datum</a> and <a 
         href="pygeodesy.datums.Transform-class.html" 
-        class="link">Transform</a> and registries thereof, <a 
+        class="link">Transform</a> and registries <a 
         href="pygeodesy.datums-module.html#Datums" class="link">Datums</a> 
         and <a href="pygeodesy.datums-module.html#Transforms" 
         class="link">Transforms</a>, respectively.</em>    </li>
@@ -435,11 +435,11 @@
         functions, all used by <code>.ellipsoidalKarney</code>, 
         <code>.ellipsoidalNvector</code> or 
         <code>.ellipsoidalVincenty</code>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney-module.html">pygeodesy.ellipsoidalKarney</a></strong>: <em class="summary">Ellipsoidal classes geodetic (lat-/longitude) <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney-module.html">pygeodesy.ellipsoidalKarney</a></strong>: <em class="summary">Ellipsoidal geodetic (lat-/longitude) <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> and geocentric (ECEF) <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> and functions <a 
+        class="link">Cartesian</a> classes and functions <a 
         href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
         class="link">areaOf</a>, <a 
         href="pygeodesy.ellipsoidalKarney-module.html#intersections2" 
@@ -449,9 +449,9 @@
         href="pygeodesy.ellipsoidalKarney-module.html#nearestOn" 
         class="link">nearestOn</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
-        class="link">perimeterOf</a>, all based on <i>Charles Karney</i>'s 
-        Python <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a>.</em>    </li>
+        class="link">perimeterOf</a>, all requiring <i>Charles Karney</i>'s
+        <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> Python package to be installed.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector-module.html">pygeodesy.ellipsoidalNvector</a></strong>: <em class="summary">Ellispdoidal, N-vector-based classes geodetic (lat-/longitude) <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>, geocentric (ECEF) <a 
@@ -463,13 +463,13 @@
         class="link">Nvector</a> and functions <a 
         href="pygeodesy.ellipsoidalNvector-module.html#meanOf" 
         class="link">meanOf</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty-module.html">pygeodesy.ellipsoidalVincenty</a></strong>: <em class="summary">Ellispodial classes for <i>Vincenty</i>'s geodetic (lat-/longitude)
-        <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty-module.html">pygeodesy.ellipsoidalVincenty</a></strong>: <em class="summary">Ellipsoidal <i>Thaddeus Vincenty</i>'s geodetic (lat-/longitude) <a
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>, geocentric (ECEF) <a 
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
-        class="link">VincentyError</a> and functions <a 
+        class="link">VincentyError</a> classes and functions <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#areaOf" 
         class="link" onclick="show_private();">areaOf</a>, <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#intersections2" 
@@ -481,7 +481,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids-module.html">pygeodesy.ellipsoids</a></strong>: <em class="summary">Classes <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
         class="link">a_f2Tuple</a>, <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-        class="link">Ellipsoid</a>, <a 
+        class="link">Ellipsoid</a> and <a 
         href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
         class="link">Ellipsoid2</a>, an <a 
         href="pygeodesy.ellipsoids-module.html#Ellipsoids" 
@@ -652,9 +652,10 @@
         <code>Geodesic</code> and <code>GeodesicLine</code> and 
         <code>Math</code> functions <code>AngDiff</code>, 
         <code>AngNormalize</code>, <code>LatFix</code> and <code>sum</code>
-        from <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a>, provided that package is 
-        installed.</em>    </li>
+        from <i>Karney's</i> <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a>, Python package, provided that 
+        package is installed.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) base class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
         class="link">LatLonBase</a> for elliposiodal, spherical and 
@@ -680,10 +681,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.named-module.html">pygeodesy.named</a></strong>: <em class="summary">(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code> and
         <code>_NamedTuple</code>, all with nameable instances and several 
         subclasses thereof.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">Results previously returned as tuples by <code>pygeodesy</code> 
-        functions and class methods are now instances of some 
-        <code>Named-Tuple</code> class, all sub-classes of 
-        <code>_NamedTuple</code> defined in <code>pygeodesy.named</code>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">Tuples returned by <code>pygeodesy</code> functions and class 
+        methods are all instances of some <code>Named...Tuple</code> class,
+        all sub-classes of <code>_NamedTuple</code> defined in 
+        <code>pygeodesy.named</code>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html" onclick="show_private();">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html" 
         class="link">LatLonNvectorBase</a> for <code>n-vectorial</code> 
@@ -1185,6 +1186,19 @@
         class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html"
         target="_top">CassiniSoldner</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Circle4Tuple-class.html" class="summary-name">Circle4Tuple</a><br />
+      4-Tuple <code>(radius, height, lat, beta)</code> of the 
+        <code>radius</code> and <a href=pygeodesy.heights-module.html><code>height</code></a>, both conventionally in
+        <code>meter</code> of a parallel <i>circle of latitude</i> at 
+        (geodetic) latitude <code>lat</code> and the <i>parametric (or 
+        reduced) auxiliary latitude</i> <code>beta</code>, both in 
+        <code>degrees</code>.
     </td>
   </tr>
 <tr>
@@ -2581,7 +2595,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.azimuthal.LambertEqualArea-class.html" class="summary-name">LambertEqualArea</a><br />
-      Lambert-equal-area projection for the sphere**, see <a 
+      Lambert-equal-area projection for the sphere** (aka <a 
+        href="https://WikiPedia.org/wiki/Lambert_azimuthal_equal-area_projection"
+        target="_top">Lambert zenithal equal-area projection</a>, see <a 
         href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
         target="_top">Snyder, pp 185-187</a> and <a 
         href="https://MathWorld.Wolfram.com/LambertAzimuthalEqual-AreaProjection.html"
@@ -3623,7 +3639,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="acos1"></a><span class="summary-sig-name">acos1</span>(<span class="summary-sig-arg">x</span>)</span><br />
-      Return <i class="math">math.acos(max(-1, min(1, x)))</i>.</td>
+      Return <code>math.acos(max(-1, min(1, <b>x</b>)))</code>.</td>
           <td align="right" valign="top">
             
             
@@ -4102,6 +4118,24 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#chain2m" class="summary-sig-name">chain2m</a>(<span class="summary-sig-arg">chains</span>)</span><br />
       Convert <i>UK</i> chains to meter.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#circle4" class="summary-sig-name">circle4</a>(<span class="summary-sig-arg">earth</span>,
+        <span class="summary-sig-arg">lat</span>)</span><br />
+      Get the equatorial or a parallel <i>circle of latitude</i>.</td>
           <td align="right" valign="top">
             
             
@@ -4702,8 +4736,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert angle to distance along the equator or along a parallel at an
-      other latitude.</td>
+      Convert an angle to a distance along the equator or along the 
+      parallel at an other (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -5848,7 +5882,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fab16599250&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f86e01c56d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6905,11 +6939,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">meter</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert distance to angle along equator or along a parallel at an 
-      other latitude.</td>
+      Convert a distance to an angle along the equator or along the 
+      parallel at an other (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -6946,6 +6980,26 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2km" class="summary-sig-name">m2km</a>(<span class="summary-sig-arg">meter</span>)</span><br />
       Convert meter to kilo meter (km).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#m2radians" class="summary-sig-name">m2radians</a>(<span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Convert a distance to an angle along the equator or along the 
+      parallel at an other (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -7792,6 +7846,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#radians2m" class="summary-sig-name">radians2m</a>(<span class="summary-sig-arg">rad</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Convert an angle to a distance along the equator or along the 
+      parallel at an other (geodetic) latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#radiansPI" class="summary-sig-name">radiansPI</a>(<span class="summary-sig-arg">deg</span>)</span><br />
       Convert and wrap degrees to radians <i class="math">[-PI..+PI]</i>.</td>
           <td align="right" valign="top">
@@ -8540,7 +8614,7 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Trilaterate three spheres, each given as a (3d) center point and 
+      Trilaterate three spheres, each given as a (3d) center point and a 
       radius.</td>
           <td align="right" valign="top">
             
@@ -8951,7 +9025,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.12.20'"><code class="variable-quote">'</code><code class="variable-string">20.12.20</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.12.30'"><code class="variable-quote">'</code><code class="variable-string">20.12.30</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -8959,15 +9033,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, p\
-ar1=49.833333, par2=51.166667, E0=649328, N0=665262, k0=1, SP=2, datum\
-=Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.\
-WGS84),
-Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8\
-333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, da\
-tum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transfor\
-ms.NAD83),
-...">Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, l<code class="variable-ellipsis">...</code></code><br />
+        <a href="pygeodesy-module.html#Conics" class="summary-name">Conics</a> = <code title="Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=4\
+5, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipso\
+ids.WGS84, transform=Transforms.WGS84)">Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97<code class="variable-ellipsis">...</code></code><br />
       Registered conics (<code>enum-like</code>).
     </td>
   </tr>
@@ -8975,15 +9043,12 @@ ms.NAD83),
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transfo\
-rm=Transforms.BD72),
-Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans\
-form=Transforms.DHDN),
-Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo\
-rm=Transforms.ED50),
-Datums.GDA2020: Datum(name='GDA2020', ellipsoid=Ellipsoids.GRS80, tran\
-sform=Transforms.WGS84),
-...">Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.<code class="variable-ellipsis">...</code></code><br />
+        <a href="pygeodesy-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, tra\
+nsform=Transforms.OSGB36),
+Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans\
+form=Transforms.WGS84),
+Datums.WGS84: Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transfor\
+m=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<code class="variable-ellipsis">...</code></code><br />
       Registered datums (<code>enum-like</code>).
     </td>
   </tr>
@@ -9036,12 +9101,12 @@ sform=Transforms.WGS84),
     </td><td class="summary">
         <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562\
 56.90923729, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.00167322\
-, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, L=10001\
-126.0807165, R1=6370461.23374576, R2=6370459.65470808, R3=6370453.3099\
-4572),
-Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
- b=6356034.44793853, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.\
-00167322, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643,\
+, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, A=63669\
+14.60892522, L=10001126.0807165, R1=6370461.23374576, R2=6370459.65470\
+808, R3=6370453.30994572),
+Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
+8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371008.771\
+415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415, R3=637\
 ...">Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a<code class="variable-ellipsis">...</code></code><br />
       Registered ellipsoids (<code>enum-like</code>).
     </td>
@@ -9408,6 +9473,13 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="PI3_2"></a><span class="summary-name">PI3_2</span> = <code title="4.71238898038">4.71238898038</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="PI4"></a><span class="summary-name">PI4</span> = <code title="12.5663706144">12.5663706144</code><br />
       Four PI, <i class="math">PI * 4</i> (<code>float</code>).
     </td>
@@ -9496,15 +9568,7 @@ Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#RefFrames" class="summary-name">RefFrames</a> = <code title="RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005, ellipsoid=El\
-lipsoid(name='GRS80'),
-RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoi\
-d(name='GRS80'),
-RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997, ellipsoid=El\
-lipsoid(name='GRS80'),
-RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000, ellipsoid=El\
-lipsoid(name='GRS80'),
-...">RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoc<code class="variable-ellipsis">...</code></code><br />
+        <a name="RefFrames"></a><span class="summary-name">RefFrames</span> = <code title=""></code><br />
       Registered reference frames (<code>enum-like</code>).
     </td>
   </tr>
@@ -9553,15 +9617,11 @@ lipsoid(name='GRS80'),
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.BD72: Transform(name='BD72', tx=106.86863, ty=-52.29778, tz\
-=103.72389, rx=-0, ry=-0, rz=-0.00001, s=1.2727, s1=1, sx=-0.33657, sy\
-=-0.45696, sz=-1.84218),
-Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, \
-tz=-414, rx=-0.00001, ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04,\
- sy=-0.35, sz=3.08),
-Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
--176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
-...">Transforms.BD72: Transform(name='BD72', tx=106.86<code class="variable-ellipsis">...</code></code><br />
+        <a href="pygeodesy-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t\
+z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=\
+-0.247, sz=-0.8421),
+Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
+, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code><br />
       Registered transforms (<code>enum-like</code>).
     </td>
   </tr>
@@ -10748,6 +10808,50 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="circle4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circle4</span>&nbsp;(<span class="sig-arg">earth</span>,
+        <span class="sig-arg">lat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the equatorial or a parallel <i>circle of latitude</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>earth</code></strong> - The earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Geodetic latitude (<code>degrees90</code>, <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.ellipsoids.Circle4Tuple-class.html" 
+          class="link">Circle4Tuple</a><code>(radius, height, lat, 
+          beta)</code> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - <b><code>earth</code></b> or <b><code>lat</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="classname"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -11129,7 +11233,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   
   <p>Return the angle from North for the direction vector <i 
   class="math">(lon2 - lon1, lat2 - lat1)</i> between two points.</p>
-  <p>Suitable only for short, non-near-polar vectors up to a few hundred Km
+  <p>Suitable only for short, not near-polar vectors up to a few hundred Km
   or Miles.  Use function <a href="pygeodesy.formy-module.html#bearing" 
   class="link">bearing</a> for longer vectors.</p>
   <dl class="fields">
@@ -11922,29 +12026,40 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Convert angle to distance along the equator or along a parallel at an 
-  other latitude.</p>
+  <p>Convert an angle to a distance along the equator or along the parallel
+  at an other (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - The angle (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</dd>
+          <b><code>radius</code></b> or ellipsoidal and polar radii) or 
+          <code>0</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>deg</code></b>, <b><code>radius</code></b> or 
         <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utily-module.html#m2degrees" 
+        Function <a href="pygeodesy.utily-module.html#radians2m" 
+        class="link">radians2m</a> and <a 
+        href="pygeodesy.utily-module.html#m2degrees" 
         class="link">m2degrees</a>.
       </p>
 </div></td></tr></table>
@@ -14141,7 +14256,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fab16599250&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f86e01c56d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15126,17 +15241,19 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
         <li><strong class="pname"><code>point</code></strong> - The point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>point1</code></strong> - Another point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+        <li><strong class="pname"><code>point1</code></strong> - First point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
-        <li><strong class="pname"><code>point2</code></strong> - Another point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+        <li><strong class="pname"><code>point2</code></strong> - Second point (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>, <code>Vector3Tuple</code> or 
           <code>Vector4Tuple</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance (<code>scalar</code>), same units as <code>x</code>, 
           <code>y</code> and <code>z</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd><code>True</code> if colinear, <code>False</code> otherwise.</dd>
+        <dd><code>True</code> if <b><code>point</code></b> is colinear 
+          <b><code>point1</code></b> and <b><code>point2</code></b>, 
+          <code>False</code> otherwise.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>point</code></b>, <b><code>point1</code></b> or 
@@ -16014,7 +16131,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>&nbsp;(<span class="sig-arg">meter</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>&nbsp;(<span class="sig-arg">distance</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
         <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
   </h3>
@@ -16023,29 +16140,40 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Convert distance to angle along equator or along a parallel at an 
-  other latitude.</p>
+  <p>Convert a distance to an angle along the equator or along the parallel
+  at an other (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Distance (<code>meter</code>, same units as 
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, an <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle (<code>degrees</code>).</dd>
+        <dd>Angle (<code>degrees</code>) or <code>INF</code> for near-polar 
+          <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>, <b><code>radius</code></b> or 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>radius</code></b> or
         <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utily-module.html#degrees2m" 
+        Function <a href="pygeodesy.utily-module.html#m2radians" 
+        class="link">m2radians</a> and <a 
+        href="pygeodesy.utily-module.html#degrees2m" 
         class="link">degrees2m</a>.
       </p>
 </div></td></tr></table>
@@ -16111,6 +16239,60 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="m2radians"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2radians</span>&nbsp;(<span class="sig-arg">distance</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a distance to an angle along the equator or along the parallel
+  at an other (geodetic) latitude.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, an <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>radians</code>) or <code>INF</code> for near-polar 
+          <b><code>lat</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>radius</code></b> or
+        <b><code>lat</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#m2degrees" 
+        class="link">m2degrees</a> and <a 
+        href="pygeodesy.utily-module.html#radians2m" 
+        class="link">radians2m</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="m2yard"></a>
 <div>
@@ -17718,6 +17900,60 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   </dl>
 </td></tr></table>
 </div>
+<a name="radians2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">radians2m</span>&nbsp;(<span class="sig-arg">rad</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an angle to a distance along the equator or along the parallel
+  at an other (geodetic) latitude.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - The angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b> or ellipsoidal and polar radii) or 
+          <code>0</code> for near-polar <b><code>lat</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>rad</code></b>, <b><code>radius</code></b> or 
+        <b><code>lat</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#degrees2m" 
+        class="link">degrees2m</a> and <a 
+        href="pygeodesy.utily-module.html#m2radians" 
+        class="link">m2radians</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="radiansPI"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -18405,7 +18641,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
           class="math">iterable[i::n] for i=0..n</i>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>n</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>n</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -19415,7 +19651,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
     </td>
   </tr></table>
   
-  <p>Trilaterate three spheres, each given as a (3d) center point and 
+  <p>Trilaterate three spheres, each given as a (3d) center point and a 
   radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -20190,15 +20426,9 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=\
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, p<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ar1=49.833333, par2=51.166667, E0=649328, N0=665262, k0=1, SP=2, datum<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-=Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-WGS84),
-Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, da<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-tum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ms.NAD83),
-<code class="variable-ellipsis">...</code>
+Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=4<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+5, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipso<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ids.WGS84, transform=Transforms.WGS84)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -20216,15 +20446,12 @@ ms.NAD83),
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-rm=Transforms.BD72),
-Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-form=Transforms.DHDN),
-Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transfo<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-rm=Transforms.ED50),
-Datums.GDA2020: Datum(name='GDA2020', ellipsoid=Ellipsoids.GRS80, tran<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-sform=Transforms.WGS84),
-<code class="variable-ellipsis">...</code>
+Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, tra<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+nsform=Transforms.OSGB36),
+Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+form=Transforms.WGS84),
+Datums.WGS84: Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+m=Transforms.WGS84)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -20244,38 +20471,12 @@ sform=Transforms.WGS84),
       <dd><table><tr><td><pre class="variable">
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, b=63562<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 56.90923729, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.00167322<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, L=10001<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-126.0807165, R1=6370461.23374576, R2=6370459.65470808, R3=6370453.3099<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-4572),
-Ellipsoids.AiryModified: Ellipsoid(name='AiryModified', a=6377340.189,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- b=6356034.44793853, f_=299.3249646, f=0.00334085, f2=0.00335205, n=0.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-00167322, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-<code class="variable-ellipsis">...</code>
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="RefFrames"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">RefFrames</h3>
-  Registered reference frames (<code>enum-like</code>).
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005, ellipsoid=El<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-lipsoid(name='GRS80'),
-RefFrames.GDA94: RefFrame(name='GDA94', epoch=1994, ellipsoid=Ellipsoi<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-d(name='GRS80'),
-RefFrames.ITRF2000: RefFrame(name='ITRF2000', epoch=1997, ellipsoid=El<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-lipsoid(name='GRS80'),
-RefFrames.ITRF2005: RefFrame(name='ITRF2005', epoch=2000, ellipsoid=El<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-lipsoid(name='GRS80'),
+, e=0.08167337, e2=0.00667054, e22=0.00671533, e32=0.00334643, A=63669<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+14.60892522, L=10001126.0807165, R1=6370461.23374576, R2=6370459.65470<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+808, R3=6370453.30994572),
+Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+8.771415, f_=0, f=0, f2=0, n=0, e=0, e2=0, e22=0, e32=0, A=6371008.771<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+415, L=10007557.17611675, R1=6371008.771415, R2=6371008.771415, R3=637<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -20294,15 +20495,11 @@ lipsoid(name='GRS80'),
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Transforms.BD72: Transform(name='BD72', tx=106.86863, ty=-52.29778, tz<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-=103.72389, rx=-0, ry=-0, rz=-0.00001, s=1.2727, s1=1, sx=-0.33657, sy<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-=-0.45696, sz=-1.84218),
-Transforms.Bessel1841: Transform(name='Bessel1841', tx=-582, ty=-105, <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-tz=-414, rx=-0.00001, ry=-0, rz=0.00001, s=-8.3, s1=0.99999, sx=-1.04,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- sy=-0.35, sz=3.08),
-Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
--176, rx=0, ry=0, rz=0, s=0, s1=1, sx=0, sy=0, sz=0),
-<code class="variable-ellipsis">...</code>
+Transforms.OSGB36: Transform(name='OSGB36', tx=-446.448, ty=125.157, t<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+z=-542.06, rx=-0, ry=-0, rz=-0, s=20.4894, s1=1.00002, sx=-0.1502, sy=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+-0.247, sz=-0.8421),
+Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+, rz=0, s=0, s1=1, sx=0, sy=0, sz=0)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -20340,7 +20537,7 @@ Transforms.Clarke1866: Transform(name='Clarke1866', tx=8, ty=-160, tz=<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Dec 20 12:23:37 2020
+    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:03 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

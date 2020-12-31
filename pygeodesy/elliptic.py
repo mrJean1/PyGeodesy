@@ -76,9 +76,10 @@ from pygeodesy.basics import map2, neg, property_RO
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fdot, fmean_, Fsum, fsum_, hypot1
 from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
-                             _EPStol as _TolJAC, _convergence_, _no_, \
-                             _SPACE_, _0_0, _0_125, _0_25, _0_5, _1_0, \
-                             _2_0, _3_0, _4_0, _5_0, _6_0, _8_0, _360_0
+                             _EPStol as _TolJAC, _convergence_, \
+                             _no_, _SPACE_, _0_0, _0_125, _0_25, \
+                             _0_5, _1_0, _2_0, _3_0, _4_0, _5_0, \
+                             _6_0, _8_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
 # from pygeodesy.streprs import unstr
@@ -89,9 +90,8 @@ from math import asinh, atan, atan2, ceil, copysign, cosh, floor, \
                  sin, sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.12.19'
+__version__ = '20.12.24'
 
-_0_2    = _1_0 / _5_0
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)
 _TolRG0 = _TolJAC  * 2.7
@@ -391,9 +391,14 @@ class Elliptic(_Named):
 
            @raise EllipticError: No convergence.
         '''
-        n = ceil(deg / _360_0 - _0_5)
-        sn, cn = sincos2d(deg - n * _360_0)
-        return self.fE(sn, cn, self.fDelta(sn, cn)) + _4_0 * self.cE * n
+        if abs(deg) < _180_0:
+            e = _0_0
+        else:
+            n    = ceil(deg / _360_0 - _0_5)
+            deg -= n * _360_0
+            e    = n * _4_0 * self.cE
+        sn, cn = sincos2d(deg)
+        return self.fE(sn, cn, self.fDelta(sn, cn)) + e
 
     def fEinv(self, x):
         '''The inverse of the incomplete integral of the second kind.
@@ -800,10 +805,10 @@ def _RD(x, y, z):  # used by testElliptic.py
     '''
     # Carlson, eqs 2.28 - 2.34
     m = _1_0
-    S = Fsum()
-    A = fsum_(x, y, _3_0 * z) * _0_2
+    A = fsum_(x, y, _3_0 * z) / _5_0
     T = (A, x, y, z)
     Q = _Q(A, T, _TolRD)
+    S = Fsum()
     for _ in range(_TRIPS):
         if Q < abs(m * T[0]):  # max 7 trips
             break
@@ -943,11 +948,11 @@ def _RJ(x, y, z, p):  # used by testElliptic.py
 
     # Carlson, eqs 2.17 - 2.25
     m = m3 = _1_0
-    S = Fsum()
     D = neg(_xyzp(x, y, z, -p))
-    A = fsum_(x, y, z, _2_0 * p) * _0_2
+    A = fsum_(x, y, z, _2_0 * p) / _5_0
     T = (A, x, y, z, p)
     Q = _Q(A, T, _TolRD)
+    S = Fsum()
     for _ in range(_TRIPS):
         if Q < abs(m * T[0]):  # max 7 trips
             break

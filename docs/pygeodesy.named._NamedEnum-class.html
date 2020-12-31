@@ -117,7 +117,7 @@ new empty dictionary
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#__getattr__" class="summary-sig-name">__getattr__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">name</span>)</span><br />
-      Get the value of an attribute or enum by <b><code>name</code></b>.</td>
+      Get the value of an attribute or item by <b><code>name</code></b>.</td>
           <td align="right" valign="top">
             
             
@@ -168,8 +168,81 @@ new empty dictionary
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#find" class="summary-sig-name">find</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">item</span>)</span><br />
+        <span class="summary-sig-arg">item</span>,
+        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default">None</span>)</span><br />
       Find a registered item.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">D[k] if k in D, else d</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#get" class="summary-sig-name">get</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>,
+        <span class="summary-sig-arg">dflt</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Get the value of a <i>registered</i> item.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">list of D's (key, value) pairs, as 2-tuples</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#items" class="summary-sig-name">items</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">all</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Yield all or only the <i>registered</i> items.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">list of D's keys</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#keys" class="summary-sig-name">keys</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">all</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Yield the keys of all or only the <i>registered</i> items.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">(k, v), remove and return some (key, value) pair as a</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#popitem" class="summary-sig-name">popitem</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Remove <i>an, any</i> curretly <i>registed</i> item.</td>
           <td align="right" valign="top">
             
             
@@ -199,13 +272,31 @@ new empty dictionary
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">v, remove specified key and return the corresponding value</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#unregister" class="summary-sig-name">unregister</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">name_or_item</span>)</span><br />
-      Remove a registered item.</td>
+      Remove a <i>registered</i> item.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">v, remove specified key and return the corresponding value</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#pop" class="summary-sig-name">pop</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name_or_item</span>)</span><br />
+      Remove a <i>registered</i> item.</td>
           <td align="right" valign="top">
             
             
@@ -224,7 +315,8 @@ new empty dictionary
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#toRepr" class="summary-sig-name">toRepr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">**all</span>)</span><br />
       Like <code>repr(dict)</code> but with <code>name</code> and 
       <code>floats</code> formatting by <code>fstr</code>.</td>
           <td align="right" valign="top">
@@ -245,7 +337,8 @@ new empty dictionary
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'F'</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>)</span><br />
+        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">**all</span>)</span><br />
       DEPRECATED, use method <code>toRepr</code>.</td>
           <td align="right" valign="top">
             
@@ -263,9 +356,28 @@ new empty dictionary
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">*unused</span>)</span><br />
+        <span class="summary-sig-arg">*unused</span>,
+        <span class="summary-sig-arg">**all</span>)</span><br />
       Like <code>str(dict)</code> but with <code>floats</code> formatting 
       by <code>fstr</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">list of D's values</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.named._NamedEnum-class.html#values" class="summary-sig-name">values</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">all</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Yield the value of all or only the <i>registered</i> items.</td>
           <td align="right" valign="top">
             
             
@@ -301,18 +413,12 @@ new empty dictionary
       <code>clear</code>,
       <code>copy</code>,
       <code>fromkeys</code>,
-      <code>get</code>,
       <code>has_key</code>,
-      <code>items</code>,
       <code>iteritems</code>,
       <code>iterkeys</code>,
       <code>itervalues</code>,
-      <code>keys</code>,
-      <code>pop</code>,
-      <code>popitem</code>,
       <code>setdefault</code>,
       <code>update</code>,
-      <code>values</code>,
       <code>viewitems</code>,
       <code>viewkeys</code>,
       <code>viewvalues</code>
@@ -403,9 +509,9 @@ new empty dictionary
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Class</code></strong> - Initial class or type acceptable as enum values 
-          (<code>str</code>).</li>
-        <li><strong class="pname"><code>Classes</code></strong> - Additional, acceptable classes or types.</li>
+        <li><strong class="pname"><code>Class</code></strong> - Initial class or type acceptable as items values 
+          (<code>type</code>).</li>
+        <li><strong class="pname"><code>Classes</code></strong> - Additional, acceptable classes or <code>type</code>s.</li>
     </ul></dd>
     <dt>Returns: <pre class="literalblock">
 new empty dictionary
@@ -433,7 +539,7 @@ new empty dictionary
     </td>
   </tr></table>
   
-  <p>Get the value of an attribute or enum by <b><code>name</code></b>.</p>
+  <p>Get the value of an attribute or item by <b><code>name</code></b>.</p>
   <dl class="fields">
     <dt>Overrides:
         _NamedDict.__getattr__
@@ -495,7 +601,8 @@ new empty dictionary
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">find</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">item</span>)</span>
+        <span class="sig-arg">item</span>,
+        <span class="sig-arg">dflt</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -507,10 +614,127 @@ new empty dictionary
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>item</code></strong> - The item to look for (any <code>type</code>).</li>
+        <li><strong class="pname"><code>dflt</code></strong> - Value to return if not found (any <code>type</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>If found the <b><code>item</code></b>'s name (<code>str</code>), 
-          <code>None</code> otherwise.</dd>
+        <dd>The <b><code>item</code></b>'s name if found (<code>str</code>), 
+          or <code>{dflt}</code> if there is no such <i>registered</i> 
+          <b><code>item</code></b>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>,
+        <span class="sig-arg">dflt</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the value of a <i>registered</i> item.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - The name of the item (<code>str</code>).</li>
+        <li><strong class="pname"><code>dflt</code></strong> - Value to return (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns: D[k] if k in D, else d</dt>
+        <dd>The item with <b><code>name</code></b> if found, or 
+          <b><code>dflt</code></b> if there is no item <i>registered</i> 
+          with that <b><code>name</code></b>.</dd>
+    <dt>Overrides:
+        dict.get
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="items"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">items</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">all</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield all or only the <i>registered</i> items.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>all</code></strong> - Use <code>True</code> to yield {all} items or <code>False</code> 
+          for only the currently <i>registered</i> ones.</li>
+    </ul></dd>
+    <dt>Returns: list of D's (key, value) pairs, as 2-tuples</dt>
+    <dt>Overrides:
+        dict.items
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="keys"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">keys</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">all</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield the keys of all or only the <i>registered</i> items.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>all</code></strong> - Use <code>True</code> to yield {all} item keys or 
+          <code>False</code> for only the currently <i>registered</i> ones.</li>
+    </ul></dd>
+    <dt>Returns: list of D's keys</dt>
+    <dt>Overrides:
+        dict.keys
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="popitem"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">popitem</span>&nbsp;(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Remove <i>an, any</i> curretly <i>registed</i> item.</p>
+  <dl class="fields">
+    <dt>Returns: (k, v), remove and return some (key, value) pair as a</dt>
+        <dd>The removed item.</dd>
+    <dt>Overrides:
+        dict.popitem
+    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -561,19 +785,53 @@ new empty dictionary
     </td>
   </tr></table>
   
-  <p>Remove a registered item.</p>
+  <p>Remove a <i>registered</i> item.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name_or_item</code></strong> - Name (<code>str</code>) of or the item (any <code>type</code>).</li>
+        <li><strong class="pname"><code>name_or_item</code></strong> - Name (<code>str</code>) or the item (any <code>type</code>).</li>
     </ul></dd>
-    <dt>Returns:</dt>
+    <dt>Returns: v, remove specified key and return the corresponding value</dt>
         <dd>The unregistered item.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>NameError</strong></code> - No item with that <b><code>name</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - No such item.</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="pop"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">pop</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name_or_item</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Remove a <i>registered</i> item.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name_or_item</code></strong> - Name (<code>str</code>) or the item (any <code>type</code>).</li>
+    </ul></dd>
+    <dt>Returns: v, remove specified key and return the corresponding value</dt>
+        <dd>The unregistered item.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>NameError</strong></code> - No item with that <b><code>name</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - No such item.</li>
+    </ul></dd>
+    <dt>Overrides:
+        dict.pop
+    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -587,7 +845,8 @@ new empty dictionary
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toRepr</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
         <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">**all</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -613,7 +872,8 @@ new empty dictionary
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
         <span class="sig-arg">fmt</span>=<span class="sig-default">'F'</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>)</span>
+        <span class="sig-arg">sep</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">,\n</code><code class="variable-quote">'</code></span>,
+        <span class="sig-arg">**all</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -636,7 +896,8 @@ new empty dictionary
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">*unused</span>)</span>
+        <span class="sig-arg">*unused</span>,
+        <span class="sig-arg">**all</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -648,6 +909,35 @@ new empty dictionary
   <dl class="fields">
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toStr">_Named.toStr</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="values"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">values</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">all</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield the value of all or only the <i>registered</i> items.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>all</code></strong> - Use <code>True</code> to yield {all} item values or 
+          <code>False</code> for only the currently registered ones.</li>
+    </ul></dd>
+    <dt>Returns: list of D's values</dt>
+    <dt>Overrides:
+        dict.values
     </dt>
   </dl>
 </td></tr></table>
@@ -684,7 +974,7 @@ new empty dictionary
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Dec 20 12:23:43 2020
+    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:09 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

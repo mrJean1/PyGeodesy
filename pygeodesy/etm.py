@@ -87,9 +87,9 @@ from math import asinh, atan2, copysign, degrees, radians, \
                  sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.12.18'
+__version__ = '20.12.22'
 
-_OVERFLOW = _1_EPS**2
+_OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
 _TAYTOL   =  pow(EPS, 0.6)
 _TAYTOL2  = _2_0 * _TAYTOL

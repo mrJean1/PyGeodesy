@@ -18,12 +18,12 @@ from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, _band_, \
                              _bearing_, _degrees_, _degrees2_, \
                              _distance_, _E_, _easting_, _epoch_, \
                              _EW_, _feet_, _height_, _invalid_, \
-                             _lam_, _lat_, _LatLon_, _lon_, \
-                             _meter_, _N_, _northing_, _NS_, \
-                             _NSEW_, _number_, _PERCENT_, _phi_, \
-                             _precision_, _radians_, _radians2_, \
-                             _radius_, _S_, _scalar_, _SPACE_, \
-                             _UNDER_, _units_, _W_, _zone_, _0_0
+                             _lam_, _lat_, _LatLon_, _lon_, _N_, \
+                             _meter_, _northing_, _NS_, _NSEW_, \
+                             _number_, _PERCENT_, _phi_, _precision_, \
+                             _radians_, _radians2_, _radius_, _S_, \
+                             _scalar_, _SPACE_, _UNDER_, _units_, \
+                             _W_, _zone_, _0_0, _0_001
 from pygeodesy.interns import _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named
@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.12.06'
+__version__ = '20.12.30'
 
 
 class _NamedUnit(_Named):
@@ -830,6 +830,12 @@ class Meter(Float):
         return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
+_1mm    = Meter(   _1mm=_0_001)  # PYCHOK 1 millimeter in .ellipsoidal...
+_10um   = Meter(  _10um= 1e-5)   # PYCHOK 0.01 millimeter in .osgr
+_100km  = Meter( _100km= 1e+5)   # PYCHOK 100 kilometer in .formy, .mgrs, .osgr
+_2000km = Meter(_2000km= 2e+6)   # PYCHOK 2,000 kilometer in .mgrs
+
+
 class Northing(Float):
     '''Named C{float} representing a northing, conventionally in C{meter}.
     '''
@@ -1001,7 +1007,7 @@ def _std_repr(*classes):
             if _environ.get(env, _std_).lower() != _std_:
                 C._std_repr = False
 
-_std_repr(Bool, Float, Int, Str)  # PYCHOK expected
+_std_repr(Bool, Float, Int, Meter, Str)  # PYCHOK expected
 del _std_repr
 
 __all__ += _ALL_DOCS(_NamedUnit)

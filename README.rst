@@ -129,7 +129,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Dec 20, 2020.*
+*Last updated: Dec 30, 2020.*
 
 License
 =======
@@ -161,7 +161,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. image:: https://Img.Shields.io/cirrus/github/mrJean1/PyGeodesy?branch=master&label=Cirrus
   :target: https://Cirrus-CI.com/github/mrJean1/PyGeodesy
 .. image:: https://Img.Shields.io/travis/mrJean1/PyGeodesy.svg?branch=master&label=Travis
-  :target: https://Travis-CI.org/mrJean1/PyGeodesy
+  :target: https://Travis-CI.com/mrJean1/PyGeodesy
 .. image:: https://Img.Shields.io/badge/coverage-96%25-brightgreen
   :target: https://GitHub.com/mrJean1/PyGeodesy/blob/master/testcoverage.pdf
 .. image:: https://Img.Shields.io/pypi/v/PyGeodesy.svg?label=PyPI
@@ -223,7 +223,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _simplify: https://Bost.Ocks.org/mike/simplify
 .. _Sutherland-Hodgman: https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm
 .. _TRF: http://ITRF.ENSG.IGN.FR
-.. _Ubuntu 14.04: https://Travis-CI.org/mrJean1/PyGeodesy
+.. _Ubuntu 14.04: https://Travis-CI.com/mrJean1/PyGeodesy
 .. _UPS: https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system
 .. _UTM: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
 .. _Vector-based: https://www.Movable-Type.co.UK/scripts/latlong-vectors.html

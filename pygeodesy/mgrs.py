@@ -36,17 +36,15 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import UtmUps5Tuple
 from pygeodesy.streprs import enstr2, Fmt, _xzipairs
-from pygeodesy.units import Easting, Meter, Northing, Str
+from pygeodesy.units import Easting, Northing, Str, _100km, _2000km
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
 from pygeodesy.utmupsBase import _hemi
 
 import re  # PYCHOK warning locale.Error
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.11.04'
+__version__ = '20.12.22'
 
-_100km  = Meter( 100e3)  # 100 km in meter
-_2000km = Meter(2000e3)  # 2,000 km in meter
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _L.tillH, _L.fromJ.tillR, _L.fromS  # grid E colums
 # 100 km grid square row (‘n’) letters repeat every other zone
@@ -122,9 +120,9 @@ class Mgrs(_NamedBase):
         z = self._zone - 1
         # get easting specified by e100k (note, +1 because
         # eastings start at 166e3 due to 500 km false origin)
-        e = float(_Le100k[z % 3].index(self._en100k[0]) + 1) * _100km  # metres
+        e = float(_Le100k[z % 3].index(self._en100k[0]) + 1) * _100km  # meter
         # similarly, get northing specified by n100k
-        n = float(_Ln100k[z % 2].index(self._en100k[1])) * _100km  # metres
+        n = float(_Ln100k[z % 2].index(self._en100k[1])) * _100km  # meter
         return e, n
 
     @property_RO

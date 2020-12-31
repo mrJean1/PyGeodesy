@@ -16,7 +16,8 @@ from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
 from pygeodesy.interns import EPS1_2, MISSING, NN, _AtoZnoIO_, \
                              _float, _height_, _radius_, _SPACE_, \
-                             _0to9_, _0_5, _1_0, _2_0, _60_0, _90_0
+                             _0to9_, _0_5, _0_001, _1_0, _2_0, \
+                             _60_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
@@ -28,7 +29,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '20.11.04'
+__version__ = '20.12.30'
 
 _1000_0  = _float(1000)
 _Base    =  10
@@ -372,7 +373,7 @@ def encode(lat, lon, precision=3, height=None, radius=None):  # MCCABE 14
     if radius is not None:  # R before H
         g += _option(_radius_, radius, m2NM, _1_0),
     if height is not None:  # H is last
-        g += _option(_height_, height, m2ft, 1e-3),
+        g += _option(_height_, height, m2ft, _0_001),
 
     return NN.join(g)  # XXX Georef(''.join(g))
 

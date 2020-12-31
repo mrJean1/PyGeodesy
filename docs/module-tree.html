@@ -117,11 +117,11 @@
         href="pygeodesy.css.CSSError-class.html" class="link">CSSError</a> 
         requiring <i>Charles Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib/" 
-        target="_top">geographiclib</a> package to be installed.</em>    </li>
+        target="_top">geographiclib</a> Python package to be installed.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.datums-module.html">pygeodesy.datums</a></strong>: <em class="summary">Classes <a href="pygeodesy.datums.Datum-class.html" 
         class="link">Datum</a> and <a 
         href="pygeodesy.datums.Transform-class.html" 
-        class="link">Transform</a> and registries thereof, <a 
+        class="link">Transform</a> and registries <a 
         href="pygeodesy.datums-module.html#Datums" class="link">Datums</a> 
         and <a href="pygeodesy.datums-module.html#Transforms" 
         class="link">Transforms</a>, respectively.</em>    </li>
@@ -176,11 +176,11 @@
         functions, all used by <code>.ellipsoidalKarney</code>, 
         <code>.ellipsoidalNvector</code> or 
         <code>.ellipsoidalVincenty</code>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney-module.html">pygeodesy.ellipsoidalKarney</a></strong>: <em class="summary">Ellipsoidal classes geodetic (lat-/longitude) <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney-module.html">pygeodesy.ellipsoidalKarney</a></strong>: <em class="summary">Ellipsoidal geodetic (lat-/longitude) <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> and geocentric (ECEF) <a 
         href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> and functions <a 
+        class="link">Cartesian</a> classes and functions <a 
         href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
         class="link">areaOf</a>, <a 
         href="pygeodesy.ellipsoidalKarney-module.html#intersections2" 
@@ -190,9 +190,9 @@
         href="pygeodesy.ellipsoidalKarney-module.html#nearestOn" 
         class="link">nearestOn</a> and <a 
         href="pygeodesy.ellipsoidalKarney-module.html#perimeterOf" 
-        class="link">perimeterOf</a>, all based on <i>Charles Karney</i>'s 
-        Python <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a>.</em>    </li>
+        class="link">perimeterOf</a>, all requiring <i>Charles Karney</i>'s
+        <a href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a> Python package to be installed.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector-module.html">pygeodesy.ellipsoidalNvector</a></strong>: <em class="summary">Ellispdoidal, N-vector-based classes geodetic (lat-/longitude) <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>, geocentric (ECEF) <a 
@@ -204,13 +204,13 @@
         class="link">Nvector</a> and functions <a 
         href="pygeodesy.ellipsoidalNvector-module.html#meanOf" 
         class="link">meanOf</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty-module.html">pygeodesy.ellipsoidalVincenty</a></strong>: <em class="summary">Ellispodial classes for <i>Vincenty</i>'s geodetic (lat-/longitude)
-        <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty-module.html">pygeodesy.ellipsoidalVincenty</a></strong>: <em class="summary">Ellipsoidal <i>Thaddeus Vincenty</i>'s geodetic (lat-/longitude) <a
+        href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>, geocentric (ECEF) <a 
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> and <a 
         href="pygeodesy.ellipsoidalVincenty.VincentyError-class.html" 
-        class="link">VincentyError</a> and functions <a 
+        class="link">VincentyError</a> classes and functions <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#areaOf" 
         class="link" onclick="show_private();">areaOf</a>, <a 
         href="pygeodesy.ellipsoidalVincenty-module.html#intersections2" 
@@ -222,7 +222,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids-module.html">pygeodesy.ellipsoids</a></strong>: <em class="summary">Classes <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
         class="link">a_f2Tuple</a>, <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-        class="link">Ellipsoid</a>, <a 
+        class="link">Ellipsoid</a> and <a 
         href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
         class="link">Ellipsoid2</a>, an <a 
         href="pygeodesy.ellipsoids-module.html#Ellipsoids" 
@@ -393,9 +393,10 @@
         <code>Geodesic</code> and <code>GeodesicLine</code> and 
         <code>Math</code> functions <code>AngDiff</code>, 
         <code>AngNormalize</code>, <code>LatFix</code> and <code>sum</code>
-        from <a href="https://PyPI.org/project/geographiclib" 
-        target="_top">geographiclib</a>, provided that package is 
-        installed.</em>    </li>
+        from <i>Karney's</i> <a 
+        href="https://PyPI.org/project/geographiclib" 
+        target="_top">geographiclib</a>, Python package, provided that 
+        package is installed.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.latlonBase-module.html" onclick="show_private();">pygeodesy.latlonBase</a></strong>: <em class="summary">(INTERNAL) base class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
         class="link">LatLonBase</a> for elliposiodal, spherical and 
@@ -421,10 +422,10 @@
     <li> <strong class="uidlink"><a href="pygeodesy.named-module.html">pygeodesy.named</a></strong>: <em class="summary">(INTERNAL) Classes <code>_Named</code>, <code>_NamedDict</code> and
         <code>_NamedTuple</code>, all with nameable instances and several 
         subclasses thereof.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">Results previously returned as tuples by <code>pygeodesy</code> 
-        functions and class methods are now instances of some 
-        <code>Named-Tuple</code> class, all sub-classes of 
-        <code>_NamedTuple</code> defined in <code>pygeodesy.named</code>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples-module.html">pygeodesy.namedTuples</a></strong>: <em class="summary">Tuples returned by <code>pygeodesy</code> functions and class 
+        methods are all instances of some <code>Named...Tuple</code> class,
+        all sub-classes of <code>_NamedTuple</code> defined in 
+        <code>pygeodesy.named</code>.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.nvectorBase-module.html" onclick="show_private();">pygeodesy.nvectorBase</a></strong>: <em class="summary">(INTERNAL) Base class <a 
         href="pygeodesy.nvectorBase.LatLonNvectorBase-class.html" 
         class="link">LatLonNvectorBase</a> for <code>n-vectorial</code> 
@@ -605,7 +606,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Dec 20 12:23:35 2020
+    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:01 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

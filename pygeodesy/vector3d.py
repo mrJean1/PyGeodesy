@@ -34,7 +34,7 @@ from pygeodesy.units import Radius, Radius_
 from math import atan2, copysign, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.11.04'
+__version__ = '20.12.22'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -442,7 +442,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
            @kwarg eps: Tolerance (C{scalar}), same units as C{x},
                        C{y}, and C{z}.
 
-           @return: C{True} if colinear, C{False} otherwise.
+           @return: C{True} if this point is colinear with B{C{point1}}
+                    and B{C{point2}}, C{False} otherwise.
 
            @raise TypeError: Invalid B{C{point1}} or B{C{point2}}.
 
@@ -678,7 +679,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return (fmt % (t,)) if fmt else t
 
     def trilaterate3d2(self, radius, center2, radius2, center3, radius3, eps=EPS):
-        '''Trilaterate this and two other spheres, each given as a (3d) center and radius.
+        '''Trilaterate this and two other spheres, each given as a (3d) center
+           and a radius.
 
            @arg radius: Radius of this sphere (same C{units} as this C{x}, C{y}
                         and C{z}).
@@ -884,14 +886,15 @@ def iscolinearWith(point, point1, point2, eps=EPS):
 
        @arg point: The point (L{Vector3d}, C{Vector3Tuple} or
                               C{Vector4Tuple}).
-       @arg point1: Another point (L{Vector3d}, C{Vector3Tuple}
-                                   or C{Vector4Tuple}).
-       @arg point2: Another point (L{Vector3d}, C{Vector3Tuple}
-                                   or C{Vector4Tuple}).
+       @arg point1: First point (L{Vector3d}, C{Vector3Tuple}
+                                 or C{Vector4Tuple}).
+       @arg point2: Second point (L{Vector3d}, C{Vector3Tuple}
+                                  or C{Vector4Tuple}).
        @kwarg eps: Tolerance (C{scalar}), same units as C{x},
                    C{y} and C{z}.
 
-       @return: C{True} if colinear, C{False} otherwise.
+       @return: C{True} if B{C{point}} is colinear B{C{point1}}
+                and B{C{point2}}, C{False} otherwise.
 
        @raise TypeError: Invalid B{C{point}}, B{C{point1}} or
                          B{C{point2}}.
@@ -1057,7 +1060,7 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
 
 def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                                      eps=EPS, Vector=None, **Vector_kwds):
-    '''Trilaterate three spheres, each given as a (3d) center point and radius.
+    '''Trilaterate three spheres, each given as a (3d) center point and a radius.
 
        @arg center1: Center of the 1st sphere (L{Vector3d}, C{Vector3Tuple}
                      or C{Vector4Tuple}).

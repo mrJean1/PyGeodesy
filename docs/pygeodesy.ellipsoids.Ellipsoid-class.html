@@ -272,11 +272,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#circle4" class="summary-sig-name">circle4</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat</span>)</span><br />
+      Get the equatorial or a parallel <i>circle of latitude</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert an angle to the distance along the equator or along a 
-      parallel at the given latitude.</td>
+      Convert an angle to the distance along the equator or along the 
+      parallel at the given (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -458,7 +476,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Llat" class="summary-sig-name">Llat</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
       Return the <i>meridional length</i>, the distance along a meridian 
-      between the equator and the given latitude (<code>meter</code>).</td>
+      between the equator and a (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -477,7 +495,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Lmeridian" class="summary-sig-name">Lmeridian</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
       Return the <i>meridional length</i>, the distance along a meridian 
-      between the equator and the given latitude (<code>meter</code>).</td>
+      between the equator and a (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -494,10 +512,50 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">meter</span>,
+        <span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert distance to angle along equator or along a parallel at an 
-      other latitude.</td>
+      Convert a distance to an angle along the equator or along the 
+      parallel at an other (geodetic) latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#m2radians" class="summary-sig-name">m2radians</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">distance</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Convert a distance to an angle along the equator or along the 
+      parallel at an other (geodetic) latitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#radians2m" class="summary-sig-name">radians2m</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">rad</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+      Convert an angle to the distance along the equator or along the 
+      parallel at the given (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -533,7 +591,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rlat" class="summary-sig-name">Rlat</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>)</span><br />
-      Approximate the earth radius at the given latitude.</td>
+      <i>Approximate</i> the earth radius at the given latitude.</td>
           <td align="right" valign="top">
             
             
@@ -881,16 +939,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#A" class="summary-name">A</a><br />
-      Get the UTM <i>meridional</i> radius (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" class="summary-name">area</a><br />
-      Get the ellipsoid's surface area (<code>meter**2</code>), <i 
-      class="math">4 * PI * R2**2</i> or <i class="math">4 * PI * a**2</i>.
+      Get the UTM <i>meridional (or rectifying)</i> radius 
+      (<code>meter</code>).
     </td>
   </tr>
 <tr>
@@ -903,6 +953,15 @@
       target="_top">Alpha series coefficients</a> (<a 
       href="pygeodesy.ellipsoids.Ellipsoid-class.html#KsOrder" 
       class="link">KsOrder</a><code>-tuple</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" class="summary-name">area</a><br />
+      Get the ellipsoid's surface area (<code>meter**2</code>), <i 
+      class="math">4 * PI * R2**2</i> or <i class="math">4 * PI * a**2</i>.
     </td>
   </tr>
 <tr>
@@ -1252,7 +1311,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#L" class="summary-name">L</a><br />
-      Get the <i>quarter meridian</i> <code>L</code> (aka polar distance) 
+      Get the <i>quarter meridian</i> <code>L</code> (aka polar distance), 
       the distance along a meridian between the equator and a pole 
       (<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - 
       e2)).E</i> or <i class="math">a * PI / 2</i>.
@@ -1856,6 +1915,49 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="circle4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">circle4</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the equatorial or a parallel <i>circle of latitude</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat</code></strong> - Geodetic latitude (<code>degrees90</code>, <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.ellipsoids.Circle4Tuple-class.html" 
+          class="link">Circle4Tuple</a><code>(radius, height, lat, 
+          beta)</code> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>lat</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Definition of <a href="https://WikiPedia.org/wiki/Latitude" 
+        target="_top"><i>p</i> and <i>z</i> under <b>Parametric (or 
+        reduced) latitude</b></a> and <i>Karney's</i> C++ <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html"
+        target="_top">CircleRadius and CircleHeight</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="degrees2m"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1872,16 +1974,18 @@
     </td>
   </tr></table>
   
-  <p>Convert an angle to the distance along the equator or along a parallel
-  at the given latitude.</p>
+  <p>Convert an angle to the distance along the equator or along the 
+  parallel at the given (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - The angle (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle (<code>degrees</code>).</dd>
+        <dd>Distance (<code>meter</code>, same units as the equatorial and 
+          polar radii) or <code>0</code> for near-polar 
+          <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
@@ -2143,7 +2247,7 @@
   </tr></table>
   
   <p>Return the <i>meridional length</i>, the distance along a meridian 
-  between the equator and the given latitude (<code>meter</code>).</p>
+  between the equator and a (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2171,7 +2275,7 @@
   </tr></table>
   
   <p>Return the <i>meridional length</i>, the distance along a meridian 
-  between the equator and the given latitude (<code>meter</code>).</p>
+  between the equator and a (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2191,7 +2295,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">meter</span>,
+        <span class="sig-arg">distance</span>,
         <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -2199,22 +2303,98 @@
     </td>
   </tr></table>
   
-  <p>Convert distance to angle along equator or along a parallel at an 
-  other latitude.</p>
+  <p>Convert a distance to an angle along the equator or along the parallel
+  at an other (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Distance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle (<code>degrees</code>).</dd>
+        <dd>Angle (<code>degrees</code>) or <code>INF</code> for near-polar 
+          <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> set to <code>True</code>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b> or <b><code>lat</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b> or <b><code>lat</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2radians"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2radians</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">distance</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert a distance to an angle along the equator or along the parallel
+  at an other (geodetic) latitude.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>radians</code>) or <code>INF</code> for near-polar 
+          <b><code>lat</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b> or <b><code>lat</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="radians2m"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">radians2m</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">rad</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert an angle to the distance along the equator or along the 
+  parallel at the given (geodetic) latitude.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - The angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Distance (<code>meter</code>, same units as the equatorial and 
+          polar radii) or <code>0</code> for near-polar 
+          <b><code>lat</code></b>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>rad</code></b> or <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2268,7 +2448,7 @@
     </td>
   </tr></table>
   
-  <p>Approximate the earth radius at the given latitude.</p>
+  <p><i>Approximate</i> the earth radius at the given latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2278,10 +2458,20 @@
         <dd>Approximate earth radius (<code>meter</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        href="pygeodesy.errors-module.html#rangerrors" 
+        class="link">rangerrors</a> set to <code>True</code>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>lat</code></b>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        <code>Rlat(<b>90</b>)</code> equals <code>Rpolar</code>.
+      </p>
+      <p><strong>See Also:</strong>
+        Method <code>Rparallel</code>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="roc1_"></a>
 <div>
@@ -2897,33 +3087,12 @@ class="link">a_f2Tuple</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">A</h3>
-  <p>Get the UTM <i>meridional</i> radius (<code>meter</code>).</p>
+  <p>Get the UTM <i>meridional (or rectifying)</i> radius 
+  (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">A(<span class="summary-sig-arg">self</span>)</span>
-        - Get the UTM <i>meridional</i> radius (<code>meter</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="area"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">area</h3>
-  <p>Get the ellipsoid's surface area (<code>meter**2</code>), <i 
-  class="math">4 * PI * R2**2</i> or <i class="math">4 * PI * a**2</i>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">area(<span class="summary-sig-arg">self</span>)</span>
-        - Get the ellipsoid's surface area (<code>meter**2</code>), <i class="math">4
-* PI * R2**2</i> or <i class="math">4 * PI * a**2</i>.
+        - Get the UTM <i>meridional (or rectifying)</i> radius (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
@@ -2951,6 +3120,28 @@ class="link">a_f2Tuple</a>).
 href="https://GeographicLib.SourceForge.io/html/tmseries30.html" 
 target="_top">Alpha series coefficients</a> (<code 
 class="link">KsOrder</code><code>-tuple</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">value</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="area"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">area</h3>
+  <p>Get the ellipsoid's surface area (<code>meter**2</code>), <i 
+  class="math">4 * PI * R2**2</i> or <i class="math">4 * PI * a**2</i>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">area(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid's surface area (<code>meter**2</code>), <i class="math">4
+* PI * R2**2</i> or <i class="math">4 * PI * a**2</i>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
@@ -3785,14 +3976,14 @@ class="link">AlphaKs</code>, <code class="link">BetaKs</code>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">L</h3>
-  <p>Get the <i>quarter meridian</i> <code>L</code> (aka polar distance) 
+  <p>Get the <i>quarter meridian</i> <code>L</code> (aka polar distance), 
   the distance along a meridian between the equator and a pole 
   (<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - e2)).E</i> 
   or <i class="math">a * PI / 2</i>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">L(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>quarter meridian</i> <code>L</code> (aka polar distance) the 
+        - Get the <i>quarter meridian</i> <code>L</code> (aka polar distance), the 
 distance along a meridian between the equator and a pole 
 (<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - e2)).E</i> or
 <i class="math">a * PI / 2</i>.
@@ -3815,7 +4006,7 @@ distance along a meridian between the equator and a pole
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">L(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>quarter meridian</i> <code>L</code> (aka polar distance) the 
+        - Get the <i>quarter meridian</i> <code>L</code> (aka polar distance), the 
 distance along a meridian between the equator and a pole 
 (<code>meter</code>), <i class="math">b * Elliptic(-e2 / (1 - e2)).E</i> or
 <i class="math">a * PI / 2</i>.
@@ -4357,7 +4548,7 @@ class="math">4 / 3 * PI * a**2 * b</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Dec 20 12:23:40 2020
+    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:06 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

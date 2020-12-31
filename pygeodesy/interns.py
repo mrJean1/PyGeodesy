@@ -7,8 +7,8 @@ from math import pi as PI, sqrt
 __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
-           'PI', 'PI2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '20.12.19'
+           'PI', 'PI2', 'PI4', 'PI_2', 'PI_4', 'PI3_2')  # imported by .lazily
+__version__ = '20.12.30'
 
 
 class MISSING(object):
@@ -43,12 +43,12 @@ class _Slicer(str):
 
 
 class _Join(str):
-    '''(INTERNAL) Extended C{str}.
+    '''(INTERNAL) Extended, callable C{str}.
     '''
     def join_(self, *args):
         '''Join all B{C{args}} like C{str.join(B{args})}.
         '''
-        return _Join(str.join(self, map(str, args)))
+        return _Join(str.join(self, map(str, args)))  # re-callable
 
     __call__ = join_
 
@@ -59,11 +59,11 @@ class _Prefix(_Join):
     def __call__(self, *args):
         '''Join C{self} plus all B{C{args}} like C{str.join((self,) + B{args})}.
         '''
-        return _SPACE_.join_(self, *args)
+        return _SPACE_.join_(self, *args)  # re-callable
 
 
 class _Python_(str):  # overwritten below
-    '''(INTERNAL) Extended C{str} for C{Python} string.
+    '''(INTERNAL) Extended C{str} for C{Python} and version.
     '''
     def __call__(self, sys):
         '''Return C{"Python <version>"}.
@@ -82,6 +82,8 @@ _3_                   = '3'                  # PYCHOK expected
 _4_                   = '4'                  # PYCHOK expected
 _a_                   = 'a'                  # PYCHOK expected
 _A_                   = 'A'                  # PYCHOK expected
+_Airy1830_            = 'Airy1830'           # PYCHOK expected
+_AiryModified_        = 'AiryModified'       # PYCHOK expected
 _an_                  = 'an'                 # PYCHOK expected
 _angle_               = 'angle'              # PYCHOK expected
 _areaOf_              = 'areaOf'             # PYCHOK expected
@@ -95,9 +97,12 @@ _azimuth_             = 'azimuth'            # PYCHOK expected
 _band_                = 'band'               # PYCHOK expected
 _BAR_           = _Join('|')                 # PYCHOK expected
 _bearing_             = 'bearing'            # PYCHOK expected
+_Bessel1841_          = 'Bessel1841'         # PYCHOK expected
 _by_                  = 'by'                 # PYCHOK expected
 _C_                   = 'C'                  # PYCHOK expected
 _Cartesian_           = 'Cartesian'          # PYCHOK expected
+_Clarke1866_          = 'Clarke1866'         # PYCHOK expected
+_Clarke1880IGN_       = 'Clarke1880IGN'      # PYCHOK expected
 _coincident_          = 'coincident'         # PYCHOK expected
 _colinear_            = 'colinear'           # PYCHOK expected
 _COLON_         = _Join(':')                 # PYCHOK expected
@@ -142,6 +147,7 @@ _fraction_            = 'fraction'           # PYCHOK expected
 _from_                = 'from'               # PYCHOK expected
 _g_                   = 'g'                  # PYCHOK expected
 _gamma_               = 'gamma'              # PYCHOK expected
+_GRS80_               = 'GRS80'              # PYCHOK expected
 _h_                   = 'h'                  # PYCHOK expected
 _H_                   = 'H'                  # PYCHOK expected
 _height_              = 'height'             # PYCHOK expected
@@ -151,14 +157,17 @@ _i_                   = 'i'                  # PYCHOK expected
 _in_                  = 'in'                 # PYCHOK expected
 _INF_                 = 'INF'                # PYCHOK expected
 _initial_             = 'initial'            # PYCHOK expected
-_intersection_        = 'intersection'       # PYCHOK expected
 _inside_              = 'inside'             # PYCHOK expected
+_intersection_        = 'intersection'       # PYCHOK expected
+_Intl1924_            = 'Intl1924'           # PYCHOK expected
 _invalid_             = 'invalid'            # PYCHOK expected
 _isclockwise_         = 'isclockwise'        # PYCHOK expected
 _ispolar_             = 'ispolar'            # PYCHOK expected
 _j_                   = 'j'                  # PYCHOK expected
 _k0_                  = 'k0'                 # PYCHOK expected
 _knots_               = 'knots'              # PYCHOK expected
+_Krassovski1940_      = 'Krassovski1940'     # PYCHOK expected
+_Krassowsky1940_      = 'Krassowsky1940'     # PYCHOK expected
 #_LANGLE_             = '<'                  # PYCHOK expected
 _lam_                 = 'lam'                # PYCHOK expected
 _lat_                 = 'lat'                # PYCHOK expected
@@ -186,6 +195,8 @@ _n_                   = 'n'                  # PYCHOK expected
 _N_                   = 'N'                  # PYCHOK expected
 _n_a_                 = 'n/a'                # PYCHOK expected
 _N_A_                 = 'N/A'                # PYCHOK expected
+_NAD27_               = 'NAD27'              # PYCHOK expected
+_NAD83_               = 'NAD83'              # PYCHOK expected
 _name_                = 'name'               # PYCHOK expected
 _NAN_                 = 'NAN'                # PYCHOK expected
 _near_concentric_     = 'near-concentric'    # PYCHOK expected
@@ -198,7 +209,9 @@ _no_          = _Prefix('no')                # PYCHOK expected
 _northing_            = 'northing'           # PYCHOK expected
 _NorthPole_           = 'NorthPole'          # PYCHOK expected
 _not_         = _Prefix('not')               # PYCHOK expected
+_NTF_                 = 'NTF'                # PYCHOK expected
 _number_              = 'number'             # PYCHOK expected
+_numpy_               = 'numpy'              # PYCHOK expected
 _OKd_                 = '._-'                # PYCHOK expected
 _on_                  = 'on'                 # PYCHOK expected
 _or_                  = 'or'                 # PYCHOK expected
@@ -241,6 +254,7 @@ _scale_               = 'scale'              # PYCHOK expected
 _scipy_               = 'scipy'              # PYCHOK expected
 _sep_                 = 'sep'                # PYCHOK expected
 _small_               = 'small'              # PYCHOK expected
+_Sphere_              = 'Sphere'             # PYCHOK expected
 _spherical_           = 'spherical'          # PYCHOK expected
 _SouthPole_           = 'SouthPole'          # PYCHOK expected
 _SPACE_         = _Join(' ')                 # PYCHOK expected
@@ -263,6 +277,8 @@ _valid_               = 'valid'              # PYCHOK expected
 _version_             = 'version'            # PYCHOK expected
 _vs_                  = 'vs'                 # PYCHOK expected
 _W_                   = 'W'                  # PYCHOK expected
+_WGS72_               = 'WGS72'              # PYCHOK expected
+_WGS84_               = 'WGS84'              # PYCHOK expected
 _x_                   = 'x'                  # PYCHOK expected
 _X_                   = 'X'                  # PYCHOK expected
 _y_                   = 'y'                  # PYCHOK expected
@@ -330,6 +346,7 @@ _floats = {}      # PYCHOK floats cache, in .__main__
 # del _floats     # XXX zap floats cache never
 
 _0_0    = _float(   0)      # PYCHOK expected
+_0_001  = _float(   0.001)  # PYCHOK expected
 _0_01   = _float(   0.01)   # PYCHOK expected
 _0_1    = _float(   0.1)    # PYCHOK expected
 _0_125  = _float(   0.125)  # PYCHOK expected
@@ -337,6 +354,7 @@ _0_25   = _float(   0.25)   # PYCHOK expected
 _0_26   = _float(   0.26)   # PYCHOK expected
 _0_5    = _float(   0.5)    # PYCHOK expected
 _1_0    = _float(   1)      # PYCHOK expected
+_1_5    = _float(   1.5)    # PYCHOK expected
 _2_0    = _float(   2)      # PYCHOK expected
 _3_0    = _float(   3)      # PYCHOK expected
 _4_0    = _float(   4)      # PYCHOK expected
@@ -379,16 +397,17 @@ _EPS4   = _float(EPS * _4_0)      # PYCHOK ≈ 8.881784197001e-16
 _EPSqrt = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
 _EPStol = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09
 
-INF  = _float( _INF_)  # PYCHOK INFinity, see function L{isinf}, L{isfinite}
-NAN  = _float( _NAN_)  # PYCHOK Not-A-Number, see function L{isnan}
-NEG0 =  float('-0.0')  # PYCHOK NEGative 0.0, see function L{isneg0}
+INF   = _float( _INF_)  # PYCHOK INFinity, see function L{isinf}, L{isfinite}
+NAN   = _float( _NAN_)  # PYCHOK Not-A-Number, see function L{isnan}
+NEG0  =  float('-0.0')  # PYCHOK NEGative 0.0, see function L{isneg0}
 
-PI2  = _float(PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
-PI4  = _float(PI * _4_0)  # PYCHOK Four PI, M{PI * 4}
-PI_2 = _float(PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
-PI_4 = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
+PI2   = _float(PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
+PI4   = _float(PI * _4_0)  # PYCHOK Four PI, M{PI * 4}
+PI_2  = _float(PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
+PI_4  = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
+PI3_2 = _float(PI * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
 
-R_M  = _float(6371008.771415)  # PYCHOK mean, spherical earth radius
+R_M   = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 
 # **) MIT License
 #

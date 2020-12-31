@@ -5,9 +5,9 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.11.05'
+__version__ = '20.12.30'
 
-from base import TestsBase
+from base import TestsBase, isiOS
 
 from pygeodesy import Datums, EcefCartesian, EcefError, EcefKarney, \
                       EcefMatrix, EcefSudano, EcefVeness, EcefYou, \
@@ -218,13 +218,13 @@ class Tests(TestsBase):
 
         C = module.Cartesian
         self.test(module.__name__, C.__name__, C.__name__, nl=1)
-        self.test('_Ecef', C._Ecef, _Ecef)
+        self.test('_Ecef', C._Ecef, _Ecef, known=isiOS)
         self.test('Ecef', C(0, 0, 0).Ecef, Ecef)
         self.test('_Ecef', C._Ecef, Ecef)
 
         LL = module.LatLon
         self.test(module.__name__, LL.__name__, LL.__name__)
-        self.test('_Ecef', LL._Ecef, _Ecef)
+        self.test('_Ecef', LL._Ecef, _Ecef, known=isiOS)
         ll = LL(48.833, 2.333, name='Paris')
         self.test('Ecef', ll.Ecef, Ecef)
         self.test('_Ecef', LL._Ecef, Ecef)

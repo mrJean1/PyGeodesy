@@ -30,7 +30,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '20.11.04'
+__version__ = '20.12.27'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix N, S, E or W
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix
@@ -187,7 +187,8 @@ def _clipped_(angle, limit, units):
     '''
     c = min(limit, max(-limit, angle))
     if c != angle and _rangerrors:
-        t = NN(fstr(angle, prec=6, ints=True), 'beyond', copysign(limit, angle), units)
+        t = _SPACE_(fstr(angle, prec=6, ints=True),
+                   'beyond', copysign(limit, angle), units)
         raise RangeError(t, txt=None)
     return c
 
@@ -326,12 +327,12 @@ def degDMS(deg, prec=6, s_D=S_DEG, s_M=S_MIN, s_S=S_SEC, neg=_MINUS_, pos=NN):
             d *= 3600
             s = s_S
 
-    n = neg if deg < 0 else pos
     z = int(prec)
-    t = NN(n, Fmt.F(d, prec=abs(z)))
+    t = Fmt.F(d, prec=abs(z))
     if z > 1:
         t = fstrzs(t)
-    return NN(t, s)
+    n = neg if deg < 0 else pos
+    return NN(n, t, s)
 
 
 def latDMS(deg, form=F_DMS, prec=2, sep=S_SEP):
@@ -760,8 +761,8 @@ def toDMS(deg, form=F_DMS, prec=2, sep=S_SEP, ddd=2, neg=_MINUS_, pos=NN):
        @return: Degrees in the specified form (C{str}).
     '''
     t = _toDMS(deg, form, prec, sep, ddd, NN)
-    if form[:1] not in _PLUSMINUS_:
-        t = (neg if deg < 0 else (pos if deg > 0 else NN)) + t
+    if deg and form[:1] not in _PLUSMINUS_:
+        t = NN((neg if deg < 0 else (pos if deg > 0 else NN)), t)
     return t
 
 # **) MIT License

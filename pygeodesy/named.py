@@ -13,8 +13,8 @@ attributes, similar to standard Python C{namedtuple}s.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, issubclassof, \
-                             property_doc_, property_RO, _xcopy
+from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, \
+                             issubclassof, property_doc_, property_RO, _xcopy
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
@@ -27,7 +27,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.12.18'
+__version__ = '20.12.30'
 
 _at_     = 'at'
 _del_    = 'del'
@@ -433,9 +433,9 @@ class _NamedEnum(_NamedDict):
     def __init__(self, Class, *Classes, **name):
         '''New C{_NamedEnum}.
 
-           @arg Class: Initial class or type acceptable as enum
-                       values (C{str}).
-           @arg Classes: Additional, acceptable classes or types.
+           @arg Class: Initial class or type acceptable as items
+                       values (C{type}).
+           @arg Classes: Additional, acceptable classes or C{type}s.
         '''
         self._item_Classes = (Class,) + Classes
         n = name.get(_name_, NN) or NN(Class.__name__, _s_)
@@ -443,7 +443,7 @@ class _NamedEnum(_NamedDict):
             _Named.name.fset(self, n)  # see _Named.name
 
     def __getattr__(self, name):
-        '''Get the value of an attribute or enum by B{C{name}}.
+        '''Get the value of an attribute or item by B{C{name}}.
         '''
         try:
             return self[name]
@@ -463,23 +463,74 @@ class _NamedEnum(_NamedDict):
         return self.toStr()
 
     def _assert(self, **kwds):
-        '''(INTERNAL) Check names against given, registered names.
+        '''(INTERNAL) Check attribute name against given, registered name.
         '''
-        for a, v in kwds.items():
-            assert self[a] is v and getattr(self, a) \
-                                and self.find(v) == a
+        for n, v in kwds.items():
+            if isinstance(v, _LazyNamedEnumItem):  # property
+                assert n is v.name
+                # assert not hasattr(self.__class__, n)
+                setattr(self.__class__, n, v)
+            elif isinstance(v, self._item_Classes):  # PYCHOK no cover
+                assert self[n] is v and getattr(self, n) \
+                                    and self.find(v) == n
+            else:
+                raise _TypeError(v, name=n)
 
-    def find(self, item):
+    def find(self, item, dflt=None):
         '''Find a registered item.
 
            @arg item: The item to look for (any C{type}).
+           @kwarg dflt: Value to return if not found (any C{type}).
 
-           @return: If found the B{C{item}}'s name (C{str}), C{None} otherwise.
+           @return: The B{C{item}}'s name if found (C{str}), or C{{dflt}} if
+                    there is no such I{registered} B{C{item}}.
         '''
-        for k, v in self.items():
+        for k, v in dict.items(self):  # XXX not self.items()
             if v is item:
                 return k
-        return None
+        return dflt
+
+    def get(self, name, dflt=None):
+        '''Get the value of a I{registered} item.
+
+           @arg name: The name of the item (C{str}).
+           @kwarg dflt: Value to return (any C{type}).
+
+           @return: The item with B{C{name}} if found, or B{C{dflt}} if
+                    there is no item I{registered} with that B{C{name}}.
+        '''
+        # getattr needed to instantiate L{_LazyNamedEnumItem}
+        return getattr(self, name, dflt)
+
+    def items(self, all=False):
+        '''Yield all or only the I{registered} items.
+
+           @kwarg all: Use C{True} to yield {all} items or C{False}
+                       for only the currently I{registered} ones.
+        '''
+        if all:
+            # instantiate any remaining L{_LazyNamedEnumItem}s,
+            # removing the L{_LazyNamedEnumItem} from the class
+            for n in tuple(n for n, p in self.__class__.__dict__.items()
+                                      if isinstance(p, _LazyNamedEnumItem)):
+                _ = getattr(self, n)
+        return dict.items(self)
+
+    def keys(self, all=False):
+        '''Yield the keys of all or only the I{registered} items.
+
+           @kwarg all: Use C{True} to yield {all} item keys or C{False}
+                       for only the currently I{registered} ones.
+        '''
+        for k, _ in self.items(all=all):
+            yield k
+
+    def popitem(self):
+        '''Remove I{an, any} curretly I{registed} item.
+
+           @return: The removed item.
+        '''
+        return self._zapitem(*dict.pop(self))
 
     def register(self, item):
         '''Registed a new item.
@@ -507,9 +558,9 @@ class _NamedEnum(_NamedDict):
         self[n] = item
 
     def unregister(self, name_or_item):
-        '''Remove a registered item.
+        '''Remove a I{registered} item.
 
-           @arg name_or_item: Name (C{str}) of or the item (any C{type}).
+           @arg name_or_item: Name (C{str}) or the item (any C{type}).
 
            @return: The unregistered item.
 
@@ -517,31 +568,83 @@ class _NamedEnum(_NamedDict):
 
            @raise ValueError: No such item.
         '''
-        name = self.find(name_or_item)
-        if name is None:
-            if not isstr(name_or_item):
-                raise _ValueError(name_or_item=name_or_item)
+        if isstr(name_or_item):
             name = name_or_item
+        else:
+            name = self.find(name_or_item)
         try:
             item = dict.pop(self, name)
         except KeyError:
             raise _NameError(item=self._DOT_(name), txt=_doesn_t_exist_)
-        item._enum = None
-        return item
+        return self._zapitem(name, item)
 
-    def toRepr(self, prec=6, fmt=Fmt.F, sep=',\n'):  # PYCHOK _NamedDict
+    pop = unregister
+
+    def toRepr(self, prec=6, fmt=Fmt.F, sep=',\n', **all):  # PYCHOK _NamedDict
         '''Like C{repr(dict)} but with C{name} and C{floats} formatting by C{fstr}.
         '''
-        t = sorted((self._DOT_(n), v) for n, v in self.items())
+        t = sorted((self._DOT_(n), v) for n, v in self.items(**all))
         return sep.join(pairs(t, prec=prec, fmt=fmt, sep=_COLONSPACE_))
 
     toStr2 = toRepr  # PYCHOK for backward compatibility
     '''DEPRECATED, use method C{toRepr}.'''
 
-    def toStr(self, *unused):  # PYCHOK _NamedDict
+    def toStr(self, *unused, **all):  # PYCHOK _NamedDict
         '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
         '''
-        return self._DOT_(', .'.join(sorted(self.keys())))
+        return self._DOT_(', .'.join(sorted(self.keys(**all))))
+
+    def values(self, all=False):
+        '''Yield the value of all or only the I{registered} items.
+
+           @kwarg all: Use C{True} to yield {all} item values or
+                       C{False} for only the currently registered
+                       ones.
+        '''
+        for _, v in self.items(all=all):
+            yield v
+
+    def _zapitem(self, name, item):
+        # remove _LazyNamedEnumItem property value if still present
+        if self.__dict__.get(name, None) is item:
+            self.__dict__.pop(name)  # [name] = None
+        item._enum = None
+        return item
+
+
+class _LazyNamedEnumItem(property_RO):
+    '''(INTERNAL) Lazily instantiated L{_NamedEnumItem}.
+    '''
+    pass
+
+
+def _lazyNamedEnumItem(name, *args, **kwds):
+    '''(INTERNAL) L{_LazyNamedEnumItem} property factory.
+
+       @see: Luciano Ramalho, "Fluent Python", page 636, O'Reilly, 2016,
+             "Coding a Property Factory", especially Example 19-24.
+    '''
+    def _fget(inst):
+        # assert isinstance(inst, _NamedEnum)
+        try:  # get the item from the instance' __dict__
+            item = inst.__dict__[name]
+        except KeyError:
+            # instantiate an _NamedEnumItem, it self-registers
+            item = inst._Lazy(*args, **_xkwds(kwds, name=name))
+            # assert inst[name] is item  # MUST be registered
+            # store the item in the instance' __dict__
+            inst.__dict__[name] = item
+            #  remove the property from the registry class, such that
+            # _NamedEnum.items(all=True) only sees uninstantiated ones
+            p = getattr(inst.__class__, name, None)
+            if isinstance(p, _LazyNamedEnumItem):
+                delattr(inst.__class__, name)
+        # assert isinstance(item, _NamedEnumItem)
+        return item
+
+    p = _LazyNamedEnumItem(_fget)
+    p.name = name
+    return p
 
 
 class _NamedEnumItem(_NamedBase):
@@ -912,7 +1015,13 @@ def nameof(inst):
 
        @return: The instance' name (C{str}) or C{""}.
     '''
-    return getattr(inst, _name_, NN)
+    if isinstance(inst, property):
+        try:
+            return inst.fget.__name__
+        except AttributeError:  # PYCHOK no cover
+            return NN
+    else:
+        return getattr(inst, _name_, NN)
 
 
 def _notError(inst, name, args, kwds):  # PYCHOK no cover

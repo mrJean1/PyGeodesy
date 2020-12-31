@@ -13,19 +13,20 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 from __future__ import division
 
 from pygeodesy.basics import isint
-from pygeodesy.errors import _xkwds_get, _ValueError
-from pygeodesy.interns import MISSING, PI, PI2, PI_2, R_M, \
+from pygeodesy.errors import _xkwds_get, _TypeError, _ValueError
+from pygeodesy.interns import EPS, INF, MISSING, PI, PI2, PI_2, R_M, \
                              _0_0, _0_5, _1_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.units import Feet, Float, Lam_, Meter, Phi_, Radius
+from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 
-from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
+from math import acos, asin, atan2, copysign, cos, degrees, radians, \
+                 sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '20.12.18'
+__version__ = '20.12.28'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
-_1_90 = _1_0 / _90_0  # 0.011111111111111111111111111111111111111111111111
+_1_90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
 _2_PI = _1_0 /  PI_2  # 0.63661977236758134307553505349005744813783858296182
 # sqrt(2) + 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 # _R2_1 = 2.41421356237309504880  # _16887_24209_69807_85696_71875_37694_80731_76679_73799
@@ -34,9 +35,9 @@ _iterNumpy2len = 1  # adjustable for testing purposes
 
 
 def acos1(x):
-    '''Return M{math.acos(max(-1, min(1, x)))}.
+    '''Return C{math.acos(max(-1, min(1, B{x})))}.
     '''
-    return acos(max(-_1_0, min(_1_0, x)))
+    return acos(x) if abs(x) < _1_0 else (PI if x < 0 else _0_0)
 
 
 def acre2ha(acres):
@@ -68,7 +69,7 @@ def acre2m2(acres):
 def asin1(x):
     '''Return C{math.asin(max(-1, min(1, B{x})))}.
     '''
-    return asin(max(-_1_0, min(_1_0, x)))
+    return asin(x) if abs(x) < _1_0 else (-PI_2 if x < 0 else PI_2)  # -PI_2, not PI3_2!
 
 
 def atand(y_x):
@@ -102,7 +103,7 @@ def atan2d(y, x):
         else:  # q = 2
             d = _90_0 - degrees(atan2(x, y))
     elif x < 0:  # q = 1
-        d = (-_180_0 if y < 0 else _180_0) - degrees(atan2(y, -x))
+        d = copysign(_180_0, y) - degrees(atan2(y, -x))
     elif x > 0:  # q = 0
         d = degrees(atan2(y, x)) if y else _0_0
     else:
@@ -121,6 +122,29 @@ def chain2m(chains):
     '''
     # 20.1168 = 22 * yard2m(1)
     return Float(chains) * 20.1168
+
+
+def circle4(earth, lat):
+    '''Get the equatorial or a parallel I{circle of latitude}.
+
+       @arg earth: The earth radius, ellipsoid or datum
+                   (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                   L{Datum} or L{a_f2Tuple}).
+       @arg lat: Geodetic latitude (C{degrees90}, C{str}).
+
+       @return: A L{Circle4Tuple}C{(radius, height, lat, beta)}
+                instance.
+
+       @raise RangeError: Latitude B{C{lat}} outside valid range
+                          and L{rangerrors} set to C{True}.
+
+       @raise TypeError: Invalid B{C{earth}}.
+
+       @raise ValueError: B{C{earth}} or B{C{lat}}.
+    '''
+    from pygeodesy.datums import _spherical_datum
+    E = _spherical_datum(earth).ellipsoid
+    return E.circle4(lat)
 
 
 def degrees90(rad):
@@ -154,27 +178,30 @@ def degrees360(rad):
 
 
 def degrees2m(deg, radius=R_M, lat=0):
-    '''Convert angle to distance along the equator or along a
-       parallel at an other latitude.
+    '''Convert an angle to a distance along the equator or
+       along the parallel at an other (geodetic) latitude.
 
-       @arg deg: Angle (C{degrees}).
-       @kwarg radius: Mean earth radius (C{meter}).
+       @arg deg: The angle (C{degrees}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum
+                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                      L{Datum} or L{a_f2Tuple}).
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
-       @return: Distance (C{meter}, same units as B{C{radius}}).
+       @return: Distance (C{meter}, same units as B{C{radius}}
+                or ellipsoidal and polar radii) or C{0} for
+                near-polar B{C{lat}}.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range
                           and L{rangerrors} set to C{True}.
 
+       @raise TypeError: Invalid B{C{radius}}.
+
        @raise ValueError: Invalid B{C{deg}}, B{C{radius}} or
                           B{C{lat}}.
 
-       @see: Function L{m2degrees}.
+       @see: Function L{radians2m} and L{m2degrees}.
     '''
-    m = Lam_(deg=deg, clip=0) * Radius(radius)
-    if lat:
-        m *= cos(Phi_(lat))
-    return Meter(m)
+    return radians2m(Lam_(deg=deg, clip=0), radius=radius, lat=lat)
 
 
 def fathom2m(fathoms):
@@ -292,28 +319,29 @@ def iterNumpy2over(n=None):
     return p
 
 
-def m2degrees(meter, radius=R_M, lat=0):
-    '''Convert distance to angle along equator or along a
-       parallel at an other latitude.
+def m2degrees(distance, radius=R_M, lat=0):
+    '''Convert a distance to an angle along the equator or
+       along the parallel at an other (geodetic) latitude.
 
-       @arg meter: Distance (C{meter}, same units as B{C{radius}}).
-       @kwarg radius: Mean earth radius (C{meter}).
+       @arg distance: Distance (C{meter}, same units as B{C{radius}}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                      an L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or
+                      L{a_f2Tuple}).
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
-       @return: Angle (C{degrees}).
+       @return: Angle (C{degrees}) or C{INF} for near-polar B{C{lat}}.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range
                           and L{rangerrors} set to C{True}.
 
-       @raise ValueError: Invalid B{C{meter}}, B{C{radius}} or
-                          B{C{lat}}.
+       @raise TypeError: Invalid B{C{radius}}.
 
-       @see: Function L{degrees2m}.
+       @raise ValueError: Invalid B{C{distance}}, B{C{radius}}
+                          or B{C{lat}}.
+
+       @see: Function L{m2radians} and L{degrees2m}.
     '''
-    r = Radius(radius)
-    if lat:
-        r *= cos(Phi_(lat))
-    return degrees(Meter(meter) / r)
+    return degrees(m2radians(distance, radius=radius, lat=lat))
 
 
 def m2ft(meter, usurvey=False):
@@ -354,6 +382,32 @@ def m2NM(meter):
        @raise ValueError: Invalid B{C{meter}}.
     '''
     return Meter(meter) * 5.39956804e-4  # == * _1_0 / 1852
+
+
+def m2radians(distance, radius=R_M, lat=0):
+    '''Convert a distance to an angle along the equator or
+       along the parallel at an other (geodetic) latitude.
+
+       @arg distance: Distance (C{meter}, same units as B{C{radius}}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
+                      an L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or
+                      L{a_f2Tuple}).
+       @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
+
+       @return: Angle (C{radians}) or C{INF} for near-polar B{C{lat}}.
+
+       @raise RangeError: Latitude B{C{lat}} outside valid range
+                          and L{rangerrors} set to C{True}.
+
+       @raise TypeError: Invalid B{C{radius}}.
+
+       @raise ValueError: Invalid B{C{distance}}, B{C{radius}}
+                          or B{C{lat}}.
+
+       @see: Function L{m2degrees} and L{radians2m}.
+    '''
+    m = circle4(radius, lat).radius
+    return INF if m < EPS else (Float(distance) / m)
 
 
 def m2SM(meter):
@@ -411,14 +465,44 @@ def radiansPI_2(deg):
     return _wrap(radians(deg), PI_2, PI2)
 
 
+def radians2m(rad, radius=R_M, lat=0):
+    '''Convert an angle to a distance along the equator or
+       along the parallel at an other (geodetic) latitude.
+
+       @arg rad: The angle (C{radians}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum
+                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                      L{Datum} or L{a_f2Tuple}).
+       @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
+
+       @return: Distance (C{meter}, same units as B{C{radius}}
+                or ellipsoidal and polar radii) or C{0} for
+                near-polar B{C{lat}}.
+
+       @raise RangeError: Latitude B{C{lat}} outside valid range
+                          and L{rangerrors} set to C{True}.
+
+       @raise TypeError: Invalid B{C{radius}}.
+
+       @raise ValueError: Invalid B{C{rad}}, B{C{radius}} or
+                          B{C{lat}}.
+
+       @see: Function L{degrees2m} and L{m2radians}.
+    '''
+    m = circle4(radius, lat).radius
+    return _0_0 if m < EPS else (Lam(rad=rad, clip=0) * m)
+
+
 def _sincos2(q, r):
     '''(INTERNAL) 2-tuple (C{sin(r), cos(r)}) in quadrant M{0 <= q <= 3}.
     '''
-    if r:
+    if r < EPS:
+        s, c = _0_0, _1_0
+    elif r < PI_2:
         s, c = sin(r), cos(r)
-        t = s, c, -s, -c, s
-    else:
-        t = _0_0, _1_0, -_0_0, -_1_0, _0_0
+    else:  # r == PI_2
+        s, c = _1_0, _0_0
+    t = s, c, -s, -c, s
 #   q &= 3
     return t[q], t[q + 1]
 
@@ -441,7 +525,7 @@ def sincos2(*rad):
         q = int(r * _2_PI)  # int(math.floor)
         if r < 0:
             q -= 1
-        s, c = _sincos2(q & 3, r - q * PI_2)  # _0_0 <= r < PI_2
+        s, c = _sincos2(q & 3, r - q * PI_2)
         yield s
         yield c
 
@@ -464,7 +548,7 @@ def sincos2d(*deg):
         q = int(d * _1_90)  # int(math.floor)
         if d < 0:
             q -= 1
-        s, c = _sincos2(q & 3, radians(d - q * _90_0))  # _0_0 <= r < PI_2
+        s, c = _sincos2(q & 3, radians(d - q * _90_0))
         yield s
         yield c
 
@@ -479,7 +563,7 @@ def splice(iterable, n=2, **fill):
        @return: A generator for each of B{C{n}} slices,
                 M{iterable[i::n] for i=0..n}.
 
-       @raise ValueError: Invalid B{C{n}}.
+       @raise TypeError: Invalid B{C{n}}.
 
        @note: Each generated slice is a C{tuple} or a C{list},
               the latter only if the B{C{iterable}} is a C{list}.
@@ -506,20 +590,23 @@ def splice(iterable, n=2, **fill):
        >>> splice(range(9), n=1)
        <generator object splice at 0x0...>
     '''
-    if not (isint(n) and n > 0):
-        raise _ValueError(n=n)
+    if not isint(n):
+        raise _TypeError(n=n)
 
     t = iterable
     if not isinstance(t, (list, tuple)):
         t = tuple(t)  # force tuple, also for PyPy3
+
     if n > 1:
-        fill = _xkwds_get(fill, fill=MISSING)
-        if fill is not MISSING:
-            m = len(t) % n
-            if m > 0:  # fill with same type
-                t += type(t)((fill,)) * (n - m)
+        if fill:
+            fill = _xkwds_get(fill, fill=MISSING)
+            if fill is not MISSING:
+                m = len(t) % n
+                if m > 0:  # fill with same type
+                    t += type(t)((fill,)) * (n - m)
         for i in range(n):
-            yield t[i::n]  # slice [i:None:n] pychok -Tb ...
+            # XXX t[i::n] chokes PyChecker
+            yield t[slice(i, None, n)]
     else:
         yield t
 

@@ -66,10 +66,10 @@ from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 from pygeodesy.heights import _allis2, _ascalar, _HeightBase, HeightError
 from pygeodesy.interns import EPS, NN, _COLONSPACE_, _COMMASPACE_, _cubic_, \
-                             _E_, _float as _F, _in_, _knots_, _lat_, \
-                             _linear_, _lon_, _N_, _n_a_, _not_, _on_, \
-                             _outside_, _S_, _scipy_, _SPACE_, \
-                             _supported_, _tbd_, _W_, _4_, \
+                             _E_, _float as _F, _height_, _in_, _knots_, \
+                             _lat_, _linear_, _lon_, _N_, _n_a_, _not_, \
+                             _numpy_, _on_, _outside_, _S_, _scipy_, \
+                             _SPACE_, _supported_, _tbd_, _W_, _4_, \
                              _0_0, _1_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
@@ -91,14 +91,20 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.12.18'
+__version__ = '20.12.30'
 
+_assert_ = 'assert'
+_bHASH_  =  b'#'
+_endian_ = 'endian'
+_format_ = '%s %r'
+_header_ = 'header'
 # temporarily hold a single instance for each int value
 _intCs = {}
 _interp2d_ks = {-2: _linear_,
                 -3: _cubic_,
                 -5: 'quintic'}
 _non_increasing_ = 'non-increasing'
+_width_ = 'width'
 
 
 class _GeoidBase(_HeightBase):
@@ -573,8 +579,8 @@ class _GeoidBase(_HeightBase):
                                         self.highest, self.lowest)) + \
             attrs( 'mean', 'stdev',           prec=prec, Nones=False) + \
             attrs(('kind', 'smooth')[:s],     prec=prec, Nones=False) + \
-            attrs( 'cropped', 'dtype', 'endian', 'hits', _knots_, 'nBytes',
-                   'sizeB', _scipy_, 'numpy', prec=prec, Nones=False)
+            attrs( 'cropped', 'dtype', _endian_, 'hits', _knots_, 'nBytes',
+                   'sizeB', _scipy_, _numpy_, prec=prec, Nones=False)
         return _COLONSPACE_(self, sep.join(t))
 
     def upperleft(self, LatLon=None):
@@ -678,23 +684,22 @@ class GeoidG2012B(_GeoidBase):
             n = self.sizeB // 4 - 11  # number of f4 heights
             # U{numpy dtype formats are different from Python struct formats
             # <https://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}
-            for en_f4 in ('<f4', '>f4'):
-                en_ = en_f4[:1]
+            for en_ in ('<', '>'):
                 # skip 4xf8, get 3xi4
                 p.nlat, p.nlon, ien = map(int, self._load(g, en_+'i4', 3, 32))
                 if ien == 1:  # correct endian
                     p.knots = p.nlat * p.nlon
                     if p.knots == n and 1 < p.nlat < n \
                                     and 1 < p.nlon < n:
-                        self._endian = en_f4
+                        self._endian = en_+'f4'
                         break
             else:  # couldn't validate endian
-                raise GeoidError('endianess')
+                raise GeoidError(_endian_)
 
             # get the first 4xf8
             p.slat, p.wlon, p.dlat, p.dlon = map(float, self._load(g, en_+'f8', 4))
             # read all f4 heights, ignoring the first 4xf8 and 3xi4
-            hs = self._load(g, en_f4, n, 44).reshape(p.nlat, p.nlon)
+            hs = self._load(g, self._endian, n, 44).reshape(p.nlat, p.nlon)
             p.wlon -= _360_0  # western-most East longitude to earth (..., lon)
             _GeoidBase.__init__(self, hs, p)
 
@@ -1356,14 +1361,14 @@ class _PGM(_Gpars):
             self.sizeB = sizeB
 
         t = g.readline()  # make sure newline == '\n'
-        if t != b'P5\n' or t.strip() != b'P5':
-            raise self._Errorf('header %r', t)
+        if t != b'P5\n' and t.strip() != b'P5':
+            raise self._Errorf(_format_, _header_, t)
 
         while True:  # read all # Attr ... lines,
             try:  # ignore empty ones or comments
                 t = g.readline().strip()
-                if t.startswith(b'#'):
-                    t = t.lstrip(b'#').lstrip()
+                if t.startswith(_bHASH_):
+                    t = t.lstrip(_bHASH_).lstrip()
                     a, v = map(_ub2str, t.split(None, 1))
                     f = getattr(_PGM, a, None)
                     if callable(f) and a[:1].isupper():
@@ -1371,9 +1376,9 @@ class _PGM(_Gpars):
                 elif t:
                     break
             except (TypeError, ValueError):
-                raise self._Errorf('Attr %r', t)
+                raise self._Errorf(_format_, 'Attr', t)
         else:  # should never get here
-            raise self._Errorf('header %r', g.tell())
+            raise self._Errorf(_format_, _header_, g.tell())
 
         try:  # must be (even) width and (odd) height
             nlon, nlat = map(int, t.split())
@@ -1381,7 +1386,7 @@ class _PGM(_Gpars):
                nlat < 2 or nlat > (181 * 60) or (nlat & 1) == 0:
                 raise ValueError
         except (TypeError, ValueError):
-            raise self._Errorf('width height %r', t)
+            raise self._Errorf(_format_, _SPACE_(_width_, _height_), t)
 
         try:  # must be 16 bit pixel height
             t = g.readline().strip()
@@ -1389,18 +1394,18 @@ class _PGM(_Gpars):
             if not 255 < self.Pixel < 65536:  # >u2 or >H only
                 raise ValueError
         except (TypeError, ValueError):
-            raise self._Errorf('pixel %r', t)
+            raise self._Errorf(_format_, 'pixel', t)
 
         for a in dir(_PGM):  # set undefined # Attr ... to None
             if a[:1].isupper() and callable(getattr(self, a)):
                 setattr(self, a, None)
 
         if self.Origin is None:
-            raise self._Errorf('Origin %r', self.Origin)
+            raise self._Errorf(_format_, 'Origin', self.Origin)
         if self.Offset is None or self.Offset > 0:
-            raise self._Errorf('Offset %r', self.Offset)
+            raise self._Errorf(_format_, 'Offset', self.Offset)
         if self.Scale is None or self.Scale < EPS:
-            raise self._Errorf('Scale %r', self.Scale)
+            raise self._Errorf(_format_, 'Scale', self.Scale)
 
         self.skip = g.tell()
         self.knots = nlat * nlon
@@ -1421,7 +1426,7 @@ class _PGM(_Gpars):
 
         n = self.sizeB - self.skip
         if n > 0 and n != (self.knots * self.u2B):
-            raise self._Errorf('assert(%s x %s != %s)', nlat, nlon, n)
+            raise self._Errorf('%s(%s x %s != %s)', _assert_, nlat, nlon, n)
 
     def _cropped(self, g, k1, south, west, north, east):  # MCCABE 15
         '''Crop the geoid to (south, west, north, east) box.
@@ -1445,7 +1450,7 @@ class _PGM(_Gpars):
             return g  # use entire geoid as-is
 
         if (e - w) < k1 or (s - n) < (k1 + 1):
-            raise self._Errorf('swne %r', (north - south, east - west))
+            raise self._Errorf(_format_, 'swne', (north - south, east - west))
 
         if e > wi > w:  # wrap around
             # read w..wi and 0..e
@@ -1453,7 +1458,7 @@ class _PGM(_Gpars):
         elif e > w:
             r, p = (e - w), 0
         else:
-            raise self._Errorf('assert(%s < %s)', w, e)
+            raise self._Errorf('%s(%s < %s)', _assert_, w, e)
 
         # convert to bytes
         r *= self.u2B
@@ -1465,7 +1470,7 @@ class _PGM(_Gpars):
         # sanity check
         if r < 2 or p < 0 or q < 2 or z < self.skip \
                                    or z > self.sizeB:
-            raise self._Errorf('assert%r', (r, p, q, z))
+            raise self._Errorf(_format_, _assert_, (r, p, q, z))
 
         # can't use _BytesIO since numpy
         # needs .fileno attr in .fromfile
@@ -1489,7 +1494,7 @@ class _PGM(_Gpars):
         k = s * e  # knots
         z = k * self.u2B
         if t != z:
-            raise self._Errorf('assert(%s != %s) %s', t, z, self)
+            raise self._Errorf('%s(%s != %s) %s', _assert_, t, z, self)
 
         # update the _Gpars accordingly, note attributes
         # .dlat, .dlon, .rlat and .rlon remain unchanged
@@ -1576,7 +1581,7 @@ def egmGeoidHeights(GeoidHeights_dat):
 
     for t in dat.readlines():
         t = t.strip()
-        if t and not t.startswith(b'#'):
+        if t and not t.startswith(_bHASH_):
             lat, lon, egm84, egm96, egm2008 = map(float, t.split())
             while lon > _180_0:  # EasternLon to earth lon
                 lon -= _360_0

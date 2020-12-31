@@ -1,11 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Ellipsoidal classes geodetic (lat-/longitude) L{LatLon} and
-geocentric (ECEF) L{Cartesian} and functions L{areaOf},
-L{intersections2}, L{isclockwise}, L{nearestOn} and L{perimeterOf},
-all based on I{Charles Karney}'s Python U{geographiclib
-<https://PyPI.org/project/geographiclib>}.
+u'''Ellipsoidal geodetic (lat-/longitude) L{LatLon} and geocentric
+(ECEF) L{Cartesian} classes and functions L{areaOf}, L{intersections2},
+L{isclockwise}, L{nearestOn} and L{perimeterOf}, all requiring I{Charles
+Karney}'s U{geographiclib <https://PyPI.org/project/geographiclib>}
+Python package to be installed.
 
 Here's an example usage of C{ellipsoidalKarney}:
 
@@ -15,7 +15,7 @@ Here's an example usage of C{ellipsoidalKarney}:
     >>> Newport_RI.distanceTo(Cleveland_OH)
     866,455.4329098687  # meter
 
-You can change the ellipsoid model used by the Karney formulae
+You can change the ellipsoid model used by the I{Karney} formulae
 as follows:
 
     >>> from pygeodesy import Datums
@@ -32,17 +32,18 @@ or by converting to anothor datum:
 from pygeodesy.basics import property_RO
 from pygeodesy.datums import Datums
 from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
-                                       CartesianEllipsoidalBase, _TOL_M, \
+                                       CartesianEllipsoidalBase, \
                                        LatLonEllipsoidalBase, _nearestOn
 from pygeodesy.errors import _ValueError, _xellipsoidal, _xkwds
 from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
+from pygeodesy.units import _1mm as _TOL_M
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.12.19'
+__version__ = '20.12.22'
 
 
 class Cartesian(CartesianEllipsoidalBase):

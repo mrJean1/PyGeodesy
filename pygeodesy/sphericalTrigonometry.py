@@ -13,6 +13,8 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import copysign, isscalar, map1
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
@@ -34,14 +36,14 @@ from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
-                            iterNumpy2, radiansPI2, sincos2, tan_2, \
-                            unrollPI, wrapPI
+                            iterNumpy2, m2radians, radiansPI2, sincos2, \
+                            tan_2, unrollPI, wrapPI
 from pygeodesy.vector3d import sumOf, Vector3d
 
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.12.19'
+__version__ = '20.12.22'
 
 _PI_EPS4 = PI - _EPS4
 if _PI_EPS4 >= PI:
@@ -441,8 +443,8 @@ class LatLon(LatLonSphericalBase):
                                   height=height, wrap=wrap,
                                   LatLon=self.classof)
 
-    def intersections2(self, rad1, other, rad2, radius=R_M,
-                                     height=None, wrap=True):
+    def intersections2(self, rad1, other, rad2, radius=R_M, eps=_0_0,
+                                              height=None, wrap=True):
         '''Compute the intersection points of two circles each defined
            by a center point and radius.
 
@@ -451,8 +453,10 @@ class LatLon(LatLonSphericalBase):
            @arg other: Center point of the other circle (L{LatLon}).
            @arg rad2: Radius of the other circle (C{meter} or C{radians},
                       see B{C{radius}}).
-           @kwarg radius: Mean earth radius (C{meter} or C{None} if both
-                          B{C{rad1}} and B{C{rad2}} are given in C{radians}).
+           @kwarg radius: Mean earth radius (C{meter} or C{None} if B{C{rad1}},
+                          B{C{rad2}} and B{C{eps}} are given in C{radians}).
+           @kwarg eps: Required overlap (C{meter} or C{radians}, see
+                       B{C{radius}}).
            @kwarg height: Optional height for the intersection points,
                           overriding the "radical height" at the "radical
                           line" between both centers (C{meter}) or C{None}.
@@ -467,12 +471,12 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: If B{C{other}} is not L{LatLon}.
 
-           @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}}, B{C{radius}}
-                              or B{C{height}}.
+           @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}}, B{C{radius}},
+                              B{C{eps}} or B{C{height}}.
         '''
         c2 = self.others(other)
         try:
-            return _intersects2(self, rad1, c2, rad2, radius=radius,
+            return _intersects2(self, rad1, c2, rad2, radius=radius, eps=eps,
                                                       height=height, wrap=wrap,
                                                       LatLon=self.classof)
         except (TypeError, ValueError) as x:
@@ -996,7 +1000,7 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
                     intersection, LatLon, LatLon_kwds)
 
 
-def intersections2(center1, rad1, center2, rad2, radius=R_M,
+def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
                                                  height=None, wrap=True,
                                                  LatLon=LatLon, **LatLon_kwds):
     '''Compute the intersection points of two circles each defined
@@ -1008,10 +1012,12 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,
        @arg center2: Center of the second circle (L{LatLon}).
        @arg rad2: Radius of the second circle (C{meter} or C{radians},
                   see B{C{radius}}).
-       @kwarg radius: Mean earth radius (C{meter} or C{None} if both
-                      B{C{rad1}} and B{C{rad2}} are given in C{radians}).
+       @kwarg radius: Mean earth radius (C{meter} or C{None} if B{C{rad1}},
+                      B{C{rad2}} and B{C{eps}} are given in C{radians}).
+       @kwarg eps: Required overlap (C{meter} or C{radians}, see
+                   B{C{radius}}).
        @kwarg height: Optional height for the intersection points,
-                      overriding the "radical height" at the "radical
+                      overriding the "radical height" at the "radcal
                       line" between both centers (C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
        @kwarg LatLon: Optional class to return the intersection
@@ -1029,8 +1035,8 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,
 
        @raise TypeError: If B{C{center1}} or B{C{center2}} not L{LatLon}.
 
-       @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}}, B{C{radius}} or
-                          B{C{height}}.
+       @raise ValueError: Invalid B{C{rad1}}, B{C{rad2}}, B{C{radius}},
+                          B{C{eps}} or B{C{height}}.
 
        @note: Courtesy U{Samuel Čavoj<https://GitHub.com/mrJean1/PyGeodesy/issues/41>}.
 
@@ -1041,7 +1047,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,
     c2 = _T00.others(center2=center2)
 
     try:
-        return _intersects2(c1, rad1, c2, rad2, radius=radius,
+        return _intersects2(c1, rad1, c2, rad2, radius=radius, eps=eps,
                                                 height=height, wrap=wrap,
                                                 LatLon=LatLon, **LatLon_kwds)
     except (TypeError, ValueError) as x:
@@ -1049,8 +1055,8 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M,
                                 center2=center2, rad2=rad2, txt=str(x))
 
 
-def _intersects2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._intersects2
-                                     height=None, wrap=True, too_d=None,
+def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBase._intersects2
+                                     height=None, too_d=None, wrap=True,
                                      LatLon=LatLon, **LatLon_kwds):
     # (INTERNAL) Intersect two spherical circles, see L{intersections2}
     # above, separated to allow callers to embellish any exceptions
@@ -1072,15 +1078,19 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M,  # in .ellipsoidalBase._interse
     if d < max(r1 - r2, EPS):
         raise ValueError(_near_concentric_)
 
+    r = eps if radius is None else (m2radians(eps, radius=radius) if eps else _0_0)
+    if r < _0_0:
+        raise _ValueError(eps=r)
+
     x = fsum_(r1, r2, -d)  # overlap
-    if x > EPS:
+    if x > max(r, EPS):
         sd, cd, sr1, cr1, _, cr2 = sincos2(d, r1, r2)
         x = sd * sr1
         if abs(x) < EPS:
             raise ValueError(_invalid_)
         x = acos1((cr2 - cd * cr1) / x)  # 0 <= x <= PI
 
-    elif x < 0:
+    elif x < r:
         t = (d * radius) if too_d is None else too_d
         raise ValueError(_too_(Fmt.distant(t)))
 

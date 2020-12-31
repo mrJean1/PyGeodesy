@@ -4,7 +4,7 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '20.09.08'
+__version__ = '20.12.22'
 
 from base import TestsBase
 
@@ -41,11 +41,11 @@ class Tests(TestsBase):
         # allow 3% margin, 10% for Auckland-Santiago
         self.testDistance(t, equirectangular,      lat1, lon1, lat2, lon2, x, 10, limit=None)  # =90)
         # allow 13% margin
-        self.testDistance(t, euclidean,            lat1, lon1, lat2, lon2, x,  13)
+        self.testDistance(t, euclidean,            lat1, lon1, lat2, lon2, x, 13)
         # allow .3% margin, 8% for long distances
         self.testDistance(t, flatLocal,            lat1, lon1, lat2, lon2, x, 8.1)
         # allow 21% margin, 57% for Auckland-Santiago
-        self.testDistance(t, flatPolar,            lat1, lon1, lat2, lon2, x,  57)
+        self.testDistance(t, flatPolar,            lat1, lon1, lat2, lon2, x, 57)
         # allow 0.4% margin
         self.testDistance(t, thomas,               lat1, lon1, lat2, lon2, x, 0.4)
         # same as flatLocal
@@ -63,7 +63,7 @@ class Tests(TestsBase):
         # allow 0.1% margin
         self.testDistance(t, cosineLaw,            lat1, lon1, lat2, lon2, x, 0.1)
         # allow .3% margin, 16% for long distances
-        self.testDistance(t, flatLocal,            lat1, lon1, lat2, lon2, x,  16, **datum)
+        self.testDistance(t, flatLocal,            lat1, lon1, lat2, lon2, x, 16, **datum)
         # allow 0.4% margin
         self.testDistance(t, thomas,               lat1, lon1, lat2, lon2, x, 0.4, **datum)
         # same as flatLocal
@@ -133,6 +133,7 @@ class Tests(TestsBase):
         self.test(n, radical2(10, 4, 8), '(0.26, 2.6)', nl=1)
         self.test(n, radical2(10, 8, 4), '(0.74, 7.4)')
         self.test(n, radical2(10, 5, 5), '(0.5, 5.0)')
+        self.test(n, radical2( 0, 5, 5), '(0.5, 0.0)')
 
         try:  # coverage
             self.test(n, radical2(10, 5, 4), IntersectionError.__name__, nt=1)

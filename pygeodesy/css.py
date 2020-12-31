@@ -3,7 +3,8 @@
 
 u'''Cassini-Soldner projection classes L{CassiniSoldner}, L{Css} and
 L{CSSError} requiring I{Charles Karney}'s U{geographiclib
-<https://PyPI.org/project/geographiclib/>} package to be installed.
+<https://PyPI.org/project/geographiclib/>} Python package to be
+installed.
 
 @newfield example: Example, Examples
 '''
@@ -28,7 +29,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.12.19'
+__version__ = '20.12.22'
 
 _CassiniSoldner0 = None  # default projection
 

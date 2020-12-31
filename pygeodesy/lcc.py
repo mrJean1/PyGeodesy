@@ -15,6 +15,15 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 <https://Pubs.USGS.gov/pp/1395/report.pdf>}, 1987, pp 107-109.
 
 @newfield example: Example, Examples
+
+@var Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, par1=49.8333339, par2=51.1666672, E0=649328, N0=665262, k0=1, SP=2, datum=Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84),
+@var Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83),
+@var Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3, par1=49, par2=44, E0=700000, N0=6600000, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
+@var Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000, N0=300000, k0=1, SP=2, datum=Datum(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF),
+@var Conics.MxLb: Conic(name='MxLb', lat0=12, lon0=-102, par1=17.5, par2=29.5, E0=2500000, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
+@var Conics.PyT_Lb: Conic(name='PyT_Lb', lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000, N0=200000, k0=1, SP=2, datum=Datum(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF),
+@var Conics.USA_Lb: Conic(name='USA_Lb', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
+@var Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -24,17 +33,16 @@ from pygeodesy.basics import copysign, property_RO, _xinstanceof, \
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
-from pygeodesy.interns import EPS, NN, PI_2, _COMMASPACE_, \
-                             _ellipsoidal_, _float as _F, _k0_, \
-                             _lat0_, _lon0_, _m_, _SPACE_, \
-                             _0_0, _0_5, _1_0
+from pygeodesy.interns import EPS, NN, PI_2, _COMMASPACE_, _ellipsoidal_, \
+                             _float as _F, _GRS80_, _k0_, _lat0_, _lon0_, \
+                             _m_, _NAD83_, _NTF_, _SPACE_, _WGS84_, \
+                             _0_0, _0_5, _1_0, _90_0
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedBase, _NamedEnum, _NamedEnumItem, \
-                             nameof, _xnamed
-from pygeodesy.namedTuples import EasNor3Tuple, LatLon2Tuple, \
-                                  LatLonDatum3Tuple, _LatLon4Tuple, \
-                                  PhiLam2Tuple
+from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedBase, \
+                            _NamedEnum, _NamedEnumItem, nameof, _xnamed
+from pygeodesy.namedTuples import EasNor3Tuple, LatLonDatum3Tuple, \
+                                  LatLon2Tuple, _LatLon4Tuple, PhiLam2Tuple
 from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
@@ -42,7 +50,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.12.18'
+__version__ = '20.12.30'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -346,26 +354,36 @@ class Conic(_NamedEnumItem):
 
 Conic._name = Conic.__name__
 
-Conics = _NamedEnum(Conic)  # registered Conics
+
+class Conics(_NamedEnum):
+    '''(INTERNAL) L{Conic} registry, I{must} be a sub-class
+       to accommodate the L{_LazyNamedEnumItem} properties.
+    '''
+    def _Lazy(self, lat, lon, datum_name, *args, **kwds):
+        '''(INTERNAL) Instantiate the L{Conic}.
+        '''
+        return Conic(_LLEB(lat, lon, datum=Datums.get(datum_name)), *args, **kwds)
+
+Conics = Conics(Conic)  # PYCHOK singleton
 Conics._assert(  # <https://SpatialReference.org/ref/sr-org/...>
-#   AsLb   = Conic(_LLEB(-14.2666667, 170, datum=Datums.NAD27), _0_0, _0_0,
-#                        E0=_F(500000), N0=_0_0, name='AsLb', auth='EPSG:2155'),  # American Samoa ... SP=1 !
-    Be08Lb = Conic(_LLEB(50.7978150, 4.359215833, datum=Datums.GRS80), _F(49.833333), _F(51.166667),
-                         E0=_F(649328.0), N0=_F(665262.0), name='Be08Lb', auth='EPSG:9802'),  # Belgium
-    Be72Lb = Conic(_LLEB(90, 4.3674867, datum=Datums.NAD83), _F(49.8333339), _F(51.1666672),
-                         E0=_F(150000.013), N0=_F(5400088.438), name='Be72Lb', auth='EPSG:31370'),  # Belgium
-    Fr93Lb = Conic(_LLEB(46.5, 3, datum=Datums.WGS84), _F(49), _F(44),
-                         E0=_F(700000), N0=_F(6600000), name='Fr93Lb', auth='EPSG:2154'),  # RFG93, France
-    MaNLb  = Conic(_LLEB(33.3, -5.4, datum=Datums.NTF), _F(31.73), _F(34.87),
-                         E0=_F(500000), N0=_F(300000), name='MaNLb'),  # Marocco
-    MxLb   = Conic(_LLEB(12, -102, datum=Datums.WGS84), _F(17.5), _F(29.5),
-                         E0=_F(2500000), N0=_0_0, name='MxLb', auth='EPSG:2155'),  # Mexico
-    PyT_Lb = Conic(_LLEB(46.8, 2.33722917, datum=Datums.NTF), _F(45.89893890000052), _F(47.69601440000037),
-                         E0=_F(600000), N0=_F(200000), name='PyT_Lb', auth='Test'),  # France?
-    USA_Lb = Conic(_LLEB(23, -96, datum=Datums.WGS84), _F(33), _F(45),
-                         E0=_0_0, N0=_0_0, name='USA_Lb'),  # Conterminous, contiguous USA?
-    WRF_Lb = Conic(_LLEB(40, -97, datum=Datums.WGS84), _F(33), _F(45),
-                         E0=_0_0, N0=_0_0, name='WRF_Lb', auth='EPSG:4326')  # World
+#   AsLb   = _lazy('AsLb',  -14.2666667, 170, _NAD27_, _0_0, _0_0,
+#                            E0=_F(500000), N0=_0_0, auth='EPSG:2155'),  # American Samoa ... SP=1 !
+    Be08Lb = _lazy('Be08Lb', 50.7978150, 4.359215833, _GRS80_, _F(49.8333339), _F(51.1666672),
+                             E0=_F(649328.0), N0=_F(665262.0), auth='EPSG:9802'),  # Belgium
+    Be72Lb = _lazy('Be72Lb', _90_0, 4.3674867, _NAD83_, _F(49.8333339), _F(51.1666672),
+                             E0=_F(150000.013), N0=_F(5400088.438), auth='EPSG:31370'),  # Belgium
+    Fr93Lb = _lazy('Fr93Lb', 46.5, 3, _WGS84_, _F(49), _F(44),
+                             E0=_F(700000), N0=_F(6600000), auth='EPSG:2154'),  # RFG93, France
+    MaNLb  = _lazy('MaNLb',  33.3, -5.4, _NTF_, _F(31.73), _F(34.87),
+                             E0=_F(500000), N0=_F(300000)),  # Marocco
+    MxLb   = _lazy('MxLb',   12, -102, _WGS84_, _F(17.5), _F(29.5),
+                             E0=_F(2500000), N0=_0_0, auth='EPSG:2155'),  # Mexico
+    PyT_Lb = _lazy('PyT_Lb', 46.8, 2.33722917, _NTF_, _F(45.89893890000052), _F(47.69601440000037),
+                             E0=_F(600000), N0=_F(200000), auth='Test'),  # France?
+    USA_Lb = _lazy('USA_Lb', 23, -96, _WGS84_, _F(33), _F(45),
+                             E0=_0_0, N0=_0_0),  # Conterminous, contiguous USA?
+    WRF_Lb = _lazy('WRF_Lb', 40, -97, _WGS84_, _F(33), _F(45),
+                             E0=_0_0, N0=_0_0, auth='EPSG:4326')  # World
 )
 
 
@@ -599,12 +617,11 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc, name=NN,
 
 if __name__ == '__main__':
 
-    from pygeodesy.interns import  _NL_, _NL_hash_
+    from pygeodesy.interns import _NL_, _NL_var_
 
-    # print all
-    for c in (Conics,):
-        c = _NL_ + repr(c)
-        print(_NL_hash_.join(c.split(_NL_)))
+    # __doc__ of this file, force all into registery
+    t = _NL_ + Conics.toRepr(all=True)
+    print(_NL_var_.join(t.split(_NL_)))
 
 # **) MIT License
 #
@@ -627,14 +644,3 @@ if __name__ == '__main__':
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-
-# % python -m pygeodesy.lcc
-
-# Conics.Be08Lb: Conic(name='Be08Lb', lat0=50.797815, lon0=4.35921583, par1=49.833333, par2=51.166667, E0=649328, N0=665262, k0=1, SP=2, datum=Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84),
-# Conics.Be72Lb: Conic(name='Be72Lb', lat0=90, lon0=4.3674867, par1=49.8333339, par2=51.1666672, E0=150000.013, N0=5400088.438, k0=1, SP=2, datum=Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transform=Transforms.NAD83),
-# Conics.Fr93Lb: Conic(name='Fr93Lb', lat0=46.5, lon0=3, par1=49, par2=44, E0=700000, N0=6600000, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
-# Conics.MaNLb: Conic(name='MaNLb', lat0=33.3, lon0=-5.4, par1=31.73, par2=34.87, E0=500000, N0=300000, k0=1, SP=2, datum=Datum(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF),
-# Conics.MxLb: Conic(name='MxLb', lat0=12, lon0=-102, par1=17.5, par2=29.5, E0=2500000, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
-# Conics.PyT_Lb: Conic(name='PyT_Lb', lat0=46.8, lon0=2.33722917, par1=45.8989389, par2=47.6960144, E0=600000, N0=200000, k0=1, SP=2, datum=Datum(name='NTF', ellipsoid=Ellipsoids.Clarke1880IGN, transform=Transforms.NTF),
-# Conics.USA_Lb: Conic(name='USA_Lb', lat0=23, lon0=-96, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84),
-# Conics.WRF_Lb: Conic(name='WRF_Lb', lat0=40, lon0=-97, par1=33, par2=45, E0=0, N0=0, k0=1, SP=2, datum=Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Transforms.WGS84)

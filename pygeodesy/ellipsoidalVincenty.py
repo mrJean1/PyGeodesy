@@ -1,9 +1,9 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Ellispodial classes for I{Vincenty}'s geodetic (lat-/longitude) L{LatLon},
-geocentric (ECEF) L{Cartesian} and L{VincentyError} and functions L{areaOf},
-L{intersections2}, L{nearestOn} and L{perimeterOf}.
+u'''Ellipsoidal I{Thaddeus Vincenty}'s geodetic (lat-/longitude) L{LatLon},
+geocentric (ECEF) L{Cartesian} and L{VincentyError} classes and functions
+L{areaOf}, L{intersections2}, L{nearestOn} and L{perimeterOf}.
 
 Pure Python implementation of geodesy tools for ellipsoidal earth models,
 transcribed from JavaScript originals by I{(C) Chris Veness 2005-2016}
@@ -55,7 +55,7 @@ from __future__ import division
 from pygeodesy.basics import property_doc_, property_RO
 from pygeodesy.datums import Datums
 from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
-                                       CartesianEllipsoidalBase, _TOL_M, \
+                                       CartesianEllipsoidalBase, \
                                        LatLonEllipsoidalBase, _nearestOn
 from pygeodesy.errors import _ValueError, _xellipsoidal, _xkwds
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
@@ -64,14 +64,14 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
-from pygeodesy.units import Number_, Scalar_
+from pygeodesy.units import Number_, Scalar_, _1mm as _TOL_M
 from pygeodesy.utily import atan2b, degrees90, degrees180, \
                             sincos2, unroll180
 
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.12.19'
+__version__ = '20.12.22'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!

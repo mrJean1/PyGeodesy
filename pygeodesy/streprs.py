@@ -11,13 +11,15 @@ from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
 from pygeodesy.interns import _convergence_, _distant_, _e_, _exceeds_, \
                               _f_, _g_  # PYCHOK used!
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, \
-                             _E_, _EQUAL_, _H_, _N_, _name_, _not_, \
-                             _PERCENT_, _OKd_, _scalar_, _SPACE_, \
-                             _STAR_, _UNDER_, _0_
+                             _E_, _EQUAL_, _H_, _N_, _name_, _not_, _0_, \
+                             _PERCENT_, _OKd_, _scalar_, _SPACE_, _STAR_, \
+                             _UNDER_, _0_0, _0_001, _0_01, _0_1, _1_0
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.11.06'
+__version__ = '20.12.30'
+
+_E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
 
 def _0wd(*w_i):  # in .osgr, .wgrs
@@ -161,7 +163,7 @@ def _streprs(prec, objs, fmt, ints, force, strepr):
         fGg = False
         try:  # to make sure fmt is valid
             f = fmt.replace(_DOTSTAR_, Fmt.DOT(abs(prec)))
-            _ = f % (0.0,)
+            _ = f % (_0_0,)
         except (TypeError, ValueError):
             raise _ValueError(fmt=fmt, txt=_not_(repr(_DOTSTAR_)))
         fmt = f
@@ -243,7 +245,7 @@ def enstr2(easting, northing, prec, *extras):
     w = int(prec) // 2
     if not 0 < w < 6:
         raise _ValueError(prec=prec)
-    p = (1e-4, 1e-3, 1e-2, 1e-1, 1)[w - 1]  # 10**(5 - w)
+    p = _E_4_E0[w - 1]  # 10**(5 - w)
     return extras + (_0wd(w, int(easting  * p)),
                      _0wd(w, int(northing * p)))
 

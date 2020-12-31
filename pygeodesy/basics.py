@@ -6,7 +6,7 @@ u'''Basic definitions, decorators and functions.
 # make sure int/int division yields float quotient
 from __future__ import division
 division = 1 / 2  # .albers, .datums, .ellipsoidalVincenty, .ellipsoids,
-if not division:  # .elliptic, .etm, .fmath, .lcc, .osgr, .utily
+if not division:  # .elliptic, .etm, .fmath, .formy, .lcc, .osgr, .utily
     raise ImportError('%s 1/2 == %s' % ('division', division))
 del division
 
@@ -23,7 +23,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.12.20'
+__version__ = '20.12.27'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects

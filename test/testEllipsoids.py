@@ -4,13 +4,14 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '20.12.19'
+__version__ = '20.12.28'
 
 from base import TestsBase
 
-from pygeodesy import a_b2f_, a_b2f2, a_b2n, a_f2Tuple, b_f2a, b_f_2a, \
-                      EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, \
-                      ellipsoids, f_2f, fstr, n2e2, n2f, R_M, PI_2, sincos2d
+from pygeodesy import EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, \
+                      a_b2f_, a_b2f2, a_b2n, a_f2Tuple, b_f2a, b_f_2a, \
+                      circle4, ellipsoids, f_2f, fstr, hypot_, n2e2, \
+                      n2f, PI_2, R_M, sincos2d
 
 
 class Tests(TestsBase):
@@ -41,6 +42,10 @@ class Tests(TestsBase):
             self.test('Rlat', E.Rlat(0),  '6378137.000', fmt='%.3f')
             self.test('Rlat', E.Rlat(45), '6367444.657', fmt='%.3f')
             self.test('Rlat', E.Rlat(90), '6356752.314', fmt='%.3f')
+
+            self.test('circle4.radius', E.circle4(0).radius,  '6378137.000', fmt='%.3f')
+            self.test('circle4.radius', E.circle4(45).radius, '4517590.879', fmt='%.3f')
+            self.test('circle4.radius', E.circle4(90).radius, '0.000',       fmt='%.3f')
 
             self.test('distance2', fstr(E.distance2( 0,  0,  1,  1), prec=3),  '156903.472, 45.192')
             self.test('distance2', fstr(E.distance2( 0,  0, 10, 10), prec=3), '1569034.719, 45.192')
@@ -94,7 +99,7 @@ class Tests(TestsBase):
         self.test('WGS84.ecef', E.ecef().name, E.name)
 
         t = E.toStr(prec=10)
-        self.test('WGS84', t, "name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e22=0.0067394967, e32=0.0033584313, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.790009154")
+        self.test('WGS84', t, "name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e22=0.0067394967, e32=0.0033584313, A=6367449.1458234144, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.790009154")
         e = (E.a - E.b) / (E.a + E.b) - E.n
         t = 'A=%.10f, e=%.10f, f_=%.10f, n=%.10f(%.10e)' % (E.A, E.e, E.f_, E.n, e)
         self.test('WGS84.', t, 'A=6367449.1458234144, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-2.1684043450e-19)')
@@ -200,6 +205,17 @@ class Tests(TestsBase):
                 n = E.roc2(d).prime_vertical
                 e = abs(n - h)  # delta in meter
                 self.test(t + str(d), e, x, known=e < 1.864e-9)
+
+        n = circle4.__name__ + ' '
+        self.subtitle(ellipsoids, circle4.__name__)
+        for E in (Ellipsoids.WGS84, Ellipsoids.Sphere):
+            self.subtitle(ellipsoids, E.name)
+            for d in range(0, 91, 10):
+                r = E.Rgeocentric(d)
+                t = E.circle4(d)
+                self.test(n + str(d), hypot_(t.radius, t.height), r, prec=6)
+                t = circle4(E, d)
+                self.test(n + str(d), hypot_(t.radius, t.height), r, prec=6)
 
 
 if __name__ == '__main__':

@@ -148,10 +148,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
              ellipsoidalNvector=('Ned3Tuple',),  # nothing else
             ellipsoidalVincenty=('VincentyError',),  # nothing else
                      ellipsoids=('R_M', 'R_MA', 'R_MB', 'R_KM', 'R_NM', 'R_SM', 'R_FM', 'R_VM',
-                                 'a_f2Tuple', 'Curvature2Tuple',
+                                 'a_f2Tuple', 'Circle4Tuple', 'Curvature2Tuple',
                                  'Ellipsoid', 'Ellipsoid2', 'Ellipsoids',
-                                 'a_b2e', 'a_b2e2', 'a_b2e22', 'a_b2e32',
-                                 'a_b2f', 'a_b2f_', 'a_b2f2', 'a_b2n',
+                                 'a_b2e', 'a_b2e2', 'a_b2e22', 'a_b2e32', 'a_b2f', 'a_b2f_', 'a_b2f2', 'a_b2n',
                                  'a_f2b', 'a_f_2b', 'b_f2a', 'b_f_2a',
                                  'f2e2', 'f2e22', 'f2e32', 'f_2f', 'f2f_', 'f2f2', 'f2n', 'n2e2', 'n2f'),
                        elliptic=('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
@@ -237,12 +236,12 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'Zone'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
                           utily=('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atand', 'atan2b', 'atan2d',
-                                 'chain2m',
+                                 'chain2m', 'circle4',
                                  'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
                                  'fathom2m', 'ft2m', 'furlong2m',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
-                                 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2SM', 'm2yard',
-                                 'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2',
+                                 'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2yard',
+                                 'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
                                  'sincos2', 'sincos2d', 'splice', 'tan_2', 'tanPI_2_2',
                                  'unroll180', 'unrollPI',
                                  'wrap90', 'wrap180', 'wrap360', 'wrapPI_2','wrapPI', 'wrapPI2',
@@ -269,7 +268,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '20.12.05'
+__version__ = '20.12.26'
 
 
 def _ALL_OTHER(*objs):

@@ -5,6 +5,9 @@ u'''Formulary of basic geodesy functions and approximations.
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
+
 from pygeodesy.basics import len2
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _spherical_datum
 from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
@@ -20,17 +23,15 @@ from pygeodesy.namedTuples import Distance4Tuple, LatLon2Tuple, \
                                   Vector3Tuple
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, \
-                            Phi_, Radius, Radius_, Scalar
-from pygeodesy.utily import atan2b, degrees2m, degrees90, degrees180, \
+                            Phi_, Radius, Radius_, Scalar, _100km
+from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
                             isNumpy2, isTuple2, m2degrees, sincos2, unroll180, \
                             unrollPI, wrap90, wrap180, wrapPI, wrapPI_2
 
-from math import acos, atan, atan2, cos, degrees, radians, sin, sqrt  # pow
+from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '20.11.04'
-
-_D_I2_ = 1e5  # meter, 100 Km, about 0.9 degrees
+__version__ = '20.12.28'
 
 
 def _scale_deg(lat1, lat2):  # degrees
@@ -127,7 +128,7 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     '''Return the angle from North for the direction vector
        M{(lon2 - lon1, lat2 - lat1)} between two points.
 
-       Suitable only for short, non-near-polar vectors up to a few
+       Suitable only for short, not near-polar vectors up to a few
        hundred Km or Miles.  Use function L{bearing} for longer
        vectors.
 
@@ -206,22 +207,20 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
              <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
              Distance/AndoyerLambert.php>}.
     '''
-    s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
-    if c2 and c1:
+    s2, c2, s1, c1, r, c21 = _sincosa6(phi2, phi1, lam21)
+    if abs(c1) > EPS and abs(c2) > EPS:
         E = _ellipsoidal_datum(datum, name=cosineAndoyerLambert_.__name__).ellipsoid
-        if E.f and abs(c1) > EPS and abs(c2) > EPS:
+        if E.f:  # ellipsoidal
             r2 = atan(E.b_a * s2 / c2)
             r1 = atan(E.b_a * s1 / c1)
             s2, c2, s1, c1 = sincos2(r2, r1)
-            r = acos(s1 * s2 + c1 * c2 * c21)
+            r = acos1(s1 * s2 + c1 * c2 * c21)
             sr, _, sr_2, cr_2 = sincos2(r, r * _0_5)
             if abs(sr_2) > EPS and abs(cr_2) > EPS:
                 c  = (sr - r) * ((s1 + s2) / cr_2)**2
                 s  = (sr + r) * ((s1 - s2) / sr_2)**2
                 r += E.f * (c - s) * _0_125
-            return r
-    # fall back to cosineLaw_
-    return acos(s1 * s2 + c1 * c2 * c21)
+    return r
 
 
 def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
@@ -276,29 +275,25 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
              <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
              Distance/ForsytheCorrection.php>}.
     '''
-    s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
-    r = acos(s1 * s2 + c1 * c2 * c21)
+    s2, _, s1, _, r, _ = _sincosa6(phi2, phi1, lam21)
     E = _ellipsoidal_datum(datum, name=cosineForsytheAndoyerLambert_.__name__).ellipsoid
-    if E.f:
+    if E.f:  # ellipsoidal
         sr, cr, s2r, _ = sincos2(r, r * 2)
-        if abs(sr) > EPS:
-            r2 = r**2
+        if abs(sr) > EPS and abs(cr) < EPS1:
+            s = (s1 + s2)**2 / (1 + cr)
+            t = (s1 - s2)**2 / (1 - cr)
+            x = s + t
+            y = s - t
 
-            p = (s1 + s2)**2 / (1 + cr)
-            q = (s1 - s2)**2 / (1 - cr)
-            x = p + q
-            y = p - q
-            s = 8 * r2 / sr
-
-            a = 64 * r + 2 * s * cr  # 16 * r2 / tan(r)
-            d = 48 * sr + s  # 8 * r2 / tan(r)
+            s =  8 * r**2 / sr
+            a = 64 * r + 2 * s * cr  # 16 * r**2 / tan(r)
+            d = 48 * sr + s  # 8 * r**2 / tan(r)
             b = -2 * d
             e = 30 * s2r
-            c = fsum_(30 * r, e / 2, s * cr)  # 8 * r2 / tan(r)
+            c = fsum_(30 * r, e * _0_5, s * cr)  # 8 * r**2 / tan(r)
 
-            d = fsum_(a * x, b * y, -c * x**2, d * x * y, e * y**2) * E.f / _32_0
-            d = fsum_(d, -x * r, 3 * y * sr) * E.f * _0_25
-            r += d
+            t  = fsum_(a * x, b * y, -c * x**2, d * x * y, e * y**2) * E.f / _32_0
+            r += fsum_(t, -x * r, 3 * y * sr) * E.f * _0_25
     return r
 
 
@@ -353,8 +348,14 @@ def cosineLaw_(phi2, phi1, lam21):
 
        @note: See note at function L{vincentys_}.
     '''
+    return _sincosa6(phi2, phi1, lam21)[4]
+
+
+def _sincosa6(phi2, phi1, lam21):
+    '''(INTERNAL) C{sin}es, C{cos}ines and C{acos}ine.
+    '''
     s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
-    return acos(s1 * s2 + c1 * c2 * c21)
+    return s2, c2, s1, c1, acos1(s1 * s2 + c1 * c2 * c21), c21
 
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
@@ -610,7 +611,7 @@ def flatPolar_(phi2, phi1, lam21):
     ab = abs(2 * a1 * a2 * cos(lam21))
     a = max(a1, a2, ab)
     if a > EPS:
-        s = fsum_((a1 / a)**2, (a2 / a)**2, -ab / a**2)
+        s  = fsum_((a1 / a)**2, (a2 / a)**2, -ab / a**2)
         a *= sqrt(s) if s > 0 else _0_0
     return a
 
@@ -702,7 +703,7 @@ def heightOf(angle, distance, radius=R_M):
         d, h = h, d
 
     if d > EPS:
-        d = d / h  # PyChecker chokes on ... /= ...
+        d = d / h  # /= h chokes PyChecker
         s = sin(Phi_(angle=angle, clip=_180_0))
         s = fsum_(_1_0, 2 * s * d, d**2)
         if s > 0:
@@ -739,10 +740,10 @@ def horizon(height, radius=R_M, refraction=False):
 def intersections2(lat1, lon1, radius1,
                    lat2, lon2, radius2, datum=None, wrap=True):
     '''Conveniently compute the intersections of two circles each defined
-       by (geodetic/-centric) center point and a radius, using either ...
+       by a (geodetic) center point and a radius, using either ...
 
-       1) L{vector3d.intersections2} for small distances or if no B{C{datum}}
-       is specified, or ...
+       1) L{vector3d.intersections2} for small distances (below 100 KM or
+       about 0.9 degrees) or if no B{C{datum}} is specified, or ...
 
        2) L{sphericalTrigonometry.intersections2} for a spherical B{C{datum}}
        or if B{C{datum}} is a C{scalar} representing the earth radius, or ...
@@ -751,8 +752,8 @@ def intersections2(lat1, lon1, radius1,
        and if I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib/>}
        is installed, or ...
 
-       4) L{ellipsoidalVincenty.intersections2} if B{C{datum}} is ellipsoidal
-       otherwise.
+       4) L{ellipsoidalVincenty.intersections2} otherwise provided B{C{datum}}
+       is ellipsoidal.
 
        @arg lat1: Latitude of the first circle center (C{degrees}).
        @arg lon1: Longitude of the first circle center (C{degrees}).
@@ -780,7 +781,7 @@ def intersections2(lat1, lon1, radius1,
                          B{C{lat2}}, B{C{lon2}} or B{C{radius2}}.
     '''
     if datum is None or euclidean(lat1, lon1, lat1, lon2, radius=R_M,
-                                  adjust=True, wrap=wrap) < _D_I2_:
+                                  adjust=True, wrap=wrap) < _100km:
         import pygeodesy.vector3d as m
 
         def _V2T(x, y, _, **unused):  # _ == z unused
@@ -812,8 +813,8 @@ def intersections2(lat1, lon1, radius1,
             raise _AssertionError(datum=d)
 
         t = m.intersections2(m.LatLon(lat1, lon1, datum=d), radius1,
-                             m.LatLon(lat2, lon2, datum=d), radius2, wrap=wrap,
-                               LatLon=_LL2T, height=0)
+                             m.LatLon(lat2, lon2, datum=d), radius2,
+                               LatLon=_LL2T, height=0, wrap=wrap)
     return t
 
 
@@ -987,13 +988,13 @@ def radical2(distance, radius1, radius2):
        @raise UnitError: Invalid B{C{distance}}, B{C{radius1}} or
                          B{C{radius2}}.
     '''
-    d  = Distance_(distance)
+    d  = Distance_(distance, low=_0_0)
     r1 = Radius_(radius1=radius1)
     r2 = Radius_(radius2=radius2)
     if d > (r1 + r2):
         raise IntersectionError(distance=d, radius1=r1, radius2=r2,
                                             txt=_too_(_distant_))
-    return _radical2(d, r1, r2)
+    return _radical2(d, r1, r2) if d else Radical2Tuple(_0_5, _0_0)
 
 
 class Radical2Tuple(_NamedTuple):
@@ -1054,7 +1055,7 @@ def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
              <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
              Distance/ThomasFormula.php>}.
     '''
-    s2, c2, s1, c1, _, c21 = sincos2(phi2, phi1, lam21)
+    s2, c2, s1, c1, r, _ = _sincosa6(phi2, phi1, lam21)
     E = _ellipsoidal_datum(datum, name=thomas_.__name__).ellipsoid
     if E.f and abs(c1) > EPS and abs(c2) > EPS:
         r1 = atan(E.b_a * s1 / c1)
@@ -1062,18 +1063,18 @@ def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
 
         j = (r2 + r1) * _0_5
         k = (r2 - r1) * _0_5
-        sj, cj, sk, ck, sl_2, _ = sincos2(j, k, lam21 * _0_5)
+        sj, cj, sk, ck, h, _ = sincos2(j, k, lam21 * _0_5)
 
-        h = fsum_(sk**2, (ck * sl_2)**2, -(sj * sl_2)**2)
-        if EPS < abs(h) < EPS1:
+        h = fsum_(sk**2, (ck * h)**2, -(sj * h)**2)
+        if EPS < h < EPS1:
             u = _1_0 / (_1_0 - h)
             d = atan(sqrt(h * u)) * 2  # == acos(1 - 2 * h)
             sd, cd = sincos2(d)
             if abs(sd) > EPS:
                 u = 2 * (sj * ck)**2 * u
-                v = 2 * (sk * cj)**2 / h
-                x = u + v
-                y = u - v
+                h = 2 * (sk * cj)**2 / h
+                x = u + h
+                y = u - h
 
                 t = d / sd
                 s = 4 * t**2
@@ -1084,9 +1085,8 @@ def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
 
                 s = fsum_(a * x,  c * x**2, -b * y, -e * y**2, s * x * y) * E.f / _16_0
                 s = fsum_(t * x, -y, -s) * E.f * _0_25
-                return d - s * sd
-    # fall back to cosineLaw_
-    return acos(s1 * s2 + c1 * c2 * c21)
+                r = d - s * sd
+    return r
 
 
 def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):

@@ -12,9 +12,9 @@ from pygeodesy.basics import isfinite, isint, isscalar, \
                              len2, _xcopy
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
-from pygeodesy.interns import EPS, MISSING, NN, _finite_, \
-                             _few_, _not_, _SPACE_, _too_, \
-                             _0_0, _1_0, _2_0, _3_0
+from pygeodesy.interns import EPS, MISSING, NN, _finite_, _few_, \
+                             _not_, _SPACE_, _too_, _0_0, _1_0, \
+                             _1_5 as _3_2nd, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Int_
@@ -23,13 +23,12 @@ from math import copysign, hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.12.18'
+__version__ = '20.12.28'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
 _1_3rd  = _1_0 / _3_0
 _2_3rd  = _2_0 / _3_0
-_3_2nd  = _3_0 / _2_0  # _1_5
 
 
 def _2even(s, r, p):
@@ -729,7 +728,7 @@ def fpowers(x, n, alts=0):
         xs.append(xs[-1] * x)
 
     if alts > 0:  # x**2, x**4, ...
-        # XXX PyChecker chokes on xs[alts-1::2]
+        # xs[alts-1::2] chokes PyChecker
         xs = xs[slice(alts-1, None, 2)]
 
     return xs

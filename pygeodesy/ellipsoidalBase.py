@@ -12,6 +12,8 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import issubclassof, property_doc_, property_RO, \
                             _xinstanceof
@@ -30,14 +32,13 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import _LatLon4Tuple, Vector3Tuple
 from pygeodesy.streprs import Fmt
-from pygeodesy.units import Epoch, Height, Radius_, Scalar
+from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '20.12.19'
+__version__ = '20.12.30'
 
-_TOL_M = 1e-3  # 1 millimeter, in .ellipsoidKarney, -Vincenty
-_TRIPS = 17    # _intersects2, _nearestOn interations, 6 is sufficient
+_TRIPS = 17  # _intersects2, _nearestOn interations, 6 is sufficient
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -837,7 +838,7 @@ def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
     elif len(ts) == 2:
         return (_latlon4(ts[0], h, n),
                 _latlon4(ts[1], h, n))
-    elif len(ts) == 1:
+    elif len(ts) == 1:  # PYCHOK no cover
         ta = ts[0]  # assume abutting
     else:
         raise _AssertionError(ts=ts)
@@ -884,11 +885,12 @@ def _nearestOn(p, p1, p2, within=True, height=None, wrap=True,
         _LLS(p2.lat, p2.lon, height=p2.height), within=within, height=height)
     n = t.name
 
-    h = h1 = h2 = 0
     if height is False:  # use height as Z component
         h  = t.height
         h1 = p1.height
         h2 = p2.height
+    else:
+        h = h1 = h2 = 0
 
     # ... and then iterate like Karney suggests to find
     # tri-points of median lines, @see: references under
