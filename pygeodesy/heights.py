@@ -53,8 +53,7 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
 
-from pygeodesy.basics import isscalar, len2, map1, map2, property_RO, \
-                            _xnumpy, _xscipy
+from pygeodesy.basics import isscalar, len2, map1, map2, _xnumpy, _xscipy
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _AssertionError, LenError, PointsError, _SciPyIssue
 from pygeodesy.fmath import fidw, hypot2
@@ -67,12 +66,13 @@ from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _cubic_, _datum_, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import _boolkwds, Fmt
 from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '20.12.18'
+__version__ = '21.01.07'
 
 
 class HeightError(PointsError):

@@ -11,7 +11,7 @@ also U{World Geographic Reference System
 <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 '''
 
-from pygeodesy.basics import isstr, property_RO
+from pygeodesy.basics import isstr
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
 from pygeodesy.interns import EPS1_2, MISSING, NN, _AtoZnoIO_, \
@@ -21,6 +21,7 @@ from pygeodesy.interns import EPS1_2, MISSING, NN, _AtoZnoIO_, \
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import Fmt, _0wd
 from pygeodesy.units import Height, Int, Lat, Lon, Precision_, \
                             Radius, Scalar_, Str, _xStrError
@@ -29,7 +30,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '20.12.30'
+__version__ = '21.01.07'
 
 _1000_0  = _float(1000)
 _Base    =  10

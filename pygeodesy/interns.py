@@ -8,7 +8,7 @@ __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4', 'PI3_2')  # imported by .lazily
-__version__ = '20.12.30'
+__version__ = '21.01.05'
 
 
 class MISSING(object):
@@ -188,6 +188,7 @@ _M_                   = 'M'                  # PYCHOK expected
 _meanOf_              = 'meanOf'             # PYCHOK expected
 _meridional_          = 'meridional'         # PYCHOK expected
 _meter_               = 'meter'              # PYCHOK expected
+_meter2_              = 'meter2'             # PYCHOK SQUARED
 _MGRS_                = 'MGRS'               # PYCHOK expected
 _MINUS_               = _DASH_
 _module_              = 'module'             # PYCHOK expected
@@ -267,7 +268,7 @@ _till_                = 'till'               # PYCHOK expected
 _to_                  = 'to'                 # PYCHOK expected
 _too_         = _Prefix('too')               # PYCHOK expected
 _transform_           = 'transform'          # PYCHOK expected
-_UNDER_         = _Join('_')                 # PYCHOK expected
+_UNDER_               = '_'                  # PYCHOK expected
 _units_               = 'units'              # PYCHOK expected
 _UPS_                 = 'UPS'                # PYCHOK expected
 _utf_8_               = 'utf-8'              # PYCHOK expected

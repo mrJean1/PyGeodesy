@@ -18,7 +18,7 @@ each end).
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import neg, property_RO
+from pygeodesy.basics import neg
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
@@ -30,6 +30,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Meter, Lat, Scalar, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2d
@@ -41,7 +42,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '20.12.19'
+__version__ = '21.01.07'
 
 _Bands   = _A_, 'B', 'Y', 'Z'  # polar bands
 _EPS__2  = EPS**2  # see .albers

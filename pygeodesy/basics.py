@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Basic definitions, decorators and functions.
+u'''Basic definitions and functions.
 '''
 # make sure int/int division yields float quotient
 from __future__ import division
@@ -10,12 +10,9 @@ if not division:  # .elliptic, .etm, .fmath, .formy, .lcc, .osgr, .utily
     raise ImportError('%s 1/2 == %s' % ('division', division))
 del division
 
-from pygeodesy.errors import _AttributeError, _IsnotError, \
-                             _TypesError, _ValueError
-from pygeodesy.interns import NEG0, NN, _by_, _DOT_, \
-                             _EQUALSPACED_, _immutable_, \
-                             _N_A_, _SPACE_, _UNDER_, \
-                             _utf_8_, _version_, _0_0
+from pygeodesy.errors import _IsnotError, _TypesError, _ValueError
+from pygeodesy.interns import NEG0, NN, _by_, _DOT_, _name_, \
+                             _SPACE_, _UNDER_, _utf_8_, _version_, _0_0
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 from copy import copy as _copy, deepcopy as _deepcopy
@@ -23,7 +20,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '20.12.27'
+__version__ = '21.01.07'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -295,73 +292,11 @@ def neg(x):
 
 
 def neg_(*xs):
-    '''Negate all of C{xs} like L{neg}.
+    '''Negate all of C{xs} with L{neg}.
 
-       @return: Yield C{neg(x) for x in B{xs}}.
+       @return: A C{tuple(neg(x) for x in B{xs})}.
     '''
-    for x in xs:
-        yield -x if x else _0_0
-
-
-def property_doc_(doc):
-    '''Decorator for a property with documentation.
-
-       @arg doc: The property documentation (C{str}).
-
-       @example:
-
-       >>> @property_doc_("documentation text.")
-       >>> def name(self):
-       >>>     ...
-       >>>
-       >>> @name.setter
-       >>> def name(self, value):
-       >>>     ...
-    '''
-    # See Luciano Ramalho, "Fluent Python", page 212ff, O'Reilly, 2016,
-    # "Parameterized Decorators", especially Example 7-23.  Also, see
-    # <https://Python-3-Patterns-Idioms-Test.ReadTheDocs.io/en/latest/PythonDecorators.html>
-
-    def _property(method):
-        '''(INTERNAL) Return C{method} as documented C{property.getter}.
-        '''
-        t = 'get and set' if doc.startswith(_SPACE_) else NN
-        return property(method, None, None, NN('Property to ', t, doc))
-
-    return _property
-
-
-class property_RO(property):
-    # No __doc__ on purpose
-
-    def __init__(self, method):  # PYCHOK signature
-        '''New immutable, read-only L{property_RO} to be used as C{decorator}.
-
-           @arg method: The callable being decorated as C{property.getter}.
-
-           @note: Like standard Python C{property} without a C{property.setter}
-                  and with a more descriptive error message when set.
-
-           @see: Python 3' U{functools.cached_property<https://docs.Python.org/3/
-                 library/functools.html#functools.cached_property>} and U{-.cache
-                 <https://docs.python.org/3/library/functools.html#functools.cache>}
-                 to I{memoize} the property value.
-        '''
-        if _FOR_DOCS and method.__doc__:
-            self.__doc__ = method.__doc__
-        self.name = method.__name__  # == self.fget.__name__
-
-        # U{Descriptor HowTo Guide<https://docs.Python.org/3/howto/descriptor.html>}
-        def _immutable(inst, value):
-            '''Throws an C{AttributeError}, always.
-            '''
-            from pygeodesy.named import classname
-            s = _DOT_(repr(inst), self.name)
-            s = _EQUALSPACED_(s, repr(value))
-            t = _SPACE_(_immutable_, classname(self))
-            raise _AttributeError(s, txt=t)
-
-        property.__init__(self, method, _immutable, None, method.__doc__ or _N_A_)
+    return tuple(map(neg, xs))  # see map1
 
 
 def ub2str(ub):
@@ -428,16 +363,19 @@ def _xsubclassof(Class, **name_value_pairs):
             raise _TypesError(n, v, Class)
 
 
-def _xversion(package, where, *required):  # in .karney
+def _xversion(package, where, *required, **name):  # in .karney
     '''(INTERNAL) Check the C{package} version vs B{C{required}}.
     '''
     t = map2(int, package.__version__.split(_DOT_)[:2])
     if t < required:
-        from pygeodesy.named import modulename as mn
-        t = _SPACE_(package.__name__, _version_,
-                   _DOT_.join(map2(str, t)), 'below',
-                   _DOT_.join(map2(str, required)),
-                   'required', _by_, mn(where, True))
+        from pygeodesy.named import modulename
+        m = modulename(where, prefixed=True)
+        n = name.get(_name_, NN)
+        if n:
+            m = _DOT_(m, n)
+        t = _SPACE_(package.__name__, _version_, _DOT_.join_(*t),
+                   'below', _DOT_.join_(*required),
+                   'required', _by_, m)
         raise ImportError(t)
     return package
 

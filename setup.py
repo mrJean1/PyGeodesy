@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '20.12.06'
+__version__ = '21.01.09'
 
 
 def _c2(*names):
@@ -66,21 +66,22 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh',
              'Liang', 'Liang-Barsky', 'linearize',
              'LocalCartesian', 'longitude', 'lune',
-             'Mercator', 'MGRS',
+             'mean', 'Mercator', 'MGRS',
              'nearest', 'Norrdine', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
-             'Parametric', 'path-intersection', 'perimeter',
-             'Peucker', 'polar', 'prolate', 'Pseudo-Mercator',
+             'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
+             'perimeter', 'Peucker', 'polar', 'prolate', 'Pseudo-Mercator',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
              'scipy', 'simplify', 'Snyder', 'Soldner',
              'sphere', 'sphere-intersections', 'stereographic',
-             'Sudano', 'Sutherland', 'Sutherland-Hodgman',
+             'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
              'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
              'Transverse', 'TransverseMercatorExact', 'TRF', 'trigonometry', 'trilateration',
              'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'Veness', 'Vermeille', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
+             'volume', ' volumetric',
              'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam', 'You')
 
 setup(name='PyGeodesy',

@@ -1224,9 +1224,9 @@
         and <i>prolate</i> ellipsoidal models.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.Ellipsoid2-class.html">pygeodesy.ellipsoids.Ellipsoid2</a></strong>:
-      <em class="summary">Like <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-        class="link">Ellipsoid</a>, but specified by <i>equatorial</i> 
-        radius and <i>flattening</i>.</em>
+      <em class="summary">An <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        class="link">Ellipsoid</a> specified by <i>equatorial</i> radius 
+        and <i>flattening</i>.</em>
     </li>
     </ul>
     </li>
@@ -1302,7 +1302,7 @@
         <code>meter</code> of a parallel <i>circle of latitude</i> at 
         (geodetic) latitude <code>lat</code> and the <i>parametric (or 
         reduced) auxiliary latitude</i> <code>beta</code>, both in 
-        <code>degrees</code>.</em>
+        <code>degrees90</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">pygeodesy.deprecated.ClipCS3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(start, end, index)</code> DEPRECATED, see function 
@@ -1715,6 +1715,18 @@
         <code>float</code> index into a <code>list</code> or 
         <code>tuple</code> of <code>points</code>, typically.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Meter2-class.html">pygeodesy.units.Meter2</a></strong>:
+      <em class="summary">Named <code>float</code> representing an area in <code>meter 
+        squared</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Meter3-class.html">pygeodesy.units.Meter3</a></strong>:
+      <em class="summary">Named <code>float</code> representing a volume in <code>meter 
+        cubed</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Radians2-class.html">pygeodesy.units.Radians2</a></strong>:
+      <em class="summary">Named <code>float</code> representing a distance in <code>radians 
+        squared</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Radius_-class.html">pygeodesy.units.Radius_</a></strong>:
       <em class="summary">Named <code>float</code> with optional <code>low</code> and 
         <code>high</code> limits representing a radius, conventionally in 
@@ -1769,10 +1781,6 @@
     </ul>
     </li>
     </ul>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Radians2-class.html">pygeodesy.units.Radians2</a></strong>:
-      <em class="summary">Named <code>float</code> representing a distance in <code>radians 
-        squared</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Radius-class.html">pygeodesy.units.Radius</a></strong>:
       <em class="summary">Named <code>float</code> representing a radius, conventionally in 
@@ -1968,6 +1976,18 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>float</code> index into a <code>list</code> or 
         <code>tuple</code> of <code>points</code>, typically.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Meter2-class.html">pygeodesy.units.Meter2</a></strong>:
+      <em class="summary">Named <code>float</code> representing an area in <code>meter 
+        squared</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Meter3-class.html">pygeodesy.units.Meter3</a></strong>:
+      <em class="summary">Named <code>float</code> representing a volume in <code>meter 
+        cubed</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Radians2-class.html">pygeodesy.units.Radians2</a></strong>:
+      <em class="summary">Named <code>float</code> representing a distance in <code>radians 
+        squared</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Radius_-class.html">pygeodesy.units.Radius_</a></strong>:
       <em class="summary">Named <code>float</code> with optional <code>low</code> and 
         <code>high</code> limits representing a radius, conventionally in 
@@ -2023,10 +2043,6 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     </ul>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.units.Radians2-class.html">pygeodesy.units.Radians2</a></strong>:
-      <em class="summary">Named <code>float</code> representing a distance in <code>radians 
-        squared</code>.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Radius-class.html">pygeodesy.units.Radius</a></strong>:
       <em class="summary">Named <code>float</code> representing a radius, conventionally in 
         <code>meter</code>.</em>
@@ -2076,8 +2092,19 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink">property</strong>:
       <em class="summary">property(fget=None, fset=None, fdel=None, doc=None) -&gt; property attribute</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.basics.property_RO-class.html">pygeodesy.basics.property_RO</a></strong>
+    <li> <strong class="uidlink">pygeodesy.props._PropertyBase</strong>:
+      <em class="summary">(INTERNAL) Base class for <code>P/property/_RO</code>.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.props.Property_RO-class.html">pygeodesy.props.Property_RO</a></strong>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.props.Property-class.html">pygeodesy.props.Property</a></strong>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.props.property_RO-class.html">pygeodesy.props.property_RO</a></strong>
+    <ul>
+    </ul>
+    </li>
     </ul>
     </li>
     </ul>
@@ -2132,7 +2159,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>meter</code> of a parallel <i>circle of latitude</i> at 
         (geodetic) latitude <code>lat</code> and the <i>parametric (or 
         reduced) auxiliary latitude</i> <code>beta</code>, both in 
-        <code>degrees</code>.</em>
+        <code>degrees90</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.ClipCS3Tuple-class.html">pygeodesy.deprecated.ClipCS3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(start, end, index)</code> DEPRECATED, see function 
@@ -2511,7 +2538,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:01 2020
+    Generated by Epydoc 3.0.1 on Fri Jan  8 22:54:07 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

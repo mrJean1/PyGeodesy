@@ -14,20 +14,21 @@ attributes, similar to standard Python C{namedtuple}s.
 '''
 
 from pygeodesy.basics import isclass, isidentifier, iskeyword, isstr, \
-                             issubclassof, property_doc_, property_RO, _xcopy
+                             issubclassof, _xcopy
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _IsnotError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
                              _ValueError, UnitError, _xkwds, _xkwds_popitem
 from pygeodesy.interns import NN, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _DUNDER_, _dunder_name, \
-                             _EQUAL_, _immutable_, _invalid_, _name_, _other_, \
-                             _s_, _SPACE_, _UNDER_, _valid_, _vs_
+                             _EQUAL_, _immutable_, _name_, _other_, _s_, \
+                             _SPACE_, _UNDER_, _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
+from pygeodesy.props import property_doc_, property_RO, _update_all
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '20.12.30'
+__version__ = '21.01.09'
 
 _at_     = 'at'
 _del_    = 'del'
@@ -37,10 +38,11 @@ _item_   = 'item'
 _MRO_    = 'MRO'
 _O_      = 'O'
 # __DUNDER gets mangled in class
-_name     = '_name'
-_n_a_m_e_ = '__name__'  # no __name__
-_Names_   = '_Names_'
-_Units_   = '_Units_'
+_name        = '_name'
+_n_a_m_e_    = '__name__'  # no __name__
+_Names_      = '_Names_'
+_registered_ = 'registered'  # PYCHOK used!
+_Units_      = '_Units_'
 
 
 def _xjoined_(prefix, name):
@@ -178,6 +180,7 @@ class _Named(object):
 
            @arg name: New name (C{str}).
         '''
+        # _update_all(self)
         self._name = str(name)
         # to set the name from a sub-class, use
         # self.name = name or
@@ -264,13 +267,8 @@ class _NamedBase(_Named):
     def _update(self, updated, *attrs):
         '''(INTERNAL) Zap cached instance attributes.
         '''
-        if updated and attrs:
-            for a in attrs:  # zap attrs to None
-                if getattr(self, a, None) is not None:
-                    setattr(self, a, None)
-                elif not hasattr(self, a):
-                    a = NN(_DOT_, a, _SPACE_, _invalid_)
-                    raise _AssertionError(a, txt=repr(self))
+        if updated:
+            _update_all(self, *attrs)
 
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
@@ -349,7 +347,7 @@ class _NamedDict(dict, _Named):
     def __init__(self, *args, **kwds):
         if args:  # args override kwds
             if len(args) != 1:
-                t = unstr(self.classname, *args, **kwds)
+                t = unstr(self.classname, *args, **kwds)  # PYCHOK no cover
                 raise _ValueError(args=len(args), txt=t)
             kwds = _xkwds(dict(args[0]), **kwds)
         if _name_ in kwds:
@@ -549,7 +547,7 @@ class _NamedEnum(_NamedDict):
             n = item.name
             if not (n and isstr(n) and isidentifier(n)):
                 raise ValueError
-        except (AttributeError, ValueError, TypeError) as x:
+        except (AttributeError, ValueError, TypeError) as x:  # PYCHOK no cover
             raise _NameError(_DOT_(_item_, _name_), item, txt=str(x))
         if n in self:
             raise _NameError(self._DOT_(n), item, txt=_exists_)
@@ -574,7 +572,7 @@ class _NamedEnum(_NamedDict):
             name = self.find(name_or_item)
         try:
             item = dict.pop(self, name)
-        except KeyError:
+        except KeyError:  # PYCHOK no cover
             raise _NameError(item=self._DOT_(name), txt=_doesn_t_exist_)
         return self._zapitem(name, item)
 
@@ -612,14 +610,14 @@ class _NamedEnum(_NamedDict):
         return item
 
 
-class _LazyNamedEnumItem(property_RO):
+class _LazyNamedEnumItem(property_RO):  # XXX or descriptor?
     '''(INTERNAL) Lazily instantiated L{_NamedEnumItem}.
     '''
     pass
 
 
 def _lazyNamedEnumItem(name, *args, **kwds):
-    '''(INTERNAL) L{_LazyNamedEnumItem} property factory.
+    '''(INTERNAL) L{_LazyNamedEnumItem} property-like factory.
 
        @see: Luciano Ramalho, "Fluent Python", page 636, O'Reilly, 2016,
              "Coding a Property Factory", especially Example 19-24.
@@ -634,8 +632,10 @@ def _lazyNamedEnumItem(name, *args, **kwds):
             # assert inst[name] is item  # MUST be registered
             # store the item in the instance' __dict__
             inst.__dict__[name] = item
-            #  remove the property from the registry class, such that
-            # _NamedEnum.items(all=True) only sees uninstantiated ones
+            # remove the property from the registry class, such that
+            # (a) the property no longer overrides the instance' item
+            # in inst.__dict__ and (b) _NamedEnum.items(all=True) only
+            # sees un-instantiated ones to be instantiated
             p = getattr(inst.__class__, name, None)
             if isinstance(p, _LazyNamedEnumItem):
                 delattr(inst.__class__, name)
@@ -683,7 +683,7 @@ class _NamedEnumItem(_NamedBase):
            @arg name: New name (C{str}).
         '''
         if self._enum:
-            raise _NameError(str(name), self, txt='registered')  # XXX _TypeError
+            raise _NameError(str(name), self, txt=_registered_)  # XXX _TypeError
         self._name = str(name)
 
     def _register(self, enum, name):
@@ -709,7 +709,7 @@ class _NamedEnumItem(_NamedBase):
         if enum and self.name and self.name in enum:
             item = enum.unregister(self.name)
             if item is not self:
-                t = _SPACE_(repr(item), _vs_, repr(self))
+                t = _SPACE_(repr(item), _vs_, repr(self))  # PYCHOK no cover
                 raise _AssertionError(t)
 
 
@@ -831,8 +831,8 @@ class _NamedTuple(tuple, _Named):
         if not (issubclassof(xTuple, _NamedTuple) and
                (len(self._Names_) + len(items)) == len(xTuple._Names_)
                 and self._Names_ == xTuple._Names_[:len(self)]):
-            c = NN(self.classname,  repr(self._Names_))
-            x = NN(xTuple.__name__, repr(xTuple._Names_))
+            c = NN(self.classname,  repr(self._Names_))  # PYCHOK no cover
+            x = NN(xTuple.__name__, repr(xTuple._Names_))  # PYCHOK no cover
             raise TypeError(_SPACE_(c, _vs_, x))
         return self._xnamed(xTuple(*(self + items)))
 
@@ -906,7 +906,7 @@ class _NamedTuple(tuple, _Named):
             raise _TypeError(_DOT_(self.classname, _Names_), ns)
         for i, n in enumerate(ns):
             if not _xvalid(n, _OK=_OK):
-                t = Fmt.SQUARE(_Names_=i)
+                t = Fmt.SQUARE(_Names_=i)  # PYCHOK no cover
                 raise _ValueError(_DOT_(self.classname, t), n)
 
         us = self._Units_
@@ -916,7 +916,7 @@ class _NamedTuple(tuple, _Named):
             raise LenError(self.__class__, _Units_=len(us), _Names_=len(ns))
         for i, u in enumerate(us):
             if not (u is None or callable(u)):
-                t = Fmt.SQUARE(_Units_=i)
+                t = Fmt.SQUARE(_Units_=i)  # PYCHOK no cover
                 raise _TypeError(_DOT_(self.classname, t), u)
 
         self.__class__._validated = True
@@ -997,7 +997,7 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
     '''
     try:
         n = clas.__name__
-    except AttributeError:
+    except AttributeError:  # PYCHOK no cover
         n = _n_a_m_e_
     if prefixed or (classnaming() if prefixed is None else False):
         try:

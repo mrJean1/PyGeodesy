@@ -8,7 +8,7 @@ u'''Precision floating point functions, utilities and constants.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import isfinite, isint, isscalar, \
+from pygeodesy.basics import copysign, isfinite, isint, isscalar, \
                              len2, _xcopy
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
@@ -19,11 +19,11 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Int_
 
-from math import copysign, hypot, sqrt  # pow
+from math import hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '20.12.28'
+__version__ = '21.01.02'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -428,7 +428,9 @@ class Fhorner(Fsum):
         Fsum.__init__(self, cs.pop())
         while cs:
             self.fmul(x)
-            self.fadd_(cs.pop())
+            c = cs.pop()
+            if c:
+                self.fadd_(c)
 
 
 class Fpolynomial(Fsum):
@@ -459,7 +461,9 @@ class Fpolynomial(Fsum):
         Fsum.__init__(self, cs.pop(0))
         while cs:
             xp *= x
-            self.fadd_(xp * cs.pop(0))
+            c = cs.pop(0)
+            if c:
+                self.fadd_(xp * c)
 
 
 def cbrt(x):

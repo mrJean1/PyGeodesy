@@ -77,11 +77,11 @@
   <code>sphericalTrigonometry</code> and <code>-Nvector</code>.  Each 
   module provides a geodetic <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> and a geocentric 
   <a href=pygeodesy-Cartesian-attributes-table.html><b><code>Cartesian</code></b></a> class with methods and functions to compute
-  distance, area, perimeter, initial and final bearing, intermediate and 
-  nearest points, intersections of circles, path intersections, 
-  trilateration (by intersection, overlap and 3d), conversions and 
-  unrolling, among other things.  For more information and further details 
-  see the <a href="https://mrJean1.GitHub.io/PyGeodesy" 
+  distance, surface area, perimeter, initial and final bearing, 
+  intermediate and nearest points, intersections of circles, path 
+  intersections, trilateration (by intersection, overlap and 3d), 
+  conversions and unrolling, among other things.  For more information and 
+  further details see the <a href="https://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a>, <a 
@@ -312,7 +312,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        20.12.30
+        21.01.09
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -364,7 +364,7 @@
         class="link">equidistant</a> and <a 
         href="pygeodesy.azimuthal-module.html#gnomonic" 
         class="link">gnomonic</a>.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Basic definitions, decorators and functions.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.basics-module.html">pygeodesy.basics</a></strong>: <em class="summary">Basic definitions and functions.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.cartesianBase-module.html" onclick="show_private();">pygeodesy.cartesianBase</a></strong>: <em class="summary">(INTERNAL) Base classes for elliposiodal, spherical and 
         N-/vectorial <code>Cartesian</code>s.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.clipy-module.html">pygeodesy.clipy</a></strong>: <em class="summary">Functions to <i>clip</i> a path or polygon of <code>LatLon</code> 
@@ -705,6 +705,7 @@
         href="https://www.NumPy.org" target="_top">NumPy</a>, 
         <code>arrays</code> or tuples as <code>LatLon</code> or as 
         <code>pseudo-x/-y</code> pairs.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.props-module.html">pygeodesy.props</a></strong>: <em class="summary">Caching, immutable and mutable properties and decorators.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Seven functions to <i>simplify</i> or linearize a path of 
         <code>LatLon</code> points.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html" onclick="show_private();">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Spherical base classes 
@@ -1198,7 +1199,7 @@
         <code>meter</code> of a parallel <i>circle of latitude</i> at 
         (geodetic) latitude <code>lat</code> and the <i>parametric (or 
         reduced) auxiliary latitude</i> <code>beta</code>, both in 
-        <code>degrees</code>.
+        <code>degrees90</code>.
     </td>
   </tr>
 <tr>
@@ -1590,9 +1591,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid2-class.html" class="summary-name">Ellipsoid2</a><br />
-      Like <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
-        class="link">Ellipsoid</a>, but specified by <i>equatorial</i> 
-        radius and <i>flattening</i>.
+      An <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        class="link">Ellipsoid</a> specified by <i>equatorial</i> radius 
+        and <i>flattening</i>.
     </td>
   </tr>
 <tr>
@@ -2806,6 +2807,24 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.units.Meter2-class.html" class="summary-name">Meter2</a><br />
+      Named <code>float</code> representing an area in <code>meter 
+        squared</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Meter3-class.html" class="summary-name">Meter3</a><br />
+      Named <code>float</code> representing a volume in <code>meter 
+        cubed</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.mgrs.Mgrs-class.html" class="summary-name">Mgrs</a><br />
       Military Grid Reference System (MGRS/NATO) references, with method 
         to convert to UTM coordinates.
@@ -3015,6 +3034,20 @@
         <a href="pygeodesy.units.Precision_-class.html" class="summary-name">Precision_</a><br />
       Named <code>int</code> with optional <code>low</code> and 
         <code>high</code> limits representing a precision.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.props.Property-class.html" class="summary-name">Property</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.props.Property_RO-class.html" class="summary-name">Property_RO</a>
     </td>
   </tr>
 <tr>
@@ -3406,7 +3439,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.basics.property_RO-class.html" class="summary-name">property_RO</a>
+        <a href="pygeodesy.props.property_RO-class.html" class="summary-name">property_RO</a>
     </td>
   </tr>
 </table>
@@ -3450,7 +3483,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#a_b2e" class="summary-sig-name">a_b2e</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>)</span><br />
-      Return <code>e</code>, the <i>eccentricity</i> for a given 
+      Return <code>e</code>, the <i>1st eccentricity</i> for a given 
       <i>equatorial</i> and <i>polar</i> radius.</td>
           <td align="right" valign="top">
             
@@ -3469,8 +3502,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#a_b2e2" class="summary-sig-name">a_b2e2</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>)</span><br />
-      Return <code>e2</code>, the <i>eccentricity squared</i> for a given 
-      <i>equatorial</i> and <i>polar</i> radius.</td>
+      Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+      given <i>equatorial</i> and <i>polar</i> radius.</td>
           <td align="right" valign="top">
             
             
@@ -3691,7 +3724,7 @@
         <tr>
           <td><span class="summary-sig"><a name="anStr"></a><span class="summary-sig-name">anStr</span>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default">'_'</span>)</span><br />
+        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
       DEPRECATED, use function <a 
       href="pygeodesy.streprs-module.html#anstr" class="link">anstr</a>.</td>
           <td align="right" valign="top">
@@ -3711,7 +3744,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#anstr" class="summary-sig-name">anstr</a>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default">'_'</span>)</span><br />
+        <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span><br />
       Make a valid name of alphanumeric and OKd characters.</td>
           <td align="right" valign="top">
             
@@ -5105,8 +5138,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#f2e2" class="summary-sig-name">f2e2</a>(<span class="summary-sig-arg">f</span>)</span><br />
-      Return <code>e2</code>, the <i>eccentricity squared</i> for a given 
-      <i>flattening</i>.</td>
+      Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+      given <i>flattening</i>.</td>
           <td align="right" valign="top">
             
             
@@ -5882,7 +5915,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f86e01c56d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa82fa46dd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -7089,8 +7122,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#n2e2" class="summary-sig-name">n2e2</a>(<span class="summary-sig-arg">n</span>)</span><br />
-      Return <code>e2</code>, the <i>eccentricity squared</i> for a given 
-      <i>3rd flattening</i>.</td>
+      Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+      given <i>3rd flattening</i>.</td>
           <td align="right" valign="top">
             
             
@@ -7267,7 +7300,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#neg_" class="summary-sig-name">neg_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
-      Negate all of <code>xs</code> like <a 
+      Negate all of <code>xs</code> with <a 
       href="pygeodesy.basics-module.html#neg" class="link">neg</a>.</td>
           <td align="right" valign="top">
             
@@ -7790,7 +7823,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#property_doc_" class="summary-sig-name">property_doc_</a>(<span class="summary-sig-arg">doc</span>)</span><br />
-      Decorator for a property with documentation.</td>
+      Decorator for a standard <code>property</code> with basic 
+      documentation.</td>
           <td align="right" valign="top">
             
             
@@ -8707,7 +8741,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#unstr" class="summary-sig-name">unstr</a>(<span class="summary-sig-arg">name</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#unstr" class="summary-sig-name">unstr</a>(<span class="summary-sig-arg">named</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       Return the string representation of an invokation.</td>
@@ -9025,7 +9059,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'20.12.30'"><code class="variable-quote">'</code><code class="variable-string">20.12.30</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.1.9'"><code class="variable-quote">'</code><code class="variable-string">21.1.9</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -9512,6 +9546,14 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="R_GM"></a><span class="summary-name">R_GM</span> = <code title="6371230.0">6371230.0</code><br />
+      Average earth radius, distance to geoid surface (<code>meter</code>)
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="R_KM"></a><span class="summary-name">R_KM</span> = <code title="6371.008771415">6371.008771415</code><br />
       Mean (spherical) earth radius (<code>km</code>, kilometer).
     </td>
@@ -9536,7 +9578,7 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="R_MB"></a><span class="summary-name">R_MB</span> = <code title="6356752.0">6356752.0</code><br />
+        <a name="R_MB"></a><span class="summary-name">R_MB</span> = <code title="6356752.3">6356752.3</code><br />
       Polar earth radius (<code>meter</code>), WGS84, EPSG:3785.
     </td>
   </tr>
@@ -9718,7 +9760,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Return <code>e</code>, the <i>eccentricity</i> for a given 
+  <p>Return <code>e</code>, the <i>1st eccentricity</i> for a given 
   <i>equatorial</i> and <i>polar</i> radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -9727,7 +9769,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The eccentricity (<code>float</code> or <code>0</code>), <i 
+        <dd>The (1st) eccentricity (<code>float</code> or <code>0</code>), <i
           class="math">sqrt(1 - (b / a)**2)</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -9751,8 +9793,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Return <code>e2</code>, the <i>eccentricity squared</i> for a given 
-  <i>equatorial</i> and <i>polar</i> radius.</p>
+  <p>Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+  given <i>equatorial</i> and <i>polar</i> radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -9760,7 +9802,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>b</code></strong> - Polar radius (<code>scalar</code> &gt; 0).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>The eccentricity <i>squared</i> (<code>float</code> or 
+        <dd>The (1st) eccentricity <i>squared</i> (<code>float</code> or 
           <code>0</code>), <i class="math">1 - (b / a)**2</i>.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -10101,7 +10143,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">anstr</span>&nbsp;(<span class="sig-arg">name</span>,
         <span class="sig-arg">OKd</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">sub</span>=<span class="sig-default">'_'</span>)</span>
+        <span class="sig-arg">sub</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">_</code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -12769,8 +12811,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Return <code>e2</code>, the <i>eccentricity squared</i> for a given 
-  <i>flattening</i>.</p>
+  <p>Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+  given <i>flattening</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -14256,7 +14298,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f86e01c56d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa82fa46dd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16427,8 +16469,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Return <code>e2</code>, the <i>eccentricity squared</i> for a given 
-  <i>3rd flattening</i>.</p>
+  <p>Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
+  given <i>3rd flattening</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -16748,11 +16790,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Negate all of <code>xs</code> like <a 
+  <p>Negate all of <code>xs</code> with <a 
   href="pygeodesy.basics-module.html#neg" class="link">neg</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
-        <dd>Yield <code>neg(x) for x in <b>xs</b></code>.</dd>
+        <dd>A <code>tuple(neg(x) for x in <b>xs</b>)</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -17841,7 +17883,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Decorator for a property with documentation.</p>
+  <p>Decorator for a standard <code>property</code> with basic 
+  documentation.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -19795,7 +19838,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">unstr</span>&nbsp;(<span class="sig-arg">name</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">unstr</span>&nbsp;(<span class="sig-arg">named</span>,
         <span class="sig-arg">*args</span>,
         <span class="sig-arg">**kwds</span>)</span>
   </h3>
@@ -19808,7 +19851,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name</code></strong> - Function, method or class name (<code>str</code>).</li>
+        <li><strong class="pname"><code>named</code></strong> - Function, method or class name (<code>str</code>).</li>
         <li><strong class="pname"><code>args</code></strong> - Optional positional arguments.</li>
         <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments.</li>
     </ul></dd>
@@ -20537,7 +20580,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:03 2020
+    Generated by Epydoc 3.0.1 on Fri Jan  8 22:54:09 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

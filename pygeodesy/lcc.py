@@ -28,8 +28,7 @@ and John P. Snyder U{'Map Projections - A Working Manual'
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign, property_RO, _xinstanceof, \
-                            _xsubclassof
+from pygeodesy.basics import copysign, _xinstanceof, _xsubclassof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
@@ -43,6 +42,7 @@ from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedBase, \
                             _NamedEnum, _NamedEnumItem, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor3Tuple, LatLonDatum3Tuple, \
                                   LatLon2Tuple, _LatLon4Tuple, PhiLam2Tuple
+from pygeodesy.props import Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
@@ -50,7 +50,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '20.12.30'
+__version__ = '21.01.08'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -158,7 +158,7 @@ class Conic(_NamedEnumItem):
         '''
         return self._k0
 
-    @property_RO
+    @Property_RO
     def lat0(self):
         '''Get the origin latitude (C{degrees90}).
         '''
@@ -176,7 +176,7 @@ class Conic(_NamedEnumItem):
         '''
         return self._lam0
 
-    @property_RO
+    @Property_RO
     def lon0(self):
         '''Get the central meridian (C{degrees180}).
         '''
@@ -188,25 +188,25 @@ class Conic(_NamedEnumItem):
         '''
         return self._N0
 
-    @property_RO
+    @Property_RO
     def name2(self):
         '''Get the conic and datum names as "conic.datum" (C{str}).
         '''
         return self._DOT_(self.datum.name)
 
-    @property_RO
+    @Property_RO
     def opt3(self):
         '''Get the optional meridian (C{degrees180}).
         '''
         return degrees180(self._opt3)
 
-    @property_RO
+    @Property_RO
     def par1(self):
         '''Get the 1st standard parallel (C{degrees90}).
         '''
         return degrees90(self._par1)
 
-    @property_RO
+    @Property_RO
     def par2(self):
         '''Get the 2nd standard parallel (C{degrees90}).
         '''
@@ -281,7 +281,7 @@ class Conic(_NamedEnumItem):
 
         return c
 
-    convertDatum = toDatum  # synonym
+    convertDatum = toDatum  # synonymous
 
     def toStr(self, prec=8):  # PYCHOK expected
         '''Return this conic as a string.
@@ -300,9 +300,12 @@ class Conic(_NamedEnumItem):
                                       datum=self.datum)
 
     def _dup2(self, c):
-        '''(INTERNAL) Copy this conic to c.
+        '''(INTERNAL) Copy this conic to C{c}.
+
            @arg c: Duplicate (L{Conic}).
         '''
+        _update_all(c)
+
         c._auth  = self._auth
         c._datum = self._datum
 
@@ -365,6 +368,7 @@ class Conics(_NamedEnum):
         return Conic(_LLEB(lat, lon, datum=Datums.get(datum_name)), *args, **kwds)
 
 Conics = Conics(Conic)  # PYCHOK singleton
+'''Some pre-defined L{Conic}s, all I{lazily} instantiated.'''
 Conics._assert(  # <https://SpatialReference.org/ref/sr-org/...>
 #   AsLb   = _lazy('AsLb',  -14.2666667, 170, _NAD27_, _0_0, _0_0,
 #                            E0=_F(500000), N0=_0_0, auth='EPSG:2155'),  # American Samoa ... SP=1 !

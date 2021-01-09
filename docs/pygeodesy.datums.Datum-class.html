@@ -476,9 +476,12 @@ or <a href="pygeodesy.ellipsoids.Ellipsoid2-class.html"
 class="link">Ellipsoid2</a>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -494,15 +497,15 @@ class="link">Ellipsoid2</a>).
   class="link">ExactTransverseMercator</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">exactTM(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>ExactTM</code> projection (<a 
-href="pygeodesy.etm.ExactTransverseMercator-class.html" 
-class="link">ExactTransverseMercator</a>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -516,13 +519,15 @@ class="link">ExactTransverseMercator</a>).
   <p>Check whether this datum is ellipsoidal (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this datum is ellipsoidal (<code>bool</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -537,14 +542,15 @@ class="link">ExactTransverseMercator</a>).
   (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isOblate(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this datum's ellipsoidal is <i>oblate</i> 
-(<code>bool</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -559,14 +565,15 @@ class="link">ExactTransverseMercator</a>).
   (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isProlate(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this datum's ellipsoidal is <i>prolate</i> 
-(<code>bool</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -580,13 +587,15 @@ class="link">ExactTransverseMercator</a>).
   <p>Check whether this datum is (near-)spherical (<code>bool</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this datum is (near-)spherical (<code>bool</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -607,9 +616,12 @@ class="link">ExactTransverseMercator</a>).
 class="link">Transform</a>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -646,7 +658,7 @@ class="link">Transform</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:05 2020
+    Generated by Epydoc 3.0.1 on Fri Jan  8 22:54:11 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

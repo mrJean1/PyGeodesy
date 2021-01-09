@@ -17,7 +17,7 @@ U{Implementation Practice Web Mercator Map Projection
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isscalar, issubclassof, property_RO
+from pygeodesy.basics import isscalar, issubclassof
 from pygeodesy.datums import _ellipsoidal_datum
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -30,6 +30,7 @@ from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMASPACE_, \
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import Fmt, strs, _xzipairs
 from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, Phi_, \
                             Radius, Radius_
@@ -38,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '20.11.04'
+__version__ = '21.01.07'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})

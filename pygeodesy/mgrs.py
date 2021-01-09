@@ -26,7 +26,7 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import halfs2, property_RO, _xinstanceof
+from pygeodesy.basics import halfs2, _xinstanceof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _parseX, _ValueError, _xkwds
 from pygeodesy.interns import NN, _AtoZnoIO_ as _L, _band_, \
@@ -35,6 +35,7 @@ from pygeodesy.interns import NN, _AtoZnoIO_ as _L, _band_, \
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import UtmUps5Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import enstr2, Fmt, _xzipairs
 from pygeodesy.units import Easting, Northing, Str, _100km, _2000km
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
@@ -43,7 +44,7 @@ from pygeodesy.utmupsBase import _hemi
 import re  # PYCHOK warning locale.Error
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '20.12.22'
+__version__ = '21.01.07'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _L.tillH, _L.fromJ.tillR, _L.fromS  # grid E colums

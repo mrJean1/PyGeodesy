@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.10.03'
+__version__ = '21.01.03'
 
 from base import geographiclib, TestsBase
 
@@ -61,6 +61,12 @@ class Tests(TestsBase):
         SAL = LatLon(40.96, -5.50, name='Salamanca, ES')
         BJS = LatLon(40.1, 116.6)  # Beijing Airport
         SFO = LatLon(37.6, -122.4)  # San Francisco
+
+        # <https://www.Numericana.com/answer/formula.htm#geodetic>
+        p = LatLon( 42.96125,  -85.655719, height=195)  # Grand Rapids, MI
+        q = LatLon(-37.813611, 144.963056, height=31)  # Melbourne, AU
+        self.test('chordTo', q.chordTo(p),           '12036677.26' if Sph else '12029263.15', fmt='%.2f')
+        self.test('chordTo', p.chordTo(q, height=0), '12036463.78' if Sph else '12029049.69', fmt='%.2f')
 
         p = LatLon(52.205, 0.119)
         q = LatLon(48.857, 2.351)
@@ -260,6 +266,8 @@ class Tests(TestsBase):
 
         p = LatLon(53.3206, -1.7297)
         q = LatLon(53.1887, 0.1334)
+        self.test('chordTo', p.chordTo(q), '124799.103' if Sph else '125203.963', fmt='%.3f')
+
         self.test('cosineAndoyerLambertTo', p.cosineAndoyerLambertTo(q), '124801.098' if Sph else '125205.962', fmt='%.3f')
         self.test('cosineAndoyerLambertTo', q.cosineAndoyerLambertTo(p), '124801.098' if Sph else '125205.962', fmt='%.3f')
 

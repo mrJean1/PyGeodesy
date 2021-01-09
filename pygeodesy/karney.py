@@ -62,17 +62,18 @@ around some of I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geogr
   - L{ellipsoidalKarney}, L{EquidistantKarney}, L{FrechetKarney}, L{GnomonicKarney}, L{HeightIDWkarney}, L{karney}
 '''
 
-from pygeodesy.basics import property_RO, _xversion
+from pygeodesy.basics import _xversion
 from pygeodesy.datums import Datums
 from pygeodesy.interns import NAN, _0_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
+from pygeodesy.props import Property_RO
 from pygeodesy.utily import unroll180, wrap360
 
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '20.10.20'
+__version__ = '21.01.07'
 
 
 class _Adict(dict):
@@ -90,103 +91,94 @@ class _Wrapped(object):
     ''''(INTERNAL) Wrapper for some of I{Karney}'s U{geographiclib
         <https://PyPI.org/project/geographiclib>} classes.
     '''
-    _Geodesic      = None
-    _GeodesicLine  = None
     _geographiclib = None
-    _Math          = False
 
-    @property_RO
+    @Property_RO
     def Geodesic(self):
         '''Get the I{wrapped} C{Geodesic} class, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is installed,
            otherwise an C{ImportError}.
         '''
-        if _Wrapped._Geodesic is None:
-            self._xgeographiclib(_Wrapped.Geodesic)
-            from geographiclib.geodesic import Geodesic as _Geodesic
+        self._xgeographiclib(_Wrapped.Geodesic)
+        from geographiclib.geodesic import Geodesic as _Geodesic
 
-            class Geodesic(_Geodesic):
-                '''I{Karney}'s U{Geodesic<https://GeographicLib.SourceForge.io/html/
-                   python/code.html#geographiclib.geodesic.Geodesic>} wrapper.
+        class Geodesic(_Geodesic):
+            '''I{Karney}'s U{Geodesic<https://GeographicLib.SourceForge.io/html/
+               python/code.html#geographiclib.geodesic.Geodesic>} wrapper.
+            '''
+
+            def Direct(self, lat1, lon1, azi1, s12, *outmask):
+                '''Return the C{Direct} result.
                 '''
+                d = _Geodesic.Direct(self, lat1, lon1, azi1, s12, *outmask)
+                return _Adict(d)
 
-                def Direct(self, lat1, lon1, azi1, s12, *outmask):
-                    '''Return the C{Direct} result.
-                    '''
-                    d = _Geodesic.Direct(self, lat1, lon1, azi1, s12, *outmask)
-                    return _Adict(d)
+            def Direct3(self, lat1, lon1, azi1, s12):  # PYCHOK outmask
+                '''Return the destination lat, lon and reverse azimuth
+                   (final bearing) in C{degrees}.
+                '''
+                m = self.AZIMUTH | self.LATITUDE | self.LONGITUDE
+                d = self.Direct(lat1, lon1, azi1, s12, m)
+                return Destination3Tuple(d.lat2, d.lon2, d.azi2)
 
-                def Direct3(self, lat1, lon1, azi1, s12):  # PYCHOK outmask
-                    '''Return the destination lat, lon and reverse azimuth
-                       (final bearing) in C{degrees}.
-                    '''
-                    m = self.AZIMUTH | self.LATITUDE | self.LONGITUDE
-                    d = self.Direct(lat1, lon1, azi1, s12, m)
-                    return Destination3Tuple(d.lat2, d.lon2, d.azi2)
+            def Inverse(self, lat1, lon1, lat2, lon2, *outmask):
+                '''Return the C{Inverse} result.
+                '''
+                d = _Geodesic.Inverse(self, lat1, lon1, lat2, lon2, *outmask)
+                return _Adict(d)
 
-                def Inverse(self, lat1, lon1, lat2, lon2, *outmask):
-                    '''Return the C{Inverse} result.
-                    '''
-                    d = _Geodesic.Inverse(self, lat1, lon1, lat2, lon2, *outmask)
-                    return _Adict(d)
+            def Inverse1(self, lat1, lon1, lat2, lon2, wrap=False):
+                '''Return the non-negative, I{angular} distance in C{degrees}.
+                '''
+                # see .FrechetKarney.distance, .HausdorffKarney._distance
+                # and .HeightIDWkarney._distances
+                _, lon2 = unroll180(lon1, lon2, wrap=wrap)  # self.LONG_UNROLL
+                d = self.Inverse(lat1, lon1, lat2, lon2)
+                # XXX self.DISTANCE needed for 'a12'?
+                return abs(d.a12)
 
-                def Inverse1(self, lat1, lon1, lat2, lon2, wrap=False):
-                    '''Return the non-negative, I{angular} distance in C{degrees}.
-                    '''
-                    # see .FrechetKarney.distance, .HausdorffKarney._distance
-                    # and .HeightIDWkarney._distances
-                    _, lon2 = unroll180(lon1, lon2, wrap=wrap)  # self.LONG_UNROLL
-                    d = self.Inverse(lat1, lon1, lat2, lon2)
-                    # XXX self.DISTANCE needed for 'a12'?
-                    return abs(d.a12)
+            def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
+                '''Return the distance in C{meter} and the forward and
+                   reverse azimuths (initial and final bearing) in C{degrees}.
+                '''
+                m = self.DISTANCE | self.AZIMUTH
+                d = self.Inverse(lat1, lon1, lat2, lon2, m)
+                return Distance3Tuple(d.s12, wrap360(d.azi1), wrap360(d.azi2))
 
-                def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
-                    '''Return the distance in C{meter} and the forward and
-                       reverse azimuths (initial and final bearing) in C{degrees}.
-                    '''
-                    m = self.DISTANCE | self.AZIMUTH
-                    d = self.Inverse(lat1, lon1, lat2, lon2, m)
-                    return Distance3Tuple(d.s12, wrap360(d.azi1), wrap360(d.azi2))
+            def Line(self, lat1, lon1, azi1, *caps):
+                return _wrapped.GeodesicLine(self, lat1, lon1, azi1, *caps)
 
-                def Line(self, lat1, lon1, azi1, *caps):
-                    return _wrapped.GeodesicLine(self, lat1, lon1, azi1, *caps)
+        # Geodesic.Direct.__doc__  = _Geodesic.Direct.__doc__
+        # Geodesic.Inverse.__doc__ = _Geodesic.Inverse.__doc__
+        # Geodesic.Line.__doc__    = _Geodesic.Line.__doc__
+        return Geodesic
 
-            # Geodesic.Direct.__doc__  = _Geodesic.Direct.__doc__
-            # Geodesic.Inverse.__doc__ = _Geodesic.Inverse.__doc__
-            # Geodesic.Line.__doc__    = _Geodesic.Line.__doc__
-
-            _Wrapped._Geodesic = Geodesic
-        return _Wrapped._Geodesic
-
-    @property_RO
+    @Property_RO
     def GeodesicLine(self):
         '''Get the I{wrapped} C{GeodesicLine} class, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is installed,
            otherwise an C{ImportError}.
         '''
-        if _Wrapped._GeodesicLine is None:
-            self._xgeographiclib(_Wrapped.GeodesicLine)
-            from geographiclib.geodesicline import GeodesicLine as _GeodesicLine
+        self._xgeographiclib(_Wrapped.GeodesicLine)
+        from geographiclib.geodesicline import GeodesicLine as _GeodesicLine
 
-            class GeodesicLine(_GeodesicLine):
-                '''I{Karney}'s U{GeodesicLine <https://GeographicLib.SourceForge.io/html/
-                   python/code.html#geographiclib.geodesicline.GeodesicLine>} wrapper.
-                '''
-                def ArcPosition(self, a12, *outmask):
-                    d = _GeodesicLine.ArcPosition(self, a12, *outmask)
-                    return _Adict(d)
+        class GeodesicLine(_GeodesicLine):
+            '''I{Karney}'s U{GeodesicLine <https://GeographicLib.SourceForge.io/html/
+               python/code.html#geographiclib.geodesicline.GeodesicLine>} wrapper.
+            '''
+            def ArcPosition(self, a12, *outmask):
+                d = _GeodesicLine.ArcPosition(self, a12, *outmask)
+                return _Adict(d)
 
-                def Position(self, s12, *outmask):
-                    d = _GeodesicLine.Position(self, s12, *outmask)
-                    return _Adict(d)
+            def Position(self, s12, *outmask):
+                d = _GeodesicLine.Position(self, s12, *outmask)
+                return _Adict(d)
 
-            # GeodesicLine.ArcPosition.__doc__ = _GeodesicLine.ArcPosition.__doc__
-            # GeodesicLine.Position.__doc__    = _GeodesicLine.Position.__doc__
+        # GeodesicLine.ArcPosition.__doc__ = _GeodesicLine.ArcPosition.__doc__
+        # GeodesicLine.Position.__doc__    = _GeodesicLine.Position.__doc__
+        return GeodesicLine
 
-            _Wrapped._GeodesicLine = GeodesicLine
-        return _Wrapped._GeodesicLine
-
-    @property_RO
+    @Property_RO
     def Geodesic_WGS84(self):
         '''Get the I{wrapped} C{Geodesic.WGS84} I{instance} provided the
            U{geographiclib<https://PyPI.org/project/geographiclib>} package
@@ -194,7 +186,7 @@ class _Wrapped(object):
         '''
         return Datums.WGS84.ellipsoid.geodesic
 
-    @property_RO
+    @Property_RO
     def geographiclib(self):
         '''Get the imported C{geographiclib}, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is installed,
@@ -202,37 +194,34 @@ class _Wrapped(object):
         '''
         return self._xgeographiclib(_Wrapped.geographiclib)
 
-    @property_RO
+    @Property_RO
     def Math(self):
         '''Get the C{Math} class, provided the U{geographiclib
            <https://PyPI.org/project/geographiclib>} package is
            installed, otherwise C{None}.
         '''
-        if _Wrapped._Math is False:
-            try:
-                self._xgeographiclib(_Wrapped.Math)
-                from geographiclib.geomath import Math
-                # replace karney. with Math. functions
-                from pygeodesy import karney
-                karney._diff182 = Math.AngDiff
-                karney._fix90   = Math.LatFix
-                karney._norm180 = Math.AngNormalize
-                karney._sum2    = Math.sum
-            except ImportError:
-                Math = None
-            _Wrapped._Math = Math
-        return _Wrapped._Math
+        try:
+            self._xgeographiclib(_Wrapped.Math)
+            from geographiclib.geomath import Math
+            # replace karney. with Math. functions
+            from pygeodesy import karney
+            karney._diff182 = Math.AngDiff
+            karney._fix90   = Math.LatFix
+            karney._norm180 = Math.AngNormalize
+            karney._sum2    = Math.sum
+        except ImportError:
+            Math = None
+        return Math
 
     def _xgeographiclib(self, where):
         '''(INTERNAL) Import C{geographiclib}.
         '''
         if self._geographiclib is None:
             import geographiclib as g
-            self._geographiclib = _xversion(g, where.fget, 1, 49)
+            self._geographiclib = _xversion(g, _Wrapped, 1, 49, name=where.name)
         return self._geographiclib
 
-
-_wrapped = _Wrapped()  # imported by .datum
+_wrapped = _Wrapped()  # PYCHOK singleton, .datum
 
 
 def _diff182(deg0, deg):  # mimick Math.AngDiff

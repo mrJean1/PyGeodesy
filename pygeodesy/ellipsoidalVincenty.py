@@ -52,7 +52,6 @@ or by converting to anothor datum:
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import property_doc_, property_RO
 from pygeodesy.datums import Datums
 from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
                                        CartesianEllipsoidalBase, \
@@ -64,6 +63,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
+from pygeodesy.props import property_doc_, property_RO
 from pygeodesy.units import Number_, Scalar_, _1mm as _TOL_M
 from pygeodesy.utily import atan2b, degrees90, degrees180, \
                             sincos2, unroll180
@@ -71,7 +71,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '20.12.22'
+__version__ = '21.01.07'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!

@@ -69,7 +69,7 @@ guide-coordinate-systems-great-britain.pdf>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import isscalar, neg_, property_RO, _xinstanceof
+from pygeodesy.basics import isscalar, neg_, _xinstanceof
 from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
                                  Ellipsoid2, Ellipsoids
 from pygeodesy.errors import _IsnotError
@@ -85,13 +85,14 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
                                     _lazyNamedEnumItem as _lazy
 from pygeodesy.namedTuples import Vector3Tuple
+from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Radius_
 
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '20.12.30'
+__version__ = '21.01.08'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -216,10 +217,10 @@ class Transform(_NamedEnumItem):
            @return: A L{Vector3Tuple}C{(x, y, z)}, transformed.
         '''
         if inverse:
-            _xyz = tuple(neg_(_1_0, x, y, z))
+            _xyz = neg_(_1_0, x, y, z)
             _s1  = self.s1 - _2_0  # == -(1 - s * 1e-6)) == -(1 - (s1 - 1))
         else:
-            _xyz = _1_0,  x,  y,  z
+            _xyz = _1_0, x, y, z
             _s1  =  self.s1
         # x', y', z' = (.tx + x * .s1 - y * .rz + z * .ry,
         #               .ty + x * .rz + y * .s1 - z * .rx,
@@ -234,12 +235,13 @@ class Transforms(_NamedEnum):
     '''(INTERNAL) L{Transform} registry, I{must} be a sub-class
        to accommodate the L{_LazyNamedEnumItem} properties.
     '''
-    def _Lazy(self, **tx_ty_tz_sx_sy_sz_s):
+    def _Lazy(self, **name_tx_ty_tz_sx_sy_sz_s):
         '''(INTERNAL) Instantiate the C{Transform}.
         '''
-        return Transform(**tx_ty_tz_sx_sy_sz_s)
+        return Transform(**name_tx_ty_tz_sx_sy_sz_s)
 
 Transforms = Transforms(Transform)  # PYCHOK singleton
+'''Some pre-defined L{Transform}s, all I{lazily} instantiated.'''
 # <https://WikiPedia.org/wiki/Helmert_transformation> from WGS84
 Transforms._assert(
     BD72           = _lazy(_BD72_, tx=_F(106.868628), ty=_F(-52.297783), tz=_F(103.723893),
@@ -258,7 +260,7 @@ Transforms._assert(
                      # <https://GeoNet.ESRI.com/thread/36583> sz=_F(-0.156)
                      # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal.js>
                      # <https://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
-                                                     sz=_F(  0.156), s=_F(-1.2)),
+                                                             sz=_F(  0.156), s=_F(-1.2)),
     Identity       = _lazy(_Identity_),
     Irl1965        = _lazy(_Irl1965_, tx=_F(-482.530), ty=_F(130.596), tz=_F(-564.557),
                                       sx=_F(   1.042), sy=_F(  0.214), sz=_F(   0.631),
@@ -294,7 +296,6 @@ class Datum(_NamedEnumItem):
     '''Ellipsoid and transform parameters for an earth model.
     '''
     _ellipsoid = Ellipsoids.WGS84  # default ellipsoid (L{Ellipsoid}, L{Ellipsoid2})
-    _exactTM   = None              # L{ExactTransverseMercator} projection
     _transform = Transforms.WGS84  # default transform (L{Transform})
 
     def __init__(self, ellipsoid, transform=None, name=NN):
@@ -348,34 +349,32 @@ class Datum(_NamedEnumItem):
         '''
         return self._ellipsoid
 
-    @property_RO
+    @Property_RO
     def exactTM(self):
         '''Get the C{ExactTM} projection (L{ExactTransverseMercator}).
         '''
-        if self._exactTM is None:
-            from pygeodesy.etm import ExactTransverseMercator
-            self._exactTM = ExactTransverseMercator(datum=self)
-        return self._exactTM
+        from pygeodesy.etm import ExactTransverseMercator
+        return ExactTransverseMercator(datum=self)
 
-    @property_RO
+    @Property_RO
     def isEllipsoidal(self):
         '''Check whether this datum is ellipsoidal (C{bool}).
         '''
         return self._ellipsoid.isEllipsoidal
 
-    @property_RO
+    @Property_RO
     def isOblate(self):
         '''Check whether this datum's ellipsoidal is I{oblate} (C{bool}).
         '''
         return self._ellipsoid.isOblate
 
-    @property_RO
+    @Property_RO
     def isProlate(self):
         '''Check whether this datum's ellipsoidal is I{prolate} (C{bool}).
         '''
         return self._ellipsoid.isProlate
 
-    @property_RO
+    @Property_RO
     def isSpherical(self):
         '''Check whether this datum is (near-)spherical (C{bool}).
         '''
@@ -470,6 +469,7 @@ class Datums(_NamedEnum):
                      Transforms.get(transform_name), name=name)
 
 Datums = Datums(Datum)  # PYCHOK singleton
+'''Some pre-defined L{Datum}s, all I{lazily} instantiated.'''
 # Datums with associated ellipsoid and Helmert transform parameters
 # to convert from WGS84 into the given datum.  More are available at
 # <https://Earth-Info.NGA.mil/GandG/coordsys/datums/NATO_DT.pdf> and
@@ -565,5 +565,3 @@ if __name__ == '__main__':
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-
-# % python -m pygeodesy.datums

@@ -12,8 +12,7 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import map1, property_doc_, property_RO, \
-                            _xinstanceof
+from pygeodesy.basics import map1, _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS  # parseDMS, parseDMS2
 from pygeodesy.errors import _datum_datum, IntersectionError, _ValueError
 from pygeodesy.fmath import favg
@@ -29,6 +28,7 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, notOverloaded
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
+from pygeodesy.props import property_doc_, property_RO
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '20.12.14'
+__version__ = '21.01.08'
 
 
 class LatLonBase(_NamedBase):
@@ -155,6 +155,26 @@ class LatLonBase(_NamedBase):
         r = Bounds2Tuple(self.classof(self.lat - h, self.lon - w, height=self.height),
                          self.classof(self.lat + h, self.lon + w, height=self.height))
         return self._xnamed(r)
+
+    def chordTo(self, other, height=None):
+        '''Compute the length of the chord through the earth between
+           this and an other point.
+
+           @arg other: The other point (C{LatLon}).
+           @kwarg height: Overriding height for both points (C{meter})
+                          or C{None} to include each point's height.
+
+           @return: The chord length (conventionally C{meter}).
+
+           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+        '''
+        def _v3d(ll):
+            t = ll.Ecef(ll.datum).forward(ll.lat, ll.lon, height=ll.height
+                                          if height is None else height)
+            return Vector3d(t.x, t.y, t.z)
+
+        self.others(other)
+        return _v3d(self).minus(_v3d(other)).length
 
     def compassAngle(self, other):  # PYCHOK no cover
         '''DEPRECATED, use method C{compassAngleTo}.

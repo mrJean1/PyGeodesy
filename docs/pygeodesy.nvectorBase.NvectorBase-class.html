@@ -1019,9 +1019,12 @@
 class="link">EcefKarney</a>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1060,9 +1063,12 @@ class="link">EcefKarney</a>).
         - Get the <i>pass-thru</i> datum (<code>Datum</code>) or <code>None</code>.
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1098,14 +1104,15 @@ class="link">EcefKarney</a>).
   <code>None</code> if unknown).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this n-vector is ellipsoidal (<code>bool</code> or 
-<code>None</code> if unknown).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1120,14 +1127,15 @@ class="link">EcefKarney</a>).
   <code>None</code> if unknown).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this n-vector is spherical (<code>bool</code> or 
-<code>None</code> if unknown).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1142,13 +1150,15 @@ class="link">EcefKarney</a>).
   (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">lam(<span class="summary-sig-arg">self</span>)</span>
-        - Get the (geodetic) longitude in <code>radians</code> (<code>float</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1163,13 +1173,15 @@ class="link">EcefKarney</a>).
   (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">lat(<span class="summary-sig-arg">self</span>)</span>
-        - Get the (geodetic) latitude in <code>degrees</code> (<code>float</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1191,9 +1203,12 @@ href="pygeodesy.namedTuples.LatLon2Tuple-class.html"
 class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1215,9 +1230,12 @@ href="pygeodesy.namedTuples.LatLon3Tuple-class.html"
 class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1232,13 +1250,15 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
   (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">lon(<span class="summary-sig-arg">self</span>)</span>
-        - Get the (geodetic) longitude in <code>degrees</code> (<code>float</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1253,13 +1273,15 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
   (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">phi(<span class="summary-sig-arg">self</span>)</span>
-        - Get the (geodetic) latitude in <code>radians</code> (<code>float</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1281,9 +1303,12 @@ href="pygeodesy.namedTuples.PhiLam2Tuple-class.html"
 class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1305,9 +1330,12 @@ href="pygeodesy.namedTuples.PhiLam3Tuple-class.html"
 class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1329,9 +1357,12 @@ href="pygeodesy.namedTuples.Vector4Tuple-class.html"
 class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -1368,7 +1399,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:10 2020
+    Generated by Epydoc 3.0.1 on Fri Jan  8 22:54:16 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

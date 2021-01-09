@@ -9,8 +9,7 @@ installed.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import copysign, neg, property_RO, _xinstanceof, \
-                            _xsubclassof
+from pygeodesy.basics import copysign, neg, _xinstanceof, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _datum_datum, _ValueError, \
@@ -24,12 +23,13 @@ from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
                                   LatLon2Tuple, _LatLon4Tuple, \
                                   LatLon4Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import Fmt, _fstrENH2, _fstrLL0, _xzipairs
 from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '20.12.22'
+__version__ = '21.01.07'
 
 _CassiniSoldner0 = None  # default projection
 

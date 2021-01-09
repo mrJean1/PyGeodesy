@@ -51,8 +51,8 @@ See U{Geocentric coordinates<https://GeographicLib.SourceForge.io/html/geocentri
 for further information on the errors.
 '''
 
-from pygeodesy.basics import copysign, isscalar, neg, property_RO, \
-                            _xinstanceof, _xsubclassof
+from pygeodesy.basics import copysign, isscalar, neg, _xinstanceof, \
+                            _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, LenError, _ValueError, _xkwds
@@ -66,6 +66,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple
+from pygeodesy.props import Property_RO, property_RO, _update_all
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Height, Int, Lat, Lon, Meter, Scalar
 from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
@@ -74,7 +75,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '20.11.02'
+__version__ = '21.01.08'
 
 _prolate_  = 'prolate'
 _singular_ = 'singular'
@@ -152,7 +153,7 @@ class _EcefBase(_NamedBase):
         if name:
             self.name = name
 
-    @property_RO
+    @Property_RO
     def equatoradius(self):
         '''Get the I{equatorial} radius, semi-axis (C{meter}).
         '''
@@ -172,10 +173,10 @@ class _EcefBase(_NamedBase):
         '''
         return self._E
 
-    @property_RO
+    @Property_RO
     def flattening(self):  # Karney property
-        '''Get the I{flattening} (C{float}), M{(a - b) / a}, posiive for I{oblate},
-           negative for I{prolate} and C{0} for I{near-spherical}.
+        '''Get the I{flattening} (C{float}), M{(a - b) / a}, positive for
+           I{oblate}, negative for I{prolate} or C{0} for I{near-spherical}.
         '''
         return self._E.f
 
@@ -501,25 +502,25 @@ class EcefCartesian(_NamedBase):
         r = Ecef9Tuple(x, y, z, t.lat, t.lon, t.height, 0, m, self.ecef.datum)
         return self._xnamed(r, name=name)
 
-    @property_RO
+    @Property_RO
     def height0(self):
         '''Get origin's height (C{meter}).
         '''
         return self._t0.height
 
-    @property_RO
+    @Property_RO
     def lat0(self):
         '''Get origin's latitude (C{degrees}).
         '''
         return self._t0.lat
 
-    @property_RO
+    @Property_RO
     def lon0(self):
         '''Get origin's longitude (C{degrees}).
         '''
         return self._t0.lon
 
-    @property_RO
+    @Property_RO
     def M(self):
         '''Get the rotation matrix (C{EcefMatrix}).
         '''
@@ -540,6 +541,8 @@ class EcefCartesian(_NamedBase):
                              C{scalar} or B{C{lon0}} not C{scalar} for C{scalar}
                              B{C{latlonh0}} or C{abs(lat)} exceeds 90°.
         '''
+        _update_all(self)
+
         lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, suffix=_0_)
         if name or n:
             self.ecef.name = self.name = name or n
@@ -746,13 +749,13 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
             r = c.toLatLon(datum=datum2, LatLon=None)
         return self._xnamed(r)
 
-    @property_RO
+    @Property_RO
     def lam(self):
         '''Get the longitude in C{radians} (C{float}).
         '''
         return self.philam.lam
 
-    @property_RO
+    @Property_RO
     def lamVermeille(self):
         '''Get the longitude in radians M{[-PI*3/2..+PI*3/2]} after U{Vermeille
            <https://Search.ProQuest.com/docview/639493848>} (2004), p 95.
@@ -788,7 +791,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
         '''
         return self._xnamed(self.latlon.to3Tuple(self.height).to4Tuple(self.datum))
 
-    @property_RO
+    @Property_RO
     def lonVermeille(self):
         '''Get the longitude in degrees M{[-225..+225]} after U{Vermeille
            <https://Search.ProQuest.com/docview/639493848>} (2004), p 95.
@@ -797,7 +800,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
         '''
         return degrees(self.lamVermeille)
 
-    @property_RO
+    @Property_RO
     def phi(self):
         '''Get the latitude in C{radians} (C{float}).
         '''

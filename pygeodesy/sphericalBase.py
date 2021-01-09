@@ -14,7 +14,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import map1, property_doc_
+from pygeodesy.basics import map1
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ellipsoids import R_M, R_MA
@@ -28,6 +28,7 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple
 from pygeodesy.nvectorBase import NvectorBase
+from pygeodesy.props import property_doc_
 from pygeodesy.units import Bearing_, Distance, Height, Radius, Radius_
 from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
                             sincos2, tanPI_2_2, wrapPI
@@ -35,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '20.12.22'
+__version__ = '21.01.07'
 
 
 def _angular(distance, radius):  # PYCHOK for export

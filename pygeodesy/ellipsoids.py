@@ -54,49 +54,52 @@ See module L{datums} for more information and other details.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import copysign, property_doc_, property_RO, _xinstanceof
+from pygeodesy.basics import copysign, isfinite, isint, _xinstanceof
 from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import cbrt, cbrt2, fdot, fhorner, fpowers, Fsum, fsum_, \
                             hypot1, hypot2, sqrt3
 from pygeodesy.interns import EPS, EPS1, INF, NN, PI4, PI_2, R_M, _a_, _A_, \
                              _Airy1830_, _AiryModified_, _Bessel1841_, _Clarke1866_, \
-                             _DOT_, _Clarke1880IGN_, _e_, _1_EPS, _EPStol as _TOL, \
-                             _f_, _float, _floatuple as _T, _GRS80_, _height_, \
-                             _Intl1924_, _Krassovski1940_, _Krassowsky1940_, _n_, \
-                             _lat_, _meridional_, _negative_, _prime_vertical_, \
+                             _Clarke1880IGN_, _DOT_, _e_, _1_EPS, _EPStol as _TOL, \
+                             _f_, _finite_, _float as _F, _floatuple as _T, _GRS80_, \
+                             _height_, _Intl1924_, _Krassovski1940_, _Krassowsky1940_, \
+                             _lat_, _meridional_, _n_, _negative_, _not_, _prime_vertical_, \
                              _radius_, _Sphere_, _SPACE_, _vs_, _WGS72_, _WGS84_, \
                              _0_0, _0_5, _1_0, _2_0, _4_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
                             _NamedEnumItem, _NamedTuple, _Pass
 from pygeodesy.namedTuples import Distance2Tuple
+from pygeodesy.props import Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
-from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, \
-                            Lat, Meter, Phi, Phi_, Radius, Radius_, Scalar
+from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat, \
+                            Meter, Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
 from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2km, m2NM, \
                             m2SM, m2radians, radians2m, sincos2d
 
 from math import asinh, atan, atanh, cos, degrees, exp, hypot, radians, \
                  sin, sinh, sqrt, tan
 
-R_M  = Radius(R_M =R_M)        # mean (spherical) earth radius (C{meter})
-R_MA = Radius(R_MA=6378137.0)  # equatorial earth radius (C{meter}), WGS84, EPSG:3785
-R_MB = Radius(R_MB=6356752.0)  # polar earth radius (C{meter}), WGS84, EPSG:3785
-R_KM = Radius(R_KM=m2km(R_M))  # mean (spherical) earth radius (C{KM}, kilo meter)
-R_NM = Radius(R_NM=m2NM(R_M))  # mean (spherical) earth radius (C{NM}, nautical miles)
-R_SM = Radius(R_SM=m2SM(R_M))  # mean (spherical) earth radius (C{SM}, statute miles)
+R_M  = Radius(R_M =R_M)            # mean (spherical) earth radius (C{meter})
+R_MA = Radius(R_MA=_F(6378137.0))  # equatorial earth radius (C{meter}), WGS84, EPSG:3785
+R_MB = Radius(R_MB=_F(6356752.3))  # polar earth radius (C{meter}), WGS84, EPSG:3785
+R_KM = Radius(R_KM=_F(m2km(R_M)))  # mean (spherical) earth radius (C{KM}, kilo meter)
+R_NM = Radius(R_NM=_F(m2NM(R_M)))  # mean (spherical) earth radius (C{NM}, nautical miles)
+R_SM = Radius(R_SM=_F(m2SM(R_M)))  # mean (spherical) earth radius (C{SM}, statute miles)
 # See <https://www.EdWilliams.org/avform.htm>,
 # <https://www.DTIC.mil/dtic/tr/fulltext/u2/a216843.pdf> and
 # <https://GitHub.com/NASA/MultiDop/blob/master/src/share/man/man3/geog_lib.3>
 # based on International Standard Nautical Mile of 1,852 meter (1' latitude)
-R_FM = Radius(R_FM=6371000.0)        # former FAI Sphere earth radius (C{meter})
-R_VM = Radius(R_VM=6366707.0194937)  # Aviation/Navigation earth radius (C{meter})
-# R_ = Radius(R_  =6372797.560856)   # XXX some other earth radius???
+R_FM = Radius(R_FM=_F(6371000.0))        # former FAI Sphere earth radius (C{meter})
+R_GM = Radius(R_GM=_F(6371230.0))        # Avg. radius, distance to geoid surface (C{meter})
+R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{meter})
+# R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '20.12.30'
+__version__ = '21.01.08'
 
-_f_0_0 = Float(f=_0_0)
+_f_0_0  = Float(f =_0_0)
+_f__0_0 = Float(f_=_0_0)
 
 
 def _aux(lat, inverse, auxLat, clip=90):
@@ -118,7 +121,7 @@ def _4Ecef(this, Ecef):
 
 
 def _s2_c2(phi):
-    '''Return 2-tuple C{(sin(B{phi})**2, cos(B{phi})**2)}.
+    '''(INTERNAL) Return 2-tuple C{(sin(B{phi})**2, cos(B{phi})**2)}.
     '''
     if phi:
         s2 = sin(phi)**2
@@ -138,7 +141,7 @@ class a_f2Tuple(_NamedTuple):
 
        @see: Class L{Ellipsoid2}.
     '''
-    _Names_ = (_a_,   _f_)  # XXX not _f_!
+    _Names_ = (_a_,   _f_)  # 'f' not 'f_'
     _Units_ = (_Pass, _Pass)
 
     def __new__(cls, a, f):
@@ -177,7 +180,7 @@ class Circle4Tuple(_NamedTuple):
     '''4-Tuple C{(radius, height, lat, beta)} of the C{radius} and C{height},
        both conventionally in C{meter} of a parallel I{circle of latitude} at
        (geodetic) latitude C{lat} and the I{parametric (or reduced) auxiliary
-       latitude} C{beta}, both in C{degrees}.
+       latitude} C{beta}, both in C{degrees90}.
 
        The C{height} is the (signed) distance along the z-axis between the
        parallel and the equator.  At near-polar C{lat}s, the C{radius} is C{0},
@@ -206,54 +209,8 @@ class Ellipsoid(_NamedEnumItem):
     _f  = 0  # (1st) flattening: (a - b) / a
     _f_ = 0  # inverse flattening: 1 / f = a / (a - b)
 
-    _f2 = None  # 2nd flattening: (a - b) / b  # rarely used
-    _n  = None  # 3rd flattening: f / (2 - f) = (a - b) / (a + b)  # for .A and .utm
-
-    _a2  = None  # a**2
-    _a2_ = None  # (1 / a**2)  for .ellipsiodalNvector.Cartesian.toNvector
-    _a_b = None  # (a / b) = 1 / (1 - f)  for .ellipsoidalNvector.Nvector.toCartesian
-    _b2  = None  # b**2
-    _b_a = None  # (b / a) = 1 - f  for .ecef, .formy, .R2, .Rgeocentric below
-
-    # curvatures <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>
-    _a2_b = None  # meridional radius of curvature at poles: a**2 / b (C{meter})
-    _b2_a = None  # meridional radius of curvature at equator: b**2 / a (C{meter})
-
-    # eccentricities
-    _e    = None  # (1st) eccentricity: sqrt(1 - (b / a)**2))  # for utm
-    _e2   = None  # (1st) eccentricity squared: f * (2 - f) = 1 - (b / a)**2
-    _e22  = None  # 2nd eccentricity squared: e2 / (1 - e2) = e2 / (1 - f)**2 = (a / b)**2 - 1
-    _e32  = None  # 3rd eccentricity squared: e2 / (2 - e2) = e2 / (1 + (1 - f)**2) = (a**2 - b**2) / (a**2 + b**2)
-    _e12  = None  # 1 - e2 = (1 - f)**2 for .ellipsoidalNvector.Cartesian.toNvector, .ecef, .utm
-    _e4   = None  # e**4 = e2**2 for .ellipsoidalNvector.Cartesian.toNvector, .ecef
-    _es_c = None  # M{(1 - f) * exp(es_atanh(1))}
-
-    # fixed earth radii from <https://WikiPedia.org/wiki/Earth_radius>
-    _A  = None  # UTM meridional radius
-    _L  = None  # quarter meridian: b * Elliptic(-e2 / (1 - e2)).E (C{meter})
-    _R1 = None  # mean earth radius: (2 * a + b) / 3 per IUGG definition (C{meter})
-    _R2 = None  # authalic radius: sqrt((a**2 + b**2 * atanh(e) / e) / 2) (C{meter})
-#   _c  = None  # authalic radius: equ (60) in Karney's "Algorithms for Geodesics"
-    _R3 = None  # volumetric radius: (a * a * b)**(1/3) (C{meter})
-    _Rb = None  # biaxial mean earth radius: sqrt((a**2 * b**2) / 2) (C{meter})
-    _Rg = None  # geometric mean earth radius: sqrt(a * b) (C{meter})
-    _Rr = None  # rectifying radius: ((a**(3/2) + b**(3/2)) / 2)**(2/3) (C{meter})
-
-    _a2_b2  = None  # a**2 / b**2 = (a / b)**2 = _a_b**2 = 1 / (1 - e2) = 1 / _e12
-    _ab_90  = None  # (a - b) / 90  # for .Rlat below
-    _area   = None  # surface area: 4 * PI * R2**2
-    _b2_a2  = None  # b**2 / a**2 = (b / a)**2 = _b_a**2 = (1 - f)**2 = 1 - _e2 = _e12
-    _volume = None  # volume: 4 / 3 * PI * a**2 * b
-
-    _AlphaKs = None  # up to 8th-order Krüger Alpha series
-    _BetaKs  = None  # up to 8th-order Krüger Beta series
     _KsOrder = 8     # Krüger series order (4, 6 or 8)
-    _Mabcd   = None  # OSGR meridional coefficients
-
-    _albersC  = None  # cached L{AlbersEqualAreaCylindrical} instance
-    _elliptic = None  # cached elliptic function L{Elliptic} instance
-    _geodesic = None  # cached C{karney._wrapped_.Geodesic} instance
-    _Math     = None  # cached C{karney._wrapped_.Math} module
+    _Math    = None  # cached geographiclib.Math module
 
     def __init__(self, a, b=None, f_=None, name=NN):
         '''New L{Ellipsoid} from I{equatorial} and I{polar} radius or
@@ -272,28 +229,35 @@ class Ellipsoid(_NamedEnumItem):
                   to M{1 / f_ = 0}, spherical.
         '''
         try:
-            a = Radius_(a=_float(a))  # low=EPS
+            a = Radius_(a=a)  # low=EPS
+            if not isfinite(a):
+                raise ValueError(_not_(_finite_))
+
             if b:
-                b  = Radius_(b=_float(b))  # low=EPS
+                b  = Radius_(b=b)  # low=EPS
                 f  = a_b2f(a, b)
                 f_ = f2f_(f) if f_ is None else Float(f_=f_)
             elif f_:
                 b  = a_f_2b(a, f_)  # a * (f_ - 1) / f_
-                b  = Radius_(b=_float(b))  # low=EPS
                 f  = a_b2f(a, b)
                 f_ = Float(f_=f_)
             else:  # only a, spherical
                 f = f_ = 0
                 b = a  # superfluous
 
+            if not isfinite(b):
+                raise ValueError(_not_(_finite_))
+
             if abs(f) < EPS or a == b or not f_:  # spherical
-                b = a
-                f = f_ = _f_0_0
+                b  =  a
+                f  = _f_0_0
+                f_ = _f__0_0
             elif f > EPS1:  # sanity check, see .ecef.Ecef.__init__
-                raise ValueError
+                raise _ValueError(f=f)
 
         except (TypeError, ValueError) as x:
-            raise _ValueError(instr(self, a=a, b=b, f_=f_), txt=str(x))
+            t = instr(self, a=a, b=b, f_=f_, name=name)
+            raise _ValueError(t, txt=str(x))
 
         self._a  = a
         self._b  = b
@@ -326,33 +290,27 @@ class Ellipsoid(_NamedEnumItem):
 
     equatoradius = a  # = Requatorial
 
-    @property_RO
+    @Property_RO
     def a2(self):
         '''Get the I{equatorial} radius I{squared} (C{float}), M{a**2}.
         '''
-        if self._a2 is None:
-            self._a2 = Float(a2=self.a**2)
-        return self._a2
+        return Meter2(a2=self.a**2)
 
-    @property_RO
+    @Property_RO
     def a2_(self):
         '''Get the inverse of the I{equatorial} radius I{squared} (C{float}), M{1 / a**2}.
         '''
-        if self._a2_ is None:
-            self._a2_ = Float(a2_=_1_0 / self.a2)
-        return self._a2_  # (1 / a**2)
+        return Float(a2_=_1_0 / self.a2)
 
-    @property_RO
+    @Property_RO
     def a_b(self):
-        '''Get the ratio I{equatorial} over I{polar} radius (C{float}), M{a / b}.
+        '''Get the ratio I{equatorial} over I{polar} radius (C{float}), M{a / b} == M{1 / (1 - f)}.
         '''
-        if self._a_b is None:
-            self._a_b = Float(a_b=self.a / self.b if self.f else _1_0)
-        return self._a_b
+        return Float(a_b=self.a / self.b if self.f else _1_0)
 
-    @property_RO
+    @Property_RO
     def a2_b(self):
-        '''Get the I{polar} meridional radius of curvature (C{meter}), M{a**2 / b}, see L{rocPolar}.
+        '''Get the I{polar} meridional radius of curvature (C{meter}), M{a**2 / b}.
 
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
@@ -362,64 +320,64 @@ class Ellipsoid(_NamedEnumItem):
            @note: Symbol C{c} is used by IUGG and IERS for the U{polar radius of
                   curvature<https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        if self._a2_b is None:
-            self._a2_b = Radius(a2_b=self.a2 / self.b if self.f else self.a)
-        return self._a2_b
+        return Radius(a2_b=self.a2 / self.b if self.f else self.a)  # = rocPolar
 
-    @property_RO
+    @Property_RO
     def a2_b2(self):
-        '''Get the ratio I{equatorial} over I{polar} radius I{squared} (C{float}), M{(a / b)**2} == M{1 / (1 - e**2)}.
+        '''Get the ratio I{equatorial} over I{polar} radius I{squared} (C{float}), M{(a / b)**2}
+           == M{1 / (1 - e**2)} == M{1 / (1 - e2)} == M{1 / e12}.
         '''
-        if self._a2_b2 is None:
-            self._a2_b2 = Float(a2_b2=self.a_b**2 if self.f else _1_0)
-        return self._a2_b2
+        return Float(a2_b2=self.a_b**2 if self.f else _1_0)
 
-    @property_RO
+    @Property_RO
     def a_f(self):
         '''Get the I{equatorial} radius and I{flattening} (L{a_f2Tuple}).
         '''
         return self._xnamed(a_f2Tuple(self.a, self.f))
 
-    @property_RO
+    @Property_RO
     def A(self):
         '''Get the UTM I{meridional (or rectifying)} radius (C{meter}).
         '''
-        if self._A is None:
-            A, n = self.a, self.n
-            if n:
-                n1 = _1_0 + n
-                if n1:
-                    # <https://GeographicLib.SourceForge.io/html/transversemercator.html> and
-                    # <https://www.MyGeodesy.id.AU/documents/Karney-Krueger%20equations.pdf> (3)
-                    A = Radius(A=A / n1 * (fhorner(n**2, 65536, 16384, 1024, 256, 100, 49) / 65536))
-            self._A = A
-        return self._A
+        A, n = self.a, self.n
+        if n:
+            n1 = _1_0 + n
+            if n1:  # use 6 n**2 terms, half-way between the _KsOrder's 4, 6, 8
+                # <https://GeographicLib.SourceForge.io/html/tmseries30.html>
+                # <https://GeographicLib.SourceForge.io/html/transversemercator.html> and
+                # <https://www.MyGeodesy.id.AU/documents/Karney-Krueger%20equations.pdf> (3)
+                A = Radius(A=A / n1 * (fhorner(n**2, 1048576, 262144, 16384, 4096, 1600, 784, 441) / 1048576))
+        return A
 
-    @property_RO
+    @Property_RO
+    def _albersCyl(self):
+        '''(INTERNAL) Helper for C{auxAuthalic}.
+        '''
+        from pygeodesy.albers import AlbersEqualAreaCylindrical
+        return AlbersEqualAreaCylindrical(datum=self, name=self.name)
+
+    @Property_RO
     def AlphaKs(self):
         '''Get the I{Krüger} U{Alpha series coefficients<https://GeographicLib.SourceForge.io/html/tmseries30.html>} (L{KsOrder}C{-tuple}).
         '''
-        if self._AlphaKs is None:
-            self._AlphaKs = self._Kseries(  # XXX int/int quotients may require  from __future__ import division
-              #   n    n**2   n**3      n**4         n**5            n**6                 n**7                     n**8
-              _T(1/2, -2/3,   5/16,    41/180,    -127/288,       7891/37800,         72161/387072,        -18975107/50803200),
-                   _T(13/48, -3/5,    557/1440,    281/630,   -1983433/1935360,       13769/28800,         148003883/174182400),     # PYCHOK unaligned
-                          _T(61/240, -103/140,   15061/26880,   167603/181440,    -67102379/29030400,       79682431/79833600),      # PYCHOK unaligned
-                                 _T(49561/161280, -179/168,    6601661/7257600,       97445/49896,      -40176129013/7664025600),    # PYCHOK unaligned
-                                              _T(34729/80640, -3418889/1995840,    14644087/9123840,      2605413599/622702080),     # PYCHOK unaligned
-                                                          _T(212378941/319334400, -30705481/10378368,   175214326799/58118860800),   # PYCHOK unaligned
-                                                                              _T(1522256789/1383782400, -16759934899/3113510400),    # PYCHOK unaligned
-                                                                                                    _T(1424729850961/743921418240))  # PYCHOK unaligned
-        return self._AlphaKs
+        return self._Kseries(  # XXX int/int quotients may require  from __future__ import division
+            #   n    n**2   n**3      n**4         n**5            n**6                 n**7                     n**8
+            _T(1/2, -2/3,   5/16,    41/180,    -127/288,       7891/37800,         72161/387072,        -18975107/50803200),
+                 _T(13/48, -3/5,    557/1440,    281/630,   -1983433/1935360,       13769/28800,         148003883/174182400),     # PYCHOK unaligned
+                        _T(61/240, -103/140,   15061/26880,   167603/181440,    -67102379/29030400,       79682431/79833600),      # PYCHOK unaligned
+                               _T(49561/161280, -179/168,    6601661/7257600,       97445/49896,      -40176129013/7664025600),    # PYCHOK unaligned
+                                            _T(34729/80640, -3418889/1995840,    14644087/9123840,      2605413599/622702080),     # PYCHOK unaligned
+                                                        _T(212378941/319334400, -30705481/10378368,   175214326799/58118860800),   # PYCHOK unaligned
+                                                                            _T(1522256789/1383782400, -16759934899/3113510400),    # PYCHOK unaligned
+                                                                                                  _T(1424729850961/743921418240))  # PYCHOK unaligned
 
-    @property_RO
+    @Property_RO
     def area(self):
-        '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * R2**2} or M{4 * PI * a**2}.
+        '''Get the ellipsoid's surface area (C{meter**2}), M{4 * PI * R2**2}.
+
+           @see: L{c2} and L{R2}.
         '''
-        if self._area is None:
-            r = self.R2 if self.f else self.a  # authalic radius
-            self._area = Float(area=PI4 * r**2)
-        return self._area
+        return Meter2(area=self.c2 * PI4)
 
     def _assert(self, val, eps=_TOL, f0=_0_0, **name_value):
         '''(INTERNAL) Assert a C{name=value} vs C{val}.
@@ -449,12 +407,8 @@ class Ellipsoid(_NamedEnumItem):
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, p 16.
 
         '''
-        if self.isEllipsoidal:
-            if self._albersC is None:
-                from pygeodesy.albers import AlbersEqualAreaCylindrical as _AC
-                self._albersC = _AC(datum=self, name=self.name)
-
-            f = self._albersC._tanf if inverse else self._albersC._txif  # PYCHOK attr
+        if self.f:
+            f = self._albersCyl._tanf if inverse else self._albersCyl._txif  # PYCHOK attr
             lat = atand(f(tan(Phi_(lat))))  # PYCHOK attr
         return _aux(lat, inverse, Ellipsoid.auxAuthalic.__name__)
 
@@ -472,7 +426,7 @@ class Ellipsoid(_NamedEnumItem):
                  <https://WikiPedia.org/wiki/Latitude#Conformal_latitude>}, and
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 15-16.
         '''
-        if self.isEllipsoidal:
+        if self.f:
             f = self.es_tauf if inverse else self.es_taupf  # PYCHOK attr
             lat = atand(f(tan(Phi_(lat))))  # PYCHOK attr
         return _aux(lat, inverse, Ellipsoid.auxConformal.__name__)
@@ -491,7 +445,7 @@ class Ellipsoid(_NamedEnumItem):
                  <https://WikiPedia.org/wiki/Latitude#Geocentric_latitude>}, and
                  U{Snyder<<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 17-18.
         '''
-        if self.isEllipsoidal:
+        if self.f:
             f = self.a2_b2 if inverse else self.b2_a2
             lat = atand(f * tan(Phi_(lat)))
         return _aux(lat, inverse, Ellipsoid.auxGeocentric.__name__)
@@ -514,7 +468,7 @@ class Ellipsoid(_NamedEnumItem):
                  <https://WikiPedia.org/wiki/Latitude#Isometric_latitude>}, and
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 15-16.
         '''
-        if self.isEllipsoidal:
+        if self.f:
             r = Phi_(lat, clip=0)
             lat = degrees( atan(self.es_tauf(sinh(r))) if inverse else
                           asinh(self.es_taupf(tan(r))))
@@ -535,7 +489,7 @@ class Ellipsoid(_NamedEnumItem):
                  <https://WikiPedia.org/wiki/Latitude#Parametric_(or_reduced)_latitude>},
                  and U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, p 18.
         '''
-        if self.isEllipsoidal:
+        if self.f:
             lat = self._beta(Lat(lat), inverse=inverse)
         return _aux(lat, inverse, Ellipsoid.auxParametric.__name__)
 
@@ -555,7 +509,7 @@ class Ellipsoid(_NamedEnumItem):
                  <https://WikiPedia.org/wiki/Latitude#Rectifying_latitude>}, and
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 16-17.
         '''
-        if self.isEllipsoidal:
+        if self.f:
             lat = Lat(lat)
             if 0 < abs(lat) < _90_0:
                 if inverse:
@@ -574,40 +528,33 @@ class Ellipsoid(_NamedEnumItem):
 
     polaradius = b  # = Rpolar
 
-    @property_RO
+    @Property_RO
     def b_a(self):
         '''Get the ratio I{polar} over I{equatorial} radius (C{float}), M{b / a} == M{1 - f}.
         '''
-        if self._b_a is None:
-            self._b_a = self._assert(self.b / self.a, b_a=_1_0 - self.f, f0=_1_0)
-        return self._b_a
+        return self._assert(self.b / self.a, b_a=_1_0 - self.f, f0=_1_0)
 
-    @property_RO
+    @Property_RO
     def b2(self):
         '''Get the I{polar} radius I{squared} (C{float}), M{b**2}.
         '''
-        if self._b2 is None:
-            self._b2 = Float(b2=self.b**2)
-        return self._b2
+        return Meter2(b2=self.b**2)
 
-    @property_RO
+    @Property_RO
     def b2_a(self):
         '''Get the I{equatorial} meridional radius of curvature (C{meter}), M{b**2 / a}, see L{rocMeridional}C{(0)}.
 
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        if self._b2_a is None:
-            self._b2_a = Radius(b2_a=self.b2 / self.a if self.f else self.b)
-        return self._b2_a
+        return Radius(b2_a=self.b2 / self.a if self.f else self.b)
 
-    @property_RO
+    @Property_RO
     def b2_a2(self):
-        '''Get the ratio I{polar} over I{equatorial} radius I{squared} (C{float}), M{(b / a)**2} == M{(1 - f)**2} == M{1 - e**2}, see L{e12}.
+        '''Get the ratio I{polar} over I{equatorial} radius I{squared} (C{float}), M{(b / a)**2}
+           == M{(1 - f)**2} == M{1 - e**2} == L{e12}.
         '''
-        if self._b2_a2 is None:
-            self._b2_a2 = Float(b2_a2=self.b_a**2 if self.f else _1_0)
-        return self._b2_a2
+        return Float(b2_a2=self.b_a**2 if self.f else _1_0)
 
     def _beta(self, lat, inverse=False):
         '''(INTERNAL) Get the I{parametric (or reduced) auxiliary latitude} or inverse thereof.
@@ -616,35 +563,41 @@ class Ellipsoid(_NamedEnumItem):
         _f1  = self.a_b if inverse else self.b_a
         return atan2d(_f1 * s, c)  # == atand(_f_1 * s / c) if c else copysign(_90_0, lat)
 
-    @property_RO
+    @Property_RO
     def BetaKs(self):
         '''Get the I{Krüger} U{Beta series coefficients<https://GeographicLib.SourceForge.io/html/tmseries30.html>} (L{KsOrder}C{-tuple}).
         '''
-        if self._BetaKs is None:
-            self._BetaKs = self._Kseries(  # XXX int/int quotients may require  from __future__ import division
-              #   n    n**2  n**3     n**4        n**5            n**6                 n**7                   n**8
-              _T(1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800,     -5406467/38707200,      7944359/67737600),
-                    _T(1/48, 1/15, -437/1440,    46/105,   -1118711/3870720,       51841/1209600,      24749483/348364800),      # PYCHOK unaligned
-                         _T(17/480, -37/840,   -209/4480,      5569/90720,       9261899/58060800,     -6457463/17740800),       # PYCHOK unaligned
-                                _T(4397/161280, -11/504,    -830251/7257600,      466511/2494800,     324154477/7664025600),     # PYCHOK unaligned
-                                            _T(4583/161280, -108847/3991680,    -8005831/63866880,     22894433/124540416),      # PYCHOK unaligned
-                                                        _T(20648693/638668800, -16363163/518918400, -2204645983/12915302400),    # PYCHOK unaligne
-                                                                            _T(219941297/5535129600, -497323811/12454041600),    # PYCHOK unaligned
-                                                                                                _T(191773887257/3719607091200))  # PYCHOK unaligned
-        return self._BetaKs
+        return self._Kseries(  # XXX int/int quotients may require  from __future__ import division
+            #   n    n**2  n**3     n**4        n**5            n**6                 n**7                   n**8
+            _T(1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800,     -5406467/38707200,      7944359/67737600),
+                  _T(1/48, 1/15, -437/1440,    46/105,   -1118711/3870720,       51841/1209600,      24749483/348364800),      # PYCHOK unaligned
+                       _T(17/480, -37/840,   -209/4480,      5569/90720,       9261899/58060800,     -6457463/17740800),       # PYCHOK unaligned
+                              _T(4397/161280, -11/504,    -830251/7257600,      466511/2494800,     324154477/7664025600),     # PYCHOK unaligned
+                                          _T(4583/161280, -108847/3991680,    -8005831/63866880,     22894433/124540416),      # PYCHOK unaligned
+                                                      _T(20648693/638668800, -16363163/518918400, -2204645983/12915302400),    # PYCHOK unaligne
+                                                                          _T(219941297/5535129600, -497323811/12454041600),    # PYCHOK unaligned
+                                                                                              _T(191773887257/3719607091200))  # PYCHOK unaligned
 
-    @property_RO
-    def c(self):
-        '''Get the I{authalic} earth radius (C{meter}), see L{R2}.
+    @Property_RO
+    def c2(self):
+        '''Get the I{authalic} earth radius I{squared} (C{meter**2}), see L{area}, L{R2}.
 
-           @note: Symbol C{c} in U{equation 60
-                  <https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>}.
-
-           @note: Symbol C{c} is used by IUGG and IERS for the U{polar radius of
-                  curvature<https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>},
-                  see C{rocPolar}.
+           @see: I{Karney's} U{equation 60<https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>} and C++
+                 U{Ellipsoid.Area()<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Ellipsoid.html>},
+                 U{Authalic radius<https://WikiPedia.org/wiki/Earth_radius#Authalic_radius>}, U{Surface area
+                 <https://WikiPedia.org/wiki/Ellipsoid>} and U{surface area
+                 <https://www.Numericana.com/answer/geometry.htm#oblate>}.
         '''
-        return self.R2  # if self._R2 is None else self._R2
+        if self.f:
+            c2 = self.b2
+            if self.f > 0:  # .isOblate
+                c2 *= atanh(self.e) / self.e
+            elif self.f < 0:  # .isProlate
+                c2 *= atan(self.e) / self.e  # XXX asin?
+            c2 = Meter2(c2=(self.a2 + c2) * _0_5)
+        else:
+            c2 = self.a2
+        return c2
 
     def circle4(self, lat):
         '''Get the equatorial or a parallel I{circle of latitude}.
@@ -670,21 +623,21 @@ class Ellipsoid(_NamedEnumItem):
         if lat:
             b = lat
             if abs(lat) < _90_0:
-                if self.isEllipsoidal:
+                if self.f:
                     b = self._beta(lat)
                 z, r = sincos2d(b)
                 r *= self.a
                 z *= self.b
             else:  # near-polar
                 r, z = _0_0, copysign(self.b, lat)
-        else:
+        else:  # equator
             r = self.a
             z = lat = b = _0_0
         return Circle4Tuple(r, z, lat, b)
 
     def degrees2m(self, deg, lat=0):
         '''Convert an angle to the distance along the equator or
-           along the parallel at the given (geodetic) latitude.
+           along a parallel of (geodetic) latitude.
 
            @arg deg: The angle (C{degrees}).
            @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
@@ -727,79 +680,71 @@ class Ellipsoid(_NamedEnumItem):
         n *= Lam_(lon1=lon1) - Lam_(lon0=lon0)
         return Distance2Tuple(hypot(m, n), atan2b(n, m))
 
-    @property_RO
+    @Property_RO
     def e(self):
         '''Get the I{(1st) eccentricity} (C{float}), M{sqrt(1 - (b / a)**2))}, see L{a_b2e}.
         '''
-        if self._e is None:
-            self._e = Float(e=sqrt(self.e2abs) if self.f else _0_0)
-        return self._e
+        return Float(e=sqrt(self.e2abs) if self.e2 else _0_0)
 
     eccentricity = e  # eccentricity
 
-    @property_RO
+    @Property_RO
     def e2(self):
-        '''Get the I{(1st) eccentricity squared} (C{float}), M{f * (2 - f) == 1 - (b / a)**2}, see L{a_b2e2}.
+        '''Get the I{(1st) eccentricity squared} (C{float}), M{f * (2 - f)
+           == 1 - (b / a)**2}, see L{a_b2e2}.
         '''
-        if self._e2 is None:
-            self._e2 = self._assert(a_b2e2(self.a, self.b), e2=f2e2(self.f))
-        return self._e2
+        return self._assert(a_b2e2(self.a, self.b), e2=f2e2(self.f))
 
     eccentricity2 = e2  # eccentricity squared
 
-    @property_RO
+    @Property_RO
     def e2abs(self):
         '''Get C{abs} value of the I{(1st) eccentricity squared} (C{float}).
         '''
-        return abs(self._e2)
+        return abs(self.e2)
 
-    @property_RO
+    @Property_RO
     def e12(self):
-        '''Get 1 less I{(1st) eccentricity squared} (C{float}), M{1 - e**2} == M{(1 - f)**2} == M{b**2 / a**2}, see L{b2_a2}.
+        '''Get 1 less I{(1st) eccentricity squared} (C{float}), M{1 - e**2}
+           == M{(1 - f)**2} == M{b**2 / a**2}, see L{b2_a2}.
         '''
-        if self._e12 is None:
-            self._e12 = self._assert((_1_0 - self.f)**2, e12=_1_0 - self.e2, f0=_1_0)
-        return self._e12  # 1 - e2
+        return self._assert((_1_0 - self.f)**2, e12=_1_0 - self.e2, f0=_1_0)  # 1 - e2
 
-    @property_RO
+    @Property_RO
     def e22(self):
-        '''Get the I{2nd eccentricity squared} (C{float}), M{e2 / (1 - e2) == (a / b)**2 - 1}, see L{a_b2e22}.
+        '''Get the I{2nd eccentricity squared} (C{float}), M{e2 / (1 - e2)
+           == M{e2 / (1 - f)**2} == (a / b)**2 - 1}, see L{a_b2e22}.
         '''
-        if self._e22 is None:
-            self._e22 = self._assert(a_b2e22(self.a, self.b), e22=f2e22(self.f))
-        return self._e22
+        return self._assert(a_b2e22(self.a, self.b), e22=f2e22(self.f))
 
-    eccentricity2nd2 = e2  # second eccentricity squared
+    eccentricity2nd2 = e22  # second eccentricity squared
 
-    @property_RO
+    @Property_RO
     def e22abs(self):
         '''Get C{abs} value of the I{(2nd) eccentricity squared} (C{float}).
         '''
         return abs(self._e22)
 
-    @property_RO
+    @Property_RO
     def e32(self):
-        '''Get the I{3rd eccentricity squared} (C{float}), M{e2 / (2 - e2) == (a**2 - b**2) / (a**2 + b**2)}, see L{a_b2e32}.
+        '''Get the I{3rd eccentricity squared} (C{float}), M{e2 / (2 - e2)
+           == (a**2 - b**2) / (a**2 + b**2)}, see L{a_b2e32}.
         '''
-        if self._e32 is None:
-            self._e32 = self._assert(a_b2e32(self.a, self.b), e32=f2e32(self.f))
-        return self._e32
+        return self._assert(a_b2e32(self.a, self.b), e32=f2e32(self.f))
 
     eccentricity3rd2 = e32  # third eccentricity squared
 
-    @property_RO
+    @Property_RO
     def e32abs(self):
         '''Get C{abs} value of the I{(3rd) eccentricity squared} (C{float}).
         '''
-        return abs(self._e32)
+        return abs(self.e32)
 
-    @property_RO
+    @Property_RO
     def e4(self):
         '''Get the I{(1st) eccentricity} to 4th power (C{float}), M{e**4 == e2**2}.
         '''
-        if self._e4 is None:
-            self._e4 = Float(e4=self.e2**2 if self.f else _0_0)
-        return self._e4
+        return Float(e4=self.e2**2 if self.e2 else _0_0)
 
     def ecef(self, Ecef=None):
         '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.
@@ -814,14 +759,12 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return _4Ecef(self, Ecef)
 
-    @property_RO
+    @Property_RO
     def _elliptic_e22(self):
         '''(INTERNAL) Elliptic helper for C{auxRectifying}, C{L}, C{Llat}.
         '''
-        if self._elliptic is None:
-            from pygeodesy.elliptic import Elliptic
-            self._elliptic = Elliptic(-abs(self.e22))
-        return self._elliptic
+        from pygeodesy.elliptic import Elliptic
+        return Elliptic(-abs(self.e22))
 
     def e2s(self, s):
         '''Compute norm M{sqrt(1 - e2 * s**2)}.
@@ -832,7 +775,7 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{s}}.
         '''
-        return sqrt(self.e2s2(s))
+        return sqrt(self.e2s2(s)) if self.e2 else _1_0
 
     def e2s2(self, s):
         '''Compute M{1 - e2 * s**2}.
@@ -844,14 +787,15 @@ class Ellipsoid(_NamedEnumItem):
            @raise ValueError: Invalid B{C{s}}.
         '''
         try:
-            r = _1_0 - self.e2 * Scalar(s=s)**2
+            e2 = self.e2
+            r  = (_1_0 - e2 * Scalar(s=s)**2) if e2 else _1_0
             if r < 0:
                 raise ValueError(_negative_)
         except (TypeError, ValueError) as x:
             raise _ValueError(self._DOT_(Ellipsoid.e2s2.__name__), s, txt=str(x))
         return r
 
-    @property_RO
+    @Property_RO
     def es(self):
         '''Get the I{(1st) eccentricity signed} (C{float}).
         '''
@@ -868,21 +812,19 @@ class Ellipsoid(_NamedEnumItem):
                  html/classGeographicLib_1_1Math.html>}.
         '''
         # note, self.e is always non-negative
-        if self.f > 0:  # oblate
+        if self.f > 0:  # .isOblate
             r = atanh(self.e * Scalar(x=x)) * self.e
-        elif self.f < 0:  # prolate
+        elif self.f < 0:  # .isProlate
             r = -atan(self.e * Scalar(x=x)) * self.e
-        else:
+        else:  # .isSpherical
             r = _0_0
         return r
 
-    @property_RO
+    @Property_RO
     def es_c(self):
         '''Get M{(1 - f) * exp(es_atanh(1))} (C{float}), M{b_a * exp(es_atanh(1))}.
         '''
-        if self._es_c is None:
-            self._es_c = Float(es_c=(self.b_a * exp(self.es_atanh(_1_0))) if self.f else _1_0)
-        return self._es_c
+        return Float(es_c=(self.b_a * exp(self.es_atanh(_1_0))) if self.f else _1_0)
 
     def es_tauf(self, taup):
         '''Compute I{Karney}'s U{equations (19), (20) and (21)
@@ -917,8 +859,10 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Math::taupf<https://GeographicLib.SourceForge.io/
                  html/classGeographicLib_1_1Math.html>}.
         '''
-        a, _ = self._es_taupf2(Scalar(tau=tau))
-        return a
+        t = Scalar(tau=tau)
+        if self.f:
+            t, _ = self._es_taupf2(t)
+        return t
 
     def _es_taupf2(self, t):
         '''(INTERNAL) Return C{(es_taupf(t), hypot1(t))}.
@@ -942,48 +886,32 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return self._f_
 
-    @property_RO
+    @Property_RO
     def f2(self):
         '''Get the I{2nd flattening} (C{float}), M{(a - b) / b == f / (1 - f)}, C{0} for spherical, see L{a_b2f2}.
         '''
-        if self._f2 is None:
-            self._f2 = self._assert(self.a_b - _1_0, f2=f2f2(self.f))
-        return self._f2
+        return self._assert(self.a_b - _1_0, f2=f2f2(self.f))
 
     flattening2nd = f2
 
-    def _f_late(self, _f_a_b):
-        '''(INTERNAL) Handle oblate, prolate, spherical case.
-        '''
-        if self.f > 0:  # oblate, a > b
-            return _f_a_b(self.a, self.b)
-        elif self.f < 0:  # prolate, b > a
-            return _f_a_b(self.b, self.a)
-        else:
-            return self.a
-
-    @property_RO
+    @Property_RO
     def geodesic(self):
         '''Get this ellipsoid's I{wrapped Karney} U{Geodesic
            <https://GeographicLib.SourceForge.io/html/python/code.html>},
            provided the U{geographiclib<https://PyPI.org/project/geographiclib>}
            package is installed.
         '''
-        if self._geodesic is None:
-            # if not self.isEllipsoidal:
-            #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
-            from pygeodesy.karney import _wrapped
-            self._geodesic = _wrapped.Geodesic(self.a, self.f)
-        return self._geodesic
+        # if not self.isEllipsoidal:
+        #     raise _IsnotError(_ellipsoidal_, ellipsoid=self)
+        from pygeodesy.karney import _wrapped
+        Ellipsoid._Math = _wrapped.Math  # hold
+        return _wrapped.Geodesic(self.a, self.f)
 
     @property_RO
     def _geodesic_Math2(self):
         '''(INTERNAL) Get this ellipsoid's I{wrapped Karney} C{Geodesic}
-           and I{Karney}'s C{Math} class.
+           and I{Karney}'s C{Math} class, see L{geodesic}.
         '''
-        if Ellipsoid._Math is None:
-            from pygeodesy.karney import _wrapped
-            Ellipsoid._Math = _wrapped.Math
         return self.geodesic, Ellipsoid._Math
 
     def _hubeny2_(self, phi2, phi1, lam21):
@@ -993,27 +921,27 @@ class Ellipsoid(_NamedEnumItem):
         m, n = self.roc2_((phi2 + phi1) * _0_5, scaled=True)
         return hypot2(m * (phi2 - phi1), n * lam21) * self.a2_
 
-    @property_RO
+    @Property_RO
     def isEllipsoidal(self):
         '''Is this model I{ellipsoidal} (C{bool})?
         '''
         return self.f != 0
 
-    @property_RO
+    @Property_RO
     def isOblate(self):
         '''Is this ellipsoid I{oblate} (C{bool})?  I{Prolate} or
            spherical otherwise.
         '''
         return self.f > 0
 
-    @property_RO
+    @Property_RO
     def isProlate(self):
         '''Is this ellipsoid I{prolate} (C{bool})?  I{Oblate} or
            spherical otherwise.
         '''
         return self.f < 0
 
-    @property_RO
+    @Property_RO
     def isSpherical(self):
         '''Is this model I{spherical} (C{bool})?
         '''
@@ -1021,21 +949,24 @@ class Ellipsoid(_NamedEnumItem):
 
     def _Kseries(self, *AB8Ks):
         '''(INTERNAL) Compute the 4-, 6- or 8-th order I{Krüger} Alpha
-           or Beta series coefficients per I{Karney} 2011, 'Transverse
-           Mercator with an accuracy of a few nanometers', U{page 7,
-           equations 35 and 36<https://Arxiv.org/pdf/1002.1417v3.pdf>}.
+           or Beta series coefficients per I{Karney}'s U{equations 35
+           and 36<https://Arxiv.org/pdf/1002.1417v3.pdf>}.
 
            @arg AB8Ks: 8-Tuple of 8-th order I{Krüger} Alpha or Beta series
                        coefficient tuples.
 
-           @return: I{Krüger} series coefficients (C{KsOrder}-tuple).
+           @return: I{Krüger} series coefficients (L{KsOrder}C{-tuple}).
 
            @see: I{Karney}s 30-th order U{TMseries30
                  <https://GeographicLib.SourceForge.io/html/tmseries30.html>}.
         '''
-        k  = self.KsOrder
-        ns = fpowers(self.n, k)
-        return tuple(fdot(AB8Ks[i][:k-i], *ns[i:]) for i in range(k))
+        k = self.KsOrder
+        if self.n:
+            ns = fpowers(self.n, k)
+            ks = tuple(fdot(AB8Ks[i][:k-i], *ns[i:]) for i in range(k))
+        else:
+            ks = (_0_0,) * k
+        return ks
 
     @property_doc_(''' the I{Krüger} series' order (C{int}), see L{AlphaKs}, L{BetaKs}.''')
     def KsOrder(self):
@@ -1051,32 +982,25 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{order}}.
         '''
-        if order not in (4, 6, 8):
+        if not (isint(order) and order in (4, 6, 8)):
             raise _ValueError(order=order)
         if order != self._KsOrder:
-            if self._AlphaKs:
-                self._AlphaKs = None
-            if self._BetaKs:
-                self._BetaKs = None
+            Ellipsoid.AlphaKs._update(self)
+            Ellipsoid.BetaKs._update(self)
             self._KsOrder = order
 
-    @property_RO
+    @Property_RO
     def L(self):
         '''Get the I{quarter meridian} C{L} (aka polar distance), the distance
            along a meridian between the equator and a pole (C{meter}),
            M{b * Elliptic(-e2 / (1 - e2)).E} or M{a * PI / 2}.
         '''
-        if self._L is None:
-            if self.f:  # complete integral 2nd ...
-                # kind: Elliptic(-e2 / (1 - e2)).E
-                L = self._elliptic_e22.cE
-            else:  # spherical
-                L = PI_2
-            self._L = Distance(L=self.b * L)
-        return self._L
-
-    quarteradius = L  # -meridian
-    '''DEPRECATED, use C{L}.'''
+        if self.f:  # complete integral 2nd ...
+            # kind: Elliptic(-e2 / (1 - e2)).E
+            r = self._elliptic_e22.cE
+        else:  # spherical
+            r = PI_2
+        return Distance(L=self.b * r)
 
     def Llat(self, lat):
         '''Return the I{meridional length}, the distance along a meridian
@@ -1087,31 +1011,28 @@ class Ellipsoid(_NamedEnumItem):
            @return: The meridional length at B{C{lat}}, negative on southern
                     hemisphere (C{meter}).
         '''
-        L = self._elliptic_e22.fEd(self.auxParametric(lat)) if self.f else Phi_(lat)
-        return Distance(Llat=self.b * L)
+        r = self._elliptic_e22.fEd(self.auxParametric(lat)) if self.f else Phi_(lat)
+        return Distance(Llat=self.b * r)
 
     Lmeridian = Llat  # meridional distance
 
-    @property_RO
+    @Property_RO
     def Mabcd(self):
         '''Get the OSGR meridional coefficients (C{4-Tuple}), C{Airy130} only.
         '''
-        if self._Mabcd is None:
+        if self.n:
             n1, n2, n3 = fpowers(self.n, 3)  # PYCHOK false!
-            self._Mabcd = (fsum_(4, 4 * n1,  5 * n2,  5 * n3) / 4,
-                           fsum_(  24 * n1, 24 * n2, 21 * n3) / 8,
-                           fsum_(           15 * n2, 15 * n3) / 8,
-                                                    (35 * n3) / 24)
-        return self._Mabcd
-
-    majoradius = a
-    '''DEPRECATED, use C{a} or C{Requatorial}.'''
-    minoradius = b
-    '''DEPRECATED, use C{b} or C{Rpolar}.'''
+            Mabcd = (fsum_(4, 4 * n1,  5 * n2,  5 * n3) / 4,
+                     fsum_(  24 * n1, 24 * n2, 21 * n3) / 8,
+                     fsum_(           15 * n2, 15 * n3) / 8,
+                                              (35 * n3) / 24)
+        else:
+            Mabcd = _1_0, _0_0, _0_0, _0_0
+        return Mabcd
 
     def m2degrees(self, distance, lat=0):
         '''Convert a distance to an angle along the equator or
-           along the parallel at an other (geodetic) latitude.
+           along a parallel of (geodetic) latitude.
 
            @arg distance: Distance (C{meter}).
            @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
@@ -1125,19 +1046,9 @@ class Ellipsoid(_NamedEnumItem):
        '''
         return degrees(self.m2radians(distance, lat=lat))
 
-    @property_RO
-    def n(self):
-        '''Get the I{3rd flattening} (C{float}), M{f / (2 - f) == (a - b) / (a + b)}, see L{a_b2n}.
-        '''
-        if self._n is None:
-            self._n = self._assert(a_b2n(self.a, self.b), n=f2n(self.f))
-        return self._n
-
-    flattening3rd = n
-
     def m2radians(self, distance, lat=0):
         '''Convert a distance to an angle along the equator or
-           along the parallel at an other (geodetic) latitude.
+           along a parallel of (geodetic) latitude.
 
            @arg distance: Distance (C{meter}).
            @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
@@ -1152,60 +1063,52 @@ class Ellipsoid(_NamedEnumItem):
         r = self.circle4(lat).radius if lat else self.a
         return m2radians(distance, radius=r, lat=0)
 
-    @property_RO
+    @Property_RO
+    def n(self):
+        '''Get the I{3rd flattening} (C{float}), M{f / (2 - f) == (a - b) / (a + b)}, see L{a_b2n}.
+        '''
+        return self._assert(a_b2n(self.a, self.b), n=f2n(self.f))
+
+    flattening3rd = n
+
+    @Property_RO
     def R1(self):
         '''Get the I{mean} earth radius per I{IUGG} (C{meter}), M{(2 * a + b) / 3}.
 
            @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}
                  and method C{Rgeometric}.
         '''
-        if self._R1 is None:
-            def _R1(a, b):
-                return fsum_(a, a, b) / 3
-
-            self._R1 = Radius(R1=self._f_late(_R1))
-        return self._R1
+        r = (fsum_(self.a, self.a, self.b) / 3) if self.f else self.a
+        return Radius(R1=r)
 
     Rmean = R1
 
-    @property_RO
+    @Property_RO
     def R2(self):
-        '''Get the I{authalic} earth radius (C{meter}), M{sqrt((a**2 + b**2 * atanh(e) / e) / 2)}.
+        '''Get the I{authalic} earth radius (C{meter}), M{sqrt((a**2 + b**2 * atan[h](e) / e) / 2)}.
 
-           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}, C{area} and
-                 U{c<https://Link.Springer.com/article/10.1007%2Fs00190-012-0578-z>}.
+           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}, L{area} and L{c2}.
+
+           @note: Symbol C{c} is also used by IUGG and IERS for the U{polar radius of curvature
+                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}, see L{rocPolar}.
         '''
-        if self._R2 is None:
-            def _R2(a, b):
-                r = (b / a)**2
-                if EPS < r < EPS1:
-                    e  = sqrt( _1_0 - r)
-                    a *= sqrt((_1_0 + r * atanh(e) / e) * _0_5)
-                return a
-
-            self._R2 = Radius(R2=self._f_late(_R2))
-        return self._R2
+        return Radius(R2=sqrt(self.c2) if self.f else self.a)
 
     Rauthalic = R2
 
-    @property_RO
+    @Property_RO
     def R3(self):
         '''Get the I{volumetric} earth radius (C{meter}), M{(a * a * b)**(1/3)}.
 
-           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
+           @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>} and L{volume}.
         '''
-        if self._R3 is None:
-            def _R3(a, b):
-                return cbrt(a**2 * b)
-
-            self._R3 = Radius(R3=self._f_late(_R3))
-        return self._R3
+        return Radius(R3=cbrt(self._v3) if self.f else self.a)
 
     Rvolumetric = R3
 
     def radians2m(self, rad, lat=0):
-        '''Convert an angle to the distance along the equator or along
-           the parallel at the given (geodetic) latitude.
+        '''Convert an angle to the distance along the equator or
+           along a parallel of (geodetic) latitude.
 
            @arg rad: The angle (C{radians}).
            @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
@@ -1221,18 +1124,17 @@ class Ellipsoid(_NamedEnumItem):
         r = self.circle4(lat).radius if lat else self.a
         return radians2m(rad, radius=r, lat=0)
 
-    @property_RO
+    @Property_RO
     def Rbiaxial(self):
         '''Get the I{biaxial, quadratic} mean earth radius (C{meter}), M{sqrt((a**2 + b**2) / 2)}.
         '''
-        if self._Rb is None:
-            self._Rb = Radius(Rbiaxial=sqrt((self.a2 + self.b2) * _0_5) if self.f else self.a)
-        return self._Rb
+        b = sqrt((self.a2 + self.b2) * _0_5) if self.f else self.a
+        return Radius(Rbiaxial=b)
 
     Requatorial = a  # for consistent naming
 
     def Rgeocentric(self, lat):
-        '''Compute the I{geocentric} earth radius at the given latitude.
+        '''Compute the I{geocentric} earth radius of (geodetic) latitude.
 
            @arg lat: Latitude (C{degrees90}).
 
@@ -1243,8 +1145,8 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Geocentric Radius
                  <https://WikiPedia.org/wiki/Earth_radius#Geocentric_radius>}
         '''
-        if lat and self.f:
-            b = Phi_(lat)
+        b = Phi_(lat)
+        if b and self.f:
             if abs(b) < PI_2:
                 s2, c2 = _s2_c2(b)
                 b2_a2_s2 = self.b2_a2 * s2
@@ -1260,25 +1162,17 @@ class Ellipsoid(_NamedEnumItem):
             r = _1_0
         return Radius(Rgeocentric=self.a * r)
 
-    @property_RO
+    @Property_RO
     def Rgeometric(self):
         '''Get the I{geometric} mean earth radius (C{meter}), M{sqrt(a * b)}.
 
-           @see: Method C{R1}.
+           @see: L{R1}.
         '''
-        if self._Rg is None:
-            def _Rg(a, b):
-                return sqrt(a * b)
-
-            self._Rg = Radius(Rgeometric=self._f_late(_Rg))
-        return self._Rg
-
-    Rs = Rgeometric  # for backward compatibility
-    '''DEPRECATED, use C{Rgeometric}.'''
-    Rpolar = b  # for consistent naming
+        g = sqrt(self.a * self.b) if self.f else self.a
+        return Radius(Rgeometric=g)
 
     def Rlat(self, lat):
-        '''I{Approximate} the earth radius at the given latitude.
+        '''I{Approximate} the earth radius of (geodetic) latitude.
 
            @arg lat: Latitude (C{degrees90}).
 
@@ -1295,36 +1189,28 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: Method C{Rparallel}.
         '''
-        if self._ab_90 is None:
-            self._ab_90 = (self.a - self.b) / _90_0
         # r = a - (a - b) * |lat| / 90
         r = self.a
-        if lat and self.f:  # self.isEllipsoidal:
-            r -= self._ab_90 * abs(Lat(lat))
+        if self.f and lat:  # .isEllipsoidal
+            r -= (r - self.b) * abs(Lat(lat)) / _90_0
             r  = Radius(Rlat=r)
         return r
 
+    Rpolar = b  # for consistent naming
     Rquadratic = Rbiaxial  # synonyms
 
-    @property_RO
+    @Property_RO
     def Rrectifying(self):
         '''Get the I{rectifying} earth radius (C{meter}), M{((a**(3/2) + b**(3/2)) / 2)**(2/3)}.
 
            @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}.
         '''
-        if self._Rr is None:
-            def _Rr(a, b):
-                return cbrt2((sqrt3(a) + sqrt3(b)) * _0_5)
-
-            self._Rr = Radius(Rrectifying=self._f_late(_Rr))
-        return self._Rr
-
-    Rr = Rrectifying
-    '''DEPRECATED, use C{Rrectifying}.'''
+        r = cbrt2((sqrt3(self.a) + sqrt3(self.b)) * _0_5) if self.f else self.a
+        return Radius(Rrectifying=r)
 
     def roc1_(self, sa, ca=None):
         '''Compute the I{prime-vertical}, I{normal} radius of curvature
-           at the given latitude, I{unscaled}.
+           of (geodetic) latitude, I{unscaled}.
 
            @arg sa: Sine of the latitude (C{float}, [-1.0..+1.0]).
            @kwarg ca: Optional cosine of the latitude (C{float}, [-1.0..+1.0])
@@ -1337,7 +1223,7 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: Method L{roc2_} and class L{EcefYou}.
         '''
-        if not self.f:  # spherical
+        if not self.f:  # .isSpherical
             n = self.a
         elif ca is None:
             r = self.e2s2(sa)  # see .roc2_ and _EcefBase._forward
@@ -1353,7 +1239,7 @@ class Ellipsoid(_NamedEnumItem):
 
     def roc2(self, lat, scaled=False):
         '''Compute the I{meridional} and I{prime-vertical}, I{normal}
-           radii of curvature at the given latitude.
+           radii of curvature of (geodetic) latitude.
 
            @arg lat: Latitude (C{degrees90}).
            @kwarg scaled: Scale prime_vertical by B{C{cos(radians(lat))}} (C{bool}).
@@ -1372,7 +1258,7 @@ class Ellipsoid(_NamedEnumItem):
 
     def roc2_(self, phi, scaled=False):
         '''Compute the I{meridional} and I{prime-vertical}, I{normal}
-           radii of curvature at the given latitude.
+           radii of curvature of (geodetic) latitude.
 
            @arg phi: Latitude (C{radians}).
            @kwarg scaled: Scale prime_vertical by B{C{cos(phi)}} (C{bool}).
@@ -1384,24 +1270,27 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: Methods L{roc2} and L{roc1_} and U{Local, flat earth
                  approximation<https://www.EdWilliams.org/avform.htm#flat>}
-                 and meridional and prime vertical U{Radii of Curvature
+                 and the meridional and prime vertical U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
         a = abs(Phi(phi))
-        r = self.e2s2(sin(a) if a < PI_2 else _1_0)
-        if r < EPS:
-            m = n = 0  # PYCHOK attr
+        if self.f:
+            r = self.e2s2(sin(a) if a < PI_2 else _1_0)
+            if r < EPS:
+                m = n = 0  # PYCHOK attr
+            else:
+                n = self.a / sqrt(r)
+                m = n * self.e12 / r  # PYCHOK attr
         else:
-            n = self.a / sqrt(r)
-            m = n * self.e12 / r  # PYCHOK attr
-        if scaled:
+            m = n = self.a
+        if scaled and a:
             n *= cos(a) if a < PI_2 else _0_0
         return Curvature2Tuple(Radius(rocMeridional=m),
                                Radius(rocPrimeVertical=n))
 
     def rocBearing(self, lat, bearing):
-        '''Compute the I{directional} radius of curvature at a
-           given latitude and compass direction.
+        '''Compute the I{directional} radius of curvature
+           of (geodetic) latitude and compass direction.
 
            @arg lat: Latitude (C{degrees90}).
            @arg bearing: Direction (compass C{degrees360}).
@@ -1416,17 +1305,21 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
-        s2, c2 = _s2_c2(Bearing_(bearing))
-        m, n = self.roc2_(Phi_(lat))
-        if n < m:  # == n / (c2 * n / m + s2)
-            c2 *= n / m
-        elif m < n:  # == m / (c2 + s2 * m / n)
-            s2 *= m / n
-            n = m
-        return Radius(rocBearing=n / (c2 + s2))  # == 1 / (c2 / m + s2 / n)
+        if self.f:
+            s2, c2 = _s2_c2(Bearing_(bearing))
+            m, n = self.roc2_(Phi_(lat))
+            if n < m:  # == n / (c2 * n / m + s2)
+                c2 *= n / m
+            elif m < n:  # == m / (c2 + s2 * m / n)
+                s2 *= m / n
+                n = m
+            b = n / (c2 + s2)  # == 1 / (c2 / m + s2 / n)
+        else:
+            b = self.b  # == self.a
+        return Radius(rocBearing=b)
 
     def rocGauss(self, lat):
-        '''Compute the I{Gaussian} radius of curvature at the given latitude.
+        '''Compute the I{Gaussian} radius of curvature of (geodetic) latitude.
 
            @arg lat: Latitude (C{degrees90}).
 
@@ -1441,11 +1334,15 @@ class Ellipsoid(_NamedEnumItem):
         #    m, n = self.roc2_(Phi_(lat))
         #    return sqrt(m * n)
         # ... requires 1 or 2 sqrt
-        s2, c2 = _s2_c2(Phi_(lat))
-        return Radius(rocGauss=self.b / (c2 + self.b2_a2 * s2))
+        if self.f:
+            s2, c2 = _s2_c2(Phi_(lat))
+            g = self.b / (c2 + self.b2_a2 * s2)
+        else:
+            g = self.b
+        return Radius(rocGauss=g)
 
     def rocMean(self, lat):
-        '''Compute the I{mean} radius of curvature at the given latitude.
+        '''Compute the I{mean} radius of curvature of (geodetic) latitude.
 
            @arg lat: Latitude (C{degrees90}).
 
@@ -1456,11 +1353,15 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
-        m, n = self.roc2_(Phi_(lat))
-        return Radius(rocMean=2 * m * n / (m + n))  # == 2 / (1 / m + 1 / n)
+        if self.f:
+            m, n = self.roc2_(Phi_(lat))
+            m *= 2 * n / (m + n)  # == 2 / (1 / m + 1 / n)
+        else:
+            m = self.a
+        return Radius(rocMean=m)
 
     def rocMeridional(self, lat):
-        '''Compute the I{meridional} radius of curvature at the given latitude.
+        '''Compute the I{meridional} radius of curvature of (geodetic) latitude.
 
            @arg lat: Latitude (C{degrees90}).
 
@@ -1475,15 +1376,11 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return self.roc2_(Phi_(lat)).meridional
 
-    @property_RO
-    def rocPolar(self):
-        '''Get the I{polar} radius of curvature (C{meter}), see L{a2_b}.
-        '''
-        return self.a2_b  # if self._a2_b is None else self._a2_b
+    rocPolar = a2_b  # synonymous
 
     def rocPrimeVertical(self, lat):
-        '''Compute the I{prime-vertical}, I{normal} radius of curvature at
-           the given latitude, aka the transverse radius of curvature.
+        '''Compute the I{prime-vertical}, I{normal} radius of curvature
+           of (geodetic) latitude, aka the transverse radius of curvature.
 
            @arg lat: Latitude (C{degrees90}).
 
@@ -1511,24 +1408,42 @@ class Ellipsoid(_NamedEnumItem):
                                  _e_, 'e2', 'e22', 'e32',
                                  _A_, 'L', 'R1', 'R2', 'R3')
 
-    @property_RO
-    def volume(self):
-        '''Get the ellipsoid's I{volume} (C{meter**3}), M{4 / 3 * PI * a**2 * b}.
+    @Property_RO
+    def _v3(self):
+        '''(INTERNAL) Get the I{volumetric} earth radius I{cubed} (C{meter**3}).
         '''
-        if self._volume is None:
-            self._volume = Float(volume=((self.a2 * self.b) if self.f > 0 else
-                                         (self.b2 * self.a)) * PI4 / 3)
-        return self._volume
+        return self.a2 * self.b
+
+    @Property_RO
+    def volume(self):
+        '''Get the ellipsoid's I{volume} (C{meter**3}), M{4 / 3 * PI * R3**3}.
+
+           @see: L{R3}.
+        '''
+        return Meter3(volume=self._v3 * PI4 / 3)
+
+    c = Rauthalic
+    '''DEPRECATED, use L{R2} or L{Rauthalic}.'''
+    majoradius = a
+    '''DEPRECATED, use L{a} or L{Requatorial}.'''
+    minoradius = b
+    '''DEPRECATED, use L{b} or C{Rpolar}.'''
+    quarteradius = L  # -meridian
+    '''DEPRECATED, use L{L}.'''
+    Rr = Rrectifying  # for backward compatibility
+    '''DEPRECATED, use L{Rrectifying}.'''
+    Rs = Rgeometric  # for backward compatibility
+    '''DEPRECATED, use L{Rgeometric}.'''
 
 
 class Ellipsoid2(Ellipsoid):
-    '''Like L{Ellipsoid}, but specified by I{equatorial} radius and I{flattening}.
+    '''An L{Ellipsoid} specified by I{equatorial} radius and I{flattening}.
     '''
     def __init__(self, a, f, name=NN):
         '''New L{Ellipsoid2}.
 
            @arg a: Equatorial radius, semi-axis (C{meter}).
-           @arg f: Flattening: (C{float} < 1.0, negative for prolate).
+           @arg f: Flattening: (C{float} < 1.0, negative for I{prolate}).
            @kwarg name: Optional, unique name (C{str}).
 
            @raise NameError: Ellipsoid with that B{C{name}} already exists.
@@ -1539,38 +1454,39 @@ class Ellipsoid2(Ellipsoid):
                   Negative C{B{f}} produces a I{prolate} ellipsoid.
         '''
         try:
-            a = Float_(a=a, low=EPS, high=None)  # like Radius_
-            f = Float_(f=f, low=None, high=EPS1)
-            Ellipsoid.__init__(self, a, a_f2b(a, f), name=name)
+            a = Radius_(a=a, low=EPS,  high=None)  # like Radius_
+            f = Float_( f=f, low=None, high=EPS1)
         except (TypeError, ValueError) as x:
-            raise _ValueError(instr(self, a=a, f=f), txt=str(x))
+            t = instr(self, a=a, f=f, name=name)  # PYCHOK no cover
+            raise _ValueError(t, txt=str(x))
+        Ellipsoid.__init__(self, a, a_f2b(a, f), name=name)
 
 
-def _spherical(f):
+def _spherical_a_b(a, b):
+    '''(INTERNAL) C{True} for spherical or invalid C{a} or C{b}.
+    '''
+    return a < EPS or b < EPS or abs(a - b) < EPS
+
+
+def _spherical_f(f):
     '''(INTERNAL) C{True} for spherical or invalid C{f}.
     '''
     return abs(f) < EPS or f > EPS1
 
 
-def _spherical_(f_):
+def _spherical_f_(f_):
     '''(INTERNAL) C{True} for spherical or invalid C{f_}.
     '''
     return abs(f_) < EPS or abs(f_) > _1_EPS
 
 
-def _spherical_a_b(a, b):
-    '''(INTERNAL) C{True} for spherical or invalid C{a} and C{b}.
-    '''
-    return a < EPS or b < EPS or abs(a - b) < EPS
-
-
 def a_b2e(a, b):
-    '''Return C{e}, the I{eccentricity} for a given I{equatorial} and I{polar} radius.
+    '''Return C{e}, the I{1st eccentricity} for a given I{equatorial} and I{polar} radius.
 
        @arg a: Equatorial radius (C{scalar} > 0).
        @arg b: Polar radius (C{scalar} > 0).
 
-       @return: The eccentricity (C{float} or C{0}), M{sqrt(1 - (b / a)**2)}.
+       @return: The (1st) eccentricity (C{float} or C{0}), M{sqrt(1 - (b / a)**2)}.
 
        @note: The result is always non-negative and C{0} for I{near-spherical} ellipsoids.
     '''
@@ -1578,12 +1494,12 @@ def a_b2e(a, b):
 
 
 def a_b2e2(a, b):
-    '''Return C{e2}, the I{eccentricity squared} for a given I{equatorial} and I{polar} radius.
+    '''Return C{e2}, the I{1st eccentricity squared} for a given I{equatorial} and I{polar} radius.
 
        @arg a: Equatorial radius (C{scalar} > 0).
        @arg b: Polar radius (C{scalar} > 0).
 
-       @return: The eccentricity I{squared} (C{float} or C{0}), M{1 - (b / a)**2}.
+       @return: The (1st) eccentricity I{squared} (C{float} or C{0}), M{1 - (b / a)**2}.
 
        @note: The result is positive for I{oblate}, negative for I{prolate} or C{0}
               for I{near-spherical} ellipsoids.
@@ -1631,8 +1547,8 @@ def a_b2f(a, b):
        @note: The result is positive for I{oblate}, negative for I{prolate} or C{0}
               for I{near-spherical} ellipsoids.
     '''
-    f = 0 if _spherical_a_b(a, b) else (float(a - b) / a)
-    return Float(f=_0_0 if _spherical(f) else f)
+    f = 0 if _spherical_a_b(a, b) else ((a - b) / a)
+    return _f_0_0 if _spherical_f(f) else Float(f=f)
 
 
 def a_b2f_(a, b):
@@ -1647,7 +1563,7 @@ def a_b2f_(a, b):
               for I{near-spherical} ellipsoids.
     '''
     f_ = 0 if _spherical_a_b(a, b) else (a / float(a - b))
-    return Float(f_=_0_0 if _spherical_(f_) else f_)
+    return _f__0_0 if _spherical_f_(f_) else Float(f_=f_)
 
 
 def a_b2f2(a, b):
@@ -1688,7 +1604,8 @@ def a_f2b(a, f):
 
        @return: The polar radius (C{float}), M{a * (1 - f)}.
     '''
-    return Radius_(b=a if _spherical(f) else (a * (_1_0 - f)))
+    b = a if _spherical_f(f) else (a * (_1_0 - f))
+    return Radius_(b=a if _spherical_a_b(a, b) else b)
 
 
 def a_f_2b(a, f_):
@@ -1699,7 +1616,8 @@ def a_f_2b(a, f_):
 
        @return: The polar radius (C{float}), M{a * (f_ - 1) / f_}.
     '''
-    return Radius_(b=a if _spherical_(f_) else (a * (f_ - _1_0) / f_))
+    b = a if _spherical_f_(f_) else (a * (f_ - _1_0) / f_)
+    return Radius_(b=a if _spherical_a_b(a, b) else b)
 
 
 def b_f2a(b, f):
@@ -1711,7 +1629,8 @@ def b_f2a(b, f):
        @return: The equatorial radius (C{float}), M{b / (1 - f)}.
     '''
     t = _1_0 - f
-    return Radius_(a=b if _spherical(f) or abs(t) < EPS else (b / t))
+    a = b if abs(t < EPS) else (b / t)
+    return Radius_(a=b if _spherical_a_b(a, b) else a)
 
 
 def b_f_2a(b, f_):
@@ -1723,11 +1642,13 @@ def b_f_2a(b, f_):
        @return: The equatorial radius (C{float}), M{b * f_ / (f_ - 1)}.
     '''
     t = f_ - _1_0
-    return Radius_(a=b if _spherical_(f_) or abs(t) < EPS or abs(t - f_) < EPS else (b * f_ / t))
+    a = b if _spherical_f_(f_) or abs(t - f_) < EPS \
+                               or abs(t) < EPS else (b * f_ / t)
+    return Radius_(a=b if _spherical_a_b(a, b) else a)
 
 
 def f2e2(f):
-    '''Return C{e2}, the I{eccentricity squared} for a given I{flattening}.
+    '''Return C{e2}, the I{1st eccentricity squared} for a given I{flattening}.
 
        @arg f: Flattening (C{scalar} < 1, negative for I{prolate}).
 
@@ -1740,7 +1661,7 @@ def f2e2(f):
              html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
-    return Float(e2=_0_0 if _spherical(f) else (f * (_2_0 - f)))
+    return Float(e2=_0_0 if _spherical_f(f) else (f * (_2_0 - f)))
 
 
 def f2e22(f):
@@ -1790,8 +1711,8 @@ def f_2f(f_):
        @note: The result is positive for I{oblate}, negative for I{prolate}
               or C{0} for I{near-spherical} ellipsoids.
     '''
-    f = 0 if _spherical_(f_) else _1_0 / f_
-    return Float(f=_0_0 if _spherical(f) else f)  # PYCHOK type
+    f = 0 if _spherical_f_(f_) else _1_0 / f_
+    return _f_0_0 if _spherical_f(f) else Float(f=f)  # PYCHOK type
 
 
 def f2f_(f):
@@ -1804,8 +1725,8 @@ def f2f_(f):
        @note: The result is positive for I{oblate}, negative for I{prolate}
               or C{0} for I{near-spherical} ellipsoids.
     '''
-    f_ = 0 if _spherical(f) else _1_0 / f
-    return Float(f_=_0_0 if _spherical_(f_) else f_)  # PYCHOK type
+    f_ = 0 if _spherical_f(f) else _1_0 / f
+    return _f__0_0 if _spherical_f_(f_) else Float(f_=f_)  # PYCHOK type
 
 
 def f2f2(f):
@@ -1823,7 +1744,7 @@ def f2f2(f):
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
     t = _1_0 - f
-    return Float(f2=_0_0 if _spherical(f) else
+    return Float(f2=_0_0 if _spherical_f(f) else
                     (INF if  abs(t) < EPS else (f / t)))  # PYCHOK type
 
 
@@ -1841,11 +1762,11 @@ def f2n(f):
              html/classGeographicLib_1_1Ellipsoid.html>} and U{Flattening
              <https://WikiPedia.org/wiki/Flattening>}.
     '''
-    return Float(n=_0_0 if _spherical(f) else (f / float(_2_0 - f)))
+    return Float(n=_0_0 if _spherical_f(f) else (f / float(_2_0 - f)))
 
 
 def n2e2(n):
-    '''Return C{e2}, the I{eccentricity squared} for a given I{3rd flattening}.
+    '''Return C{e2}, the I{1st eccentricity squared} for a given I{3rd flattening}.
 
        @arg n: The 3rd flattening (-1 <= C{scalar} < 1).
 
@@ -1874,19 +1795,22 @@ def n2f(n):
     '''
     t = n + _1_0
     f = 0 if abs(n) < EPS else (-INF if t < EPS else _2_0 * n / t)
-    return Float(f=_0_0 if _spherical(f) else f)
+    return _f_0_0 if _spherical_f(f) else Float(f=f)
 
 
 class Ellipsoids(_NamedEnum):
     '''(INTERNAL) L{Ellipsoid} registry, I{must} be a sub-class
        to accommodate the L{_LazyNamedEnumItem} properties.
     '''
-    def _Lazy(self, *args, **kwds):
+    def _Lazy(self, a, b, f_, **kwds):
         '''(INTERNAL) Instantiate the L{Ellipsoid}.
         '''
-        return Ellipsoid(*args, **kwds)
+        if b is not None:
+            b = _F(b)
+        return Ellipsoid(_F(a), b, f_, **kwds)
 
 Ellipsoids = Ellipsoids(Ellipsoid)  # PYCHOK singleton
+'''Some pre-defined L{Ellipsoid}s, all I{lazily} instantiated.'''
 # <https://www.GNU.org/software/gama/manual/html_node/Supported-ellipsoids.html>
 # <https://w3.Energistics.org/archive/Epicentre/Epicentre_v3.0/DataModel/
 #         LogicalDictionary/StandardValues/ellipsoid.html>
@@ -1894,7 +1818,8 @@ Ellipsoids = Ellipsoids(Ellipsoid)  # PYCHOK singleton
 Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     Airy1830       = _lazy(_Airy1830_,       6377563.396, None,              299.3249646),   # b=6356256.909
     AiryModified   = _lazy(_AiryModified_,   6377340.189, None,              299.3249646),  # b=6356034.448
-    Australia1966  = _lazy('Australia1966',  6378160.0,   None,              298.25),  # ANS,  b=6356774.719
+#   ANS            = _lazy('ANS',            6378160.0,   None,              298.25),  # Australian Nat. Spheroid
+    Australia1966  = _lazy('Australia1966',  6378160.0,   None,              298.25),  # b=6356774.719
 #   Bessel1841     = _lazy(_Bessel1841_,     6377397.155, 6356078.963,       299.152815351),
     Bessel1841     = _lazy(_Bessel1841_,     6377397.155, 6356078.962818,    299.152812797),
     Clarke1866     = _lazy(_Clarke1866_,     6378206.4,   6356583.8,         294.978698214),
@@ -1931,7 +1856,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     WGS60          = _lazy('WGS60',          6378165.0,   6356783.28695944,  298.3),
     WGS66          = _lazy('WGS66',          6378145.0,   6356759.76948868,  298.25),
     WGS72          = _lazy(_WGS72_,          6378135.0,   None,              298.26),  # b=6356750.52
-    WGS84          = _lazy(_WGS84_,          R_MA,        None,              298.257223563),  # GPS b=6356752.31425
+    WGS84          = _lazy(_WGS84_,          R_MA,        None,              298.257223563),  # GPS b=6356752.3142451793
 #   Prolate        = _lazy('Prolate',        6356752.3,   6378137.0,         None),
     Sphere         = _lazy(_Sphere_,         R_M,         R_M,              _0_0),  # pseudo
     SphereAuthalic = _lazy('SphereAuthalic', R_FM,        R_FM,             _0_0),  # pseudo
@@ -1988,14 +1913,14 @@ if __name__ == '__main__':
 
 # % python -m pygeodesy.ellipsoids
 
-# Ellipsoid.WGS84: name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e22=0.0067394967, e32=0.0033584313, A=6367449.1458234144, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.790009154,
+# Ellipsoid.WGS84: name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e22=0.0067394967, e32=0.0033584313, A=6367449.1458234144, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184747, R3=6371000.790009154,
 #  e=8.1819190842622e-02, f_=2.98257223563e+02, f=3.3528106647475e-03, n=1.6792203863837e-03 (0.0e+00),
 #  AlphaKs=(0.00083773182062447786, 0.00000076085277735726, 0.00000000119764550324, 0.00000000000242917068, 0.00000000000000571182, 0.0000000000000000148, 0.00000000000000000004, 0.0),
 #  BetaKs= (0.00083773216405795667, 0.0000000590587015222, 0.00000000016734826653, 0.00000000000021647981, 0.00000000000000037879, 0.00000000000000000072, 0.0, 0.0),
 #  KsOrder= 8,
 #  Mabcd=  (1.00168275103155868244, 0.00504613293193333871, 0.00000529596776243457, 0.00000000690525779769)
 
-# Ellipsoid.GRS80: name='GRS80', a=6378137, b=6356752.3141403468, f_=298.257222101, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.081819191, e2=0.00669438, e22=0.0067394968, e32=0.0033584313, A=6367449.1457710434, L=10001965.7292304579, R1=6371008.7713801153, R2=6371007.1808835138, R3=6371000.7899741307,
+# Ellipsoid.GRS80: name='GRS80', a=6378137, b=6356752.3141403468, f_=298.257222101, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.081819191, e2=0.00669438, e22=0.0067394968, e32=0.0033584313, A=6367449.1457710434, L=10001965.7292304579, R1=6371008.7713801153, R2=6371007.1808835147, R3=6371000.7899741307,
 #  e=8.1819191042833e-02, f_=2.98257222101e+02, f=3.3528106811837e-03, n=1.6792203946295e-03 (0.0e+00),
 #  AlphaKs=(0.00083773182472890429, 0.00000076085278481561, 0.00000000119764552086, 0.00000000000242917073, 0.00000000000000571182, 0.0000000000000000148, 0.00000000000000000004, 0.0),
 #  BetaKs= (0.0008377321681623882, 0.00000005905870210374, 0.000000000167348269, 0.00000000000021647982, 0.00000000000000037879, 0.00000000000000000072, 0.0, 0.0),
@@ -2016,7 +1941,7 @@ if __name__ == '__main__':
 #  KsOrder= 8,
 #  Mabcd=  (1.0, 0.0, 0.0, 0.0)
 
-# Ellipsoid._Prolate: name='_Prolate', a=6356752.3142451793, b=6378137, f_=-297.257223563, f=-0.0033640898, f2=-0.0033528107, n=-0.0016792204, e=0.0820944379, e2=-0.0067394967, e22=-0.00669438, e32=-0.0033584313, A=6367449.1458234154, L=10035500.5204500332, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.790009154,
+# Ellipsoid._Prolate: name='_Prolate', a=6356752.3142451793, b=6378137, f_=-297.257223563, f=-0.0033640898, f2=-0.0033528107, n=-0.0016792204, e=0.0820944379, e2=-0.0067394967, e22=-0.00669438, e32=-0.0033584313, A=6367449.1458234154, L=10035500.5204500332, R1=6363880.5428301198, R2=6363878.9413582645, R3=6363872.5644020028,
 #  e=8.2094437949696e-02, f_=-2.97257223563e+02, f=-3.3640898209765e-03, n=-1.6792203863837e-03 (0.0e+00),
 #  AlphaKs=(-0.00084149152514366627, 0.00000076653480614871, -0.00000000120934503389, 0.0000000000024576225, -0.00000000000000578863, 0.00000000000000001502, -0.00000000000000000004, 0.0),
 #  BetaKs= (-0.00084149187224351817, 0.00000005842735196773, -0.0000000001680487236, 0.00000000000021706261, -0.00000000000000038002, 0.00000000000000000073, -0.0, 0.0),

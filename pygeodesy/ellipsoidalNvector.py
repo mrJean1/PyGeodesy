@@ -24,7 +24,7 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import neg, property_RO, _xinstanceof
+from pygeodesy.basics import neg, _xinstanceof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
@@ -36,13 +36,14 @@ from pygeodesy.named import _Named, _NamedTuple, _xnamed
 from pygeodesy.namedTuples import LatLon3Tuple
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
+from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
-from pygeodesy.units import Bearing, Degrees, Distance, Height, \
-                     Radius, Scalar
+from pygeodesy.units import Bearing, Degrees, Distance, Float,\
+                            Height, Radius, Scalar
 from pygeodesy.utily import asin1, atan2b, degrees90, sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '20.12.22'
+__version__ = '21.01.07'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -491,11 +492,11 @@ class Ned(_Named):
     '''North-Eeast-Down (NED), also known as Local Tangent Plane (LTP),
        is a vector in the local coordinate frame of a body.
     '''
-    _bearing   = None  # cached bearing (compass C{degrees360})
+#   _bearing   = None  # cached bearing (compass C{degrees360})
     _down      = None  # Down component (C{meter})
     _east      = None  # East component (C{meter})
-    _elevation = None  # cached elevation (C{degrees})
-    _length    = None  # cached length (C{float})
+#   _elevation = None  # cached elevation (C{degrees})
+#   _length    = None  # cached length (C{float})
     _north     = None  # North component (C{meter})
 
     def __init__(self, north, east, down, name=NN):
@@ -524,13 +525,11 @@ class Ned(_Named):
     def __str__(self):
         return self.toStr()
 
-    @property_RO
+    @Property_RO
     def bearing(self):
         '''Get the bearing of this NED vector (compass C{degrees360}).
         '''
-        if self._bearing is None:
-            self._bearing = atan2b(self.east, self.north)
-        return self._bearing
+        return Bearing(atan2b(self.east, self.north))
 
     @property_RO
     def down(self):
@@ -544,22 +543,18 @@ class Ned(_Named):
         '''
         return self._east
 
-    @property_RO
+    @Property_RO
     def elevation(self):
         '''Get the elevation, tilt of this NED vector in degrees from
            horizontal, i.e. tangent to ellipsoid surface (C{degrees90}).
         '''
-        if self._elevation is None:
-            self._elevation = neg(degrees90(asin1(self.down / self.length)))
-        return self._elevation
+        return Float(elevation=neg(degrees90(asin1(self.down / self.length))))
 
-    @property_RO
+    @Property_RO
     def length(self):
         '''Gets the length of this NED vector (C{meter}).
         '''
-        if self._length is None:
-            self._length = hypot_(self.north, self.east, self.down)
-        return self._length
+        return Float(length=hypot_(self.north, self.east, self.down))
 
     @property_RO
     def ned(self):

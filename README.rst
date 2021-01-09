@@ -15,8 +15,8 @@ published under the same `MIT License`_.
 There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
 *-Vincenty* and *-Nvector* and two for spherical ones, *sphericalTrigonometry*
 and *-Nvector*.  Each module provides a geodetic LatLon_ and a geocentric
-Cartesian_ class with methods and functions to compute distance, area,
-perimeter, initial and final bearing, intermediate and nearest points,
+Cartesian_ class with methods and functions to compute distance, surface
+area, perimeter, initial and final bearing, intermediate and nearest points,
 intersections of circles, path intersections, trilateration (by intersection,
 overlap and 3d), conversions and unrolling, among other things.  For more
 information and further details see the documentation_, the descriptions
@@ -129,7 +129,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Dec 30, 2020.*
+*Last updated: Jan 09, 2021.*
 
 License
 =======

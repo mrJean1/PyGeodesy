@@ -26,8 +26,7 @@ the index for the lat- and longitude index in each 2+tuple.
 '''
 
 from pygeodesy.basics import isclass, isint, isscalar, issequence, map1, \
-                             property_doc_, property_RO, _Sequence, \
-                             _xcopy, _xinstanceof
+                            _Sequence, _xcopy, _xinstanceof
 from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, latDMS, lonDMS, parseDMS2
 from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
@@ -48,6 +47,7 @@ from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, NearestOn3Tuple, \
                                   PhiLam2Tuple, Vector4Tuple
 from pygeodesy.nvectorBase import NvectorBase, _N_vector_
+from pygeodesy.props import property_doc_, property_RO
 from pygeodesy.streprs import Fmt, hstr, instr, pairs
 from pygeodesy.units import Degrees, Lat, Lon, Meter, Number_, \
                             Radius, Scalar_
@@ -57,7 +57,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '20.12.03'
+__version__ = '21.01.07'
 
 _DEQUAL_   = ' == '
 _elel_     = 'll'

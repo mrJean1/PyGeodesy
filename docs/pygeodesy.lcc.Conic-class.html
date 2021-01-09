@@ -577,9 +577,12 @@
         - Get the authentication authority (<code>str</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -599,9 +602,12 @@
 class="link">Datum</a>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -619,9 +625,12 @@ class="link">Datum</a>).
         - Get the false easting (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -639,9 +648,12 @@ class="link">Datum</a>).
         - Get scale factor (<code>float</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -655,13 +667,15 @@ class="link">Datum</a>).
   <p>Get the origin latitude (<code>degrees90</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">lat0(<span class="summary-sig-arg">self</span>)</span>
-        - Get the origin latitude (<code>degrees90</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -683,9 +697,12 @@ href="pygeodesy.namedTuples.LatLon2Tuple-class.html"
 class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -703,9 +720,12 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
         - Get the central meridian (<code>radians</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -719,13 +739,15 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
   <p>Get the central meridian (<code>degrees180</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">lon0(<span class="summary-sig-arg">self</span>)</span>
-        - Get the central meridian (<code>degrees180</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -743,9 +765,12 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
         - Get the false northing (<code>meter</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -760,14 +785,15 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
   (<code>str</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">name2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the conic and datum names as &quot;conic.datum&quot; 
-(<code>str</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -781,13 +807,15 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
   <p>Get the optional meridian (<code>degrees180</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">opt3(<span class="summary-sig-arg">self</span>)</span>
-        - Get the optional meridian (<code>degrees180</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -801,13 +829,15 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
   <p>Get the 1st standard parallel (<code>degrees90</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">par1(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 1st standard parallel (<code>degrees90</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -821,13 +851,15 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
   <p>Get the 2nd standard parallel (<code>degrees90</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">par2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the 2nd standard parallel (<code>degrees90</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -845,9 +877,12 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
         - Get the origin latitude (<code>radians</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -869,9 +904,12 @@ href="pygeodesy.namedTuples.PhiLam2Tuple-class.html"
 class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -889,9 +927,12 @@ class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
         - Get the number of standard parallels (<code>int</code>).
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_immutable(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">value</span>)</span>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -928,7 +969,7 @@ class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 31 11:51:09 2020
+    Generated by Epydoc 3.0.1 on Fri Jan  8 22:54:15 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

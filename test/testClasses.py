@@ -6,7 +6,7 @@
 # classes, like LatLon.
 
 __all__ = ('Tests',)
-__version__ = '20.03.14'
+__version__ = '21.01.07'
 
 from inspect import isclass
 from os.path import basename
@@ -52,8 +52,8 @@ class Tests(TestsBase):
         self._subtitle('Copy', 'Attr', package)
         for a in sorted(package.__all__):
             C = getattr(package, a)
-            if isclass(C) and not (a.endswith('Error')
-                                or a in ('property_RO', 'SciPyWarning')):
+            if isclass(C) and not (a.endswith('Error') or a in
+             ('Property', 'Property_RO', 'property_RO', 'SciPyWarning')):
                 c = getattr(C, 'copy', None) or getattr(C, 'fcopy', None)
                 t = 'copy' if callable(c) else 'missing'
                 self.test(C.__name__, t, 'copy')

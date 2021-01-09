@@ -33,7 +33,7 @@ U{Transverse Mercator: Redfearn series
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import halfs2, map1, property_RO, _xsubclassof
+from pygeodesy.basics import halfs2, map1, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -46,6 +46,7 @@ from pygeodesy.interns import NN, _A_, _COLON_, _COMMA_, _COMMASPACE_, \
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum3Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import enstr2, Fmt, _xzipairs, _0wd, _0wpF
 from pygeodesy.units import Easting, Lam_, Northing, Phi_, Scalar, \
                            _10um, _100km
@@ -54,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '20.12.22'
+__version__ = '21.01.07'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)

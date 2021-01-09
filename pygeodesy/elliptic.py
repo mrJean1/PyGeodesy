@@ -72,7 +72,7 @@ U{22<https://DLMF.NIST.gov/22>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import map2, neg, property_RO
+from pygeodesy.basics import copysign, map2, neg
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fdot, fmean_, Fsum, fsum_, hypot1
 from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
@@ -82,15 +82,16 @@ from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
                              _6_0, _8_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
+from pygeodesy.props import property_RO
 # from pygeodesy.streprs import unstr
 from pygeodesy.units import Scalar, Scalar_
 from pygeodesy.utily import sincos2, sincos2d
 
-from math import asinh, atan, atan2, ceil, copysign, cosh, floor, \
-                 sin, sqrt, tanh
+from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
+                 sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '20.12.24'
+__version__ = '21.01.08'
 
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)
@@ -142,11 +143,10 @@ class Elliptic(_Named):
 
            @see: Method L{reset} for further details.
 
-           @note: If only elliptic integrals of the first and
-                  second kinds are needed, then set B{C{alpha2}} = 0
-                  (the default value).  In that case, we have
-                  Π(φ, 0, k) = F(φ, k), G(φ, 0, k) = E(φ, k),
-                  and H(φ, 0, k) = F(φ, k) - D(φ, k).
+           @note: If only elliptic integrals of the first and second kinds
+                  are needed, then set B{C{alpha2}} = 0, the default value.
+                  In that case, we have Π(φ, 0, k) = F(φ, k), G(φ, 0, k) =
+                  E(φ, k), and H(φ, 0, k) = F(φ, k) - D(φ, k).
         '''
         self.reset(k2=k2, alpha2=alpha2, kp2=kp2, alphap2=alphap2)
 
@@ -580,15 +580,14 @@ class Elliptic(_Named):
                   accuracy to be maintained, e.g., when C{k} is very
                   close to unity.
         '''
-        self._k2 = k2 = Scalar_(k2, name='k2', Error=EllipticError, low=None, high=_1_0)
+        self._k2 = k2 = Scalar_(k2=k2, Error=EllipticError, low=None, high=_1_0)
 
-        self._alpha2 = alpha2 = Scalar_(alpha2, name='alpha2', Error=EllipticError, low=None, high=_1_0)
+        self._alpha2 = alpha2 = Scalar_(alpha2=alpha2, Error=EllipticError, low=None, high=_1_0)
 
-        self._kp2 = kp2 = Scalar_(((1 - k2) if kp2 is None else kp2),
-                                  name='kp2', Error=EllipticError)
+        self._kp2 = kp2 = Scalar_(kp2=((1 - k2) if kp2 is None else kp2), Error=EllipticError)
 
-        self._alphap2 = alphap2 = Scalar_(((1 - alpha2) if alphap2 is None else alphap2),
-                                          name='alphap2', Error=EllipticError)
+        self._alphap2 = alphap2 = Scalar_(alphap2=((1 - alpha2) if alphap2 is None else alphap2),
+                                            Error=EllipticError)
 
         # Values of complete elliptic integrals for k = 0,1 and alpha = 0,1
         #         K     E     D

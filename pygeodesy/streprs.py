@@ -17,7 +17,7 @@ from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '20.12.30'
+__version__ = '21.01.02'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
@@ -417,17 +417,17 @@ def strs(objs, prec=6, fmt=Fmt.F, ints=False):
     return tuple(_streprs(prec, objs, fmt, ints, False, str)) if objs else ()
 
 
-def unstr(name, *args, **kwds):
+def unstr(named, *args, **kwds):
     '''Return the string representation of an invokation.
 
-       @arg name: Function, method or class name (C{str}).
+       @arg named: Function, method or class name (C{str}).
        @arg args: Optional positional arguments.
        @kwarg kwds: Optional keyword arguments.
 
        @return: Representation (C{str}).
     '''
     t = reprs(args, fmt=Fmt.g) + pairs(sorted(kwds.items()))
-    return Fmt.PAREN(name, _COMMASPACE_.join(t))
+    return Fmt.PAREN(named, _COMMASPACE_.join(t))
 
 
 def _boolkwds(inst, **name_value_pairs):  # in .frechet, .hausdorff, .heights

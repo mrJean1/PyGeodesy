@@ -61,8 +61,7 @@ C{phi = pi/2}.  Such changes are noted in the code.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import neg, neg_, property_doc_, property_RO, \
-                            _xinstanceof
+from pygeodesy.basics import copysign, neg, neg_, _xinstanceof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
@@ -76,18 +75,18 @@ from pygeodesy.interns import _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
+from pygeodesy.props import property_doc_, property_RO
 from pygeodesy.streprs import pairs, unstr
 from pygeodesy.units import Degrees, Easting, Lat,Lon, Northing, \
                             Scalar, Scalar_
 from pygeodesy.utily import atand, atan2d, sincos2
-from pygeodesy.utm import _cmlon, _K0, _LLEB, _parseUTM5, Utm, UTMError, \
-                          _toXtm8, _to7zBlldfn
+from pygeodesy.utm import _cmlon, _K0, _LLEB, _parseUTM5, Utm, \
+                           UTMError, _toXtm8, _to7zBlldfn
 
-from math import asinh, atan2, copysign, degrees, radians, \
-                 sinh, sqrt, tan
+from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '20.12.22'
+__version__ = '21.01.07'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS

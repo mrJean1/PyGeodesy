@@ -33,7 +33,7 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import len2, map2, neg, property_RO
+from pygeodesy.basics import len2, map2, neg
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
@@ -46,6 +46,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Band, Int, Lat, Lon, Zone
 from pygeodesy.utily import degrees90, degrees180, sincos2  # splice
@@ -60,7 +61,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '20.12.14'
+__version__ = '21.01.07'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N

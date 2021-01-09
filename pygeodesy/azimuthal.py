@@ -27,7 +27,7 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_doc_, property_RO, _xinstanceof
+from pygeodesy.basics import copysign, _xinstanceof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
@@ -41,14 +41,16 @@ from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
+from pygeodesy.props import Property_RO, property_doc_, \
+                            property_RO, _update_all
 from pygeodesy.streprs import Fmt, _fstrLL0
 from pygeodesy.units import Bearing, Lat_, Lon_, Meter, Scalar, Scalar_
 from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 
-from math import acos, atan, atan2, copysign, degrees, hypot, sin, sqrt
+from math import acos, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '20.12.30'
+__version__ = '21.01.07'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -66,7 +68,6 @@ class _AzimuthalBase(_NamedBase):
     _datum     = Datums.WGS84  # L{Datum}
     _iteration = None          # iteration number for L{GnomonicKarney}
     _latlon0   = ()            # lat0, lon0 (L{LatLon2Tuple})
-    _radius    = None          # geodentric radius (L{Radius})
     _sc0       = ()            # 2-Tuple C{sincos2(lat0)}
 
     def __init__(self, lat0, lon0, datum=None, name=NN):
@@ -97,7 +98,7 @@ class _AzimuthalBase(_NamedBase):
         '''
         return self._datum
 
-    @property_RO
+    @Property_RO
     def equatoradius(self):
         '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
@@ -112,7 +113,7 @@ class _AzimuthalBase(_NamedBase):
         '''
         return self._iteration
 
-    @property_RO
+    @Property_RO
     def flattening(self):
         '''Get the geodesic's flattening (C{float}).
         '''
@@ -132,12 +133,12 @@ class _AzimuthalBase(_NamedBase):
             y = r * (c0 * sa - s0 * ca * cb)
             z = atan2b(x, y)  # (x, y) for azimuth from true North
         else:  # 0 or 180
-            x = y = z = 0
+            x = y = z = _0_0
 
         t = Azimuthal7Tuple(x, y, lat, lon, z, k, self.datum)
         return self._xnamed(t, name=name)
 
-    @property_RO
+    @Property_RO
     def lat0(self):
         '''Get the center latitude (C{degrees90}).
         '''
@@ -162,19 +163,17 @@ class _AzimuthalBase(_NamedBase):
             _datum_datum(self.datum, latlon0.datum, Error=AzimuthalError)
         self.reset(latlon0.lat, latlon0.lon)
 
-    @property_RO
+    @Property_RO
     def lon0(self):
         '''Get the center longitude (C{degrees180}).
         '''
         return self._latlon0.lon
 
-    @property_RO
+    @Property_RO
     def radius(self):
         '''Get this projection's mean radius of curvature (C{meter}).
         '''
-        if self._radius is None:
-            self._radius = self.datum.ellipsoid.rocMean(self.lat0)
-        return self._radius
+        return self.datum.ellipsoid.rocMean(self.lat0)
 
     def reset(self, lat0, lon0):
         '''Set or reset the center point of this azimuthal projection.
@@ -184,10 +183,11 @@ class _AzimuthalBase(_NamedBase):
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
+        _update_all(self)
+
         self._latlon0 = LatLon2Tuple(Lat_(lat0=lat0, Error=AzimuthalError),
                                      Lon_(lon0=lon0, Error=AzimuthalError))
         self._sc0     = tuple(sincos2d(self.lat0))
-        self._radius  = None
 
     def _reverse(self, x, y, name, LatLon, LatLon_kwds, _c_t, lea):
         '''(INTERNAL) Azimuthal (spherical) reverse C{x, y} to C{lat, lon}.
@@ -364,7 +364,7 @@ class _AzimuthalBaseKarney(_AzimuthalBase):
     '''
     _mask = 0
 
-    @property_RO
+    @Property_RO
     def geodesic(self):
         '''Get this projection's I{wrapped} U{Karney Geodesic
            <https://GeographicLib.SourceForge.io/html/python/code.html>},

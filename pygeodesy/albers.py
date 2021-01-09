@@ -15,7 +15,7 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import neg, property_RO
+from pygeodesy.basics import copysign, neg
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
@@ -25,15 +25,16 @@ from pygeodesy.interns import EPS, NN, _EPSqrt as _TOL, _datum_, _gamma_, \
 from pygeodesy.karney import _diff182, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Lon_, \
                             Meter, Scalar_
 from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 
-from math import atan, atan2, atanh, copysign, degrees, radians, sqrt
+from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '20.12.20'
+__version__ = '21.01.07'
 
 _EPS__2 = EPS**2  # see .ups
 _EPS__4 = EPS**4

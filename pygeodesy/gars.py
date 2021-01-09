@@ -13,7 +13,7 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isstr, property_RO
+from pygeodesy.basics import isstr
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError
 from pygeodesy.interns import EPS1_2, NN, _AtoZnoIO_, \
@@ -22,6 +22,7 @@ from pygeodesy.interns import _1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
                             Str, _xStrError
@@ -29,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '20.11.04'
+__version__ = '21.01.07'
 
 _Digits  = _0to9_
 _LatLen  =    2

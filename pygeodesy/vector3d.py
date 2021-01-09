@@ -13,8 +13,7 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isscalar, len2, map1, neg, property_doc_, \
-                             property_RO, _xnumpy
+from pygeodesy.basics import copysign, isscalar, len2, map1, neg, _xnumpy
 from pygeodesy.errors import _AssertionError, CrossError, IntersectionError, \
                              _IsnotError, _TypeError, _ValueError, _xkwds, \
                              _xkwds_popitem
@@ -26,15 +25,17 @@ from pygeodesy.interns import EPS, EPS1, MISSING, NN, PI, PI2, _coincident_, \
                              _near_concentric_, _no_, _scalar_, _SPACE_, \
                              _too_, _y_, _z_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, _xotherError
+from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, \
+                           _xotherError
 from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
+from pygeodesy.props import property_doc_, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, strs
-from pygeodesy.units import Radius, Radius_
+from pygeodesy.units import Float, Radius, Radius_
 
-from math import atan2, copysign, cos, sin, sqrt
+from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '20.12.22'
+__version__ = '21.01.07'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -87,8 +88,6 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     _crosserrors = True  # un/set by .errors.crosserrors
 
     _fromll  = None  # original latlon, '_fromll'
-    _length  = None  # cached length
-    _length2 = None  # cached length2
     _numpy   = None  # module numpy iff imported by trilaterate3d2 below
     _united  = None  # cached norm, unit (L{Vector3d})
     _xyz     = None  # cached xyz (L{Vector3Tuple})
@@ -316,7 +315,6 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         if updated:
             _NamedBase._update(self, updated,  # '_fromll'
-                                   '_length', '_length2',
                                    '_united', '_xyz', *attrs)
 
     def angleTo(self, other, vSign=None, wrap=False):
@@ -424,13 +422,13 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return self.isequalTo(other, units=units)
 
-    @property_RO
+    @Property_RO
     def euclid(self):
         '''Approximate the length (norm, magnitude) of this vector.
 
            @see: Function L{euclid_} and properties C{length} and C{length2}.
         '''
-        return euclid_(self.x, self.y, self.z)
+        return Float(euclid=euclid_(self.x, self.y, self.z))
 
     def iscolinearWith(self, point1, point2, eps=EPS):
         '''Check whether this and two other points are colinear.
@@ -479,25 +477,21 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             d = self.minus(other)
         return max(map(abs, d.xyz)) < eps
 
-    @property_RO
+    @Property_RO
     def length(self):
         '''Get the length (norm, magnitude) of this vector (C{float}).
 
-           @see: Properties C{length2} and C{euclid}.
+           @see: Properties L{length2} and L{euclid}.
         '''
-        if self._length is None:
-            self._length = hypot_(self.x, self.y, self.z)
-        return self._length
+        return Float(length=hypot_(self.x, self.y, self.z))
 
-    @property_RO
+    @Property_RO
     def length2(self):
         '''Get the length I{squared} of this vector (C{float}).
 
-           @see: Property C{length}.
+           @see: Property L{length}.
         '''
-        if self._length2 is None:
-            self._length2 = hypot2_(self.x, self.y, self.z)
-        return self._length2
+        return Float(length2=hypot2_(self.x, self.y, self.z))
 
     def minus(self, other):
         '''Subtract an other vector from this vector.
@@ -746,7 +740,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             self._united = u._united = u
         return self._united
 
-    @property_RO
+    @Property_RO
     def x(self):
         '''Get the X component (C{float}).
         '''
@@ -760,13 +754,13 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             self._xyz = Vector3Tuple(self.x, self.y, self.z)
         return self._xnamed(self._xyz)
 
-    @property_RO
+    @Property_RO
     def y(self):
         '''Get the Y component (C{float}).
         '''
         return self._y
 
-    @property_RO
+    @Property_RO
     def z(self):
         '''Get the Z component (C{float}).
         '''

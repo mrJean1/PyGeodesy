@@ -15,7 +15,7 @@ Karney (C) 2008-2020} and published under the same U{MIT License
 There are three modules for ellipsoidal earth models, C{ellipsoidalKarney},
 C{-Vincenty} and C{-Nvector} and two for spherical ones, C{sphericalTrigonometry}
 and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}} and a geocentric
-B{C{Cartesian}} class with methods and functions to compute distance, area,
+B{C{Cartesian}} class with methods and functions to compute distance, surface area,
 perimeter, initial and final bearing, intermediate and nearest points, intersections
 of circles, path intersections, trilateration (by intersection, overlap and 3d),
 conversions and unrolling, among other things.  For more information and further
@@ -265,6 +265,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var R_NM: Mean (spherical) earth radius (C{NM}, nautical miles).
 @var R_SM: Mean (spherical) earth radius (C{SM}, statute miles).
 @var R_FM: Former FAI-Sphere earth radius (C{meter}).
+@var R_GM: Average earth radius, distance to geoid surface (C{meter})
 @var R_VM: Aviation/Navigation earth radius (C{meter}).
 
 @var S_DEG: Degrees symbol "°" (C{str}).
@@ -355,6 +356,7 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.deprecated.nvector    as nvector                # PYCHOK DEPRECATED
     import pygeodesy.osgr                  as osgr                   # PYCHOK exported
     import pygeodesy.points                as points                 # PYCHOK exported
+    import pygeodesy.props                 as props                  # PYCHOK exported
     import pygeodesy.simplify              as simplify               # PYCHOK exported
     import pygeodesy.sphericalNvector      as sphericalNvector       # PYCHOK exported
     import pygeodesy.sphericalTrigonometry as sphericalTrigonometry  # PYCHOK exported
@@ -410,6 +412,7 @@ if not _lazy_import2:  # import and set __all__
     from pygeodesy.namedTuples           import *  # PYCHOK __all__
     from pygeodesy.osgr                  import *  # PYCHOK __all__
     from pygeodesy.points                import *  # PYCHOK __all__
+    from pygeodesy.props                 import *  # PYCHOK __all__
     from pygeodesy.simplify              import *  # PYCHOK __all__
 #   from pygeodesy.sphericalNvector      import *  # PYCHOK __(_)__
 #   from pygeodesy.sphericalTrigonometry import *  # PYCHOK __(_)__
@@ -460,7 +463,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '20.12.30'
+__version__ = '21.01.09'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

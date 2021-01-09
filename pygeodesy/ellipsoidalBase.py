@@ -15,8 +15,7 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import issubclassof, property_doc_, property_RO, \
-                            _xinstanceof
+from pygeodesy.basics import issubclassof, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
 from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, \
@@ -31,12 +30,13 @@ from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import _LatLon4Tuple, Vector3Tuple
+from pygeodesy.props import property_doc_, property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '20.12.30'
+__version__ = '21.01.07'
 
 _TRIPS = 17  # _intersects2, _nearestOn interations, 6 is sufficient
 

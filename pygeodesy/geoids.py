@@ -59,7 +59,7 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
 
-from pygeodesy.basics import len2, map1, map2, property_RO, ub2str
+from pygeodesy.basics import len2, map1, map2, ub2str
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
@@ -74,6 +74,7 @@ from pygeodesy.interns import EPS, NN, _COLONSPACE_, _COMMASPACE_, _cubic_, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
 from pygeodesy.namedTuples import LatLon3Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
 from pygeodesy.units import Height, Int_, Lat, Lon
 
@@ -91,7 +92,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '20.12.30'
+__version__ = '21.01.07'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -936,7 +937,7 @@ class GeoidKarney(_GeoidBase):
         y, x = int(floor(fy)), int(floor(fx))
         fy -= y
         fx -= x
-        H = self._evH(fy, fx, y, x)  # ._ev3H or ._ev2H
+        H  = self._evH(fy, fx, y, x)  # ._ev3H or ._ev2H
         H *= self._pgm.Scale   # H.fmul(self._pgm.Scale)
         H += self._pgm.Offset  # H.fadd(self._pgm.Offset)
         return H.fsum()
@@ -949,8 +950,8 @@ class GeoidKarney(_GeoidBase):
         else:
             y, x = self._yxH = yx
             self._yxHt = t = self._raws(y, x, GeoidKarney._BT)
-        v = _1_0, -fx, fx
-        H = Fdot(v, t[0], t[0], t[1])  # a
+        v  = _1_0, -fx, fx
+        H  = Fdot(v, t[0], t[0], t[1])  # a
         H -= H * fy  # c = (1 - fy) * a
         H += Fdot(v, t[2], t[2], t[3]) * fy  # c += b * fy
         return H
@@ -969,9 +970,11 @@ class GeoidKarney(_GeoidBase):
         # real h = t[0] + fx * (t[1] + fx * (t[3] + fx * t[6])) +
         #                 fy * (t[2] + fx * (t[4] + fx * t[7]) +
         #                 fy * (t[5] + fx *  t[8] + fy * t[9]));
-        v = _1_0, fx, fy
-        H =  Fdot(v, t[5], t[8], t[9]) * fy
-        H = (Fhorner(fx, t[2], t[4], t[7]) + H) * fy
+        v  = _1_0, fx, fy
+        H  = Fdot(v, t[5], t[8], t[9])
+        H *= fy
+        H += Fhorner(fx, t[2], t[4], t[7])
+        H *= fy
         H += Fhorner(fx, t[0], t[1], t[3], t[6])
         return H
 

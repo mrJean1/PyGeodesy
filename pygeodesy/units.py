@@ -8,8 +8,7 @@ L{Degrees}, L{Feet}, L{Meter}, L{Radians}, etc.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isstr, issubclassof, \
-                             property_doc_, property_RO
+from pygeodesy.basics import isstr, issubclassof
 from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
 from pygeodesy.errors import _IsnotError, RangeError, TRFError, \
@@ -17,9 +16,9 @@ from pygeodesy.errors import _IsnotError, RangeError, TRFError, \
 from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, _band_, \
                              _bearing_, _degrees_, _degrees2_, \
                              _distance_, _E_, _easting_, _epoch_, \
-                             _EW_, _feet_, _height_, _invalid_, \
-                             _lam_, _lat_, _LatLon_, _lon_, _N_, \
-                             _meter_, _northing_, _NS_, _NSEW_, \
+                             _EW_, _feet_, _height_, _invalid_, _N_, \
+                             _lam_, _lat_, _LatLon_, _lon_, _meter_, \
+                             _meter2_, _northing_, _NS_, _NSEW_, \
                              _number_, _PERCENT_, _phi_, _precision_, \
                              _radians_, _radians2_, _radius_, _S_, \
                              _scalar_, _SPACE_, _UNDER_, _units_, \
@@ -27,12 +26,13 @@ from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, _band_, \
 from pygeodesy.interns import _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named
+from pygeodesy.props import property_doc_, property_RO
 from pygeodesy.streprs import Fmt, fstr
 
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '20.12.30'
+__version__ = '21.01.07'
 
 
 class _NamedUnit(_Named):
@@ -64,7 +64,7 @@ class _NamedUnit(_Named):
         '''Get the units name (C{str}).
         '''
         if self._units is None:
-            self._units = self.classname.lower()
+            self._units = self.classname
         return self._units
 
     @units.setter  # PYCHOK setter!
@@ -554,13 +554,13 @@ class Radians(Float):
         return fstr(self, prec=prec, fmt=fmt, ints=ints)
 
 
-class Radians2(Float):
+class Radians2(Float_):
     '''Named C{float} representing a distance in C{radians squared}.
     '''
-    def __new__(cls, arg=None, name=_radians2_, Error=UnitError):
-        '''See L{Float}.
+    def __new__(cls, arg=None, name=_radians2_, Error=UnitError, **name_arg):
+        '''See L{Float_}.
         '''
-        return Float.__new__(cls, arg=arg, name=name, Error=Error)
+        return Float_.__new__(cls, arg=arg, name=name, Error=Error, low=_0_0, **name_arg)
 
 
 class Bearing(Degrees):
@@ -834,6 +834,24 @@ _1mm    = Meter(   _1mm=_0_001)  # PYCHOK 1 millimeter in .ellipsoidal...
 _10um   = Meter(  _10um= 1e-5)   # PYCHOK 0.01 millimeter in .osgr
 _100km  = Meter( _100km= 1e+5)   # PYCHOK 100 kilometer in .formy, .mgrs, .osgr
 _2000km = Meter(_2000km= 2e+6)   # PYCHOK 2,000 kilometer in .mgrs
+
+
+class Meter2(Float_):
+    '''Named C{float} representing an area in C{meter squared}.
+    '''
+    def __new__(cls, arg=None, name=_meter2_, Error=UnitError, **name_arg):
+        '''See L{Float_}.
+        '''
+        return Float_.__new__(cls, arg=arg, name=name, Error=Error, low=_0_0, **name_arg)
+
+
+class Meter3(Float_):
+    '''Named C{float} representing a volume in C{meter cubed}.
+    '''
+    def __new__(cls, arg=None, name='meter3', Error=UnitError, **name_arg):
+        '''See L{Float_}.
+        '''
+        return Float_.__new__(cls, arg=arg, name=name, Error=Error, low=_0_0, **name_arg)
 
 
 class Northing(Float):

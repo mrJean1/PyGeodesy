@@ -5,7 +5,7 @@ u'''(INTERNAL) Base class C{UtmUpsBase} and private functions
 for the UTM, UPS, Mgrs and Epsg classes/modules.
 '''
 
-from pygeodesy.basics import isint, isscalar, isstr, map1, neg_, property_RO, \
+from pygeodesy.basics import isint, isscalar, isstr, map1, neg_, \
                             _xinstanceof, _xsubclassof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
@@ -18,12 +18,13 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, nameof, \
                              notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xattrs, _xzipairs
 from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '20.11.04'
+__version__ = '21.01.07'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 

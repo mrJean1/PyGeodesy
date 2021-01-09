@@ -16,7 +16,7 @@ U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isstr, map2, property_RO
+from pygeodesy.basics import isstr, map2
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import favg
@@ -28,6 +28,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _NamedDict, _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, PhiLam2Tuple
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
                            _xStrError
@@ -35,7 +36,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '20.10.30'
+__version__ = '21.01.07'
 
 
 def _4d(n, e, s, w):  # helper

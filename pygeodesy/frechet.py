@@ -79,8 +79,7 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-from pygeodesy.basics import isscalar, property_doc_, property_RO, \
-                            _xinstanceof
+from pygeodesy.basics import isscalar, _xinstanceof
 from pygeodesy.datums import Datums, Datum
 from pygeodesy.errors import _IsnotError, PointsError
 from pygeodesy.fmath import hypot2
@@ -93,6 +92,7 @@ from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import PhiLam2Tuple
 from pygeodesy.points import _fractional
+from pygeodesy.props import property_doc_, property_RO
 from pygeodesy.streprs import _boolkwds, Fmt
 from pygeodesy.units import FIx, Float, Number_, _Str_degrees, _Str_meter, \
                            _Str_NN, _Str_radians, _Str_radians2, _xUnit, _xUnits
@@ -102,7 +102,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '20.12.18'
+__version__ = '21.01.07'
 
 
 def _fraction(fraction, n):

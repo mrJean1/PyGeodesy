@@ -65,7 +65,6 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.basics import property_doc_, property_RO
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, PointsError
 from pygeodesy.fmath import hypot2
@@ -77,6 +76,7 @@ from pygeodesy.interns import INF, NN, _datum_, _distanceTo_, _i_, _j_, \
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import PhiLam2Tuple
+from pygeodesy.props import property_doc_, property_RO
 from pygeodesy.streprs import _boolkwds, Fmt
 from pygeodesy.units import Float, Number_, _Str_degrees, _Str_meter, _Str_NN, \
                            _Str_radians, _Str_radians2, _xUnit, _xUnits
@@ -86,7 +86,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '20.12.18'
+__version__ = '21.01.07'
 
 
 class HausdorffError(PointsError):

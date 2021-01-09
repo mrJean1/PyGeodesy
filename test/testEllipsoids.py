@@ -4,7 +4,7 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '20.12.28'
+__version__ = '21.01.03'
 
 from base import TestsBase
 
@@ -33,6 +33,7 @@ class Tests(TestsBase):
             self.test('R3', E.R3, '6371000.8', fmt='%.1f')
             self.test('Rr', E.Rr, '6367449.1', fmt='%.1f')  # 6367445.0
             self.test('Rs', E.Rs, '6367435.7', fmt='%.1f')
+            self.test('A',  E.A,  '6367449.1', fmt='%.1f')
             self.test('L',  E.L, '10001965.7', fmt='%.1f')
 
             self.test('Rgeocentric', E.Rgeocentric(0),  '6378137.000', fmt='%.3f')
@@ -89,6 +90,7 @@ class Tests(TestsBase):
         self.test('WGS84.a2_b', E.a2_b, E.a2 / E.b, prec=6)
         self.test('WGS84.b2_a', E.b2_a, E.b2 / E.a, prec=6)
         self.test('WGS84.c',    E.c,    E.R2,       prec=6)
+        self.test('WGS84.c2',   E.c2,   E.c**2,     fmt='%.0f')
         self.test('WGS84.es',   E.es,   E.e,        prec=6)
         self.test('WGS84.f2',   E.f2, (E.a - E.b) / E.b, prec=6)
         self.test('WGS84.m2degrees', int(E.m2degrees(E.a * PI_2)), 90)
@@ -99,7 +101,7 @@ class Tests(TestsBase):
         self.test('WGS84.ecef', E.ecef().name, E.name)
 
         t = E.toStr(prec=10)
-        self.test('WGS84', t, "name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e22=0.0067394967, e32=0.0033584313, A=6367449.1458234144, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.790009154")
+        self.test('WGS84', t, "name='WGS84', a=6378137, b=6356752.3142451793, f_=298.257223563, f=0.0033528107, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e22=0.0067394967, e32=0.0033584313, A=6367449.1458234144, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184747, R3=6371000.790009154")
         e = (E.a - E.b) / (E.a + E.b) - E.n
         t = 'A=%.10f, e=%.10f, f_=%.10f, n=%.10f(%.10e)' % (E.A, E.e, E.f_, E.n, e)
         self.test('WGS84.', t, 'A=6367449.1458234144, e=0.0818191908, f_=298.2572235630, n=0.0016792204(-2.1684043450e-19)')
@@ -125,10 +127,12 @@ class Tests(TestsBase):
 
         self.subtitle(ellipsoids, P.name)
         for p, e in ((P.a, E.b), (P.b, E.a), (P.n, -E.n),
-                     (P.R1, E.R1), (P.R2, E.R2), (P.R3, E.R3),
+                     (P.R1, 6363880.543), (P.R2, 6363878.941), (P.R3, 6363872.564),
                      (P.Rbiaxial, E.Rbiaxial), (P.Rgeometric, E.Rgeometric),
-                     (P.area, E.area), (P.volume, E.volume)):
-            self.test(p.name, p, e, fmt='%.6f', known=abs(p - e) < _TOL)
+                     (P.c2, 40498955180263.188), (P.area, 508924880289508.500),
+                     (P.volume, 1079575530747445379072.000)):
+            t = '%s [%s]' % (p.name, p.units)
+            self.test(t, p, e, fmt='%.3f', known=abs(p - e) < _TOL)
 
         for E, el, ob, pr in ((E, True, True, False),
                               (P, True, False, True),

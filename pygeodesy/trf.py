@@ -25,8 +25,8 @@ Note that I{ITRF solutions} do not directly use an ellipsoid, but are specified 
 coordinates.  The GRS80 ellipsoid is recommended for transformations to geographical coordinates.
 
 Note WGS84(G730/G873/G1150) are coincident with ITRF at 10-centimetre level, see also U{here
-<ftp://ITRF.ENSG.IGN.FR/pub/itrf/WGS84.TXT>}.  WGS84(G1674) and ITRF20014 / ITRF2008 ‘are likely
-to agree at the centimeter level’, see also U{QPS/QINSy<https://Confluence.QPS.NL/qinsy/
+<ftp://ITRF.ENSG.IGN.FR/pub/itrf/WGS84.TXT>}.  WGS84(G1674) and ITRF20014 / ITRF2008 I{"are likely
+to agree at the centimeter level"}, see also U{QPS/Qinsy<https://Confluence.QPS.NL/qinsy/
 en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45353274.html>}.
 
 @var RefFrames.ETRF2000: RefFrame(name='ETRF2000', epoch=2005, ellipsoid=Ellipsoid(name='GRS80')
@@ -44,7 +44,7 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, ellipsoid=Ellipsoid(name='WGS84')
 '''
 
-from pygeodesy.basics import map1, property_RO
+from pygeodesy.basics import map1
 from pygeodesy.datums import _ellipsoid, Transform
 from pygeodesy.ellipsoids import Ellipsoids
 from pygeodesy.errors import TRFError
@@ -56,13 +56,14 @@ from pygeodesy.interns import NN, _COMMASPACE_, _conversion_, _ellipsoid_, \
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _lazyNamedEnumItem as _lazy, \
                            _NamedDict as _D, _NamedEnum, _NamedEnumItem
+from pygeodesy.props import property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Epoch
 
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '20.12.30'
+__version__ = '21.01.08'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -152,6 +153,7 @@ class RefFrames(_NamedEnum):
         return RefFrame(epoch, Ellipsoids.get(ellipsoid_name), name=name)
 
 RefFrames = RefFrames(RefFrame)  # PYCHOK singleton
+'''Some pre-defined L{RefFrame}s, all I{lazily} instantiated.'''
 # <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>
 RefFrames._assert(
     ETRF2000   = _lazy(_ETRF2000_,   _F(2005), _GRS80_),  # ETRF2000(R08)
@@ -354,9 +356,12 @@ _trfXs = {  # (from_TRF, to_TRF):           mm       mm       mm     ppb     mas
                                  xform=_T(995.6, -1901.3,  -521.5,   0.62,  25.915,   9.426,  11.599),
                                  rates=_T(  0.7,    -0.7,    _0_5,  -0.18,   0.067,  -0.757,  -0.051)),
 
-    # GDA2020 "Geocentric Datum of Australia 2020 Technical Manual", v1.5, 2020-12-09, p 32, Table 3.4
+    # GDA2020 "Geocentric Datum of Australia 2020 Technical Manual", v1.5, 2020-12-09, Table 3.3 and 3.4
     # <https://www.ICSM.gov.AU/sites/default/files/2020-12/GDA2020%20Technical%20Manual%20V1.5_4.pdf>
     # (the GDA2020 xforms are different but the rates are the same as GDA94, further below)
+    (_ITRF2014_, _GDA2020_):  _D(epoch=_F(2020),
+                                 xform=_T( _0_0,    _0_0,   _0_0,  _0_0,    _0_0,    _0_0,    _0_0),
+                                 rates=_T( _0_0,    _0_0,   _0_0,  _0_0,     1.50379, 1.18346, 1.20716)),
     (_ITRF2008_, _GDA2020_):  _D(epoch=_F(2020),
                                  xform=_T( 13.79,    4.55,   15.22,  2.5,    0.2808,  0.2677, -0.4638),
                                  rates=_T(  1.42,    1.34,    0.9,   0.109,  1.5461,  1.182,   1.1551)),

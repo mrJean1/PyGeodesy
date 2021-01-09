@@ -14,8 +14,7 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import len2, map1, property_doc_, property_RO, \
-                            _xinstanceof
+from pygeodesy.basics import len2, map1, _xinstanceof
 from pygeodesy.datums import Datum
 from pygeodesy.errors import IntersectionError, _ValueError, \
                             _xkwds, _xkwds_pop
@@ -31,6 +30,7 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple
+from pygeodesy.props import property_doc_, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d
@@ -40,7 +40,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '20.12.08'
+__version__ = '21.01.08'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -149,25 +149,25 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return NN(self.H, hstr(self.h, prec=prec, m=m))
 
-    @property_RO
+    @Property_RO
     def isEllipsoidal(self):
         '''Check whether this n-vector is ellipsoidal (C{bool} or C{None} if unknown).
         '''
         return self.datum.isEllipsoidal if self._datum else None
 
-    @property_RO
+    @Property_RO
     def isSpherical(self):
         '''Check whether this n-vector is spherical (C{bool} or C{None} if unknown).
         '''
         return self.datum.isSpherical if self._datum else None
 
-    @property_RO
+    @Property_RO
     def lam(self):
         '''Get the (geodetic) longitude in C{radians} (C{float}).
         '''
         return self.philamheight.lam
 
-    @property_RO
+    @Property_RO
     def lat(self):
         '''Get the (geodetic) latitude in C{degrees} (C{float}).
         '''
@@ -187,13 +187,13 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return self._xnamed(self.latlon.to3Tuple(self.h))
 
-    @property_RO
+    @Property_RO
     def lon(self):
         '''Get the (geodetic) longitude in C{degrees} (C{float}).
         '''
         return self.latlonheight.lon
 
-    @property_RO
+    @Property_RO
     def phi(self):
         '''Get the (geodetic) latitude in C{radians} (C{float}).
         '''

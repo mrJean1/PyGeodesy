@@ -29,7 +29,6 @@ or by converting to anothor datum:
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import property_RO
 from pygeodesy.datums import Datums
 from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
                                        CartesianEllipsoidalBase, \
@@ -39,11 +38,12 @@ from pygeodesy.formy import points2
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
+from pygeodesy.props import property_RO
 from pygeodesy.units import _1mm as _TOL_M
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '20.12.22'
+__version__ = '21.01.07'
 
 
 class Cartesian(CartesianEllipsoidalBase):
