@@ -4693,6 +4693,7 @@ pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._datum	pygeodesy.ellipsoidalBase
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.antipode	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#antipode
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toUtmUps	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps
 pygeodesy.latlonBase.LatLonBase._latlon	pygeodesy.latlonBase.LatLonBase-class.html#_latlon
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._geoidHeight2to	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_geoidHeight2to
 pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.html#toEcef
 pygeodesy.latlonBase.LatLonBase.cosineLawTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
@@ -4727,6 +4728,7 @@ pygeodesy.latlonBase.LatLonBase.cosineForsytheAndoyerLambertTo	pygeodesy.latlonB
 pygeodesy.latlonBase.LatLonBase._name	pygeodesy.latlonBase.LatLonBase-class.html#_name
 pygeodesy.latlonBase.LatLonBase.compassAngleTo	pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._elevation2to	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_elevation2to
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.latlonBase.LatLonBase.flatPolarTo	pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo
@@ -4933,6 +4935,7 @@ pygeodesy.latlonBase.LatLonBase.isEllipsoidal	pygeodesy.latlonBase.LatLonBase-cl
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.antipode	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#antipode
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toUtmUps	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps
 pygeodesy.latlonBase.LatLonBase._latlon	pygeodesy.latlonBase.LatLonBase-class.html#_latlon
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._geoidHeight2to	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_geoidHeight2to
 pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.html#toEcef
 pygeodesy.latlonBase.LatLonBase.cosineLawTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
@@ -4969,6 +4972,7 @@ pygeodesy.latlonBase.LatLonBase.cosineForsytheAndoyerLambertTo	pygeodesy.latlonB
 pygeodesy.latlonBase.LatLonBase._name	pygeodesy.latlonBase.LatLonBase-class.html#_name
 pygeodesy.latlonBase.LatLonBase.compassAngleTo	pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._elevation2to	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_elevation2to
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.latlonBase.LatLonBase.flatPolarTo	pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo
@@ -5181,6 +5185,7 @@ pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._datum	pygeodesy.ellipsoidalBase
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.antipode	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#antipode
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toUtmUps	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps
 pygeodesy.latlonBase.LatLonBase._latlon	pygeodesy.latlonBase.LatLonBase-class.html#_latlon
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._geoidHeight2to	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_geoidHeight2to
 pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.html#toEcef
 pygeodesy.latlonBase.LatLonBase.cosineLawTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
@@ -5221,6 +5226,7 @@ pygeodesy.latlonBase.LatLonBase.cosineForsytheAndoyerLambertTo	pygeodesy.latlonB
 pygeodesy.latlonBase.LatLonBase._name	pygeodesy.latlonBase.LatLonBase-class.html#_name
 pygeodesy.latlonBase.LatLonBase.compassAngleTo	pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._elevation2to	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_elevation2to
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.latlonBase.LatLonBase.flatPolarTo	pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo
@@ -5611,6 +5617,7 @@ pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._datum	pygeodesy.ellipsoidalBase
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.antipode	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#antipode
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.toUtmUps	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps
 pygeodesy.latlonBase.LatLonBase._latlon	pygeodesy.latlonBase.LatLonBase-class.html#_latlon
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._geoidHeight2to	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_geoidHeight2to
 pygeodesy.latlonBase.LatLonBase.toEcef	pygeodesy.latlonBase.LatLonBase-class.html#toEcef
 pygeodesy.latlonBase.LatLonBase.cosineLawTo	pygeodesy.latlonBase.LatLonBase-class.html#cosineLawTo
 pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
@@ -5647,6 +5654,7 @@ pygeodesy.latlonBase.LatLonBase.cosineForsytheAndoyerLambertTo	pygeodesy.latlonB
 pygeodesy.latlonBase.LatLonBase._name	pygeodesy.latlonBase.LatLonBase-class.html#_name
 pygeodesy.latlonBase.LatLonBase.compassAngleTo	pygeodesy.latlonBase.LatLonBase-class.html#compassAngleTo
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
+pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase._elevation2to	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#_elevation2to
 pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase.convertDatum	pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#convertDatum
 pygeodesy.latlonBase.LatLonBase.latlon_	pygeodesy.latlonBase.LatLonBase-class.html#latlon_
 pygeodesy.latlonBase.LatLonBase.flatPolarTo	pygeodesy.latlonBase.LatLonBase-class.html#flatPolarTo

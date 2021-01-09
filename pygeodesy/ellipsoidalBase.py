@@ -30,13 +30,13 @@ from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import _LatLon4Tuple, Vector3Tuple
-from pygeodesy.props import property_doc_, property_RO
+from pygeodesy.props import Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '21.01.07'
+__version__ = '21.01.09'
 
 _TRIPS = 17  # _intersects2, _nearestOn interations, 6 is sufficient
 
@@ -76,20 +76,20 @@ class CartesianEllipsoidalBase(CartesianBase):
 class LatLonEllipsoidalBase(LatLonBase):
     '''(INTERNAL) Base class for ellipsoidal C{LatLon}s.
     '''
-    _convergence  = None  # UTM/UPS meridian convergence (C{degrees})
-    _datum        = Datums.WGS84  # L{Datum}
-    _elevation2   = ()    # cached C{elevation2} result
-    _epoch        = None  # overriding .reframe.epoch (C{float})
-    _etm          = None  # cached toEtm (L{Etm})
-    _geoidHeight2 = ()    # cached C{geoidHeight2} result
-    _iteration    = None  # iteration number (C{int} or C{None})
-    _lcc          = None  # cached toLcc (C{Lcc})
-    _osgr         = None  # cached toOsgr (C{Osgr})
-    _reframe      = None  # reference frame (L{RefFrame})
-    _scale        = None  # UTM/UPS scale factor (C{float})
-    _ups          = None  # cached toUps (L{Ups})
-    _utm          = None  # cached toUtm (L{Utm})
-    _wm           = None  # cached toWm (webmercator.Wm instance)
+    _convergence    = None  # UTM/UPS meridian convergence (C{degrees})
+    _datum          = Datums.WGS84  # L{Datum}
+    _elevation2to   = None  # _elevation2 timeout (C{secs})
+    _epoch          = None  # overriding .reframe.epoch (C{float})
+    _etm            = None  # cached toEtm (L{Etm})
+    _geoidHeight2to = None  # _geoidHeight2 timeout (C{secs})
+    _iteration      = None  # iteration number (C{int} or C{None})
+    _lcc            = None  # cached toLcc (C{Lcc})
+    _osgr           = None  # cached toOsgr (C{Osgr})
+    _reframe        = None  # reference frame (L{RefFrame})
+    _scale          = None  # UTM/UPS scale factor (C{float})
+    _ups            = None  # cached toUps (L{Ups})
+    _utm            = None  # cached toUtm (L{Utm})
+    _wm             = None  # cached toWm (webmercator.Wm instance)
 
     def __init__(self, lat, lon, height=0, datum=None, reframe=None,
                                            epoch=None, name=NN):
@@ -152,10 +152,6 @@ class LatLonEllipsoidalBase(LatLonBase):
         if updated:
             LatLonBase._update(self, updated, '_etm', '_lcc', '_osgr',
                                       '_ups', '_utm', '_wm', *attrs)
-            if self._elevation2:
-                self._elevation2 = ()
-            if self._geoidHeight2:
-                self._geoidHeight2 = ()
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
@@ -281,6 +277,13 @@ class LatLonEllipsoidalBase(LatLonBase):
         return self.ellipsoids(other).distance2(self.lat,  self.lon,
                                                other.lat, other.lon)
 
+    @Property_RO
+    def _elevation2(self):
+        '''(INTERNAL) Get elevation and data source.
+        '''
+        from pygeodesy.elevations import elevation2
+        return elevation2(self.lat, self.lon, timeout=self._elevation2to)
+
     def elevation2(self, adjust=True, datum=Datums.WGS84, timeout=2):
         '''Return elevation of this point for its or the given datum.
 
@@ -304,10 +307,9 @@ class LatLonEllipsoidalBase(LatLonBase):
                  L{Ellipsoid.Rgeocentric} for further details and
                  possible C{error}s.
         '''
-        if not self._elevation2:  # get elevation and data source
-            from pygeodesy.elevations import elevation2
-            self._elevation2 = elevation2(self.lat, self.lon,
-                                          timeout=timeout)
+        if self._elevation2to != timeout:
+            self._elevation2to = timeout
+            LatLonEllipsoidalBase._elevation2._update(self)
         return self._Radjust2(adjust, datum, self._elevation2)
 
     def ellipsoid(self, datum=Datums.WGS84):
@@ -361,6 +363,13 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         self._epoch = None if epoch is None else Epoch(epoch)
 
+    @Property_RO
+    def _geoidHeight2(self):
+        '''(INTERNAL) Get geoid height and model.
+        '''
+        from pygeodesy.elevations import geoidHeight2
+        return geoidHeight2(self.lat, self.lon, model=0, timeout=self._geoidHeight2to)
+
     def geoidHeight2(self, adjust=False, datum=Datums.WGS84, timeout=2):
         '''Return geoid height of this point for its or the given datum.
 
@@ -384,10 +393,9 @@ class LatLonEllipsoidalBase(LatLonBase):
                  L{Ellipsoid.Rgeocentric} for further details and
                  possible C{error}s.
         '''
-        if not self._geoidHeight2:  # get elevation and data source
-            from pygeodesy.elevations import geoidHeight2
-            self._geoidHeight2 = geoidHeight2(self.lat, self.lon,
-                                              model=0, timeout=timeout)
+        if self._geoidHeight2to != timeout:
+            self._geoidHeight2to = timeout
+            LatLonEllipsoidalBase._geoidHeight2._update(self)
         return self._Radjust2(adjust, datum, self._geoidHeight2)
 
     def intersections2(self, radius1, other, radius2, height=None, wrap=True,

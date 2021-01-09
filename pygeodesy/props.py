@@ -10,7 +10,7 @@ from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, \
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 __all__ = _ALL_LAZY.props
-__version__ = '21.01.07'
+__version__ = '21.01.09'
 
 
 def _update_all(inst, *attrs):
@@ -176,7 +176,7 @@ class property_RO(_PropertyBase):
         c = clas or inst.__class__
         if c:
             _n = NN(_UNDER_, self.name)
-            if c.__dict__.get(_n, False) in (None, (), []):
+            if c.__dict__.get(_n, False) in (None, ()):
                 inst.__dict__.pop(_n, None)
 
 
