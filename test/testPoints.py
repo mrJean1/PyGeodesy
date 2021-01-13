@@ -195,8 +195,11 @@ if __name__ == '__main__':  # PYCHOK internal error?
         a = '__slots__'
     else:
         a = '__dict__'
-    q = sys.getsizeof(p)
-    t.test('sizeof(LatLon_.%s)' % (a,), q, q)
+    try:
+        q = sys.getsizeof(p)
+        t.test('sizeof(LatLon_.%s)' % (a,), q, q)
+    except TypeError:  # PyPy warning/error
+        pass
 
     pts = LatLon2psxy(PtsFFI, wrap=False)
     t.test2(pts, PtsFFI, True)
