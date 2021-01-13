@@ -46,7 +46,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO,property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Band, Int, Lat, Lon, Zone
 from pygeodesy.utily import degrees90, degrees180, sincos2  # splice
@@ -61,14 +61,14 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
 _Bands         = 'CDEFGHJKLMNPQRSTUVWXX'  # latitude bands
 _FalseEasting  = _float(  500e3)  # falsed offset (C{meter})
 _FalseNorthing = _float(10000e3)  # falsed offset (C{meter})
-_K0            = _float(0.9996)   # UTM scale, central meridian
+_K0_UTM        = _float(0.9996)   # UTM scale, central meridian
 
 
 class UTMError(_ValueError):
@@ -229,12 +229,12 @@ def _to7zBlldfn(latlon, lon, datum, falsed, name, zone, Error, **cmoff):
 class Utm(UtmUpsBase):
     '''Universal Transverse Mercator (UTM) coordinate.
     '''
-    _band        = NN    # latitude band letter ('C..X')
-    _Error       = UTMError  # or etm.ETMError
-    _latlon_args = ()    # (eps, unfalse) from _latlon (C{float}, C{bool})
-    _scale       = None  # grid scale factor (C{scalar}) or C{None}
-    _scale0      = _K0   # central scale factor (C{scalar})
-    _zone        = 0     # longitudinal zone (C{int} 1..60)
+#   _band        =  NN        # latitude band letter ('C..X')
+    _Error       =  UTMError  # or etm.ETMError
+    _latlon_args = ()         # (eps, unfalse) from _latlon (C{float}, C{bool})
+#   _scale       =  None      # grid scale factor (C{scalar}) or C{None}
+    _scale0      = _K0_UTM    # central scale factor (C{scalar})
+    _zone        =  0         # longitudinal zone (C{int} 1..60)
 
     def __init__(self, zone, hemisphere, easting, northing, band=NN,  # PYCHOK expected
                              datum=Datums.WGS84, falsed=True,
@@ -309,7 +309,7 @@ class Utm(UtmUpsBase):
     def __str__(self):
         return self.toStr()
 
-    def _xcopy2(self, Xtm):
+    def _xcopy2(self, Xtm, name=NN):
         '''(INTERNAL) Make copy as an B{C{Xtm}} instance.
 
            @arg Xtm: Class to return the copy (C{Xtm=Etm},
@@ -319,7 +319,8 @@ class Utm(UtmUpsBase):
                    self.easting, self.northing,
                    band=self.band, datum=self.datum,
                    falsed=self.falsed, scale=self.scale,
-                   convergence=self.convergence)
+                   convergence=self.convergence,
+                   name=name or self.name)
 
     @property_RO
     def band(self):
@@ -327,7 +328,14 @@ class Utm(UtmUpsBase):
         '''
         return self._band
 
-    @property_RO
+    @Property_RO
+    def _etm(self):
+        '''(INTERNAL) Cache for L{toEtm}.
+        '''
+        from pygeodesy.etm import Etm
+        return self._xcopy2(Etm)
+
+    @Property_RO
     def falsed2(self):
         '''Get the easting and northing falsing (L{EasNor2Tuple}C{(easting, northing)}).
         '''
@@ -337,6 +345,13 @@ class Utm(UtmUpsBase):
             if self.hemisphere == _S_:  # relative to equator
                 n = _FalseNorthing
         return EasNor2Tuple(e, n)
+
+    @Property_RO
+    def _mgrs(self):
+        '''(INTERNAL) Cache for L{toMgrs}.
+        '''
+        from pygeodesy.mgrs import toMgrs
+        return toMgrs(self, name=self.name)
 
     def parse(self, strUTM, name=NN):
         '''Parse a string to a similar L{Utm} instance.
@@ -371,8 +386,7 @@ class Utm(UtmUpsBase):
 
            @return: The ETM coordinate (L{Etm}).
         '''
-        from pygeodesy.etm import Etm  # PYCHOK recursive import
-        return self._xnamed(self._xcopy2(Etm))
+        return self._etm
 
     def toLatLon(self, LatLon=None, eps=EPS, unfalse=True, **LatLon_kwds):
         '''Convert this UTM coordinate to an (ellipsoidal) geodetic point.
@@ -474,9 +488,6 @@ class Utm(UtmUpsBase):
 
            @return: The MGRS grid reference (L{Mgrs}).
         '''
-        if self._mgrs is None:
-            from pygeodesy.mgrs import toMgrs  # PYCHOK recursive import
-            self._mgrs = toMgrs(self, name=self.name)
         return self._mgrs
 
     def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, B=False, cs=False, **unused):  # PYCHOK expected
@@ -498,9 +509,6 @@ class Utm(UtmUpsBase):
                     C{True} (C{str}).
         '''
         return self._toRepr(fmt, B, cs, prec, sep)
-
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, use method L{Utm.toRepr}.'''
 
     def toStr(self, prec=0, sep=_SPACE_, B=False, cs=False):  # PYCHOK expected
         '''Return a string representation of this UTM coordinate.
@@ -617,7 +625,7 @@ def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=NN):
        @example:
 
        >>> u = parseUTM5('31 N 448251 5411932')
-       >>> u.toStr2()  # [Z:31, H:N, E:448251, N:5411932]
+       >>> u.toRepr()  # [Z:31, H:N, E:448251, N:5411932]
        >>> u = parseUTM5('31 N 448251.8 5411932.7')
        >>> u.toStr()  # 31 N 448252 5411933
     '''
@@ -690,7 +698,7 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,
     y = atan2(T_, cb)  # ξ' ksi
     x = asinh(sb / H)  # η' eta
 
-    A0 = E.A * getattr(Utm, '_scale0', _K0)  # Utm is class or None
+    A0 = E.A * getattr(Utm, '_scale0', _K0_UTM)  # Utm is class or None
 
     K = _Kseries(E.AlphaKs, x, y)  # Krüger series
     y = K.ys(y) * A0  # ξ

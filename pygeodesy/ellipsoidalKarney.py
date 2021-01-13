@@ -24,7 +24,7 @@ as follows:
 
 or by converting to anothor datum:
 
-    >>> p = p.convertDatum(Datums.OSGB36)
+    >>> p = p.toDatum(Datums.OSGB36)
 
 @newfield example: Example, Examples
 '''

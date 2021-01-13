@@ -10,12 +10,12 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.errors import _xkwds
-from pygeodesy.interns import _angle_, _band_, _convergence_, _datum_, \
-                              _distance_, _easting_, _h_, _height_, \
-                              _hemipole_, _lam_, _lat_, _lon_, _n_, \
-                              _northing_, _number_, _phi_, _points_, \
-                              _precision_, _radius_, _scale_, \
-                              _x_, _y_, _z_, _zone_
+from pygeodesy.interns import NN, _angle_, _band_, _convergence_, \
+                             _datum_, _distance_, _easting_, _h_, \
+                             _height_, _hemipole_, _lam_, _lat_, \
+                             _lon_, _n_, _northing_, _number_, \
+                             _phi_, _points_, _precision_, _radius_, \
+                             _scale_, _x_, _y_, _z_, _zone_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _Pass
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
@@ -23,7 +23,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Number_, Phi, Precision_, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '20.12.22'
+__version__ = '21.01.10'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
@@ -369,11 +369,11 @@ class UtmUps5Tuple(_NamedTuple):  # .mgrs.py, .ups.py, .utm.py, .utmups.py
     _Names_ = (_zone_,  _hemipole_, _easting_, _northing_, _band_)
     _Units_ = ( Number_, Str,        Easting,   Northing,   Band)
 
-    def __new__(cls, z, h, e, n, B, Error=None):
+    def __new__(cls, z, h, e, n, B, Error=None, name=NN):
         if Error is not None:
             e = Easting( e, Error=Error)
             n = Northing(n, Error=Error)
-        return _NamedTuple.__new__(cls, z, h, e, n, B)
+        return _NamedTuple.__new__(cls, z, h, e, n, B, name=name)
 
 
 class UtmUps8Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py

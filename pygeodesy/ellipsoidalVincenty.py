@@ -45,7 +45,7 @@ as follows:
 
 or by converting to anothor datum:
 
-    >>> p = p.convertDatum(Datums.OSGB36)
+    >>> p = p.toDatum(Datums.OSGB36)
 
 @newfield example: Example, Examples
 '''
@@ -71,7 +71,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -323,7 +323,7 @@ class LatLon(LatLonEllipsoidalBase):
 
            @raise ValueError: Out of bounds B{C{eps}}.
         '''
-        self._epsilon = Scalar_(eps, name='epsilon')
+        self._epsilon = Scalar_(epsilon=eps)
 
     def finalBearingOn(self, distance, bearing):
         '''Compute the final bearing (reverse azimuth) after having

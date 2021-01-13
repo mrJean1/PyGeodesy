@@ -35,10 +35,10 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
 from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, _angle_, _colinear_, \
-                             _COMMASPACE_, _datum_, _distance_, _ELLIPSIS_, \
-                             _height_, _lat_, _lon_, _name_, _not_, _point_, \
-                             _SPACE_, _UNDER_, _valid_, _x_, _y_, _0_0, _0_5, \
-                             _1_0, _3_0, _90_0, _180_0, _360_0
+                             _COMMASPACE_, _DEQUALSPACED_, _distance_, _not_, \
+                             _ELLIPSIS_, _height_, _lat_, _lon_, _name_, \
+                             _point_, _SPACE_, _UNDER_, _valid_, _x_, _y_, \
+                             _0_0, _0_5, _1_0, _3_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _NamedTuple, nameof, \
                             notImplemented, notOverloaded, _Pass, \
@@ -47,7 +47,7 @@ from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, NearestOn3Tuple, \
                                   PhiLam2Tuple, Vector4Tuple
 from pygeodesy.nvectorBase import NvectorBase, _N_vector_
-from pygeodesy.props import property_doc_, property_RO
+from pygeodesy.props import Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, hstr, instr, pairs
 from pygeodesy.units import Degrees, Lat, Lon, Meter, Number_, \
                             Radius, Scalar_
@@ -57,10 +57,11 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.01.07'
+__version__ = '21.01.11'
 
-_DEQUAL_   = ' == '
-_elel_     = 'll'
+_elel_  = 'll'
+_ncols_ = 'ncols'
+_nrows_ = 'nrows'
 
 
 class LatLon_(object):  # XXX imported by heights._HeightBase.height
@@ -74,7 +75,12 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     # 276+, O'Reilly, 2016, also at <https://Books.Google.ie/
     #   books?id=bIZHCgAAQBAJ&lpg=PP1&dq=fluent%20python&pg=
     #   PT364#v=onepage&q=“Problems%20with%20__slots__”&f=false>
-    __slots__ = (_lat_, _lon_, _name_, _height_, _datum_)
+    #
+    # __slots__ = (_lat_, _lon_, _height_, _datum_, _name_)
+    # Property_RO = property_RO  # no __dict__ with __slots__
+    #
+    # However, sys.getsizeof(LatLon_(1, 2)) is 72-88 with __slots__
+    # and only 48-64 bytes without in Python 2.7.18+ and Python 3+.
 
     def __init__(self, lat, lon, name=NN, height=0, datum=None):
         '''Creat a new, mininal, low-overhead L{LatLon_} instance,
@@ -124,7 +130,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
 
            @return: New instance (C{self.__class__}).
         '''
-        if 'name' in kwds:
+        if _name_ in kwds:
             return self.__class__(*args, **kwds)
         else:
             return self.__class__(name=self.name, *args, **kwds)
@@ -148,19 +154,19 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         return hstr(self.height, prec=prec)
 
-    @property_RO
+    @Property_RO
     def latlon(self):
         '''Get the lat- and longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
         '''
         return LatLon2Tuple(self.lat, self.lon)
 
-    @property_RO
+    @Property_RO
     def latlonheight(self):
         '''Get the lat-, longitude and height (L{LatLon3Tuple}C{(lat, lon, height)}).
         '''
         return self.latlon.to3Tuple(self.height)
 
-    @property_RO
+    @Property_RO
     def _N_vector(self):
         '''(INTERNAL) Get the minimal, low-overhead (C{nvectorBase._N_vector_})
         '''
@@ -183,13 +189,13 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
             return other
         raise _xotherError(self, other, name=name, up=up + 1)
 
-    @property_RO
+    @Property_RO
     def philam(self):
         '''Get the lat- and longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
         return PhiLam2Tuple(radians(self.lat), radians(self.lon))
 
-    @property_RO
+    @Property_RO
     def philamheight(self):
         '''Get the lat-, longitude in C{radians} and height (L{PhiLam3Tuple}C{(phi, lam, height)}).
         '''
@@ -218,13 +224,6 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
            @raise TypeError: Some B{C{points}} are not B{C{base}}.
         '''
         return points2(points, closed=closed, base=base)
-
-    def to2ab(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{philam}.
-
-           @return: A L{PhiLam2Tuple}C{(phi, lam)}.
-        '''
-        return self.philam
 
     def toNvector(self, h=None, Nvector=NvectorBase, **Nvector_kwds):
         '''Convert this point to C{n-vector} (normal to the earth's
@@ -259,9 +258,6 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         _ = _xkwds_pop(kwds, std=None)  # PYCHOK std unused
         return Fmt.PAREN(classname(self), self.toStr(**kwds))
 
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, used method L{LatLon_.toRepr}.'''
-
     def toStr(self, form=F_D, prec=6, sep=_COMMASPACE_, **kwds):
         '''This L{LatLon_} as a string "<degrees>, <degrees>".
 
@@ -282,6 +278,15 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         if kwds:
             t += pairs(kwds, prec=prec)
         return sep.join(t)
+
+    def toStr2(self, **kwds):  # PYCHOK for backward compatibility
+        '''DEPRECATED, used method L{toRepr}.
+        '''
+        return self.toRepr(**kwds)
+
+    def to2ab(self):  # for backward compatibility
+        '''DEPRECATED, use property C{philam}.'''
+        return self.philam
 
 
 class _Basequence(_Sequence):  # immutable, on purpose
@@ -454,6 +459,10 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
     _ilat   = 0  # row column index
     _ilon   = 0  # row column index
     _LatLon = LatLon_  # default
+    try:
+        _LatLon_attrs = LatLon_.__slots__  # PYCHOK no __slots__
+    except AttributeError:
+        _LatLon_attrs = tuple(LatLon_(0, 0).__dict__.keys())
     _shape  = ()
 
     def __init__(self, array, ilat=0, ilon=1, LatLon=None, shape=()):
@@ -469,7 +478,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
 
         # check the point class
         if LatLon is not None:
-            if isclass(LatLon) and all(hasattr(LatLon, a) for a in LatLon_.__slots__):
+            if isclass(LatLon) and all(hasattr(LatLon, a) for a in _Array2LatLon._LatLon_attrs):
                 self._LatLon = LatLon
             else:
                 raise _IsnotError(_valid_, LatLon=LatLon)
@@ -483,7 +492,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
                 raise _ValueError(ai, i)
             for aj, j in ais[:n]:
                 if int(j) == i:
-                    raise _ValueError(_DEQUAL_.join(map1(str, ai, aj, i)))
+                    raise _ValueError(_DEQUALSPACED_(ai, aj, i))
             setattr(self, NN(_UNDER_, ai), i)
 
     def __contains__(self, latlon):
@@ -945,7 +954,7 @@ class Shape2Tuple(_NamedTuple):
     '''2-Tuple C{(nrows, ncols)}, the number of rows and columns,
        both C{int}.
     '''
-    _Names_ = ('nrows', 'ncols')
+    _Names_ = (_nrows_, _ncols_)
     _Units_ = ( Number_, Number_)
 
 
@@ -1494,10 +1503,13 @@ def luneOf(lon1, lon2, closed=False, LatLon=LatLon_, **LatLon_kwds):
        @see: U{Latitude-longitude quadrangle
              <https://www.MathWorks.com/help/map/ref/areaquad.html>}.
     '''
-    for ll in ((_0_0, lon1), (_90_0, lon1), (_0_0, lon2), (-_90_0, lon2)):
-        yield LatLon(*ll, **LatLon_kwds)
+    ll0 = LatLon(  _0_0, lon1, **LatLon_kwds)
+    yield ll0
+    yield LatLon( _90_0, lon1, **LatLon_kwds)
+    yield LatLon(  _0_0, lon2, **LatLon_kwds)
+    yield LatLon(-_90_0, lon2, **LatLon_kwds)
     if closed:
-        yield LatLon(_0_0, lon1, **LatLon_kwds)
+        yield ll0
 
 
 def nearestOn5(point, points, closed=False, wrap=False, LatLon=None, **options):

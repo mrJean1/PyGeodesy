@@ -23,25 +23,22 @@ from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
                                   LatLon2Tuple, _LatLon4Tuple, \
                                   LatLon4Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import Fmt, _fstrENH2, _fstrLL0, _xzipairs
 from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '21.01.07'
-
-_CassiniSoldner0 = None  # default projection
+__version__ = '21.01.10'
 
 
-def _CassiniSoldner(cs0):
+def _CS0(cs0):
     '''(INTERNAL) Get/set default projection.
     '''
     if cs0 is None:
-        global _CassiniSoldner0
-        if _CassiniSoldner0 is None:
-            _CassiniSoldner0 = CassiniSoldner(_0_0, _0_0, name='Default')
-        cs0 = _CassiniSoldner0
+        cs0 = Css._CS0
+        if cs0 is None:
+            Css._CS0 = cs0 = CassiniSoldner(_0_0, _0_0, name='Default')
     else:
         _xinstanceof(CassiniSoldner, cs0=cs0)
     return cs0
@@ -87,11 +84,10 @@ class CassiniSoldner(_NamedBase):
            >>> p.reverse4(-38e3, 230e3)
            (50.899937, 1.793161, 89.580797, 0.999982)
         '''
-        if name:
-            self.name = name
-
         if datum not in (None, self._datum):
             self._datum = _xellipsoidal(datum=_ellipsoidal_datum(datum, name=name))
+        if name:
+            self.name = name
 
         self.reset(lat0, lon0)
 
@@ -108,7 +104,7 @@ class CassiniSoldner(_NamedBase):
         '''
         _datum_datum(self.datum, latlon.datum, Error=CSSError)
 
-    @property_RO
+    @Property_RO
     def equatoradius(self):
         '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
@@ -117,7 +113,7 @@ class CassiniSoldner(_NamedBase):
     majoradius = equatoradius  # for backward compatibility
     '''DEPRECATED, use C{equatoradius}.'''
 
-    @property_RO
+    @Property_RO
     def flattening(self):
         '''Get the geodesic's flattening (C{float}).
         '''
@@ -188,7 +184,7 @@ class CassiniSoldner(_NamedBase):
         r = EasNorAziRk4Tuple(e, n, z, rk)
         return self._xnamed(r)
 
-    @property_RO
+    @Property_RO
     def geodesic(self):
         '''Get this projection's I{wrapped} U{Karney Geodesic
            <https://GeographicLib.SourceForge.io/html/python/code.html>},
@@ -197,7 +193,7 @@ class CassiniSoldner(_NamedBase):
         '''
         return self.datum.ellipsoid.geodesic
 
-    @property_RO
+    @Property_RO
     def lat0(self):
         '''Get the center latitude (C{degrees90}).
         '''
@@ -221,7 +217,7 @@ class CassiniSoldner(_NamedBase):
             self._datumatch(latlon0)
         self.reset(latlon0.lat, latlon0.lon)
 
-    @property_RO
+    @Property_RO
     def lon0(self):
         '''Get the center longitude (C{degrees180}).
         '''
@@ -235,6 +231,8 @@ class CassiniSoldner(_NamedBase):
 
            @raise CSSError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
+        self._update(True)
+
         g, M = self.datum.ellipsoid._geodesic_Math2
 
         self._meridian = m = g.Line(Lat_(lat0=lat0, Error=CSSError),
@@ -324,13 +322,14 @@ class CassiniSoldner(_NamedBase):
 class Css(_NamedBase):
     '''Cassini-Soldner East-/Northing location.
     '''
-    _cs0      = None  # projection (L{CassiniSoldner})
-    _easting  = _0_0  # easting (C{float})
-    _height   =  0    # height (C{meter})
-    _northing = _0_0  # northing (C{float})
-    _reverse4 = None  # cached reverse4 (L{LatLonAziRk4Tuple})
+    _CS0      =  None  # default projection (L{CassiniSoldner})
+    _cs0      =  None  # projection (L{CassiniSoldner})
+    _easting  = _0_0   # easting (C{float})
+    _height   =  0     # height (C{meter})
+    _northing = _0_0   # northing (C{float})
+    _reverse4 =  None  # cached reverse4 (L{LatLonAziRk4Tuple})
 
-    def __init__(self, e, n, h=0, cs0=_CassiniSoldner0, name=NN):
+    def __init__(self, e, n, h=0, cs0=None, name=NN):
         '''New L{Css} Cassini-Soldner position.
 
            @arg e: Easting (C{meter}).
@@ -356,7 +355,7 @@ class Css(_NamedBase):
 
            >>> cs = Css(448251, 5411932.0001)
         '''
-        self._cs0 = _CassiniSoldner(cs0)
+        self._cs0 = _CS0(cs0)
         self._easting  = Easting(e,  Error=CSSError)
         self._northing = Northing(n, Error=CSSError)
         if h:
@@ -364,7 +363,7 @@ class Css(_NamedBase):
         if name:
             self.name = name
 
-    @property_RO
+    @Property_RO
     def azi(self):
         '''Get the azimuth of easting direction (C{degrees}).
         '''
@@ -372,11 +371,11 @@ class Css(_NamedBase):
 
     azimuth = azi
 
-    @property_RO
+    @Property_RO
     def cs0(self):
         '''Get the projection (L{CassiniSoldner}).
         '''
-        return self._cs0
+        return self._cs0 or Css._CS0
 
     @property_RO
     def easting(self):
@@ -390,12 +389,12 @@ class Css(_NamedBase):
         '''
         return self._height
 
-    @property_RO
+    @Property_RO
     def latlon(self):
         '''Get the lat- and longitude (L{LatLon2Tuple}).
         '''
-        r = LatLon2Tuple(self.reverse4.lat, self.reverse4.lon)
-        return self._xnamed(r)
+        return self._xnamed(LatLon2Tuple(self.reverse4.lat,
+                                         self.reverse4.lon))
 
     @property_RO
     def northing(self):
@@ -403,15 +402,13 @@ class Css(_NamedBase):
         '''
         return self._northing
 
-    @property_RO
+    @Property_RO
     def reverse4(self):
         '''Get the lat, lon, azimuth and reciprocal (L{LatLonAziRk4Tuple}).
         '''
-        if self._reverse4 is None:
-            self._reverse4 = self.cs0.reverse4(self.easting, self.northing)
-        return self._reverse4
+        return self.cs0.reverse4(self.easting, self.northing)
 
-    @property_RO
+    @Property_RO
     def rk(self):
         '''Get the reciprocal of azimuthal northing scale (C{scalar}).
         '''
@@ -467,9 +464,6 @@ class Css(_NamedBase):
             T += _C_,
         return _xzipairs(T, t, sep=sep, fmt=fmt)
 
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, used method L{Css.toRepr}.'''
-
     def toStr(self, prec=6, sep=_SPACE_, m=_m_):  # PYCHOK expected
         '''Return a string representation of this L{Css} position.
 
@@ -505,7 +499,7 @@ class LatLonAziRk4Tuple(_NamedTuple):
     _Units_ = ( Lat_,  Lon_,  Bearing,   Scalar)
 
 
-def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=NN):
+def toCss(latlon, cs0=None, height=None, Css=Css, name=NN):
     '''Convert an (ellipsoidal) geodetic point to a Cassini-Soldner
        location.
 
@@ -531,7 +525,7 @@ def toCss(latlon, cs0=_CassiniSoldner0, height=None, Css=Css, name=NN):
     '''
     _xinstanceof(_LLEB, LatLon4Tuple, latlon=latlon)
 
-    cs = _CassiniSoldner(cs0)
+    cs = _CS0(cs0)
     cs._datumatch(latlon)
 
     c = cs.forward4(latlon.lat, latlon.lon)

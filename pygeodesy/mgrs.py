@@ -29,31 +29,43 @@ and U{Military Grid Reference System<https://WikiPedia.org/wiki/Military_grid_re
 from pygeodesy.basics import halfs2, _xinstanceof
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _parseX, _ValueError, _xkwds
-from pygeodesy.interns import NN, _AtoZnoIO_ as _L, _band_, \
+from pygeodesy.interns import NN, _AtoZnoIO_, _band_, \
                              _COMMASPACE_, _datum_, _easting_, \
                              _northing_, _SPACE_, _zone_, _0_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import UtmUps5Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import enstr2, Fmt, _xzipairs
-from pygeodesy.units import Easting, Northing, Str, _100km, _2000km
+from pygeodesy.units import Easting, Northing, Str, _100km
+from pygeodesy.units import _2000km  # PYCHOK used!
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm
 from pygeodesy.utmupsBase import _hemi
 
-import re  # PYCHOK warning locale.Error
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
-_Le100k = _L.tillH, _L.fromJ.tillR, _L.fromS  # grid E colums
+_Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
 # 100 km grid square row (‘n’) letters repeat every other zone
-_Ln100k = _L.tillV, _L.fromF.tillV + _L.tillE  # grid N rows
+_Ln100k = _AtoZnoIO_.tillV, _AtoZnoIO_.fromF.tillV + _AtoZnoIO_.tillE  # grid N rows
 
-# split an MGRS string "12ABC1235..." into 3 parts
-_MGRSre = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)  # regex
-_ZBGre  = re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})', re.IGNORECASE)  # regex
+
+class _RE(object):
+    '''(INTERNAL) Lazily compiled regex-es.
+    '''
+    @Property_RO
+    def MGRS(self):  # split an MGRS string "12ABC1235..." into 3 parts
+        import re  # PYCHOK warning locale.Error
+        return re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})([0-9]+)', re.IGNORECASE)
+
+    @Property_RO
+    def ZBG(self):  # split an MGRS string "12ABC1235..." into 3 parts
+        import re  # PYCHOK warning locale.Error
+        return re.compile('([0-9]{1,2}[C-X]{1})([A-Z]{2})', re.IGNORECASE)
+
+_RE = _RE()  # PYCHOK singleton
 
 
 class MGRSError(_ValueError):
@@ -230,6 +242,18 @@ class Mgrs(_NamedBase):
            >>> u = m.toUtm()  # 31 N 448251 5411932
            >>> u = m.toUtm(None)  # 31 N 448251 5411932 U
         '''
+        r, u = self._utmups5utm2
+        if Utm is None:
+            u = r
+        elif Utm is not u.__class__:
+            u = Utm(r.zone, r.hemipole, r.easting, r.northing,
+                    band=r.band, datum=self.datum, name=r.name)
+        return u
+
+    @Property_RO
+    def _utmups5utm2(self):
+        '''(INTERNAL) Cache for L{toUtm}.
+        '''
         # get northing of the band bottom, extended to
         # include entirety of bottom-most 100 km square
         n  = toUtm8(self.bandLatitude, _0_0, datum=self.datum).northing
@@ -246,9 +270,8 @@ class Mgrs(_NamedBase):
         z =  self.zone
         h = _hemi(self.bandLatitude)  # if self.band < _N_
         B =  self.band
-        r = UtmUps5Tuple(z, h, e, n, B, Error=MGRSError) if Utm is None else \
-                     Utm(z, h, e, n, band=B, datum=self.datum)
-        return self._xnamed(r)
+        return (UtmUps5Tuple(z, h, e, n, B, Error=MGRSError, name=self.name),
+                Utm(         z, h, e, n, band=B, datum=self.datum, name=self.name))
 
     @property_RO
     def zone(self):
@@ -318,8 +341,8 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=NN):
        >>> m = mgrs.parseMGRS('42SXD9738')  # Km
        >>> str(m)  # 42S XD 97000 38000
     '''
-    def _mg(cre, s):  # return re.match groups
-        m = cre.match(s)
+    def _mg(RE, s):  # return re.match groups
+        m = RE.match(s)
         if not m:
             raise ValueError
         return m.groups()
@@ -332,12 +355,12 @@ def parseMGRS(strMGRS, datum=Datums.WGS84, Mgrs=Mgrs, name=NN):
     def _MGRS_(strMGRS, datum, Mgrs, name):
         m = tuple(strMGRS.replace(',', ' ').strip().split())
         if len(m) == 1:  # 01ABC1234512345'
-            m = _mg(_MGRSre, m[0])
+            m = _mg(_RE.MGRS, m[0])
             m = m[:2] + halfs2(m[2])
         elif len(m) == 2:  # 01ABC 1234512345'
-            m = _mg(_ZBGre, m[0]) + halfs2(m[1])
+            m = _mg(_RE.ZBG, m[0]) + halfs2(m[1])
         elif len(m) == 3:  # 01ABC 12345 12345'
-            m = _mg(_ZBGre, m[0]) + m[1:]
+            m = _mg(_RE.ZBG, m[0]) + m[1:]
         if len(m) != 4:  # 01A BC 1234 12345
             raise ValueError
         e, n = map(_s2m, m[2:])

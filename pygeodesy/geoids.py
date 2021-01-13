@@ -74,7 +74,7 @@ from pygeodesy.interns import EPS, NN, _COLONSPACE_, _COMMASPACE_, _cubic_, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded
 from pygeodesy.namedTuples import LatLon3Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
 from pygeodesy.units import Height, Int_, Lat, Lon
 
@@ -92,7 +92,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.01.07'
+__version__ = '21.01.11'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -119,13 +119,13 @@ class _GeoidBase(_HeightBase):
     _interp2d = None  # interp2d interpolation
     _kind     = 3  # order for interp2d, RectBivariateSpline
     _knots    = 0  # nlat * nlon
-    _mean     = None
+    _mean     = None  # see GeoidKarney
 #   _name     = NN # _Named
     _nBytes   = 0  # numpy size in bytes, float64
     _pgm      = None
     _sizeB    = 0  # geoid file size in bytes
     _smooth   = 0  # used only for RectBivariateSpline
-    _stdev    = None
+    _stdev    = None  # see GeoidKarney
 
     _lat_d  = _0_0  # increment, +tive
     _lat_lo = _0_0  # lower lat, south
@@ -136,15 +136,8 @@ class _GeoidBase(_HeightBase):
     _lon_of = _0_0  # forward lon offset
     _lon_og = _0_0  # reverse lon offset
 
-    _center     = None  # (lat, lon, height)
-    _highest    = None  # (lat, lon, height)
-    _lowerleft  = None  # (lat, lon, height)
-    _lowerright = None  # (lat, lon, height)
-    _lowest     = None  # (lat, lon, height)
-    _upperleft  = None  # (lat, lon, height)
-    _upperright = None  # (lat, lon, height)
-
-    _yx_hits    = None  # cache hits, ala Karney
+    _center  = None  # (lat, lon, height)
+    _yx_hits = None  # cache hits, ala Karney
 
     def __init__(self, hs, p):
         '''(INTERNAL) Set up the grid axes, the C{SciPy} interpolator
@@ -248,7 +241,7 @@ class _GeoidBase(_HeightBase):
             t = 'lli' if _as is _ascalar else Fmt.SQUARE(llis=i)
             lli = fstr((lli.lat, lli.lon), strepr=repr)
             raise type(x)(t, lli, txt=str(x))
-        except Exception as x:
+        except Exception as x:  # PYCHOK no cover
             if scipy and self.scipy:
                 raise _SciPyIssue(x)
             else:
@@ -347,9 +340,16 @@ class _GeoidBase(_HeightBase):
                 if -90 <= s <= (n - 1) <=  89 and \
                   -180 <= w <= (e - 1) <= 179:
                     return s, w, n, e
-        except (IndexError, TypeError, ValueError):
+        except (IndexError, TypeError, ValueError):  # PYCHOK no cover
             pass
         raise GeoidError(crop=crop)
+
+    @Property_RO
+    def _center(self):
+        ''' Cache for L{center}.
+        '''
+        return self._llh3(favg(self._lat_lo, self._lat_hi),
+                          favg(self._lon_lo, self._lon_hi))
 
     def center(self, LatLon=None):
         '''Return the center location and height of this geoid.
@@ -362,9 +362,6 @@ class _GeoidBase(_HeightBase):
                     with the lat-, longitude and height of the grid
                     center location.
         '''
-        if self._center is None:
-            self._center = self._llh3(favg(self._lat_lo, self._lat_hi),
-                                      favg(self._lon_lo, self._lon_hi))
         return self._llh3LL(self._center, LatLon)
 
     @property_RO
@@ -411,6 +408,12 @@ class _GeoidBase(_HeightBase):
         '''
         return _HeightBase._height(self, lats, lons, Error=GeoidError)
 
+    @Property_RO
+    def _highest(self):
+        '''(INTERNAL) Cache for L{highest}.
+        '''
+        return self._llh3minmax(True)
+
     def highest(self, LatLon=None, **unused):
         '''Return the location and largest height of this geoid.
 
@@ -422,8 +425,6 @@ class _GeoidBase(_HeightBase):
                     with the lat-, longitude and height of the highest
                     grid location.
         '''
-        if self._highest is None:
-            self._highest = self._llh3minmax(True)
         return self._llh3LL(self._highest, LatLon)
 
     @property_RO
@@ -444,6 +445,12 @@ class _GeoidBase(_HeightBase):
         '''
         return self._knots
 
+    @Property_RO
+    def _lowerleft(self):
+        '''(INTERNAL) Cache for L{lowerleft}.
+        '''
+        return self._llh3(self._lat_lo, self._lon_lo)
+
     def lowerleft(self, LatLon=None):
         '''Return the lower-left location and height of this geoid.
 
@@ -455,11 +462,15 @@ class _GeoidBase(_HeightBase):
                     with the lat-, longitude and height of the lower-left,
                     SW grid corner.
         '''
-        if self._lowerleft is None:
-            self._lowerleft = self._llh3(self._lat_lo, self._lon_lo)
         return self._llh3LL(self._lowerleft, LatLon)
 
-    def lowerright(self, LatLon=None):
+    @Property_RO
+    def _loweright(self):
+        '''(INTERNAL) Cache for L{loweright}.
+        '''
+        return self._llh3(self._lat_lo, self._lon_hi)
+
+    def loweright(self, LatLon=None):
         '''Return the lower-right location and height of this geoid.
 
            @kwarg LatLon: Optional class to return the location and height
@@ -470,9 +481,16 @@ class _GeoidBase(_HeightBase):
                     with the lat-, longitude and height of the lower-right,
                     SE grid corner.
         '''
-        if self._lowerright is None:
-            self._lowerright = self._llh3(self._lat_lo, self._lon_hi)
-        return self._llh3LL(self._lowerright, LatLon)
+
+        return self._llh3LL(self._loweright, LatLon)
+
+    lowerright = loweright  # synonymous
+
+    @Property_RO
+    def _lowest(self):
+        '''(INTERNAL) Cache for L{lowest}.
+        '''
+        return self._llh3minmax(False)
 
     def lowest(self, LatLon=None, **unused):
         '''Return the location and lowest height of this geoid.
@@ -485,15 +503,13 @@ class _GeoidBase(_HeightBase):
                     with the lat-, longitude and height of the lowest
                     grid location.
         '''
-        if self._lowest is None:
-            self._lowest = self._llh3minmax(False)
         return self._llh3LL(self._lowest, LatLon)
 
-    @property_RO
+    @Property_RO
     def mean(self):
         '''Get the mean of this geoid's heights (C{float}).
         '''
-        if self._mean is None:
+        if self._mean is None:  # see GeoidKarney
             self._mean = float(self._np.mean(self._hs_y_x))
         return self._mean
 
@@ -554,11 +570,11 @@ class _GeoidBase(_HeightBase):
         '''
         return self._smooth
 
-    @property_RO
+    @Property_RO
     def stdev(self):
-        '''Get the standard deviation of this geoid's heights (C{float}).
+        '''Get the standard deviation of this geoid's heights (C{float}) or C{None}.
         '''
-        if self._stdev is None:
+        if self._stdev is None:  # see GeoidKarney
             self._stdev = float(self._np.std(self._hs_y_x))
         return self._stdev
 
@@ -584,6 +600,12 @@ class _GeoidBase(_HeightBase):
                    'sizeB', _scipy_, _numpy_, prec=prec, Nones=False)
         return _COLONSPACE_(self, sep.join(t))
 
+    @Property_RO
+    def _upperleft(self):
+        '''(INTERNAL) Cache for L{upperleft}.
+        '''
+        return self._llh3(self._lat_hi, self._lon_lo)
+
     def upperleft(self, LatLon=None):
         '''Return the upper-left location and height of this geoid.
 
@@ -595,9 +617,13 @@ class _GeoidBase(_HeightBase):
                     with the lat-, longitude and height of the upper-left,
                     NW grid corner.
         '''
-        if self._upperleft is None:
-            self._upperleft = self._llh3(self._lat_hi, self._lon_lo)
         return self._llh3LL(self._upperleft, LatLon)
+
+    @Property_RO
+    def _upperright(self):
+        '''(INTERNAL) Cache for L{upperright}.
+        '''
+        return self._llh3(self._lat_hi, self._lon_hi)
 
     def upperright(self, LatLon=None):
         '''Return the upper-right location and height of this geoid.
@@ -610,8 +636,6 @@ class _GeoidBase(_HeightBase):
                     with the lat-, longitude and height of the upper-right,
                     NE grid corner.
         '''
-        if self._upperright is None:
-            self._upperright = self._llh3(self._lat_hi, self._lon_hi)
         return self._llh3LL(self._upperright, LatLon)
 
 
@@ -704,7 +728,7 @@ class GeoidG2012B(_GeoidBase):
             p.wlon -= _360_0  # western-most East longitude to earth (..., lon)
             _GeoidBase.__init__(self, hs, p)
 
-        except Exception as x:
+        except Exception as x:  # PYCHOK no cover
             raise _SciPyIssue(x, _in_, repr(g2012b_bin))
         finally:
             g.close()
@@ -1097,6 +1121,12 @@ class GeoidKarney(_GeoidBase):
         '''
         return _HeightBase._height(self, lats, lons, Error=GeoidError)
 
+    @Property_RO
+    def _highest_ltd(self):
+        '''(INTERNAL) Cache for L{highest}.
+        '''
+        return self._llh3minmax(True, -12, -4)
+
     def highest(self, LatLon=None, full=False):  # PYCHOK full
         '''Return the location and largest height of this geoid.
 
@@ -1109,10 +1139,14 @@ class GeoidKarney(_GeoidBase):
                     with the lat-, longitude and height of the highest
                     grid location.
         '''
-        if self._highest is None:
-            lat2 = () if full or self.cropped else (-12, -4)
-            self._highest = self._llh3minmax(True, *lat2)
-        return self._llh3LL(self._highest, LatLon)
+        llh = self._highest if full or self.cropped else self._highest_ltd
+        return self._llh3LL(llh, LatLon)
+
+    @Property_RO
+    def _lowest_ltd(self):
+        '''(INTERNAL) Cache for L{lowest}.
+        '''
+        return self._llh3minmax(False, 0, 8)
 
     def lowest(self, LatLon=None, full=False):  # PYCHOK full
         '''Return the location and lowest height of this geoid.
@@ -1126,10 +1160,8 @@ class GeoidKarney(_GeoidBase):
                     with the lat-, longitude and height of the lowest
                     grid location.
         '''
-        if self._lowest is None:
-            lat2 = () if full or self.cropped else (0, 8)
-            self._lowest = self._llh3minmax(False, *lat2)
-        return self._llh3LL(self._lowest, LatLon)
+        llh = self._lowest if full or self.cropped else self._lowest_ltd
+        return self._llh3LL(llh, LatLon)
 
     @property_RO
     def u2B(self):

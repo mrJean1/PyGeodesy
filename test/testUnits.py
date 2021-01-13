@@ -4,7 +4,7 @@
 # Test units module.
 
 __all__ = ('Tests',)
-__version__ = '20.12.02'
+__version__ = '21.01.10'
 
 from base import TestsBase
 
@@ -53,7 +53,7 @@ class Tests(TestsBase):
         except TypeError as x:
             self.test(n, x.__class__.__name__, TypeError.__name__)  # PYCHOK test attr?
 
-        u.name = 'Test'
+        u.rename('Test')
         R = '%s (%r)' % (u.name, arg)
 
         self.test('.named', u.named, 'Test')

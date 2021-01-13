@@ -28,14 +28,14 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, \
                            _xotherError
 from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
-from pygeodesy.props import property_doc_, Property_RO, property_RO
+from pygeodesy.props import Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Radius, Radius_
 
 from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -87,10 +87,9 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
     '''
     _crosserrors = True  # un/set by .errors.crosserrors
 
-    _fromll  = None  # original latlon, '_fromll'
-    _numpy   = None  # module numpy iff imported by trilaterate3d2 below
-    _united  = None  # cached norm, unit (L{Vector3d})
-    _xyz     = None  # cached xyz (L{Vector3Tuple})
+    _fromll = None  # original latlon, '_fromll'
+    _numpy  = None  # module numpy iff imported by trilaterate3d2 below
+    _united = None  # cached norm, unit (L{Vector3d})
 
     _x = 0  # X component
     _y = 0  # Y component
@@ -315,7 +314,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         if updated:
             _NamedBase._update(self, updated,  # '_fromll'
-                                   '_united', '_xyz', *attrs)
+                                   '_united', *attrs)
 
     def angleTo(self, other, vSign=None, wrap=False):
         '''Compute the angle between this and an other vector.
@@ -537,12 +536,12 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return self.classof(-self.x, -self.y, -self.z)
 
-    @property_RO
+    @Property_RO
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
         '''
         from pygeodesy.nvectorBase import _N_vector_
-        return _N_vector_(*(self._xyz or self.xyz))
+        return _N_vector_(*self.xyz)
 
     def others(self, *other, **name_other_up):
         '''Refined class comparison.
@@ -740,27 +739,25 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             self._united = u._united = u
         return self._united
 
-    @Property_RO
+    @property_RO
     def x(self):
         '''Get the X component (C{float}).
         '''
         return self._x
 
-    @property_RO
+    @Property_RO
     def xyz(self):
         '''Get the X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).
         '''
-        if self._xyz is None:
-            self._xyz = Vector3Tuple(self.x, self.y, self.z)
-        return self._xnamed(self._xyz)
+        return Vector3Tuple(self.x, self.y, self.z, name=self.name)
 
-    @Property_RO
+    @property_RO
     def y(self):
         '''Get the Y component (C{float}).
         '''
         return self._y
 
-    @Property_RO
+    @property_RO
     def z(self):
         '''Get the Z component (C{float}).
         '''

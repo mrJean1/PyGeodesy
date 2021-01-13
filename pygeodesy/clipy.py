@@ -12,16 +12,16 @@ from pygeodesy.errors import _AssertionError, PointsError, _ValueError
 from pygeodesy.fmath import fsum_
 from pygeodesy.formy import points2
 from pygeodesy.interns import EPS, NN, _convex_, _DOT_, _end_, _few_, \
-                             _i_, _j_, _lat_, _lon_, _name_, _not_, \
-                             _SPACE_, _start_, _too_, _0_0, _1_0
+                             _i_, _j_, _not_, _SPACE_, _start_, _too_, \
+                             _0_0, _1_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple, _Pass
 from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
-                             LatLon_ as LL_
+                             LatLon_
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '20.12.16'
+__version__ = '21.01.11'
 
 _fi_ = 'fi'
 _fj_ = 'fj'
@@ -356,10 +356,12 @@ class _List(list):
             list.append(self, p)
 
 
-class _LLi_(LL_):
+class _LLi_(LatLon_):
     '''(INTERNAL) LatLon_ for _SH intersections.
     '''
-    __slots__ = _lat_, _lon_, 'classof', 'edge', _name_
+    # __slots__ are no longer space savers, see
+    # the comments at the class .points.LatLon_
+    # __slots__ = _lat_, _lon_, 'classof', 'edge', _name_
 
     def __init__(self, lat, lon, classof, edge):
         self.lat     = lat
@@ -387,7 +389,8 @@ class _SH(_Named):
             n, cs = len2(cs)
             if n == 2:  # make a box
                 b, l, t, r = boundsOf(cs, wrap=False)
-                cs = LL_(b, l), LL_(t, l), LL_(t, r), LL_(b, r)
+                cs = (LatLon_(b, l), LatLon_(t, l),
+                      LatLon_(t, r), LatLon_(b, r))
             n, cs = points2(cs, closed=True)
             self._cs = cs = cs[:n]
             self._nc = n

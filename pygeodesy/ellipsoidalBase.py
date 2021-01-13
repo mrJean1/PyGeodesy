@@ -36,9 +36,10 @@ from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '21.01.09'
+__version__ = '21.01.10'
 
-_TRIPS = 17  # _intersects2, _nearestOn interations, 6 is sufficient
+_reframe_ = 'reframe'
+_TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -46,7 +47,7 @@ class CartesianEllipsoidalBase(CartesianBase):
     '''
     _datum = Datums.WGS84  # L{Datum}
 
-    def convertRefFrame(self, reframe2, reframe, epoch=None):
+    def toRefFrame(self, reframe2, reframe, epoch=None):
         '''Convert this cartesian point from one to an other reference frame.
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
@@ -71,6 +72,8 @@ class CartesianEllipsoidalBase(CartesianBase):
                                     epoch is None else Epoch(epoch)):
             c = c._applyHelmert(t, False, datum=d)
         return c
+
+    convertRefFrame = toRefFrame  # for backward compatibility
 
 
 class LatLonEllipsoidalBase(LatLonBase):
@@ -173,65 +176,6 @@ class LatLonEllipsoidalBase(LatLonBase):
            or C{None} if not converted from L{Utm} or L{Ups}.
         '''
         return self._convergence
-
-    def convertDatum(self, datum2):
-        '''Convert this point to an other datum.
-
-           @arg datum2: Datum to convert I{to} (L{Datum}).
-
-           @return: The converted point (ellipsoidal C{LatLon}).
-
-           @raise TypeError: The B{C{datum2}} invalid.
-
-           @example:
-
-           >>> p = LatLon(51.4778, -0.0016)  # default Datums.WGS84
-           >>> p.convertDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
-        '''
-        d2 = _ellipsoidal_datum(datum2, name=self.name)
-        if self.datum == d2:
-            return self.copy()
-
-        c = self.toCartesian().convertDatum(d2)
-        return c.toLatLon(datum=d2, LatLon=self.classof)
-
-    def convertRefFrame(self, reframe2):
-        '''Convert this point to an other reference frame.
-
-           @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
-
-           @return: The converted point (ellipsoidal C{LatLon}) or
-                    this point if conversion is C{nil}.
-
-           @raise TRFError: No B{C{.reframe}} or no conversion
-                            available from B{C{.reframe}} to
-                            B{C{reframe2}}.
-
-           @raise TypeError: The B{C{reframe2}} is not a L{RefFrame}.
-
-           @example:
-
-           >>> p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  # default Datums.WGS84
-           >>> p.convertRefFrame(RefFrames.ITRF2014)  # 51.477803°N, 000.001597°W, +0.01m
-        '''
-        from pygeodesy.trf import RefFrame, _reframeTransforms
-        _xinstanceof(RefFrame, reframe2=reframe2)
-
-        if not self.reframe:
-            t = _SPACE_(_DOT_(repr(self), 'reframe'), MISSING)
-            raise TRFError(_no_(_conversion_), txt=t)
-
-        ts = _reframeTransforms(reframe2, self.reframe, self.epoch)
-        if ts:
-            c = self.toCartesian()
-            for t in ts:
-                c = c._applyHelmert(t, False)
-            ll = c.toLatLon(datum=self.datum, LatLon=self.classof,
-                            epoch=self.epoch, reframe=reframe2)
-            # ll.reframe, ll.epoch = reframe2, self.epoch
-        else:
-            ll = self
-        return ll
 
     @property_doc_(''' this points's datum (L{Datum}).''')
     def datum(self):
@@ -548,6 +492,29 @@ class LatLonEllipsoidalBase(LatLonBase):
         r = self.toEcef()
         return self._xnamed(Vector3Tuple(r.x, r.y, r.z))
 
+    def toDatum(self, datum2):
+        '''Convert this point to an other datum.
+
+           @arg datum2: Datum to convert I{to} (L{Datum}).
+
+           @return: The converted point (ellipsoidal C{LatLon}).
+
+           @raise TypeError: The B{C{datum2}} invalid.
+
+           @example:
+
+           >>> p = LatLon(51.4778, -0.0016)  # default Datums.WGS84
+           >>> p.toDatum(Datums.OSGB36)  # 51.477284°N, 000.00002°E
+        '''
+        d2 = _ellipsoidal_datum(datum2, name=self.name)
+        if self.datum == d2:
+            return self.copy()
+
+        c = self.toCartesian().toDatum(d2)
+        return c.toLatLon(datum=d2, LatLon=self.classof)
+
+    convertDatum = toDatum  # for backward compatibility
+
     def toEtm(self):
         '''Convert this C{LatLon} point to an ETM coordinate.
 
@@ -585,6 +552,46 @@ class LatLonEllipsoidalBase(LatLonBase):
             self._osgr = toOsgr(self, datum=self.datum, Osgr=Osgr,
                                                         name=self.name)
         return self._osgr
+
+    def toRefFrame(self, reframe2):
+        '''Convert this point to an other reference frame.
+
+           @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
+
+           @return: The converted point (ellipsoidal C{LatLon}) or
+                    this point if conversion is C{nil}.
+
+           @raise TRFError: No B{C{.reframe}} or no conversion
+                            available from B{C{.reframe}} to
+                            B{C{reframe2}}.
+
+           @raise TypeError: The B{C{reframe2}} is not a L{RefFrame}.
+
+           @example:
+
+           >>> p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  # default Datums.WGS84
+           >>> p.toRefFrame(RefFrames.ITRF2014)  # 51.477803°N, 000.001597°W, +0.01m
+        '''
+        from pygeodesy.trf import RefFrame, _reframeTransforms
+        _xinstanceof(RefFrame, reframe2=reframe2)
+
+        if not self.reframe:
+            t = _SPACE_(_DOT_(repr(self), _reframe_), MISSING)
+            raise TRFError(_no_(_conversion_), txt=t)
+
+        ts = _reframeTransforms(reframe2, self.reframe, self.epoch)
+        if ts:
+            c = self.toCartesian()
+            for t in ts:
+                c = c._applyHelmert(t, False)
+            ll = c.toLatLon(datum=self.datum, LatLon=self.classof,
+                            epoch=self.epoch, reframe=reframe2)
+            # ll.reframe, ll.epoch = reframe2, self.epoch
+        else:
+            ll = self
+        return ll
+
+    convertRefFrame = toRefFrame  # for backward compatibility
 
     def toUps(self, pole=_N_, falsed=True):
         '''Convert this C{LatLon} point to a UPS coordinate.

@@ -97,7 +97,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.gars.Garef-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">LatLon</span>,
-        <span class="summary-sig-arg">**kwds</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Return (the center of) this garef cell as an instance of the supplied
       <code>LatLon</code> class.</td>
           <td align="right" valign="top">
@@ -182,6 +182,7 @@
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -235,6 +236,16 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.gars.Garef-class.html#decoded3" class="summary-name">decoded3</a><br />
+      Get this garef's attributes (<a 
+      href="pygeodesy.namedTuples.LatLonPrec3Tuple-class.html" 
+      class="link">LatLonPrec3Tuple</a>).
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -341,7 +352,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">LatLon</span>,
-        <span class="sig-arg">**kwds</span>)</span>
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -354,7 +365,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<code>LatLon</code>).</li>
-        <li><strong class="pname"><code>kwds</code></strong> - Optional keyword arguments for <b><code>LatLon</code></b>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional keyword arguments for <b><code>LatLon</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>This garef location (<b><code>LatLon</code></b>).</dd>
@@ -375,6 +386,30 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="decoded3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">decoded3</h3>
+  <p>Get this garef's attributes (<a 
+  href="pygeodesy.namedTuples.LatLonPrec3Tuple-class.html" 
+  class="link">LatLonPrec3Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="latlon"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -386,10 +421,7 @@
   class="link">LatLon2Tuple</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
-        - Get this garef's (center) lat- and longitude (<a 
-href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-class="link">LatLon2Tuple</a>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -411,8 +443,7 @@ class="link">LatLon2Tuple</a>).
   <p>Get this garef's precision (<code>int</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">precision(<span class="summary-sig-arg">self</span>)</span>
-        - Get this garef's precision (<code>int</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -457,7 +488,7 @@ class="link">LatLon2Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan  9 11:32:49 2021
+    Generated by Epydoc 3.0.1 on Tue Jan 12 21:09:46 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

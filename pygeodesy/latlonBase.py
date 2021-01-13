@@ -12,8 +12,8 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import map1, _xinstanceof
-from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS  # parseDMS, parseDMS2
+from pygeodesy.basics import isstr, map1, _xinstanceof
+from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 from pygeodesy.errors import _datum_datum, IntersectionError, _ValueError
 from pygeodesy.fmath import favg
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
@@ -28,7 +28,7 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, notOverloaded
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
-from pygeodesy.props import property_doc_, property_RO
+from pygeodesy.props import Property, Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.01.08'
+__version__ = '21.01.11'
 
 
 class LatLonBase(_NamedBase):
@@ -46,16 +46,9 @@ class LatLonBase(_NamedBase):
     '''
     _datum  = None  # L{Datum}, to be overriden
     _Ecef   = None  # preferred C{EcefKarney} class
-    _e9t    = None  # cached toEcef (L{Ecef9Tuple})
     _height = 0     # height (C{meter})
     _lat    = 0     # latitude (C{degrees})
-    _latlon = None  # cached (L{LatLon2Tuple})
     _lon    = 0     # longitude (C{degrees})
-    _name   = NN    # name (C{str})
-    _philam = None  # cached (L{PhiLam2Tuple})
-    _v3d    = None  # cached toVector3d (L{Vector3d})
-    _xyz    = None  # cached xyz (L{Vector3Tuple})
-    _xyzh   = None  # cached xyzh (L{Vector4Tuple})
 
     def __init__(self, lat, lon, height=0, name=NN):
         '''New C{LatLon}.
@@ -77,12 +70,13 @@ class LatLonBase(_NamedBase):
            >>> p = LatLon(50.06632, -5.71475)
            >>> q = LatLon('50°03′59″N', """005°42'53"W""")
         '''
+        if name:
+            self.name = name
+
         self._lat = Lat(lat)  # parseDMS2(lat, lon)
         self._lon = Lon(lon)  # PYCHOK LatLon2Tuple
         if height:  # elevation
             self._height = Height(height)
-        if name:
-            self.name = name
 
     def __eq__(self, other):
         return self.isequalTo(other)
@@ -92,6 +86,12 @@ class LatLonBase(_NamedBase):
 
     def __str__(self):
         return self.toStr(form=F_D, prec=6)
+
+    @Property_RO
+    def _ecef9(self):
+        '''(INTERNAL) Helper for L{toCartesian} and L{toEcef}.
+        '''
+        return self._xnamed(self.Ecef(self.datum).forward(self, M=True))
 
     def _havg(self, other, f=_0_5):
         '''(INTERNAL) Weighted, average height.
@@ -103,19 +103,12 @@ class LatLonBase(_NamedBase):
         '''
         return favg(self.height, other.height, f=f)
 
-    def _update(self, updated, *attrs):
-        '''(INTERNAL) Zap cached attributes if updated.
-        '''
-        if updated:
-            _NamedBase._update(self, updated, '_e9t', '_latlon', '_philam',
-                                      '_v3d', '_xyz', '_xyzh', *attrs)
-
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
            to this point.
 
-           @kwarg height: Optional height of the antipode, height
-                            of this point otherwise (C{meter}).
+           @kwarg height: Optional height of the antipode (C{meter}),
+                          this point's height otherwise.
 
            @return: The antipodal point (C{LatLon}).
         '''
@@ -123,18 +116,17 @@ class LatLonBase(_NamedBase):
         h = self.height if height is None else height
         return self.classof(a, b, height=h)
 
-    def bounds(self, wide, high, radius=R_M):  # PYCHOK no cover
-        '''DEPRECATED, use method C{boundsOf}.
-        '''
-        return self.boundsOf(wide, high, radius=radius)
+    def bounds(self, wide, tall, radius=R_M):  # PYCHOK no cover
+        '''DEPRECATED, use method C{boundsOf}.'''
+        return self.boundsOf(wide, tall, radius=radius)
 
-    def boundsOf(self, wide, high, radius=R_M):
+    def boundsOf(self, wide, tall, radius=R_M):
         '''Return the SE and NW lat-/longitude of a great circle
            bounding box centered at this location.
 
            @arg wide: Longitudinal box width (C{meter}, same units as
                       B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
-           @arg high: Latitudinal box height (C{meter}, same units as
+           @arg tall: Latitudinal box size (C{meter}, same units as
                       B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
            @kwarg radius: Mean earth radius (C{meter}).
 
@@ -143,18 +135,18 @@ class LatLonBase(_NamedBase):
 
            @see: U{https://www.Movable-Type.co.UK/scripts/latlong-db.html}
         '''
-        w = Scalar_(wide, name='wide') * _0_5
-        h = Scalar_(high, name='high') * _0_5
+        x = Scalar_(wide=wide) * _0_5
+        y = Scalar_(tall=tall) * _0_5
         if radius is not None:
             r = Radius_(radius)
             c = cos(self.phi)
-            w = degrees(asin(w / r) / c) if c > EPS else _0_0  # XXX
-            h = degrees(h / r)
-        w, h = abs(w), abs(h)
+            x = degrees(asin(x / r) / c) if c > EPS else _0_0  # XXX
+            y = degrees(y / r)
+        x, y = abs(x), abs(y)
 
-        r = Bounds2Tuple(self.classof(self.lat - h, self.lon - w, height=self.height),
-                         self.classof(self.lat + h, self.lon + w, height=self.height))
-        return self._xnamed(r)
+        sw = self.classof(self.lat - y, self.lon - x, height=self.height)
+        ne = self.classof(self.lat + y, self.lon + x, height=self.height)
+        return self._xnamed(Bounds2Tuple(sw, ne))
 
     def chordTo(self, other, height=None):
         '''Compute the length of the chord through the earth between
@@ -176,10 +168,9 @@ class LatLonBase(_NamedBase):
         self.others(other)
         return _v3d(self).minus(_v3d(other)).length
 
-    def compassAngle(self, other):  # PYCHOK no cover
-        '''DEPRECATED, use method C{compassAngleTo}.
-        '''
-        return self.compassAngleTo(other)
+    def compassAngle(self, other, adjust=True, wrap=False):  # PYCHOK no cover
+        '''DEPRECATED, use method C{compassAngleTo}.'''
+        return self.compassAngleTo(other, adjust=adjust, wrap=wrap)
 
     def compassAngleTo(self, other, adjust=True, wrap=False):
         '''Return the angle from North for the direction vector between
@@ -310,13 +301,11 @@ class LatLonBase(_NamedBase):
         return LatLonBase._Ecef
 
     def equals(self, other, eps=None):  # PYCHOK no cover
-        '''DEPRECATED, use method C{isequalTo}.
-        '''
+        '''DEPRECATED, use method L{isequalTo}.'''
         return self.isequalTo(other, eps=eps)
 
     def equals3(self, other, eps=None):  # PYCHOK no cover
-        '''DEPRECATED, use method C{isequalTo3}.
-        '''
+        '''DEPRECATED, use method L{isequalTo3}.'''
         return self.isequalTo3(other, eps=eps)
 
     def equirectangularTo(self, other, radius=None, **options):
@@ -466,7 +455,7 @@ class LatLonBase(_NamedBase):
            @raise ValueError: Invalid B{C{height}}.
         '''
         h = Height(height)
-        self._update(h != self._height)
+        self._update(h != self.height)
         self._height = h
 
     def heightStr(self, prec=-2, m=_m_):
@@ -478,6 +467,10 @@ class LatLonBase(_NamedBase):
            @see: Function L{hstr}.
         '''
         return hstr(self.height, prec=prec, m=m)
+
+    def isantipode(self, other, eps=EPS):  # PYCHOK no cover
+        '''DEPRECATED, use method L{isantipodeTo}.'''
+        return self.isantipodeTo(other, eps=eps)
 
     def isantipodeTo(self, other, eps=EPS):
         '''Check whether this and an other point are antipodal,
@@ -492,12 +485,7 @@ class LatLonBase(_NamedBase):
         return isantipode(self.lat,  self.lon,
                           other.lat, other.lon, eps=eps)
 
-    def isantipode(self, other, eps=EPS):  # PYCHOK no cover
-        '''DEPRECATED, use method C{isantipodeTo}.
-        '''
-        return self.isantipodeTo(other, eps=eps)
-
-    @property_RO
+    @Property_RO
     def isEllipsoidal(self):
         '''Check whether this point is ellipsoidal (C{bool} or C{None} if unknown).
         '''
@@ -559,17 +547,17 @@ class LatLonBase(_NamedBase):
         '''
         return self.isequalTo(other, eps=eps) and self.height == other.height
 
-    @property_RO
+    @Property_RO
     def isSpherical(self):
         '''Check whether this point is spherical (C{bool} or C{None} if unknown).
         '''
         return self.datum.isSpherical if self._datum else None
 
-    @property_RO
+    @Property_RO
     def lam(self):
         '''Get the longitude (B{C{radians}}).
         '''
-        return self.philam.lam if self._philam is None else self._philam.lam
+        return self.philam.lam
 
     @property_doc_(''' the latitude (C{degrees90}).''')
     def lat(self):
@@ -589,20 +577,19 @@ class LatLonBase(_NamedBase):
         self._update(lat != self._lat)
         self._lat = lat
 
-    @property_doc_(''' the lat- and longitude, optionally height.''')
+    @Property
     def latlon(self):
         '''Get the lat- and longitude (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        if self._latlon is None:
-            self._latlon = LatLon2Tuple(self._lat, self._lon)
-        return self._xrenamed(self._latlon)
+        return self._xrenamed(LatLon2Tuple(self._lat, self._lon))
 
     @latlon.setter  # PYCHOK setter!
     def latlon(self, latlonh):
         '''Set the lat- and longitude and optionally the height.
 
            @arg latlonh: New lat-, longitude and height (2- or
-                        3-tuple of C{degrees} and C{meter}).
+                         3-tuple or comma- or space-separated C{str}
+                         of C{degrees90}, C{degrees180} and C{meter}).
 
            @raise TypeError: Height of B{C{latlonh}} not C{scalar} or
                              B{C{latlonh}} not C{list} or C{tuple}.
@@ -612,25 +599,22 @@ class LatLonBase(_NamedBase):
            @see: Function L{parse3llh} to parse a B{C{latlonh}} string
                  into a 3-tuple (lat, lon, h).
         '''
-        _xinstanceof(list, tuple, latlonh=latlonh)
-
-        if len(latlonh) == 3:
-            h = Height(latlonh[2], name=Fmt.SQUARE(latlonh=2))
-        elif len(latlonh) != 2:
-            raise _ValueError(latlonh=latlonh)
+        if isstr(latlonh):
+            latlonh = parse3llh(latlonh, height=self.height)
         else:
-            h = self._height
+            _xinstanceof(list, tuple, latlonh=latlonh)
+            if len(latlonh) == 3:
+                h = Height(latlonh[2], name=Fmt.SQUARE(latlonh=2))
+            elif len(latlonh) != 2:
+                raise _ValueError(latlonh=latlonh)
+            else:
+                h = self.height
 
         lat = Lat(latlonh[0])  # parseDMS2(latlonh[0], latlonh[1])
         lon = Lon(latlonh[1])
         self._update(lat != self._lat or
-                     lon != self._lon or h != self._height)
+                     lon != self._lon or h != self.height)
         self._lat, self._lon, self._height = lat, lon, h
-
-    def latlon_(self, ndigits=0):  # PYCHOK no cover
-        '''DEPRECATED, use method C{latlon2}.
-        '''
-        return self.latlon2(ndigits)
 
     def latlon2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{degrees}, rounded.
@@ -643,16 +627,16 @@ class LatLonBase(_NamedBase):
            @note: The C{round}ed values are always C{float}, also
                   if B{C{ndigits}} is omitted.
         '''
-        r = LatLon2Tuple(round(self.lat, ndigits),
-                         round(self.lon, ndigits))
-        return self._xnamed(r)
+        return self._xnamed(LatLon2Tuple(round(self.lat, ndigits),
+                                         round(self.lon, ndigits)))
 
-    def latlon2round(self, ndigits=0):  # PYCHOK no cover
-        '''DEPRECATED, use method C{latlon2}.
-        '''
-        return self.latlon2(ndigits)
+    def latlon_(self, ndigits=0):  # PYCHOK no cover
+        '''DEPRECATED, use method L{latlon2}.'''
+        return self.latlon2(ndigits=ndigits)
 
-    @property_RO
+    latlon2round = latlon_  # PYCHOK no cover
+
+    @Property_RO
     def latlonheight(self):
         '''Get the lat-, longitude and height (L{LatLon3Tuple}C{(lat, lon, height)}).
         '''
@@ -676,28 +660,25 @@ class LatLonBase(_NamedBase):
         self._update(lon != self._lon)
         self._lon = lon
 
-    @property_RO
+    @Property_RO
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
         '''
         from pygeodesy.nvectorBase import _N_vector_
-        r = self._xyz or self._v3d or self.toVector()
-        return _N_vector_(r.x, r.y, r.z, h=self.height)
+        return _N_vector_(*self.xyzh)
 
-    @property_RO
+    @Property_RO
     def phi(self):
         '''Get the latitude (B{C{radians}}).
         '''
-        return self.philam.phi if self._philam is None else self._philam.phi
+        return self.philam.phi
 
-    @property_RO
+    @Property_RO
     def philam(self):
         '''Get the lat- and longitude (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        if self._philam is None:
-            self._philam = PhiLam2Tuple(radians(self.lat),
-                                        radians(self.lon))
-        return self._xnamed(self._philam)
+        return self._xnamed(PhiLam2Tuple(radians(self.lat),
+                                         radians(self.lon)))
 
     def philam2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{radians}, rounded.
@@ -714,15 +695,14 @@ class LatLonBase(_NamedBase):
                          round(self.lam, ndigits))
         return self._xnamed(r)
 
-    @property_RO
+    @Property_RO
     def philamheight(self):
         '''Get the lat-, longitude in C{radians} and height (L{PhiLam3Tuple}C{(phi, lam, height)}).
         '''
         return self.philam.to3Tuple(self.height)
 
     def points(self, points, closed=True):  # PYCHOK no cover
-        '''DEPRECATED, use method C{points2}.
-        '''
+        '''DEPRECATED, use method L{points2}.'''
         return self.points2(points, closed=closed)
 
     def points2(self, points, closed=True):
@@ -763,27 +743,8 @@ class LatLonBase(_NamedBase):
         return self._distanceTo_(thomas_, other, wrap=wrap)
 
     def to2ab(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{philam}.
-
-           @return: A L{PhiLam2Tuple}C{(phi, lam)}.
-        '''
+        '''DEPRECATED, use property L{philam}.'''
         return self.philam
-
-    def to3llh(self, height=None):  # PYCHOK no cover
-        '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple}C{(}B{C{height}}C{)}.
-
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
-        '''
-        return self.latlonheight if height in (None, self.height) else \
-               self.latlon.to3Tuple(height)
-
-    def to3xyz(self):  # PYCHOK no cover
-        '''DEPRECATED, use method C{toNvector}, C{toVector}, C{toVector3d}
-           or property C{xyz} or perhaps (geocentric) C{toEcef}.
-
-           @return: A L{Vector3Tuple}C{(x, y, z)}, see property C{xyz}.
-        '''
-        return self.xyz  # self.toVector()
 
     def toCartesian(self, Cartesian=None, **Cartesian_kwds):
         '''Convert this point to cartesian (ECEF) coordinates.
@@ -800,7 +761,7 @@ class LatLonBase(_NamedBase):
 
            @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
         '''
-        r = self.toEcef()
+        r = self._ecef9
         if Cartesian is not None:  # class or .classof
             r = Cartesian(r, **Cartesian_kwds)
             r = self._xnamed(r)
@@ -817,10 +778,12 @@ class LatLonBase(_NamedBase):
 
            @raise EcefError: A C{.datum} or an ECEF issue.
         '''
-        if self._e9t is None:
-            e = self.Ecef(self.datum).forward(self, M=True)
-            self._e9t = self._xnamed(e)
-        return self._e9t
+        return self._ecef9
+
+    def to3llh(self, height=None):  # PYCHOK no cover
+        '''DEPRECATED, use property L{latlonheight} or C{latlon.to3Tuple(B{height})}.'''
+        return self.latlonheight if height in (None, self.height) else \
+               self.latlon.to3Tuple(height)
 
     def toNvector(self, h=None, Nvector=None, **Nvector_kwds):
         '''Convert this point to C{n-vector} (normal to the earth's
@@ -886,10 +849,10 @@ class LatLonBase(_NamedBase):
            @note: These are C{n-vector} x, y and z components,
                   I{NOT} geocentric (ECEF) x, y and z coordinates!
         '''
-        r = latlon2n_xyz(self.lat, self.lon)
+        r = self._vector3tuple
         if Vector is not None:
-            r = Vector(r.x, r.y, r.z, **Vector_kwds)
-        return self._xnamed(r)
+            r = self._xnamed(Vector(r.x, r.y, r.z, **Vector_kwds))
+        return r
 
     def toVector3d(self):
         '''Convert this point to C{n-vector} (normal to the earth's
@@ -900,9 +863,24 @@ class LatLonBase(_NamedBase):
            @note: These are C{n-vector} x, y and z components,
                   I{NOT} geocentric (ECEF) x, y and z coordinates!
         '''
-        if self._v3d is None:
-            self._v3d = self.toVector(Vector=Vector3d)  # XXX .unit()
-        return self._xnamed(self._v3d)
+        return self._vector3d  # XXX .unit()
+
+    def to3xyz(self):  # PYCHOK no cover
+        '''DEPRECATED, use property L{xyz} or method L{toNvector}, L{toVector},
+           L{toVector3d} or perhaps (geocentric) L{toEcef}.'''
+        return self.xyz  # self.toVector()
+
+    @Property_RO
+    def _vector3d(self):
+        '''(INTERNAL) Cache for L{toVector3d}.
+        '''
+        return self.toVector(Vector=Vector3d)  # XXX .unit()
+
+    @Property_RO
+    def _vector3tuple(self):
+        '''(INTERNAL) Cache for L{toVector}.
+        '''
+        return self._xnamed(latlon2n_xyz(self.lat, self.lon))
 
     def vincentysTo(self, other, radius=None, wrap=False):
         '''Compute the distance between this and an other point using
@@ -927,27 +905,23 @@ class LatLonBase(_NamedBase):
         '''
         return self._distanceTo(vincentys, other, radius, wrap=wrap)
 
-    @property_RO
+    @Property_RO
     def xyz(self):
         '''Get the C{n-vector} X, Y and Z components (L{Vector3Tuple}C{(x, y, z)})
 
            @note: These are C{n-vector} x, y and z components, I{NOT}
                   geocentric (ECEF) x, y and z coordinates!
         '''
-        if self._xyz is None:
-            self._xyz = self.toVector(Vector=Vector3Tuple)
-        return self._xnamed(self._xyz)
+        return self.toVector(Vector=Vector3Tuple)
 
-    @property_RO
+    @Property_RO
     def xyzh(self):
         '''Get the C{n-vector} X, Y, Z and H components (L{Vector4Tuple}C{(x, y, z, h)})
 
            @note: These are C{n-vector} x, y and z components, I{NOT}
                   geocentric (ECEF) x, y and z coordinates!
         '''
-        if self._xyzh is None:
-            self._xyzh = self.xyz.to4Tuple(self.height)
-        return self._xnamed(self._xyzh)
+        return self.xyz.to4Tuple(self.height)
 
 
 def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,

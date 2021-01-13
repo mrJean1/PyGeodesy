@@ -4,7 +4,7 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '20.12.22'
+__version__ = '21.01.12'
 
 from base import TestsBase
 
@@ -24,7 +24,7 @@ class Tests(TestsBase):
     def testDistance(self, t, f, lat1, lon1, lat2, lon2, x, m, **kwds):
         d = f(lat1, lon1, lat2, lon2, wrap=True, **kwds)
         e = 100.0 * abs(d - x) / x
-        t = '%s%s (%.1f%%)' % (f.__name__, t, e)
+        t = '%s%s (%.2f%%)' % (f.__name__, t, e)
         self.test(t, d, x, fmt='%.3f', known=e < m)
 
     def testDistances(self, t, lat1, lon1, lat2, lon2, x=0):

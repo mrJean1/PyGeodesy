@@ -30,7 +30,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Meter, Lat, Scalar, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2d
@@ -42,19 +42,13 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, sqrt, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 _Bands   = _A_, 'B', 'Y', 'Z'  # polar bands
 _EPS__2  = EPS**2  # see .albers
 _Falsing = Meter(2000e3)  # false easting and northing (C{meter})
-_K0      = Scalar(0.994)  # central UPS scale factor
-_K1      = Scalar(_1_0)   # rescale point scale factor
-
-
-class UPSError(_ValueError):
-    '''Universal Polar Stereographic (UPS) parse or other L{Ups} issue.
-    '''
-    pass
+_K0_UPS  = Scalar(0.994)  # central UPS scale factor
+_K1_UPS  = Scalar(_1_0)   # rescale point scale factor
 
 
 def _Band(a, b):
@@ -68,16 +62,21 @@ def _scale(E, rho, tau):
     return Scalar((rho / E.a) * t * sqrt(E.e12 + E.e2 / t**2))
 
 
+class UPSError(_ValueError):
+    '''Universal Polar Stereographic (UPS) parse or other L{Ups} issue.
+    '''
+    pass
+
+
 class Ups(UtmUpsBase):
     '''Universal Polar Stereographic (UPS) coordinate.
     '''
-    _band        = NN        # polar band ('A', 'B', 'Y' or 'Z')
-    _Error       = UPSError  # Error class
-    _latlon_args = True      # unfalse from _latlon (C{bool})
-    _pole        = NN        # UPS projection top/center ('N' or 'S')
-    _scale       = None      # point scale factor (C{scalar})
-    _scale0      = _K0       # central scale factor (C{scalar})
-    _utm         = None      # cached toUtm (L{Utm})
+#   _band        =  NN        # polar band ('A', 'B', 'Y' or 'Z')
+    _Error       =  UPSError  # Error class
+    _latlon_args =  True      # unfalse from _latlon (C{bool})
+    _pole        =  NN        # UPS projection top/center ('N' or 'S')
+#   _scale       =  None      # point scale factor (C{scalar})
+    _scale0      = _K0_UPS    # central scale factor (C{scalar})
 
     def __init__(self, zone, pole, easting, northing, band=NN,  # PYCHOK expected
                                    datum=Datums.WGS84, falsed=True,
@@ -128,28 +127,32 @@ class Ups(UtmUpsBase):
                                       and other.band     == self.band \
                                       and other.datum    == self.datum
 
-    @property_RO
+    @Property_RO
     def band(self):
         '''Get the polar band letter ('A', 'B', 'Y' or 'Z').
         '''
-        if not self._band:
-            self.toLatLon(unfalse=True)
+        self.toLatLon(unfalse=True)
         return self._band
 
-    @property_RO
+    @Property_RO
     def falsed2(self):
         '''Get the easting and northing falsing (L{EasNor2Tuple}C{(easting, northing)}).
         '''
         f = _Falsing if self.falsed else 0
         return EasNor2Tuple(f, f)
 
-    @property_RO
+    @Property_RO
     def hemisphere(self):
         '''Get the hemisphere (C{str}, 'N'|'S').
         '''
-        if not self._hemisphere:
-            self.toLatLon(unfalse=True)
+        self.toLatLon(unfalse=True)
         return self._hemisphere
+
+    @Property_RO
+    def _mgrs(self):
+        '''(INTERNAL) Cache for L{toMgrs}.
+        '''
+        return self.toUtm(None).toMgrs()
 
     def parse(self, strUPS, name=NN):
         '''Parse a string to a similar L{Ups} instance.
@@ -179,7 +182,7 @@ class Ups(UtmUpsBase):
         '''
         return self._pole
 
-    def rescale0(self, lat, scale0=_K0):
+    def rescale0(self, lat, scale0=_K0_UPS):
         '''Set the central scale factor for this UPS projection.
 
            @arg lat: Northern latitude (C{degrees}).
@@ -190,13 +193,14 @@ class Ups(UtmUpsBase):
 
            @raise UPSError: Invalid B{C{scale}}.
         '''
-        s0 = Scalar_(scale0, Error=UPSError, name='scale0', low=EPS)  # <= 1.003 or 1.0016?
-        u  = toUps8(abs(Lat(lat)), 0, datum=self.datum, Ups=_UpsK1)
+        s0 = Scalar_(scale0=scale0, Error=UPSError, low=EPS)  # <= 1.003 or 1.0016?
+        u  = toUps8(abs(Lat(lat)), _0_0, datum=self.datum, Ups=_Ups_K1)
         k  = s0 / u.scale
         if self.scale0 != k:
+            _update_all(self)
             self._band = NN  # force re-compute
-            self._latlon = self._epsg = self._mgrs = self._utm = None
-            self._scale0 = Scalar(k)
+            self._latlon = self._utm = None
+            self._scale0 = Scalar(scale0=k)
 
     def toLatLon(self, LatLon=None, unfalse=True, **LatLon_kwds):
         '''Convert this UPS coordinate to an (ellipsoidal) geodetic point.
@@ -256,8 +260,6 @@ class Ups(UtmUpsBase):
 
            @see: Methods L{Ups.toUtm} and L{Utm.toMgrs}.
         '''
-        if self._mgrs is None:
-            self._mgrs = self.toUtm(None).toMgrs()  # via .toUtm
         return self._mgrs
 
     def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, B=False, cs=False, **unused):  # PYCHOK expected
@@ -286,9 +288,6 @@ class Ups(UtmUpsBase):
                   <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.
         '''
         return self._toRepr(fmt, B, cs, prec, sep)
-
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, use method L{Ups.toRepr}.'''
 
     def toStr(self, prec=0, sep=_SPACE_, B=False, cs=False):  # PYCHOK expected
         '''Return a string representation of this UPS coordinate.
@@ -355,10 +354,10 @@ class Ups(UtmUpsBase):
         return _UPS_ZONE
 
 
-class _UpsK1(Ups):
+class _Ups_K1(Ups):
     '''(INTERNAL) For method L{Ups.rescale}.
     '''
-    _scale0 = _K1
+    _scale0 = _K1_UPS
 
 
 def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=NN):
@@ -446,7 +445,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
     if T >= _0_0:
         r = _0_0 if A else _1_0 / r
 
-    k0 = getattr(Ups, '_scale0', _K0)  # Ups is class or None
+    k0 = getattr(Ups, '_scale0', _K0_UPS)  # Ups is class or None
     r *= 2 * k0 * E.a / E.es_c
 
     k = k0 if A else _scale(E, r, t)

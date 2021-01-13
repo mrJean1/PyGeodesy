@@ -18,13 +18,13 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, nameof, \
                              notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xattrs, _xzipairs
 from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -141,22 +141,20 @@ def _to3zll(lat, lon):  # imported by .ups, .utm
 class UtmUpsBase(_NamedBase):
     '''(INTERNAL) Base class for L{Utm} and L{Ups} coordinates.
     '''
-    _band        = NN    # latitude band letter ('A..Z')
-    _convergence = None  # meridian conversion (C{degrees})
-    _datum       = Datums.WGS84  # L{Datum}
-    _easting     = _0_0  # Easting, see B{C{falsed}} (C{meter})
-    _Error       = None  # I{Must be overloaded}
-    _epsg        = None  # toEpsg cache (L{Epsg})
-    _falsed      = True  # falsed easting and northing (C{bool})
-    _hemisphere  = NN    # hemisphere ('N' or 'S'), different from pole
-    _latlon      = None  # toLatLon cache (C{LatLon})
-    _latlon_args = None  # toLatLon args (varies)
-    _mgrs        = None  # toMgrs cache (L{Mgrs}
-    _northing    = _0_0  # Northing, see B{C{falsed}} (C{meter})
-    _scale       = None  # grid scale factor (C{scalar}) or C{None}
-#   _scale0      = _K0   # central scale factor (C{scalar})
-    _ups         = None  # toUps cache (L{Ups})
-    _utm         = None  # toUtm cache (L{Utm})
+    _band        =  NN    # latitude band letter ('A..Z')
+    _convergence =  None  # meridian conversion (C{degrees})
+    _datum       =  Datums.WGS84  # L{Datum}
+    _easting     = _0_0   # Easting, see B{C{falsed}} (C{meter})
+    _Error       =  None  # I{Must be overloaded}
+    _falsed      =  True  # falsed easting and northing (C{bool})
+    _hemisphere  =  NN    # hemisphere ('N' or 'S'), different from pole
+    _latlon      =  None  # cached toLatLon (C{LatLon})
+    _latlon_args =  None  # toLatLon args (varies)
+    _northing    = _0_0   # Northing, see B{C{falsed}} (C{meter})
+    _scale       =  None  # grid or point scale factor (C{scalar}) or C{None}
+#   _scale0      = _K0    # central scale factor (C{scalar})
+    _ups         =  None  # cached toUps (L{Ups})
+    _utm         =  None  # cached toUtm (L{Utm})
 
     def __init__(self, easting, northing, band=NN, datum=None, falsed=True,
                                           convergence=None, scale=None):
@@ -208,7 +206,7 @@ class UtmUpsBase(_NamedBase):
         '''
         return self._easting
 
-    @property_RO
+    @Property_RO
     def eastingnorthing(self):
         '''Get easting and northing (L{EasNor2Tuple}C{(easting, northing)}) in C{meter}s.
         '''
@@ -231,6 +229,13 @@ class UtmUpsBase(_NamedBase):
             e = n = _0_0
         return EasNor2Tuple(Easting( e + self.easting,  Error=self._Error),
                             Northing(n + self.northing, Error=self._Error))
+
+    @Property_RO
+    def _epsg(self):
+        '''(INTERNAL) Cache for L{toEpsg}.
+        '''
+        from pygeodesy.epsg import Epsg
+        return Epsg(self)
 
     @property_RO
     def falsed(self):
@@ -296,9 +301,6 @@ class UtmUpsBase(_NamedBase):
 
            @raise EPSGError: See L{Epsg}.
         '''
-        if self._epsg is None:
-            from pygeodesy.epsg import Epsg  # PYCHOK circular import
-            self._epsg = Epsg(self)
         return self._epsg
 
     def _toRepr(self, fmt, B, cs, prec, sep):  # PYCHOK expected

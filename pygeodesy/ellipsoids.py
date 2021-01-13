@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.01.08'
+__version__ = '21.01.12'
 
 _f_0_0  = Float(f =_0_0)
 _f__0_0 = Float(f_=_0_0)
@@ -1145,22 +1145,20 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Geocentric Radius
                  <https://WikiPedia.org/wiki/Earth_radius#Geocentric_radius>}
         '''
-        b = Phi_(lat)
-        if b and self.f:
-            if abs(b) < PI_2:
-                s2, c2 = _s2_c2(b)
+        r, a = self.a, Phi_(lat)
+        if a and self.f:
+            if abs(a) < PI_2:
+                s2, c2 = _s2_c2(a)
                 b2_a2_s2 = self.b2_a2 * s2
                 # R == sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2))
                 #   == sqrt(a2**2 * (c2 + (b2 / a2)**2 * s2) / (a2 * (c2 + b2 / a2 * s2)))
                 #   == sqrt(a2 * (c2 + (b2 / a2)**2 * s2) / (c2 + (b2 / a2) * s2))
                 #   == a * sqrt((c2 + b2_a2 * b2_a2 * s2) / (c2 + b2_a2 * s2))
                 #   == a * sqrt((c2 + b2_a2 * b2_a2_s2) / (c2 + b2_a2_s2))
-                r = sqrt((c2 + b2_a2_s2 * self.b2_a2) / (c2 + b2_a2_s2))
+                r *= sqrt((c2 + b2_a2_s2 * self.b2_a2) / (c2 + b2_a2_s2))
             else:
-                r = self.b_a
-        else:
-            r = _1_0
-        return Radius(Rgeocentric=self.a * r)
+                r  = self.b
+        return Radius(Rgeocentric=r)
 
     @Property_RO
     def Rgeometric(self):
@@ -1796,6 +1794,18 @@ def n2f(n):
     t = n + _1_0
     f = 0 if abs(n) < EPS else (-INF if t < EPS else _2_0 * n / t)
     return _f_0_0 if _spherical_f(f) else Float(f=f)
+
+
+def n2f_(n):
+    '''Return C{f_}, the I{inverse flattening} for a given I{3rd flattening}.
+
+       @arg n: The 3rd flattening (-1 <= C{scalar} < 1).
+
+       @return: The inverse flattening (C{float} or C{0}), M{1 / f}.
+
+       @see: L{n2f} and L{f2f_}.
+    '''
+    return f2f_(n2f(n))
 
 
 class Ellipsoids(_NamedEnum):

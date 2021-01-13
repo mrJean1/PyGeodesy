@@ -312,7 +312,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.01.09
+        21.01.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -5915,7 +5915,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa052d90f50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc247e92850&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -7142,6 +7142,24 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#n2f" class="summary-sig-name">n2f</a>(<span class="summary-sig-arg">n</span>)</span><br />
       Return <code>f</code>, the <i>flattening</i> for a given <i>3rd 
       flattening</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#n2f_" class="summary-sig-name">n2f_</a>(<span class="summary-sig-arg">n</span>)</span><br />
+      Return <code>f_</code>, the <i>inverse flattening</i> for a given 
+      <i>3rd flattening</i>.</td>
           <td align="right" valign="top">
             
             
@@ -9059,7 +9077,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.1.9'"><code class="variable-quote">'</code><code class="variable-string">21.1.9</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.1.12'"><code class="variable-quote">'</code><code class="variable-string">21.1.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -11484,7 +11502,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -11497,7 +11515,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as the 
-          <b><code>datum</code></b>'s ellipsoid axes).</dd>
+          <b><code>datum</code></b>'s ellipsoid axes or 
+          <code>radians</code> if <b><code>datum</code></b> is 
+          <code>None</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
@@ -11561,7 +11581,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -11636,7 +11656,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -11649,7 +11669,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as the 
-          <b><code>datum</code></b>'s ellipsoid axes).</dd>
+          <b><code>datum</code></b>'s ellipsoid axes or 
+          <code>radians</code> if <b><code>datum</code></b> is 
+          <code>None</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
@@ -11712,7 +11734,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -11785,13 +11807,20 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</dd>
+          <b><code>radius</code></b> or the ellipsoid or datum axes).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
@@ -12439,14 +12468,25 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments for function <a 
           href="pygeodesy.formy-module.html#equirectangular_" 
           class="link">equirectangular_</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</dd>
+          <b><code>radius</code></b> or the ellipsoid or datum axes).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#equirectangular_" 
@@ -12659,7 +12699,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the longitudinal delta by the cosine of the mean latitude 
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
@@ -12667,7 +12714,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</dd>
+          <b><code>radius</code></b> or the ellipsoid or datum axes).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
@@ -13340,7 +13387,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -13422,7 +13469,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -13498,13 +13545,20 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</dd>
+          <b><code>radius</code></b> or the ellipsoid or datum axes).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
@@ -14298,7 +14352,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa052d90f50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc247e92850&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -14383,7 +14437,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
@@ -14640,7 +14701,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -14722,7 +14783,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -16525,6 +16586,38 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="n2f_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">n2f_</span>&nbsp;(<span class="sig-arg">n</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>f_</code>, the <i>inverse flattening</i> for a given 
+  <i>3rd flattening</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>n</code></strong> - The 3rd flattening (-1 &lt;= <code>scalar</code> &lt; 1).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The inverse flattening (<code>float</code> or <code>0</code>), <i
+          class="math">1 / f</i>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.ellipsoids-module.html#n2f" class="link">n2f</a>
+        and <a href="pygeodesy.ellipsoids-module.html#f2f_" 
+        class="link">f2f_</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="n_xyz2latlon"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -17297,7 +17390,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>u = parseETM5(<span class="py-string">'31 N 448251 5411932'</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>u.toStr2()  <span class="py-comment"># [Z:31, H:N, E:448251, N:5411932]</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>u.toRepr()  <span class="py-comment"># [Z:31, H:N, E:448251, N:5411932]</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>u = parseETM5(<span class="py-string">'31 N 448251.8 5411932.7'</span>)
 <span class="py-prompt">&gt;&gt;&gt; </span>u.toStr()  <span class="py-comment"># 31 N 448252 5411933</span></pre>
       </p>
@@ -17583,7 +17676,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>u = parseUTM5(<span class="py-string">'31 N 448251 5411932'</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>u.toStr2()  <span class="py-comment"># [Z:31, H:N, E:448251, N:5411932]</span>
+<span class="py-prompt">&gt;&gt;&gt; </span>u.toRepr()  <span class="py-comment"># [Z:31, H:N, E:448251, N:5411932]</span>
 <span class="py-prompt">&gt;&gt;&gt; </span>u = parseUTM5(<span class="py-string">'31 N 448251.8 5411932.7'</span>)
 <span class="py-prompt">&gt;&gt;&gt; </span>u.toStr()  <span class="py-comment"># 31 N 448252 5411933</span></pre>
       </p>
@@ -17687,7 +17780,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <div class="fields">      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>u = parseWM(<span class="py-string">'448251 5411932'</span>)
-<span class="py-prompt">&gt;&gt;&gt; </span>u.toStr2()  <span class="py-comment"># [E:448251, N:5411932]</span></pre>
+<span class="py-prompt">&gt;&gt;&gt; </span>u.toRepr()  <span class="py-comment"># [E:448251, N:5411932]</span></pre>
       </p>
 </div></td></tr></table>
 </div>
@@ -18867,7 +18960,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -18941,7 +19034,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
           (<code>radians</code>).</li>
-        <li><strong class="pname"><code>datum</code></strong> - Ellipsoidal datum to use (<a 
+        <li><strong class="pname"><code>datum</code></strong> - Datum or ellipsoid to use (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -20129,7 +20222,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
@@ -20138,7 +20238,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           <b><code>radius</code></b>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -20580,7 +20680,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan  9 11:32:44 2021
+    Generated by Epydoc 3.0.1 on Tue Jan 12 21:09:42 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

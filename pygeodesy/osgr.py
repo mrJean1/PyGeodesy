@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -66,10 +66,10 @@ _E0 = Easting(400e3)        # Easting of true origin (C{meter})
 _N0 = Northing(-_100km)     # Northing of true origin (C{meter})
 _F0 = Scalar(0.9996012717)  # NatGrid scale of central meridian (C{float})
 
-_Datums_OSGB36    =  Datums.OSGB36  # Airy130 ellipsoid
-_no_convertDatum_ = 'no .convertDatum'
-_ord_A            =  ord(_A_)
-_TRIPS            =  33  # .toLatLon convergence
+_Datums_OSGB36 =  Datums.OSGB36  # Airy130 ellipsoid
+_no_toDatum_   = 'no .toDatum'
+_ord_A         =  ord(_A_)
+_TRIPS         =  33  # .toLatLon convergence
 
 
 def _ll2datum(ll, datum, name):
@@ -77,9 +77,9 @@ def _ll2datum(ll, datum, name):
     '''
     if datum not in (None, ll.datum):
         try:
-            ll = ll.convertDatum(datum)
+            ll = ll.toDatum(datum)
         except AttributeError:
-            raise _TypeError(name, ll, txt=Fmt.PAREN(_no_convertDatum_, datum.name))
+            raise _TypeError(name, ll, txt=Fmt.PAREN(_no_toDatum_, datum.name))
     return ll
 
 
@@ -273,13 +273,14 @@ class Osgr(_NamedBase):
         ll = self._latlon
         if LatLon is None:
             r = _ll2datum(ll, datum, LatLonDatum3Tuple.__name__)
-            r = LatLonDatum3Tuple(r.lat, r.lon, r.datum)
+            r =  LatLonDatum3Tuple(r.lat, r.lon, r.datum)
         else:  # must be ellipsoidal
             _xsubclassof(_LLEB, LatLon=LatLon)
             r = _ll2datum(ll, datum, LatLon.__name__)
-            r = LatLon(r.lat, r.lon, datum=r.datum)
+            r =  LatLon(r.lat, r.lon, datum=r.datum)
         r._iteration = ll._iteration
-        return _xnamed(r, ll)
+        r._name = nameof(ll)
+        return r
 
     def toRepr(self, prec=10, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
@@ -299,9 +300,6 @@ class Osgr(_NamedBase):
             if fmt:
                 t = fmt % (t,)
         return t
-
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, use method L{Osgr.toRepr}.'''
 
     def toStr(self, prec=10, sep=_SPACE_):  # PYCHOK expected
         '''Return a string representation of this OSGR coordinate.
@@ -470,7 +468,7 @@ def toOsgr(latlon, lon=None, datum=Datums.WGS84, Osgr=Osgr, name=NN,
        >>> r = toOsgr(52.65757, 1.71791, datum=Datums.OSGB36)
     '''
     if not isinstance(latlon, _LLEB):
-        # XXX fix failing _LLEB.convertDatum()
+        # XXX fix failing _LLEB.toDatum()
         latlon = _LLEB(*parseDMS2(latlon, lon), datum=datum)
     elif lon is not None:
         raise OSGRError(lon=lon, txt=_not_(None))

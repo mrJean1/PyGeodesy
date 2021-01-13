@@ -100,7 +100,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Cartesian</span>,
+        <span class="summary-sig-arg">**Cartesian_kwds</span>)</span><br />
+      Return the geocentric <code>(x, y, z)</code> coordinates as an 
+      ellipsoidal or spherical <code>Cartesian</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toDatum" class="summary-sig-name">toDatum</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum2</span>)</span><br />
       Convert this <code>Ecef9Tuple</code> to an other datum.</td>
           <td align="right" valign="top">
@@ -118,11 +138,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">Cartesian</span>,
-        <span class="summary-sig-arg">**Cartesian_kwds</span>)</span><br />
-      Return the geocentric <code>(x, y, z)</code> coordinates as an 
-      ellipsoidal or spherical <code>Cartesian</code>.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">datum2</span>)</span><br />
+      Convert this <code>Ecef9Tuple</code> to an other datum.</td>
           <td align="right" valign="top">
             
             
@@ -185,7 +203,6 @@
       <code><a href="pygeodesy.named._NamedTuple-class.html#iterunits">iterunits</a></code>,
       <code><a href="pygeodesy.named._NamedTuple-class.html#toRepr">toRepr</a></code>,
       <code><a href="pygeodesy.named._NamedTuple-class.html#toStr">toStr</a></code>,
-      <code><a href="pygeodesy.named._NamedTuple-class.html#toStr2">toStr2</a></code>,
       <code><a href="pygeodesy.named._NamedTuple-class.html#toUnits">toUnits</a></code>,
       <code><a href="pygeodesy.named._NamedTuple-class.html#units">units</a></code>
       </p>
@@ -213,7 +230,9 @@
       <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__format__</code>,
@@ -270,7 +289,7 @@
  &lt;class 'pygeodesy.units.Lon'&gt;,
  &lt;class 'pygeodesy.units.Height'&gt;,
  &lt;class 'pygeodesy.units.Int'&gt;,
- &lt;function _Pass at 0x7fa052852a50&gt;,
+ &lt;function _Pass at 0x7fc2479f3dd0&gt;,
 ..."><code class="variable-group">(</code>&lt;class 'pygeodesy.units.Meter'&gt;<code class="variable-op">, </code>&lt;class 'pygeodesy.<code class="variable-ellipsis">...</code></code><br />
       Tuple defining the <code>units</code> of the value of each 
       <code>Named-Tuple</code> item.
@@ -430,38 +449,6 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="convertDatum"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertDatum</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">datum2</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert this <code>Ecef9Tuple</code> to an other datum.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>datum2</code></strong> - Datum to convert <i>to</i> (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The converted 9-Tuple (<code>Ecef9Tuple</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>datum2</code></b> is not a <a 
-        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="toCartesian"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -502,6 +489,70 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b> or 
         <b><code>Cartesian_kwds</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toDatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toDatum</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">datum2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this <code>Ecef9Tuple</code> to an other datum.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>datum2</code></strong> - Datum to convert <i>to</i> (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The converted 9-Tuple (<code>Ecef9Tuple</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>datum2</code></b> is not a <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="convertDatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertDatum</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">datum2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this <code>Ecef9Tuple</code> to an other datum.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>datum2</code></strong> - Datum to convert <i>to</i> (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The converted 9-Tuple (<code>Ecef9Tuple</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>datum2</code></b> is not a <a 
+        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -644,7 +695,7 @@
  &lt;class 'pygeodesy.units.Lon'&gt;<code class="variable-op">,</code>
  &lt;class 'pygeodesy.units.Height'&gt;<code class="variable-op">,</code>
  &lt;class 'pygeodesy.units.Int'&gt;<code class="variable-op">,</code>
- &lt;function _Pass at 0x7fa052852a50&gt;<code class="variable-op">,</code>
+ &lt;function _Pass at 0x7fc2479f3dd0&gt;<code class="variable-op">,</code>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -1012,7 +1063,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan  9 11:32:46 2021
+    Generated by Epydoc 3.0.1 on Tue Jan 12 21:09:44 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

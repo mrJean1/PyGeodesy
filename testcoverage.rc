@@ -5,6 +5,7 @@
 [report]
 exclude_lines =
     pragma: no cover
+    no cover
     PYCHOK no cover
     \sraise\s
     \._notOverloaded\(

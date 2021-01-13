@@ -84,11 +84,10 @@ class _AzimuthalBase(_NamedBase):
 
            @raise TypeError: Invalid B{C{datum}}.
        '''
-        if name:
-            self.name = name
-
         if datum not in (None, self._datum):
             self._datum = _spherical_datum(datum, name=name)
+        if name:
+            self.name = name
 
         self.reset(lat0, lon0)
 

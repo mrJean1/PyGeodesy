@@ -43,7 +43,7 @@ from pygeodesy.units import Bearing, Degrees, Distance, Float,\
 from pygeodesy.utily import asin1, atan2b, degrees90, sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -591,9 +591,6 @@ class Ned(_Named):
              toDMS(self.bearing,   form=F_D, prec=prec, ddd=0),
              toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
         return _xzipairs('LBE', t, sep=sep, fmt=fmt)
-
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, used method L{Ned.toRepr}.'''
 
     def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this NED vector.

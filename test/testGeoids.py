@@ -397,7 +397,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
                     t.testGeoid(GeoidKarney, g, t.dat5llhs3(g), kind=2, eps=0.12)
                     t.testGeoid(GeoidKarney, g, t.dat5llhs3(g), kind=3)
                     try:
-                        t.testGeoid(GeoidPGM,    g, t.dat5llhs3(g), crop=_CONUS)
+                        t.testGeoid(GeoidPGM, g, t.dat5llhs3(g), crop=_CONUS)
                     except ImportError as x:
                         t.skip(str(x), n=231)
 

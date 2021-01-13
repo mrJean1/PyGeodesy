@@ -21,14 +21,14 @@ from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _ValueError, UnitError, _xkwds, _xkwds_popitem
 from pygeodesy.interns import NN, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _DUNDER_, _dunder_name, \
-                             _EQUAL_, _immutable_, _name_, _other_, _s_, \
-                             _SPACE_, _UNDER_, _valid_, _vs_
+                             _EQUAL_, _EQUALSPACED_, _immutable_, _name_, \
+                             _other_, _s_, _SPACE_, _UNDER_, _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
 from pygeodesy.props import property_doc_, property_RO, _update_all
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.01.09'
+__version__ = '21.01.11'
 
 _at_     = 'at'
 _del_    = 'del'
@@ -39,10 +39,10 @@ _MRO_    = 'MRO'
 _O_      = 'O'
 # __DUNDER gets mangled in class
 _name        = '_name'
-_n_a_m_e_    = '__name__'  # no __name__
 _Names_      = '_Names_'
 _registered_ = 'registered'  # PYCHOK used!
 _Units_      = '_Units_'
+_use_        = 'use'  # PYCHOK used!
 
 
 def _xjoined_(prefix, name):
@@ -61,9 +61,11 @@ def _xnamed(inst, name, force=False):
        @return: The B{C{inst}}, named if B{C{force}}d or
                 not named before.
     '''
-    if name and isinstance(inst, _Named) \
-            and (force or not inst.name):
-        inst.name = name
+    if name and isinstance(inst, _Named):
+        if not inst.name:
+            inst.name = name
+        elif force:
+            inst.rename(name)
     return inst
 
 
@@ -179,9 +181,19 @@ class _Named(object):
         '''Set the name.
 
            @arg name: New name (C{str}).
+
+           @raise NameError: Can't rename, use L{rename}.
         '''
-        # _update_all(self)
-        self._name = str(name)
+        m, n = self._name, str(name)
+        if not m:
+            self._name = n
+        elif n != m:
+            n =  repr(n)
+            c =  self.classname
+            t = _DOT_(c,  Fmt.PAREN(self.rename.__name__, n))
+            t = _COMMASPACE_(repr(m), _SPACE_(_use_, t))
+            n = _DOT_(c, _EQUALSPACED_(_name_, n))
+            raise _NameError(n, txt=t)
         # to set the name from a sub-class, use
         # self.name = name or
         # _Named.name.fset(self, name), but not
@@ -211,18 +223,33 @@ class _Named(object):
         '''
         return _xjoined_(_DOT_(self.__module__, self.__class__.__name__),  self.name)
 
+    def rename(self, name):
+        '''Change the name.
+
+           @arg name: The new name (C{str}).
+
+           @return: The old name  (C{str}).
+        '''
+        m, n = self._name, str(name)
+        if n != m:
+            self._name = n
+            _update_all(self)
+        return m
+
     def toRepr(self, **unused):  # PYCHOK expected
         '''Default C{repr(self)}.
         '''
         return repr(self)
 
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, used method C{toRepr}.'''
-
     def toStr(self, **unused):  # PYCHOK expected
         '''Default C{str(self)}.
         '''
         return str(self)
+
+    def toStr2(self, **kwds):  # PYCHOK for backward compatibility
+        '''DEPRECATED, used method C{toRepr}.
+        '''
+        return self.toRepr(**kwds)
 
     def _xnamed(self, inst, name=NN):
         '''(INTERNAL) Set the instance' C{.name = self.name}.
@@ -232,8 +259,12 @@ class _Named(object):
 
            @return: The B{C{inst}}, named if not named before.
         '''
-        n = name or self.name
-        return _xnamed(inst, n) if n else inst
+        # return _xnamed(inst, name or self.name)
+        if isinstance(inst, _Named) and not inst.name:
+            n = name or self.name
+            if n:
+                inst.name = n
+        return inst
 
     def _xrenamed(self, inst):
         '''(INTERNAL) Rename the instance' C{.name = self.name}.
@@ -245,8 +276,7 @@ class _Named(object):
         if not isinstance(inst, _Named):
             raise _IsnotError(_valid_, inst=inst)
 
-        if inst.name != self.name:
-            inst.name = self.name
+        inst.rename(self.name)
         return inst
 
 
@@ -360,7 +390,8 @@ class _NamedDict(dict, _Named):
         if name in dict.keys(self):
             dict.pop(name)
         elif name in (_name_, _name):
-            dict.__setattr__(self, name, NN)
+            # dict.__setattr__(self, name, NN)
+            _Named.rename(self, NN)
         else:
             dict.__delattr__(self, name)
 
@@ -411,9 +442,6 @@ class _NamedDict(dict, _Named):
         '''
         t = pairs(self.items(), prec=prec, fmt=fmt, sep=_EQUAL_)
         return Fmt.PAREN(self.name, _COMMASPACE_.join(sorted(t)))
-
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, use method C{toRepr}.'''
 
     def toStr(self, prec=6, fmt=Fmt.F):  # PYCHOK _Named
         '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
@@ -583,9 +611,6 @@ class _NamedEnum(_NamedDict):
         '''
         t = sorted((self._DOT_(n), v) for n, v in self.items(**all))
         return sep.join(pairs(t, prec=prec, fmt=fmt, sep=_COLONSPACE_))
-
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, use method C{toRepr}.'''
 
     def toStr(self, *unused, **all):  # PYCHOK _NamedDict
         '''Like C{str(dict)} but with C{floats} formatting by C{fstr}.
@@ -848,9 +873,6 @@ class _NamedTuple(tuple, _Named):
         '''
         return Fmt.PAREN(self.named, sep.join(pairs(self.items(), prec=prec)))
 
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, use method C{toRepr}.'''
-
     def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as string(s).
 
@@ -998,7 +1020,7 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
     try:
         n = clas.__name__
     except AttributeError:  # PYCHOK no cover
-        n = _n_a_m_e_
+        n = '__name__'  # _DUNDER_(NN, _name_, NN)
     if prefixed or (classnaming() if prefixed is None else False):
         try:
             m =  clas.__module__.rsplit(_DOT_, 1)
@@ -1015,13 +1037,13 @@ def nameof(inst):
 
        @return: The instance' name (C{str}) or C{""}.
     '''
-    if isinstance(inst, property):
+    n = getattr(inst, _name_, NN)
+    if not n:  # and isinstance(inst, property):
         try:
-            return inst.fget.__name__
-        except AttributeError:  # PYCHOK no cover
-            return NN
-    else:
-        return getattr(inst, _name_, NN)
+            n = inst.fget.__name__
+        except AttributeError:
+            n = NN
+    return n
 
 
 def _notError(inst, name, args, kwds):  # PYCHOK no cover

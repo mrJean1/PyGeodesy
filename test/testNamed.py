@@ -57,7 +57,7 @@ class Tests(TestsBase):
         self.test(n.named, n.classname, N.__name__)
         self.test(n.named, isinstance(n, N), True)
         self.test(n.named, repr(n.name), "''", known=k)
-        n.name = 'Test'
+        n.rename('Test')
         self.test(n.named, n.name, 'Test')
         self.test(n.named2, n.named2, n.classname + " 'Test'")
 

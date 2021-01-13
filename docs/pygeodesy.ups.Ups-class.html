@@ -75,7 +75,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li class="private">_UpsK1</li>  </ul>
+<li class="private">_Ups_K1</li>  </ul>
 </dd></dl>
 
 <hr />
@@ -257,30 +257,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ups.Ups-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">0</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'[%s]'</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
-        <span class="summary-sig-arg">B</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">cs</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">**unused</span>)</span><br />
-      DEPRECATED, use method <a href="pygeodesy.ups.Ups-class.html#toRepr" 
-      class="link">Ups.toRepr</a>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ups.Ups-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">' '</span>,
@@ -351,7 +327,9 @@
       <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -725,61 +703,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="toStr2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">0</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default">'[%s]'</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
-        <span class="sig-arg">B</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">cs</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">**unused</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, use method <a href="pygeodesy.ups.Ups-class.html#toRepr" 
-  class="link">Ups.toRepr</a>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing backets format (<code>str</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:value pairs (<code>str</code>).</li>
-        <li><strong class="pname"><code>B</code></strong> - Optionally, include polar band letter (<code>bool</code>).</li>
-        <li><strong class="pname"><code>cs</code></strong> - Optionally, include gamma meridian convergence and point scale 
-          factor (<code>bool</code> or non-zero <code>int</code> to specify
-          the precison like <b><code>prec</code></b>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>This UPS as a string with <code>00[Band] pole, easting, northing,
-          [convergence, scale]</code> as <code>&quot;[Z:00[Band], P:N|S, 
-          E:meter, N:meter]&quot;</code> plus <code>&quot;, C:DMS, 
-          S:float&quot;</code> if <b><code>cs</code></b> is 
-          <code>True</code>, where <code>[Band]</code> is present and 
-          <code>'A'|'B'|'Y'|'Z'</code> only if <b><code>B</code></b> is 
-          <code>True</code> and convergence <code>DMS</code> is in 
-          <i>either</i> degrees, minutes <i>or</i> seconds 
-          (<code>str</code>).</dd>
-    <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
-    </dt>
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Pseudo zone zero (<code>&quot;00&quot;</code>) for UPS follows 
-        <i>Karney</i>'s <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html"
-        target="_top">zone UPS</a>.
-      </p>
-</div></td></tr></table>
-</div>
 <a name="toStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -923,8 +846,7 @@
   <p>Get the polar band letter ('A', 'B', 'Y' or 'Z').</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">band(<span class="summary-sig-arg">self</span>)</span>
-        - Get the polar band letter ('A', 'B', 'Y' or 'Z').
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -948,10 +870,7 @@
   class="link">EasNor2Tuple</a><code>(easting, northing)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">falsed2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the easting and northing falsing (<a 
-href="pygeodesy.namedTuples.EasNor2Tuple-class.html" 
-class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -973,8 +892,7 @@ class="link">EasNor2Tuple</a><code>(easting, northing)</code>).
   <p>Get the hemisphere (<code>str</code>, 'N'|'S').</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">hemisphere(<span class="summary-sig-arg">self</span>)</span>
-        - Get the hemisphere (<code>str</code>, 'N'|'S').
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1071,7 +989,7 @@ target="_top">zone UPS</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan  9 11:32:53 2021
+    Generated by Epydoc 3.0.1 on Tue Jan 12 21:09:51 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

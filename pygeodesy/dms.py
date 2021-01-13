@@ -30,7 +30,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '20.12.27'
+__version__ = '21.01.10'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix N, S, E or W
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix
@@ -664,7 +664,7 @@ def parse3llh(strllh, height=0, sep=_COMMA_, clipLat=90, clipLon=180):
     def _3llh_(strllh, height, sep):
         ll = strllh.strip().split(sep)
         if len(ll) > 2:  # XXX interpret height unit
-            h = float(ll.pop(2).strip().rstrip(_LETTERS).rstrip())
+            h = float(ll.pop(2).rstrip(_LETTERS).strip())
         else:
             h = height  # None from wgrs.Georef.__new__
         if len(ll) != 2:

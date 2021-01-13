@@ -4,9 +4,9 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '20.08.30'
+__version__ = '21.01.11'
 
-from base import geographiclib, TestsBase
+from base import geographiclib, isPython37, TestsBase
 
 from pygeodesy import EPS, R_M, R_MA, LatLon_, \
                       LatLon2psxy, Numpy2LatLon, Tuple2LatLon, \
@@ -14,7 +14,10 @@ from pygeodesy import EPS, R_M, R_MA, LatLon_, \
                       isclockwise, perimeterOf, points
 
 try:
-    from collections import Sequence
+    if isPython37:
+        from collections.abc import Sequence
+    else:
+        from collections import Sequence
 except ImportError:
     Sequence = None
 
@@ -137,29 +140,29 @@ class Tests(TestsBase):
         self.test('isclockwise', isclockwise(p), True)
 
         # <https://GeographicLib.SourceForge.io/scripts/geod-calc.html>
-        p = LatLon(-63.1,  -58), LatLon(-72.9,  -74), LatLon(-71.9, -102), \
-            LatLon(-74.9, -102), LatLon(-74.3, -131), LatLon(-77.5, -163), \
-            LatLon(-77.4,  163), LatLon(-71.7,  172), LatLon(-65.9,  140), \
-            LatLon(-65.7,  113), LatLon(-66.6,   88), LatLon(-66.9,   59), \
-            LatLon(-69.8,   25), LatLon(-70.0,   -4), LatLon(-71.0,  -14), \
-            LatLon(-77.3,  -33), LatLon(-77.9,  -46), LatLon(-74.7,  -61)  # on/around south pole!
-        self.test('areaOf', areaOf(p, radius=R_M), '1.366270e+13', fmt='%.6e', known=True)  # 1.366270368002013e+13'
-        self.test('perimeterOf', perimeterOf(p, radius=R_M), '1.366270e+13', fmt='%.6e', known=True)  # 1.366270368002013e+13
+        p = (LatLon(-63.1,  -58), LatLon(-72.9,  -74), LatLon(-71.9, -102),
+             LatLon(-74.9, -102), LatLon(-74.3, -131), LatLon(-77.5, -163),
+             LatLon(-77.4,  163), LatLon(-71.7,  172), LatLon(-65.9,  140),
+             LatLon(-65.7,  113), LatLon(-66.6,   88), LatLon(-66.9,   59),
+             LatLon(-69.8,   25), LatLon(-70.0,   -4), LatLon(-71.0,  -14),
+             LatLon(-77.3,  -33), LatLon(-77.9,  -46), LatLon(-74.7,  -61))  # on/around south pole!
+        self.test('areaOf', areaOf(p, radius=R_M), '4.469277e+12', fmt='%.6e', known=True)
+        self.test('perimeterOf', perimeterOf(p, radius=R_M), '1.562029e+07', fmt='%.6e', known=True)
         self.test('centroidOf', fstr(centroidOf(p), prec=3), '-72.112, 92.032',)
         self.test('isclockwise', isclockwise(p), False)
         self.test('points2', p[0].points2(p)[0], len(p))
 
         p = LatLon('66.6S', '88W')
-        self.test('latlon', fstr(p.latlon,  prec=6), '-66.6, -88.0')
-        self.test('philam', fstr(p.philam,  prec=6), '-1.162389, -1.53589')
-        self.test('to2ab',  fstr(p.to2ab(), prec=6), '-1.162389, -1.53589')
+        self.test('latlon', p.latlon, '(-66.6, -88.0)')
+        self.test('philam', p.philam, '(-1.162389, -1.53589)')
+        self.test('to2ab ', p.to2ab(), p.philam)
         if LatLon is LatLon_:
             self.test('toStr', p.toStr(prec=6, kwds='test'), "66.6°S, 088.0°W, kwds='test'")
             q = p.classof(p.lat, p.lon, name='test')
             self.test('__ne__', q != p, False)
 
-        self.test('latlonheight', fstr(p.latlonheight, prec=6), '-66.6, -88.0, 0.0')
-        self.test('philamheight', fstr(p.philamheight, prec=6), '-1.162389, -1.53589, 0.0')
+        self.test('latlonheight', p.latlonheight, '(-66.6, -88.0, 0)')
+        self.test('philamheight', p.philamheight, '(-1.162389, -1.53589, 0)')
 
         self.test('_N_vector', p._N_vector, '(0.01386, -0.39691, -0.91775)')
         self.test('toNvector', p.toNvector().toStr(prec=5), '(0.01386, -0.39691, -0.91775)')
@@ -179,13 +182,21 @@ class Tests(TestsBase):
 if __name__ == '__main__':  # PYCHOK internal error?
 
     from testRoutes import PtsFFI
+    import sys
 
     t = Tests(__file__, __version__, points)
 
-    try:
-        t.test('LatLon_', LatLon_(0, 0).__dict__, 'AttributeError')
-    except AttributeError as x:
-        t.test('LatLon_', x, "'LatLon_' object has no attribute '__dict__'")
+    p = LatLon_(0, 0)
+    if hasattr(LatLon_, '__slots__'):
+        try:
+            t.test('LatLon_', p.__dict__, 'AttributeError')
+        except AttributeError as x:
+            t.test('LatLon_', x, "'LatLon_' object has no attribute '__dict__'")
+        a = '__slots__'
+    else:
+        a = '__dict__'
+    q = sys.getsizeof(p)
+    t.test('sizeof(LatLon_.%s)' % (a,), q, q)
 
     pts = LatLon2psxy(PtsFFI, wrap=False)
     t.test2(pts, PtsFFI, True)
@@ -203,6 +214,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     tup = [(0, ll.lon, 0, ll.lat) for ll in PtsFFI]
     pts = Tuple2LatLon(tup, ilat=3, ilon=1)
     t.test2(pts, tup, False)
+    tup = pts = None
 
     from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, \
                           ellipsoidalVincenty, Ellipsoids, luneOf, \

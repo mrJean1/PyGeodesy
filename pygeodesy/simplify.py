@@ -84,7 +84,7 @@ from pygeodesy.utily import isNumpy2, isTuple2
 from math import degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '20.12.22'
+__version__ = '21.01.11'
 
 
 # try:
@@ -93,14 +93,17 @@ __version__ = '20.12.22'
 # except ImportError:
 #    class _T2(object):
 #        ...
-# namedtuple not used because (a) values can not
-# be updated and (b) it produces PyChecker warning
-# "<string>:28: self is not first method argument"
-# which can not be suppressed by option --stdlib
+# namedtuple (and .named._NamedTuple) can not be
+# used because (a) values can not be updated and
+# (b) it produces PyChecker warning "<string>:28:
+# self is not first method argument" which can't
+# be suppressed with command line option --stdlib
 class _T2(object):
     '''(INTERNAL) VW 2-tuple (index, area).
     '''
-    __slots__ = ('ix', 'h2')
+    # __slots__ are no longer space savers, see
+    # the comments at the class .points.LatLon_
+    # __slots__ = ('ix', 'h2')
 
     def __init__(self, ix, h2):
         self.ix = ix

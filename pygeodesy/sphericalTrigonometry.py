@@ -246,8 +246,7 @@ class LatLon(LatLonSphericalBase):
 
            @JSname: I{destinationPoint}.
         '''
-        a, b = self.philam
-
+        a, b =  self.philam
         r, t = _angular(distance, radius), Bearing_(bearing)
 
         a, b = _destination2(a, b, r, t)

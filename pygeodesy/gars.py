@@ -15,14 +15,14 @@ by I{Charles Karney}.  See also U{Global Area Reference System
 
 from pygeodesy.basics import isstr
 from pygeodesy.dms import parse3llh  # parseDMS2
-from pygeodesy.errors import _ValueError
+from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.interns import EPS1_2, NN, _AtoZnoIO_, \
                              _floatuple, _0to9_, _0_5, _90_0
 from pygeodesy.interns import _1_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import nameof, _xnamed
+from pygeodesy.named import nameof
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
                             Str, _xStrError
@@ -30,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -113,9 +113,6 @@ class GARSError(_ValueError):
 class Garef(Str):
     '''Garef class, a named C{str}.
     '''
-    _latlon    = None  # cached latlon property
-    _precision = None
-
     # no str.__init__ in Python 3
     def __new__(cls, cll, precision=1, name=NN):
         '''New L{Garef} from an other L{Garef} instance or garef
@@ -136,78 +133,73 @@ class Garef(Str):
 
            @raise GARSError: INValid or non-alphanumeric B{C{cll}}.
         '''
+        ll = p = None
+
         if isinstance(cll, Garef):
             g, p = _2garstr2(str(cll))
-            self = Str.__new__(cls, g)
-            self._latlon = LatLon2Tuple(*cll._latlon)
-            self._name = cll._name
-            self._precision = p  # cll._precision
 
         elif isstr(cll):
             if ',' in cll:
-                lat, lon = _2fll(*parse3llh(cll))
-                cll = encode(lat, lon, precision=precision)  # PYCHOK false
-                self = Str.__new__(cls, cll)
-                self._latlon = LatLon2Tuple(lat, lon)
+                ll = _2fll(*parse3llh(cll))
+                g  =  encode(*ll, precision=precision)  # PYCHOK false
             else:
-                self = Str.__new__(cls, cll.upper())
-                self._decode()
+                g = cll.upper()
 
         else:  # assume LatLon
             try:
-                lat, lon = _2fll(cll.lat, cll.lon)
+                ll = _2fll(cll.lat, cll.lon)
+                g  =  encode(*ll, precision=precision)  # PYCHOK false
             except AttributeError:
                 raise _xStrError(Garef, cll=cll)  # Error=GARSError
-            cll = encode(lat, lon, precision=precision)  # PYCHOK false
-            self = Str.__new__(cls, cll)
-            self._latlon = LatLon2Tuple(lat, lon)
 
-        if self._precision is None:
-            self._precision = _2Precision(precision)
-
-        if name:
-            self.name = name
+        self = Str.__new__(cls, g, name=name or nameof(cll))
+        self._latlon    = ll
+        self._precision = p
         return self
 
-    def _decode(self):
-        # cache all decoded attrs
-        lat, lon, p = decode3(self)
-        if self._latlon is None:
-            self._latlon = LatLon2Tuple(lat, lon)
-        if self._precision is None:
-            self._precision = p
+    @Property_RO
+    def decoded3(self):
+        '''Get this garef's attributes (L{LatLonPrec3Tuple}).
+        '''
+        lat, lon = self.latlon
+        return LatLonPrec3Tuple(lat, lon, self.precision, name=self.name)
 
-    @property_RO
+    @Property_RO
+    def _decoded3(self):
+        '''(INTERNAL) Initial L{LatLonPrec5Tuple}.
+        '''
+        return decode3(self)
+
+    @Property_RO
     def latlon(self):
         '''Get this garef's (center) lat- and longitude (L{LatLon2Tuple}).
         '''
-        if self._latlon is None:
-            self._decode()
-        return self._latlon
+        lat, lon = self._latlon or self._decoded3[:2]
+        return LatLon2Tuple(lat, lon, name=self.name)
 
-    @property_RO
+    @Property_RO
     def precision(self):
         '''Get this garef's precision (C{int}).
         '''
-        if self._precision is None:
-            self._decode()
-        return self._precision
+        p = self._precision
+        return self._decoded3.precision if p is None else p
 
-    def toLatLon(self, LatLon, **kwds):
+    def toLatLon(self, LatLon, **LatLon_kwds):
         '''Return (the center of) this garef cell as an instance
            of the supplied C{LatLon} class.
 
            @arg LatLon: Class to use (C{LatLon}).
-           @kwarg kwds: Optional keyword arguments for B{C{LatLon}}.
+           @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}}.
 
            @return: This garef location (B{C{LatLon}}).
 
            @raise GARSError: Invalid B{C{LatLon}}.
         '''
+        kwds = _xkwds(LatLon_kwds, name=self.name)
         if LatLon is None:
-            raise GARSError(LatLon=LatLon)
+            raise GARSError(**_xkwds(kwds, LatLon=LatLon))
 
-        return self._xnamed(LatLon(*self.latlon, **kwds))
+        return LatLon(*self.latlon, **kwds)
 
 
 def decode3(garef, center=True):
@@ -259,9 +251,9 @@ def decode3(garef, center=True):
         lat += _0_5
 
     r = _Resolutions[precision]  # == 1.0 / unit
-    r = LatLonPrec3Tuple(Lat(lat * r, Error=GARSError),
-                         Lon(lon * r, Error=GARSError), precision)
-    return _xnamed(r, nameof(garef))
+    return LatLonPrec3Tuple(Lat(lat * r, Error=GARSError),
+                            Lon(lon * r, Error=GARSError),
+                            precision, name=nameof(garef))
 
 
 def encode(lat, lon, precision=1):  # MCCABE 14

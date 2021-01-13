@@ -8,38 +8,7 @@ __all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4', 'PI3_2')  # imported by .lazily
-__version__ = '21.01.05'
-
-
-class MISSING(object):
-    '''(INTERNAL) Singleton.
-    '''
-    def toRepr(self, **unused):
-        return self.__class__.__name__
-
-    __repr__ = toRepr
-    __str__  = toRepr
-    toStr    = toRepr
-
-MISSING          = MISSING()  # PYCHOK singleton
-MISSING.__name__ = str(MISSING)
-
-
-class _Slicer(str):
-    '''(INTERNAL) String slicer C{.fromX} or C{.tillY}.
-    '''
-    def __getattr__(self, name):  # .fromX, .tillY
-        if name.startswith(_till_):
-            i = self.find(name[len(_till_):])
-            if 0 < i < len(self):
-                return _Slicer(self[:i + 1])
-        elif name.startswith(_from_):
-            i = self.find(name[len(_from_):])
-            if 0 < (i + 1) < len(self):
-                return _Slicer(self[i:])
-        else:
-            return getattr(str, name)
-        return self
+__version__ = '21.01.11'
 
 
 class _Join(str):
@@ -70,6 +39,36 @@ class _Python_(str):  # overwritten below
         '''
         return _SPACE_(self, sys.version.split()[0])
 
+
+class _Slicer(str):
+    '''(INTERNAL) String slicer C{.fromX} or C{.tillY}.
+    '''
+    def __getattr__(self, name):  # .fromX, .tillY
+        if name.startswith(_till_):
+            i = self.find(name[len(_till_):])
+            if 0 < i < len(self):
+                return _Slicer(self[:i + 1])
+        elif name.startswith(_from_):
+            i = self.find(name[len(_from_):])
+            if 0 < (i + 1) < len(self):
+                return _Slicer(self[i:])
+        else:
+            return getattr(str, name)
+        return self
+
+
+class MISSING(object):
+    '''(INTERNAL) Singleton.
+    '''
+    def toRepr(self, **unused):
+        return self.__class__.__name__
+
+    __repr__ = toRepr
+    __str__  = toRepr
+    toStr    = toRepr
+
+MISSING          = MISSING()  # PYCHOK singleton
+MISSING.__name__ = str(MISSING)
 
 NN = _Join('')  # Nomen Nescio <https://Wiktionary.org/wiki/N.N.>
 
@@ -119,6 +118,7 @@ _decode3_             = 'decode3'            # PYCHOK expected
 _deg_                 = 'deg'                # PYCHOK expected
 _degrees_             = 'degrees'            # PYCHOK expected
 _degrees2_            = 'degrees2'           # PYCHOK SQUARED
+_DEQUALSPACED_  = _Join(' == ')              # PYCHOK expected
 _distance_            = 'distance'           # PYCHOK expected
 _distanceTo_          = 'distanceTo'         # PYCHOK expected
 _distant_     = _Prefix('distant')           # PYCHOK expected

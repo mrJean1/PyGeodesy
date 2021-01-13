@@ -20,15 +20,17 @@ from pygeodesy.basics import isstr, map2
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import favg
-from pygeodesy.formy import equirectangular, equirectangular_, haversine
-from pygeodesy.interns import EPS, NN, R_M, _COMMA_, _E_, _floatuple, \
-                             _N_, _NE_, _NW_, _S_, _SE_, _SW_, _W_, \
-                             _0_0, _0_5, _90_0, _180_0, _360_0
+from pygeodesy.formy import equirectangular, equirectangular_, \
+                            euclidean, haversine, vincentys
+from pygeodesy.interns import EPS, NN, R_M, _COMMA_, _DOT_, _E_, \
+                             _floatuple, _N_, _NE_, _NW_, _S_, _SE_, \
+                             _SW_, _W_, _0_0, _0_5, _180_0, _360_0
+from pygeodesy.interns import _90_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import _NamedDict, _NamedTuple, _xnamed
+from pygeodesy.named import _NamedDict, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, PhiLam2Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
                            _xStrError
@@ -36,54 +38,67 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.01.07'
+__version__ = '21.01.12'
 
 
-def _4d(n, e, s, w):  # helper
-    return dict(N=(n, e), S=(s, w),
-                E=(e, n), W=(w, s))
+class _GH(object):
+    '''(INTERNAL) Lazily defined constants.
+    '''
+    def _4d(self, n, e, s, w):  # helper
+        return dict(N=(n, e), S=(s, w),
+                    E=(e, n), W=(w, s))
 
+    @Property_RO
+    def Borders(self):
+        return self._4d('prxz', 'bcfguvyz', '028b', '0145hjnp')
 
-_Border   = _4d('prxz', 'bcfguvyz', '028b', '0145hjnp')
-_Neighbor = _4d('p0r21436x8zb9dcf5h7kjnmqesgutwvy',
-                'bc01fg45238967deuvhjyznpkmstqrwx',
-                '14365h7k9dcfesgujnmqp0r2twvyx8zb',
-                '238967debc01fg45kmstqrwxuvhjyznp')
-del _4d
+    Bounds4 = (-_90_0, -_180_0, _90_0, _180_0)
 
-_Bounds4 = -_90_0, -_180_0, _90_0, _180_0
+    @Property_RO
+    def DecodedBase32(self):  # inverse GeohashBase32 map
+        return dict((c, i) for i, c in enumerate(self.GeohashBase32))
+
+    # Geohash-specific base32 map
+    GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'  # no a, i, j and o
+
+    @Property_RO
+    def Neighbors(self):
+        return self._4d('p0r21436x8zb9dcf5h7kjnmqesgutwvy',
+                        'bc01fg45238967deuvhjyznpkmstqrwx',
+                        '14365h7k9dcfesgujnmqp0r2twvyx8zb',
+                        '238967debc01fg45kmstqrwxuvhjyznp')
+
+    @Property_RO
+    def Sizes(self):  # lat-, lon and radial size (in meter)
+        # ... where radial = sqrt(latSize * lonWidth / PI)
+        return (_floatuple(20032e3, 20000e3, 11292815.096),  # 0
+                _floatuple( 5003e3,  5000e3,  2821794.075),  # 1
+                _floatuple(  650e3,  1225e3,   503442.397),  # 2
+                _floatuple(  156e3,   156e3,    88013.575),  # 3
+                _floatuple(  19500,   39100,    15578.683),  # 4
+                _floatuple(   4890,    4890,     2758.887),  # 5
+                _floatuple(    610,    1220,      486.710),  # 6
+                _floatuple(    153,     153,       86.321),  # 7
+                _floatuple(     19.1,    38.2,     15.239),  # 8
+                _floatuple(      4.77,    4.77,     2.691),  # 9
+                _floatuple(      0.596,   1.19,     0.475),  # 10
+                _floatuple(      0.149,   0.149,    0.084),  # 11
+                _floatuple(      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
+
+_GH      = _GH()  # PYCHOK singleton
 _MaxPrec =  12
 
-# Geohash-specific base32 map
-_GeohashBase32 = '0123456789bcdefghjkmnpqrstuvwxyz'  # no a, i, j and o
-# ... and the inverse map
-_DecodedBase32 = dict((c, i) for i, c in enumerate(_GeohashBase32))
-c = i = None
-del c, i
 
-# lat-, longitudinal and radial size (in meter)
-_Sizes = (  # radius = sqrt(latHeight * lonWidth / PI)
-    _floatuple(20032e3, 20000e3, 11292815.096),  # 0
-    _floatuple( 5003e3,  5000e3,  2821794.075),  # 1
-    _floatuple(  650e3,  1225e3,   503442.397),  # 2
-    _floatuple(  156e3,   156e3,    88013.575),  # 3
-    _floatuple(  19500,   39100,    15578.683),  # 4
-    _floatuple(   4890,    4890,     2758.887),  # 5
-    _floatuple(    610,    1220,      486.710),  # 6
-    _floatuple(    153,     153,       86.321),  # 7
-    _floatuple(     19.1,    38.2,     15.239),  # 8
-    _floatuple(      4.77,    4.77,     2.691),  # 9
-    _floatuple(      0.596,   1.19,     0.475),  # 10
-    _floatuple(      0.149,   0.149,    0.084),  # 11
-    _floatuple(      0.0186,  0.0372,   0.015))  # 12  _MaxPrec
-
-
-def _2bounds(LatLon, LatLon_kwds, s, w, n, e):
+def _2bounds(LatLon, LatLon_kwds, s, w, n, e, name=NN):
     '''(INTERNAL) Return SW and NE bounds.
     '''
-    return Bounds4Tuple(s, w, n, e) if LatLon is None else (
-           Bounds2Tuple(LatLon(s, w, **LatLon_kwds),
-                        LatLon(n, e, **LatLon_kwds)))  # PYCHOK inconsistent
+    if LatLon is None:
+        r = Bounds4Tuple(s, w, n, e, name=name)
+    else:
+        kwds = _xkwds(LatLon_kwds, name=name)
+        r = Bounds2Tuple(LatLon(s, w, **kwds),
+                         LatLon(n, e, **kwds), name=name)
+    return r  # _xnamed(r, name)
 
 
 def _2center(bounds):
@@ -116,7 +131,7 @@ def _2geostr(geohash):
             raise ValueError
         geostr = geohash.lower()
         for c in geostr:
-            if c not in _DecodedBase32:
+            if c not in _GH.DecodedBase32:
                 raise ValueError
         return geostr
     except (AttributeError, TypeError, ValueError) as x:
@@ -126,14 +141,6 @@ def _2geostr(geohash):
 class Geohash(Str):
     '''Geohash class, a named C{str}.
     '''
-    _bounds = None  # cached bounds property
-    _latlon = None  # cached latlon property
-
-    _N = None  # cached neighbors properties
-    _E = None
-    _S = None
-    _W = None
-
     # no str.__init__ in Python 3
     def __new__(cls, cll, precision=None, name=NN):
         '''New L{Geohash} from an other L{Geohash} instance or C{str}
@@ -151,36 +158,35 @@ class Geohash(Str):
 
            @raise TypeError: Invalid B{C{cll}}.
         '''
+        ll = None
+
         if isinstance(cll, Geohash):
             gh = _2geostr(str(cll))
-            ll = None
 
         elif isstr(cll):
             if _COMMA_ in cll:
-                lat, lon = ll = _2fll(*parse3llh(cll))
-                gh = encode(lat, lon, precision=precision)
+                ll = _2fll(*parse3llh(cll))
+                gh =  encode(*ll, precision=precision)
             else:
                 gh = _2geostr(cll)
-                ll = None
 
         else:  # assume LatLon
             try:
-                lat, lon = ll = _2fll(cll.lat, cll.lon)
+                ll = _2fll(cll.lat, cll.lon)
+                gh =  encode(*ll, precision=precision)
             except AttributeError:
                 raise _xStrError(Geohash, cll=cll, Error=GeohashError)
-            gh = encode(lat, lon, precision=precision)
 
-        self = Str.__new__(cls, gh)
-        if ll:
-            self._latlon = ll
-        if name:
-            self.name = name
+        self = Str.__new__(cls, gh, name=name or nameof(cll))
+        self._latlon = ll
         return self
 
-    def adjacent(self, direction):
+    def adjacent(self, direction, name=NN):
         '''Determine the adjacent cell in given compass direction.
 
            @arg direction: Compass direction ('N', 'S', 'E' or 'W').
+           @kwarg name: Optional name (C{str}), otherwise the name
+                        of this cell plus C{.D}irection.
 
            @return: Geohash of adjacent cell (L{Geohash}).
 
@@ -188,24 +194,33 @@ class Geohash(Str):
         '''
         # based on <https://GitHub.com/DaveTroy/geohash-js>
 
-        d = direction[:1].upper()
-        if d not in _Neighbor:
+        D = direction[:1].upper()
+        if D not in _GH.Neighbors:
             raise GeohashError(direction=direction)
 
         e = len(self) & 1  # % 2
 
         c = self[-1:]  # last hash char
-        i = _Neighbor[d][e].find(c)
+        i = _GH.Neighbors[D][e].find(c)
         if i < 0:
             raise GeohashError(geohash=self)
 
         p = self[:-1]  # hash without last char
         # check for edge-cases which don't share common prefix
-        if p and (c in _Border[d][e]):
-            p = Geohash(p).adjacent(d)
+        if p and (c in _GH.Borders[D][e]):
+            p = Geohash(p).adjacent(D)
 
+        n = name or self.name
+        if n:
+            n = _DOT_(n, D)
         # append letter for direction to parent
-        return Geohash(p + _GeohashBase32[i])
+        return Geohash(p + _GH.GeohashBase32[i], name=n)
+
+    @Property_RO
+    def _bounds(self):
+        '''(INTERNAL) Cache for L{bounds}.
+        '''
+        return bounds(self)
 
     def bounds(self, LatLon=None, **LatLon_kwds):
         '''Return the lower-left SW and upper-right NE bounds of this
@@ -219,13 +234,19 @@ class Geohash(Str):
                     or if B{C{LatLon}} is C{None}, a L{Bounds4Tuple}C{(latS,
                     lonW, latN, lonE)}.
         '''
-        if not self._bounds:
-            self._bounds = bounds(self)
-        return _2bounds(LatLon, LatLon_kwds, *self._bounds)
+        r = self._bounds
+        return r if LatLon is None else \
+              _2bounds(LatLon, LatLon_kwds, *r, name=self.name)
 
-    def distance1To(self, other):
+    def _distanceTo(self, func_, other, **kwds):
+        '''(INTERNAL) Helper for distances, see C{formy._distanceTo*}.
+        '''
+        lls = self.latlon + _2Geohash(other).latlon
+        return func_(*lls, **kwds)
+
+    def distanceTo(self, other):
         '''Estimate the distance between this and an other geohash
-           (from the cell sizes).
+           based the cell sizes.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
 
@@ -236,70 +257,91 @@ class Geohash(Str):
         '''
         other = _2Geohash(other)
 
-        n = min(len(self), len(other), len(_Sizes))
-        for n in range(n):
-            if self[n] != other[n]:
-                break
-        return _Sizes[n][2]
+        n = min(len(self), len(other), len(_GH.Sizes))
+        if n:
+            for n in range(n):
+                if self[n] != other[n]:
+                    break
+        return _GH.Sizes[n][2]
 
-    distance1 = distance1To  # for backward compatibility
-    '''DEPRECATED, use method L{distance1To}.'''
+    distance1 = distance1To = distanceTo  # for backward compatibility
+    '''DEPRECATED, use method L{distanceTo}.'''
 
-    def distance2To(self, other, radius=R_M, adjust=False, wrap=False):
+    def equirectangularTo(self, other, radius=R_M, adjust=False, wrap=False):
         '''Approximate the distance between this and an other geohash
-           using the L{equirectangular}.
+           using the L{equirectangular} function.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
-           @kwarg radius: Mean earth radius (C{meter}) or C{None}.
+           @kwarg radius: Mean earth radius, ellipsoid or datum
+                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                          L{Datum} or L{a_f2Tuple}) or C{None}.
            @kwarg adjust: Adjust the wrapped, unrolled longitudinal
                           delta by the cosine of the mean latitude
                           C{bool}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Approximate distance (C{meter}, same units as
-                    B{C{radius}}) or distance I{squared} (C{degrees
-                    squared}) if C{B{radius}=None} or C{B{radius}=0}.
+           @return: Distance (C{meter}, same units as I{radius} or the
+                    ellipsoid or datum axes or C{radians I{squared}} if
+                    B{C{radius}} is C{None} or C{0}).
 
            @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
-                             or C{str}.
+                             or C{str} or invalid B{C{radius}}.
 
            @see: U{Local, flat earth approximation
                  <https://www.EdWilliams.org/avform.htm#flat>}, functions
         '''
-        other = _2Geohash(other)
-
-        lls  = self.latlon + other.latlon
+        lls  = self.latlon + _2Geohash(other).latlon
         kwds = dict(adjust=adjust, limit=None, wrap=wrap)
         return equirectangular( *lls, radius=radius, **kwds) if radius else \
                equirectangular_(*lls, **kwds).distance2
 
-    distance2 = distance2To  # for backward compatibility
-    '''DEPRECATED, use method L{distance2To}.'''
+    distance2 = distance2To = equirectangularTo  # for backward compatibility
+    '''DEPRECATED, use method L{equirectangularTo}.'''
 
-    def distance3To(self, other, radius=R_M, wrap=False):
+    def euclideanTo(self, other, radius=R_M, adjust=False, wrap=False):
+        '''Approximate the distance between this and an other geohash
+           using the L{euclidean} function.
+
+           @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
+           @kwarg radius: Mean earth radius, ellipsoid or datum
+                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                          L{Datum} or L{a_f2Tuple}).
+           @kwarg adjust: Adjust the wrapped, unrolled longitudinal
+                          delta by the cosine of the mean latitude
+                          C{bool}).
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+           @return: Distance (C{meter}, same units as I{radius} or the
+                    ellipsoid or datum axes).
+
+           @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
+                             or C{str} or invalid B{C{radius}}.
+        '''
+        return self._distanceTo(euclidean, other, radius=radius,
+                                           adjust=adjust, wrap=wrap)
+
+    def haversineTo(self, other, radius=R_M, wrap=False):
         '''Compute the distance between this and an other geohash using
            the L{haversine} formula.
 
            @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg radius: Mean earth radius, ellipsoid or datum
+                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                          L{Datum} or L{a_f2Tuple}).
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Great-circle distance (C{meter}, same units as I{radius}).
+           @return: Distance (C{meter}, same units as I{radius} or the
+                    ellipsoid or datum axes).
 
            @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
-                             or C{str}.
-
-           @raise UnitError: Invalid B{C{radius}}.
+                             or C{str} or invalid B{C{radius}}.
         '''
-        other = _2Geohash(other)
+        return self._distanceTo(haversine, other, radius=radius, wrap=wrap)
 
-        lls = self.latlon + other.latlon
-        return haversine(*lls, radius=radius, wrap=wrap)
+    distance3 = distance3To = haversineTo  # for backward compatibility
+    '''DEPRECATED, use method L{haversineTo}.'''
 
-    distance3 = distance3To  # for backward compatibility
-    '''DEPRECATED, use method L{distance3To}.'''
-
-    @property_RO
+    @Property_RO
     def latlon(self):
         '''Get the lat- and longitude of (the approximate center of)
            this geohash as a L{LatLon2Tuple}C{(lat, lon)} in C{degrees}.
@@ -310,46 +352,44 @@ class Geohash(Str):
            >>> geohash.decode('geek')  # '65.48', '-17.75'
         '''
         # B{Example:} not @example: since that causes Epydoc error
-        if not self._latlon:
-            lat, lon = _2center(self.bounds())
-            self._latlon = LatLon2Tuple(lat, lon)
-        return self._latlon
+        lat, lon = self._latlon or _2center(self.bounds())
+        return LatLon2Tuple(lat, lon, name=self.name)
 
-    @property_RO
+    @Property_RO
     def neighbors(self):
         '''Get all 8 adjacent cells as a L{Neighbors8Dict}C{(N, NE,
            E, SE, S, SW, W, NW)} of L{Geohash}es.
 
            B{JSname:} I{neighbours}.
         '''
-        r = Neighbors8Dict(N=self.N, NE=self.NE, E=self.E, SE=self.SE,
-                           S=self.S, SW=self.SW, W=self.W, NW=self.NW)
-        return self._xnamed(r)
+        return Neighbors8Dict(N=self.N, NE=self.NE, E=self.E, SE=self.SE,
+                              S=self.S, SW=self.SW, W=self.W, NW=self.NW,
+                              name=self.name)
 
-    @property_RO
+    @Property_RO
     def philam(self):
         '''Get the lat- and longitude of (the approximate center of)
            this geohash as a L{PhiLam2Tuple}C{(phi, lam)} in C{radians}.
         '''
-        return PhiLam2Tuple(*map2(radians, self.latlon))
+        return PhiLam2Tuple(*map2(radians, self.latlon), name=self.name)
 
     ab = philam  # for backward compatibility
     '''DEPRECATED, use property L{philam}.'''
 
-    @property_RO
+    @Property_RO
     def precision(self):
         '''Get this geohash's precision (C{int}).
         '''
         return len(self)
 
-    @property_RO
+    @Property_RO
     def sizes(self):
         '''Get the lat- and longitudinal size of this cell as
-           a L{LatLon2Tuple}C{(lat, lon)} with the latitudinal
-           height and longitudinal width in (C{meter}).
+           a L{LatLon2Tuple}C{(lat, lon)} in (C{meter}).
         '''
-        n = min(len(_Sizes) - 1, self.precision or 1)
-        return LatLon2Tuple(*_Sizes[n][:2])  # XXX Height, Width
+        z = _GH.Sizes
+        n =  min(len(z) - 1, max(self.precision, 1))
+        return LatLon2Tuple(*z[n][:2], name=self.name)  # XXX Height, Width?
 
     def toLatLon(self, LatLon=None, **LatLon_kwds):
         '''Return (the approximate center of) this geohash cell
@@ -370,62 +410,74 @@ class Geohash(Str):
            >>> print(repr(ll))  # LatLon(52°12′17.9″N, 000°07′07.64″E)
            >>> print(ll)  # 52.204971°N, 000.11879°E
         '''
-        r = self.latlon
-        if LatLon:
-            r = LatLon(*r, **LatLon_kwds)
-        return self._xnamed(r)
+        if LatLon is None:
+            r = self.latlon
+        else:
+            kwds = _xkwds(LatLon_kwds, name=self.name)
+            r = LatLon(*self.latlon, **kwds)
+        return r
 
-    @property_RO
+    def vincentysTo(self, other, radius=R_M, wrap=False):
+        '''Compute the distance between this and an other geohash using
+           the L{vincentys} formula.
+
+           @arg other: The other geohash (L{Geohash}, C{LatLon} or C{str}).
+           @kwarg radius: Mean earth radius, ellipsoid or datum
+                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                          L{Datum} or L{a_f2Tuple}).
+           @kwarg wrap: Wrap and unroll longitudes (C{bool}).
+
+           @return: Distance (C{meter}, same units as I{radius} or the
+                    ellipsoid or datum axes).
+
+           @raise TypeError: The I{other} is not a L{Geohash}, C{LatLon}
+                             or C{str} or invalid B{C{radius}}.
+        '''
+        return self._distanceTo(vincentys, other, radius=radius, wrap=wrap)
+
+    @Property_RO
     def N(self):
         '''Get the cell North of this (L{Geohash}).
         '''
-        if self._N is None:
-            self._N = self.adjacent(_N_)
-        return self._N
+        return self.adjacent(_N_)
 
-    @property_RO
+    @Property_RO
     def S(self):
         '''Get the cell South of this (L{Geohash}).
         '''
-        if self._S is None:
-            self._S = self.adjacent(_S_)
-        return self._S
+        return self.adjacent(_S_)
 
-    @property_RO
+    @Property_RO
     def E(self):
         '''Get the cell East of this (L{Geohash}).
         '''
-        if self._E is None:
-            self._E = self.adjacent(_E_)
-        return self._E
+        return self.adjacent(_E_)
 
-    @property_RO
+    @Property_RO
     def W(self):
         '''Get the cell West of this (L{Geohash}).
         '''
-        if self._W is None:
-            self._W = self.adjacent(_W_)
-        return self._W
+        return self.adjacent(_W_)
 
-    @property_RO
+    @Property_RO
     def NE(self):
         '''Get the cell NorthEast of this (L{Geohash}).
         '''
         return self.N.E
 
-    @property_RO
+    @Property_RO
     def NW(self):
         '''Get the cell NorthWest of this (L{Geohash}).
         '''
         return self.N.W
 
-    @property_RO
+    @Property_RO
     def SE(self):
         '''Get the cell SouthEast of this (L{Geohash}).
         '''
         return self.S.E
 
-    @property_RO
+    @Property_RO
     def SW(self):
         '''Get the cell SouthWest of this (L{Geohash}).
         '''
@@ -482,11 +534,11 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
     if len(gh) < 1:
         raise GeohashError(geohash=geohash)
 
-    s, w, n, e = _Bounds4
+    s, w, n, e = _GH.Bounds4
     try:
         d = True
         for c in gh.lower():
-            i = _DecodedBase32[c]
+            i = _GH.DecodedBase32[c]
             for m in (16, 8, 4, 2, 1):
                 if d:  # longitude
                     if i & m:
@@ -502,7 +554,8 @@ def bounds(geohash, LatLon=None, **LatLon_kwds):
     except KeyError:
         raise GeohashError(geohash=geohash)
 
-    return _2bounds(LatLon, LatLon_kwds, s, w, n, e)
+    return _2bounds(LatLon, LatLon_kwds, s, w, n, e,
+                                   name=nameof(geohash))
 
 
 def _bounds3(geohash):
@@ -690,7 +743,7 @@ def encode(lat, lon, precision=None):
 
     b = i = 0
     d, gh = True, []
-    s, w, n, e = _Bounds4
+    s, w, n, e = _GH.Bounds4
 
     while p > 0:
         i += i
@@ -714,7 +767,7 @@ def encode(lat, lon, precision=None):
         if b == 5:
             # 5 bits gives a character:
             # append it and start over
-            gh.append(_GeohashBase32[i])
+            gh.append(_GH.GeohashBase32[i])
             b  = i = 0
             p -= 1
 

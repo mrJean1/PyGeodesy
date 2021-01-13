@@ -207,7 +207,7 @@
         <tr>
           <td><span class="summary-sig"><a name="bounds"></a><span class="summary-sig-name">bounds</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">wide</span>,
-        <span class="summary-sig-arg">high</span>,
+        <span class="summary-sig-arg">tall</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
       DEPRECATED, use method <code>boundsOf</code>.</td>
           <td align="right" valign="top">
@@ -227,7 +227,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#boundsOf" class="summary-sig-name">boundsOf</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">wide</span>,
-        <span class="summary-sig-arg">high</span>,
+        <span class="summary-sig-arg">tall</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>)</span><br />
       Return the SE and NW lat-/longitude of a great circle bounding box 
       centered at this location.</td>
@@ -267,7 +267,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="compassAngle"></a><span class="summary-sig-name">compassAngle</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
+        <span class="summary-sig-arg">other</span>,
+        <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       DEPRECATED, use method <code>compassAngleTo</code>.</td>
           <td align="right" valign="top">
             
@@ -376,7 +378,9 @@
           <td><span class="summary-sig"><a name="equals"></a><span class="summary-sig-name">equals</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
-      DEPRECATED, use method <code>isequalTo</code>.</td>
+      DEPRECATED, use method <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo" 
+      class="link">isequalTo</a>.</td>
           <td align="right" valign="top">
             
             
@@ -395,7 +399,9 @@
           <td><span class="summary-sig"><a name="equals3"></a><span class="summary-sig-name">equals3</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
-      DEPRECATED, use method <code>isequalTo3</code>.</td>
+      DEPRECATED, use method <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#isequalTo3" 
+      class="link">isequalTo3</a>.</td>
           <td align="right" valign="top">
             
             
@@ -568,7 +574,9 @@
           <td><span class="summary-sig"><a name="isantipode"></a><span class="summary-sig-name">isantipode</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>)</span><br />
-      DEPRECATED, use method <code>isantipodeTo</code>.</td>
+      DEPRECATED, use method <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#isantipodeTo" 
+      class="link">isantipodeTo</a>.</td>
           <td align="right" valign="top">
             
             
@@ -663,7 +671,9 @@
         <tr>
           <td><span class="summary-sig"><a name="latlon2round"></a><span class="summary-sig-name">latlon2round</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
-      DEPRECATED, use method <code>latlon2</code>.</td>
+      DEPRECATED, use method <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2" 
+      class="link">latlon2</a>.</td>
           <td align="right" valign="top">
             
             
@@ -681,7 +691,9 @@
         <tr>
           <td><span class="summary-sig"><a name="latlon_"></a><span class="summary-sig-name">latlon_</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">ndigits</span>=<span class="summary-sig-default">0</span>)</span><br />
-      DEPRECATED, use method <code>latlon2</code>.</td>
+      DEPRECATED, use method <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#latlon2" 
+      class="link">latlon2</a>.</td>
           <td align="right" valign="top">
             
             
@@ -719,7 +731,9 @@
           <td><span class="summary-sig"><a name="points"></a><span class="summary-sig-name">points</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">True</span>)</span><br />
-      DEPRECATED, use method <code>points2</code>.</td>
+      DEPRECATED, use method <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#points2" 
+      class="link">points2</a>.</td>
           <td align="right" valign="top">
             
             
@@ -775,8 +789,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      DEPRECATED, use property <code>philam</code>.</td>
+          <td><span class="summary-sig"><a name="to2ab"></a><span class="summary-sig-name">to2ab</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      DEPRECATED, use property <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#philam" 
+      class="link">philam</a>.</td>
           <td align="right" valign="top">
             
             
@@ -792,10 +808,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3llh" class="summary-sig-name">to3llh</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a name="to3llh"></a><span class="summary-sig-name">to3llh</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      DEPRECATED, use property <code>latlonheight</code> or 
-      <code>latlon.to3Tuple</code><code>(</code><b><code>height</code></b><code>)</code>.</td>
+      DEPRECATED, use property <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#latlonheight" 
+      class="link">latlonheight</a> or 
+      <code>latlon.to3Tuple(<b>height</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -811,10 +829,18 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#to3xyz" class="summary-sig-name">to3xyz</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      DEPRECATED, use method <code>toNvector</code>, <code>toVector</code>,
-      <code>toVector3d</code> or property <code>xyz</code> or perhaps 
-      (geocentric) <code>toEcef</code>.</td>
+          <td><span class="summary-sig"><a name="to3xyz"></a><span class="summary-sig-name">to3xyz</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      DEPRECATED, use property <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#xyz" 
+      class="link">xyz</a> or method <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#toNvector" 
+      class="link">toNvector</a>, <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#toVector" 
+      class="link">toVector</a>, <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#toVector3d" 
+      class="link">toVector3d</a> or perhaps (geocentric) <a 
+      href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef" 
+      class="link">toEcef</a>.</td>
           <td align="right" valign="top">
             
             
@@ -977,6 +1003,7 @@
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -1067,7 +1094,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.latlonBase.LatLonBase-class.html#latlon" class="summary-name">latlon</a><br />
-      Property to get and set the lat- and longitude, optionally height.
+      Get the lat- and longitude (<a 
+      href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
     </td>
   </tr>
 <tr>
@@ -1258,8 +1287,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>height</code></strong> - Optional height of the antipode, height of this point otherwise 
-          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional height of the antipode (<code>meter</code>), this 
+          point's height otherwise.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The antipodal point (<code>LatLon</code>).</dd>
@@ -1275,7 +1304,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">boundsOf</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">wide</span>,
-        <span class="sig-arg">high</span>,
+        <span class="sig-arg">tall</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1291,7 +1320,7 @@
         <li><strong class="pname"><code>wide</code></strong> - Longitudinal box width (<code>meter</code>, same units as 
           <b><code>radius</code></b> or <code>degrees</code> if 
           <b><code>radius</code></b> is <code>None</code>).</li>
-        <li><strong class="pname"><code>high</code></strong> - Latitudinal box height (<code>meter</code>, same units as 
+        <li><strong class="pname"><code>tall</code></strong> - Latitudinal box size (<code>meter</code>, same units as 
           <b><code>radius</code></b> or <code>degrees</code> if 
           <b><code>radius</code></b> is <code>None</code>).</li>
         <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
@@ -2160,77 +2189,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="to2ab"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">to2ab</span>&nbsp;(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, use property <code>philam</code>.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
-          class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="to3llh"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3llh</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">height</span>=<span class="sig-default">None</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, use property <code>latlonheight</code> or 
-  <code>latlon.to3Tuple</code><code>(</code><b><code>height</code></b><code>)</code>.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
-          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>.</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="to3xyz"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3xyz</span>&nbsp;(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, use method <code>toNvector</code>, <code>toVector</code>, 
-  <code>toVector3d</code> or property <code>xyz</code> or perhaps 
-  (geocentric) <code>toEcef</code>.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code>, see property
-          <code>xyz</code>.</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="toCartesian"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2602,9 +2560,7 @@ class="link">EcefKarney</a>).
   <code>None</code> if unknown).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isEllipsoidal(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this point is ellipsoidal (<code>bool</code> or 
-<code>None</code> if unknown).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2627,9 +2583,7 @@ class="link">EcefKarney</a>).
   <code>None</code> if unknown).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">isSpherical(<span class="summary-sig-arg">self</span>)</span>
-        - Check whether this point is spherical (<code>bool</code> or 
-<code>None</code> if unknown).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2651,8 +2605,7 @@ class="link">EcefKarney</a>).
   <p>Get the longitude (<b><code>radians</code></b>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">lam(<span class="summary-sig-arg">self</span>)</span>
-        - Get the longitude (<b><code>radians</code></b>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2691,18 +2644,19 @@ class="link">EcefKarney</a>).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">latlon</h3>
-  <p>Property to get and set the lat- and longitude, optionally height.</p>
+  <p>Get the lat- and longitude (<a 
+  href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a><code>(lat, lon)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat- and longitude (<a 
-href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">latlonh</span>)</span>
-        - Set the lat- and longitude and optionally the height.
+    <dd class="value"><span class="summary-sig">_fset(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -2718,10 +2672,7 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
   class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">latlonheight(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat-, longitude and height (<a 
-href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
-class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2763,8 +2714,7 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
   <p>Get the latitude (<b><code>radians</code></b>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">phi(<span class="summary-sig-arg">self</span>)</span>
-        - Get the latitude (<b><code>radians</code></b>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2788,10 +2738,7 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
   class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat- and longitude (<a 
-href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
-class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2815,10 +2762,7 @@ class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
   class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">philamheight(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat-, longitude in <code>radians</code> and height (<a 
-href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
-class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2842,10 +2786,7 @@ class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
   class="link">Vector3Tuple</a><code>(x, y, z)</code>)</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>n-vector</code> X, Y and Z components (<a 
-href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-class="link">Vector3Tuple</a><code>(x, y, z)</code>)
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2873,10 +2814,7 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>)
   class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">xyzh(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>n-vector</code> X, Y, Z and H components (<a 
-href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
-class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -2925,7 +2863,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan  9 11:32:50 2021
+    Generated by Epydoc 3.0.1 on Tue Jan 12 21:09:48 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

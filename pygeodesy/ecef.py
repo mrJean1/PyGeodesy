@@ -75,7 +75,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.01.08'
+__version__ = '21.01.10'
 
 _prolate_  = 'prolate'
 _singular_ = 'singular'
@@ -130,6 +130,8 @@ class _EcefBase(_NamedBase):
     def __init__(self, a_ellipsoid, f, name):
         '''(INTERNAL) New C{Ecef...}.
         '''
+        if name:
+            self.name = name
         try:
             E = a_ellipsoid
             if f is None:
@@ -150,8 +152,6 @@ class _EcefBase(_NamedBase):
 
         self._datum = d
         self._E = E
-        if name:
-            self.name = name
 
     @Property_RO
     def equatoradius(self):
@@ -544,8 +544,11 @@ class EcefCartesian(_NamedBase):
         _update_all(self)
 
         lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, suffix=_0_)
-        if name or n:
-            self.ecef.name = self.name = name or n
+        if name:
+            n = name
+        if n:
+            self.rename(n)
+            self.ecef.rename(n)
         self._t0 = self.ecef.forward(lat0, lon0, height0, M=True)
 
     def reverse(self, xyz, y=None, z=None, M=False):
@@ -730,25 +733,6 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
     _Names_ = (_x_,   _y_,   _z_,   _lat_, _lon_, _height_, _C_,  _M_,   _datum_)
     _Units_ = ( Meter, Meter, Meter, Lat,   Lon,   Height,   Int, _Pass, _Pass)
 
-    def convertDatum(self, datum2):
-        '''Convert this C{Ecef9Tuple} to an other datum.
-
-           @arg datum2: Datum to convert I{to} (L{Datum}).
-
-           @return: The converted 9-Tuple (C{Ecef9Tuple}).
-
-           @raise TypeError: The B{C{datum2}} is not a L{Datum}.
-        '''
-        if self.datum in (None, datum2):  # PYCHOK _Names_
-            r = self.copy()
-        else:
-            from pygeodesy.cartesianBase import CartesianBase
-            c = CartesianBase(self, datum=self.datum)  # PYCHOK _Names_
-            # c.toLatLon converts datum, x, y, z, lat, lon, etc.
-            # and returns another Ecef9Tuple iff LatLon is None
-            r = c.toLatLon(datum=datum2, LatLon=None)
-        return self._xnamed(r)
-
     @Property_RO
     def lam(self):
         '''Get the longitude in C{radians} (C{float}).
@@ -842,6 +826,27 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
         _xsubclassof(CartesianBase, Cartesian=Cartesian)
         r = Cartesian(self, **Cartesian_kwds)
         return self._xnamed(r)
+
+    def toDatum(self, datum2):
+        '''Convert this C{Ecef9Tuple} to an other datum.
+
+           @arg datum2: Datum to convert I{to} (L{Datum}).
+
+           @return: The converted 9-Tuple (C{Ecef9Tuple}).
+
+           @raise TypeError: The B{C{datum2}} is not a L{Datum}.
+        '''
+        if self.datum in (None, datum2):  # PYCHOK _Names_
+            r = self.copy()
+        else:
+            from pygeodesy.cartesianBase import CartesianBase
+            c = CartesianBase(self, datum=self.datum)  # PYCHOK _Names_
+            # c.toLatLon converts datum, x, y, z, lat, lon, etc.
+            # and returns another Ecef9Tuple iff LatLon is None
+            r = c.toLatLon(datum=datum2, LatLon=None)
+        return self._xnamed(r)
+
+    convertDatum = toDatum  # for backward compatibility
 
     def toLatLon(self, LatLon=None, **LatLon_height_datum_kwds):
         '''Return the geodetic C{(lat, lon, height[, datum])} coordinates.

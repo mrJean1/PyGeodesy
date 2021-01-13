@@ -17,7 +17,7 @@ from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, \
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '21.01.02'
+__version__ = '21.01.11'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
@@ -457,7 +457,11 @@ def _xattrs(insto, other, *attrs):
     def _getattr(o, a):
         if hasattr(o, a):
             return getattr(o, a)
-        raise _AttributeError(Fmt.DOT(a), o)
+        try:
+            n = o._DOT_(a)
+        except AttributeError:
+            n = Fmt.DOT(a)
+        raise _AttributeError(o, name=n)
 
     for a in attrs:
         s = _getattr(other, a)

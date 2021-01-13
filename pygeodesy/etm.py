@@ -80,13 +80,13 @@ from pygeodesy.streprs import pairs, unstr
 from pygeodesy.units import Degrees, Easting, Lat,Lon, Northing, \
                             Scalar, Scalar_
 from pygeodesy.utily import atand, atan2d, sincos2
-from pygeodesy.utm import _cmlon, _K0, _LLEB, _parseUTM5, Utm, \
-                           UTMError, _toXtm8, _to7zBlldfn
+from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
+                           Utm, UTMError, _toXtm8, _to7zBlldfn
 
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -175,8 +175,8 @@ class Etm(Utm):
         _xinstanceof(ExactTransverseMercator, exactTM=exactTM)
 
         E = self.datum.ellipsoid
-        if exactTM._E != E or exactTM.majoradius != E.a \
-                           or exactTM.flattening != E.f:
+        if exactTM._E != E or exactTM.equatoradius != E.a \
+                           or exactTM.flattening   != E.f:
             raise ETMError(repr(exactTM), txt=_incompatible(repr(E)))
         self._exactTM = exactTM
         self._scale0  = exactTM.k0
@@ -262,7 +262,7 @@ class Etm(Utm):
 
            @return: The UTM coordinate (L{Utm}).
         '''
-        return self._xnamed(self._xcopy2(Utm))
+        return self._xcopy2(Utm)
 
 
 class ExactTransverseMercator(_NamedBase):
@@ -308,7 +308,7 @@ class ExactTransverseMercator(_NamedBase):
 #   _Ev_cKE_3_4 = _Ev.cKE * 0.75
 #   _Ev_cKE_5_4 = _Ev.cKE * 1.25
 
-    def __init__(self, datum=Datums.WGS84, lon0=0, k0=_K0, extendp=True, name=NN):
+    def __init__(self, datum=Datums.WGS84, lon0=0, k0=_K0_UTM, extendp=True, name=NN):
         '''New L{ExactTransverseMercator} projection.
 
            @kwarg datum: The datum, ellipsoid to use (L{Datum},
@@ -497,6 +497,7 @@ class ExactTransverseMercator(_NamedBase):
 
            @raise EllipticError: No convergence.
         '''
+        # _update_all(self)
         e, e2 = E.e, E.e2
         # assert e2 == e**2 != _0_0
 
@@ -962,7 +963,7 @@ def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=NN):
        @example:
 
        >>> u = parseETM5('31 N 448251 5411932')
-       >>> u.toStr2()  # [Z:31, H:N, E:448251, N:5411932]
+       >>> u.toRepr()  # [Z:31, H:N, E:448251, N:5411932]
        >>> u = parseETM5('31 N 448251.8 5411932.7')
        >>> u.toStr()  # 31 N 448252 5411933
     '''

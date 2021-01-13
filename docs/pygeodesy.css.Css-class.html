@@ -154,29 +154,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.css.Css-class.html#toStr2" class="summary-sig-name">toStr2</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'[%s]'</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
-        <span class="summary-sig-arg">m</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>,
-        <span class="summary-sig-arg">C</span>=<span class="summary-sig-default">False</span>)</span><br />
-      DEPRECATED, used method <a href="pygeodesy.css.Css-class.html#toRepr"
-      class="link">Css.toRepr</a>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.css.Css-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">6</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">' '</span>,
@@ -203,7 +180,9 @@
       <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
@@ -478,45 +457,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="toStr2"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr2</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">6</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default">'[%s]'</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>,
-        <span class="sig-arg">m</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">m</code><code class="variable-quote">'</code></span>,
-        <span class="sig-arg">C</span>=<span class="sig-default">False</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, used method <a href="pygeodesy.css.Css-class.html#toRepr" 
-  class="link">Css.toRepr</a>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional, enclosing backets format (<code>str</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between name:values (<code>str</code>).</li>
-        <li><strong class="pname"><code>m</code></strong> - Optional unit of the height, default meter (<code>str</code>).</li>
-        <li><strong class="pname"><code>C</code></strong> - Optionally, include name of projection (<code>bool</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>This position as <code>&quot;[E:meter, N:meter, H:m, name:'', 
-          C:Conic.Datum]&quot;</code> (<code>str</code>).</dd>
-    <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
 <a name="toStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -582,8 +522,7 @@
   <p>Get the azimuth of easting direction (<code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">azi(<span class="summary-sig-arg">self</span>)</span>
-        - Get the azimuth of easting direction (<code>degrees</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -605,8 +544,7 @@
   <p>Get the azimuth of easting direction (<code>degrees</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">azi(<span class="summary-sig-arg">self</span>)</span>
-        - Get the azimuth of easting direction (<code>degrees</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -629,9 +567,7 @@
   class="link">CassiniSoldner</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">cs0(<span class="summary-sig-arg">self</span>)</span>
-        - Get the projection (<a href="pygeodesy.css.CassiniSoldner-class.html" 
-class="link">CassiniSoldner</a>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -701,10 +637,7 @@ class="link">CassiniSoldner</a>).
   class="link">LatLon2Tuple</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat- and longitude (<a 
-href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-class="link">LatLon2Tuple</a>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -751,10 +684,7 @@ class="link">LatLon2Tuple</a>).
   class="link">LatLonAziRk4Tuple</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">reverse4(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat, lon, azimuth and reciprocal (<a 
-href="pygeodesy.css.LatLonAziRk4Tuple-class.html" 
-class="link">LatLonAziRk4Tuple</a>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -777,8 +707,7 @@ class="link">LatLonAziRk4Tuple</a>).
   (<code>scalar</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">rk(<span class="summary-sig-arg">self</span>)</span>
-        - Get the reciprocal of azimuthal northing scale (<code>scalar</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -801,8 +730,7 @@ class="link">LatLonAziRk4Tuple</a>).
   (<code>scalar</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">rk(<span class="summary-sig-arg">self</span>)</span>
-        - Get the reciprocal of azimuthal northing scale (<code>scalar</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -847,7 +775,7 @@ class="link">LatLonAziRk4Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan  9 11:32:46 2021
+    Generated by Epydoc 3.0.1 on Tue Jan 12 21:09:44 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

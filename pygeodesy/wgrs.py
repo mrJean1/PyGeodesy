@@ -13,15 +13,14 @@ also U{World Geographic Reference System
 
 from pygeodesy.basics import isstr
 from pygeodesy.dms import parse3llh  # parseDMS2
-from pygeodesy.errors import _ValueError
-from pygeodesy.interns import EPS1_2, MISSING, NN, _AtoZnoIO_, \
-                             _float, _height_, _radius_, _SPACE_, \
-                             _0to9_, _0_5, _0_001, _1_0, _2_0, \
-                             _60_0, _90_0
+from pygeodesy.errors import _ValueError, _xkwds
+from pygeodesy.interns import EPS1_2, NN, _AtoZnoIO_, _float, \
+                             _height_, _radius_, _SPACE_, _0to9_, \
+                             _0_5, _0_001, _1_0, _2_0, _60_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import Fmt, _0wd
 from pygeodesy.units import Height, Int, Lat, Lon, Precision_, \
                             Radius, Scalar_, Str, _xStrError
@@ -30,7 +29,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 _1000_0  = _float(1000)
 _Base    =  10
@@ -107,11 +106,6 @@ class WGRSError(_ValueError):
 class Georef(Str):
     '''Georef class, a named C{str}.
     '''
-    _height    = MISSING  # meter
-    _latlon    = None     # cached latlon property
-    _precision = None
-    _radius    = MISSING  # meter
-
     # no str.__init__ in Python 3
     def __new__(cls, cll, precision=3, name=NN):
         '''New L{Georef} from an other L{Georef} instance or georef
@@ -132,25 +126,18 @@ class Georef(Str):
 
            @raise WGRSError: INValid or non-alphanumeric B{C{cll}}.
         '''
-        h = None
+        ll = p = None
 
         if isinstance(cll, Georef):
             g, p = _2geostr2(str(cll))
-            self = Str.__new__(cls, g)
-            self._latlon = LatLon2Tuple(*cll._latlon)
-            self._precision = p  # cll._precision
-            if cll._name:
-                self._name = cll._name
 
         elif isstr(cll):
             if ',' in cll:
                 lat, lon, h = _2fllh(*parse3llh(cll, height=None))
-                g = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
-                self = Str.__new__(cls, g)
-                self._latlon = LatLon2Tuple(lat, lon)
+                g  = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
+                ll = lat, lon  # original lat, lon
             else:
-                self = Str.__new__(cls, cll.upper())
-                self._decode()
+                g = cll.upper()
 
         else:  # assume LatLon
             try:
@@ -158,62 +145,66 @@ class Georef(Str):
                 h = getattr(cll, _height_, h)
             except AttributeError:
                 raise _xStrError(Georef, cll=cll)  # Error=WGRSError
-            g = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
-            self = Str.__new__(cls, g)
-            self._latlon = LatLon2Tuple(lat, lon)
+            g  = encode(lat, lon, precision=precision, height=h)  # PYCHOK false
+            ll = lat, lon  # original lat, lon
 
-        if h not in (None, MISSING):
-            self._height = Height(h)
-        if self._precision is None:
-            self._precision = _2Precision(precision)
-
-        if name:
-            self.name = name
+        self = Str.__new__(cls, g, name=name or nameof(cll))
+        self._latlon    = ll
+        self._precision = p
         return self
 
-    def _decode(self):
-        # cache all decoded attrs
-        lat, lon, p, h, r = decode5(self)  # PYCHOK LatLonPrec5Tuple
-        if self._latlon is None:
-            self._latlon = LatLon2Tuple(lat, lon)
-        if self._precision is None:
-            self._precision = p
-        if self._height is MISSING:
-            self._height = h
-        if self._radius is MISSING:
-            self._radius = r
+    @Property_RO
+    def decoded3(self):
+        '''Get this georef's attributes (L{LatLonPrec3Tuple}).
+        '''
+        lat, lon = self.latlon
+        return LatLonPrec3Tuple(lat, lon, self.precision, name=self.name)
 
-    @property_RO
+    @Property_RO
+    def decoded5(self):
+        '''Get this georef's attributes (L{LatLonPrec5Tuple}) with
+           height and radius set to C{None} if missing.
+        '''
+        return self.decoded3.to5Tuple(self.height, self.radius)
+
+    @Property_RO
+    def _decoded5(self):
+        '''(INTERNAL) Initial L{LatLonPrec5Tuple}.
+        '''
+        return decode5(self)
+
+    @Property_RO
     def height(self):
         '''Get this georef's height in C{meter} or C{None} if missing.
         '''
-        if self._height is MISSING:
-            self._decode()
-        return self._height
+        return self._decoded5.height
 
-    @property_RO
+    @Property_RO
     def latlon(self):
         '''Get this georef's (center) lat- and longitude (L{LatLon2Tuple}).
         '''
-        if self._latlon is None:
-            self._decode()
-        return self._latlon
+        lat, lon = self._latlon or self._decoded5[:2]
+        return LatLon2Tuple(lat, lon, name=self.name)
 
-    @property_RO
+    @Property_RO
+    def latlonheight(self):
+        '''Get this georef's (center) lat-, longitude and height (L{LatLon3Tuple}),
+           with height set to C{0} if missing.
+        '''
+        return self.latlon.to3Tuple(self.height or 0)
+
+    @Property_RO
     def precision(self):
         '''Get this georef's precision (C{int}).
         '''
-        if self._precision is None:
-            self._decode()
-        return self._precision
+        p = self._precision
+        return self._decoded5.precision if p is None else p
 
-    @property_RO
+    @Property_RO
     def radius(self):
         '''Get this georef's radius in C{meter} or C{None} if missing.
         '''
-        if self._radius is MISSING:
-            self._decode()
-        return self._radius
+        return self._decoded5.radius
 
     def toLatLon(self, LatLon=None, height=None, **LatLon_kwds):
         '''Return (the center of) this georef cell as an instance
@@ -229,10 +220,13 @@ class Georef(Str):
 
            @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
         '''
-        h = (self.height or 0) if height is None else height
-        r = self.latlon.to3Tuple(h) if LatLon is None else \
-                 LatLon(*self.latlon, height=h, **LatLon_kwds)
-        return self._xnamed(r)
+        if LatLon is None:
+            r = self.latlonheight if height is None else \
+                self.latlon.to3Tuple(height)
+        else:
+            h = (self.height or 0) if height is None else height
+            r =  LatLon(*self.latlon, height=h, **_xkwds(LatLon_kwds, name=self.name))
+        return r
 
 
 def decode3(georef, center=True):

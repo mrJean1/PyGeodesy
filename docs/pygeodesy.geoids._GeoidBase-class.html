@@ -239,6 +239,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#loweright" class="summary-sig-name">loweright</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the lower-right location and height of this geoid.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#lowerright" class="summary-sig-name">lowerright</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>)</span><br />
       Return the lower-right location and height of this geoid.</td>
@@ -352,6 +370,7 @@
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toRepr">toRepr</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
       </p>
@@ -503,7 +522,7 @@
     </td><td class="summary">
         <a href="pygeodesy.geoids._GeoidBase-class.html#stdev" class="summary-name">stdev</a><br />
       Get the standard deviation of this geoid's heights 
-      (<code>float</code>).
+      (<code>float</code>) or <code>None</code>.
     </td>
   </tr>
   <tr>
@@ -803,6 +822,37 @@
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
           otherwise a <b><code>LatLon</code></b> instance with the lat-, 
           longitude and height of the lower-left, SW grid corner.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="loweright"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">loweright</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the lower-right location and height of this geoid.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the location and height 
+          (<code>LatLon</code>) or <code>None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>If <b><code>LatLon</code></b> is <code>None</code>, a <a 
+          href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
+          otherwise a <b><code>LatLon</code></b> instance with the lat-, 
+          longitude and height of the lower-right, SE grid corner.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1163,8 +1213,7 @@ target="_top">dtype</a> (<code>str</code>).
   <p>Get the mean of this geoid's heights (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">mean(<span class="summary-sig-arg">self</span>)</span>
-        - Get the mean of this geoid's heights (<code>float</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1348,11 +1397,10 @@ available/applicable).
 <tr><td>
   <h3 class="epydoc">stdev</h3>
   <p>Get the standard deviation of this geoid's heights 
-  (<code>float</code>).</p>
+  (<code>float</code>) or <code>None</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">stdev(<span class="summary-sig-arg">self</span>)</span>
-        - Get the standard deviation of this geoid's heights (<code>float</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1397,7 +1445,7 @@ available/applicable).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan  9 11:32:49 2021
+    Generated by Epydoc 3.0.1 on Tue Jan 12 21:09:47 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

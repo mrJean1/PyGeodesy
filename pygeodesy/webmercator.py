@@ -30,7 +30,7 @@ from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMASPACE_, \
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import Fmt, strs, _xzipairs
 from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, Phi_, \
                             Radius, Radius_
@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -63,11 +63,9 @@ class WebMercatorError(_ValueError):
 class Wm(_NamedBase):
     '''Web Mercator (WM) coordinate.
     '''
-    _latlon = None  # cached (L{LatLon2Tuple})
-    _philam = None  # cached (L{PhiLam2Tuple})
-    _radius = 0     # earth radius (C{meter})
-    _x      = 0     # Easting (C{meter})
-    _y      = 0     # Northing (C{meter})
+    _radius = 0  # earth radius (C{meter})
+    _x      = 0  # Easting (C{meter})
+    _y      = 0  # Northing (C{meter})
 
     def __init__(self, x, y, radius=R_MA, name=NN):
         '''New L{Wm} Web Mercator (WM) coordinate.
@@ -91,13 +89,11 @@ class Wm(_NamedBase):
         if name:
             self.name = name
 
-    @property_RO
+    @Property_RO
     def latlon(self):
         '''Get the lat- and longitude (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        if self._latlon is None:
-            self._latlon = self.latlon2()
-        return self._xnamed(self._latlon)
+        return self.latlon2()
 
     def latlon2(self, datum=None):
         '''Convert this WM coordinate to a lat- and longitude.
@@ -127,8 +123,8 @@ class Wm(_NamedBase):
             y *= E.a
             x *= E.a / r
 
-        r = LatLon2Tuple(Lat(degrees90(y)), Lon(degrees180(x)))
-        return self._xnamed(r)
+        return LatLon2Tuple(Lat(degrees90( y)),
+                            Lon(degrees180(x)), name=self.name)
 
     def parse(self, strWM, name=NN):
         '''Parse a string to a similar L{Wm} instance.
@@ -150,14 +146,12 @@ class Wm(_NamedBase):
         '''
         return self.parse(strWM, name=name)
 
-    @property_RO
+    @Property_RO
     def philam(self):
         '''Get the lat- and longitude ((L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        if self._philam is None:
-            r = self.latlon
-            self._philam = PhiLam2Tuple(Phi_(r.lat), Lam_(r.lon))
-        return self._xnamed(self._philam)
+        r = self.latlon
+        return PhiLam2Tuple(Phi_(r.lat), Lam_(r.lon), name=r.name)
 
     @property_RO
     def radius(self):
@@ -204,8 +198,7 @@ class Wm(_NamedBase):
             raise _TypeError(LatLon=LatLon, datum=datum)
 
         r = self.latlon2(datum=datum)
-        r = LatLon(r.lat, r.lon, **kwds)
-        return self._xnamed(r)
+        return LatLon(r.lat, r.lon, **_xkwds(kwds, name=r.name))
 
     def toRepr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_, radius=False, **unused):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
@@ -223,9 +216,6 @@ class Wm(_NamedBase):
         '''
         t = self.toStr(prec=prec, sep=None, radius=radius)
         return _xzipairs((_x_, _y_, _radius_), t, sep=sep, fmt=fmt)
-
-    toStr2 = toRepr  # PYCHOK for backward compatibility
-    '''DEPRECATED, use method L{Wm.toRepr}.'''
 
     def toStr(self, prec=3, sep=_SPACE_, radius=False, **unused):  # PYCHOK expected
         '''Return a string representation of this WM coordinate.
@@ -290,7 +280,7 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
        @example:
 
        >>> u = parseWM('448251 5411932')
-       >>> u.toStr2()  # [E:448251, N:5411932]
+       >>> u.toRepr()  # [E:448251, N:5411932]
     '''
     def _WM_(strWM, radius, Wm, name):
         w = strWM.replace(_COMMA_, _SPACE_).strip().split()

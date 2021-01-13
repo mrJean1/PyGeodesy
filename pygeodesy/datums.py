@@ -73,7 +73,7 @@ from pygeodesy.basics import isscalar, neg_, _xinstanceof
 from pygeodesy.ellipsoids import a_f2Tuple, _4Ecef, Ellipsoid, \
                                  Ellipsoid2, Ellipsoids
 from pygeodesy.errors import _IsnotError
-from pygeodesy.fmath import fdot
+from pygeodesy.fmath import fdot, fmean
 from pygeodesy.interns import NN, _Airy1830_, _AiryModified_, _Bessel1841_, \
                              _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, \
                              _DOT_, _ellipsoid_, _ellipsoidal_, _float as _F, \
@@ -92,7 +92,7 @@ from pygeodesy.units import Radius_
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.01.08'
+__version__ = '21.01.12'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -398,63 +398,78 @@ class Datum(_NamedEnumItem):
         return self._transform
 
 
-def _En2(arg, name):
-    '''(INTERNAL) Helper for C{_ellipsoid} amd C{_ellipsoidal_datum}.
+def _En2(earth, name):
+    '''(INTERNAL) Helper for C{_ellipsoid} and C{_ellipsoidal_datum}.
     '''
-    if isinstance(arg, (Ellipsoid, Ellipsoid2)):
-        E = arg
+    if isinstance(earth, (Ellipsoid, Ellipsoid2)):
+        E = earth
         n = NN(_UNDER_, name or E.name)
-    elif isinstance(arg, Datum):
-        E = arg.ellipsoid
-        n = NN(_UNDER_, name or arg.name)
-    elif isinstance(arg, a_f2Tuple):
-        n = NN(_UNDER_, name or arg.name)
-        E = Ellipsoid(arg.a, arg.b, name=n)
-    elif isinstance(arg, (tuple, list)) and len(arg) == 2:
-        n = NN(_UNDER_, name or getattr(arg, _name_, NN))
-        a_f = a_f2Tuple(*arg)
+    elif isinstance(earth, Datum):
+        E = earth.ellipsoid
+        n = NN(_UNDER_, name or earth.name)
+    elif isinstance(earth, a_f2Tuple):
+        n = NN(_UNDER_, name or earth.name)
+        E = Ellipsoid(earth.a, earth.b, name=n)
+    elif isinstance(earth, (tuple, list)) and len(earth) == 2:  # no cover
+        n = NN(_UNDER_, name or getattr(earth, _name_, NN))
+        a_f = a_f2Tuple(*earth)
         E = Ellipsoid(a_f.a, a_f.b, name=n)  # PYCHOK .a
     else:
         E, n = None, NN
     return E, n
 
 
-def _ellipsoid(ellipsoid, name=NN):  # in .trf
+def _ellipsoid(earth, name=NN):  # in .trf
     '''(INTERNAL) Create an L{Ellipsoid} or L{Ellipsoid2} from L{datum} or C{a_f2Tuple}.
     '''
-    E, _ = _En2(ellipsoid, name)
+    E, _ = _En2(earth, name)
     if not E:
-        _xinstanceof(Ellipsoid, Ellipsoid2, a_f2Tuple, Datum, ellipsoid=ellipsoid)
+        _xinstanceof(Ellipsoid, Ellipsoid2, a_f2Tuple, Datum, earth=earth)
     return E
 
 
-def _ellipsoidal_datum(a_f, name=NN, raiser=False):
+def _ellipsoidal_datum(earth, name=NN, raiser=False):
     '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid} or L{Ellipsoid2} or C{a_f2Tuple}.
     '''
-    if isinstance(a_f, Datum):
-        d = a_f
+    if isinstance(earth, Datum):
+        d = earth
     else:
-        E, n = _En2(a_f, name)
+        E, n = _En2(earth, name)
         if not E:
-            _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, datum=a_f)
+            _xinstanceof(Datum, Ellipsoid, Ellipsoid2, a_f2Tuple, earth=earth)
         d = Datum(E, transform=Transforms.Identity, name=n)
     if raiser and not d.isEllipsoidal:
-        raise _IsnotError(_ellipsoidal_, datum=a_f)
+        raise _IsnotError(_ellipsoidal_, earth=earth)
     return d
 
 
-def _spherical_datum(radius, name=NN, raiser=False):
-    '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2} or scalar earth C{radius}.
+def _mean_radius(radius, *lats):
+    '''(INTERNAL) Compute the mean radius of a L{Datum} from an L{Ellipsoid},
+       L{Ellipsoid2} or scalar earth C{radius} for several latitudes.
     '''
     if isscalar(radius):
+        r =  Radius_(radius, low=0, Error=TypeError)
+    else:  # no cover
+        E = _ellipsoidal_datum(radius).ellipsoid
+        if lats:
+            r = fmean(map(E.Rgeocentric, lats))
+        else:
+            r = E.Rmean
+    return r
+
+
+def _spherical_datum(earth, name=NN, raiser=False):
+    '''(INTERNAL) Create a L{Datum} from an L{Ellipsoid}, L{Ellipsoid2} or scalar earth C{radius}.
+    '''
+    if isscalar(earth):
         n = NN(_UNDER_, name)
-        r = Radius_(radius, Error=TypeError)
+        r = Radius_(earth, Error=TypeError)
         E = Ellipsoid(r, r, name=n)
         d = Datum(E, transform=Transforms.Identity, name=n)
     else:
-        d = _ellipsoidal_datum(radius, name=name)
+        d = _ellipsoidal_datum(earth, name=name)
     if raiser and not d.isSpherical:
-        raise _IsnotError(_spherical_, datum=radius)
+        raise _IsnotError(_spherical_, earth=earth)
     return d
 
 

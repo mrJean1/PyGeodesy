@@ -27,7 +27,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '21.01.07'
+__version__ = '21.01.10'
 
 
 class CartesianBase(Vector3d):
@@ -85,40 +85,6 @@ class CartesianBase(Vector3d):
         '''
         xyz = transform.transform(self.x, self.y, self.z, inverse)
         return self._xnamed(self.classof(xyz, **datum))
-
-    def convertDatum(self, datum2, datum=None):
-        '''Convert this cartesian from one datum to an other.
-
-           @arg datum2: Datum to convert I{to} (L{Datum}).
-           @kwarg datum: Datum to convert I{from} (L{Datum}).
-
-           @return: The converted point (C{Cartesian}).
-
-           @raise TypeError: B{C{datum2}} or B{C{datum}}
-                             invalid.
-        '''
-        _xinstanceof(Datum, datum2=datum2)
-
-        if datum not in (None, self.datum):
-            c = self.convertDatum(datum)
-        else:
-            c = self
-
-        i, d = False, c.datum
-        if d == datum2:
-            return c.copy() if c is self else c
-
-        elif d == Datums.WGS84:
-            d = datum2  # convert from WGS84 to datum2
-
-        elif datum2 == Datums.WGS84:
-            i = True  # convert to WGS84 by inverse transform
-
-        else:  # neither datum2 nor c.datum is WGS84, invert to WGS84 first
-            c = c._applyHelmert(d.transform, True, datum=Datums.WGS84)
-            d = datum2
-
-        return c._applyHelmert(d.transform, i, datum=datum2)
 
     @property_doc_(''' this cartesian's datum (L{Datum}).''')
     def datum(self):
@@ -238,6 +204,42 @@ class CartesianBase(Vector3d):
 #           r = self._xnamed(r)
 #       return r
 
+    def toDatum(self, datum2, datum=None):
+        '''Convert this cartesian from one datum to an other.
+
+           @arg datum2: Datum to convert I{to} (L{Datum}).
+           @kwarg datum: Datum to convert I{from} (L{Datum}).
+
+           @return: The converted point (C{Cartesian}).
+
+           @raise TypeError: B{C{datum2}} or B{C{datum}}
+                             invalid.
+        '''
+        _xinstanceof(Datum, datum2=datum2)
+
+        if datum not in (None, self.datum):
+            c = self.toDatum(datum)
+        else:
+            c = self
+
+        i, d = False, c.datum
+        if d == datum2:
+            return c.copy() if c is self else c
+
+        elif d == Datums.WGS84:
+            d = datum2  # convert from WGS84 to datum2
+
+        elif datum2 == Datums.WGS84:
+            i = True  # convert to WGS84 by inverse transform
+
+        else:  # neither datum2 nor c.datum is WGS84, invert to WGS84 first
+            c = c._applyHelmert(d.transform, True, datum=Datums.WGS84)
+            d = datum2
+
+        return c._applyHelmert(d.transform, i, datum=datum2)
+
+    convertDatum = toDatum  # for backward compatibility
+
     def toEcef(self):
         '''Convert this cartesian to geodetic (lat-/longitude) coordinates.
 
@@ -251,7 +253,7 @@ class CartesianBase(Vector3d):
             self._e9t = self._xnamed(r)
         return self._e9t
 
-    def toLatLon(self, datum=None, LatLon=None, **LatLon_kwds):  # see .ecef.Ecef9Tuple.convertDatum
+    def toLatLon(self, datum=None, LatLon=None, **LatLon_kwds):  # see .ecef.Ecef9Tuple.toDatum
         '''Convert this cartesian to a geodetic (lat-/longitude) point.
 
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
@@ -272,7 +274,7 @@ class CartesianBase(Vector3d):
         if datum in (None, d):
             r = self.toEcef()
         else:
-            c = self.convertDatum(datum)
+            c = self.toDatum(datum)
             d = c.datum
             r = c.Ecef(d).reverse(c, M=True)
 
