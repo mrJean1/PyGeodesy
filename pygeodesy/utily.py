@@ -14,7 +14,7 @@ from __future__ import division
 
 from pygeodesy.basics import copysign, isint
 from pygeodesy.errors import _xkwds_get, _TypeError, _ValueError
-from pygeodesy.interns import EPS, INF, MISSING, PI, PI2, PI_2, R_M, \
+from pygeodesy.interns import EPS, EPS0, INF, MISSING, PI, PI2, PI_2, R_M, \
                              _0_0, _0_5, _1_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
@@ -22,7 +22,7 @@ from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.01.02'
+__version__ = '21.01.14'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
 _1_90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
@@ -406,7 +406,7 @@ def m2radians(distance, radius=R_M, lat=0):
        @see: Function L{m2degrees} and L{radians2m}.
     '''
     m = circle4(radius, lat).radius
-    return INF if m < EPS else (Float(distance) / m)
+    return INF if m < EPS0 else (Float(distance) / m)
 
 
 def m2SM(meter):
@@ -489,7 +489,7 @@ def radians2m(rad, radius=R_M, lat=0):
        @see: Function L{degrees2m} and L{m2radians}.
     '''
     m = circle4(radius, lat).radius
-    return _0_0 if m < EPS else (Lam(rad=rad, clip=0) * m)
+    return _0_0 if m < EPS0 else (Lam(rad=rad, clip=0) * m)
 
 
 def _sincos2(q, r):

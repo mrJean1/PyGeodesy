@@ -33,8 +33,8 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.interns import EPS, NN, PI_2, _COMMASPACE_, _ellipsoidal_, \
-                             _float as _F, _GRS80_, _k0_, _lat0_, _lon0_, \
-                             _m_, _NAD83_, _NTF_, _SPACE_, _WGS84_, \
+                             _EPS0__2, _float as _F, _GRS80_, _k0_, _lat0_, \
+                             _lon0_, _m_, _NAD83_, _NTF_, _SPACE_, _WGS84_, \
                              _0_0, _0_5, _1_0, _90_0
 from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
@@ -42,7 +42,7 @@ from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedBase, \
                             _NamedEnum, _NamedEnumItem, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor3Tuple, LatLonDatum3Tuple, \
                                   LatLon2Tuple, _LatLon4Tuple, PhiLam2Tuple
-from pygeodesy.props import Property_RO, property_RO, _update_all
+from pygeodesy.props import Property_RO, _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
@@ -50,7 +50,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.01.08'
+__version__ = '21.01.19'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -134,25 +134,25 @@ class Conic(_NamedEnumItem):
         if auth:
             self._auth = str(auth)
 
-    @property_RO
+    @Property_RO
     def auth(self):
         '''Get the authentication authority (C{str}).
         '''
         return self._auth
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
 
-    @property_RO
+    @Property_RO
     def E0(self):
         '''Get the false easting (C{meter}).
         '''
         return self._E0
 
-    @property_RO
+    @Property_RO
     def k0(self):
         '''Get scale factor (C{float}).
         '''
@@ -164,13 +164,13 @@ class Conic(_NamedEnumItem):
         '''
         return degrees90(self._phi0)
 
-    @property_RO
+    @Property_RO
     def latlon0(self):
         '''Get the central origin (L{LatLon2Tuple}C{(lat, lon)}).
         '''
         return self._xnamed(LatLon2Tuple(self.lat0, self.lon0))
 
-    @property_RO
+    @Property_RO
     def lam0(self):
         '''Get the central meridian (C{radians}).
         '''
@@ -182,7 +182,7 @@ class Conic(_NamedEnumItem):
         '''
         return degrees180(self._lam0)
 
-    @property_RO
+    @Property_RO
     def N0(self):
         '''Get the false northing (C{meter}).
         '''
@@ -212,19 +212,19 @@ class Conic(_NamedEnumItem):
         '''
         return degrees90(self._par2)
 
-    @property_RO
+    @Property_RO
     def phi0(self):
         '''Get the origin latitude (C{radians}).
         '''
         return self._phi0
 
-    @property_RO
+    @Property_RO
     def philam0(self):
         '''Get the central origin (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
         return self._xnamed(PhiLam2Tuple(self.phi0, self.lam0))
 
-    @property_RO
+    @Property_RO
     def SP(self):
         '''Get the number of standard parallels (C{int}).
         '''
@@ -330,8 +330,8 @@ class Conic(_NamedEnumItem):
         '''(INTERNAL) Compute m(a).
         '''
         s, c = sincos2(a)
-        s *= self._e
-        return c / sqrt(_1_0 - s**2)
+        s = _1_0 - (s * self._e)**2
+        return (c / sqrt(s)) if s > _EPS0__2 else _0_0
 
     def _pdef(self, a):
         '''(INTERNAL) Compute p(a).
@@ -403,9 +403,7 @@ class Lcc(_NamedBase):
     _conic    =  None  # Lambert projection (L{Conic})
     _easting  = _0_0   # Easting (C{float})
     _height   =  0     # height (C{meter})
-    _latlon   =  None  # latlon cache (L{LatLon2Tuple})
     _northing = _0_0   # Northing (C{float})
-    _philam   =  None  # philam cache (L{PhiLam2Tuple})
 
     def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, name=NN):
         '''New L{Lcc} Lamber conformal conic position.
@@ -436,47 +434,67 @@ class Lcc(_NamedBase):
         if name:
             self.name = name
 
-    @property_RO
+    @Property_RO
     def conic(self):
         '''Get the conic projection (L{Conic}).
         '''
         return self._conic
 
-    @property_RO
+    @Property_RO
     def easting(self):
         '''Get the easting (C{meter}).
         '''
         return self._easting
 
-    @property_RO
+    @Property_RO
     def height(self):
         '''Get the height (C{meter}).
         '''
         return self._height
 
-    @property_RO
+    @Property_RO
     def latlon(self):
         '''Get the lat- and longitude in C{degrees} (L{LatLon2Tuple}).
         '''
-        if self._latlon is None:
-            r = self.toLatLon(LatLon=None, datum=None)
-            self._latlon = LatLon2Tuple(r.lat, r.lon)
-        return self._xnamed(self._latlon)
+        ll = self.toLatLon(LatLon=None, datum=None)
+        return self._xnamed(LatLon2Tuple(ll.lat, ll.lon))
 
-    @property_RO
+    @Property_RO
+    def latlonheight(self):
+        '''Get the lat-, longitude and height (L{LatLon3Tuple}C{(lat, lon, height)}).
+        '''
+        return self.latlon.to3Tuple(self.height)
+
+    @Property_RO
+    def latlonheightdatum(self):
+        '''Get the lat-, longitude in C{degrees} with height and datum (L{LatLon4Tuple}C{(lat, lon, height, datum)}).
+        '''
+        return self.latlonheight.to4Tuple(self.datum)
+
+    @Property_RO
     def northing(self):
         '''Get the northing (C{meter}).
         '''
         return self._northing
 
-    @property_RO
+    @Property_RO
     def philam(self):
         '''Get the lat- and longitude in C{radians} (L{PhiLam2Tuple}).
         '''
-        if self._philam is None:
-            self._philam = PhiLam2Tuple(radians(self.latlon.lat),
-                                        radians(self.latlon.lon))
-        return self._xnamed(self._philam)
+        return self._xnamed(PhiLam2Tuple(radians(self.latlon.lat),
+                                         radians(self.latlon.lon)))
+
+    @Property_RO
+    def philamheight(self):
+        '''Get the lat-, longitude in C{radians} and height (L{PhiLam3Tuple}C{(phi, lam, height)}).
+        '''
+        return self.philam.to3Tuple(self.height)
+
+    @Property_RO
+    def philamheightdatum(self):
+        '''Get the lat-, longitude in C{radians} with height and datum (L{PhiLam4Tuple}C{(phi, lam, height, datum)}).
+        '''
+        return self.philamheight.to4Tuple(self.datum)
 
     def to3lld(self, datum=None):  # PYCHOK no cover
         '''DEPRECATED, use method C{toLatLon}.

@@ -92,7 +92,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.01.11'
+__version__ = '21.01.19'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -119,13 +119,13 @@ class _GeoidBase(_HeightBase):
     _interp2d = None  # interp2d interpolation
     _kind     = 3  # order for interp2d, RectBivariateSpline
     _knots    = 0  # nlat * nlon
-    _mean     = None  # see GeoidKarney
+    _mean     = None  # fixed in GeoidKarney
 #   _name     = NN # _Named
     _nBytes   = 0  # numpy size in bytes, float64
     _pgm      = None
     _sizeB    = 0  # geoid file size in bytes
     _smooth   = 0  # used only for RectBivariateSpline
-    _stdev    = None  # see GeoidKarney
+    _stdev    = None  # fixed in GeoidKarney
 
     _lat_d  = _0_0  # increment, +tive
     _lat_lo = _0_0  # lower lat, south
@@ -364,20 +364,20 @@ class _GeoidBase(_HeightBase):
         '''
         return self._llh3LL(self._center, LatLon)
 
-    @property_RO
+    @Property_RO
     def cropped(self):
         '''Is geoid cropped (C{bool} or C{None} if crop not supported).
         '''
         return self._cropped
 
-    @property_RO
+    @Property_RO
     def dtype(self):
         '''Get the grid C{scipy} U{dtype<https://docs.SciPy.org/doc/numpy/
            reference/generated/numpy.ndarray.dtype.html>} (C{numpy.dtype}).
         '''
         return self._hs_y_x.dtype
 
-    @property_RO
+    @Property_RO
     def endian(self):
         '''Get the geoid endianess and U{dtype<https://docs.SciPy.org/
            doc/numpy/reference/generated/numpy.dtype.html>} (C{str}).
@@ -427,19 +427,19 @@ class _GeoidBase(_HeightBase):
         '''
         return self._llh3LL(self._highest, LatLon)
 
-    @property_RO
+    @Property_RO
     def hits(self):
         '''Get the number of cache hits (C{int} or C{None}).
         '''
         return self._yx_hits
 
-    @property_RO
+    @Property_RO
     def kind(self):
         '''Get the interpolator kind and order (C{int}).
         '''
         return self._kind
 
-    @property_RO
+    @Property_RO
     def knots(self):
         '''Get the number of grid knots (C{int}).
         '''
@@ -519,13 +519,13 @@ class _GeoidBase(_HeightBase):
         '''
         return _HeightBase.name.fget(self) or self._geoid  # recursion
 
-    @property_RO
+    @Property_RO
     def nBytes(self):
         '''Get the grid in-memory size in bytes (C{int}).
         '''
         return self._nBytes
 
-    @property_RO
+    @Property_RO
     def numpy(self):
         '''Get the imported C{numpy} version (C{str}).
         '''
@@ -546,25 +546,25 @@ class _GeoidBase(_HeightBase):
                (_W_ if lon < self._lon_lo else
                (_E_ if lon > self._lon_hi else NN))
 
-    @property_RO
+    @Property_RO
     def pgm(self):
         '''Get the PGM attributes (C{_PGM} or C{None} if not available/applicable).
         '''
         return self._pgm
 
-    @property_RO
+    @Property_RO
     def scipy(self):
         '''Get the imported C{scipy} version (C{str}).
         '''
         return self._sp_v
 
-    @property_RO
+    @Property_RO
     def sizeB(self):
         '''Get the geoid grid file size in bytes (C{int}).
         '''
         return self._sizeB
 
-    @property_RO
+    @Property_RO
     def smooth(self):
         '''Get the C{RectBivariateSpline} smoothing (C{int}).
         '''
@@ -1098,7 +1098,7 @@ class GeoidKarney(_GeoidBase):
         self._egm.seek(b, _SEEK_SET)
         return b  # position
 
-    @property_RO
+    @Property_RO
     def dtype(self):
         '''Get the geoid's grid data type (C{str}).
         '''
@@ -1163,7 +1163,7 @@ class GeoidKarney(_GeoidBase):
         llh = self._lowest if full or self.cropped else self._lowest_ltd
         return self._llh3LL(llh, LatLon)
 
-    @property_RO
+    @Property_RO
     def u2B(self):
         '''Get the PGM itemsize in bytes (C{int}).
         '''
@@ -1301,7 +1301,7 @@ class GeoidPGM(_GeoidBase):
         __call__ = _GeoidBase.__call__
         height   = _GeoidBase.height
 
-    @property_RO
+    @Property_RO
     def u2B(self):
         '''Get the PGM itemsize in bytes (C{int}).
         '''
@@ -1573,7 +1573,7 @@ class _PGM(_Gpars):
         f.seek(0, _SEEK_SET)  # force overwrite
         return f
 
-    @property_RO
+    @Property_RO
     def pgm(self):
         '''Get the geoid file name (C{str}).
         '''

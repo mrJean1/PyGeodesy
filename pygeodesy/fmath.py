@@ -12,9 +12,10 @@ from pygeodesy.basics import copysign, isfinite, isint, isscalar, \
                              len2, _xcopy
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
-from pygeodesy.interns import EPS, MISSING, NN, _finite_, _few_, \
-                             _not_, _SPACE_, _too_, _0_0, _1_0, \
-                             _1_5 as _3_2nd, _2_0, _3_0
+from pygeodesy.interns import EPS0, MISSING, NN, _EPS0__2, _finite_, \
+                             _few_, _negative_, _not_, _singular_, \
+                             _SPACE_, _too_, _0_0, _1_0, _2_0, _3_0, \
+                             _1_5 as _3_2nd
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Int_
@@ -23,7 +24,7 @@ from math import hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.01.02'
+__version__ = '21.01.19'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -225,10 +226,10 @@ class Fsum(object):
             xs = (xs,)
 
         ps = self._ps
-        for i, x in enumerate(map(float, xs)):  # _iter()
+        for n, x in enumerate(map(float, xs)):  # _iter()
             if not isfinite(x):
-                i = Fmt.SQUARE(xs=i)
-                raise _ValueError(i, x, txt=_not_(_finite_))
+                n = Fmt.SQUARE(xs=n)
+                raise _ValueError(n, x, txt=_not_(_finite_))
             i = 0
             for p in ps:
                 x, p = _2sum(x, p)
@@ -236,8 +237,8 @@ class Fsum(object):
                     ps[i] = p
                     i += 1
             ps[i:] = [x]
-            self._n += 1
         # assert self._ps is ps
+        self._n += n + 1
         self._fsum2_ = None
 
     def fadd_(self, *xs):
@@ -636,19 +637,20 @@ def fidw(xs, ds, beta=2):
         raise LenError(fidw, xs=n, ds=d)
 
     d, x = min(zip(ds, xs))
-    if d > EPS and n > 1:
+    if d > EPS0 and n > 1:
         b = -Int_(beta=beta, low=0, high=3)
         if b < 0:
             ds = tuple(d**b for d in ds)
-            d = fsum(ds)
-            if d < EPS:
-                raise _ValueError(ds=d)
+            d  = fsum(ds)
+            if abs(d) < EPS0:
+                n = Fmt.PAREN(fsum='ds')
+                raise _ValueError(n, d, txt=_singular_)
             x = fdot(xs, *ds) / d
-        else:
-            x = fmean(xs)
+        else:  # b == 0
+            x = fsum(xs) / n  # fmean(xs)
     elif d < 0:
-        i = Fmt.SQUARE(ds=ds.index(d))
-        raise _ValueError(i, d)
+        n = Fmt.SQUARE(ds=ds.index(d))
+        raise _ValueError(n, d, txt=_negative_)
     return x
 
 
@@ -938,6 +940,16 @@ def hypot2_(*xs):
     '''
     h, x2 = _h_x2(xs)
     return (h**2 * x2) if x2 else _0_0
+
+
+def sqrt0(x):
+    '''Compute the square root iff C{B{x} > EPS0**2}.
+
+       @arg x: Value (C{scalar}).
+
+       @return: Square root (C{float}) or C{0.0}.
+    '''
+    return sqrt(x) if x > _EPS0__2 else _0_0
 
 
 def sqrt3(x):

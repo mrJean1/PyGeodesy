@@ -206,10 +206,11 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @newfield JSname: JS name, JS names
 
 @var EPS:    System's M{epsilon} ≈ 2.220446049e-16 (C{float}).
-@var EPS2:   M{EPS * 2} ≈ 4.440892099e-16 (C{float}).
-@var EPS_2:  M{EPS / 2} ≈ 1.110223025e-16 (C{float}).
+@var EPS2:   M{EPS * 2}   ≈ 4.440892098501e-16 (C{float}).
+@var EPS_2:  M{EPS / 2}   ≈ 1.110223024625e-16 (C{float}).
 @var EPS1:   M{1 - EPS}   ≈ 0.9999999999999998 (C{float}).
 @var EPS1_2: M{1 - EPS_2} ≈ 0.9999999999999999 (C{float}).
+@var EPS0:   M{EPS**2}    ≈ 4.9e-32 for near-zero comparison
 
 @var F_D:   Format degrees as unsigned "deg°" plus suffix C{N, S, W} or C{E} (C{str}).
 @var F_DM:  Format degrees as unsigned "deg°min′" plus suffix (C{str}).
@@ -252,11 +253,12 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var NEG0:   Negative 0.0 (C{float}), see function L{isneg0}.
 @var NN:     Empty (C{str}), U{I{Nomen Nescio}<https://Wiktionary.org/wiki/N.N.>}.
 
-@var PI:   Constant M{math.pi} (C{float}).
-@var PI2:  Two PI, M{PI * 2}, aka I{Tau} (C{float}).
-@var PI4:  Four PI, M{PI * 4} (C{float}).
-@var PI_2: Half PI, M{PI / 2} (C{float}).
-@var PI_4: Quarter PI, M{PI / 4} (C{float}).
+@var PI:    Constant M{math.pi} (C{float}).
+@var PI2:   Two PI, M{PI * 2}, aka I{Tau} (C{float}).
+@var PI3_2: One and a half PI, M{PI * 3 / 2} (C{float}).
+@var PI4:   Four PI, M{PI * 4} (C{float}).
+@var PI_2:  Half PI, M{PI / 2} (C{float}).
+@var PI_4:  Quarter PI, M{PI / 4} (C{float}).
 
 @var R_M:  Mean (spherical) earth radius (C{meter}).
 @var R_MA: Equatorial earth radius (C{meter}), WGS84, EPSG:3785.
@@ -463,7 +465,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.01.12'
+__version__ = '21.01.21'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

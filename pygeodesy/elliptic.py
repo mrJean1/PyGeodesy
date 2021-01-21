@@ -82,7 +82,7 @@ from pygeodesy.interns import EPS, INF, NN, PI, PI_2, PI_4, \
                              _6_0, _8_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO, property_RO, _update_all
 # from pygeodesy.streprs import unstr
 from pygeodesy.units import Scalar, Scalar_
 from pygeodesy.utily import sincos2, sincos2d
@@ -91,7 +91,7 @@ from math import asinh, atan, atan2, ceil, cosh, floor, sin, \
                  sqrt, tanh
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '21.01.08'
+__version__ = '21.01.18'
 
 _TolRD  =  pow(EPS * 0.002, _0_125)
 _TolRF  =  pow(EPS * 0.030, _0_125)
@@ -150,61 +150,61 @@ class Elliptic(_Named):
         '''
         self.reset(k2=k2, alpha2=alpha2, kp2=kp2, alphap2=alphap2)
 
-    @property_RO
+    @Property_RO
     def alpha2(self):
         '''Get α^2, the square of the parameter (C{float}).
         '''
         return self._alpha2
 
-    @property_RO
+    @Property_RO
     def alphap2(self):
         '''Get α'^2, the square of the complementary parameter (C{float}).
         '''
         return self._alphap2
 
-    @property_RO
+    @Property_RO
     def cD(self):
         '''Get Jahnke's complete integral C{D(k)} (C{float}),
            U{defined<https://DLMF.NIST.gov/19.2.E6>}.
         '''
         return self._cD
 
-    @property_RO
+    @Property_RO
     def cE(self):
         '''Get the complete integral of the second kind C{E(k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E5>}.
         '''
         return self._cE
 
-    @property_RO
+    @Property_RO
     def cG(self):
         '''Get Legendre's complete geodesic longitude integral
            C{G(α^2, k)} (C{float}).
         '''
         return self._cG
 
-    @property_RO
+    @Property_RO
     def cH(self):
         '''Get Cayley's complete geodesic longitude difference integral
            C{H(α^2, k)} (C{float}).
         '''
         return self._cH
 
-    @property_RO
+    @Property_RO
     def cK(self):
         '''Get the complete integral of the first kind C{K(k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E4>}.
         '''
         return self._cK
 
-    @property_RO
+    @Property_RO
     def cKE(self):
         '''Get the difference between the complete integrals of the
            first and second kinds, C{K(k) − E(k)} (C{float}).
         '''
         return self._cKE
 
-    @property_RO
+    @Property_RO
     def cPi(self):
         '''Get the complete integral of the third kind C{Pi(α^2, k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E7>}.
@@ -315,7 +315,7 @@ class Elliptic(_Named):
             cn, sn = -cn, neg(sn)
         return fX(sn, cn, dn) * PI_2 / cX - atan2(sn, cn)
 
-    @property_RO
+    @Property_RO
     def eps(self):
         '''Get epsilon (C{float}).
         '''
@@ -551,13 +551,13 @@ class Elliptic(_Named):
         '''
         return self._iteration
 
-    @property_RO
+    @Property_RO
     def k2(self):
         '''Get k^2, the square of the modulus (C{float}).
         '''
         return self._k2
 
-    @property_RO
+    @Property_RO
     def kp2(self):
         '''Get k'^2, the square of the complementary modulus (C{float}).
         '''
@@ -580,6 +580,8 @@ class Elliptic(_Named):
                   accuracy to be maintained, e.g., when C{k} is very
                   close to unity.
         '''
+        _update_all(self)
+
         self._k2 = k2 = Scalar_(k2=k2, Error=EllipticError, low=None, high=_1_0)
 
         self._alpha2 = alpha2 = Scalar_(alpha2=alpha2, Error=EllipticError, low=None, high=_1_0)
@@ -664,7 +666,7 @@ class Elliptic(_Named):
 
         self._iteration = 0
 
-    def sncndn(self, x):  # PYCHOK x not used?
+    def sncndn(self, x):  # PYCHOK x used!
         '''The Jacobi elliptic function.
 
            @arg x: The argument (C{float}).
@@ -684,10 +686,10 @@ class Elliptic(_Named):
                 x *= d
             else:
                 d = 0
-            a, c, mn = _1_0, 0, []
+            a, mn = _1_0, []
             for self._iteration in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
                 # This converges quadratically, max 6 trips
-                mc = sqrt(mc)
+                mc = sqrt(mc)  # XXX sqrt0?
                 mn.append((a, mc))
                 c = (a + mc) * _0_5
                 if abs(a - mc) <= (_TolJAC * a):
@@ -696,8 +698,8 @@ class Elliptic(_Named):
                 a = c
             else:
                 raise _convergenceError(self.sncndn, x)
-            x *= c
-            dn = 1
+            x *=  c
+            dn = _1_0
             sn, cn = sincos2(x)
             if sn:
                 a = cn / sn
@@ -777,7 +779,7 @@ def _RC(x, y):  # used by testElliptic.py
         # <https://DLMF.NIST.gov/19.2.E18>
         d = -d
         r = atan(sqrt(d / x)) if x > 0 else PI_2
-    elif d == _0_0:  # XXX d < EPS?
+    elif d == _0_0:  # XXX d < EPS0?
         r, d = _1_0, y
     elif y > 0:  # <https://DLMF.NIST.gov/19.2.E19>
         r = asinh(sqrt(d / y))  # atanh(sqrt((x - y) / x))

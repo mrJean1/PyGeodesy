@@ -56,14 +56,14 @@ from pygeodesy.interns import NN, _COMMASPACE_, _conversion_, _ellipsoid_, \
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import classname, _lazyNamedEnumItem as _lazy, \
                            _NamedDict as _D, _NamedEnum, _NamedEnumItem
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Epoch
 
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '21.01.08'
+__version__ = '21.01.19'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -118,13 +118,13 @@ class RefFrame(_NamedEnumItem):
         self._epoch = Epoch(epoch)
         self._register(RefFrames, name)
 
-    @property_RO
+    @Property_RO
     def ellipsoid(self):
         '''Get this reference frame's ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
         '''
         return self._ellipsoid
 
-    @property_RO
+    @Property_RO
     def epoch(self):
         '''Get this reference frame's epoch (C{Epoch}).
         '''

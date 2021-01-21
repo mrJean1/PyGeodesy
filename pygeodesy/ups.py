@@ -22,15 +22,16 @@ from pygeodesy.basics import neg
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
-from pygeodesy.fmath import hypot, hypot1
-from pygeodesy.interns import EPS, NN, _EPStol as _TOL, _A_, _COMMASPACE_, \
-                             _inside_, _N_, _pole_, _range_, _S_, _SPACE_, \
-                             _to_, _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
+from pygeodesy.fmath import hypot, hypot1, sqrt0
+from pygeodesy.interns import EPS, NN, _A_, _COMMASPACE_, _N_, \
+                             _EPS__2, _EPStol as _TOL, _inside_, \
+                             _pole_, _range_, _S_, _SPACE_, _to_, \
+                             _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
-from pygeodesy.props import Property_RO, property_RO, _update_all
+from pygeodesy.props import Property_RO, _update_all
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Meter, Lat, Scalar, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2d
@@ -39,13 +40,12 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
                                  _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
                                  _UPS_ZONE_STR, UtmUpsBase
 
-from math import atan, atan2, radians, sqrt, tan
+from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.01.10'
+__version__ = '21.01.18'
 
 _Bands   = _A_, 'B', 'Y', 'Z'  # polar bands
-_EPS__2  = EPS**2  # see .albers
 _Falsing = Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  = Scalar(0.994)  # central UPS scale factor
 _K1_UPS  = Scalar(_1_0)   # rescale point scale factor
@@ -59,7 +59,7 @@ def _Band(a, b):
 def _scale(E, rho, tau):
     # compute the point scale factor, ala Karney
     t = hypot1(tau)
-    return Scalar((rho / E.a) * t * sqrt(E.e12 + E.e2 / t**2))
+    return Scalar((rho / E.a) * t * sqrt0(E.e12 + E.e2 / t**2))
 
 
 class UPSError(_ValueError):
@@ -176,7 +176,7 @@ class Ups(UtmUpsBase):
         '''
         return self.parse(strUPS)
 
-    @property_RO
+    @Property_RO
     def pole(self):
         '''Get the top/center of (stereographic) projection (C{'N'|'S'} or C{""}).
         '''
@@ -346,7 +346,7 @@ class Ups(UtmUpsBase):
             self._utm = toUtm8(ll, Utm=Utm, falsed=falsed, name=self.name, zone=zone)
         return self._utm
 
-    @property_RO
+    @Property_RO
     def zone(self):
         '''Get the polar pseudo zone (C{0}), like I{Karney}'s U{zone UPS<https://
            GeographicLib.SourceForge.io/html/classGeographicLib_1_1UTMUPS.html>}.

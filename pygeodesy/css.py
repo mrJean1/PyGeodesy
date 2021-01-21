@@ -23,13 +23,13 @@ from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
                                   LatLon2Tuple, _LatLon4Tuple, \
                                   LatLon4Tuple
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import Fmt, _fstrENH2, _fstrLL0, _xzipairs
 from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '21.01.10'
+__version__ = '21.01.19'
 
 
 def _CS0(cs0):
@@ -91,7 +91,7 @@ class CassiniSoldner(_NamedBase):
 
         self.reset(lat0, lon0)
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
@@ -377,13 +377,13 @@ class Css(_NamedBase):
         '''
         return self._cs0 or Css._CS0
 
-    @property_RO
+    @Property_RO
     def easting(self):
         '''Get the easting (C{meter}).
         '''
         return self._easting
 
-    @property_RO
+    @Property_RO
     def height(self):
         '''Get the height (C{meter}).
         '''
@@ -396,7 +396,7 @@ class Css(_NamedBase):
         return self._xnamed(LatLon2Tuple(self.reverse4.lat,
                                          self.reverse4.lon))
 
-    @property_RO
+    @Property_RO
     def northing(self):
         '''Get the northing (C{meter}).
         '''

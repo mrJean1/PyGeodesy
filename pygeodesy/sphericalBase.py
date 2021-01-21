@@ -20,7 +20,7 @@ from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.ellipsoids import R_M, R_MA
 from pygeodesy.errors import IntersectionError
 from pygeodesy.fmath import favg, fdot
-from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _COMMA_, \
+from pygeodesy.interns import EPS, EPS0, NN, PI, PI2, PI_2, _COMMA_, \
                              _too_, _distant_, _exceed_PI_radians_, \
                              _near_concentric_, _1_0, _180_0, _360_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.01.07'
+__version__ = '21.01.14'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -106,7 +106,7 @@ class CartesianSphericalBase(CartesianBase):
 
         n, q = x1.cross(x2), x1.dot(x2)
         n2, q21 = n.length2, _1_0 - q**2
-        if min(abs(q21), n2) < EPS:
+        if n2 < EPS or abs(q21) < EPS:
             raise IntersectionError(center=self, other=other,
                                     txt=_near_concentric_)
         try:
@@ -425,12 +425,12 @@ class LatLonSphericalBase(LatLonBase):
         b3 = favg(b1, b2)
 
         f1 = tanPI_2_2(a1)
-        if abs(f1) > EPS:
+        if abs(f1) > EPS0:
             f2 = tanPI_2_2(a2)
             f = f2 / f1
-            if abs(f) > EPS:
+            if abs(f) > EPS0:
                 f = log(f)
-                if abs(f) > EPS:
+                if abs(f) > EPS0:
                     f3 = tanPI_2_2(a3)
                     b3 = fdot(map1(log, f1, f2, f3),
                                        -b2, b1, b2 - b1) / f

@@ -266,6 +266,26 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.lcc.Lcc-class.html#latlonheight" class="summary-name">latlonheight</a><br />
+      Get the lat-, longitude and height (<a 
+      href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+      class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Lcc-class.html#latlonheightdatum" class="summary-name">latlonheightdatum</a><br />
+      Get the lat-, longitude in <code>degrees</code> with height and datum
+      (<a href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+      class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.lcc.Lcc-class.html#northing" class="summary-name">northing</a><br />
       Get the northing (<code>meter</code>).
     </td>
@@ -278,6 +298,26 @@
       Get the lat- and longitude in <code>radians</code> (<a 
       href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
       class="link">PhiLam2Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Lcc-class.html#philamheight" class="summary-name">philamheight</a><br />
+      Get the lat-, longitude in <code>radians</code> and height (<a 
+      href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
+      class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lcc.Lcc-class.html#philamheightdatum" class="summary-name">philamheightdatum</a><br />
+      Get the lat-, longitude in <code>radians</code> with height and datum
+      (<a href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" 
+      class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
     </td>
   </tr>
   <tr>
@@ -553,9 +593,7 @@
   class="link">Conic</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">conic(<span class="summary-sig-arg">self</span>)</span>
-        - Get the conic projection (<a href="pygeodesy.lcc.Conic-class.html" 
-class="link">Conic</a>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -577,8 +615,7 @@ class="link">Conic</a>).
   <p>Get the easting (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">easting(<span class="summary-sig-arg">self</span>)</span>
-        - Get the easting (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -600,8 +637,7 @@ class="link">Conic</a>).
   <p>Get the height (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">height(<span class="summary-sig-arg">self</span>)</span>
-        - Get the height (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -625,10 +661,55 @@ class="link">Conic</a>).
   class="link">LatLon2Tuple</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat- and longitude in <code>degrees</code> (<a 
-href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-class="link">LatLon2Tuple</a>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlonheight"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonheight</h3>
+  <p>Get the lat-, longitude and height (<a 
+  href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+  class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlonheightdatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonheightdatum</h3>
+  <p>Get the lat-, longitude in <code>degrees</code> with height and datum 
+  (<a href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+  class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -650,8 +731,7 @@ class="link">LatLon2Tuple</a>).
   <p>Get the northing (<code>meter</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">northing(<span class="summary-sig-arg">self</span>)</span>
-        - Get the northing (<code>meter</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -675,10 +755,55 @@ class="link">LatLon2Tuple</a>).
   class="link">PhiLam2Tuple</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat- and longitude in <code>radians</code> (<a 
-href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
-class="link">PhiLam2Tuple</a>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philamheight"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamheight</h3>
+  <p>Get the lat-, longitude in <code>radians</code> and height (<a 
+  href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
+  class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philamheightdatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamheightdatum</h3>
+  <p>Get the lat-, longitude in <code>radians</code> with height and datum 
+  (<a href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" 
+  class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -723,7 +848,7 @@ class="link">PhiLam2Tuple</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jan 12 21:09:48 2021
+    Generated by Epydoc 3.0.1 on Thu Jan 21 11:58:39 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -68,14 +68,14 @@ from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
 from pygeodesy.interns import EPS, _1_EPS, NN, PI_2, PI_4, \
                              _COMMASPACE_, _convergence_, _easting_, \
-                             _lat_, _lon_, _no_, _northing_, _scale_, \
-                             _0_0, _0_1, _0_25, _0_5, _1_0, _2_0, _3_0, \
-                             _90_0, _180_0
+                             _EPS0__2, _lat_, _lon_, _no_, _northing_, \
+                             _scale_, _0_0, _0_1, _0_25, _0_5, _1_0, \
+                             _2_0, _3_0, _90_0, _180_0
 from pygeodesy.interns import _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
-from pygeodesy.props import property_doc_, property_RO
+from pygeodesy.props import Property_RO, property_RO, property_doc_
 from pygeodesy.streprs import pairs, unstr
 from pygeodesy.units import Degrees, Easting, Lat,Lon, Northing, \
                             Scalar, Scalar_
@@ -86,7 +86,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.01.10'
+__version__ = '21.01.20'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -363,7 +363,7 @@ class ExactTransverseMercator(_NamedBase):
         self._reset(d.ellipsoid)
         self._datum = d
 
-    @property_RO
+    @Property_RO
     def equatoradius(self):
         '''Get the equatorial radius, semi-axis (C{meter}).
         '''
@@ -372,13 +372,13 @@ class ExactTransverseMercator(_NamedBase):
     majoradius = equatoradius  # for backward compatibility
     '''DEPRECATED, use C{equatoradius}.'''
 
-    @property_RO
+    @Property_RO
     def extendp(self):
         '''Get using the extended domain (C{bool}).
         '''
         return self._extendp
 
-    @property_RO
+    @Property_RO
     def flattening(self):
         '''Get the flattening (C{float}).
         '''
@@ -775,12 +775,12 @@ class ExactTransverseMercator(_NamedBase):
         d2 = self._mu * cnu**2 + self._mv * cnv**2
         # Overflow value s.t. atan(overflow) = pi/2
         t1 = t2 = copysign(_OVERFLOW, snu)
-        if d1 > 0:
+        if d1 > _EPS0__2:
             t1 = snu * dnv / sqrt(d1)
-        lam = 0
-        if d2 > 0:
+        lam = _0_0
+        if d2 > _EPS0__2:
             t2 = sinh(e * asinh(e * snu / sqrt(d2)))
-            if d1 > 0:
+            if d1 > _EPS0__2:
                 lam = atan2(dnu * snv    , cnu * cnv) - \
                       atan2(cnu * snv * e, dnu * cnv) * e
         # psi = asinh(t1) - asinh(t2)

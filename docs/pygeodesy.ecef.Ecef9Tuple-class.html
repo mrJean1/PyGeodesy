@@ -289,7 +289,7 @@
  &lt;class 'pygeodesy.units.Lon'&gt;,
  &lt;class 'pygeodesy.units.Height'&gt;,
  &lt;class 'pygeodesy.units.Int'&gt;,
- &lt;function _Pass at 0x7fc2479f3dd0&gt;,
+ &lt;function _Pass at 0x7f9d482f6250&gt;,
 ..."><code class="variable-group">(</code>&lt;class 'pygeodesy.units.Meter'&gt;<code class="variable-op">, </code>&lt;class 'pygeodesy.<code class="variable-ellipsis">...</code></code><br />
       Tuple defining the <code>units</code> of the value of each 
       <code>Named-Tuple</code> item.
@@ -317,8 +317,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#lamVermeille" class="summary-name">lamVermeille</a><br />
-      Get the longitude in radians <i class="math">[-PI*3/2..+PI*3/2]</i> 
-      after <a href="https://Search.ProQuest.com/docview/639493848" 
+      Get the longitude in <code>[-PI*3/2..+PI*3/2] radians</code> after <a
+      href="https://Search.ProQuest.com/docview/639493848" 
       target="_top">Vermeille</a> (2004), p 95.
     </td>
   </tr>
@@ -356,9 +356,20 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#latlonVermeille" class="summary-name">latlonVermeille</a><br />
+      Get the latitude and <i>Vermeille</i> longitude in <code>[-225..+225]
+      degrees</code> (<a 
+      href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#lonVermeille" class="summary-name">lonVermeille</a><br />
-      Get the longitude in degrees <i class="math">[-225..+225]</i> after 
-      <a href="https://Search.ProQuest.com/docview/639493848" 
+      Get the longitude in <code>[-225..+225] degrees</code> after <a 
+      href="https://Search.ProQuest.com/docview/639493848" 
       target="_top">Vermeille</a> (2004), p 95.
     </td>
   </tr>
@@ -398,6 +409,17 @@
       Get the lat-, longitude in <code>radians</code> with height and datum
       (<a href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" 
       class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#philamVermeille" class="summary-name">philamVermeille</a><br />
+      Get the latitude and <i>Vermeille</i> longitude in 
+      <code>[-PI*3/2..+PI*3/2] radians</code> (<a 
+      href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+      class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
     </td>
   </tr>
 <tr>
@@ -695,7 +717,7 @@
  &lt;class 'pygeodesy.units.Lon'&gt;<code class="variable-op">,</code>
  &lt;class 'pygeodesy.units.Height'&gt;<code class="variable-op">,</code>
  &lt;class 'pygeodesy.units.Int'&gt;<code class="variable-op">,</code>
- &lt;function _Pass at 0x7fc2479f3dd0&gt;<code class="variable-op">,</code>
+ &lt;function _Pass at 0x7f9d482f6250&gt;<code class="variable-op">,</code>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -740,8 +762,8 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lamVermeille</h3>
-  <p>Get the longitude in radians <i class="math">[-PI*3/2..+PI*3/2]</i> 
-  after <a href="https://Search.ProQuest.com/docview/639493848" 
+  <p>Get the longitude in <code>[-PI*3/2..+PI*3/2] radians</code> after <a 
+  href="https://Search.ProQuest.com/docview/639493848" 
   target="_top">Vermeille</a> (2004), p 95.</p>
   <dl class="fields">
     <dt>Get method:</dt>
@@ -777,10 +799,7 @@
   class="link">LatLon2Tuple</a><code>(lat, lon)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">latlon(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat-, longitude in <code>degrees</code> (<a 
-href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -804,10 +823,7 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
   class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">latlonheight(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat-, longitude in <code>degrees</code> and height (<a 
-href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
-class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -831,10 +847,7 @@ class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>).
   class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">latlonheightdatum(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat-, longitude in <code>degrees</code> with height and datum (<a 
-href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
-class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -847,13 +860,40 @@ class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="latlonVermeille"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonVermeille</h3>
+  <p>Get the latitude and <i>Vermeille</i> longitude in <code>[-225..+225] 
+  degrees</code> (<a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a><code>(lat, lon)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <code>lonVermeille</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="lonVermeille"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lonVermeille</h3>
-  <p>Get the longitude in degrees <i class="math">[-225..+225]</i> after <a
+  <p>Get the longitude in <code>[-225..+225] degrees</code> after <a 
   href="https://Search.ProQuest.com/docview/639493848" 
   target="_top">Vermeille</a> (2004), p 95.</p>
   <dl class="fields">
@@ -907,10 +947,7 @@ class="link">LatLon4Tuple</a><code>(lat, lon, height, datum)</code>).
   class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">philam(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat-, longitude in <code>radians</code> (<a 
-href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
-class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -934,10 +971,7 @@ class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
   class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">philamheight(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat-, longitude in <code>radians</code> and height (<a 
-href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
-class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -961,10 +995,7 @@ class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>).
   class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">philamheightdatum(<span class="summary-sig-arg">self</span>)</span>
-        - Get the lat-, longitude in <code>radians</code> with height and datum (<a 
-href="pygeodesy.namedTuples.PhiLam4Tuple-class.html" 
-class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -977,6 +1008,34 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
   </dl>
 </td></tr></table>
 </div>
+<a name="philamVermeille"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamVermeille</h3>
+  <p>Get the latitude and <i>Vermeille</i> longitude in 
+  <code>[-PI*3/2..+PI*3/2] radians</code> (<a 
+  href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+  class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Property <code>lamVermeille</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="xyz"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -988,10 +1047,7 @@ class="link">PhiLam4Tuple</a><code>(phi, lam, height, datum)</code>).
   class="link">Vector3Tuple</a><code>(x, y, z)</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">xyz(<span class="summary-sig-arg">self</span>)</span>
-        - Get the geocentric <code>(x, y, z)</code> coordinates (<a 
-href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-class="link">Vector3Tuple</a><code>(x, y, z)</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1015,10 +1071,7 @@ class="link">Vector3Tuple</a><code>(x, y, z)</code>).
   class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">xyzh(<span class="summary-sig-arg">self</span>)</span>
-        - Get the geocentric <code>(x, y, z)</code> coordinates and height (<a 
-href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
-class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1063,7 +1116,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jan 12 21:09:44 2021
+    Generated by Epydoc 3.0.1 on Thu Jan 21 11:58:35 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

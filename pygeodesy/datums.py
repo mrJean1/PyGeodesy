@@ -85,14 +85,14 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, \
                                     _lazyNamedEnumItem as _lazy
 from pygeodesy.namedTuples import Vector3Tuple
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Radius_
 
 from math import radians
 
 __all__ = _ALL_LAZY.datums
-__version__ = '21.01.12'
+__version__ = '21.01.19'
 
 _BD72_       = 'BD72'
 _DHDN_       = 'DHDN'
@@ -343,7 +343,7 @@ class Datum(_NamedEnumItem):
         '''
         return _4Ecef(self, Ecef)
 
-    @property_RO
+    @Property_RO
     def ellipsoid(self):
         '''Get this datum's ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
         '''
@@ -391,7 +391,7 @@ class Datum(_NamedEnumItem):
             t.append(NN(Fmt.EQUAL(a, v.classname), _s_, _DOT_, v.name))
         return _COMMASPACE_.join(t)
 
-    @property_RO
+    @Property_RO
     def transform(self):
         '''Get this datum's transform (L{Transform}).
         '''

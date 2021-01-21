@@ -32,10 +32,10 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _spherical_datum
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
 from pygeodesy.fmath import Fsum
-from pygeodesy.interns import EPS, EPS1, _EPStol, NAN, NN, _azimuth_, \
-                             _datum_, _lat_, _lon_, _no_, _scale_, \
-                             _SPACE_, _x_, _y_, _0_0, _0_1, _0_5, \
-                             _1_0, _2_0, _360_0
+from pygeodesy.interns import EPS, EPS0, EPS1, _EPStol, NAN, NN, \
+                             _azimuth_, _datum_, _lat_, _lon_, \
+                             _no_, _scale_, _SPACE_, _x_, _y_, \
+                             _0_0, _0_1, _0_5, _1_0, _2_0, _360_0
 from pygeodesy.karney import _norm180
 from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
@@ -50,7 +50,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.01.07'
+__version__ = '21.01.18'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -91,7 +91,7 @@ class _AzimuthalBase(_NamedBase):
 
         self.reset(lat0, lon0)
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
@@ -602,7 +602,7 @@ class GnomonicKarney(_AzimuthalBaseKarney):
         self._iteration = 0
 
         r = self.geodesic.Inverse(self.lat0, self.lon0, Lat_(lat), Lon_(lon), self._mask)
-        if r.M21 < EPS:
+        if r.M21 < EPS0:
             if raiser:
                 raise AzimuthalError(lat=lat, lon=lon, txt=_over_horizon_)
             x = y = NAN

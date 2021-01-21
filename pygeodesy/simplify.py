@@ -76,15 +76,16 @@ from __future__ import division
 
 from pygeodesy.basics import len2
 from pygeodesy.errors import _AttributeError, _ValueError
+from pygeodesy.fmath import sqrt0
 from pygeodesy.formy import equirectangular_
 from pygeodesy.interns import EPS, R_M, _small_, _too_, _1_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.utily import isNumpy2, isTuple2
 
-from math import degrees, radians, sqrt
+from math import degrees, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '21.01.11'
+__version__ = '21.01.16'
 
 
 # try:
@@ -364,7 +365,7 @@ class _Sy(object):
             m = radians(_1_0) * self.radius
             r[0].h2 = r[-1].h2 = 0  # zap sentinels
             for t2 in r:  # convert back to meter
-                setattr(pts[t2.ix], attr, sqrt(t2.h2) * m)
+                setattr(pts[t2.ix], attr, sqrt0(t2.h2) * m)
 
         # double check for duplicates
         n = len(r)

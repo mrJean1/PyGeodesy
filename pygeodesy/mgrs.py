@@ -35,7 +35,7 @@ from pygeodesy.interns import NN, _AtoZnoIO_, _band_, \
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import UtmUps5Tuple
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import enstr2, Fmt, _xzipairs
 from pygeodesy.units import Easting, Northing, Str, _100km
 from pygeodesy.units import _2000km  # PYCHOK used!
@@ -44,7 +44,7 @@ from pygeodesy.utmupsBase import _hemi
 
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.01.10'
+__version__ = '21.01.19'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums
@@ -138,25 +138,25 @@ class Mgrs(_NamedBase):
         n = float(_Ln100k[z % 2].index(self._en100k[1])) * _100km  # meter
         return e, n
 
-    @property_RO
+    @Property_RO
     def band(self):
         '''Get the latitudinal band (C{str, 'A'|'B'..'Y'|'Z'}).
         '''
         return self._band
 
-    @property_RO
+    @Property_RO
     def bandLatitude(self):
         '''Get the band latitude (C{degrees90} or C{None}).
         '''
         return self._bandLat
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
 
-    @property_RO
+    @Property_RO
     def en100k(self):
         '''Get the 2-character grid EN digraph (C{str}).
         '''
@@ -164,13 +164,13 @@ class Mgrs(_NamedBase):
 
     digraph = en100k
 
-    @property_RO
+    @Property_RO
     def easting(self):
         '''Gets the easting (C{meter}).
         '''
         return self._easting
 
-    @property_RO
+    @Property_RO
     def northing(self):
         '''Get the northing (C{meter}).
         '''
@@ -273,7 +273,7 @@ class Mgrs(_NamedBase):
         return (UtmUps5Tuple(z, h, e, n, B, Error=MGRSError, name=self.name),
                 Utm(         z, h, e, n, band=B, datum=self.datum, name=self.name))
 
-    @property_RO
+    @Property_RO
     def zone(self):
         '''Get the longitudal zone (C{int}, 1..60).
         '''

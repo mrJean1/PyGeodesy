@@ -26,13 +26,13 @@ from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, _band_, \
 from pygeodesy.interns import _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _Named
-from pygeodesy.props import property_doc_, property_RO
+from pygeodesy.props import Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, fstr
 
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.01.07'
+__version__ = '21.01.19'
 
 
 class _NamedUnit(_Named):
@@ -717,7 +717,7 @@ class FIx(Float_):
             f._fin = n
         return f
 
-    @property_RO
+    @Property_RO
     def fin(self):
         '''Get the given C{len}, the index C{[n]} wrapped to C{[0]} (C{int}).
         '''

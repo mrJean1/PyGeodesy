@@ -30,7 +30,8 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fdot, hypot_
-from pygeodesy.interns import NN, _COMMASPACE_, _pole_
+from pygeodesy.interns import NN, _COMMASPACE_
+from pygeodesy.interns import _pole_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _Named, _NamedTuple, _xnamed
 from pygeodesy.namedTuples import LatLon3Tuple
@@ -43,7 +44,7 @@ from pygeodesy.units import Bearing, Degrees, Distance, Float,\
 from pygeodesy.utily import asin1, atan2b, degrees90, sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.01.10'
+__version__ = '21.01.19'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -124,29 +125,13 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
     '''
     _Ecef = None  # preferred C{EcefVeness} class
     _Nv   = None  # cached toNvector (L{Nvector})
-#   _v3d  = None  # cached toVector3d (L{Vector3d})
-    _r3   = None  # cached _rotation3 (3-Tuple L{Nvector})
-
-    def _rotation3(self):
-        '''(INTERNAL) Build the rotation matrix from n-vector
-           coordinate frame axes.
-        '''
-        if self._r3 is None:
-            nv = self.toNvector()  # local (n-vector) coordinate frame
-
-            d = nv.negate()  # down (opposite to n-vector)
-            e = NorthPole.cross(nv, raiser=_pole_).unit()  # east (pointing perpendicular to the plane)
-            n = e.cross(d)  # north (by right hand rule)
-
-            self._r3 = n, e, d  # matrix rows
-        return self._r3
 
     def _update(self, updated, *attrs):  # PYCHOK args
         '''(INTERNAL) Zap cached attributes if updated.
         '''
         if updated:
             LatLonNvectorBase._update(self, updated, _Nv=self._Nv)  # special case
-            LatLonEllipsoidalBase._update(self, updated, '_r3', *attrs)
+            LatLonEllipsoidalBase._update(self, updated, *attrs)
 
 #     def crossTrackDistanceTo(self, start, end, radius=R_M):
 #         '''Return the (signed) distance from this point to the great
@@ -216,11 +201,11 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         self.ellipsoids(other)  # throws TypeError and ValueError
 
-        n, e, d = self._rotation3()
         # get delta in cartesian frame
         dc = other.toCartesian().minus(self.toCartesian())
         # rotate dc to get delta in n-vector reference
         # frame using the rotation matrix row vectors
+        n, e, d = self._rotation3
         return Ned(dc.dot(n), dc.dot(e), dc.dot(d), name=self.name)
 
 #     def destination(self, distance, bearing, radius=R_M, height=None):
@@ -275,7 +260,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         _xinstanceof(Ned, delta=delta)
 
-        n, e, d = self._rotation3()
+        n, e, d = self._rotation3
         # convert NED delta to standard coordinate frame of n-vector
         dn = delta.ned
         # rotate dn to get delta in cartesian (ECEF) coordinate
@@ -440,6 +425,17 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
             h = height
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
+    @Property_RO
+    def _rotation3(self):
+        '''(INTERNAL) Get the rotation matrix from n-vector coordinate frame axes.
+        '''
+        nv = self.toNvector()  # local (n-vector) coordinate frame
+
+        d = nv.negate()  # down (opposite to n-vector)
+        e = NorthPole.cross(nv, raiser=_pole_).unit()  # east (pointing perpendicular to the plane)
+        n = e.cross(d)  # north (by right hand rule)
+        return n, e, d  # matrix rows
+
     def toCartesian(self, **Cartesian_datum_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to an C{Nvector}-based geodetic point.
 
@@ -531,13 +527,13 @@ class Ned(_Named):
         '''
         return Bearing(atan2b(self.east, self.north))
 
-    @property_RO
+    @Property_RO
     def down(self):
         '''Gets the Down component of this NED vector (C{meter}).
         '''
         return self._down
 
-    @property_RO
+    @Property_RO
     def east(self):
         '''Gets the East component of this NED vector (C{meter}).
         '''
@@ -556,14 +552,14 @@ class Ned(_Named):
         '''
         return Float(length=hypot_(self.north, self.east, self.down))
 
-    @property_RO
+    @Property_RO
     def ned(self):
         '''Get the C{(north, east, down)} components of the NED vector (L{Ned3Tuple}).
         '''
         r = Ned3Tuple(self.north, self.east, self.down)
         return self._xnamed(r)
 
-    @property_RO
+    @Property_RO
     def north(self):
         '''Gets the North component of this NED vector (C{meter}).
         '''
@@ -661,7 +657,7 @@ class Nvector(NvectorBase):
         if datum not in (None, self._datum):
             self._datum = _ellipsoidal_datum(datum, name=name)
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get this n-vector's datum (L{Datum}).
         '''

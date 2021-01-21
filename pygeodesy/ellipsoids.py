@@ -61,21 +61,21 @@ from pygeodesy.fmath import cbrt, cbrt2, fdot, fhorner, fpowers, Fsum, fsum_, \
 from pygeodesy.interns import EPS, EPS1, INF, NN, PI4, PI_2, R_M, _a_, _A_, \
                              _Airy1830_, _AiryModified_, _Bessel1841_, _Clarke1866_, \
                              _Clarke1880IGN_, _DOT_, _e_, _1_EPS, _EPStol as _TOL, \
-                             _f_, _finite_, _float as _F, _floatuple as _T, _GRS80_, \
-                             _height_, _Intl1924_, _Krassovski1940_, _Krassowsky1940_, \
-                             _lat_, _meridional_, _n_, _negative_, _not_, _prime_vertical_, \
-                             _radius_, _Sphere_, _SPACE_, _vs_, _WGS72_, _WGS84_, \
-                             _0_0, _0_5, _1_0, _2_0, _4_0, _90_0
+                             _EPS0__2, _f_, _finite_, _float as _F, _floatuple as _T, \
+                             _GRS80_, _height_, _Intl1924_, _Krassovski1940_, _vs_, \
+                             _Krassowsky1940_, _lat_, _meridional_, _n_, _negative_, \
+                             _not_, _prime_vertical_, _radius_, _Sphere_, _SPACE_, \
+                             _WGS72_, _WGS84_, _0_0, _0_5, _1_0, _2_0, _4_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
                             _NamedEnumItem, _NamedTuple, _Pass
 from pygeodesy.namedTuples import Distance2Tuple
-from pygeodesy.props import Property_RO, property_doc_, property_RO
+from pygeodesy.props import Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
 from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat, \
                             Meter, Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
-from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2km, m2NM, \
-                            m2SM, m2radians, radians2m, sincos2d
+from pygeodesy.utily import atand, atan2b, atan2d, degrees90, m2km, m2NM, m2SM, \
+                            m2radians, radians2m, sincos2d
 
 from math import asinh, atan, atanh, cos, degrees, exp, hypot, radians, \
                  sin, sinh, sqrt, tan
@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.01.12'
+__version__ = '21.01.19'
 
 _f_0_0  = Float(f =_0_0)
 _f__0_0 = Float(f_=_0_0)
@@ -163,13 +163,13 @@ class a_f2Tuple(_NamedTuple):
             f = _f_0_0
         return _NamedTuple.__new__(cls, a, f)
 
-    @property_RO
+    @Property_RO
     def b(self):
         '''Get the I{polar} radius (C{meter}), M{a * (1 - f)}.
         '''
         return a_f2b(self.a, self.f)  # PYCHOK .a and .f
 
-    @property_RO
+    @Property_RO
     def f_(self):
         '''Get the I{inverse} flattening (C{float}), M{1 / f} == M{a / (a - b)}.
         '''
@@ -210,7 +210,7 @@ class Ellipsoid(_NamedEnumItem):
     _f_ = 0  # inverse flattening: 1 / f = a / (a - b)
 
     _KsOrder = 8     # Krüger series order (4, 6 or 8)
-    _Math    = None  # cached geographiclib.Math module
+    _Math    = None  # cached karney._wrapped.Math module
 
     def __init__(self, a, b=None, f_=None, name=NN):
         '''New L{Ellipsoid} from I{equatorial} and I{polar} radius or
@@ -282,7 +282,7 @@ class Ellipsoid(_NamedEnumItem):
                                   self.a == other.a and
                                  (self.b == other.b or self.f == other.f))
 
-    @property_RO
+    @Property_RO
     def a(self):
         '''Get the I{equatorial} radius, semi-axis (C{meter}).
         '''
@@ -520,7 +520,7 @@ class Ellipsoid(_NamedEnumItem):
                     lat = _90_0 * self.Llat(lat) / self.L
         return _aux(lat, inverse, Ellipsoid.auxRectifying.__name__)
 
-    @property_RO
+    @Property_RO
     def b(self):
         '''Get the I{polar} radius, semi-axis (C{meter}).
         '''
@@ -786,13 +786,15 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{s}}.
         '''
-        try:
-            e2 = self.e2
-            r  = (_1_0 - e2 * Scalar(s=s)**2) if e2 else _1_0
-            if r < 0:
-                raise ValueError(_negative_)
-        except (TypeError, ValueError) as x:
-            raise _ValueError(self._DOT_(Ellipsoid.e2s2.__name__), s, txt=str(x))
+        r = _1_0
+        if self.e2:
+            try:
+                r -= self.e2 * Scalar(s=s)**2
+                if r < 0:
+                    raise ValueError(_negative_)
+            except (TypeError, ValueError) as x:
+                t = self._DOT_(Ellipsoid.e2s2.__name__)
+                raise _ValueError(t, s, txt=str(x))
         return r
 
     @Property_RO
@@ -872,7 +874,7 @@ class Ellipsoid(_NamedEnumItem):
         a = hypot1(s) * t - h * s
         return a, h
 
-    @property_RO
+    @Property_RO
     def f(self):
         '''Get the I{flattening} (C{float}), M{(a - b) / a}, C{0} for spherical, negative for prolate.
         '''
@@ -880,7 +882,7 @@ class Ellipsoid(_NamedEnumItem):
 
     flattening = f
 
-    @property_RO
+    @Property_RO
     def f_(self):
         '''Get the I{inverse flattening} (C{float}), M{1 / f} == M{a / (a - b)}, C{0} for spherical, see L{a_b2f_}.
         '''
@@ -907,12 +909,13 @@ class Ellipsoid(_NamedEnumItem):
         Ellipsoid._Math = _wrapped.Math  # hold
         return _wrapped.Geodesic(self.a, self.f)
 
-    @property_RO
+    @Property_RO
     def _geodesic_Math2(self):
         '''(INTERNAL) Get this ellipsoid's I{wrapped Karney} C{Geodesic}
            and I{Karney}'s C{Math} class, see L{geodesic}.
         '''
-        return self.geodesic, Ellipsoid._Math
+        g = self.geodesic
+        return g, Ellipsoid._Math
 
     def _hubeny2_(self, phi2, phi1, lam21):
         '''(INTERNAL) like function L{flatLocal_}/L{hubeny_} but
@@ -1224,8 +1227,8 @@ class Ellipsoid(_NamedEnumItem):
         if not self.f:  # .isSpherical
             n = self.a
         elif ca is None:
-            r = self.e2s2(sa)  # see .roc2_ and _EcefBase._forward
-            n = _0_0 if r < EPS else (self.a / sqrt(r))
+            r =  self.e2s2(sa)  # see .roc2_ and _EcefBase._forward
+            n = (self.a / sqrt(r)) if r > _EPS0__2 else _0_0
         elif ca:  # derived from EcefYou.forward
             h = hypot(ca, self.b_a * sa) if sa else abs(ca)
             n = self.a / h
@@ -1273,12 +1276,12 @@ class Ellipsoid(_NamedEnumItem):
         '''
         a = abs(Phi(phi))
         if self.f:
-            r = self.e2s2(sin(a) if a < PI_2 else _1_0)
-            if r < EPS:
-                m = n = 0  # PYCHOK attr
-            else:
+            r = self.e2s2(sin(a))
+            if r > _EPS0__2:
                 n = self.a / sqrt(r)
                 m = n * self.e12 / r  # PYCHOK attr
+            else:
+                m = n = _0_0  # PYCHOK attr
         else:
             m = n = self.a
         if scaled and a:

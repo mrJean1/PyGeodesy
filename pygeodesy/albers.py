@@ -19,13 +19,15 @@ from pygeodesy.basics import copysign, neg
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
-from pygeodesy.interns import EPS, NN, _EPSqrt as _TOL, _datum_, _gamma_, \
-                             _lat_, _lat1_, _lat2_, _lon_, _no_, _scale_, \
-                             _x_, _y_, _0_0, _0_5, _1_0, _2_0, _3_0, _90_0
+from pygeodesy.interns import EPS0, NN, _EPSqrt as _TOL, _datum_, \
+                             _EPS__2, _EPS__4, _gamma_, _lat_, \
+                             _lat1_, _lat2_, _lon_, _no_, _scale_, \
+                             _x_, _y_, _0_0, _0_5, _1_0, _2_0, \
+                             _3_0, _90_0
 from pygeodesy.karney import _diff182, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Lon_, \
                             Meter, Scalar_
@@ -34,10 +36,8 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.01.07'
+__version__ = '21.01.18'
 
-_EPS__2 = EPS**2  # see .ups
-_EPS__4 = EPS**4
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
 _TERMS  = 21  # XXX 9?
@@ -77,9 +77,9 @@ def _Dsn(x, y, sx, sy):
 
 
 def _Ks(**name_k):
-    '''(INTERNAL) Scale C{B{k} >= EPS}.
+    '''(INTERNAL) Scale C{B{k} >= EPS0}.
     '''
-    return Scalar_(Error=AlbersError, low=EPS, **name_k)  # > 0
+    return Scalar_(Error=AlbersError, low=EPS0, **name_k)  # > 0
 
 
 def _Lat(**name_lat):
@@ -259,13 +259,13 @@ class _AlbersBase(_NamedBase):
             s += sxi
         return a, b, s
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
 
-    @property_RO
+    @Property_RO
     def equatoradius(self):
         '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
@@ -280,7 +280,7 @@ class _AlbersBase(_NamedBase):
         '''
         return self._iteration
 
-    @property_RO
+    @Property_RO
     def flattening(self):
         '''Get the geodesic's flattening (C{float}).
         '''
@@ -339,7 +339,7 @@ class _AlbersBase(_NamedBase):
         t = Albers7Tuple(x, y, lat, lon, g, k0, self.datum)
         return self._xnamed(t, name=name)
 
-    @property_RO
+    @Property_RO
     def ispolar(self):
         '''Is this projection polar (C{bool})?
         '''
@@ -347,7 +347,7 @@ class _AlbersBase(_NamedBase):
 
     isPolar = ispolar  # synonym
 
-    @property_RO
+    @Property_RO
     def lat0(self):
         '''Get the latitude of the projection origin (C{degrees}).
 
@@ -359,13 +359,13 @@ class _AlbersBase(_NamedBase):
         '''
         return self._lat0
 
-    @property_RO
+    @Property_RO
     def lat1(self):
         '''Get the latitude of the first parallel (C{degrees}).
         '''
         return self._lat1
 
-    @property_RO
+    @Property_RO
     def lat2(self):
         '''Get the latitude of the second parallel (C{degrees}).
 
@@ -449,7 +449,7 @@ class _AlbersBase(_NamedBase):
             r = LatLon(lat, lon, **kwds)
         return self._xnamed(r, name=name)
 
-    @property_RO
+    @Property_RO
     def scale0(self):
         '''Get the central scale for the projection (C{float}).
 

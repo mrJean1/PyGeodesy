@@ -26,6 +26,7 @@ from pygeodesy import Datums, fstr, HeightError, \
                       HeightIDWkarney, HeightIDWthomas, \
                       HeightIDWvincentys, HeightLSQBiSpline, \
                       HeightSmoothBiSpline, SciPyError
+from pygeodesy.interns import _DOT_
 from pygeodesy.sphericalTrigonometry import LatLon
 
 
@@ -70,9 +71,10 @@ class Tests(TestsBase):
                                      if isinstance(interpolator, HeightIDWdistanceTo) else
                                     "llis[0] (9.0): 'float' object has no attribute 'lon'")
         if coverage:
+            n = interpolator.__class__.__name__
             for a in ('adjust', 'kmin', 'wrap') + attrs:
                 t = getattr(interpolator, a)
-                self.test(interpolator.__class__.__name__+a, t, t)  # PYCHOK test attr
+                self.test(_DOT_(n, a), t, t)  # PYCHOK test attr
 
     def testIDW(self, IDW, kts, lli, expected, **kwds):
         interpolator = IDW(kts, **kwds)
@@ -105,7 +107,7 @@ class Tests(TestsBase):
         if coverage:
             for a in ('adjust', 'beta', 'kmin', 'wrap'):
                 t = getattr(interpolator, a)
-                self.test(IDW.__name__+a, t, t)
+                self.test(_DOT_(IDW.__name__, a), t, t)
 
     def testHeights(self):
         kts = LatLon(0.4, 0.9, 1), LatLon(1.5, 1.5, 3), \

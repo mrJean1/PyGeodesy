@@ -24,11 +24,12 @@ from pygeodesy.interns import NN, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
                              _EQUAL_, _EQUALSPACED_, _immutable_, _name_, \
                              _other_, _s_, _SPACE_, _UNDER_, _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
-from pygeodesy.props import property_doc_, property_RO, _update_all
+from pygeodesy.props import _hasProperty, Property_RO, property_doc_, \
+                             property_RO, _update_all
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.01.11'
+__version__ = '21.01.20'
 
 _at_     = 'at'
 _del_    = 'del'
@@ -124,7 +125,7 @@ class _Named(object):
         '''
         return _COMMASPACE_.join(attrs(self, *names, **kwds))
 
-    @property_RO
+    @Property_RO
     def classname(self):
         '''Get this object's C{[module.]class} name (C{str}), see
            property C{.classnaming} and function C{classnaming}.
@@ -199,25 +200,25 @@ class _Named(object):
         # _Named.name.fset(self, name), but not
         # _Named(self).name = name
 
-    @property_RO
+    @Property_RO
     def named(self):
         '''Get the name I{or} class name or C{""} (C{str}).
         '''
         return self.name or self.classname
 
-    @property_RO
+    @Property_RO
     def named2(self):
         '''Get the C{class} name I{and/or} the name or C{""} (C{str}).
         '''
         return _xjoined_(self.classname, self.name)
 
-    @property_RO
+    @Property_RO
     def named3(self):
         '''Get the I{prefixed} C{class} name I{and/or} the name or C{""} (C{str}).
         '''
         return _xjoined_(classname(self, prefixed=True), self.name)
 
-    @property_RO
+    @Property_RO
     def named4(self):
         '''Get the C{package.module.class} name I{and/or} the name or C{""} (C{str}).
         '''
@@ -228,7 +229,7 @@ class _Named(object):
 
            @arg name: The new name (C{str}).
 
-           @return: The old name  (C{str}).
+           @return: The old name (C{str}).
         '''
         m, n = self._name, str(name)
         if n != m:
@@ -293,12 +294,6 @@ class _NamedBase(_Named):
         '''Default C{str(self)}.
         '''
         return self.toStr()
-
-    def _update(self, updated, *attrs):
-        '''(INTERNAL) Zap cached instance attributes.
-        '''
-        if updated:
-            _update_all(self, *attrs)
 
 #   def notImplemented(self, attr):
 #       '''Raise error for a missing method, function or attribute.
@@ -367,6 +362,22 @@ class _NamedBase(_Named):
 #       else:  # super().__str__ only for Python 3+
 #           s = super(self.__class__, self).__str__()
 #       return s
+
+    def _overwrite(self, **name_values):
+        '''(INTERNAL) Overwrite instance attributes.
+        '''
+        d = self.__dict__
+        for n, v in name_values.items():
+            if _hasProperty(self, n, Property_RO):
+                d[n] = v
+            else:
+                raise _AssertionError(n, v, txt=repr(self))
+
+    def _update(self, updated, *attrs):
+        '''(INTERNAL) Zap cached instance attributes.
+        '''
+        if updated:
+            _update_all(self, *attrs)
 
 
 class _NamedDict(dict, _Named):

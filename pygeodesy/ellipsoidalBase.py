@@ -19,11 +19,12 @@ from pygeodesy.basics import issubclassof, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
 from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, \
-                             _IsnotError, TRFError, _ValueError, _xellipsoidal
+                             _IsnotError, RangeError, TRFError, _ValueError, \
+                             _xellipsoidal
 from pygeodesy.fmath import euclid, favg, fmean_, fsum_
 from pygeodesy.formy import _radical2
 from pygeodesy.interns import _ellipsoidal_  # PYCHOK used!
-from pygeodesy.interns import EPS, EPS1, MISSING, NN, PI, _COMMA_, \
+from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, PI, _COMMA_, \
                              _conversion_, _datum_, _DOT_, _exceed_PI_radians_, \
                              _N_, _no_, _near_concentric_, _SPACE_, _too_
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
@@ -36,7 +37,7 @@ from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '21.01.10'
+__version__ = '21.01.20'
 
 _reframe_ = 'reframe'
 _TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
@@ -83,16 +84,10 @@ class LatLonEllipsoidalBase(LatLonBase):
     _datum          = Datums.WGS84  # L{Datum}
     _elevation2to   = None  # _elevation2 timeout (C{secs})
     _epoch          = None  # overriding .reframe.epoch (C{float})
-    _etm            = None  # cached toEtm (L{Etm})
     _geoidHeight2to = None  # _geoidHeight2 timeout (C{secs})
     _iteration      = None  # iteration number (C{int} or C{None})
-    _lcc            = None  # cached toLcc (C{Lcc})
-    _osgr           = None  # cached toOsgr (C{Osgr})
     _reframe        = None  # reference frame (L{RefFrame})
     _scale          = None  # UTM/UPS scale factor (C{float})
-    _ups            = None  # cached toUps (L{Ups})
-    _utm            = None  # cached toUtm (L{Utm})
-    _wm             = None  # cached toWm (webmercator.Wm instance)
 
     def __init__(self, lat, lon, height=0, datum=None, reframe=None,
                                            epoch=None, name=NN):
@@ -139,22 +134,15 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         if adjust:  # Elevation2Tuple or GeoidHeight2Tuple
             m, t = meter_text2
-            if isinstance(m, float):
+            if isinstance(m, float) and abs(m) > EPS:
                 n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
-                if min(abs(m), n) > EPS:
+                if n > EPS0:
                     # use ratio, datum and NAD83 units may differ
                     e = self.ellipsoid(datum).rocGauss(self.lat)
-                    if min(abs(e - n), e) > EPS:
+                    if e > EPS0 and abs(e - n) > EPS:  # EPS1
                         m *= e / n
                         meter_text2 = meter_text2.classof(m, t)
         return self._xnamed(meter_text2)
-
-    def _update(self, updated, *attrs):
-        '''(INTERNAL) Zap cached attributes if updated.
-        '''
-        if updated:
-            LatLonBase._update(self, updated, '_etm', '_lcc', '_osgr',
-                                      '_ups', '_utm', '_wm', *attrs)
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
@@ -308,6 +296,13 @@ class LatLonEllipsoidalBase(LatLonBase):
         self._epoch = None if epoch is None else Epoch(epoch)
 
     @Property_RO
+    def _etm(self):
+        '''(INTERNAL) Get this C{LatLon} point as an ETM coordinate (L{toEtm8}).
+        '''
+        from pygeodesy.etm import toEtm8, Etm  # PYCHOK recursive import
+        return toEtm8(self, datum=self.datum, Etm=Etm)
+
+    @Property_RO
     def _geoidHeight2(self):
         '''(INTERNAL) Get geoid height and model.
         '''
@@ -390,6 +385,13 @@ class LatLonEllipsoidalBase(LatLonBase):
                                   equidistant=equidistant, tol=tol,
                                   LatLon=self.classof, datum=self.datum)
 
+    @Property_RO
+    def _lcc(self):
+        '''(INTERNAL) Get this C{LatLon} point to a Lambert location (L{Lcc}).
+        '''
+        from pygeodesy.lcc import Lcc, toLcc  # PYCHOK recursive import
+        return toLcc(self, height=self.height, Lcc=Lcc, name=self.name)
+
     def nearestOn(self, point1, point2, within=True, height=None, wrap=True,
                                         equidistant=None, tol=_TOL_M):
         '''Locate the closest point between two other points.
@@ -428,6 +430,13 @@ class LatLonEllipsoidalBase(LatLonBase):
            of the most recent C{intersections2} or C{nearestOn} invokation.
         '''
         return self._iteration
+
+    @Property_RO
+    def _osgr(self):
+        '''(INTERNAL) Get this C{LatLon} point to an OSGR coordinate (L{Osgr}).
+        '''
+        from pygeodesy.osgr import Osgr, toOsgr  # PYCHOK recursive import
+        return toOsgr(self, datum=self.datum, Osgr=Osgr, name=self.name)
 
     def parse(self, strllh, height=0, datum=None, sep=_COMMA_, name=NN):
         '''Parse a string representing a similar, ellipsoidal C{LatLon}
@@ -475,7 +484,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         elif self.reframe is not None:
             self._reframe = None
 
-    @property_RO
+    @Property_RO
     def scale(self):
         '''Get this point's UTM grid or UPS point scale factor (C{float})
            or C{None} if not converted from L{Utm} or L{Ups}.
@@ -522,9 +531,6 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: Function L{toEtm8}.
         '''
-        if self._etm is None:
-            from pygeodesy.etm import toEtm8, Etm  # PYCHOK recursive import
-            self._etm = toEtm8(self, datum=self.datum, Etm=Etm)
         return self._etm
 
     def toLcc(self):
@@ -534,10 +540,6 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: The Lambert location (L{Lcc}).
         '''
-        if self._lcc is None:
-            from pygeodesy.lcc import Lcc, toLcc  # PYCHOK recursive import
-            self._lcc = toLcc(self, height=self.height, Lcc=Lcc,
-                                                        name=self.name)
         return self._lcc
 
     def toOsgr(self):
@@ -547,10 +549,6 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: The OSGR coordinate (L{Osgr}).
         '''
-        if self._osgr is None:
-            from pygeodesy.osgr import Osgr, toOsgr  # PYCHOK recursive import
-            self._osgr = toOsgr(self, datum=self.datum, Osgr=Osgr,
-                                                        name=self.name)
         return self._osgr
 
     def toRefFrame(self, reframe2):
@@ -604,11 +602,13 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: Function L{toUps8}.
         '''
-        if self._ups is None:
+        if self._upsOK(pole, falsed):
+            u = self._ups
+        else:
             from pygeodesy.ups import toUps8, Ups  # PYCHOK recursive import
-            self._ups = toUps8(self, datum=self.datum, Ups=Ups,
-                                     pole=pole, falsed=falsed)
-        return self._ups
+            u = toUps8(self, datum=self.datum, Ups=Ups,
+                              pole=pole, falsed=falsed)
+        return u
 
     def toUtm(self):
         '''Convert this C{LatLon} point to a UTM coordinate.
@@ -617,9 +617,6 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: Function L{toUtm8}.
         '''
-        if self._utm is None:
-            from pygeodesy.utm import toUtm8, Utm  # PYCHOK recursive import
-            self._utm = toUtm8(self, datum=self.datum, Utm=Utm)
         return self._utm
 
     def toUtmUps(self, pole=NN):
@@ -634,17 +631,18 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @see: Function L{toUtmUps}.
         '''
-        if self._utm:
+        if self._utmOK():
             u = self._utm
-        elif self._ups and (self._ups.pole == pole or not pole):
+        elif self._upsOK(pole):
             u = self._ups
-        else:
+        else:  # no cover
             from pygeodesy.utmups import toUtmUps8, Utm, Ups  # PYCHOK recursive import
-            u = toUtmUps8(self, datum=self.datum, Utm=Utm, Ups=Ups, pole=pole)
+            u = toUtmUps8(self, datum=self.datum, Utm=Utm, Ups=Ups,
+                                 pole=pole, name=self.name)
             if isinstance(u, Utm):
-                self._utm = u
+                self._overwrite(_utm=u)
             elif isinstance(u, Ups):
-                self._ups = u
+                self._overwrite(_ups=u)
             else:
                 _xinstanceof(Utm, Ups, toUtmUps8=u)
         return u
@@ -656,9 +654,6 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @return: The WM coordinate (L{Wm}).
         '''
-        if self._wm is None:
-            from pygeodesy.webmercator import toWm  # PYCHOK recursive import
-            self._wm = toWm(self)
         return self._wm
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
@@ -721,6 +716,46 @@ class LatLonEllipsoidalBase(LatLonBase):
                              self.others(point2=point2), distance2,
                              self.others(point3=point3), distance3,
                              area=area, eps=eps, wrap=wrap)
+
+    @Property_RO
+    def _ups(self):  # __dict__ value overwritten by method C{toUtmUps}
+        '''(INTERNAL) Get this C{LatLon} point as UPS coordinate (L{Ups}), see L{toUps8}.
+        '''
+        from pygeodesy.ups import toUps8, Ups  # PYCHOK recursive import
+        return toUps8(self, datum=self.datum, Ups=Ups,
+                             pole=NN, falsed=True, name=self.name)
+
+    def _upsOK(self, pole=NN, falsed=True):
+        '''(INTERNAL) Check matching C{Ups}.
+        '''
+        try:
+            u = self._ups
+        except RangeError:
+            return False
+        return falsed and (u.pole == pole[:1].upper() or not pole)
+
+    @Property_RO
+    def _utm(self):  # __dict__ value overwritten by method C{toUtmUps}
+        '''(INTERNAL) Get this C{LatLon} point as UTM coordinate (L{Utm}), see L{toUtm8}.
+        '''
+        from pygeodesy.utm import toUtm8, Utm  # PYCHOK recursive import
+        return toUtm8(self, datum=self.datum, Utm=Utm, name=self.name)
+
+    def _utmOK(self):
+        '''(INTERNAL) Check C{Utm}.
+        '''
+        try:
+            _ = self._utm
+        except RangeError:
+            return False
+        return True
+
+    @Property_RO
+    def _wm(self):
+        '''(INTERNAL) Get this C{LatLon} point as webmercator (L{WM}).
+        '''
+        from pygeodesy.webmercator import toWm  # PYCHOK recursive import
+        return toWm(self)
 
 
 def _Equidistant2(equidistant, datum):

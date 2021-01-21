@@ -21,7 +21,7 @@ from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                               IntersectionError, _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
 from pygeodesy.formy import antipode_, bearing_, _radical2, vincentys_
-from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, PI_4, R_M, \
+from pygeodesy.interns import EPS, EPS0, EPS1, PI, PI2, PI_2, PI_4, R_M, \
                              _EPS4, _coincident_, _colinear_, _convex_, \
                              _end_, _invalid_, _LatLon_, _near_concentric_, \
                              _not_, _points_, _too_, _1_, _2_, _0_0, _0_5
@@ -43,7 +43,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '20.12.22'
+__version__ = '21.01.14'
 
 _PI_EPS4 = PI - _EPS4
 if _PI_EPS4 >= PI:
@@ -151,7 +151,7 @@ class LatLon(LatLonSphericalBase):
         '''
         r, x, b = self._trackDistanceTo3(start, end, radius, wrap)
         cx = cos(x)
-        if abs(cx) > EPS:
+        if abs(cx) > EPS0:
             return copysign(acos1(cos(r) / cx), cos(b)) * radius
         else:
             return _0_0
@@ -383,7 +383,7 @@ class LatLon(LatLonSphericalBase):
         db, b2 = unrollPI(b1, b2, wrap=wrap)
         r = vincentys_(a2, a1, db)
         sr = sin(r)
-        if abs(sr) > EPS:
+        if abs(sr) > EPS0:
             sa1, ca1, sa2, ca2, \
             sb1, cb1, sb2, cb2 = sincos2(a1, a2, b1, b2)
 
@@ -640,7 +640,7 @@ class LatLon(LatLonSphericalBase):
 #           if abs(a) < EPS or (within and a < EPS):
 #               return point1
 #           d = point1.distanceTo(point2, radius=radius, wrap=wrap)
-#           if abs(d) < EPS:
+#           if abs(d) < EPS0:
 #               return point1  # or point2
 #           elif abs(d - a) < EPS or (a + EPS) > d:
 #               return point2
@@ -945,7 +945,7 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
         sa1, ca1, sa2, ca2, sr12, cr12 = sincos2(a1, a2, r12)
 
         x1, x2 = (sr12 * ca1), (sr12 * ca2)
-        if abs(x1) < EPS or abs(x2) < EPS:
+        if abs(x1) < EPS0 or abs(x2) < EPS0:
             raise IntersectionError(start1=start1, end1=end1,
                                     start2=start2, end2=end2, txt='parallel')
 
@@ -1085,7 +1085,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
     if x > max(r, EPS):
         sd, cd, sr1, cr1, _, cr2 = sincos2(d, r1, r2)
         x = sd * sr1
-        if abs(x) < EPS:
+        if abs(x) < EPS0:
             raise ValueError(_invalid_)
         x = acos1((cr2 - cd * cr1) / x)  # 0 <= x <= PI
 

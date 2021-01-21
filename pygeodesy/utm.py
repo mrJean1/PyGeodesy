@@ -38,7 +38,7 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
-from pygeodesy.interns import EPS, MISSING, NN, _by_, \
+from pygeodesy.interns import EPS, EPS0, MISSING, NN, _by_, \
                              _COMMASPACE_, _float, _NS_, \
                              _outside_, _range_, _S_, _SPACE_, \
                              _UTM_, _V_, _X_, _zone_, _1_0
@@ -46,7 +46,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
-from pygeodesy.props import Property_RO,property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Band, Int, Lat, Lon, Zone
 from pygeodesy.utily import degrees90, degrees180, sincos2  # splice
@@ -61,7 +61,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.01.10'
+__version__ = '21.01.18'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -322,7 +322,7 @@ class Utm(UtmUpsBase):
                    convergence=self.convergence,
                    name=name or self.name)
 
-    @property_RO
+    @Property_RO
     def band(self):
         '''Get the (latitudinal) band (C{str}, 'C'..'X' or '').
         '''
@@ -375,7 +375,7 @@ class Utm(UtmUpsBase):
         '''
         return self.parse(strUTM)
 
-    @property_RO
+    @Property_RO
     def pole(self):
         '''Get the top center of (stereographic) projection, C{""} always.
         '''
@@ -426,7 +426,7 @@ class Utm(UtmUpsBase):
 
         # from Karney 2011 Eq 15-22, 36
         A0 = self.scale0 * E.A
-        if A0 < EPS:
+        if A0 < EPS0:
             raise self._Error(meridional=A0)
         x /= A0  # η eta
         y /= A0  # ξ ksi
@@ -439,7 +439,7 @@ class Utm(UtmUpsBase):
         sy, cy = sincos2(y)
 
         H = hypot(shx, cy)
-        if H < EPS:
+        if H < EPS0:
             raise self._Error(H=H)
 
         T = t0 = sy / H  # τʹ
@@ -580,7 +580,7 @@ class Utm(UtmUpsBase):
             return u
         raise self._Error(zone=zone)
 
-    @property_RO
+    @Property_RO
     def zone(self):
         '''Get the (longitudinal) zone (C{int}, 1..60).
         '''

@@ -57,16 +57,17 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, LenError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot1, hypot2_
-from pygeodesy.interns import EPS, EPS1, EPS_2, NN, PI, PI_2, _a_, _C_, \
-                             _convergence_, _datum_, _ellipsoid_, _f_, _h_, \
-                             _height_, _lat_, _lat0_, _lon_, _lon0_, _M_, \
-                             _name_, _no_, _SPACE_, _x_, _y_, _z_, _0_, \
-                             _0_0, _0_5, _1_0, _2_0, _3_0, _4_0, _6_0, _90_0
+from pygeodesy.interns import EPS, EPS0, EPS1, EPS_2, NN, PI, PI_2, _a_, \
+                             _C_, _convergence_, _datum_, _ellipsoid_, \
+                             _EPS0__2, _f_, _h_, _height_, _lat_, _lat0_, \
+                             _lon_, _lon0_, _M_, _name_, _no_, _singular_, \
+                             _SPACE_, _x_, _y_, _z_, _0_, _0_0, _0_5, \
+                             _1_0, _2_0, _3_0, _4_0, _6_0, _90_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple
-from pygeodesy.props import Property_RO, property_RO, _update_all
+from pygeodesy.props import Property_RO, _update_all
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Height, Int, Lat, Lon, Meter, Scalar
 from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
@@ -75,11 +76,10 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.01.10'
+__version__ = '21.01.19'
 
-_prolate_  = 'prolate'
-_singular_ = 'singular'
-_TRIPS     =  17  # 8..9 sufficient, EcefSudano.reverse
+_prolate_ = 'prolate'
+_TRIPS    =  17  # 8..9 sufficient, EcefSudano.reverse
 
 
 def _llhn4(latlonh, lon, height, suffix=NN):
@@ -161,13 +161,13 @@ class _EcefBase(_NamedBase):
 
     equatorialRadius = a = equatoradius  # Karney property
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
 
-    @property_RO
+    @Property_RO
     def ellipsoid(self):
         '''Get the ellipsoid (L{Ellipsoid} or L{Ellipsoid2}).
         '''
@@ -287,7 +287,7 @@ class EcefKarney(_EcefBase):
         '''
         return _EcefBase._forward(self, latlonh, lon, height, M)
 
-    @property_RO
+    @Property_RO
     def hmax(self):
         '''Get the distance limit (C{float}).
         '''
@@ -465,7 +465,7 @@ class EcefCartesian(_NamedBase):
             self._ecef = ecef
         self.reset(latlonh0, lon0, height0, name=name)
 
-    @property_RO
+    @Property_RO
     def ecef(self):
         '''Get the ECEF converter (L{EcefKarney}).
         '''
@@ -741,7 +741,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
 
     @Property_RO
     def lamVermeille(self):
-        '''Get the longitude in radians M{[-PI*3/2..+PI*3/2]} after U{Vermeille
+        '''Get the longitude in C{[-PI*3/2..+PI*3/2] radians} after U{Vermeille
            <https://Search.ProQuest.com/docview/639493848>} (2004), p 95.
 
            @see: U{Karney<https://GeographicLib.SourceForge.io/html/geocentric.html>},
@@ -757,27 +757,35 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
             r = PI if x < 0 else _0_0
         return r
 
-    @property_RO
+    @Property_RO
     def latlon(self):
         '''Get the lat-, longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
         '''
         return self._xnamed(LatLon2Tuple(self.lat, self.lon))
 
-    @property_RO
+    @Property_RO
     def latlonheight(self):
         '''Get the lat-, longitude in C{degrees} and height (L{LatLon3Tuple}C{(lat, lon, height)}).
         '''
-        return self._xnamed(self.latlon.to3Tuple(self.height))
+        return self.latlon.to3Tuple(self.height)
 
-    @property_RO
+    @Property_RO
     def latlonheightdatum(self):
         '''Get the lat-, longitude in C{degrees} with height and datum (L{LatLon4Tuple}C{(lat, lon, height, datum)}).
         '''
-        return self._xnamed(self.latlon.to3Tuple(self.height).to4Tuple(self.datum))
+        return self.latlonheight.to4Tuple(self.datum)
+
+    @Property_RO
+    def latlonVermeille(self):
+        '''Get the latitude and I{Vermeille} longitude in C{[-225..+225] degrees} (L{LatLon2Tuple}C{(lat, lon)}).
+
+           @see: Property C{lonVermeille}.
+        '''
+        return self._xnamed(LatLon2Tuple(self.lat, degrees(self.lamVermeille)))
 
     @Property_RO
     def lonVermeille(self):
-        '''Get the longitude in degrees M{[-225..+225]} after U{Vermeille
+        '''Get the longitude in C{[-225..+225] degrees} after U{Vermeille
            <https://Search.ProQuest.com/docview/639493848>} (2004), p 95.
 
            @see: Property C{lamVermeille}.
@@ -790,23 +798,31 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
         '''
         return self.philam.phi
 
-    @property_RO
+    @Property_RO
     def philam(self):
         '''Get the lat-, longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
         return self._xnamed(PhiLam2Tuple(radians(self.lat), radians(self.lon)))
 
-    @property_RO
+    @Property_RO
     def philamheight(self):
         '''Get the lat-, longitude in C{radians} and height (L{PhiLam3Tuple}C{(phi, lam, height)}).
         '''
-        return self._xnamed(self.philam.to3Tuple(self.height))
+        return self.philam.to3Tuple(self.height)
 
-    @property_RO
+    @Property_RO
     def philamheightdatum(self):
         '''Get the lat-, longitude in C{radians} with height and datum (L{PhiLam4Tuple}C{(phi, lam, height, datum)}).
         '''
-        return self._xnamed(self.philam.to3Tuple(self.height).to4Tuple(self.datum))
+        return self.philamheight.to4Tuple(self.datum)
+
+    @Property_RO
+    def philamVermeille(self):
+        '''Get the latitude and I{Vermeille} longitude in C{[-PI*3/2..+PI*3/2] radians} (L{PhiLam2Tuple}C{(phi, lam)}).
+
+           @see: Property C{lamVermeille}.
+        '''
+        return self._xnamed(PhiLam2Tuple(radians(self.lat), self.lamVermeille))
 
     def toCartesian(self, Cartesian, **Cartesian_kwds):
         '''Return the geocentric C{(x, y, z)} coordinates as an ellipsoidal or spherical
@@ -893,13 +909,13 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
         return self.xyz if Vector is None else \
               self._xnamed(Vector(self.x, self.y, self.z, **Vector_kwds))  # PYCHOK Ecef9Tuple
 
-    @property_RO
+    @Property_RO
     def xyz(self):
         '''Get the geocentric C{(x, y, z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
         '''
         return self._xnamed(Vector3Tuple(self.x, self.y, self.z))
 
-    @property_RO
+    @Property_RO
     def xyzh(self):
         '''Get the geocentric C{(x, y, z)} coordinates and height (L{Vector4Tuple}C{(x, y, z, h)})
         '''
@@ -999,7 +1015,7 @@ class EcefVeness(_EcefBase):
 
         p = hypot(x, y)  # distance from minor axis
         r = hypot(p, z)  # polar radius
-        if min(p, r) > EPS:
+        if min(p, r) > EPS0:
             # parametric latitude (Bowring eqn 17, replaced)
             t = (E.b * z) / (E.a * p) * (_1_0 + E.e22 * E.b / r)
             c = _1_0 / hypot1(t)
@@ -1120,22 +1136,21 @@ class EcefYou(_EcefBase):
     def __init__(self, a_ellipsoid, f=None, name=NN):
         '''New L{EcefYou} converter.
 
-           @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}
-                             or L{a_f2Tuple}) or C{scalar} for the equatorial
+           @arg a_ellipsoid: A (non-prolate) ellipsoid (L{Ellipsoid}, L{Ellipsoid2},
+                             L{Datum} or L{a_f2Tuple}) or C{scalar} for the equatorial
                              radius of the ellipsoid (C{meter}).
-           @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required
-                     for C{scalar} B{C{a_ellipsoid}}, B{C{f=0}} represents a
-                     sphere, negative B{C{f}} a prolate ellipsoid.
+           @kwarg f: C{None} or the ellipsoid flattening (C{scalar}), required for
+                     C{scalar} B{C{a_ellipsoid}}, use B{C{f=0}} to represent a sphere.
            @kwarg name: Optional name (C{str}).
 
            @raise EcefError: If B{C{a_ellipsoid}} not L{Ellipsoid}, L{Ellipsoid2},
                              L{Datum} or L{a_f2Tuple} or C{scalar} or B{C{f}} not
                              C{scalar} or if C{scalar} B{C{a_ellipsoid}} not positive
-                             or B{C{f}} not less than 1.0 or if ellipsoid is prolate.
+                             or B{C{f}} negative or not less than 1.0.
         '''
         _EcefBase.__init__(self, a_ellipsoid, f, name)
         E = self.ellipsoid
-        if (E.a2 - E.b2) < 0:
+        if E.isProlate or (E.a2 - E.b2) < 0:
             raise EcefError(ellipsoid=E, txt=_prolate_)
 
     def forward(self, latlonh, lon=None, height=0, M=False):
@@ -1186,25 +1201,28 @@ class EcefYou(_EcefBase):
         r2 = hypot2_(x, y, z)
 
         E  = self.ellipsoid
-        e2 = E.a2 - E.b2
+        e2 = E.a2 - E.b2  # == E.e2 * E.a2
         if e2 < 0:
             raise EcefError(ellipsoid=E, txt=_prolate_)
-        e = sqrt(e2)
+        e = sqrt(e2)  # XXX sqrt0(e2)?
 
-        u = fsum_(r2, -e2, hypot(r2 - e2, 2 * e * z))
-        if u < 0:
-            raise EcefError(x=x, y=y, z=z, txt=_singular_)
-        u = sqrt(u * _0_5)
-        p = hypot(u, e)
         q = hypot(x, y)
-        B = atan2(p * z, u * q)  # beta0 = atan(p / u * z / q)
-        sB, cB = sincos2(B)
-        if cB and sB:
-            p *= E.a
-            d  = (p / cB - e2 * cB) / sB
-            if abs(d) > EPS:
-                B += fsum_(u * E.b, -p, e2) / d
-                sB, cB = sincos2(B)
+        u = fsum_(r2, -e2, hypot(r2 - e2, 2 * e * z)) * _0_5
+        if u > _EPS0__2:
+            u = sqrt(u)
+            p = hypot(u, e)
+            B = atan2(p * z, u * q)  # beta0 = atan(p / u * z / q)
+            sB, cB = sincos2(B)
+            if cB and sB:
+                p *= E.a
+                d  = (p / cB - e2 * cB) / sB
+                if abs(d) > EPS0:
+                    B += fsum_(u * E.b, -p, e2) / d
+                    sB, cB = sincos2(B)
+        elif u < 0:
+            raise EcefError(x=x, y=y, z=z, txt=_singular_)
+        else:
+            sB, cB = copysign(_1_0, z), _0_0
 
         h = hypot(z - E.b * sB, q - E.a * cB)
         if hypot2_(x, y, z * E.a_b) < E.a2:

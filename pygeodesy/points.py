@@ -57,7 +57,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.01.11'
+__version__ = '21.01.19'
 
 _elel_  = 'll'
 _ncols_ = 'ncols'
@@ -603,13 +603,13 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''
         return self._index(latlon, start_end)
 
-    @property_RO
+    @Property_RO
     def ilat(self):
         '''Get the latitudes column index (C{int}).
         '''
         return self._ilat
 
-    @property_RO
+    @Property_RO
     def ilon(self):
         '''Get the longitudes column index (C{int}).
         '''
@@ -646,7 +646,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''
         return dict(ilat=self._ilat, ilon=self._ilon)
 
-    @property_RO
+    @Property_RO
     def shape(self):
         '''Get the shape of the C{NumPy} array or the C{Tuples} as
            L{Shape2Tuple}C{(nrows, ncols)}.

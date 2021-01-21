@@ -40,18 +40,16 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.01.08'
+__version__ = '21.01.20'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
     '''Base class for ellipsoidal and spherical C{Nvector}s.
     '''
-    _datum  = None  # L{Datum}, overriden
-    _Ecef   = None  # preferred C{EcefEcefKarney} class
-    _h      = 0     # height (C{meter})
-    _H      = NN    # heigth prefix (C{str}), '↑' in JS version
-    _latlon = None  # cached latlon (L{LatlLon2Tuple})
-    _philam = None  # cached philam (L{PhiLam2Tuple})
+    _datum = None  # L{Datum}, overriden
+    _Ecef  = None  # preferred C{EcefEcefKarney} class
+    _h     = 0     # height (C{meter})
+    _H     = NN    # heigth prefix (C{str}), '↑' in JS version
 
     def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=NN):
         '''New n-vector normal to the earth's surface.
@@ -84,13 +82,7 @@ class NvectorBase(Vector3d):  # XXX kept private
             _xinstanceof(Datum, datum=d)
             self._datum = d  # pass-thru
 
-    def _update(self, updated, *attrs):
-        '''(INTERNAL) Zap cached attributes if updated.
-        '''
-        if updated:
-            Vector3d._update(self, updated, '_latlon', '_philam', *attrs)
-
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the I{pass-thru} datum (C{Datum}) or C{None}.
         '''
@@ -122,7 +114,7 @@ class NvectorBase(Vector3d):  # XXX kept private
            @raise VectorError: If B{C{h}} invalid.
         '''
         h = Height(h=h, Error=VectorError)
-        self._update(h != self._h, '_latlon', '_philam')
+        self._update(h != self._h)
         self._h = h
 
     @property_doc_(''' the height prefix (C{str}).''')
@@ -173,19 +165,23 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return self.latlonheight.lat
 
-    @property_RO
+    @Property_RO
     def latlon(self):
         '''Get the (geodetic) lat-, longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        if self._latlon is None:
-            self._latlon = n_xyz2latlon(self.x, self.y, self.z)
-        return self._xnamed(self._latlon)
+        return self._xnamed(n_xyz2latlon(self.x, self.y, self.z))
 
-    @property_RO
+    @Property_RO
     def latlonheight(self):
         '''Get the (geodetic) lat-, longitude in C{degrees} and height (L{LatLon3Tuple}C{(lat, lon, height)}).
         '''
-        return self._xnamed(self.latlon.to3Tuple(self.h))
+        return self.latlon.to3Tuple(self.h)
+
+    @Property_RO
+    def latlonheightdatum(self):
+        '''Get the lat-, longitude in C{degrees} with height and datum (L{LatLon4Tuple}C{(lat, lon, height, datum)}).
+        '''
+        return self.latlonheight.to4Tuple(self.datum)
 
     @Property_RO
     def lon(self):
@@ -199,19 +195,23 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return self.philamheight.phi
 
-    @property_RO
+    @Property_RO
     def philam(self):
         '''Get the (geodetic) lat-, longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        if self._philam is None:
-            self._philam = n_xyz2philam(self.x, self.y, self.z)
-        return self._xnamed(self._philam)
+        return self._xnamed(n_xyz2philam(self.x, self.y, self.z))
 
-    @property_RO
+    @Property_RO
     def philamheight(self):
         '''Get the (geodetic) lat-, longitude in C{radians} and height (L{PhiLam3Tuple}C{(phi, lam, height)}).
         '''
-        return self._xnamed(self.philam.to3Tuple(self.h))
+        return self.philam.to3Tuple(self.h)
+
+    @Property_RO
+    def philamheightdatum(self):
+        '''Get the lat-, longitude in C{radians} with height and datum (L{PhiLam4Tuple}C{(phi, lam, height, datum)}).
+        '''
+        return self.philamheight.to4Tuple(self.datum)
 
     def to2ab(self):  # PYCHOK no cover
         '''DEPRECATED, use property C{philam}.
@@ -379,11 +379,11 @@ class NvectorBase(Vector3d):  # XXX kept private
             self._united = u._united = _xattrs(u, self, '_h')
         return self._united
 
-    @property_RO
+    @Property_RO
     def xyzh(self):
         '''Get this n-vector's components (L{Vector4Tuple}C{(x, y, z, h)})
         '''
-        return self._xnamed(self.xyz.to4Tuple(self.h))
+        return self.xyz.to4Tuple(self.h)
 
 
 NorthPole = NvectorBase(0, 0, +1, name=_NorthPole_)  # North pole (C{Nvector})
@@ -393,10 +393,12 @@ SouthPole = NvectorBase(0, 0, -1, name=_SouthPole_)  # South pole (C{Nvector})
 class _N_vector_(NvectorBase):
     '''(INTERNAL) Minimal, low-overhead C{n-vector}.
     '''
-    def __init__(self, x, y, z, h=0):
+    def __init__(self, x, y, z, h=0, name=NN):
         self._x, self._y, self._z = x, y, z
         if h:
             self._h = h
+        if name:
+            self.name = name
 
 
 class LatLonNvectorBase(LatLonBase):

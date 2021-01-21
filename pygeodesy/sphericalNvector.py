@@ -37,7 +37,7 @@ from pygeodesy.basics import isscalar, neg, _xinstanceof
 from pygeodesy.datums import Datums
 from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fmean, fsum
-from pygeodesy.interns import EPS, PI, PI2, PI_2, R_M, _end_, _other_, \
+from pygeodesy.interns import EPS, EPS0, PI, PI2, PI_2, R_M, _end_, _other_, \
                              _point_, _points_, _pole_, _0_0, _0_5
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import NearestOn3Tuple
@@ -52,7 +52,7 @@ from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '20.12.22'
+__version__ = '21.01.20'
 
 _paths_ = 'paths'
 
@@ -114,19 +114,6 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
        >>> p = LatLon(52.205, 0.119)
     '''
     _Nv = None  # cached_toNvector L{Nvector})
-
-    def _gc3(self, start, end, namend, raiser=_points_):
-        '''(INTERNAL) Return great circle, start and end Nvectors.
-        '''
-        s = start.toNvector()
-        if isscalar(end):  # bearing
-            gc = s.greatCircle(end)
-            e = None
-        else:
-            self.others(end, name=namend)
-            e = end.toNvector()
-            gc = s.cross(e, raiser=raiser)  # XXX .unit()?
-        return gc, s, e
 
     def _update(self, updated, *attrs):  # PYCHOK args
         '''(INTERNAL) Zap cached attributes if updated.
@@ -268,6 +255,19 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         a = self.toNvector().angleTo(other.toNvector(), wrap=wrap)
         return abs(a) * (radius if radius is R_M else Radius(radius))
+
+    def _gc3(self, start, end, namend, raiser=_points_):
+        '''(INTERNAL) Return great circle, start and end Nvectors.
+        '''
+        s = start.toNvector()
+        if isscalar(end):  # bearing
+            gc = s.greatCircle(end)
+            e = None
+        else:
+            self.others(end, name=namend)
+            e = end.toNvector()
+            gc = s.cross(e, raiser=raiser)  # XXX .unit()?
+        return gc, s, e
 
     def greatCircle(self, bearing):
         '''Compute the vector normal to great circle obtained by
@@ -635,8 +635,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         p = n.toLatLon(height=height or 0, LatLon=self.classof)
         if height is None:  # interpolate height within extent
-            d =  point1.distanceTo(point2)
-            f = _0_5 if d < EPS else max(0, min(1, point1.distanceTo(p) / d))
+            d = point1.distanceTo(point2)
+            f = max(0, min(1, point1.distanceTo(p) / d)) if d > EPS0 else _0_5
             p.height = point1._havg(point2, f=f)
         return p
 

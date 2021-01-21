@@ -21,7 +21,7 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, haversine, isantipode, \
                             latlon2n_xyz,points2, thomas_, vincentys
-from pygeodesy.interns import EPS, EPS1, NN, R_M, _COMMASPACE_, \
+from pygeodesy.interns import EPS, EPS0, EPS1, NN, R_M, _COMMASPACE_, \
                              _intersection_, _m_, _near_concentric_, \
                              _no_, _overlap_, _0_0, _0_5, _1_0
 from pygeodesy.lazily import _ALL_DOCS
@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.01.11'
+__version__ = '21.01.19'
 
 
 class LatLonBase(_NamedBase):
@@ -87,22 +87,6 @@ class LatLonBase(_NamedBase):
     def __str__(self):
         return self.toStr(form=F_D, prec=6)
 
-    @Property_RO
-    def _ecef9(self):
-        '''(INTERNAL) Helper for L{toCartesian} and L{toEcef}.
-        '''
-        return self._xnamed(self.Ecef(self.datum).forward(self, M=True))
-
-    def _havg(self, other, f=_0_5):
-        '''(INTERNAL) Weighted, average height.
-
-           @arg other: An other point (C{LatLon}).
-           @kwarg f: Optional fraction (C{float}).
-
-           @return: Average, fractional height (C{float}).
-        '''
-        return favg(self.height, other.height, f=f)
-
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
            to this point.
@@ -140,7 +124,7 @@ class LatLonBase(_NamedBase):
         if radius is not None:
             r = Radius_(radius)
             c = cos(self.phi)
-            x = degrees(asin(x / r) / c) if c > EPS else _0_0  # XXX
+            x = degrees(asin(x / r) / c) if abs(c) > EPS0 else _0_0  # XXX
             y = degrees(y / r)
         x, y = abs(x), abs(y)
 
@@ -300,6 +284,12 @@ class LatLonBase(_NamedBase):
             LatLonBase._Ecef = EcefKarney  # default
         return LatLonBase._Ecef
 
+    @Property_RO
+    def _ecef9(self):
+        '''(INTERNAL) Helper for L{toCartesian} and L{toEcef}.
+        '''
+        return self._xnamed(self.Ecef(self.datum).forward(self, M=True))
+
     def equals(self, other, eps=None):  # PYCHOK no cover
         '''DEPRECATED, use method L{isequalTo}.'''
         return self.isequalTo(other, eps=eps)
@@ -437,6 +427,16 @@ class LatLonBase(_NamedBase):
                  C{thomasTo} and C{vincentysTo}.
         '''
         return self._distanceTo(haversine, other, radius, wrap=wrap)
+
+    def _havg(self, other, f=_0_5):
+        '''(INTERNAL) Weighted, average height.
+
+           @arg other: An other point (C{LatLon}).
+           @kwarg f: Optional fraction (C{float}).
+
+           @return: Average, fractional height (C{float}).
+        '''
+        return favg(self.height, other.height, f=f)
 
     @property_doc_(''' the height (C{meter}).''')
     def height(self):

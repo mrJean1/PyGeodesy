@@ -24,7 +24,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.01.10'
+__version__ = '21.01.19'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -194,13 +194,13 @@ class UtmUpsBase(_NamedBase):
         '''
         return self._convergence
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
 
-    @property_RO
+    @Property_RO
     def easting(self):
         '''Get the easting (C{meter}).
         '''
@@ -237,19 +237,19 @@ class UtmUpsBase(_NamedBase):
         from pygeodesy.epsg import Epsg
         return Epsg(self)
 
-    @property_RO
+    @Property_RO
     def falsed(self):
         '''Get easting and northing falsed (C{bool}).
         '''
         return self._falsed
 
-    @property_RO
+    @Property_RO
     def falsed2(self):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.
         '''
         notOverloaded(self, self.falsed2)
 
-    @property_RO
+    @Property_RO
     def hemisphere(self):
         '''Get the hemisphere (C{str}, 'N'|'S').
         '''
@@ -269,19 +269,19 @@ class UtmUpsBase(_NamedBase):
                                ll, '_convergence', '_scale')
         return _xnamed(r, ll.name)
 
-    @property_RO
+    @Property_RO
     def northing(self):
         '''Get the northing (C{meter}).
         '''
         return self._northing
 
-    @property_RO
+    @Property_RO
     def scale(self):
         '''Get the grid scale (C{float}) or C{None}.
         '''
         return self._scale
 
-    @property_RO
+    @Property_RO
     def scale0(self):
         '''Get the central scale factor (C{float}).
         '''

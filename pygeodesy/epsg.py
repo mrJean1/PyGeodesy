@@ -18,7 +18,7 @@ from pygeodesy.errors import _ValueError
 from pygeodesy.interns import NN, _N_, _NS_, _S_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import UtmUps2Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Int
 from pygeodesy.ups import Ups
@@ -27,7 +27,7 @@ from pygeodesy.utmupsBase import _to3zBhp, _UPS_ZONE, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_MAX, _UTMUPS_ZONE_INVALID
 
 __all__ = _ALL_LAZY.epsg
-__version__ = '21.01.07'
+__version__ = '21.01.20'
 
 # _EPSG_INVALID = _UTMUPS_ZONE_INVALID
 _EPSG_N_01 = 32601  # EPSG code for UTM zone 01 N
@@ -96,19 +96,19 @@ class Epsg(Int):
     def __str__(self):
         return int.__str__(self)
 
-    @property_RO
+    @Property_RO
     def band(self):
         '''Get the (latitudinal) UTM/UPS Band (C{'A'|'B'|'C'|'D'..'W'|'X'|'Y'|'Z'} or C{""}).
         '''
         return self._band
 
-    @property_RO
+    @Property_RO
     def hemisphere(self):
         '''Get the UTM/UPS hemisphere/-pole (C{'N'|'S'}).
         '''
         return self._hemisphere
 
-    @property_RO
+    @Property_RO
     def utmups(self):
         '''Get the UTM/UPS original (L{Utm}, L{Ups}).
         '''
@@ -123,7 +123,7 @@ class Epsg(Int):
             s = _SPACE_
         return NN(Fmt.zone(self.zone), b, s, h)
 
-    @property_RO
+    @Property_RO
     def zone(self):
         '''Get the (longitudinal) UTM/UPS zone (C{int}, C{1..60} for UTM, C{0} for UPS).
         '''

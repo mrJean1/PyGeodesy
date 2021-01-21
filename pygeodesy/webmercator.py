@@ -30,7 +30,7 @@ from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMASPACE_, \
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import Fmt, strs, _xzipairs
 from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, Phi_, \
                             Radius, Radius_
@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.01.10'
+__version__ = '21.01.19'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -153,7 +153,7 @@ class Wm(_NamedBase):
         r = self.latlon
         return PhiLam2Tuple(Phi_(r.lat), Lam_(r.lon), name=r.name)
 
-    @property_RO
+    @Property_RO
     def radius(self):
         '''Get the earth radius (C{meter}).
         '''
@@ -248,13 +248,13 @@ class Wm(_NamedBase):
         t = strs(fs, prec=prec)
         return t if sep is None else sep.join(t)
 
-    @property_RO
+    @Property_RO
     def x(self):
         '''Get the easting (C{meter}).
         '''
         return self._x
 
-    @property_RO
+    @Property_RO
     def y(self):
         '''Get the northing (C{meter}).
         '''

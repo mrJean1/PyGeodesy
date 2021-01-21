@@ -66,13 +66,13 @@ from pygeodesy.interns import EPS, NN, PI, PI2, PI_2, _cubic_, _datum_, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, notOverloaded
 from pygeodesy.points import LatLon_
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import _boolkwds, Fmt
 from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '21.01.07'
+__version__ = '21.01.19'
 
 
 class HeightError(PointsError):
@@ -189,7 +189,7 @@ class _HeightBase(_Named):  # imported by .geoids
         '''
         notOverloaded(self, '__call__', *args)
 
-    @property_RO
+    @Property_RO
     def adjust(self):
         '''Get the adjust setting (C{bool} or C{None} if not applicable).
         '''
@@ -198,7 +198,7 @@ class _HeightBase(_Named):  # imported by .geoids
     def _axyllis4(self, llis):
         return _axyllis4(self._np.array, llis)
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the datum (L{Datum} or C{None} if not applicable).
         '''
@@ -230,7 +230,7 @@ class _HeightBase(_Named):  # imported by .geoids
             llis = [LLis(*ll, datum=d) for ll in zip(lats, lons)]
         return self(llis)  # __call__(lli) or __call__(llis)
 
-    @property_RO
+    @Property_RO
     def kmin(self):
         '''Get the minimum number of knots (C{int}).
         '''
@@ -264,7 +264,7 @@ class _HeightBase(_Named):  # imported by .geoids
     def _xyhs3(self, knots):
         return _xyhs3(self._np.array, self._kmin, knots)
 
-    @property_RO
+    @Property_RO
     def wrap(self):
         '''Get the wrap setting (C{bool} or C{None} if not applicable).
         '''
@@ -694,7 +694,7 @@ class HeightIDWdistanceTo(_HeightIDW):
         except (TypeError, ValueError) as x:
             raise HeightError(str(x))
 
-    @property_RO
+    @property  # NOT _RO, no caching
     def _hs(self):  # see HeightIDWkarney
         for k in self._ks:
             yield k.height
@@ -962,7 +962,7 @@ class HeightIDWkarney(_HeightIDW):
             # non-negative I{angular} distance in C{degrees}
             yield self._Inverse1(y, x, k.lat, k.lon, wrap=self._wrap)
 
-    @property_RO
+    @property  # NOT _RO, no caching
     def _hs(self):  # see HeightIDWdistanceTo
         for k in self._ks:
             yield k.height

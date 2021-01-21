@@ -165,7 +165,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                  'favg', 'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
-                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_', 'sqrt3'),
+                                 'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_', 'sqrt0', 'sqrt3'),
                           formy=('antipode', 'antipode_', 'bearing', 'bearing_',
                                  'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                  'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
@@ -270,7 +270,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.01.12'
+__version__ = '21.01.16'
 
 
 def _ALL_OTHER(*objs):

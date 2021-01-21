@@ -1065,9 +1065,7 @@
   supported).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">cropped(<span class="summary-sig-arg">self</span>)</span>
-        - Is geoid cropped (<code>bool</code> or <code>None</code> if crop not 
-supported).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1091,10 +1089,7 @@ supported).
   target="_top">dtype</a> (<code>numpy.dtype</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">dtype(<span class="summary-sig-arg">self</span>)</span>
-        - Get the grid <code>scipy</code> <a 
-href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.ndarray.dtype.html"
-target="_top">dtype</a> (<code>numpy.dtype</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1118,10 +1113,7 @@ target="_top">dtype</a> (<code>numpy.dtype</code>).
   target="_top">dtype</a> (<code>str</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">endian(<span class="summary-sig-arg">self</span>)</span>
-        - Get the geoid endianess and <a 
-href="https://docs.SciPy.org/doc/numpy/reference/generated/numpy.dtype.html"
-target="_top">dtype</a> (<code>str</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1144,8 +1136,7 @@ target="_top">dtype</a> (<code>str</code>).
   <code>None</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">hits(<span class="summary-sig-arg">self</span>)</span>
-        - Get the number of cache hits (<code>int</code> or <code>None</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1167,8 +1158,7 @@ target="_top">dtype</a> (<code>str</code>).
   <p>Get the interpolator kind and order (<code>int</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">kind(<span class="summary-sig-arg">self</span>)</span>
-        - Get the interpolator kind and order (<code>int</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1190,8 +1180,7 @@ target="_top">dtype</a> (<code>str</code>).
   <p>Get the number of grid knots (<code>int</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">knots(<span class="summary-sig-arg">self</span>)</span>
-        - Get the number of grid knots (<code>int</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1258,8 +1247,7 @@ target="_top">dtype</a> (<code>str</code>).
   <p>Get the grid in-memory size in bytes (<code>int</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">nBytes(<span class="summary-sig-arg">self</span>)</span>
-        - Get the grid in-memory size in bytes (<code>int</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1281,8 +1269,7 @@ target="_top">dtype</a> (<code>str</code>).
   <p>Get the imported <code>numpy</code> version (<code>str</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">numpy(<span class="summary-sig-arg">self</span>)</span>
-        - Get the imported <code>numpy</code> version (<code>str</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1305,9 +1292,7 @@ target="_top">dtype</a> (<code>str</code>).
   available/applicable).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">pgm(<span class="summary-sig-arg">self</span>)</span>
-        - Get the PGM attributes (<code>_PGM</code> or <code>None</code> if not 
-available/applicable).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1329,8 +1314,7 @@ available/applicable).
   <p>Get the imported <code>scipy</code> version (<code>str</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">scipy(<span class="summary-sig-arg">self</span>)</span>
-        - Get the imported <code>scipy</code> version (<code>str</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1352,8 +1336,7 @@ available/applicable).
   <p>Get the geoid grid file size in bytes (<code>int</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">sizeB(<span class="summary-sig-arg">self</span>)</span>
-        - Get the geoid grid file size in bytes (<code>int</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1376,8 +1359,7 @@ available/applicable).
   (<code>int</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">smooth(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>RectBivariateSpline</code> smoothing (<code>int</code>).
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1445,7 +1427,7 @@ available/applicable).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Jan 12 21:09:47 2021
+    Generated by Epydoc 3.0.1 on Thu Jan 21 11:58:38 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

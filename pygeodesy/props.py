@@ -10,7 +10,18 @@ from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, \
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 __all__ = _ALL_LAZY.props
-__version__ = '21.01.09'
+__version__ = '21.01.21'
+
+
+def _hasProperty(inst, name, *Classes):
+    '''(INTERNAL) Check whether C{inst} has a C{P/property/_RO} by this C{name}.
+    '''
+    ps = Classes if Classes else _PropertyBase
+    for c in inst.__class__.__mro__[:-1]:
+        p = c.__dict__.get(name, None)
+        if isinstance(p, ps) and p.name == name:
+            return True
+    return False
 
 
 def _update_all(inst, *attrs):
@@ -58,7 +69,7 @@ class _PropertyBase(property):
         self._update(inst, None)   # PYCHOK no cover
 
     def _fget(self, inst):
-        try:  # get the value cached in instance' __dict__
+        try:  # to get the value cached in instance' __dict__
             return inst.__dict__[self.name]
         except KeyError:
             # cache the value in the instance' __dict__
@@ -128,6 +139,14 @@ class Property_RO(_PropertyBase):
         '''
         _PropertyBase.__init__(self, method, self._fget, self._fset_error)
 
+    def __get__(self, inst, *unused):  # PYCHOK 2 vs 3 args
+        if inst is None:
+            return self
+        try:  # to get the cached value immediately
+            return inst.__dict__[self.name]
+        except (AttributeError, KeyError):
+            return self._fget(inst)
+
 
 class Property(Property_RO):
     # No __doc__ on purpose
@@ -149,8 +168,9 @@ class Property(Property_RO):
             _PropertyBase.setter(self, method)  # PYCHOK no cover
 
         def _fset(inst, val):
-            inst.__dict__.pop(self.name, None)  # self._update(inst)
+            self._update(inst)  # uncache this item
             method(inst, val)
+
         # class Property <https://docs.Python.org/3/howto/descriptor.html>
         _PropertyBase.__init__(self, self.method, self._fget, _fset)
         return self
@@ -176,7 +196,7 @@ class property_RO(_PropertyBase):
         c = clas or inst.__class__
         if c:
             _n = NN(_UNDER_, self.name)
-            if c.__dict__.get(_n, False) in (None, ()):
+            if c.__dict__.get(_n, False) is None:  # in (None, ()):
                 inst.__dict__.pop(_n, None)
 
 

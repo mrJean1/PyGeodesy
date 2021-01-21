@@ -16,28 +16,28 @@ from pygeodesy.basics import _xinstanceof
 from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
 from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
-from pygeodesy.interns import EPS, NN, _COMMASPACE_, _ellipsoidal_, _1_0
+from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _ellipsoidal_, \
+                             _1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple
-from pygeodesy.props import property_doc_, property_RO
+from pygeodesy.props import Property_RO, property_RO, property_doc_
 from pygeodesy.streprs import Fmt
+from pygeodesy.units import Height
 from pygeodesy.vector3d import Vector3d, _xyzhdn6
 
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '21.01.10'
+__version__ = '21.01.20'
 
 
 class CartesianBase(Vector3d):
     '''(INTERNAL) Base class for ellipsoidal and spherical C{Cartesian}.
     '''
-    _datum  = None   # L{Datum}, to be overriden
-    _Ecef   = None   # preferred C{EcefKarney} class
-    _e9t    = None   # cached toEcef (L{Ecef9Tuple})
-    _height = 0      # height (L{Height})
-    _v4t    = None   # cached toNvector (L{Vector4Tuple})
+    _datum   = None   # L{Datum}, to be overriden
+    _Ecef    = None   # preferred C{EcefKarney} class
+    _height  = 0      # height (L{Height})
 
     def __init__(self, xyz, y=None, z=None, datum=None, ll=None, name=NN):
         '''New C{Cartesian...}.
@@ -61,12 +61,6 @@ class CartesianBase(Vector3d):
             self._height = h
         if d:
             self.datum = _ellipsoidal_datum(d, name=name)
-
-    def _update(self, updated, *attrs):
-        '''(INTERNAL) Zap cached attributes if updated.
-        '''
-        if updated:
-            Vector3d._update(self, updated, '_e9t', '_v4t', *attrs)
 
     def _applyHelmert(self, transform, inverse=False, **datum):
         '''(INTERNAL) Return a new cartesian by applying a Helmert
@@ -119,63 +113,124 @@ class CartesianBase(Vector3d):
             CartesianBase._Ecef = EcefKarney  # default
         return CartesianBase._Ecef
 
-    @property_RO
+    @Property_RO
+    def _ecef9(self):
+        '''(INTERNAL) Helper for L{toCartesian} and L{toEcef}.
+        '''
+        return self._xnamed(self.Ecef(self.datum).reverse(self, M=True))
+
+    @property_doc_(''' the height (C{meter}).''')
     def height(self):
         '''Get the height (C{meter}).
         '''
         return self._height
 
-    @property_RO
+    @height.setter  # PYCHOK setter!
+    def height(self, height):
+        '''Set the height.
+
+           @arg height: New height (C{meter}).
+
+           @raise TypeError: Invalid B{C{height}} C{type}.
+
+           @raise ValueError: Invalid B{C{height}}.
+        '''
+        h = Height(height)
+        self._update(h != self.height)
+        self._height = h
+
+    @Property_RO
     def isEllipsoidal(self):
         '''Check whether this cartesian is ellipsoidal (C{bool} or C{None} if unknown).
         '''
         return self.datum.isEllipsoidal if self._datum else None
 
-    @property_RO
+    @Property_RO
     def isSpherical(self):
         '''Check whether this cartesian is spherical (C{bool} or C{None} if unknown).
         '''
         return self.datum.isSpherical if self._datum else None
 
-    @property_RO
+    @Property_RO
     def latlon(self):
         '''Get this cartesian's (geodetic) lat- and longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
         '''
         return self.toEcef().latlon
 
-    @property_RO
+    @Property_RO
     def latlonheight(self):
         '''Get this cartesian's (geodetic) lat-, longitude in C{degrees} with height (L{LatLon3Tuple}C{(lat, lon, height)}).
         '''
         return self.toEcef().latlonheight
 
-    @property_RO
+    @Property_RO
     def latlonheightdatum(self):
         '''Get this cartesian's (geodetic) lat-, longitude in C{degrees} with height and datum (L{LatLon4Tuple}C{(lat, lon, height, datum)}).
         '''
         return self.toEcef().latlonheightdatum
 
-    @property_RO
+    @Property_RO
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_}).
         '''
         from pygeodesy.nvectorBase import _N_vector_
-        r = self._v4t or self.toNvector()
-        return _N_vector_(r.x, r.y, r.z, h=r.h)
+        x, y, z, h = self._n_xyzh(self.datum)
+        return _N_vector_(x, y, z, h=h, name=self.name)
 
-    @property_RO
+    def _n_xyzh(self, datum):
+        '''(INTERNAL) Get the n-vector components as L{Vector4Tuple}.
+        '''
+        # <https://www.Movable-Type.co.UK/scripts/geodesy/docs/
+        #        latlon-nvector-ellipsoidal.js.html#line309>
+        E = datum.ellipsoid
+        x, y, z = self.xyz
+
+        # Kenneth Gade eqn 23
+        p = hypot2(x, y) * E.a2_
+        q = (z**2 * E.e12) * E.a2_
+        r = fsum_(p, q, -E.e4) / _6_0
+        s = (p * q * E.e4) / (_4_0 * r**3)
+        t = cbrt(fsum_(_1_0, s, sqrt(s * (_2_0 + s))))
+        if abs(t) < EPS0:
+            raise _ValueError(origin=self, txt=Fmt.EPS0(t))
+
+        u = r * fsum_(_1_0, t, _1_0 / t)
+        v = sqrt(u**2 + E.e4 * q)
+        t = v * _2_0
+        if t < EPS0:
+            raise _ValueError(origin=self, txt=Fmt.EPS0(t))
+        w = E.e2 * fsum_(u, v, -q) / t
+
+        k = sqrt(fsum_(u, v, w**2)) - w
+        if abs(k) < EPS0:
+            raise _ValueError(origin=self, txt=Fmt.EPS0(k))
+        t = k + E.e2
+        if abs(t) < EPS0:
+            raise _ValueError(origin=self, txt=Fmt.EPS0(t))
+        e = k / t
+#       d = e * hypot(x, y)
+
+#       tmp = 1 / hypot(d, z) == 1 / hypot(e * hypot(x, y), z)
+        t = hypot_(x * e, y * e, z)  # == 1 / tmp
+        if t < EPS0:
+            raise _ValueError(origin=self, txt=Fmt.EPS0(t))
+        h = fsum_(k, E.e2, -_1_0) / k * t
+        s = e / t  # == e * tmp
+        return Vector4Tuple(x * s, y * s, z / t, h, name=self.name)
+
+    @Property_RO
     def philam(self):
         '''Get this cartesian's (geodetic) lat- and longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
         return self.toEcef().philam
 
-    @property_RO
+    @Property_RO
     def philamheight(self):
         '''Get this cartesian's (geodetic) lat-, longitude in C{radians} with height (L{PhiLam3Tuple}C{(phi, lam, height)}).
         '''
         return self.toEcef().philamheight
 
-    @property_RO
+    @Property_RO
     def philamheightdatum(self):
         '''Get this cartesian's (geodetic) lat-, longitude in C{radians} with height and datum (L{PhiLam4Tuple}C{(phi, lam, height, datum)}).
         '''
@@ -248,10 +303,7 @@ class CartesianBase(Vector3d):
 
            @raise EcefError: A C{.datum} or an ECEF issue.
         '''
-        if self._e9t is None:
-            r = self.Ecef(self.datum).reverse(self, M=True)
-            self._e9t = self._xnamed(r)
-        return self._e9t
+        return self._ecef9
 
     def toLatLon(self, datum=None, LatLon=None, **LatLon_kwds):  # see .ecef.Ecef9Tuple.toDatum
         '''Convert this cartesian to a geodetic (lat-/longitude) point.
@@ -279,10 +331,10 @@ class CartesianBase(Vector3d):
             r = c.Ecef(d).reverse(c, M=True)
 
         if LatLon is not None:  # class or .classof
-            kwds = _xkwds(LatLon_kwds, datum=r.datum, height=r.height)
+            kwds = _xkwds(LatLon_kwds, datum=r.datum, height=r.height, name=self.name)
             r = LatLon(r.lat, r.lon, **kwds)
         _datum_datum(r.datum, d)
-        return self._xnamed(r)
+        return r
 
     def toNvector(self, Nvector=None, datum=None, **Nvector_kwds):  # PYCHOK Datums.WGS84
         '''Convert this cartesian to C{n-vector} components.
@@ -307,43 +359,12 @@ class CartesianBase(Vector3d):
            >>> n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
         '''
         d = _ellipsoidal_datum(datum or self.datum, name=self.name)
-        r = self._v4t
-        if r is None or d != self.datum:
-            # <https://www.Movable-Type.co.UK/scripts/geodesy/docs/
-            #        latlon-nvector-ellipsoidal.js.html#line309>
-            E = d.ellipsoid
-            x, y, z = self.xyz
-
-            # Kenneth Gade eqn 23
-            p = hypot2(x, y) * E.a2_
-            q = (z**2 * E.e12) * E.a2_
-            r = fsum_(p, q, -E.e4) / 6
-            s = (p * q * E.e4) / (4 * r**3)
-            t = cbrt(fsum_(1, s, sqrt(s * (2 + s))))
-
-            u = r * fsum_(_1_0, t, _1_0 / t)
-            v = sqrt(u**2 + E.e4 * q)
-            w = E.e2 * fsum_(u, v, -q) / (2 * v)
-
-            k = sqrt(fsum_(u, v, w**2)) - w
-            if abs(k) < EPS:
-                raise _ValueError(origin=self)
-            e = k / (k + E.e2)
-#           d = e * hypot(x, y)
-
-#           tmp = 1 / hypot(d, z) == 1 / hypot(e * hypot(x, y), z)
-            t = hypot_(e * x, e * y, z)  # == 1 / tmp
-            if t < EPS:
-                raise _ValueError(origin=self)
-            h = fsum_(k, E.e2, -_1_0) / k * t
-
-            s = e / t  # == e * tmp
-            r = Vector4Tuple(x * s, y * s, z / t, h)
-            self._v4t = r if d == self.datum else None
+        r =  self._N_vector.xyzh if d == self.datum else self._n_xyzh(d)
 
         if Nvector is not None:
-            r = Nvector(r.x, r.y, r.z, h=r.h, datum=d, **Nvector_kwds)
-        return self._xnamed(r)
+            kwds = _xkwds(Nvector_kwds, datum=d, h=r.h, name=self.name)
+            r = Nvector(r.x, r.y, r.z, **kwds)
+        return r
 
     def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return the string representation of this cartesian.

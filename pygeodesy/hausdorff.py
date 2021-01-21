@@ -76,7 +76,7 @@ from pygeodesy.interns import INF, NN, _datum_, _distanceTo_, _i_, _j_, \
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _Named, _NamedTuple, notOverloaded, _Pass
 from pygeodesy.namedTuples import PhiLam2Tuple
-from pygeodesy.props import property_doc_, property_RO
+from pygeodesy.props import Property_RO, property_doc_
 from pygeodesy.streprs import _boolkwds, Fmt
 from pygeodesy.units import Float, Number_, _Str_degrees, _Str_meter, _Str_NN, \
                            _Str_radians, _Str_radians2, _xUnit, _xUnits
@@ -86,7 +86,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '21.01.07'
+__version__ = '21.01.20'
 
 
 class HausdorffError(PointsError):
@@ -136,13 +136,13 @@ class Hausdorff(_Named):
         if wrap_adjust:
             _boolkwds(self, **wrap_adjust)
 
-    @property_RO
+    @Property_RO
     def adjust(self):
         '''Get the adjust setting (C{bool} or C{None} if not applicable).
         '''
         return self._adjust
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the datum of this calculator (L{Datum} or C{None} if not applicable).
         '''
@@ -251,7 +251,7 @@ class Hausdorff(_Named):
         '''
         self._units = _xUnits(units, Base=Float)
 
-    @property_RO
+    @Property_RO
     def wrap(self):
         '''Get the wrap setting (C{bool} or C{None} if not applicable).
         '''

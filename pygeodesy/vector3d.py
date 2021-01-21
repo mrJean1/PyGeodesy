@@ -19,23 +19,23 @@ from pygeodesy.errors import _AssertionError, CrossError, IntersectionError, \
                              _xkwds_popitem
 from pygeodesy.fmath import euclid_, fdot, fsum, fsum_, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2
-from pygeodesy.interns import EPS, EPS1, MISSING, NN, PI, PI2, _coincident_, \
-                             _colinear_, _COMMA_, _COMMASPACE_, _datum_, _h_, \
-                             _height_, _invalid_, _intersection_, _name_, \
-                             _near_concentric_, _no_, _scalar_, _SPACE_, \
-                             _too_, _y_, _z_, _0_0, _1_0
+from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, PI, PI2, \
+                             _coincident_, _colinear_, _COMMA_, _COMMASPACE_, \
+                             _datum_, _h_, _height_, _invalid_, _intersection_, \
+                             _name_, _near_concentric_, _no_, _scalar_, \
+                             _SPACE_, _too_, _y_, _z_, _0_0, _1_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, \
                            _xotherError
 from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
-from pygeodesy.props import Property_RO, property_doc_, property_RO
+from pygeodesy.props import Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Radius, Radius_
 
 from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.01.10'
+__version__ = '21.01.21'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -89,7 +89,6 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
     _fromll = None  # original latlon, '_fromll'
     _numpy  = None  # module numpy iff imported by trilaterate3d2 below
-    _united = None  # cached norm, unit (L{Vector3d})
 
     _x = 0  # X component
     _y = 0  # Y component
@@ -309,13 +308,6 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return self.minus(other)
 #   __isub__ = __sub__
 
-    def _update(self, updated, *attrs):
-        '''(INTERNAL) Zap cached attributes if updated.
-        '''
-        if updated:
-            _NamedBase._update(self, updated,  # '_fromll'
-                                   '_united', *attrs)
-
     def angleTo(self, other, vSign=None, wrap=False):
         '''Compute the angle between this and an other vector.
 
@@ -477,7 +469,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return max(map(abs, d.xyz)) < eps
 
     @Property_RO
-    def length(self):
+    def length(self):  # __dict__ value overwritten by Property_RO C{_united}
         '''Get the length (norm, magnitude) of this vector (C{float}).
 
            @see: Properties L{length2} and L{euclid}.
@@ -485,7 +477,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         return Float(length=hypot_(self.x, self.y, self.z))
 
     @Property_RO
-    def length2(self):
+    def length2(self):  # __dict__ value overwritten by Property_RO C{_united}
         '''Get the length I{squared} of this vector (C{float}).
 
            @see: Property L{length}.
@@ -728,18 +720,27 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @return: Normalized vector (L{Vector3d}).
         '''
-        if self._united is None:
-            n = self.length
-            if n > EPS and abs(n - 1) > EPS:
-                u = self._xnamed(self.dividedBy(n))
-                u._length = 1
-            else:
-                u = self.copy()
-            u._fromll = ll or self._fromll
-            self._united = u._united = u
-        return self._united
+        u = self._united
+        if ll:
+            u._fromll = ll
+        return u
 
-    @property_RO
+    @Property_RO
+    def _united(self):  # __dict__ value overwritten below
+        '''(INTERNAL) Get normalized vector (L{Vector3d}).
+        '''
+        n = self.length
+        if n > EPS0 and abs(n - _1_0) > EPS0:
+            u = self._xnamed(self.dividedBy(n))
+            u._overwrite(length=_1_0, length2=_1_0)
+        else:
+            u = self.copy()
+        u._overwrite(_united=u)
+        if self._fromll:
+            u._fromll = self._fromll
+        return u
+
+    @Property_RO
     def x(self):
         '''Get the X component (C{float}).
         '''
@@ -751,13 +752,13 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return Vector3Tuple(self.x, self.y, self.z, name=self.name)
 
-    @property_RO
+    @Property_RO
     def y(self):
         '''Get the Y component (C{float}).
         '''
         return self._y
 
-    @property_RO
+    @Property_RO
     def z(self):
         '''Get the Z component (C{float}).
         '''

@@ -58,7 +58,8 @@ from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
                                        LatLonEllipsoidalBase, _nearestOn
 from pygeodesy.errors import _ValueError, _xellipsoidal, _xkwds
 from pygeodesy.fmath import fpolynomial, hypot, hypot1
-from pygeodesy.interns import EPS, NN, _ambiguous_, _convergence_, _no_, _to_
+from pygeodesy.interns import EPS0, EPS, NN, _ambiguous_, _convergence_, _no_, \
+                             _to_, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0, _16_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Distance3Tuple
@@ -71,7 +72,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.01.10'
+__version__ = '21.01.14'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -515,13 +516,13 @@ class LatLon(LatLonEllipsoidalBase):
 
         i = radians(bearing)  # initial bearing (forward azimuth)
         si, ci = sincos2(i)
-        s12 = atan2(t1, ci) * 2
+        s12 = atan2(t1, ci) * _2_0
 
         sa = c1 * si
-        c2a = 1 - sa**2
+        c2a = _1_0 - sa**2
         if c2a < EPS:
-            c2a = 0
-            A, B = 1, 0
+            c2a = _0_0
+            A, B = _1_0, _0_0
         else:  # e22 == (a / b)**2 - 1
             A, B = _p2(c2a * E.e22)
 
@@ -541,11 +542,10 @@ class LatLon(LatLonEllipsoidalBase):
 
         if llr:
             # destination latitude in [-90, 90)
-            a = degrees90(atan2(s1 * cs + c1 * ss * ci,
-                                (1 - E.f) * hypot(sa, t)))
+            a = degrees90(atan2(s1 * cs + c1 * ss * ci, E.b_a * hypot(sa, t)))
             # destination longitude in [-180, 180)
-            b = degrees180(atan2(ss * si, c1 * cs - s1 * ss * ci) -
-                          _dl(E.f, c2a, sa, s, cs, ss, c2sm) + radians(self.lon))
+            t = radians(self.lon) - _dl(E.f, c2a, sa, s, cs, ss, c2sm)
+            b = degrees180(atan2(ss * si, c1 * cs - s1 * ss * ci) + t)
             h = self.height if height is None else height
             d = self.classof(a, b, height=h, datum=self.datum)
         else:
@@ -585,15 +585,15 @@ class LatLon(LatLonEllipsoidalBase):
                     t = '%r %s%s %r' % (self, _antipodal_, _to_, other)
                     raise VincentyError(_ambiguous_, txt=t)
                 # return zeros like Karney, but unlike Veness
-                return Distance3Tuple(0.0, 0, 0)
+                return Distance3Tuple(_0_0, 0, 0)
 
             cs = s1s2 + c1c2 * cll
             s = atan2(ss, cs)
 
             sa = c1c2 * sll / ss
-            c2a = 1 - sa**2
-            if abs(c2a) < EPS:
-                c2a = 0  # equatorial line
+            c2a = _1_0 - sa**2
+            if abs(c2a) < EPS0:
+                c2a = _0_0  # equatorial line
                 ll = dl + E.f * sa * s
             else:
                 c2sm = cs - 2 * s1s2 / c2a
@@ -626,25 +626,33 @@ class LatLon(LatLonEllipsoidalBase):
             f = atan2b(c2 * sll,  c1s2 - s1c2 * cll)
             r = atan2b(c1 * sll, -s1c2 + c1s2 * cll)
         else:
-            f = r = 0
+            f = r = _0_0
         return Distance3Tuple(d, f, r)
+
+
+def _c2sm2(c2sm):
+    '''(INTERNAL) 2 * c2sm**2 - 1.
+    '''
+    return _2_0 * c2sm**2 - _1_0
 
 
 def _dl(f, c2a, sa, s, cs, ss, c2sm):
     '''(INTERNAL) Dl.
     '''
-    C = f / 16.0 * c2a * (4 + f * (4 - 3 * c2a))
-    return (1 - C) * f * sa * (s + C * ss * (c2sm +
-                     C * cs * (2 * c2sm**2 - 1)))
+    C = f / _16_0 * c2a * (_4_0 + f * (_4_0 - _3_0 * c2a))
+    return (_1_0 - C) * f * sa * (s + C * ss * (c2sm +
+                                      C * cs * _c2sm2(c2sm)))
 
 
 def _ds(B, cs, ss, c2sm):
     '''(INTERNAL) Ds.
     '''
-    c2sm2 = 2 * c2sm**2 - 1
-    ss2 = (4 * ss**2 - 3) * (2 * c2sm2 - 1)
-    return B * ss * (c2sm + B / 4.0 * (c2sm2 * cs -
-                            B / 6.0 *  c2sm  * ss2))
+    if B:
+        c2sm2 = _c2sm2(c2sm)
+        ss2 = (_4_0 * ss**2 - _3_0) * (_2_0 * c2sm2 - _1_0)
+        B *= ss * (c2sm + B / _4_0 * (c2sm2 * cs -
+                          B / _6_0 *  c2sm  * ss2))
+    return B
 
 
 def _p2(u2):  # e'2 WGS84 = 0.00673949674227643
@@ -658,9 +666,9 @@ def _p2(u2):  # e'2 WGS84 = 0.00673949674227643
 def _r3(a, f):
     '''(INTERNAL) Reduced cos, sin, tan.
     '''
-    t = (1 - f) * tan(radians(a))
-    c = 1 / hypot1(t)
-    s = t * c
+    t = (_1_0 - f) * tan(radians(a))
+    c =  _1_0 / hypot1(t)
+    s =  t * c
     return c, s, t
 
 

@@ -4,11 +4,11 @@ u'''Single-instance floats and strings, C{intern}'ed across modules.
 '''
 from math import pi as PI, sqrt
 
-__all__ = ('EPS', 'EPS_2', 'EPS1', 'EPS1_2',
+__all__ = ('EPS', 'EPS_2', 'EPS0', 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4', 'PI3_2')  # imported by .lazily
-__version__ = '21.01.11'
+__version__ = '21.01.19'
 
 
 class _Join(str):
@@ -254,6 +254,7 @@ _scalar_              = 'scalar'             # PYCHOK expected
 _scale_               = 'scale'              # PYCHOK expected
 _scipy_               = 'scipy'              # PYCHOK expected
 _sep_                 = 'sep'                # PYCHOK expected
+_singular_            = 'singular'           # PYCHOK expected
 _small_               = 'small'              # PYCHOK expected
 _Sphere_              = 'Sphere'             # PYCHOK expected
 _spherical_           = 'spherical'          # PYCHOK expected
@@ -387,20 +388,24 @@ except (AttributeError, ImportError):  # PYCHOK no cover
     MAX    = _float(pow(_2_0,  1023) * (_2_0 - EPS))  # PYCHOK ≈ 10**308
     MIN    = _float(pow(_2_0, -1022))  # PYCHOK ≈ 10**-308
 
-EPS2    = _float(EPS * _2_0)      # PYCHOK ≈ 4.440892098501e-16
-EPS_2   = _float(EPS / _2_0)      # PYCHOK ≈ 1.110223024625e-16
-EPS1    = _float(_1_0 - EPS)      # PYCHOK ≈ 0.9999999999999998
-EPS1_2  = _float(_1_0 - EPS_2)    # PYCHOK ≈ 0.9999999999999999
-# _1EPS   = _float(_1_0 + EPS)    # PYCHOK ≈ 1.0000000000000002
-_1_EPS  = _float(_1_0 / EPS)      # PYCHOK = 4503599627370496.0
-# _2_EPS  = _float(_2_0 / EPS)    # PYCHOK = 9007199254740992.0
-_EPS4   = _float(EPS * _4_0)      # PYCHOK ≈ 8.881784197001e-16
-_EPSqrt = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
-_EPStol = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09
+EPS2     = _float(EPS * _2_0)      # PYCHOK ≈ 4.440892098501e-16
+EPS_2    = _float(EPS / _2_0)      # PYCHOK ≈ 1.110223024625e-16
+EPS1     = _float(_1_0 - EPS)      # PYCHOK ≈ 0.9999999999999998
+EPS1_2   = _float(_1_0 - EPS_2)    # PYCHOK ≈ 0.9999999999999999
+# _1EPS  = _float(_1_0 + EPS)      # PYCHOK ≈ 1.0000000000000002
+_1_EPS   = _float(_1_0 / EPS)      # PYCHOK = 4503599627370496.0
+# _2_EPS = _float(_2_0 / EPS)      # PYCHOK = 9007199254740992.0
+_EPS4    = _float(EPS * _4_0)      # PYCHOK ≈ 8.881784197001e-16
+_EPSqrt  = _float(sqrt(EPS))       # PYCHOK = 1.49011611938e5-08
+_EPStol  = _float(_EPSqrt * _0_1)  # PYCHOK = 1.49011611938e5-09
+_EPS__2  = _float(EPS**2)          # PYCHOK = 4.930380657631e-32
+_EPS__4  = _float(EPS**4)          # PYCHOK = 2.430865342915e-63
+_EPS0__2 = _EPS__4                 # PYCHOK near-zero square root
 
-INF   = _float( _INF_)  # PYCHOK INFinity, see function L{isinf}, L{isfinite}
-NAN   = _float( _NAN_)  # PYCHOK Not-A-Number, see function L{isnan}
-NEG0  =  float('-0.0')  # PYCHOK NEGative 0.0, see function L{isneg0}
+EPS0     = _EPS__2          # PYCHOK near-zero comparison, or EPS or EPS_2
+INF      = _float( _INF_)   # PYCHOK INFinity, see function L{isinf}, L{isfinite}
+NAN      = _float( _NAN_)   # PYCHOK Not-A-Number, see function L{isnan}
+NEG0     =  float('-0.0')   # PYCHOK NEGative 0.0, see function L{isneg0}
 
 PI2   = _float(PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
 PI4   = _float(PI * _4_0)  # PYCHOK Four PI, M{PI * 4}

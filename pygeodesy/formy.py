@@ -9,15 +9,15 @@ u'''Formulary of basic geodesy functions and approximations.
 from __future__ import division
 
 from pygeodesy.basics import len2
-from pygeodesy.datums import Datums, _ellipsoidal_datum, _mean_radius, \
-                            _spherical_datum
-from pygeodesy.ellipsoids import Ellipsoid as _Ellipsoid
+from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
+                            _mean_radius, _spherical_datum
+from pygeodesy.ellipsoids import Ellipsoid
 from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
                              _limiterrors, PointsError, _ValueError
-from pygeodesy.fmath import euclid, fsum_, hypot, hypot2
-from pygeodesy.interns import EPS, EPS1, PI, PI2, PI_2, R_M, _distant_, \
-                             _few_, _too_, _0_0, _0_125, _0_25, _0_5, _1_0, \
-                             _2_0, _16_0, _32_0, _90_0, _180_0, _360_0
+from pygeodesy.fmath import euclid, fsum_, hypot, hypot2, sqrt0
+from pygeodesy.interns import EPS, EPS0, EPS1, PI, PI2, PI_2, R_M, _distant_, \
+                             _few_, _too_, _0_0, _0_125, _0_25, _0_5, \
+                             _1_0, _2_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.namedTuples import Distance4Tuple, LatLon2Tuple, \
@@ -33,7 +33,13 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.01.12'
+__version__ = '21.01.16'
+
+
+def _non0(x):
+    '''Is C{abs(B{x})} > C{EPS0}?
+    '''
+    return x > EPS0 or x < -EPS0
 
 
 def _scale_deg(lat1, lat2):  # degrees
@@ -208,18 +214,19 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
              Distance/AndoyerLambert.php>}.
     '''
     s2, c2, s1, c1, r, c21 = _sincosa6(phi2, phi1, lam21)
-    if abs(c1) > EPS and abs(c2) > EPS:
+    if _non0(c1) and _non0(c2):
         E = _ellipsoid(datum, cosineAndoyerLambert_)
         if E.f:  # ellipsoidal
             r2 = atan2(E.b_a * s2, c2)
             r1 = atan2(E.b_a * s1, c1)
             s2, c2, s1, c1 = sincos2(r2, r1)
             r = acos1(s1 * s2 + c1 * c2 * c21)
-            sr, _, sr_2, cr_2 = sincos2(r, r * _0_5)
-            if abs(sr_2) > EPS and abs(cr_2) > EPS:
-                c  = (sr - r) * ((s1 + s2) / cr_2)**2
-                s  = (sr + r) * ((s1 - s2) / sr_2)**2
-                r += E.f * (c - s) * _0_125
+            if r:
+                sr, _, sr_2, cr_2 = sincos2(r, r * _0_5)
+                if _non0(sr_2) and _non0(cr_2):
+                    c  = (sr - r) * ((s1 + s2) / cr_2)**2
+                    s  = (sr + r) * ((s1 - s2) / sr_2)**2
+                    r += E.f * (c - s) * _0_125
     return r
 
 
@@ -273,25 +280,26 @@ def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
              <https://GitHub.com/jtejido/geodesy-php/blob/master/src/Geodesy/
              Distance/ForsytheCorrection.php>}.
     '''
-    s2, _, s1, _, r, _ = _sincosa6(phi2, phi1, lam21)
-    E = _ellipsoid(datum, cosineForsytheAndoyerLambert_)
-    if E.f:  # ellipsoidal
-        sr, cr, s2r, _ = sincos2(r, r * 2)
-        if abs(sr) > EPS and abs(cr) < EPS1:
-            s = (s1 + s2)**2 / (1 + cr)
-            t = (s1 - s2)**2 / (1 - cr)
-            x = s + t
-            y = s - t
+    s2, c2, s1, c1, r, _ = _sincosa6(phi2, phi1, lam21)
+    if r and _non0(c1) and _non0(c2):
+        E = _ellipsoid(datum, cosineForsytheAndoyerLambert_)
+        if E.f:  # ellipsoidal
+            sr, cr, s2r, _ = sincos2(r, r * _2_0)
+            if _non0(sr) and abs(cr) < EPS1:
+                s = (s1 + s2)**2 / (1 + cr)
+                t = (s1 - s2)**2 / (1 - cr)
+                x = s + t
+                y = s - t
 
-            s =  8 * r**2 / sr
-            a = 64 * r + 2 * s * cr  # 16 * r**2 / tan(r)
-            d = 48 * sr + s  # 8 * r**2 / tan(r)
-            b = -2 * d
-            e = 30 * s2r
-            c = fsum_(30 * r, e * _0_5, s * cr)  # 8 * r**2 / tan(r)
+                s =  8 * r**2 / sr
+                a = 64 * r + _2_0 * s * cr  # 16 * r**2 / tan(r)
+                d = 48 * sr + s  # 8 * r**2 / tan(r)
+                b = -2 * d
+                e = 30 * s2r
+                c = fsum_(30 * r, e * _0_5, s * cr)  # 8 * r**2 / tan(r)
 
-            t  = fsum_( a * x, b * y, -c * x**2, d * x * y, e * y**2)
-            r += fsum_(-r * x, 3 * y * sr, t * E.f / _32_0) * E.f * _0_25
+                t  = fsum_( a * x, b * y, -c * x**2, d * x * y, e * y**2)
+                r += fsum_(-r * x, 3 * y * sr, t * E.f / _32_0) * E.f * _0_25
     return r
 
 
@@ -368,8 +376,9 @@ def _distanceToS(func_, lat1, lat2, earth, d_lon_, **adjust):
 def _ellipsoid(earth, where):
     '''(INTERNAL) Helper for distances.
     '''
-    return earth if isinstance(earth, _Ellipsoid) else \
-          _ellipsoidal_datum(earth, name=where.__name__).ellipsoid
+    return earth if isinstance(earth, Ellipsoid) else (
+           earth if isinstance(earth, Datum) else
+          _ellipsoidal_datum(earth, name=where.__name__)).ellipsoid  # PYCHOK indent
 
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
@@ -396,9 +405,9 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
              available B{C{options}}, errors, restrictions and other,
              approximate or accurate distance functions.
     '''
-    t = equirectangular_(Lat(lat1=lat1), Lon(lon1=lon1),
-                         Lat(lat2=lat2), Lon(lon2=lon2), **options)
-    d = hypot(t.delta_lat, t.delta_lon)
+    d = sqrt(equirectangular_(Lat(lat1=lat1), Lon(lon1=lon1),
+                              Lat(lat2=lat2), Lon(lon2=lon2),
+                            **options).distance2)
     return degrees2m(d, radius=_mean_radius(radius, lat1, lat2))
 
 
@@ -625,8 +634,9 @@ def flatPolar_(phi2, phi1, lam21):
     '''
     a1 = PI_2 - phi1  # co-latitude
     a2 = PI_2 - phi2  # co-latitude
-    ab = a1 * a2 * cos(lam21) * _2_0
-    return sqrt(max(fsum_(a1**2, a2**2, -abs(ab)) , _0_0))
+    ab = _2_0 * a1 * a2 * cos(lam21)
+    r2 = fsum_(a1**2, a2**2, -abs(ab))
+    return sqrt0(r2)
 
 
 def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
@@ -682,11 +692,7 @@ def haversine_(phi2, phi1, lam21):
         return sin(rad * _0_5)**2
 
     h = _hsin(phi2 - phi1) + cos(phi1) * cos(phi2) * _hsin(lam21)  # haversine
-    try:
-        r = atan2(sqrt(h), sqrt(1 - h)) * 2  # == asin(sqrt(h)) * 2
-    except ValueError:
-        r = _0_0 if h < _0_5 else PI
-    return r
+    return atan2(sqrt0(h), sqrt0(_1_0 - h)) * _2_0  # == asin(sqrt(h)) * 2
 
 
 def heightOf(angle, distance, radius=R_M):
@@ -713,10 +719,10 @@ def heightOf(angle, distance, radius=R_M):
     if d > h:
         d, h = h, d
 
-    if d > EPS:
+    if d > EPS0:
         d = d / h  # /= h chokes PyChecker
         s = sin(Phi_(angle=angle, clip=_180_0))
-        s = fsum_(_1_0, 2 * s * d, d**2)
+        s = fsum_(_1_0, _2_0 * s * d, d**2)
         if s > 0:
             return h * sqrt(s) - r
 
@@ -745,7 +751,7 @@ def horizon(height, radius=R_M, refraction=False):
         d2 = 2.415750694528 * h * r  # 2.0 / 0.8279
     else:
         d2 = h * fsum_(r, r, h)
-    return sqrt(d2)
+    return sqrt0(d2)
 
 
 def intersections2(lat1, lon1, radius1,
@@ -863,8 +869,8 @@ def isantipode_(phi1, lam1, phi2, lam2, eps=EPS):
 
        @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
-    return abs(wrapPI_2(phi1) + wrapPI_2(phi2)) < eps and \
-           abs(abs(wrapPI(lam1) - wrapPI(lam2)) % PI2 - PI) < eps
+    return abs(wrapPI_2(phi1) + wrapPI_2(phi2)) < eps and abs(
+           abs(wrapPI(lam1)   - wrapPI(lam2)) % PI2 - PI) < eps
 
 
 def latlon2n_xyz(lat, lon):
@@ -1072,37 +1078,37 @@ def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
              Distance/ThomasFormula.php>}.
     '''
     s2, c2, s1, c1, r, _ = _sincosa6(phi2, phi1, lam21)
-    E = _ellipsoid(datum, thomas_)
-    if E.f and abs(c1) > EPS and abs(c2) > EPS:
-        r1 = atan2(E.b_a * s1, c1)
-        r2 = atan2(E.b_a * s2, c2)
+    if r and _non0(c1) and _non0(c2):
+        E = _ellipsoid(datum, thomas_)
+        if E.f:
+            r1 = atan2(E.b_a * s1, c1)
+            r2 = atan2(E.b_a * s2, c2)
 
-        j = (r2 + r1) * _0_5
-        k = (r2 - r1) * _0_5
-        sj, cj, sk, ck, h, _ = sincos2(j, k, lam21 * _0_5)
+            j = (r2 + r1) * _0_5
+            k = (r2 - r1) * _0_5
+            sj, cj, sk, ck, h, _ = sincos2(j, k, lam21 * _0_5)
 
-        h =  fsum_(sk**2, (ck * h)**2, -(sj * h)**2)
-        u = _1_0 - h
-        if abs(u) > EPS:
-            d = h / u
-            if d > 0 and abs(h) > EPS:
-                r = atan(sqrt(d)) * _2_0  # == acos(1 - 2 * h)
+            h =  fsum_(sk**2, (ck * h)**2, -(sj * h)**2)
+            u = _1_0 - h
+            if _non0(u) and _non0(h):
+                r = atan(sqrt0(h / u)) * _2_0  # == acos(1 - 2 * h)
                 sr, cr = sincos2(r)
-                if abs(sr) > EPS:
+                if _non0(sr):
                     u = 2 * (sj * ck)**2 / u
                     h = 2 * (sk * cj)**2 / h
                     x = u + h
                     y = u - h
 
-                    t = r / sr
-                    s = 4 * t**2
-                    e = 2 * cr
-                    a = s * e
+                    s = r / sr
+                    e = 4 * s**2
+                    d = 2 * cr
+                    a = e * d
                     b = 2 * r
-                    c = t - (a - e) * _0_5
+                    c = s - (a - d) * _0_5
+                    f = E.f * _0_25
 
-                    s  = fsum_(a * x,  c * x**2, -b * y, -e * y**2, s * x * y)
-                    r -= fsum_(t * x, -y, -s * E.f / _16_0) * E.f * _0_25 * sr
+                    t  = fsum_(a * x, -b * y, c * x**2, -d * y**2, e * x * y)
+                    r -= fsum_(s * x, -y, -t * f * _0_25) * f * sr
     return r
 
 
@@ -1159,12 +1165,12 @@ def vincentys_(phi2, phi1, lam21):
               (M{2 cos, 2 sin, 2 sqrt, 1 atan2, 5 mul, 1 add}) and
               L{cosineLaw_} (M{3 cos, 3 sin, 1 acos, 3 mul, 1 add}).
     '''
-    sa1, ca1, sa2, ca2, sb21, cb21 = sincos2(phi1, phi2, lam21)
+    s1, c1, s2, c2, s21, c21 = sincos2(phi1, phi2, lam21)
 
-    c = ca2 * cb21
-    x = sa1 * sa2 + ca1 * c
-    y = ca1 * sa2 - sa1 * c
-    return atan2(hypot(ca2 * sb21, y), x)
+    c = c2 * c21
+    x = s1 * s2 + c1 * c
+    y = c1 * s2 - s1 * c
+    return atan2(hypot(c2 * s21, y), x)
 
 # **) MIT License
 #

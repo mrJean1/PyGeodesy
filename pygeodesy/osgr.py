@@ -46,7 +46,7 @@ from pygeodesy.interns import NN, _A_, _COLON_, _COMMA_, _COMMASPACE_, \
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum3Tuple
-from pygeodesy.props import property_RO
+from pygeodesy.props import Property_RO, property_RO
 from pygeodesy.streprs import enstr2, Fmt, _xzipairs, _0wd, _0wpF
 from pygeodesy.units import Easting, Lam_, Northing, Phi_, Scalar, \
                            _10um, _100km
@@ -55,7 +55,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.01.10'
+__version__ = '21.01.18'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -137,13 +137,13 @@ class Osgr(_NamedBase):
         if name:
             self.name = name
 
-    @property_RO
+    @Property_RO
     def datum(self):
         '''Get the datum (L{Datum}).
         '''
         return self._datum
 
-    @property_RO
+    @Property_RO
     def easting(self):
         '''Get the easting (C{meter}).
         '''
@@ -156,7 +156,7 @@ class Osgr(_NamedBase):
         '''
         return self._iteration
 
-    @property_RO
+    @Property_RO
     def northing(self):
         '''Get the northing (C{meter}).
         '''
