@@ -29,7 +29,7 @@ from pygeodesy.props import _hasProperty, Property_RO, property_doc_, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.01.20'
+__version__ = '21.01.28'
 
 _at_     = 'at'
 _del_    = 'del'
@@ -252,20 +252,16 @@ class _Named(object):
         '''
         return self.toRepr(**kwds)
 
-    def _xnamed(self, inst, name=NN):
+    def _xnamed(self, inst, name=NN, force=False):
         '''(INTERNAL) Set the instance' C{.name = self.name}.
 
            @arg inst: The instance (C{_Named}).
            @kwarg name: Optional name, overriding C{self.name} (C{str}).
+           @kwarg force: Force name change (C{bool}).
 
            @return: The B{C{inst}}, named if not named before.
         '''
-        # return _xnamed(inst, name or self.name)
-        if isinstance(inst, _Named) and not inst.name:
-            n = name or self.name
-            if n:
-                inst.name = n
-        return inst
+        return _xnamed(inst, name or self.name, force=force)
 
     def _xrenamed(self, inst):
         '''(INTERNAL) Rename the instance' C{.name = self.name}.
@@ -364,7 +360,7 @@ class _NamedBase(_Named):
 #       return s
 
     def _overwrite(self, **name_values):
-        '''(INTERNAL) Overwrite instance attributes.
+        '''(INTERNAL) Overwrite L{Property_RO} values.
         '''
         d = self.__dict__
         for n, v in name_values.items():
@@ -773,7 +769,7 @@ class _NamedTuple(tuple, _Named):
         '''New L{_NamedTuple} initialized with B{C{positional}} arguments.
 
            @arg args: Tuple items (C{any}), all positional arguments.
-           @kwarg name_only: Only C{B{name}='name'} is used, anu other
+           @kwarg name_only: Only C{B{name}='name'} is used, all other
                              keyword arguments are I{silently} ignored.
 
            @raise LenError: Unequal number of positional arguments and

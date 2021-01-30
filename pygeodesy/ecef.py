@@ -53,7 +53,7 @@ for further information on the errors.
 
 from pygeodesy.basics import copysign, isscalar, neg, _xinstanceof, \
                             _xsubclassof
-from pygeodesy.datums import Datums, _ellipsoidal_datum
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoids import a_f2Tuple
 from pygeodesy.errors import _datum_datum, LenError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fdot, Fsum, fsum_, hypot1, hypot2_
@@ -64,10 +64,11 @@ from pygeodesy.interns import EPS, EPS0, EPS1, EPS_2, NN, PI, PI_2, _a_, \
                              _SPACE_, _x_, _y_, _z_, _0_, _0_0, _0_5, \
                              _1_0, _2_0, _3_0, _4_0, _6_0, _90_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
-from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, _Pass
+from pygeodesy.named import _NamedBase, _NamedTuple, notOverloaded, \
+                            _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple
-from pygeodesy.props import Property_RO, _update_all
+from pygeodesy.props import Property_RO
 from pygeodesy.streprs import unstr
 from pygeodesy.units import Height, Int, Lat, Lon, Meter, Scalar
 from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
@@ -76,7 +77,7 @@ from pygeodesy.vector3d import _xyzn4
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.01.19'
+__version__ = '21.01.28'
 
 _prolate_ = 'prolate'
 _TRIPS    =  17  # 8..9 sufficient, EcefSudano.reverse
@@ -142,7 +143,7 @@ class _EcefBase(_NamedBase):
                 raise ValueError
 
             d = _ellipsoidal_datum(E, name=name)
-            E = d.ellipsoid
+            E =  d.ellipsoid
             if E.a < EPS or E.f > EPS1:
                 raise ValueError
 
@@ -201,8 +202,9 @@ class _EcefBase(_NamedBase):
         x = (h + n) * ca
 
         m = self._Matrix(sa, ca, sb, cb) if M else None
-        r = Ecef9Tuple(x * cb, x * sb, z, lat, lon, h, 0, m, self.datum)
-        return self._xnamed(r, name=name)
+        return Ecef9Tuple(x * cb, x * sb, z, lat, lon, h,
+                                             0, m, self.datum,
+                                             name=name or self.name)
 
     def _Matrix(self, sa, ca, sb, cb):
         '''Creation a rotation matrix.
@@ -420,11 +422,11 @@ class EcefKarney(_EcefBase):
             h -= E.a
             C  = 4
 
-        r = Ecef9Tuple(x, y, z, atan2d(sa, ca),
-                                atan2d(sb, cb), h, C,
-                                self._Matrix(sa, ca, sb, cb) if M else None,
-                                self.datum)
-        return self._xnamed(r, name=name)
+        m = self._Matrix(sa, ca, sb, cb) if M else None
+        return Ecef9Tuple(x, y, z, atan2d(sa, ca),
+                                   atan2d(sb, cb), h,
+                                   C, m, self.datum,
+                                   name=name or self.name)
 
 
 class EcefCartesian(_NamedBase):
@@ -439,7 +441,7 @@ class EcefCartesian(_NamedBase):
        The conversions all take place via geocentric coordinates using a
        geocentric L{EcefKarney}, by default the WGS84 datum/ellipsoid.
     '''
-    _ecef = EcefKarney(Datums.WGS84)
+    _ecef = EcefKarney(_WGS84)
     _t0   = None  # forward(lat0, lon0, height0) L{Ecef9Tuple}
 
     def __init__(self, latlonh0=0, lon0=0, height0=0, ecef=None, name=NN):
@@ -498,9 +500,9 @@ class EcefCartesian(_NamedBase):
         t = self.ecef.forward(lat, lon, h, M=M)
         x, y, z = self.M.rotate(t[:3], *self._t0[:3])  # .x, .y, .z
 
-        m = self.M.multiply(t.M) if M else None
-        r = Ecef9Tuple(x, y, z, t.lat, t.lon, t.height, 0, m, self.ecef.datum)
-        return self._xnamed(r, name=name)
+        return Ecef9Tuple(x, y, z, t.lat, t.lon, t.height,
+                                   0, (self.M.multiply(t.M) if M else None),
+                                   self.ecef.datum, name=name or self.name)
 
     @Property_RO
     def height0(self):
@@ -541,7 +543,7 @@ class EcefCartesian(_NamedBase):
                              C{scalar} or B{C{lon0}} not C{scalar} for C{scalar}
                              B{C{latlonh0}} or C{abs(lat)} exceeds 90°.
         '''
-        _update_all(self)
+        self._update(True)  # force reset
 
         lat0, lon0, height0, n = _llhn4(latlonh0, lon0, height0, suffix=_0_)
         if name:
@@ -577,9 +579,9 @@ class EcefCartesian(_NamedBase):
         x, y, z = self.M.unrotate(xyz_n[:3], *self._t0[:3])  # .x, .y, .z
         t = self.ecef.reverse(x, y, z, M=M)
 
-        m = self.M.multiply(t.M) if M else None
-        r = Ecef9Tuple(x, y, z, t.lat, t.lon, t.height, t.C, m, self.ecef.datum)
-        return self._xnamed(r, name=xyz_n[3])
+        return Ecef9Tuple(x, y, z, t.lat, t.lon, t.height,
+                                   t.C, (self.M.multiply(t.M) if M else None),
+                                   self.ecef.datum, name=xyz_n[3] or self.name)
 
     def toStr(self, prec=9):  # PYCHOK signature
         '''Return this L{EcefCartesian} as a string.
@@ -604,23 +606,23 @@ class EcefMatrix(_NamedTuple):
         '''
         _NamedTuple._validate(self, _OK=True)
 
-    def __new__(cls, sa, ca, sb, cb, *_m):
+    def __new__(cls, sa, ca, sb, cb, *_more):
         '''New L{EcefMatrix} matrix.
 
            @arg sa: C{sin(phi)} (C{float}).
            @arg ca: C{cos(phi)} (C{float}).
            @arg sb: C{sin(lambda)} (C{float}).
            @arg cb: C{cos(lambda)} (C{float}).
-           @arg _m: (INTERNAL) from C{.multiply}.
+           @arg _more: (INTERNAL) from C{.multiply}.
 
            @raise EcefError: If B{C{sa}}, B{C{ca}}, B{C{sb}} or
                              B{C{cb}} outside M{[-1.0, +1.0]}.
         '''
         t = sa, ca, sb, cb
-        if _m:  # all 9 matrix elements ...
-            t += _m  # ... from .multiply
+        if _more:  # all 9 matrix elements ...
+            t += _more  # ... from .multiply
 
-        elif max(map(abs, t)) > 1:
+        elif max(map(abs, t)) > _1_0:
             raise EcefError(unstr(EcefMatrix.__name__, *t))
 
         else:  # build matrix from the following quaternion operations
@@ -663,10 +665,10 @@ class EcefMatrix(_NamedTuple):
         '''
         _xinstanceof(EcefMatrix, other=other)
 
-        # like LocalCartesian.MatrixMultiply, transposed(self) x other
+        # like LocalCartesian.MatrixMultiply, transposed(self) X other
         # <https://GeographicLib.SourceForge.io/html/LocalCartesian_8cpp_source.html>
         M = (fdot(self[r::3], *other[c::3]) for r in range(3) for c in range(3))
-        return EcefMatrix(*M)
+        return _xnamed(EcefMatrix(*M), EcefMatrix.multiply.__name__)
 
     def rotate(self, xyz, *xyz0):
         '''Forward rotation M{M0' ⋅ ([x, y, z] - [x0, y0, z0])'}.
@@ -761,7 +763,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
     def latlon(self):
         '''Get the lat-, longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        return self._xnamed(LatLon2Tuple(self.lat, self.lon))
+        return LatLon2Tuple(self.lat, self.lon, name=self.name)
 
     @Property_RO
     def latlonheight(self):
@@ -781,7 +783,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
 
            @see: Property C{lonVermeille}.
         '''
-        return self._xnamed(LatLon2Tuple(self.lat, degrees(self.lamVermeille)))
+        return LatLon2Tuple(self.lat, degrees(self.lamVermeille), name=self.name)
 
     @Property_RO
     def lonVermeille(self):
@@ -802,7 +804,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
     def philam(self):
         '''Get the lat-, longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        return self._xnamed(PhiLam2Tuple(radians(self.lat), radians(self.lon)))
+        return PhiLam2Tuple(radians(self.lat), radians(self.lon), name=self.name)
 
     @Property_RO
     def philamheight(self):
@@ -822,7 +824,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
 
            @see: Property C{lamVermeille}.
         '''
-        return self._xnamed(PhiLam2Tuple(radians(self.lat), self.lamVermeille))
+        return PhiLam2Tuple(radians(self.lat), self.lamVermeille, name=self.name)
 
     def toCartesian(self, Cartesian, **Cartesian_kwds):
         '''Return the geocentric C{(x, y, z)} coordinates as an ellipsoidal or spherical
@@ -840,8 +842,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
         '''
         from pygeodesy.cartesianBase import CartesianBase
         _xsubclassof(CartesianBase, Cartesian=Cartesian)
-        r = Cartesian(self, **Cartesian_kwds)
-        return self._xnamed(r)
+        return Cartesian(self, **_xkwds(Cartesian_kwds, name=self.name))
 
     def toDatum(self, datum2):
         '''Convert this C{Ecef9Tuple} to an other datum.
@@ -856,42 +857,41 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
             r = self.copy()
         else:
             from pygeodesy.cartesianBase import CartesianBase
-            c = CartesianBase(self, datum=self.datum)  # PYCHOK _Names_
+            c = CartesianBase(self, datum=self.datum, name=self.name)  # PYCHOK _Names_
             # c.toLatLon converts datum, x, y, z, lat, lon, etc.
             # and returns another Ecef9Tuple iff LatLon is None
             r = c.toLatLon(datum=datum2, LatLon=None)
-        return self._xnamed(r)
+        return r
 
     convertDatum = toDatum  # for backward compatibility
 
-    def toLatLon(self, LatLon=None, **LatLon_height_datum_kwds):
+    def toLatLon(self, LatLon=None, **LatLon_kwds):
         '''Return the geodetic C{(lat, lon, height[, datum])} coordinates.
 
-           @kwarg LatLon: Optional class to return C{(lat, lon, height[,
-                          datum])} or C{None}.
-           @kwarg LatLon_height_datum_kwds: Optional B{C{height}}, B{C{datum}}
-                                            and other B{C{LatLon}} keyword
-                                            arguments.
+           @kwarg LatLon: Optional class to return C{(lat, lon, height[, datum])}
+                          or C{None}.
+           @kwarg LatLon_kwds: Optional B{C{height}}, B{C{datum}} and other
+                               B{C{LatLon}} keyword arguments.
 
-           @return: An instance of C{LatLon}C{(lat, lon, **_height_datum_kwds)}
+           @return: An instance of C{LatLon}C{(lat, lon, **LatLon_kwds)}
                     or if B{C{LatLon}} is C{None}, a L{LatLon3Tuple}C{(lat, lon,
                     height)} respectively L{LatLon4Tuple}C{(lat, lon, height,
-                    datum)} depending on whether C{datum} is un-/available.
+                    datum)} depending on whether C{datum} is un-/specified.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_height_datum_kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
         '''
-        kwds = _xkwds(LatLon_height_datum_kwds, height=self.height, datum=self.datum)  # PYCHOK Ecef9Tuple
+        kwds = _xkwds(LatLon_kwds, height=self.height, datum=self.datum)  # PYCHOK Ecef9Tuple
         d = kwds[_datum_]
         if LatLon is None:
-            r = LatLon3Tuple(self.lat, self.lon, kwds[_height_])  # PYCHOK Ecef9Tuple
+            r = LatLon3Tuple(self.lat, self.lon, kwds[_height_], name=self.name)  # PYCHOK Ecef9Tuple
             if d:
                 r = r.to4Tuple(d)  # checks type(d)
         else:
             if d is None:  # remove datum
                 _ = kwds.pop[_datum_]
-            r = LatLon(self.lat, self.lon, **kwds)  # PYCHOK Ecef9Tuple
+            r = self._xnamed(LatLon(self.lat, self.lon, **kwds))  # PYCHOK Ecef9Tuple
         _datum_datum(getattr(r, _datum_, self.datum), self.datum)  # PYCHOK Ecef9Tuple
-        return self._xnamed(r)
+        return r
 
     def toVector(self, Vector=None, **Vector_kwds):
         '''Return the geocentric C{(x, y, z)} coordinates as vector.
@@ -906,20 +906,20 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
 
            @see: Propertes C{xyz} and C{xyzh}
         '''
-        return self.xyz if Vector is None else \
-              self._xnamed(Vector(self.x, self.y, self.z, **Vector_kwds))  # PYCHOK Ecef9Tuple
+        return self.xyz if Vector is None else self._xnamed(
+               Vector(self.x, self.y, self.z, **Vector_kwds))  # PYCHOK Ecef9Tuple
 
     @Property_RO
     def xyz(self):
         '''Get the geocentric C{(x, y, z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
         '''
-        return self._xnamed(Vector3Tuple(self.x, self.y, self.z))
+        return Vector3Tuple(self.x, self.y, self.z, name=self.name)
 
     @Property_RO
     def xyzh(self):
         '''Get the geocentric C{(x, y, z)} coordinates and height (L{Vector4Tuple}C{(x, y, z, h)})
         '''
-        return self._xnamed(self.xyz.to4Tuple(self.height))
+        return self.xyz.to4Tuple(self.height)
 
 
 class EcefVeness(_EcefBase):
@@ -1040,8 +1040,9 @@ class EcefVeness(_EcefBase):
         else:  # polar lat, lon arbitrarily zero
             C, lat, lon, h = 3, copysign(_90_0, z), _0_0, abs(z) - E.b
 
-        r = Ecef9Tuple(x, y, z, lat, lon, h, C, None, self.datum)
-        return self._xnamed(r, name=name)
+        return Ecef9Tuple(x, y, z, lat, lon, h,
+                                   C, None,  # M=None
+                                   self.datum, name=name or self.name)
 
 
 class EcefSudano(EcefVeness):
@@ -1108,7 +1109,8 @@ class EcefSudano(EcefVeness):
             if abs(t) < EPS:
                 break
         else:
-            raise EcefError(unstr(self.reverse.__name__, x=x, y=y, z=z), txt=_no_(_convergence_))
+            t = unstr(self.reverse.__name__, x=x, y=y, z=z)
+            raise EcefError(t, txt=_no_(_convergence_))
 
         if a is None:
             a = copysign(asin(sa), z)
@@ -1116,9 +1118,11 @@ class EcefSudano(EcefVeness):
         # since Sudano's Eq (7) doesn't provide the correct height
         # h = (abs(z) + h - E.a * cos(a + E.e12) * sa / ca) / (ca + sa)
 
-        r = Ecef9Tuple(x, y, z, degrees90(a), atan2d(y, x), h, C, None, self.datum)
+        r = Ecef9Tuple(x, y, z, degrees90(a), atan2d(y, x), h,
+                                C, None, self.datum,
+                                name=name or self.name)
         r._iteration = C
-        return self._xnamed(r, name=name)
+        return r
 
 
 class EcefYou(_EcefBase):
@@ -1228,11 +1232,10 @@ class EcefYou(_EcefBase):
         if hypot2_(x, y, z * E.a_b) < E.a2:
             h = neg(h)  # inside ellipsoid
 
-        r = Ecef9Tuple(x, y, z, atan2d(E.a * sB, E.b * cB),  # atan(E.a_b * tan(B))
-                                atan2d(y, x), h, 1,  # C=1
-                                None,  # M=None
-                                self.datum)
-        return self._xnamed(r, name=name)
+        return Ecef9Tuple(x, y, z, atan2d(E.a * sB, E.b * cB),  # atan(E.a_b * tan(B))
+                                   atan2d(y, x), h,
+                                   1, None,  # C=1, M=None
+                                   self.datum, name=name or self.name)
 
 
 __all__ += _ALL_DOCS(_EcefBase)

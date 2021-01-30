@@ -78,8 +78,8 @@
   module provides a geodetic <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> and a geocentric 
   <a href=pygeodesy-Cartesian-attributes-table.html><b><code>Cartesian</code></b></a> class with methods and functions to compute
   distance, surface area, perimeter, initial and final bearing, 
-  intermediate and nearest points, intersections of circles, path 
-  intersections, trilateration (by intersection, overlap and 3d), 
+  intermediate and nearest points, circle intersections, path 
+  intersections, trilateration (by intersection, by overlap and on 3d), 
   conversions and unrolling, among other things.  For more information and 
   further details see the <a href="https://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
@@ -94,7 +94,9 @@
   href="https://www.Movable-Type.co.UK/scripts/geodesy/docs" 
   target="_top">docs</a> and the Python <a 
   href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a>.</p>
+  target="_top">geographiclib</a> and C++ <a 
+  href="https://GeographicLib.SourceForge.io/html/index.html" 
+  target="_top">GeographicLib</a> .</p>
   <p>Also included are modules for conversions to and from <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html"
   target="_top">Cassini-Soldner</a>, <a 
@@ -160,11 +162,12 @@
     href="https://PyPI.org/project/PyGeodesy" target="_top">PyPI</a> or <a 
     href="https://GitHub.com/mrJean1/PyGeodesy" target="_top">GitHub</a>, 
     <code>unzip</code> the downloaded file, <code>cd</code> to directory 
-    <code>Pygeodesy-yy.m.d</code> and type <code>python setup.py 
+    <code>Pygeodesy-yy.m.d</code> and type <code>python[3] setup.py 
     install</code>.</p>
-    <p>To run all PyGeodesy tests, type <code>python setup.py test</code> 
-    or type <code>python test/run.py</code> or type <code>python 
-    test/unitTestSuite.py</code> before or after installation.</p>
+    <p>To run all PyGeodesy tests, type <code>python[3] setup.py 
+    test</code> or type <code>python[3] test/run.py</code> or type 
+    <code>python[3] test/unitTestSuite.py</code> before or after 
+    installation.</p>
     <p>Installation of <a href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a>, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> and <a 
@@ -209,8 +212,9 @@
     1.5.2) and macOS' Python 2.7.16 (with <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6), 
     all on macOS 11.1 (10.16) Big Sur and all in 64-bit only.  The tests 
-    run with and without <code>lazy import</code> for Python 3.  The 
-    results of those tests are included in the distribution files.</p>
+    run with and without <code>lazy import</code> for Python 3 and with {-W
+    error} for all Python versions.  The results of those tests are 
+    included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
     4.5.4 using Python 3.9.1 (with <a 
@@ -312,7 +316,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.01.21
+        21.01.31
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -573,7 +577,7 @@
         class="link">GeoidPGM</a> to interpolate the height of various <a 
         href="https://WikiPedia.org/wiki/Geoid" target="_top">geoid</a>s at
         <code>LatLon</code> locations or separate lat-/longitudes using 
-        different interpolation methods and <code>geoid</code> files.</em>    </li>
+        different interpolation methods and <code>geoid</code> model files.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff-module.html">pygeodesy.hausdorff</a></strong>: <em class="summary">Classes <a href="pygeodesy.hausdorff.Hausdorff-class.html" 
         class="link">Hausdorff</a>, <a 
         href="pygeodesy.hausdorff.HausdorffDegrees-class.html" 
@@ -705,7 +709,7 @@
         href="https://www.NumPy.org" target="_top">NumPy</a>, 
         <code>arrays</code> or tuples as <code>LatLon</code> or as 
         <code>pseudo-x/-y</code> pairs.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.props-module.html">pygeodesy.props</a></strong>: <em class="summary">Caching, immutable and mutable properties and decorators.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.props-module.html">pygeodesy.props</a></strong>: <em class="summary">Im-/mutable, caching or memoizing properties and decorators.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.simplify-module.html">pygeodesy.simplify</a></strong>: <em class="summary">Seven functions to <i>simplify</i> or linearize a path of 
         <code>LatLon</code> points.</em>    </li>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.sphericalBase-module.html" onclick="show_private();">pygeodesy.sphericalBase</a></strong>: <em class="summary">(INTERNAL) Spherical base classes 
@@ -5915,7 +5919,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9d485bfad0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe046d738d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -6820,7 +6824,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#latlon2n_xyz" class="summary-sig-name">latlon2n_xyz</a>(<span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">lon</span>)</span><br />
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert lat-, longitude to <code>n-vector</code> (normal to the 
       earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
@@ -7177,7 +7182,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#n_xyz2latlon" class="summary-sig-name">n_xyz2latlon</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>)</span><br />
+        <span class="summary-sig-arg">z</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert <code>n-vector</code> components to lat- and longitude in 
       <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -7197,7 +7203,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#n_xyz2philam" class="summary-sig-name">n_xyz2philam</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>)</span><br />
+        <span class="summary-sig-arg">z</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert <code>n-vector</code> components to lat- and longitude in 
       <code>radians</code>.</td>
           <td align="right" valign="top">
@@ -7764,7 +7771,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#philam2n_xyz" class="summary-sig-name">philam2n_xyz</a>(<span class="summary-sig-arg">phi</span>,
-        <span class="summary-sig-arg">lam</span>)</span><br />
+        <span class="summary-sig-arg">lam</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert lat-, longitude to <code>n-vector</code> (normal to the 
       earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
@@ -9094,7 +9102,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.1.21'"><code class="variable-quote">'</code><code class="variable-string">21.1.21</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.1.31'"><code class="variable-quote">'</code><code class="variable-string">21.1.31</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -14382,7 +14390,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9d485bfad0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe046d738d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15918,7 +15926,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">latlon2n_xyz</span>&nbsp;(<span class="sig-arg">lat</span>,
-        <span class="sig-arg">lon</span>)</span>
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15932,6 +15941,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
@@ -16657,7 +16667,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2latlon</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>)</span>
+        <span class="sig-arg">z</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16672,6 +16683,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
@@ -16692,7 +16704,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2philam</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>)</span>
+        <span class="sig-arg">z</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -16707,6 +16720,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
@@ -17876,7 +17890,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">philam2n_xyz</span>&nbsp;(<span class="sig-arg">phi</span>,
-        <span class="sig-arg">lam</span>)</span>
+        <span class="sig-arg">lam</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17890,6 +17905,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
@@ -20735,7 +20751,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 21 11:58:33 2021
+    Generated by Epydoc 3.0.1 on Sat Jan 30 13:30:15 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

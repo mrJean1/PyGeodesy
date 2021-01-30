@@ -124,7 +124,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**Cartesian_h_datum_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**Cartesian_and_kwds</span>)</span><br />
       Convert this n-vector to <code>Nvector</code>-based cartesian (ECEF) 
       coordinates.</td>
           <td align="right" valign="top">
@@ -143,7 +143,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Nvector-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">**LatLon_height_datum_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
       Convert this n-vector to an <code>Nvector</code>-based geodetic 
       point.</td>
           <td align="right" valign="top">
@@ -391,7 +391,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**Cartesian_h_datum_kwds</span>)</span>
+        <span class="sig-arg">**Cartesian_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -403,11 +403,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Cartesian_h_datum_kwds</code></strong> - Optional <a 
+        <li><strong class="pname"><code>Cartesian_and_kwds</code></strong> - Optional <a 
           href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
           class="link">Cartesian</a>, <b><code>h</code></b>, 
-          <b><code>datum</code></b> and other keyword arguments, ignored if
-          <b><code>Cartesian=None</code></b>.  Use 
+          <b><code>datum</code></b> and other keyword arguments.  Use 
           <b><code>Cartesian=...</code></b> to override this <a 
           href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
           class="link">Cartesian</a> class or specify 
@@ -417,16 +416,14 @@
         <dd>The cartesian point (<a 
           href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
           class="link">Cartesian</a>) or if <b><code>Cartesian</code></b> 
-          is <code>None</code>, an <a 
+          is set to <code>None</code>, an <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
           M, datum)</code> with <code>C</code> and <code>M</code> if 
           available.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b>, <b><code>h</code></b>, 
-        <b><code>datum</code></b> or other 
-        <b><code>Cartesian_h_datum_kwds</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian_and_kwds</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.nvectorBase.NvectorBase-class.html#toCartesian">nvectorBase.NvectorBase.toCartesian</a>
@@ -448,7 +445,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toLatLon</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">**LatLon_height_datum_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -460,27 +457,26 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>LatLon_height_datum_kwds</code></strong> - Optional <a href="pygeodesy.ellipsoidalNvector.LatLon-class.html"
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional <a href="pygeodesy.ellipsoidalNvector.LatLon-class.html"
           class="link">LatLon</a>, <b><code>height</code></b>, 
-          <b><code>datum</code></b> and other keyword arguments, ignored if
-          <code><b>LatLon</b>=None</code>.  Use 
+          <b><code>datum</code></b> and other keyword arguments.  Use 
           <b><code>LatLon=...</code></b> to override this <a 
           href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-          class="link">LatLon</a> class or set 
+          class="link">LatLon</a> class or specify 
           <code><b>LatLon</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The geodetic point (<a 
           href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or a <a 
-          href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
-          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> if 
-          <b><code>LatLon</code></b> is <code>None</code>.</dd>
+          class="link">LatLon</a>) or if <b><code>LatLon</code></b> is set 
+          to <code>None</code>, an <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code> with <code>C</code> and <code>M</code> if 
+          available.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon</code></b>, <b><code>height</code></b>, 
-        <b><code>datum</code></b> or other 
-        <b><code>LatLon_height_datum_kwds</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon_and_kwds</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.nvectorBase.NvectorBase-class.html#toLatLon">nvectorBase.NvectorBase.toLatLon</a>
@@ -589,7 +585,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 21 11:58:36 2021
+    Generated by Epydoc 3.0.1 on Sat Jan 30 13:30:18 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

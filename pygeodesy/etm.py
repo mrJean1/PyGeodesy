@@ -62,7 +62,7 @@ C{phi = pi/2}.  Such changes are noted in the code.
 from __future__ import division
 
 from pygeodesy.basics import copysign, neg, neg_, _xinstanceof
-from pygeodesy.datums import Datums, _ellipsoidal_datum
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.elliptic import Elliptic, EllipticError, _TRIPS
 from pygeodesy.errors import _incompatible
 from pygeodesy.fmath import cbrt, Fsum, fsum_, hypot, hypot1, hypot2
@@ -86,7 +86,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.01.20'
+__version__ = '21.01.28'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -124,7 +124,7 @@ class Etm(Utm):
     _exactTM = None
 
     def __init__(self, zone, hemisphere, easting, northing, band=NN,  # PYCHOK expected
-                             datum=Datums.WGS84, falsed=True,
+                             datum=_WGS84, falsed=True,
                              convergence=None, scale=None, name=NN):
         '''New L{Etm} coordinate.
 
@@ -308,7 +308,7 @@ class ExactTransverseMercator(_NamedBase):
 #   _Ev_cKE_3_4 = _Ev.cKE * 0.75
 #   _Ev_cKE_5_4 = _Ev.cKE * 1.25
 
-    def __init__(self, datum=Datums.WGS84, lon0=0, k0=_K0_UTM, extendp=True, name=NN):
+    def __init__(self, datum=_WGS84, lon0=0, k0=_K0_UTM, extendp=True, name=NN):
         '''New L{ExactTransverseMercator} projection.
 
            @kwarg datum: The datum, ellipsoid to use (L{Datum},
@@ -939,7 +939,7 @@ class LatLonExact4Tuple(_NamedTuple):
     _Units_ = ( Lat,   Lon,   Degrees,       Scalar)
 
 
-def parseETM5(strUTM, datum=Datums.WGS84, Etm=Etm, falsed=True, name=NN):
+def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, name=NN):
     '''Parse a string representing a UTM coordinate, consisting
        of C{"zone[band] hemisphere easting northing"}.
 

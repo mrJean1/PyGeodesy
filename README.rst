@@ -17,11 +17,12 @@ There are three modules for ellipsoidal earth models, *ellipsoidalKarney*,
 and *-Nvector*.  Each module provides a geodetic LatLon_ and a geocentric
 Cartesian_ class with methods and functions to compute distance, surface
 area, perimeter, initial and final bearing, intermediate and nearest points,
-intersections of circles, path intersections, trilateration (by intersection,
-overlap and 3d), conversions and unrolling, among other things.  For more
+circle intersections, path intersections, trilateration (by intersection, by
+overlap and in 3d), conversions and unrolling, among other things.  For more
 information and further details see the documentation_, the descriptions
 of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the
-original `JavaScript source`_ or docs_ and the Python `geographiclib`_.
+original `JavaScript source`_ or docs_ and the Python `geographiclib`_
+and `C++ GeographicLib`_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_,
 ECEF_ (Earth-Centered, Earth-Fixed cartesian), UPS_ (Universal Polar
@@ -50,11 +51,11 @@ PyGeodesy`` in a terminal or command window.
 
 Alternatively, download ``PyGeodesy-yy.m.d.zip`` from PyPI_ or GitHub_,
 ``unzip`` the downloaded file, ``cd`` to directory ``PyGeodesy-yy.m.d``
-and type ``python setup.py install``.
+and type ``python[3] setup.py install``.
 
-To run all PyGeodesy tests, type ``python setup.py test`` or type
-``python test/run.py`` or type ``python test/unitTestSuite.py`` before
-or after installation.
+To run all PyGeodesy tests, type ``python[3] setup.py test`` or type
+``python[3] test/run.py`` or type ``python[3] test/unitTestSuite.py``
+before or after installation.
 
 Installation of `geographiclib`_, `numpy`_ and `scipy`_ is optional.
 However, the former is required to use classes *EquidistantKarney*,
@@ -81,8 +82,8 @@ The tests have been run with Python 3.9.1 (with geographiclib_ 1.50),
 Python 3.8.6 (with geographiclib_ 1.50, numpy_ 1.19.2 and scipy_ 1.5.2)
 and macOS' Python 2.7.16 (with numpy_ 1.16.6), all on macOS 11.1 (10.16)
 Big Sur and all in 64-bit only.  The tests run with and without ``lazy
-import`` for Python 3.  The results of those tests are included in the
-distribution files.
+import`` for Python 3 and with C{-W error} for all Python versions.  The
+results of those tests are included in the distribution files.
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.1
 (with geographiclib_ 1.50), Python 3.8.6 (with geographiclib_ 1.50, numpy_
@@ -129,7 +130,7 @@ to be installed.  A complete list is in module karney_.
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Jan 21, 2021.*
+*Last updated: Jan 31, 2021.*
 
 License
 =======
@@ -173,6 +174,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 
 .. _Albers Equal-Area: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html
 .. _C++ classes: https://GeographicLib.SourceForge.io/html/annotated.html
+.. _C++ GeographicLib: https://GeographicLib.SourceForge.io/html/index.html
 .. _Cartesian: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-Cartesian-attributes-table.html
 .. _Cassini-Soldner: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html
 .. _checked: https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor

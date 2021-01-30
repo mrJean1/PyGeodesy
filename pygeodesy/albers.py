@@ -16,7 +16,7 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 from __future__ import division
 
 from pygeodesy.basics import copysign, neg
-from pygeodesy.datums import Datums, _ellipsoidal_datum
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import Fsum, fsum_, hypot, hypot1, sqrt3
 from pygeodesy.interns import EPS0, NN, _EPSqrt as _TOL, _datum_, \
@@ -36,7 +36,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.01.18'
+__version__ = '21.01.28'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -106,27 +106,27 @@ class _AlbersBase(_NamedBase):
        @see: I{Karney}'s C++ class U{AlbersEqualArea<https://GeographicLib.SourceForge.io/
              html/classGeographicLib_1_1AlbersEqualArea.html>}, method C{Init}.
     '''
-    _datum     = Datums.WGS84
-    _iteration = None
-    _k0        = None  # scale
-    _k0n0      = None  # (INTERNAL) k0 * no
-    _k02       = None  # (INTERNAL) k0**2
-    _k02n0     = None  # (INTERNAL) k02 * n0
-    _lat0      = None  # lat origin
-    _lat1      = None  # let 1st parallel
-    _lat2      = None  # lat 2nd parallel
-    _m0        = _0_0  # if polar else sqrt(m02)
-    _m02       = None  # (INTERNAL) cached
-    _n0        = None  # (INTERNAL) cached
-    _nrho0     = _0_0  # if polar else m0 * E.a
-    _polar     = False
-    _qx        = None  # (INTERNAL) cached
-    _qZ        = None  # (INTERNAL) cached
-    _qZa2      = None  # (INTERNAL) qZ * E.a**2
-    _scxi0     = None  # (INTERNAL) sec(xi)
+    _datum     = _WGS84
+    _iteration =  None
+    _k0        =  None  # scale
+    _k0n0      =  None  # (INTERNAL) k0 * no
+    _k02       =  None  # (INTERNAL) k0**2
+    _k02n0     =  None  # (INTERNAL) k02 * n0
+    _lat0      =  None  # lat origin
+    _lat1      =  None  # let 1st parallel
+    _lat2      =  None  # lat 2nd parallel
+    _m0        = _0_0   # if polar else sqrt(m02)
+    _m02       =  None  # (INTERNAL) cached
+    _n0        =  None  # (INTERNAL) cached
+    _nrho0     = _0_0   # if polar else m0 * E.a
+    _polar     =  False
+    _qx        =  None  # (INTERNAL) cached
+    _qZ        =  None  # (INTERNAL) cached
+    _qZa2      =  None  # (INTERNAL) qZ * E.a**2
+    _scxi0     =  None  # (INTERNAL) sec(xi)
     _sign      = +1
-    _sxi0      = None  # (INTERNAL) sin(xi)
-    _txi0      = None  # (INTERNAL) tan(xi)
+    _sxi0      =  None  # (INTERNAL) sin(xi)
+    _txi0      =  None  # (INTERNAL) tan(xi)
 
     def __init__(self, sa1, ca1, sa2, ca2, k, datum, name):
         '''(INTERNAL) New C{AlbersEqualArea...} instance.
@@ -336,8 +336,8 @@ class _AlbersBase(_NamedBase):
         g = degrees360(s * th)
         if t:
             k0 = self._azik(t, ta)
-        t = Albers7Tuple(x, y, lat, lon, g, k0, self.datum)
-        return self._xnamed(t, name=name)
+        return Albers7Tuple(x, y, lat, lon, g, k0, self.datum,
+                                  name=name or self.name)
 
     @Property_RO
     def ispolar(self):
@@ -385,7 +385,9 @@ class _AlbersBase(_NamedBase):
 
            @note: This allows a I{latitude of conformality} to be specified.
         '''
-        self._k0_(_Ks(k=k) / self.forward(lat, _0_0).scale)
+        k0 = _Ks(k=k) / self.forward(lat, _0_0).scale
+        self._update(k0 != self._k0)
+        self._k0_(k0)
 
     def reverse(self, x, y, lon0=0, name=NN, LatLon=None, **LatLon_kwds):
         '''Convert an east- and northing location to geodetic lat- and longitude.
@@ -443,11 +445,12 @@ class _AlbersBase(_NamedBase):
             g = degrees360(self._sign * th)
             if den:
                 k0 = self._azik(nrho0 + n0 * drho, ta)
-            r = Albers7Tuple(x, y, lat, lon, g, k0, self.datum)
+            r = Albers7Tuple(x, y, lat, lon, g, k0, self.datum,
+                                   name=name or self.name)
         else:
             kwds = _xkwds(LatLon_kwds, datum=self.datum)
-            r = LatLon(lat, lon, **kwds)
-        return self._xnamed(r, name=name)
+            r = self._xnamed(LatLon(lat, lon, **kwds), name=name)
+        return r
 
     @Property_RO
     def scale0(self):
@@ -602,7 +605,7 @@ class AlbersEqualArea(_AlbersBase):
 
        @see: L{AlbersEqualArea2} and L{AlbersEqualArea4}.
     '''
-    def __init__(self, lat, k0=1, datum=Datums.WGS84, name=NN):
+    def __init__(self, lat, k0=1, datum=_WGS84, name=NN):
         '''New L{AlbersEqualArea} projection.
 
            @arg lat: Standard parallel (C{degrees}).
@@ -623,7 +626,7 @@ class AlbersEqualArea2(_AlbersBase):
 
        @see: L{AlbersEqualArea} and L{AlbersEqualArea4}.
     '''
-    def __init__(self, lat1, lat2, k1=1, datum=Datums.WGS84, name=NN):
+    def __init__(self, lat1, lat2, k1=1, datum=_WGS84, name=NN):
         '''New L{AlbersEqualArea2} projection.
 
            @arg lat1: First standard parallel (C{degrees}).
@@ -647,7 +650,7 @@ class AlbersEqualArea4(_AlbersBase):
 
        @see: L{AlbersEqualArea} and L{AlbersEqualArea2}.
     '''
-    def __init__(self, slat1, clat1, slat2, clat2, k1=1, datum=Datums.WGS84, name=NN):
+    def __init__(self, slat1, clat1, slat2, clat2, k1=1, datum=_WGS84, name=NN):
         '''New L{AlbersEqualArea4} projection.
 
            @arg slat1: Sine of first standard parallel (C{scalar}).
@@ -679,7 +682,7 @@ class AlbersEqualAreaCylindrical(_AlbersBase):
     '''
     _lat1 = _lat2 = _Lat(lat1=_0_0)
 
-    def __init__(self, datum=Datums.WGS84, name=NN):
+    def __init__(self, datum=_WGS84, name=NN):
         '''New L{AlbersEqualAreaCylindrical} projection.
 
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
@@ -695,7 +698,7 @@ class AlbersEqualAreaNorth(_AlbersBase):
     '''
     _lat1 = _lat2 = _Lat(lat1=_90_0)
 
-    def __init__(self, datum=Datums.WGS84, name=NN):
+    def __init__(self, datum=_WGS84, name=NN):
         '''New L{AlbersEqualAreaNorth} projection.
 
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},
@@ -711,7 +714,7 @@ class AlbersEqualAreaSouth(_AlbersBase):
     '''
     _lat1 = _lat2 = _Lat(lat1=-_90_0)
 
-    def __init__(self, datum=Datums.WGS84, name=NN):
+    def __init__(self, datum=_WGS84, name=NN):
         '''New L{AlbersEqualAreaSouth} projection.
 
            @kwarg datum: Optional datum or ellipsoid (L{Datum}, L{Ellipsoid},

@@ -58,7 +58,7 @@ from pygeodesy.basics import copysign, isfinite, isint, _xinstanceof
 from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import cbrt, cbrt2, fdot, fhorner, fpowers, Fsum, fsum_, \
                             hypot1, hypot2, sqrt3
-from pygeodesy.interns import EPS, EPS1, INF, NN, PI4, PI_2, R_M, _a_, _A_, \
+from pygeodesy.interns import EPS, EPS0, EPS1, INF, NN, PI4, PI_2, R_M, _a_, _A_, \
                              _Airy1830_, _AiryModified_, _Bessel1841_, _Clarke1866_, \
                              _Clarke1880IGN_, _DOT_, _e_, _1_EPS, _EPStol as _TOL, \
                              _EPS0__2, _f_, _finite_, _float as _F, _floatuple as _T, \
@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.01.19'
+__version__ = '21.01.24'
 
 _f_0_0  = Float(f =_0_0)
 _f__0_0 = Float(f_=_0_0)
@@ -144,7 +144,7 @@ class a_f2Tuple(_NamedTuple):
     _Names_ = (_a_,   _f_)  # 'f' not 'f_'
     _Units_ = (_Pass, _Pass)
 
-    def __new__(cls, a, f):
+    def __new__(cls, a, f, **name):
         '''New L{a_f2Tuple} ellipsoid specification.
 
            @arg a: Equatorial radius (C{scalar} > 0).
@@ -161,7 +161,7 @@ class a_f2Tuple(_NamedTuple):
         f = Float_( f=f, low=None, high=EPS1)
         if abs(f) < EPS:  # force spherical
             f = _f_0_0
-        return _NamedTuple.__new__(cls, a, f)
+        return _NamedTuple.__new__(cls, a, f, **name)
 
     @Property_RO
     def b(self):
@@ -333,7 +333,7 @@ class Ellipsoid(_NamedEnumItem):
     def a_f(self):
         '''Get the I{equatorial} radius and I{flattening} (L{a_f2Tuple}).
         '''
-        return self._xnamed(a_f2Tuple(self.a, self.f))
+        return a_f2Tuple(self.a, self.f, name=self.name)
 
     @Property_RO
     def A(self):
@@ -560,8 +560,8 @@ class Ellipsoid(_NamedEnumItem):
         '''(INTERNAL) Get the I{parametric (or reduced) auxiliary latitude} or inverse thereof.
         '''
         s, c = sincos2d(lat)  # like Karney's tand(lat)
-        _f1  = self.a_b if inverse else self.b_a
-        return atan2d(_f1 * s, c)  # == atand(_f_1 * s / c) if c else copysign(_90_0, lat)
+        _f_1 = self.a_b if inverse else self.b_a
+        return atan2d(_f_1 * s, c)  # == atand(_f_1 * s / c) if c else copysign(_90_0, lat)
 
     @Property_RO
     def BetaKs(self):
@@ -589,11 +589,12 @@ class Ellipsoid(_NamedEnumItem):
                  <https://www.Numericana.com/answer/geometry.htm#oblate>}.
         '''
         if self.f:
-            c2 = self.b2
-            if self.f > 0:  # .isOblate
-                c2 *= atanh(self.e) / self.e
-            elif self.f < 0:  # .isProlate
-                c2 *= atan(self.e) / self.e  # XXX asin?
+            c2, e = self.b2, self.e
+            if e > EPS0:
+                if self.f > 0:  # .isOblate
+                    c2 *= atanh(self.e) / e
+                elif self.f < 0:  # .isProlate
+                    c2 *= atan(self.e) / e  # XXX asin?
             c2 = Meter2(c2=(self.a2 + c2) * _0_5)
         else:
             c2 = self.a2
@@ -994,7 +995,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @Property_RO
     def L(self):
-        '''Get the I{quarter meridian} C{L} (aka polar distance), the distance
+        '''Get the I{quarter meridian} C{L}, aka C{polar distance}, the distance
            along a meridian between the equator and a pole (C{meter}),
            M{b * Elliptic(-e2 / (1 - e2)).E} or M{a * PI / 2}.
         '''
@@ -1007,7 +1008,7 @@ class Ellipsoid(_NamedEnumItem):
 
     def Llat(self, lat):
         '''Return the I{meridional length}, the distance along a meridian
-           between the equator and a (geodetic) latitude.
+           between the equator and a (geodetic) latitude, see C{L}.
 
            @arg lat: Geodetic latitude (C{degrees90}).
 

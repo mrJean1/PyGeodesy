@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.01.14'
+__version__ = '21.01.28'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -179,7 +179,7 @@ class LatLonSphericalBase(LatLonBase):
         # .initialBearingTo is inside .-Nvector and .-Trigonometry
         i = self.initialBearingTo(other, wrap=wrap, raiser=raiser)  # PYCHOK .initialBearingTo
         f = self.finalBearingTo(  other, wrap=wrap, raiser=raiser)
-        return self._xnamed(Bearing2Tuple(i, f))
+        return Bearing2Tuple(i, f, name=self.name)
 
     @property_doc_(''' this point's datum (L{Datum}).''')
     def datum(self):
@@ -462,7 +462,7 @@ class LatLonSphericalBase(LatLonBase):
 
            @see: Function L{toWm} in module L{webmercator} for details.
         '''
-        from pygeodesy.webmercator import toWm  # PYCHOK recursive import
+        from pygeodesy.webmercator import toWm
         return toWm(self, radius=radius)
 
 

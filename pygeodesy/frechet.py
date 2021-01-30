@@ -80,7 +80,7 @@ than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
 from pygeodesy.basics import isscalar, _xinstanceof
-from pygeodesy.datums import Datums, Datum
+from pygeodesy.datums import Datum, _WGS84
 from pygeodesy.errors import _IsnotError, PointsError
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
@@ -102,7 +102,7 @@ from collections import defaultdict as _defaultdict
 from math import radians
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '21.01.20'
+__version__ = '21.01.28'
 
 
 def _fraction(fraction, n):
@@ -347,8 +347,8 @@ class FrechetCosineAndoyerLambert(FrechetRadians):
              L{FrechetFlatLocal}, L{FrechetHubeny}, L{FrechetThomas} and
              L{FrechetKarney}.
     '''
-    _datum = Datums.WGS84
-    _wrap  = False
+    _datum = _WGS84
+    _wrap  =  False
 
     def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
         '''New L{FrechetCosineAndoyerLambert} calculator/interpolator.
@@ -391,8 +391,8 @@ class FrechetCosineForsytheAndoyerLambert(FrechetRadians):
              L{FrechetFlatLocal}, L{FrechetHubeny}, L{FrechetThomas} and
              L{FrechetKarney}.
     '''
-    _datum = Datums.WGS84
-    _wrap  = False
+    _datum = _WGS84
+    _wrap  =  False
 
     def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
         '''New L{FrechetCosineForsytheAndoyerLambert} calculator/interpolator.
@@ -614,7 +614,7 @@ class FrechetFlatLocal(FrechetRadians):
              L{FrechetDistanceTo}, L{FrechetHubeny},
              L{FrechetKarney} and L{FrechetThomas}.
     '''
-    _datum    =  Datums.WGS84
+    _datum    = _WGS84
     _hubeny2_ =  None
     _units    = _Str_radians2
     _wrap     =  False
@@ -750,9 +750,9 @@ class FrechetKarney(FrechetDegrees):
              L{FrechetDistanceTo}, L{FrechetFlatLocal}, L{FrechetHubeny} and
              L{FrechetThomas}.
     '''
-    _datum    = Datums.WGS84
-    _Inverse1 = None
-    _wrap     = False
+    _datum    = _WGS84
+    _Inverse1 =  None
+    _wrap     =  False
 
     def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
         '''New L{FrechetKarney} calculator/interpolator.
@@ -798,8 +798,8 @@ class FrechetThomas(FrechetRadians):
              L{FrechetDistanceTo}, L{FrechetFlatLocal}, L{FrechetHubeny} and
              L{FrechetKarney}.
     '''
-    _datum = Datums.WGS84
-    _wrap  = False
+    _datum = _WGS84
+    _wrap  =  False
 
     def __init__(self, points, datum=None, wrap=False, fraction=None, name=NN):
         '''New L{FrechetThomas} calculator/interpolator.

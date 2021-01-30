@@ -63,7 +63,7 @@ around some of I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geogr
 '''
 
 from pygeodesy.basics import _xversion
-from pygeodesy.datums import Datums
+from pygeodesy.datums import _WGS84  # PYCHOK used!
 from pygeodesy.interns import NAN, _0_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
@@ -73,7 +73,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.01.07'
+__version__ = '21.01.28'
 
 
 class _Adict(dict):
@@ -184,7 +184,7 @@ class _Wrapped(object):
            U{geographiclib<https://PyPI.org/project/geographiclib>} package
            is installed, otherwise an C{ImportError}.
         '''
-        return Datums.WGS84.ellipsoid.geodesic
+        return _WGS84.ellipsoid.geodesic
 
     @Property_RO
     def geographiclib(self):

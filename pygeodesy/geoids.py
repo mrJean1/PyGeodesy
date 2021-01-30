@@ -4,7 +4,7 @@
 u'''Classes L{GeoidG2012B}, L{GeoidKarney} and L{GeoidPGM} to interpolate
 the height of various U{geoid<https://WikiPedia.org/wiki/Geoid>}s at
 C{LatLon} locations or separate lat-/longitudes using different
-interpolation methods and C{geoid} files.
+interpolation methods and C{geoid} model files.
 
 L{GeoidKarney} is a transcription of I{Charles Karney}'s C++ class U{Geoid
 <https://GeographicLib.SourceForge.io/html/geoid.html>} to pure Python.  The
@@ -13,17 +13,18 @@ L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on U{scipy
 require those packages to be installed.
 
 In addition, each geoid interpolator needs C{grid knots} (down)loaded
-from a C{geoid} file, specific to the interpolator, more details below.
-For each interpolator, there are several interpolation choices, for
-example I{linear}, I{cubic}, etc.
+from a C{geoid} model file, specific to the interpolator, more details
+below.  For each interpolator, there are several interpolation choices,
+for example I{linear}, I{cubic}, etc.
 
 B{Typical usage} is as follows.  First, create an interpolator from a
-C{geoid} file, containing locations with known heights also referred
-to as the C{grid knots}.
+C{geoid} model file, containing locations with known heights also
+referred to as the C{grid knots}.
 
 C{>>> ginterpolator = GeoidXyz(geoid_file, **options)}
 
-Then, get the interpolated geoid height of C{LatLon} location(s) with
+Then, get the interpolated geoid height of one or several C{LatLon}
+location(s) with
 
 C{>>> h = ginterpolator(ll)}
 
@@ -35,11 +36,11 @@ or
 
 C{>>> hs = ginterpolator(lls)  # list, tuple, generator, ...}
 
-For separate lat- and longitudes invoke the C{.height} method
+For separate lat- and longitudes invoke the C{.height} method as
 
 C{>>> h = ginterpolator.height(lat, lon)}
 
-or
+or as
 
 C{>>> h0, h1, h2, ... = ginterpolator.height(lats, lons)  # lists, tuples, ...}
 
@@ -58,9 +59,11 @@ C{warnings} are filtered accordingly, see L{SciPyWarning}.
       scipy.interpolate.interp2d.html>} and the functions
       L{elevations.elevation2} and L{elevations.geoidHeight2}.
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import len2, map1, map2, ub2str
-from pygeodesy.datums import Datums, _ellipsoidal_datum
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import parseDMS2
 from pygeodesy.errors import _incompatible, LenError, RangeError, _SciPyIssue
 from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
@@ -92,7 +95,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.01.19'
+__version__ = '21.01.30'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -111,21 +114,21 @@ _width_ = 'width'
 class _GeoidBase(_HeightBase):
     '''(INTERNAL) Base class for C{Geoid...}s.
     '''
-    _cropped  = None
-    _datum    = Datums.WGS84
+    _cropped  =  None
+    _datum    = _WGS84
     _endian   = _tbd_
     _geoid    = _n_a_
-    _hs_y_x   = None  # numpy 2darray, row-major order
-    _interp2d = None  # interp2d interpolation
-    _kind     = 3  # order for interp2d, RectBivariateSpline
-    _knots    = 0  # nlat * nlon
-    _mean     = None  # fixed in GeoidKarney
-#   _name     = NN # _Named
-    _nBytes   = 0  # numpy size in bytes, float64
-    _pgm      = None
-    _sizeB    = 0  # geoid file size in bytes
-    _smooth   = 0  # used only for RectBivariateSpline
-    _stdev    = None  # fixed in GeoidKarney
+    _hs_y_x   =  None  # numpy 2darray, row-major order
+    _interp2d =  None  # interp2d interpolation
+    _kind     =  3     # order for interp2d, RectBivariateSpline
+    _knots    =  0     # nlat * nlon
+    _mean     =  None  # fixed in GeoidKarney
+#   _name     =  NN    # _Named
+    _nBytes   =  0     # numpy size in bytes, float64
+    _pgm      =  None
+    _sizeB    =  0     # geoid file size in bytes
+    _smooth   =  0     # used only for RectBivariateSpline
+    _stdev    =  None  # fixed in GeoidKarney
 
     _lat_d  = _0_0  # increment, +tive
     _lat_lo = _0_0  # lower lat, south
@@ -286,11 +289,10 @@ class _GeoidBase(_HeightBase):
         notOverloaded(self, self._ll2g2, lat, lon)
 
     def _llh3(self, lat, lon):
-        r = LatLon3Tuple(lat, lon, self._hGeoid(lat, lon))
-        return self._xnamed(r)
+        return LatLon3Tuple(lat, lon, self._hGeoid(lat, lon), name=self.name)
 
     def _llh3LL(self, llh, LatLon):
-        return llh if LatLon is None else LatLon(*llh)
+        return llh if LatLon is None else self._xnamed(LatLon(*llh))
 
     def _llh3minmax(self, highest=True, *unused):
         hs, np = self._hs_y_x, self._np
@@ -318,7 +320,7 @@ class _GeoidBase(_HeightBase):
             self._datum = _ellipsoidal_datum(datum, name=name)
         self._kind = int(kind)
         if name:
-            _HeightBase.name.fset(self, name)  # recursion
+            _HeightBase.name.fset(self, name)  # rename
         if smooth:
             self._smooth = Int_(smooth=smooth, Error=GeoidError, low=0)
 
@@ -337,8 +339,8 @@ class _GeoidBase(_HeightBase):
                 swne = crop
             if len(swne) == 4:
                 s, w, n, e = map(float, swne)
-                if -90 <= s <= (n - 1) <=  89 and \
-                  -180 <= w <= (e - 1) <= 179:
+                if -90 <= s <= (n - _1_0) <=  89 and \
+                  -180 <= w <= (e - _1_0) <= 179:
                     return s, w, n, e
         except (IndexError, TypeError, ValueError):  # PYCHOK no cover
             pass
@@ -684,11 +686,11 @@ class GeoidG2012B(_GeoidBase):
                           scipy.interpolate.RectBivariateSpline.html>}
                           only (C{int}).
 
-           @raise GeoidError: G2012B grid file B{C{g2012b_bin}} issue, non-C{None}
-                              B{C{crop}} or invalid B{C{kind}} or B{C{smooth}}.
+           @raise GeoidError: G2012B grid file B{C{g2012b_bin}} issue or invalid
+                              B{C{crop}}, B{C{kind}} or B{C{smooth}}.
 
-           @raise ImportError: Package C{numpy} or C{scipy} not found
-                               or not installed.
+           @raise ImportError: Package C{numpy} or C{scipy} not found or
+                               not installed.
 
            @raise LenError: Grid file B{C{g2012b_bin}} axis mismatch.
 
@@ -842,10 +844,10 @@ class GeoidKarney(_GeoidBase):
     _Rendian =  NN     # struct.unpack a row of ushorts
 #   _highest = (-8.4,   147.367, 85.839) if egm2008-1.pgm else (
 #              (-8.167, 147.25,  85.422) if egm96-5.pgm else
-#              (-4.5,   148.75,  81.33)   # egm84-15.pgm)
+#              (-4.5,   148.75,  81.33))  # egm84-15.pgm
 #   _lowest  = (4.7,   78.767, -106.911) if egm2008-1.pgm else (
 #              (4.667, 78.833, -107.043) if egm96-5.pgm else
-#              (4.75,  79.25,  -107.34)   # egm84-15.pgm
+#              (4.75,  79.25,  -107.34))  # egm84-15.pgm
     _mean    = _F(-1.317)  # from egm2008-1, -1.438 egm96-5, -0.855 egm84-15
     _nBytes  =  None  # not applicable
     _nterms  =  len(_C3[0])  # columns length, number of row

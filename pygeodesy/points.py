@@ -35,29 +35,27 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
 from pygeodesy.fmath import favg, fdot, Fsum, fsum
 from pygeodesy.formy import equirectangular_, latlon2n_xyz, points2
 from pygeodesy.interns import EPS, EPS1, NN, PI_2, R_M, _angle_, _colinear_, \
-                             _COMMASPACE_, _DEQUALSPACED_, _distance_, _not_, \
-                             _ELLIPSIS_, _height_, _lat_, _lon_, _name_, \
+                             _COMMASPACE_, _DEQUALSPACED_, _distance_, \
+                             _ELLIPSIS_, _height_, _lat_, _lon_, _not_, \
                              _point_, _SPACE_, _UNDER_, _valid_, _x_, _y_, \
                              _0_0, _0_5, _1_0, _3_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import classname, _NamedTuple, nameof, \
-                            notImplemented, notOverloaded, _Pass, \
-                            _xnamed, _xother3, _xotherError
+from pygeodesy.named import classname, _NamedTuple, nameof, notImplemented, \
+                            notOverloaded, _Pass, _xnamed, _xother3, _xotherError
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, NearestOn3Tuple, \
                                   PhiLam2Tuple, Vector4Tuple
 from pygeodesy.nvectorBase import NvectorBase, _N_vector_
 from pygeodesy.props import Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, hstr, instr, pairs
-from pygeodesy.units import Degrees, Lat, Lon, Meter, Number_, \
-                            Radius, Scalar_
+from pygeodesy.units import Degrees, Lat, Lon, Meter, Number_, Radius, Scalar_
 from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
                             unroll180, unrollPI, wrap90, wrap180
 
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.01.19'
+__version__ = '21.01.24'
 
 _elel_  = 'll'
 _ncols_ = 'ncols'
@@ -130,10 +128,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
 
            @return: New instance (C{self.__class__}).
         '''
-        if _name_ in kwds:
-            return self.__class__(*args, **kwds)
-        else:
-            return self.__class__(name=self.name, *args, **kwds)
+        return _xnamed(self.__class__(*args, **kwds), self.name)
 
     def copy(self, deep=False):
         '''Make a shallow or deep copy of this instance.
@@ -158,7 +153,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     def latlon(self):
         '''Get the lat- and longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        return LatLon2Tuple(self.lat, self.lon)
+        return LatLon2Tuple(self.lat, self.lon, name=self.name)
 
     @Property_RO
     def latlonheight(self):
@@ -170,7 +165,8 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     def _N_vector(self):
         '''(INTERNAL) Get the minimal, low-overhead (C{nvectorBase._N_vector_})
         '''
-        return _N_vector_(*latlon2n_xyz(self.lat, self.lon), h=self.height)
+        return _N_vector_(*latlon2n_xyz(self.lat, self.lon),
+                           h=self.height, name=self.name)
 
     def others(self, *other, **name_other_up):  # see .named._namedBase.others
         '''Refined class comparison.
@@ -193,7 +189,7 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
     def philam(self):
         '''Get the lat- and longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        return PhiLam2Tuple(radians(self.lat), radians(self.lon))
+        return PhiLam2Tuple(radians(self.lat), radians(self.lon), name=self.name)
 
     @Property_RO
     def philamheight(self):
@@ -244,8 +240,8 @@ class LatLon_(object):  # XXX imported by heights._HeightBase.height
         '''
         x, y, z = latlon2n_xyz(self.lat, self.lon)
         r = Vector4Tuple(x, y, z, self.height if h is None else h)
-        if Nvector:
-            r = Nvector(x, y, z, h=r.h, **_xkwds(Nvector_kwds, ll=self))
+        if Nvector is not None:
+            r = Nvector(x, y, z, **_xkwds(Nvector_kwds, h=r.h, ll=self))
         return _xnamed(r, self.name)
 
     def toRepr(self, **kwds):
@@ -1120,9 +1116,8 @@ def boundsOf(points, wrap=True, LatLon=None):
         elif hiy < y:
             hiy = y
 
-    r = Bounds4Tuple(loy, lox, hiy, hix) if LatLon is None else \
-        Bounds2Tuple(LatLon(loy, lox), LatLon(hiy, hix))  # PYCHOK inconsistent
-    return r
+    return Bounds4Tuple(loy, lox, hiy, hix) if LatLon is None else \
+           Bounds2Tuple(LatLon(loy, lox), LatLon(hiy, hix))  # PYCHOK inconsistent
 
 
 def centroidOf(points, wrap=True, LatLon=None):

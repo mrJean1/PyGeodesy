@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.01.19'
+__version__ = '21.01.28'
 
 
 class LatLonBase(_NamedBase):
@@ -45,7 +45,6 @@ class LatLonBase(_NamedBase):
        ellipsoidal earth models.
     '''
     _datum  = None  # L{Datum}, to be overriden
-    _Ecef   = None  # preferred C{EcefKarney} class
     _height = 0     # height (C{meter})
     _lat    = 0     # latitude (C{degrees})
     _lon    = 0     # longitude (C{degrees})
@@ -104,8 +103,8 @@ class LatLonBase(_NamedBase):
         '''DEPRECATED, use method C{boundsOf}.'''
         return self.boundsOf(wide, tall, radius=radius)
 
-    def boundsOf(self, wide, tall, radius=R_M):
-        '''Return the SE and NW lat-/longitude of a great circle
+    def boundsOf(self, wide, tall, radius=R_M, height=None):
+        '''Return the SW and NE lat-/longitude of a great circle
            bounding box centered at this location.
 
            @arg wide: Longitudinal box width (C{meter}, same units as
@@ -113,6 +112,8 @@ class LatLonBase(_NamedBase):
            @arg tall: Latitudinal box size (C{meter}, same units as
                       B{C{radius}} or C{degrees} if B{C{radius}} is C{None}).
            @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg height: Height for C{latlonSW} and C{latlonNE} (C{meter}),
+                          overriding the point's height.
 
            @return: A L{Bounds2Tuple}C{(latlonSW, latlonNE)}, the
                     lower-left and upper-right corner (C{LatLon}).
@@ -128,9 +129,10 @@ class LatLonBase(_NamedBase):
             y = degrees(y / r)
         x, y = abs(x), abs(y)
 
-        sw = self.classof(self.lat - y, self.lon - x, height=self.height)
-        ne = self.classof(self.lat + y, self.lon + x, height=self.height)
-        return self._xnamed(Bounds2Tuple(sw, ne))
+        h  = self.height if height is None else height
+        sw = self.classof(self.lat - y, self.lon - x, height=h)
+        ne = self.classof(self.lat + y, self.lon + x, height=h)
+        return Bounds2Tuple(sw, ne, name=self.name)
 
     def chordTo(self, other, height=None):
         '''Compute the length of the chord through the earth between
@@ -138,15 +140,14 @@ class LatLonBase(_NamedBase):
 
            @arg other: The other point (C{LatLon}).
            @kwarg height: Overriding height for both points (C{meter})
-                          or C{None} to include each point's height.
+                          or C{None} for each point's height.
 
            @return: The chord length (conventionally C{meter}).
 
            @raise TypeError: The B{C{other}} point is not C{LatLon}.
         '''
         def _v3d(ll):
-            t = ll.Ecef(ll.datum).forward(ll.lat, ll.lon, height=ll.height
-                                          if height is None else height)
+            t = ll.toEcef(height=height)  # .toVector(Vector=Vector3d)
             return Vector3d(t.x, t.y, t.z)
 
         self.others(other)
@@ -275,20 +276,18 @@ class LatLonBase(_NamedBase):
         r = func_(other.phi, self.phi, r, datum=self.datum)
         return r * self.datum.ellipsoid.a
 
-    @property_RO
+    @Property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney}).
+        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
         '''
-        if LatLonBase._Ecef is None:
-            from pygeodesy.ecef import EcefKarney
-            LatLonBase._Ecef = EcefKarney  # default
-        return LatLonBase._Ecef
+        from pygeodesy.ecef import EcefKarney
+        return EcefKarney  # default
 
     @Property_RO
     def _ecef9(self):
         '''(INTERNAL) Helper for L{toCartesian} and L{toEcef}.
         '''
-        return self._xnamed(self.Ecef(self.datum).forward(self, M=True))
+        return self.Ecef(self.datum, name=self.name).forward(self, M=True)
 
     def equals(self, other, eps=None):  # PYCHOK no cover
         '''DEPRECATED, use method L{isequalTo}.'''
@@ -516,7 +515,7 @@ class LatLonBase(_NamedBase):
         '''
         self.others(other)
 
-        e = _0_0 if eps in (None, 0, _0_0) else Scalar_(eps, name='eps')
+        e = _0_0 if eps in (None, 0, _0_0) else Scalar_(eps=eps)
         if e > 0:
             return max(map1(abs, self.lat - other.lat,
                                  self.lon - other.lon)) < e
@@ -581,7 +580,7 @@ class LatLonBase(_NamedBase):
     def latlon(self):
         '''Get the lat- and longitude (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        return self._xrenamed(LatLon2Tuple(self._lat, self._lon))
+        return LatLon2Tuple(self._lat, self._lon, name=self.name)
 
     @latlon.setter  # PYCHOK setter!
     def latlon(self, latlonh):
@@ -627,8 +626,8 @@ class LatLonBase(_NamedBase):
            @note: The C{round}ed values are always C{float}, also
                   if B{C{ndigits}} is omitted.
         '''
-        return self._xnamed(LatLon2Tuple(round(self.lat, ndigits),
-                                         round(self.lon, ndigits)))
+        return LatLon2Tuple(round(self.lat, ndigits),
+                            round(self.lon, ndigits), name=self.name)
 
     def latlon_(self, ndigits=0):  # PYCHOK no cover
         '''DEPRECATED, use method L{latlon2}.'''
@@ -677,8 +676,8 @@ class LatLonBase(_NamedBase):
     def philam(self):
         '''Get the lat- and longitude (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        return self._xnamed(PhiLam2Tuple(radians(self.lat),
-                                         radians(self.lon)))
+        return PhiLam2Tuple(radians(self.lat),
+                            radians(self.lon), name=self.name)
 
     def philam2(self, ndigits=0):
         '''Return this point's lat- and longitude in C{radians}, rounded.
@@ -691,9 +690,8 @@ class LatLonBase(_NamedBase):
            @note: The C{round}ed values are always C{float}, also
                   if B{C{ndigits}} is omitted.
         '''
-        r = PhiLam2Tuple(round(self.phi, ndigits),
-                         round(self.lam, ndigits))
-        return self._xnamed(r)
+        return PhiLam2Tuple(round(self.phi, ndigits),
+                            round(self.lam, ndigits), name=self.name)
 
     @Property_RO
     def philamheight(self):
@@ -763,22 +761,28 @@ class LatLonBase(_NamedBase):
         '''
         r = self._ecef9
         if Cartesian is not None:  # class or .classof
-            r = Cartesian(r, **Cartesian_kwds)
-            r = self._xnamed(r)
+            r = self._xnamed(Cartesian(r, **Cartesian_kwds))
         _datum_datum(r.datum, self.datum)
         return r
 
-    def toEcef(self):
+    def toEcef(self, height=None, M=False):
         '''Convert this point to geocentric coordinates, also
            known as I{Earth-Centered, Earth-Fixed} (U{ECEF
            <https://WikiPedia.org/wiki/ECEF>}).
+
+           @kwarg height: Optional height, overriding this point's
+                          height (C{meter}).
+           @kwarg M: Optionally, include the rotation L{EcefMatrix}
+                     (C{bool}).
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
                     C, M, datum)} with C{C} 0 and C{M} if available.
 
            @raise EcefError: A C{.datum} or an ECEF issue.
         '''
-        return self._ecef9
+        return self._ecef9 if height in (None, self.height) else \
+               self.Ecef(self.datum).forward(self.lat, self.lon,
+                                             height=height, M=M)
 
     def to3llh(self, height=None):  # PYCHOK no cover
         '''DEPRECATED, use property L{latlonheight} or C{latlon.to3Tuple(B{height})}.'''
@@ -880,7 +884,7 @@ class LatLonBase(_NamedBase):
     def _vector3tuple(self):
         '''(INTERNAL) Cache for L{toVector}.
         '''
-        return self._xnamed(latlon2n_xyz(self.lat, self.lon))
+        return latlon2n_xyz(self.lat, self.lon, name=self.name)
 
     def vincentysTo(self, other, radius=None, wrap=False):
         '''Compute the distance between this and an other point using

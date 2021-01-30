@@ -19,7 +19,7 @@ each end).
 '''
 
 from pygeodesy.basics import neg
-from pygeodesy.datums import Datums, _ellipsoidal_datum
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1, sqrt0
@@ -28,7 +28,7 @@ from pygeodesy.interns import EPS, NN, _A_, _COMMASPACE_, _N_, \
                              _pole_, _range_, _S_, _SPACE_, _to_, \
                              _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _xnamed
+from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
 from pygeodesy.props import Property_RO, _update_all
@@ -43,12 +43,12 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.01.18'
+__version__ = '21.01.28'
 
 _Bands   = _A_, 'B', 'Y', 'Z'  # polar bands
-_Falsing = Meter(2000e3)  # false easting and northing (C{meter})
-_K0_UPS  = Scalar(0.994)  # central UPS scale factor
-_K1_UPS  = Scalar(_1_0)   # rescale point scale factor
+_Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
+_K0_UPS  =  Scalar(0.994)  # central UPS scale factor
+_K1_UPS  =  Scalar(_1_0)   # rescale point scale factor
 
 
 def _Band(a, b):
@@ -79,7 +79,7 @@ class Ups(UtmUpsBase):
     _scale0      = _K0_UPS    # central scale factor (C{scalar})
 
     def __init__(self, zone, pole, easting, northing, band=NN,  # PYCHOK expected
-                                   datum=Datums.WGS84, falsed=True,
+                                   datum=_WGS84, falsed=True,
                                    convergence=None, scale=None, name=NN):
         '''New L{Ups} UPS coordinate.
 
@@ -341,7 +341,7 @@ class Ups(UtmUpsBase):
         '''
         u = self._utm
         if u is None or u.zone != zone or falsed != u.falsed:
-            from pygeodesy.utm import toUtm8, Utm  # PYCHOK recursive import
+            from pygeodesy.utm import toUtm8, Utm
             ll = self.toLatLon(LatLon=None, unfalse=True)
             self._utm = toUtm8(ll, Utm=Utm, falsed=falsed, name=self.name, zone=zone)
         return self._utm
@@ -360,7 +360,7 @@ class _Ups_K1(Ups):
     _scale0 = _K1_UPS
 
 
-def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=NN):
+def parseUPS5(strUPS, datum=_WGS84, Ups=Ups, falsed=True, name=NN):
     '''Parse a string representing a UPS coordinate, consisting of
        C{"[zone][band] pole easting northing"} where B{C{zone}} is
        pseudo zone C{"00"|"0"|""} and C{band} is C{'A'|'B'|'Y'|'Z'|''}.
@@ -383,9 +383,9 @@ def parseUPS5(strUPS, datum=Datums.WGS84, Ups=Ups, falsed=True, name=NN):
     if z != _UPS_ZONE or (B and B not in _Bands):
         raise UPSError(strUPS=strUPS, zone=z, band=B)
 
-    r = UtmUps5Tuple(z, p, e, n, B, Error=UPSError) if Ups is None else \
-                 Ups(z, p, e, n, band=B, falsed=falsed, datum=datum)
-    return _xnamed(r, name, force=True)
+    r = UtmUps5Tuple(z, p, e, n, B, Error=UPSError, name=name) if Ups is None else \
+         _xnamed(Ups(z, p, e, n, band=B, falsed=falsed, datum=datum), name)
+    return r
 
 
 def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
@@ -472,7 +472,7 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
         r._hemisphere = _hemi(lat)
         if isinstance(latlon, _LLEB) and d is latlon.datum:
             r._latlon_to(latlon, falsed)  # XXX weakref(latlon)?
-    return _xnamed(r, name)
+    return _xnamed(r, name or nameof(latlon))
 
 
 def upsZoneBand5(lat, lon, strict=True):

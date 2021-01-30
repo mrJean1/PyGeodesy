@@ -101,8 +101,8 @@
         <span class="summary-sig-arg">end</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the (signed) distance from the start to the closest point on 
-      the great circle path defined by a start and an end point.</td>
+      Compute the (angular) distance (signed) from the start to the closest
+      point on the great circle path defined by a start and an end point.</td>
           <td align="right" valign="top">
             
             
@@ -164,8 +164,8 @@
         <span class="summary-sig-arg">end</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the (signed) distance from this point to the great circle 
-      defined by a start and an end point.</td>
+      Compute the (angular) distance (signed) from this point to the great 
+      circle defined by a start and an end point.</td>
           <td align="right" valign="top">
             
             
@@ -207,7 +207,7 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the distance from this to an other point.</td>
+      Compute the (angular) distance from this to an other point.</td>
           <td align="right" valign="top">
             
             
@@ -651,8 +651,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the (signed) distance from the start to the closest point on 
-  the great circle path defined by a start and an end point.</p>
+  <p>Compute the (angular) distance (signed) from the start to the closest 
+  point on the great circle path defined by a start and an end point.</p>
   <p>That is, if a perpendicular is drawn from this point to the great 
   circle path, the along-track distance is the distance from the start 
   point to the point where the perpendicular crosses the path.</p>
@@ -665,15 +665,16 @@
         <li><strong class="pname"><code>end</code></strong> - End point of great circle path (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance along the great circle path (<code>meter</code>, same 
-          units as <b><code>radius</code></b>), positive if after the 
-          <b><code>start</code></b> toward the <b><code>end</code></b> 
-          point of the path or negative if before the 
-          <b><code>start</code></b> point.</dd>
+          units as <b><code>radius</code></b> or <code>radians</code> if 
+          <b><code>radius</code></b> is <code>None</code>), positive if 
+          after the <b><code>start</code></b> toward the 
+          <b><code>end</code></b> point of the path or negative if before 
+          the <b><code>start</code></b> point.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>start</code></b> or <b><code>end</code></b> point.</li>
@@ -743,8 +744,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the (signed) distance from this point to the great circle 
-  defined by a start and an end point.</p>
+  <p>Compute the (angular) distance (signed) from this point to the great 
+  circle defined by a start and an end point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -754,12 +755,14 @@
         <li><strong class="pname"><code>end</code></strong> - End point of great circle path (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance to great circle (negative if to the left or positive if 
-          to the right of the path).</dd>
+          to the right of the path) (<code>meter</code>, same units as 
+          <b><code>radius</code></b> or <code>radians</code> if 
+          <b><code>radius</code></b> is <code>None</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>start</code></b> or <b><code>end</code></b> point is 
@@ -846,19 +849,21 @@
     </td>
   </tr></table>
   
-  <p>Compute the distance from this to an other point.</p>
+  <p>Compute the (angular) distance from this to an other point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>other</code></strong> - The other point (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance between this and the <b><code>other</code></b> point 
-          (<code>meter</code>, same units as <b><code>radius</code></b>).</dd>
+          (<code>meter</code>, same units as <b><code>radius</code></b> or 
+          <code>radians</code> if <b><code>radius</code></b> is 
+          <code>None</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>other</code></b> point is not <a 
@@ -1570,7 +1575,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 21 11:58:41 2021
+    Generated by Epydoc 3.0.1 on Sat Jan 30 13:30:23 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -34,7 +34,7 @@ and Henrik Seidel U{'Die Mathematik der Gauß-Krueger-Abbildung'
 '''
 
 from pygeodesy.basics import len2, map2, neg
-from pygeodesy.datums import Datums, _ellipsoidal_datum
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError, _xkwds_get
 from pygeodesy.fmath import fdot3, Fsum, hypot, hypot1
@@ -61,7 +61,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.01.18'
+__version__ = '21.01.28'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -237,7 +237,7 @@ class Utm(UtmUpsBase):
     _zone        =  0         # longitudinal zone (C{int} 1..60)
 
     def __init__(self, zone, hemisphere, easting, northing, band=NN,  # PYCHOK expected
-                             datum=Datums.WGS84, falsed=True,
+                             datum=_WGS84, falsed=True,
                              convergence=None, scale=None, name=NN):
         '''New L{Utm} UTM coordinate.
 
@@ -554,7 +554,7 @@ class Utm(UtmUpsBase):
         '''
         u = self._ups
         if u is None or u.pole != (pole or u.pole) or falsed != bool(u.falsed):
-            from pygeodesy.ups import toUps8, Ups  # PYCHOK recursive import
+            from pygeodesy.ups import toUps8, Ups
             ll = self.toLatLon(LatLon=_LLEB, eps=eps, unfalse=True)
             self._ups = u = toUps8(ll, Ups=Ups, falsed=falsed, pole=pole, strict=False)
         return u
@@ -596,12 +596,11 @@ def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError):  # imported by .etm
     if _UTM_ZONE_MIN > z or z > _UTM_ZONE_MAX or (B and B not in _Bands):
         raise Error(strUTM=strUTM, zone=z, band=B)
 
-    r = UtmUps5Tuple(z, h, e, n, B, Error=Error) if Xtm is None else \
-                 Xtm(z, h, e, n, band=B, datum=datum, falsed=falsed)
-    return r
+    return UtmUps5Tuple(z, h, e, n, B, Error=Error) if Xtm is None else \
+                    Xtm(z, h, e, n, band=B, datum=datum, falsed=falsed)
 
 
-def parseUTM5(strUTM, datum=Datums.WGS84, Utm=Utm, falsed=True, name=NN):
+def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, name=NN):
     '''Parse a string representing a UTM coordinate, consisting
        of C{"zone[band] hemisphere easting northing"}.
 

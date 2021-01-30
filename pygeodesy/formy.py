@@ -9,20 +9,19 @@ u'''Formulary of basic geodesy functions and approximations.
 from __future__ import division
 
 from pygeodesy.basics import len2
-from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, \
-                            _mean_radius, _spherical_datum
+from pygeodesy.datums import Datum, _ellipsoidal_datum, _mean_radius, \
+                            _spherical_datum, _WGS84
 from pygeodesy.ellipsoids import Ellipsoid
 from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
                              _limiterrors, PointsError, _ValueError
 from pygeodesy.fmath import euclid, fsum_, hypot, hypot2, sqrt0
-from pygeodesy.interns import EPS, EPS0, EPS1, PI, PI2, PI_2, R_M, _distant_, \
-                             _few_, _too_, _0_0, _0_125, _0_25, _0_5, \
-                             _1_0, _2_0, _32_0, _90_0, _180_0, _360_0
+from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI_2, R_M, \
+                             _distant_, _few_, _too_, _0_0, _0_125, _0_25, \
+                             _0_5, _1_0, _2_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedTuple, _xnamed
+from pygeodesy.named import _NamedTuple
 from pygeodesy.namedTuples import Distance4Tuple, LatLon2Tuple, \
-                                  PhiLam2Tuple, Points2Tuple, \
-                                  Vector3Tuple
+                                  PhiLam2Tuple, Points2Tuple, Vector3Tuple
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, \
                             Phi_, Radius, Radius_, Scalar, _100km
@@ -33,7 +32,7 @@ from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.01.16'
+__version__ = '21.01.28'
 
 
 def _non0(x):
@@ -161,7 +160,7 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
     return atan2b(d_lon, lat2 - lat1)
 
 
-def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
+def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
     '''Compute the distance between two (ellipsoidal) points using the
        U{Andoyer-Lambert correction<https://navlib.net/wp-content/uploads/
        2013/10/admiralty-manual-of-navigation-vol-1-1964-english501c.pdf>} of the
@@ -190,7 +189,7 @@ def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False)
                                                unroll180(lon1, lon2, wrap=wrap))
 
 
-def cosineAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
+def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
     '''Compute the I{angular} distance between two (ellipsoidal) points using the
        U{Andoyer-Lambert correction<https://navlib.net/wp-content/uploads/2013/10/
        admiralty-manual-of-navigation-vol-1-1964-english501c.pdf>} of the U{Law
@@ -230,7 +229,7 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
     return r
 
 
-def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
+def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
     '''Compute the distance between two (ellipsoidal) points using the
        U{Forsythe-Andoyer-Lambert correction<https://www2.UNB.CA/gge/Pubs/TR77.pdf>} of
        the U{Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
@@ -258,7 +257,7 @@ def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wra
                                                        unroll180(lon1, lon2, wrap=wrap))
 
 
-def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=Datums.WGS84):
+def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
     '''Compute the I{angular} distance between two (ellipsoidal) points using the
        U{Forsythe-Andoyer-Lambert correction<https://www2.UNB.CA/gge/Pubs/TR77.pdf>} of
        the U{Law of Cosines<https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
@@ -516,7 +515,7 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
     return euclid(phi2 - phi1, lam21)
 
 
-def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
+def flatLocal(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
     '''Compute the distance between two (ellipsoidal) points using
        the U{ellipsoidal Earth to plane projection<https://WikiPedia.org/
        wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
@@ -552,7 +551,7 @@ def flatLocal(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
 hubeny = flatLocal  # for Karl Hubeny
 
 
-def flatLocal_(phi2, phi1, lam21, datum=Datums.WGS84):
+def flatLocal_(phi2, phi1, lam21, datum=_WGS84):
     '''Compute the I{angular} distance between two (ellipsoidal) points using
        the U{ellipsoidal Earth to plane projection<https://WikiPedia.org/
        wiki/Geographical_distance#Ellipsoidal_Earth_projected_to_a_plane>}
@@ -802,7 +801,7 @@ def intersections2(lat1, lon1, radius1,
         import pygeodesy.vector3d as m
 
         def _V2T(x, y, _, **unused):  # _ == z unused
-            return _xnamed(LatLon2Tuple(y, x), intersections2.__name__)
+            return LatLon2Tuple(y, x, name=intersections2.__name__)
 
         r1 = m2degrees(Radius_(radius1=radius1), radius=R_M, lat=lat1)
         r2 = m2degrees(Radius_(radius2=radius2), radius=R_M, lat=lat2)
@@ -814,7 +813,7 @@ def intersections2(lat1, lon1, radius1,
 
     else:
         def _LL2T(lat, lon, **unused):
-            return _xnamed(LatLon2Tuple(lat, lon), intersections2.__name__)
+            return LatLon2Tuple(lat, lon, name=intersections2.__name__)
 
         d = _spherical_datum(datum, name=intersections2.__name__)
         if d.isSpherical:
@@ -873,12 +872,13 @@ def isantipode_(phi1, lam1, phi2, lam2, eps=EPS):
            abs(wrapPI(lam1)   - wrapPI(lam2)) % PI2 - PI) < eps
 
 
-def latlon2n_xyz(lat, lon):
+def latlon2n_xyz(lat, lon, name=NN):
     '''Convert lat-, longitude to C{n-vector} (normal to the
        earth's surface) X, Y and Z components.
 
        @arg lat: Latitude (C{degrees}).
        @arg lon: Longitude (C{degrees}).
+       @kwarg name: Optional name (C{str}).
 
        @return: A L{Vector3Tuple}C{(x, y, z)}.
 
@@ -887,44 +887,47 @@ def latlon2n_xyz(lat, lon):
        @note: These are C{n-vector} x, y and z components,
               I{NOT} geocentric ECEF x, y and z coordinates!
     '''
-    return philam2n_xyz(radians(lat), radians(lon))
+    return philam2n_xyz(radians(lat), radians(lon), name=name)
 
 
-def n_xyz2latlon(x, y, z):
+def n_xyz2latlon(x, y, z, name=NN):
     '''Convert C{n-vector} components to lat- and longitude in C{degrees}.
 
        @arg x: X component (C{scalar}).
        @arg y: Y component (C{scalar}).
        @arg z: Z component (C{scalar}).
+       @kwarg name: Optional name (C{str}).
 
        @return: A L{LatLon2Tuple}C{(lat, lon)}.
 
        @see: Function L{n_xyz2philam}.
     '''
     a, b = n_xyz2philam(x, y, z)  # PYCHOK PhiLam2Tuple
-    return LatLon2Tuple(degrees90(a), degrees180(b))
+    return LatLon2Tuple(degrees90(a), degrees180(b), name=name)
 
 
-def n_xyz2philam(x, y, z):
+def n_xyz2philam(x, y, z, name=NN):
     '''Convert C{n-vector} components to lat- and longitude in C{radians}.
 
        @arg x: X component (C{scalar}).
        @arg y: Y component (C{scalar}).
        @arg z: Z component (C{scalar}).
+       @kwarg name: Optional name (C{str}).
 
        @return: A L{PhiLam2Tuple}C{(phi, lam)}.
 
        @see: Function L{n_xyz2latlon}.
     '''
-    return PhiLam2Tuple(atan2(z, hypot(x, y)), atan2(y, x))
+    return PhiLam2Tuple(atan2(z, hypot(x, y)), atan2(y, x), name=name)
 
 
-def philam2n_xyz(phi, lam):
+def philam2n_xyz(phi, lam, name=NN):
     '''Convert lat-, longitude to C{n-vector} (normal to the
        earth's surface) X, Y and Z components.
 
        @arg phi: Latitude (C{radians}).
        @arg lam: Longitude (C{radians}).
+       @kwarg name: Optional name (C{str}).
 
        @return: A L{Vector3Tuple}C{(x, y, z)}.
 
@@ -936,7 +939,7 @@ def philam2n_xyz(phi, lam):
     # Kenneth Gade eqn 3, but using right-handed
     # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
     sa, ca, sb, cb = sincos2(phi, lam)
-    return Vector3Tuple(ca * cb, ca * sb, sa)
+    return Vector3Tuple(ca * cb, ca * sb, sa, name=name)
 
 
 def points2(points, closed=True, base=None, Error=PointsError):
@@ -980,6 +983,7 @@ def points2(points, closed=True, base=None, Error=PointsError):
 
 def _radical2(d, r1, r2):  # in .ellipsoidalBase, .sphericalTrigonometry, .vector3d
     # (INTERNAL) See C{radical2} below
+    # assert d > EPS0
     r = fsum_(_1_0, (r1 / d)**2, -(r2 / d)**2) * _0_5
     return Radical2Tuple(max(_0_0, min(_1_0, r)), r * d)
 
@@ -1011,7 +1015,8 @@ def radical2(distance, radius1, radius2):
     if d > (r1 + r2):
         raise IntersectionError(distance=d, radius1=r1, radius2=r2,
                                             txt=_too_(_distant_))
-    return _radical2(d, r1, r2) if d else Radical2Tuple(_0_5, _0_0)
+    return _radical2(d, r1, r2) if d > EPS0 else \
+            Radical2Tuple(_0_5, _0_0)
 
 
 class Radical2Tuple(_NamedTuple):
@@ -1029,7 +1034,7 @@ def _sincosa6(phi2, phi1, lam21):
     return s2, c2, s1, c1, acos1(s1 * s2 + c1 * c2 * c21), c21
 
 
-def thomas(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
+def thomas(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
     '''Compute the distance between two (ellipsoidal) points using
        U{Thomas'<https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>}
        formula.
@@ -1055,7 +1060,7 @@ def thomas(lat1, lon1, lat2, lon2, datum=Datums.WGS84, wrap=False):
                                  unroll180(lon1, lon2, wrap=wrap))
 
 
-def thomas_(phi2, phi1, lam21, datum=Datums.WGS84):
+def thomas_(phi2, phi1, lam21, datum=_WGS84):
     '''Compute the I{angular} distance between two (ellipsoidal) points using
        U{Thomas'<https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>}
        formula.

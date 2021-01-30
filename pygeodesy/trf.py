@@ -63,7 +63,7 @@ from pygeodesy.units import Epoch
 from math import ceil
 
 __all__ = _ALL_LAZY.trf
-__version__ = '21.01.19'
+__version__ = '21.01.30'
 
 _0_02  = _F(  0.02)
 _0_06  = _F(  0.06)
@@ -400,46 +400,47 @@ def _intermediate(n1, n2):
     return n.pop() if n else NN
 
 
-def _reframeTransforms(rf2, rf, epoch):
-    '''(INTERNAL) Get 0, 1 or 2 Helmert C{Transforms} to convert
-       reference frame C{rf} observed at C{epoch} into C{rf2}.
+def _reframeTransforms2(rf2, rf, epoch):
+    '''(INTERNAL) Get 0, 1 or 2 Helmert L{Transform}s to convert
+       reference frame B{C{rf}} observed at B{C{epoch}} into B{C{rf2}}.
     '''
+    e = rf.epoch if epoch is None else Epoch(epoch)
+
     n2 = rf2.name  # .upper()
     n1 = rf.name   # .upper()
     if n1 == n2 or (n1.startswith(_ITRF_) and n2.startswith(_WGS84_)) \
                 or (n2.startswith(_ITRF_) and n1.startswith(_WGS84_)):
-        return ()  # PYCHOK returns
+        return e, ()  # PYCHOK returns
 
     if (n1, n2) in _trfXs:
-        return (_2Transform((n1, n2), epoch, _Forward),)  # PYCHOK returns
+        return e, (_2Transform((n1, n2), e, _Forward),)  # PYCHOK returns
 
     if (n2, n1) in _trfXs:
-        return (_2Transform((n2, n1), epoch, _Reverse),)  # PYCHOK returns
+        return e, (_2Transform((n2, n1), e, _Reverse),)  # PYCHOK returns
 
     n = _intermediate(n1, n2)
     if n:
-        return (_2Transform((n1, n), epoch, _Forward),  # PYCHOK returns
-                _2Transform((n, n2), epoch, _Forward))
+        return e, (_2Transform((n1, n), e, _Forward),  # PYCHOK returns
+                   _2Transform((n, n2), e, _Forward))
 
     n = _intermediate(n2, n1)
     if n:
-        return (_2Transform((n, n1), epoch, _Reverse),  # PYCHOK returns
-                _2Transform((n2, n), epoch, _Reverse))
+        return e, (_2Transform((n, n1), e, _Reverse),  # PYCHOK returns
+                   _2Transform((n2, n), e, _Reverse))
 
     t = _SPACE_(RefFrame.__name__, repr(n1), _to_, repr(n2))
     raise TRFError(_no_(_conversion_), txt=t)
 
 
 def _2Transform(n1_n2, epoch, _Forward_Reverse):
-    '''(INTERNAL) Combine a 14-element Helmert C{trfX} and
-       C{d_epoch} into a single 7-element C{Transform}.
+    '''(INTERNAL) Combine a 14-element Helmert C{trfXB{[n1_n2]}}
+       into a 7-element L{Transform} observed at B{C{epoch}}.
     '''
     X = _trfXs[n1_n2]
     e = epoch - X.epoch  # fractional delta years
     d = dict((n, (x + r * e) * _Forward_Reverse) for
               n,  x,  r in zip(_trfNs, X.xform, X.rates))
-    t = Transform(**d)
-    return t
+    return Transform(**d)
 
 
 if __name__ == '__main__':

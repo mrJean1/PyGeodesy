@@ -39,7 +39,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.01.19'
+__version__ = '21.01.24'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -291,9 +291,8 @@ def parseWM(strWM, radius=R_MA, Wm=Wm, name=NN):
             raise ValueError
         x, y, r = map(float, w)
 
-        r = EasNorRadius3Tuple(x, y, r) if Wm is None else \
-                            Wm(x, y, radius=r)
-        return _xnamed(r, name, force=True)
+        return EasNorRadius3Tuple(x, y, r, name=name) if Wm is None else \
+                       _xnamed(Wm(x, y, radius=r), name)
 
     return _parseX(_WM_, strWM, radius, Wm, name,
                          strWM=strWM, Error=WebMercatorError)
@@ -347,9 +346,9 @@ def toWm(latlon, lon=None, radius=R_MA, Wm=Wm, name=NN, **Wm_kwds):
 
     e = r * radians(lon)
     n = r * y
-    r = EasNorRadius3Tuple(e, n, r) if Wm is None else \
-                        Wm(e, n, **_xkwds(Wm_kwds, radius=r))
-    return _xnamed(r, name)
+    r = EasNorRadius3Tuple(e, n, r, name=name) if Wm is None else \
+                _xnamed(Wm(e, n, **_xkwds(Wm_kwds, radius=r)), name)
+    return r
 
 # **) MIT License
 #

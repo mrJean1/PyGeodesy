@@ -41,7 +41,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedBase, \
                             _NamedEnum, _NamedEnumItem, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor3Tuple, LatLonDatum3Tuple, \
-                                  LatLon2Tuple, _LatLon4Tuple, PhiLam2Tuple
+                                  LatLon2Tuple, _LL4Tuple, PhiLam2Tuple
 from pygeodesy.props import Property_RO, _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
@@ -50,7 +50,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.01.19'
+__version__ = '21.01.24'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -168,7 +168,7 @@ class Conic(_NamedEnumItem):
     def latlon0(self):
         '''Get the central origin (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        return self._xnamed(LatLon2Tuple(self.lat0, self.lon0))
+        return LatLon2Tuple(self.lat0, self.lon0, name=self.name)
 
     @Property_RO
     def lam0(self):
@@ -222,7 +222,7 @@ class Conic(_NamedEnumItem):
     def philam0(self):
         '''Get the central origin (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        return self._xnamed(PhiLam2Tuple(self.phi0, self.lam0))
+        return PhiLam2Tuple(self.phi0, self.lam0, name=self.name)
 
     @Property_RO
     def SP(self):
@@ -241,7 +241,7 @@ class Conic(_NamedEnumItem):
            @raise TypeError: Non-ellipsoidal B{C{datum}}.
         '''
         d = _ellipsoidal_datum(datum, name=self.name)
-        E = d.ellipsoid
+        E =  d.ellipsoid
         if not E.isEllipsoidal:
             raise _IsnotError(_ellipsoidal_, datum=datum)
 
@@ -457,7 +457,7 @@ class Lcc(_NamedBase):
         '''Get the lat- and longitude in C{degrees} (L{LatLon2Tuple}).
         '''
         ll = self.toLatLon(LatLon=None, datum=None)
-        return self._xnamed(LatLon2Tuple(ll.lat, ll.lon))
+        return LatLon2Tuple(ll.lat, ll.lon, name=self.name)
 
     @Property_RO
     def latlonheight(self):
@@ -469,7 +469,7 @@ class Lcc(_NamedBase):
     def latlonheightdatum(self):
         '''Get the lat-, longitude in C{degrees} with height and datum (L{LatLon4Tuple}C{(lat, lon, height, datum)}).
         '''
-        return self.latlonheight.to4Tuple(self.datum)
+        return self.latlonheight.to4Tuple(self.conic.datum)
 
     @Property_RO
     def northing(self):
@@ -481,8 +481,8 @@ class Lcc(_NamedBase):
     def philam(self):
         '''Get the lat- and longitude in C{radians} (L{PhiLam2Tuple}).
         '''
-        return self._xnamed(PhiLam2Tuple(radians(self.latlon.lat),
-                                         radians(self.latlon.lon)))
+        return PhiLam2Tuple(radians(self.latlon.lat),
+                            radians(self.latlon.lon), name=self.name)
 
     @Property_RO
     def philamheight(self):
@@ -509,11 +509,11 @@ class Lcc(_NamedBase):
         if datum in (None, self.conic.datum):
             r = LatLonDatum3Tuple(self.latlon.lat,
                                   self.latlon.lon,
-                                  self.conic.datum)
+                                  self.conic.datum, name=self.name)
         else:
             r = self.toLatLon(LatLon=None, datum=datum)
-            r = LatLonDatum3Tuple(r.lat, r.lon, r.datum)
-        return self._xnamed(r)
+            r = LatLonDatum3Tuple(r.lat, r.lon, r.datum, name=r.name)
+        return r
 
     def toLatLon(self, LatLon=None, datum=None, height=None, **LatLon_kwds):
         '''Convert this L{Lcc} to an (ellipsoidal) geodetic point.
@@ -539,7 +539,7 @@ class Lcc(_NamedBase):
             _xsubclassof(_LLEB, LatLon=LatLon)
 
         c = self.conic
-        if datum not in (None, c.datum):
+        if datum not in (None, self.conic.datum):
             c = c.toDatum(datum)
 
         e =         self.easting  - c._E0
@@ -557,8 +557,8 @@ class Lcc(_NamedBase):
         lon = degrees180((atan(e / n) + c._opt3) * c._n_ + c._lam0)
 
         h = self.height if height is None else Height(height)
-        r = _LatLon4Tuple(lat, lon, h, c.datum, LatLon, LatLon_kwds)
-        return self._xnamed(r)
+        return _LL4Tuple(lat, lon, h, c.datum, LatLon, LatLon_kwds,
+                                               name=self.name)
 
     def toRepr(self, prec=0, fmt=Fmt.SQUARE, sep=_COMMASPACE_, m=_m_, C=False, **unused):  # PYCHOK expected
         '''Return a string representation of this L{Lcc} position.

@@ -29,7 +29,7 @@ or by converting to anothor datum:
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.datums import Datums
+from pygeodesy.datums import _WGS84
 from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
                                        CartesianEllipsoidalBase, \
                                        LatLonEllipsoidalBase, _nearestOn
@@ -43,7 +43,7 @@ from pygeodesy.units import _1mm as _TOL_M
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '21.01.19'
+__version__ = '21.01.28'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -109,7 +109,7 @@ class LatLon(LatLonEllipsoidalBase):
                               ellipsoids are not compatible.
         '''
         r = self._inverse(other, wrap)
-        return self._xnamed(Bearing2Tuple(r.initial, r.final))
+        return Bearing2Tuple(r.initial, r.final, name=self.name)
 
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
@@ -135,8 +135,7 @@ class LatLon(LatLonEllipsoidalBase):
            >>> d
            LatLon(37°39′10.14″S, 143°55′35.39″E)  # 37.652818°S, 143.926498°E
         '''
-        r = self._direct(distance, bearing, self.classof, height)
-        return r.destination
+        return self._direct(distance, bearing, self.classof, height).destination
 
     def destination2(self, distance, bearing, height=None):
         '''Compute the destination point and the final bearing (reverse
@@ -452,8 +451,7 @@ class LatLon(LatLonEllipsoidalBase):
            @raise TypeError: Invalid B{C{Cartesian}}, B{C{datum}} or other
                              B{C{Cartesian_datum_kwds}}.
         '''
-        kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian,
-                                                datum=self.datum)
+        kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonEllipsoidalBase.toCartesian(self, **kwds)
 
     def _direct(self, distance, bearing, LL, height):
@@ -516,7 +514,7 @@ def _geodesic(datum, points, closed, line, wrap):
     return g.Compute(False, True)[1 if line else 2]
 
 
-def areaOf(points, datum=Datums.WGS84, wrap=True):
+def areaOf(points, datum=_WGS84, wrap=True):
     '''Compute the area of an (ellipsoidal) polygon.
 
        @arg points: The polygon points (L{LatLon}[]).
@@ -601,7 +599,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
                                     equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
-def isclockwise(points, datum=Datums.WGS84, wrap=True):
+def isclockwise(points, datum=_WGS84, wrap=True):
     '''Determine the direction of a path or polygon.
 
        @arg points: The path or polygon points (C{LatLon}[]).
@@ -673,7 +671,7 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
-def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):
+def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
     '''Compute the perimeter of an (ellipsoidal) polygon.
 
        @arg points: The polygon points (L{LatLon}[]).

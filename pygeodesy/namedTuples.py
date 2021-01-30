@@ -17,13 +17,13 @@ from pygeodesy.interns import NN, _angle_, _band_, _convergence_, \
                              _phi_, _points_, _precision_, _radius_, \
                              _scale_, _x_, _y_, _z_, _zone_
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedTuple, _Pass
+from pygeodesy.named import _NamedTuple, _Pass, _xnamed
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Height, Lam, Lat, Lon, Meter, Northing, \
                             Number_, Phi, Precision_, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.01.10'
+__version__ = '21.01.24'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
@@ -179,14 +179,14 @@ class LatLon4Tuple(_NamedTuple):  # .cartesianBase.py, .css.py, .ecef.py, .lcc.p
     _Units_ = ( Lat,   Lon,   Height,  _Pass)
 
 
-def _LatLon4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds):
+def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, name=NN):
     '''(INTERNAL) Return a L{LatLon4Tuple} or an B{C{LatLon}} instance.
     '''
     if LatLon is None:
-        r = LatLon4Tuple(lat, lon, height, datum)
+        r = LatLon4Tuple(lat, lon, height, datum, name=name)
     else:
         kwds = _xkwds(LatLon_kwds, datum=datum, height=height)
-        r = LatLon(lat, lon, **kwds)
+        r = _xnamed(LatLon(lat, lon, **kwds), name)
     return r
 
 

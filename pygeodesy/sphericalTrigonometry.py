@@ -43,7 +43,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.01.14'
+__version__ = '21.01.28'
 
 _PI_EPS4 = PI - _EPS4
 if _PI_EPS4 >= PI:
@@ -67,6 +67,16 @@ def _destination2(a, b, r, t):
     d = atan2(st * sr * ca, cr - sa * sin(a))
     # note, in EdWilliams.org/avform.htm W is + and E is -
     return a, b + d
+
+
+def _r2m(r, radius):
+    '''(INTERNAL) Angular distance in C{radians} to C{meter}.
+    '''
+    if radius is R_M:
+        r *= R_M
+    elif radius is not None:
+        r *= Radius(radius)
+    return r
 
 
 class Cartesian(CartesianSphericalBase):
@@ -118,9 +128,9 @@ class LatLon(LatLonSphericalBase):
         return r, x, (e - b)
 
     def alongTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
-        '''Compute the (signed) distance from the start to the closest
-           point on the great circle path defined by a start and an
-           end point.
+        '''Compute the (angular) distance (signed) from the start to
+           the closest point on the great circle path defined by a
+           start and an end point.
 
            That is, if a perpendicular is drawn from this point to the
            great circle path, the along-track distance is the distance
@@ -129,13 +139,14 @@ class LatLon(LatLonSphericalBase):
 
            @arg start: Start point of great circle path (L{LatLon}).
            @arg end: End point of great circle path (L{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance along the great circle path (C{meter},
-                    same units as B{C{radius}}), positive if after the
-                    B{C{start}} toward the B{C{end}} point of the path or
-                    negative if before the B{C{start}} point.
+                    same units as B{C{radius}} or C{radians} if
+                    B{C{radius}} is C{None}), positive if after the
+                    B{C{start}} toward the B{C{end}} point of the path
+                    or negative if before the B{C{start}} point.
 
            @raise TypeError: Invalid B{C{start}} or B{C{end}} point.
 
@@ -150,11 +161,10 @@ class LatLon(LatLonSphericalBase):
            >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
         r, x, b = self._trackDistanceTo3(start, end, radius, wrap)
-        cx = cos(x)
+        cx, d = cos(x), _0_0
         if abs(cx) > EPS0:
-            return copysign(acos1(cos(r) / cx), cos(b)) * radius
-        else:
-            return _0_0
+            d = _r2m(copysign(acos1(cos(r) / cx), cos(b)), radius)
+        return d
 
     def bearingTo(self, other, wrap=False, raiser=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{initialBearingTo}.
@@ -196,16 +206,18 @@ class LatLon(LatLonSphericalBase):
         return degrees180(m - d), degrees180(m + d)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
-        '''Compute the (signed) distance from this point to the great
-           circle defined by a start and an end point.
+        '''Compute the (angular) distance (signed) from this point to
+           the great circle defined by a start and an end point.
 
            @arg start: Start point of great circle path (L{LatLon}).
            @arg end: End point of great circle path (L{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-           @return: Distance to great circle (negative if to the
-                    left or positive if to the right of the path).
+           @return: Distance to great circle (negative if to the left
+                    or positive if to the right of the path) (C{meter},
+                    same units as B{C{radius}} or C{radians} if
+                    B{C{radius}} is C{None}).
 
            @raise TypeError: The B{C{start}} or B{C{end}} point is not L{LatLon}.
 
@@ -220,7 +232,7 @@ class LatLon(LatLonSphericalBase):
            >>> d = p.crossTrackDistanceTo(s, e)  # -307.5
         '''
         _, x, _ = self._trackDistanceTo3(start, end, radius, wrap)
-        return x * radius
+        return _r2m(x, radius)
 
     def destination(self, distance, bearing, radius=R_M, height=None):
         '''Locate the destination from this point after having
@@ -254,14 +266,15 @@ class LatLon(LatLonSphericalBase):
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def distanceTo(self, other, radius=R_M, wrap=False):
-        '''Compute the distance from this to an other point.
+        '''Compute the (angular) distance from this to an other point.
 
            @arg other: The other point (L{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
            @return: Distance between this and the B{C{other}} point
-                    (C{meter}, same units as B{C{radius}}).
+                    (C{meter}, same units as B{C{radius}} or
+                    C{radians} if B{C{radius}} is C{None}).
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
 
@@ -279,8 +292,14 @@ class LatLon(LatLonSphericalBase):
         a2, b2 = other.philam
 
         db, _ = unrollPI(b1, b2, wrap=wrap)
-        r = vincentys_(a2, a1, db)
-        return r * (radius if radius is R_M else Radius(radius))
+        return _r2m(vincentys_(a2, a1, db), radius)
+
+#   @Property_RO
+#   def Ecef(self):
+#       '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
+#       '''
+#       from pygeodesy.ecef import EcefKarney
+#       return EcefKarney
 
     def greatCircle(self, bearing):
         '''Compute the vector normal to great circle obtained by heading

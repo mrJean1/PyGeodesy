@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.01.16
+        21.01.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -748,7 +748,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#latlon2n_xyz" class="summary-sig-name">latlon2n_xyz</a>(<span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">lon</span>)</span><br />
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert lat-, longitude to <code>n-vector</code> (normal to the 
       earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
@@ -768,7 +769,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#n_xyz2latlon" class="summary-sig-name">n_xyz2latlon</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>)</span><br />
+        <span class="summary-sig-arg">z</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert <code>n-vector</code> components to lat- and longitude in 
       <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -788,7 +790,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#n_xyz2philam" class="summary-sig-name">n_xyz2philam</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>)</span><br />
+        <span class="summary-sig-arg">z</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert <code>n-vector</code> components to lat- and longitude in 
       <code>radians</code>.</td>
           <td align="right" valign="top">
@@ -807,7 +810,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#philam2n_xyz" class="summary-sig-name">philam2n_xyz</a>(<span class="summary-sig-arg">phi</span>,
-        <span class="summary-sig-arg">lam</span>)</span><br />
+        <span class="summary-sig-arg">lam</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Convert lat-, longitude to <code>n-vector</code> (normal to the 
       earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
@@ -2739,7 +2743,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">latlon2n_xyz</span>&nbsp;(<span class="sig-arg">lat</span>,
-        <span class="sig-arg">lon</span>)</span>
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2753,6 +2758,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
@@ -2777,7 +2783,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2latlon</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>)</span>
+        <span class="sig-arg">z</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2792,6 +2799,7 @@
         <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
@@ -2812,7 +2820,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2philam</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>)</span>
+        <span class="sig-arg">z</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2827,6 +2836,7 @@
         <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
@@ -2846,7 +2856,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">philam2n_xyz</span>&nbsp;(<span class="sig-arg">phi</span>,
-        <span class="sig-arg">lam</span>)</span>
+        <span class="sig-arg">lam</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2860,6 +2871,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
@@ -3297,7 +3309,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jan 21 11:58:34 2021
+    Generated by Epydoc 3.0.1 on Sat Jan 30 13:30:16 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

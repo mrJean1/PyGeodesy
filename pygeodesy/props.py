@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Caching, immutable and mutable properties and decorators.
+u'''Im-/mutable, caching or memoizing properties and decorators.
 '''
 from pygeodesy.errors import _AssertionError, _AttributeError
 from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, \
@@ -10,7 +10,7 @@ from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, \
 from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
 
 __all__ = _ALL_LAZY.props
-__version__ = '21.01.21'
+__version__ = '21.01.26'
 
 
 def _hasProperty(inst, name, *Classes):
@@ -120,18 +120,19 @@ class _PropertyBase(property):
 class Property_RO(_PropertyBase):
     # No __doc__ on purpose
     def __init__(self, method):  # PYCHOK expected
-        '''New I{immutable}, I{caching} C{property} I{Factory} to be used as C{decorator}.
+        '''New I{immutable}, I{caching}, I{memoizing} C{property} I{Factory}
+           to be used as C{decorator}.
 
-           @arg method: The callable being decorated as this C{property}'s getter,
+           @arg method: The callable being decorated as this C{property}'s C{getter},
                         to be invoked only once.
 
-           @note: Like standard Python C{property} without a setter, but with
+           @note: Like standard Python C{property} without a C{setter}, but with
                   a more descriptive error message when set.
 
            @see: Python 3's U{functools.cached_property<https://docs.Python.org/3/
                  library/functools.html#functools.cached_property>} and U{-.cache
                  <https://Docs.Python.org/3/library/functools.html#functools.cache>}
-                 to I{memoize} the property value.
+                 to I{cache} or I{memoize} the property value.
 
            @see: Luciano Ramalho, "Fluent Python", page 636, O'Reilly, 2016,
                  "Coding a Property Factory", especially Example 19-24 and U{class
@@ -151,25 +152,29 @@ class Property_RO(_PropertyBase):
 class Property(Property_RO):
     # No __doc__ on purpose
     __init__ = Property_RO.__init__
-    '''New I{mutable}, I{caching} C{property} I{Factory} to be used as C{decorator}.
+    '''New I{mutable}, I{caching}, I{memoizing} C{property} I{Factory}
+       to be used as C{decorator}.
 
-       @see: L{Property_RO} for some more details.
+       @see: L{Property_RO} for more details.
 
        @note: Unless and until the C{setter} is defined, this L{Property} behaves
-              like an I{immutable}, I{caching} L{Property_RO}.
+              like an I{immutable}, I{caching}, I{memoizing} L{Property_RO}.
     '''
 
     def setter(self, method):
         '''Make this C{Property} I{mutable}.
 
-           @arg method: The callable being decorated as this C{Property}'s setter.
+           @arg method: The callable being decorated as this C{Property}'s C{setter}.
+
+           @note: Setting a new property value always clears the previously I{cached}
+                  or I{memoized} value I{after} invoking the B{C{method}}.
         '''
         if not callable(method):
             _PropertyBase.setter(self, method)  # PYCHOK no cover
 
         def _fset(inst, val):
-            self._update(inst)  # uncache this item
             method(inst, val)
+            self._update(inst)  # un-cache this item
 
         # class Property <https://docs.Python.org/3/howto/descriptor.html>
         _PropertyBase.__init__(self, self.method, self._fget, _fset)
@@ -181,7 +186,7 @@ class property_RO(_PropertyBase):
     def __init__(self, method):  # PYCHOK expected
         '''New I{immutable}, standard C{property} to be used as C{decorator}.
 
-           @arg method: The callable being decorated as C{property}'s getter.
+           @arg method: The callable being decorated as C{property}'s C{getter}.
 
            @note: Like standard Python C{property} without a setter, but with
                   a more descriptive error message when set.

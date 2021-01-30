@@ -14,7 +14,7 @@ by I{Charles Karney}.
 '''
 
 from pygeodesy.basics import map1
-from pygeodesy.datums import Datums
+from pygeodesy.datums import _WGS84
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_get
 from pygeodesy.interns import NN, _easting_, _MGRS_, _northing_, _NS_, \
                              _outside_, _range_, _SPACE_, _UPS_, _UTM_
@@ -29,7 +29,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '20.11.04'
+__version__ = '21.01.28'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -69,7 +69,7 @@ class UTMUPSError(_ValueError):  # XXX (UTMError, UPSError)
     pass
 
 
-def parseUTMUPS5(strUTMUPS, datum=Datums.WGS84, Utm=Utm, Ups=Ups, name=NN):
+def parseUTMUPS5(strUTMUPS, datum=_WGS84, Utm=Utm, Ups=Ups, name=NN):
     '''Parse a string representing a UTM or UPS coordinate, consisting
        of C{"zone[band] hemisphere/pole easting northing"}.
 
@@ -151,7 +151,7 @@ def toUtmUps8(latlon, lon=None, datum=None, falsed=True, Utm=Utm, Ups=Ups,
     return u
 
 
-def UtmUps(zone, hemipole, easting, northing, band=NN, datum=Datums.WGS84,
+def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
                                               falsed=True, name=NN):
     '''Class-like function to create a UTM/UPS coordinate.
 

@@ -8,16 +8,16 @@ u'''Floating point and other formatting utilities.
 from pygeodesy.basics import isint, isscalar
 from pygeodesy.errors import _AttributeError, _IsnotError, _TypeError, \
                              _ValueError, _xkwds_pop
-from pygeodesy.interns import _convergence_, _distant_, _e_, _exceeds_, \
-                              _f_, _g_  # PYCHOK used!
 from pygeodesy.interns import NN, MISSING, _BAR_, _COMMASPACE_, _DOT_, \
-                             _E_, _EQUAL_, _H_, _N_, _name_, _not_, _0_, \
+                             _E_, _EQUAL_, _H_, _N_, _name_, _not_, \
                              _PERCENT_, _OKd_, _scalar_, _SPACE_, _STAR_, \
-                             _UNDER_, _0_0, _0_001, _0_01, _0_1, _1_0
+                             _UNDER_, _0_, _0_0, _0_001, _0_01, _0_1, _1_0
+from pygeodesy.interns import _convergence_, _distant_, _e_, _EPS0_, \
+                              _EQUALSPACED_, _exceeds_, _f_, _g_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '21.01.20'
+__version__ = '21.01.25'
 
 _E_4_E0 = (1e-4, _0_001, _0_01, _0_1, _1_0)
 
@@ -116,9 +116,9 @@ class Fmt(object):
     DOT         = _Fmt('.%s')   # == NN(_DOT_, n)
     e           = Fstr(_e_)
     E           = Fstr(_E_)
-    EPS0        = _Fmt('EPS0 (%g)')
-    EQUAL       = _Fmt('=%s')
-    EQUALSPACED = _Fmt(' = %s')
+    EPS0        = _Fmt(_SPACE_(_EPS0_, '(%g)'))
+    EQUAL       = _Fmt(_EQUAL_(NN, '%s'))
+    EQUALSPACED = _Fmt(_EQUALSPACED_(NN, '%s'))
     exceeds_eps = _Fmt(_exceeds_('eps', '(%g)'))
     f           = Fstr(_f_)
     F           = Fstr('F')
@@ -126,7 +126,7 @@ class Fmt(object):
     G           = Fstr('G')
     h           = Fstr('%+.*f')  # height, .streprs.hstr
     limit       = _Fmt(' %s limit')  # .units
-    LOPEN       = _Fmt('(%s]')  # reft-open range (L, R]
+    LOPEN       = _Fmt('(%s]')  # left-open range (L, R]
     PAREN       = _Fmt('(%s)')
     QUOTE2      = _Fmt('"%s"')
     ROPEN       = _Fmt('[%s)')  # right-open range [L, R)

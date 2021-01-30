@@ -5,9 +5,9 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.12.30'
+__version__ = '21.01.28'
 
-from base import TestsBase, isiOS
+from base import TestsBase
 
 from pygeodesy import Datums, EcefCartesian, EcefError, EcefKarney, \
                       EcefMatrix, EcefSudano, EcefVeness, EcefYou, \
@@ -214,20 +214,16 @@ class Tests(TestsBase):
 
         self.testCopy(I)
 
-    def testLatLonEcef(self, module, Ecef, _Ecef):
+    def testLatLonEcef(self, module, Ecef):
 
         C = module.Cartesian
         self.test(module.__name__, C.__name__, C.__name__, nl=1)
-        self.test('_Ecef', C._Ecef, _Ecef, known=isiOS)
         self.test('Ecef', C(0, 0, 0).Ecef, Ecef)
-        self.test('_Ecef', C._Ecef, Ecef)
 
         LL = module.LatLon
         self.test(module.__name__, LL.__name__, LL.__name__)
-        self.test('_Ecef', LL._Ecef, _Ecef, known=isiOS)
         ll = LL(48.833, 2.333, name='Paris')
         self.test('Ecef', ll.Ecef, Ecef)
-        self.test('_Ecef', LL._Ecef, Ecef)
 
         t = ll.toEcef()
         self.test('forward', fstr(t[3:6], prec=3), '48.833, 2.333, 0.0')
@@ -263,11 +259,6 @@ class Tests(TestsBase):
                                          else '[4190278.55, 170716.35, 4796058.21]')
         self.test('Ecef', c.Ecef, Ecef)
 
-        self.test('Ecef', C._Ecef, Ecef)
-        self.test('Ecef', LL._Ecef, Ecef)
-        self.test('_Ecef', C._Ecef, Ecef)
-        self.test('_Ecef', LL._Ecef, Ecef)
-
 
 if __name__ == '__main__':
 
@@ -281,10 +272,10 @@ if __name__ == '__main__':
     t.testEcef(EcefSudano)
     t.testEcef(EcefYou)
     t.testEcefMatrix()
-    t.testLatLonEcef(ellipsoidalKarney, EcefKarney, None)
-    t.testLatLonEcef(ellipsoidalNvector, EcefVeness, None)
-    t.testLatLonEcef(ellipsoidalVincenty, EcefVeness, None)
-    t.testLatLonEcef(sphericalNvector, EcefKarney, EcefKarney)
-    t.testLatLonEcef(sphericalTrigonometry, EcefKarney, EcefKarney)
+    t.testLatLonEcef(ellipsoidalKarney, EcefKarney)
+    t.testLatLonEcef(ellipsoidalNvector, EcefVeness)
+    t.testLatLonEcef(ellipsoidalVincenty, EcefVeness)
+    t.testLatLonEcef(sphericalNvector, EcefKarney)
+    t.testLatLonEcef(sphericalTrigonometry, EcefKarney)
     t.results()
     t.exit()

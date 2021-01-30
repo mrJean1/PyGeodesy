@@ -13,29 +13,28 @@ U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import copysign, isscalar, len2, map1, neg, _xnumpy
+from pygeodesy.basics import copysign, len2, map1, neg, _xnumpy
 from pygeodesy.errors import _AssertionError, CrossError, IntersectionError, \
-                             _IsnotError, _TypeError, _ValueError, _xkwds, \
-                             _xkwds_popitem
+                             _TypeError, _ValueError, _xkwds_popitem
 from pygeodesy.fmath import euclid_, fdot, fsum, fsum_, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, PI, PI2, \
                              _coincident_, _colinear_, _COMMA_, _COMMASPACE_, \
                              _datum_, _h_, _height_, _invalid_, _intersection_, \
-                             _name_, _near_concentric_, _no_, _scalar_, \
-                             _SPACE_, _too_, _y_, _z_, _0_0, _1_0
+                             _name_, _near_concentric_, _no_, _SPACE_, _too_, \
+                             _y_, _z_, _0_0, _1_0, _2_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, \
                            _xotherError
 from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
 from pygeodesy.props import Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, strs
-from pygeodesy.units import Float, Radius, Radius_
+from pygeodesy.units import Float, Radius, Radius_, Scalar
 
 from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.01.21'
+__version__ = '21.01.24'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -325,7 +324,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         x = self.cross(other)
         s = x.length
-        if s < EPS:
+        if s < EPS0:
             return _0_0
         # use vSign as reference to get sign of s
         if vSign and x.dot(vSign) < 0:
@@ -385,10 +384,9 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise VectorError: Invalid or zero B{C{factor}}.
         '''
-        if not isscalar(factor):
-            raise _IsnotError(_scalar_, factor=factor)
+        f = Scalar(factor=factor)
         try:
-            return self.times(_1_0 / factor)
+            return self.times(_1_0 / f)
         except (ValueError, ZeroDivisionError) as x:
             raise VectorError(factor=factor, txt=str(x))
 
@@ -533,7 +531,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
         '''
         from pygeodesy.nvectorBase import _N_vector_
-        return _N_vector_(*self.xyz)
+        return _N_vector_(*self.xyz, name=self.name)
 
     def others(self, *other, **name_other_up):
         '''Refined class comparison.
@@ -600,11 +598,10 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         a = self.others(axis=axis).unit()  # axis being rotated around
 
         c = cos(theta)
-        b = a.times(1 - c)
+        b = a.times(_1_0 - c)
         s = a.times(sin(theta))
 
         p = self.unit().xyz  # point being rotated
-
         # multiply p by a quaternion-derived rotation matrix
         return self.classof(fdot(p, a.x * b.x + c,   a.x * b.y - s.z, a.x * b.z + s.y),
                             fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
@@ -624,11 +621,8 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @raise TypeError: Non-scalar B{C{factor}}.
         '''
-        if not isscalar(factor):
-            raise _IsnotError(_scalar_, factor=factor)
-        return self.classof(self.x * factor,
-                            self.y * factor,
-                            self.z * factor)
+        f = Scalar(factor=factor)
+        return self.classof(self.x * f, self.y * f, self.z * f)
 
     def to2ab(self):  # PYCHOK no cover
         '''DEPRECATED, use property C{Nvector.philam}.
@@ -1150,7 +1144,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
     for c, d in ((c1, r1),
                  (c2, Radius_(radius2=r2, low=eps)),
                  (c3, Radius_(radius3=r3, low=eps))):
-        A.append((_1_0, -2 * c.x, -2 * c.y, -2 * c.z))
+        A.append((_1_0, -_2_0 * c.x, -_2_0 * c.y, -_2_0 * c.z))
         b.append(d**2 - c.length2)
 
     try:  # <https://NumPy.org/doc/stable/reference/generated/numpy.seterr.html>
@@ -1164,9 +1158,9 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
             X0, x = _0f3d(X)
             Z0, z = _0f3d(Z)
             # quadratic polynomial coefficients, ordered (^0, ^1, ^2)
-            t = _real_roots(np, x.length2    - X0,  # fdot(X, -_1_0, *x.xyz)
-                                z.dot(x) * 2 - Z0,  # fdot(Z, -_0_5, *x.xyz) * 2
-                                z.length2)          # fdot(Z,  _0_0, *z.xyz)
+            t = _real_roots(np, x.length2       - X0,  # fdot(X, -_1_0, *x.xyz)
+                                z.dot(x) * _2_0 - Z0,  # fdot(Z, -_0_5, *x.xyz) * 2
+                                z.length2)             # fdot(Z,  _0_0, *z.xyz)
 
     finally:  # restore numpy error handling
         np.seterr(**e)
@@ -1196,12 +1190,9 @@ def _V3d(v3d):
 
 def _V_n(v, name, Vector, Vector_kwds):
     # return a named Vector instance
-    if Vector is None:
-        v = _xnamed(v, name)
-    else:
-        kwds = _xkwds(Vector_kwds, name=name)
-        v = Vector(v.x, v.y, v.z, **kwds)
-    return v
+    if Vector is not None:
+        v = Vector(v.x, v.y, v.z, **Vector_kwds)
+    return _xnamed(v, name)
 
 
 __all__ += _ALL_DOCS(intersections2, sumOf)

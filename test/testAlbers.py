@@ -4,7 +4,7 @@
 # Test Albers Equal-Area projection.
 
 __all__ = ('Tests',)
-__version__ = '20.08.22'
+__version__ = '21.01.28'
 
 from base import TestsBase  # RandomLatLon
 
@@ -14,8 +14,8 @@ from pygeodesy import albers, AlbersError, AlbersEqualArea, \
                       AlbersEqualAreaNorth, AlbersEqualAreaSouth, \
                       Datums, fstr, sincos2d
 
-_WGS84 = Datums.WGS84
 _NAD27 = Datums.NAD27  # Clarke1866
+_WGS84 = Datums.WGS84
 
 
 class Tests(TestsBase):
@@ -23,7 +23,7 @@ class Tests(TestsBase):
     def testAlbers2(self):
 
         A = AlbersEqualArea2(40 + 58/60.0, 39 + 56/60.0, name='Karney_example')  # WGS84
-        self.test('name',      A.named,                A.named)
+        self.test('name',      A.named,                 A.named)
         self.test('datum',     A.datum.name,           _WGS84.name)
         self.test('ellipsoid', A.datum.ellipsoid.name, _WGS84.ellipsoid.name)
         for n, x in (('lat0',        '40.451991337063'),

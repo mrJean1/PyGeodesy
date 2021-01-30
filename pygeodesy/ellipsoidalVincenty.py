@@ -52,7 +52,7 @@ or by converting to anothor datum:
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.datums import Datums
+from pygeodesy.datums import _WGS84
 from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
                                        CartesianEllipsoidalBase, \
                                        LatLonEllipsoidalBase, _nearestOn
@@ -64,7 +64,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
-from pygeodesy.props import property_doc_, property_RO
+from pygeodesy.props import Property_RO, property_doc_
 from pygeodesy.units import Number_, Scalar_, _1mm as _TOL_M
 from pygeodesy.utily import atan2b, degrees90, degrees180, \
                             sincos2, unroll180
@@ -72,7 +72,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.01.14'
+__version__ = '21.01.28'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -89,16 +89,12 @@ class Cartesian(CartesianEllipsoidalBase):
     '''Extended to convert geocentric, L{Cartesian} points to
        Vincenty-based, ellipsoidal, geodetic L{LatLon}.
     '''
-    _Ecef = None  # preferred C{EcefVeness} class
-
-    @property_RO
+    @Property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefVeness}).
+        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
         '''
-        if Cartesian._Ecef is None:
-            from pygeodesy.ecef import EcefVeness
-            Cartesian._Ecef = EcefVeness
-        return Cartesian._Ecef
+        from pygeodesy.ecef import EcefVeness
+        return EcefVeness
 
     def toLatLon(self, **LatLon_datum_kwds):  # PYCHOK LatLon=LatLon, datum=None
         '''Convert this cartesian point to a C{Vincenty}-based
@@ -139,10 +135,9 @@ class LatLon(LatLonEllipsoidalBase):
        and/or iteration C{limit}, see properties L{LatLon.epsilon} and
        L{LatLon.iterations}.
     '''
-    _Ecef       = None     # preferred C{EcefVeness} class
     _epsilon    = 1.0e-12  # about 0.006 mm
     _iteration  = 0        # iteration number
-    _iterations = 100      # vs Veness' 500
+    _iterations = 100      # max 100 vs Veness' 500
 
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{initialBearingTo}.
@@ -171,7 +166,7 @@ class LatLon(LatLonEllipsoidalBase):
                                  point are coincident or near-antipodal.
         '''
         r = self._inverse(other, True, wrap)
-        return self._xnamed(Bearing2Tuple(r.initial, r.final))
+        return Bearing2Tuple(r.initial, r.final, name=self.name)
 
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled
@@ -197,8 +192,7 @@ class LatLon(LatLonEllipsoidalBase):
            >>> p = LatLon(-37.95103, 144.42487)
            >>> d = p.destination(54972.271, 306.86816)  # 37.6528°S, 143.9265°E
         '''
-        r = self._direct(distance, bearing, True, height=height)
-        return self._xnamed(r.destination)
+        return self._direct(distance, bearing, True, height=height).destination
 
     def destination2(self, distance, bearing, height=None):
         '''Compute the destination point and the final bearing (reverse
@@ -239,8 +233,7 @@ class LatLon(LatLonEllipsoidalBase):
            >>> f
            307.1736313846706
         '''
-        r = self._direct(distance, bearing, True, height=height)
-        return self._xnamed(r)
+        return self._direct(distance, bearing, True, height=height)
 
     def distanceTo(self, other, wrap=False, **unused):  # ignore radius=R_M
         '''Compute the distance between this and an other point
@@ -297,16 +290,14 @@ class LatLon(LatLonEllipsoidalBase):
                                  limit and/or if this and the B{C{other}}
                                  point are coincident or near-antipodal.
         '''
-        return self._xnamed(self._inverse(other, True, wrap))
+        return self._inverse(other, True, wrap)
 
-    @property_RO
+    @Property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefVeness}).
+        '''Get the ECEF I{class} (L{EcefVeness}), I{lazily}.
         '''
-        if LatLon._Ecef is None:
-            from pygeodesy.ecef import EcefVeness
-            LatLon._Ecef = EcefVeness
-        return LatLon._Ecef
+        from pygeodesy.ecef import EcefVeness
+        return EcefVeness
 
     @property_doc_(''' the convergence epsilon (C{scalar}).''')
     def epsilon(self):
@@ -550,7 +541,7 @@ class LatLon(LatLonEllipsoidalBase):
             d = self.classof(a, b, height=h, datum=self.datum)
         else:
             d = None
-        return Destination2Tuple(d, r)
+        return Destination2Tuple(d, r, name=self.name)
 
     def _inverse(self, other, azis, wrap):
         '''(INTERNAL) Inverse Vincenty method.
@@ -627,7 +618,7 @@ class LatLon(LatLonEllipsoidalBase):
             r = atan2b(c1 * sll, -s1c2 + c1s2 * cll)
         else:
             f = r = _0_0
-        return Distance3Tuple(d, f, r)
+        return Distance3Tuple(d, f, r, name=self.name)
 
 
 def _c2sm2(c2sm):
@@ -672,7 +663,7 @@ def _r3(a, f):
     return c, s, t
 
 
-def areaOf(points, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover
+def areaOf(points, datum=_WGS84, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function C{ellipsoidalKarney.areaOf}.
     '''
     from pygeodesy.ellipsoidalKarney import areaOf
@@ -779,7 +770,7 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
-def perimeterOf(points, closed=False, datum=Datums.WGS84, wrap=True):  # PYCHOK no cover
+def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):  # PYCHOK no cover
     '''DEPRECATED, use function C{ellipsoidalKarney.perimeterOf}.
 
        @raise ImportError: Package U{geographiclib

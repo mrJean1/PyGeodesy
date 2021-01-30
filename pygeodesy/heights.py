@@ -52,9 +52,11 @@ Python C{warnings} are filtered accordingly, see L{SciPyWarning}.
 
 @see: U{SciPy<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}.
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import isscalar, len2, map1, map2, _xnumpy, _xscipy
-from pygeodesy.datums import Datums, _ellipsoidal_datum
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, LenError, PointsError, _SciPyIssue
 from pygeodesy.fmath import fidw, hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
@@ -72,7 +74,7 @@ from pygeodesy.units import Int_
 from pygeodesy.utily import radiansPI, radiansPI2, unrollPI
 
 __all__ = _ALL_LAZY.heights
-__version__ = '21.01.19'
+__version__ = '21.01.30'
 
 
 class HeightError(PointsError):
@@ -499,8 +501,8 @@ class HeightIDWcosineAndoyerLambert(_HeightIDW):
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
     '''
-    _datum = Datums.WGS84
-    _wrap  = False
+    _datum = _WGS84
+    _wrap  =  False
 
     def __init__(self, knots, datum=None, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWcosineAndoyerLambert} interpolator.
@@ -542,8 +544,8 @@ class HeightIDWcosineForsytheAndoyerLambert(_HeightIDW):
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
     '''
-    _datum = Datums.WGS84
-    _wrap  = False
+    _datum = _WGS84
+    _wrap  =  False
 
     def __init__(self, knots, datum=None, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWcosineForsytheAndoyerLambert} interpolator.
@@ -793,8 +795,8 @@ class HeightIDWflatLocal(_HeightIDW):
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
     '''
-    _datum = Datums.WGS84
-    _wrap  = False
+    _datum = _WGS84
+    _wrap  =  False
 
     def __init__(self, knots, datum=None, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWflatLocal}/L{HeightIDWhubeny} interpolator.
@@ -920,10 +922,10 @@ class HeightIDWkarney(_HeightIDW):
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
     '''
-    _datum    = Datums.WGS84
-    _Inverse1 = None
+    _datum    = _WGS84
+    _Inverse1 =  None
     _ks       = ()
-    _wrap     = False
+    _wrap     =  False
 
     def __init__(self, knots, datum=None, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWkarney} interpolator.
@@ -1007,8 +1009,8 @@ class HeightIDWthomas(_HeightIDW):
              U{SHEPARD_INTERP_2D<https://People.SC.FSU.edu/~jburkardt/c_src/
              shepard_interp_2d/shepard_interp_2d.html>}.
     '''
-    _datum = Datums.WGS84
-    _wrap  = False
+    _datum = _WGS84
+    _wrap  =  False
 
     def __init__(self, knots, datum=None, beta=2, wrap=False, name=NN):
         '''New L{HeightIDWthomas} interpolator.

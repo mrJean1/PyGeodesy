@@ -16,16 +16,17 @@ There are three modules for ellipsoidal earth models, C{ellipsoidalKarney},
 C{-Vincenty} and C{-Nvector} and two for spherical ones, C{sphericalTrigonometry}
 and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}} and a geocentric
 B{C{Cartesian}} class with methods and functions to compute distance, surface area,
-perimeter, initial and final bearing, intermediate and nearest points, intersections
-of circles, path intersections, trilateration (by intersection, overlap and 3d),
-conversions and unrolling, among other things.  For more information and further
-details see the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions
-of U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
+perimeter, initial and final bearing, intermediate and nearest points, circle
+intersections, path intersections, trilateration (by intersection, by overlap and
+on 3d), conversions and unrolling, among other things.  For more information and
+further details see the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the
+descriptions of U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>},
 U{Vincenty<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and
 U{Vector-based<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy,
 the original U{JavaScript source<https://GitHub.com/ChrisVeness/geodesy>} or
 U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>} and the Python
-U{geographiclib<https://PyPI.org/project/geographiclib>}.
+U{geographiclib<https://PyPI.org/project/geographiclib>} and C++ U{GeographicLib
+<https://GeographicLib.SourceForge.io/html/index.html>} .
 
 Also included are modules for conversions to and from U{Cassini-Soldner
 <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html>},
@@ -75,12 +76,12 @@ PyGeodesy} in a terminal or command window.
 Alternatively, download C{PyGeodesy-yy.m.d.zip} from U{PyPI
 <https://PyPI.org/project/PyGeodesy>} or U{GitHub
 <https://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded file,
-C{cd} to directory C{Pygeodesy-yy.m.d} and type C{python setup.py
+C{cd} to directory C{Pygeodesy-yy.m.d} and type C{python[3] setup.py
 install}.
 
-To run all PyGeodesy tests, type C{python setup.py test} or type
-C{python test/run.py} or type C{python test/unitTestSuite.py} before
-or after installation.
+To run all PyGeodesy tests, type C{python[3] setup.py test} or type
+C{python[3] test/run.py} or type C{python[3] test/unitTestSuite.py}
+before or after installation.
 
 Installation of U{geographiclib<https://PyPI.org/project/geographiclib>},
 U{numpy<https://PyPI.org/project/numpy>} and U{scipy
@@ -114,8 +115,9 @@ U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all on
 macOS 11.1 (10.16) Big Sur and all in 64-bit only.  The tests
-run with and without C{lazy import} for Python 3.  The results of
-those tests are included in the distribution files.
+run with and without C{lazy import} for Python 3 and with {-W error}
+for all Python versions.  The results of those tests are included
+in the distribution files.
 
 Test coverage has been measured with U{coverage
 <https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.1 (with
@@ -465,7 +467,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.01.21'
+__version__ = '21.01.31'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

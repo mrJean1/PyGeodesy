@@ -38,7 +38,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.01.12'
+__version__ = '21.01.24'
 
 
 class _GH(object):
@@ -95,9 +95,9 @@ def _2bounds(LatLon, LatLon_kwds, s, w, n, e, name=NN):
     if LatLon is None:
         r = Bounds4Tuple(s, w, n, e, name=name)
     else:
-        kwds = _xkwds(LatLon_kwds, name=name)
-        r = Bounds2Tuple(LatLon(s, w, **kwds),
-                         LatLon(n, e, **kwds), name=name)
+        sw = _xnamed(LatLon(s, w, **LatLon_kwds), name)
+        ne = _xnamed(LatLon(n, e, **LatLon_kwds), name)
+        r  =  Bounds2Tuple(sw, ne, name=name)
     return r  # _xnamed(r, name)
 
 
@@ -396,10 +396,13 @@ class Geohash(Str):
            as an instance of the supplied C{LatLon} class.
 
            @arg LatLon: Class to use (C{LatLon}) or C{None}.
-           @kwarg LatLon_kwds: Optional keyword arguments for B{C{LatLon}},
-                               ignored if C{B{LatLon}=None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}}
+                               keyword arguments, ignored if
+                               C{B{LatLon}=None}.
 
-           @return: This geohash location (B{C{LatLon}}).
+           @return: This geohash location (B{C{LatLon}}) or a
+                    L{LatLon2Tuple}C{(lat, lon)} if B{C{LatLon}}
+                    is C{None}.
 
            @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
 
@@ -410,12 +413,8 @@ class Geohash(Str):
            >>> print(repr(ll))  # LatLon(52°12′17.9″N, 000°07′07.64″E)
            >>> print(ll)  # 52.204971°N, 000.11879°E
         '''
-        if LatLon is None:
-            r = self.latlon
-        else:
-            kwds = _xkwds(LatLon_kwds, name=self.name)
-            r = LatLon(*self.latlon, **kwds)
-        return r
+        return self.latlon if LatLon is None else _xnamed(LatLon(
+              *self.latlon, **LatLon_kwds), self.name)
 
     def vincentysTo(self, other, radius=R_M, wrap=False):
         '''Compute the distance between this and an other geohash using

@@ -14,8 +14,8 @@ see U{Vector-based geodesy
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import len2, map1, _xinstanceof
-from pygeodesy.datums import Datum
+from pygeodesy.basics import len2, map1
+from pygeodesy.datums import _spherical_datum
 from pygeodesy.errors import IntersectionError, _ValueError, \
                             _xkwds, _xkwds_pop
 from pygeodesy.fmath import fidw, fsum, fsum_, hypot_
@@ -30,7 +30,7 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple
-from pygeodesy.props import property_doc_, Property_RO, property_RO
+from pygeodesy.props import property_doc_, Property_RO
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d
@@ -40,14 +40,13 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.01.20'
+__version__ = '21.01.28'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
     '''Base class for ellipsoidal and spherical C{Nvector}s.
     '''
     _datum = None  # L{Datum}, overriden
-    _Ecef  = None  # preferred C{EcefEcefKarney} class
     _h     = 0     # height (C{meter})
     _H     = NN    # heigth prefix (C{str}), '↑' in JS version
 
@@ -78,9 +77,8 @@ class NvectorBase(Vector3d):  # XXX kept private
         Vector3d.__init__(self, x, y, z, ll=ll, name=name or n)
         if h:
             self.h = h
-        if d not in (None, self._datum):
-            _xinstanceof(Datum, datum=d)
-            self._datum = d  # pass-thru
+        if d:
+            self._datum = _spherical_datum(d, name=self.name)  # pass-thru
 
     @Property_RO
     def datum(self):
@@ -88,14 +86,12 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return self._datum
 
-    @property_RO
+    @Property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney}).
+        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
         '''
-        if NvectorBase._Ecef is None:
-            from pygeodesy.ecef import EcefKarney
-            NvectorBase._Ecef = EcefKarney  # default
-        return NvectorBase._Ecef
+        from pygeodesy.ecef import EcefKarney
+        return EcefKarney  # default
 
     @property_doc_(''' the height above surface (C{meter}).''')
     def h(self):
@@ -145,31 +141,31 @@ class NvectorBase(Vector3d):  # XXX kept private
     def isEllipsoidal(self):
         '''Check whether this n-vector is ellipsoidal (C{bool} or C{None} if unknown).
         '''
-        return self.datum.isEllipsoidal if self._datum else None
+        return self.datum.isEllipsoidal if self.datum else None
 
     @Property_RO
     def isSpherical(self):
         '''Check whether this n-vector is spherical (C{bool} or C{None} if unknown).
         '''
-        return self.datum.isSpherical if self._datum else None
+        return self.datum.isSpherical if self.datum else None
 
     @Property_RO
     def lam(self):
         '''Get the (geodetic) longitude in C{radians} (C{float}).
         '''
-        return self.philamheight.lam
+        return self.philam.lam
 
     @Property_RO
     def lat(self):
         '''Get the (geodetic) latitude in C{degrees} (C{float}).
         '''
-        return self.latlonheight.lat
+        return self.latlon.lat
 
     @Property_RO
     def latlon(self):
         '''Get the (geodetic) lat-, longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        return self._xnamed(n_xyz2latlon(self.x, self.y, self.z))
+        return n_xyz2latlon(self.x, self.y, self.z, name=self.name)
 
     @Property_RO
     def latlonheight(self):
@@ -187,19 +183,19 @@ class NvectorBase(Vector3d):  # XXX kept private
     def lon(self):
         '''Get the (geodetic) longitude in C{degrees} (C{float}).
         '''
-        return self.latlonheight.lon
+        return self.latlon.lon
 
     @Property_RO
     def phi(self):
         '''Get the (geodetic) latitude in C{radians} (C{float}).
         '''
-        return self.philamheight.phi
+        return self.philam.phi
 
     @Property_RO
     def philam(self):
         '''Get the (geodetic) lat-, longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        return self._xnamed(n_xyz2philam(self.x, self.y, self.z))
+        return n_xyz2philam(self.x, self.y, self.z, name=self.name)
 
     @Property_RO
     def philamheight(self):
@@ -234,13 +230,12 @@ class NvectorBase(Vector3d):  # XXX kept private
                self.philam.to3Tuple(height)
 
     def toCartesian(self, h=None, Cartesian=None, datum=None, **Cartesian_kwds):
-        '''Convert this n-vector to C{Nvector}-based cartesian (ECEF)
-           coordinates.
+        '''Convert this n-vector to C{Nvector}-based cartesian (ECEF) coordinates.
 
            @kwarg h: Optional height, overriding this n-vector's height (C{meter}).
            @kwarg Cartesian: Optional class to return the (ECEF)
                              coordinates (L{Cartesian}).
-           @kwarg datum: Optional, spherical datum (C{Datum}).
+           @kwarg datum: Optional datum (C{Datum}), overriding this datum.
            @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}}
                                   keyword arguments, ignored if
                                   B{C{Cartesian=None}}.
@@ -260,20 +255,25 @@ class NvectorBase(Vector3d):  # XXX kept private
            >>> c = v.toCartesian()  # [3194434, 3194434, 4487327]
            >>> p = c.toLatLon()  # 45.0°N, 45.0°E
         '''
+        d = _spherical_datum(datum or self.datum, name=self.name)
+        E =  d.ellipsoid
+        h =  self.h if h is None else Height(h=h)
+
         x, y, z = self.x, self.y, self.z
-
-        h = self.h if h is None else Height(h=h)
-        d = datum or self.datum
-
-        E = d.ellipsoid
         # Kenneth Gade eqn (22)
         n = E.b / hypot_(x * E.a_b, y * E.a_b, z)
-        r = h + n * E.a_b**2
+        r = h + n * E.a2_b2
 
-        c = self.Ecef(d).reverse(x * r, y * r, z * (n + h), M=True)
-        if Cartesian is not None:  # class or .classof
-            c = Cartesian(c, **Cartesian_kwds)
-        return self._xnamed(c)
+        x *= r
+        y *= r
+        z *= n + h
+
+        if Cartesian is None:
+            r = self.Ecef(d).reverse(x, y, z, M=True)
+        else:
+            kwds = _xkwds(Cartesian_kwds, datum=d)  # h=0
+            r = Cartesian(x, y, z, **kwds)
+        return self._xnamed(r)
 
     def to2ll(self):  # PYCHOK no cover
         '''DEPRECATED, use property C{latlon}.
@@ -319,13 +319,16 @@ class NvectorBase(Vector3d):  # XXX kept private
            >>> v = Nvector(0.5, 0.5, 0.7071)
            >>> p = v.toLatLon()  # 45.0°N, 45.0°E
         '''
-        # use self.Cartesian(Cartesian=None) if h == self.h and
-        # d == self.datum, for better accuracy of the height
-        h = self.h if height is None else Height(height)
-        r = self.Ecef(datum or self.datum).forward(self.latlon, height=h, M=True)
-        if LatLon is not None:  # class or .classof
-            r = LatLon(r.lat, r.lon, r.height, datum=r.datum, **LatLon_kwds)
-        return self._xnamed(r)
+        d = _spherical_datum(datum or self.datum, name=self.name)
+        h =  self.h if height is None else Height(height)
+        # use self.Cartesian(Cartesian=None) for better accuracy of the height
+        # than self.Ecef(d).forward(self.lat, self.lon, height=h, M=True)
+        if LatLon is None:
+            r = self.toCartesian(h=h, Cartesian=None, datum=d)
+        else:
+            kwds = _xkwds(LatLon_kwds, height=h, datum=d)
+            r = self._xnamed(LatLon(self.lat, self.lon, **kwds))
+        return r
 
     def toStr(self, prec=5, fmt=Fmt.PAREN, sep=_COMMASPACE_):  # PYCHOK expected
         '''Return a string representation of this n-vector.
@@ -357,15 +360,14 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @return: The (normalized) vector (L{Vector3d}).
         '''
-        u = self.unit()
-        v = Vector3d(u.x, u.y, u.z, name=self.name)
-        return v.unit() if norm else v
+        v = Vector3d.unit(self) if norm else self
+        return Vector3d(v.x, v.y, v.z, name=self.name)
 
     def to4xyzh(self, h=None):  # PYCHOK no cover
         '''DEPRECATED, use property C{xyzh} or C{xyz.to4Tuple}C{(}B{C{h}}C{)}.
         '''
-        return self.xyzh if h in (None, self.h) else \
-               self._xnamed(Vector4Tuple(self.x, self.y, self.z, h))
+        return self.xyzh if h in (None, self.h) else Vector4Tuple(
+               self.x, self.y, self.z, h, name=self.name)
 
     def unit(self, ll=None):
         '''Normalize this n-vector to unit length.
@@ -374,10 +376,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 
            @return: Normalized vector (C{Nvector}).
         '''
-        if self._united is None:
-            u = Vector3d.unit(self, ll=ll)  # .copy()
-            self._united = u._united = _xattrs(u, self, '_h')
-        return self._united
+        return _xattrs(Vector3d.unit(self, ll=ll), '_h')
 
     @Property_RO
     def xyzh(self):

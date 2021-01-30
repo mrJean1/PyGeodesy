@@ -13,15 +13,16 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 '''
 
 from pygeodesy.basics import _xinstanceof
-from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
-from pygeodesy.errors import _datum_datum, _IsnotError, _ValueError, _xkwds
+from pygeodesy.datums import Datum, _spherical_datum, _WGS84
+from pygeodesy.errors import _datum_datum, _IsnotError, \
+                             _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fsum_, hypot_, hypot2
-from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _ellipsoidal_, \
+from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _not_, \
                              _1_0, _2_0, _4_0, _6_0
-from pygeodesy.interns import _spherical_  # PYCHOK used!
+from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple
-from pygeodesy.props import Property_RO, property_RO, property_doc_
+from pygeodesy.props import Property_RO, property_doc_
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Height
 from pygeodesy.vector3d import Vector3d, _xyzhdn6
@@ -29,15 +30,14 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '21.01.20'
+__version__ = '21.01.30'
 
 
 class CartesianBase(Vector3d):
     '''(INTERNAL) Base class for ellipsoidal and spherical C{Cartesian}.
     '''
-    _datum   = None   # L{Datum}, to be overriden
-    _Ecef    = None   # preferred C{EcefKarney} class
-    _height  = 0      # height (L{Height})
+    _datum  = None  # L{Datum}, to be overriden
+    _height = 0     # height (L{Height})
 
     def __init__(self, xyz, y=None, z=None, datum=None, ll=None, name=NN):
         '''New C{Cartesian...}.
@@ -58,27 +58,32 @@ class CartesianBase(Vector3d):
         x, y, z, h, d, n = _xyzhdn6(xyz, y, z, None, datum, ll)
         Vector3d.__init__(self, x, y, z, ll=ll, name=name or n)
         if h:
-            self._height = h
+            self._height = Height(h)
         if d:
-            self.datum = _ellipsoidal_datum(d, name=name)
+            self.datum = d
 
-    def _applyHelmert(self, transform, inverse=False, **datum):
+    def _applyHelmert(self, transform, inverse=False, datum=None):
         '''(INTERNAL) Return a new cartesian by applying a Helmert
            transform to this cartesian.
 
            @arg transform: Transform to apply (L{Transform}).
-           @kwarg inverse: Optionally, apply the inverse
-                           Helmert transform (C{bool}).
-           @kwarg datum: Optional datum of the returned point,
-                         (C{B{datum}=}L{Datum}).
+           @kwarg inverse: Apply the inverse of the Helmert
+                           transform (C{bool}).
+           @kwarg datum: Datum for the transformed point (L{Datum}),
+                         overriding this point's datum.
 
            @return: The transformed point (C{Cartesian}).
 
-           @note: For C{B{inverse}=True} keyword B{C{datum}} must
-                  be C{B{datum}=}L{Datums.WGS84}.
+           @raise Valuerror: If C{B{inverse}=True} and B{C{datum}}
+                             is not L{Datums.WGS84}.
         '''
-        xyz = transform.transform(self.x, self.y, self.z, inverse)
-        return self._xnamed(self.classof(xyz, **datum))
+        d = datum or self.datum
+        if inverse and d != _WGS84:
+            raise _ValueError(inverse=inverse, datum=d,
+                              txt=_not_(_WGS84.name))
+
+        xyz = transform.transform(*self.xyz, inverse=inverse)
+        return self.classof(xyz, datum=d)
 
     @property_doc_(''' this cartesian's datum (L{Datum}).''')
     def datum(self):
@@ -90,34 +95,32 @@ class CartesianBase(Vector3d):
     def datum(self, datum):
         '''Set this cartesian's C{datum} I{without conversion}.
 
-           @arg datum: New datum (L{Datum}).
+           @arg datum: New datum (L{Datum}), ellipsoidal or spherical.
 
            @raise TypeError: The B{C{datum}} is not a L{Datum}.
         '''
-        _xinstanceof(Datum, datum=datum)
+        datum = _spherical_datum(datum, name=self.name)
         d = self.datum
         if d is not None:
             if d.isEllipsoidal and not datum.isEllipsoidal:
                 raise _IsnotError(_ellipsoidal_, datum=datum)
             elif d.isSpherical and not datum.isSpherical:
                 raise _IsnotError(_spherical_, datum=datum)
-            self._update(datum != d)
+        self._update(datum != d)
         self._datum = datum
 
-    @property_RO
+    @Property_RO
     def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney}).
+        '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
         '''
-        if CartesianBase._Ecef is None:
-            from pygeodesy.ecef import EcefKarney
-            CartesianBase._Ecef = EcefKarney  # default
-        return CartesianBase._Ecef
+        from pygeodesy.ecef import EcefKarney
+        return EcefKarney  # default
 
     @Property_RO
     def _ecef9(self):
         '''(INTERNAL) Helper for L{toCartesian} and L{toEcef}.
         '''
-        return self._xnamed(self.Ecef(self.datum).reverse(self, M=True))
+        return self.Ecef(self.datum, name=self.name).reverse(self, M=True)
 
     @property_doc_(''' the height (C{meter}).''')
     def height(self):
@@ -174,12 +177,13 @@ class CartesianBase(Vector3d):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_}).
         '''
         from pygeodesy.nvectorBase import _N_vector_
-        x, y, z, h = self._n_xyzh(self.datum)
+        x, y, z, h = self._n_xyzh4(self.datum)
         return _N_vector_(x, y, z, h=h, name=self.name)
 
-    def _n_xyzh(self, datum):
+    def _n_xyzh4(self, datum):
         '''(INTERNAL) Get the n-vector components as L{Vector4Tuple}.
         '''
+        _xinstanceof(Datum, datum=datum)
         # <https://www.Movable-Type.co.UK/scripts/geodesy/docs/
         #        latlon-nvector-ellipsoidal.js.html#line309>
         E = datum.ellipsoid
@@ -245,18 +249,16 @@ class CartesianBase(Vector3d):
                   as its name suggests.
         '''
         t = self.toLatLon(datum=datum, LatLon=None)
-        r = LatLon4Tuple(t.lat, t.lon, t.height, t.datum)
-        return self._xnamed(r)
+        return LatLon4Tuple(t.lat, t.lon, t.height, t.datum, name=self.name)
 
 #   def _to3LLh(self, datum, LL, **pairs):  # OBSOLETE
 #       '''(INTERNAL) Helper for C{subclass.toLatLon} and C{.to3llh}.
 #       '''
 #       r = self.to3llh(datum)  # LatLon3Tuple
 #       if LL is not None:
-#           r = LL(r.lat, r.lon, height=r.height, datum=datum)
+#           r = LL(r.lat, r.lon, height=r.height, datum=datum, name=self.name)
 #           for n, v in pairs.items():
 #               setattr(r, n, v)
-#           r = self._xnamed(r)
 #       return r
 
     def toDatum(self, datum2, datum=None):
@@ -272,26 +274,24 @@ class CartesianBase(Vector3d):
         '''
         _xinstanceof(Datum, datum2=datum2)
 
-        if datum not in (None, self.datum):
-            c = self.toDatum(datum)
-        else:
-            c = self
+        c = self if datum in (None, self.datum) else \
+            self.toDatum(datum)
 
         i, d = False, c.datum
         if d == datum2:
             return c.copy() if c is self else c
 
-        elif d == Datums.WGS84:
+        elif d == _WGS84:
             d = datum2  # convert from WGS84 to datum2
 
-        elif datum2 == Datums.WGS84:
-            i = True  # convert to WGS84 by inverse transform
+        elif datum2 == _WGS84:
+            i = True  # convert to WGS84 by inverse transformation
 
         else:  # neither datum2 nor c.datum is WGS84, invert to WGS84 first
-            c = c._applyHelmert(d.transform, True, datum=Datums.WGS84)
+            c = c._applyHelmert(d.transform, inverse=True, datum=_WGS84)
             d = datum2
 
-        return c._applyHelmert(d.transform, i, datum=datum2)
+        return c._applyHelmert(d.transform, inverse=i, datum=datum2)
 
     convertDatum = toDatum  # for backward compatibility
 
@@ -322,21 +322,21 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{datum}} or B{C{LatLon_kwds}}.
         '''
-        d = self.datum
-        if datum in (None, d):
+        m =  LatLon is None
+        d = _spherical_datum(datum or self.datum, name=self.name)
+        if d == self.datum:
             r = self.toEcef()
         else:
-            c = self.toDatum(datum)
-            d = c.datum
-            r = c.Ecef(d).reverse(c, M=True)
+            c = self.toDatum(d)
+            r = c.Ecef(d, name=self.name).reverse(c, M=m)
 
-        if LatLon is not None:  # class or .classof
-            kwds = _xkwds(LatLon_kwds, datum=r.datum, height=r.height, name=self.name)
-            r = LatLon(r.lat, r.lon, **kwds)
+        if not m:  # class or .classof
+            kwds = _xkwds(LatLon_kwds, datum=r.datum, height=r.height)
+            r = self._xnamed(LatLon(r.lat, r.lon, **kwds))
         _datum_datum(r.datum, d)
         return r
 
-    def toNvector(self, Nvector=None, datum=None, **Nvector_kwds):  # PYCHOK Datums.WGS84
+    def toNvector(self, Nvector=None, datum=None, **Nvector_kwds):
         '''Convert this cartesian to C{n-vector} components.
 
            @kwarg Nvector: Optional class to return the C{n-vector}
@@ -358,12 +358,12 @@ class CartesianBase(Vector3d):
            >>> c = Cartesian(3980581, 97, 4966825)
            >>> n = c.toNvector()  # (x=0.622818, y=0.00002, z=0.782367, h=0.242887)
         '''
-        d = _ellipsoidal_datum(datum or self.datum, name=self.name)
-        r =  self._N_vector.xyzh if d == self.datum else self._n_xyzh(d)
+        d = _spherical_datum(datum or self.datum, name=self.name)
+        r =  self._N_vector.xyzh if d == self.datum else self._n_xyzh4(d)
 
         if Nvector is not None:
-            kwds = _xkwds(Nvector_kwds, datum=d, h=r.h, name=self.name)
-            r = Nvector(r.x, r.y, r.z, **kwds)
+            kwds = _xkwds(Nvector_kwds, h=r.h, datum=d)
+            r = self._xnamed(Nvector(r.x, r.y, r.z, **kwds))
         return r
 
     def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
@@ -390,15 +390,11 @@ class CartesianBase(Vector3d):
 
            @raise TypeError: Invalid B{C{Vector}} or B{C{Vector_kwds}}.
         '''
-        return self.xyz if Vector is None else \
-              self._xnamed(Vector(self.x, self.y, self.z, **Vector_kwds))
+        return self.xyz if Vector is None else self._xnamed(
+               Vector(self.x, self.y, self.z, **Vector_kwds))
 
 
 __all__ += _ALL_DOCS(CartesianBase)
-
-#   xyz = Vector3d.xyz
-#   '''Get this cartesian's X, Y and Z components (L{Vector3Tuple}C{(x, y, z)}).
-#   '''
 
 # **) MIT License
 #

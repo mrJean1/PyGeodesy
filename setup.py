@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.01.09'
+__version__ = '21.01.26'
 
 
 def _c2(*names):
@@ -48,7 +48,7 @@ def _version():
 _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Authalic', 'auxiliary', 'azimuth', 'azimuthal',
              'bearing', 'Barsky',
-             'cartesian', 'Cassini', 'Cassini-Soldner', 'circle-intersections',
+             'cached', 'cartesian', 'Cassini', 'Cassini-Soldner', 'circle-intersections',
              'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic',
              'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'development', 'discrete', 'distance', 'Douglas',
@@ -66,7 +66,7 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh',
              'Liang', 'Liang-Barsky', 'linearize',
              'LocalCartesian', 'longitude', 'lune',
-             'mean', 'Mercator', 'MGRS',
+             'mean', 'memoize', 'Mercator', 'MGRS',
              'nearest', 'Norrdine', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',

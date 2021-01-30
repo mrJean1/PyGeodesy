@@ -26,10 +26,12 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 
 @newfield example: Example, Examples
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division
 
 from pygeodesy.basics import copysign, _xinstanceof
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
-from pygeodesy.datums import Datums, _spherical_datum
+from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _datum_datum, _ValueError, _xkwds
 from pygeodesy.fmath import Fsum
 from pygeodesy.interns import EPS, EPS0, EPS1, _EPStol, NAN, NN, \
@@ -41,8 +43,7 @@ from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
-from pygeodesy.props import Property_RO, property_doc_, \
-                            property_RO, _update_all
+from pygeodesy.props import Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, _fstrLL0
 from pygeodesy.units import Bearing, Lat_, Lon_, Meter, Scalar, Scalar_
 from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
@@ -50,7 +51,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.01.18'
+__version__ = '21.01.28'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -65,10 +66,10 @@ class _AzimuthalBase(_NamedBase):
        <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Gnomonic.html>} or the
        Python versions L{EquidistantKarney} and L{GnomonicKarney}, respectively.
     '''
-    _datum     = Datums.WGS84  # L{Datum}
-    _iteration = None          # iteration number for L{GnomonicKarney}
-    _latlon0   = ()            # lat0, lon0 (L{LatLon2Tuple})
-    _sc0       = ()            # 2-Tuple C{sincos2(lat0)}
+    _datum     = _WGS84  # L{Datum}
+    _iteration =  None   # iteration number for L{GnomonicKarney}
+    _latlon0   = ()      # lat0, lon0 (L{LatLon2Tuple})
+    _sc0       = ()      # 2-Tuple C{sincos2(lat0)}
 
     def __init__(self, lat0, lon0, datum=None, name=NN):
         '''New azimuthal projection.
@@ -134,8 +135,9 @@ class _AzimuthalBase(_NamedBase):
         else:  # 0 or 180
             x = y = z = _0_0
 
-        t = Azimuthal7Tuple(x, y, lat, lon, z, k, self.datum)
-        return self._xnamed(t, name=name)
+        t = Azimuthal7Tuple(x, y, lat, lon, z, k, self.datum,
+                                  name=name or self.name)
+        return t
 
     @Property_RO
     def lat0(self):
@@ -182,8 +184,7 @@ class _AzimuthalBase(_NamedBase):
 
            @raise AzimuthalError: Invalid B{C{lat0}} or B{C{lon0}}.
         '''
-        _update_all(self)
-
+        self._update(True)  # force reset
         self._latlon0 = LatLon2Tuple(Lat_(lat0=lat0, Error=AzimuthalError),
                                      Lon_(lon0=lon0, Error=AzimuthalError))
         self._sc0     = tuple(sincos2d(self.lat0))
@@ -202,7 +203,8 @@ class _AzimuthalBase(_NamedBase):
             k = c / sc
             z = atan2b(x, y)  # (x, y) for azimuth from true North
 
-            lat = degrees(asin1(s0 * cc + c0 * sc * (y / r)))
+            t = (c0 * sc * (y / r)) if r > EPS0 else _0_0
+            lat = degrees(asin1(s0 * cc + t))
             if lea or abs(c0) > EPS:
                 lon = atan2(x * sc, c0 * cc * r - s0 * sc * y)
             else:
@@ -212,15 +214,16 @@ class _AzimuthalBase(_NamedBase):
             k, z = _1_0, _0_0
             lat, lon = self.latlon0
 
-        t = self._toLatLon(lat, lon, LatLon, LatLon_kwds) if LatLon else \
-            Azimuthal7Tuple(x, y, lat, lon, z, k, self.datum)
-        return self._xnamed(t, name=name)
+        r = Azimuthal7Tuple(x, y, lat, lon, z, k, self.datum,
+                            name=name or self.name) if LatLon is None else \
+            self._toLatLon(lat, lon, LatLon, LatLon_kwds, name)
+        return r
 
-    def _toLatLon(self, lat, lon, LatLon, LatLon_kwds):
+    def _toLatLon(self, lat, lon, LatLon, LatLon_kwds, name):
         '''(INTERNAL) Check B{C{LatLon}} and return an instance.
         '''
         kwds = _xkwds(LatLon_kwds, datum=self.datum)
-        r = LatLon(lat, lon, **kwds)  # handle .classof
+        r = self._xnamed(LatLon(lat, lon, **kwds), name=name)  # handle .classof
         B = _LLEB if self.datum.isEllipsoidal else _LLB
         _xinstanceof(B, LatLon=r)
         return r
@@ -333,7 +336,7 @@ class Equidistant(_AzimuthalBase):
         return self._reverse(x, y, name, LatLon, LatLon_kwds, _c_t, False)
 
 
-def equidistant(lat0, lon0, datum=Datums.WGS84, name=NN):
+def equidistant(lat0, lon0, datum=_WGS84, name=NN):
     '''If I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
        package is installed, return an L{EquidistantKarney} otherwise an
        L{Equidistant} instance.
@@ -372,13 +375,14 @@ class _AzimuthalBaseKarney(_AzimuthalBase):
         '''
         return self.datum.ellipsoid.geodesic
 
-    def _7Tuple(self, x, y, r, M=None):
+    def _7Tuple(self, x, y, r, M=None, name=NN):
         '''(INTERNAL) Return an C{Azimuthal7Tuple}.
         '''
-        s = M
-        if s is None:  # compute the reciprocal, azimuthal scale
-            s = (r.m12 / r.s12) if r.a12 > _EPS_K else _1_0
-        return Azimuthal7Tuple(x, y, r.lat2, r.lon2, r.azi2 % _360_0, s, self.datum)
+        s = M if M is not None else (  # reciprocal, azimuthal scale
+            (r.m12 / r.s12) if r.a12 > _EPS_K else _1_0)
+        z = (r.azi2 + _360_0) % _360_0  # -180 <= r.azi2 < 180
+        return Azimuthal7Tuple(x, y, r.lat2, r.lon2, z, s, self.datum,
+                                     name=name or self.name)
 
 
 class EquidistantKarney(_AzimuthalBaseKarney):
@@ -396,7 +400,7 @@ class EquidistantKarney(_AzimuthalBaseKarney):
        of the projection, serve to specify completely the local affine transformation between
        geographic and projected coordinates.
     '''
-    def __init__(self, lat0, lon0, datum=Datums.WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
         '''New azimuthal L{EquidistantKarney} projection.
 
            @arg lat0: Latitude of center point (C{degrees90}).
@@ -436,10 +440,10 @@ class EquidistantKarney(_AzimuthalBaseKarney):
 
             @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
        '''
-        r = self.geodesic.Inverse(self.lat0, self.lon0, Lat_(lat), Lon_(lon), self._mask)
+        r = self.geodesic.Inverse(self.lat0, self.lon0,
+                                       Lat_(lat), Lon_(lon), self._mask)
         x, y = sincos2d(r.azi1)
-        t = self._7Tuple(x * r.s12, y * r.s12, r)
-        return self._xnamed(t, name=name)
+        return self._7Tuple(x * r.s12, y * r.s12, r, name=name)
 
     def reverse(self, x, y, name=NN, LatLon=None, **LatLon_kwds):
         '''Convert an azimuthal equidistant location to (ellipsoidal) geodetic lat- and longitude.
@@ -467,9 +471,8 @@ class EquidistantKarney(_AzimuthalBaseKarney):
         s = hypot( x, y)
 
         r = self.geodesic.Direct(self.lat0, self.lon0, z, s, self._mask)
-        t = self._7Tuple(x, y, r) if LatLon is None else \
-            self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds)
-        return self._xnamed(t, name=name)
+        return self._7Tuple(x, y, r, name=name) if LatLon is None else \
+               self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds, name)
 
 
 class Gnomonic(_AzimuthalBase):
@@ -527,7 +530,7 @@ class Gnomonic(_AzimuthalBase):
         return self._reverse(x, y, name, LatLon, LatLon_kwds, _c_t, False)
 
 
-def gnomonic(lat0, lon0, datum=Datums.WGS84, name=NN):
+def gnomonic(lat0, lon0, datum=_WGS84, name=NN):
     '''If I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
        package is installed, return a L{GnomonicKarney} otherwise an
        L{Gnomonic} instance.
@@ -559,7 +562,7 @@ class GnomonicKarney(_AzimuthalBaseKarney):
        @see: I{Karney}'s U{Detailed Description<https://GeographicLib.SourceForge.io/html/
              classGeographicLib_1_1Gnomonic.html>}, especially the B{Warning}.
     '''
-    def __init__(self, lat0, lon0, datum=Datums.WGS84, name=NN):
+    def __init__(self, lat0, lon0, datum=_WGS84, name=NN):
         '''New azimuthal L{GnomonicKarney} projection.
 
            @arg lat0: Latitude of center point (C{degrees90}).
@@ -602,19 +605,20 @@ class GnomonicKarney(_AzimuthalBaseKarney):
         self._iteration = 0
 
         r = self.geodesic.Inverse(self.lat0, self.lon0, Lat_(lat), Lon_(lon), self._mask)
-        if r.M21 < EPS0:
-            if raiser:
-                raise AzimuthalError(lat=lat, lon=lon, txt=_over_horizon_)
-            x = y = NAN
-        else:
-            q = r.m12 / r.M21  # .M12
+        M = r.M21
+        if M > EPS0:
+            q = r.m12 / M  # .M12
             x, y = sincos2d(r.azi1)
             x *= q
             y *= q
+        elif raiser:
+            raise AzimuthalError(lat=lat, lon=lon, txt=_over_horizon_)
+        else:
+            x = y = NAN
 
-        t = self._7Tuple(x, y, r, r.M21)
+        t = self._7Tuple(x, y, r, M=M, name=name)
         t._iteraton = self._iteration  # = 0
-        return self._xnamed(t, name=name)
+        return t
 
     def reverse(self, x, y, name=NN, LatLon=None, **LatLon_kwds):
         '''Convert an azimuthal gnomonic location to (ellipsoidal) geodetic lat- and longitude.
@@ -648,7 +652,7 @@ class GnomonicKarney(_AzimuthalBaseKarney):
         if q > e:
             def _d(r, q):
                 return (r.M12 - q * r.m12) * r.m12  # negated
-            q = 1 / q
+            q = _1_0 / q
         else:  # little == True
             def _d(r, q):  # PYCHOK _d
                 return (q * r.M12 - r.m12) * r.M12  # negated
@@ -664,11 +668,10 @@ class GnomonicKarney(_AzimuthalBaseKarney):
         else:
             raise AzimuthalError(x=x, y=y, txt=_no_(Fmt.convergence(e)))
 
-        t = self._7Tuple(x, y, r, r.M12) if LatLon is None else \
-            self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds)
-
+        t = self._7Tuple(x, y, r, M=r.M12, name=name) if LatLon is None else \
+            self._toLatLon(r.lat2, r.lon2, LatLon, LatLon_kwds, name)
         t._iteration = self._iteration
-        return self._xnamed(t, name=name)
+        return t
 
 
 class LambertEqualArea(_AzimuthalBase):
@@ -697,7 +700,7 @@ class LambertEqualArea(_AzimuthalBase):
         '''
         def _k_t(c):
             c = c + _1_0
-            t = c > EPS
+            t = c > EPS0
             k = sqrt(_2_0 / c) if t else _1_0
             return k, t
 
@@ -726,7 +729,7 @@ class LambertEqualArea(_AzimuthalBase):
             c = c * _0_5
             t = c > EPS
             if t:
-                c = 2 * asin1(c)
+                c = _2_0 * asin1(c)
             return c, t
 
         return self._reverse(x, y, name, LatLon, LatLon_kwds, _c_t, True)
@@ -815,8 +818,8 @@ class Stereographic(_AzimuthalBase):
         '''
         def _k_t(c):
             c = c + _1_0
-            t = abs(c) > EPS
-            k = (2 * self._k0 / c) if t else _1_0
+            t = abs(c) > EPS0
+            k = (_2_0 * self._k0 / c) if t else _1_0
             return k, t
 
         return self._forward(lat, lon, name, _k_t)
@@ -856,7 +859,7 @@ class Stereographic(_AzimuthalBase):
         def _c_t(c):
             t = c > EPS
             if t:
-                c = 2 * atan2(c, 2 * self._k0)
+                c = _2_0 * atan2(c, 2 * self._k0)
             return c, t
 
         return self._reverse(x, y, name, LatLon, LatLon_kwds, _c_t, False)

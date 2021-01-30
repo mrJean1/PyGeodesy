@@ -65,7 +65,7 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
-from pygeodesy.datums import Datums, _ellipsoidal_datum
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _IsnotError, PointsError
 from pygeodesy.fmath import hypot2
 from pygeodesy.formy import cosineAndoyerLambert_, cosineForsytheAndoyerLambert_, \
@@ -86,7 +86,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '21.01.20'
+__version__ = '21.01.28'
 
 
 class HausdorffError(PointsError):
@@ -301,8 +301,8 @@ class HausdorffCosineAndoyerLambert(HausdorffRadians):
              L{HausdorffFlatLocal}, L{HausdorffHubeny},
              L{HausdorffThomas} and L{HausdorffKarney}.
     '''
-    _datum = Datums.WGS84
-    _wrap  = False
+    _datum = _WGS84
+    _wrap  =  False
 
     def __init__(self, points, datum=None, wrap=False, seed=None, name=NN):
         '''New L{HausdorffCosineAndoyerLambert} calculator.
@@ -347,8 +347,8 @@ class HausdorffCosineForsytheAndoyerLambert(HausdorffRadians):
              L{HausdorffFlatLocal}, L{HausdorffHubeny},
              L{HausdorffThomas} and L{HausdorffKarney}.
     '''
-    _datum = Datums.WGS84
-    _wrap  = False
+    _datum = _WGS84
+    _wrap  =  False
 
     def __init__(self, points, datum=None, wrap=False, seed=None, name=NN):
         '''New L{HausdorffCosineForsytheAndoyerLambert} calculator.
@@ -583,7 +583,7 @@ class HausdorffFlatLocal(HausdorffRadians):
              L{HausdorffDistanceTo}, L{HausdorffHubeny},
              L{HausdorffThomas} and L{HausdorffKarney}.
     '''
-    _datum    =  Datums.WGS84
+    _datum    = _WGS84
     _hubeny2_ =  None
     _units    = _Str_radians2
     _wrap     =  False
@@ -724,7 +724,7 @@ class HausdorffKarney(HausdorffDegrees):
              L{HausdorffDistanceTo}, L{HausdorffFlatLocal},
              L{HausdorffHubeny} and L{HausdorffThomas}.
     '''
-    _datum    =  Datums.WGS84
+    _datum    = _WGS84
     _Inverse1 =  None
     _units    = _Str_degrees
     _wrap     =  False
@@ -776,8 +776,8 @@ class HausdorffThomas(HausdorffRadians):
              L{HausdorffDistanceTo}, L{HausdorffFlatLocal},
              L{HausdorffHubeny} and L{HausdorffKarney}.
     '''
-    _datum = Datums.WGS84
-    _wrap  = False
+    _datum = _WGS84
+    _wrap  =  False
 
     def __init__(self, points, datum=None, wrap=False, seed=None, name=NN):
         '''New L{HausdorffThomas} calculator.

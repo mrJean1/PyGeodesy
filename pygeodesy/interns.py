@@ -4,12 +4,6 @@ u'''Single-instance floats and strings, C{intern}'ed across modules.
 '''
 from math import pi as PI, sqrt
 
-__all__ = ('EPS', 'EPS_2', 'EPS0', 'EPS1', 'EPS1_2',
-           'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
-           'NAN', 'NEG0', 'NN',
-           'PI', 'PI2', 'PI4', 'PI_2', 'PI_4', 'PI3_2')  # imported by .lazily
-__version__ = '21.01.19'
-
 
 class _Join(str):
     '''(INTERNAL) Extended, callable C{str}.
@@ -135,6 +129,8 @@ _enabled_             = 'enabled'            # PYCHOK expected
 _encode_              = 'encode'             # PYCHOK expected
 _end_                 = 'end'                # PYCHOK expected
 _epoch_               = 'epoch'              # PYCHOK expected
+_EPS_                 = 'EPS'                # PYCHOK expected
+_EPS0_                = 'EPS0'               # PYCHOK expected
 _EQUAL_         = _Join('=')                 # PYCHOK expected
 _EQUALSPACED_   = _Join(' = ')               # PYCHOK expected
 _exceed_PI_radians_   = 'exceed PI radians'  # PYCHOK expected
@@ -414,6 +410,12 @@ PI_4  = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 PI3_2 = _float(PI * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
 
 R_M   = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
+
+__all__ = (_EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
+           'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
+           'NAN', 'NEG0', 'NN',
+           'PI', 'PI2', 'PI4', 'PI_2', 'PI_4', 'PI3_2')  # imported by .lazily
+__version__ = '21.01.25'
 
 # **) MIT License
 #

@@ -17,7 +17,7 @@ from __future__ import division
 
 from pygeodesy.basics import issubclassof, _xinstanceof
 from pygeodesy.cartesianBase import CartesianBase
-from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum
+from pygeodesy.datums import Datum, Datums, _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, _incompatible, IntersectionError, \
                              _IsnotError, RangeError, TRFError, _ValueError, \
                              _xellipsoidal
@@ -30,14 +30,14 @@ from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, PI, _COMMA_, \
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
-from pygeodesy.namedTuples import _LatLon4Tuple, Vector3Tuple
+from pygeodesy.namedTuples import _LL4Tuple, Vector3Tuple
 from pygeodesy.props import Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '21.01.20'
+__version__ = '21.01.30'
 
 _reframe_ = 'reframe'
 _TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
@@ -46,33 +46,38 @@ _TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
 class CartesianEllipsoidalBase(CartesianBase):
     '''(INTERNAL) Base class for ellipsoidal C{Cartesian}s.
     '''
-    _datum = Datums.WGS84  # L{Datum}
+    _datum = _WGS84  # L{Datum}
+
+    def _applyHelmerts(self, *transforms):
+        '''(INTERNAL) Apply one I{or more} Helmert transforms.
+        '''
+        xyz = self.xyz
+        for t in transforms:
+            xyz = t.transform(*xyz)
+        return self.classof(xyz, datum=self.datum)
 
     def toRefFrame(self, reframe2, reframe, epoch=None):
         '''Convert this cartesian point from one to an other reference frame.
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
            @arg reframe: Reference frame to convert I{from} (L{RefFrame}).
-           @kwarg epoch: Optional epoch to observe for B{C{reframe}}, a
-                         fractional calendar year (C{scalar}).
+           @kwarg epoch: Optional epoch to observe (C{scalar}, fractional
+                         calendar year), overriding B{C{reframe}}'s epoch.
 
            @return: The converted point (C{Cartesian}) or this point if
                     conversion is C{nil}.
 
            @raise TRFError: No conversion available from B{C{reframe}}
-                            to B{C{reframe2}}.
+                            to B{C{reframe2}} or invalid B{C{epoch}}.
 
            @raise TypeError: B{C{reframe2}} or B{C{reframe}} not a
-                             L{RefFrame} or B{C{epoch}} not C{scalar}.
+                             L{RefFrame}.
         '''
-        from pygeodesy.trf import RefFrame, _reframeTransforms
+        from pygeodesy.trf import RefFrame, _reframeTransforms2
         _xinstanceof(RefFrame, reframe2=reframe2, reframe=reframe)
 
-        c, d = self, self.datum
-        for t in _reframeTransforms(reframe2, reframe, reframe.epoch if
-                                    epoch is None else Epoch(epoch)):
-            c = c._applyHelmert(t, False, datum=d)
-        return c
+        _, xs = _reframeTransforms2(reframe2, reframe, epoch)
+        return self._applyHelmerts(*xs) if xs else self
 
     convertRefFrame = toRefFrame  # for backward compatibility
 
@@ -80,14 +85,14 @@ class CartesianEllipsoidalBase(CartesianBase):
 class LatLonEllipsoidalBase(LatLonBase):
     '''(INTERNAL) Base class for ellipsoidal C{LatLon}s.
     '''
-    _convergence    = None  # UTM/UPS meridian convergence (C{degrees})
-    _datum          = Datums.WGS84  # L{Datum}
-    _elevation2to   = None  # _elevation2 timeout (C{secs})
-    _epoch          = None  # overriding .reframe.epoch (C{float})
-    _geoidHeight2to = None  # _geoidHeight2 timeout (C{secs})
-    _iteration      = None  # iteration number (C{int} or C{None})
-    _reframe        = None  # reference frame (L{RefFrame})
-    _scale          = None  # UTM/UPS scale factor (C{float})
+    _convergence    =  None   # UTM/UPS meridian convergence (C{degrees})
+    _datum          = _WGS84  # L{Datum}
+    _elevation2to   =  None   # _elevation2 timeout (C{secs})
+    _epoch          =  None   # overriding .reframe.epoch (C{float})
+    _geoidHeight2to =  None   # _geoidHeight2 timeout (C{secs})
+    _iteration      =  None   # iteration number (C{int} or C{None})
+    _reframe        =  None   # reference frame (L{RefFrame})
+    _scale          =  None   # UTM/UPS scale factor (C{float})
 
     def __init__(self, lat, lon, height=0, datum=None, reframe=None,
                                            epoch=None, name=NN):
@@ -103,7 +108,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg reframe: Optional reference frame (L{RefFrame}).
            @kwarg epoch: Optional epoch to observe for B{C{reframe}}
-                         (C{scalar}), a non-zero, fractional calendar year.
+                         (C{scalar}), a non-zero, fractional calendar
+                         year; silently ignored if C{B{reframe}=None}.
            @kwarg name: Optional name (string).
 
            @raise RangeError: Value of B{C{lat}} or B{C{lon}} outside the valid
@@ -125,24 +131,6 @@ class LatLonEllipsoidalBase(LatLonBase):
         if reframe:
             self.reframe = reframe
             self.epoch = epoch
-
-    def _Radjust2(self, adjust, datum, meter_text2):
-        '''(INTERNAL) Adjust elevation or geoidHeight with difference
-           in Gaussian radii of curvature of given datum and NAD83.
-
-           @note: This is an arbitrary, possibly incorrect adjustment.
-        '''
-        if adjust:  # Elevation2Tuple or GeoidHeight2Tuple
-            m, t = meter_text2
-            if isinstance(m, float) and abs(m) > EPS:
-                n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
-                if n > EPS0:
-                    # use ratio, datum and NAD83 units may differ
-                    e = self.ellipsoid(datum).rocGauss(self.lat)
-                    if e > EPS0 and abs(e - n) > EPS:  # EPS1
-                        m *= e / n
-                        meter_text2 = meter_text2.classof(m, t)
-        return self._xnamed(meter_text2)
 
     def antipode(self, height=None):
         '''Return the antipode, the point diametrically opposite
@@ -216,7 +204,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         from pygeodesy.elevations import elevation2
         return elevation2(self.lat, self.lon, timeout=self._elevation2to)
 
-    def elevation2(self, adjust=True, datum=Datums.WGS84, timeout=2):
+    def elevation2(self, adjust=True, datum=_WGS84, timeout=2):
         '''Return elevation of this point for its or the given datum.
 
            @kwarg adjust: Adjust the elevation for a B{C{datum}} other
@@ -244,7 +232,7 @@ class LatLonEllipsoidalBase(LatLonBase):
             LatLonEllipsoidalBase._elevation2._update(self)
         return self._Radjust2(adjust, datum, self._elevation2)
 
-    def ellipsoid(self, datum=Datums.WGS84):
+    def ellipsoid(self, datum=_WGS84):
         '''Return the ellipsoid of this point's datum or the given datum.
 
            @kwarg datum: Default datum (L{Datum}).
@@ -299,7 +287,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _etm(self):
         '''(INTERNAL) Get this C{LatLon} point as an ETM coordinate (L{toEtm8}).
         '''
-        from pygeodesy.etm import toEtm8, Etm  # PYCHOK recursive import
+        from pygeodesy.etm import toEtm8, Etm
         return toEtm8(self, datum=self.datum, Etm=Etm)
 
     @Property_RO
@@ -309,7 +297,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         from pygeodesy.elevations import geoidHeight2
         return geoidHeight2(self.lat, self.lon, model=0, timeout=self._geoidHeight2to)
 
-    def geoidHeight2(self, adjust=False, datum=Datums.WGS84, timeout=2):
+    def geoidHeight2(self, adjust=False, datum=_WGS84, timeout=2):
         '''Return geoid height of this point for its or the given datum.
 
            @kwarg adjust: Adjust the geoid height for a B{C{datum}}
@@ -389,7 +377,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _lcc(self):
         '''(INTERNAL) Get this C{LatLon} point to a Lambert location (L{Lcc}).
         '''
-        from pygeodesy.lcc import Lcc, toLcc  # PYCHOK recursive import
+        from pygeodesy.lcc import Lcc, toLcc
         return toLcc(self, height=self.height, Lcc=Lcc, name=self.name)
 
     def nearestOn(self, point1, point2, within=True, height=None, wrap=True,
@@ -435,7 +423,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _osgr(self):
         '''(INTERNAL) Get this C{LatLon} point to an OSGR coordinate (L{Osgr}).
         '''
-        from pygeodesy.osgr import Osgr, toOsgr  # PYCHOK recursive import
+        from pygeodesy.osgr import Osgr, toOsgr
         return toOsgr(self, datum=self.datum, Osgr=Osgr, name=self.name)
 
     def parse(self, strllh, height=0, datum=None, sep=_COMMA_, name=NN):
@@ -462,6 +450,24 @@ class LatLonEllipsoidalBase(LatLonBase):
         if datum not in (None, self.datum):
             r.datum = datum
         return _xnamed(r, name or self.name, force=True)
+
+    def _Radjust2(self, adjust, datum, meter_text2):
+        '''(INTERNAL) Adjust elevation or geoidHeight with difference
+           in Gaussian radii of curvature of given datum and NAD83.
+
+           @note: This is an arbitrary, possibly incorrect adjustment.
+        '''
+        if adjust:  # Elevation2Tuple or GeoidHeight2Tuple
+            m, t = meter_text2
+            if isinstance(m, float) and abs(m) > EPS:
+                n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
+                if n > EPS0:
+                    # use ratio, datum and NAD83 units may differ
+                    e = self.ellipsoid(datum).rocGauss(self.lat)
+                    if e > EPS0 and abs(e - n) > EPS:  # EPS1
+                        m *= e / n
+                        meter_text2 = meter_text2.classof(m, t)
+        return self._xnamed(meter_text2)
 
     @property_doc_(''' this point's reference frame (L{RefFrame}).''')
     def reframe(self):
@@ -499,7 +505,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @note: Overloads C{LatLonBase.to3xyz}
         '''
         r = self.toEcef()
-        return self._xnamed(Vector3Tuple(r.x, r.y, r.z))
+        return Vector3Tuple(r.x, r.y, r.z, name=self.name)
 
     def toDatum(self, datum2):
         '''Convert this point to an other datum.
@@ -556,12 +562,12 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @arg reframe2: Reference frame to convert I{to} (L{RefFrame}).
 
-           @return: The converted point (ellipsoidal C{LatLon}) or
-                    this point if conversion is C{nil}.
+           @return: The converted point (ellipsoidal C{LatLon}) or this
+                    point if conversion is C{nil}.
 
-           @raise TRFError: No B{C{.reframe}} or no conversion
-                            available from B{C{.reframe}} to
-                            B{C{reframe2}}.
+           @raise TRFError: This B{C{reframe}} not defined or no
+                            conversion available from this B{C{reframe}}
+                            to B{C{reframe2}}.
 
            @raise TypeError: The B{C{reframe2}} is not a L{RefFrame}.
 
@@ -570,21 +576,18 @@ class LatLonEllipsoidalBase(LatLonBase):
            >>> p = LatLon(51.4778, -0.0016, reframe=RefFrames.ETRF2000)  # default Datums.WGS84
            >>> p.toRefFrame(RefFrames.ITRF2014)  # 51.477803°N, 000.001597°W, +0.01m
         '''
-        from pygeodesy.trf import RefFrame, _reframeTransforms
+        from pygeodesy.trf import RefFrame, _reframeTransforms2
         _xinstanceof(RefFrame, reframe2=reframe2)
 
         if not self.reframe:
             t = _SPACE_(_DOT_(repr(self), _reframe_), MISSING)
             raise TRFError(_no_(_conversion_), txt=t)
 
-        ts = _reframeTransforms(reframe2, self.reframe, self.epoch)
-        if ts:
-            c = self.toCartesian()
-            for t in ts:
-                c = c._applyHelmert(t, False)
-            ll = c.toLatLon(datum=self.datum, LatLon=self.classof,
-                            epoch=self.epoch, reframe=reframe2)
-            # ll.reframe, ll.epoch = reframe2, self.epoch
+        e, xs = _reframeTransforms2(reframe2, self.reframe, self.epoch)
+        if xs:
+            c = self.toCartesian()._applyHelmerts(*xs)
+            ll = c.toLatLon(datum=self.datum, epoch=e, reframe=reframe2,
+                                              LatLon=self.classof)
         else:
             ll = self
         return ll
@@ -605,7 +608,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         if self._upsOK(pole, falsed):
             u = self._ups
         else:
-            from pygeodesy.ups import toUps8, Ups  # PYCHOK recursive import
+            from pygeodesy.ups import toUps8, Ups
             u = toUps8(self, datum=self.datum, Ups=Ups,
                               pole=pole, falsed=falsed)
         return u
@@ -636,7 +639,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         elif self._upsOK(pole):
             u = self._ups
         else:  # no cover
-            from pygeodesy.utmups import toUtmUps8, Utm, Ups  # PYCHOK recursive import
+            from pygeodesy.utmups import toUtmUps8, Utm, Ups
             u = toUtmUps8(self, datum=self.datum, Utm=Utm, Ups=Ups,
                                  pole=pole, name=self.name)
             if isinstance(u, Utm):
@@ -721,7 +724,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _ups(self):  # __dict__ value overwritten by method C{toUtmUps}
         '''(INTERNAL) Get this C{LatLon} point as UPS coordinate (L{Ups}), see L{toUps8}.
         '''
-        from pygeodesy.ups import toUps8, Ups  # PYCHOK recursive import
+        from pygeodesy.ups import toUps8, Ups
         return toUps8(self, datum=self.datum, Ups=Ups,
                              pole=NN, falsed=True, name=self.name)
 
@@ -738,7 +741,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _utm(self):  # __dict__ value overwritten by method C{toUtmUps}
         '''(INTERNAL) Get this C{LatLon} point as UTM coordinate (L{Utm}), see L{toUtm8}.
         '''
-        from pygeodesy.utm import toUtm8, Utm  # PYCHOK recursive import
+        from pygeodesy.utm import toUtm8, Utm
         return toUtm8(self, datum=self.datum, Utm=Utm, name=self.name)
 
     def _utmOK(self):
@@ -754,7 +757,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _wm(self):
         '''(INTERNAL) Get this C{LatLon} point as webmercator (L{WM}).
         '''
-        from pygeodesy.webmercator import toWm  # PYCHOK recursive import
+        from pygeodesy.webmercator import toWm
         return toWm(self)
 
 
@@ -811,9 +814,9 @@ def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
     from pygeodesy.vector3d import _intersects2 as _vi2
 
     def _latlon4(t, h, n):
-        r = _LatLon4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds)
+        r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, name=n)
         r._iteration = t.iteration  # ._iteration for tests
-        return _xnamed(r, n)
+        return r
 
     if r1 < r2:
         c1, c2 = c2, c1
@@ -969,9 +972,9 @@ def _nearestOn(p, p1, p2, within=True, height=None, wrap=True,
     else:
         raise ValueError(_no_(Fmt.convergence(tol)))
 
-    r = _LatLon4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds)
+    r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, name=n)
     r._iteration = t.iteration  # ._iteration for tests
-    return _xnamed(r, n)
+    return r
 
 
 __all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase)

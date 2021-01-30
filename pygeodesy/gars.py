@@ -30,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, \
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '21.01.10'
+__version__ = '21.01.28'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -195,11 +195,11 @@ class Garef(Str):
 
            @raise GARSError: Invalid B{C{LatLon}}.
         '''
-        kwds = _xkwds(LatLon_kwds, name=self.name)
         if LatLon is None:
-            raise GARSError(**_xkwds(kwds, LatLon=LatLon))
+            kwds = _xkwds(LatLon_kwds, LatLon=None, name=self.name)
+            raise GARSError(**kwds)
 
-        return LatLon(*self.latlon, **kwds)
+        return self._xnamed(LatLon(*self.latlon, **LatLon_kwds))
 
 
 def decode3(garef, center=True):

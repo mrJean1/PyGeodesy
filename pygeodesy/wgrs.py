@@ -18,7 +18,7 @@ from pygeodesy.interns import EPS1_2, NN, _AtoZnoIO_, _float, \
                              _height_, _radius_, _SPACE_, _0to9_, \
                              _0_5, _0_001, _1_0, _2_0, _60_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import nameof, _xnamed
+from pygeodesy.named import nameof
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 from pygeodesy.props import Property_RO
 from pygeodesy.streprs import Fmt, _0wd
@@ -29,7 +29,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '21.01.10'
+__version__ = '21.01.23'
 
 _1000_0  = _float(1000)
 _Base    =  10
@@ -277,9 +277,9 @@ def decode3(georef, center=True):
         lat = lat * _2_0 + _1_0
         u *= _2_0
     u = _Tile / u
-    r = LatLonPrec3Tuple(Lat(lat * u, Error=WGRSError),
-                         Lon(lon * u, Error=WGRSError), precision)
-    return _xnamed(r, nameof(georef))
+    return LatLonPrec3Tuple(Lat(lat * u, Error=WGRSError),
+                            Lon(lon * u, Error=WGRSError),
+                            precision, name=nameof(georef))
 
 
 def decode5(georef, center=True):
