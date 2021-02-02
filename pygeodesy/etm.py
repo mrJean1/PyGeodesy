@@ -74,7 +74,7 @@ from pygeodesy.interns import EPS, _1_EPS, NN, PI_2, PI_4, \
 from pygeodesy.interns import _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_LAZY
-from pygeodesy.named import _NamedBase, _NamedTuple, _xnamed
+from pygeodesy.named import _NamedBase, _NamedTuple
 from pygeodesy.props import Property_RO, property_RO, property_doc_
 from pygeodesy.streprs import pairs, unstr
 from pygeodesy.units import Degrees, Easting, Lat,Lon, Northing, \
@@ -86,7 +86,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.01.28'
+__version__ = '21.02.01'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -967,8 +967,8 @@ def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, name=NN):
        >>> u = parseETM5('31 N 448251.8 5411932.7')
        >>> u.toStr()  # 31 N 448252 5411933
     '''
-    r = _parseUTM5(strUTM, datum, Etm, falsed, Error=ETMError)
-    return _xnamed(r, name, force=True)
+    r = _parseUTM5(strUTM, datum, Etm, falsed, Error=ETMError, name=name)
+    return r
 
 
 def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True, name=NN,

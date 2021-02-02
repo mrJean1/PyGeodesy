@@ -52,7 +52,7 @@ from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.01.28'
+__version__ = '21.02.01'
 
 _paths_ = 'paths'
 
@@ -231,11 +231,11 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         n = p.times(ca).plus(q.times(sa))
         return n.toLatLon(height=height, LatLon=self.classof)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
-    def distanceTo(self, other, radius=R_M, wrap=False):
+    def distanceTo(self, other, radius=None, wrap=False):
         '''Compute the distance from this to an other point.
 
            @arg other: The other point (L{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg radius: Mean earth radius (C{meter}, default L{R_M}).
            @kwarg wrap: Wrap/unroll the angular distance (C{bool}).
 
            @return: Distance between this and the B{C{other}} point
@@ -252,7 +252,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         self.others(other)
 
         a = self.toNvector().angleTo(other.toNvector(), wrap=wrap)
-        return abs(a) * (radius if radius is R_M else Radius(radius))
+        return abs(a) * (R_M if radius is None else Radius(radius))
 
 #   @Property_RO
 #   def Ecef(self):

@@ -70,14 +70,14 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple
 from pygeodesy.props import Property_RO
 from pygeodesy.streprs import unstr
-from pygeodesy.units import Height, Int, Lat, Lon, Meter, Scalar
+from pygeodesy.units import Height, Int, Lam, Lat, Lon, Meter, Scalar
 from pygeodesy.utily import atan2d, degrees90, sincos2, sincos2d
 from pygeodesy.vector3d import _xyzn4
 
 from math import asin, atan2, cos, degrees, hypot, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '21.01.28'
+__version__ = '21.02.01'
 
 _prolate_ = 'prolate'
 _TRIPS    =  17  # 8..9 sufficient, EcefSudano.reverse
@@ -344,12 +344,11 @@ class EcefKarney(_EcefBase):
             C = 1
 
         elif E.e4:  # E.isEllipsoidal
-            prolate = E.isProlate
             # Treat prolate spheroids by swapping R and Z here and by
             # switching the arguments to phi = atan2(...) at the end.
             p = (R / E.a)**2
             q = E.e12 * (z / E.a)**2
-            if prolate:
+            if E.isProlate:
                 p, q = q, p
             r = p + q - E.e4
             e = E.e4 * q
@@ -388,7 +387,7 @@ class EcefKarney(_EcefBase):
                 # Rearrange expression for k to avoid loss of accuracy due to
                 # subtraction.  Division by 0 not possible because uv > 0, w >= 0.
                 k1 = k2 = uv / (sqrt(uv + w**2) + w)
-                if prolate:
+                if E.isProlate:
                     k1 -= E.e2
                 else:
                     k2 += E.e2
@@ -404,7 +403,7 @@ class EcefKarney(_EcefBase):
                 #   f > 0: z -> 0, k        ->  E.e2 * sqrt(q) / sqrt(E.e4 - p)
                 #   f < 0: r -> 0, k + E.e2 -> -E.e2 * sqrt(q) / sqrt(E.e4 - p)
                 q = E.e4 - p
-                if prolate:
+                if E.isProlate:
                     p, q = q, p
                     e = E.a
                 else:
@@ -743,7 +742,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
 
     @Property_RO
     def lamVermeille(self):
-        '''Get the longitude in C{[-PI*3/2..+PI*3/2] radians} after U{Vermeille
+        '''Get the longitude in C{radians [-PI*3/2..+PI*3/2]} after U{Vermeille
            <https://Search.ProQuest.com/docview/639493848>} (2004), p 95.
 
            @see: U{Karney<https://GeographicLib.SourceForge.io/html/geocentric.html>},
@@ -757,7 +756,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
             r =  _2_0 * atan2(x, hypot(y, x) - y) - PI_2
         else:  # y == 0
             r = PI if x < 0 else _0_0
-        return r
+        return Lam(Vermeille=r)
 
     @Property_RO
     def latlon(self):
@@ -779,20 +778,20 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
 
     @Property_RO
     def latlonVermeille(self):
-        '''Get the latitude and I{Vermeille} longitude in C{[-225..+225] degrees} (L{LatLon2Tuple}C{(lat, lon)}).
+        '''Get the latitude and I{Vermeille} longitude in C{degrees [-225..+225]} (L{LatLon2Tuple}C{(lat, lon)}).
 
            @see: Property C{lonVermeille}.
         '''
-        return LatLon2Tuple(self.lat, degrees(self.lamVermeille), name=self.name)
+        return LatLon2Tuple(self.lat, self.lonVermeille, name=self.name)
 
     @Property_RO
     def lonVermeille(self):
-        '''Get the longitude in C{[-225..+225] degrees} after U{Vermeille
+        '''Get the longitude in C{degrees [-225..+225]} after U{Vermeille
            <https://Search.ProQuest.com/docview/639493848>} (2004), p 95.
 
            @see: Property C{lamVermeille}.
         '''
-        return degrees(self.lamVermeille)
+        return Lon(Vermeille=degrees(self.lamVermeille))
 
     @Property_RO
     def phi(self):
@@ -820,7 +819,7 @@ class Ecef9Tuple(_NamedTuple):  # .ecef.py
 
     @Property_RO
     def philamVermeille(self):
-        '''Get the latitude and I{Vermeille} longitude in C{[-PI*3/2..+PI*3/2] radians} (L{PhiLam2Tuple}C{(phi, lam)}).
+        '''Get the latitude and I{Vermeille} longitude in C{radians [-PI*3/2..+PI*3/2]} (L{PhiLam2Tuple}C{(phi, lam)}).
 
            @see: Property C{lamVermeille}.
         '''

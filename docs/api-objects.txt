@@ -986,7 +986,6 @@ pygeodesy.errors._error_chain	pygeodesy.errors-module.html#_error_chain
 pygeodesy.etm	pygeodesy.etm-module.html
 pygeodesy.etm._TAYTOL2	pygeodesy.etm-module.html#_TAYTOL2
 pygeodesy.etm.neg_	pygeodesy.basics-module.html#neg_
-pygeodesy.etm._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.etm.cbrt	pygeodesy.fmath-module.html#cbrt
 pygeodesy.etm._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.etm._xinstanceof	pygeodesy.basics-module.html#_xinstanceof

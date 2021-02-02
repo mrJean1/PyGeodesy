@@ -43,7 +43,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.01.28'
+__version__ = '21.02.01'
 
 _Bands   = _A_, 'B', 'Y', 'Z'  # polar bands
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -383,8 +383,11 @@ def parseUPS5(strUPS, datum=_WGS84, Ups=Ups, falsed=True, name=NN):
     if z != _UPS_ZONE or (B and B not in _Bands):
         raise UPSError(strUPS=strUPS, zone=z, band=B)
 
-    r = UtmUps5Tuple(z, p, e, n, B, Error=UPSError, name=name) if Ups is None else \
-         _xnamed(Ups(z, p, e, n, band=B, falsed=falsed, datum=datum), name)
+    if Ups is None:
+        r = UtmUps5Tuple(z, p, e, n, B, Error=UPSError, name=name)
+    else:
+        r = Ups(z, p, e, n, band=B, falsed=falsed, datum=datum)
+        r = _xnamed(r, name)
     return r
 
 
@@ -462,26 +465,28 @@ def toUps8(latlon, lon=None, datum=None, Ups=Ups, pole=NN,
         x += _Falsing
         y += _Falsing
 
+    n = name or nameof(latlon)
     if Ups is None:
-        r = UtmUps8Tuple(z, p, x, y, B, d, c, k, Error=UPSError)
+        r = UtmUps8Tuple(z, p, x, y, B, d, c, k, Error=UPSError, name=n)
     else:
         if z != _UPS_ZONE and not strict:
             z = _UPS_ZONE  # ignore UTM zone
-        r = Ups(z, p, x, y, band=B, datum=d, falsed=falsed,
-                                    convergence=c, scale=k)
+        r = _xnamed(Ups(z, p, x, y, band=B, datum=d, falsed=falsed,
+                                            convergence=c, scale=k), n)
         r._hemisphere = _hemi(lat)
         if isinstance(latlon, _LLEB) and d is latlon.datum:
             r._latlon_to(latlon, falsed)  # XXX weakref(latlon)?
-    return _xnamed(r, name or nameof(latlon))
+    return r
 
 
-def upsZoneBand5(lat, lon, strict=True):
+def upsZoneBand5(lat, lon, strict=True, name=NN):
     '''Return the UTM/UPS zone number, (polar) Band letter, pole and
        clipped lat- and longitude for a given location.
 
        @arg lat: Latitude in degrees (C{scalar} or C{str}).
        @arg lon: Longitude in degrees (C{scalar} or C{str}).
        @kwarg strict: Restrict B{C{lat}} to UPS ranges (C{bool}).
+       @kwarg name: Optional name (C{str}).
 
        @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
                 lat, lon)} where C{hemipole} is the C{'N'|'S'} pole,
@@ -508,7 +513,7 @@ def upsZoneBand5(lat, lon, strict=True):
 
     else:
         B, p = NN, _hemi(lat)
-    return UtmUpsLatLon5Tuple(z, B, p, lat, lon, Error=UPSError)
+    return UtmUpsLatLon5Tuple(z, B, p, lat, lon, Error=UPSError, name=name)
 
 # **) MIT License
 #

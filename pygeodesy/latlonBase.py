@@ -37,7 +37,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.01.28'
+__version__ = '21.02.01'
 
 
 class LatLonBase(_NamedBase):
@@ -930,10 +930,14 @@ class LatLonBase(_NamedBase):
 
 def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
                                           radius=R_M, wrap=False):
-    # (INTERNAL) Trilaterate three points by area overlap or
-    # by perimeter intersection of three circles (radius is
-    # only needed for spherical C{LatLon.distanceTo} method)
+    '''(INTERNAL) Trilaterate three points by area overlap or by
+       perimeter intersection of three circles.
 
+       @note: The B{C{radius}} is only needed for both n-vectorial
+              and the sphericalTrigonometry C{LatLon.distanceTo}
+              methods and silently ignored by ellipsoidalKarney
+              and ellipsoidalVincenty C{LatLon.distanceTo}.
+    '''
     r1 = Distance_(distance1=d1)
     r2 = Distance_(distance2=d2)
     r3 = Distance_(distance3=d3)
@@ -977,9 +981,10 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1,
 
     elif area and pc == 3:  # all pairwise concentric ...
         r, p = min((r1, p1), (r2, p2), (r3, p3))
+        m = max(r1, r2, r3)
         # ... return "smallest" point twice, the smallest
         # and largest distance and n=0 for concentric
-        return Trilaterate5Tuple(float(r), p, float(max(r1, r2, r3)), p, 0)
+        return Trilaterate5Tuple(float(r), p, float(m), p, 0)
 
     f =  max if area else min
     t = _overlap_ if area else _intersection_

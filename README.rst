@@ -34,14 +34,14 @@ decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_ .
 
 Other modules provide `Albers Equal-Area`_ projections, azimuthal projections
 and Lambert conformal conic projections and positions (from `John P. Snyder`_,
-*Map Projections -- A Working Manual*, 1987), functions to clip a path or polygon
-of *LatLon* points using the `Cohen-Sutherland`_, the `Liang–Barsky`_ and the
-`Sutherland-Hodgman`_ methods, functions to simplify_ or linearize a path of
-*LatLon* points (or a `numpy array`_), including implementations of the
+*Map Projections \-\- A Working Manual*, 1987), functions to clip a path or
+polygon of *LatLon* points using the `Cohen-Sutherland`_, the `Liang-Barsky`_
+and the `Sutherland-Hodgman`_ methods, functions to simplify_ or linearize a
+path of *LatLon* points (or a `numpy array`_), including implementations of the
 `Ramer-Douglas-Peucker`_, the `Visvalingam-Whyatt`_ and the `Reumann-Witkam`_
 algorithms and modified versions of the former.  Other classes interpolate_
 the *height* of *LatLon* points and several *Geoid* models or compute various
-`Fréchet`_ or Hausdorff_ distances.
+`Frechet`_ or Hausdorff_ distances.
 
 Installation
 ============
@@ -63,8 +63,8 @@ However, the former is required to use classes *EquidistantKarney*,
 module *ellipsoidalKarney* classes *LatLon* and *Cartesian* and
 functions *areaOf*, *intersections2* and *perimeterOf* and for the
 *HeightIDWkarney* interpolator.  Both the latter are needed for
-most *Geoid...* and *Height...* interpolator classes, but not for the
-other *HeigthIDW...* ones.
+most *Geoid\...* and *Height\...* interpolator classes, but not for
+the other *HeigthIDW\...* ones.
 
 Documentation
 =============
@@ -80,14 +80,14 @@ Tests
 
 The tests have been run with Python 3.9.1 (with geographiclib_ 1.50),
 Python 3.8.6 (with geographiclib_ 1.50, numpy_ 1.19.2 and scipy_ 1.5.2)
-and macOS' Python 2.7.16 (with numpy_ 1.16.6), all on macOS 11.1 (10.16)
+and macOS\' Python 2.7.16 (with numpy_ 1.16.6), all on macOS 11.1 (10.16)
 Big Sur and all in 64-bit only.  The tests run with and without ``lazy
-import`` for Python 3 and with C{-W error} for all Python versions.  The
+import`` for Python 3 and with ``-W error`` for all Python versions.  The
 results of those tests are included in the distribution files.
 
 Test coverage has been measured with coverage_ 4.5.4 using Python 3.9.1
 (with geographiclib_ 1.50), Python 3.8.6 (with geographiclib_ 1.50, numpy_
-1.19.2 and scipy_ 1.5.2) and macOS' Python 2.7.16 (with numpy_ 1.16.6).
+1.19.2 and scipy_ 1.5.2) and macOS\' Python 2.7.16 (with numpy_ 1.16.6).
 The complete coverage report in HTML and a PDF summary are included in
 the distribution files.
 
@@ -123,14 +123,14 @@ PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18
 and with Flake8_ using Python 3.9.1, both in 64-bit on macOS 11.1 (10.16)
 Big Sur.
 
-Classes with a name ending in ``-Karney`` and several more are transcribed
-from *Karney*'s `C++ classes`_ or require *Karney*'s geographiclib_ package
-to be installed.  A complete list is in module karney_.
+Classes with a name ending in ``Karney`` and several more are transcribed
+from *Karney*\'s `C++ classes`_ or require *Karney*\'s geographiclib_
+package to be installed.  A complete list is in module karney_.
 
 Some function and method names differ from the JavaScript version.  In such
 cases documentation tag **JS name:** shows the original JavaScript name.
 
-*Last updated: Jan 31, 2021.*
+*Last updated: Feb 01, 2021.*
 
 License
 =======
@@ -189,7 +189,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _Epydoc: https://PyPI.org/project/epydoc
 .. _Exact: https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1TransverseMercatorExact.html
 .. _Flake8: https://PyPI.org/project/flake8
-.. _Fréchet: https://WikiPedia.org/wiki/Frechet_distance
+.. _Frechet: https://WikiPedia.org/wiki/Frechet_distance
 .. _Garefs (GARS): https://WikiPedia.org/wiki/Global_Area_Reference_System
 .. _geographiclib: https://PyPI.org/project/geographiclib
 .. _Geohashes: https://www.Movable-Type.co.UK/scripts/geohash.html
@@ -204,7 +204,7 @@ OTHER DEALINGS IN THE SOFTWARE.``
 .. _karney: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html
 .. _Latitude/Longitude: https://www.Movable-Type.co.UK/scripts/latlong.html
 .. _LatLon: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-LatLon-attributes-table.html
-.. _Liang–Barsky: https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html
+.. _Liang-Barsky: https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html
 .. _McCabe: https://PyPI.org/project/mccabe
 .. _MGRS: https://www.Movable-Type.co.UK/scripts/latlong-utm-mgrs.html
 .. _MIT License: https://OpenSource.org/licenses/MIT

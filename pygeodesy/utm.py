@@ -61,7 +61,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.01.28'
+__version__ = '21.02.01'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -556,7 +556,8 @@ class Utm(UtmUpsBase):
         if u is None or u.pole != (pole or u.pole) or falsed != bool(u.falsed):
             from pygeodesy.ups import toUps8, Ups
             ll = self.toLatLon(LatLon=_LLEB, eps=eps, unfalse=True)
-            self._ups = u = toUps8(ll, Ups=Ups, falsed=falsed, pole=pole, strict=False)
+            self._ups = u = toUps8(ll, Ups=Ups, falsed=falsed, pole=pole,
+                                                strict=False, name=self.name)
         return u
 
     def toUtm(self, zone, eps=EPS, falsed=True, **unused):
@@ -587,7 +588,7 @@ class Utm(UtmUpsBase):
         return self._zone
 
 
-def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError):  # imported by .etm
+def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError, name=NN):  # imported by .etm
     '''(INTERNAL) Parse a string representing a UTM coordinate,
        consisting of C{"zone[band] hemisphere easting northing"},
        see L{parseETM5} and L{parseUTM5}.
@@ -596,8 +597,13 @@ def _parseUTM5(strUTM, datum, Xtm, falsed, Error=UTMError):  # imported by .etm
     if _UTM_ZONE_MIN > z or z > _UTM_ZONE_MAX or (B and B not in _Bands):
         raise Error(strUTM=strUTM, zone=z, band=B)
 
-    return UtmUps5Tuple(z, h, e, n, B, Error=Error) if Xtm is None else \
-                    Xtm(z, h, e, n, band=B, datum=datum, falsed=falsed)
+    if Xtm is None:
+        r = UtmUps5Tuple(z, h, e, n, B, Error=Error, name=name)
+    else:
+        r = Xtm(z, h, e, n, band=B, datum=datum, falsed=falsed)
+        if name:
+            r = _xnamed(r, name, force=True)
+    return r
 
 
 def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, name=NN):
@@ -628,8 +634,8 @@ def parseUTM5(strUTM, datum=_WGS84, Utm=Utm, falsed=True, name=NN):
        >>> u = parseUTM5('31 N 448251.8 5411932.7')
        >>> u.toStr()  # 31 N 448252 5411933
     '''
-    r = _parseUTM5(strUTM, datum, Utm, falsed)
-    return _xnamed(r, name, force=True)
+    r = _parseUTM5(strUTM, datum, Utm, falsed, name=name)
+    return r
 
 
 def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True, name=NN,
@@ -723,17 +729,18 @@ def _toXtm8(Xtm, z, lat, x, y, B, d, c, k, f,  # PYCHOK 13+ args
     if f:
         x, y = _false2(x, y, h)
     if Xtm is None:  # DEPRECATED
-        r = UtmUps8Tuple(z, h, x, y, B, d, c, k, Error=Error)
+        r = UtmUps8Tuple(z, h, x, y, B, d, c, k, Error=Error, name=name)
     else:
-        r = Xtm(z, h, x, y, band=B, datum=d, falsed=f, convergence=c, scale=k)
+        r = _xnamed(Xtm(z, h, x, y, band=B, datum=d, falsed=f,
+                                    convergence=c, scale=k), name)
         if isinstance(latlon, _LLEB) and d is latlon.datum:
             r._latlon_to(latlon, eps, f)  # XXX weakref(latlon)?
             latlon._convergence = c
             latlon._scale = k
-    return _xnamed(r, name, force=True)
+    return r
 
 
-def utmZoneBand5(lat, lon, cmoff=False):
+def utmZoneBand5(lat, lon, cmoff=False, name=NN):
     '''Return the UTM zone number, Band letter, hemisphere and
        (clipped) lat- and longitude for a given location.
 
@@ -741,6 +748,7 @@ def utmZoneBand5(lat, lon, cmoff=False):
        @arg lon: Longitude in degrees (C{scalar} or C{str}).
        @kwarg cmoff: Offset longitude from the zone's central
                      meridian (C{bool}).
+       @kwarg name: Optional name (C{str}).
 
        @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
                 lat, lon)} where C{hemipole} is the C{'N'|'S'}
@@ -755,8 +763,7 @@ def utmZoneBand5(lat, lon, cmoff=False):
     '''
     lat, lon = parseDMS2(lat, lon)
     z, B, lat, lon = _to3zBll(lat, lon, cmoff=cmoff)
-    return UtmUpsLatLon5Tuple(z, B, _hemi(lat), lat, lon)
-
+    return UtmUpsLatLon5Tuple(z, B, _hemi(lat), lat, lon, name=name)
 
 # **) MIT License
 #

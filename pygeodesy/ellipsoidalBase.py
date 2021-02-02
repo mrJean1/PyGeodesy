@@ -37,7 +37,7 @@ from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '21.01.30'
+__version__ = '21.02.01'
 
 _reframe_ = 'reframe'
 _TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
@@ -449,7 +449,9 @@ class LatLonEllipsoidalBase(LatLonBase):
         r = self.classof(a, b, height=h, datum=self.datum)
         if datum not in (None, self.datum):
             r.datum = datum
-        return _xnamed(r, name or self.name, force=True)
+        if name:
+            r = _xnamed(r, name, force=True)
+        return r
 
     def _Radjust2(self, adjust, datum, meter_text2):
         '''(INTERNAL) Adjust elevation or geoidHeight with difference

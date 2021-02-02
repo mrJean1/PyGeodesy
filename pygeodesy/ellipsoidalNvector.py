@@ -44,7 +44,7 @@ from pygeodesy.units import Bearing, Degrees, Distance, Float,\
 from pygeodesy.utily import asin1, atan2b, degrees90, sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.01.28'
+__version__ = '21.02.01'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -283,7 +283,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         self.others(other)
 
         a = self._N_vector.angleTo(other._N_vector, wrap=wrap)
-        r = Radius(radius) if radius else self.datum.ellipsoid.R1
+        r = self.datum.ellipsoid.R1 if radius is None else Radius(radius)
         return abs(a) * r
 
     @Property_RO

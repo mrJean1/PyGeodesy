@@ -29,7 +29,7 @@ from pygeodesy.utmupsBase import _MGRS_TILE, _to4lldn, _to3zBhp, \
                                  _UTMUPS_ZONE_MIN, _UTMUPS_ZONE_MAX
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '21.01.28'
+__version__ = '21.02.01'
 
 _UPS_N_MAX = 27 * _MGRS_TILE
 _UPS_N_MIN = 13 * _MGRS_TILE
@@ -180,7 +180,8 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84,
     '''
     z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)
     U = Ups if z in (_UPS_ZONE, _UPS_ZONE_STR) else Utm
-    return U(z, hp, easting, northing, band=B, datum=datum, falsed=falsed, name=name)
+    return U(z, hp, easting, northing, band=B, datum=datum,
+                                       falsed=falsed, name=name)
 
 
 def utmupsValidate(coord, falsed=False, MGRS=False, Error=UTMUPSError):
@@ -264,7 +265,7 @@ def utmupsValidateOK(coord, falsed=False, ok=True):
         return x
 
 
-def utmupsZoneBand5(lat, lon, cmoff=False):
+def utmupsZoneBand5(lat, lon, cmoff=False, name=NN):
     '''Return the UTM/UPS zone number, Band letter, hemisphere/pole
        and clipped lat- and longitude for a given location.
 
@@ -272,6 +273,7 @@ def utmupsZoneBand5(lat, lon, cmoff=False):
        @arg lon: Longitude in degrees (C{scalar} or C{str}).
        @kwarg cmoff: Offset longitude from the zone's central
                      meridian, for UTM only (C{bool}).
+       @kwarg name: Optional name (C{str}).
 
        @return: A L{UtmUpsLatLon5Tuple}C{(zone, band, hemipole,
                 lat, lon)} where C{hemipole} is C{'N'|'S'}, the
@@ -288,9 +290,9 @@ def utmupsZoneBand5(lat, lon, cmoff=False):
        @see: Functions L{utmZoneBand5} and L{upsZoneBand5}.
     '''
     try:
-        return utmZoneBand5(lat, lon, cmoff=cmoff)
+        return utmZoneBand5(lat, lon, cmoff=cmoff, name=name)
     except RangeError:
-        return upsZoneBand5(lat, lon)
+        return upsZoneBand5(lat, lon, name=name)
 
 # **) MIT License
 #

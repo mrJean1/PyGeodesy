@@ -25,7 +25,7 @@ U{Vincenty<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and
 U{Vector-based<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy,
 the original U{JavaScript source<https://GitHub.com/ChrisVeness/geodesy>} or
 U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>} and the Python
-U{geographiclib<https://PyPI.org/project/geographiclib>} and C++ U{GeographicLib
+U{geographiclib<https://PyPI.org/project/geographiclib>} and U{C++ GeographicLib
 <https://GeographicLib.SourceForge.io/html/index.html>} .
 
 Also included are modules for conversions to and from U{Cassini-Soldner
@@ -171,7 +171,7 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/flake8>} using Python 3.9.1, both in 64-bit
 on macOS 11.1 (10.16) Big Sur.
 
-Classes with a name ending in C{-Karney} and several more are transcribed from
+Classes with a name ending in C{Karney} and several more are transcribed from
 I{Karney}'s U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
 or require I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
 package to be installed.  A complete list is in module U{karney
@@ -467,7 +467,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.01.31'
+__version__ = '21.02.01'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

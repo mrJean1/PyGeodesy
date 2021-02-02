@@ -94,9 +94,9 @@
   href="https://www.Movable-Type.co.UK/scripts/geodesy/docs" 
   target="_top">docs</a> and the Python <a 
   href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> and C++ <a 
+  target="_top">geographiclib</a> and <a 
   href="https://GeographicLib.SourceForge.io/html/index.html" 
-  target="_top">GeographicLib</a> .</p>
+  target="_top">C++ GeographicLib</a> .</p>
   <p>Also included are modules for conversions to and from <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1CassiniSoldner.html"
   target="_top">Cassini-Soldner</a>, <a 
@@ -279,7 +279,7 @@
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.9.1, both in 64-bit on macOS 
     11.1 (10.16) Big Sur.</p>
-    <p>Classes with a name ending in <code>-Karney</code> and several more 
+    <p>Classes with a name ending in <code>Karney</code> and several more 
     are transcribed from <i>Karney</i>'s <a 
     href="https://GeographicLib.SourceForge.io/html/annotated.html" 
     target="_top">C++ classes</a> or require <i>Karney</i>'s <a 
@@ -316,7 +316,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.01.31
+        21.02.01
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -5919,7 +5919,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe046d738d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fea776c38d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -8805,7 +8805,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#upsZoneBand5" class="summary-sig-name">upsZoneBand5</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return the UTM/UPS zone number, (polar) Band letter, pole and clipped
       lat- and longitude for a given location.</td>
           <td align="right" valign="top">
@@ -8845,7 +8846,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#utmZoneBand5" class="summary-sig-name">utmZoneBand5</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return the UTM zone number, Band letter, hemisphere and (clipped) 
       lat- and longitude for a given location.</td>
           <td align="right" valign="top">
@@ -8904,7 +8906,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#utmupsZoneBand5" class="summary-sig-name">utmupsZoneBand5</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">cmoff</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
       Return the UTM/UPS zone number, Band letter, hemisphere/pole and 
       clipped lat- and longitude for a given location.</td>
           <td align="right" valign="top">
@@ -9102,7 +9105,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.1.31'"><code class="variable-quote">'</code><code class="variable-string">21.1.31</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.2.1'"><code class="variable-quote">'</code><code class="variable-string">21.2.1</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -14390,7 +14393,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe046d738d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fea776c38d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20033,7 +20036,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">upsZoneBand5</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">strict</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">strict</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20049,6 +20053,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (<code>scalar</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>strict</code></strong> - Restrict <b><code>lat</code></b> to UPS ranges 
           (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html" 
@@ -20100,7 +20105,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">utmZoneBand5</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">cmoff</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">cmoff</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20116,6 +20122,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (<code>scalar</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>cmoff</code></strong> - Offset longitude from the zone's central meridian 
           (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html" 
@@ -20224,7 +20231,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">utmupsZoneBand5</span>&nbsp;(<span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">cmoff</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">cmoff</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20240,6 +20248,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>lon</code></strong> - Longitude in degrees (<code>scalar</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>cmoff</code></strong> - Offset longitude from the zone's central meridian, for UTM only 
           (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.UtmUpsLatLon5Tuple-class.html" 
@@ -20751,7 +20760,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan 30 13:30:15 2021
+    Generated by Epydoc 3.0.1 on Mon Feb  1 15:33:14 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -24,7 +24,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.01.28'
+__version__ = '21.02.01'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 

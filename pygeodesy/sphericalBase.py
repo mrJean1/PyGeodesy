@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.01.28'
+__version__ = '21.02.01'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -282,7 +282,9 @@ class LatLonSphericalBase(LatLonBase):
         '''
         from pygeodesy.dms import parse3llh
         r = self.classof(*parse3llh(strllh, height=height, sep=sep))
-        return _xnamed(r, name or self.name, force=True)
+        if name:
+            r = _xnamed(r, name, force=True)
+        return r
 
     def _rhumb3(self, other):
         '''(INTERNAL) Rhumb_ helper function.

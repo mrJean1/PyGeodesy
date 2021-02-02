@@ -4,14 +4,15 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.12.18'
+__version__ = '21.02.01'
 
 from base import RandomLatLon
 from testLatLon import Tests as _TestsLL
 from testVectorial import Tests as _TestsV
 
 from pygeodesy import F_D, F_DEG_, F_DMS, PI_4, R_M, \
-                      classname, IntersectionError, latlonDMS, lonDMS
+                      classname, Ellipsoids, IntersectionError, \
+                      latlonDMS, lonDMS
 from math import radians
 
 # <https://GeographicLib.SourceForge.io/html/python/examples.html>
@@ -48,6 +49,12 @@ class Tests(_TestsLL, _TestsV):
         self.test('isEllipsoidal', p.isEllipsoidal, False)
 
         q = LatLon(49.0034, 2.5735)
+        self.test('datum', q.datum, p.datum)  # coverage
+        q.datum = Ellipsoids.SphereAuthalic
+        self.test('ellipsoid', q.datum.ellipsoid, Ellipsoids.SphereAuthalic)
+        q.datum = p.datum
+        self.test('datum', q.datum, p.datum)
+
         self.test('isSpherical', q.isSpherical, True)
         self.test('isEllipsoidal', q.isEllipsoidal, False)
 
@@ -118,7 +125,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('minLat1',  p.minLat( 1), '-89.0')
         self.test('minLat90', p.minLat(90),  '-0.0', known=True)
 
-        self.test('parse', p.parse('0, 0'), p)  # coverage
+        self.test('parse', p.parse('0, 0', name='parse'), p)  # coverage
 
         if hasattr(LatLon, 'crossingParallels'):
             ps = p.crossingParallels(LatLon(60, 30), 30)

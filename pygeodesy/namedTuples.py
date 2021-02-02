@@ -23,7 +23,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Number_, Phi, Precision_, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.01.24'
+__version__ = '21.02.01'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
@@ -390,13 +390,13 @@ class UtmUps8Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
     _Units_ = ( Number_, Str,        Easting,   Northing,
                 Band,   _Pass,    Degrees,       Scalar)
 
-    def __new__(cls, z, h, e, n, B, d, c, s, Error=None):
+    def __new__(cls, z, h, e, n, B, d, c, s, Error=None, name=NN):  # PYCHOK 11 args
         if Error is not None:
             e = Easting( e, Error=Error)
             n = Northing(n, Error=Error)
             c = Degrees(convergence=c, Error=Error)
             s = Scalar(scale=s, Error=Error)
-        return _NamedTuple.__new__(cls, z, h, e, n, B, d, c, s)
+        return _NamedTuple.__new__(cls, z, h, e, n, B, d, c, s, name=name)
 
 
 class UtmUpsLatLon5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
@@ -410,11 +410,11 @@ class UtmUpsLatLon5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
     _Names_ = (_zone_,  _band_, _hemipole_, _lat_, _lon_)
     _Units_ = ( Number_, Band,   Str,        Lat,   Lon)
 
-    def __new__(cls, z, B, h, lat, lon, Error=None):
+    def __new__(cls, z, B, h, lat, lon, Error=None, name=NN):
         if Error is not None:
             lat = Lat(lat, Error=Error)
             lon = Lon(lon, Error=Error)
-        return _NamedTuple.__new__(cls, z, B, h, lat, lon)
+        return _NamedTuple.__new__(cls, z, B, h, lat, lon, name=name)
 
 
 class Vector3Tuple(_NamedTuple):
