@@ -6,7 +6,7 @@
 # classes, like LatLon.
 
 __all__ = ('Tests',)
-__version__ = '21.01.07'
+__version__ = '21.01.11'
 
 from inspect import isclass
 from os.path import basename
@@ -73,7 +73,7 @@ if __name__ == '__main__':
 
     from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
                           sphericalNvector, sphericalTrigonometry, \
-                          vector3d, nvector  # deprecated.nvector
+                          vector3d, nvectorBase  # DEPRECATED nvector
 
     t = Tests(__file__, __version__)
 
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     # check vector attributes and mro's
     t.testVectorAttrs(ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty,
                       sphericalNvector, sphericalTrigonometry,
-                      nvector, vector3d)
+                      nvectorBase, vector3d)  # DEPRECATED nvector
 
     import pygeodesy  # PYCHOK re-import
     t.testCopyAttr(pygeodesy)

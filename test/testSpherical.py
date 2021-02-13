@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.02.01'
+__version__ = '21.02.11'
 
 from base import RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -284,25 +284,25 @@ class Tests(_TestsLL, _TestsV):
         self.test('perimeterOf', module.perimeterOf(c, closed=True),  '3.79639757e+05', fmt='%.8e')
         self.test('perimeterOf', module.perimeterOf(c, closed=False), '2.68444678e+05', fmt='%.8e')
 
-        if hasattr(module, 'nearestOn2'):
-            c, d = module.nearestOn2(p, b)
-            self.test('nearestOn2', c, '46.000996°N, 001.353049°E' if Vct else '46.0°N, 001.369324°E')
-            self.test('nearestOn2', d, '569987.49' if Vct else '570101.83', fmt='%.2f')
+        if hasattr(module, 'nearestOn3'):
+            c, d, _ = module.nearestOn3(p, b)
+            self.test('nearestOn3', c, '46.000996°N, 001.353049°E' if Vct else '46.0°N, 001.369324°E')
+            self.test('nearestOn3', d, '569987.49' if Vct else '570101.83', fmt='%.2f')
             d = p.distanceTo(c)
             self.test('distanceTo', d, '569987.49' if Vct else '570101.82', fmt='%.2f')
 
             p = LatLon(47, 3)
-            c, d = module.nearestOn2(p, b)
-            self.test('nearestOn2', c, '46.0°N, 002.0°E' if Vct else '46.0°N, 002.0°E')
-            self.test('nearestOn2', d, '134989.80' if Vct else '134992.48', fmt='%.2f')
+            c, d, _ = module.nearestOn3(p, b)
+            self.test('nearestOn3', c, '46.0°N, 002.0°E' if Vct else '46.0°N, 002.0°E')
+            self.test('nearestOn3', d, '134989.80' if Vct else '134992.48', fmt='%.2f')
             d = p.distanceTo(c)
             self.test('distanceTo', d, '134989.80' if Vct else '134989.80', fmt='%.2f')
 
             p = LatLon(45, 2)
             b = LatLon(45, 1), LatLon(47, 3)
             if Vct:
-                c, d = module.nearestOn2(p, b)
-                self.test('nearestOn2', c, '45.330691°N, 001.318551°E')
+                c, d, _ = module.nearestOn3(p, b)
+                self.test('nearestOn3', c, '45.330691°N, 001.318551°E')
                 self.test('distance', d, '64856.28', fmt='%.2f')
             else:
                 c, d, a = p.nearestOn3(b, adjust=False)
@@ -358,8 +358,8 @@ class Tests(_TestsLL, _TestsV):
             b = LatLon(2, 2, height=200)
             t = LatLon(1, 2).nearestOn(a, b).toStr(form=F_D, prec=1)
             self.test('nearestOn', t, '01.5°N, 001.5°E, +149.99m')  # PYCHOK test attr?
-            t = LatLon(1, 2).nearestOn2([a, b])[0].toStr(form=F_D, prec=1)
-            self.test('nearestOn2', t, '01.5°N, 001.5°E, +149.99m')  # PYCHOK test attr?
+            t = LatLon(1, 2).nearestOn3([a, b])[0].toStr(form=F_D, prec=1)
+            self.test('nearestOn3', t, '01.5°N, 001.5°E, +149.99m')  # PYCHOK test attr?
             t = a.midpointTo(b).toStr(form=F_D, prec=1)
             self.test('midpointTo', t, '01.5°N, 001.5°E, +150.00m')  # PYCHOK test attr?
 

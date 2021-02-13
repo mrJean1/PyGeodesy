@@ -35,16 +35,18 @@ from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _not_, _or_, _perimeterOf_, _Python_, \
                              _pygeodesy_abspath_, _UNDER_, _version_
 
-from os import environ as _environ
+from os import environ as _env
 from os.path import basename as _basename
 import sys as _sys
 
 _a_l_l_         = '__all__'
 _deprecated_    = 'deprecated'
-_FOR_DOCS       = _environ.get('PYGEODESY_FOR_DOCS', None)  # for epydoc ...
+_FOR_DOCS       = _env.get('PYGEODESY_FOR_DOCS', NN)  # for epydoc ...
 _imports_       = 'imports'
 _p_a_c_k_a_g_e_ = '__package__'
-_PYGEODESY_LAZY_IMPORT_      = 'PYGEODESY_LAZY_IMPORT'
+_PYGEODESY_LAZY_IMPORT_  = 'PYGEODESY_LAZY_IMPORT'
+_PYTHON_X_DEV   =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2
+                  _env.get('PYTHONDEVMODE', NN))  # PYCHOK exported
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
 isLazy = None  # see @var isLazy above
@@ -174,7 +176,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
                                  'intersections2', 'isantipode', 'isantipode_',
                                  'latlon2n_xyz', 'n_xyz2latlon', 'n_xyz2philam',
-                                 'philam2n_xyz', 'points2', 'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_',
+                                 'philam2n_xyz', 'radical2', 'thomas', 'thomas_', 'vincentys', 'vincentys_',
                                  'Radical2Tuple'),
                         frechet=('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                  'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
@@ -200,6 +202,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWthomas', 'HeightIDWvincentys',
                                  'HeightCubic', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                         interns=_interns_a_l_l_,
+                          iters=('LatLon2PsxyIter', 'PointsIter', 'points2'),
                          karney=(),  # module only
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
@@ -213,17 +216,18 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LatLonDatum3Tuple', 'LatLonDatum5Tuple',
                                  'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
                                  'NearestOn3Tuple',
-                                 'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Points2Tuple',
+                                 'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Point3Tuple', 'Points2Tuple',
                                  'Trilaterate5Tuple',
                                  'UtmUps2Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple', 'UtmUpsLatLon5Tuple',
                                  'Vector3Tuple', 'Vector4Tuple'),
                            osgr=('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
-                         points=('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Tuple2LatLon',
-                                 'NearestOn5Tuple', 'Point3Tuple', 'Shape2Tuple',
+                         points=('LatLon_', 'LatLon2psxy', 'NearestOn5Tuple', 'Numpy2LatLon', 'Shape2Tuple', 'Tuple2LatLon',
                                  _areaOf_, 'boundsOf', 'centroidOf', 'fractional',
                                  _isclockwise_, 'isconvex', 'isconvex_', 'isenclosedBy', _ispolar_,
                                  'luneOf', 'nearestOn5', _perimeterOf_, 'quadOf'),
-                          props=('Property', 'Property_RO', 'property_RO', 'property_doc_'),
+                          props=('Property', 'Property_RO', 'property_RO', 'property_doc_',
+                                 'deprecated_class', 'deprecated_function', 'deprecated_method',
+                                 'deprecated_Property_RO', 'deprecated_property_RO', 'DeprecationWarnings'),
                sphericalNvector=(),  # module only
           sphericalTrigonometry=(),  # module only
                        simplify=('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
@@ -270,7 +274,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.01.16'
+__version__ = '21.02.11'
 
 
 def _ALL_OTHER(*objs):
@@ -444,7 +448,7 @@ def _lazy_init3(_pygeodesy_):
     '''
     global isLazy
 
-    z = _environ.get(_PYGEODESY_LAZY_IMPORT_, None)
+    z = _env.get(_PYGEODESY_LAZY_IMPORT_, None)
     if z is None:  # _PYGEODESY_LAZY_IMPORT_ not set
         isLazy = 1  # ... but on by default on 3.7
     else:
@@ -452,7 +456,7 @@ def _lazy_init3(_pygeodesy_):
         isLazy = int(z) if z.isdigit() else (1 if z else 0)
     if isLazy < 1:  # not enabled
         raise LazyImportError(_PYGEODESY_LAZY_IMPORT_, repr(z), txt=_not_(_enabled_))
-    if _environ.get('PYTHONVERBOSE', None):  # PYCHOK no cover
+    if _env.get('PYTHONVERBOSE', None):  # PYCHOK no cover
         isLazy += 1
 
     try:  # to initialize in Python 3+

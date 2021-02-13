@@ -139,7 +139,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.NvectorBase-class.html#to2ab" class="summary-sig-name">to2ab</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      DEPRECATED, use property <code>philam</code>.</td>
+      DEPRECATED, use property <a 
+      href="pygeodesy.nvectorBase.NvectorBase-class.html#philam" 
+      class="link">philam</a>.</td>
           <td align="right" valign="top">
             
             
@@ -156,7 +158,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.NvectorBase-class.html#to2ll" class="summary-sig-name">to2ll</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      DEPRECATED, use property <code>latlon</code>.</td>
+      DEPRECATED, use property <a 
+      href="pygeodesy.nvectorBase.NvectorBase-class.html#latlon" 
+      class="link">latlon</a>.</td>
           <td align="right" valign="top">
             
             
@@ -174,7 +178,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.NvectorBase-class.html#to3abh" class="summary-sig-name">to3abh</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
-      DEPRECATED, use method <code>philamheight</code> or 
+      DEPRECATED, use method <a 
+      href="pygeodesy.nvectorBase.NvectorBase-class.html#philamheight" 
+      class="link">philamheight</a> or 
       <code>philam.to3Tuple</code><code>(</code><b><code>height</code></b><code>)</code>.</td>
           <td align="right" valign="top">
             
@@ -210,10 +216,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="to4xyzh"></a><span class="summary-sig-name">to4xyzh</span>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.nvectorBase.NvectorBase-class.html#to4xyzh" class="summary-sig-name">to4xyzh</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">None</span>)</span><br />
-      DEPRECATED, use property <code>xyzh</code> or 
-      <code>xyz.to4Tuple</code><code>(</code><b><code>h</code></b><code>)</code>.</td>
+      DEPRECATED, use property <a 
+      href="pygeodesy.nvectorBase.NvectorBase-class.html#xyzh" 
+      class="link">xyzh</a> or <code>xyz.to4Tuple(<b>h</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -706,11 +713,17 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use property <code>philam</code>.</p>
+  <p>DEPRECATED, use property <a 
+  href="pygeodesy.nvectorBase.NvectorBase-class.html#philam" 
+  class="link">philam</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
           class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.vector3d.Vector3d-class.html#to2ab">vector3d.Vector3d.to2ab</a>
     </dt>
@@ -731,11 +744,17 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use property <code>latlon</code>.</p>
+  <p>DEPRECATED, use property <a 
+  href="pygeodesy.nvectorBase.NvectorBase-class.html#latlon" 
+  class="link">latlon</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
           class="link">LatLon2Tuple</a><code>(lat, lon)</code>.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.vector3d.Vector3d-class.html#to2ll">vector3d.Vector3d.to2ll</a>
     </dt>
@@ -757,7 +776,9 @@
     </td>
   </tr></table>
   
-  <p>DEPRECATED, use method <code>philamheight</code> or 
+  <p>DEPRECATED, use method <a 
+  href="pygeodesy.nvectorBase.NvectorBase-class.html#philamheight" 
+  class="link">philamheight</a> or 
   <code>philam.to3Tuple</code><code>(</code><b><code>height</code></b><code>)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -768,6 +789,10 @@
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.PhiLam3Tuple-class.html" 
           class="link">PhiLam3Tuple</a><code>(phi, lam, height)</code>.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b>.</li>
@@ -801,9 +826,39 @@
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
           class="link">LatLon3Tuple</a><code>(lat, lon, height)</code>.</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>height</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="to4xyzh"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to4xyzh</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">h</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use property <a 
+  href="pygeodesy.nvectorBase.NvectorBase-class.html#xyzh" 
+  class="link">xyzh</a> or <code>xyz.to4Tuple(<b>h</b>)</code>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1450,7 +1505,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb  1 15:33:21 2021
+    Generated by Epydoc 3.0.1 on Sat Feb 13 13:36:20 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

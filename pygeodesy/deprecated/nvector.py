@@ -9,8 +9,10 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.nvectorBase import LatLonNvectorBase, \
                                   NorthPole, SouthPole, \
                                   NvectorBase, sumOf  # PYCHOK exported
+from pygeodesy.props import deprecated_class  # _deprecated_module
 
 
+@deprecated_class
 class Nvector(NvectorBase):
     '''DEPRECATED, use class L{NvectorBase}.
     '''
@@ -19,7 +21,9 @@ class Nvector(NvectorBase):
 
 __all__ = _ALL_DOCS(LatLonNvectorBase, Nvector, sumOf) + (
           _NorthPole_, _SouthPole_)  # constants
-__version__ = '20.11.03'
+__version__ = '21.02.08'
+
+# _deprecated_module(__name__)
 
 # **) MIT License
 #

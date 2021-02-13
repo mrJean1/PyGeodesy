@@ -4,12 +4,12 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.01.03'
+__version__ = '21.02.11'
 
 from base import geographiclib, TestsBase
 
 from pygeodesy import R_NM, F_D, F_DM, F_DMS, F_RAD, \
-                      degrees, fStr, isclockwise, isconvex, \
+                      degrees, fstr, isclockwise, isconvex, \
                       isenclosedBy, ispolar, m2km, m2NM, \
                       VincentyError  # PYCHOK expected
 from pygeodesy.namedTuples import Bounds2Tuple, \
@@ -40,15 +40,15 @@ class Tests(TestsBase):
 
         q = LatLon(*map(degrees, p.philam))
         self.test('isequalTo', q.isequalTo(p), True)
-        q = LatLon(*map(degrees, p.to2ab()))
+        q = LatLon(*map(degrees, p.philam))
         self.test('isequalTo', q.isequalTo(p), True)
 
-        self.test('latlon2', fStr(q.latlon2(5)), '52.20472, 0.14056')
-        self.test('latlon2', fStr(q.latlon2(4)), '52.2047, 0.1406')
-        self.test('latlon2', fStr(q.latlon2(3)), '52.205, 0.141')
-        self.test('latlon2', fStr(q.latlon2(2)), '52.2, 0.14')
-        self.test('latlon2', fStr(q.latlon2(1)), '52.2, 0.1')
-        self.test('latlon2', fStr(q.latlon2()),  '52.0, 0.0')
+        self.test('latlon2', fstr(q.latlon2(5)), '52.20472, 0.14056')
+        self.test('latlon2', fstr(q.latlon2(4)), '52.2047, 0.1406')
+        self.test('latlon2', fstr(q.latlon2(3)), '52.205, 0.141')
+        self.test('latlon2', fstr(q.latlon2(2)), '52.2, 0.14')
+        self.test('latlon2', fstr(q.latlon2(1)), '52.2, 0.1')
+        self.test('latlon2', fstr(q.latlon2()),  '52.0, 0.0')
 
         FRA = LatLon(50.0379, 8.5622)
         LHR = LatLon(51.47, 0.4543)
@@ -92,7 +92,7 @@ class Tests(TestsBase):
 
         if hasattr(LatLon, 'bearingTo2'):
             b = p.bearingTo2(q)
-            self.test('bearingTo2', fStr(b, prec=4), '156.1666, 157.8904' if Sph else '156.1106, 157.8345')  # 156.2
+            self.test('bearingTo2', fstr(b, prec=4), '156.1666, 157.8904' if Sph else '156.1106, 157.8345')  # 156.2
             # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
             b = LatLon(85, -135), LatLon(85, -45), LatLon(85, 45), LatLon(85, 135), LatLon(85, -135)
             self.test('ispolar', ispolar(b), True)  # PYCHOK test attr?
@@ -146,12 +146,12 @@ class Tests(TestsBase):
             for w in (False, True):
                 try:
                     d = WNZ.distanceTo3(SAL, wrap=w)  # XXX expected values?
-                    self.test('distanceTo3 dateline', fStr(d, prec=4), '19959679.2674, 161.0677, 18.8252', known=True)  # PYCHOK test attr?
+                    self.test('distanceTo3 dateline', fstr(d, prec=4), '19959679.2674, 161.0677, 18.8252', known=True)  # PYCHOK test attr?
                 except VincentyError as x:
                     x = str(x)
                     self.test('distanceTo3 dateline', x, 'no convergence ...', known=True)
                 d = BJS.distanceTo3(SFO, wrap=w)
-                self.test('distanceTo3 dateline', fStr(d, prec=4), '9513997.9901, 42.9164, 138.8903')  # PYCHOK test attr?
+                self.test('distanceTo3 dateline', fstr(d, prec=4), '9513997.9901, 42.9164, 138.8903')  # PYCHOK test attr?
 
         if hasattr(LatLon, 'intermediateTo'):
             i = p.intermediateTo(q, 0.25)
@@ -411,9 +411,9 @@ class Tests(TestsBase):
         self.testReturnType(p.isequalTo(p),         bool,         'isequalTo')
         self.testReturnType(p.philam,               PhiLam2Tuple, 'philam')
         self.testReturnType(p.philamheight,         PhiLam3Tuple, 'philamheight')
-        self.testReturnType(p.to2ab(),              PhiLam2Tuple, 'to2ab')
-        self.testReturnType(p.to3llh(0),            LatLon3Tuple, 'to3llh')
-        self.testReturnType(p.to3xyz(),             Vector3Tuple, 'to3xyz')
+#       self.testReturnType(p.to2ab(),              PhiLam2Tuple, 'to2ab')
+#       self.testReturnType(p.to3llh(0),            LatLon3Tuple, 'to3llh')
+#       self.testReturnType(p.to3xyz(),             Vector3Tuple, 'to3xyz')
         self.testReturnType(p.xyz,                  Vector3Tuple, 'xyz')
         self.testReturnType(p.xyzh,                 Vector4Tuple, 'xyzh')
 

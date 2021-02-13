@@ -5,14 +5,14 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.01.28'
+__version__ = '21.02.11'
 
 from base import TestsBase
 
 from pygeodesy import Datums, EcefCartesian, EcefError, EcefKarney, \
                       EcefMatrix, EcefSudano, EcefVeness, EcefYou, \
                       Ellipsoids, fstr, latDMS, LatLon_, lonDMS, \
-                      parse3llh, nvector  # deprecated.nvector
+                      parse3llh, nvectorBase  # deprecated.nvector
 
 from math import radians
 
@@ -34,7 +34,7 @@ class Tests(TestsBase):
         g = Ecef(Datums.WGS84, name='Test')
         self.test('name', g.name, 'Test')
 
-        t = g.toStr2()
+        t = g.toRepr()
         self.test('toStr', t, g.classname, known=True)
 
         t = Ecef(g.a, g.f, name=g.name)  # coverage
@@ -155,7 +155,7 @@ class Tests(TestsBase):
         # <https://GeographicLib.SourceForge.io/html/CartConvert.1.html>
         c = EcefCartesian(33, 44, 20, name='Test')
         self.test('name', c.name, 'Test')
-        t = c.toStr2()
+        t = c.toRepr()
         self.test('toStr', t, c.classname, known=True)
 
         self.testCopy(c)
@@ -249,7 +249,7 @@ class Tests(TestsBase):
         self.test('to3Tuple', t.classname, 'LatLon3Tuple')
         self.test('to3Tuple', repr(t), 'Paris(lat=48.833, lon=2.333, height=0.0)')
 
-        v = e.toVector(getattr(module, 'Nvector', nvector.Nvector))  # XXX missing Nvector?
+        v = e.toVector(getattr(module, 'Nvector', nvectorBase.NvectorBase))  # DEPRECATED nvector.Nvector
         self.test('toVector', str(v), '(4202946.79528, 171232.46613, 4778354.17)' if ll.isEllipsoidal
                                  else '(4190278.55277, 170716.34863, 4796058.20898)')
         self.test('name', v.name, 'Paris')

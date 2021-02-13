@@ -32,8 +32,9 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anstr, clips, isLazy, issubclassof, iterNumpy2over, \
-                      LazyImportError, map2, NN, normDMS, pairs, property_RO, \
+from pygeodesy import anstr, clips, DeprecationWarnings, isLazy, \
+                      issubclassof, iterNumpy2over, LazyImportError, \
+                      map2, NN, normDMS, pairs, property_RO, \
                       version as PyGeodesy_version  # PYCHOK expected
 
 __all__ = ('coverage', 'geographiclib', 'numpy', 'numpy_version',  # constants
@@ -43,7 +44,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy', 'numpy_version',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '20.11.06'
+__version__ = '21.02.12'
 
 # don't test with numpy and/or scypi older than 1.9 resp. 1.0
 from pygeodesy import basics
@@ -72,6 +73,10 @@ _os_bitstr = architecture()[0]  # XXX sys.maxsize
 _pseudo_home_dir = dirname(PyGeodesy_dir or '~') or '~'
 _SIsecs = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
 _SPACE_ = ' '
+
+_W_opts = sys.warnoptions or ''
+if _W_opts:
+    _W_opts = '-W ' + ' -W '.join(_W_opts)
 
 PythonX = sys.executable  # python or Pythonista path
 isIntelPython = 'intelpython' in PythonX
@@ -224,18 +229,24 @@ class TestsBase(object):
     def results(self, passed='passed', nl=1):
         '''Summarize the test results.
         '''
-        s = time() - self._time
         r = passed  # or 'skipped'
+        s = time() - self._time
         t = self.total
-        f = self.failed
+        w = DeprecationWarnings()
+        f = self.failed + w
         if f:
+            a = ', incl. '
             k = self.known or NN
             if k:
                 if k == f:
                     k = ', ALL KNOWN'
                 else:
-                    k = ', incl. %s KNOWN' % (k,)
-            r = '(%.1f%%) FAILED%s' % (100.0 * f / t, k)
+                    k = '%s%s KNOWN' % (a, k)
+                    a = ' plus '
+            if w:
+                w = '%s%s %s%s' % (a, w, DeprecationWarning.__name__,
+                                         ('s' if w > 1 else ''))
+            r = '(%.1f%%) FAILED%s%s' % (100.0 * f / t, k, w or '')
             n = '%s of %d' % (f, t)
         elif t:
             n = 'all %d' % (t,)
@@ -371,11 +382,11 @@ class TestsBase(object):
         self._verbose = bool(v)
 
 
-class TestError(ValueError):
+class TestError(RuntimeError):  # ValueError's are often caught
     '''Error to show the line number of a test failure.
     '''
     def __init__(self, fmt, *args):
-        ValueError.__init__(self, fmt % args)
+        RuntimeError.__init__(self, fmt % args)
 
 
 def _fmt_known_kwds(fmt='%s', prec=0, known=False, **kwds):
@@ -498,7 +509,10 @@ def versions():
         vs += 'isLazy', str(isLazy)
 
     if getenv('PYTHONDONTWRITEBYTECODE', None):
-        vs += 'B',
+        vs += '-B',
+
+    if _W_opts:
+        vs += _W_opts,
 
     return _SPACE_.join(vs)
 

@@ -4,14 +4,14 @@
 # Test the simplify functions.
 
 __all__ = ('Tests',)
-__version__ = '21.01.11'
+__version__ = '21.02.11'
 
 from base import geographiclib, isPython37, TestsBase
 
-from pygeodesy import EPS, R_M, R_MA, LatLon_, \
+from pygeodesy import EPS, NN, R_M, R_MA, LatLon_, \
                       LatLon2psxy, Numpy2LatLon, Tuple2LatLon, \
-                      areaOf, centroidOf, classname, fstr, \
-                      isclockwise, perimeterOf, points
+                      areaOf, boundsOf, centroidOf, classname, fstr, \
+                      isclockwise, isconvex, perimeterOf, points, quadOf
 
 try:
     if isPython37:
@@ -104,40 +104,46 @@ class Tests(TestsBase):
 
         p = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
         self.test('areaOf', areaOf(p, radius=R_MA), '8.811228e+09', fmt='%.6e')
-        self.test('centroidOf', fstr(centroidOf(p), prec=6), '45.5, 1.5',)
+        self.test('centroidOf', fstr(centroidOf(p), prec=6), '45.5, 1.5')
         self.test('perimeterOf', perimeterOf(p, radius=R_MA), '2.673633e+05', fmt='%.6e')
         self.test('isclockwise', isclockwise(p), False)
+        self.test('isconvex', isconvex(p), True)
 
         p = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
         self.test('areaOf', areaOf(p, radius=R_MA), '7.086883e+09', fmt='%.6e')
         self.test('perimeterOf', perimeterOf(p, radius=R_MA), '2.687460e+05', fmt='%.6e')
-        self.test('centroidOf', fstr(centroidOf(p), prec=6), '0.333333, 0.333333',)
+        self.test('centroidOf', fstr(centroidOf(p), prec=6), '0.333333, 0.333333')
         self.test('isclockwise', isclockwise(p), True)
+        self.test('isconvex', isconvex(p), True)
 
         p = LatLon(0, 1), LatLon(1, 2), LatLon(2, 1), LatLon(1, 0)
         self.test('areaOf', areaOf(p, radius=R_M), '2.827856e+10', fmt='%.6e')
         self.test('perimeterOf', perimeterOf(p, radius=R_M), '4.717039e+05', fmt='%.6e')
-        self.test('centroidOf', fstr(centroidOf(p), prec=6), '1.0, 1.0',)
+        self.test('centroidOf', fstr(centroidOf(p), prec=6), '1.0, 1.0')
         self.test('isclockwise', isclockwise(p), False)
+        self.test('isconvex', isconvex(p), True)
 
-        p = LatLon(45, -70), LatLon(60, 0), LatLon(20, 110), LatLon(80, 170)
-        self.test('areaOf', areaOf(p, radius=R_M), '1.047657e+12', fmt='%.6e')
+        p = LatLon(45, -70), LatLon(60, 0), LatLon(20, 110), LatLon(80, 170)  # XXX warped?
+        self.test('areaOf', areaOf(p, radius=R_M), '2.747297e+13', fmt='%.6e')  # XXX 1.047657e+12
         self.test('perimeterOf', perimeterOf(p, radius=R_M), '2.332643e+07', fmt='%.6e')
-        self.test('centroidOf', fstr(centroidOf(p), prec=3), '22.536, -164.928',)
-        self.test('isclockwise', isclockwise(p), True)
+        self.test('centroidOf', fstr(centroidOf(p), prec=3), '52.113, 102.123')  # XXX '22.536, -164.928'
+        self.test('isclockwise', isclockwise(p), False)  # XXX True
+        self.test('isconvex', isconvex(p), False)
 
         p = LatLon(0, 0), LatLon(0, 3), LatLon(3, 3), LatLon(3, 2), \
             LatLon(1, 2), LatLon(1, 1), LatLon(2, 1), LatLon(2, 0)
         self.test('areaOf', areaOf(p, radius=R_M), '8.482014e+10', fmt='%.6e')
         self.test('perimeterOf', perimeterOf(p, radius=R_M), '1.334104e+06', fmt='%.6e')
-        self.test('centroidOf', fstr(centroidOf(p), prec=3), '1.167, 1.667',)
+        self.test('centroidOf', fstr(centroidOf(p), prec=3), '1.167, 1.667')
         self.test('isclockwise', isclockwise(p), False)
+        self.test('isconvex', isconvex(p), False)
 
         p = LatLon(-20, -180), LatLon(5, -160), LatLon(0, -60), LatLon(-60, -160)
         self.test('areaOf', areaOf(p, radius=R_M), '5.151974e+13', fmt='%.6e')
         self.test('perimeterOf', perimeterOf(p, radius=R_M), '2.638608e+07', fmt='%.6e')
-        self.test('centroidOf', fstr(centroidOf(p), prec=3), '-19.444, -133.333',)
+        self.test('centroidOf', fstr(centroidOf(p), prec=3), '-19.444, -133.333')
         self.test('isclockwise', isclockwise(p), True)
+        self.test('isconvex', isconvex(p), True)
 
         # <https://GeographicLib.SourceForge.io/scripts/geod-calc.html>
         p = (LatLon(-63.1,  -58), LatLon(-72.9,  -74), LatLon(-71.9, -102),
@@ -148,18 +154,27 @@ class Tests(TestsBase):
              LatLon(-77.3,  -33), LatLon(-77.9,  -46), LatLon(-74.7,  -61))  # on/around south pole!
         self.test('areaOf', areaOf(p, radius=R_M), '4.469277e+12', fmt='%.6e', known=True)
         self.test('perimeterOf', perimeterOf(p, radius=R_M), '1.562029e+07', fmt='%.6e', known=True)
-        self.test('centroidOf', fstr(centroidOf(p), prec=3), '-72.112, 92.032',)
-        self.test('isclockwise', isclockwise(p), False)
+        self.test('centroidOf', fstr(centroidOf(p), prec=3), '-71.443, -69.683')  # XXX '-72.112, 92.032'
+        self.test('isclockwise', isclockwise(p), True)  # XXX False
+        self.test('isconvex', isconvex(p), False)
         self.test('points2', p[0].points2(p)[0], len(p))
+
+        if LatLon is LatLon_:
+            b = boundsOf(p)
+            self.test('boundsOf', b, '(-77.9, -163.0, -63.1, 172.0)')
+            q = str(quadOf(*b)).replace(LatLon_.__name__, NN).replace('(', NN).replace(')', NN)
+            self.test('quadOf', q, '77.9°S, 163.0°W, 63.1°S, 163.0°W, 63.1°S, 172.0°E, 77.9°S, 172.0°E')
 
         p = LatLon('66.6S', '88W')
         self.test('latlon', p.latlon, '(-66.6, -88.0)')
         self.test('philam', p.philam, '(-1.162389, -1.53589)')
-        self.test('to2ab ', p.to2ab(), p.philam)
+#       self.test('to2ab ', p.to2ab(), p.philam)
         if LatLon is LatLon_:
             self.test('toStr', p.toStr(prec=6, kwds='test'), "66.6°S, 088.0°W, kwds='test'")
             q = p.classof(p.lat, p.lon, name='test')
             self.test('__ne__', q != p, False)
+            self.test('isequalTo', q.isequalTo(p), True)  # coverage
+            self.test('isequalTo', q.isequalTo(p, eps=EPS), True)
 
         self.test('latlonheight', p.latlonheight, '(-66.6, -88.0, 0)')
         self.test('philamheight', p.philamheight, '(-1.162389, -1.53589, 0)')

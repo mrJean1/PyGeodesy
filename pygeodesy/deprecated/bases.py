@@ -4,12 +4,15 @@
 u'''DEPRECATED, use module L{latlonBase} instead.
 '''
 
-from pygeodesy.formy import points2  # PYCHOK exported
+from pygeodesy.iters import points2  # PYCHOK exported
 from pygeodesy.latlonBase import LatLonBase as LatLonHeightBase  # PYCHOK exported
 from pygeodesy.lazily import _ALL_DOCS
+# from pygeodesy.props import _deprecated_module
 
 __all__ = _ALL_DOCS(LatLonHeightBase, points2)
-__version__ = '20.07.08'
+__version__ = '21.02.10'
+
+# _deprecated_module(__name__)
 
 # **) MIT License
 #

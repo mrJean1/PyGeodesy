@@ -4,7 +4,7 @@
 # Test datums, ellipsoids and transforms.
 
 __all__ = ('Tests',)
-__version__ = '21.01.03'
+__version__ = '21.02.11'
 
 from base import TestsBase
 
@@ -31,11 +31,11 @@ class Tests(TestsBase):
             self.test('R1', E.R1, R_M, fmt='%.4f')
             self.test('R2', E.R2, '6371007.2', fmt='%.1f')
             self.test('R3', E.R3, '6371000.8', fmt='%.1f')
-            self.test('Rr', E.Rr, '6367449.1', fmt='%.1f')  # 6367445.0
-            self.test('Rs', E.Rs, '6367435.7', fmt='%.1f')
             self.test('A',  E.A,  '6367449.1', fmt='%.1f')
             self.test('L',  E.L, '10001965.7', fmt='%.1f')
 
+            self.test('Rrectifying', E.Rrectifying,     '6367449.1',   fmt='%.1f')  # 6367445.0
+            self.test('Rgeometric',  E.Rgeometric,      '6367435.7',   fmt='%.1f')
             self.test('Rgeocentric', E.Rgeocentric(0),  '6378137.000', fmt='%.3f')
             self.test('Rgeocentric', E.Rgeocentric(45), '6367489.544', fmt='%.3f')
             self.test('Rgeocentric', E.Rgeocentric(90), '6356752.314', fmt='%.3f')
@@ -87,11 +87,11 @@ class Tests(TestsBase):
         self.test('WGS84.copy', E == Ellipsoids.WGS84, True)
         self.test('WGS84.find', Ellipsoids.find(E), None)
 
-        self.test('WGS84.a2_b', E.a2_b, E.a2 / E.b, prec=6)
-        self.test('WGS84.b2_a', E.b2_a, E.b2 / E.a, prec=6)
-        self.test('WGS84.c',    E.c,    E.R2,       prec=6)
-        self.test('WGS84.c2',   E.c2,   E.c**2,     fmt='%.0f')
-        self.test('WGS84.es',   E.es,   E.e,        prec=6)
+        self.test('WGS84.a2_b', E.a2_b, E.a2 / E.b,      prec=6)
+        self.test('WGS84.b2_a', E.b2_a, E.b2 / E.a,      prec=6)
+        self.test('WGS84.R2',   E.R2,   E.Rauthalic,     prec=6)  # obvious
+        self.test('WGS84.c2',   E.c2,   E.R2**2,         fmt='%.0f')
+        self.test('WGS84.es',   E.es,   E.e,             prec=6)
         self.test('WGS84.f2',   E.f2, (E.a - E.b) / E.b, prec=6)
         self.test('WGS84.m2degrees', int(E.m2degrees(E.a * PI_2)), 90)
         self.test('WGS84.area',   E.area,   '5.101e+14', fmt='%.3e')

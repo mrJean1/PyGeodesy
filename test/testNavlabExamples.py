@@ -9,7 +9,7 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '20.04.06'  # '19.10.21'
+__version__ = '21.02.11'
 
 if __name__ == '__main__':
 
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     b = ellipsoidalNvector.LatLon(4, 5, 6)
     delta = a.deltaTo(b)
     t.test(1, 'delta', delta, '[N:331730.863, E:332998.501, D:17398.304]')
-    t.test(1, 'delta', delta.toStr2(prec=3), '[L:470357.384, B:45.109°, E:-2.12°]')  # +++
+    t.test(1, 'delta', delta.toRepr(prec=3), '[L:470357.384, B:45.109°, E:-2.12°]')  # +++
     t.test(1, 'elevation', delta.elevation, -2.1198, fmt='%.4f')
     t.test(1, 'bearing', delta.bearing, 45.109, fmt='%.3f')  # 45.109°
     t.test(1, 'length', delta.length, 470357.384, fmt='%.3f')  # 470357.384 m
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     t.test(2, 'toNvector', b.toNvector().toStr(prec=3), '(0.267, 0.535, 0.802, +400.00)')
     delta = ellipsoidalNvector.Ned(3000, 2000, 100)
     t.test(2, 'delta', delta, '[N:3000.0, E:2000.0, D:100.0]')  # ++
-    t.test(2, 'delta', delta.toStr2(prec=3), '[L:3606.938, B:33.69°, E:-1.589°]')  # +++
+    t.test(2, 'delta', delta.toRepr(prec=3), '[L:3606.938, B:33.69°, E:-1.589°]')  # +++
     c = b.destinationNed(delta)  # JSname: destinationPoint
     t.test(2, 'destinationNed', c.toStr(F_D), '53.327726°N, 063.464965°E, +299.138m', known=True)
 
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     b = ellipsoidalNvector.LatLon(48.88667, 2.37472)  # ++
     delta = a.deltaTo(b)  # ++
     t.test(2, 'delta', delta.toStr(prec=0), '[N:-86126, E:-78900, D:1069]')  # ++
-    t.test(2, 'delta', delta.toStr2(prec=3), '[L:116807.681, B:222.493°, E:-0.524°]')  # +++
+    t.test(2, 'delta', delta.toRepr(prec=3), '[L:116807.681, B:222.493°, E:-0.524°]')  # +++
     c = a.destinationNed(delta)  # JSname: destinationPoint, c.height = -9.3e-10
     t.test(2, 'destinationNed', c.toStr(F_D), '48.88667°N, 002.37472°E', known=True)
 

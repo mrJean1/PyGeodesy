@@ -27,7 +27,8 @@ from pygeodesy.interns import EPS0, NN, _EPSqrt as _TOL, _datum_, \
 from pygeodesy.karney import _diff182, _norm180
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.props import deprecated_Property_RO, Property_RO, \
+                            property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Lon_, \
                             Meter, Scalar_
@@ -36,7 +37,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.01.28'
+__version__ = '21.02.11'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -271,9 +272,6 @@ class _AlbersBase(_NamedBase):
         '''
         return self.datum.ellipsoid.a
 
-    majoradius = equatoradius  # for backward compatibility
-    '''DEPRECATED, use C{equatoradius}.'''
-
     @property_RO
     def iteration(self):
         '''Get the iteration number (C{int}).
@@ -374,6 +372,11 @@ class _AlbersBase(_NamedBase):
                   projections.
         '''
         return self._lat2
+
+    @deprecated_Property_RO
+    def majoradius(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{equatoradius}.'''
+        return self.equatoradius
 
     def rescale0(self, lat, k=1):
         '''Set the azimuthal scale for this projection.

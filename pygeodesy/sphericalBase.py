@@ -36,7 +36,7 @@ from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.02.01'
+__version__ = '21.02.03'
 
 
 def _angular(distance, radius):  # PYCHOK for export
@@ -370,9 +370,10 @@ class LatLonSphericalBase(LatLonBase):
            (loxodrome) line.
 
            @arg other: The other point (spherical C{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}.
 
-           @return: Distance (C{meter}, the same units as I{radius}).
+           @return: Distance (C{meter}, the same units as B{C{radius}}
+                    or C{radians} if B{C{radius}} is C{None}).
 
            @raise TypeError: The B{C{other}} point is not spherical.
 
@@ -392,7 +393,8 @@ class LatLonSphericalBase(LatLonBase):
         # conditioned along E-W line (0/0); use an empirical
         # tolerance to avoid it
         q = (da / dp) if abs(dp) > EPS else cos(self.phi)
-        return hypot(da, q * db) * Radius(radius)
+        r = hypot(da, q * db)
+        return r if radius is None else (Radius(radius) * r)
 
     def rhumbMidpointTo(self, other, height=None):
         '''Return the (loxodromic) midpoint between this and

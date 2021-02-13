@@ -31,13 +31,14 @@ from pygeodesy.latlonBase import LatLonBase, _trilaterate5
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import _LL4Tuple, Vector3Tuple
-from pygeodesy.props import Property_RO, property_doc_, property_RO
+from pygeodesy.props import deprecated_method, Property_RO, \
+                            property_doc_, property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '21.02.01'
+__version__ = '21.02.09'
 
 _reframe_ = 'reframe'
 _TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
@@ -499,8 +500,9 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._scale
 
+    @deprecated_method
     def to3xyz(self):  # PYCHOK no cover
-        '''DEPRECATED, use method C{toEcef}.
+        '''DEPRECATED, use method L{toEcef}.
 
            @return: A L{Vector3Tuple}C{(x, y, z)}.
 

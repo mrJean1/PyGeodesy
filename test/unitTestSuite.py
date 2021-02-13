@@ -120,6 +120,9 @@ class TestSuite(unittest.TestCase):
     def test_Interns(self):
         self._run('testInterns')
 
+    def test_Iters(self):
+        self._run('testIters')
+
     def test_Karney(self):
         self._run('testKarney')
 

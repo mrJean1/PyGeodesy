@@ -4,7 +4,7 @@
 # Test Web Mercator classes functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.22'
+__version__ = '21.02.10'
 
 from math import log, radians, tan
 from base import TestsBase
@@ -31,7 +31,7 @@ class Tests(TestsBase):
         self.test('Wm2', w.toStr(prec=1), '448251.8 5411932.7')
         self.testCopy(w)
 
-        ll = w.to2ll(None)  # 2-tuple
+        ll = w.latlon2(None)  # 2-tuple
         self.test('Wm2.to2ll', fstr(ll, prec=8), '43.65321741, 4.02671439')
 
         ll = w.toLatLon(LatLon)
@@ -42,16 +42,16 @@ class Tests(TestsBase):
         self.test('toWm1', w, '448251.795 5411932.678')
         self.test('toWm2', w.toStr(prec=0), '448252 5411933')
         self.test('toWm3', w.toRepr(prec=0, radius=True), '[x:448252, y:5411933, radius:6378137]')
-        self.test('toWm3', w.toStr2(prec=0, radius=True), '[x:448252, y:5411933, radius:6378137]')
+#       self.test('toWm3', w.toStr2(prec=0, radius=True), '[x:448252, y:5411933, radius:6378137]')
 
         t = w.copy()
         self.test('copy', t, w)
-        t = w.parseWM(w.toStr(prec=3))
-        self.test('parseWM', t, w)
-        t = w.parseWM(w.toStr(prec=3, radius=True))
-        self.test('parseWM', t, w)
-        t = w.parseWM(w.toStr(prec=3, radius=0))
-        self.test('parseWM', t.toStr2(radius=True), w.toStr2(radius=True))
+        t = w.parse(w.toStr(prec=3))
+        self.test('parse', t, w)
+        t = w.parse(w.toStr(prec=3, radius=True))
+        self.test('parse', t, w)
+        t = w.parse(w.toStr(prec=3, radius=0))
+        self.test('parse', t.toRepr(radius=True), w.toRepr(radius=True))
 
         ll = LatLon(13.4125, 103.8667)
         w = toWm(ll)
@@ -96,7 +96,7 @@ class Tests(TestsBase):
         self.test('Wm8.toWm', fstr(w, prec=3), '-33878.893, 6693890.382, 6378137.0')
         w = toWm(51.4085960537841, -0.304339270784791)
         self.test('Wm8.toWm', w.toRepr(), '[x:-33878.893, y:6693890.382]')
-        self.test('Wm8.toWm', w.toStr2(), '[x:-33878.893, y:6693890.382]')
+#       self.test('Wm8.toWm', w.toStr2(), '[x:-33878.893, y:6693890.382]')
         self.test('Wm8.toWm', w.toStr(radius=R_M), '-33878.893 6693890.382 6371008.771')
         self.test('Wm8.toWm.x', w.x, '-33878.893',  fmt='%.3f')
         self.test('Wm8.toWm.y', w.y, '6693890.382', fmt='%.3f')

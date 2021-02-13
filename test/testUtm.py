@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.10.15'  # '19.10.31'
+__version__ = '21.02.11'  # '19.10.31'
 
 from base import TestsBase
 
@@ -30,7 +30,7 @@ class Tests(TestsBase):
         self.test('toUtm1', u, '31 N 448252 5411933')
         self.test('toUtm1', u.toStr(prec=3), '31 N 448251.795 5411932.678')
         self.test('toUtm2', u.toRepr(B=True, cs=True), '[Z:31U, H:N, E:448252, N:5411933, C:-31.87873265′, S:0.9996329]')
-        self.test('toUtm2', u.toStr2(B=True, cs=True), '[Z:31U, H:N, E:448252, N:5411933, C:-31.87873265′, S:0.9996329]')
+#       self.test('toUtm2', u.toStr2(B=True, cs=True), '[Z:31U, H:N, E:448252, N:5411933, C:-31.87873265′, S:0.9996329]')
 
         ll = LL(13.4125, 103.8667)
         u = toUtm8(ll)  # 48P N 377302.354182663 1483034.77706381 -000.26291348° 0.999786229

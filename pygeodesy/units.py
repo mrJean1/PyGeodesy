@@ -24,7 +24,7 @@ from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, _band_, \
                              _scalar_, _SPACE_, _UNDER_, _units_, \
                              _W_, _zone_, _0_0, _0_001
 from pygeodesy.interns import _std_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _env  # PYCHOK used!
 from pygeodesy.named import modulename, _Named
 from pygeodesy.props import Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, fstr
@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.01.19'
+__version__ = '21.02.08'
 
 
 class _NamedUnit(_Named):
@@ -110,8 +110,9 @@ class Float(float, _NamedUnit):
            @see: Method C{Float.toRepr} and property C{Float.std_repr}.
 
            @note: Use C{env} variable C{PYGEODESY_FLOAT_STD_REPR=std} prior
-                  to C{import pygeodesy} to get the standard C{repr} or use
-                  C{-=named} for the named C{toRepr} representation.
+                  to C{import pygeodesy} to get the standard C{repr} or set
+                  property C{std_repr=False} to always get the named C{toRepr}
+                  representation.
         '''
         return self.toRepr(std=self._std_repr)
 
@@ -215,8 +216,8 @@ class Int(int, _NamedUnit):
 
            @note: Use C{env} variable C{PYGEODESY_INT_STD_REPR=std}
                   prior to C{import pygeodesy} to get the standard
-                  C{repr} or use C{-=named} for the named C{toRepr}
-                  representation.
+                  C{repr} or set property C{std_repr=False} to always
+                  get the named C{toRepr} representation.
         '''
         return self.toRepr(std=self._std_repr)
 
@@ -320,8 +321,8 @@ class Bool(Int, _NamedUnit):
 
            @note: Use C{env} variable C{PYGEODESY_BOOL_STD_REPR=std}
                   prior to C{import pygeodesy} to get the standard
-                  C{repr} or use C{-=named} for the named C{toRepr}
-                  representation.
+                  C{repr} or set property C{std_repr=False} to always
+                  get the named C{toRepr} representation.
         '''
         r = repr(self._bool_True_or_False)  # self.toStr()
         return r if std else self._toRepr(r)
@@ -370,8 +371,8 @@ class Str(str, _NamedUnit):
 
            @note: Use C{env} variable C{PYGEODESY_STR_STD_REPR=std}
                   prior to C{import pygeodesy} to get the standard
-                  C{repr} or use C{-=named} for the named C{toRepr}
-                  representation.
+                  C{repr} or set property C{std_repr=False} to always
+                  get the named C{toRepr} representation.
         '''
         return self.toRepr(std=self._std_repr)  # see .test/testGars.py
 
@@ -829,6 +830,18 @@ class Meter(Float):
         '''
         return Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
+    def __repr__(self):
+        '''Return a representation of this C{Meter}.
+
+           @see: Method C{Str.toRepr} and property C{Str.std_repr}.
+
+           @note: Use C{env} variable C{PYGEODESY_METER_STD_REPR=std}
+                  prior to C{import pygeodesy} to get the standard
+                  C{repr} or set property C{std_repr=False} to always
+                  get the named C{toRepr} representation.
+        '''
+        return self.toRepr(std=self._std_repr)
+
 
 _1mm    = Meter(   _1mm=_0_001)  # PYCHOK 1 millimeter in .ellipsoidal...
 _10um   = Meter(  _10um= 1e-5)   # PYCHOK 0.01 millimeter in .osgr
@@ -1018,11 +1031,10 @@ def _xUnits(units, Base=_NamedUnit):  # in .frechet, .hausdorff
 def _std_repr(*classes):
     '''(INTERNAL) Use standard C{repr} or named C{toRepr}.
     '''
-    from os import environ as _environ
     for C in classes:
         if hasattr(C, _std_repr.__name__):  # PYCHOK del _std_repr
             env = 'PYGEODESY_%s_STD_REPR' % (C.__name__.upper(),)
-            if _environ.get(env, _std_).lower() != _std_:
+            if _env.get(env, _std_).lower() != _std_:
                 C._std_repr = False
 
 _std_repr(Bool, Float, Int, Meter, Str)  # PYCHOK expected

@@ -26,11 +26,12 @@ from pygeodesy.errors import _IsnotError, _parseX, _TypeError, \
                              _ValueError, _xkwds
 from pygeodesy.interns import NN, PI_2, _COMMA_, _COMMASPACE_, \
                              _easting_, _ellipsoidal_, _northing_, \
-                             _radius_, _SPACE_, _x_, _y_
+                             _radius_, _SPACE_
+from pygeodesy.interns import _x_, _y_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple
-from pygeodesy.props import Property_RO
+from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt, strs, _xzipairs
 from pygeodesy.units import Easting, Lam_, Lat, Lon, Northing, Phi_, \
                             Radius, Radius_
@@ -39,7 +40,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '21.01.24'
+__version__ = '21.02.09'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -141,9 +142,9 @@ class Wm(_NamedBase):
         return parseWM(strWM, radius=self.radius, Wm=self.classof,
                               name=name or self.name)
 
-    def parseWM(self, strWM, name=NN):
-        '''DEPRECATED, use method L{Wm.parse}.
-        '''
+    @deprecated_method
+    def parseWM(self, strWM, name=NN):  # PYCHOK no cover
+        '''DEPRECATED, use method L{Wm.parse}.'''
         return self.parse(strWM, name=name)
 
     @Property_RO
@@ -159,6 +160,7 @@ class Wm(_NamedBase):
         '''
         return self._radius
 
+    @deprecated_method
     def to2ll(self, datum=None):  # PYCHOK no cover
         '''DEPRECATED, use method C{latlon2}.
 

@@ -4,7 +4,7 @@
 # Test LCC functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.06'
+__version__ = '22.02.11'
 
 from base import TestsBase
 
@@ -44,7 +44,7 @@ class Tests(TestsBase):
         lb = Lcc(448251, 5411932.0001, name='lb1')
         self.test('lb1', lb.toStr(4), '448251.0 5411932.0001')
         self.test('lb1', lb.toStr(sep=', '), '448251, 5411932')
-        self.test('lb1', lb.toStr2(), '[E:448251, N:5411932]')
+        self.test('lb1', lb.toRepr(), '[E:448251, N:5411932]')
         self.test('lb1', lb.conic.name2, 'WRF_Lb.WGS84')
         self.test('lb1', lb.name, 'lb1')
         self.test('lb1', lb.latlon, '(81.929348, -79.558697)')
@@ -67,7 +67,7 @@ class Tests(TestsBase):
         self.test('toLatLon2', ll.datum.name, 'NAD27')
         lb = toLcc(ll, conic=Conics.Snyder)
         self.test('toLcc2', lb.toStr(prec=1), '1894410.9 1564649.5')
-        self.test('toLcc2', lb.toStr2(), '[E:1894411, N:1564649]')
+        self.test('toLcc2', lb.toRepr(), '[E:1894411, N:1564649]')
         self.test('toLcc2', lb.conic.name2, 'Snyder.NAD27')
 
         for n, c in sorted(Conics.items()):

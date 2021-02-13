@@ -22,7 +22,7 @@ from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _not_, \
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple
-from pygeodesy.props import Property_RO, property_doc_
+from pygeodesy.props import deprecated_method, Property_RO, property_doc_
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Height
 from pygeodesy.vector3d import Vector3d, _xyzhdn6
@@ -30,7 +30,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '21.01.30'
+__version__ = '21.02.09'
 
 
 class CartesianBase(Vector3d):
@@ -240,13 +240,14 @@ class CartesianBase(Vector3d):
         '''
         return self.toEcef().philamheightdatum
 
+    @deprecated_method
     def to3llh(self, datum=None):  # PYCHOK no cover
-        '''DEPRECATED, use property C{latlonheightdatum} or property C{latlonheight}.
+        '''DEPRECATED, use property L{latlonheightdatum} or L{latlonheight}.
 
            @return: A L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
            @note: This method returns a B{C{-4Tuple}} I{and not a} C{-3Tuple}
-                  as its name suggests.
+                  as its name may suggest.
         '''
         t = self.toLatLon(datum=datum, LatLon=None)
         return LatLon4Tuple(t.lat, t.lon, t.height, t.datum, name=self.name)

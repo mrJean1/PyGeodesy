@@ -14,21 +14,22 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _datum_datum, _ValueError, \
                              _xellipsoidal, _xkwds
-from pygeodesy.interns import NN, _azimuth_, _C_, _COMMASPACE_, _datum_, \
+from pygeodesy.interns import NN, _azimuth_, _COMMASPACE_, _datum_, \
                              _easting_, _lat_, _lon_, _m_, _name_, \
                              _northing_, _reciprocal_, _SPACE_, \
                              _0_0, _0_5, _1_0, _90_0, _360_0
+from pygeodesy.interns import _C_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, nameof
 from pygeodesy.namedTuples import EasNor2Tuple, EasNor3Tuple, \
                                   LatLon2Tuple, LatLon4Tuple, _LL4Tuple
-from pygeodesy.props import Property_RO
+from pygeodesy.props import deprecated_Property_RO, Property_RO
 from pygeodesy.streprs import Fmt, _fstrENH2, _fstrLL0, _xzipairs
 from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '21.01.28'
+__version__ = '21.02.11'
 
 
 def _CS0(cs0):
@@ -108,9 +109,6 @@ class CassiniSoldner(_NamedBase):
         '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
         return self.geodesic.a
-
-    majoradius = equatoradius  # for backward compatibility
-    '''DEPRECATED, use C{equatoradius}.'''
 
     @Property_RO
     def flattening(self):
@@ -220,6 +218,11 @@ class CassiniSoldner(_NamedBase):
         '''Get the center longitude (C{degrees180}).
         '''
         return self._latlon0.lon
+
+    @deprecated_Property_RO
+    def majoradius(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{equatoradius}.'''
+        return self.equatoradius
 
     def reset(self, lat0, lon0):
         '''Set or reset the center point of this Cassini-Soldner projection.

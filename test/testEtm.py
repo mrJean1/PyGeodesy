@@ -5,7 +5,7 @@ u'''Test projection L{ExactTransverseMercator}.
 '''
 
 __all__ = ('Tests',)
-__version__ = '20.10.13'
+__version__ = '21.02.11'
 
 from base import isiOS, isNix, isWindows, TestsBase
 
@@ -32,8 +32,8 @@ class Tests(TestsBase):
         t = '31 N 448251 5411932'
         self.test('parse', e, t)
         self.test('name', e.name, 'parse')
-        e = e.parseETM(t.replace(' ', ','))
-        self.test('parseETM', e, t)
+        e = e.parse(t.replace(' ', ','))
+        self.test('parse', e, t)
         self.test('name', e.name, 'parse')
 
     def testExactTM(self, extendp):

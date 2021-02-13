@@ -37,22 +37,23 @@ from pygeodesy.basics import isscalar, neg, _xinstanceof
 from pygeodesy.datums import Datums
 from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fmean, fsum
-from pygeodesy.interns import EPS, EPS0, PI, PI2, PI_2, R_M, _end_, _other_, \
-                             _point_, _points_, _pole_, _0_0, _0_5
+from pygeodesy.interns import EPS, EPS0, PI, PI2, PI_2, R_M, _end_, _Nv00_, \
+                             _other_, _point_, _points_, _pole_, _0_0, _0_5
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import NearestOn3Tuple
 from pygeodesy.nvectorBase import NvectorBase, NorthPole, LatLonNvectorBase, \
                                   sumOf as _sumOf, _triangulate, _trilaterate
-from pygeodesy.points import _imdex2, ispolar  # PYCHOK exported
+from pygeodesy.points import ispolar  # PYCHOK exported
+from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase
 from pygeodesy.units import Bearing, Bearing_, Height, Radius, Scalar
-from pygeodesy.utily import degrees360, iterNumpy2, sincos2, sincos2d
+from pygeodesy.utily import degrees360, sincos2, sincos2d
 
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.02.01'
+__version__ = '21.02.10'
 
 _paths_ = 'paths'
 
@@ -159,8 +160,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         a = gc.cross(p).cross(gc)  # along-track point gc × p × gc
         return start.toNvector().angleTo(a, vSign=gc) * radius
 
+    @deprecated_method
     def bearingTo(self, other, **unused):  # PYCHOK no cover
-        '''DEPRECATED, use method C{initialBearingTo}.
+        '''DEPRECATED, use method L{initialBearingTo}.
         '''
         return self.initialBearingTo(other)
 
@@ -231,15 +233,16 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         n = p.times(ca).plus(q.times(sa))
         return n.toLatLon(height=height, LatLon=self.classof)  # Nvector(n.x, n.y, n.z).toLatLon(...)
 
-    def distanceTo(self, other, radius=None, wrap=False):
+    def distanceTo(self, other, radius=R_M, wrap=False):
         '''Compute the distance from this to an other point.
 
            @arg other: The other point (L{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}, default L{R_M}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg wrap: Wrap/unroll the angular distance (C{bool}).
 
            @return: Distance between this and the B{C{other}} point
-                    (C{meter}, same units as B{C{radius}}).
+                    (C{meter}, same units as B{C{radius}} or C{radians}
+                    if B{C{radius}} is C{None}).
 
            @raise TypeError: Invalid B{C{other}} point.
 
@@ -251,8 +254,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         '''
         self.others(other)
 
-        a = self.toNvector().angleTo(other.toNvector(), wrap=wrap)
-        return abs(a) * (R_M if radius is None else Radius(radius))
+        r = abs(self.toNvector().angleTo(other.toNvector(), wrap=wrap))
+        return r if radius is None else (Radius(radius) * r)
 
 #   @Property_RO
 #   def Ecef(self):
@@ -471,49 +474,33 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            >>> b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
            >>> p = LatLon(45.1, 1.1)
-           >>> inside = p.isEnclosedBy(b)  # True
+           >>> inside = p.isenclosedBy(b)  # True
 
            @JSname: I{enclosedBy}.
         '''
-        n, points = self.points2(points, closed=True)
-
-        # use normal vector to this point for sign of α
-        n0 = self.toNvector()
-
-        if iterNumpy2(points):
-
-            def _subtangles(n, points, n0):  # iterate
-                vs = n0.minus(points[n-1].toNvector())
-                for i in range(n):
-                    vs1 = n0.minus(points[i].toNvector())
-                    yield vs.angleTo(vs1, vSign=n0)  # PYCHOK false
-                    vs = vs1
-
-            # sum subtended angles
-            s = fsum(_subtangles(n, points, n0))
-
-        else:
-            # get vectors from this to each point
-            vs = [n0.minus(points[i].toNvector()) for i in range(n)]
-            # close the polygon
-            vs.append(vs[0])
-
-            # sum subtended angles of each edge (using n0 to determine sign)
-            s = fsum(vs[i].angleTo(vs[i+1], vSign=n0) for i in range(n))
+        # sum subtended angles of each edge (using n0, the
+        # normal vector to this point for sign of α)
+        def _subtangles(Ps, n0):
+            vs1 = n0.minus(Ps[0].toNvector())
+            for p in Ps.iterate(closed=True):
+                vs2 = n0.minus(p.toNvector())
+                yield vs1.angleTo(vs2, vSign=n0)  # PYCHOK false
+                vs1 = vs2
 
         # Note, this method uses angle summation test: on a plane,
         # angles for an enclosed point will sum to 360°, angles for
         # an exterior point will sum to 0°.  On a sphere, enclosed
         # point angles will sum to less than 360° (due to spherical
         # excess), exterior point angles will be small but non-zero.
-
+        s = fsum(_subtangles(self.PointsIter(points, loop=1),
+                             self.toNvector()))  # normal vector
         # XXX are winding number optimisations equally applicable to
         # spherical surface?
         return abs(s) > PI
 
+    @deprecated_method
     def isEnclosedBy(self, points):  # PYCHOK no cover
-        '''DEPRECATED, use method C{isenclosedBy}.
-        '''
+        '''DEPRECATED, use method C{isenclosedBy}.'''
         return self.isenclosedBy(points)
 
     def iswithin(self, point1, point2):
@@ -552,9 +539,9 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return n0.minus(n1).dot(n2.minus(n1)) >= 0 and \
                n0.minus(n2).dot(n1.minus(n2)) >= 0
 
+    @deprecated_method
     def isWithin(self, point1, point2):  # PYCHOK no cover
-        '''DEPRECATED, use method C{iswithin}.
-        '''
+        '''DEPRECATED, use method C{iswithin}.'''
         return self.iswithin(point1, point2)
 
     def midpointTo(self, other, height=None):
@@ -619,7 +606,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             from pygeodesy.named import notImplemented
             notImplemented(self, self.nearestOn, wrap=wrap)
 
-        if self.isWithin(point1, point2) and not point1.isequalTo(point2, EPS):
+        if self.iswithin(point1, point2) and not point1.isequalTo(point2, EPS):
             # closer to arc than to its endpoints,
             # find the closest point on the arc
             gc1 = point1.toNvector().cross(point2.toNvector())
@@ -645,6 +632,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
             p.height = point1._havg(point2, f=f)
         return p
 
+    # @deprecated_method
     def nearestOn2(self, points, **closed_radius_height):  # PYCHOK no cover
         '''DEPRECATED, use method L{sphericalNvector.LatLon.nearestOn3}.
 
@@ -665,33 +653,33 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @arg points: The polygon points (L{LatLon}[]).
            @kwarg closed: Optionally, close the polygon (C{bool}).
-           @kwarg radius: Mean earth radius (C{meter}).
+           @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg height: Optional height, overriding the mean height
                           for a point within the arc (C{meter}).
 
            @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of
                     the C{closest} point (L{LatLon}), the C{distance}
                     between this and the C{closest} point in C{meter},
-                    same units as B{C{radius}} and the C{angle} from
-                    this to the C{closest} point in compass C{degrees360}.
+                    same units as B{C{radius}} or in C{radians} if
+                    B{C{radius}} is C{None} and the C{angle} from this
+                    to the C{closest} point in compass C{degrees360}.
 
            @raise TypeError: Some B{C{points}} are not C{LatLon}.
 
            @raise ValueError: No B{C{points}}.
         '''
-        n, points = self.points2(points, closed=closed)
+        Ps = self.PointsIter(points, loop=1)
 
-        i, m = _imdex2(closed, n)
-        c = p2 = points[i]
-        r = self.distanceTo(c, radius=1)  # force radians
-        for i in range(m, n):
-            p1, p2 = p2, points[i]
+        c = p1 = Ps[0]
+        r = self.distanceTo(c, radius=None)  # radians
+        for p2 in Ps.iterate(closed=closed):
             p = self.nearestOn(p1, p2, height=height)
-            t = self.distanceTo(p, radius=1)  # force radians
-            if t < r:
-                c, r = p, t
-
-        return NearestOn3Tuple(c, r * Radius(radius), degrees360(r))
+            d = self.distanceTo(p, radius=None)  # radians
+            if d < r:
+                c, r = p, d
+            p1 = p2
+        d = r if radius is None else (Radius(radius) * r)
+        return NearestOn3Tuple(c, d, degrees360(r))
 
     def toCartesian(self, **Cartesian_and_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to C{Nvector}-based cartesian (ECEF) coordinates.
@@ -817,7 +805,7 @@ class Nvector(NvectorBase):
         return n.minus(e)
 
 
-_Nvll = LatLon(_0_0, _0_0, name='Nv00')  # reference instance (L{LatLon})
+_Nvll = LatLon(_0_0, _0_0, name=_Nv00_)  # reference instance (L{LatLon})
 
 
 def areaOf(points, radius=R_M):
@@ -825,9 +813,10 @@ def areaOf(points, radius=R_M):
        arcs joining consecutive points).
 
        @arg points: The polygon points (L{LatLon}[]).
-       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg radius: Mean earth radius (C{meter}) or C{None}.
 
-       @return: Polygon area (C{meter}, same units as B{C{radius}}, squared).
+       @return: Polygon area (C{meter} I{squared} , same units as
+                B{C{radius}}, or C{radians} if B{C{radius}} is C{None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -841,46 +830,29 @@ def areaOf(points, radius=R_M):
        >>> b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
        >>> areaOf(b)  # 8666058750.718977
     '''
-    n, points = _Nvll.points2(points, closed=True)
+    def _interangles(Ps):
+        # use vector to 1st point as plane normal for sign of α
+        n0 = Ps[0].toNvector()
 
-    # use vector to 1st point as plane normal for sign of α
-    n0 = points[0].toNvector()
-
-    if iterNumpy2(points):
-
-        def _interangles(n, points, n0):  # iterate
-            v2 = points[n-2]._N_vector
-            v1 = points[n-1]._N_vector
-            gc = v2.cross(v1)
-            for i in range(n):
-                v2 = points[i]._N_vector
-                gc1 = v1.cross(v2)
-                v1 = v2
-
-                yield gc.angleTo(gc1, vSign=n0)
-                gc = gc1
-
-        # sum interior angles
-        s = fsum(_interangles(n, points, n0))
-
-    else:
-        # get great-circle vector for each edge
-        gc, v1 = [], points[n-1]._N_vector
-        for i in range(n):
-            v2 = points[i]._N_vector
-            gc.append(v1.cross(v2))  # PYCHOK false, does have .cross
+        v2 = Ps[0]._N_vector  # XXX v2 == no?
+        v1 = Ps[1]._N_vector
+        gc = v2.cross(v1)
+        for p in Ps.iterate(closed=True):
+            v2 = p._N_vector
+            gc1 = v1.cross(v2)
             v1 = v2
-        gc.append(gc[0])  # XXX needed?
+            yield gc.angleTo(gc1, vSign=n0)
+            gc = gc1
 
-        # sum interior angles: depending on whether polygon is cw or ccw,
-        # angle between edges is π−α or π+α, where α is angle between
-        # great-circle vectors; so sum α, then take n·π − |Σα| (cannot
-        # use Σ(π−|α|) as concave polygons would fail)
-        s = fsum(gc[i].angleTo(gc[i+1], vSign=n0) for i in range(n))
-
+    # sum interior angles: depending on whether polygon is cw or ccw,
+    # angle between edges is π−α or π+α, where α is angle between
+    # great-circle vectors; so sum α, then take n·π − |Σα| (cannot
+    # use Σ(π−|α|) as concave polygons would fail)
+    s = fsum(_interangles(_Nvll.PointsIter(points, loop=2)))
     # using Girard’s theorem: A = [Σθᵢ − (n−2)·π]·R²
     # (PI2 - abs(s) == (n*PI - abs(s)) - (n-2)*PI)
-    return abs(PI2 - abs(s)) * Radius(radius)**2
+    r = abs(PI2 - abs(s))
+    return r if radius is None else (r * Radius(radius)**2)
 
 
 def intersection(start1, end1, start2, end2,
@@ -990,13 +962,15 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
 
        @raise TypeError: Some B{C{points}} are not C{LatLon}.
     '''
-    n, points = _Nvll.points2(points, closed=False)
+    Ps = _Nvll.PointsIter(points)
     # geographic mean
-    m = sumOf(points[i]._N_vector for i in range(n))
-    kwds = _xkwds(LatLon_kwds, height=height, LatLon=LatLon)
+    m = sumOf(p._N_vector for p in Ps.iterate(closed=False))
+    kwds = _xkwds(LatLon_kwds, height=height, LatLon=LatLon,
+                               name=meanOf.__name__)
     return m.toLatLon(**kwds)
 
 
+@deprecated_function
 def nearestOn2(point, points, **closed_radius_height):  # PYCHOK no cover
     '''DEPRECATED, use method L{sphericalNvector.nearestOn3}.
 
@@ -1019,7 +993,7 @@ def nearestOn3(point, points, closed=False, radius=R_M, height=None):
        @arg point: The other, reference point (L{LatLon}).
        @arg points: The polygon points (L{LatLon}[]).
        @kwarg closed: Optionally, close the polygon (C{bool}).
-       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg radius: Mean earth radius (C{meter}) or C{None}.
        @kwarg height: Optional height, overriding the mean height
                       for a point within the arc (C{meter}).
 
@@ -1027,8 +1001,9 @@ def nearestOn3(point, points, closed=False, radius=R_M, height=None):
                 the C{closest} point (L{LatLon}) on the polygon, the
                 C{distance} and the C{angle} between the C{closest}
                 and the given B{C{point}}.  The C{distance} is in
-                C{meter}, same units as B{C{radius}}, the C{angle}
-                is in compass C{degrees360}.
+                C{meter}, same units as B{C{radius}} or in C{radians}
+                if B{C{radius}} is C{None}, the C{angle} is in compass
+                C{degrees360}.
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -1045,9 +1020,10 @@ def perimeterOf(points, closed=False, radius=R_M):
 
        @arg points: The polygon points (L{LatLon}[]).
        @kwarg closed: Optionally, close the polygon (C{bool}).
-       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg radius: Mean earth radius (C{meter}) or C{None}.
 
-       @return: Polygon perimeter (C{meter}, same units as B{C{radius}}).
+       @return: Polygon perimeter (C{meter}, same units as B{C{radius}}
+                or C{radians} if B{C{radius}} is C{None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -1056,18 +1032,15 @@ def perimeterOf(points, closed=False, radius=R_M):
        @see: L{pygeodesy.perimeterOf}, L{sphericalTrigonometry.perimeterOf}
              and L{ellipsoidalKarney.perimeterOf}.
     '''
-    n, points = _Nvll.points2(points, closed=closed)
-
-    def _rads(n, points, closed):  # angular edge lengths in radians
-        i, m = _imdex2(closed, n)
-        v1 = points[i]._N_vector
-        for i in range(m, n):
-            v2 = points[i]._N_vector
+    def _rads(Ps, closed):  # angular edge lengths in radians
+        v1 = Ps[0]._N_vector
+        for p in Ps.iterate(closed=closed):
+            v2 = p._N_vector
             yield v1.angleTo(v2)
             v1 = v2
 
-    r = fsum(_rads(n, points, closed))
-    return r * Radius(radius)
+    r = fsum(_rads(_Nvll.PointsIter(points, loop=1), closed))
+    return r if radius is None else (Radius(radius) * r)
 
 
 def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
@@ -1151,9 +1124,9 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,  # PYCH
 
        @see: U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}.
     '''
-    return _trilaterate(_Nvll.others(points1=point1), distance1,
-                        _Nvll.others(points2=point2), distance2,
-                        _Nvll.others(points3=point3), distance3,
+    return _trilaterate(_Nvll.others(point1=point1), distance1,
+                        _Nvll.others(point2=point2), distance2,
+                        _Nvll.others(point3=point3), distance3,
                          radius=radius, height=height, useZ=useZ,
                          LatLon=LatLon, **LatLon_kwds)
 

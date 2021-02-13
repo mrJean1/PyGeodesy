@@ -24,20 +24,20 @@ from pygeodesy.interns import NN, _AT_, _COLON_, _COLONSPACE_, _COMMASPACE_, \
                              _EQUAL_, _EQUALSPACED_, _immutable_, _name_, \
                              _other_, _s_, _SPACE_, _UNDER_, _valid_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _caller3
-from pygeodesy.props import _hasProperty, Property_RO, property_doc_, \
-                             property_RO, _update_all
+from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
+                            property_doc_, property_RO, _update_all
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.01.28'
+__version__ = '21.02.09'
 
-_at_     = 'at'
-_del_    = 'del'
-_exists_ = 'exists'
-_I_      = 'I'
-_item_   = 'item'
-_MRO_    = 'MRO'
-_O_      = 'O'
+_at_       = 'at'
+_del_      = 'del'
+_exists_   = 'exists'
+_I_        = 'I'
+_item_     = 'item'
+_MRO_      = 'MRO'
+_O_        = 'O'
 # __DUNDER gets mangled in class
 _name        = '_name'
 _Names_      = '_Names_'
@@ -247,9 +247,9 @@ class _Named(object):
         '''
         return str(self)
 
-    def toStr2(self, **kwds):  # PYCHOK for backward compatibility
-        '''DEPRECATED, used method C{toRepr}.
-        '''
+    @deprecated_method
+    def toStr2(self, **kwds):  # PYCHOK no cover
+        '''DEPRECATED, used method C{toRepr}.'''
         return self.toRepr(**kwds)
 
     def _xnamed(self, inst, name=NN, force=False):
@@ -975,7 +975,7 @@ def callername(up=1, dflt=NN, source=False):
     return dflt
 
 
-def _callname(name, class_name, self_name, up=1):  # imported by .points
+def _callname(name, class_name, self_name, up=1):
     '''(INTERNAL) Assemble the name for an invokation.
     '''
     n, c = class_name, callername(up=up + 1)

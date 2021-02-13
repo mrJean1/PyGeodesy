@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.12.18'
+__version__ = '21.02.11'
 
 from base import geographiclib, TestsBase
 
@@ -89,7 +89,7 @@ class Tests(TestsBase):
             self.testReturnType(c.philam,            PhiLam2Tuple, 'philam')
             self.testReturnType(c.philamheight,      PhiLam3Tuple, 'philamheight')
             self.testReturnType(c.philamheightdatum, PhiLam4Tuple, 'philamheightdatum')
-            self.testReturnType(c.to3llh(),          LatLon4Tuple, 'to3llh')
+            self.testReturnType(c.latlonheight,      LatLon3Tuple, 'latlonheight')
             self.testReturnType(c.toEcef(),          Ecef9Tuple,   'toEcef')
             self.testReturnType(c.toLatLon(),        Ecef9Tuple if B else LatLon, 'toLatLon')
             self.testReturnType(c.toNvector(),       Vector4Tuple if B else Nvector, 'toNvector')

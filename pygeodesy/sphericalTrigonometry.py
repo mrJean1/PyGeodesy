@@ -19,31 +19,34 @@ from __future__ import division
 from pygeodesy.basics import copysign, isscalar, map1
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                               IntersectionError, _ValueError, _xkwds, _xkwds_get
-from pygeodesy.fmath import favg, fdot, fmean, fsum, fsum_
-from pygeodesy.formy import antipode_, bearing_, _radical2, vincentys_
+from pygeodesy.fmath import favg, fdot, fmean, Fsum, fsum, fsum_
+from pygeodesy.formy import antipode_, bearing_, _bearingTo2, _radical2, \
+                            vincentys_
 from pygeodesy.interns import EPS, EPS0, EPS1, PI, PI2, PI_2, PI_4, R_M, \
                              _EPS4, _coincident_, _colinear_, _convex_, \
                              _end_, _invalid_, _LatLon_, _near_concentric_, \
-                             _not_, _points_, _too_, _1_, _2_, _0_0, _0_5
+                             _not_, _points_, _too_, _1_, _2_, _0_0, _0_5, \
+                             _1_0, _2_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import notImplemented, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   NearestOn3Tuple
 from pygeodesy.nvectorBase import NvectorBase as _Nvector
-from pygeodesy.points import _imdex2, ispolar, nearestOn5 as _nearestOn5
+from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5
+from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase, _rads3, _trilaterate5
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
-                            iterNumpy2, m2radians, radiansPI2, sincos2, \
-                            tan_2, unrollPI, wrapPI
+                            m2radians, radiansPI2, sincos2, tan_2, \
+                            unrollPI, wrap180, wrapPI
 from pygeodesy.vector3d import sumOf, Vector3d
 
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.01.28'
+__version__ = '21.02.09'
 
 _PI_EPS4 = PI - _EPS4
 if _PI_EPS4 >= PI:
@@ -166,8 +169,9 @@ class LatLon(LatLonSphericalBase):
             d = _r2m(copysign(acos1(cos(r) / cx), cos(b)), radius)
         return d
 
+    @deprecated_method
     def bearingTo(self, other, wrap=False, raiser=False):  # PYCHOK no cover
-        '''DEPRECATED, use method C{initialBearingTo}.
+        '''DEPRECATED, use method L{initialBearingTo}.
         '''
         return self.initialBearingTo(other, wrap=wrap, raiser=raiser)
 
@@ -521,62 +525,66 @@ class LatLon(LatLonSphericalBase):
            >>> p = LatLon(45,1, 1.1)
            >>> inside = p.isEnclosedBy(b)  # True
         '''
-        n, points = self.points2(points, closed=True)
-
+        Ps = self.PointsIter(points, loop=2)
         n0 = self._N_vector
 
-        if iterNumpy2(points):
+        v2 = Ps[0]._N_vector
+        v1 = Ps[1]._N_vector
+        gc1 = v2.cross(v1)
+        # check whether this point on same side of all
+        # polygon edges (to the left or right depending
+        # on anti-/clockwise polygon direction)
+        t0 = gc1.angleTo(n0) > PI_2
+        # get great-circle vector for each edge
+        for i, p in Ps.enumerate(closed=False):
+            v2 = p._N_vector
+            gc = v1.cross(v2)
+            v1 = v2
 
-            v1 = points[n-1]._N_vector
-            v2 = points[n-2]._N_vector
-            gc1 = v2.cross(v1)
-            t0 = gc1.angleTo(n0) > PI_2
-            for i in range(n):
-                v2 = points[i]._N_vector
-                gc = v1.cross(v2)
-                v1 = v2
+            ti = gc.angleTo(n0) > PI_2
+            if ti != t0:  # different sides of edge i
+                return False  # outside
 
-                ti = gc.angleTo(n0) > PI_2
-                if ti != t0:
-                    return False  # outside
+            # check for convex polygon, the angle between
+            # gc vectors, signed by direction of n0
+            # (otherwise the test above is not reliable)
+            if gc1.angleTo(gc, vSign=n0) < 0:
+                t = Fmt.SQUARE(points=i)
+                raise _ValueError(t, p, txt=_not_(_convex_))
+            gc1 = gc
 
-                if gc1.angleTo(gc, vSign=n0) < 0:
-                    ti = Fmt.SQUARE(points=i)
-                    raise _ValueError(ti, points[i], txt=_not_(_convex_))
-                gc1 = gc
-
-        else:
-            # get great-circle vector for each edge
-            gc, v1 = [], points[n-1]._N_vector
-            for i in range(n):
-                v2 = points[i]._N_vector
-                gc.append(v1.cross(v2))
-                v1 = v2
-
-            # check whether this point on same side of all
-            # polygon edges (to the left or right depending
-            # on anti-/clockwise polygon direction)
-            t0 = gc[0].angleTo(n0) > PI_2  # True if on the right
-            for i in range(1, n):
-                ti = gc[i].angleTo(n0) > PI_2
-                if ti != t0:  # different sides of edge i
-                    return False  # outside
-
-            # check for convex polygon (otherwise
-            # the test above is not reliable)
-            gc1 = gc[n-1]
-            for i, gc2 in enumerate(gc):
-                # angle between gc vectors, signed by direction of n0
-                if gc1.angleTo(gc2, vSign=n0) < 0:
-                    ti = Fmt.SQUARE(points=i)
-                    raise _ValueError(ti, points[i], txt=_not_(_convex_))
-                gc1 = gc2
+#       if False:
+#           # get great-circle vector for each edge
+#           gc, v1 = [], points[n-1]._N_vector
+#           for i in range(n):
+#               v2 = points[i]._N_vector
+#               gc.append(v1.cross(v2))
+#               v1 = v2
+#
+#           # check whether this point on same side of all
+#           # polygon edges (to the left or right depending
+#           # on anti-/clockwise polygon direction)
+#           t0 = gc[0].angleTo(n0) > PI_2  # True if on the right
+#           for i in range(1, n):
+#               ti = gc[i].angleTo(n0) > PI_2
+#               if ti != t0:  # different sides of edge i
+#                   return False  # outside
+#
+#           # check for convex polygon (otherwise
+#           # the test above is not reliable)
+#           gc1 = gc[n-1]
+#           for i, gc2 in enumerate(gc):
+#               # angle between gc vectors, signed by direction of n0
+#               if gc1.angleTo(gc2, vSign=n0) < 0:
+#                   ti = Fmt.SQUARE(points=i)
+#                   raise _ValueError(ti, points[i], txt=_not_(_convex_))
+#               gc1 = gc2
 
         return True  # inside
 
+    @deprecated_method
     def isEnclosedBy(self, points):  # PYCHOK no cover
-        '''DEPRECATED, use method C{isenclosedBy}.
-        '''
+        '''DEPRECATED, use method C{isenclosedBy}.'''
         return self.isenclosedBy(points)
 
     def midpointTo(self, other, height=None, wrap=False):
@@ -677,6 +685,7 @@ class LatLon(LatLonSphericalBase):
         return self.nearestOn3([point1, point2], closed=False, radius=radius,
                                                **options)[0]
 
+    @deprecated_method
     def nearestOn2(self, points, closed=False, radius=R_M, **options):  # PYCHOK no cover
         '''DEPRECATED, use method L{sphericalTrigonometry.LatLon.nearestOn3}.
 
@@ -803,7 +812,7 @@ class LatLon(LatLonSphericalBase):
                              area=area, radius=radius, eps=eps, wrap=wrap)
 
 
-_T00 = LatLon(0, 0)  # reference instance (L{LatLon})
+_T00 = LatLon(0, 0, name='T00')  # reference instance (L{LatLon})
 
 
 def areaOf(points, radius=R_M, wrap=True):
@@ -811,10 +820,11 @@ def areaOf(points, radius=R_M, wrap=True):
        arcs joining the points).
 
        @arg points: The polygon points (L{LatLon}[]).
-       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg radius: Mean earth radius (C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Polygon area (C{meter}, same units as B{C{radius}}, squared).
+       @return: Polygon area (C{meter} I{quared}, same units as
+                B{C{radius}} or C{radians} if B{C{radius}} is C{None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -837,7 +847,8 @@ def areaOf(points, radius=R_M, wrap=True):
        >>> c = LatLon(0, 0), LatLon(1, 0), LatLon(0, 1)
        >>> areaOf(c)  # 6.18e9
     '''
-    n, points = _T00.points2(points, closed=True)
+    Ps = _T00.PointsIter(points, loop=1)
+    p1 = p2 = Ps[0]
 
     # Area method due to Karney: for each edge of the polygon,
     #
@@ -847,23 +858,33 @@ def areaOf(points, radius=R_M, wrap=True):
     #
     # where E is the spherical excess of the trapezium obtained by
     # extending the edge to the equator-circle vector for each edge
+    X = Fsum()
+    a1, b1 = p1.philam
+    ta1 = tan_2(a1)
 
-    def _exs(n, points):  # iterate over spherical edge excess
-        a1, b1 = points[n-1].philam
-        ta1 = tan_2(a1)
-        for i in range(n):
-            a2, b2 = points[i].philam
-            db, b2 = unrollPI(b1, b2, wrap=wrap)
-            ta2, tdb = map1(tan_2, a2, db)
-            yield atan2(tdb * (ta1 + ta2), 1 + ta1 * ta2)
-            ta1, b1 = ta2, b2
+    # ispolar: Summation of course deltas around pole is 0° rather than normally ±360°
+    # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
+    # XXX duplicate of function C{points.ispolar} to avoid copying all iterated points
+    D = Fsum()
+    z1, _ = _bearingTo2(p2, p1, wrap=wrap)
 
-    s = fsum(_exs(n, points)) * 2
+    for p2 in Ps.iterate(closed=True):
+        a2, b2 = p2.philam
+        db, b2 = unrollPI(b1, b2, wrap=wrap)
+        ta2 = tan_2(a2)
+        X += atan2(tan_2(db) * (ta1 + ta2), _1_0 + ta1 * ta2)
+        ta1, b1 = ta2, b2
 
-    if isPoleEnclosedBy(points):
-        s = abs(s) - PI2
+        if not p2.isequalTo(p1, EPS):
+            z, z2 = _bearingTo2(p1, p2, wrap=wrap)
+            D.fadd_(wrap180(z - z1),  # (z - z1 + 540) % 360 - 180
+                    wrap180(z2 - z))  # (z2 - z + 540) % 360 - 180
+            p1, z1 = p2, z2
 
-    return abs(s * Radius(radius)**2)
+    s = abs(X.fsum()) * _2_0
+    if abs(D.fsum()) < 90:  # ispolar(points)
+        s = abs(s - PI2)
+    return s if radius is None else (s * Radius(radius)**2)
 
 
 def _xb(a1, b1, end, a, b, wrap):
@@ -1128,6 +1149,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
     return r, r  # ... abutting circles
 
 
+@deprecated_function
 def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover
     '''DEPRECATED, use function L{ispolar}.
     '''
@@ -1166,18 +1188,17 @@ def meanOf(points, height=None, LatLon=LatLon, **LatLon_kwds):
        @raise ValueError: No B{C{points}} or invalid B{C{height}}.
     '''
     # geographic mean
-    n, points = _T00.points2(points, closed=False)
-
-    m = sumOf(points[i]._N_vector for i in range(n))
+    m = sumOf(p._N_vector for p in _T00.PointsIter(points).iterate(closed=False))
     lat, lon = m._N_vector.latlon
 
     if height is None:
-        h = fmean(points[i].height for i in range(n))
+        h = fmean(p.height for p in _T00.PointsIter(points).iterate(closed=False))
     else:
         h = Height(height)
     return _latlon3(lat, lon, h, meanOf, LatLon, LatLon_kwds)
 
 
+@deprecated_function
 def nearestOn2(point, points, **closed_radius_LatLon_options):  # PYCHOK no cover
     '''DEPRECATED, use function L{sphericalTrigonometry.nearestOn3}.
 
@@ -1244,10 +1265,11 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
 
        @arg points: The polygon points (L{LatLon}[]).
        @kwarg closed: Optionally, close the polygon (C{bool}).
-       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg radius: Mean earth radius (C{meter}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
-       @return: Polygon perimeter (C{meter}, same units as B{C{radius}}).
+       @return: Polygon perimeter (C{meter}, same units as B{C{radius}}
+                or C{radians} if B{C{radius}} is C{None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -1260,19 +1282,16 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
        @see: L{pygeodesy.perimeterOf}, L{sphericalNvector.perimeterOf}
              and L{ellipsoidalKarney.perimeterOf}.
     '''
-    n, points = _T00.points2(points, closed=closed)
-
-    def _rads(n, points, closed):  # angular edge lengths in radians
-        i, m = _imdex2(closed, n)
-        a1, b1 = points[i].philam
-        for i in range(m, n):
-            a2, b2 = points[i].philam
+    def _rads(Ps, closed, wrap):  # angular edge lengths in radians
+        a1, b1 = Ps[0].philam
+        for p in Ps.iterate(closed=closed):
+            a2, b2 = p.philam
             db, b2 = unrollPI(b1, b2, wrap=wrap)
             yield vincentys_(a2, a1, db)
             a1, b1 = a2, b2
 
-    r = fsum(_rads(n, points, closed))
-    return r * Radius(radius)
+    r = fsum(_rads(_T00.PointsIter(points, loop=1), closed, wrap))
+    return r if radius is None else (Radius(radius) * r)
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes

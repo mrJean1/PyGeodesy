@@ -59,11 +59,17 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module props</h1><p class="nomargin-top"></p>
-<p>Im-/mutable, caching or memoizing properties and decorators.</p>
+<p>Im-/mutable, caching or memoizing properties and decorators for 
+  <code>DeprecationWarning</code>s.</p>
+  <p>To enable <code>DepreactionWarning</code>s from 
+  <code>PyGeodesy</code>, set environment variable 
+  <code>PYGEODESY_WARNINGS</code> to a non-empty string.  For more details 
+  see function <a href="pygeodesy.props-module.html#DeprecationWarnings" 
+  class="link">DeprecationWarnings</a> below.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.01.26
+        21.02.12
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -112,6 +118,112 @@
           <td><span class="summary-sig"><a href="pygeodesy.props-module.html#property_doc_" class="summary-sig-name">property_doc_</a>(<span class="summary-sig-arg">doc</span>)</span><br />
       Decorator for a standard <code>property</code> with basic 
       documentation.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.props-module.html#deprecated_class" class="summary-sig-name">deprecated_class</a>(<span class="summary-sig-arg">Clas</span>)</span><br />
+      Decorator for a DEPRECATED class.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.props-module.html#deprecated_function" class="summary-sig-name">deprecated_function</a>(<span class="summary-sig-arg">call</span>)</span><br />
+      Decorator for a DEPRECATED function.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.props-module.html#deprecated_method" class="summary-sig-name">deprecated_method</a>(<span class="summary-sig-arg">call</span>)</span><br />
+      Decorator for a DEPRECATED method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.props-module.html#deprecated_Property_RO" class="summary-sig-name">deprecated_Property_RO</a>(<span class="summary-sig-arg">method</span>)</span><br />
+      Decorator for a DEPRECATED <a 
+      href="pygeodesy.props.Property_RO-class.html" 
+      class="link">Property_RO</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.props-module.html#deprecated_property_RO" class="summary-sig-name">deprecated_property_RO</a>(<span class="summary-sig-arg">method</span>)</span><br />
+      Decorator for a DEPRECATED <a 
+      href="pygeodesy.props.property_RO-class.html" 
+      class="link">property_RO</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.props-module.html#DeprecationWarnings" class="summary-sig-name">DeprecationWarnings</a>()</span><br />
+      Get the <code>DeprecationWarning</code>s reported or raised.</td>
           <td align="right" valign="top">
             
             
@@ -181,6 +293,165 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="deprecated_class"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">deprecated_class</span>&nbsp;(<span class="sig-arg">Clas</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decorator for a DEPRECATED class.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Clas</code></strong> - The class (<code>class</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <b><code>Clas</code></b> DEPRECATED.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="deprecated_function"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">deprecated_function</span>&nbsp;(<span class="sig-arg">call</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decorator for a DEPRECATED function.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>call</code></strong> - The deprecated function (<code>callable</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <b><code>call</code></b> DEPRECATED.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="deprecated_method"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">deprecated_method</span>&nbsp;(<span class="sig-arg">call</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decorator for a DEPRECATED method.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>call</code></strong> - The deprecated method (<code>callable</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <b><code>call</code></b> DEPRECATED.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="deprecated_Property_RO"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">deprecated_Property_RO</span>&nbsp;(<span class="sig-arg">method</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decorator for a DEPRECATED <a 
+  href="pygeodesy.props.Property_RO-class.html" 
+  class="link">Property_RO</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>method</code></strong> - The <code>Property_RO.fget</code> method (<code>callable</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <b><code>method</code></b> DEPRECATED.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="deprecated_property_RO"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">deprecated_property_RO</span>&nbsp;(<span class="sig-arg">method</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decorator for a DEPRECATED <a 
+  href="pygeodesy.props.property_RO-class.html" 
+  class="link">property_RO</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>method</code></strong> - The <code>property_RO.fget</code> method (<code>callable</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <b><code>method</code></b> DEPRECATED.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="DeprecationWarnings"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">DeprecationWarnings</span>()</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the <code>DeprecationWarning</code>s reported or raised.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The number of <code>DeprecationWarning</code>s (<code>int</code>)
+          or <code>0</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        To get <a href="pygeodesy.props-module.html#DeprecationWarnings" 
+        class="link">DeprecationWarnings</a> if any, run 
+        <code>python</code> with environment variable 
+        <code>PYGEODESY_WARNINGS</code> set to a non-empty string AND use 
+        <code>python</code> command line option <code>-X dev</code>, 
+        <code>-W always</code>, <code>-W error</code>, etc.
+      </p>
+</div></td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -213,7 +484,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb  1 15:33:15 2021
+    Generated by Epydoc 3.0.1 on Sat Feb 13 13:36:15 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

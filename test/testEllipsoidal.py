@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.08.28'
+__version__ = '21.02.11'
 
 from base import coverage, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -90,12 +90,12 @@ class Tests(_TestsLL, _TestsV):
             self.test('Nvector', n, '(0.5, 0.5, 0.7071)')
             v = n.toVector3d()
             self.test('toVector3D', v.toStr(4), '(0.5, 0.5, 0.7071)')
-            t = n.to3abh()  # DEPRECATED
-            self.test('to3abh', fstr(t, 4), '0.7854, 0.7854, 0.0')
-            t = n.to3llh()  # DEPRECATED
-            self.test('to3llh', fstr(t, 3), '45.0, 45.0, 0.0')
-            t = n.to4xyzh()  # DEPRECATED
-            self.test('to4xyzh', fstr(t, 1), '0.5, 0.5, 0.7, 0.0')
+            t = n.philamheight  # .to3abh() DEPRECATED
+            self.test('philamheight', fstr(t, 4), '0.7854, 0.7854, 0.0')
+            t = n.latlonheight  # .to3llh()  DEPRECATED
+            self.test('latlonheight', fstr(t, 3), '45.0, 45.0, 0.0')
+            t = n.xyzh  # .to4xyzh() DEPRECATED
+            self.test('xyzh', fstr(t, 1), '0.5, 0.5, 0.7, 0.0')
             n.H = ''  # for test coverage
 
             c = n.toCartesian()  # [3194434, 3194434, 4487327]

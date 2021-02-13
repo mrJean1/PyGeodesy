@@ -4,32 +4,33 @@
 u'''Error, exception classes and functions to format PyGeodesy errors,
     including the setting of I{exception chaining} in Python 3+.
 
-    By default, I{exception chaining} is turned off.  Set environment
-    variable C{PYGEODESY_EXCEPTION_CHAINING} to 'std' or any other
-    non-empty string to enable I{exception chaining}.
+    By default, I{exception chaining} is turned off.  To enable
+    I{exception chaining}, use command line option C{python -X dev} or
+    set environment variable C{PYTHONDEVMODE} to C{1} or any non-empyty
+    string or set environment variable C{PYGEODESY_EXCEPTION_CHAINING}
+    to C{'std'} or any other non-empty string.
 '''
 from pygeodesy.interns import MISSING, NN, _a_,_an_, _COLON_, \
                              _COMMA_, _COMMASPACE_, _datum_, \
                              _ellipsoidal_, _EQUAL_, _invalid_, \
                              _len_, _name_, _no_, _not_, _or_, \
                              _SPACE_, _UNDER_
-from pygeodesy.lazily import _ALL_LAZY, _environ
+from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '20.12.12'
+__version__ = '21.02.10'
 
-_limiterrors =  True  # imported by .formy
-_multiple_   = 'multiple'
-_name_value_ =  repr('name=value')
-_rangerrors  =  True  # imported by .dms
-_specified_  = 'specified'
+_limiterrors  =  True  # imported by .formy
+_multiple_    = 'multiple'
+_name_value_  =  repr('name=value')
+_rangerrors   =  True  # imported by .dms
+_specified_   = 'specified'
 
 try:
     _exception_chaining = None  # not available
-
     _ = Exception().__cause__   # Python 3+ exception chaining
 
-    if _environ.get('PYGEODESY_EXCEPTION_CHAINING', None):  # == _std_
+    if _env.get('PYGEODESY_EXCEPTION_CHAINING', NN) or _PYTHON_X_DEV:  # == _std_
         _exception_chaining = True  # turned on, std
         raise AttributeError  # allow exception chaining
 
@@ -457,12 +458,11 @@ def rangerrors(raiser=None):
 
 
 def _SciPyIssue(x, *extras):  # PYCHOK no cover
-    t = map(str, extras) if extras else []
-    t = _SPACE_.join(str(x).strip().split() + t)
     if isinstance(x, (RuntimeWarning, UserWarning)):
         X = SciPyWarning
     else:
         X = SciPyError  # PYCHOK not really
+    t = _SPACE_(str(x).strip(), *extras)
     return _error_chain(X(t), other=x)
 
 

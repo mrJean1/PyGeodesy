@@ -64,7 +64,8 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
                                   Distance3Tuple
 from pygeodesy.points import ispolar  # PYCHOK exported
-from pygeodesy.props import Property_RO, property_doc_
+from pygeodesy.props import deprecated_function, deprecated_method, \
+                            Property_RO, property_doc_
 from pygeodesy.units import Number_, Scalar_, _1mm as _TOL_M
 from pygeodesy.utily import atan2b, degrees90, degrees180, \
                             sincos2, unroll180
@@ -72,7 +73,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.01.28'
+__version__ = '21.02.11'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!
@@ -139,8 +140,9 @@ class LatLon(LatLonEllipsoidalBase):
     _iteration  = 0        # iteration number
     _iterations = 100      # max 100 vs Veness' 500
 
+    @deprecated_method
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
-        '''DEPRECATED, use method C{initialBearingTo}.
+        '''DEPRECATED, use method L{initialBearingTo}.
         '''
         return self.initialBearingTo(other, wrap=wrap)
 
@@ -663,8 +665,9 @@ def _r3(a, f):
     return c, s, t
 
 
+@deprecated_function
 def areaOf(points, datum=_WGS84, wrap=True):  # PYCHOK no cover
-    '''DEPRECATED, use function C{ellipsoidalKarney.areaOf}.
+    '''DEPRECATED, use function L{ellipsoidalKarney.areaOf}.
     '''
     from pygeodesy.ellipsoidalKarney import areaOf
     return areaOf(points, datum=datum, wrap=wrap)
@@ -686,7 +689,7 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
        @arg radius1: Radius of the first circle (C{meter}, conventionally).
        @arg center2: Center of the second circle (L{LatLon}).
        @arg radius2: Radius of the second circle (C{meter}, same units as
-                     B{C{radius2}}).
+                     B{C{radius1}}).
        @kwarg height: Optional height for the intersection points,
                       overriding the "radical height" at the "radical
                       line" between both centers (C{meter}) or C{None}.
@@ -770,8 +773,9 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                       equidistant=E, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
+@deprecated_function
 def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):  # PYCHOK no cover
-    '''DEPRECATED, use function C{ellipsoidalKarney.perimeterOf}.
+    '''DEPRECATED, use function L{ellipsoidalKarney.perimeterOf}.
 
        @raise ImportError: Package U{geographiclib
                            <https://PyPI.org/project/geographiclib>}

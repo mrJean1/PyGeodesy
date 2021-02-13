@@ -1031,6 +1031,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c" class="summary-name">c</a><br />
+      DEPRECATED, use property <a 
+      href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+      class="link">R2</a> or <a 
+      href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+      class="link">Rauthalic</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" class="summary-name">c2</a><br />
       Get the <i>authalic</i> earth radius <i>squared</i> 
       (<code>meter**2</code>), see <a 
@@ -1328,6 +1340,27 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#majoradius" class="summary-name">majoradius</a><br />
+      DEPRECATED, use property <a 
+      href="pygeodesy.ellipsoids.Ellipsoid-class.html#a" class="link">a</a>
+      or <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a" 
+      class="link">Requatorial</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#minoradius" class="summary-name">minoradius</a><br />
+      DEPRECATED, use property <a 
+      href="pygeodesy.ellipsoids.Ellipsoid-class.html#b" class="link">b</a>
+      or <code>Rpolar</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#n" class="summary-name">n</a><br />
       Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f
       / (2 - f) == (a - b) / (a + b)</i>, see <a 
@@ -1342,6 +1375,17 @@
       Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f
       / (2 - f) == (a - b) / (a + b)</i>, see <a 
       href="pygeodesy.ellipsoids-module.html#a_b2n" class="link">a_b2n</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#quarteradius" class="summary-name">quarteradius</a><br />
+      DEPRECATED, use property <a 
+      href="pygeodesy.ellipsoids.Ellipsoid-class.html#L" class="link">L</a>
+      or <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Llat" 
+      class="link">Llat</a>.
     </td>
   </tr>
 <tr>
@@ -1445,9 +1489,29 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rr" class="summary-name">Rr</a><br />
+      DEPRECATED, use property <a 
+      href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rrectifying" 
+      class="link">Rrectifying</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rrectifying" class="summary-name">Rrectifying</a><br />
       Get the <i>rectifying</i> earth radius (<code>meter</code>), <i 
       class="math">((a**(3/2) + b**(3/2)) / 2)**(2/3)</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rs" class="summary-name">Rs</a><br />
+      DEPRECATED, use property <a 
+      href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeometric" 
+      class="link">Rgeometric</a>.
     </td>
   </tr>
 <tr>
@@ -1466,67 +1530,6 @@
         <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#volume" class="summary-name">volume</a><br />
       Get the ellipsoid's <i>volume</i> (<code>meter**3</code>), <i 
       class="math">4 / 3 * PI * R3**3</i>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#c" class="summary-name">c</a><br />
-      DEPRECATED, use <a 
-      href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-      class="link">R2</a> or <a 
-      href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-      class="link">Rauthalic</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#majoradius" class="summary-name">majoradius</a><br />
-      DEPRECATED, use <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a"
-      class="link">a</a> or <a 
-      href="pygeodesy.ellipsoids.Ellipsoid-class.html#a" 
-      class="link">Requatorial</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#minoradius" class="summary-name">minoradius</a><br />
-      DEPRECATED, use <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b"
-      class="link">b</a> or <code>Rpolar</code>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#quarteradius" class="summary-name">quarteradius</a><br />
-      DEPRECATED, use <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#L"
-      class="link">L</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rr" class="summary-name">Rr</a><br />
-      DEPRECATED, use <a 
-      href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rrectifying" 
-      class="link">Rrectifying</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rs" class="summary-name">Rs</a><br />
-      DEPRECATED, use <a 
-      href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeometric" 
-      class="link">Rgeometric</a>.
     </td>
   </tr>
   <tr>
@@ -3359,6 +3362,31 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="c"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">c</h3>
+  <p>DEPRECATED, use property <a 
+  href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" class="link">R2</a> 
+  or <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
+  class="link">Rauthalic</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="c2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4072,6 +4100,55 @@ class="link">AlphaKs</code>, <code class="link">BetaKs</code>.
   </dl>
 </td></tr></table>
 </div>
+<a name="majoradius"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">majoradius</h3>
+  <p>DEPRECATED, use property <a 
+  href="pygeodesy.ellipsoids.Ellipsoid-class.html#a" class="link">a</a> or 
+  <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a" 
+  class="link">Requatorial</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="minoradius"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">minoradius</h3>
+  <p>DEPRECATED, use property <a 
+  href="pygeodesy.ellipsoids.Ellipsoid-class.html#b" class="link">b</a> or 
+  <code>Rpolar</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="n"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4105,6 +4182,31 @@ class="link">AlphaKs</code>, <code class="link">BetaKs</code>.
   <p>Get the <i>3rd flattening</i> (<code>float</code>), <i class="math">f 
   / (2 - f) == (a - b) / (a + b)</i>, see <a 
   href="pygeodesy.ellipsoids-module.html#a_b2n" class="link">a_b2n</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="quarteradius"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">quarteradius</h3>
+  <p>DEPRECATED, use property <a 
+  href="pygeodesy.ellipsoids.Ellipsoid-class.html#L" class="link">L</a> or 
+  <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#Llat" 
+  class="link">Llat</a>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -4425,6 +4527,30 @@ class="link">AlphaKs</code>, <code class="link">BetaKs</code>.
   </dl>
 </td></tr></table>
 </div>
+<a name="Rr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rr</h3>
+  <p>DEPRECATED, use property <a 
+  href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rrectifying" 
+  class="link">Rrectifying</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="Rrectifying"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4451,6 +4577,30 @@ class="link">AlphaKs</code>, <code class="link">BetaKs</code>.
         target="_top">Earth radius</a>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="Rs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rs</h3>
+  <p>DEPRECATED, use property <a 
+  href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeometric" 
+  class="link">Rgeometric</a>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+    </dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="rocPolar"></a>
 <div>
@@ -4515,173 +4665,6 @@ class="link">AlphaKs</code>, <code class="link">BetaKs</code>.
       </p>
 </div></td></tr></table>
 </div>
-<a name="c"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">c</h3>
-  <p>DEPRECATED, use <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2"
-  class="link">R2</a> or <a 
-  href="pygeodesy.ellipsoids.Ellipsoid-class.html#R2" 
-  class="link">Rauthalic</a>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a>, <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#area" 
-        class="link">area</a> and <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#c2" 
-        class="link">c2</a>.
-      </p>
-      <p><strong>Note:</strong>
-        Symbol <code>c</code> is also used by IUGG and IERS for the <a 
-        href="https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature" 
-        target="_top">polar radius of curvature</a>, see <a 
-        href="pygeodesy.ellipsoids.Ellipsoid-class.html#a2_b" 
-        class="link">rocPolar</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="majoradius"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">majoradius</h3>
-  <p>DEPRECATED, use <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#a" 
-  class="link">a</a> or <a 
-  href="pygeodesy.ellipsoids.Ellipsoid-class.html#a" 
-  class="link">Requatorial</a>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="minoradius"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">minoradius</h3>
-  <p>DEPRECATED, use <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#b" 
-  class="link">b</a> or <code>Rpolar</code>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="quarteradius"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">quarteradius</h3>
-  <p>DEPRECATED, use <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#L" 
-  class="link">L</a>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="Rr"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">Rr</h3>
-  <p>DEPRECATED, use <a 
-  href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rrectifying" 
-  class="link">Rrectifying</a>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="https://WikiPedia.org/wiki/Earth_radius" 
-        target="_top">Earth radius</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="Rs"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">Rs</h3>
-  <p>DEPRECATED, use <a 
-  href="pygeodesy.ellipsoids.Ellipsoid-class.html#Rgeometric" 
-  class="link">Rgeometric</a>.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        <a href="pygeodesy.ellipsoids.Ellipsoid-class.html#R1" 
-        class="link">R1</a>.
-      </p>
-</div></td></tr></table>
-</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -4714,7 +4697,7 @@ class="link">AlphaKs</code>, <code class="link">BetaKs</code>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb  1 15:33:17 2021
+    Generated by Epydoc 3.0.1 on Sat Feb 13 13:36:17 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

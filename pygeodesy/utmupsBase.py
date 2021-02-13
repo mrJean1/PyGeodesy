@@ -18,13 +18,13 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, nameof, \
                              notOverloaded, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.props import deprecated_method, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xattrs, _xzipairs
 from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.02.01'
+__version__ = '21.02.09'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -287,6 +287,7 @@ class UtmUpsBase(_NamedBase):
         '''
         return self._scale0
 
+    @deprecated_method
     def to2en(self, falsed=True):  # PYCHOK no cover
         '''DEPRECATED, use method C{eastingnorthing2}.
 

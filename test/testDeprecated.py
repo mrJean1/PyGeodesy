@@ -4,7 +4,7 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.11.05'
+__version__ = '21.02.11'
 
 from base import TestsBase
 
@@ -99,8 +99,11 @@ if __name__ == '__main__':
                           ellipsoidalVincenty, sphericalTrigonometry
 
     t = Tests(__file__, __version__, deprecated)
-    t.testDeprecated(LatLon_)
-    t.testDeprecated(ellipsoidalVincenty.LatLon)
-    t.testDeprecated(sphericalTrigonometry.LatLon)
+    try:
+        t.testDeprecated(LatLon_)
+        t.testDeprecated(ellipsoidalVincenty.LatLon)
+        t.testDeprecated(sphericalTrigonometry.LatLon)
+    except DeprecationWarning:
+        t.skip(DeprecationWarning.__name__, n=87 - t.total)
     t.results()
     t.exit()

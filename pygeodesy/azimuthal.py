@@ -43,7 +43,8 @@ from pygeodesy.latlonBase import LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
-from pygeodesy.props import Property_RO, property_doc_, property_RO
+from pygeodesy.props import deprecated_Property_RO, Property_RO, \
+                            property_doc_, property_RO
 from pygeodesy.streprs import Fmt, _fstrLL0
 from pygeodesy.units import Bearing, Lat_, Lon_, Meter, Scalar, Scalar_
 from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
@@ -51,7 +52,7 @@ from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 from math import acos, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.01.28'
+__version__ = '21.02.11'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -103,9 +104,6 @@ class _AzimuthalBase(_NamedBase):
         '''Get the geodesic's equatorial radius, semi-axis (C{meter}).
         '''
         return self.datum.ellipsoid.a
-
-    majoradius = equatoradius  # for backward compatibility
-    '''DEPRECATED, use C{equatoradius}.'''
 
     @property_RO
     def iteration(self):
@@ -169,6 +167,11 @@ class _AzimuthalBase(_NamedBase):
         '''Get the center longitude (C{degrees180}).
         '''
         return self._latlon0.lon
+
+    @deprecated_Property_RO
+    def majoradius(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{equatoradius}.'''
+        return self.equatoradius
 
     @Property_RO
     def radius(self):

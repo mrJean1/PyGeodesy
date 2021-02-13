@@ -4,15 +4,15 @@
 # Test wgrs module.
 
 __all__ = ('Tests',)
-__version__ = '20.04.23'
+__version__ = '21.01.10'
 
 from base import TestsBase
 
-from pygeodesy import degDMS, fStr, Georef, S_DEG, S_MIN, wgrs
+from pygeodesy import degDMS, fstr, Georef, S_DEG, S_MIN, wgrs
 
 
-def _fStr(floats, prec=6):
-    return ', '.join('None' if f is None else fStr(f, prec=prec) for f in floats)
+def _fstr(floats, prec=6):
+    return ', '.join('None' if f is None else fstr(f, prec=prec) for f in floats)
 
 
 class Tests(TestsBase):
@@ -20,13 +20,13 @@ class Tests(TestsBase):
     def testCodec3(self, g, x, prec=4):
         self.test('codec3', Georef(g), g)
         t = wgrs.decode3(g)
-        self.test('decode3', _fStr(t, prec=prec), x)
+        self.test('decode3', _fstr(t, prec=prec), x)
         self.test('encode', wgrs.encode(*t), g)
 
     def testCodec5(self, g, x, prec=4):
         self.test('codec5', Georef(g), g)
         t = wgrs.decode5(g)
-        self.test('decode5', _fStr(t, prec=prec), x)
+        self.test('decode5', _fstr(t, prec=prec), x)
         self.test('encode', wgrs.encode(*t), g)
 
     def testGeoref(self, LL):
@@ -37,7 +37,7 @@ class Tests(TestsBase):
         self.test('Georef', repr(g),             "'NKLN2444638946'")
         self.test('Georef', g.toRepr(),   "Georef('NKLN2444638946')")
         self.test('Georef', str(g), g.toStr())  # 'NKLN2444638946'
-        self.test('Georef.latlon', fStr(g.latlon, prec=5), '57.64911, 10.40744')
+        self.test('Georef.latlon', fstr(g.latlon, prec=5), '57.64911, 10.40744')
         ll = g.toLatLon(LL)
         self.test('Georef.toLatLon', repr(ll), 'LatLon(57°38′56.8″N, 010°24′26.78″E)')
         self.testCodec3(g, '57.64911, 10.40744, 6.0', prec=5)
@@ -46,7 +46,7 @@ class Tests(TestsBase):
         self.test('Georef', repr(g),             "'NKLN2444638946H0'")
         self.test('Georef', g.toRepr(),   "Georef('NKLN2444638946H0')")
         self.test('Georef', str(g), g.toStr())  # 'NKLN2444638946H0'
-        self.test('Georef.latlon', fStr(g.latlon, prec=5), '57.64911, 10.40744')
+        self.test('Georef.latlon', fstr(g.latlon, prec=5), '57.64911, 10.40744')
         self.test('Georef.precision', g.precision, 6)
         self.test('Georef.radius', g.radius, None)
 
@@ -55,7 +55,7 @@ class Tests(TestsBase):
         self.test('Georef', repr(g),             "'GJPJ3424917166'")
         self.test('Georef', g.toRepr(),   "Georef('GJPJ3424917166')")
         self.test('Georef', str(g), g.toStr())  # 'GJPJ3424917166'
-        self.test('Georef.latlon', fStr(g.latlon, prec=6), '38.286108, -76.42917')
+        self.test('Georef.latlon', fstr(g.latlon, prec=6), '38.286108, -76.42917')
         ll = g.toLatLon(LL)
         self.test('Georef.toLatLon', repr(ll), 'LatLon(38°17′09.99″N, 076°25′45.01″W)')
         self.testCodec3(g, '38.286108, -76.429175, 6.0', prec=6)
@@ -64,11 +64,11 @@ class Tests(TestsBase):
         self.test('Georef', repr(g),             "'GJPJ3424917166H0'")
         self.test('Georef', g.toRepr(),   "Georef('GJPJ3424917166H0')")
         self.test('Georef', str(g), g.toStr())  # 'GJPJ3424917166H0'
-        self.test('Georef.latlon', fStr(g.latlon, prec=6), '38.286108, -76.42917')
+        self.test('Georef.latlon', fstr(g.latlon, prec=6), '38.286108, -76.42917')
         self.test('Georef.precision', g.precision, 6)
         self.test('Georef.radius', g.radius, None)
         t = g.toLatLon()  # LatLon=None
-        self.test('Georef.3Tuple', fStr(t, prec=6), '38.286108, -76.42917, 0.0')
+        self.test('Georef.3Tuple', fstr(t, prec=6), '38.286108, -76.42917, 0.0')
 
         # <https://Earth-Info.NGA.mil/GandG/coordsys/grids/georef.pdf>
         self.testCodec3('MKPG1204', '51.075, -1.7917, 3.0', prec=4)

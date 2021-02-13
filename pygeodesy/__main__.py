@@ -9,7 +9,7 @@ import os.path as os_path
 import sys
 
 __all__ = ()
-__version__ = '20.11.03'
+__version__ = '21.02.12'
 
 try:  # MCCABE 16
     from pygeodesy import interns, isLazy, pygeodesy_abspath, version, \

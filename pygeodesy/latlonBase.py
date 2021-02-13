@@ -12,7 +12,7 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 @newfield example: Example, Examples
 '''
 
-from pygeodesy.basics import isstr, map1, _xinstanceof
+from pygeodesy.basics import isstr, _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 from pygeodesy.errors import _datum_datum, IntersectionError, _ValueError
 from pygeodesy.fmath import favg
@@ -20,15 +20,17 @@ from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
                             equirectangular, euclidean, flatLocal_, \
                             flatPolar, haversine, isantipode, \
-                            latlon2n_xyz,points2, thomas_, vincentys
+                            latlon2n_xyz, thomas_, vincentys
 from pygeodesy.interns import EPS, EPS0, EPS1, NN, R_M, _COMMASPACE_, \
                              _intersection_, _m_, _near_concentric_, \
                              _no_, _overlap_, _0_0, _0_5, _1_0
+from pygeodesy.iters import PointsIter, points2
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _NamedBase, notOverloaded
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
-from pygeodesy.props import Property, Property_RO, property_doc_, property_RO
+from pygeodesy.props import deprecated_method, Property, Property_RO, \
+                            property_doc_, property_RO
 from pygeodesy.streprs import Fmt, hstr
 from pygeodesy.units import Distance_, Lat, Lon, Height, Radius, Radius_, Scalar_
 from pygeodesy.utily import unrollPI
@@ -37,7 +39,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.02.01'
+__version__ = '21.02.09'
 
 
 class LatLonBase(_NamedBase):
@@ -96,9 +98,10 @@ class LatLonBase(_NamedBase):
            @return: The antipodal point (C{LatLon}).
         '''
         a, b = antipode(self.lat, self.lon)  # PYCHOK LatLon2Tuple
-        h = self.height if height is None else height
+        h = self.height if height is None else Height(height)
         return self.classof(a, b, height=h)
 
+    @deprecated_method
     def bounds(self, wide, tall, radius=R_M):  # PYCHOK no cover
         '''DEPRECATED, use method C{boundsOf}.'''
         return self.boundsOf(wide, tall, radius=radius)
@@ -129,7 +132,7 @@ class LatLonBase(_NamedBase):
             y = degrees(y / r)
         x, y = abs(x), abs(y)
 
-        h  = self.height if height is None else height
+        h  = self.height if height is None else Height(height)
         sw = self.classof(self.lat - y, self.lon - x, height=h)
         ne = self.classof(self.lat + y, self.lon + x, height=h)
         return Bounds2Tuple(sw, ne, name=self.name)
@@ -153,6 +156,7 @@ class LatLonBase(_NamedBase):
         self.others(other)
         return _v3d(self).minus(_v3d(other)).length
 
+    @deprecated_method
     def compassAngle(self, other, adjust=True, wrap=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{compassAngleTo}.'''
         return self.compassAngleTo(other, adjust=adjust, wrap=wrap)
@@ -289,10 +293,12 @@ class LatLonBase(_NamedBase):
         '''
         return self.Ecef(self.datum, name=self.name).forward(self, M=True)
 
+    @deprecated_method
     def equals(self, other, eps=None):  # PYCHOK no cover
         '''DEPRECATED, use method L{isequalTo}.'''
         return self.isequalTo(other, eps=eps)
 
+    @deprecated_method
     def equals3(self, other, eps=None):  # PYCHOK no cover
         '''DEPRECATED, use method L{isequalTo3}.'''
         return self.isequalTo3(other, eps=eps)
@@ -467,6 +473,7 @@ class LatLonBase(_NamedBase):
         '''
         return hstr(self.height, prec=prec, m=m)
 
+    @deprecated_method
     def isantipode(self, other, eps=EPS):  # PYCHOK no cover
         '''DEPRECATED, use method L{isantipodeTo}.'''
         return self.isantipodeTo(other, eps=eps)
@@ -503,7 +510,7 @@ class LatLonBase(_NamedBase):
                              or mismatch of the B{C{other}} and
                              this C{class} or C{type}.
 
-           @raise ValueError: Invalid B{C{eps}}.
+           @raise UnitError: Invalid B{C{eps}}.
 
            @see: Method L{isequalTo3}.
 
@@ -515,10 +522,9 @@ class LatLonBase(_NamedBase):
         '''
         self.others(other)
 
-        e = _0_0 if eps in (None, 0, _0_0) else Scalar_(eps=eps)
-        if e > 0:
-            return max(map1(abs, self.lat - other.lat,
-                                 self.lon - other.lon)) < e
+        if eps:
+            return max(abs(self.lat - other.lat),
+                       abs(self.lon - other.lon)) < Scalar_(eps=eps)
         else:
             return self.lat == other.lat and \
                    self.lon == other.lon
@@ -544,7 +550,7 @@ class LatLonBase(_NamedBase):
            >>> q = LatLon(52.205, 0.119)
            >>> e = p.isequalTo3(q)  # False
         '''
-        return self.isequalTo(other, eps=eps) and self.height == other.height
+        return self.height == other.height and self.isequalTo(other, eps=eps)
 
     @Property_RO
     def isSpherical(self):
@@ -629,6 +635,7 @@ class LatLonBase(_NamedBase):
         return LatLon2Tuple(round(self.lat, ndigits),
                             round(self.lon, ndigits), name=self.name)
 
+    @deprecated_method
     def latlon_(self, ndigits=0):  # PYCHOK no cover
         '''DEPRECATED, use method L{latlon2}.'''
         return self.latlon2(ndigits=ndigits)
@@ -699,6 +706,7 @@ class LatLonBase(_NamedBase):
         '''
         return self.philam.to3Tuple(self.height)
 
+    @deprecated_method
     def points(self, points, closed=True):  # PYCHOK no cover
         '''DEPRECATED, use method L{points2}.'''
         return self.points2(points, closed=closed)
@@ -720,6 +728,18 @@ class LatLonBase(_NamedBase):
         '''
         return points2(points, closed=closed, base=self)
 
+    def PointsIter(self, points, loop=0):
+        '''Return a C{PointsIter} iterator.
+
+           @arg points: The path or polygon points (C{LatLon}[])
+           @kwarg loop: Number of loop-back points (non-negative C{int}).
+
+           @return: A new C{PointsIter} iterator.
+
+           @raise PointsError: Insufficient number of B{C{points}}.
+        '''
+        return PointsIter(points, base=self, loop=loop)
+
     def thomasTo(self, other, wrap=False):
         '''Compute the distance between this and an other point using
            U{Thomas'<https://apps.DTIC.mil/dtic/tr/fulltext/u2/703541.pdf>}
@@ -740,6 +760,7 @@ class LatLonBase(_NamedBase):
         '''
         return self._distanceTo_(thomas_, other, wrap=wrap)
 
+    @deprecated_method
     def to2ab(self):  # PYCHOK no cover
         '''DEPRECATED, use property L{philam}.'''
         return self.philam
@@ -784,6 +805,7 @@ class LatLonBase(_NamedBase):
                self.Ecef(self.datum).forward(self.lat, self.lon,
                                              height=height, M=M)
 
+    @deprecated_method
     def to3llh(self, height=None):  # PYCHOK no cover
         '''DEPRECATED, use property L{latlonheight} or C{latlon.to3Tuple(B{height})}.'''
         return self.latlonheight if height in (None, self.height) else \
@@ -869,6 +891,7 @@ class LatLonBase(_NamedBase):
         '''
         return self._vector3d  # XXX .unit()
 
+    @deprecated_method
     def to3xyz(self):  # PYCHOK no cover
         '''DEPRECATED, use property L{xyz} or method L{toNvector}, L{toVector},
            L{toVector3d} or perhaps (geocentric) L{toEcef}.'''

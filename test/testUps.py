@@ -4,7 +4,7 @@
 # Test UTM functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '20.04.22'
+__version__ = '22.02.11'
 
 from base import TestsBase
 
@@ -22,7 +22,7 @@ class Tests(TestsBase):
         self.test('Ups', u.toStr(prec=3), '00 N 448251.795 5411932.678')
         self.test('Ups', u.toStr(prec=1, B=True, cs=True), '00Z N 448251.8 5411932.7 n/a n/a')
         self.test('Ups2', u.toRepr(), '[Z:00, H:N, E:448252, N:5411933]')
-        self.test('Ups2', u.toStr2(), '[Z:00, H:N, E:448252, N:5411933]')
+#       self.test('Ups2', u.toStr2(), '[Z:00, H:N, E:448252, N:5411933]')
 
         ll = u.toLatLon(LL, unfalse=False)  # UTM 48.85820000°N, 002.29450000°E
         self.test('Ups.toLatLon', ll, '43.684097°N, 175.265195°E')

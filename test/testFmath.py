@@ -4,14 +4,14 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.10.03'
+__version__ = '21.02.11'
 
 from base import coverage, TestsBase
 
 from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, \
                       fhorner, fmath, fpolynomial, fpowers, \
-                      Fsum, fsum, fsum_, hypot_, hypot2_, sqrt3, \
-                      hypot3  # DEPRECATED
+                      Fsum, fsum, fsum_, hypot_, hypot2_, sqrt3
+#                     hypot3  # DEPRECATED
 
 from math import sqrt
 from random import random, gauss, shuffle
@@ -151,8 +151,8 @@ class Tests(TestsBase):
         self.test('euclid_', e, h, prec=8, known=abs(e - h) < h * 0.01)
         t = hypot2_(1.0, 0.0050, 0.0000000000010)
         self.test('hypot2_', t, '1.00002500', prec=8)
-        s = hypot3(1.0, 0.0050, 0.0000000000010)  # DEPRECATED
-        self.test('hypot3 ', s, h, prec=8)
+        s = hypot_(1.0, 0.0050, 0.0000000000010)  # DEPRECATED hypot3
+        self.test('hypot_ ', s, h, prec=8)
 
         h = hypot_(3000, 2000, 100)  # note, all C{int}
         self.test('hypot_ ', h, '3606.937759', prec=6)
@@ -161,8 +161,8 @@ class Tests(TestsBase):
         t = hypot2_(3000, 2000, 100)  # note, all C{int}
         s = fsum_(3000**2, 2000**2, 100**2)
         self.test('hypot2_', t, s, prec=1)
-        s = hypot3(3000, 2000, 100)  # DEPRECATED
-        self.test('hypot3 ', s, h, prec=6)
+        s = hypot_(3000, 2000, 100)  # DEPRECATED hypot3
+        self.test('hypot_ ', s, h, prec=6)
 
         h = hypot_(40000, 3000, 200, 10.0)
         s = fsum_(40000**2, 3000**2, 200**2, 100)

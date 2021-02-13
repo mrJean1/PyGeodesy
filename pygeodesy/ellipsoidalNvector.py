@@ -30,21 +30,20 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.errors import _xkwds
 from pygeodesy.fmath import fdot, hypot_
-from pygeodesy.interns import NN, _COMMASPACE_
+from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
 from pygeodesy.interns import _pole_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _Named, _NamedTuple, _xnamed
-from pygeodesy.namedTuples import LatLon3Tuple
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
-from pygeodesy.props import Property_RO
+from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
 from pygeodesy.units import Bearing, Degrees, Distance, Float,\
                             Height, Radius, Scalar
 from pygeodesy.utily import asin1, atan2b, degrees90, sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.02.01'
+__version__ = '21.02.09'
 
 _down_  = 'down'
 _east_  = 'east'
@@ -293,8 +292,9 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         from pygeodesy.ecef import EcefVeness
         return EcefVeness
 
+    @deprecated_method
     def equals(self, other, eps=None):  # PYCHOK no cover
-        '''DEPRECATED, use method C{isequalTo}.
+        '''DEPRECATED, use method L{isequalTo}.
         '''
         return self.isequalTo(other, eps=eps)
 
@@ -540,8 +540,9 @@ class Ned(_Named):
         '''
         return self._north
 
+    @deprecated_method
     def to3ned(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{ned}.
+        '''DEPRECATED, use property L{ned}.
 
            @return: An L{Ned3Tuple}C{(north, east, down)}.
         '''
@@ -591,7 +592,7 @@ class Ned3Tuple(_NamedTuple):  # .ellipsoidalNvector.py
     _Units_ = ( Degrees, Degrees, Degrees)
 
 
-_Nvll = LatLon(0, 0)  # Reference instance (L{LatLon})
+_Nvll = LatLon(0, 0, name=_Nv00_)  # reference instance (L{LatLon})
 
 
 class Nvector(NvectorBase):
@@ -712,24 +713,18 @@ def meanOf(points, datum=_WGS84, height=None, LatLon=LatLon,
                            C{B{LatLon}=None}.
 
        @return: Geographic mean point and mean height (B{C{LatLon}})
-                or a L{LatLon3Tuple}C{(lat, lon, height)} if
-                B{C{LatLon}} is C{None}.
+                or if B{C{LatLon}} is C{None}, an L{Ecef9Tuple}C{(x,
+                y, z, lat, lon, height, C, M, datum)} with C{C} and
+                C{M} if available.
 
        @raise ValueError: Insufficient number of B{C{points}}.
     '''
-    _, points = _Nvll.points2(points, closed=False)
+    Ps = _Nvll.PointsIter(points)
     # geographic mean
-    m = sumOf(p._N_vector for p in points)
-    lat, lon, h = m._N_vector.latlonheight
-
-    if height is not None:
-        h = height
-    if LatLon is None:
-        r = LatLon3Tuple(lat, lon, h)
-    else:
-        kwds = _xkwds(LatLon_kwds, height=h, datum=datum)
-        r = LatLon(lat, lon, **kwds)
-    return _xnamed(r, meanOf.__name__)
+    m = sumOf(p._N_vector for p in Ps.iterate(closed=False))
+    kwds = _xkwds(LatLon_kwds, height=height, datum=datum,
+                               LatLon=LatLon, name=meanOf.__name__)
+    return m.toLatLon(**kwds)
 
 
 def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):

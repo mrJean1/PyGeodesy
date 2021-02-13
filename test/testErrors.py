@@ -4,7 +4,7 @@
 # Test some of the errors.
 
 __all__ = ('Tests',)
-__version__ = '20.09.27'
+__version__ = '21.02.11'
 
 from base import isPython3, TestsBase
 
@@ -94,10 +94,10 @@ if __name__ == '__main__':
                                   EllipticError, EPSGError, ETMError, FrechetError, \
                                   GARSError, GeohashError, GeoidError, HausdorffError, \
                                   HeightError, LazyImportError, LCCError, MGRSError, \
-                                  OSGRError, PGMError, PointsError, RefFrameError, \
+                                  OSGRError, PGMError, PointsError, \
                                   SciPyError, SciPyWarning, TRFError, UnitError, \
                                   UPSError, UTMError, UTMUPSError, VectorError, \
-                                  VincentyError, WebMercatorError, WGRSError  # ClipError
+                                  VincentyError, WebMercatorError, WGRSError  # ClipError, RefFrameError
 
     t = Tests(__file__, __version__, errors)
     for E in (errors._AssertionError, errors._AttributeError, errors._IndexError,
@@ -106,9 +106,9 @@ if __name__ == '__main__':
               ClipError, CrossError, CSSError, EcefError, EllipticError, EPSGError,
               ETMError, FrechetError, GARSError, GeohashError, GeoidError, HausdorffError,
               HeightError, LazyImportError, LCCError, MGRSError, OSGRError, PGMError,
-              PointsError, RefFrameError, SciPyError, SciPyWarning, TRFError, UnitError,
+              PointsError, SciPyError, SciPyWarning, TRFError, UnitError,
               UPSError, UTMError, UTMUPSError, VectorError, VincentyError,
-              WebMercatorError, WGRSError):
+              WebMercatorError, WGRSError):  # DEPRECATED RefFrameError
         t.testError(E)
     t.testErrors(errors._InvalidError, errors._IsnotError)
     t.testKwds(errors._xkwds_get)

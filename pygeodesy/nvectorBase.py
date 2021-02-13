@@ -30,7 +30,7 @@ from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xother3
 from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
                                   Vector4Tuple
-from pygeodesy.props import property_doc_, Property_RO
+from pygeodesy.props import deprecated_method, property_doc_, Property_RO
 from pygeodesy.streprs import Fmt, hstr, unstr, _xattrs
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
 from pygeodesy.utily import sincos2d
@@ -40,7 +40,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.01.28'
+__version__ = '21.02.11'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -209,15 +209,17 @@ class NvectorBase(Vector3d):  # XXX kept private
         '''
         return self.philamheight.to4Tuple(self.datum)
 
+    @deprecated_method
     def to2ab(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{philam}.
+        '''DEPRECATED, use property L{philam}.
 
            @return: A L{PhiLam2Tuple}C{(phi, lam)}.
         '''
         return self.philam
 
+    @deprecated_method
     def to3abh(self, height=None):  # PYCHOK no cover
-        '''DEPRECATED, use method C{philamheight} or C{philam.to3Tuple}C{(}B{C{height}}C{)}.
+        '''DEPRECATED, use method L{philamheight} or C{philam.to3Tuple}C{(}B{C{height}}C{)}.
 
            @kwarg height: Optional height, overriding this
                           n-vector's height (C{meter}).
@@ -275,13 +277,15 @@ class NvectorBase(Vector3d):  # XXX kept private
             r = Cartesian(x, y, z, **kwds)
         return self._xnamed(r)
 
+    @deprecated_method
     def to2ll(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{latlon}.
+        '''DEPRECATED, use property L{latlon}.
 
            @return: A L{LatLon2Tuple}C{(lat, lon)}.
         '''
         return self.latlon
 
+    @deprecated_method
     def to3llh(self, height=None):  # PYCHOK no cover
         '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple}C{)}B{C{height}}C{)}.
 
@@ -363,8 +367,9 @@ class NvectorBase(Vector3d):  # XXX kept private
         v = Vector3d.unit(self) if norm else self
         return Vector3d(v.x, v.y, v.z, name=self.name)
 
+    @deprecated_method
     def to4xyzh(self, h=None):  # PYCHOK no cover
-        '''DEPRECATED, use property C{xyzh} or C{xyz.to4Tuple}C{(}B{C{h}}C{)}.
+        '''DEPRECATED, use property L{xyzh} or C{xyz.to4Tuple(B{h})}.
         '''
         return self.xyzh if h in (None, self.h) else Vector4Tuple(
                self.x, self.y, self.z, h, name=self.name)

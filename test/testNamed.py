@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '20.12.30'
+__version__ = '21.02.11'
 
 from base import TestsBase
 from pygeodesy import geohash, Datum, Datums, named, \
@@ -32,22 +32,22 @@ class Tests(TestsBase):
         self.subtitle(named, 'ing %s ' % ('bases',))
 
         nd = named._NamedDict({'1': 1, '2': 2}, name='test')
-        self.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
+        self.test('nd.dict', nd.toRepr(), 'test(1=1, 2=2)')
         self.test('nd.name', nd.name, 'test')
         nd = named._NamedDict({'1': 1, '2': 2, 'name': 'test'})
-        self.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
+        self.test('nd.dict', nd.toRepr(), 'test(1=1, 2=2)')
         self.test('nd.name', nd.name, 'test')
         nd = named._NamedDict(one=1, two=2, name='test')
-        self.test('nd.kwds', nd.toStr2(), 'test(one=1, two=2)')
+        self.test('nd.kwds', nd.toRepr(), 'test(one=1, two=2)')
         self.test('nd.name', nd.name, 'test')
         nd = named._NamedDict({'1': 1, '2': 2, 'name': 'test'}, name='kwds')
-        self.test('nd.dict', nd.toStr2(), 'test(1=1, 2=2)')
+        self.test('nd.dict', nd.toRepr(), 'test(1=1, 2=2)')
         self.test('nd.name', nd.name, 'test')
         nd = named._NamedDict([('1', 1), ('2', 2), ('name', 'test')], name='kwds')
-        self.test('nd.list', nd.toStr2(), 'test(1=1, 2=2)')
+        self.test('nd.list', nd.toRepr(), 'test(1=1, 2=2)')
         self.test('nd.name', nd.name, 'test')
         nd.update(dict(name='kwds'))
-        self.test('nd.updated', nd.toStr2(), "test(1=1, 2=2, name='kwds')")
+        self.test('nd.updated', nd.toRepr(), "test(1=1, 2=2, name='kwds')")
         self.test('nd.name', nd.name, 'test')
 
     def testNamed(self, N, *args, **kwds):

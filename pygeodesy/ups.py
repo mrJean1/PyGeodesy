@@ -31,7 +31,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
-from pygeodesy.props import Property_RO, _update_all
+from pygeodesy.props import deprecated_method, Property_RO, _update_all
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Meter, Lat, Scalar, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2d
@@ -43,7 +43,7 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.02.01'
+__version__ = '21.02.09'
 
 _Bands   = _A_, 'B', 'Y', 'Z'  # polar bands
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -171,9 +171,9 @@ class Ups(UtmUpsBase):
         return parseUPS5(strUPS, datum=self.datum, Ups=self.classof,
                                  name=name or self.name)
 
-    def parseUPS(self, strUPS):
-        '''DEPRECATED, use method C{Ups.parse}.
-        '''
+    @deprecated_method
+    def parseUPS(self, strUPS):  # PYCHOK no cover
+        '''DEPRECATED, use method L{parse}.'''
         return self.parse(strUPS)
 
     @Property_RO

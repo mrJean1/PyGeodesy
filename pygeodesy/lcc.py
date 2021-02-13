@@ -42,7 +42,7 @@ from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedBase, \
                             _NamedEnum, _NamedEnumItem, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor3Tuple, LatLonDatum3Tuple, \
                                   LatLon2Tuple, _LL4Tuple, PhiLam2Tuple
-from pygeodesy.props import Property_RO, _update_all
+from pygeodesy.props import deprecated_method, Property_RO, _update_all
 from pygeodesy.streprs import Fmt, _fstrENH2, _xzipairs
 from pygeodesy.units import Easting, Height, Lam_, Northing, Phi_, Scalar_
 from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
@@ -50,7 +50,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, hypot, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '21.01.24'
+__version__ = '21.02.09'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -496,6 +496,7 @@ class Lcc(_NamedBase):
         '''
         return self.philamheight.to4Tuple(self.datum)
 
+    @deprecated_method
     def to3lld(self, datum=None):  # PYCHOK no cover
         '''DEPRECATED, use method C{toLatLon}.
 

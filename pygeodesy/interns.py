@@ -209,6 +209,7 @@ _not_         = _Prefix('not')               # PYCHOK expected
 _NTF_                 = 'NTF'                # PYCHOK expected
 _number_              = 'number'             # PYCHOK expected
 _numpy_               = 'numpy'              # PYCHOK expected
+_Nv00_                = 'Nv00'               # PYCHOK expected
 _OKd_                 = '._-'                # PYCHOK expected
 _on_                  = 'on'                 # PYCHOK expected
 _or_                  = 'or'                 # PYCHOK expected
@@ -415,7 +416,7 @@ __all__ = (_EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4', 'PI3_2')  # imported by .lazily
-__version__ = '21.01.25'
+__version__ = '21.02.06'
 
 # **) MIT License
 #

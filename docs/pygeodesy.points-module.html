@@ -86,7 +86,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.01.24
+        21.02.09
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -133,15 +133,6 @@
         <a href="pygeodesy.points.Numpy2LatLon-class.html" class="summary-name">Numpy2LatLon</a><br />
       Wrapper for <code>NumPy</code> arrays as &quot;on-the-fly&quot; 
         <code>LatLon</code> points.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.points.Point3Tuple-class.html" class="summary-name">Point3Tuple</a><br />
-      3-Tuple <code>(x, y, ll)</code> in <code>meter</code>, 
-        <code>meter</code> and <code>LatLon</code>.
     </td>
   </tr>
 <tr>
@@ -416,10 +407,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#quadOf" class="summary-sig-name">quadOf</a>(<span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">lat2</span>,
-        <span class="summary-sig-arg">lon2</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.points-module.html#quadOf" class="summary-sig-name">quadOf</a>(<span class="summary-sig-arg">latS</span>,
+        <span class="summary-sig-arg">lonW</span>,
+        <span class="summary-sig-arg">latN</span>,
+        <span class="summary-sig-arg">lonE</span>,
         <span class="summary-sig-arg">closed</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.points.LatLon_'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
@@ -483,12 +474,13 @@
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>adjust</code></strong> - Adjust the wrapped, unrolled longitudinal delta by the cosine of 
           the mean latitude (<code>bool</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap lat-, wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Approximate area (<code>meter</code>, same units as 
-          <b><code>radius</code></b>, <i>squared</i>).</dd>
+        <dd>Approximate area (<i>square</i> <code>meter</code>, same units as
+          <b><code>radius</code></b> or <code>radians</code> <i>squared</i>
+          if <b><code>radius</code></b> is <code>None</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.PointsError-class.html">PointsError</a></strong></code> - Insufficient number of <b><code>points</code></b></li>
@@ -551,7 +543,11 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <code>LatLon</code>.</li>
     </ul></dd>
   </dl>
-<div class="fields">      <p><strong>Example:</strong>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.points-module.html#quadOf" 
+        class="link">quadOf</a>.
+      </p>
+      <p><strong>Example:</strong>
         <pre class="py-doctest">
 <span class="py-prompt">&gt;&gt;&gt; </span>b = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
 <span class="py-prompt">&gt;&gt;&gt; </span>boundsOf(b)  <span class="py-comment"># False</span>
@@ -914,8 +910,8 @@
           arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield 4 or 5 <b><code>LatLon</code></b> instances outlining the 
-          lune shape.</dd>
+        <dd>A tuple of 4 or 5 <b><code>LatLon</code></b> instances outlining 
+          the lune shape.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://www.MathWorks.com/help/map/ref/areaquad.html" 
@@ -1062,10 +1058,10 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">quadOf</span>&nbsp;(<span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">lat2</span>,
-        <span class="sig-arg">lon2</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">quadOf</span>&nbsp;(<span class="sig-arg">latS</span>,
+        <span class="sig-arg">lonW</span>,
+        <span class="sig-arg">latN</span>,
+        <span class="sig-arg">lonE</span>,
         <span class="sig-arg">closed</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.points.LatLon_'&gt;</span>,
         <span class="sig-arg">**LatLon_kwds</span>)</span>
@@ -1079,10 +1075,10 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Lower latitude (<code>degrees90</code>).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Left longitude (<code>degrees180</code>).</li>
-        <li><strong class="pname"><code>lat2</code></strong> - Upper latitude (<code>degrees90</code>).</li>
-        <li><strong class="pname"><code>lon2</code></strong> - Right longitude (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>latS</code></strong> - Southernmost latitude (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lonW</code></strong> - Westernmost longitude (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>latN</code></strong> - Northernmost latitude (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lonE</code></strong> - Easternmost longitude (<code>degrees180</code>).</li>
         <li><strong class="pname"><code>closed</code></strong> - Optionally, close the path (<code>bool</code>).</li>
         <li><strong class="pname"><code>LatLon</code></strong> - Class to use (<a href="pygeodesy.points.LatLon_-class.html" 
           class="link">LatLon_</a>).</li>
@@ -1090,10 +1086,14 @@
           arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield 4 or 5 <b><code>LatLon</code></b> instances outlining the 
-          quadrilateral.</dd>
+        <dd>Return a tuple of 4 or 5 <b><code>LatLon</code></b> instances 
+          outlining the quadrilateral.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.points-module.html#boundsOf" 
+        class="link">boundsOf</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -1127,7 +1127,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb  1 15:33:15 2021
+    Generated by Epydoc 3.0.1 on Sat Feb 13 13:36:15 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

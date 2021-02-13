@@ -70,7 +70,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _NamedEnum, \
                             _NamedEnumItem, _NamedTuple, _Pass
 from pygeodesy.namedTuples import Distance2Tuple
-from pygeodesy.props import Property_RO, property_doc_
+from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
 from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lam_, Lat, \
                             Meter, Meter2, Meter3, Phi, Phi_, Radius, Radius_, Scalar
@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.01.24'
+__version__ = '21.02.11'
 
 _f_0_0  = Float(f =_0_0)
 _f__0_0 = Float(f_=_0_0)
@@ -578,6 +578,11 @@ class Ellipsoid(_NamedEnumItem):
                                                                           _T(219941297/5535129600, -497323811/12454041600),    # PYCHOK unaligned
                                                                                               _T(191773887257/3719607091200))  # PYCHOK unaligned
 
+    @deprecated_Property_RO
+    def c(self):
+        '''DEPRECATED, use property L{R2} or L{Rauthalic}.'''
+        return self.R2
+
     @Property_RO
     def c2(self):
         '''Get the I{authalic} earth radius I{squared} (C{meter**2}), see L{area}, L{R2}.
@@ -1034,6 +1039,11 @@ class Ellipsoid(_NamedEnumItem):
             Mabcd = _1_0, _0_0, _0_0, _0_0
         return Mabcd
 
+    @deprecated_Property_RO
+    def majoradius(self):  # PYCHOK no cover
+        '''DEPRECATED, use property L{a} or L{Requatorial}.'''
+        return self.a
+
     def m2degrees(self, distance, lat=0):
         '''Convert a distance to an angle along the equator or
            along a parallel of (geodetic) latitude.
@@ -1067,6 +1077,11 @@ class Ellipsoid(_NamedEnumItem):
         r = self.circle4(lat).radius if lat else self.a
         return m2radians(distance, radius=r, lat=0)
 
+    @deprecated_Property_RO
+    def minoradius(self):  # PYCHOK no cover
+        '''DEPRECATED, use property L{b} or C{Rpolar}.'''
+        return self.b
+
     @Property_RO
     def n(self):
         '''Get the I{3rd flattening} (C{float}), M{f / (2 - f) == (a - b) / (a + b)}, see L{a_b2n}.
@@ -1074,6 +1089,11 @@ class Ellipsoid(_NamedEnumItem):
         return self._assert(a_b2n(self.a, self.b), n=f2n(self.f))
 
     flattening3rd = n
+
+    @deprecated_Property_RO
+    def quarteradius(self):  # PYCHOK no cover
+        '''DEPRECATED, use property L{L} or L{Llat}.'''
+        return self.L
 
     @Property_RO
     def R1(self):
@@ -1201,6 +1221,11 @@ class Ellipsoid(_NamedEnumItem):
     Rpolar = b  # for consistent naming
     Rquadratic = Rbiaxial  # synonyms
 
+    @deprecated_Property_RO
+    def Rr(self):  # PYCHOK no cover
+        '''DEPRECATED, use property L{Rrectifying}.'''
+        return self.Rrectifying
+
     @Property_RO
     def Rrectifying(self):
         '''Get the I{rectifying} earth radius (C{meter}), M{((a**(3/2) + b**(3/2)) / 2)**(2/3)}.
@@ -1209,6 +1234,11 @@ class Ellipsoid(_NamedEnumItem):
         '''
         r = cbrt2((sqrt3(self.a) + sqrt3(self.b)) * _0_5) if self.f else self.a
         return Radius(Rrectifying=r)
+
+    @deprecated_Property_RO
+    def Rs(self):  # PYCHOK no cover
+        '''DEPRECATED, use property L{Rgeometric}.'''
+        return self.Rgeometric
 
     def roc1_(self, sa, ca=None):
         '''Compute the I{prime-vertical}, I{normal} radius of curvature
@@ -1423,19 +1453,6 @@ class Ellipsoid(_NamedEnumItem):
            @see: L{R3}.
         '''
         return Meter3(volume=self._v3 * PI4 / 3)
-
-    c = Rauthalic
-    '''DEPRECATED, use L{R2} or L{Rauthalic}.'''
-    majoradius = a
-    '''DEPRECATED, use L{a} or L{Requatorial}.'''
-    minoradius = b
-    '''DEPRECATED, use L{b} or C{Rpolar}.'''
-    quarteradius = L  # -meridian
-    '''DEPRECATED, use L{L}.'''
-    Rr = Rrectifying  # for backward compatibility
-    '''DEPRECATED, use L{Rrectifying}.'''
-    Rs = Rgeometric  # for backward compatibility
-    '''DEPRECATED, use L{Rgeometric}.'''
 
 
 class Ellipsoid2(Ellipsoid):

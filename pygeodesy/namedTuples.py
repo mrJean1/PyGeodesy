@@ -23,11 +23,12 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Number_, Phi, Precision_, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.02.01'
+__version__ = '21.02.05'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
 _initial_ = 'initial'
+_elel_    = 'll'
 
 
 class Bearing2Tuple(_NamedTuple):
@@ -320,6 +321,13 @@ class PhiLam4Tuple(_NamedTuple):  # extends -3Tuple
     '''
     _Names_ = (_phi_, _lam_, _height_, _datum_)
     _Units_ = ( Phi,   Lam,   Height,  _Pass)
+
+
+class Point3Tuple(_NamedTuple):
+    '''3-Tuple C{(x, y, ll)} in C{meter}, C{meter} and C{LatLon}.
+    '''
+    _Names_ = (_x_,   _y_,    _elel_)
+    _Units_ = ( Meter, Meter, _Pass)
 
 
 class Points2Tuple(_NamedTuple):  # .formy.py, .latlonBase.py

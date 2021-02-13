@@ -27,14 +27,14 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, \
                            _xotherError
 from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
-from pygeodesy.props import Property_RO, property_doc_
+from pygeodesy.props import deprecated_method, Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Radius, Radius_, Scalar
 
 from math import atan2, cos, sin, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.01.24'
+__version__ = '21.02.12'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -406,6 +406,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
             d = fdot(self.xyz, *other.xyz)
         return d
 
+    @deprecated_method
     def equals(self, other, units=False):  # PYCHOK no cover
         '''DEPRECATED, use method C{isequalTo}.
         '''
@@ -607,9 +608,9 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
                             fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
                             fdot(p, a.z * b.x - s.y, a.z * b.y + s.x, a.z * b.z + c))
 
+    @deprecated_method
     def rotateAround(self, axis, theta):  # PYCHOK no cover
-        '''DEPRECATED, use method C{rotate}.
-        '''
+        '''DEPRECATED, use method C{rotate}.'''
         return self.rotate(axis, theta)
 
     def times(self, factor):
@@ -624,6 +625,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         f = Scalar(factor=factor)
         return self.classof(self.x * f, self.y * f, self.z * f)
 
+    @deprecated_method
     def to2ab(self):  # PYCHOK no cover
         '''DEPRECATED, use property C{Nvector.philam}.
 
@@ -631,6 +633,7 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return n_xyz2philam(self.x, self.y, self.z)
 
+    @deprecated_method
     def to2ll(self):  # PYCHOK no cover
         '''DEPRECATED, use property C{Nvector.latlon}.
 
@@ -638,10 +641,9 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
         '''
         return n_xyz2latlon(self.x, self.y, self.z)
 
+    @deprecated_method
     def to3xyz(self):  # PYCHOK no cover
-        '''DEPRECATED, use property C{xyz}.
-
-           @return: A L{Vector3Tuple}C{(x, y, z)}.
+        '''DEPRECATED, use property L{xyz}.
         '''
         return self.xyz
 

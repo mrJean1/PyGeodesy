@@ -4,12 +4,13 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '20.10.03'
+__version__ = '21.02.10'
 
 from base import coverage, numpy_version, TestsBase
 
-from pygeodesy import F_D, fstr, IntersectionError, joined_, NEG0, \
+from pygeodesy import F_D, fstr, IntersectionError, NEG0, \
                       sphericalNvector, vector3d, VectorError
+from pygeodesy.interns import _DOT_  # INTERNAL
 
 
 class Tests(TestsBase):
@@ -164,27 +165,27 @@ class Tests(TestsBase):
             i = p.intersection(LatLon(2, 2), LatLon(1, 4), LatLon(2, 3))
             self.test('intersection', i, '02.499372°N, 002.5°E')
 
-        if hasattr(LatLon, 'isEnclosedBy'):
+        if hasattr(LatLon, 'isenclosedBy'):
             p = LatLon(45.1, 1.1)
 
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
             for _ in self.testiter():
-                self.test('isEnclosedBy', p.isEnclosedBy(b), True)
+                self.test('isenclosedBy', p.isenclosedBy(b), True)
 
             b = LatLon(45, 1), LatLon(45, 3), LatLon(46, 2), LatLon(47, 3), LatLon(47, 1)
             for _ in self.testiter():
                 try:
-                    self.test('isEnclosedBy', p.isEnclosedBy(b), True)  # Nvector
+                    self.test('isenclosedBy', p.isenclosedBy(b), True)  # Nvector
                 except ValueError as x:
                     t = ' '.join(str(x).split()[:3] + ['...)'])
-                    self.test('isEnclosedBy', t, 'non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)')  # Trig
+                    self.test('isenclosedBy', t, 'non-convex: (LatLon(45°00′00.0″N, 001°00′00.0″E), ...)')  # Trig
 
-        if hasattr(LatLon, 'isWithin'):
+        if hasattr(LatLon, 'iswithin'):
             # courtesy of Paulius Šarka  psarka  Aug 30, 2017
-            p = LatLon(1, 1).isWithin(LatLon(2, 2), LatLon(2, 2))
-            self.test('isWithin', p, False)
-            p = LatLon(2, 2).isWithin(LatLon(2, 2), LatLon(2, 2))
-            self.test('isWithin', p, True)
+            p = LatLon(1, 1).iswithin(LatLon(2, 2), LatLon(2, 2))
+            self.test('iswithin', p, False)
+            p = LatLon(2, 2).iswithin(LatLon(2, 2), LatLon(2, 2))
+            self.test('iswithin', p, True)
 
         if hasattr(LatLon, 'nearestOn'):
             s1 = LatLon(51.0, 1.0)
@@ -291,7 +292,7 @@ class Tests(TestsBase):
             t = c1.trilaterate3d2(r1, c2, r2, c3, r3)
             k = numpy_version < 1.12  # numpy too old?
 
-            n = joined_(c1.named3, Vector.trilaterate3d2.__name__, sep='.')
+            n = _DOT_(c1.named3, Vector.trilaterate3d2.__name__)
             self.test(n, len(t), 2)
             self.test(t[0].named3, fstr(t[0].xyz, prec=4), '119.8958, 130.6508, -5.1451', known=k)
             self.test(t[1].named3, fstr(t[1].xyz, prec=4), '119.9999, 129.9999, 30.0019', known=k)
@@ -305,7 +306,7 @@ class Tests(TestsBase):
                          (Vector, {})):  # method
                 f = C.trilaterate3d2
                 t = f(c1, r1, c2, r2, c3, r3, **V)
-                n = joined_(C.__name__, f.__name__, sep='.')
+                n = _DOT_(C.__name__, f.__name__)
 
                 self.test(n, len(t), 2)
                 self.test(t[0].named3, fstr(t[0].xyz, prec=5), '24.31229, -2.52045, 1.53649', known=k)

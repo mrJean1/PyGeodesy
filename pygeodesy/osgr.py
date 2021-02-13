@@ -39,10 +39,11 @@ from pygeodesy.dms import parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _parseX, _TypeError, _ValueError
 from pygeodesy.fmath import fdot, fpowers, Fsum, fsum_
-from pygeodesy.interns import NN, _A_, _COLON_, _COMMA_, _COMMASPACE_, \
-                             _convergence_, _DOT_, _float, _latlon_, \
-                             _no_, _not_, _SPACE_, _1_0, _2_0, _6_0, \
+from pygeodesy.interns import NN, _A_, _COMMA_, _COMMASPACE_, _DOT_, \
+                             _convergence_, _float, _latlon_, _no_, \
+                             _not_, _SPACE_, _1_0, _2_0, _6_0, \
                              _24_0, _120_0, _720_0
+from pygeodesy.interns import _COLON_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, nameof, _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum3Tuple
@@ -55,7 +56,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.01.28'
+__version__ = '21.02.09'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)

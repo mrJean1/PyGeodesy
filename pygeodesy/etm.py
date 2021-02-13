@@ -75,7 +75,8 @@ from pygeodesy.interns import _lon0_  # PYCHOK used!
 from pygeodesy.karney import _diff182, _fix90, _norm180
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple
-from pygeodesy.props import Property_RO, property_RO, property_doc_
+from pygeodesy.props import deprecated_method, deprecated_Property_RO, \
+                            Property_RO, property_RO, property_doc_
 from pygeodesy.streprs import pairs, unstr
 from pygeodesy.units import Degrees, Easting, Lat,Lon, Northing, \
                             Scalar, Scalar_
@@ -86,7 +87,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.02.01'
+__version__ = '21.02.11'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -198,6 +199,7 @@ class Etm(Utm):
         return parseETM5(strETM, datum=self.datum, Etm=self.classof,
                                  name=name or self.name)
 
+    @deprecated_method
     def parseETM(self, strETM):
         '''DEPRECATED, use method L{Etm.parse}.
         '''
@@ -369,9 +371,6 @@ class ExactTransverseMercator(_NamedBase):
         '''
         return self._E.a
 
-    majoradius = equatoradius  # for backward compatibility
-    '''DEPRECATED, use C{equatoradius}.'''
-
     @Property_RO
     def extendp(self):
         '''Get using the extended domain (C{bool}).
@@ -488,6 +487,11 @@ class ExactTransverseMercator(_NamedBase):
            @raise ValueError: Invalid B{C{lon0}}.
         '''
         self._lon0 = _norm180(Lon(lon0=lon0))
+
+    @deprecated_Property_RO
+    def majoradius(self):  # PYCHOK no cover
+        '''DEPRECATED, use property C{equatoradius}.'''
+        return self.equatoradius
 
     def _reset(self, E):
         '''(INTERNAL) Get elliptic functions and pre-compute

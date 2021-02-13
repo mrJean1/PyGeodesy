@@ -46,7 +46,7 @@ from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple, \
                                   UtmUps8Tuple, UtmUpsLatLon5Tuple
-from pygeodesy.props import Property_RO
+from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Band, Int, Lat, Lon, Zone
 from pygeodesy.utily import degrees90, degrees180, sincos2  # splice
@@ -61,7 +61,7 @@ from math import asinh, atan, atanh, atan2, cos, cosh, \
 from operator import mul
 
 __all__ = _ALL_LAZY.utm
-__version__ = '21.02.01'
+__version__ = '21.02.09'
 
 # Latitude bands C..X of 8° each, covering 80°S to 84°N with X repeated
 # for 80-84°N
@@ -370,9 +370,9 @@ class Utm(UtmUpsBase):
         return parseUTM5(strUTM, datum=self.datum, Utm=self.classof,
                                  name=name or self.name)
 
-    def parseUTM(self, strUTM):
-        '''DEPRECATED, use method C{Utm.parse}.
-        '''
+    @deprecated_method
+    def parseUTM(self, strUTM):  # PYCHOK no cover
+        '''DEPRECATED, use method L{Utm.parse}.'''
         return self.parse(strUTM)
 
     @Property_RO

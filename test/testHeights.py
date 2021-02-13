@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '20.10.03'
+__version__ = '21.02.11'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -16,7 +16,6 @@ from base import coverage, geographiclib, TestsBase
 
 from pygeodesy import Datums, fstr, HeightError, \
                       HeightCubic, HeightLinear, \
-                      HeightIDW, HeightIDW2, HeightIDW3, \
                       HeightIDWcosineAndoyerLambert, \
                       HeightIDWcosineForsytheAndoyerLambert, \
                       HeightIDWcosineLaw, HeightIDWdistanceTo, \
@@ -26,6 +25,7 @@ from pygeodesy import Datums, fstr, HeightError, \
                       HeightIDWkarney, HeightIDWthomas, \
                       HeightIDWvincentys, HeightLSQBiSpline, \
                       HeightSmoothBiSpline, SciPyError
+#                     HeightIDW, HeightIDW2, HeightIDW3
 from pygeodesy.interns import _DOT_
 from pygeodesy.sphericalTrigonometry import LatLon
 
@@ -113,20 +113,20 @@ class Tests(TestsBase):
         kts = LatLon(0.4, 0.9, 1), LatLon(1.5, 1.5, 3), \
               LatLon(1, 0.5, 5), LatLon(0.5, 1.4, 7), LatLon(1.2, 1, 7)
         lli = LatLon(1, 1)
-        self.testIDW(HeightIDW,                kts, lli, '6.142945781', adjust=True)
+#       self.testIDW(HeightIDW,                kts, lli, '6.142945781', adjust=True)
         self.testIDW(HeightIDWcosineAndoyerLambert,         kts, lli, '6.108538037', wrap=False)
         self.testIDW(HeightIDWcosineForsytheAndoyerLambert, kts, lli, '6.108538037', wrap=False)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.108538037', wrap=True)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.108538037', wrap=False)
         self.testIDW(HeightIDWdistanceTo,      kts, lli, '6.108538037')
         self.testIDW(HeightIDWeuclidean,       kts, lli, '6.143010434', adjust=False)
-        self.testIDW(HeightIDW2,               kts, lli, '6.108538529', adjust=True, wrap=False)
+#       self.testIDW(HeightIDW2,               kts, lli, '6.108538529', adjust=True, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '6.108538529', adjust=True, wrap=True)
-        self.testIDW(HeightIDW2,               kts, lli, '6.108614369', adjust=False, wrap=False)
+#       self.testIDW(HeightIDW2,               kts, lli, '6.108614369', adjust=False, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '6.108614369', adjust=False, wrap=True)
         self.testIDW(HeightIDWflatLocal,       kts, lli, '6.860459007', wrap=False)
         self.testIDW(HeightIDWflatPolar,       kts, lli, '6.261469975', wrap=False)
-        self.testIDW(HeightIDW3,               kts, lli, '6.108538037', wrap=True)
+#       self.testIDW(HeightIDW3,               kts, lli, '6.108538037', wrap=True)
         self.testIDW(HeightIDWhaversine,       kts, lli, '6.108538037', wrap=False)
         self.testIDW(HeightIDWhubeny,          kts, lli, '6.860459007', wrap=False)
         if geographiclib:
@@ -143,19 +143,19 @@ class Tests(TestsBase):
               LatLon(1.2, 4, 3), LatLon(2.2, 3, 3)
         lli = kts[0].intersection(*kts[1:])
         self.test('intersection', lli, '02.64932°N, 002.550079°E, +2.50m')  # mean height
-        self.testIDW(HeightIDW,                kts, lli, '2.592748835', adjust=True)
+#       self.testIDW(HeightIDW,                kts, lli, '2.592748835', adjust=True)
         self.testIDW(HeightIDWcosineAndoyerLambert,         kts, lli, '2.592742938', wrap=False)
         self.testIDW(HeightIDWcosineForsytheAndoyerLambert, kts, lli, '2.592742938', wrap=False)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '2.592742938', wrap=True)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '2.592742938', wrap=False)
         self.testIDW(HeightIDWeuclidean,       kts, lli, '2.592735541', adjust=False)
-        self.testIDW(HeightIDW2,               kts, lli, '2.592743455', adjust=True, wrap=False)
+#       self.testIDW(HeightIDW2,               kts, lli, '2.592743455', adjust=True, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '2.592743455', adjust=True, wrap=True)
-        self.testIDW(HeightIDW2,               kts, lli, '2.592732915', adjust=False, wrap=False)
+#       self.testIDW(HeightIDW2,               kts, lli, '2.592732915', adjust=False, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '2.592732915', adjust=False, wrap=True)
         self.testIDW(HeightIDWflatLocal,       kts, lli, '2.689429914', wrap=False)
         self.testIDW(HeightIDWflatPolar,       kts, lli, '2.592973059', wrap=False)
-        self.testIDW(HeightIDW3,               kts, lli, '2.592742938', wrap=True)
+#       self.testIDW(HeightIDW3,               kts, lli, '2.592742938', wrap=True)
         self.testIDW(HeightIDWhaversine,       kts, lli, '2.592742938', wrap=False)
         self.testIDW(HeightIDWhubeny,          kts, lli, '2.689429914', wrap=False)
         if geographiclib:

@@ -4,7 +4,7 @@
 # Test the Frechet distances.
 
 __all__ = ('Tests',)
-__version__ = '20.10.03'
+__version__ = '21.02.11'
 
 from base import coverage, geographiclib, isPython3, isWindows, \
                  TestsBase
@@ -238,9 +238,9 @@ if __name__ == '__main__':  # MCCABE 13
         t.test('[fi1]', fractional(_ms, f.fi1), '64.0°S, 096.0°E' if isPython3 else '38.0°S, 116.0°W', known=True)
         t.test('[fi2]', fractional(_ps, f.fi2), '41.0°S, 071.0°W' if isPython3 else '64.0°N, 121.0°E', known=True)
 
-        t.test('[fi1]', fractional(_ms, f.fi1, LatLon=LatLon_).toStr2(), 'LatLon_(64.0°S, 096.0°E)' if isPython3 else
+        t.test('[fi1]', fractional(_ms, f.fi1, LatLon=LatLon_).toRepr(), 'LatLon_(64.0°S, 096.0°E)' if isPython3 else
                                                                          'LatLon_(38.0°S, 116.0°W)', known=True)
-        t.test('[fi2]', fractional(_ps, f.fi2, LatLon=LatLon_).toStr2(), 'LatLon_(41.0°S, 071.0°W)' if isPython3 else
+        t.test('[fi2]', fractional(_ps, f.fi2, LatLon=LatLon_).toRepr(), 'LatLon_(41.0°S, 071.0°W)' if isPython3 else
                                                                          'LatLon_(64.0°N, 121.0°E)', known=True)
 
     t.results()

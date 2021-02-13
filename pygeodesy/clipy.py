@@ -10,18 +10,18 @@ against a rectangular box or a (convex) clip region.
 from pygeodesy.basics import len2
 from pygeodesy.errors import _AssertionError, PointsError, _ValueError
 from pygeodesy.fmath import fsum_
-from pygeodesy.formy import points2
 from pygeodesy.interns import EPS, NN, _convex_, _DOT_, _end_, _few_, \
                              _i_, _j_, _not_, _SPACE_, _start_, _too_, \
                              _0_0, _1_0
+from pygeodesy.iters import _imdex2, points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple, _Pass
-from pygeodesy.points import areaOf, _imdex2, boundsOf, isconvex_, \
+from pygeodesy.points import areaOf, boundsOf, isconvex_, \
                              LatLon_
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '21.01.11'
+__version__ = '21.02.08'
 
 _fi_ = 'fi'
 _fj_ = 'fj'
@@ -266,7 +266,7 @@ def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
        @see: U{Liang-Barsky Line Clipping<https://www.CS.Helsinki.FI/group/goa/
              viewing/leikkaus/intro.html>}, U{Liang-Barsky line clipping algorithm
              <https://www.Skytopia.com/project/articles/compsci/clipping.html>}
-             and U{Liang–Barsky algorithm<https://WikiPedia.org/wiki/Liang–Barsky_algorithm>}.
+             and U{Liang-Barsky algorithm<https://WikiPedia.org/wiki/Liang–Barsky_algorithm>}.
     '''
     xmin, ymin, \
     xmax, ymax = _box4(lowerleft, upperright, clipLB6.__name__)

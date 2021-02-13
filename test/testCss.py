@@ -74,11 +74,11 @@ class Tests(TestsBase):
 
         self.test('cs0.name', C.cs0.name, 'Paris')
         c = Css(C.easting, C.northing)  # coverage css._CassiniSoldner
-        self.test('cs0.name',       c.cs0.name, 'Default')
-        self.test('cs0.flattening', c.cs0.flattening, 0.00335281066475, fmt='%.9f')
-        self.test('cs0.lat0',       c.cs0.lat0, 0.0)  # Lat
-        self.test('cs0.majoradius', c.cs0.majoradius, '6378137.0')
-        self.test_('cs0.lat0',      repr(c.cs0.lat0), '0.0', 'lat0(0.0)')  # Lat
+        self.test('cs0.name',         c.cs0.name, 'Default')
+        self.test('cs0.flattening',   c.cs0.flattening, 0.00335281066475, fmt='%.9f')
+        self.test('cs0.lat0',         c.cs0.lat0, 0.0)  # Lat
+        self.test('cs0.equatoradius', c.cs0.equatoradius, '6378137.0')
+        self.test_('cs0.lat0',        repr(c.cs0.lat0), '0.0', 'lat0(0.0)')  # Lat
 
         c = C.classof(C.easting, C.northing, h=C.height, cs0=C.cs0)  # coverage Css._reverse4
         for a, f, x in (('height',   '%.1f', '1.0'),

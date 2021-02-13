@@ -31,7 +31,8 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _parseX, _ValueError, _xkwds
 from pygeodesy.interns import NN, _AtoZnoIO_, _band_, \
                              _COMMASPACE_, _datum_, _easting_, \
-                             _northing_, _SPACE_, _zone_, _0_0
+                             _northing_, _SPACE_, _zone_
+from pygeodesy.interns import _0_0  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import UtmUps5Tuple
@@ -44,7 +45,7 @@ from pygeodesy.utmupsBase import _hemi
 
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '21.01.28'
+__version__ = '21.02.09'
 
 # 100 km grid square column (‘e’) letters repeat every third zone
 _Le100k = _AtoZnoIO_.tillH, _AtoZnoIO_.fromJ.tillR, _AtoZnoIO_.fromS  # grid E colums

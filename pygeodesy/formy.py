@@ -8,31 +8,30 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import len2
 from pygeodesy.datums import Datum, _ellipsoidal_datum, _mean_radius, \
                             _spherical_datum, _WGS84
 from pygeodesy.ellipsoids import Ellipsoid
-from pygeodesy.errors import _AssertionError, IntersectionError, LimitError, \
-                             _limiterrors, PointsError, _ValueError
+from pygeodesy.errors import _AssertionError, IntersectionError, \
+                              LimitError, _limiterrors, _ValueError
 from pygeodesy.fmath import euclid, fsum_, hypot, hypot2, sqrt0
 from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI_2, R_M, \
-                             _distant_, _few_, _too_, _0_0, _0_125, _0_25, \
-                             _0_5, _1_0, _2_0, _32_0, _90_0, _180_0, _360_0
+                             _distant_, _too_, _0_0, _0_125, _0_25, _0_5, \
+                             _1_0, _2_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple
-from pygeodesy.namedTuples import Distance4Tuple, LatLon2Tuple, \
-                                  PhiLam2Tuple, Points2Tuple, Vector3Tuple
-from pygeodesy.streprs import Fmt, unstr
+from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
+                                  LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
+from pygeodesy.streprs import unstr
 from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, \
                             Phi_, Radius, Radius_, Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
-                            isNumpy2, isTuple2, m2degrees, sincos2, unroll180, \
-                            unrollPI, wrap90, wrap180, wrapPI, wrapPI_2
+                            m2degrees, sincos2, unroll180, unrollPI, \
+                            wrap90, wrap180, wrapPI, wrapPI_2
 
 from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.01.28'
+__version__ = '21.02.08'
 
 
 def _non0(x):
@@ -129,6 +128,20 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
     x = ca1 * sa2 - sa1 * ca2 * cdb
     y = sdb * ca2
     return (atan2(y, x) + r) % PI2  # wrapPI2
+
+
+def _bearingTo2(p1, p2, wrap=False):  # for points.ispolar, sphericalTrigonometry.areaOf
+    '''(INTERNAL) Compute initial and final bearing.
+    '''
+    try:  # for LatLon_ and ellipsoidalNvector.LatLon
+        return p1.bearingTo2(p2, wrap=wrap)
+    except AttributeError:
+        pass
+    # XXX spherical version, OK for ellipsoidal ispolar?
+    a1, b1 = p1.philam
+    a2, b2 = p2.philam
+    return Bearing2Tuple(degrees(bearing_(a1, b1, a2, b2, final=False, wrap=wrap)),
+                         degrees(bearing_(a1, b1, a2, b2, final=True, wrap=wrap)))
 
 
 def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
@@ -406,7 +419,7 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **options):
     '''
     d = sqrt(equirectangular_(Lat(lat1=lat1), Lon(lon1=lon1),
                               Lat(lat2=lat2), Lon(lon2=lon2),
-                            **options).distance2)
+                            **options).distance2)  # PYCHOK 4 vs 2-3
     return degrees2m(d, radius=_mean_radius(radius, lat1, lat2))
 
 
@@ -940,45 +953,6 @@ def philam2n_xyz(phi, lam, name=NN):
     # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
     sa, ca, sb, cb = sincos2(phi, lam)
     return Vector3Tuple(ca * cb, ca * sb, sa, name=name)
-
-
-def points2(points, closed=True, base=None, Error=PointsError):
-    '''Check a path or polygon represented by points.
-
-       @arg points: The path or polygon points (C{LatLon}[])
-       @kwarg closed: Optionally, consider the polygon closed,
-                      ignoring any duplicate or closing final
-                      B{C{points}} (C{bool}).
-       @kwarg base: Optionally, check all B{C{points}} against
-                    this base class, if C{None} don't check.
-       @kwarg Error: Exception to raise (C{ValueError}).
-
-       @return: A L{Points2Tuple}C{(number, points)} with the number
-                of points and the points C{list} or C{tuple}.
-
-       @raise PointsError: Insufficient number of B{C{points}}.
-
-       @raise TypeError: Some B{C{points}} are not B{C{base}}
-                         compatible.
-    '''
-    n, points = len2(points)
-
-    if closed:
-        # remove duplicate or closing final points
-        while n > 1 and points[n-1] in (points[0], points[n-2]):
-            n -= 1
-        # XXX following line is unneeded if points
-        # are always indexed as ... i in range(n)
-        points = points[:n]  # XXX numpy.array slice is a view!
-
-    if n < (3 if closed else 1):
-        raise Error(points=n, txt=_too_(_few_))
-
-    if base and not (isNumpy2(points) or isTuple2(points)):
-        for i in range(n):
-            base.others(points[i], name=Fmt.SQUARE(points=i))
-
-    return Points2Tuple(n, points)
 
 
 def _radical2(d, r1, r2):  # in .ellipsoidalBase, .sphericalTrigonometry, .vector3d

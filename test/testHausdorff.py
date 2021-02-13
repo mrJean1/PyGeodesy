@@ -4,11 +4,11 @@
 # Test the Hausdorff distances.
 
 __all__ = ('Tests',)
-__version__ = '20.10.03'
+__version__ = '21.02.11'
 
 from base import geographiclib, isPython3, isWindows, TestsBase
 
-from pygeodesy import Datums, fStr, hausdorff_, \
+from pygeodesy import Datums, fstr, hausdorff_, \
                       HausdorffCosineAndoyerLambert, \
                       HausdorffCosineForsytheAndoyerLambert, \
                       HausdorffDegrees, HausdorffDistanceTo, \
@@ -41,8 +41,8 @@ class HausdorffRadians_(HausdorffRadians):
 
 def _tstr(t):
     s = list(t[:5])
-    s[0] = fStr(t.hd, prec=5)
-    s[4] = None if t.md is None else fStr(t.md, prec=5)
+    s[0] = fstr(t.hd, prec=5)
+    s[4] = None if t.md is None else fstr(t.md, prec=5)
     return '(%s)' % (', '.join(map(str, s)),)
 
 

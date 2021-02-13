@@ -20,8 +20,8 @@ from pygeodesy.basics import isstr, map2
 from pygeodesy.dms import parse3llh  # parseDMS2
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import favg
-from pygeodesy.formy import equirectangular, equirectangular_, \
-                            euclidean, haversine, vincentys
+from pygeodesy.formy import equirectangular_ as _equirectangular_, \
+                            equirectangular, euclidean, haversine, vincentys
 from pygeodesy.interns import EPS, NN, R_M, _COMMA_, _DOT_, _E_, \
                              _floatuple, _N_, _NE_, _NW_, _S_, _SE_, \
                              _SW_, _W_, _0_0, _0_5, _180_0, _360_0
@@ -30,7 +30,8 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import _NamedDict, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, \
                                   LatLon2Tuple, PhiLam2Tuple
-from pygeodesy.props import Property_RO
+from pygeodesy.props import deprecated_function, deprecated_method, \
+                            deprecated_property_RO, Property_RO
 from pygeodesy.streprs import fstr
 from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
                            _xStrError
@@ -38,7 +39,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.01.24'
+__version__ = '21.01.11'
 
 
 class _GH(object):
@@ -181,6 +182,11 @@ class Geohash(Str):
         self._latlon = ll
         return self
 
+    @deprecated_property_RO
+    def ab(self):
+        '''DEPRECATED, use property C{philam}.'''
+        return self.philam
+
     def adjacent(self, direction, name=NN):
         '''Determine the adjacent cell in given compass direction.
 
@@ -264,8 +270,26 @@ class Geohash(Str):
                     break
         return _GH.Sizes[n][2]
 
-    distance1 = distance1To = distanceTo  # for backward compatibility
-    '''DEPRECATED, use method L{distanceTo}.'''
+    @deprecated_method
+    def distance1To(self, other):  # PYCHOK no cover
+        '''DEPRECATED, use method L{distanceTo}.'''
+        return self.distanceTo(other)
+
+    distance1 = distance1To
+
+    @deprecated_method
+    def distance2To(self, other, radius=R_M, adjust=False, wrap=False):  # PYCHOK no cover
+        '''DEPRECATED, use method L{equirectangularTo}.'''
+        return self.equirectangularTo(other, radius=radius, adjust=adjust, wrap=wrap)
+
+    distance2 = distance2To
+
+    @deprecated_method
+    def distance3To(self, other, radius=R_M, wrap=False):  # PYCHOK no cover
+        '''DEPRECATED, use method L{haversineTo}.'''
+        return self.haversineTo(other, radius=radius, wrap=wrap)
+
+    distance3 = distance3To
 
     def equirectangularTo(self, other, radius=R_M, adjust=False, wrap=False):
         '''Approximate the distance between this and an other geohash
@@ -293,10 +317,7 @@ class Geohash(Str):
         lls  = self.latlon + _2Geohash(other).latlon
         kwds = dict(adjust=adjust, limit=None, wrap=wrap)
         return equirectangular( *lls, radius=radius, **kwds) if radius else \
-               equirectangular_(*lls, **kwds).distance2
-
-    distance2 = distance2To = equirectangularTo  # for backward compatibility
-    '''DEPRECATED, use method L{equirectangularTo}.'''
+              _equirectangular_(*lls, **kwds).distance2
 
     def euclideanTo(self, other, radius=R_M, adjust=False, wrap=False):
         '''Approximate the distance between this and an other geohash
@@ -338,9 +359,6 @@ class Geohash(Str):
         '''
         return self._distanceTo(haversine, other, radius=radius, wrap=wrap)
 
-    distance3 = distance3To = haversineTo  # for backward compatibility
-    '''DEPRECATED, use method L{haversineTo}.'''
-
     @Property_RO
     def latlon(self):
         '''Get the lat- and longitude of (the approximate center of)
@@ -372,9 +390,6 @@ class Geohash(Str):
            this geohash as a L{PhiLam2Tuple}C{(phi, lam)} in C{radians}.
         '''
         return PhiLam2Tuple(*map2(radians, self.latlon), name=self.name)
-
-    ab = philam  # for backward compatibility
-    '''DEPRECATED, use property L{philam}.'''
 
     @Property_RO
     def precision(self):
@@ -643,7 +658,7 @@ def decode_error(geohash):
                         w * _0_5)  # Width error
 
 
-def distance1(geohash1, geohash2):
+def distance_(geohash1, geohash2):
     '''Estimate the distance between two geohash (from the cell sizes).
 
        @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
@@ -656,51 +671,27 @@ def distance1(geohash1, geohash2):
 
        @example:
 
-       >>> geohash.distance1('u120fxwsh', 'u120fxws0')  # 15.239
+       >>> geohash.distance_('u120fxwsh', 'u120fxws0')  # 15.239
     '''
-    return _2Geohash(geohash1).distance1To(geohash2)
+    return _2Geohash(geohash1).distanceTo(geohash2)
 
 
-def distance2(geohash1, geohash2, radius=R_M):
-    '''Approximate the distance between two geohashes using the
-       L{equirectangular} formula.
-
-       @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
-       @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
-       @kwarg radius: Mean earth radius (C{meter}) or C{None}.
-
-       @return: Approximate distance (C{meter}, same units as
-                B{C{radius}}).
-
-       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
-                         not a L{Geohash}, C{LatLon} or C{str}.
-
-       @example:
-
-       >>> geohash.distance2('u120fxwsh', 'u120fxws0')  # 19.0879
-    '''
-    return _2Geohash(geohash1).distance2To(geohash2, radius=radius)
+@deprecated_function
+def distance1(geohash1, geohash2):
+    '''DEPRECATED, used L{geohash.distance_}.'''
+    return distance_(geohash1, geohash2)
 
 
-def distance3(geohash1, geohash2, radius=R_M):
-    '''Compute the great-circle distance between two geohashes
-       using the L{haversine} formula.
+@deprecated_function
+def distance2(geohash1, geohash2):
+    '''DEPRECATED, used L{geohash.equirectangular_}.'''
+    return equirectangular_(geohash1, geohash2)
 
-       @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
-       @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
-       @kwarg radius: Mean earth radius (C{meter}).
 
-       @return: Great-circle distance (C{meter}, same units as
-                B{C{radius}}).
-
-       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
-                         not a L{Geohash}, C{LatLon} or C{str}.
-
-       @example:
-
-       >>> geohash.distance3('u120fxwsh', 'u120fxws0')  # 11.6978
-    '''
-    return _2Geohash(geohash1).distance3To(geohash2, radius=radius)
+@deprecated_function
+def distance3(geohash1, geohash2):
+    '''DEPRECATED, used L{geohash.haversine_}.'''
+    return haversine_(geohash1, geohash2)
 
 
 def encode(lat, lon, precision=None):
@@ -771,6 +762,48 @@ def encode(lat, lon, precision=None):
             p -= 1
 
     return NN.join(gh)
+
+
+def equirectangular_(geohash1, geohash2, radius=R_M):
+    '''Approximate the distance between two geohashes using the
+       L{equirectangular} formula.
+
+       @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
+       @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
+       @kwarg radius: Mean earth radius (C{meter}) or C{None}.
+
+       @return: Approximate distance (C{meter}, same units as
+                B{C{radius}}).
+
+       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
+                         not a L{Geohash}, C{LatLon} or C{str}.
+
+       @example:
+
+       >>> geohash.equirectangular_('u120fxwsh', 'u120fxws0')  # 19.0879
+    '''
+    return _2Geohash(geohash1).equirectangularTo(geohash2, radius=radius)
+
+
+def haversine_(geohash1, geohash2, radius=R_M):
+    '''Compute the great-circle distance between two geohashes
+       using the L{haversine} formula.
+
+       @arg geohash1: First geohash (L{Geohash}, C{LatLon} or C{str}).
+       @arg geohash2: Second geohash (L{Geohash}, C{LatLon} or C{str}).
+       @kwarg radius: Mean earth radius (C{meter}).
+
+       @return: Great-circle distance (C{meter}, same units as
+                B{C{radius}}).
+
+       @raise TypeError: If B{C{geohash1}} or B{C{geohash2}} is
+                         not a L{Geohash}, C{LatLon} or C{str}.
+
+       @example:
+
+       >>> geohash.haversine_('u120fxwsh', 'u120fxws0')  # 11.6978
+    '''
+    return _2Geohash(geohash1).haversineTo(geohash2, radius=radius)
 
 
 def neighbors(geohash):
@@ -877,10 +910,9 @@ def sizes(geohash):
 
 
 __all__ += _ALL_OTHER(bounds,  # functions
-                      decode, decode2, decode_error,
-                      distance1, distance2, distance3,
-                      encode, neighbors, precision, resolution2,
-                      sizes)
+                      decode, decode2, decode_error, distance_,
+                      encode, equirectangular_, haversine_,
+                      neighbors, precision, resolution2, sizes)
 
 # **) MIT License
 #

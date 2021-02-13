@@ -12,7 +12,7 @@ from base import TestsBase
 
 from pygeodesy import LatLon_, R_KM, R_M, \
                       ellipsoidalVincenty, sphericalTrigonometry, \
-                      areaOf, isclockwise, perimeterOf, unStr
+                      areaOf, isclockwise, perimeterOf, unstr
 try:
     from geographiclib.geodesic import Geodesic
 except ImportError:
@@ -20,7 +20,7 @@ except ImportError:
 
 __all__ = ('Antarctica', 'Pts', 'PtsFFI', 'RdpFFI',
            'PtsJS', 'PtsJS5', 'VwPts')
-__version__ = '18.10.12'
+__version__ = '21.02.11'  # '18.10.12'
 
 # <https://GeographicLib.SourceForge.io/html/python/examples.html>
 Antarctica = [LatLon_(_lat, _lon) for _lat, _lon in (
@@ -17094,7 +17094,7 @@ class Tests(TestsBase):
             pts = g[p]
             if LL:
                 pts = _2LL(pts, LL)
-            t = unStr(n, p, wrap=True, **kwds)
+            t = unstr(n, p, wrap=True, **kwds)
             # wrap since GeographicLib LONG_UNROLL is always set
             r = f(pts, wrap=True, **kwds)
             self.test(t, r, x, fmt=fmt, known=known)
@@ -17123,12 +17123,13 @@ class Tests(TestsBase):
                        1.343272e+06, 1.294375e+06, 1.271286e+11, 1.200540e+11,
                        4.00413688487425e13, 2*4.00413688487425e13),
                        fmt='%.6e', LL=ellipsoidalVincenty.LatLon)
-        except ImportError as x:
+        except (DeprecationWarning, ImportError) as x:
+            t = ' '.join(str(x).split())
             # XXX keep ellipsoidalVincenty for backward compatibility
-            self.test('ellipsoidalVincenty.areaOf', x, x)
+            self.test('ellipsoidalVincenty.areaOf', t, 'DEPRECATED', known=True)
 
     def testClockwise(self):
-        self.test7(isclockwise, (False,  # since isPoleEnclosedBy is True
+        self.test7(isclockwise, (True,  # XXX False if ispolar is True?
                    True, True, True, True,
                    False, False),
                    adjust=False)
@@ -17152,9 +17153,10 @@ class Tests(TestsBase):
             self.test7(ellipsoidalVincenty.perimeterOf, (16831067.893,
                        5491.045, 5452.310, 5259077.510, 5171947.931,
                        23926469.479, 31533501.608), closed=True)  # assumed
-        except ImportError as x:
+        except (DeprecationWarning, ImportError) as x:
+            t = ' '.join(str(x).split())
             # XXX keep ellipsoidalVincenty for backward compatibility
-            self.test('ellipsoidalVincenty.perimeterOf', x, x)
+            self.test('ellipsoidalVincenty.perimeterOf', t, 'DEPRECATED', known=True)
 
     def testGeodesic(self):
         # <https://GeographicLib.SourceForge.io/html/python/examples.html>

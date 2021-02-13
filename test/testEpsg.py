@@ -4,11 +4,11 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.01.17'
+__version__ = '21.02.11'
 
 from base import TestsBase
 
-from pygeodesy import decodeEPSG2, encodeEPSG, Epsg, epsg, toUtmUps8
+from pygeodesy import Epsg, epsg, toUtmUps8
 
 
 class Tests(TestsBase):
@@ -43,10 +43,11 @@ class Tests(TestsBase):
 if __name__ == '__main__':
 
     from testTMcoords import _TMcoords
+#   from pygeodesy import decodeEPSG2, encodeEPSG
 
     t = Tests(__file__, __version__)
     t.testEpsg(epsg.decode2, epsg.encode)
-    t.testEpsg(decodeEPSG2, encodeEPSG)  # DEPRECATED
+#   t.testEpsg(decodeEPSG2, encodeEPSG)  # DEPRECATED
 
     for n, coord in enumerate(_TMcoords.readlines()):
         t.testEpsgTMcoord(n + 1, *map(float, coord.split()[:2]))

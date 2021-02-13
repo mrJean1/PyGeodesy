@@ -34,16 +34,16 @@ from pygeodesy.ellipsoidalBase import _intermediateTo, _intersections2, \
                                        CartesianEllipsoidalBase, \
                                        LatLonEllipsoidalBase, _nearestOn
 from pygeodesy.errors import _ValueError, _xellipsoidal, _xkwds
-from pygeodesy.formy import points2
+from pygeodesy.iters import PointsIter
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
-from pygeodesy.props import Property_RO
+from pygeodesy.props import deprecated_method, Property_RO
 from pygeodesy.units import _1mm as _TOL_M
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '21.01.28'
+__version__ = '21.02.09'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -83,8 +83,9 @@ class LatLon(LatLonEllipsoidalBase):
               <https://PyPI.org/project/geographiclib>} package.
     '''
 
+    @deprecated_method
     def bearingTo(self, other, wrap=False):  # PYCHOK no cover
-        '''DEPRECATED, use method C{initialBearingTo}.
+        '''DEPRECATED, use method L{initialBearingTo}.
         '''
         return self.initialBearingTo(other, wrap=wrap)
 
@@ -494,21 +495,22 @@ def _EquidistantKarney(equidistant):
 def _geodesic(datum, points, closed, line, wrap):
     # Compute the area or perimeter of a polygon,
     # using the geographiclib package, iff installed
-    g = datum.ellipsoid.geodesic
-
     if not wrap:  # capability LONG_UNROLL can't be off
         raise _ValueError(wrap=wrap)
 
-    _, points = points2(points, closed=closed)  # base=LatLonEllipsoidalBase(0, 0)
+    g  = datum.ellipsoid.geodesic
+    g  = g.Polygon(line)
+    p_ = g.AddPoint
 
-    g = g.Polygon(line)
+    Ps = PointsIter(points, loop=1)  # base=LatLonEllipsoidalBase(0, 0)
+    p0 = Ps[0]
 
     # note, lon deltas are unrolled, by default
-    for p in points:
-        g.AddPoint(p.lat, p.lon)
-    if closed and line:
-        p = points[0]
-        g.AddPoint(p.lat, p.lon)
+    p_(p0.lat, p0.lon)
+    for p in Ps.iterate(closed=closed):
+        p_(p.lat, p.lon)
+    if closed and line and p != p0:
+        p_(p0.lat, p0.lon)
 
     # g.Compute returns (number_of_points, perimeter, signed area)
     return g.Compute(False, True)[1 if line else 2]
