@@ -38,7 +38,7 @@ from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '21.02.09'
+__version__ = '21.02.14'
 
 _reframe_ = 'reframe'
 _TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
@@ -149,8 +149,8 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     @property_RO
     def convergence(self):
-        '''Get this point's UTM or UPS meridian convergence (C{degrees})
-           or C{None} if not converted from L{Utm} or L{Ups}.
+        '''Get this point's UTM or UPS meridian convergence (C{degrees}) or
+           C{None} if not available or not converted from L{Utm} or L{Ups}.
         '''
         return self._convergence
 
@@ -374,6 +374,13 @@ class LatLonEllipsoidalBase(LatLonBase):
                                   equidistant=equidistant, tol=tol,
                                   LatLon=self.classof, datum=self.datum)
 
+    @property_RO
+    def iteration(self):
+        '''Get the most recent C{intersections2} or C{nearestOn} iteration
+           number (C{int}) or C{None} if not available/applicable.
+        '''
+        return self._iteration
+
     @Property_RO
     def _lcc(self):
         '''(INTERNAL) Get this C{LatLon} point to a Lambert location (L{Lcc}).
@@ -412,13 +419,6 @@ class LatLonEllipsoidalBase(LatLonBase):
         return _nearestOn(self, p1, p2, within=within, height=height, wrap=wrap,
                                 equidistant=equidistant, tol=tol,
                                 LatLon=self.classof, datum=self.datum)
-
-    @property_RO
-    def iteration(self):
-        '''Get the iteration number (C{int} or C{None} if not available/applicable)
-           of the most recent C{intersections2} or C{nearestOn} invokation.
-        '''
-        return self._iteration
 
     @Property_RO
     def _osgr(self):

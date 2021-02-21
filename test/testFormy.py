@@ -4,19 +4,20 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '21.01.12'
+__version__ = '21.01.21'
 
 from base import TestsBase
 
 from pygeodesy import R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineForsytheAndoyerLambert as _cosineForsythe_, \
-                      cosineLaw, equirectangular, Datums, euclidean, \
-                      flatLocal, flatPolar, formy, haversine, heightOf, \
-                      horizon, hubeny, IntersectionError, intersections2, \
-                      isantipode, isantipode_, latlonDMS, LimitError, \
-                      limiterrors, map1, parseDMS, radical2, thomas, vincentys
+                      cosineLaw, Datums, equirectangular, euclidean, \
+                      excessGirard, excessLHuilier, flatLocal, flatPolar, \
+                      formy, haversine, heightOf, horizon, hubeny, \
+                      IntersectionError, intersections2, isantipode, \
+                      isantipode_, latlonDMS, LimitError, limiterrors, \
+                      map1, parseDMS, radical2, thomas, vincentys
 
-from math import radians
+from math import degrees, radians
 
 
 class Tests(TestsBase):
@@ -78,6 +79,10 @@ class Tests(TestsBase):
         self.test('bearing1', bearing(41.49, -71.31, 40.78, -73.97),              251.364, fmt='%.3f')
         self.test('bearing2', bearing(41.49, -71.31, 40.78, -73.97, final=False), 251.364, fmt='%.3f')
         self.test('bearing3', bearing(41.49, -71.31, 40.78, -73.97, final=True),  249.614, fmt='%.3f')
+
+        # <https://codegolf.StackExchange.com/questions/63870/spherical-excess-of-a-triangle>
+        self.test('xsGirard',   degrees(excessGirard(  0.38645, 1.48203, 1.48203)), '11.97008', prec=5)
+        self.test('xsLHuilier', degrees(excessLHuilier(0.34371, 1.09857, 1.09857)), '11.96987', prec=5)
 
         self.test('isantipode1', isantipode( 89,  179, -89, -1), True)
         self.test('isantipode2', isantipode(-89, -179,  89,  1), True)

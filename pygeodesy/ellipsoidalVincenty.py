@@ -137,7 +137,7 @@ class LatLon(LatLonEllipsoidalBase):
        L{LatLon.iterations}.
     '''
     _epsilon    = 1.0e-12  # about 0.006 mm
-    _iteration  = 0        # iteration number
+    _iteration  = None     # iteration number
     _iterations = 100      # max 100 vs Veness' 500
 
     @deprecated_method

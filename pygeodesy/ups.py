@@ -23,7 +23,7 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import RangeError, _ValueError
 from pygeodesy.fmath import hypot, hypot1, sqrt0
-from pygeodesy.interns import EPS, NN, _A_, _COMMASPACE_, _N_, \
+from pygeodesy.interns import EPS, NN, _A_, _B_, _COMMASPACE_, _N_, \
                              _EPS__2, _EPStol as _TOL, _inside_, \
                              _pole_, _range_, _S_, _SPACE_, _to_, \
                              _UTM_, _0_0, _0_5, _1_0, _2_0, _90_0
@@ -43,9 +43,9 @@ from pygeodesy.utmupsBase import _LLEB, _hemi, _parseUTMUPS5, \
 from math import atan, atan2, radians, tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '21.02.09'
+__version__ = '21.02.20'
 
-_Bands   = _A_, 'B', 'Y', 'Z'  # polar bands
+_Bands   = _A_, _B_, 'Y', 'Z'  # polar bands
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
 _K0_UPS  =  Scalar(0.994)  # central UPS scale factor
 _K1_UPS  =  Scalar(_1_0)   # rescale point scale factor
@@ -129,7 +129,7 @@ class Ups(UtmUpsBase):
 
     @Property_RO
     def band(self):
-        '''Get the polar band letter ('A', 'B', 'Y' or 'Z').
+        '''Get the polar band letter (C{'A'|'B'|'Y'|'Z'}).
         '''
         self.toLatLon(unfalse=True)
         return self._band
@@ -143,7 +143,7 @@ class Ups(UtmUpsBase):
 
     @Property_RO
     def hemisphere(self):
-        '''Get the hemisphere (C{str}, 'N'|'S').
+        '''Get the hemisphere (C{'N'|'S'}).
         '''
         self.toLatLon(unfalse=True)
         return self._hemisphere

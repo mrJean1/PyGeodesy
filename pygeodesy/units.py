@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.02.08'
+__version__ = '21.02.21'
 
 
 class _NamedUnit(_Named):
@@ -442,7 +442,7 @@ class Degrees(Float):
 
            @returns: A C{Degrees} instance.
 
-           @raise Error: Invalid B{C{arg}} or B{C{abs(deg)}} outside the
+           @raise Error: Invalid B{C{arg}} or B{C{abs(arg)}} outside the
                          B{C{clip}} range and L{rangerrors} set to C{True}.
         '''
         if name_arg:
@@ -490,7 +490,7 @@ class Degrees_(Degrees):
 
            @returns: A C{Degrees} instance.
 
-           @raise Error: Invalid B{C{arg}} or B{C{abs(deg)}} below B{C{low}}
+           @raise Error: Invalid B{C{arg}} or B{C{abs(arg)}} below B{C{low}}
                          or above B{C{high}}.
         '''
         if name_arg:
@@ -534,8 +534,8 @@ class Radians(Float):
 
            @returns: A C{Radians} instance.
 
-           @raise Error: Invalid B{C{arg}} or B{C{abs(deg)}} outside the
-                         B{C{clip}} range and L{rangerrors} set to C{True}.
+           @raise Error: Invalid B{C{arg}} or B{C{abs(arg)}} below B{C{low}}
+                         or above B{C{high}}.
         '''
         if name_arg:
             name, arg = _xkwds_popitem(name_arg)
@@ -553,6 +553,41 @@ class Radians(Float):
 
     def toStr(self, prec=8, fmt=F__F, ints=False):  # PYCHOK prec=8, ...
         return fstr(self, prec=prec, fmt=fmt, ints=ints)
+
+
+class Radians_(Radians):
+    '''Named C{float} representing a coordinate in C{radians} with optional limits C{low} and C{high}.
+    '''
+    def __new__(cls, arg=None, name=_radians_, Error=UnitError, suffix=_NSEW_, low=None, high=None, **name_arg):
+        '''New named C{Radians} instance.
+
+           @arg cls: This class (C{Radians_} or sub-class).
+           @kwarg arg: The value (any C{type} convertable to C{float} or
+                       parsable by L{parseRad}).
+           @kwarg name: Optional instance name (C{str}).
+           @kwarg Error: Optional error to raise, overriding the default
+                         L{UnitError}.
+           @kwarg suffix: Optional, valid compass direction suffixes (C{NSEW}).
+           @kwarg low: Optional lower B{C{arg}} limit (C{float} or C{None}).
+           @kwarg high: Optional upper B{C{arg}} limit (C{float} or C{None}).
+           @kwarg name_arg: Optional C{name=arg} keyword argument,
+                            inlieu of B{C{name}} and B{C{arg}}.
+
+           @returns: A C{Radians_} instance.
+
+           @raise Error: Invalid B{C{arg}} or B{C{abs(deg)}} outside the
+                         B{C{clip}} range and L{rangerrors} set to C{True}.
+        '''
+        if name_arg:
+            name, arg = _xkwds_popitem(name_arg)
+        self = Radians.__new__(cls, arg=arg, name=name, Error=Error, suffix=suffix, clip=0)
+        if (low is not None) and self < low:
+            txt = Fmt.limit(below=low)
+        elif (high is not None) and self > high:
+            txt = Fmt.limit(above=high)
+        else:
+            return self
+        raise _Error(cls, arg, name=name, Error=Error, txt=txt)
 
 
 class Radians2(Float_):
@@ -612,7 +647,7 @@ class Easting(Float):
     '''Named C{float} representing an easting, conventionally in C{meter}.
     '''
     def __new__(cls, arg=None, name=_easting_, Error=UnitError, falsed=False, osgr=False, **name_arg):
-        '''New named C{Easting} instance.
+        '''New named C{Easting} or C{Easting of Point} instance.
 
            @arg cls: This class (C{Easting} or sub-class).
            @kwarg arg: The value (any C{type} convertable to C{float}).
@@ -871,7 +906,7 @@ class Northing(Float):
     '''Named C{float} representing a northing, conventionally in C{meter}.
     '''
     def __new__(cls, arg=None, name=_northing_, Error=UnitError, falsed=False, osgr=False, **name_arg):
-        '''New named C{Northing} instance.
+        '''New named C{Northing} or C({Northing of point} instance.
 
            @arg cls: This class (C{Northing} or sub-class).
            @kwarg arg: The value (any C{type} convertable to C{float}).

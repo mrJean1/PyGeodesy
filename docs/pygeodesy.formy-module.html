@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.02.08
+        21.02.21
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -429,6 +429,50 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>)</span><br />
       Approximate the <i>angular</i> <code>Euclidean</code> distance 
       between two (spherical) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#excessGirard" class="summary-sig-name">excessGirard</a>(<span class="summary-sig-arg">A</span>,
+        <span class="summary-sig-arg">B</span>,
+        <span class="summary-sig-arg">C</span>)</span><br />
+      Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+      triangle using <a 
+      href="https://MathWorld.Wolfram.com/GirardsSphericalExcessFormula.html"
+      target="_top">Girard's</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#excessLHuilier" class="summary-sig-name">excessLHuilier</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
+      Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+      triangle using <a 
+      href="https://MathWorld.Wolfram.com/LHuiliersTheorem.html" 
+      target="_top">L'Huilier's</a> Theorem.</td>
           <td align="right" valign="top">
             
             
@@ -1795,7 +1839,9 @@
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://www.EdWilliams.org/avform.htm#Dist" 
         target="_top">Distance between two (spherical) points</a>, 
-        functions <a href="pygeodesy.formy-module.html#euclidean_" 
+        functions <a href="pygeodesy.fmath-module.html#euclid" 
+        class="link">euclid</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
         class="link">cosineAndoyerLambert</a>, <a 
@@ -1856,7 +1902,9 @@
         <dd>Angular distance (<code>radians</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.formy-module.html#euclidean" 
+        Functions <a href="pygeodesy.fmath-module.html#euclid" 
+        class="link">euclid</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
         class="link">euclidean</a>, <a 
         href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
         class="link">cosineAndoyerLambert_</a>, <a 
@@ -1877,6 +1925,82 @@
         href="pygeodesy.formy-module.html#thomas_" class="link">thomas_</a>
         and <a href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessGirard"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessGirard</span>&nbsp;(<span class="sig-arg">A</span>,
+        <span class="sig-arg">B</span>,
+        <span class="sig-arg">C</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+  triangle using <a 
+  href="https://MathWorld.Wolfram.com/GirardsSphericalExcessFormula.html" 
+  target="_top">Girard's</a> formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>A</code></strong> - First interior triangle angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>B</code></strong> - Second interior triangle angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>C</code></strong> - Third interior triangle angle (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Spherical Excess ({radians}).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessLHuilier" 
+        class="link">excessLHuilier</a>, <a 
+        href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
+        target="_top">Spherical trigonometry</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessLHuilier"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessLHuilier</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+  triangle using <a 
+  href="https://MathWorld.Wolfram.com/LHuiliersTheorem.html" 
+  target="_top">L'Huilier's</a> Theorem.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - First triangle side (<code>radians</code>).</li>
+        <li><strong class="pname"><code>b</code></strong> - Second triangle side (<code>radians</code>).</li>
+        <li><strong class="pname"><code>c</code></strong> - Third triangle side (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Spherical Excess ({radians}).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessGirard" 
+        class="link">excessGirard</a>, <a 
+        href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
+        target="_top">Spherical trigonometry</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -3247,7 +3371,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 13 13:36:14 2021
+    Generated by Epydoc 3.0.1 on Sun Feb 21 15:53:12 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

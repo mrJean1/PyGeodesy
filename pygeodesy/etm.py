@@ -87,7 +87,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.02.11'
+__version__ = '21.02.16'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS
@@ -279,7 +279,7 @@ class ExactTransverseMercator(_NamedBase):
     _datum     =  None  # Datum
     _E         =  None  # Ellipsoid
     _extendp   =  True
-    _iteration =  0     # ._sigmaInv and ._zetaInv
+    _iteration =  None  # ._sigmaInv and ._zetaInv
     _k0        = _1_0   # central scale factor
     _k0_a      = _0_0
     _lon0      = _0_0   # central meridian
@@ -453,7 +453,7 @@ class ExactTransverseMercator(_NamedBase):
     def iteration(self):
         '''Get the most recent C{ExactTransverseMercator.forward}
            or C{ExactTransverseMercator.reverse} iteration number
-           (C{int} or C{0} if not available/applicable).
+           (C{int}) or C{None} if not available/applicable.
         '''
         return self._iteration
 
@@ -529,7 +529,7 @@ class ExactTransverseMercator(_NamedBase):
         self._Ev_cKE_3_4 = self._Ev.cKE * 0.75
         self._Ev_cKE_5_4 = self._Ev.cKE * 1.25
 
-        self._iteration  = 0
+        self._iteration  = None
 
         self._E    = E
         self._k0_a = E.a * self.k0  # see .k0 setter
@@ -826,13 +826,13 @@ class ExactTransverseMercator(_NamedBase):
            @raise EllipticError: No convergence.
         '''
         psi = asinh(taup)
-        sca = _1_0 / hypot1(taup)
         u, v, trip = self._zetaInv0(psi, lam)
         if trip:
             self._iteration = 0
         else:
+            sca   = _1_0 / hypot1(taup)
             stol2 = _TOL_10 / max(psi**2, _1_0)
-            U, V = Fsum(u), Fsum(v)
+            U, V  =  Fsum(u), Fsum(v)
             # min iterations = 2, max = 6, mean = 4.0
             for self._iteration in range(1, _TRIPS):  # GEOGRAPHICLIB_PANIC
                 sncndn6 = self._sncndn6(u, v)

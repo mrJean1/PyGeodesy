@@ -29,7 +29,7 @@ from pygeodesy.units import Bearing, Easting, Height, Lat_, Lon_, \
                             Northing, Scalar
 
 __all__ = _ALL_LAZY.css
-__version__ = '21.02.11'
+__version__ = '21.02.17'
 
 
 def _CS0(cs0):
@@ -274,8 +274,6 @@ class CassiniSoldner(_NamedBase):
             self._datumatch(r)
         return r
 
-    toLatLon = reverse
-
     def reverse4(self, easting, northing, name=NN):
         '''Convert a Cassini-Soldner location to (ellipsoidal) geodetic
            lat- and longitude.
@@ -298,6 +296,8 @@ class CassiniSoldner(_NamedBase):
         # azimuthal northing scale (see C++ member Direct() 5/6
         # <https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geodesic.html>)
         return LatLonAziRk4Tuple(r.lat2, r.lon2, z, r.M12, name=name or self.name)
+
+    toLatLon = reverse  # XXX not reverse4
 
     def toRepr(self, prec=6, **unused):  # PYCHOK expected
         '''Return a string representation of this projection.

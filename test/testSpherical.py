@@ -4,7 +4,7 @@
 # Test spherical earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.02.21'
 
 from base import RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -351,6 +351,12 @@ class Tests(_TestsLL, _TestsV):
             p = [LatLon(*ll) for ll in Antarctica]  # PYCHOK test attr?
             for _ in self.testiter():
                 self.test('ispolar', module.ispolar(p), 'True', known=Vct)  # PYCHOK test attr?
+
+        if hasattr(LatLon, 'triangle7'):
+            t = LatLon(10, 10).triangle7(LatLon(70, -20), LatLon(70, 40))
+            self.test('triangle7', t.toStr(prec=6), '(22.142114, 2189776.256122, 84.91384, 6998970.168483, 84.91384, 6998970.168483, 8479698853790.71582)')
+            t = LatLon(10, 10).triangle7(LatLon(70, -20), LatLon(70, 40), radius=None)
+            self.test('triangle7', t.toRepr(prec=5), 'Triangle8Tuple(A=0.38645, a=0.34371, B=1.48203, b=1.09857, C=1.48203, c=1.09857, D=3.74234, E=0.20891)')  # PYCHOK test
 
         if hasattr(LatLon, 'nearestOn'):
             # <https://GitHub.com/mrJean1/PyGeodesy/issues/25>

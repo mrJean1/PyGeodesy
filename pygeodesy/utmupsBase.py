@@ -24,7 +24,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import wrap90, wrap360
 
 __all__ = ()
-__version__ = '21.02.09'
+__version__ = '21.02.14'
 
 _MGRS_TILE = 100e3  # PYCHOK block size (C{meter})
 
@@ -190,7 +190,8 @@ class UtmUpsBase(_NamedBase):
 
     @property_RO
     def convergence(self):
-        '''Get the meridian convergence (C{degrees}) or C{None}.
+        '''Get the meridian convergence (C{degrees}) or C{None}
+           if not available.
         '''
         return self._convergence
 

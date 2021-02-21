@@ -29,7 +29,7 @@ from pygeodesy.props import deprecated_method, _hasProperty, Property_RO, \
 from pygeodesy.streprs import attrs, Fmt, pairs, reprs, unstr
 
 __all__ = _ALL_LAZY.named
-__version__ = '21.02.09'
+__version__ = '21.02.17'
 
 _at_       = 'at'
 _del_      = 'del'
@@ -752,7 +752,7 @@ class _NamedTuple(tuple, _Named):
        @note: This class is similar to Python's C{namedtuple},
               but statically defined, lighter and limited.
     '''
-    _iteration = None  # Iteration number (C{int} or C{None})
+    _iteration = None  # Iteration number (C{int}) or C{None}
     _Names_    = ()  # item names, non-identifier, no leading underscore
     '''Tuple specifying the C{name} of each C{Named-Tuple} item.
 
@@ -853,20 +853,20 @@ class _NamedTuple(tuple, _Named):
 
     @property_RO
     def iteration(self):
-        '''Get the iteration number (C{int} or C{None} if not available/applicable).
+        '''Get the iteration number (C{int}) or C{None} if not available/applicable.
         '''
         return self._iteration
 
     def _xtend(self, xTuple, *items):
         '''(INTERNAL) Extend this C{Named-Tuple} with C{items} to an other B{C{xTuple}}.
         '''
-        if not (issubclassof(xTuple, _NamedTuple) and
-               (len(self._Names_) + len(items)) == len(xTuple._Names_)
-                and self._Names_ == xTuple._Names_[:len(self)]):
-            c = NN(self.classname,  repr(self._Names_))  # PYCHOK no cover
-            x = NN(xTuple.__name__, repr(xTuple._Names_))  # PYCHOK no cover
-            raise TypeError(_SPACE_(c, _vs_, x))
-        return self._xnamed(xTuple(*(self + items)))
+        if (issubclassof(xTuple, _NamedTuple) and
+            (len(self._Names_) + len(items)) == len(xTuple._Names_) and
+                 self._Names_ == xTuple._Names_[:len(self)]):
+            return self._xnamed(xTuple(*(self + items)))
+        c = NN(self.classname,  repr(self._Names_))  # PYCHOK no cover
+        x = NN(xTuple.__name__, repr(xTuple._Names_))  # PYCHOK no cover
+        raise TypeError(_SPACE_(c, _vs_, x))
 
     def toRepr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
         '''Return this C{Named-Tuple} items as C{name=value} string(s).

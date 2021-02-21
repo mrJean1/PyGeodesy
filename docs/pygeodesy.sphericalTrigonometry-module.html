@@ -86,7 +86,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.02.09
+        21.02.21
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -328,6 +328,56 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Compute the perimeter of a (spherical) polygon (with great circle 
       arcs joining the points).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#triangle7" class="summary-sig-name">triangle7</a>(<span class="summary-sig-arg">latA</span>,
+        <span class="summary-sig-arg">lonA</span>,
+        <span class="summary-sig-arg">latB</span>,
+        <span class="summary-sig-arg">lonB</span>,
+        <span class="summary-sig-arg">latC</span>,
+        <span class="summary-sig-arg">lonC</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">girard</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the angles, sides, and area of a (spherical) triangle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#triangle8_" class="summary-sig-name">triangle8_</a>(<span class="summary-sig-arg">phiA</span>,
+        <span class="summary-sig-arg">lamA</span>,
+        <span class="summary-sig-arg">phiB</span>,
+        <span class="summary-sig-arg">lamB</span>,
+        <span class="summary-sig-arg">phiC</span>,
+        <span class="summary-sig-arg">lamC</span>,
+        <span class="summary-sig-arg">girard</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the angles, sides, <i>spherical deficit</i> and <i>spherical 
+      excess</i> of a (spherical) triangle.</td>
           <td align="right" valign="top">
             
             
@@ -909,6 +959,122 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="triangle7"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triangle7</span>&nbsp;(<span class="sig-arg">latA</span>,
+        <span class="sig-arg">lonA</span>,
+        <span class="sig-arg">latB</span>,
+        <span class="sig-arg">lonB</span>,
+        <span class="sig-arg">latC</span>,
+        <span class="sig-arg">lonC</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">girard</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the angles, sides, and area of a (spherical) triangle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latA</code></strong> - First corner latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lonA</code></strong> - First corner longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>latB</code></strong> - Second corner latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lonB</code></strong> - Second corner longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>latC</code></strong> - Third corner latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lonC</code></strong> - Third corner longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, conventionally) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>girard</code></strong> - Use <i>Girard's formula</i> or <i>L'Huilier's Theorem</i> for the
+          <i>spherical excess</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Triangle7Tuple-class.html" 
+          class="link">Triangle7Tuple</a><code>(A, a, B, b, C, c, 
+          area)</code> with spherical angles <code>A</code>, <code>B</code>
+          and <code>C</code>, angular sides <code>a</code>, <code>b</code> 
+          and <code>c</code> all in <code>degrees</code> and 
+          <code>area</code> in <i>square</i> <code>meter</code> or units of
+          <b><code>radius</code></b> <i>squared</i> or if 
+          <b><code>radius</code></b> is <code>None</code>, a <a 
+          href="pygeodesy.namedTuples.Triangle8Tuple-class.html" 
+          class="link">Triangle8Tuple</a><code>(A, a, B, b, C, c, D, 
+          E)</code> all in <code>radians</code> with <i>spherical 
+          excess</i> <code>E</code> as the <code>unit area</code> in 
+          <code>radians</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessGirard" 
+        class="link">excessGirard</a> and <a 
+        href="pygeodesy.formy-module.html#excessLHuilier" 
+        class="link">excessLHuilier</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="triangle8_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">triangle8_</span>&nbsp;(<span class="sig-arg">phiA</span>,
+        <span class="sig-arg">lamA</span>,
+        <span class="sig-arg">phiB</span>,
+        <span class="sig-arg">lamB</span>,
+        <span class="sig-arg">phiC</span>,
+        <span class="sig-arg">lamC</span>,
+        <span class="sig-arg">girard</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the angles, sides, <i>spherical deficit</i> and <i>spherical 
+  excess</i> of a (spherical) triangle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phiA</code></strong> - First corner latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lamA</code></strong> - First corner longitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phiB</code></strong> - Second corner latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lamB</code></strong> - Second corner longitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phiC</code></strong> - Third corner latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lamC</code></strong> - Third corner longitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>girard</code></strong> - Use <i>Girard's formula</i> or <i>L'Huilier's Theorem</i> for the
+          <i>spherical excess</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
+          class="link">unrollPI</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Triangle8Tuple-class.html" 
+          class="link">Triangle8Tuple</a><code>(A, a, B, b, C, c, D, 
+          E)</code> with spherical angles <code>A</code>, <code>B</code> 
+          and <code>C</code>, angular sides <code>a</code>, <code>b</code> 
+          and <code>c</code>, <i>spherical deficit</i> <code>D</code> and 
+          <i>spherical excess</i> <code>E</code>, all in 
+          <code>radians</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Functions <a href="pygeodesy.formy-module.html#excessGirard" 
+        class="link">excessGirard</a> and <a 
+        href="pygeodesy.formy-module.html#excessLHuilier" 
+        class="link">excessLHuilier</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -941,7 +1107,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 13 13:36:15 2021
+    Generated by Epydoc 3.0.1 on Sun Feb 21 15:53:13 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -44,7 +44,7 @@ __all__ = ('coverage', 'geographiclib', 'numpy', 'numpy_version',  # constants
            'RandomLatLon', 'TestsBase',  # classes
            'ios_ver', 'secs2str',  # functions
            'test_dir', 'tilde', 'type2str', 'versions')
-__version__ = '21.02.12'
+__version__ = '21.02.14'
 
 # don't test with numpy and/or scypi older than 1.9 resp. 1.0
 from pygeodesy import basics
@@ -233,7 +233,7 @@ class TestsBase(object):
         s = time() - self._time
         t = self.total
         w = DeprecationWarnings()
-        f = self.failed + w
+        f = self.failed + (w or 0)
         if f:
             a = ', incl. '
             k = self.known or NN

@@ -1290,13 +1290,14 @@
       <em class="summary">7-Tuple <code>(x, y, lat, lon, azimuth, scale, datum)</code>, in 
         <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
         <code>degrees180</code>, <code>degrees360</code>, 
-        <code>float</code> and <code>Datum</code> where <code>(x, y)</code>
-        is the projected, <code>(lat, lon)</code> the geodetic location, 
-        <code>azimuth</code> the azimuth direction clockwise from true 
-        North and <code>scale</code> is the projection scale, either 
-        (<code>1 / reciprocal</code> or <code>1</code> or <code>-1</code> 
-        in the <a href="pygeodesy.azimuthal.Equidistant-class.html" 
-        class="link">Equidistant</a> case).</em>
+        <code>scalar</code> and <code>Datum</code> where <code>(x, 
+        y)</code> is the projected easting and northing of point, 
+        <code>(lat, lon)</code> the geodetic location, <code>azimuth</code>
+        the azimuth direction clockwise from true North and 
+        <code>scale</code> is the projection scale, either <code>1 / 
+        reciprocal</code> or <code>1</code> or <code>-1</code> in the <a 
+        href="pygeodesy.azimuthal.Equidistant-class.html" 
+        class="link">Equidistant</a> case.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Bearing2Tuple-class.html">pygeodesy.namedTuples.Bearing2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(initial, final)</code> bearings, both in compass 
@@ -1584,6 +1585,22 @@
       <em class="summary">2-Tuple <code>(nrows, ncols)</code>, the number of rows and 
         columns, both <code>int</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Triangle7Tuple-class.html">pygeodesy.namedTuples.Triangle7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(A, a, B, b, C, c, area)</code> with interior angles 
+        <code>A</code>, <code>B</code> and <code>C</code> in 
+        <code>degrees</code>, spherical sides <code>a</code>, 
+        <code>b</code> and <code>c</code> in <code>meter</code> and the 
+        <code>area</code> of a spherical triangle in <i>square</i> 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Triangle8Tuple-class.html">pygeodesy.namedTuples.Triangle8Tuple</a></strong>:
+      <em class="summary">8-Tuple <code>(A, a, B, b, C, c, D, E)</code> with interior angles 
+        <code>A</code>, <code>B</code> and <code>C</code>, spherical sides 
+        <code>a</code>, <code>b</code> and <code>c</code>, <i>spherical 
+        deficit</i> <code>D</code> and <i>spherical excess</i> 
+        <code>E</code> of a spherical triangle, all in 
+        <code>radians</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html">pygeodesy.namedTuples.Trilaterate5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(min, minPoint, max, maxPoint, n)</code> with 
         <code>min</code> and <code>max</code> in <code>meter</code>, the 
@@ -1794,6 +1811,11 @@
         <code>radians</code> converted from <code>degrees</code>.</em>
     </li>
     </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Radians_-class.html">pygeodesy.units.Radians_</a></strong>:
+      <em class="summary">Named <code>float</code> representing a coordinate in 
+        <code>radians</code> with optional limits <code>low</code> and 
+        <code>high</code>.</em>
     </li>
     </ul>
     </li>
@@ -2056,6 +2078,11 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.units.Radians_-class.html">pygeodesy.units.Radians_</a></strong>:
+      <em class="summary">Named <code>float</code> representing a coordinate in 
+        <code>radians</code> with optional limits <code>low</code> and 
+        <code>high</code>.</em>
+    </li>
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units.Radius-class.html">pygeodesy.units.Radius</a></strong>:
@@ -2147,13 +2174,14 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">7-Tuple <code>(x, y, lat, lon, azimuth, scale, datum)</code>, in 
         <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
         <code>degrees180</code>, <code>degrees360</code>, 
-        <code>float</code> and <code>Datum</code> where <code>(x, y)</code>
-        is the projected, <code>(lat, lon)</code> the geodetic location, 
-        <code>azimuth</code> the azimuth direction clockwise from true 
-        North and <code>scale</code> is the projection scale, either 
-        (<code>1 / reciprocal</code> or <code>1</code> or <code>-1</code> 
-        in the <a href="pygeodesy.azimuthal.Equidistant-class.html" 
-        class="link">Equidistant</a> case).</em>
+        <code>scalar</code> and <code>Datum</code> where <code>(x, 
+        y)</code> is the projected easting and northing of point, 
+        <code>(lat, lon)</code> the geodetic location, <code>azimuth</code>
+        the azimuth direction clockwise from true North and 
+        <code>scale</code> is the projection scale, either <code>1 / 
+        reciprocal</code> or <code>1</code> or <code>-1</code> in the <a 
+        href="pygeodesy.azimuthal.Equidistant-class.html" 
+        class="link">Equidistant</a> case.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Bearing2Tuple-class.html">pygeodesy.namedTuples.Bearing2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(initial, final)</code> bearings, both in compass 
@@ -2441,6 +2469,22 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
       <em class="summary">2-Tuple <code>(nrows, ncols)</code>, the number of rows and 
         columns, both <code>int</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Triangle7Tuple-class.html">pygeodesy.namedTuples.Triangle7Tuple</a></strong>:
+      <em class="summary">7-Tuple <code>(A, a, B, b, C, c, area)</code> with interior angles 
+        <code>A</code>, <code>B</code> and <code>C</code> in 
+        <code>degrees</code>, spherical sides <code>a</code>, 
+        <code>b</code> and <code>c</code> in <code>meter</code> and the 
+        <code>area</code> of a spherical triangle in <i>square</i> 
+        <code>meter</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Triangle8Tuple-class.html">pygeodesy.namedTuples.Triangle8Tuple</a></strong>:
+      <em class="summary">8-Tuple <code>(A, a, B, b, C, c, D, E)</code> with interior angles 
+        <code>A</code>, <code>B</code> and <code>C</code>, spherical sides 
+        <code>a</code>, <code>b</code> and <code>c</code>, <i>spherical 
+        deficit</i> <code>D</code> and <i>spherical excess</i> 
+        <code>E</code> of a spherical triangle, all in 
+        <code>radians</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Trilaterate5Tuple-class.html">pygeodesy.namedTuples.Trilaterate5Tuple</a></strong>:
       <em class="summary">5-Tuple <code>(min, minPoint, max, maxPoint, n)</code> with 
         <code>min</code> and <code>max</code> in <code>meter</code>, the 
@@ -2553,7 +2597,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 13 13:36:12 2021
+    Generated by Epydoc 3.0.1 on Sun Feb 21 15:53:12 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

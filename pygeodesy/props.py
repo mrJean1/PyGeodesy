@@ -5,28 +5,28 @@ u'''Im-/mutable, caching or memoizing properties and decorators
 for C{DeprecationWarning}s.
 
 To enable C{DepreactionWarning}s from C{PyGeodesy}, set environment
-variable C{PYGEODESY_WARNINGS} to a non-empty string.  For more
-details see function L{DeprecationWarnings} below.
+variable C{PYGEODESY_WARNINGS} to a non-empty string and run C{python}
+with command line option C{-X dev} or one or the C{-W} choices, see
+function L{DeprecationWarnings} below.
 '''
-from pygeodesy.errors import _AssertionError, _AttributeError, \
-                             _xkwds
+from pygeodesy.errors import _AssertionError, _AttributeError, _xkwds
 from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, _immutable_, \
-                             _invalid_, _N_A_, _SPACE_  # _UNDER_
-from pygeodesy.lazily import _ALL_LAZY, _env, _FOR_DOCS
+                             _invalid_, MISSING, _N_A_, _SPACE_, _UNDER_
+from pygeodesy.lazily import _ALL_LAZY, _env, _FOR_DOCS, \
+                             _PYTHON_X_DEV, _sys
 from pygeodesy.streprs import Fmt
 
 from functools import wraps as _wraps
 from warnings import warn as _warn
 
 __all__ = _ALL_LAZY.props
-__version__ = '21.02.12'
+__version__ = '21.02.16'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
-_method_     = 'method'
 _Warnings    =  0
-_W_DEV       = _env.get('PYGEODESY_WARNINGS', NN)  # or
-#              _PYTHON_X_DEV or bool(_sys.warnoptions)
+_W_DEV       = (bool(_sys.warnoptions) or _PYTHON_X_DEV) \
+                and _env.get('PYGEODESY_WARNINGS', NN)
 
 
 def _hasProperty(inst, name, *Classes):
@@ -51,19 +51,20 @@ def _update_all(inst, *attrs):
 
     for c in inst.__class__.__mro__[:-1]:
         for n, p in c.__dict__.items():
-            if isinstance(p, _PropertyBase) and p.name == n:  # XXX not property_RO
+            if isinstance(p, _PropertyBase) and p.name == n:
                 p._update(inst, c)
 
-    for a in attrs:
+    p = d.pop
+    for a in attrs:  # PYCHOK no cover
         if hasattr(inst, a):
-            d.pop(a, None)
-        else:  # PYCHOK no cover
+            p(a, None)
+        else:
             from pygeodesy.named import classname
             n =  classname(inst, prefixed=True)
             a = _DOT_(n, _SPACE_(a, _invalid_))
             raise _AssertionError(a, txt=repr(inst))
 
-    return u - len(d)
+    return u - len(d)  # of updates
 
 
 class _PropertyBase(property):
@@ -201,6 +202,8 @@ class Property(Property_RO):
 
 class property_RO(_PropertyBase):
     # No __doc__ on purpose
+    _n = NN
+
     def __init__(self, method, doc=NN):  # PYCHOK expected
         '''New I{immutable}, standard C{property} to be used as C{decorator}.
 
@@ -213,19 +216,24 @@ class property_RO(_PropertyBase):
            @see: L{Property_RO}.
         '''
         _PropertyBase.__init__(self, method, method, self._fset_error, doc=doc)
+        self._n = NN(_UNDER_, self.name)  # actual attr name
 
-    def _update(self, inst, clas=None):  # PYCHOK signature
-        '''DEPRECATED (INTERNAL) Zap the I{cached} C{inst.__dict__[_name]} item.
+    def _update(self, inst, *Clas):  # PYCHOK signature
+        '''(INTERNAL) Zap the I{cached} C{inst.__dict__[_name]} item.
         '''
-#       if _W_DEV:
-#           _n = _qualify(self, self._update.__name__)
-#           _throwarning(_method_, _n, _dont_use_)
-#       c = clas or inst.__class__
-#       if c:
-#           _n = NN(_UNDER_, self.name)
-#           if c.__dict__.get(_n, False) is None:  # in (None, ()):
-#               inst.__dict__.pop(_n, None)
-        pass
+        _n = self._n
+        if _n in inst.__dict__:
+            if Clas:
+                d = Clas[0].__dict__.get(_n, MISSING)
+            else:
+                d = getattr(inst.__class__, _n, MISSING)
+#               if d is MISSING:  # XXX superfluous
+#                   for c in inst.__class__.__mro__[:-1]:
+#                       if _n in c.__dict__:
+#                           d = c.__dict__[_n]
+#                           break
+            if d is None:  # reset inst value to unavailable
+                inst.__dict__.pop(_n)
 
 
 def property_doc_(doc):
@@ -256,7 +264,7 @@ def property_doc_(doc):
     return _documented_property
 
 
-def _deprecated(call, kind, q_d):
+def _deprecated(call, kind, qual_d):
     '''(INTERNAL) Decorator for DEPRECATED functions, methods, etc.
 
        @see: Brett Slatkin, "Effective Python", page 105, 2nd ed,
@@ -266,12 +274,12 @@ def _deprecated(call, kind, q_d):
 
     @_wraps(call)  # PYCHOK self?
     def _deprecated_call(*args, **kwds):
-        if q_d:  # function
-            q = q_d
+        if qual_d:  # function
+            q = qual_d
         elif args:  # method
-            q = _qualify(args[0], call.__name__)  # PYCHOK no cover
-        else:  # just in case
-            q = call.__name__  # PYCHOK no cover
+            q = _qualified(args[0], call.__name__)
+        else:  # PYCHOK no cover
+            q = call.__name__
         _throwarning(kind, q, doc)
         return call(*args, **kwds)
 
@@ -298,8 +306,8 @@ def deprecated_class(Clas):
                 Clas.__init__(self, *args, **kwds)
 
         return _Deprecated_Clas
-    else:
-        return             Clas
+    else:  # PYCHOK no cover
+        return  Clas
 
 
 def deprecated_function(call):
@@ -321,7 +329,7 @@ def deprecated_method(call):
 
        @return: The B{C{call}} DEPRECATED.
     '''
-    return _deprecated(call, _method_, NN) if _W_DEV else call
+    return _deprecated(call, 'method', NN) if _W_DEV else call
 
 
 def _deprecated_module(name):  # PYCHOK no cover
@@ -365,26 +373,27 @@ def _deprecated_RO(method, _RO):
                 _PropertyBase.__init__(self, method, self._fget, self._fset_error, doc=doc)
 
             def _fget(self, inst):  # PYCHOK no cover
-                q = _qualify(inst, self.name)  # method.__name__
+                q = _qualified(inst, self.name)
                 _throwarning(_RO.__name__, q, doc)
                 return self.method(inst)
 
         return _Deprecated_RO(method)
-    else:
-        return            _RO(method, doc=doc)  # PYCHOK no cover
+    else:  # PYCHOK no cover
+        return _RO(method, doc=doc)
 
 
 def DeprecationWarnings():
     '''Get the C{DeprecationWarning}s reported or raised.
 
-       @return: The number of C{DeprecationWarning}s (C{int}) or C{0}.
+       @return: The number of C{DeprecationWarning}s (C{int}) or
+                C{None} if not enabled.
 
        @note: To get L{DeprecationWarnings} if any, run C{python}
               with environment variable C{PYGEODESY_WARNINGS} set
               to a non-empty string AND use C{python} command line
-              option C{-X dev}, C{-W always}, C{-W error}, etc.
+              option C{-X dev}, C{-W always}, or C{-W error}, etc.
     '''
-    return _Warnings
+    return _Warnings if _W_DEV else None
 
 
 def _docof(obj):
@@ -398,7 +407,7 @@ def _docof(obj):
     return _DOT_(_DEPRECATED_, NN) if i < 0 else d[i:]
 
 
-def _qualify(inst, name):  # PYCHOK no cover
+def _qualified(inst, name):
     '''(INTERNAL) Fully qualify a name.
     '''
     # _DOT_(inst.classname, name), not _DOT_(inst.named4, name)
@@ -415,7 +424,7 @@ def _throwarning(kind, name, doc, **stacklevel):  # stacklevel=3
     global _Warnings
     _Warnings += 1
     # XXX _warn or raise DeprecationWarning(text)
-    _warn(text, category=DeprecationWarning, **kwds)  # XXX stacklevel=3 not working?
+    _warn(text, category=DeprecationWarning, **kwds)
 
 # **) MIT License
 #

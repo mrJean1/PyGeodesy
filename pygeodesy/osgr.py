@@ -56,7 +56,7 @@ from pygeodesy.utily import degrees90, degrees180, sincos2
 from math import cos, radians, sin, sqrt, tan
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '21.02.09'
+__version__ = '21.02.14'
 
 _100_000 =  int(_100km)  # 100 km (int C{meter})
 _5040_0  = _float(5040)
@@ -105,7 +105,7 @@ class Osgr(_NamedBase):
     '''
     _datum     = _OSGB36  # default datum (L{Datum})
     _easting   =  0       # Easting (C{meter})
-    _iteration =  0       # iteration number (C{int})
+    _iteration =  None    # iteration number (C{int})
     _latlon    =  None    # cached B{C{_toLatlon}}
     _northing  =  0       # Nothing (C{meter})
 
@@ -153,7 +153,7 @@ class Osgr(_NamedBase):
     @property_RO
     def iteration(self):
         '''Get the most recent C{Osgr.toLatLon} iteration number
-           (C{int} or C{0} if not available/applicable).
+           (C{int}) or C{None} if not available/applicable.
         '''
         return self._iteration
 

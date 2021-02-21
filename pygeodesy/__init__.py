@@ -48,15 +48,17 @@ to encode and decode U{EPSG<https://www.EPSG-Registry.org>}, U{Geohashes
 U{Garefs (GARS)<https://WikiPedia.org/wiki/Global_Area_Reference_System>}.
 
 Other modules provide U{Albers Equal-Area<https://GeographicLib.SourceForge.io/
-html/classGeographicLib_1_1AlbersEqualArea.html>} projections, azimuthal projections
-and Lambert conformal conic projections and positions (from U{John P. Snyder, "Map
-Projections -- A Working Manual", 1987<https://Pubs.USGS.gov/pp/1395/report.pdf>}),
-functions to clip a path or polygon of C{LatLon} points using the U{Cohen-Sutherland
-<https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm>}, the U{Liang-Barsky
-<https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html>} and the
-U{Sutherland-Hodgman<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>}
-methods, functions to U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize
-a path of C{LatLon} points (or a U{NumPy array <https://docs.SciPy.org/doc/numpy/
+html/classGeographicLib_1_1AlbersEqualArea.html>} projections, U{AzimuthalEquidistant
+<https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html>}
+and other I{azimuthal} projections and Lambert I{conformal conic} projections and
+positions (from U{John P. Snyder, "Map Projections -- A Working Manual", 1987
+<https://Pubs.USGS.gov/pp/1395/report.pdf>}), functions to clip a path or polygon
+of C{LatLon} points using the U{Cohen-Sutherland<https://WikiPedia.org/wiki/
+Cohen-Sutherland_algorithm>}, the U{Liang-Barsky<https://www.CS.Helsinki.FI/
+group/goa/viewing/leikkaus/intro.html>} and the U{Sutherland-Hodgman
+<https://WikiPedia.org/wiki/Sutherland-Hodgman_algorithm>} methods, functions
+to U{simplify<https://Bost.Ocks.org/mike/simplify>} or linearize a path of
+C{LatLon} points (or a U{NumPy array <https://docs.SciPy.org/doc/numpy/
 reference/generated/numpy.array.html>}), including implementations of the
 U{Ramer-Douglas-Peucker<https://WikiPedia.org/wiki/Ramer-Douglas-Peucker_algorithm>}
 the U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/resources/hull:8338>} and the
@@ -108,27 +110,27 @@ tests, the test results (on macOS only) and the complete U{documentation
 Tests
 =====
 
-The tests have been run with Python 3.9.1 (with U{geographiclib
+The tests have been run with Python 3.9.2 (with U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.50), Python 3.8.6 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all on
-macOS 11.2 (10.16) Big Sur and all in 64-bit only.  The tests
+macOS 11.2.1 (10.16) Big Sur and all in 64-bit only.  The tests
 run with and without C{lazy import} for Python 3 and with C{-W
 always} and environment variable C{PYGEODESY_WARNINGS=on} for
 all Python versions.  The results of those tests are included
 in the distribution files.
 
 Test coverage has been measured with U{coverage
-<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.1 (with
+<https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.2 (with
 U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50), Python
 3.8.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>}
 1.50, U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
-(with U{numpy<https://PyPI.org/project/numpy>} 1.16.6).  The
-complete coverage report in HTML and a PDF summary are included in
-the distribution files.
+(with U{numpy<https://PyPI.org/project/numpy>} 1.16.6).  The complete
+coverage report in HTML and a PDF summary are included in the
+distribution files.
 
 The tests also ran with Python 3.8.0, 3.7.1, 3.6.7, 2.7.15 and U{PyPy
 <https://PyPy.org>} 7.1.1 (Python 3.6.1 and 2.7.13) (and U{geographiclib
@@ -145,8 +147,8 @@ A single-File and single-Directory application with C{pygeodesy} has been
 bundled using U{PyInstaller<https://www.PyInstaller.org>} 3.4 and 64-bit
 Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.8.0-5, 3.7.2-6, 3.7.0, 3.6.2-5,
-3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and U{numpy<https://PyPI.org/project/numpy>}
+Previously, the tests were run with Python 3.9.0-1, 3.8.0-5, 3.7.2-6, 3.7.0,
+3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and U{numpy<https://PyPI.org/project/numpy>}
 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0
 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and
@@ -169,8 +171,8 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8
-<https://PyPI.org/project/flake8>} using Python 3.9.1, both in 64-bit
-on macOS 11.2 (10.16) Big Sur.
+<https://PyPI.org/project/flake8>} using Python 3.9.2, both in 64-bit
+on macOS 11.2.1 (10.16) Big Sur.
 
 Classes with a name ending in C{Karney} and several more are transcribed from
 I{Karney}'s U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
@@ -470,7 +472,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.02.12'
+__version__ = '21.02.21'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

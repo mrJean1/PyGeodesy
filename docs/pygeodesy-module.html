@@ -125,12 +125,15 @@
   target="_top">Garefs (GARS)</a>.</p>
   <p>Other modules provide <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AlbersEqualArea.html"
-  target="_top">Albers Equal-Area</a> projections, azimuthal projections 
-  and Lambert conformal conic projections and positions (from <a 
-  href="https://Pubs.USGS.gov/pp/1395/report.pdf" target="_top">John P. 
-  Snyder, &quot;Map Projections -- A Working Manual&quot;, 1987</a>), 
-  functions to clip a path or polygon of <code>LatLon</code> points using 
-  the <a href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
+  target="_top">Albers Equal-Area</a> projections, <a 
+  href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1AzimuthalEquidistant.html"
+  target="_top">AzimuthalEquidistant</a> and other <i>azimuthal</i> 
+  projections and Lambert <i>conformal conic</i> projections and positions 
+  (from <a href="https://Pubs.USGS.gov/pp/1395/report.pdf" 
+  target="_top">John P. Snyder, &quot;Map Projections -- A Working 
+  Manual&quot;, 1987</a>), functions to clip a path or polygon of 
+  <code>LatLon</code> points using the <a 
+  href="https://WikiPedia.org/wiki/Cohen-Sutherland_algorithm" 
   target="_top">Cohen-Sutherland</a>, the <a 
   href="https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html" 
   target="_top">Liang-Barsky</a> and the <a 
@@ -202,7 +205,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=PyGeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests have been run with Python 3.9.1 (with <a 
+    <p>The tests have been run with Python 3.9.2 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50), Python 3.8.6 (with <a 
     href="https://PyPI.org/project/geographiclib" 
@@ -211,14 +214,14 @@
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and macOS' Python 2.7.16 (with <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6), 
-    all on macOS 11.2 (10.16) Big Sur and all in 64-bit only.  The tests 
+    all on macOS 11.2.1 (10.16) Big Sur and all in 64-bit only.  The tests 
     run with and without <code>lazy import</code> for Python 3 and with 
     <code>-W always</code> and environment variable 
     <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    4.5.4 using Python 3.9.1 (with <a 
+    4.5.4 using Python 3.9.2 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50), Python 3.8.6 (with <a 
     href="https://PyPI.org/project/geographiclib" 
@@ -248,8 +251,8 @@
     <code>pygeodesy</code> has been bundled using <a 
     href="https://www.PyInstaller.org" target="_top">PyInstaller</a> 3.4 
     and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.8.0-5, 3.7.2-6, 3.7.0, 
-    3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and <a 
+    <p>Previously, the tests were run with Python 3.9.0-1, 3.8.0-5, 
+    3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.19.0, 
     1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and <a 
     href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.5.0), 
@@ -279,8 +282,8 @@
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.9.1, both in 64-bit on macOS 
-    11.2 (10.16) Big Sur.</p>
+    target="_top">Flake8</a> using Python 3.9.2, both in 64-bit on macOS 
+    11.2.1 (10.16) Big Sur.</p>
     <p>Classes with a name ending in <code>Karney</code> and several more 
     are transcribed from <i>Karney</i>'s <a 
     href="https://GeographicLib.SourceForge.io/html/annotated.html" 
@@ -318,7 +321,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.02.12
+        21.02.21
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -361,11 +364,13 @@
         href="pygeodesy.azimuthal.LambertEqualArea-class.html" 
         class="link">LambertEqualArea</a>, <a 
         href="pygeodesy.azimuthal.Orthographic-class.html" 
-        class="link">Orthographic</a>, <a 
+        class="link">Orthographic</a> and <a 
         href="pygeodesy.azimuthal.Stereographic-class.html" 
-        class="link">Stereographic</a> and <a 
+        class="link">Stereographic</a>, classes <a 
         href="pygeodesy.azimuthal.AzimuthalError-class.html" 
-        class="link">AzimuthalError</a> and functions <a 
+        class="link">AzimuthalError</a>, <a 
+        href="pygeodesy.azimuthal.Azimuthal7Tuple-class.html" 
+        class="link">Azimuthal7Tuple</a> and functions <a 
         href="pygeodesy.azimuthal-module.html#equidistant" 
         class="link">equidistant</a> and <a 
         href="pygeodesy.azimuthal-module.html#gnomonic" 
@@ -1087,13 +1092,14 @@
       7-Tuple <code>(x, y, lat, lon, azimuth, scale, datum)</code>, in 
         <code>meter</code>, <code>meter</code>, <code>degrees90</code>, 
         <code>degrees180</code>, <code>degrees360</code>, 
-        <code>float</code> and <code>Datum</code> where <code>(x, y)</code>
-        is the projected, <code>(lat, lon)</code> the geodetic location, 
-        <code>azimuth</code> the azimuth direction clockwise from true 
-        North and <code>scale</code> is the projection scale, either 
-        (<code>1 / reciprocal</code> or <code>1</code> or <code>-1</code> 
-        in the <a href="pygeodesy.azimuthal.Equidistant-class.html" 
-        class="link">Equidistant</a> case).
+        <code>scalar</code> and <code>Datum</code> where <code>(x, 
+        y)</code> is the projected easting and northing of point, 
+        <code>(lat, lon)</code> the geodetic location, <code>azimuth</code>
+        the azimuth direction clockwise from true North and 
+        <code>scale</code> is the projection scale, either <code>1 / 
+        reciprocal</code> or <code>1</code> or <code>-1</code> in the <a 
+        href="pygeodesy.azimuthal.Equidistant-class.html" 
+        class="link">Equidistant</a> case.
     </td>
   </tr>
 <tr>
@@ -3103,6 +3109,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.units.Radians_-class.html" class="summary-name">Radians_</a><br />
+      Named <code>float</code> representing a coordinate in 
+        <code>radians</code> with optional limits <code>low</code> and 
+        <code>high</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.formy.Radical2Tuple-class.html" class="summary-name">Radical2Tuple</a><br />
       2-Tuple <code>(ratio, xline)</code> of the <i>radical</i> 
         <code>ratio</code> and <i>radical</i> <code>xline</code>, both 
@@ -3250,6 +3266,32 @@
     </td><td class="summary">
         <a href="pygeodesy.datums.Transform-class.html" class="summary-name">Transform</a><br />
       Helmert transformation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Triangle7Tuple-class.html" class="summary-name">Triangle7Tuple</a><br />
+      7-Tuple <code>(A, a, B, b, C, c, area)</code> with interior angles 
+        <code>A</code>, <code>B</code> and <code>C</code> in 
+        <code>degrees</code>, spherical sides <code>a</code>, 
+        <code>b</code> and <code>c</code> in <code>meter</code> and the 
+        <code>area</code> of a spherical triangle in <i>square</i> 
+        <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Triangle8Tuple-class.html" class="summary-name">Triangle8Tuple</a><br />
+      8-Tuple <code>(A, a, B, b, C, c, D, E)</code> with interior angles 
+        <code>A</code>, <code>B</code> and <code>C</code>, spherical sides 
+        <code>a</code>, <code>b</code> and <code>c</code>, <i>spherical 
+        deficit</i> <code>D</code> and <i>spherical excess</i> 
+        <code>E</code> of a spherical triangle, all in 
+        <code>radians</code>.
     </td>
   </tr>
 <tr>
@@ -5274,6 +5316,50 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#excessGirard" class="summary-sig-name">excessGirard</a>(<span class="summary-sig-arg">A</span>,
+        <span class="summary-sig-arg">B</span>,
+        <span class="summary-sig-arg">C</span>)</span><br />
+      Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+      triangle using <a 
+      href="https://MathWorld.Wolfram.com/GirardsSphericalExcessFormula.html"
+      target="_top">Girard's</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#excessLHuilier" class="summary-sig-name">excessLHuilier</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
+      Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+      triangle using <a 
+      href="https://MathWorld.Wolfram.com/LHuiliersTheorem.html" 
+      target="_top">L'Huilier's</a> Theorem.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#f2e2" class="summary-sig-name">f2e2</a>(<span class="summary-sig-arg">f</span>)</span><br />
       Return <code>e2</code>, the <i>1st eccentricity squared</i> for a 
       given <i>flattening</i>.</td>
@@ -6052,7 +6138,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc1da54c950&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fdec7ba4e50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -9238,7 +9324,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.2.12'"><code class="variable-quote">'</code><code class="variable-string">21.2.12</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.2.21'"><code class="variable-quote">'</code><code class="variable-string">21.2.21</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -9894,7 +9980,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>The number of <code>DeprecationWarning</code>s (<code>int</code>)
-          or <code>0</code>.</dd>
+          or <code>None</code> if not enabled.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         To get <a href="pygeodesy.props-module.html#DeprecationWarnings" 
@@ -9902,7 +9988,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <code>python</code> with environment variable 
         <code>PYGEODESY_WARNINGS</code> set to a non-empty string AND use 
         <code>python</code> command line option <code>-X dev</code>, 
-        <code>-W always</code>, <code>-W error</code>, etc.
+        <code>-W always</code>, or <code>-W error</code>, etc.
       </p>
 </div></td></tr></table>
 </div>
@@ -13212,7 +13298,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <div class="fields">      <p><strong>See Also:</strong>
         <a href="https://www.EdWilliams.org/avform.htm#Dist" 
         target="_top">Distance between two (spherical) points</a>, 
-        functions <a href="pygeodesy.formy-module.html#euclidean_" 
+        functions <a href="pygeodesy.fmath-module.html#euclid" 
+        class="link">euclid</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean_" 
         class="link">euclidean_</a>, <a 
         href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
         class="link">cosineAndoyerLambert</a>, <a 
@@ -13273,7 +13361,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <dd>Angular distance (<code>radians</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.formy-module.html#euclidean" 
+        Functions <a href="pygeodesy.fmath-module.html#euclid" 
+        class="link">euclid</a>, <a 
+        href="pygeodesy.formy-module.html#euclidean" 
         class="link">euclidean</a>, <a 
         href="pygeodesy.formy-module.html#cosineAndoyerLambert_" 
         class="link">cosineAndoyerLambert_</a>, <a 
@@ -13330,6 +13420,82 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <code>PYGEODESY_EXCEPTION_CHAINING</code> to any non-empty value 
         prior to <code>import pygeodesy</code> to enable exception chaining
         for <code>pygeodesy</code> errors.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessGirard"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessGirard</span>&nbsp;(<span class="sig-arg">A</span>,
+        <span class="sig-arg">B</span>,
+        <span class="sig-arg">C</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+  triangle using <a 
+  href="https://MathWorld.Wolfram.com/GirardsSphericalExcessFormula.html" 
+  target="_top">Girard's</a> formula.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>A</code></strong> - First interior triangle angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>B</code></strong> - Second interior triangle angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>C</code></strong> - Third interior triangle angle (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Spherical Excess ({radians}).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessLHuilier" 
+        class="link">excessLHuilier</a>, <a 
+        href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
+        target="_top">Spherical trigonometry</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessLHuilier"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessLHuilier</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+  triangle using <a 
+  href="https://MathWorld.Wolfram.com/LHuiliersTheorem.html" 
+  target="_top">L'Huilier's</a> Theorem.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>a</code></strong> - First triangle side (<code>radians</code>).</li>
+        <li><strong class="pname"><code>b</code></strong> - Second triangle side (<code>radians</code>).</li>
+        <li><strong class="pname"><code>c</code></strong> - Third triangle side (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Spherical Excess ({radians}).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessGirard" 
+        class="link">excessGirard</a>, <a 
+        href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
+        target="_top">Spherical trigonometry</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -14926,7 +15092,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc1da54c950&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fdec7ba4e50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -21553,7 +21719,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb 13 13:36:14 2021
+    Generated by Epydoc 3.0.1 on Sun Feb 21 15:53:12 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

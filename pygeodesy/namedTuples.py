@@ -10,20 +10,21 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.errors import _xkwds
-from pygeodesy.interns import NN, _angle_, _band_, _convergence_, \
-                             _datum_, _distance_, _easting_, _h_, \
-                             _height_, _hemipole_, _lam_, _lat_, \
-                             _lon_, _n_, _northing_, _number_, \
+from pygeodesy.interns import NN, _a_, _A_, _angle_, _B_, _band_, _C_, \
+                             _convergence_, _datum_, _distance_, _E_, \
+                             _easting_, _h_, _height_, _hemipole_, _lam_, \
+                             _lat_, _lon_, _n_, _northing_, _number_, \
                              _phi_, _points_, _precision_, _radius_, \
                              _scale_, _x_, _y_, _z_, _zone_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple, _Pass, _xnamed
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
-                            Height, Lam, Lat, Lon, Meter, Northing, \
-                            Number_, Phi, Precision_, Radius, Scalar, Str
+                            Height, Lam, Lat, Lon, Meter, Meter2, \
+                            Northing, Number_, Phi, Precision_, \
+                            Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.02.05'
+__version__ = '21.02.21'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
@@ -336,6 +337,26 @@ class Points2Tuple(_NamedTuple):  # .formy.py, .latlonBase.py
     '''
     _Names_ = (_number_, _points_)
     _Units_ = ( Number_, _Pass)
+
+
+class Triangle7Tuple(_NamedTuple):
+    '''7-Tuple C{(A, a, B, b, C, c, area)} with interior angles C{A},
+       C{B} and C{C} in C{degrees}, spherical sides C{a}, C{b} and
+       C{c} in C{meter} and the C{area} of a spherical triangle in
+       I{square} C{meter}.
+    '''
+    _Names_ = (_A_,     _a_,   _B_,     'b',   _C_,     'c',   'area')
+    _Units_ = ( Degrees, Meter, Degrees, Meter, Degrees, Meter, Meter2)
+
+
+class Triangle8Tuple(_NamedTuple):
+    '''8-Tuple C{(A, a, B, b, C, c, D, E)} with interior angles C{A},
+       C{B} and C{C}, spherical sides C{a}, C{b} and C{c}, I{spherical
+       deficit} C{D} and I{spherical excess} C{E} of a spherical
+       triangle, all in C{radians}.
+    '''
+    _Names_ = (_A_,     _a_,     _B_,     'b',     _C_,     'c',     'D',     _E_)
+    _Units_ = ( Radians, Radians, Radians, Radians, Radians, Radians, Radians, Radians)
 
 
 class Trilaterate5Tuple(_NamedTuple):  # .latlonBase.py, .nvector.py

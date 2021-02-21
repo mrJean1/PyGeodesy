@@ -96,7 +96,7 @@ R_VM = Radius(R_VM=_F(6366707.0194937))  # Aviation/Navigation earth radius (C{m
 # R_ = Radius(R_  =_F(6372797.560856))   # XXX some other earth radius???
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '21.02.11'
+__version__ = '21.02.19'
 
 _f_0_0  = Float(f =_0_0)
 _f__0_0 = Float(f_=_0_0)
@@ -593,13 +593,14 @@ class Ellipsoid(_NamedEnumItem):
                  <https://WikiPedia.org/wiki/Ellipsoid>} and U{surface area
                  <https://www.Numericana.com/answer/geometry.htm#oblate>}.
         '''
-        if self.f:
+        f = self.f
+        if f:
             c2, e = self.b2, self.e
             if e > EPS0:
-                if self.f > 0:  # .isOblate
-                    c2 *= atanh(self.e) / e
-                elif self.f < 0:  # .isProlate
-                    c2 *= atan(self.e) / e  # XXX asin?
+                if f > 0:  # .isOblate
+                    c2 *= atanh(e) / e
+                elif f < 0:  # .isProlate
+                    c2 *= atan(e) / e  # XXX asin?
             c2 = Meter2(c2=(self.a2 + c2) * _0_5)
         else:
             c2 = self.a2

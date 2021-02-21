@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 
 u'''Azimuthal projection classes L{Equidistant}, L{EquidistantKarney}, L{Gnomonic},
-L{GnomonicKarney}, L{LambertEqualArea}, L{Orthographic}, L{Stereographic} and
-L{AzimuthalError} and functions L{equidistant} and L{gnomonic}.
+L{GnomonicKarney}, L{LambertEqualArea}, L{Orthographic} and L{Stereographic},
+classes L{AzimuthalError}, L{Azimuthal7Tuple} and functions L{equidistant}
+and L{gnomonic}.
 
 L{EquidistantKarney} and L{GnomonicKarney} require I{Charles Karney}'s Python
 U{geographiclib<https://PyPI.org/project/geographiclib/>} package to be installed.
@@ -46,13 +47,14 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, \
                             property_doc_, property_RO
 from pygeodesy.streprs import Fmt, _fstrLL0
-from pygeodesy.units import Bearing, Lat_, Lon_, Meter, Scalar, Scalar_
+from pygeodesy.units import Bearing, Easting, Lat_, Lon_, Meter, \
+                            Northing, Scalar, Scalar_
 from pygeodesy.utily import asin1, atan2b, atan2d, sincos2, sincos2d
 
 from math import acos, atan, atan2, degrees, hypot, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '21.02.11'
+__version__ = '21.02.18'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_
 _over_horizon_ = 'over horizon'
@@ -107,7 +109,7 @@ class _AzimuthalBase(_NamedBase):
 
     @property_RO
     def iteration(self):
-        '''Get the iteration number (C{int} or C{None} if not available/applicable).
+        '''Get the iteration number (C{int}) or C{None} if not available/applicable.
         '''
         return self._iteration
 
@@ -117,18 +119,18 @@ class _AzimuthalBase(_NamedBase):
         '''
         return self.datum.ellipsoid.f
 
-    def _forward(self, lat, lon, name, _k_t):
+    def _forward(self, lat, lon, name, _k_t_2):
         '''(INTERNAL) Azimuthal (spherical) forward C{lat, lon} to C{x, y}.
         '''
         lat, lon = Lat_(lat), Lon_(lon)
         sa, ca, sb, cb = sincos2d(lat, lon - self.lon0)
         s0, c0 = self._sc0
 
-        k, t = _k_t(s0 * sa + c0 * ca * cb)
+        k, t = _k_t_2(s0 * sa + c0 * ca * cb)
         if t:
             r = k * self.radius
-            x = r * ca * sb
-            y = r * (c0 * sa - s0 * ca * cb)
+            x = Easting(x=r * ca * sb)
+            y = Northing(y=r * (c0 * sa - s0 * ca * cb))
             z = atan2b(x, y)  # (x, y) for azimuth from true North
         else:  # 0 or 180
             x = y = z = _0_0
@@ -262,12 +264,12 @@ class AzimuthalError(_ValueError):
 
 
 class Azimuthal7Tuple(_NamedTuple):
-    '''7-Tuple C{(x, y, lat, lon, azimuth, scale, datum)}, in C{meter},
-       C{meter}, C{degrees90}, C{degrees180}, C{degrees360}, C{float} and
-       C{Datum} where C{(x, y)} is the projected, C{(lat, lon)} the geodetic
-       location, C{azimuth} the azimuth direction clockwise from true North
-       and C{scale} is the projection scale, either (C{1 / reciprocal} or
-       C{1} or C{-1} in the L{Equidistant} case).
+    '''7-Tuple C{(x, y, lat, lon, azimuth, scale, datum)}, in C{meter}, C{meter},
+       C{degrees90}, C{degrees180}, C{degrees360}, C{scalar} and C{Datum} where
+       C{(x, y)} is the projected easting and northing of point, C{(lat, lon)}
+       the geodetic location, C{azimuth} the azimuth direction clockwise from
+       true North and C{scale} is the projection scale, either C{1 / reciprocal}
+       or C{1} or C{-1} in the L{Equidistant} case.
     '''
     _Names_ = (_x_,   _y_,   _lat_, _lon_, _azimuth_, _scale_, _datum_)
     _Units_ = ( Meter, Meter, Lat_,  Lon_,  Bearing,   Scalar, _Pass)
@@ -293,10 +295,10 @@ class Equidistant(_AzimuthalBase):
            @kwarg name: Optional name for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
-                    with C{x} and C{y} in C{meter} and C{lat} and C{lon} in
-                    C{degrees}.  The C{scale} of the projection is C{1} in I{radial}
-                    direction, C{azimuth} clockwise from true North and is C{1 /
-                    reciprocal} in the direction perpendicular to this.
+                    with easting C{x} and northing C{y} of point in C{meter} and C{lat}
+                    and C{lon} in C{degrees} and C{azimuth} clockwise from true North.
+                    The C{scale} of the projection is C{1} in I{radial} direction and
+                    is C{1 / reciprocal} in the direction perpendicular to this.
 
            @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
 
@@ -432,10 +434,10 @@ class EquidistantKarney(_AzimuthalBaseKarney):
            @kwarg name: Optional name for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
-                    with C{x} and C{y} in C{meter} and C{lat} and C{lon} in
-                    C{degrees}.  The C{scale} of the projection is C{1} in I{radial}
-                    direction, C{azimuth} clockwise from true North and is C{1 /
-                    reciprocal} in the direction perpendicular to this.
+                    with easting C{x} and northing C{y} of point in C{meter} and C{lat}
+                    and C{lon} in C{degrees} and C{azimuth} clockwise from true North.
+                    The C{scale} of the projection is C{1} in I{radial} direction and
+                    is C{1 / reciprocal} in the direction perpendicular to this.
 
            @see: Method L{EquidistantKarney.reverse}.  A call to C{.forward}
                  followed by a call to C{.reverse} will return the original
@@ -494,10 +496,10 @@ class Gnomonic(_AzimuthalBase):
            @kwarg name: Optional name for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
-                    with C{x} and C{y} in C{meter} and C{lat} and C{lon} in C{degrees}
-                    and C{azimuth} clockwise from true North.  The C{scale} of the
-                    projection is C{1} in I{radial} direction and is C{1 / reciprocal}
-                    in the direction perpendicular to this.
+                    with easting C{x} and northing C{y} of point in C{meter} and C{lat}
+                    and C{lon} in C{degrees} and C{azimuth} clockwise from true North.
+                    The C{scale} of the projection is C{1} in I{radial} direction and
+                    is C{1 / reciprocal} in the direction perpendicular to this.
 
            @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
         '''
@@ -595,12 +597,12 @@ class GnomonicKarney(_AzimuthalBaseKarney):
                           the location lies over the horizon.
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
-                    with C{x} and C{y} in C{meter} and C{lat} and C{lon} in C{degrees}
-                    and C{azimuth} clockwise from true North.  The C{scale} of the
-                    projection is C{1 / reciprocal**2} in I{radial} direction and
-                    C{1 / reciprocal} in the direction perpendicular to this.  Both
-                    C{x} and C{y} will be C{NAN} if the geodetic location lies over
-                    the horizon and B{C{raiser}} is C{False}.
+                    with easting C{x} and northing C{y} of point in C{meter} and C{lat}
+                    and C{lon} in C{degrees} and C{azimuth} clockwise from true North.
+                    The C{scale} of the projection is C{1 / reciprocal**2} in I{radial}
+                    direction and C{1 / reciprocal} in the direction perpendicular to
+                    this.  Both C{x} and C{y} will be C{NAN} if the geodetic location
+                    lies over the horizon and B{C{raiser}} is C{False}.
 
            @raise AzimuthalError: Invalid B{C{lat}}, B{C{lon}} or the geodetic location
                                   lies over the horizon and B{C{raiser}} is C{True}.
@@ -693,11 +695,11 @@ class LambertEqualArea(_AzimuthalBase):
            @arg lon: Longitude of the location (C{degrees180}).
            @kwarg name: Optional name for the location (C{str}).
 
-           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)} with C{x}
-                    and C{y} in C{meter} and C{lat} and C{lon} in C{degrees}.  The C{scale}
-                    of the projection is C{1} in I{radial} direction, C{azimuth} clockwise
-                    from true North and is C{1 / reciprocal} in the direction perpendicular
-                    to this.
+           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
+                    with easting C{x} and northing C{y} of point in C{meter} and C{lat}
+                    and C{lon} in C{degrees} and C{azimuth} clockwise from true North.
+                    The C{scale} of the projection is C{1} in I{radial} direction and
+                    is C{1 / reciprocal} in the direction perpendicular to this.
 
            @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
         '''
@@ -753,11 +755,11 @@ class Orthographic(_AzimuthalBase):
            @arg lon: Longitude of the location (C{degrees180}).
            @kwarg name: Optional name for the location (C{str}).
 
-           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)} with C{x}
-                    and C{y} in C{meter} and C{lat} and C{lon} in C{degrees}.  The C{scale}
-                    of the projection is C{1} in I{radial} direction, C{azimuth} clockwise
-                    from true North and is C{1 / reciprocal} in the direction perpendicular
-                    to this.
+           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
+                    with easting C{x} and northing C{y} of point in C{meter} and C{lat}
+                    and C{lon} in C{degrees} and C{azimuth} clockwise from true North.
+                    The C{scale} of the projection is C{1} in I{radial} direction and
+                    is C{1 / reciprocal} in the direction perpendicular to this.
 
            @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
         '''
@@ -811,11 +813,11 @@ class Stereographic(_AzimuthalBase):
            @arg lon: Longitude of the location (C{degrees180}).
            @kwarg name: Optional name for the location (C{str}).
 
-           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)} with C{x}
-                    and C{y} in C{meter} and C{lat} and C{lon} in C{degrees}.  The C{scale}
-                    of the projection is C{1} in I{radial} direction, C{azimuth} clockwise
-                    from true North and is C{1 / reciprocal} in the direction perpendicular
-                    to this.
+           @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
+                    with easting C{x} and northing C{y} of point in C{meter} and C{lat}
+                    and C{lon} in C{degrees} and C{azimuth} clockwise from true North.
+                    The C{scale} of the projection is C{1} in I{radial} direction and
+                    is C{1 / reciprocal} in the direction perpendicular to this.
 
            @raise AzimuthalError: Invalid B{C{lat}} or B{C{lon}}.
         '''

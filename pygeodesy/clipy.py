@@ -10,18 +10,17 @@ against a rectangular box or a (convex) clip region.
 from pygeodesy.basics import len2
 from pygeodesy.errors import _AssertionError, PointsError, _ValueError
 from pygeodesy.fmath import fsum_
-from pygeodesy.interns import EPS, NN, _convex_, _DOT_, _end_, _few_, \
-                             _i_, _j_, _not_, _SPACE_, _start_, _too_, \
-                             _0_0, _1_0
+from pygeodesy.interns import EPS, NN, _convex_, _DOT_, _end_, \
+                             _few_, _i_, _j_, _not_, _SPACE_, \
+                             _start_, _too_, _0_0, _1_0
 from pygeodesy.iters import _imdex2, points2
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _Named, _NamedTuple, _Pass
-from pygeodesy.points import areaOf, boundsOf, isconvex_, \
-                             LatLon_
+from pygeodesy.points import areaOf, boundsOf, isconvex_, LatLon_
 from pygeodesy.units import Bool, FIx, Number_
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '21.02.08'
+__version__ = '21.02.18'
 
 _fi_ = 'fi'
 _fj_ = 'fj'
@@ -277,13 +276,12 @@ def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
     _LB = _LBtrim
 
     i, m = _imdex2(closed, n)
-    pi = pts[i]
     for j in range(m, n):
-        p1 = pi
+        p1 = pts[i]
         y1 = p1.lat
         x1 = p1.lon
 
-        p2 = pi = pts[j]
+        p2 = pts[j]
         dy = float(p2.lat - y1)
         dx = float(p2.lon - x1)
         if abs(dx) > EPS or abs(dy) > EPS:
@@ -295,24 +293,26 @@ def clipLB6(points, lowerleft, upperright, closed=False, inull=False):
                _LB( dy,  ymax - y1, t):
                 # clip edge pts[i]...pts[j]
                 # at fractions t[0] to t[1]
-                if t[0] > _0_0:  # EPS
-                    p1 = p1.classof(y1 + t[0] * dy,
-                                    x1 + t[0] * dx)
-                    fi = i + t[0]
+                f, t = t
+                if f > _0_0:  # EPS
+                    p1 = p1.classof(y1 + f * dy,
+                                    x1 + f * dx)
+                    fi = i + f
                 else:
                     fi = i
-                if t[0] < t[1]:
-                    if t[1] < _1_0:  # EPS1
-                        p2 = p2.classof(y1 + t[1] * dy,
-                                        x1 + t[1] * dx)
-                        fj = i + t[1]
+
+                if (t - f) > EPS:  # EPS0
+                    if t < _1_0:  # EPS1
+                        p2 = p2.classof(y1 + t * dy,
+                                        x1 + t * dx)
+                        fj = i + t
                     else:
                         fj = j
                     fi = FIx(fi, fin=fin)
                     fj = FIx(fj, fin=fin)
                     yield ClipLB6Tuple(p1, p2, i, fi, fj, j)
 
-                elif inull and (t[0] + EPS) > t[1]:
+                elif inull:
                     fi = FIx(fi, fin=fin)
                     yield ClipLB6Tuple(p1, p1, i, fi, fi, j)
 #           else:  # outside

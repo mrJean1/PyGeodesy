@@ -37,7 +37,7 @@ from pygeodesy.utily import atand, atan2d, degrees360, sincos2, sincos2d
 from math import atan, atan2, atanh, degrees, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '21.02.11'
+__version__ = '21.02.18'
 
 _NUMIT  =  8  # XXX 4?
 _NUMIT0 = 41  # XXX 21?
@@ -243,20 +243,20 @@ class _AlbersBase(_NamedBase):
         s1_qZ = dsn * (axi * self._qZ - bxi) / (_2_0 * dtb12)
         return s1_qZ, C
 
-    def _a_b_sxi3(self, *ca_sa_ta_scb):
+    def _a_b_sxi3(self, *ca_sa_ta_scb_4s):
         '''(INTERNAL) Sum of C{sm1} terms and C{sin(xi)}s for ._s1_qZ_C2.
         '''
         a = b = s = _0_0
-        for ca, sa, ta, scb in ca_sa_ta_scb:
+        for ca, sa, ta, scb in ca_sa_ta_scb_4s:
             cxi, sxi, _ = self._cstxif3(ta)
             if sa > 0:
                 sa += _1_0
                 a  += (cxi / ca)**2 * sa / (_1_0 + sxi)
-                b  += scb * ca**2 / sa
+                b  +=  scb * ca**2 / sa
             else:
                 sa =  _1_0 - sa
                 a += (_1_0 - sxi) / sa
-                b += scb * sa
+                b +=  scb * sa
             s += sxi
         return a, b, s
 
@@ -274,7 +274,7 @@ class _AlbersBase(_NamedBase):
 
     @property_RO
     def iteration(self):
-        '''Get the iteration number (C{int}).
+        '''Get the iteration number (C{int}) or C{None} if not available/applicable.
         '''
         return self._iteration
 
@@ -589,14 +589,14 @@ class _AlbersBase(_NamedBase):
         ca2 = _1_0 / (_1_0 + ta**2)
         sa  = sqrt(ca2) * abs(ta)  # enforce odd parity
 
-        es1    = sa * E.e2
+        es1    = E.e2 * sa
         es2m1  = _1_0 - sa * es1
         sp1    = _1_0 + sa
         es1p1  = sp1 / (_1_0 + es1)
         es1m1  = sp1 * (_1_0 - es1)
         es2m1a = es2m1 * E.e12  # e2m
-        s = sqrt((ca2 / (es1p1 * es2m1a) + self._atanhee(ca2 / es1m1)) *
-                        (es1m1 / es2m1a  + self._atanhee(es1p1)))
+        s = sqrt((ca2 / (es1p1 * es2m1a) + self._atanhee(ca2 / es1m1))
+                      * (es1m1 / es2m1a  + self._atanhee(es1p1)))
         t = (sa / es2m1 + self._atanhee(sa)) / s
         if ta < 0:
             t = neg(t)

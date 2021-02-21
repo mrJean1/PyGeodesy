@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.01.26'
+__version__ = '21.02.21'
 
 
 def _c2(*names):
@@ -51,20 +51,20 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner', 'circle-intersections',
              'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic',
              'cosines-law', 'coverage', 'curvature', 'cylindrical',
-             'datum', 'development', 'discrete', 'distance', 'Douglas',
+             'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
              'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
-             'Euclidean', 'ExactTM',
+             'Euclidean', 'ExactTM', 'excess',
              'flattening', 'fmath', 'Forsythe', 'fractional', 'Frechet', 'Fréchet',
              'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest', 'geographiclib',
-             'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef', 'gnomonic',
+             'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef', 'Girard', 'gnomonic',
              'Hausdorff', 'Haversine', 'height', 'Hodgman', 'horizon', 'Hubeny',
              'IDW', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersections',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
              'Karney', 'Krueger', 'Krüger',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh',
-             'Liang', 'Liang-Barsky', 'linearize',
+             'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize',
              'LocalCartesian', 'longitude', 'lune',
              'mean', 'memoize', 'Mercator', 'MGRS',
              'nearest', 'Norrdine', 'numpy', 'n-vector', 'Nvector',
@@ -74,8 +74,8 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'PyGeodesy', 'PyInstaller', 'PyPy',
              'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb',
-             'scipy', 'simplify', 'Snyder', 'Soldner',
-             'sphere', 'sphere-intersections', 'stereographic',
+             'scipy', 'semi-perimeter', 'simplify', 'Snyder', 'Soldner',
+             'sphere', 'sphere-intersections', 'stereographic', 'spherical_deficit', 'spherical_excess',
              'Sudano', 'surface-area', 'Sutherland', 'Sutherland-Hodgman',
              'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
              'Transverse', 'TransverseMercatorExact', 'TRF', 'trigonometry', 'trilateration',

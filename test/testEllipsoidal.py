@@ -4,7 +4,7 @@
 # Test ellipsoidal earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.02.14'
 
 from base import coverage, geographiclib, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -230,7 +230,7 @@ class Tests(_TestsLL, _TestsV):
         q.epsilon, q.iterations = EPS, 200
         self.test('epsilon', q.epsilon, EPS, fmt='%.12e')
         self.test('iterations', q.iterations, 200)
-        self.test('iteration', q.iteration, 0)
+        self.test('iteration', q.iteration, None)
 
         self.testKarneyVincenty(module, LatLon, d)
         self.testKarneyVincentyError(module, LatLon, d, False)

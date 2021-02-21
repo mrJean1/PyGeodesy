@@ -171,7 +171,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           formy=('antipode', 'antipode_', 'bearing', 'bearing_',
                                  'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                  'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
-                                 'euclidean', 'euclidean_', 'equirectangular', 'equirectangular_',
+                                 'equirectangular', 'equirectangular_', 'euclidean', 'euclidean_', 'excessGirard', 'excessLHuilier',
                                  'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
                                  'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
                                  'intersections2', 'isantipode', 'isantipode_',
@@ -217,7 +217,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
                                  'NearestOn3Tuple',
                                  'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Point3Tuple', 'Points2Tuple',
-                                 'Trilaterate5Tuple',
+                                 'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
                                  'UtmUps2Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple', 'UtmUpsLatLon5Tuple',
                                  'Vector3Tuple', 'Vector4Tuple'),
                            osgr=('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
@@ -238,7 +238,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Feet', 'FIx', 'Float', 'Float_', 'Height', 'Int', 'Int_',
                                  'Lam', 'Lam_', 'Lat', 'Lat_', 'Lon', 'Lon_',
                                  'Meter', 'Meter2', 'Meter3', 'Northing', 'Number_',
-                                 'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians2',
+                                 'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians_', 'Radians2',
                                  'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'Zone'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
                           utily=('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atand', 'atan2b', 'atan2d',
@@ -274,7 +274,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.02.11'
+__version__ = '21.02.21'
 
 
 def _ALL_OTHER(*objs):

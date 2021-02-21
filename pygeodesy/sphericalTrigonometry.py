@@ -20,8 +20,8 @@ from pygeodesy.basics import copysign, isscalar, map1
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                               IntersectionError, _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, Fsum, fsum, fsum_
-from pygeodesy.formy import antipode_, bearing_, _bearingTo2, _radical2, \
-                            vincentys_
+from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessGirard, \
+                            excessLHuilier, _radical2, vincentys_
 from pygeodesy.interns import EPS, EPS0, EPS1, PI, PI2, PI_2, PI_4, R_M, \
                              _EPS4, _coincident_, _colinear_, _convex_, \
                              _end_, _invalid_, _LatLon_, _near_concentric_, \
@@ -30,14 +30,16 @@ from pygeodesy.interns import EPS, EPS0, EPS1, PI, PI2, PI_2, PI_4, R_M, \
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import notImplemented, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
-                                  NearestOn3Tuple
+                                  NearestOn3Tuple, Triangle7Tuple, \
+                                  Triangle8Tuple
 from pygeodesy.nvectorBase import NvectorBase as _Nvector
 from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase, _rads3, _trilaterate5
 from pygeodesy.streprs import Fmt
-from pygeodesy.units import Bearing_, Height, Radius, Radius_, Scalar
+from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius, Radius_, \
+                            Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
                             m2radians, radiansPI2, sincos2, tan_2, \
                             unrollPI, wrap180, wrapPI
@@ -46,7 +48,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.02.09'
+__version__ = '21.02.21'
 
 _PI_EPS4 = PI - _EPS4
 if _PI_EPS4 >= PI:
@@ -755,6 +757,29 @@ class LatLon(LatLonSphericalBase):
         kwds = _xkwds(Cartesian_datum_kwds, Cartesian=Cartesian, datum=self.datum)
         return LatLonSphericalBase.toCartesian(self, **kwds)
 
+    def triangle7(self, otherB, otherC, radius=R_M, wrap=False):
+        '''Compute the angles, sides and area of a spherical triangle.
+
+           @arg otherB: Second triangle point (C{LatLon}).
+           @arg otherC: Third triangle point (C{LatLon}).
+           @kwarg radius: Mean earth radius (C{meter}, conventionally)
+                          or C{None}.
+           @kwarg wrap: Wrap/unroll angular distances (C{bool}).
+
+           @return: L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} or if
+                    B{C{radius}} is C{None}, a L{Triangle8Tuple}C{(A, a,
+                    B, b, C, c, D, E)}.
+
+           @see: Function L{triangle7} and U{Spherical trigonometry
+                 <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
+        '''
+        self.others(otherB=otherB)
+        self.others(otherC=otherC)
+
+        r = self.philam + otherB.philam + otherC.philam
+        t = triangle8_(*r, wrap=wrap)
+        return self._xnamed(_t8_7(t, radius))
+
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, radius=R_M, wrap=False):
         '''Trilaterate three points by area overlap or perimeter intersection
@@ -1294,6 +1319,101 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
     return r if radius is None else (Radius(radius) * r)
 
 
+def _t8_7(t, radius):
+    '''(INTERNAL) Convert a L{Triangle8Tuple} to L{Triangle7Tuple}.
+    '''
+    if radius:  # not in (None, _0_0)
+        A, B, C = map1(degrees, t.A, t.B, t.C)
+        t = Triangle7Tuple(A, _r2m(t.a, radius),
+                           B, _r2m(t.b, radius),
+                           C, _r2m(t.c, radius),
+                         t.E * radius**2)
+    return t
+
+
+def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
+                                                  girard=True,
+                                                    wrap=False):
+    '''Compute the angles, sides, and area of a (spherical) triangle.
+
+       @arg latA: First corner latitude (C{degrees}).
+       @arg lonA: First corner longitude (C{degrees}).
+       @arg latB: Second corner latitude (C{degrees}).
+       @arg lonB: Second corner longitude (C{degrees}).
+       @arg latC: Third corner latitude (C{degrees}).
+       @arg lonC: Third corner longitude (C{degrees}).
+       @kwarg radius: Mean earth radius (C{meter}, conventionally) or
+                      C{None}.
+       @kwarg girard: Use I{Girard's formula} or I{L'Huilier's Theorem}
+                      for the I{spherical excess} (C{bool}).
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: A L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} with
+                spherical angles C{A}, C{B} and C{C}, angular sides
+                C{a}, C{b} and C{c} all in C{degrees} and C{area}
+                in I{square} C{meter} or units of B{C{radius}}
+                I{squared} or if B{C{radius}} is C{None}, a
+                L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} all in
+                C{radians} with I{spherical excess} C{E} as the
+                C{unit area} in C{radians}.
+
+       @see: Function L{excessGirard} and L{excessLHuilier}.
+    '''
+    t = triangle8_(Phi_(latA=latA), Lam_(lonA=lonA),
+                   Phi_(latB=latB), Lam_(lonB=lonB),
+                   Phi_(latC=latC), Lam_(lonC=lonC),
+                   girard=girard, wrap=wrap)
+    return _t8_7(t, radius)
+
+
+def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, girard=True,
+                                                     wrap=False):
+    '''Compute the angles, sides, I{spherical deficit} and
+       I{spherical excess} of a (spherical) triangle.
+
+       @arg phiA: First corner latitude (C{radians}).
+       @arg lamA: First corner longitude (C{radians}).
+       @arg phiB: Second corner latitude (C{radians}).
+       @arg lamB: Second corner longitude (C{radians}).
+       @arg phiC: Third corner latitude (C{radians}).
+       @arg lamC: Third corner longitude (C{radians}).
+       @kwarg girard: Use I{Girard's formula} or I{L'Huilier's
+                      Theorem} for the I{spherical excess} (C{bool}).
+       @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
+
+       @return: A L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} with
+                spherical angles C{A}, C{B} and C{C}, angular sides
+                C{a}, C{b} and C{c}, I{spherical deficit} C{D} and
+                I{spherical excess} C{E}, all in C{radians}.
+
+       @see: Functions L{excessGirard} and L{excessLHuilier}.
+    '''
+    def _a_r(w, phiA, lamA, phiB, lamB, phiC, lamC):
+        d, _ = unrollPI(lamB, lamC, wrap=w)
+        a = vincentys_(phiC, phiB, d)
+        return a, (phiB, lamB, phiC, lamC, phiA, lamA)
+
+    def _A_r(a, sa, ca, sb, cb, sc, cc):
+        s = sb * sc
+        A = acos1((ca - cb * cc) / s) if abs(s) > EPS0 else a
+        return A, (sb, cb, sc, cc, sa, ca)  # rotate sincos2's
+
+    # notation: side C{a} is oposite to corner C{A}, etc.
+    a, r = _a_r(wrap, phiA, lamA, phiB, lamB, phiC, lamC)
+    b, r = _a_r(wrap, *r)
+    c, _ = _a_r(wrap, *r)
+
+    A, r = _A_r(a, *sincos2(a, b, c))
+    B, r = _A_r(b, *r)
+    C, _ = _A_r(c, *r)
+
+    D = fsum_(PI2, -a, -b, -c)
+    E = excessGirard(A, B, C) if girard else \
+        excessLHuilier(a, b, c)
+
+    return Triangle8Tuple(A, a, B, b, C, c, D, E)
+
+
 __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes
                       areaOf,  # functions
                       intersection, intersections2, ispolar,
@@ -1301,7 +1421,8 @@ __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes
                       meanOf,
                       nearestOn2, nearestOn3,
                       perimeterOf,
-                      sumOf)  # == vector3d.sumOf
+                      sumOf,  # == vector3d.sumOf
+                      triangle7, triangle8_)
 
 # **) MIT License
 #

@@ -16,22 +16,22 @@ from pygeodesy.errors import _AssertionError, IntersectionError, \
 from pygeodesy.fmath import euclid, fsum_, hypot, hypot2, sqrt0
 from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI_2, R_M, \
                              _distant_, _too_, _0_0, _0_125, _0_25, _0_5, \
-                             _1_0, _2_0, _32_0, _90_0, _180_0, _360_0
+                             _1_0, _2_0, _4_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, \
                                   LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
 from pygeodesy.streprs import unstr
-from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, \
-                            Phi_, Radius, Radius_, Scalar, _100km
+from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, Phi_, \
+                            Radians, Radians_, Radius, Radius_, Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
                             m2degrees, sincos2, unroll180, unrollPI, \
                             wrap90, wrap180, wrapPI, wrapPI_2
 
-from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
+from math import atan, atan2, cos, degrees, radians, sin, sqrt, tan  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.02.08'
+__version__ = '21.02.21'
 
 
 def _non0(x):
@@ -347,8 +347,8 @@ def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
 
 def cosineLaw_(phi2, phi1, lam21):
-    '''Compute the I{angular} distance between two points using
-       the U{spherical Law of Cosines
+    '''Compute the I{angular} distance between two points using the
+       U{spherical Law of Cosines
        <https://www.Movable-Type.co.UK/scripts/latlong.html#cosine-law>}
        formula.
 
@@ -494,7 +494,7 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
        @raise TypeError: Invalid B{C{radius}}.
 
        @see: U{Distance between two (spherical) points
-             <https://www.EdWilliams.org/avform.htm#Dist>}, functions
+             <https://www.EdWilliams.org/avform.htm#Dist>}, functions L{euclid},
              L{euclidean_}, L{cosineAndoyerLambert}, L{cosineForsytheAndoyerLambert},
              L{cosineLaw}, L{equirectangular}, L{flatLocal}/L{hubeny}, L{flatPolar},
              L{haversine}, L{thomas} and L{vincentys} and methods L{Ellipsoid.distance2},
@@ -517,15 +517,58 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
 
        @return: Angular distance (C{radians}).
 
-       @see: Functions L{euclidean}, L{cosineAndoyerLambert_},
-             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_},
-             L{equirectangular_}, L{flatLocal_}/L{hubeny_},
-             L{flatPolar_}, L{haversine_}, L{thomas_} and
-             L{vincentys_}.
+       @see: Functions L{euclid}, L{euclidean}, L{cosineAndoyerLambert_},
+             L{cosineForsytheAndoyerLambert_}, L{cosineLaw_}, L{equirectangular_},
+             L{flatLocal_}/L{hubeny_}, L{flatPolar_}, L{haversine_}, L{thomas_}
+             and L{vincentys_}.
     '''
     if adjust:
         lam21 *= _scale_rad(phi2, phi1)
     return euclid(phi2 - phi1, lam21)
+
+
+def excessGirard(A, B, C):
+    '''Compute the I{spherical excess} C{E} of a (spherical) triangle using
+       U{Girard's<https://MathWorld.Wolfram.com/GirardsSphericalExcessFormula.html>}
+       formula.
+
+       @arg A: First interior triangle angle (C{radians}).
+       @arg B: Second interior triangle angle (C{radians}).
+       @arg C: Third interior triangle angle (C{radians}).
+
+       @return: Spherical Excess ({radians}).
+
+       @see: Function L{excessLHuilier}, U{Spherical trigonometry
+             <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
+    '''
+    return Radians(Girard=fsum_(Radians_(A=A),
+                                Radians_(B=B),
+                                Radians_(C=C), -PI))
+
+
+def excessLHuilier(a, b, c):
+    '''Compute the I{spherical excess} C{E} of a (spherical) triangle using
+       U{L'Huilier's<https://MathWorld.Wolfram.com/LHuiliersTheorem.html>}
+       Theorem.
+
+       @arg a: First triangle side (C{radians}).
+       @arg b: Second triangle side (C{radians}).
+       @arg c: Third triangle side (C{radians}).
+
+       @return: Spherical Excess ({radians}).
+
+       @see: Function L{excessGirard}, U{Spherical trigonometry
+             <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
+    '''
+    a = Radians_(a=a)
+    b = Radians_(b=b)
+    c = Radians_(c=c)
+
+    s =  fsum_(a, b, c) * _0_5
+    r = _1_0
+    for t in (_0_0, a, b, c):
+        r *= tan((s - t) * _0_5)
+    return Radians(Lhuilier=atan(sqrt(r)) * _4_0)
 
 
 def flatLocal(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):

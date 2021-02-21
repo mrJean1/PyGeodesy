@@ -87,6 +87,7 @@ _AT_            = _Join('@')                 # PYCHOK expected
 _AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in C{gars}, C{mgrs} and C{wgrs}
 _attribute_           = 'attribute'          # PYCHOK expected
 _azimuth_             = 'azimuth'            # PYCHOK expected
+_B_                   = 'B'                  # PYCHOK expected
 _band_                = 'band'               # PYCHOK expected
 _BAR_           = _Join('|')                 # PYCHOK expected
 _bearing_             = 'bearing'            # PYCHOK expected
@@ -416,7 +417,7 @@ __all__ = (_EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI4', 'PI_2', 'PI_4', 'PI3_2')  # imported by .lazily
-__version__ = '21.02.06'
+__version__ = '21.02.20'
 
 # **) MIT License
 #
