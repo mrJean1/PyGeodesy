@@ -4,18 +4,19 @@
 # Test formulary functions.
 
 __all__ = ('Tests',)
-__version__ = '21.01.21'
+__version__ = '21.01.23'
 
 from base import TestsBase
 
 from pygeodesy import R_M, antipode, bearing, cosineAndoyerLambert, \
                       cosineForsytheAndoyerLambert as _cosineForsythe_, \
                       cosineLaw, Datums, equirectangular, euclidean, \
-                      excessGirard, excessLHuilier, flatLocal, flatPolar, \
-                      formy, haversine, heightOf, horizon, hubeny, \
-                      IntersectionError, intersections2, isantipode, \
-                      isantipode_, latlonDMS, LimitError, limiterrors, \
-                      map1, parseDMS, radical2, thomas, vincentys
+                      excessAbc, excessGirard, excessLHuilier, excessKarney, \
+                      excessQuad, flatLocal, flatPolar, formy, haversine, \
+                      heightOf, horizon, hubeny, IntersectionError, \
+                      intersections2, isantipode, isantipode_, latlonDMS, \
+                      LimitError, limiterrors, map1, parseDMS, radical2, \
+                      thomas, vincentys
 
 from math import degrees, radians
 
@@ -81,8 +82,19 @@ class Tests(TestsBase):
         self.test('bearing3', bearing(41.49, -71.31, 40.78, -73.97, final=True),  249.614, fmt='%.3f')
 
         # <https://codegolf.StackExchange.com/questions/63870/spherical-excess-of-a-triangle>
-        self.test('xsGirard',   degrees(excessGirard(  0.38645, 1.48203, 1.48203)), '11.97008', prec=5)
-        self.test('xsLHuilier', degrees(excessLHuilier(0.34371, 1.09857, 1.09857)), '11.96987', prec=5)
+        # t = sphericalTrigonometry.triangle7(10, 10, 70, -20, 70, 40, radius=None) ... -8Tuple
+        # (A=0.386453, a=0.34371, B=1.482026, b=1.098565, C=1.482026, c=1.098565, D=3.742345, E=0.208912)')
+        # XXX with the full t.A, t.a, ... values, all 5 excess' produce the exact same results
+        self.test('excessAbc',      degrees(excessAbc(     0.386453, 1.098565, 1.098565)), '11.9698', prec=4)
+        self.test('excessAbc',      degrees(excessAbc(     1.482026, 0.34371,  1.098565)), '11.9698', prec=4)
+        self.test('excessGirard',   degrees(excessGirard(  0.386453, 1.482026, 1.482026)), '11.9698', prec=4)
+        self.test('excessLHuilier', degrees(excessLHuilier(0.34371,  1.098565, 1.098565)), '11.9698', prec=4)
+        self.test('excessKarney',   degrees(excessKarney(70, -20, 70, 40, radius=None)),   '56.9625', prec=4)
+        self.test('excessQuad',     degrees(excessQuad(  70, -20, 70, 40, radius=None)),   '56.9625', prec=4)
+        self.test('excessKarney',   degrees(excessKarney( 0, -20, 70, 40, radius=None)),   '44.0235', prec=4)
+        self.test('excessQuad',     degrees(excessQuad(   0, -20, 70, 40, radius=None)),   '44.0235', prec=4)
+        self.test('excessKarney',   degrees(excessKarney(70, 40,  0, -20, radius=None)),  '-44.0235', prec=4)
+        self.test('excessQuad',     degrees(excessQuad(  70, 40,  0, -20, radius=None)),  '-44.0235', prec=4)
 
         self.test('isantipode1', isantipode( 89,  179, -89, -1), True)
         self.test('isantipode2', isantipode(-89, -179,  89,  1), True)

@@ -12,21 +12,23 @@ I{(C) Chris Veness 2011-2016} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 @newfield example: Example, Examples
+@newfield JSname: JS name, JS names
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
 from pygeodesy.basics import copysign, isscalar, map1
+from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                               IntersectionError, _ValueError, _xkwds, _xkwds_get
 from pygeodesy.fmath import favg, fdot, fmean, Fsum, fsum, fsum_
-from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessGirard, \
-                            excessLHuilier, _radical2, vincentys_
+from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc, \
+                            excessGirard, excessLHuilier, _radical2, vincentys_
 from pygeodesy.interns import EPS, EPS0, EPS1, PI, PI2, PI_2, PI_4, R_M, \
                              _EPS4, _coincident_, _colinear_, _convex_, \
                              _end_, _invalid_, _LatLon_, _near_concentric_, \
-                             _not_, _points_, _too_, _1_, _2_, _0_0, _0_5, \
-                             _1_0, _2_0
+                             _not_, _points_, _SPACE_, _too_, _1_, _2_, \
+                             _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
 from pygeodesy.named import notImplemented, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
@@ -37,9 +39,9 @@ from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _angular, CartesianSphericalBase, \
                                      LatLonSphericalBase, _rads3, _trilaterate5
-from pygeodesy.streprs import Fmt
-from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius, Radius_, \
-                            Scalar
+from pygeodesy.streprs import Fmt as _Fmt  # XXX shadowed
+from pygeodesy.units import Bearing_, Height, Lam_, Phi_, Radius, \
+                            Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, degrees90, degrees180, degrees2m, \
                             m2radians, radiansPI2, sincos2, tan_2, \
                             unrollPI, wrap180, wrapPI
@@ -48,7 +50,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, hypot, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '21.02.21'
+__version__ = '21.02.28'
 
 _PI_EPS4 = PI - _EPS4
 if _PI_EPS4 >= PI:
@@ -79,7 +81,7 @@ def _r2m(r, radius):
     '''
     if radius is R_M:
         r *= R_M
-    elif radius is not None:
+    elif radius is not None:  # not in (None, _0_0)
         r *= Radius(radius)
     return r
 
@@ -128,7 +130,7 @@ class LatLon(LatLonSphericalBase):
         r = start.distanceTo(self, r, wrap=wrap) / r
 
         b = radians(start.initialBearingTo(self, wrap=wrap))
-        e = radians(start.initialBearingTo(end, wrap=wrap))
+        e = radians(start.initialBearingTo(end,  wrap=wrap))
         x = asin(sin(r) * sin(b - e))
         return r, x, (e - b)
 
@@ -166,10 +168,9 @@ class LatLon(LatLonSphericalBase):
            >>> d = p.alongTrackDistanceTo(s, e)  # 62331.58
         '''
         r, x, b = self._trackDistanceTo3(start, end, radius, wrap)
-        cx, d = cos(x), _0_0
-        if abs(cx) > EPS0:
-            d = _r2m(copysign(acos1(cos(r) / cx), cos(b)), radius)
-        return d
+        cx = cos(x)
+        return _0_0 if abs(cx) < EPS0 else \
+               _r2m(copysign(acos1(cos(r) / cx), cos(b)), radius)
 
     @deprecated_method
     def bearingTo(self, other, wrap=False, raiser=False):  # PYCHOK no cover
@@ -329,7 +330,6 @@ class LatLon(LatLonSphericalBase):
         a, b = self.philam
 
         t = Bearing_(bearing)
-
         sa, ca, sb, cb, st, ct = sincos2(a, b, t)
 
         return Vector3d(sb * ct - cb * sa * st,
@@ -349,7 +349,7 @@ class LatLon(LatLonSphericalBase):
            @return: Initial bearing (compass C{degrees360}).
 
            @raise CrossError: If this and the B{C{other}} point coincide,
-                              provided B{C{raiser}} is C{True} and
+                              provided both B{C{raiser}} is C{True} and
                               L{crosserrors} is C{True}.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
@@ -400,7 +400,7 @@ class LatLon(LatLonSphericalBase):
         '''
         self.others(other)
 
-        f = Scalar(fraction=fraction)
+        f = Scalar(fraction=fraction)  # not high=_1_0
 
         a1, b1 = self.philam
         a2, b2 = other.philam
@@ -412,8 +412,8 @@ class LatLon(LatLonSphericalBase):
             sa1, ca1, sa2, ca2, \
             sb1, cb1, sb2, cb2 = sincos2(a1, a2, b1, b2)
 
-            A = sin((1 - f) * r) / sr
-            B = sin(     f  * r) / sr
+            A = sin((_1_0 - f) * r) / sr
+            B = sin(        f  * r) / sr
 
             x = A * ca1 * cb1 + B * ca2 * cb2
             y = A * ca1 * sb1 + B * ca2 * sb2
@@ -551,7 +551,7 @@ class LatLon(LatLonSphericalBase):
             # gc vectors, signed by direction of n0
             # (otherwise the test above is not reliable)
             if gc1.angleTo(gc, vSign=n0) < 0:
-                t = Fmt.SQUARE(points=i)
+                t = _Fmt.SQUARE(points=i)
                 raise _ValueError(t, p, txt=_not_(_convex_))
             gc1 = gc
 
@@ -578,7 +578,7 @@ class LatLon(LatLonSphericalBase):
 #           for i, gc2 in enumerate(gc):
 #               # angle between gc vectors, signed by direction of n0
 #               if gc1.angleTo(gc2, vSign=n0) < 0:
-#                   ti = Fmt.SQUARE(points=i)
+#                   ti = _Fmt.SQUARE(points=i)
 #                   raise _ValueError(ti, points[i], txt=_not_(_convex_))
 #               gc1 = gc2
 
@@ -625,10 +625,7 @@ class LatLon(LatLonSphericalBase):
         a = atan2(sa1 + sa2, hypot(x, y))
         b = atan2(y, x) + b1
 
-        if height is None:
-            h = self._havg(other)
-        else:
-            h = Height(height)
+        h = self._havg(other) if height is None else Height(height)
         return self.classof(degrees90(a), degrees180(b), height=h)
 
     def nearestOn(self, point1, point2, radius=R_M, **options):
@@ -697,7 +694,7 @@ class LatLon(LatLonSphericalBase):
                     units of B{C{radius}}.
         '''
         r = self.nearestOn3(points, closed=closed, radius=radius, **options)
-        return tuple(r[:2])
+        return r.closest, r.distance
 
     def nearestOn3(self, points, closed=False, radius=R_M, **options):
         '''Locate the point on a polygon closest to this point.
@@ -762,13 +759,14 @@ class LatLon(LatLonSphericalBase):
 
            @arg otherB: Second triangle point (C{LatLon}).
            @arg otherC: Third triangle point (C{LatLon}).
-           @kwarg radius: Mean earth radius (C{meter}, conventionally)
-                          or C{None}.
+           @kwarg radius: Mean earth radius, ellipsoid or datum
+                          (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                          L{Datum} or L{a_f2Tuple}) or C{None}.
            @kwarg wrap: Wrap/unroll angular distances (C{bool}).
 
            @return: L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} or if
-                    B{C{radius}} is C{None}, a L{Triangle8Tuple}C{(A, a,
-                    B, b, C, c, D, E)}.
+                    B{C{radius}} is C{None}, a L{Triangle8Tuple}C{(A,
+                    a, B, b, C, c, D, E)}.
 
            @see: Function L{triangle7} and U{Spherical trigonometry
                  <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
@@ -828,7 +826,7 @@ class LatLon(LatLonSphericalBase):
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
-           @raise ValueError: Some B{C{points}} coincide or invalid B{C{distance1}},
+           @raise ValueError: Coincident B{C{points}} or invalid B{C{distance1}},
                               B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
         '''
         return _trilaterate5(self, distance1,
@@ -841,11 +839,13 @@ _T00 = LatLon(0, 0, name='T00')  # reference instance (L{LatLon})
 
 
 def areaOf(points, radius=R_M, wrap=True):
-    '''Calculate the area of a (spherical) polygon (with great circle
-       arcs joining the points).
+    '''Calculate the area of a (spherical) polygon (with the points
+       joined by great circle arcs).
 
        @arg points: The polygon points (L{LatLon}[]).
-       @kwarg radius: Mean earth radius (C{meter}) or C{None}.
+       @kwarg radius: Mean earth radius, ellipsoid or datum
+                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                      L{Datum} or L{a_f2Tuple}) or C{None}.
        @kwarg wrap: Wrap and unroll longitudes (C{bool}).
 
        @return: Polygon area (C{meter} I{quared}, same units as
@@ -855,14 +855,15 @@ def areaOf(points, radius=R_M, wrap=True):
 
        @raise TypeError: Some B{C{points}} are not L{LatLon}.
 
-       @raise ValueError: Invalid B{C{radius}}.
+       @raise ValueError: Invalid B{C{radius}} or semi-circular
+                          polygon edge.
 
-       @note: The area is based on I{Karney}'s U{'Area of a spherical polygon'
-              <https://OSGeo-org.1560.x6.nabble.com/
+       @note: The area is based on I{Karney}'s U{'Area of a spherical
+              polygon'<https://OSGeo-org.1560.x6.nabble.com/
               Area-of-a-spherical-polygon-td3841625.html>}.
 
-       @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf} and
-             L{ellipsoidalKarney.areaOf}.
+       @see: L{pygeodesy.areaOf}, L{sphericalNvector.areaOf},
+             L{ellipsoidalKarney.areaOf} and L{excessKarney}.
 
        @example:
 
@@ -875,15 +876,9 @@ def areaOf(points, radius=R_M, wrap=True):
     Ps = _T00.PointsIter(points, loop=1)
     p1 = p2 = Ps[0]
 
-    # Area method due to Karney: for each edge of the polygon,
-    #
-    #                tan(Δλ/2) · (tan(φ1/2) + tan(φ2/2))
-    #     tan(E/2) = ------------------------------------
-    #                     1 + tan(φ1/2) · tan(φ2/2)
-    #
-    # where E is the spherical excess of the trapezium obtained by
-    # extending the edge to the equator-circle vector for each edge
-    X = Fsum()
+    A = Fsum()  # mean phi
+
+    E = Fsum()  # see L{excessKarney_}
     a1, b1 = p1.philam
     ta1 = tan_2(a1)
 
@@ -891,13 +886,13 @@ def areaOf(points, radius=R_M, wrap=True):
     # <https://blog.Element84.com/determining-if-a-spherical-polygon-contains-a-pole.html>
     # XXX duplicate of function C{points.ispolar} to avoid copying all iterated points
     D = Fsum()
-    z1, _ = _bearingTo2(p2, p1, wrap=wrap)
+    z1 = _0_0  # z1, _ = _bearingTo2(p2, p1, wrap=wrap)
 
-    for p2 in Ps.iterate(closed=True):
+    for i, p2 in Ps.enumerate(closed=True):
         a2, b2 = p2.philam
-        db, b2 = unrollPI(b1, b2, wrap=wrap)
+        db, b2 = unrollPI(b1, b2, wrap=wrap if i else False)
         ta2 = tan_2(a2)
-        X += atan2(tan_2(db) * (ta1 + ta2), _1_0 + ta1 * ta2)
+        E += atan2(tan_2(db, points=i) * (ta1 + ta2), _1_0 + ta1 * ta2)
         ta1, b1 = ta2, b2
 
         if not p2.isequalTo(p1, EPS):
@@ -905,27 +900,25 @@ def areaOf(points, radius=R_M, wrap=True):
             D.fadd_(wrap180(z - z1),  # (z - z1 + 540) % 360 - 180
                     wrap180(z2 - z))  # (z2 - z + 540) % 360 - 180
             p1, z1 = p2, z2
+        A += a2
 
-    s = abs(X.fsum()) * _2_0
-    if abs(D.fsum()) < 90:  # ispolar(points)
-        s = abs(s - PI2)
-    return s if radius is None else (s * Radius(radius)**2)
+    r = abs(E.fsum()) * _2_0
+    if abs(D.fsum()) < _90_0:  # ispolar(points)
+        r = abs(r - PI2)
+    if radius:
+        a  =  degrees(A.fsum() / len(A))  # mean lat
+        r *= _mean_radius(radius, a)**2
+    return r
 
 
-def _xb(a1, b1, end, a, b, wrap):
+def _ib(a1, b1, end, a, b, wrap):
     # difference between the bearing to (a, b) and the given
     # bearing is negative if both are in opposite directions
     r = bearing_(a1, b1, a, b, wrap=wrap)
-    return PI_2 - abs(wrapPI(r - radians(end)))
+    return abs(wrapPI(r - radians(end))) > PI_2
 
 
-def _xdot(d, a1, b1, a, b, wrap):
-    # compute dot product d . (-b + b1, a - a1)
-    db, _ = unrollPI(b1, b, wrap=wrap)
-    return fdot(d, db, a - a1)
-
-
-def _x3d2(start, end, wrap, _i_, hs):
+def _i3d2(start, end, wrap, _i_, hs):
     # see <https://www.EdWilliams.org/intersect.htm> (5) ff
     a1, b1 = start.philam
 
@@ -938,8 +931,7 @@ def _x3d2(start, end, wrap, _i_, hs):
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     if max(abs(db), abs(a2 - a1)) < EPS:
-        raise IntersectionError(start=start, end=end, txt='null path' + _i_)
-
+        raise ValueError(_SPACE_('path' + _i_,'null'))
     # note, in EdWilliams.org/avform.htm W is + and E is -
     b21, b12 = db * _0_5, -(b1 + b2) * _0_5
 
@@ -950,6 +942,12 @@ def _x3d2(start, end, wrap, _i_, hs):
                  sa21 * cb12 * cb21 + sa12 * sb12 * sb21,
                  cos(a1) * cos(a2) * sin(db))  # ll=start
     return x.unit(), (db, (a2 - a1))  # negated d
+
+
+def _idot(ds, a1, b1, a, b, wrap):
+    # compute dot product d . (-b + b1, a - a1)
+    db, _ = unrollPI(b1, b, wrap=wrap)
+    return fdot(ds, db, a - a1)
 
 
 def intersection(start1, end1, start2, end2, height=None, wrap=False,
@@ -999,65 +997,64 @@ def intersection(start1, end1, start2, end2, height=None, wrap=False,
 
     a1, b1 = start1.philam
     a2, b2 = start2.philam
+    try:
+        db, b2 = unrollPI(b1, b2, wrap=wrap)
+        r12 = vincentys_(a2, a1, db)
+        if abs(r12) < EPS:  # [nearly] coincident points
+            a, b = favg(a1, a2), favg(b1, b2)
 
-    db, b2 = unrollPI(b1, b2, wrap=wrap)
-    r12 = vincentys_(a2, a1, db)
-    if abs(r12) < EPS:  # [nearly] coincident points
-        a, b = favg(a1, a2), favg(b1, b2)
+        # see <https://www.EdWilliams.org/avform.htm#Intersection>
+        elif isscalar(end1) and isscalar(end2):  # both bearings
+            sa1, ca1, sa2, ca2, sr12, cr12 = sincos2(a1, a2, r12)
 
-    # see <https://www.EdWilliams.org/avform.htm#Intersection>
-    elif isscalar(end1) and isscalar(end2):  # both bearings
-        sa1, ca1, sa2, ca2, sr12, cr12 = sincos2(a1, a2, r12)
+            x1, x2 = (sr12 * ca1), (sr12 * ca2)
+            if abs(x1) < EPS0 or abs(x2) < EPS0:
+                raise ValueError('parallel')
+            # handle domain error for equivalent longitudes,
+            # see also functions asin_safe and acos_safe at
+            # <https://www.EdWilliams.org/avform.htm#Math>
+            t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
+                                 (sa1 - sa2 * cr12) / x2)
+            if sin(db) > 0:
+                t12, t21 = t1, PI2 - t2
+            else:
+                t12, t21 = PI2 - t1, t2
 
-        x1, x2 = (sr12 * ca1), (sr12 * ca2)
-        if abs(x1) < EPS0 or abs(x2) < EPS0:
-            raise IntersectionError(start1=start1, end1=end1,
-                                    start2=start2, end2=end2, txt='parallel')
+            t13, t23 = map1(radiansPI2, end1, end2)
+            x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
+                                  t21 - t23)  # angle 1-2-3
+            sx1, cx1, sx2, cx2 = sincos2(x1, x2)
+            if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
+                raise ValueError('infinite')
+            sx3 = sx1 * sx2
+# XXX       if sx3 < 0:
+# XXX           raise ValueError(_ambiguous_)
+            x3  = acos1(cr12 * sx3 - cx2 * cx1)
+            r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
 
-        # handle domain error for equivalent longitudes,
-        # see also functions asin_safe and acos_safe at
-        # <https://www.EdWilliams.org/avform.htm#Math>
-        t1, t2 = map1(acos1, (sa2 - sa1 * cr12) / x1,
-                             (sa1 - sa2 * cr12) / x2)
-        if sin(db) > 0:
-            t12, t21 = t1, PI2 - t2
-        else:
-            t12, t21 = PI2 - t1, t2
-
-        t13, t23 = map1(radiansPI2, end1, end2)
-        x1, x2 = map1(wrapPI, t13 - t12,  # angle 2-1-3
-                              t21 - t23)  # angle 1-2-3
-        sx1, cx1, sx2, cx2 = sincos2(x1, x2)
-        if sx1 == 0 and sx2 == 0:  # max(abs(sx1), abs(sx2)) < EPS
-            raise IntersectionError(start1=start1, end1=end1,
-                                    start2=start2, end2=end2, txt='infinite')
-        sx3 = sx1 * sx2
-#       if sx3 < 0:
-#           raise IntersectionError(start1=start1, end1=end1,
-#                                   start2=start2, end2=end2, txt=_ambiguous_)
-        x3 = acos1(cr12 * sx3 - cx2 * cx1)
-        r13 = atan2(sr12 * sx3, cx2 + cx1 * cos(x3))
-
-        a, b = _destination2(a1, b1, r13, t13)
-        # choose antipode for opposing bearings
-        if _xb(a1, b1, end1, a, b, wrap) < 0 or \
-           _xb(a2, b2, end2, a, b, wrap) < 0:
-            a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
-
-    else:  # end point(s) or bearing(s)
-        x1, d1 = _x3d2(start1, end1, wrap, _1_, hs)
-        x2, d2 = _x3d2(start2, end2, wrap, _2_, hs)
-        x = x1.cross(x2)
-        if x.length < EPS:  # [nearly] colinear or parallel paths
-            raise IntersectionError(start1=start1, end1=end1,
-                                    start2=start2, end2=end2, txt=_colinear_)
-        a, b = x.philam
-        # choose intersection similar to sphericalNvector
-        d1 = _xdot(d1, a1, b1, a, b, wrap)
-        if d1:
-            d2 = _xdot(d2, a2, b2, a, b, wrap)
-            if (d2 < 0 and d1 > 0) or (d2 > 0 and d1 < 0):
+            a, b = _destination2(a1, b1, r13, t13)
+            # choose antipode for opposing bearings
+            if _ib(a1, b1, end1, a, b, wrap) or \
+               _ib(a2, b2, end2, a, b, wrap):
                 a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
+
+        else:  # end point(s) or bearing(s)
+            x1, d1 = _i3d2(start1, end1, wrap, _1_, hs)
+            x2, d2 = _i3d2(start2, end2, wrap, _2_, hs)
+            x = x1.cross(x2)
+            if x.length < EPS:  # [nearly] colinear or parallel paths
+                raise ValueError(_colinear_)
+            a, b = x.philam
+            # choose intersection similar to sphericalNvector
+            d1 = _idot(d1, a1, b1, a, b, wrap)
+            if d1:
+                d2 = _idot(d2, a2, b2, a, b, wrap)
+                if (d2 < 0 and d1 > 0) or (d2 > 0 and d1 < 0):
+                    a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
+
+    except ValueError as x:
+        raise IntersectionError(start1=start1, end1=end1,
+                                start2=start2, end2=end2, txt=str(x))
 
     h = fmean(hs) if height is None else Height(height)
     return _latlon3(degrees90(a), degrees180(b), h,
@@ -1142,7 +1139,8 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
     if d < max(r1 - r2, EPS):
         raise ValueError(_near_concentric_)
 
-    r = eps if radius is None else (m2radians(eps, radius=radius) if eps else _0_0)
+    r = eps if radius is None else (m2radians(
+        eps, radius=radius) if eps else _0_0)
     if r < _0_0:
         raise _ValueError(eps=r)
 
@@ -1156,7 +1154,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
 
     elif x < r:
         t = (d * radius) if too_d is None else too_d
-        raise ValueError(_too_(Fmt.distant(t)))
+        raise ValueError(_too_(_Fmt.distant(t)))
 
     if height is None:  # "radical height"
         f = _radical2(d, r1, r2).ratio
@@ -1309,9 +1307,9 @@ def perimeterOf(points, closed=False, radius=R_M, wrap=True):
     '''
     def _rads(Ps, closed, wrap):  # angular edge lengths in radians
         a1, b1 = Ps[0].philam
-        for p in Ps.iterate(closed=closed):
+        for i, p in Ps.enumerate(closed=closed):
             a2, b2 = p.philam
-            db, b2 = unrollPI(b1, b2, wrap=wrap)
+            db, b2 = unrollPI(b1, b2, wrap=wrap if i else False)
             yield vincentys_(a2, a1, db)
             a1, b1 = a2, b2
 
@@ -1323,16 +1321,17 @@ def _t8_7(t, radius):
     '''(INTERNAL) Convert a L{Triangle8Tuple} to L{Triangle7Tuple}.
     '''
     if radius:  # not in (None, _0_0)
+        r = radius if isscalar(radius) else \
+           _ellipsoidal_datum(radius).ellipsoid.Rmean
         A, B, C = map1(degrees, t.A, t.B, t.C)
-        t = Triangle7Tuple(A, _r2m(t.a, radius),
-                           B, _r2m(t.b, radius),
-                           C, _r2m(t.c, radius),
-                         t.E * radius**2)
+        t = Triangle7Tuple(A, (r * t.a),
+                           B, (r * t.b),
+                           C, (r * t.c), t.E * r**2)
     return t
 
 
 def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
-                                                  girard=True,
+                                                  excess=excessAbc,
                                                     wrap=False):
     '''Compute the angles, sides, and area of a (spherical) triangle.
 
@@ -1342,10 +1341,11 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
        @arg lonB: Second corner longitude (C{degrees}).
        @arg latC: Third corner latitude (C{degrees}).
        @arg lonC: Third corner longitude (C{degrees}).
-       @kwarg radius: Mean earth radius (C{meter}, conventionally) or
-                      C{None}.
-       @kwarg girard: Use I{Girard's formula} or I{L'Huilier's Theorem}
-                      for the I{spherical excess} (C{bool}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum
+                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                      L{Datum} or L{a_f2Tuple}) or C{None}.
+       @kwarg excess: I{Spherical excess} callable (L{excessAbc},
+                      L{excessGirard} or L{excessLHuilier}).
        @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
 
        @return: A L{Triangle7Tuple}C{(A, a, B, b, C, c, area)} with
@@ -1356,17 +1356,15 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
                 L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} all in
                 C{radians} with I{spherical excess} C{E} as the
                 C{unit area} in C{radians}.
-
-       @see: Function L{excessGirard} and L{excessLHuilier}.
     '''
     t = triangle8_(Phi_(latA=latA), Lam_(lonA=lonA),
                    Phi_(latB=latB), Lam_(lonB=lonB),
                    Phi_(latC=latC), Lam_(lonC=lonC),
-                   girard=girard, wrap=wrap)
+                   excess=excess, wrap=wrap)
     return _t8_7(t, radius)
 
 
-def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, girard=True,
+def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc,
                                                      wrap=False):
     '''Compute the angles, sides, I{spherical deficit} and
        I{spherical excess} of a (spherical) triangle.
@@ -1377,16 +1375,14 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, girard=True,
        @arg lamB: Second corner longitude (C{radians}).
        @arg phiC: Third corner latitude (C{radians}).
        @arg lamC: Third corner longitude (C{radians}).
-       @kwarg girard: Use I{Girard's formula} or I{L'Huilier's
-                      Theorem} for the I{spherical excess} (C{bool}).
+       @kwarg excess: I{Spherical excess} callable (L{excessAbc},
+                      L{excessGirard} or L{excessLHuilier}).
        @kwarg wrap: Wrap and L{unrollPI} longitudes (C{bool}).
 
        @return: A L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} with
                 spherical angles C{A}, C{B} and C{C}, angular sides
                 C{a}, C{b} and C{c}, I{spherical deficit} C{D} and
                 I{spherical excess} C{E}, all in C{radians}.
-
-       @see: Functions L{excessGirard} and L{excessLHuilier}.
     '''
     def _a_r(w, phiA, lamA, phiB, lamB, phiC, lamC):
         d, _ = unrollPI(lamB, lamC, wrap=w)
@@ -1407,9 +1403,10 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, girard=True,
     B, r = _A_r(b, *r)
     C, _ = _A_r(c, *r)
 
-    D = fsum_(PI2, -a, -b, -c)
-    E = excessGirard(A, B, C) if girard else \
-        excessLHuilier(a, b, c)
+    D = fsum_(PI2, -a, -b, -c)  # deficit aka defect
+    E = excessGirard(A, B, C)   if excess in (excessGirard, True) else (
+        excessLHuilier(a, b, c) if excess in (excessLHuilier, False) else
+        excessAbc(*max((A, b, c), (B, c, a), (C, a, b))))
 
     return Triangle8Tuple(A, a, B, b, C, c, D, E)
 

@@ -24,7 +24,7 @@ from pygeodesy.interns import EPS, EPS1, EPS_2, MISSING, NN, R_M, \
                              _bearing_, _coincident_, _COMMASPACE_, \
                              _distance_, _intersection_, _no_, _NorthPole_, \
                              _points_, _pole_, _SPACE_, _SouthPole_, \
-                             _1_, _2_, _3_
+                             _1_, _2_, _3_, _2_0
 from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.named import _xother3
@@ -40,7 +40,7 @@ from pygeodesy.vector3d import Vector3d, VectorError, \
 from math import fabs, sqrt  # atan2, cos, sin
 
 __all__ = (_NorthPole_, _SouthPole_)  # constants
-__version__ = '21.02.11'
+__version__ = '21.02.24'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -553,7 +553,7 @@ class LatLonNvectorBase(LatLonBase):
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
-           @raise ValueError: Some B{C{points}} coincide or invalid B{C{distance1}},
+           @raise ValueError: Coincident B{C{points}} or invalid B{C{distance1}},
                               B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
         '''
         if area or wrap:
@@ -564,11 +564,10 @@ class LatLonNvectorBase(LatLonBase):
                                           self.others(point3=point3), distance3,
                                           radius=radius, height=None, useZ=True,
                                           LatLon=self.classof)
-        # ... and handle B{C{eps}} and C{IntersectionError} as
-        # method C{.latlonBase.LatLonBase.trilaterate2}
+        # ... and handle B{C{eps}} and C{IntersectionError}
+        # like function C{.latlonBase._trilaterate5}
         d = self.distanceTo(t, radius=radius, wrap=wrap)  # PYCHOK distanceTo
-        d = abs(distance1 - d), abs(distance2 - d), abs(distance3 - d)
-        d = float(min(d))
+        d = min(fabs(distance1 - d), fabs(distance2 - d), fabs(distance3 - d))
         if d < eps:  # min is max, minPoint is maxPoint
             return Trilaterate5Tuple(d, t, d, t, 1)  # n = 1
         t = _SPACE_(_no_(_intersection_), Fmt.PAREN(min.__name__, Fmt.f(d, prec=3)))
@@ -663,8 +662,8 @@ def _trilaterate(point1, distance1, point2, distance2, point3, distance3,
         j = Y.dot(y)  # signed magnitude of y component of n1->n3
         if abs(j) > EPS_2:
             # courtesy Carlos Freitas <https://GitHub.com/mrJean1/PyGeodesy/issues/33>
-            x = fsum_(r12, -r22, d**2) / (2 * d)  # n1->intersection x- and ...
-            y = fsum_(r12, -r32, i**2, j**2, -2 * x * i) / (2 * j)  # ... y-component
+            x = fsum_(r12, -r22, d**2) / (_2_0 * d)  # n1->intersection x- and ...
+            y = fsum_(r12, -r32, i**2, j**2, -2 * x * i) / (_2_0 * j)  # ... y-component
             # courtesy AleixDev <https://GitHub.com/mrJean1/PyGeodesy/issues/43>
             z = fsum_(max(r12, r22, r32), -(x**2), -(y**2))  # XXX not just r12!
             if z > EPS:

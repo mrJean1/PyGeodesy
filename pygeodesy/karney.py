@@ -6,8 +6,8 @@ C{GeodesicLine} and C{Math} functions C{AngDiff}, C{AngNormalize}, C{LatFix} and
 C{sum} from I{Karney's} U{geographiclib<https://PyPI.org/project/geographiclib>},
 Python package, provided that package is installed.
 
-The I{wrapped} class methods return a C{named._NamedDict} instance providing
-access to the C{dict} items by key or attribute.
+The I{wrapped} class methods return a C{named._NamedDict}-like instance providing
+access to the C{dict} items by key or by attribute.
 
 Following are U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} classes
 and functions I{transcribed} from I{Karney}'s original U{GeographicLib
@@ -56,10 +56,26 @@ and functions I{transcribed} from I{Karney}'s original U{GeographicLib
   - L{atan2d}, L{sincos2}, L{sincos2d}-- U{Math<https://GeographicLib.sourceforge.io/html/
     classGeographicLib_1_1Math.html>}
 
-The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} modules and classes are I{wrappers}
+The following U{PyGeodesy<https://PyPI.org/project/PyGeodesy>} module, classes and functions are I{wrappers}
 around some of I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>}:
 
-  - L{ellipsoidalKarney}, L{EquidistantKarney}, L{FrechetKarney}, L{GnomonicKarney}, L{HeightIDWkarney}, L{karney}
+  - L{karney}, L{ellipsoidalKarney}, L{EquidistantKarney}, L{FrechetKarney}, L{GnomonicKarney}, L{HeightIDWkarney},
+    L{ellipsoidalKarney.areaOf}, L{ellipsoidalKarney.isclockwise}, L{ellipsoidalKarney.perimeterOf}
+
+Lastly, spherical functions:
+
+  - L{excessKarney_}, L{sphericalTrigonometry.areaOf}
+
+are based on I{Karney}'s post U{Area of a spherical polygon
+<http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>} and ellipsoidal
+functions and methods:
+
+  - L{ellipsoidalKarney.intersections2}, L{ellipsoidalKarney.nearestOn}, L{ellipsoidalKarney.LatLon.intersections2}, L{ellipsoidalKarney.LatLon.nearestOn}
+
+are implementations of I{Karney}'s post U{The B{ellipsoidal} case
+<https://GIS.StackExchange.com/questions/48937/calculating-intersection-of-two-circles>} and paper
+U{Geodesics on an ellipsoid of revolution<https://ArXiv.org/pdf/1102.1215.pdf>} (pp 20-21, section
+B{I{14. MARITIME BOUNDARIES}}).
 '''
 
 from pygeodesy.basics import _xversion
@@ -73,7 +89,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.01.28'
+__version__ = '21.02.25'
 
 
 class _Adict(dict):

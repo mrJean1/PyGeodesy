@@ -10,6 +10,7 @@ and published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 
 @newfield example: Example, Examples
+@newfield JSname: JS name, JS names
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -21,30 +22,30 @@ from pygeodesy.ellipsoids import R_M, R_MA
 from pygeodesy.errors import IntersectionError
 from pygeodesy.fmath import favg, fdot
 from pygeodesy.interns import EPS, EPS0, NN, PI, PI2, PI_2, _COMMA_, \
-                             _too_, _distant_, _exceed_PI_radians_, \
-                             _near_concentric_, _1_0, _180_0, _360_0
+                             _datum_, _distant_, _exceed_PI_radians_, \
+                             _name_, _near_concentric_, _too_, \
+                             _1_0, _180_0, _360_0
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5  # PYCHOK passed
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.named import _xnamed
 from pygeodesy.namedTuples import Bearing2Tuple
-from pygeodesy.nvectorBase import NvectorBase
+from pygeodesy.nvectorBase import NvectorBase, _xattrs  # streprs
 from pygeodesy.props import property_doc_
-from pygeodesy.units import Bearing_, Distance, Height, Radius, Radius_
+from pygeodesy.units import Bearing_, Height, Radians_, Radius, Radius_
 from pygeodesy.utily import acos1, atan2b, degrees90, degrees180, \
                             sincos2, tanPI_2_2, wrapPI
 
 from math import cos, hypot, log, sin, sqrt
 
 __all__ = ()
-__version__ = '21.02.03'
+__version__ = '21.02.27'
 
 
 def _angular(distance, radius):  # PYCHOK for export
-    '''(INTERNAL) Return the angular distance in radians.
+    '''(INTERNAL) Return the angular distance in C{radians}.
 
-       @raise ValueError: Invalid B{C{distance}} or B{C{radius}}.
+       @raise UnitError: Invalid B{C{distance}} or B{C{radius}}.
     '''
-    return Distance(distance) / Radius_(radius)
+    return Radians_(distance / Radius_(radius=radius), low=EPS)
 
 
 def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
@@ -53,9 +54,8 @@ def _rads3(rad1, rad2, radius):  # in .sphericalTrigonometry
     r1 = Radius_(rad1=rad1)
     r2 = Radius_(rad2=rad2)
     if radius is not None:  # convert radii to radians
-        r = _1_0 / Radius_(radius=radius)
-        r1 *= r
-        r2 *= r
+        r1 = _angular(r1, radius)
+        r2 = _angular(r2, radius)
 
     x = r1 < r2
     if x:
@@ -103,34 +103,29 @@ class CartesianSphericalBase(CartesianBase):
         r1, r2, x = _rads3(rad1, rad2, radius)
         if x:
             x1, x2 = x2, x1
-
-        n, q = x1.cross(x2), x1.dot(x2)
-        n2, q21 = n.length2, _1_0 - q**2
-        if n2 < EPS or abs(q21) < EPS:
-            raise IntersectionError(center=self, other=other,
-                                    txt=_near_concentric_)
         try:
-            cr1, cr2 = cos(r1), cos(r2)
-            a = (cr1 - q * cr2) / q21
-            b = (cr2 - q * cr1) / q21
-            x0 = x1.times(a).plus(x2.times(b))
-        except ValueError:
+            n, q = x1.cross(x2), x1.dot(x2)
+            n2, q1 = n.length2, _1_0 - q**2
+            if n2 < EPS or abs(q1) < EPS0:
+                raise ValueError(_near_concentric_)
+            c1, c2 = cos(r1), cos(r2)
+            x0 = x1.times((c1 - q * c2) / q1).plus(
+                 x2.times((c2 - q * c1) / q1))
+            n1 = _1_0 - x0.length2
+            if n1 < EPS:
+                raise ValueError(_too_(_distant_))
+        except ValueError as x:
             raise IntersectionError(center=self, rad1=rad1,
-                                    other=other, rad2=rad2)
-        x = _1_0 - x0.length2  # XXX x0.dot(x0)
-        if x < EPS:
-            raise IntersectionError(center=self, rad1=rad1,
-                                    other=other, rad2=rad2, txt=_too_(_distant_))
-        n = n.times(sqrt(x / n2))
+                                    other=other, rad2=rad2, txt=str(x))
+        n = n.times(sqrt(n1 / n2))
         if n.length > EPS:
-            x1, x2 = x0.plus(n), x0.minus(n)
+            x1 = x0.plus(n)
+            x2 = x0.minus(n)
         else:  # abutting circles
             x1 = x2 = x0
 
-        for x in (x1, x2):
-            x.datum = self.datum
-            x.name  = self.intersections2.__name__
-        return x1, x2
+        return (_xattrs(x1, self, _datum_, _name_),
+                _xattrs(x2, self, _datum_, _name_))
 
 
 class LatLonSphericalBase(LatLonBase):
@@ -283,7 +278,7 @@ class LatLonSphericalBase(LatLonBase):
         from pygeodesy.dms import parse3llh
         r = self.classof(*parse3llh(strllh, height=height, sep=sep))
         if name:
-            r = _xnamed(r, name, force=True)
+            r.rename(name)
         return r
 
     def _rhumb3(self, other):

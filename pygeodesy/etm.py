@@ -57,6 +57,8 @@ Minor alterations have been made in some of Lee's expressions in an
 attempt to control round-off.  For example, C{atanh(sin(phi))} is
 replaced by C{asinh(tan(phi))} which maintains accuracy near
 C{phi = pi/2}.  Such changes are noted in the code.
+
+@newfield example: Example, Examples
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -87,7 +89,7 @@ from pygeodesy.utm import _cmlon, _K0_UTM, _LLEB, _parseUTM5, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt, tan
 
 __all__ = _ALL_LAZY.etm
-__version__ = '21.02.16'
+__version__ = '21.02.25'
 
 _OVERFLOW = _1_EPS**2  # about 2e+31
 _TOL_10   = _0_1 * EPS

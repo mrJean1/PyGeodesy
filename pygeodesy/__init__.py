@@ -65,7 +65,7 @@ the U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/resources/hull:8338>} and the
 U{Reumann-Witkam<https://psimpl.SourceForge.net/reumann-witkam.html>} algorithms
 and modified versions of the former.  Other classes U{interpolate
 <https://docs.SciPy.org/doc/scipy/reference/interpolate.html>} the C{height}
-of C{LatLon} points and several C{Geoid} models or compute various U{Fréchet
+of C{LatLon} points and C{Geoid} models or compute various U{Fréchet
 <https://WikiPedia.org/wiki/Frechet_distance>} or U{Hausdorff
 <https://WikiPedia.org/wiki/Hausdorff_distance>} distances.
 
@@ -116,11 +116,11 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all on
-macOS 11.2.1 (10.16) Big Sur and all in 64-bit only.  The tests
-run with and without C{lazy import} for Python 3 and with C{-W
-always} and environment variable C{PYGEODESY_WARNINGS=on} for
-all Python versions.  The results of those tests are included
-in the distribution files.
+macOS 11.2.2 (10.16) Big Sur and all in 64-bit only.  The tests
+are run with and without C{lazy import} for Python 3 and with C{-W
+always} and environment variable C{PYGEODESY_WARNINGS=on} for all
+Python versions.  The results of those tests are included in the
+distribution files.
 
 Test coverage has been measured with U{coverage
 <https://PyPI.org/project/coverage>} 4.5.4 using Python 3.9.2 (with
@@ -153,9 +153,9 @@ Previously, the tests were run with Python 3.9.0-1, 3.8.0-5, 3.7.2-6, 3.7.0,
 <https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0
 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and
 3.5.3) and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>}
-3.5.3 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-1 Big Sur,
-10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra, macOS
-10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with
+3.5.3 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-2.1 Big
+Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra,
+macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with
 U{Pythonista3.2<https://OMZ-Software.com/pythonista>} (with geographiclib 1.49
 or 1.50 and numpy 1.8.0) on iOS 11.4.1, 12.0-3 on iPad4, iPhone6 and/or iPhone10,
 with U{Pythonista 3.1<https://OMZ-Software.com/pythonista>} on iOS 10.3.3, 11.0.3,
@@ -172,7 +172,7 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8
 <https://PyPI.org/project/flake8>} using Python 3.9.2, both in 64-bit
-on macOS 11.2.1 (10.16) Big Sur.
+on macOS 11.2.2 (10.16) Big Sur.
 
 Classes with a name ending in C{Karney} and several more are transcribed from
 I{Karney}'s U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
@@ -182,6 +182,23 @@ package to be installed.  A complete list is in module U{karney
 
 Some function and method names differ from the JavaScript version. In such
 cases documentation tag B{JS name:} shows the original JavaScript name.
+
+Env vars
+========
+
+The following environment variables are observed by C{PyGeodesy}:
+
+ - C{PYGEODESY_EXCEPTION_CHAINING} - see module L{pygeodesy.errors}.
+ - C{PYGEODESY_FOR_DOCS} - for extended documentation by C{epydoc}.
+ - C{PYGEODESY_LAZY_IMPORT} - see module L{pygeodesy.lazily} and variable L{isLazy}.
+ - C{PYGEODESY_WARNINGS} - see module L{pygeodesy.props} and function L{DeprecationWarnings}.
+ - C{PYTHONDEVMODE} - see modules L{pygeodesy.errors} and L{pygeodesy.props}.
+
+ - C{PYGEODESY_BOOL_STD_REPR} - see method L{pygeodesy.Bool.__repr__}.
+ - C{PYGEODESY_FLOAT_STD_REPR} - see method L{pygeodesy.Float.__repr__}.
+ - C{PYGEODESY_INT_STD_REPR} - see method L{pygeodesy.Int.__repr__}.
+ - C{PYGEODESY_METER_STD_REPR} - see method L{pygeodesy.Meter.__repr__}.
+ - C{PYGEODESY_STR_STD_REPR} - see method L{pygeodesy.Str.__repr__}.
 
 License
 =======
@@ -260,6 +277,7 @@ OTHER DEALINGS IN THE SOFTWARE.}
 
 @var PI:    Constant M{math.pi} (C{float}).
 @var PI2:   Two PI, M{PI * 2}, aka I{Tau} (C{float}).
+@var PI3:   Three PI, M{PI * 3} (C{float}).
 @var PI3_2: One and a half PI, M{PI * 3 / 2} (C{float}).
 @var PI4:   Four PI, M{PI * 4} (C{float}).
 @var PI_2:  Half PI, M{PI / 2} (C{float}).
@@ -287,10 +305,11 @@ OTHER DEALINGS IN THE SOFTWARE.}
 @var RefFrames:  Registered reference frames (C{enum-like}).
 @var Transforms: Registered transforms (C{enum-like}).
 
+@var isLazy: Lazy import setting (C{int} 0, 1, 2 or 3+) from C{env} variable C{PYGEODESY_LAZY_IMPORT}, or C{None} if C{lazy import} is not supported or not enabled, or C{False} if initializing C{lazy import} failed.
+
 @var pygeodesy_abspath: Fully qualified C{pygeodesy} directory name (C{str}).
 
 @var version: Normalized C{PyGeodesy} version (C{str}).
-
 '''
 
 from os.path import abspath, basename, dirname
@@ -472,7 +491,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.02.21'
+__version__ = '21.03.03'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

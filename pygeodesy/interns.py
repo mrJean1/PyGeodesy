@@ -122,6 +122,7 @@ _DOT_           = _Join('.')                 # PYCHOK expected
 _e_                   = 'e'                  # PYCHOK expected
 _E_                   = 'E'                  # PYCHOK expected
 _easting_             = 'easting'            # PYCHOK expected
+_edge_                = 'edge'               # PYCHOK expected
 _ELLIPSIS_      = _Join('...')               # PYCHOK expected
 # _ELLIPSISPACED_ = _Join(' ... ')           # PYCHOK <https://www.ThePunctuationGuide.com/ellipses.html>
 _ellipsoid_           = 'ellipsoid'          # PYCHOK expected
@@ -251,6 +252,7 @@ _S_                   = 'S'                  # PYCHOK expected
 _scalar_              = 'scalar'             # PYCHOK expected
 _scale_               = 'scale'              # PYCHOK expected
 _scipy_               = 'scipy'              # PYCHOK expected
+_semi_circular_       = 'semi-circular'      # PYCHOK expected
 _sep_                 = 'sep'                # PYCHOK expected
 _singular_            = 'singular'           # PYCHOK expected
 _small_               = 'small'              # PYCHOK expected
@@ -370,6 +372,7 @@ _90_0   = _float(  90)      # PYCHOK expected
 _120_0  = _float( 120)      # PYCHOK expected
 _180_0  = _float( 180)      # PYCHOK expected
 _360_0  = _float( 360)      # PYCHOK expected
+_400_0  = _float( 400)      # PYCHOK expected
 _720_0  = _float( 720)      # PYCHOK expected
 _3600_0 = _float(3600)      # PYCHOK expected
 
@@ -406,18 +409,19 @@ NAN      = _float( _NAN_)   # PYCHOK Not-A-Number, see function L{isnan}
 NEG0     =  float('-0.0')   # PYCHOK NEGative 0.0, see function L{isneg0}
 
 PI2   = _float(PI * _2_0)  # PYCHOK Two PI, M{PI * 2} aka I{Tau}
+PI3   = _float(PI * _3_0)  # PYCHOK Three PI, M{PI * 3}
+PI3_2 = _float(PI * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
 PI4   = _float(PI * _4_0)  # PYCHOK Four PI, M{PI * 4}
 PI_2  = _float(PI / _2_0)  # PYCHOK Half PI, M{PI / 2}
 PI_4  = _float(PI / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
-PI3_2 = _float(PI * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
 
 R_M   = _float(6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 
 __all__ = (_EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
-           'PI', 'PI2', 'PI4', 'PI_2', 'PI_4', 'PI3_2')  # imported by .lazily
-__version__ = '21.02.20'
+           'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
+__version__ = '21.02.27'
 
 # **) MIT License
 #

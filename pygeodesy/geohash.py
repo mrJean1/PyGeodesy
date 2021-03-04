@@ -14,6 +14,7 @@ U{PyGeohash<https://PyPI.org/project/pygeohash>} and
 U{Geohash-Javascript<https://GitHub.com/DaveTroy/geohash-js>}.
 
 @newfield example: Example, Examples
+@newfield JSname: JS name, JS names
 '''
 
 from pygeodesy.basics import isstr, map2
@@ -39,7 +40,7 @@ from pygeodesy.units import Degrees_, Int, Lat, Lon, Precision_, Str, \
 from math import ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '21.01.11'
+__version__ = '21.02.25'
 
 
 class _GH(object):

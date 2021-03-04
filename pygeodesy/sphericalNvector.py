@@ -29,6 +29,7 @@ Also note that on a spherical earth model, an n-vector is equivalent
 to a normalised version of an (ECEF) cartesian coordinate.
 
 @newfield example: Example, Examples
+@newfield JSname: JS name, JS names
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -53,7 +54,7 @@ from pygeodesy.utily import degrees360, sincos2, sincos2d
 from math import atan2
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '21.02.10'
+__version__ = '21.02.25'
 
 _paths_ = 'paths'
 
@@ -1119,7 +1120,7 @@ def trilaterate(point1, distance1, point2, distance2, point3, distance3,  # PYCH
 
        @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{point3}}.
 
-       @raise ValueError: Some B{C{points}} coincide or invalid B{C{distance1}},
+       @raise ValueError: Coincident B{C{points}} or invalid B{C{distance1}},
                           B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
 
        @see: U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}.

@@ -5,7 +5,7 @@ u'''Test L{interns} module.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.01.14'
+__version__ = '21.01.24'
 
 from base import TestsBase
 
@@ -13,26 +13,27 @@ from pygeodesy import clips, interns, EPS, EPS1, NN
 
 from os import getcwd
 
-_0to9_        = interns._0to9_
-_AtoZnoIO_    = interns._AtoZnoIO_
-_cwd          = getcwd()
-_DUNDER_      = interns._DUNDER_
-_DOT_         = interns._DOT_
-_EPS4         = interns._EPS4
-_EPS__2       = interns._EPS__2
-_EPS__4       = interns._EPS__4
-_EQUALSPACED_ = interns._EQUALSPACED_
-_UNDER_       = interns._UNDER_
-_exceptions  = (_0to9_, _AtoZnoIO_,
-                interns._doesn_t_exist_,
-                interns._exceed_PI_radians_,
-                interns._n_a_,
-                interns._near_concentric_,
-                interns._NL_hash_,
-                interns._NL_var_,
-                interns._OKd_,
-                interns._utf_8_)
-_DUNDER_0to9_ = NN(_DUNDER_, _0to9_)
+_0to9_        =  interns._0to9_
+_AtoZnoIO_    =  interns._AtoZnoIO_
+_cwd          =  getcwd()
+_DUNDER_      =  interns._DUNDER_
+_DOT_         =  interns._DOT_
+_EPS4         =  interns._EPS4
+_EPS__2       =  interns._EPS__2
+_EPS__4       =  interns._EPS__4
+_EQUALSPACED_ =  interns._EQUALSPACED_
+_UNDER_       =  interns._UNDER_
+_exceptions   = (_0to9_, _AtoZnoIO_,
+                 interns._doesn_t_exist_,
+                 interns._exceed_PI_radians_,
+                 interns._n_a_,
+                 interns._near_concentric_,
+                 interns._NL_hash_,
+                 interns._NL_var_,
+                 interns._OKd_,
+                 interns._semi_circular_,
+                 interns._utf_8_)
+_DUNDER_0to9_ =  NN(_DUNDER_, _0to9_)
 
 
 class Tests(TestsBase):

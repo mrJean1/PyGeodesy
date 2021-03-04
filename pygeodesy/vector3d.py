@@ -11,13 +11,14 @@ U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
+@newfield JSname: JS name, JS names
 '''
 
 from pygeodesy.basics import copysign, len2, map1, neg, _xnumpy
 from pygeodesy.errors import _AssertionError, CrossError, IntersectionError, \
                              _TypeError, _ValueError, _xkwds_popitem
 from pygeodesy.fmath import euclid_, fdot, fsum, fsum_, hypot_, hypot2_
-from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2
+from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2, sincos2  # utily
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, PI, PI2, \
                              _coincident_, _colinear_, _COMMA_, _COMMASPACE_, \
                              _datum_, _h_, _height_, _invalid_, _intersection_, \
@@ -31,10 +32,10 @@ from pygeodesy.props import deprecated_method, Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Radius, Radius_, Scalar
 
-from math import atan2, cos, sin, sqrt
+from math import atan2, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.02.12'
+__version__ = '21.02.26'
 
 
 def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
@@ -596,17 +597,20 @@ class Vector3d(_NamedBase):  # XXX or _NamedTuple or Vector3Tuple?
 
            @JSname: I{rotateAround}.
         '''
-        a = self.others(axis=axis).unit()  # axis being rotated around
+        s, c = sincos2(theta)
 
-        c = cos(theta)
+        a = self.others(axis=axis).unit()  # axis being rotated around
         b = a.times(_1_0 - c)
-        s = a.times(sin(theta))
+        s = a.times(s)
 
         p = self.unit().xyz  # point being rotated
         # multiply p by a quaternion-derived rotation matrix
-        return self.classof(fdot(p, a.x * b.x + c,   a.x * b.y - s.z, a.x * b.z + s.y),
-                            fdot(p, a.y * b.x + s.z, a.y * b.y + c,   a.y * b.z - s.x),
-                            fdot(p, a.z * b.x - s.y, a.z * b.y + s.x, a.z * b.z + c))
+        ax, ay, az = a.x, a.y, a.z
+        bx, by, bz = b.x, b.y, b.z
+        sx, sy, sz = s.x, s.y, s.z
+        return self.classof(fdot(p, ax * bx + c,  ax * by - sz, ax * bz + sy),
+                            fdot(p, ay * bx + sz, ay * by + c,  ay * bz - sx),
+                            fdot(p, az * bx - sy, az * by + sx, az * bz + c))
 
     @deprecated_method
     def rotateAround(self, axis, theta):  # PYCHOK no cover

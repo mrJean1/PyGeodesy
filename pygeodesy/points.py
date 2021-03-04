@@ -57,7 +57,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fmod, hypot, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '21.02.09'
+__version__ = '21.02.27'
 
 _fin_   = 'fin'
 _ilat_  = 'ilat'
@@ -1077,7 +1077,7 @@ def _area2(points, adjust, wrap):
         x2, y2, ll = p
         if 0 < i < 4:
             pts.append(ll)
-        w, x2 = unrollPI(x1, x2, wrap=False if i == 0 else wrap)
+        w, x2 = unrollPI(x1, x2, wrap=wrap if i else False)
         A2 += _adjust(w, (y2 + y1) * _0_5)
         x1, y1 = x2, y2
 
@@ -1370,7 +1370,7 @@ def isconvex_(points, adjust=False, wrap=True):
 
     for i, p in Ps.enumerate(closed=True):
         x3, y3, ll = p
-        x32, x3 = _unroll_adjust(x2, y2, x3, y3, (False if i in (0, 1) else wrap))
+        x32, x3 = _unroll_adjust(x2, y2, x3, y3, (wrap if i > 1 else False))
 
         # get the sign of the distance from point
         # x3, y3 to the line from x1, y1 to x2, y2
@@ -1454,7 +1454,7 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
 
     _, x1, y1 = _dxy(x0, p.x, p.y, False)
     for i, p in Ps.enumerate(closed=True):
-        dx, x2, y2 = _dxy(x1, p.x, p.y, (False if i == 0 else wrap))
+        dx, x2, y2 = _dxy(x1, p.x, p.y, (wrap if i else False))
         # ignore duplicate and near-duplicate pts
         if max(abs(dx), abs(y2 - y1)) > EPS:
             # determine if polygon edge (x1, y1)..(x2, y2) straddles

@@ -19,13 +19,8 @@ showing imports.  Using C{3} or higher also shows the importing file name
 and line number.
 
 @note: C{Lazy import} applies only to top-level modules of C{pygeodesy}.
-A C{lazy import} of a top-level module also loads all sub-modules
+A C{lazy import} of a top-level module inherently loads all sub-modules
 imported by that top-level module.
-
-@var isLazy: Lazy import setting (C{int} 0, 1, 2 or 3+) from C{env} variable
-             C{PYGEODESY_LAZY_IMPORT}, or C{None} if C{lazy import} is not
-             supported or not enabled, or C{False} if initializing C{lazy
-             import} failed.
 '''
 from pygeodesy.interns import MISSING, NN, __all__ as _interns_a_l_l_, \
                              _areaOf_, _attribute_, _COMMASPACE_, \
@@ -49,7 +44,7 @@ _PYTHON_X_DEV   =  getattr(_sys, '_xoptions', {}).get('dev',  # Python 3.2
                   _env.get('PYTHONDEVMODE', NN))  # PYCHOK exported
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/>
-isLazy = None  # see @var isLazy above
+isLazy = None  # see @var isLazy
 
 
 class LazyImportError(ImportError):
@@ -171,7 +166,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           formy=('antipode', 'antipode_', 'bearing', 'bearing_',
                                  'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                  'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
-                                 'equirectangular', 'equirectangular_', 'euclidean', 'euclidean_', 'excessGirard', 'excessLHuilier',
+                                 'equirectangular', 'equirectangular_', 'euclidean', 'euclidean_',
+                                 'excessAbc', 'excessGirard', 'excessLHuilier',
+                                 'excessKarney', 'excessKarney_', 'excessQuad', 'excessQuad_',
                                  'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
                                  'haversine', 'haversine_', 'heightOf', 'horizon', 'hubeny', 'hubeny_',
                                  'intersections2', 'isantipode', 'isantipode_',
@@ -243,8 +240,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
                           utily=('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atand', 'atan2b', 'atan2d',
                                  'chain2m', 'circle4',
-                                 'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2m',
+                                 'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2grades', 'degrees2m',
                                  'fathom2m', 'ft2m', 'furlong2m',
+                                 'grades', 'grades400', 'grades2degrees', 'grades2radians',
                                  'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over',
                                  'm2degrees', 'm2ft', 'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2yard',
                                  'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
@@ -274,7 +272,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.02.21'
+__version__ = '21.02.27'
 
 
 def _ALL_OTHER(*objs):

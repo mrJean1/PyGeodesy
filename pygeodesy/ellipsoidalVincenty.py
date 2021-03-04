@@ -48,6 +48,7 @@ or by converting to anothor datum:
     >>> p = p.toDatum(Datums.OSGB36)
 
 @newfield example: Example, Examples
+@newfield JSname: JS name, JS names
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -73,7 +74,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, \
 from math import atan2, cos, radians, tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '21.02.11'
+__version__ = '21.02.25'
 
 _antipodal_ = 'antipodal '  # trailing _SPACE_
 _limit_     = 'limit'  # PYCHOK used!

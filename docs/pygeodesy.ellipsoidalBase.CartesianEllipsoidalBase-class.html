@@ -97,11 +97,13 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame" class="summary-sig-name">toRefFrame</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#convertRefFrame" class="summary-sig-name">convertRefFrame</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">reframe2</span>,
         <span class="summary-sig-arg">reframe</span>,
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Convert this cartesian point from one to an other reference frame.</td>
+      DEPRECATED, use method <a 
+      href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame"
+      class="link">toRefFrame</a>.</td>
           <td align="right" valign="top">
             
             
@@ -117,7 +119,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#convertRefFrame" class="summary-sig-name">convertRefFrame</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame" class="summary-sig-name">toRefFrame</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">reframe2</span>,
         <span class="summary-sig-arg">reframe</span>,
         <span class="summary-sig-arg">epoch</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -273,14 +275,14 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
-<a name="toRefFrame"></a>
+<a name="convertRefFrame"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRefFrame</span>&nbsp;(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertRefFrame</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">reframe2</span>,
         <span class="sig-arg">reframe</span>,
         <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>)</span>
@@ -290,41 +292,25 @@
     </td>
   </tr></table>
   
-  <p>Convert this cartesian point from one to an other reference frame.</p>
+  <p>DEPRECATED, use method <a 
+  href="pygeodesy.ellipsoidalBase.CartesianEllipsoidalBase-class.html#toRefFrame"
+  class="link">toRefFrame</a>.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
+    <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>reframe2</code></strong> - Reference frame to convert <i>to</i> (<a 
-          href="pygeodesy.trf.RefFrame-class.html" 
-          class="link">RefFrame</a>).</li>
-        <li><strong class="pname"><code>reframe</code></strong> - Reference frame to convert <i>from</i> (<a 
-          href="pygeodesy.trf.RefFrame-class.html" 
-          class="link">RefFrame</a>).</li>
-        <li><strong class="pname"><code>epoch</code></strong> - Optional epoch to observe (<code>scalar</code>, fractional 
-          calendar year), overriding <b><code>reframe</code></b>'s epoch.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The converted point (<code>Cartesian</code>) or this point if 
-          conversion is <code>nil</code>.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.TRFError-class.html">TRFError</a></strong></code> - No conversion available from <b><code>reframe</code></b> to 
-        <b><code>reframe2</code></b> or invalid <b><code>epoch</code></b>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - <b><code>reframe2</code></b> or <b><code>reframe</code></b> not a 
-        <a href="pygeodesy.trf.RefFrame-class.html" 
-        class="link">RefFrame</a>.</li>
+        <li><code>@deprecated_method</code></li>
     </ul></dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="convertRefFrame"></a>
+<a name="toRefFrame"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertRefFrame</span>&nbsp;(<span class="sig-arg">self</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toRefFrame</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">reframe2</span>,
         <span class="sig-arg">reframe</span>,
         <span class="sig-arg">epoch</span>=<span class="sig-default">None</span>)</span>
@@ -393,7 +379,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 21 15:53:13 2021
+    Generated by Epydoc 3.0.1 on Wed Mar  3 17:16:00 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -20,6 +20,7 @@ See also Kenneth Gade U{'A Non-singular Horizontal Position Representation'
 The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 
 @newfield example: Example, Examples
+@newfield JSname: JS name, JS names
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
@@ -43,7 +44,7 @@ from pygeodesy.units import Bearing, Degrees, Distance, Float,\
 from pygeodesy.utily import asin1, atan2b, degrees90, sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.02.09'
+__version__ = '21.02.25'
 
 _down_  = 'down'
 _east_  = 'east'

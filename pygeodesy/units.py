@@ -13,7 +13,7 @@ from pygeodesy.dms import F__F, F__F_, parseDMS, parseRad, \
                           S_NUL, S_SEP, _toDMS
 from pygeodesy.errors import _IsnotError, RangeError, TRFError, \
                               UnitError, _xkwds_popitem
-from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, _band_, \
+from pygeodesy.interns import EPS, EPS1, NN, PI, PI_2, PI2, _band_, \
                              _bearing_, _degrees_, _degrees2_, \
                              _distance_, _E_, _easting_, _epoch_, \
                              _EW_, _feet_, _height_, _invalid_, _N_, \
@@ -32,7 +32,7 @@ from pygeodesy.streprs import Fmt, fstr
 from math import radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '21.02.21'
+__version__ = '21.02.22'
 
 
 class _NamedUnit(_Named):
@@ -558,7 +558,7 @@ class Radians(Float):
 class Radians_(Radians):
     '''Named C{float} representing a coordinate in C{radians} with optional limits C{low} and C{high}.
     '''
-    def __new__(cls, arg=None, name=_radians_, Error=UnitError, suffix=_NSEW_, low=None, high=None, **name_arg):
+    def __new__(cls, arg=None, name=_radians_, Error=UnitError, suffix=_NSEW_, low=_0_0, high=PI2, **name_arg):
         '''New named C{Radians} instance.
 
            @arg cls: This class (C{Radians_} or sub-class).

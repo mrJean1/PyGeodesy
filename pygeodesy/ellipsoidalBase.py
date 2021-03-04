@@ -38,7 +38,7 @@ from pygeodesy.units import Epoch, Height, Radius_, Scalar, _1mm as _TOL_M
 from pygeodesy.utily import m2degrees, unroll180
 
 __all__ = ()
-__version__ = '21.02.14'
+__version__ = '21.02.25'
 
 _reframe_ = 'reframe'
 _TRIPS    =  17  # _intersects2, _nearestOn interations, 6 is sufficient
@@ -56,6 +56,11 @@ class CartesianEllipsoidalBase(CartesianBase):
         for t in transforms:
             xyz = t.transform(*xyz)
         return self.classof(xyz, datum=self.datum)
+
+    @deprecated_method
+    def convertRefFrame(self, reframe2, reframe, epoch=None):
+        '''DEPRECATED, use method L{toRefFrame}.'''
+        return self.toRefFrame(reframe2, reframe, epoch=epoch)
 
     def toRefFrame(self, reframe2, reframe, epoch=None):
         '''Convert this cartesian point from one to an other reference frame.
@@ -79,8 +84,6 @@ class CartesianEllipsoidalBase(CartesianBase):
 
         _, xs = _reframeTransforms2(reframe2, reframe, epoch)
         return self._applyHelmerts(*xs) if xs else self
-
-    convertRefFrame = toRefFrame  # for backward compatibility
 
 
 class LatLonEllipsoidalBase(LatLonBase):
@@ -153,6 +156,16 @@ class LatLonEllipsoidalBase(LatLonBase):
            C{None} if not available or not converted from L{Utm} or L{Ups}.
         '''
         return self._convergence
+
+    @deprecated_method
+    def convertDatum(self, datum2):
+        '''DEPRECATED, use method L{toDatum}.'''
+        return self.toDatum(datum2)
+
+    @deprecated_method
+    def convertRefFrame(self, reframe2):
+        '''DEPRECATED, use method L{toRefFrame}.'''
+        return self.toRefFrame(reframe2)
 
     @property_doc_(''' this points's datum (L{Datum}).''')
     def datum(self):
@@ -306,7 +319,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg datum: Optional datum (L{Datum}).
            @kwarg timeout: Optional query timeout (C{seconds}).
 
-           @return: An L{GeoidHeight2Tuple}C{(height, model_name)} or
+           @return: A L{GeoidHeight2Tuple}C{(height, model_name)} or
                     C{(None, error)} in case of errors.
 
            @note: The adjustment applied is the difference in geocentric
@@ -370,9 +383,9 @@ class LatLonEllipsoidalBase(LatLonBase):
                  intersections.
         '''
         self.others(other)
-        return _intersects2(self, radius1, other, radius2, height=height, wrap=wrap,
-                                  equidistant=equidistant, tol=tol,
-                                  LatLon=self.classof, datum=self.datum)
+        return _intersections2(self, radius1, other, radius2, height=height, wrap=wrap,
+                                     equidistant=equidistant, tol=tol,
+                                     LatLon=self.classof, datum=self.datum)
 
     @property_RO
     def iteration(self):
@@ -500,17 +513,6 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._scale
 
-    @deprecated_method
-    def to3xyz(self):  # PYCHOK no cover
-        '''DEPRECATED, use method L{toEcef}.
-
-           @return: A L{Vector3Tuple}C{(x, y, z)}.
-
-           @note: Overloads C{LatLonBase.to3xyz}
-        '''
-        r = self.toEcef()
-        return Vector3Tuple(r.x, r.y, r.z, name=self.name)
-
     def toDatum(self, datum2):
         '''Convert this point to an other datum.
 
@@ -531,8 +533,6 @@ class LatLonEllipsoidalBase(LatLonBase):
 
         c = self.toCartesian().toDatum(d2)
         return c.toLatLon(datum=d2, LatLon=self.classof)
-
-    convertDatum = toDatum  # for backward compatibility
 
     def toEtm(self):
         '''Convert this C{LatLon} point to an ETM coordinate.
@@ -595,8 +595,6 @@ class LatLonEllipsoidalBase(LatLonBase):
         else:
             ll = self
         return ll
-
-    convertRefFrame = toRefFrame  # for backward compatibility
 
     def toUps(self, pole=_N_, falsed=True):
         '''Convert this C{LatLon} point to a UPS coordinate.
@@ -663,6 +661,17 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._wm
 
+    @deprecated_method
+    def to3xyz(self):  # PYCHOK no cover
+        '''DEPRECATED, use method L{toEcef}.
+
+           @return: A L{Vector3Tuple}C{(x, y, z)}.
+
+           @note: Overloads C{LatLonBase.to3xyz}
+        '''
+        r = self.toEcef()
+        return Vector3Tuple(r.x, r.y, r.z, name=self.name)
+
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, wrap=False):
         '''Trilaterate three points by area overlap or perimeter intersection
@@ -710,7 +719,7 @@ class LatLonEllipsoidalBase(LatLonBase):
 
            @raise TypeError: Invalid B{C{point2}} or B{C{point3}}.
 
-           @raise ValueError: Some B{C{points}} coincide or invalid B{C{distance1}},
+           @raise ValueError: Coincident B{C{points}} or invalid B{C{distance1}},
                               B{C{distance2}} or B{C{distance3}}.
 
            @note: Ellipsoidal trilateration invokes methods C{LatLon.intersections2}
@@ -811,7 +820,7 @@ def _intersections2(center1, radius1, center2, radius2, height=None, wrap=True,
 
 def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
                  equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
-    # (INTERNAL) Intersect two spherical circles, see L{_intersections2}
+    # (INTERNAL) Intersect two (ellipsoidal) circles, see L{_intersections2}
     # above, separated to allow callers to embellish any exceptions
 
     from pygeodesy.sphericalTrigonometry import _intersects2 as _si2, LatLon as _LLS
@@ -903,14 +912,6 @@ def _intersects2(c1, r1, c2, r2, height=None, wrap=True,  # MCCABE 17
     return r, r
 
 
-def _unrollon(p1, p2):  # unroll180 == .karney._unroll2
-    # wrap, unroll and replace longitude if different
-    _, lon = unroll180(p1.lon, p2.lon, wrap=True)
-    if abs(lon - p2.lon) > EPS:
-        p2 = p2.classof(p2.lat, lon, p2.height, datum=p2.datum)
-    return p2
-
-
 def _nearestOn(p, p1, p2, within=True, height=None, wrap=True,
                equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     # (INTERNAL) Get closet point, like L{_intersects2} above,
@@ -979,6 +980,14 @@ def _nearestOn(p, p1, p2, within=True, height=None, wrap=True,
     r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, name=n)
     r._iteration = t.iteration  # ._iteration for tests
     return r
+
+
+def _unrollon(p1, p2):  # unroll180 == .karney._unroll2
+    # wrap, unroll and replace longitude if different
+    _, lon = unroll180(p1.lon, p2.lon, wrap=True)
+    if abs(lon - p2.lon) > EPS:
+        p2 = p2.classof(p2.lat, lon, p2.height, datum=p2.datum)
+    return p2
 
 
 __all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase)

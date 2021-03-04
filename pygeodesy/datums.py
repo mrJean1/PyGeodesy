@@ -451,7 +451,7 @@ def _mean_radius(radius, *lats):
         r =  Radius_(radius, low=0, Error=TypeError)
     else:  # no cover
         E = _ellipsoidal_datum(radius).ellipsoid
-        r = fmean(map(E.Rgeocentric, lats)) if lats else E.Rmean
+        r =  fmean(map(E.Rgeocentric, lats)) if lats else E.Rmean
     return r
 
 

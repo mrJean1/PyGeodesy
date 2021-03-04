@@ -7,7 +7,7 @@ u'''Error, exception classes and functions to format PyGeodesy errors,
     By default, I{exception chaining} is turned off.  To enable
     I{exception chaining}, use command line option C{python -X dev} or
     set environment variable C{PYTHONDEVMODE} to C{1} or any non-empyty
-    string or set environment variable C{PYGEODESY_EXCEPTION_CHAINING}
+    string OR set environment variable C{PYGEODESY_EXCEPTION_CHAINING}
     to C{'std'} or any other non-empty string.
 '''
 from pygeodesy.interns import MISSING, NN, _a_,_an_, _COLON_, \
@@ -18,7 +18,7 @@ from pygeodesy.interns import MISSING, NN, _a_,_an_, _COLON_, \
 from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.02.10'
+__version__ = '21.02.25'
 
 _limiterrors  =  True  # imported by .formy
 _multiple_    = 'multiple'
@@ -30,7 +30,7 @@ try:
     _exception_chaining = None  # not available
     _ = Exception().__cause__   # Python 3+ exception chaining
 
-    if _env.get('PYGEODESY_EXCEPTION_CHAINING', NN) or _PYTHON_X_DEV:  # == _std_
+    if _PYTHON_X_DEV or _env.get('PYGEODESY_EXCEPTION_CHAINING', NN):  # == _std_
         _exception_chaining = True  # turned on, std
         raise AttributeError  # allow exception chaining
 

@@ -4,10 +4,12 @@
 u'''Im-/mutable, caching or memoizing properties and decorators
 for C{DeprecationWarning}s.
 
-To enable C{DepreactionWarning}s from C{PyGeodesy}, set environment
+To enable C{DeprecationWarning}s from C{PyGeodesy}, set environment
 variable C{PYGEODESY_WARNINGS} to a non-empty string and run C{python}
 with command line option C{-X dev} or one or the C{-W} choices, see
 function L{DeprecationWarnings} below.
+
+@newfield example: Example, Examples
 '''
 from pygeodesy.errors import _AssertionError, _AttributeError, _xkwds
 from pygeodesy.interns import NN, _DOT_, _EQUALSPACED_, _immutable_, \
@@ -20,7 +22,7 @@ from functools import wraps as _wraps
 from warnings import warn as _warn
 
 __all__ = _ALL_LAZY.props
-__version__ = '21.02.16'
+__version__ = '21.02.25'
 
 _DEPRECATED_ = 'DEPRECATED'
 _dont_use_   = _DEPRECATED_ + ", don't use."
@@ -388,7 +390,7 @@ def DeprecationWarnings():
        @return: The number of C{DeprecationWarning}s (C{int}) or
                 C{None} if not enabled.
 
-       @note: To get L{DeprecationWarnings} if any, run C{python}
+       @note: To get C{DeprecationWarning}s if any, run C{python}
               with environment variable C{PYGEODESY_WARNINGS} set
               to a non-empty string AND use C{python} command line
               option C{-X dev}, C{-W always}, or C{-W error}, etc.

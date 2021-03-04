@@ -4,17 +4,18 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '20.10.20'
+__version__ = '21.02.27'
 
 from base import TestsBase, geographiclib
 
 from pygeodesy import EPS, PI, PI2, PI_2, \
                       acre2ha, acre2m2, atan2d, chain2m, \
                       degrees90, degrees180, degrees360, degrees2m, \
-                      fathom2m, ft2m, furlong2m, isPoints2, \
-                      m2degrees, m2ft, m2yard, \
+                      fathom2m, ft2m, furlong2m, \
+                      grades400, degrees2grades, grades2degrees, grades2radians, \
+                      isPoints2, m2degrees, m2ft, m2yard, \
                       radiansPI, radiansPI2, radiansPI_2, \
-                      sincos2, sincos2d, unroll180, \
+                      sincos2, sincos2d, tan_2, unroll180, \
                       wrap90, wrap180, wrap360, \
                       wrapPI, wrapPI2, wrapPI_2, \
                       yard2m, fstr  # DEPRECATED, use fstr
@@ -56,11 +57,39 @@ class Tests(TestsBase):
         self.test('degrees360(-PI)',      degrees360(-PI),   180.0)  # XXX
         self.test('degrees360(-PI2)', abs(degrees360(-PI2)),   0.0)  # -0.0
 
+        self.test('degrees2grades(90)',  degrees2grades(90),  100.0)
+        self.test('degrees2grades(180)', degrees2grades(180), 200.0)
+        self.test('degrees2grades(360)', degrees2grades(360), 400.0)
+        self.test('degrees2grades(-90)',  degrees2grades(-90),  -100.0)
+        self.test('degrees2grades(-180)', degrees2grades(-180), -200.0)
+        self.test('degrees2grades(-360)', degrees2grades(-360), -400.0)
+
+        self.test('grades400(PI_2)', grades400(PI_2), 100.0)
+        self.test('grades400(PI)',   grades400(PI),   200.0)  # XXX
+        self.test('grades400(PI2)',  grades400(PI2),    0.0)
+        self.test('grades400(-PI_2)',    grades400(-PI_2), 300.0)
+        self.test('grades400(-PI)',      grades400(-PI),   200.0)  # XXX
+        self.test('grades400(-PI2)', abs(grades400(-PI2)),   0.0)  # -0.0
+
+        self.test('grades2degrees(100)', grades2degrees(100),  90.0)
+        self.test('grades2degrees(200)', grades2degrees(200), 180.0)
+        self.test('grades2degrees(400)', grades2degrees(400), 360.0)
+        self.test('grades2degrees(-100)', grades2degrees(-100),  -90.0)
+        self.test('grades2degrees(-200)', grades2degrees(-200), -180.0)
+        self.test('grades2degrees(-400)', grades2degrees(-400), -360.0)
+
+        self.test('grades2radians(100)', grades2radians(100), PI_2)
+        self.test('grades2radians(200)', grades2radians(200), PI)
+        self.test('grades2radians(400)', grades2radians(400), PI2)
+        self.test('grades2radians(-100)', grades2radians(-100), -PI_2)
+        self.test('grades2radians(-200)', grades2radians(-200), -PI)
+        self.test('grades2radians(-400)', grades2radians(-400), -PI2)
+
         self.test('radiansPI_2(90)',  radiansPI_2(90), PI_2)
         self.test('radiansPI_2(180)', radiansPI_2(180), -PI)
         self.test('radiansPI_2(360)', radiansPI_2(360), 0.0)
         self.test('radiansPI_2(-90)',      radiansPI_2(-90), -PI_2)
-        self.test('radiansPI_2(-180)',     radiansPI_2(-180),  -PI)
+        self.test('radiansPI_2(-180)',     radiansPI_2(-180), -PI)
         self.test('radiansPI_2(-360)', abs(radiansPI_2(-360)), 0.0)  # -0.0
 
         self.test('radiansPI(90)',  radiansPI(90), PI_2)
@@ -187,6 +216,13 @@ class Tests(TestsBase):
             self.test(t % (45, a), d, '45.00', prec=2)
 
         self.test('isPoints2', isPoints2(None), False)
+
+        try:  # coverage
+            self.test('tan_2_semi', tan_2(PI, PI=1), ValueError.__name__)
+        except ValueError as x:
+            t = str(x)
+            t = t[:t.find('(')+9] + t[t.find(')'):]
+            self.test('tan_2_semi', t, 'PI[1] edge (3.141592): semi-circular')
 
 
 if __name__ == '__main__':

@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.01.14
+        21.01.27
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -328,6 +328,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees2grades" class="summary-sig-name">degrees2grades</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+      Convert degrees to <i>grades</i> (aka <i>gradians</i> or 
+      <i>gons</i>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
@@ -385,6 +403,78 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#furlong2m" class="summary-sig-name">furlong2m</a>(<span class="summary-sig-arg">furlongs</span>)</span><br />
       Convert a <i>UK</i> furlong to meter.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#grades" class="summary-sig-name">grades</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Convert radians to <i>grades</i> (aka <i>gradians</i> or 
+      <i>gons</i>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#grades400" class="summary-sig-name">grades400</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Convert radians to <i>grades</i> (aka <i>gradians</i> or <i>gons</i>)
+      and wrap <i class="math">[0..+400)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#grades2degrees" class="summary-sig-name">grades2degrees</a>(<span class="summary-sig-arg">gon</span>)</span><br />
+      Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+      <code>degrees</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#grades2radians" class="summary-sig-name">grades2radians</a>(<span class="summary-sig-arg">gon</span>)</span><br />
+      Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+      <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -740,7 +830,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#tan_2" class="summary-sig-name">tan_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#tan_2" class="summary-sig-name">tan_2</a>(<span class="summary-sig-arg">rad</span>,
+        <span class="summary-sig-arg">**semi</span>)</span><br />
       Compute the tangent of half angle.</td>
           <td align="right" valign="top">
             
@@ -1179,7 +1270,7 @@
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle in degrees, wrapped (<code>degrees90</code>).</dd>
+        <dd>Angle, wrapped (<code>degrees90</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1205,7 +1296,7 @@
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle in degrees, wrapped (<code>degrees180</code>).</dd>
+        <dd>Angle, wrapped (<code>degrees180</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1230,7 +1321,33 @@
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle in degrees, wrapped (<code>degrees360</code>).</dd>
+        <dd>Angle, wrapped (<code>degrees360</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="degrees2grades"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees2grades</span>&nbsp;(<span class="sig-arg">deg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert degrees to <i>grades</i> (aka <i>gradians</i> or 
+  <i>gons</i>).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>grades</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1375,6 +1492,110 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>furlongs</code></b>.</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="grades"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">grades</span>&nbsp;(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert radians to <i>grades</i> (aka <i>gradians</i> or 
+  <i>gons</i>).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>grades</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="grades400"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">grades400</span>&nbsp;(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert radians to <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) 
+  and wrap <i class="math">[0..+400)</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle, wrapped (<code>grades</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="grades2degrees"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">grades2degrees</span>&nbsp;(<span class="sig-arg">gon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+  <code>degrees</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>gon</code></strong> - Angle (<code>grades</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>degrees</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="grades2radians"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">grades2radians</span>&nbsp;(<span class="sig-arg">gon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+  <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>gon</code></strong> - Angle (<code>grades</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>radians</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2042,7 +2263,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">tan_2</span>&nbsp;(<span class="sig-arg">rad</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tan_2</span>&nbsp;(<span class="sig-arg">rad</span>,
+        <span class="sig-arg">**semi</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2054,9 +2276,15 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>semi</code></strong> - Angle or edge name and index for semi-circular error.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><i class="math">tan(rad / 2)</i> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>rad</code></b> is semi-circular and 
+        <b><code>semi</code></b> is given.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2369,7 +2597,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 21 15:53:13 2021
+    Generated by Epydoc 3.0.1 on Wed Mar  3 17:15:58 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

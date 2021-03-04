@@ -152,8 +152,8 @@
   former.  Other classes <a 
   href="https://docs.SciPy.org/doc/scipy/reference/interpolate.html" 
   target="_top">interpolate</a> the <a href=pygeodesy.heights-module.html><code>height</code></a> of 
-  <code>LatLon</code> points and several <a href=pygeodesy.geoids-module.html><code>Geoid</code></a> models or 
-  compute various <a href="https://WikiPedia.org/wiki/Frechet_distance" 
+  <code>LatLon</code> points and <a href=pygeodesy.geoids-module.html><code>Geoid</code></a> models or compute 
+  various <a href="https://WikiPedia.org/wiki/Frechet_distance" 
   target="_top">Fr&#233;chet</a> or <a 
   href="https://WikiPedia.org/wiki/Hausdorff_distance" 
   target="_top">Hausdorff</a> distances.</p>
@@ -214,8 +214,8 @@
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
     1.5.2) and macOS' Python 2.7.16 (with <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6), 
-    all on macOS 11.2.1 (10.16) Big Sur and all in 64-bit only.  The tests 
-    run with and without <code>lazy import</code> for Python 3 and with 
+    all on macOS 11.2.2 (10.16) Big Sur and all in 64-bit only.  The tests 
+    are run with and without <code>lazy import</code> for Python 3 and with
     <code>-W always</code> and environment variable 
     <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
     results of those tests are included in the distribution files.</p>
@@ -262,7 +262,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 11.0-1 Big Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 
+    on macOS 11.0-2.1 Big Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 
     Mojave, macOS 10.13.6 High Sierra, macOS 10.12 Sierra, MacOS X 10.11 El
     Capitan and/or MacOS X 10.10 Yosemite, with <a 
     href="https://OMZ-Software.com/pythonista" 
@@ -283,7 +283,7 @@
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
     Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
     target="_top">Flake8</a> using Python 3.9.2, both in 64-bit on macOS 
-    11.2.1 (10.16) Big Sur.</p>
+    11.2.2 (10.16) Big Sur.</p>
     <p>Classes with a name ending in <code>Karney</code> and several more 
     are transcribed from <i>Karney</i>'s <a 
     href="https://GeographicLib.SourceForge.io/html/annotated.html" 
@@ -296,6 +296,65 @@
     <p>Some function and method names differ from the JavaScript version. 
     In such cases documentation tag <b>JS name:</b> shows the original 
     JavaScript name.</p>
+  <h1 class="heading">Env vars</h1>
+    <p>The following environment variables are observed by 
+    <code>PyGeodesy</code>:</p>
+    <ul>
+      <li>
+        <code>PYGEODESY_EXCEPTION_CHAINING</code> - see module <a 
+        href="pygeodesy.errors-module.html" 
+        class="link">pygeodesy.errors</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_FOR_DOCS</code> - for extended documentation by 
+        <code>epydoc</code>.
+      </li>
+      <li>
+        <code>PYGEODESY_LAZY_IMPORT</code> - see module <a 
+        href="pygeodesy.lazily-module.html" 
+        class="link">pygeodesy.lazily</a> and variable <a 
+        href="pygeodesy-module.html#isLazy" class="link">isLazy</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_WARNINGS</code> - see module <a 
+        href="pygeodesy.props-module.html" class="link">pygeodesy.props</a>
+        and function <a 
+        href="pygeodesy.props-module.html#DeprecationWarnings" 
+        class="link">DeprecationWarnings</a>.
+      </li>
+      <li>
+        <code>PYTHONDEVMODE</code> - see modules <a 
+        href="pygeodesy.errors-module.html" 
+        class="link">pygeodesy.errors</a> and <a 
+        href="pygeodesy.props-module.html" 
+        class="link">pygeodesy.props</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_BOOL_STD_REPR</code> - see method <a 
+        href="pygeodesy.units.Int-class.html#__repr__" 
+        class="link">pygeodesy.Bool.__repr__</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_FLOAT_STD_REPR</code> - see method <a 
+        href="pygeodesy.units.Float-class.html#__repr__" 
+        class="link">pygeodesy.Float.__repr__</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_INT_STD_REPR</code> - see method <a 
+        href="pygeodesy.units.Int-class.html#__repr__" 
+        class="link">pygeodesy.Int.__repr__</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_METER_STD_REPR</code> - see method <a 
+        href="pygeodesy.units.Meter-class.html#__repr__" 
+        class="link">pygeodesy.Meter.__repr__</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_STR_STD_REPR</code> - see method <a 
+        href="pygeodesy.units.Str-class.html#__repr__" 
+        class="link">pygeodesy.Str.__repr__</a>.
+      </li>
+    </ul>
   <h1 class="heading">License</h1>
     <p>**) <a href="https://OpenSource.org/licenses/MIT" 
     target="_top">Copyright (C) 2016-2021 -- mrJean1 at Gmail -- All Rights
@@ -321,7 +380,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.02.21
+        21.03.03
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -4856,6 +4915,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees2grades" class="summary-sig-name">degrees2grades</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+      Convert degrees to <i>grades</i> (aka <i>gradians</i> or 
+      <i>gons</i>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
@@ -5316,6 +5393,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#excessAbc" class="summary-sig-name">excessAbc</a>(<span class="summary-sig-arg">A</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
+      Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+      triangle from two sides and the included angle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#excessGirard" class="summary-sig-name">excessGirard</a>(<span class="summary-sig-arg">A</span>,
         <span class="summary-sig-arg">B</span>,
         <span class="summary-sig-arg">C</span>)</span><br />
@@ -5338,6 +5435,54 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#excessKarney" class="summary-sig-name">excessKarney</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the surface area of a (spherical) quadrilateral bounded by a 
+      segment of a great circle, two meridians and the equator using <a 
+      href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+      target="_top">Karney's</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#excessKarney_" class="summary-sig-name">excessKarney_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>)</span><br />
+      Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+      quadrilateral bounded by a segment of a great circle, two meridians 
+      and the equator using <a 
+      href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+      target="_top">Karney's</a> method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#excessLHuilier" class="summary-sig-name">excessLHuilier</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">c</span>)</span><br />
@@ -5345,6 +5490,50 @@
       triangle using <a 
       href="https://MathWorld.Wolfram.com/LHuiliersTheorem.html" 
       target="_top">L'Huilier's</a> Theorem.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#excessQuad" class="summary-sig-name">excessQuad</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the surface area of a (spherical) quadrilateral bounded by a 
+      segment of a great circle, two meridians and the equator.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#excessQuad_" class="summary-sig-name">excessQuad_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>)</span><br />
+      Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+      quadrilateral bounded by a segment of a great circle, two meridians 
+      and the equator.</td>
           <td align="right" valign="top">
             
             
@@ -6114,6 +6303,78 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#grades" class="summary-sig-name">grades</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Convert radians to <i>grades</i> (aka <i>gradians</i> or 
+      <i>gons</i>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#grades2degrees" class="summary-sig-name">grades2degrees</a>(<span class="summary-sig-arg">gon</span>)</span><br />
+      Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+      <code>degrees</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#grades2radians" class="summary-sig-name">grades2radians</a>(<span class="summary-sig-arg">gon</span>)</span><br />
+      Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+      <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#grades400" class="summary-sig-name">grades400</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Convert radians to <i>grades</i> (aka <i>gradians</i> or <i>gons</i>)
+      and wrap <i class="math">[0..+400)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#halfs2" class="summary-sig-name">halfs2</a>(<span class="summary-sig-arg">str2</span>)</span><br />
       Split a string in 2 halfs.</td>
           <td align="right" valign="top">
@@ -6138,7 +6399,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fdec7ba4e50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa782e2cf50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -8587,7 +8848,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#tan_2" class="summary-sig-name">tan_2</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#tan_2" class="summary-sig-name">tan_2</a>(<span class="summary-sig-arg">rad</span>,
+        <span class="summary-sig-arg">**semi</span>)</span><br />
       Compute the tangent of half angle.</td>
           <td align="right" valign="top">
             
@@ -9324,7 +9586,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.2.21'"><code class="variable-quote">'</code><code class="variable-string">21.2.21</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.3.3'"><code class="variable-quote">'</code><code class="variable-string">21.3.3</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -9782,6 +10044,14 @@ Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, b=637100\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="PI3"></a><span class="summary-name">PI3</span> = <code title="9.42477796077">9.42477796077</code><br />
+      Three PI, <i class="math">PI * 3</i> (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="PI3_2"></a><span class="summary-name">PI3_2</span> = <code title="4.71238898038">4.71238898038</code><br />
       One and a half PI, <i class="math">PI * 3 / 2</i> 
       (<code>float</code>).
@@ -9949,7 +10219,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="isLazy"></a><span class="summary-name">isLazy</span> = <code title="None">None</code><br />
-      hash(x)
+      Lazy import setting (<code>int</code> 0, 1, 2 or 3+) from 
+      <code>env</code> variable <code>PYGEODESY_LAZY_IMPORT</code>, or 
+      <code>None</code> if <code>lazy import</code> is not supported or not
+      enabled, or <code>False</code> if initializing <code>lazy 
+      import</code> failed.
     </td>
   </tr>
 </table>
@@ -9983,8 +10257,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
           or <code>None</code> if not enabled.</dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
-        To get <a href="pygeodesy.props-module.html#DeprecationWarnings" 
-        class="link">DeprecationWarnings</a> if any, run 
+        To get <code>DeprecationWarning</code>s if any, run 
         <code>python</code> with environment variable 
         <code>PYGEODESY_WARNINGS</code> set to a non-empty string AND use 
         <code>python</code> command line option <code>-X dev</code>, 
@@ -12488,7 +12761,33 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle in degrees, wrapped (<code>degrees180</code>).</dd>
+        <dd>Angle, wrapped (<code>degrees180</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="degrees2grades"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees2grades</span>&nbsp;(<span class="sig-arg">deg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert degrees to <i>grades</i> (aka <i>gradians</i> or 
+  <i>gons</i>).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>grades</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -12567,7 +12866,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle in degrees, wrapped (<code>degrees360</code>).</dd>
+        <dd>Angle, wrapped (<code>degrees360</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -12593,7 +12892,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle in degrees, wrapped (<code>degrees90</code>).</dd>
+        <dd>Angle, wrapped (<code>degrees90</code>).</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -13423,6 +13722,49 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="excessAbc"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessAbc</span>&nbsp;(<span class="sig-arg">A</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+  triangle from two sides and the included angle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>A</code></strong> - An interior triangle angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>b</code></strong> - Frist adjacent triangle side (<code>radians</code>).</li>
+        <li><strong class="pname"><code>c</code></strong> - Second adjacent triangle side (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Spherical excess ({radians}).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>A</code></b>, <b><code>b</code></b> or 
+        <b><code>c</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessGirard" 
+        class="link">excessGirard</a>, <a 
+        href="pygeodesy.formy-module.html#excessLHuilier" 
+        class="link">excessLHuilier</a>, <a 
+        href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
+        target="_top">Spherical trigonometry</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="excessGirard"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -13451,13 +13793,123 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>C</code></strong> - Third interior triangle angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Spherical Excess ({radians}).</dd>
+        <dd>Spherical excess ({radians}).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>A</code></b>, <b><code>B</code></b> or 
+        <b><code>C</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#excessLHuilier" 
         class="link">excessLHuilier</a>, <a 
         href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
         target="_top">Spherical trigonometry</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessKarney"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessKarney</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the surface area of a (spherical) quadrilateral bounded by a 
+  segment of a great circle, two meridians and the equator using <a 
+  href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+  target="_top">Karney's</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Surface area, <i>signed</i> (<i>square</i> <code>meter</code>, or
+          units of <b><code>radius</code></b> <i>squared</i>) or 
+          <code>radians</code> if <b><code>radius</code></b> is 
+          <code>None</code> or <code>0</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat2</code></b> or <b><code>lat1</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Semi-circular longitudinal delta.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessKarney_" 
+        class="link">excessKarney_</a> and <a 
+        href="pygeodesy.formy-module.html#excessQuad" 
+        class="link">excessQuad</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessKarney_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessKarney_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+  quadrilateral bounded by a segment of a great circle, two meridians and 
+  the equator using <a 
+  href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+  target="_top">Karney's</a> method.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Spherical excess, <i>signed</i> (<code>radians</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Semi-circular longitudinal delta <b><code>lam21</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessKarney" 
+        class="link">excessKarney</a>, <a 
+        href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+        target="_top">Area of a spherical polygon</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -13489,11 +13941,112 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <li><strong class="pname"><code>c</code></strong> - Third triangle side (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Spherical Excess ({radians}).</dd>
+        <dd>Spherical excess ({radians}).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
+        <b><code>c</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#excessGirard" 
         class="link">excessGirard</a>, <a 
+        href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
+        target="_top">Spherical trigonometry</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessQuad"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessQuad</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the surface area of a (spherical) quadrilateral bounded by a 
+  segment of a great circle, two meridians and the equator.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Surface area, <i>signed</i> (<i>square</i> <code>meter</code>, or
+          units of <b><code>radius</code></b> <i>squared</i>) or 
+          <code>radians</code> if <b><code>radius</code></b> is 
+          <code>None</code> or <code>0</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat2</code></b> or <b><code>lat1</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessQuad_" 
+        class="link">excessQuad_</a> and <a 
+        href="pygeodesy.formy-module.html#excessKarney" 
+        class="link">excessKarney</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessQuad_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessQuad_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+  quadrilateral bounded by a segment of a great circle, two meridians and 
+  the equator.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Spherical excess, <i>signed</i> (<code>radians</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessQuad" 
+        class="link">excessQuad</a>, <a 
         href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
         target="_top">Spherical trigonometry</a>.
       </p>
@@ -15049,6 +15602,110 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   </dl>
 </td></tr></table>
 </div>
+<a name="grades"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">grades</span>&nbsp;(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert radians to <i>grades</i> (aka <i>gradians</i> or 
+  <i>gons</i>).</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>grades</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="grades2degrees"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">grades2degrees</span>&nbsp;(<span class="sig-arg">gon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+  <code>degrees</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>gon</code></strong> - Angle (<code>grades</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>degrees</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="grades2radians"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">grades2radians</span>&nbsp;(<span class="sig-arg">gon</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) to 
+  <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>gon</code></strong> - Angle (<code>grades</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>radians</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="grades400"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">grades400</span>&nbsp;(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert radians to <i>grades</i> (aka <i>gradians</i> or <i>gons</i>) 
+  and wrap <i class="math">[0..+400)</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle, wrapped (<code>grades</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="halfs2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -15092,7 +15749,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fdec7ba4e50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa782e2cf50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19912,7 +20569,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">tan_2</span>&nbsp;(<span class="sig-arg">rad</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tan_2</span>&nbsp;(<span class="sig-arg">rad</span>,
+        <span class="sig-arg">**semi</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -19924,9 +20582,15 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>semi</code></strong> - Angle or edge name and index for semi-circular error.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><i class="math">tan(rad / 2)</i> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - If <b><code>rad</code></b> is semi-circular and 
+        <b><code>semi</code></b> is given.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -21719,7 +22383,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 21 15:53:12 2021
+    Generated by Epydoc 3.0.1 on Wed Mar  3 17:15:57 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

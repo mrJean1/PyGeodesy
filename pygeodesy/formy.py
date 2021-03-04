@@ -14,7 +14,7 @@ from pygeodesy.ellipsoids import Ellipsoid
 from pygeodesy.errors import _AssertionError, IntersectionError, \
                               LimitError, _limiterrors, _ValueError
 from pygeodesy.fmath import euclid, fsum_, hypot, hypot2, sqrt0
-from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI_2, R_M, \
+from pygeodesy.interns import EPS, EPS0, EPS1, NN, PI, PI2, PI3, PI_2, R_M, \
                              _distant_, _too_, _0_0, _0_125, _0_25, _0_5, \
                              _1_0, _2_0, _4_0, _32_0, _90_0, _180_0, _360_0
 from pygeodesy.lazily import _ALL_LAZY
@@ -25,31 +25,19 @@ from pygeodesy.streprs import unstr
 from pygeodesy.units import Distance, Distance_, Height, Lam_, Lat, Lon, Phi_, \
                             Radians, Radians_, Radius, Radius_, Scalar, _100km
 from pygeodesy.utily import acos1, atan2b, degrees2m, degrees90, degrees180, \
-                            m2degrees, sincos2, unroll180, unrollPI, \
+                            m2degrees, sincos2, tan_2, unroll180, unrollPI, \
                             wrap90, wrap180, wrapPI, wrapPI_2
 
-from math import atan, atan2, cos, degrees, radians, sin, sqrt, tan  # pow
+from math import atan, atan2, cos, degrees, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '21.02.21'
+__version__ = '21.02.24'
 
 
 def _non0(x):
     '''Is C{abs(B{x})} > C{EPS0}?
     '''
-    return x > EPS0 or x < -EPS0
-
-
-def _scale_deg(lat1, lat2):  # degrees
-    # scale factor cos(mean of lats) for delta lon
-    m = abs(lat1 + lat2) * _0_5
-    return cos(radians(m)) if m < _90_0 else _0_0
-
-
-def _scale_rad(phi1,  phi2):  # radians, by .frechet, .hausdorff, .heights
-    # scale factor cos(mean of phis) for delta lam
-    m = abs(phi1 + phi2) * _0_5
-    return cos(m) if m < PI_2 else _0_0
+    return x > EPS0 or (-x) > EPS0
 
 
 def antipode(lat, lon):
@@ -78,6 +66,16 @@ def antipode_(phi, lam):
        @see: U{Geosphere<https://CRAN.R-Project.org/web/packages/geosphere/geosphere.pdf>}.
     '''
     return PhiLam2Tuple(-wrapPI_2(phi), wrapPI(lam + PI))
+
+
+def _areaOfS(func_, lat1, lat2, radius, d_lon, unused):
+    '''(INTERNAL) Helper for spherical excess and area.
+    '''
+    r = func_(Phi_(lat2=lat2),
+              Phi_(lat1=lat1), radians(d_lon))
+    if radius:
+        r *= _mean_radius(radius, lat1, lat2)**2
+    return r
 
 
 def bearing(lat1, lon1, lat2, lon2, **options):
@@ -117,7 +115,7 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
     '''
     if final:
         phi1, lam1, phi2, lam2 = phi2, lam2, phi1, lam1
-        r = PI2 + PI
+        r = PI3
     else:
         r = PI2
 
@@ -199,7 +197,7 @@ def cosineAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
              L{Ellipsoid.distance2}.
     '''
     return _distanceToE(cosineAndoyerLambert_, lat1, lat2, datum,
-                                               unroll180(lon1, lon2, wrap=wrap))
+                                              *unroll180(lon1, lon2, wrap=wrap))
 
 
 def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
@@ -236,9 +234,9 @@ def cosineAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
             if r:
                 sr, _, sr_2, cr_2 = sincos2(r, r * _0_5)
                 if _non0(sr_2) and _non0(cr_2):
-                    c  = (sr - r) * ((s1 + s2) / cr_2)**2
                     s  = (sr + r) * ((s1 - s2) / sr_2)**2
-                    r += E.f * (c - s) * _0_125
+                    c  = (sr - r) * ((s1 + s2) / cr_2)**2
+                    r += (c - s) * E.f * _0_125
     return r
 
 
@@ -267,7 +265,7 @@ def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=Fals
              L{Ellipsoid.distance2}.
     '''
     return _distanceToE(cosineForsytheAndoyerLambert_, lat1, lat2, datum,
-                                                       unroll180(lon1, lon2, wrap=wrap))
+                                                      *unroll180(lon1, lon2, wrap=wrap))
 
 
 def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, datum=_WGS84):
@@ -343,7 +341,7 @@ def cosineLaw(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @note: See note at function L{vincentys_}.
     '''
     return _distanceToS(cosineLaw_, lat1, lat2, radius,
-                                    unroll180(lon1, lon2, wrap=wrap))
+                                   *unroll180(lon1, lon2, wrap=wrap))
 
 
 def cosineLaw_(phi2, phi1, lam21):
@@ -368,20 +366,20 @@ def cosineLaw_(phi2, phi1, lam21):
     return _sincosa6(phi2, phi1, lam21)[4]
 
 
-def _distanceToE(func_, lat1, lat2, earth, d_lon_):
+def _distanceToE(func_, lat1, lat2, earth, d_lon, unused):
     '''(INTERNAL) Helper for ellipsoidal distances.
     '''
     E = _ellipsoid(earth, func_)
     r =  func_(Phi_(lat2=lat2),
-               Phi_(lat1=lat1), radians(d_lon_[0]), datum=E)
+               Phi_(lat1=lat1), radians(d_lon), datum=E)
     return r * E.a
 
 
-def _distanceToS(func_, lat1, lat2, earth, d_lon_, **adjust):
+def _distanceToS(func_, lat1, lat2, earth, d_lon, unused, **adjust):
     '''(INTERNAL) Helper for spherical distances.
     '''
     r = func_(Phi_(lat2=lat2),
-              Phi_(lat1=lat1), radians(d_lon_[0]), **adjust)
+              Phi_(lat1=lat1), radians(d_lon), **adjust)
     return r * _mean_radius(earth, lat1, lat2)
 
 
@@ -501,7 +499,7 @@ def euclidean(lat1, lon1, lat2, lon2, radius=R_M, adjust=True, wrap=False):
              C{LatLon.distanceTo*} and C{LatLon.equirectangularTo}.
     '''
     return _distanceToS(euclidean_, lat1, lat2, radius,
-                                    unroll180(lon1, lon2, wrap=wrap),
+                                   *unroll180(lon1, lon2, wrap=wrap),
                                     adjust=adjust)
 
 
@@ -527,6 +525,26 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
     return euclid(phi2 - phi1, lam21)
 
 
+def excessAbc(A, b, c):
+    '''Compute the I{spherical excess} C{E} of a (spherical) triangle
+       from two sides and the included angle.
+
+       @arg A: An interior triangle angle (C{radians}).
+       @arg b: Frist adjacent triangle side (C{radians}).
+       @arg c: Second adjacent triangle side (C{radians}).
+
+       @return: Spherical excess ({radians}).
+
+       @raise UnitError: Invalid B{C{A}}, B{C{b}} or B{C{c}}.
+
+       @see: Function L{excessGirard}, L{excessLHuilier}, U{Spherical
+             trigonometry<https://WikiPedia.org/wiki/Spherical_trigonometry>}.
+    '''
+    sA, cA, sb, cb, sc, cc = sincos2(Radians_(A=A), Radians_(b=b) * _0_5,
+                                                    Radians_(c=c) * _0_5)
+    return atan2(sA * sb * sc, cb * cc + cA * sb * sc) * _2_0
+
+
 def excessGirard(A, B, C):
     '''Compute the I{spherical excess} C{E} of a (spherical) triangle using
        U{Girard's<https://MathWorld.Wolfram.com/GirardsSphericalExcessFormula.html>}
@@ -536,7 +554,9 @@ def excessGirard(A, B, C):
        @arg B: Second interior triangle angle (C{radians}).
        @arg C: Third interior triangle angle (C{radians}).
 
-       @return: Spherical Excess ({radians}).
+       @return: Spherical excess ({radians}).
+
+       @raise UnitError: Invalid B{C{A}}, B{C{B}} or B{C{C}}.
 
        @see: Function L{excessLHuilier}, U{Spherical trigonometry
              <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
@@ -555,7 +575,9 @@ def excessLHuilier(a, b, c):
        @arg b: Second triangle side (C{radians}).
        @arg c: Third triangle side (C{radians}).
 
-       @return: Spherical Excess ({radians}).
+       @return: Spherical excess ({radians}).
+
+       @raise UnitError: Invalid B{C{a}}, B{C{b}} or B{C{c}}.
 
        @see: Function L{excessGirard}, U{Spherical trigonometry
              <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
@@ -564,11 +586,117 @@ def excessLHuilier(a, b, c):
     b = Radians_(b=b)
     c = Radians_(c=c)
 
-    s =  fsum_(a, b, c) * _0_5
-    r = _1_0
-    for t in (_0_0, a, b, c):
-        r *= tan((s - t) * _0_5)
-    return Radians(Lhuilier=atan(sqrt(r)) * _4_0)
+    s = fsum_(a, b, c) * _0_5
+    r = tan_2(s) * tan_2(s - a) * tan_2(s - b) * tan_2(s - c)
+    return Radians(LHuilier=atan(sqrt(r)) * _4_0)
+
+
+def excessKarney(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
+    '''Compute the surface area of a (spherical) quadrilateral bounded by
+       a segment of a great circle, two meridians and the equator using U{Karney's
+       <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
+
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum
+                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                      L{Datum} or L{a_f2Tuple}) or C{None}.
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Surface area, I{signed} (I{square} C{meter}, or units
+                of B{C{radius}} I{squared}) or C{radians} if B{C{radius}}
+                is C{None} or C{0}.
+
+       @raise TypeError: Invalid B{C{radius}}.
+
+       @raise UnitError: Invalid B{C{lat2}} or B{C{lat1}}.
+
+       @raise ValueError: Semi-circular longitudinal delta.
+
+       @see: Function L{excessKarney_} and L{excessQuad}.
+    '''
+    return _areaOfS(excessKarney_, lat1, lat2, radius,
+                                  *unroll180(lon1, lon2, wrap=wrap))
+
+
+def excessKarney_(phi2, phi1, lam21):
+    '''Compute the I{spherical excess} C{E} of a (spherical) quadrilateral bounded
+       by a segment of a great circle, two meridians and the equator using U{Karney's
+       <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}
+       method.
+
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
+
+       @return: Spherical excess, I{signed} (C{radians}).
+
+       @raise ValueError: Semi-circular longitudinal delta B{C{lam21}}.
+
+       @see: Function L{excessKarney}, U{Area of a spherical polygon
+       <http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html>}.
+    '''
+    # from: Veness <https://www.Movable-Type.co.UK/scripts/latlong.html>
+    # Area method due to Karney: for each edge of the polygon,
+    #
+    #               tan(Δλ/2) · (tan(φ1/2) + tan(φ2/2))
+    #    tan(E/2) = ------------------------------------
+    #                    1 + tan(φ1/2) · tan(φ2/2)
+    #
+    # where E is the spherical excess of the trapezium obtained by
+    # extending the edge to the equator-circle vector for each edge.
+    t2 = tan_2(phi2)
+    t1 = tan_2(phi1)
+    t  = tan_2(lam21, lam21=None)
+    return Radians(Karney=atan2(t * (t1 + t2),
+                             _1_0 + (t1 * t2)) * _2_0)
+
+
+def excessQuad(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
+    '''Compute the surface area of a (spherical) quadrilateral bounded
+       by a segment of a great circle, two meridians and the equator.
+
+       @arg lat1: Start latitude (C{degrees}).
+       @arg lon1: Start longitude (C{degrees}).
+       @arg lat2: End latitude (C{degrees}).
+       @arg lon2: End longitude (C{degrees}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum
+                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
+                      L{Datum} or L{a_f2Tuple}) or C{None}.
+       @kwarg wrap: Wrap and L{unroll180} longitudes (C{bool}).
+
+       @return: Surface area, I{signed} (I{square} C{meter}, or units
+                of B{C{radius}} I{squared}) or C{radians} if B{C{radius}}
+                is C{None} or C{0}.
+
+       @raise TypeError: Invalid B{C{radius}}.
+
+       @raise UnitError: Invalid B{C{lat2}} or B{C{lat1}}.
+
+       @see: Function L{excessQuad_} and L{excessKarney}.
+    '''
+    return _areaOfS(excessQuad_, lat1, lat2, radius,
+                                *unroll180(lon1, lon2, wrap=wrap))
+
+
+def excessQuad_(phi2, phi1, lam21):
+    '''Compute the I{spherical excess} C{E} of a (spherical) quadrilateral bounded
+       by a segment of a great circle, two meridians and the equator.
+
+       @arg phi2: End latitude (C{radians}).
+       @arg phi1: Start latitude (C{radians}).
+       @arg lam21: Longitudinal delta, M{end-start} (C{radians}).
+
+       @return: Spherical excess, I{signed} (C{radians}).
+
+       @see: Function L{excessQuad}, U{Spherical trigonometry
+             <https://WikiPedia.org/wiki/Spherical_trigonometry>}.
+    '''
+    s = sin((phi2 + phi1) * _0_5)
+    c = cos((phi2 - phi1) * _0_5)
+    return Radians(Quad=atan2(tan_2(lam21) * s, c) * _2_0)
 
 
 def flatLocal(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
@@ -667,7 +795,7 @@ def flatPolar(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
              L{vincentys}.
     '''
     return _distanceToS(flatPolar_, lat1, lat2, radius,
-                                    unroll180(lon1, lon2, wrap=wrap))
+                                   *unroll180(lon1, lon2, wrap=wrap))
 
 
 def flatPolar_(phi2, phi1, lam21):
@@ -722,7 +850,7 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @note: See note at function L{vincentys_}.
     '''
     return _distanceToS(haversine_, lat1, lat2, radius,
-                                    unroll180(lon1, lon2, wrap=wrap))
+                                   *unroll180(lon1, lon2, wrap=wrap))
 
 
 def haversine_(phi2, phi1, lam21):
@@ -1044,6 +1172,18 @@ class Radical2Tuple(_NamedTuple):
     _Units_ = ( Scalar,  Scalar)
 
 
+def _scale_deg(lat1, lat2):  # degrees
+    # scale factor cos(mean of lats) for delta lon
+    m = abs(lat1 + lat2) * _0_5
+    return cos(radians(m)) if m < _90_0 else _0_0
+
+
+def _scale_rad(phi1,  phi2):  # radians, by .frechet, .hausdorff, .heights
+    # scale factor cos(mean of phis) for delta lam
+    m = abs(phi1 + phi2) * _0_5
+    return cos(m) if m < PI_2 else _0_0
+
+
 def _sincosa6(phi2, phi1, lam21):
     '''(INTERNAL) C{sin}es, C{cos}ines and C{acos}ine.
     '''
@@ -1074,7 +1214,7 @@ def thomas(lat1, lon1, lat2, lon2, datum=_WGS84, wrap=False):
              L{flatPolar}, L{haversine}, L{vincentys} and method L{Ellipsoid.distance2}.
     '''
     return _distanceToE(thomas_, lat1, lat2, datum,
-                                 unroll180(lon1, lon2, wrap=wrap))
+                                *unroll180(lon1, lon2, wrap=wrap))
 
 
 def thomas_(phi2, phi1, lam21, datum=_WGS84):
@@ -1161,7 +1301,7 @@ def vincentys(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
        @note: See note at function L{vincentys_}.
     '''
     return _distanceToS(vincentys_, lat1, lat2, radius,
-                                    unroll180(lon1, lon2, wrap=wrap))
+                                   *unroll180(lon1, lon2, wrap=wrap))
 
 
 def vincentys_(phi2, phi1, lam21):

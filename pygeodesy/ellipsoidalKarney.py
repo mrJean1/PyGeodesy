@@ -27,6 +27,7 @@ or by converting to anothor datum:
     >>> p = p.toDatum(Datums.OSGB36)
 
 @newfield example: Example, Examples
+@newfield JSname: JS name, JS names
 '''
 
 from pygeodesy.datums import _WGS84
@@ -43,7 +44,7 @@ from pygeodesy.units import _1mm as _TOL_M
 from pygeodesy.utily import unroll180, wrap90, wrap180, wrap360
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '21.02.09'
+__version__ = '21.02.25'
 
 
 class Cartesian(CartesianEllipsoidalBase):

@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.02.21
+        21.02.24
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -444,6 +444,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#excessAbc" class="summary-sig-name">excessAbc</a>(<span class="summary-sig-arg">A</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
+      Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+      triangle from two sides and the included angle.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#excessGirard" class="summary-sig-name">excessGirard</a>(<span class="summary-sig-arg">A</span>,
         <span class="summary-sig-arg">B</span>,
         <span class="summary-sig-arg">C</span>)</span><br />
@@ -473,6 +493,98 @@
       triangle using <a 
       href="https://MathWorld.Wolfram.com/LHuiliersTheorem.html" 
       target="_top">L'Huilier's</a> Theorem.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#excessKarney" class="summary-sig-name">excessKarney</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the surface area of a (spherical) quadrilateral bounded by a 
+      segment of a great circle, two meridians and the equator using <a 
+      href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+      target="_top">Karney's</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#excessKarney_" class="summary-sig-name">excessKarney_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>)</span><br />
+      Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+      quadrilateral bounded by a segment of a great circle, two meridians 
+      and the equator using <a 
+      href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+      target="_top">Karney's</a> method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#excessQuad" class="summary-sig-name">excessQuad</a>(<span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">lat2</span>,
+        <span class="summary-sig-arg">lon2</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
+        <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the surface area of a (spherical) quadrilateral bounded by a 
+      segment of a great circle, two meridians and the equator.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#excessQuad_" class="summary-sig-name">excessQuad_</a>(<span class="summary-sig-arg">phi2</span>,
+        <span class="summary-sig-arg">phi1</span>,
+        <span class="summary-sig-arg">lam21</span>)</span><br />
+      Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+      quadrilateral bounded by a segment of a great circle, two meridians 
+      and the equator.</td>
           <td align="right" valign="top">
             
             
@@ -1928,6 +2040,49 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="excessAbc"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessAbc</span>&nbsp;(<span class="sig-arg">A</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+  triangle from two sides and the included angle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>A</code></strong> - An interior triangle angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>b</code></strong> - Frist adjacent triangle side (<code>radians</code>).</li>
+        <li><strong class="pname"><code>c</code></strong> - Second adjacent triangle side (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Spherical excess ({radians}).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>A</code></b>, <b><code>b</code></b> or 
+        <b><code>c</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessGirard" 
+        class="link">excessGirard</a>, <a 
+        href="pygeodesy.formy-module.html#excessLHuilier" 
+        class="link">excessLHuilier</a>, <a 
+        href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
+        target="_top">Spherical trigonometry</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="excessGirard"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1956,7 +2111,12 @@
         <li><strong class="pname"><code>C</code></strong> - Third interior triangle angle (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Spherical Excess ({radians}).</dd>
+        <dd>Spherical excess ({radians}).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>A</code></b>, <b><code>B</code></b> or 
+        <b><code>C</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#excessLHuilier" 
@@ -1994,11 +2154,217 @@
         <li><strong class="pname"><code>c</code></strong> - Third triangle side (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Spherical Excess ({radians}).</dd>
+        <dd>Spherical excess ({radians}).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>a</code></b>, <b><code>b</code></b> or 
+        <b><code>c</code></b>.</li>
+    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#excessGirard" 
         class="link">excessGirard</a>, <a 
+        href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
+        target="_top">Spherical trigonometry</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessKarney"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessKarney</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the surface area of a (spherical) quadrilateral bounded by a 
+  segment of a great circle, two meridians and the equator using <a 
+  href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+  target="_top">Karney's</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Surface area, <i>signed</i> (<i>square</i> <code>meter</code>, or
+          units of <b><code>radius</code></b> <i>squared</i>) or 
+          <code>radians</code> if <b><code>radius</code></b> is 
+          <code>None</code> or <code>0</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat2</code></b> or <b><code>lat1</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Semi-circular longitudinal delta.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessKarney_" 
+        class="link">excessKarney_</a> and <a 
+        href="pygeodesy.formy-module.html#excessQuad" 
+        class="link">excessQuad</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessKarney_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessKarney_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+  quadrilateral bounded by a segment of a great circle, two meridians and 
+  the equator using <a 
+  href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+  target="_top">Karney's</a> method.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Spherical excess, <i>signed</i> (<code>radians</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Semi-circular longitudinal delta <b><code>lam21</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessKarney" 
+        class="link">excessKarney</a>, <a 
+        href="http://OSGeo-org.1560.x6.Nabble.com/Area-of-a-spherical-polygon-td3841625.html"
+        target="_top">Area of a spherical polygon</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessQuad"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessQuad</span>&nbsp;(<span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">lat2</span>,
+        <span class="sig-arg">lon2</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
+        <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the surface area of a (spherical) quadrilateral bounded by a 
+  segment of a great circle, two meridians and the equator.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Start latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Start longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lat2</code></strong> - End latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon2</code></strong> - End longitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
+          class="link">unroll180</a> longitudes (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Surface area, <i>signed</i> (<i>square</i> <code>meter</code>, or
+          units of <b><code>radius</code></b> <i>squared</i>) or 
+          <code>radians</code> if <b><code>radius</code></b> is 
+          <code>None</code> or <code>0</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>lat2</code></b> or <b><code>lat1</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessQuad_" 
+        class="link">excessQuad_</a> and <a 
+        href="pygeodesy.formy-module.html#excessKarney" 
+        class="link">excessKarney</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="excessQuad_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">excessQuad_</span>&nbsp;(<span class="sig-arg">phi2</span>,
+        <span class="sig-arg">phi1</span>,
+        <span class="sig-arg">lam21</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the <i>spherical excess</i> <code>E</code> of a (spherical) 
+  quadrilateral bounded by a segment of a great circle, two meridians and 
+  the equator.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi2</code></strong> - End latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>phi1</code></strong> - Start latitude (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam21</code></strong> - Longitudinal delta, <i class="math">end-start</i> 
+          (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Spherical excess, <i>signed</i> (<code>radians</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#excessQuad" 
+        class="link">excessQuad</a>, <a 
         href="https://WikiPedia.org/wiki/Spherical_trigonometry" 
         target="_top">Spherical trigonometry</a>.
       </p>
@@ -3371,7 +3737,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 21 15:53:12 2021
+    Generated by Epydoc 3.0.1 on Wed Mar  3 17:15:58 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

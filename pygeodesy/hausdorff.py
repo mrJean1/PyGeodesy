@@ -63,6 +63,8 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 "An Efficient Algorithm for Calculating the Exact Hausdorff Distance"
 <https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf>}, IEEE Trans. Pattern
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
+
+@newfield example: Example, Examples
 '''
 
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
@@ -87,7 +89,7 @@ from math import radians
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '21.02.08'
+__version__ = '21.02.25'
 
 
 class HausdorffError(PointsError):

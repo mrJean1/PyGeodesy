@@ -15,22 +15,23 @@ from __future__ import division
 from pygeodesy.basics import copysign, isint
 from pygeodesy.errors import _xkwds_get, _TypeError, _ValueError
 from pygeodesy.interns import EPS, EPS0, INF, MISSING, PI, PI2, PI_2, R_M, \
-                             _0_0, _0_5, _1_0, _90_0, _180_0, _360_0
+                             _edge_, _radians_, _semi_circular_, _SPACE_, \
+                             _0_0, _0_5, _1_0, _90_0, _180_0, _360_0, _400_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.units import Feet, Float, Lam, Lam_, Meter
 
 from math import acos, asin, atan2, cos, degrees, radians, sin, tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '21.01.14'
+__version__ = '21.01.27'
 
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
-_1_90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
-_2_PI = _1_0 /  PI_2  # 0.63661977236758134307553505349005744813783858296182
+_1__90 = _1_0 / _90_0  # 0.01111111111111111111111111111111111111111111111111
+_2__PI = _1_0 /  PI_2  # 0.63661977236758134307553505349005744813783858296182
 # sqrt(2) + 1 <https://WikiPedia.org/wiki/Square_root_of_2>
-# _R2_1 = 2.41421356237309504880  # _16887_24209_69807_85696_71875_37694_80731_76679_73799
+# _1sqrt2 = 2.41421356237309504880  # _16887_24209_69807_85696_71875_37694_80731_76679_73799
 
-_iterNumpy2len = 1  # adjustable for testing purposes
+_iterNumpy2len  =  1  # adjustable for testing purposes
 
 
 def acos1(x):
@@ -151,7 +152,7 @@ def degrees90(rad):
 
        @arg rad: Angle (C{radians}).
 
-       @return: Angle in degrees, wrapped (C{degrees90}).
+       @return: Angle, wrapped (C{degrees90}).
     '''
     return _wrap(degrees(rad), _90_0, _360_0)
 
@@ -161,7 +162,7 @@ def degrees180(rad):
 
        @arg rad: Angle (C{radians}).
 
-       @return: Angle in degrees, wrapped (C{degrees180}).
+       @return: Angle, wrapped (C{degrees180}).
     '''
     return _wrap(degrees(rad), _180_0, _360_0)
 
@@ -171,9 +172,19 @@ def degrees360(rad):
 
        @arg rad: Angle (C{radians}).
 
-       @return: Angle in degrees, wrapped (C{degrees360}).
+       @return: Angle, wrapped (C{degrees360}).
     '''
     return _wrap(degrees(rad), _360_0, _360_0)
+
+
+def degrees2grades(deg):
+    '''Convert degrees to I{grades} (aka I{gradians} or I{gons}).
+
+       @arg deg: Angle (C{degrees}).
+
+       @return: Angle (C{grades}).
+    '''
+    return deg * _400_0 / _360_0
 
 
 def degrees2m(deg, radius=R_M, lat=0):
@@ -243,6 +254,46 @@ def furlong2m(furlongs):
     '''
     # 201.168 = 220 * yard2m(1)
     return Float(furlongs) * 201.168
+
+
+def grades(rad):
+    '''Convert radians to I{grades} (aka I{gradians} or I{gons}).
+
+       @arg rad: Angle (C{radians}).
+
+       @return: Angle (C{grades}).
+    '''
+    return rad * _400_0 / PI2
+
+
+def grades400(rad):
+    '''Convert radians to I{grades} (aka I{gradians} or I{gons}) and wrap M{[0..+400)}.
+
+       @arg rad: Angle (C{radians}).
+
+       @return: Angle, wrapped (C{grades}).
+    '''
+    return _wrap(grades(rad), _400_0, _400_0)
+
+
+def grades2degrees(gon):
+    '''Convert I{grades} (aka I{gradians} or I{gons}) to C{degrees}.
+
+       @arg gon: Angle (C{grades}).
+
+       @return: Angle (C{degrees}).
+    '''
+    return gon * _360_0 / _400_0
+
+
+def grades2radians(gon):
+    '''Convert I{grades} (aka I{gradians} or I{gons}) to C{radians}.
+
+       @arg gon: Angle (C{grades}).
+
+       @return: Angle (C{radians}).
+    '''
+    return gon * PI2 / _400_0
 
 
 def isNumpy2(obj):
@@ -521,7 +572,7 @@ def sincos2(*rad):
              include/GeographicLib/Math.hpp#l558>}.
     '''
     for r in rad:
-        q = int(r * _2_PI)  # int(math.floor)
+        q = int(r * _2__PI)  # int(math.floor)
         if r < 0:
             q -= 1
         s, c = _sincos2(q & 3, r - q * PI_2)
@@ -544,7 +595,7 @@ def sincos2d(*deg):
              include/GeographicLib/Math.hpp#l558>}.
     '''
     for d in deg:
-        q = int(d * _1_90)  # int(math.floor)
+        q = int(d * _1__90)  # int(math.floor)
         if d < 0:
             q -= 1
         s, c = _sincos2(q & 3, radians(d - q * _90_0))
@@ -610,13 +661,29 @@ def splice(iterable, n=2, **fill):
         yield t
 
 
-def tan_2(rad):
+def tan_2(rad, **semi):
     '''Compute the tangent of half angle.
 
        @arg rad: Angle (C{radians}).
+       @kwarg semi: Angle or edge name and index
+                    for semi-circular error.
 
        @return: M{tan(rad / 2)} (C{float}).
+
+       @raise ValueError: If B{C{rad}} is semi-circular
+                          and B{C{semi}} is given.
     '''
+    # .formy.excessKarney_, .sphericalTrigonometry.areaOf
+    if semi and abs(abs(rad) - PI) < EPS0:
+        for n, v in semi.items():
+            break
+        if isint(v):
+            from pygeodesy.streprs import Fmt
+            n = _SPACE_(Fmt.SQUARE(**semi), _edge_)
+        else:
+            n = _SPACE_(n, _radians_)
+        raise _ValueError(n, rad, txt=_semi_circular_)
+
     return tan(rad * _0_5)
 
 
@@ -675,11 +742,11 @@ def unrollPI(rad1, rad2, wrap=True):
 def _wrap(angle, wrap, modulo):
     '''(INTERNAL) Angle wrapper M{((wrap-modulo)..+wrap]}.
 
-       @arg angle: Angle (C{degrees} or C{radians}).
-       @arg wrap: Range (C{degrees} or C{radians}).
-       @arg modulo: Upper limit (360 C{degrees} or PI2 C{radians}).
+       @arg angle: Angle (C{degrees}, C{radians} or C{grades}).
+       @arg wrap: Range (C{degrees}, C{radians} or C{grades}).
+       @arg modulo: Upper limit (360 C{degrees}, PI2 C{radians} or 400 C{grades}).
 
-       @return: The B{C{angle}}, wrapped (C{degrees} or C{radians}).
+       @return: The B{C{angle}}, wrapped (C{degrees}, C{radians} or C{grades}).
     '''
     if wrap > angle >= (wrap - modulo):
         angle = float(angle)

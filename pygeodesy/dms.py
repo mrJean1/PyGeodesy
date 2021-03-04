@@ -9,6 +9,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
 U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 
 @newfield example: Example, Examples
+@newfield JSname: JS name, JS names
 '''
 
 from pygeodesy.basics import copysign, issequence, isstr, map2, neg
@@ -30,7 +31,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '21.01.10'
+__version__ = '21.02.25'
 
 F_D   = 'd'    # unsigned format "deg°" plus suffix N, S, E or W
 F_DM  = 'dm'   # unsigned format "deg°min′" plus suffix

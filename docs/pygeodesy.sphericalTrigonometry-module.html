@@ -86,7 +86,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.02.21
+        21.02.28
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -171,8 +171,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalTrigonometry-module.html#areaOf" class="summary-sig-name">areaOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
-      Calculate the area of a (spherical) polygon (with great circle arcs 
-      joining the points).</td>
+      Calculate the area of a (spherical) polygon (with the points joined 
+      by great circle arcs).</td>
           <td align="right" valign="top">
             
             
@@ -350,7 +350,7 @@
         <span class="summary-sig-arg">latC</span>,
         <span class="summary-sig-arg">lonC</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.77141</span>,
-        <span class="summary-sig-arg">girard</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc at 0x7fa782acdf50&gt;</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the angles, sides, and area of a (spherical) triangle.</td>
           <td align="right" valign="top">
@@ -374,7 +374,7 @@
         <span class="summary-sig-arg">lamB</span>,
         <span class="summary-sig-arg">phiC</span>,
         <span class="summary-sig-arg">lamC</span>,
-        <span class="summary-sig-arg">girard</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc at 0x7fa782acdf50&gt;</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the angles, sides, <i>spherical deficit</i> and <i>spherical 
       excess</i> of a (spherical) triangle.</td>
@@ -505,15 +505,22 @@
     </td>
   </tr></table>
   
-  <p>Calculate the area of a (spherical) polygon (with great circle arcs 
-  joining the points).</p>
+  <p>Calculate the area of a (spherical) polygon (with the points joined by
+  great circle arcs).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>points</code></strong> - The polygon points (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>[]).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) or <code>None</code>.</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and unroll longitudes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -526,7 +533,7 @@
         <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>points</code></b> are not <a 
         href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
         class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>radius</code></b> or semi-circular polygon edge.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -538,9 +545,11 @@
         <a href="pygeodesy.points-module.html#areaOf" 
         class="link">pygeodesy.areaOf</a>, <a 
         href="pygeodesy.sphericalNvector-module.html#areaOf" 
-        class="link">sphericalNvector.areaOf</a> and <a 
+        class="link">sphericalNvector.areaOf</a>, <a 
         href="pygeodesy.ellipsoidalKarney-module.html#areaOf" 
-        class="link">ellipsoidalKarney.areaOf</a>.
+        class="link">ellipsoidalKarney.areaOf</a> and <a 
+        href="pygeodesy.formy-module.html#excessKarney" 
+        class="link">excessKarney</a>.
       </p>
       <p><strong>Example:</strong>
         <pre class="py-doctest">
@@ -973,7 +982,7 @@
         <span class="sig-arg">latC</span>,
         <span class="sig-arg">lonC</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.77141</span>,
-        <span class="sig-arg">girard</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc at 0x7fa782acdf50&gt;</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -991,10 +1000,21 @@
         <li><strong class="pname"><code>lonB</code></strong> - Second corner longitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>latC</code></strong> - Third corner latitude (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lonC</code></strong> - Third corner longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, conventionally) or 
-          <code>None</code>.</li>
-        <li><strong class="pname"><code>girard</code></strong> - Use <i>Girard's formula</i> or <i>L'Huilier's Theorem</i> for the
-          <i>spherical excess</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a>, <a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a> 
+          or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>excess</code></strong> - <i>Spherical excess</i> callable (<a 
+          href="pygeodesy.formy-module.html#excessAbc" 
+          class="link">excessAbc</a>, <a 
+          href="pygeodesy.formy-module.html#excessGirard" 
+          class="link">excessGirard</a> or <a 
+          href="pygeodesy.formy-module.html#excessLHuilier" 
+          class="link">excessLHuilier</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unroll180" 
           class="link">unroll180</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
@@ -1013,13 +1033,7 @@
           excess</i> <code>E</code> as the <code>unit area</code> in 
           <code>radians</code>.</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#excessGirard" 
-        class="link">excessGirard</a> and <a 
-        href="pygeodesy.formy-module.html#excessLHuilier" 
-        class="link">excessLHuilier</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="triangle8_"></a>
 <div>
@@ -1034,7 +1048,7 @@
         <span class="sig-arg">lamB</span>,
         <span class="sig-arg">phiC</span>,
         <span class="sig-arg">lamC</span>,
-        <span class="sig-arg">girard</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc at 0x7fa782acdf50&gt;</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1053,8 +1067,13 @@
         <li><strong class="pname"><code>lamB</code></strong> - Second corner longitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>phiC</code></strong> - Third corner latitude (<code>radians</code>).</li>
         <li><strong class="pname"><code>lamC</code></strong> - Third corner longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>girard</code></strong> - Use <i>Girard's formula</i> or <i>L'Huilier's Theorem</i> for the
-          <i>spherical excess</i> (<code>bool</code>).</li>
+        <li><strong class="pname"><code>excess</code></strong> - <i>Spherical excess</i> callable (<a 
+          href="pygeodesy.formy-module.html#excessAbc" 
+          class="link">excessAbc</a>, <a 
+          href="pygeodesy.formy-module.html#excessGirard" 
+          class="link">excessGirard</a> or <a 
+          href="pygeodesy.formy-module.html#excessLHuilier" 
+          class="link">excessLHuilier</a>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - Wrap and <a href="pygeodesy.utily-module.html#unrollPI" 
           class="link">unrollPI</a> longitudes (<code>bool</code>).</li>
     </ul></dd>
@@ -1067,13 +1086,7 @@
           <i>spherical excess</i> <code>E</code>, all in 
           <code>radians</code>.</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Functions <a href="pygeodesy.formy-module.html#excessGirard" 
-        class="link">excessGirard</a> and <a 
-        href="pygeodesy.formy-module.html#excessLHuilier" 
-        class="link">excessLHuilier</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -1107,7 +1120,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Feb 21 15:53:13 2021
+    Generated by Epydoc 3.0.1 on Wed Mar  3 17:15:58 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
