@@ -4,7 +4,7 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.02.10'
+__version__ = '21.03.30'
 
 from base import coverage, numpy_version, TestsBase
 
@@ -282,8 +282,9 @@ class Tests(TestsBase):
 
     def testTrilaterate3d(self, module, Vector):
 
-        self.subtitle(module, Vector.__name__)
-        try:  # numpy
+        try:  # need numpy
+            self.subtitle(module, Vector.__name__)
+
             # <https://GISPoint.de/artikelarchiv/avn/2008/avn-ausgabe-12008/
             # 2303-direkte-loesung-des-raeumlichen-bogenschnitts-mit-methoden-der-linearen-algebra.html>
             c1, r1 = Vector( 50.0, 150.0, 13.0), 74.760
@@ -336,6 +337,34 @@ class Tests(TestsBase):
         except ImportError as x:
             self.skip(str(x), n=14)
 
+    def testTrilaterate3d2(self, Vector):
+
+        try:  # need numpy
+            trilaterate3d2 = vector3d.trilaterate3d2
+            self.subtitle(vector3d, trilaterate3d2.__name__.capitalize())
+            n = _DOT_(vector3d.__name__, trilaterate3d2.__name__)
+
+            # coutesy Martin Manganiello <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
+            c1, r1 = Vector(-500, -200, 0),  450.0
+            c2, r2 = Vector( 100, -100, 0),  694.6221994724903
+            c3, r3 = Vector( 500,  100, 0), 1011.1874208078342
+
+            try:  # no intersection, no perturbation for eps=0
+                t = trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=0)
+                self.test(n, t, IntersectionError.__name__)
+            except IntersectionError as x:
+                t = str(x)
+                self.test(n, t, t)
+
+            # by default, perturbation at EPS and qsrt(EPS)
+            t = trilaterate3d2(c1, r1, c2, r2, c3, r3)  # eps=EPS
+            self.test(n, len(t), 2)
+            self.test(t[0].named3, fstr(t[0].xyz, prec=5), '-500.0, 250.0, -0.00535')
+            self.test(t[1].named3, fstr(t[1].xyz, prec=5), '-500.0, 250.0, 0.00535')
+
+        except ImportError as x:
+            self.skip(str(x), n=4)
+
 
 if __name__ == '__main__':
 
@@ -359,6 +388,8 @@ if __name__ == '__main__':
     t.testTrilaterate3d(cartesianBase,         cartesianBase.CartesianBase)
     t.testTrilaterate3d(nvectorBase,           nvectorBase.NvectorBase)
     t.testTrilaterate3d(vector3d,              vector3d.Vector3d)
+
+    t.testTrilaterate3d2(vector3d.Vector3d)
 
     t.results()
     t.exit()

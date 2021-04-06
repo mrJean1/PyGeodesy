@@ -116,7 +116,7 @@ U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.19.2 and U{scipy
 <https://PyPI.org/project/scipy>} 1.5.2) and macOS' Python 2.7.16
 (with U{numpy<https://PyPI.org/project/numpy>} 1.16.6), all on
-macOS 11.2.2 (10.16) Big Sur and all in 64-bit only.  The tests
+macOS 11.2.3 (10.16) Big Sur and all in 64-bit only.  The tests
 are run with and without C{lazy import} for Python 3 and with C{-W
 always} and environment variable C{PYGEODESY_WARNINGS=on} for all
 Python versions.  The results of those tests are included in the
@@ -153,7 +153,7 @@ Previously, the tests were run with Python 3.9.0-1, 3.8.0-5, 3.7.2-6, 3.7.0,
 <https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>} 7.3.0
 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and
 3.5.3) and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>}
-3.5.3 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-2.1 Big
+3.5.3 (and U{numpy<https://PyPI.org/project/numpy>} 1.11.3) on macOS 11.0-2.2 Big
 Sur, 10.15.3, 10.15.5-7 Catalina, macOS 10.14 Mojave, macOS 10.13.6 High Sierra,
 macOS 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with
 U{Pythonista3.2<https://OMZ-Software.com/pythonista>} (with geographiclib 1.49
@@ -172,7 +172,7 @@ with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe
 <https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8
 <https://PyPI.org/project/flake8>} using Python 3.9.2, both in 64-bit
-on macOS 11.2.2 (10.16) Big Sur.
+on macOS 11.2.3 (10.16) Big Sur.
 
 Classes with a name ending in C{Karney} and several more are transcribed from
 I{Karney}'s U{C++ classes<https://GeographicLib.SourceForge.io/html/annotated.html>}
@@ -491,7 +491,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.03.03'
+__version__ = '21.04.04'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

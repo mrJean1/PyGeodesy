@@ -14,16 +14,16 @@ U{Vector-based geodesy
 @newfield JSname: JS name, JS names
 '''
 
-from pygeodesy.basics import copysign, len2, map1, neg, _xnumpy
+from pygeodesy.basics import copysign, len2, map1, map2, neg, _xnumpy
 from pygeodesy.errors import _AssertionError, CrossError, IntersectionError, \
                              _TypeError, _ValueError, _xkwds_popitem
 from pygeodesy.fmath import euclid_, fdot, fsum, fsum_, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2, sincos2  # utily
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, PI, PI2, \
-                             _coincident_, _colinear_, _COMMA_, _COMMASPACE_, \
-                             _datum_, _h_, _height_, _invalid_, _intersection_, \
-                             _name_, _near_concentric_, _no_, _SPACE_, _too_, \
-                             _y_, _z_, _0_0, _1_0, _2_0
+                             _EPSqrt, _coincident_, _colinear_, _COMMA_, \
+                             _COMMASPACE_, _datum_, _h_, _height_, _invalid_, \
+                             _intersection_, _name_, _near_concentric_, _no_, \
+                             _SPACE_, _too_, _xyz_, _y_, _z_, _0_0, _1_0, _2_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, \
                            _xotherError
@@ -35,23 +35,27 @@ from pygeodesy.units import Float, Radius, Radius_, Scalar
 from math import atan2, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.02.26'
+__version__ = '21.03.29'
+
+_raise_ = 'raise'
 
 
-def _xyzn4(xyz, y, z, Error=_TypeError):  # imported by .ecef
+def _xyzn4(xyz, y, z, Error=_TypeError):  # see: .ecef
     '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
     '''
     try:
         t = xyz.x, xyz.y, xyz.z
+        n = getattr(xyz, _name_, NN)
     except AttributeError:
         t = xyz, y, z
+        n = NN
     try:
-        x, y, z = map1(float, *t)
+        x, y, z = map2(float, t)
     except (TypeError, ValueError) as x:
-        d = dict(zip(('xyz', _y_, _z_), t))
+        d = dict(zip((_xyz_, _y_, _z_), t))
         raise Error(txt=str(x), **d)
 
-    return x, y, z, getattr(xyz, _name_, NN)
+    return x, y, z, n
 
 
 def _xyzhdn6(xyz, y, z, height, datum, ll, Error=_TypeError):  # by .cartesianBase, .nvectorBase
@@ -1127,6 +1131,71 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
         rs = numpy.polynomial.polynomial.polyroots(coeffs)
         return tuple(float(r) for r in rs if not numpy.iscomplex(r))
 
+    np = Vector3d._numpy
+    if np is None:  # get numpy, once or ImportError
+        Vector3d._numpy = np = _xnumpy(trilaterate3d2, 1, 10)  # macOS' Python 2.7 numpy 1.8 OK
+
+    c2 = _otherV3d(center2=c2)
+    c3 = _otherV3d(center3=c3)
+    R  = [r1, Radius_(radius2=r2, low=eps),
+              Radius_(radius3=r3, low=eps)]
+
+    # get null_space Z and pseudo-inverse A, once
+    t = -_2_0
+    A = [(_1_0, t * c.x, t * c.y, t * c.z) for c in (c1, c2, c3)]  # 3 x 4
+    try:  # <https://NumPy.org/doc/stable/reference/generated/numpy.seterr.html>
+        e = np.seterr(all=_raise_)  # throw FloatingPointError for numpy errors
+        Z, _ = _null_space2(np, A, eps)
+        A    =  np.linalg.pinv(A)  # Moore-Penrose pseudo-inverse
+    finally:  # restore numpy error handling
+        np.seterr(**e)
+    if Z is None:  # coincident, colinear, concentric, etc.
+        raise _trilaterror(c1, r1, c2, r2, c3, r3, eps)
+
+    B = [c.length2 for c in (c1, c2, c3)]
+    # perturbe radii to handle corner cases like this
+    # <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
+    if eps > _0_0:
+        p1 = max(eps,  EPS)
+        p2 = max(eps, _EPSqrt)
+        if p2 > p1:
+            ps = _0_0, p1, -p1, p2, -p2
+        else:
+            ps = _0_0, p1, -p1
+    else:
+        ps = _0_0,
+    for p in ps:
+        b = [((r + p)**2 - b) for r, b in zip(R, B)]  # 1 x 3 or 3 x 1
+        try:  # <https://NumPy.org/doc/stable/reference/generated/numpy.seterr.html>
+            e = np.seterr(all=_raise_)  # throw FloatingPointError for numpy errors
+            X = np.dot(A, b)
+            X0, x = _0f3d(X)
+            Z0, z = _0f3d(Z)
+            # quadratic polynomial coefficients, ordered (^0, ^1, ^2)
+            t = _real_roots(np, x.length2       - X0,  # fdot(X, -_1_0, *x.xyz)
+                                z.dot(x) * _2_0 - Z0,  # fdot(Z, -_0_5, *x.xyz) * 2
+                                z.length2)             # fdot(Z,  _0_0, *z.xyz)
+        finally:  # restore numpy error handling
+            np.seterr(**e)
+        if t:
+            break
+    else:  # coincident, colinear, too distant, no intersection, etc.
+        raise _trilaterror(c1, r1, c2, r2, c3, r3, eps)
+
+    v = _N3(t[0], x, z)
+    if len(t) < 2:  # one intersection
+        t = v, v
+    elif abs(t[0] - t[1]) < eps:  # abutting
+        t = v, v
+    else:  # "lowest" intersection first (to avoid test failures)
+        u = _N3(t[1], x, z)
+        t = (u, v) if u < v else (v, u)
+    return t
+
+
+def _trilaterror(c1, r1, c2, r2, c3, r3, eps):
+    # return FloatingPointError with the cause of the error
+
     def _txt(c1, r1, c2, r2):
         # check for concentric or too distant spheres
         d = c1.minus(c2).length
@@ -1138,55 +1207,12 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS, Vector=None, **Vector_kwds)
             return NN
         return _SPACE_(c1.name, 'and', c2.name, t)
 
-    np = Vector3d._numpy
-    if np is None:  # get numpy, once or ImportError
-        Vector3d._numpy = np = _xnumpy(trilaterate3d2, 1, 10)  # macOS' Python 2.7 numpy 1.8 OK
-
-    c2 = _otherV3d(center2=c2)
-    c3 = _otherV3d(center3=c3)
-
-    A = []  # 3 x 4
-    b = []  # 1 x 3 or 3 x 1
-    for c, d in ((c1, r1),
-                 (c2, Radius_(radius2=r2, low=eps)),
-                 (c3, Radius_(radius3=r3, low=eps))):
-        A.append((_1_0, -_2_0 * c.x, -_2_0 * c.y, -_2_0 * c.z))
-        b.append(d**2 - c.length2)
-
-    try:  # <https://NumPy.org/doc/stable/reference/generated/numpy.seterr.html>
-        e = np.seterr(all='raise')  # throw FloatingPointError for numpy errors
-
-        X = np.dot(np.linalg.pinv(A), b)  # Moore-Penrose pseudo-inverse
-        Z, _ = _null_space2(np, A, eps)
-        if Z is None:
-            t = ()  # coincident, colinear, concentric, etc.
-        else:
-            X0, x = _0f3d(X)
-            Z0, z = _0f3d(Z)
-            # quadratic polynomial coefficients, ordered (^0, ^1, ^2)
-            t = _real_roots(np, x.length2       - X0,  # fdot(X, -_1_0, *x.xyz)
-                                z.dot(x) * _2_0 - Z0,  # fdot(Z, -_0_5, *x.xyz) * 2
-                                z.length2)             # fdot(Z,  _0_0, *z.xyz)
-
-    finally:  # restore numpy error handling
-        np.seterr(**e)
-
-    if not t:  # coincident, colinear, too distant, no intersection, etc.
-        raise FloatingPointError(_txt(c1, r1, c2, r2) or
-                                 _txt(c1, r1, c3, r3) or
-                                 _txt(c2, r2, c3, r3) or (_colinear_ if
-                                 _iscolinearWith(c1, c2, c3, eps=eps) else
-                                 _no_(_intersection_)))
-    elif len(t) < 2:  # one intersection
-        t *= 2
-
-    v = _N3(t[0], x, z)
-    if abs(t[0] - t[1]) < eps:  # abutting
-        t = v, v
-    else:  # "lowest" intersection first (to avoid test failures)
-        u = _N3(t[1], x, z)
-        t = (u, v) if u < v else (v, u)
-    return t
+    t = _txt(c1, r1, c2, r2) or \
+        _txt(c1, r1, c3, r3) or \
+        _txt(c2, r2, c3, r3) or (_colinear_ if
+        _iscolinearWith(c1, c2, c3, eps=eps) else
+        _no_(_intersection_))
+    return FloatingPointError(t)
 
 
 def _V3d(v3d):

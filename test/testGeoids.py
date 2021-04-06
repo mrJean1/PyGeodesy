@@ -4,7 +4,7 @@
 # Test the height interpolators.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.04.06'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -278,9 +278,8 @@ class Tests(TestsBase):
             e_max = 0
             eps = eps or self._epsHeight
             f = self.failed - self.known
-            g = G(grid, kind=kind or self._kind, crop=crop)
-            s = '%s.height(%%s) kind %s' % (g, g.kind)
-            try:
+            with G(grid, kind=kind or self._kind, crop=crop) as g:
+                s = '%s.height(%%s) kind %s' % (g, g.kind)
                 for lat, lon, expected in llh3:
                     t = s % (fstr((lat, lon), prec=3),)
                     try:
@@ -296,41 +295,44 @@ class Tests(TestsBase):
                         self.test(t, str(x), '%.3f' % (expected,),
                                      known=bool(crop))
 
-            except KeyboardInterrupt as x:
-                self.printf(repr(x), nl=1)
+                    except KeyboardInterrupt as x:
+                        self.printf(repr(x), nl=1)
+                        break
 
-            f = self.failed - self.known - f
-            if f > 0 or e_max > 0:
-                h = '' if g.hits is None else ', hits %s' % (g.hits,)
-                t = '%s.height() kind %s%s, eps max (in %s FAILED)' % (g, g.kind, h, f)
-                x = eps if f > 0 else e_max
-                self.test(t, e_max, x, fmt='%.3f', known=e_max < eps, nl=1, nt=1)
+                f = self.failed - self.known - f
+                if f > 0 or e_max > 0:
+                    h = '' if g.hits is None else ', hits %s' % (g.hits,)
+                    t = '%s.height() kind %s%s, eps max (in %s FAILED)' % (g, g.kind, h, f)
+                    x = eps if f > 0 else e_max
+                    self.test(t, e_max, x, fmt='%.3f', known=e_max < eps, nl=1, nt=1)
 
-            # print('%r\n\n%r' % (g, getattr(g, 'pgm', None)))
+                # print('%r\n\n%r' % (g, getattr(g, 'pgm', None)))
+                if coverage:
+                    for a in ('highest', 'lowerleft', 'lowerright', 'lowest', 'upperleft', 'upperright'):
+                        t = fstr(getattr(g, a)(), prec=3)
+                        self.test('%s.%s()' % (g, a), t, t, known=True)
+                    for p in ('dtype', 'knots', 'mean', 'nBytes', 'scipy', 'smooth', 'stdev'):  # , 'pgm'
+                        t = ''.join(reprs((getattr(g, p),), prec=3))
+                        self.test('%s.%s' % (g, p), t, t, known=True)
+                    for a in ('_g2ll2', '_ll2g2'):
+                        t = getattr(g, a)(180, 360)
+                        self.test('%s.%s(180, 360)' % (g, a), t, t, known=True)
+                    for t in ((LatLon_(-10, -100), LatLon_(10, 100)),
+                              (       (-10, -100),        (10, 100))):
+                        t = g._swne(t)
+                        self.test('%s.%s' % (g, '_swne'), t, '(-10.0, -100.0, 10.0, 100.0)')
 
-            if coverage:
-                for a in ('highest', 'lowerleft', 'lowerright', 'lowest', 'upperleft', 'upperright'):
-                    t = fstr(getattr(g, a)(), prec=3)
-                    self.test('%s.%s()' % (g, a), t, t, known=True)
-                for p in ('dtype', 'knots', 'mean', 'nBytes', 'scipy', 'smooth', 'stdev'):  # , 'pgm'
-                    t = ''.join(reprs((getattr(g, p),), prec=3))
-                    self.test('%s.%s' % (g, p), t, t, known=True)
-                for a in ('_g2ll2', '_ll2g2'):
-                    t = getattr(g, a)(180, 360)
-                    self.test('%s.%s(180, 360)' % (g, a), t, t, known=True)
-                for t in ((LatLon_(-10, -100), LatLon_(10, 100)),
-                          (       (-10, -100),        (10, 100))):
-                    t = g._swne(t)
-                    self.test('%s.%s' % (g, '_swne'), t, '(-10.0, -100.0, 10.0, 100.0)')
+                t = g.toStr()
+                self.test('%s.%s' % (g, 'toStr'), t, t, known=True, nt=1)
 
-            t = g.toStr()
-            self.test('%s.%s' % (g, 'toStr'), t, t, known=True, nt=1)
-
+            self.test('closed', g.closed, True)
             self.testCopy(g)
 
         else:
             n, _ = len2(llh3)
-            self.skip('no scipy', n=n)
+            if coverage:
+                n += 19
+            self.skip('no scipy', n=n + 3)
 
 
 if __name__ == '__main__':  # PYCHOK internal error?

@@ -95,7 +95,7 @@ except ImportError:  # Python 3+
     _ub2str = ub2str  # used only for egm*.pgm text
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '21.01.30'
+__version__ = '21.04.06'
 
 _assert_ = 'assert'
 _bHASH_  =  b'#'
@@ -116,6 +116,7 @@ class _GeoidBase(_HeightBase):
     '''
     _cropped  =  None
     _datum    = _WGS84
+    _egm      =  None  # open C{egm*.pgm} geoid file
     _endian   = _tbd_
     _geoid    = _n_a_
     _hs_y_x   =  None  # numpy 2darray, row-major order
@@ -125,7 +126,7 @@ class _GeoidBase(_HeightBase):
     _mean     =  None  # fixed in GeoidKarney
 #   _name     =  NN    # _Named
     _nBytes   =  0     # numpy size in bytes, float64
-    _pgm      =  None
+    _pgm      =  None  # PGM attributes, C{_PGM} or C{None}
     _sizeB    =  0     # geoid file size in bytes
     _smooth   =  0     # used only for RectBivariateSpline
     _stdev    =  None  # fixed in GeoidKarney
@@ -209,8 +210,9 @@ class _GeoidBase(_HeightBase):
                     a list or tuple of interpolated geoid heights
                     (C{float}s).
 
-           @raise GeoidError: Insufficient number of B{C{llis}} or an
-                              invalid B{C{lli}}.
+           @raise GeoidError: Insufficient number of B{C{llis}}, an
+                              invalid B{C{lli}} or the C{egm*.pgm}
+                              geoid file is closed.
 
            @raise RangeError: An B{C{lli}} is outside this geoid's lat-
                               or longitude range.
@@ -223,6 +225,17 @@ class _GeoidBase(_HeightBase):
                                 exception.
         '''
         return self._called(llis, True)
+
+    def __enter__(self):
+        '''Open context.
+        '''
+        return self
+
+    def __exit__(self, *unused):  # PYCHOK exc_type, exc_value, exc_traceback)
+        '''Close context.
+        '''
+        self.close()
+        # return None  # XXX False
 
     def __repr__(self):
         return self.toStr()
@@ -249,6 +262,19 @@ class _GeoidBase(_HeightBase):
                 raise _SciPyIssue(x)
             else:
                 raise
+
+    def close(self):
+        '''Close the C{egm*.pgm} geoid file if open (and applicable).
+        '''
+        if not self.closed:
+            self._egm.close()
+            self._egm = None
+
+    @property_RO
+    def closed(self):
+        '''Get the C{egm*.pgm} geoid file status.
+        '''
+        return self._egm is None
 
     def _ev(self, y, x):  # PYCHOK expected
         # only used for .interpolate.interp2d, but
@@ -838,10 +864,9 @@ class GeoidKarney(_GeoidBase):
            _T( 0,  2),
            _T( 1,  2))
 
-    _egm     =  None   # open geoid file
     _endian  = '>H'   # struct.unpack 1 ushort (big endian, unsigned short)
     _4endian = '>4H'  # struct.unpack 4 ushorts
-    _Rendian =  NN     # struct.unpack a row of ushorts
+    _Rendian =  NN    # struct.unpack a row of ushorts
 #   _highest = (-8.4,   147.367, 85.839) if egm2008-1.pgm else (
 #              (-8.167, 147.25,  85.422) if egm96-5.pgm else
 #              (-4.5,   148.75,  81.33))  # egm84-15.pgm
@@ -865,7 +890,8 @@ class GeoidKarney(_GeoidBase):
         '''New L{GeoidKarney} interpolator.
 
            @arg egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
-                         html/geoid.html#geoidinst>} file name (C{egm*.pgm}).
+                         html/geoid.html#geoidinst>} file name (C{egm*.pgm}), see
+                         note below.
            @kwarg crop: Optional box to limit geoid locations, a 4-tuple (C{south,
                         west, north, east}), 2-tuple (C{(south, west), (north,
                         east)}) or 2, in C{degrees90} lat- and C{degrees180}
@@ -878,12 +904,16 @@ class GeoidKarney(_GeoidBase):
            @kwarg name: Optional geoid name (C{str}).
            @kwarg smooth: Smoothing factor, unsupported (C{None}).
 
-           @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}},
-                              B{C{kind}} or B{C{smooth}}.
+           @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid
+                              B{C{crop}}, B{C{kind}} or B{C{smooth}}.
 
            @raise TypeError: Invalid B{C{datum}}.
 
            @see: Class L{GeoidPGM} and function L{egmGeoidHeights}.
+
+           @note: Geoid file B{C{egm_pgm}} remains open and must be closed
+                  by calling the C{close} method or by using this instance
+                  in a C{with B{GeoidKarney}(...) as ...} context.
         '''
         if smooth is not None:
             raise GeoidError(smooth=smooth, txt=_not_(_supported_))
@@ -919,8 +949,9 @@ class GeoidKarney(_GeoidBase):
                     a list or tuple of interpolated geoid heights
                     (C{float}s).
 
-           @raise GeoidError: Insufficient number of B{C{llis}} or an
-                              invalid B{C{lli}}.
+           @raise GeoidError: Insufficient number of B{C{llis}}, an
+                              invalid B{C{lli}} or the C{egm*.pgm}
+                              geoid file is closed.
 
            @raise RangeError: An B{C{lli}} is outside this geoid's lat-
                               or longitude range.
@@ -1095,10 +1126,12 @@ class GeoidKarney(_GeoidBase):
 
     def _seek(self, y, x):
         # position geoid to grid index (y, x)
-        p = self._pgm
-        b = p.skip + (y * p.nlon + x) * self._u2B
-        self._egm.seek(b, _SEEK_SET)
-        return b  # position
+        p, g = self._pgm, self._egm
+        if g:
+            b = p.skip + (y * p.nlon + x) * self._u2B
+            g.seek(b, _SEEK_SET)
+            return b  # position
+        raise GeoidError('closed file: %r' % (p.egm,))  # IOError
 
     @Property_RO
     def dtype(self):
@@ -1116,7 +1149,8 @@ class GeoidKarney(_GeoidBase):
                     list of interpolated geoid heights (C{float}s).
 
            @raise GeoidError: Insufficient or non-matching number of
-                              B{C{lats}} and B{C{lons}}.
+                              B{C{lats}} and B{C{lons}} or the C{egm*.pgm}
+                              geoid file is closed.
 
            @raise RangeError: A B{C{lat}} or B{C{lon}} is outside this
                               geoid's lat- or longitude range.
