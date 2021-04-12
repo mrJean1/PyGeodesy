@@ -60,26 +60,28 @@
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module ecef</h1><p class="nomargin-top"></p>
 <p>Geocentric conversions transcribed from <i>Charles Karney</i>'s C++ 
-  classes <a 
+  class <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
-  target="_top">Geocentric</a> and <a 
-  href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
-  target="_top">LocalCartesian</a> into pure Python classes <a 
-  href="pygeodesy.ecef.EcefKarney-class.html" class="link">EcefKarney</a> 
-  respectively <a href="pygeodesy.ecef.EcefCartesian-class.html" 
-  class="link">EcefCartesian</a>, class <a 
-  href="pygeodesy.ecef.EcefSudano-class.html" class="link">EcefSudano</a> 
-  based on <i>John Sudano</i>'s <a 
+  target="_top">Geocentric</a> into pure Python class <a 
+  href="pygeodesy.ecef.EcefKarney-class.html" class="link">EcefKarney</a>, 
+  class <a href="pygeodesy.ecef.EcefSudano-class.html" 
+  class="link">EcefSudano</a> based on <i>John Sudano</i>'s <a 
   href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
   target="_top">paper</a>, class <a 
   href="pygeodesy.ecef.EcefVeness-class.html" class="link">EcefVeness</a> 
   transcribed from <i>Chris Veness</i>' JavaScript classes <a 
   href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
-  target="_top">LatLonEllipsoidal, Cartesian</a> and class <a 
+  target="_top">LatLonEllipsoidal, Cartesian</a>, class <a 
   href="pygeodesy.ecef.EcefYou-class.html" class="link">EcefYou</a> 
   implementing <i>Rey-Jer You</i>'s <a 
   href="https://www.ResearchGate.net/publication/240359424" 
-  target="_top">transformations</a>.</p>
+  target="_top">transformations</a> and classes <a 
+  href="pygeodesy.ecef.EcefFarrell22-class.html" 
+  class="link">EcefFarrell22</a> and <a 
+  href="pygeodesy.ecef.EcefFarrell22-class.html" 
+  class="link">EcefFarrell22</a> from <i>Jay A. Farrell</i>'s <a 
+  href="https://Books.Google.com/books?id=fW4foWASY6wC" target="_top">Table
+  2.1 and 2.2</a>, page 29-30.</p>
   <p>Following is a copy of <i>Karney</i>'s <a 
   href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
   target="_top">Detailed Description</a>.</p>
@@ -93,10 +95,12 @@
   The <code>z</code> axis goes thru the North pole, <code>lat</code> = 90&#176;.
   The <code>x</code> axis goes thru <code>lat</code> = 0&#176;, <code>lon</code>
   = 0&#176;.</p>
-  <p>The local cartesian origin is at (<code>lat0</code>, 
-  <code>lon0</code>, <code>height0</code>).  The <code>z</code> axis is 
-  normal to the ellipsoid, the <code>y</code> axis points due North.  The 
-  plane <code>z = -height0</code> is tangent to the ellipsoid.</p>
+  <p>The <i>local (cartesian) origin</i> is at (<code>lat0</code>, 
+  <code>lon0</code>, <code>height0</code>).  The <i>local</i> 
+  <code>x</code> axis points East, the <i>local</i> <code>y</code> axis 
+  points North and the <i>local</i> <code>z</code> axis is normal to the 
+  ellipsoid.  The plane <code>z = -height0</code> is tangent to the 
+  ellipsoid, hence the alternate name <i>local tangent plane</i>.</p>
   <p>Forward conversion from geodetic to geocentric (ECEF) coordinates is 
   straightforward.</p>
   <p>For the reverse transformation we use Hugues Vermeille's <a 
@@ -124,8 +128,15 @@
   errors.</p>
 
 <hr />
-<div class="fields">      <p><strong>Version:</strong>
-        21.02.01
+<div class="fields">      <p><strong>See Also:</strong>
+        Python class <a href="pygeodesy.ltp.LocalCartesian-class.html" 
+        class="link">LocalCartesian</a> a transcription of <i>Charles 
+        Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
+        target="_top">LocalCartesian</a>
+      </p>
+      <p><strong>Version:</strong>
+        21.04.10
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -171,50 +182,34 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefCartesian-class.html" class="summary-name">EcefCartesian</a><br />
-      Conversion between geodetic <code>(lat, lon, height)</code> and 
-        local cartesian <code>(x, y, z)</code> coordinates with a local 
-        cartesian origin at <code>(lat0, lon0, height0)</code>, transcribed
-        from <i>Karney</i>'s C++ class <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
-        target="_top">LocalCartesian</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefMatrix-class.html" class="summary-name">EcefMatrix</a><br />
-      A rotation matrix.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ecef.Ecef9Tuple-class.html" class="summary-name">Ecef9Tuple</a><br />
-      9-Tuple <code>(x, y, z, lat, lon, height, C, M, datum)</code> with 
-        geocentric coordinates <code>x</code>, <code>y</code> and 
-        <code>z</code>, geodetic coordinates <code>lat</code>, 
-        <code>lon</code> and <code>height</code>, case <code>C</code> (see 
-        the <code>Ecef*.reverse</code> methods) and optionally, the <a 
-        href="pygeodesy.ecef.EcefMatrix-class.html" 
-        class="link">EcefMatrix</a> <code>M</code> and <code>datum</code>, 
-        with <code>lat</code> and <code>lon</code> in <code>degrees</code> 
-        and <code>x</code>, <code>y</code>, <code>z</code> and 
-        <code>height</code> in <code>meter</code>, conventionally.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.ecef.EcefVeness-class.html" class="summary-name">EcefVeness</a><br />
       Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates transcribed from <i>Chris 
         Veness</i>' JavaScript classes <a 
         href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
         target="_top">LatLonEllipsoidal, Cartesian</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefFarrell21-class.html" class="summary-name">EcefFarrell21</a><br />
+      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
+        <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
+        target="_top">Table 2.1</a>, page 29.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefFarrell22-class.html" class="summary-name">EcefFarrell22</a><br />
+      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
+        <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
+        target="_top">Table 2.2</a>, page 30.
     </td>
   </tr>
 <tr>
@@ -238,6 +233,32 @@
         Earth-Fixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
         target="_top">transformations</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefMatrix-class.html" class="summary-name">EcefMatrix</a><br />
+      A rotation matrix.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html" class="summary-name">Ecef9Tuple</a><br />
+      9-Tuple <code>(x, y, z, lat, lon, height, C, M, datum)</code> with 
+        <i>geocentric</i> <code>x</code>, <code>y</code> and <code>z</code>
+        plus <i>geodetic</i> <code>lat</code>, <code>lon</code> and 
+        <code>height</code>, case <code>C</code> (see the 
+        <code>Ecef*.reverse</code> methods) and optionally, the rotation 
+        matrix <code>M</code> (<a 
+        href="pygeodesy.ecef.EcefMatrix-class.html" 
+        class="link">EcefMatrix</a>) and <code>datum</code>, with 
+        <code>lat</code> and <code>lon</code> in <code>degrees</code> and 
+        <code>x</code>, <code>y</code>, <code>z</code> and 
+        <code>height</code> in <code>meter</code>, conventionally.
     </td>
   </tr>
 </table>
@@ -288,7 +309,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  6 15:00:22 2021
+    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:41 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

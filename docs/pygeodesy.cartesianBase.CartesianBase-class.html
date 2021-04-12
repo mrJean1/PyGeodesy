@@ -138,6 +138,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#destinationXyz" class="summary-sig-name">destinationXyz</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">delta</span>,
+        <span class="summary-sig-arg">Cartesian</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Cartesian_kwds</span>)</span><br />
+      Calculate the destination using a <i>local</i> delta from this 
+      cartesian.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#to3llh" class="summary-sig-name">to3llh</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>)</span><br />
       DEPRECATED, use property <a 
@@ -180,7 +201,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toEcef" class="summary-sig-name">toEcef</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Convert this cartesian to geodetic (lat-/longitude) coordinates.</td>
+      Convert this cartesian to <i>geodetic</i> (lat-/longitude) 
+      coordinates.</td>
           <td align="right" valign="top">
             
             
@@ -201,6 +223,45 @@
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
       Convert this cartesian to a geodetic (lat-/longitude) point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLocal" class="summary-sig-name">toLocal</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Xyz</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">ltp</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Xyz_kwds</span>)</span><br />
+      Convert this <i>geocentric</i> cartesian to <i>local</i> 
+      <code>X</code>, <code>Y</code> and <code>Z</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.cartesianBase.CartesianBase-class.html#toLtp" class="summary-sig-name">toLtp</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Ecef</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the <i>local tangent plane</i> (LTP) for this cartesian.</td>
           <td align="right" valign="top">
             
             
@@ -596,6 +657,55 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="destinationXyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">destinationXyz</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">delta</span>,
+        <span class="sig-arg">Cartesian</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Cartesian_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Calculate the destination using a <i>local</i> delta from this 
+  cartesian.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>delta</code></strong> - Local delta to the destination (<a 
+          href="pygeodesy.ltpTuples.XyzLocal-class.html" 
+          class="link">XyzLocal</a>, <a 
+          href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, 
+          <a href="pygeodesy.ltpTuples.Ned-class.html" class="link">Ned</a>
+          or <a href="pygeodesy.ltpTuples.Local6Tuple-class.html" 
+          class="link">Local6Tuple</a>).</li>
+        <li><strong class="pname"><code>Cartesian</code></strong> - Optional (geocentric) class to return the destination or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
+          arguments, ignored if <code><b>Cartesian</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Destination as a <code>Cartesian</code><code>(x, y, z, 
+          **Cartesian_kwds)</code> instance or if 
+          <code><b>Cartesian</b>=None</code>, an <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
+          M, datum)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>delta</code></b>, <b><code>Cartesian</code></b> or
+        <b><code>Cartesian_kwds</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="to3llh"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -680,7 +790,8 @@
     </td>
   </tr></table>
   
-  <p>Convert this cartesian to geodetic (lat-/longitude) coordinates.</p>
+  <p>Convert this cartesian to <i>geodetic</i> (lat-/longitude) 
+  coordinates.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
@@ -739,6 +850,82 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b> or 
         <b><code>LatLon_kwds</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLocal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLocal</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Xyz</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">ltp</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Xyz_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this <i>geocentric</i> cartesian to <i>local</i> 
+  <code>X</code>, <code>Y</code> and <code>Z</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Xyz</code></strong> - Optional class to return <code>X</code>, <code>Y</code> and 
+          <code>Z</code> (<a href="pygeodesy.ltpTuples.XyzLocal-class.html"
+          class="link">XyzLocal</a>, <a 
+          href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, 
+          <a href="pygeodesy.ltpTuples.Ned-class.html" 
+          class="link">Ned</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i> (LTP) to use, overriding this 
+          cartesian's LTP (<a href="pygeodesy.ltp.Ltp-class.html" 
+          class="link">Ltp</a>).</li>
+        <li><strong class="pname"><code>Xyz_kwds</code></strong> - Optional, additional <b><code>Xyz</code></b> keyword arguments, 
+          ignored if <code><b>Xyz</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <b><code>Xyz</code></b> instance or if 
+          <code><b>Xyz</b>=None</code>, a <a 
+          href="pygeodesy.ltpTuples.Local6Tuple-class.html" 
+          class="link">Local6Tuple</a><code>(x, y, z, ltp, ecef, M)</code> 
+          with <code>M=None</code> always.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLtp"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLtp</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Ecef</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <i>local tangent plane</i> (LTP) for this cartesian.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Ecef</code></strong> - Optional ECEF <i>class</i> (<a 
+          href="pygeodesy.ecef.EcefKarney-class.html" 
+          class="link">EcefKarney</a>, ... <a 
+          href="pygeodesy.ecef.EcefYou-class.html" 
+          class="link">EcefYou</a>), overriding this cartesian's 
+          <code>Ecef</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1178,7 +1365,7 @@ class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  6 15:00:23 2021
+    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:42 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

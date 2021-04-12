@@ -21,7 +21,8 @@ from pygeodesy.interns import EPS0, NN, _COMMASPACE_, _not_, \
                              _1_0, _2_0, _4_0, _6_0
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS
-from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple
+# from pygeodesy.named import _xnamed  # from namedTuples
+from pygeodesy.namedTuples import LatLon4Tuple, Vector4Tuple, _xnamed
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_
 from pygeodesy.streprs import Fmt
 from pygeodesy.units import Height
@@ -30,7 +31,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdn6
 from math import sqrt  # hypot
 
 __all__ = ()
-__version__ = '21.02.09'
+__version__ = '21.04.11'
 
 
 class CartesianBase(Vector3d):
@@ -109,6 +110,30 @@ class CartesianBase(Vector3d):
         self._update(datum != d)
         self._datum = datum
 
+    def destinationXyz(self, delta, Cartesian=None, **Cartesian_kwds):
+        '''Calculate the destination using a I{local} delta from this cartesian.
+
+           @arg delta: Local delta to the destination (L{XyzLocal}, L{Enu},
+                       L{Ned} or L{Local6Tuple}).
+           @kwarg Cartesian: Optional (geocentric) class to return the
+                             destination or C{None}.
+           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
+                                  arguments, ignored if C{B{Cartesian}=None}.
+
+           @return: Destination as a C{Cartesian}C{(x, y, z, **Cartesian_kwds)}
+                    instance or if C{B{Cartesian}=None}, an L{Ecef9Tuple}C{(x,
+                    y, z, lat, lon, height, C, M, datum)}.
+
+           @raise TypeError: Invalid B{C{delta}}, B{C{Cartesian}} or
+                             B{C{Cartesian_kwds}}.
+        '''
+        if Cartesian is None:
+            r = self._ltp._local2ecef(delta, nine=True)
+        else:
+            r = self._ltp._local2ecef(delta, nine=False)
+            r = Cartesian(*r, **_xkwds(Cartesian_kwds, datum=self.datum))
+        return _xnamed(r, self.name)
+
     @Property_RO
     def Ecef(self):
         '''Get the ECEF I{class} (L{EcefKarney}), I{lazily}.
@@ -171,6 +196,13 @@ class CartesianBase(Vector3d):
         '''Get this cartesian's (geodetic) lat-, longitude in C{degrees} with height and datum (L{LatLon4Tuple}C{(lat, lon, height, datum)}).
         '''
         return self.toEcef().latlonheightdatum
+
+    @Property_RO
+    def _ltp(self):
+        '''(INTERNAL) Cache for L{toLtp}.
+        '''
+        from pygeodesy.ltp import Ltp
+        return Ltp(self._ecef9, ecef=self.Ecef(self.datum), name=self.name)
 
     @Property_RO
     def _N_vector(self):
@@ -297,7 +329,7 @@ class CartesianBase(Vector3d):
     convertDatum = toDatum  # for backward compatibility
 
     def toEcef(self):
-        '''Convert this cartesian to geodetic (lat-/longitude) coordinates.
+        '''Convert this cartesian to I{geodetic} (lat-/longitude) coordinates.
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
                     C, M, datum)} with C{C} and C{M} if available.
@@ -335,6 +367,38 @@ class CartesianBase(Vector3d):
             kwds = _xkwds(LatLon_kwds, datum=r.datum, height=r.height)
             r = self._xnamed(LatLon(r.lat, r.lon, **kwds))
         _datum_datum(r.datum, d)
+        return r
+
+    def toLocal(self, Xyz=None, ltp=None, **Xyz_kwds):
+        '''Convert this I{geocentric} cartesian to I{local} C{X}, C{Y} and C{Z}.
+
+           @kwarg Xyz: Optional class to return C{X}, C{Y} and C{Z}
+                       (L{XyzLocal}, L{Enu}, L{Ned}) or C{None}.
+           @kwarg ltp: The I{local tangent plane} (LTP) to use,
+                       overriding this cartesian's LTP (L{Ltp}).
+           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
+                            arguments, ignored if C{B{Xyz}=None}.
+
+           @return: An B{C{Xyz}} instance or if C{B{Xyz}=None},
+                    a L{Local6Tuple}C{(x, y, z, ltp, ecef, M)}
+                    with C{M=None} always.
+
+           @raise TypeError: Invalid B{C{ltp}}.
+        '''
+        p = self._ltp if ltp is None else self._xLtp(ltp)
+        return p._ecef2local(self._ecef9, Xyz, Xyz_kwds)
+
+    def toLtp(self, Ecef=None):
+        '''Return the I{local tangent plane} (LTP) for this cartesian.
+
+           @kwarg Ecef: Optional ECEF I{class} (L{EcefKarney}, ...
+                        L{EcefYou}), overriding this cartesian's C{Ecef}.
+        '''
+        if Ecef in (None, self.Ecef):
+            r = self._ltp
+        else:
+            from pygeodesy.ltp import Ltp
+            r = Ltp(self._ecef9, ecef=Ecef(self.datum), name=self.name)
         return r
 
     def toNvector(self, Nvector=None, datum=None, **Nvector_kwds):
@@ -393,6 +457,13 @@ class CartesianBase(Vector3d):
         '''
         return self.xyz if Vector is None else self._xnamed(
                Vector(self.x, self.y, self.z, **Vector_kwds))
+
+    @Property_RO
+    def _xLtp(self):
+        '''(INTERNAL) Import and cache function C{ltp._xLtp}.
+        '''
+        from pygeodesy.ltp import _xLtp
+        return _xLtp
 
 
 __all__ += _ALL_DOCS(CartesianBase)

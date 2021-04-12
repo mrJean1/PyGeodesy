@@ -21,9 +21,6 @@ and functions I{transcribed} from I{Karney}'s original U{GeographicLib
   - L{CassiniSoldner} -- U{CassiniSoldner<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1CassiniSoldner.html>}
 
-  - L{EcefCartesian} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/html/
-    classGeographicLib_1_1LocalCartesian.html>}
-
   - L{EcefKarney} -- U{Geocentric<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1Geocentric.html>}
 
@@ -43,6 +40,9 @@ and functions I{transcribed} from I{Karney}'s original U{GeographicLib
 
   - L{GnomonicKarney} -- U{Gnomonic<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1Gnomonic.html>}
+
+  - L{LocalCartesian}, L{Ltp} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/html/
+    classGeographicLib_1_1LocalCartesian.html>}
 
   - L{Ups} -- U{PolarStereographic<https://GeographicLib.SourceForge.io/html/
     classGeographicLib_1_1PolarStereographic.html>}
@@ -89,7 +89,7 @@ from pygeodesy.utily import unroll180, wrap360
 from math import fmod
 
 __all__ = _ALL_LAZY.karney
-__version__ = '21.02.25'
+__version__ = '21.03.27'
 
 
 class _Adict(dict):

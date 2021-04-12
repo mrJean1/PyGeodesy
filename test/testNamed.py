@@ -4,7 +4,7 @@
 # Test named module.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.03.26'
 
 from base import TestsBase
 from pygeodesy import geohash, Datum, Datums, named, \
@@ -97,7 +97,7 @@ class Tests(TestsBase):
                 s = 'C{(%s%s' % (', '.join(a), _B_)
                 t = '%s-%s %s' % (len(a), _Nclass, s)
                 d = ' '.join(c.__doc__.strip().split())
-                self.test(n, t, d[:len(t)])
+                self.test(n, d[:len(t)].strip(), t)
                 # check the count
                 d = n[:-len(_Nclass)]
                 while d and not d[:1].isdigit():
@@ -226,7 +226,6 @@ if __name__ == '__main__':
 
     # find _NamedDict and _NamedTuple (sub)classes
     # defined in all pygeodesy modules
-    t.testNamedDicts()
     t.testNamedDicts()
     t.testNamedTuples()
 

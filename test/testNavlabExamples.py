@@ -9,7 +9,7 @@ those used in nvector.readthedocs.org.  Tests marked with
 # +++ are additional, not present in the original examples.
 '''
 __all__ = ()
-__version__ = '21.02.11'
+__version__ = '21.04.08'
 
 if __name__ == '__main__':
 
@@ -30,8 +30,8 @@ if __name__ == '__main__':
     a = ellipsoidalNvector.LatLon(1, 2, 3)  # defaults to WGS-84
     b = ellipsoidalNvector.LatLon(4, 5, 6)
     delta = a.deltaTo(b)
-    t.test(1, 'delta', delta, '[N:331730.863, E:332998.501, D:17398.304]')
-    t.test(1, 'delta', delta.toRepr(prec=3), '[L:470357.384, B:45.109°, E:-2.12°]')  # +++
+    t.test(1, 'delta', delta, '[331730.863, 332998.501, 17398.304]')
+    t.test(1, 'delta', delta.toRepr(prec=3), '[L:470357.384, B:45.109°, E:-2.12°]')  # DEPRECATED
     t.test(1, 'elevation', delta.elevation, -2.1198, fmt='%.4f')
     t.test(1, 'bearing', delta.bearing, 45.109, fmt='%.3f')  # 45.109°
     t.test(1, 'length', delta.length, 470357.384, fmt='%.3f')  # 470357.384 m
@@ -43,16 +43,16 @@ if __name__ == '__main__':
     t.test(2, 'LatLon', b.toStr(F_D, prec=3), '53.301°N, 063.435°E, +400.00m')
     t.test(2, 'toNvector', b.toNvector().toStr(prec=3), '(0.267, 0.535, 0.802, +400.00)')
     delta = ellipsoidalNvector.Ned(3000, 2000, 100)
-    t.test(2, 'delta', delta, '[N:3000.0, E:2000.0, D:100.0]')  # ++
-    t.test(2, 'delta', delta.toRepr(prec=3), '[L:3606.938, B:33.69°, E:-1.589°]')  # +++
+    t.test(2, 'delta', delta, '[3000.0, 2000.0, 100.0]')  # ++
+    t.test(2, 'delta', delta.toRepr(prec=3), '[L:3606.938, B:33.69°, E:-1.589°]')  # DEPRECATED
     c = b.destinationNed(delta)  # JSname: destinationPoint
     t.test(2, 'destinationNed', c.toStr(F_D), '53.327726°N, 063.464965°E, +299.138m', known=True)
 
     a = ellipsoidalNvector.LatLon(49.66618, 3.45063)  # ++
     b = ellipsoidalNvector.LatLon(48.88667, 2.37472)  # ++
     delta = a.deltaTo(b)  # ++
-    t.test(2, 'delta', delta.toStr(prec=0), '[N:-86126, E:-78900, D:1069]')  # ++
-    t.test(2, 'delta', delta.toRepr(prec=3), '[L:116807.681, B:222.493°, E:-0.524°]')  # +++
+    t.test(2, 'delta', delta.toStr(prec=0), '[-86126, -78900, 1069]')  # ++
+    t.test(2, 'delta', delta.toRepr(prec=3), '[L:116807.681, B:222.493°, E:-0.524°]')  # DEPRECATED
     c = a.destinationNed(delta)  # JSname: destinationPoint, c.height = -9.3e-10
     t.test(2, 'destinationNed', c.toStr(F_D), '48.88667°N, 002.37472°E', known=True)
 
@@ -131,12 +131,12 @@ if __name__ == '__main__':
 
 # <https://GitHub.com/chrisveness/geodesy/blob/master/latlon-nvector-ellipsoidal.js>
     d = ellipsoidalNvector.toNed(116809.178, 222.493, -0.5416)
-    TestsBase.test(t, 'toNed', d.toStr(prec=1), '[N:-86126.6, E:-78901.1, D:1104.1]')
-    TestsBase.test(t, 'bearing',   d.bearing,   '222.493',  fmt='%.3f')
-    TestsBase.test(t, 'elevation', d.elevation,  '-0.5416', fmt='%.4f')
+    TestsBase.test(t, 'toNed', d.toStr(prec=1), '[-78901.1, -86126.6, 1104.1]')  # [N:-86126.6, E:-78901.1, D:1104.1]'
+    TestsBase.test(t, 'bearing',   d.bearing, '227.507',  fmt='%.3f')  # '222.493'
+    TestsBase.test(t, 'elevation', d.elevation, '-0.5416', fmt='%.4f')
     TestsBase.test(t, 'length',    d.length, '116809.178',  fmt='%.3f')
     v = d.toVector3d()
-    TestsBase.test(t, 'toVector3d', v.toStr(prec=1), '(-86126.6, -78901.1, 1104.1)')
+    TestsBase.test(t, 'toVector3d', v.toStr(prec=1), '(-86126.6, -78901.1, -1104.1)')  # 1104.1
 
     t.results()
     t.exit()

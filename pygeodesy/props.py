@@ -288,28 +288,16 @@ def _deprecated(call, kind, qual_d):
     return _deprecated_call
 
 
-def deprecated_class(Clas):
-    '''Decorator for a DEPRECATED class.
+def deprecated_class(cls_or_class):
+    '''Use inside __new__ or __init__ of a DEPRECATED class.
 
-       @arg Clas: The class (C{class}).
+       @arg cls_or_class: The class (C{cls} or C{Class}).
 
-       @return: The B{C{Clas}} DEPRECATED.
+       @note: NOT a decorator!
     '''
     if _W_DEV:
-        doc = _docof(Clas)
-        q_d = _DOT_(Clas.__module__, Clas.__name__)
-
-        # @_wraps(Clas)  # XXX?
-        class _Deprecated_Clas(Clas):
-            __doc__ = doc
-
-            def __init__(self, *args, **kwds):  # PYCHOK no cover
-                _throwarning('class', q_d, doc)
-                Clas.__init__(self, *args, **kwds)
-
-        return _Deprecated_Clas
-    else:  # PYCHOK no cover
-        return  Clas
+        q = _DOT_(cls_or_class.__module__, cls_or_class.__name__)
+        _throwarning('class', q, cls_or_class.__doc__)
 
 
 def deprecated_function(call):

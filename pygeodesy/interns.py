@@ -83,6 +83,7 @@ _areaOf_              = 'areaOf'             # PYCHOK expected
 _ambiguous_           = 'ambiguous'          # PYCHOK expected
 # _AMPERSAND_   = _Join('&')                 # PYCHOK expected
 # _AND_               = _AMPERSAND_          # PYCHOK expected
+_and_                 = 'and'                # PYCHOK expected
 _AT_            = _Join('@')                 # PYCHOK expected
 _AtoZnoIO_    = _Slicer('ABCDEFGHJKLMNPQRSTUVWXYZ')  # PYCHOK in C{gars}, C{mgrs} and C{wgrs}
 _attribute_           = 'attribute'          # PYCHOK expected
@@ -119,10 +120,14 @@ _distanceTo_          = 'distanceTo'         # PYCHOK expected
 _distant_     = _Prefix('distant')           # PYCHOK expected
 _doesn_t_exist_       = "doesn't exist"      # PYCHOK expected
 _DOT_           = _Join('.')                 # PYCHOK expected
+_down_                = 'down'               # PYCHOK expected
 _e_                   = 'e'                  # PYCHOK expected
 _E_                   = 'E'                  # PYCHOK expected
+_east_                = 'east'               # PYCHOK expected
 _easting_             = 'easting'            # PYCHOK expected
+_ecef_                = 'ecef'               # PYCHOK expected
 _edge_                = 'edge'               # PYCHOK expected
+_elevation_           = 'elevation'          # PYCHOK expected
 _ELLIPSIS_      = _Join('...')               # PYCHOK expected
 # _ELLIPSISPACED_ = _Join(' ... ')           # PYCHOK <https://www.ThePunctuationGuide.com/ellipses.html>
 _ellipsoid_           = 'ellipsoid'          # PYCHOK expected
@@ -181,6 +186,7 @@ _linear_              = 'linear'             # PYCHOK expected
 _lon_                 = 'lon'                # PYCHOK expected
 _lon0_                = 'lon0'               # PYCHOK expected
 #_LSQUARE_            = '['                  # PYCHOK LBRACK
+_ltp_                 = 'ltp'                # PYCHOK expected
 _m_                   = 'm'                  # PYCHOK expected
 _M_                   = 'M'                  # PYCHOK expected
 _meanOf_              = 'meanOf'             # PYCHOK expected
@@ -205,6 +211,7 @@ _NL_            = _Join('\n')                # PYCHOK expected
 _NL_hash_       = _Join(_NL_ + '# ')         # PYCHOK expected
 _NL_var_        = _Join(_NL_ + '@var ')      # PYCHOK expected
 _no_          = _Prefix('no')                # PYCHOK expected
+_north_               = 'north'              # PYCHOK expected
 _northing_            = 'northing'           # PYCHOK expected
 _NorthPole_           = 'NorthPole'          # PYCHOK expected
 _not_         = _Prefix('not')               # PYCHOK expected
@@ -271,6 +278,7 @@ _too_         = _Prefix('too')               # PYCHOK expected
 _transform_           = 'transform'          # PYCHOK expected
 _UNDER_               = '_'                  # PYCHOK expected
 _units_               = 'units'              # PYCHOK expected
+_up_                  = 'up'                 # PYCHOK expected
 _UPS_                 = 'UPS'                # PYCHOK expected
 _utf_8_               = 'utf-8'              # PYCHOK expected
 _UTM_                 = 'UTM'                # PYCHOK expected
@@ -282,8 +290,8 @@ _W_                   = 'W'                  # PYCHOK expected
 _WGS72_               = 'WGS72'              # PYCHOK expected
 _WGS84_               = 'WGS84'              # PYCHOK expected
 _x_                   = 'x'                  # PYCHOK expected
-_xyz_                 = 'xyz'                # PYCHOK expected
 _X_                   = 'X'                  # PYCHOK expected
+_xyz_                 = 'xyz'                # PYCHOK expected
 _y_                   = 'y'                  # PYCHOK expected
 _z_                   = 'z'                  # PYCHOK expected
 _zone_                = 'zone'               # PYCHOK expected
@@ -422,7 +430,7 @@ __all__ = (_EPS_, 'EPS_2', _EPS0_, 'EPS1', 'EPS1_2',
            'INF', 'MANTIS', 'MAX', 'MIN',  # not 'MISSING'!
            'NAN', 'NEG0', 'NN',
            'PI', 'PI2', 'PI3', 'PI3_2', 'PI4', 'PI_2', 'PI_4')  # imported by .lazily
-__version__ = '21.04.04'
+__version__ = '21.04.10'
 
 # **) MIT License
 #

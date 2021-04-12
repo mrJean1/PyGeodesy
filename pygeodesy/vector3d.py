@@ -15,27 +15,27 @@ U{Vector-based geodesy
 '''
 
 from pygeodesy.basics import copysign, len2, map1, map2, neg, _xnumpy
-from pygeodesy.errors import _AssertionError, CrossError, IntersectionError, \
+from pygeodesy.errors import _and, _AssertionError, CrossError, IntersectionError, \
                              _TypeError, _ValueError, _xkwds_popitem
 from pygeodesy.fmath import euclid_, fdot, fsum, fsum_, hypot_, hypot2_
 from pygeodesy.formy import n_xyz2latlon, n_xyz2philam, _radical2, sincos2  # utily
 from pygeodesy.interns import EPS, EPS0, EPS1, MISSING, NN, PI, PI2, \
-                             _EPSqrt, _coincident_, _colinear_, _COMMA_, \
-                             _COMMASPACE_, _datum_, _h_, _height_, _invalid_, \
-                             _intersection_, _name_, _near_concentric_, _no_, \
-                             _SPACE_, _too_, _xyz_, _y_, _z_, _0_0, _1_0, _2_0
+                             _EPSqrt, _and_, _coincident_, _colinear_, _COMMA_, \
+                             _COMMASPACE_, _datum_, _h_, _height_, _intersection_, \
+                             _invalid_, _name_, _near_concentric_, _no_, _SPACE_, \
+                             _too_, _xyz_, _y_, _z_, _0_0, _1_0, _2_0
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import modulename, _NamedBase, _xnamed, _xother3, \
-                           _xotherError
-from pygeodesy.namedTuples import Vector3Tuple  # Vector4Tuple
+from pygeodesy.named import modulename, _NamedBase, _xnamed, \
+                           _xother3, _xotherError
+from pygeodesy.namedTuples import Vector2Tuple, Vector3Tuple  # Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_
 from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Float, Radius, Radius_, Scalar
 
-from math import atan2, sqrt
+from math import atan2, hypot, sqrt
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '21.03.29'
+__version__ = '21.04.10'
 
 _raise_ = 'raise'
 
@@ -1054,9 +1054,88 @@ def sumOf(vectors, Vector=Vector3d, **Vector_kwds):
     return _V_n(v, sumOf.__name__, Vector, Vector_kwds)
 
 
+def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3, eps=None):
+    '''Trilaterate three circles, each given as a (2d) center and a radius.
+
+       @arg x1: Center C{x} coordinate of the 1st circle (C{scalar}).
+       @arg y1: Center C{y} coordinate of the 1st circle (C{scalar}).
+       @arg radius1: Radius of the 1st circle (C{scalar}).
+       @arg x2: Center C{x} coordinate of the 2nd circle (C{scalar}).
+       @arg y2: Center C{y} coordinate of the 2nd circle (C{scalar}).
+       @arg radius2: Radius of the 2nd circle (C{scalar}).
+       @arg x3: Center C{x} coordinate of the 3rd circle (C{scalar}).
+       @arg y3: Center C{y} coordinate of the 3rd circle (C{scalar}).
+       @arg radius3: Radius of the 3rd circle (C{scalar}).
+       @kwarg eps: Check the trilaterated point I{delta} on all 3
+                   circles (C{scalar}) or C{None}.
+
+       @return: Trilaterated point as L{Vector2Tuple}C{(x, y)}.
+
+       @raise IntersectionError: No intersection, colinear or near-concentric
+                                 centers, trilateration failed some other way
+                                 or the trilaterated point is off one circle
+                                 by more than B{C{eps}}.
+
+       @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{radius3}}.
+
+       @see: U{Issue #49<https://GitHub.com/mrJean1/PyGeodesy/issues/49>},
+             U{Find X location using 3 known (X,Y) location using trilateration
+             <https://math.StackExchange.com/questions/884807>} and
+             L{trilaterate3d2}
+    '''
+    def _abct4(x1, y1, r1, x2, y2, r2):
+        a =  x2 - x1
+        b =  y2 - y1
+        t = _tri_r2h(r1, r2, hypot(a, b))
+        c = _0_0 if t else (hypot2_(r1, x2, y2) - hypot2_(r2, x1, y1))
+        return a, b, c, t
+
+    def _astr(**kwds):  # kwds as (name=value, ...) strings
+        return Fmt.PAREN(_COMMASPACE_(*(Fmt.EQUAL(*t) for t in kwds.items())))
+
+    r1 = Radius_(radius1=radius1)
+    r2 = Radius_(radius2=radius2)
+    r3 = Radius_(radius3=radius3)
+
+    a, b, c, t = _abct4(x1, y1, r1, x2, y2, r2)
+    if t:
+        raise IntersectionError(_and(_astr(x1=x1, y1=y1, radius1=r1),
+                                     _astr(x2=x2, y2=y2, radius2=r2)), txt=t)
+
+    d, e, f, t = _abct4(x2, y2, r2, x3, y3, r3)
+    if t:
+        raise IntersectionError(_and(_astr(x2=x2, y2=y2, radius2=r2),
+                                     _astr(x3=x3, y3=y3, radius3=r3)), txt=t)
+
+    _, _, _, t = _abct4(x3, y3, r3, x1, y1, r1)
+    if t:
+        raise IntersectionError(_and(_astr(x3=x3, y3=y3, radius3=r3),
+                                     _astr(x1=x1, y1=y1, radius1=r1)), txt=t)
+
+    q = _2_0 * (e * a - b * d)
+    if abs(q) < EPS0:
+        t = _no_(_intersection_)
+        raise IntersectionError(_and(_astr(x1=x1, y1=y1, radius1=r1),
+                                     _astr(x2=x2, y2=y2, radius2=r2),
+                                     _astr(x3=x3, y3=y3, radius3=r3)), txt=t)
+    t = Vector2Tuple((c * e - b * f) / q,
+                     (a * f - c * d) / q, name=trilaterate2d2.__name__)
+
+    if eps and eps > _0_0:
+        for x, y, r in ((x1, y1, r1), (x2, y2, r2), (x3, y3, r3)):
+            d = hypot(x - t.x, y - t.y)
+            e = abs(d - r)
+            if e > eps:
+                t = _and(Float(delta=e).toRepr(), r.toRepr(),
+                         Float(distance=d).toRepr())
+                raise IntersectionError(t, txt=Fmt.exceeds_eps(eps))
+
+    return t
+
+
 def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                                      eps=EPS, Vector=None, **Vector_kwds):
-    '''Trilaterate three spheres, each given as a (3d) center point and a radius.
+    '''Trilaterate three spheres, each given as a (3d) center and a radius.
 
        @arg center1: Center of the 1st sphere (L{Vector3d}, C{Vector3Tuple}
                      or C{Vector4Tuple}).
@@ -1083,7 +1162,7 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
        @raise ImportError: Package C{numpy} not found, not installed or
                            older than version 1.15.
 
-       @raise IntersectionError: No intersection, colinear or concentric
+       @raise IntersectionError: No intersection, colinear or near-concentric
                                  centers or trilateration failed some other way.
 
        @raise TypeError: Invalid B{C{center1}}, B{C{center2}} or B{C{center3}}.
@@ -1097,7 +1176,7 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
              Problem}<https://www.ResearchGate.net/publication/
              275027725_An_Algebraic_Solution_to_the_Multilateration_Problem>}
              and U{I{implementation}<https://www.ResearchGate.net/publication/
-             288825016_Trilateration_Matlab_Code>}.
+             288825016_Trilateration_Matlab_Code>} and L{trilaterate2d2}.
     '''
     try:
         return _trilaterate3d2(_otherV3d(center1=center1),
@@ -1197,15 +1276,8 @@ def _trilaterror(c1, r1, c2, r2, c3, r3, eps):
     # return FloatingPointError with the cause of the error
 
     def _txt(c1, r1, c2, r2):
-        # check for concentric or too distant spheres
-        d = c1.minus(c2).length
-        if d < abs(r1 - r2):
-            t = _near_concentric_
-        elif d > (r1 + r2):
-            t = _too_(Fmt.distant(d))
-        else:
-            return NN
-        return _SPACE_(c1.name, 'and', c2.name, t)
+        t = _tri_r2h(r1, r2, c1.minus(c2).length)
+        return _SPACE_(c1.name, _and_, c2.name, t) if t else t
 
     t = _txt(c1, r1, c2, r2) or \
         _txt(c1, r1, c3, r3) or \
@@ -1213,6 +1285,12 @@ def _trilaterror(c1, r1, c2, r2, c3, r3, eps):
         _iscolinearWith(c1, c2, c3, eps=eps) else
         _no_(_intersection_))
     return FloatingPointError(t)
+
+
+def _tri_r2h(r1, r2, h):
+    # check for near-concentric or too distant spheres/circles
+    return _too_(Fmt.distant(h)) if h > (r1 + r2) else (
+           _near_concentric_ if h < abs(r1 - r2) else NN)
 
 
 def _V3d(v3d):

@@ -19,15 +19,15 @@ C{"/Applications/Python X.Y/Install Certificates.command"}
 
 from pygeodesy.basics import clips, ub2str
 from pygeodesy.errors import ParseError, _xkwds_get
-from pygeodesy.interns import NN, _COLONSPACE_, _height_, \
-                             _n_a_, _no_, _SPACE_
+from pygeodesy.interns import NN, _COLONSPACE_, _elevation_, \
+                             _height_, _n_a_, _no_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.streprs import Fmt, fstr
 from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '20.11.06'
+__version__ = '21.03.21'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -127,7 +127,7 @@ def _xml(tag, xml):
 class Elevation2Tuple(_NamedTuple):  # .elevations.py
     '''2-Tuple C{(elevation, data_source)} in C{meter} and C{str}.
     '''
-    _Names_ = ('elevation', 'data_source')
+    _Names_ = (_elevation_, 'data_source')
     _Units_ = ( Meter,       Str)
 
 

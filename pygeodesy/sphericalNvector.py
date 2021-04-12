@@ -213,7 +213,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
            @return: Destination point (L{LatLon}).
 
-           @raise Valuerror: Polar coincidence ior invalid B{C{distance}},
+           @raise Valuerror: Polar coincidence or invalid B{C{distance}},
                              B{C{bearing}}, B{C{radius}} or B{C{height}}.
 
            @example:

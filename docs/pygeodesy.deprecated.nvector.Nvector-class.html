@@ -76,7 +76,7 @@
 </pre>
 
 <hr />
-<p>DEPRECATED, use class <a 
+<p>DEPRECATED, see class <a 
   href="pygeodesy.nvectorBase.NvectorBase-class.html" 
   class="link">NvectorBase</a>.</p>
 
@@ -88,10 +88,33 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.deprecated.nvector.Nvector-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">h</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">ll</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
+      New n-vector normal to the earth's surface.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html">nvectorBase.NvectorBase</a></code></b>:
-      <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#__init__">__init__</a></code>,
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#hStr">hStr</a></code>,
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#to2ab">to2ab</a></code>,
       <code><a href="pygeodesy.nvectorBase.NvectorBase-class.html#to2ll">to2ll</a></code>,
@@ -227,6 +250,75 @@
     </td>
   </tr>
 </table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">h</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">ll</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">''</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New n-vector normal to the earth's surface.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - An <code>Nvector</code>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a>, <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a> or the <code>X</code> coordinate 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - The <code>Y</code> coordinate (<code>scalar</code>) if 
+          <b><code>x</code></b> <code>scalar</code>.</li>
+        <li><strong class="pname"><code>z</code></strong> - The <code>Z</code> coordinate (<code>scalar</code>) if 
+          <b><code>x</code></b> <code>scalar</code>.</li>
+        <li><strong class="pname"><code>h</code></strong> - Optional height above surface (<code>meter</code>).</li>
+        <li><strong class="pname"><code>ll</code></strong> - Optional, original latlon (<code>LatLon</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional, <i>pass-thru</i> datum (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>x</code></b>, <b><code>y</code></b> or 
+        <b><code>z</code></b> coordinate or <b><code>x</code></b> not an 
+        <code>Nvector</code>, <a 
+        href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+        class="link">Vector3Tuple</a> or <a 
+        href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+        class="link">Vector4Tuple</a> or invalid <b><code>datum</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -258,7 +350,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  6 15:00:23 2021
+    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:43 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

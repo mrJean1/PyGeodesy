@@ -380,7 +380,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        21.04.04
+        21.04.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -469,15 +469,11 @@
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format bearing, compass, lat- and longitudes
         in various forms of degrees, minutes and seconds.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary">Geocentric conversions transcribed from <i>Charles Karney</i>'s C++
-        classes <a 
+        class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
-        target="_top">Geocentric</a> and <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
-        target="_top">LocalCartesian</a> into pure Python classes <a 
+        target="_top">Geocentric</a> into pure Python class <a 
         href="pygeodesy.ecef.EcefKarney-class.html" 
-        class="link">EcefKarney</a> respectively <a 
-        href="pygeodesy.ecef.EcefCartesian-class.html" 
-        class="link">EcefCartesian</a>, class <a 
+        class="link">EcefKarney</a>, class <a 
         href="pygeodesy.ecef.EcefSudano-class.html" 
         class="link">EcefSudano</a> based on <i>John Sudano</i>'s <a 
         href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
@@ -486,11 +482,17 @@
         class="link">EcefVeness</a> transcribed from <i>Chris Veness</i>' 
         JavaScript classes <a 
         href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
-        target="_top">LatLonEllipsoidal, Cartesian</a> and class <a 
+        target="_top">LatLonEllipsoidal, Cartesian</a>, class <a 
         href="pygeodesy.ecef.EcefYou-class.html" class="link">EcefYou</a> 
         implementing <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
-        target="_top">transformations</a>.</em>    </li>
+        target="_top">transformations</a> and classes <a 
+        href="pygeodesy.ecef.EcefFarrell22-class.html" 
+        class="link">EcefFarrell22</a> and <a 
+        href="pygeodesy.ecef.EcefFarrell22-class.html" 
+        class="link">EcefFarrell22</a> from <i>Jay A. Farrell</i>'s <a 
+        href="https://Books.Google.com/books?id=fW4foWASY6wC" 
+        target="_top">Table 2.1 and 2.2</a>, page 29-30.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Functions to obtain elevations and geoid heights thru web services,
         for (lat, lon) locations, currently limited to the <a 
         href="https://WikiPedia.org/wiki/Contiguous_United_States" 
@@ -747,6 +749,32 @@
         href="pygeodesy.lcc.LCCError-class.html" class="link">LCCError</a> 
         and position class <a href="pygeodesy.lcc.Lcc-class.html" 
         class="link">Lcc</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltp-module.html">pygeodesy.ltp</a></strong>: <em class="summary"><i>Local cartesian</i> and <i>local tangent plane</i> classes <a 
+        href="pygeodesy.ltp.LocalCartesian-class.html" 
+        class="link">LocalCartesian</a> and <a 
+        href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>, <a 
+        href="pygeodesy.ltp.LocalError-class.html" 
+        class="link">LocalError</a> and <a 
+        href="pygeodesy.ltp.Frustum-class.html" class="link">Frustum</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples-module.html">pygeodesy.ltpTuples</a></strong>: <em class="summary">Local coordinate classes <a 
+        href="pygeodesy.ltpTuples.XyzLocal-class.html" 
+        class="link">XyzLocal</a>, <a 
+        href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, <a 
+        href="pygeodesy.ltpTuples.Ned-class.html" class="link">Ned</a> and 
+        <a href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a> 
+        and local coordinate tuples <a 
+        href="pygeodesy.ltpTuples.Local6Tuple-class.html" 
+        class="link">Local6Tuple</a>, <a 
+        href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
+        class="link">Xyz4Tuple</a>, <a 
+        href="pygeodesy.ltpTuples.Enu4Tuple-class.html" 
+        class="link">Enu4Tuple</a>, <a 
+        href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
+        class="link">Ned4Tuple</a>, <a 
+        href="pygeodesy.ltpTuples.Aer4Tuple-class.html" 
+        class="link">Aer4Tuple</a> and <a 
+        href="pygeodesy.ltpTuples.Footprint5Tuple-class.html" 
+        class="link">Footprint5Tuple</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) classes <a 
         href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a> and <a 
         href="pygeodesy.mgrs.MGRSError-class.html" 
@@ -935,8 +963,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipsoidalNvector.Ned3Tuple-class.html" class="summary-name">Ned3Tuple</a><br />
-      3-Tuple <code>(north, east, down)</code>, all in 
-        <code>degrees</code>.
+      3-Tuple <code>(north, east, down)</code>.
     </td>
   </tr>
 <tr>
@@ -1040,6 +1067,24 @@
       World Geographic Reference System (WGRS) encode, decode or other <a
         href="pygeodesy.wgrs.Georef-class.html" class="link">Georef</a> 
         issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Aer-class.html" class="summary-name">Aer</a><br />
+      Local <code>Azimuth-Elevation-Range</code> (AER) in a <i>local 
+        tangent plane</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Aer4Tuple-class.html" class="summary-name">Aer4Tuple</a><br />
+      4-Tuple <code>(azimuth, elevation, slantrange, ltp)</code>, all in 
+        <code>meter</code> except <code>ltp</code>.
     </td>
   </tr>
 <tr>
@@ -1285,9 +1330,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.ClipCS3Tuple-class.html" class="summary-name">ClipCS3Tuple</a><br />
-      3-Tuple <code>(start, end, index)</code> DEPRECATED, see function 
-        <a href="pygeodesy.deprecated-module.html#clipCS3" 
-        class="link">clipCS3</a>.
+      3-Tuple <code>(start, end, index)</code>.
     </td>
   </tr>
 <tr>
@@ -1558,14 +1601,15 @@
     </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html" class="summary-name">Ecef9Tuple</a><br />
       9-Tuple <code>(x, y, z, lat, lon, height, C, M, datum)</code> with 
-        geocentric coordinates <code>x</code>, <code>y</code> and 
-        <code>z</code>, geodetic coordinates <code>lat</code>, 
-        <code>lon</code> and <a href=pygeodesy.heights-module.html><code>height</code></a>, case <code>C</code> (see 
-        the <code>Ecef*.reverse</code> methods) and optionally, the <a 
+        <i>geocentric</i> <code>x</code>, <code>y</code> and <code>z</code>
+        plus <i>geodetic</i> <code>lat</code>, <code>lon</code> and 
+        <a href=pygeodesy.heights-module.html><code>height</code></a>, case <code>C</code> (see the 
+        <code>Ecef*.reverse</code> methods) and optionally, the rotation 
+        matrix <code>M</code> (<a 
         href="pygeodesy.ecef.EcefMatrix-class.html" 
-        class="link">EcefMatrix</a> <code>M</code> and <code>datum</code>, 
-        with <code>lat</code> and <code>lon</code> in <code>degrees</code> 
-        and <code>x</code>, <code>y</code>, <code>z</code> and 
+        class="link">EcefMatrix</a>) and <code>datum</code>, with 
+        <code>lat</code> and <code>lon</code> in <code>degrees</code> and 
+        <code>x</code>, <code>y</code>, <code>z</code> and 
         <a href=pygeodesy.heights-module.html><code>height</code></a> in <code>meter</code>, conventionally.
     </td>
   </tr>
@@ -1573,13 +1617,10 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ecef.EcefCartesian-class.html" class="summary-name">EcefCartesian</a><br />
-      Conversion between geodetic <code>(lat, lon, height)</code> and 
-        local cartesian <code>(x, y, z)</code> coordinates with a local 
-        cartesian origin at <code>(lat0, lon0, height0)</code>, transcribed
-        from <i>Karney</i>'s C++ class <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
-        target="_top">LocalCartesian</a>.
+        <a href="pygeodesy.deprecated.EcefCartesian-class.html" class="summary-name">EcefCartesian</a><br />
+      DEPRECATED, use class <a 
+        href="pygeodesy.ltp.LocalCartesian-class.html" 
+        class="link">LocalCartesian</a>.
     </td>
   </tr>
 <tr>
@@ -1588,6 +1629,28 @@
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefError-class.html" class="summary-name">EcefError</a><br />
       An ECEF or <code>Ecef*</code> related issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefFarrell21-class.html" class="summary-name">EcefFarrell21</a><br />
+      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
+        <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
+        target="_top">Table 2.1</a>, page 29.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefFarrell22-class.html" class="summary-name">EcefFarrell22</a><br />
+      Conversion between geodetic and geocentric, aka <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
+        <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
+        target="_top">Table 2.2</a>, page 30.
     </td>
   </tr>
 <tr>
@@ -1704,6 +1767,24 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Enu-class.html" class="summary-name">Enu</a><br />
+      Local <code>Eeast-North-Up</code> (ENU) location in a <i>local 
+        tangent plane</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Enu4Tuple-class.html" class="summary-name">Enu4Tuple</a><br />
+      4-Tuple <code>(east, north, up, ltp)</code>, in <code>meter</code> 
+        except <code>ltp</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.units.Epoch-class.html" class="summary-name">Epoch</a><br />
       Named <code>epoch</code> with optional <code>low</code> and 
         <code>high</code> limits representing a fractional calendar year.
@@ -1809,6 +1890,18 @@
         <a href="pygeodesy.units.Float_-class.html" class="summary-name">Float_</a><br />
       Named <code>float</code> with optional <code>low</code> and 
         <code>high</code> limit.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Footprint5Tuple-class.html" class="summary-name">Footprint5Tuple</a><br />
+      5-Tuple <code>(center, upperleft, upperight, loweright, 
+        lowerleft)</code> with the <code>center</code> and 4 corners of a 
+        <i>local</i> projection of a <code>Frustum</code>, each an <a 
+        href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
+        class="link">Xyz4Tuple</a>.
     </td>
   </tr>
 <tr>
@@ -2024,6 +2117,15 @@
         <i>angular</i> distance in <code>radians</code> from function <a 
         href="pygeodesy.formy-module.html#vincentys_" 
         class="link">vincentys_</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.Frustum-class.html" class="summary-name">Frustum</a><br />
+      A rectangular pyramid, typically representing a camera's field of 
+        view (fov) and projections or intersections thereof.
     </td>
   </tr>
 <tr>
@@ -2857,6 +2959,47 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Local6Tuple-class.html" class="summary-name">Local6Tuple</a><br />
+      6-Tuple <code>(x, y, z, ltp, ecef, M)</code> with <i>local</i> 
+        <code>x</code>, <code>y</code> and <code>z</code> all in 
+        <code>meter</code>, <i>local tangent plane</i> <code>ltp</code> (<a
+        href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
+        <code>ecef</code> (<a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+        class="link">Ecef9Tuple</a>) with both the <i>geocentric</i> and 
+        <i>geodectic</i> coordinates and optionally, the concatenated 
+        rotation matrix <code>M</code> (<a 
+        href="pygeodesy.ecef.EcefMatrix-class.html" 
+        class="link">EcefMatrix</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.LocalCartesian-class.html" class="summary-name">LocalCartesian</a><br />
+      Conversion between geodetic <code>(lat, lon, height)</code> and 
+        <i>local cartesian</i> <code>(x, y, z)</code> coordinates with 
+        geodetic origin <code>(lat0, lon0, height0)</code>, transcribed 
+        from <i>Karney</i>'s C++ class <a 
+        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
+        target="_top">LocalCartesian</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.LocalError-class.html" class="summary-name">LocalError</a><br />
+      A <a href="pygeodesy.ltp.LocalCartesian-class.html" 
+        class="link">LocalCartesian</a> or <a 
+        href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a> related 
+        issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.units.Lon-class.html" class="summary-name">Lon</a><br />
       Named <code>float</code> representing a longitude in 
         <code>degrees</code>.
@@ -2870,6 +3013,16 @@
       Named <code>float</code> representing a longitude in 
         <code>degrees</code> within limits <code>low</code> and 
         <code>high</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltp.Ltp-class.html" class="summary-name">Ltp</a><br />
+      A <i>local tangent plan</i> LTP, a sub-class of 
+        <code>LocalCartesian</code> with configurable <code>Ecef</code> and
+        without optional rotation matrix.
     </td>
   </tr>
 <tr>
@@ -2906,6 +3059,15 @@
         <a href="pygeodesy.units.Meter3-class.html" class="summary-name">Meter3</a><br />
       Named <code>float</code> representing a volume in <code>meter 
         cubed</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.units.Meter_-class.html" class="summary-name">Meter_</a><br />
+      Named <code>float</code> representing a distance or length in 
+        <code>meter</code>.
     </td>
   </tr>
 <tr>
@@ -2963,6 +3125,24 @@
         <a href="pygeodesy.points.NearestOn5Tuple-class.html" class="summary-name">NearestOn5Tuple</a><br />
       5-Tuple <code>(lat, lon, distance, angle, height)</code> all in 
         <code>degrees</code>, except <a href=pygeodesy.heights-module.html><code>height</code></a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Ned-class.html" class="summary-name">Ned</a><br />
+      Local <code>North-Eeast-Down</code> (NED) location in a <i>local 
+        tangent plane</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Ned4Tuple-class.html" class="summary-name">Ned4Tuple</a><br />
+      4-Tuple <code>(north, east, down, ltp)</code>, all in 
+        <code>meter</code> except <code>ltp</code>.
     </td>
   </tr>
 <tr>
@@ -3500,6 +3680,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.namedTuples.Vector2Tuple-class.html" class="summary-name">Vector2Tuple</a><br />
+      2-Tuple <code>(x, y)</code> of (geocentric) components, both in 
+        <code>meter</code> or <code>units</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" class="summary-name">Vector3Tuple</a><br />
       3-Tuple <code>(x, y, z)</code> of (geocentric) components, all in 
         <code>meter</code> or <code>units</code>.
@@ -3547,6 +3736,27 @@
     </td><td class="summary">
         <a href="pygeodesy.webmercator.Wm-class.html" class="summary-name">Wm</a><br />
       Web Mercator (WM) coordinate.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" class="summary-name">Xyz4Tuple</a><br />
+      4-Tuple <code>(x, y, z, ltp)</code>, all in <code>meter</code> 
+        except <code>ltp</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ltpTuples.XyzLocal-class.html" class="summary-name">XyzLocal</a><br />
+      Local <code>(x, y, z)</code> in a <i>local tangent plane</i> (LTP) 
+        and base class for local <a 
+        href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, <a 
+        href="pygeodesy.ltpTuples.Ned-class.html" class="link">Ned</a> and 
+        <a href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a>.
     </td>
   </tr>
 <tr>
@@ -5006,8 +5216,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#deprecated_class" class="summary-sig-name">deprecated_class</a>(<span class="summary-sig-arg">Clas</span>)</span><br />
-      Decorator for a DEPRECATED class.</td>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#deprecated_class" class="summary-sig-name">deprecated_class</a>(<span class="summary-sig-arg">cls_or_class</span>)</span><br />
+      Use inside __new__ or __init__ of a DEPRECATED class.</td>
           <td align="right" valign="top">
             
             
@@ -5715,6 +5925,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#facos1" class="summary-sig-name">facos1</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Fast approximation of <a href="pygeodesy.utily-module.html#acos1" 
+      class="link">acos1</a><code>(<b>x</b>)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#false2f" class="summary-sig-name">false2f</a>(<span class="summary-sig-arg">value</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">value</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">false</span>=<span class="summary-sig-default">True</span>,
@@ -5743,6 +5971,77 @@
       DEPRECATED, use class <a href="pygeodesy.units.Easting-class.html" 
       class="link">Easting</a> or <a 
       href="pygeodesy.units.Northing-class.html" class="link">Northing</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fasin1" class="summary-sig-name">fasin1</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Fast approximation of <a href="pygeodesy.utily-module.html#asin1" 
+      class="link">asin1</a><code>(<b>x</b>)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="fatan"></a><span class="summary-sig-name">fatan</span>(<span class="summary-sig-arg">x</span>)</span><br />
+      Fast approximation of <code>atan(<b>x</b>)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fatan1" class="summary-sig-name">fatan1</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Fast approximation of <code>atan(<b>x</b>)</code> for <code>0 &lt;= 
+      <b>x</b> &lt;= 1</code>, <i>unchecked</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fatan2" class="summary-sig-name">fatan2</a>(<span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">x</span>)</span><br />
+      Fast approximation of <code>atan2(<b>y</b>, <b>x</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -6399,7 +6698,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fda596de5d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9496715550&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff distance</a> between 2 sets of points with or
@@ -7192,8 +7491,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#issubclassof" class="summary-sig-name">issubclassof</a>(<span class="summary-sig-arg">Sub</span>,
-        <span class="summary-sig-arg">Super</span>)</span><br />
-      Check whether a class is a sub-class of a super class.</td>
+        <span class="summary-sig-arg">*Supers</span>)</span><br />
+      Check whether a class is a sub-class of some class(es).</td>
           <td align="right" valign="top">
             
             
@@ -9163,6 +9462,32 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#trilaterate2d2" class="summary-sig-name">trilaterate2d2</a>(<span class="summary-sig-arg">x1</span>,
+        <span class="summary-sig-arg">y1</span>,
+        <span class="summary-sig-arg">radius1</span>,
+        <span class="summary-sig-arg">x2</span>,
+        <span class="summary-sig-arg">y2</span>,
+        <span class="summary-sig-arg">radius2</span>,
+        <span class="summary-sig-arg">x3</span>,
+        <span class="summary-sig-arg">y3</span>,
+        <span class="summary-sig-arg">radius3</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Trilaterate three circles, each given as a (2d) center and a radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#trilaterate3d2" class="summary-sig-name">trilaterate3d2</a>(<span class="summary-sig-arg">center1</span>,
         <span class="summary-sig-arg">radius1</span>,
         <span class="summary-sig-arg">center2</span>,
@@ -9172,8 +9497,7 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.22044604925e-16</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Trilaterate three spheres, each given as a (3d) center point and a 
-      radius.</td>
+      Trilaterate three spheres, each given as a (3d) center and a radius.</td>
           <td align="right" valign="top">
             
             
@@ -9586,7 +9910,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.4.4'"><code class="variable-quote">'</code><code class="variable-string">21.4.4</code><code class="variable-quote">'</code></code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'21.4.12'"><code class="variable-quote">'</code><code class="variable-string">21.4.12</code><code class="variable-quote">'</code></code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -12930,23 +13254,24 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">deprecated_class</span>&nbsp;(<span class="sig-arg">Clas</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">deprecated_class</span>&nbsp;(<span class="sig-arg">cls_or_class</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Decorator for a DEPRECATED class.</p>
+  <p>Use inside __new__ or __init__ of a DEPRECATED class.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Clas</code></strong> - The class (<code>class</code>).</li>
+        <li><strong class="pname"><code>cls_or_class</code></strong> - The class (<code>cls</code> or <code>Class</code>).</li>
     </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The <b><code>Clas</code></b> DEPRECATED.</dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        NOT a decorator!
+      </p>
+</div></td></tr></table>
 </div>
 <a name="deprecated_function"></a>
 <div>
@@ -14365,6 +14690,31 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="facos1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">facos1</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Fast approximation of <a href="pygeodesy.utily-module.html#acos1" 
+  class="link">acos1</a><code>(<b>x</b>)</code>.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://GitHub.com/michaldrobot/ShaderFastLibs/blob/master/ShaderFastMathLib.h"
+        target="_top">ShaderFastLibs.h</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="false2f"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -14433,6 +14783,84 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="fasin1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fasin1</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Fast approximation of <a href="pygeodesy.utily-module.html#asin1" 
+  class="link">asin1</a><code>(<b>x</b>)</code>.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="pygeodesy.fmath-module.html#facos1" 
+        class="link">facos1</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fatan1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fatan1</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Fast approximation of <code>atan(<b>x</b>)</code> for <code>0 &lt;= 
+  <b>x</b> &lt;= 1</code>, <i>unchecked</i>.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://GitHub.com/michaldrobot/ShaderFastLibs/blob/master/ShaderFastMathLib.h"
+        target="_top">ShaderFastLibs.h</a> and <a 
+        href="http://www-Labs.IRO.UMontreal.CA/~mignotte/IFT2425/Documents/EfficientApproximationArctgFunction.pdf"
+        target="_top">Efficient approximations for the arctangent 
+        function</a>, IEEE Signal Processing Magazine, 111, May 2006.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="fatan2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fatan2</span>&nbsp;(<span class="sig-arg">y</span>,
+        <span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Fast approximation of <code>atan2(<b>y</b>, <b>x</b>)</code>.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a 
+        href="https://GitHub.com/CesiumGS/cesium/blob/master/Source/Shaders/Builtin/Functions/fastApproximateAtan.glsl"
+        target="_top">fastApproximateAtan(x, y)</a> and <a 
+        href="pygeodesy.fmath-module.html#fatan1" class="link">fatan1</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="fathom2m"></a>
 <div>
@@ -15749,7 +16177,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fda596de5d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9496715550&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -17202,23 +17630,23 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">issubclassof</span>&nbsp;(<span class="sig-arg">Sub</span>,
-        <span class="sig-arg">Super</span>)</span>
+        <span class="sig-arg">*Supers</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Check whether a class is a sub-class of a super class.</p>
+  <p>Check whether a class is a sub-class of some class(es).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>Sub</code></strong> - The sub-class (<code>class</code>).</li>
-        <li><strong class="pname"><code>Super</code></strong> - The super class (<code>class</code>).</li>
+        <li><strong class="pname"><code>Supers</code></strong> - One or more C(super) classes (<code>class</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <b><code>Sub</code></b> is a sub-class of 
-          <b><code>Super</code></b>, <code>False</code> otherwise 
+          any <b><code>Supers</code></b>, <code>False</code> otherwise 
           (<code>bool</code>).</dd>
   </dl>
 </td></tr></table>
@@ -21432,6 +21860,76 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
       </p>
 </div></td></tr></table>
 </div>
+<a name="trilaterate2d2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">trilaterate2d2</span>&nbsp;(<span class="sig-arg">x1</span>,
+        <span class="sig-arg">y1</span>,
+        <span class="sig-arg">radius1</span>,
+        <span class="sig-arg">x2</span>,
+        <span class="sig-arg">y2</span>,
+        <span class="sig-arg">radius2</span>,
+        <span class="sig-arg">x3</span>,
+        <span class="sig-arg">y3</span>,
+        <span class="sig-arg">radius3</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Trilaterate three circles, each given as a (2d) center and a 
+  radius.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x1</code></strong> - Center <code>x</code> coordinate of the 1st circle 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y1</code></strong> - Center <code>y</code> coordinate of the 1st circle 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>radius1</code></strong> - Radius of the 1st circle (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x2</code></strong> - Center <code>x</code> coordinate of the 2nd circle 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y2</code></strong> - Center <code>y</code> coordinate of the 2nd circle 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>radius2</code></strong> - Radius of the 2nd circle (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x3</code></strong> - Center <code>x</code> coordinate of the 3rd circle 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>y3</code></strong> - Center <code>y</code> coordinate of the 3rd circle 
+          (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>radius3</code></strong> - Radius of the 3rd circle (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Check the trilaterated point <i>delta</i> on all 3 circles 
+          (<code>scalar</code>) or <code>None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Trilaterated point as <a 
+          href="pygeodesy.namedTuples.Vector2Tuple-class.html" 
+          class="link">Vector2Tuple</a><code>(x, y)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, colinear or near-concentric centers, trilateration
+        failed some other way or the trilaterated point is off one circle 
+        by more than <b><code>eps</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
+        <b><code>radius3</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://GitHub.com/mrJean1/PyGeodesy/issues/49" 
+        target="_top">Issue #49</a>, <a 
+        href="https://math.StackExchange.com/questions/884807" 
+        target="_top">Find X location using 3 known (X,Y) location using 
+        trilateration</a> and <a 
+        href="pygeodesy.vector3d-module.html#trilaterate3d2" 
+        class="link">trilaterate3d2</a>
+      </p>
+</div></td></tr></table>
+</div>
 <a name="trilaterate3d2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -21454,7 +21952,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     </td>
   </tr></table>
   
-  <p>Trilaterate three spheres, each given as a (3d) center point and a 
+  <p>Trilaterate three spheres, each given as a (3d) center and a 
   radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -21496,8 +21994,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> not found, not installed or older than 
         version 1.15.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, colinear or concentric centers or trilateration 
-        failed some other way.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - No intersection, colinear or near-concentric centers or 
+        trilateration failed some other way.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>center1</code></b>, <b><code>center2</code></b> or
         <b><code>center3</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>radius1</code></b>, <b><code>radius2</code></b> or
@@ -21514,7 +22012,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0\
         target="_top"><i>An Algebraic Solution to the Multilateration 
         Problem</i></a> and <a 
         href="https://www.ResearchGate.net/publication/288825016_Trilateration_Matlab_Code"
-        target="_top"><i>implementation</i></a>.
+        target="_top"><i>implementation</i></a> and <a 
+        href="pygeodesy.vector3d-module.html#trilaterate2d2" 
+        class="link">trilaterate2d2</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -22383,7 +22883,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0, ty=0, tz=0, rx=0, ry=0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  6 15:00:22 2021
+    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:41 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

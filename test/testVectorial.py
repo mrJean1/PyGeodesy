@@ -4,12 +4,13 @@
 # Test module attributes.
 
 __all__ = ('Tests',)
-__version__ = '21.03.30'
+__version__ = '21.04.08'
 
-from base import coverage, numpy_version, TestsBase
+from base import coverage, isPyPy, isPython2, numpy_version, TestsBase
 
-from pygeodesy import F_D, fstr, IntersectionError, NEG0, \
-                      sphericalNvector, vector3d, VectorError
+from pygeodesy import EPS, F_D, fstr, IntersectionError, NEG0, \
+                      sphericalNvector, trilaterate2d2, \
+                      vector3d, VectorError
 from pygeodesy.interns import _DOT_  # INTERNAL
 
 
@@ -337,6 +338,23 @@ class Tests(TestsBase):
         except ImportError as x:
             self.skip(str(x), n=14)
 
+    def testTrilaterate2d2(self):
+
+        self.subtitle(vector3d, trilaterate2d2.__name__.capitalize())
+        # courtesy MartinManganiello <https://GitHub.com/mrJean1/PyGeodesy/issues/49>
+        t = trilaterate2d2(2, 2, 1, 3, 3, 1, 1, 4, 1.4142)
+        self.test(trilaterate2d2.__name__, t.toStr(prec=1), '(2.0, 3.0)')  # XXX ?
+        try:
+            t = trilaterate2d2(2, 2, 1, 3, 3, 1, 1, 4, 1.4142, eps=EPS)
+            self.test(trilaterate2d2.__name__, t.toStr(prec=1), IntersectionError.__name__)
+        except ValueError as x:
+            self.test(trilaterate2d2.__name__, str(x), str(x))
+
+        t = trilaterate2d2(-500, -200, 450,
+                            100, -100, 694.6221994724903,
+                            500,  100, 1011.1874208078342)
+        self.test(trilaterate2d2.__name__, t.toStr(prec=1), '(-500.0, 250.0)')
+
     def testTrilaterate3d2(self, Vector):
 
         try:  # need numpy
@@ -359,8 +377,8 @@ class Tests(TestsBase):
             # by default, perturbation at EPS and qsrt(EPS)
             t = trilaterate3d2(c1, r1, c2, r2, c3, r3)  # eps=EPS
             self.test(n, len(t), 2)
-            self.test(t[0].named3, fstr(t[0].xyz, prec=5), '-500.0, 250.0, -0.00535')
-            self.test(t[1].named3, fstr(t[1].xyz, prec=5), '-500.0, 250.0, 0.00535')
+            self.test(t[0].named3, fstr(t[0].xyz, prec=5), '-500.0, 250.0, -0.00535', known=isPyPy and isPython2)  # -0.00531
+            self.test(t[1].named3, fstr(t[1].xyz, prec=5), '-500.0, 250.0, 0.00535',  known=isPyPy and isPython2)  # 0.00531
 
         except ImportError as x:
             self.skip(str(x), n=4)
@@ -389,6 +407,7 @@ if __name__ == '__main__':
     t.testTrilaterate3d(nvectorBase,           nvectorBase.NvectorBase)
     t.testTrilaterate3d(vector3d,              vector3d.Vector3d)
 
+    t.testTrilaterate2d2()
     t.testTrilaterate3d2(vector3d.Vector3d)
 
     t.results()

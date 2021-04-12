@@ -142,15 +142,11 @@
     <li> <strong class="uidlink"><a href="pygeodesy.dms-module.html">pygeodesy.dms</a></strong>: <em class="summary">Functions to parse and format bearing, compass, lat- and longitudes
         in various forms of degrees, minutes and seconds.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef-module.html">pygeodesy.ecef</a></strong>: <em class="summary">Geocentric conversions transcribed from <i>Charles Karney</i>'s C++
-        classes <a 
+        class <a 
         href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1Geocentric.html"
-        target="_top">Geocentric</a> and <a 
-        href="https://GeographicLib.SourceForge.io/html/classGeographicLib_1_1LocalCartesian.html"
-        target="_top">LocalCartesian</a> into pure Python classes <a 
+        target="_top">Geocentric</a> into pure Python class <a 
         href="pygeodesy.ecef.EcefKarney-class.html" 
-        class="link">EcefKarney</a> respectively <a 
-        href="pygeodesy.ecef.EcefCartesian-class.html" 
-        class="link">EcefCartesian</a>, class <a 
+        class="link">EcefKarney</a>, class <a 
         href="pygeodesy.ecef.EcefSudano-class.html" 
         class="link">EcefSudano</a> based on <i>John Sudano</i>'s <a 
         href="https://www.ResearchGate.net/publication/3709199_An_exact_conversion_from_an_Earth-centered_coordinate_system_to_latitude_longitude_and_altitude"
@@ -159,11 +155,17 @@
         class="link">EcefVeness</a> transcribed from <i>Chris Veness</i>' 
         JavaScript classes <a 
         href="https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html"
-        target="_top">LatLonEllipsoidal, Cartesian</a> and class <a 
+        target="_top">LatLonEllipsoidal, Cartesian</a>, class <a 
         href="pygeodesy.ecef.EcefYou-class.html" class="link">EcefYou</a> 
         implementing <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
-        target="_top">transformations</a>.</em>    </li>
+        target="_top">transformations</a> and classes <a 
+        href="pygeodesy.ecef.EcefFarrell22-class.html" 
+        class="link">EcefFarrell22</a> and <a 
+        href="pygeodesy.ecef.EcefFarrell22-class.html" 
+        class="link">EcefFarrell22</a> from <i>Jay A. Farrell</i>'s <a 
+        href="https://Books.Google.com/books?id=fW4foWASY6wC" 
+        target="_top">Table 2.1 and 2.2</a>, page 29-30.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elevations-module.html">pygeodesy.elevations</a></strong>: <em class="summary">Functions to obtain elevations and geoid heights thru web services,
         for (lat, lon) locations, currently limited to the <a 
         href="https://WikiPedia.org/wiki/Contiguous_United_States" 
@@ -420,6 +422,32 @@
         href="pygeodesy.lcc.LCCError-class.html" class="link">LCCError</a> 
         and position class <a href="pygeodesy.lcc.Lcc-class.html" 
         class="link">Lcc</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltp-module.html">pygeodesy.ltp</a></strong>: <em class="summary"><i>Local cartesian</i> and <i>local tangent plane</i> classes <a 
+        href="pygeodesy.ltp.LocalCartesian-class.html" 
+        class="link">LocalCartesian</a> and <a 
+        href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>, <a 
+        href="pygeodesy.ltp.LocalError-class.html" 
+        class="link">LocalError</a> and <a 
+        href="pygeodesy.ltp.Frustum-class.html" class="link">Frustum</a>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples-module.html">pygeodesy.ltpTuples</a></strong>: <em class="summary">Local coordinate classes <a 
+        href="pygeodesy.ltpTuples.XyzLocal-class.html" 
+        class="link">XyzLocal</a>, <a 
+        href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, <a 
+        href="pygeodesy.ltpTuples.Ned-class.html" class="link">Ned</a> and 
+        <a href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a> 
+        and local coordinate tuples <a 
+        href="pygeodesy.ltpTuples.Local6Tuple-class.html" 
+        class="link">Local6Tuple</a>, <a 
+        href="pygeodesy.ltpTuples.Xyz4Tuple-class.html" 
+        class="link">Xyz4Tuple</a>, <a 
+        href="pygeodesy.ltpTuples.Enu4Tuple-class.html" 
+        class="link">Enu4Tuple</a>, <a 
+        href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
+        class="link">Ned4Tuple</a>, <a 
+        href="pygeodesy.ltpTuples.Aer4Tuple-class.html" 
+        class="link">Aer4Tuple</a> and <a 
+        href="pygeodesy.ltpTuples.Footprint5Tuple-class.html" 
+        class="link">Footprint5Tuple</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) classes <a 
         href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a> and <a 
         href="pygeodesy.mgrs.MGRSError-class.html" 
@@ -616,7 +644,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  6 15:00:21 2021
+    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:40 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

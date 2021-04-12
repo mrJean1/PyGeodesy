@@ -12,10 +12,10 @@ from pygeodesy.basics import copysign, isfinite, isint, isscalar, \
                              len2, _xcopy
 from pygeodesy.errors import _IsnotError, LenError, _OverflowError, \
                              _TypeError, _ValueError
-from pygeodesy.interns import EPS0, MISSING, NN, _EPS0__2, _finite_, \
-                             _few_, _negative_, _not_, _singular_, \
-                             _SPACE_, _too_, _0_0, _1_0, _2_0, _3_0, \
-                             _1_5 as _3_2nd
+from pygeodesy.interns import EPS0, EPS1, MISSING, NN, PI, PI_2, PI_4, \
+                             _EPS0__2, _finite_, _few_, _negative_,\
+                             _not_, _singular_, _SPACE_, _too_, \
+                             _0_0, _1_0, _1_5 as _3_2nd, _2_0, _3_0
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Int_
@@ -24,7 +24,7 @@ from math import hypot, sqrt  # pow
 from operator import mul as _mul
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '21.01.19'
+__version__ = '21.03.15'
 
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142 =  0.414213562373095  # sqrt(_2_0) - _1_0
@@ -527,6 +527,79 @@ def euclid_(*xs):
             e, x = x, e
         e += x * _0_4142
     return e
+
+
+def facos1(x):
+    '''Fast approximation of L{acos1}C{(B{x})}.
+
+       @see: U{ShaderFastLibs.h<https://GitHub.com/michaldrobot/
+             ShaderFastLibs/blob/master/ShaderFastMathLib.h>}.
+    '''
+    a = abs(x)
+    if a < EPS0:
+        r = PI_2
+    elif a < EPS1:
+        r  = 1.5707288 - a * (0.2121144 - a * (0.0742610 - a * 0.0187293))
+        r *= sqrt(_1_0 - a)
+    else:
+        r = _0_0
+    return (PI - r) if x < 0 else r
+
+
+def fasin1(x):  # PYCHOK no cover
+    '''Fast approximation of L{asin1}C{(B{x})}.
+
+       @see: L{facos1}.
+    '''
+    return PI_2 - facos1(x)
+
+
+def fatan(x):
+    '''Fast approximation of C{atan(B{x})}.
+    '''
+    a = abs(x)
+    if a < _1_0:
+        r = fatan1(a) if a else _0_0
+    elif a > _1_0:
+        r = PI_2 - fatan1(_1_0 / a)  # == fatan2(a, _1_0)
+    else:
+        r = PI_4
+    return -r if x < 0 else r
+
+
+def fatan1(x):
+    '''Fast approximation of C{atan(B{x})} for C{0 <= B{x} <= 1}, I{unchecked}.
+
+       @see: U{ShaderFastLibs.h<https://GitHub.com/michaldrobot/
+             ShaderFastLibs/blob/master/ShaderFastMathLib.h>} and
+             U{Efficient approximations for the arctangent function
+             <http://www-Labs.IRO.UMontreal.CA/~mignotte/IFT2425/Documents/
+             EfficientApproximationArctgFunction.pdf>}, IEEE Signal
+             Processing Magazine, 111, May 2006.
+    '''
+    # Eq (9): PI_4 * x - x * (x - 1) * (0.2447 + 0.0663 * x**2)
+    return x * (1.0300982 - x * (0.1784 + 0.0663 * x))  # w/o x**4
+
+
+def fatan2(y, x):
+    '''Fast approximation of C{atan2(B{y}, B{x})}.
+
+       @see: U{fastApproximateAtan(x, y)<https://GitHub.com/CesiumGS/cesium/blob/
+             master/Source/Shaders/Builtin/Functions/fastApproximateAtan.glsl>}
+             and L{fatan1}.
+    '''
+    b, a = abs(y), abs(x)
+    if a < b:
+        r = (PI_2 - fatan1(a / b)) if a else PI_2
+    elif b < a:
+        r = fatan1(b / a) if b else _0_0
+    elif a:  # == b != 0
+        r = PI_4
+    else:  # a == b == 0
+        return _0_0
+    if x < 0:
+        r = PI - r
+    return -r if y < 0 else r
 
 
 def favg(v1, v2, f=0.5):

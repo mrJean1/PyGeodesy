@@ -4,7 +4,7 @@
 u'''DEPRECATED, use module L{nvectorBase} instead.
 '''
 
-from pygeodesy.interns import _NorthPole_, _SouthPole_
+from pygeodesy.interns import NN, _NorthPole_, _SouthPole_
 from pygeodesy.lazily import _ALL_DOCS
 from pygeodesy.nvectorBase import LatLonNvectorBase, \
                                   NorthPole, SouthPole, \
@@ -12,16 +12,17 @@ from pygeodesy.nvectorBase import LatLonNvectorBase, \
 from pygeodesy.props import deprecated_class  # _deprecated_module
 
 
-@deprecated_class
 class Nvector(NvectorBase):
-    '''DEPRECATED, use class L{NvectorBase}.
+    '''DEPRECATED, see class L{NvectorBase}.
     '''
-    pass
+    def __init__(self, x, y=None, z=None, h=0, ll=None, datum=None, name=NN):
+        deprecated_class(self.__class__)
+        NvectorBase.__init__(self, x, y=y, z=z, h=h, ll=ll, datum=datum, name=name)
 
 
 __all__ = _ALL_DOCS(LatLonNvectorBase, Nvector, sumOf) + (
           _NorthPole_, _SouthPole_)  # constants
-__version__ = '21.02.08'
+__version__ = '21.04.09'
 
 # _deprecated_module(__name__)
 

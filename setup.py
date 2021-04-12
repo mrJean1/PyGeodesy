@@ -22,7 +22,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '21.02.27'
+__version__ = '21.04.10'
 
 
 def _c2(*names):
@@ -45,17 +45,18 @@ def _version():
                 return '.'.join(map(str, map(int, v.split('.'))))
 
 
-_KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
-             'Authalic', 'auxiliary', 'azimuth', 'azimuthal',
-             'bearing', 'Barsky',
+_KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'antipode', 'area',
+             'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
+             'bearing', 'Barsky', 'Barth',
              'cached', 'cartesian', 'Cassini', 'Cassini-Soldner', 'circle-intersections',
              'clip', 'Cohen', 'Cohen-Sutherland', 'conformal', 'conic',
              'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',
-             'earth', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
-             'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
+             'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid', 'elliptic',
+             'ENU', 'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
              'Euclidean', 'ExactTM', 'excess',
-             'flattening', 'fmath', 'Forsythe', 'fractional', 'Frechet', 'Fréchet',
+             'Farrell', 'Farrell-Barth', 'flattening', 'fmath', 'footprint', 'Forsythe', 'fov',
+             'fractional', 'Frechet', 'Fréchet', 'frustum',
              'GARS', 'geocentric', 'geodesy', 'geodetic', 'GeodTest', 'geographiclib',
              'geohash', 'geoid', 'geoidHeight', 'GeoidHeights', 'georef', 'Girard', 'gnomonic',
              'gons', 'grades', 'gradians',
@@ -66,9 +67,9 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Karney', 'Krueger', 'Krüger',
              'Lambert', 'latitude', 'law-of-cosines', 'Lesh',
              'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize',
-             'LocalCartesian', 'longitude', 'lune',
+             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LTP', 'lune',
              'mean', 'memoize', 'Mercator', 'MGRS',
-             'nearest', 'Norrdine', 'numpy', 'n-vector', 'Nvector',
+             'nearest', 'NED', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'orthographic', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
              'perimeter', 'Peucker', 'polar', 'prolate', 'Pseudo-Mercator',
@@ -81,9 +82,10 @@ _KeyWords = ('Albers', 'altitude', 'Andoyer', 'antipode', 'area',
              'Terrestrial-Reference-Frame', 'Thomas', 'TMcoords', 'TMExact',
              'Transverse', 'TransverseMercatorExact', 'TRF', 'trigonometry', 'trilateration',
              'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
-             'Veness', 'Vermeille', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
+             'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty', 'Visvalingam', 'Visvalingam-Whyatt',
              'volume', ' volumetric',
-             'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam', 'You')
+             'Web-Mercator', 'WGRS', 'WGS', 'Whyatt', 'Witkam',
+             'XYZ', 'You')
 
 setup(name='PyGeodesy',
       packages=['pygeodesy', 'pygeodesy.deprecated'],

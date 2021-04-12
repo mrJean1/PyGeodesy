@@ -10,15 +10,15 @@ u'''Error, exception classes and functions to format PyGeodesy errors,
     string OR set environment variable C{PYGEODESY_EXCEPTION_CHAINING}
     to C{'std'} or any other non-empty string.
 '''
-from pygeodesy.interns import MISSING, NN, _a_,_an_, _COLON_, \
-                             _COMMA_, _COMMASPACE_, _datum_, \
-                             _ellipsoidal_, _EQUAL_, _invalid_, \
-                             _len_, _name_, _no_, _not_, _or_, \
-                             _SPACE_, _UNDER_
+from pygeodesy.interns import MISSING, NN, _a_,_an_, _and_, \
+                             _COLON_, _COMMA_, _COMMASPACE_, \
+                             _datum_, _ellipsoidal_, _EQUAL_, \
+                             _invalid_, _len_, _name_, _no_, \
+                             _not_, _or_, _SPACE_, _UNDER_
 from pygeodesy.lazily import _ALL_LAZY, _env, _PYTHON_X_DEV
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')
-__version__ = '21.02.25'
+__version__ = '21.04.08'
 
 _limiterrors  =  True  # imported by .formy
 _multiple_    = 'multiple'
@@ -137,10 +137,13 @@ class CrossError(_ValueError):
 class IntersectionError(_ValueError):
     '''Error raised for path or circle intersection issues.
     '''
-    def __init__(self, txt=_invalid_, **kwds):
+    def __init__(self, *args, **kwds):  # txt=_invalid_
         '''New L{IntersectionError}.
         '''
-        _ValueError.__init__(self, txt=txt, **kwds)
+        if args:
+            _ValueError.__init__(self, _SPACE_(*args), **kwds)
+        else:
+            _ValueError.__init__(self, **kwds)
 
 
 class LenError(_ValueError):
@@ -234,6 +237,18 @@ def _an(noun):
        on the pronounciation of the first letter.
     '''
     return _SPACE_((_an_ if noun[:1].lower() in 'aeinoux' else _a_), noun)
+
+
+def _and(*words):
+    '''(INTERNAL) Join C{words} with C{", "} and C{" and "}.
+    '''
+    t, w = NN, list(words)
+    if w:
+        t = w.pop()
+        if w:
+            w = _COMMASPACE_.join(w)
+            t = _SPACE_(w, _and_, t)
+    return t
 
 
 def crosserrors(raiser=None):
@@ -486,7 +501,7 @@ def _xellipsoidal(**name_value):
 
 
 try:
-    _ = {}.__or__  # Python 3.9+
+    _ = {}.__or__  # {} | {}  # Python 3.9+
 
     def _xkwds(kwds, **dflts):
         '''(INTERNAL) Override C{dflts} with specified C{kwds}.

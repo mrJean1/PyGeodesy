@@ -125,7 +125,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          datums=('Datum', 'Datums', 'Transform', 'Transforms'),
                      deprecated=('OK',  # DEPRECATED contants
                                  'bases', 'datum', 'nvector',  # DEPRECATED modules
-                                 'ClipCS3Tuple', 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError', 'UtmUps4Tuple',  # DEPRECATED classes
+                                 'ClipCS3Tuple', 'EcefCartesian', 'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'RefFrameError', 'UtmUps4Tuple',  # DEPRECATED classes
                                  'anStr', 'areaof', 'bounds', 'clipCS3', 'clipDMS', 'clipStr', 'decodeEPSG2', 'encodeEPSG',  # most of the DEPRECATED functions, ...
                                  'equirectangular3', 'enStr2', 'false2f', 'falsed2f', 'fStr', 'fStrzs',  # ... except ellipsoidal, spherical flavors
                                  'hypot3', 'inStr', 'isenclosedby', 'joined', 'joined_',
@@ -138,7 +138,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'bearingDMS', 'clipDegrees', 'clipRadians', 'compassDMS', 'compassPoint',
                                  'degDMS', 'latDMS', 'latlonDMS', 'lonDMS', 'normDMS',
                                  'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
-                           ecef=('EcefCartesian', 'EcefError', 'EcefKarney', 'EcefMatrix', 'EcefSudano', 'Ecef9Tuple', 'EcefVeness', 'EcefYou'),
+                           ecef=('EcefError', 'EcefFarrell21', 'EcefFarrell22', 'EcefKarney', 'EcefMatrix', 'EcefSudano', 'Ecef9Tuple', 'EcefVeness', 'EcefYou'),
                      elevations=('elevation2', 'geoidHeight2',
                                  'Elevation2Tuple', 'GeoidHeight2Tuple'),
               ellipsoidalKarney=(),  # module only
@@ -160,7 +160,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'parseETM5', 'toEtm8'),
                           fmath=('Fdot', 'Fhorner', 'Fpolynomial', 'Fsum',
                                  'cbrt', 'cbrt2', 'euclid', 'euclid_',
-                                 'favg', 'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
+                                 'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
+                                 'fdot', 'fdot3', 'fmean', 'fmean_', 'fhorner', 'fidw', 'fpolynomial',
                                  'fpowers', 'fprod', 'frange', 'freduce', 'fsum', 'fsum_',
                                  'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_', 'sqrt0', 'sqrt3'),
                           formy=('antipode', 'antipode_', 'bearing', 'bearing_',
@@ -203,6 +204,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          karney=(),  # module only
                          lazily=('LazyImportError', 'isLazy'),
                             lcc=('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
+                            ltp=('Frustum', 'LocalCartesian', 'LocalError', 'Ltp'),
+                      ltpTuples=('Aer', 'Aer4Tuple', 'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local6Tuple',
+                                 'Ned', 'Ned4Tuple', 'XyzLocal', 'Xyz4Tuple'),
                            mgrs=('Mgrs', 'MGRSError', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
                           named=('callername', 'classname', 'classnaming', 'modulename', 'nameof', 'notImplemented', 'notOverloaded'),
                     namedTuples=('Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
@@ -216,7 +220,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Point3Tuple', 'Points2Tuple',
                                  'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
                                  'UtmUps2Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple', 'UtmUpsLatLon5Tuple',
-                                 'Vector3Tuple', 'Vector4Tuple'),
+                                 'Vector2Tuple', 'Vector3Tuple', 'Vector4Tuple'),
                            osgr=('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
                          points=('LatLon_', 'LatLon2psxy', 'NearestOn5Tuple', 'Numpy2LatLon', 'Shape2Tuple', 'Tuple2LatLon',
                                  _areaOf_, 'boundsOf', 'centroidOf', 'fractional',
@@ -234,7 +238,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                  'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
                                  'Feet', 'FIx', 'Float', 'Float_', 'Height', 'Int', 'Int_',
                                  'Lam', 'Lam_', 'Lat', 'Lat_', 'Lon', 'Lon_',
-                                 'Meter', 'Meter2', 'Meter3', 'Northing', 'Number_',
+                                 'Meter', 'Meter_', 'Meter2', 'Meter3', 'Northing', 'Number_',
                                  'Phi', 'Phi_', 'Precision_', 'Radians', 'Radians_', 'Radians2',
                                  'Radius', 'Radius_', 'Scalar', 'Scalar_', 'Str', 'Zone'),
                             ups=('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
@@ -253,7 +257,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                             utm=('Utm', 'UTMError', 'parseUTM5', 'toUtm8', 'utmZoneBand5'),
                          utmups=('UtmUps', 'UTMUPSError', 'parseUTMUPS5', 'toUtmUps8',
                                  'utmupsValidate', 'utmupsValidateOK', 'utmupsZoneBand5'),
-                       vector3d=('Vector3d', 'VectorError', 'iscolinearWith', 'parse3d', 'trilaterate3d2'),
+                       vector3d=('Vector3d', 'VectorError', 'iscolinearWith', 'parse3d', 'trilaterate2d2', 'trilaterate3d2'),
                     webmercator=('Wm', 'WebMercatorError', 'parseWM', 'toWm', 'EasNorRadius3Tuple'),
                            wgrs=('Georef', 'WGRSError'))
 
@@ -272,7 +276,7 @@ _ALL_OVERRIDDEN = _NamedEnum_RO(_name='_ALL_OVERRIDING',  # all DEPRECATED
                                        'instr as inStr', 'unstr as unStr'))
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '21.02.27'
+__version__ = '21.04.09'
 
 
 def _ALL_OTHER(*objs):

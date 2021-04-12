@@ -377,6 +377,8 @@ if not _lazy_import2:  # import and set __all__
     import pygeodesy.karney                as karney                 # PYCHOK exported
     import pygeodesy.lazily                as lazily                 # PYCHOK exported
     import pygeodesy.lcc                   as lcc                    # PYCHOK exported
+    import pygeodesy.ltp                   as ltp                    # PYCHOK exported
+    import pygeodesy.ltpTuples             as ltpTuples              # PYCHOK exported
     import pygeodesy.mgrs                  as mgrs                   # PYCHOK exported
     import pygeodesy.named                 as named                  # PYCHOK exported
     import pygeodesy.namedTuples           as namedTuples            # PYCHOK exported
@@ -435,6 +437,8 @@ if not _lazy_import2:  # import and set __all__
 #   from pygeodesy.karney                import *  # PYCHOK __(_)__
     from pygeodesy.lazily                import *  # PYCHOK __all__
     from pygeodesy.lcc                   import *  # PYCHOK __all__
+    from pygeodesy.ltp                   import *  # PYCHOK __all__
+    from pygeodesy.ltpTuples             import *  # PYCHOK __all__
     from pygeodesy.mgrs                  import *  # PYCHOK __all__
     from pygeodesy.named                 import *  # PYCHOK __all__
     from pygeodesy.namedTuples           import *  # PYCHOK __all__
@@ -491,7 +495,7 @@ if not _lazy_import2:  # import and set __all__
     __all__ = _all(globals())  # or locals()
 
 from pygeodesy.interns import _DOT_  # PYCHOK import
-__version__ = '21.04.04'
+__version__ = '21.04.12'
 # see setup.py for similar logic
 version     = _DOT_.join(map(str, map(int, __version__.split(_DOT_))))
 

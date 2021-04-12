@@ -14,7 +14,8 @@ and U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html}.
 
 from pygeodesy.basics import isstr, _xinstanceof
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
-from pygeodesy.errors import _datum_datum, IntersectionError, _ValueError
+from pygeodesy.errors import _datum_datum, IntersectionError, \
+                             _ValueError, _xkwds
 from pygeodesy.fmath import favg
 from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
                             cosineForsytheAndoyerLambert_, cosineLaw, \
@@ -39,7 +40,7 @@ from pygeodesy.vector3d import Vector3d
 from math import asin, cos, degrees, radians
 
 __all__ = ()
-__version__ = '21.02.09'
+__version__ = '21.04.11'
 
 
 class LatLonBase(_NamedBase):
@@ -263,6 +264,27 @@ class LatLonBase(_NamedBase):
         '''
         notOverloaded(self, self.datum)
 
+    def destinationXyz(self, delta, LatLon=None, **LatLon_kwds):
+        '''Calculate the destination using a I{local} delta from this point.
+
+           @arg delta: Local delta to the destination (L{XyzLocal}, L{Enu},
+                       L{Ned} or L{Local6Tuple}).
+           @kwarg LatLon: Optional (geodetic) class to return the destination
+                          or C{None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
+                               arguments, ignored is C{B{LatLon}=None}.
+
+           @return: Destination as a C{LatLon}C{(lat, lon, **LatLon_kwds)}
+                    instance or if C{B{LatLon}=None}, a L{LatLon3Tuple}C{(lat,
+                    lon, height)} respectively L{LatLon4Tuple}C{(lat, lon,
+                    height, datum)} depending on whether a C{datum} keyword
+                    is un-/specified.
+
+           @raise TypeError: Invalid B{C{delta}}, B{C{LatLon}} or B{C{LatLon_kwds}}.
+        '''
+        t = self._ltp._local2ecef(delta, nine=True)
+        return t.toLatLon(LatLon=LatLon, **_xkwds(LatLon_kwds, name=self.name))
+
     def _distanceTo(self, func, other, radius, **options):
         '''(INTERNAL) Helper for methods C{<func>To}.
         '''
@@ -288,10 +310,16 @@ class LatLonBase(_NamedBase):
         return EcefKarney  # default
 
     @Property_RO
+    def _Ecef_forward(self):
+        '''(INTERNAL) Helper for L{_ecef9} and L{toEcef}.
+        '''
+        return self.Ecef(self.datum, name=self.name).forward
+
+    @Property_RO
     def _ecef9(self):
         '''(INTERNAL) Helper for L{toCartesian} and L{toEcef}.
         '''
-        return self.Ecef(self.datum, name=self.name).forward(self, M=True)
+        return self._Ecef_forward(self, M=True)
 
     @deprecated_method
     def equals(self, other, eps=None):  # PYCHOK no cover
@@ -667,6 +695,13 @@ class LatLonBase(_NamedBase):
         self._lon = lon
 
     @Property_RO
+    def _ltp(self):
+        '''(INTERNAL) Cache for L{toLtp}.
+        '''
+        from pygeodesy.ltp import Ltp
+        return Ltp(self, ecef=self.Ecef(self.datum), name=self.name)
+
+    @Property_RO
     def _N_vector(self):
         '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
         '''
@@ -766,7 +801,8 @@ class LatLonBase(_NamedBase):
         return self.philam
 
     def toCartesian(self, Cartesian=None, **Cartesian_kwds):
-        '''Convert this point to cartesian (ECEF) coordinates.
+        '''Convert this point to cartesian, I{geocentric} coordinates,
+           also known as I{Earth-Centered, Earth-Fixed} (ECEF).
 
            @kwarg Cartesian: Optional class to return the geocentric
                              coordinates (C{Cartesian}) or C{None}.
@@ -787,9 +823,9 @@ class LatLonBase(_NamedBase):
         return r
 
     def toEcef(self, height=None, M=False):
-        '''Convert this point to geocentric coordinates, also
-           known as I{Earth-Centered, Earth-Fixed} (U{ECEF
-           <https://WikiPedia.org/wiki/ECEF>}).
+        '''Convert this point to I{geocentric} coordinates,
+           also known as I{Earth-Centered, Earth-Fixed}
+           (U{ECEF<https://WikiPedia.org/wiki/ECEF>}).
 
            @kwarg height: Optional height, overriding this point's
                           height (C{meter}).
@@ -802,14 +838,45 @@ class LatLonBase(_NamedBase):
            @raise EcefError: A C{.datum} or an ECEF issue.
         '''
         return self._ecef9 if height in (None, self.height) else \
-               self.Ecef(self.datum).forward(self.lat, self.lon,
-                                             height=height, M=M)
+               self._Ecef_forward(self.lat, self.lon, height=height, M=M)
 
     @deprecated_method
     def to3llh(self, height=None):  # PYCHOK no cover
         '''DEPRECATED, use property L{latlonheight} or C{latlon.to3Tuple(B{height})}.'''
         return self.latlonheight if height in (None, self.height) else \
                self.latlon.to3Tuple(height)
+
+    def toLocal(self, Xyz=None, ltp=None, **Xyz_kwds):
+        '''Convert this I{geodetic} point to I{local} C{X}, C{Y} and C{Z}.
+
+           @kwarg Xyz: Optional class to return C{X}, C{Y} and C{Z}
+                       (L{XyzLocal}, L{Enu}, L{Ned}) or C{None}.
+           @kwarg ltp: The I{local tangent plane} (LTP) to use,
+                       overriding this point's LTP (L{Ltp}).
+           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
+                            arguments, ignored if C{B{Xyz}=None}.
+
+           @return: An B{C{Xyz}} instance or if C{B{Xyz}=None},
+                    a L{Local6Tuple}C{(x, y, z, ltp, ecef, M)}
+                    with C{M=None} always.
+
+           @raise TypeError: Invalid B{C{ltp}}.
+        '''
+        p = self._ltp if ltp is None else self._xLtp(ltp)
+        return p._ecef2local(self._ecef9, Xyz, Xyz_kwds)
+
+    def toLtp(self, Ecef=None):
+        '''Return the I{local tangent plane} (LTP) for this point.
+
+           @kwarg Ecef: Optional ECEF I{class} (L{EcefKarney}, ...
+                        L{EcefYou}), overriding this point's C{Ecef}.
+        '''
+        if Ecef in (None, self.Ecef):
+            r = self._ltp
+        else:
+            from pygeodesy.ltp import Ltp
+            r = Ltp(self, ecef=Ecef(self.datum), name=self.name)
+        return r
 
     def toNvector(self, h=None, Nvector=None, **Nvector_kwds):
         '''Convert this point to C{n-vector} (normal to the earth's
@@ -931,6 +998,13 @@ class LatLonBase(_NamedBase):
                  C{haversineTo} and C{thomasTo}.
         '''
         return self._distanceTo(vincentys, other, radius, wrap=wrap)
+
+    @Property_RO
+    def _xLtp(self):
+        '''(INTERNAL) Import and cache function C{ltp._xLtp}.
+        '''
+        from pygeodesy.ltp import _xLtp
+        return _xLtp
 
     @Property_RO
     def xyz(self):

@@ -4,16 +4,16 @@
 # Test base classes.
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.03.15'
 
 from base import coverage, TestsBase
 
-from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, \
-                      fhorner, fmath, fpolynomial, fpowers, \
+from pygeodesy import cbrt, cbrt2, euclid_, Ellipsoids, facos1, fasin1, \
+                      fatan2, fhorner, fmath, fpolynomial, fpowers, \
                       Fsum, fsum, fsum_, hypot_, hypot2_, sqrt3
 #                     hypot3  # DEPRECATED
 
-from math import sqrt
+from math import acos, asin, atan2, sqrt
 from random import random, gauss, shuffle
 
 
@@ -190,6 +190,17 @@ class Tests(TestsBase):
         self.test('fsum_', fsum_(*t),        '1.0', prec=-12, known=True)
         self.test('Fsum ', Fsum().fsum_(*t), '1.0', prec=-12, known=True)
         self.test('sum  ',  sum(t),          '1.0', prec=-12, known=True)
+
+        c = s = t = 0
+        for f in range(100):
+            f = float(f)
+            t = max(t, abs(atan2(f, 2.0) - fatan2(f, 2.0)))
+            f = 1.0 / (f + 1.0)
+            s = max(s, abs(asin(f) - fasin1(f)))
+            c = max(c, abs(acos(f) - facos1(f)))
+        self.test('facos1', c, '0.0000631', prec=7, known=True)
+        self.test('fasin1', s, '0.0000631', prec=7, known=True)
+        self.test('fatan2', t, '0.0015047', prec=7, known=True)
 
 
 if __name__ == '__main__':

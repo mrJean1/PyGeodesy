@@ -25,30 +25,27 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division
 
-from pygeodesy.basics import neg, _xinstanceof
+from pygeodesy.basics import _xinstanceof
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                       LatLonEllipsoidalBase
 from pygeodesy.errors import _xkwds
-from pygeodesy.fmath import fdot, hypot_
+from pygeodesy.fmath import fdot
 from pygeodesy.interns import NN, _Nv00_, _COMMASPACE_
-from pygeodesy.interns import _pole_  # PYCHOK used!
+from pygeodesy.interns import _down_, _east_, _north_, _pole_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER
-from pygeodesy.named import _Named, _NamedTuple, _xnamed
+from pygeodesy.ltpTuples import Aer as _Aer, Ned as _Ned
+from pygeodesy.named import _NamedTuple, _xnamed
 from pygeodesy.nvectorBase import NorthPole, LatLonNvectorBase, \
                                   NvectorBase, sumOf as _sumOf
-from pygeodesy.props import deprecated_method, Property_RO
-from pygeodesy.streprs import Fmt, fstr, strs, _xzipairs
-from pygeodesy.units import Bearing, Degrees, Distance, Float,\
-                            Height, Radius, Scalar
-from pygeodesy.utily import asin1, atan2b, degrees90, sincos2d
+from pygeodesy.props import deprecated_class, deprecated_function, \
+                            deprecated_method, Property_RO
+from pygeodesy.streprs import Fmt, fstr, _xzipairs
+from pygeodesy.units import Bearing, Distance, Height, Meter, Radius
+from pygeodesy.utily import sincos2d
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '21.02.25'
-
-_down_  = 'down'
-_east_  = 'east'
-_north_ = 'north'
+__version__ = '21.04.10'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -160,7 +157,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 #         return a * float(radius)
 
     def deltaTo(self, other):
-        '''Calculate the NED delta from this to an other point.
+        '''Calculate the local delta from this to an other point.
 
            The delta is returned as a North-East-Down (NED) vector.
 
@@ -191,8 +188,8 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         dc = other.toCartesian().minus(self.toCartesian())
         # rotate dc to get delta in n-vector reference
         # frame using the rotation matrix row vectors
-        n, e, d = self._rotation3
-        return Ned(dc.dot(n), dc.dot(e), dc.dot(d), name=self.name)
+        nv, ev, dv = self._rotation3
+        return Ned(dc.dot(nv), dc.dot(ev), dc.dot(dv), name=self.name)
 
 #     def destination(self, distance, bearing, radius=R_M, height=None):
 #         '''Return the destination point after traveling from this
@@ -232,33 +229,31 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
            @arg delta: Delta from this to the other point in the local
                        tangent plane (LTP) of this point (L{Ned}).
 
-           @return: Destination point (L{Cartesian}).
+           @return: Destination point (L{LatLon}).
 
            @raise TypeError: If B{C{delta}} is not L{Ned}.
 
            @example:
 
            >>> a = LatLon(49.66618, 3.45063)
-           >>> delta = toNed(116807.681, 222.493, -0.5245)  # [N:-86126, E:-78900, D:1069]
-           >>> b = a.destinationNed(delta)  # 48.88667°N, 002.37472°E
+           >>> delta = Ned(-86126, -78900, 1069)  # from Aer(222.493, -0.5245, 116807.681)
+           >>> b = a.destinationNed(delta)  # 48.886669°N, 002.374721°E or 48°53′12.01″N, 002°22′29.0″E   +0.20m
 
            @JSname: I{destinationPoint}.
         '''
         _xinstanceof(Ned, delta=delta)
 
-        n, e, d = self._rotation3
+        nv, ev, dv = self._rotation3
         # convert NED delta to standard coordinate frame of n-vector
         dn = delta.ned
         # rotate dn to get delta in cartesian (ECEF) coordinate
         # reference frame using the rotation matrix column vectors
-        dc = Cartesian(fdot(dn, n.x, e.x, d.x),
-                       fdot(dn, n.y, e.y, d.y),
-                       fdot(dn, n.z, e.z, d.z))
+        dc = Cartesian(fdot(dn, nv.x, ev.x, dv.x),
+                       fdot(dn, nv.y, ev.y, dv.y),
+                       fdot(dn, nv.z, ev.z, dv.z))
 
-        # apply (cartesian) delta to this Cartesian to
-        # obtain destination point as cartesian
-        v = self.toCartesian().plus(dc)  # the plus() gives a plain vector
-
+        # apply (cartesian) delta to this Cartesian to obtain destination as cartesian
+        v = self.toCartesian().plus(dc)
         return v.toLatLon(datum=self.datum, LatLon=self.classof)  # Cartesian(v.x, v.y, v.z).toLatLon(...)
 
     def distanceTo(self, other, radius=None, wrap=False):
@@ -416,10 +411,10 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         nv = self.toNvector()  # local (n-vector) coordinate frame
 
-        d = nv.negate()  # down (opposite to n-vector)
-        e = NorthPole.cross(nv, raiser=_pole_).unit()  # east (pointing perpendicular to the plane)
-        n = e.cross(d)  # north (by right hand rule)
-        return n, e, d  # matrix rows
+        dv = nv.negate()  # down, opposite to n-vector
+        ev = NorthPole.cross(nv, raiser=_pole_).unit()  # east, pointing perpendicular to the plane
+        nv = ev.cross(dv)  # north, by right hand rule
+        return nv, ev, dv  # matrix rows
 
     def toCartesian(self, **Cartesian_and_kwds):  # PYCHOK Cartesian=Cartesian, datum=None
         '''Convert this point to an C{Nvector}-based geodetic point.
@@ -461,96 +456,18 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         return LatLonNvectorBase.toNvector(self, **kwds)
 
 
-class Ned(_Named):
-    '''North-Eeast-Down (NED), also known as Local Tangent Plane (LTP),
-       is a vector in the local coordinate frame of a body.
-    '''
-#   _bearing   = None  # cached bearing (compass C{degrees360})
-    _down      = None  # Down component (C{meter})
-    _east      = None  # East component (C{meter})
-#   _elevation = None  # cached elevation (C{degrees})
-#   _length    = None  # cached length (C{float})
-    _north     = None  # North component (C{meter})
+class Ned(_Ned):
+    '''DEPRECATED, use L{pygeodesy.Ned}.'''
 
     def __init__(self, north, east, down, name=NN):
-        '''New North-East-Down vector.
+        deprecated_class(self.__class__)
+        _Ned.__init__(self, north, east, down, name=name)
 
-           @arg north: North component (C{meter}).
-           @arg east: East component (C{meter}).
-           @arg down: Down component, normal to the surface of
-                      the ellipsoid (C{meter}).
-           @kwarg name: Optional name (C{str}).
+    @deprecated_method  # PYCHOK expected
+    def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):
+        '''DEPRECATED, use L{ltpTuples.Aer}.
 
-           @raise ValueError: Invalid B{C{north}}, B{C{east}}
-                              or B{C{down}}.
-           @example:
-
-           >>> from ellipsiodalNvector import Ned
-           >>> delta = Ned(110569, 111297, 1936)
-           >>> delta.toStr(prec=0)  #  [N:110569, E:111297, D:1936]
-        '''
-        self._north = Scalar(north=north or 0)
-        self._east  = Scalar(east =east  or 0)
-        self._down  = Scalar(down =down  or 0)
-        if name:
-            self.name = name
-
-    def __str__(self):
-        return self.toStr()
-
-    @Property_RO
-    def bearing(self):
-        '''Get the bearing of this NED vector (compass C{degrees360}).
-        '''
-        return Bearing(atan2b(self.east, self.north))
-
-    @Property_RO
-    def down(self):
-        '''Gets the Down component of this NED vector (C{meter}).
-        '''
-        return self._down
-
-    @Property_RO
-    def east(self):
-        '''Gets the East component of this NED vector (C{meter}).
-        '''
-        return self._east
-
-    @Property_RO
-    def elevation(self):
-        '''Get the elevation, tilt of this NED vector in degrees from
-           horizontal, i.e. tangent to ellipsoid surface (C{degrees90}).
-        '''
-        return Float(elevation=neg(degrees90(asin1(self.down / self.length))))
-
-    @Property_RO
-    def length(self):
-        '''Gets the length of this NED vector (C{meter}).
-        '''
-        return Float(length=hypot_(self.north, self.east, self.down))
-
-    @Property_RO
-    def ned(self):
-        '''Get the C{(north, east, down)} components of the NED vector (L{Ned3Tuple}).
-        '''
-        return Ned3Tuple(self.north, self.east, self.down, name=self.name)
-
-    @Property_RO
-    def north(self):
-        '''Gets the North component of this NED vector (C{meter}).
-        '''
-        return self._north
-
-    @deprecated_method
-    def to3ned(self):  # PYCHOK no cover
-        '''DEPRECATED, use property L{ned}.
-
-           @return: An L{Ned3Tuple}C{(north, east, down)}.
-        '''
-        return self.ned
-
-    def toRepr(self, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_, **unused):  # PYCHOK expected
-        '''Return a string representation of this NED vector as
+           Return a string representation of this NED vector as
            length, bearing and elevation.
 
            @kwarg prec: Optional number of decimals, unstripped (C{int}).
@@ -560,37 +477,21 @@ class Ned(_Named):
            @return: This Ned as "[L:f, B:degrees360, E:degrees90]" (C{str}).
         '''
         from pygeodesy.dms import F_D, toDMS
-        t = (fstr(self.length, prec=3 if prec is None else prec),
-             toDMS(self.bearing,   form=F_D, prec=prec, ddd=0),
+        t = (fstr(self.slantrange, prec=3 if prec is None else prec),
+             toDMS(self.azimuth,   form=F_D, prec=prec, ddd=0),
              toDMS(self.elevation, form=F_D, prec=prec, ddd=0))
         return _xzipairs('LBE', t, sep=sep, fmt=fmt)
 
-    def toStr(self, prec=3, fmt=Fmt.SQUARE, sep=_COMMASPACE_):  # PYCHOK expected
-        '''Return a string representation of this NED vector.
 
-           @kwarg prec: Optional number of decimals, unstripped (C{int}).
-           @kwarg fmt: Optional enclosing backets format (C{str}).
-           @kwarg sep: Optional separator between NEDs (C{str}).
-
-           @return: This Ned as "[N:f, E:f, D:f]" (C{str}).
-        '''
-        t = strs(self.ned, prec=prec)
-        return _xzipairs('NED', t, sep=sep, fmt=fmt)
-
-    def toVector3d(self):
-        '''Return this NED vector as a 3-d vector.
-
-           @return: The vector(north, east, down) (L{Vector3d}).
-        '''
-        from pygeodesy.vector3d import Vector3d
-        return Vector3d(*self.ned, name=self.name)
-
-
-class Ned3Tuple(_NamedTuple):  # .ellipsoidalNvector.py
-    '''3-Tuple C{(north, east, down)}, all in C{degrees}.
+class Ned3Tuple(_NamedTuple):  # @see: .ltpTuples
+    '''3-Tuple C{(north, east, down)}.  DEPRECATED, use L{pygeodesy.Ned4Tuple}.
     '''
     _Names_ = (_north_, _east_,  _down_)
-    _Units_ = ( Degrees, Degrees, Degrees)
+    _Units_ = ( Meter,   Meter,   Meter)
+
+    def __new__(cls, north, east, down, name=NN):
+        deprecated_class(cls)
+        return _NamedTuple.__new__(cls, north, east, down, name=name)
 
 
 _Nvll = LatLon(0, 0, name=_Nv00_)  # reference instance (L{LatLon})
@@ -744,35 +645,44 @@ def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
     return _sumOf(nvectors, Vector=Vector, h=h, **Vector_kwds)
 
 
+@deprecated_function
 def toNed(distance, bearing, elevation, Ned=Ned, name=NN):
-    '''Create an NED vector from distance, bearing and elevation
+    '''DEPRECATED, use L{pygeodesy.Aer}C{(bearing, elevation,
+       distance).xyzLocal.toNed(B{Ned}, name=B{name})} or
+       L{XyzLocal}C{(pygeodesy.Aer(bearing, elevation,
+       distance)).toNed(B{Ned}, name=B{name})}.
+
+       Create an NED vector from distance, bearing and elevation
        (in local coordinate system).
 
        @arg distance: NED vector length (C{meter}).
        @arg bearing: NED vector bearing (compass C{degrees360}).
        @arg elevation: NED vector elevation from local coordinate
                        frame horizontal (C{degrees}).
-       @kwarg Ned: Optional class to return the NED (L{Ned}) or
+       @kwarg Ned: Optional class to return the NED (C{Ned}) or
                    C{None}.
        @kwarg name: Optional name (C{str}).
 
        @return: An NED vector equivalent to this B{C{distance}},
-                B{C{bearing}} and B{C{elevation}} (L{Ned}) or
-                if B{C{Ned=None}}, an L{Ned3Tuple}C{(north, east,
-                down)}.
+                B{C{bearing}} and B{C{elevation}} (DEPRECATED L{Ned})
+                or a DEPRECATED L{Ned3Tuple}C{(north, east, down)}
+                if B{C{Ned=None}}.
 
        @raise ValueError: Invalid B{C{distance}}, B{C{bearing}}
                           or B{C{elevation}}.
 
        @JSname: I{fromDistanceBearingElevation}.
     '''
-    d = Distance(distance)
+    if True:  # use new Aer class
+        n, e, d, _ = _Aer(bearing, elevation, distance).xyz4
+    else:  # DEPRECATED
+        d = Distance(distance)
 
-    sb, cb, se, ce = sincos2d(Bearing(bearing),
-                               Height(elevation=elevation))
-    n  = cb * d * ce
-    e  = sb * d * ce
-    d *= se
+        sb, cb, se, ce = sincos2d(Bearing(bearing),
+                                   Height(elevation=elevation))
+        n  = cb * d * ce
+        e  = sb * d * ce
+        d *= se
 
     r = Ned3Tuple(n, e, -d) if Ned is None else \
               Ned(n, e, -d)

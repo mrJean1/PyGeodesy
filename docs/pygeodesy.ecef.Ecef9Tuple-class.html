@@ -76,14 +76,14 @@
 
 <hr />
 <p>9-Tuple <code>(x, y, z, lat, lon, height, C, M, datum)</code> with 
-  geocentric coordinates <code>x</code>, <code>y</code> and <code>z</code>,
-  geodetic coordinates <code>lat</code>, <code>lon</code> and 
+  <i>geocentric</i> <code>x</code>, <code>y</code> and <code>z</code> plus 
+  <i>geodetic</i> <code>lat</code>, <code>lon</code> and 
   <code>height</code>, case <code>C</code> (see the 
-  <code>Ecef*.reverse</code> methods) and optionally, the <a 
-  href="pygeodesy.ecef.EcefMatrix-class.html" class="link">EcefMatrix</a> 
-  <code>M</code> and <code>datum</code>, with <code>lat</code> and 
-  <code>lon</code> in <code>degrees</code> and <code>x</code>, 
-  <code>y</code>, <code>z</code> and <code>height</code> in 
+  <code>Ecef*.reverse</code> methods) and optionally, the rotation matrix 
+  <code>M</code> (<a href="pygeodesy.ecef.EcefMatrix-class.html" 
+  class="link">EcefMatrix</a>) and <code>datum</code>, with 
+  <code>lat</code> and <code>lon</code> in <code>degrees</code> and 
+  <code>x</code>, <code>y</code>, <code>z</code> and <code>height</code> in
   <code>meter</code>, conventionally.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
@@ -100,8 +100,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">datum2</span>)</span><br />
+      DEPRECATED, use <a 
+      href="pygeodesy.ecef.Ecef9Tuple-class.html#toDatum" 
+      class="link">toDatum</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">Cartesian</span>,
+        <span class="summary-sig-arg">Cartesian</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Cartesian_kwds</span>)</span><br />
       Return the geocentric <code>(x, y, z)</code> coordinates as an 
       ellipsoidal or spherical <code>Cartesian</code>.</td>
@@ -138,9 +158,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#convertDatum" class="summary-sig-name">convertDatum</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">datum2</span>)</span><br />
-      Convert this <code>Ecef9Tuple</code> to an other datum.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      Return the geodetic <code>(lat, lon, height[, datum])</code> 
+      coordinates.</td>
           <td align="right" valign="top">
             
             
@@ -156,11 +178,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toLatLon" class="summary-sig-name">toLatLon</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Return the geodetic <code>(lat, lon, height[, datum])</code> 
-      coordinates.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.ecef.Ecef9Tuple-class.html#toLocal" class="summary-sig-name">toLocal</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ltp</span>,
+        <span class="summary-sig-arg">Xyz</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Xyz_kwds</span>)</span><br />
+      Convert this geocentric to <i>local</i> <code>X</code>, 
+      <code>Y</code> and <code>Z</code>.</td>
           <td align="right" valign="top">
             
             
@@ -289,7 +312,7 @@
  &lt;class 'pygeodesy.units.Lon'&gt;,
  &lt;class 'pygeodesy.units.Height'&gt;,
  &lt;class 'pygeodesy.units.Int'&gt;,
- &lt;function _Pass at 0x7fda59526a50&gt;,
+ &lt;function _Pass at 0x7f94964dbed0&gt;,
 ..."><code class="variable-group">(</code>&lt;class 'pygeodesy.units.Meter'&gt;<code class="variable-op">, </code>&lt;class 'pygeodesy.<code class="variable-ellipsis">...</code></code><br />
       Tuple defining the <code>units</code> of the value of each 
       <code>Named-Tuple</code> item.
@@ -437,7 +460,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#xyzh" class="summary-name">xyzh</a><br />
-      Get the geocentric <code>(x, y, z)</code> coordinates and height (<a 
+      Get the geocentric <code>(x, y, z)</code> coordinates and 
+      <code>height</code> (<a 
       href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
       class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
     </td>
@@ -471,6 +495,31 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
+<a name="convertDatum"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertDatum</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">datum2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>DEPRECATED, use <a href="pygeodesy.ecef.Ecef9Tuple-class.html#toDatum"
+  class="link">toDatum</a>.</p>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="toCartesian"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -479,7 +528,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toCartesian</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">Cartesian</span>,
+        <span class="sig-arg">Cartesian</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**Cartesian_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -492,7 +541,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>Cartesian</code></strong> - <a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        <li><strong class="pname"><code>Cartesian</code></strong> - Optional class to return <code>(x, y, z)</code> (<a 
+          href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
           class="link">ellipsoidalKarney.Cartesian</a>, <a 
           href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
           class="link">ellipsoidalNvector.Cartesian</a>, <a 
@@ -501,12 +551,16 @@
           href="pygeodesy.sphericalNvector.Cartesian-class.html" 
           class="link">sphericalNvector.Cartesian</a> or <a 
           href="pygeodesy.sphericalTrigonometry.Cartesian-class.html" 
-          class="link">sphericalTrigonometry.Cartesian</a> class to return 
-          the <code>(x, y, z)</code> coordinates.</li>
-        <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional <b><code>Cartesian</code></b> keyword arguments.</li>
+          class="link">sphericalTrigonometry.Cartesian</a>) or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>Cartesian_kwds</code></strong> - Optional, additional <b><code>Cartesian</code></b> keyword 
+          arguments, ignored if <code><b>Cartesian</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <b><code>Cartesian</code></b><code>(x, y, z)</code> instance.</dd>
+        <dd>A <b><code>Cartesian</code></b><code>(x, y, z)</code> instance or
+          a <a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> if 
+          <code><b>Cartesian</b>=None</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>Cartesian</code></b> or 
@@ -523,38 +577,6 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toDatum</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">datum2</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert this <code>Ecef9Tuple</code> to an other datum.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>datum2</code></strong> - Datum to convert <i>to</i> (<a 
-          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>The converted 9-Tuple (<code>Ecef9Tuple</code>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - The <b><code>datum2</code></b> is not a <a 
-        href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="convertDatum"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">convertDatum</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">datum2</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -620,6 +642,52 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>LatLon</code></b> or 
         <b><code>LatLon_kwds</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLocal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLocal</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">ltp</span>,
+        <span class="sig-arg">Xyz</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Xyz_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this geocentric to <i>local</i> <code>X</code>, <code>Y</code>
+  and <code>Z</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i> (LTP) to use (<a 
+          href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>).</li>
+        <li><strong class="pname"><code>Xyz</code></strong> - Optional class to return <code>X</code>, <code>Y</code> and 
+          <code>Z</code> (<a href="pygeodesy.ltpTuples.XyzLocal-class.html"
+          class="link">XyzLocal</a>, <a 
+          href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, 
+          <a href="pygeodesy.ltpTuples.Ned-class.html" 
+          class="link">Ned</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>Xyz_kwds</code></strong> - Optional, additional <b><code>Xyz</code></b> keyword arguments, 
+          ignored if <code><b>Xyz</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <b><code>Xyz</code></b> instance or if 
+          <code><b>Xyz</b>=None</code>, a <a 
+          href="pygeodesy.ltpTuples.Local6Tuple-class.html" 
+          class="link">Local6Tuple</a><code>(x, y, z, ltp, ecef, M)</code> 
+          with <code>M=None</code> always.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -717,7 +785,7 @@
  &lt;class 'pygeodesy.units.Lon'&gt;<code class="variable-op">,</code>
  &lt;class 'pygeodesy.units.Height'&gt;<code class="variable-op">,</code>
  &lt;class 'pygeodesy.units.Int'&gt;<code class="variable-op">,</code>
- &lt;function _Pass at 0x7fda59526a50&gt;<code class="variable-op">,</code>
+ &lt;function _Pass at 0x7f94964dbed0&gt;<code class="variable-op">,</code>
 <code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
@@ -1067,7 +1135,8 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">xyzh</h3>
-  <p>Get the geocentric <code>(x, y, z)</code> coordinates and height (<a 
+  <p>Get the geocentric <code>(x, y, z)</code> coordinates and 
+  <code>height</code> (<a 
   href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
   class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)</p>
   <dl class="fields">
@@ -1117,7 +1186,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  6 15:00:23 2021
+    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:43 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

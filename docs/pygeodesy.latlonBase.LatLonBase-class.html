@@ -395,6 +395,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#destinationXyz" class="summary-sig-name">destinationXyz</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">delta</span>,
+        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+      Calculate the destination using a <i>local</i> delta from this point.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#equals" class="summary-sig-name">equals</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
@@ -879,7 +899,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toCartesian" class="summary-sig-name">toCartesian</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">Cartesian</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**Cartesian_kwds</span>)</span><br />
-      Convert this point to cartesian (ECEF) coordinates.</td>
+      Convert this point to cartesian, <i>geocentric</i> coordinates, also 
+      known as <i>Earth-Centered, Earth-Fixed</i> (ECEF).</td>
           <td align="right" valign="top">
             
             
@@ -898,9 +919,48 @@
           <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toEcef" class="summary-sig-name">toEcef</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">M</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert this point to geocentric coordinates, also known as 
+      Convert this point to <i>geocentric</i> coordinates, also known as 
       <i>Earth-Centered, Earth-Fixed</i> (<a 
       href="https://WikiPedia.org/wiki/ECEF" target="_top">ECEF</a>).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLocal" class="summary-sig-name">toLocal</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Xyz</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">ltp</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Xyz_kwds</span>)</span><br />
+      Convert this <i>geodetic</i> point to <i>local</i> <code>X</code>, 
+      <code>Y</code> and <code>Z</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.latlonBase.LatLonBase-class.html#toLtp" class="summary-sig-name">toLtp</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Ecef</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the <i>local tangent plane</i> (LTP) for this point.</td>
           <td align="right" valign="top">
             
             
@@ -1673,6 +1733,59 @@
         <code>thomasTo</code> and <code>vincentysTo</code>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="destinationXyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">destinationXyz</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">delta</span>,
+        <span class="sig-arg">LatLon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**LatLon_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Calculate the destination using a <i>local</i> delta from this 
+  point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>delta</code></strong> - Local delta to the destination (<a 
+          href="pygeodesy.ltpTuples.XyzLocal-class.html" 
+          class="link">XyzLocal</a>, <a 
+          href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, 
+          <a href="pygeodesy.ltpTuples.Ned-class.html" class="link">Ned</a>
+          or <a href="pygeodesy.ltpTuples.Local6Tuple-class.html" 
+          class="link">Local6Tuple</a>).</li>
+        <li><strong class="pname"><code>LatLon</code></strong> - Optional (geodetic) class to return the destination or 
+          <code>None</code>.</li>
+        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored is <code><b>LatLon</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Destination as a <code>LatLon</code><code>(lat, lon, 
+          **LatLon_kwds)</code> instance or if 
+          <code><b>LatLon</b>=None</code>, a <a 
+          href="pygeodesy.namedTuples.LatLon3Tuple-class.html" 
+          class="link">LatLon3Tuple</a><code>(lat, lon, height)</code> 
+          respectively <a 
+          href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+          class="link">LatLon4Tuple</a><code>(lat, lon, height, 
+          datum)</code> depending on whether a <code>datum</code> keyword 
+          is un-/specified.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>delta</code></b>, <b><code>LatLon</code></b> or 
+        <b><code>LatLon_kwds</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="equals"></a>
 <div>
@@ -2559,7 +2672,8 @@
     </td>
   </tr></table>
   
-  <p>Convert this point to cartesian (ECEF) coordinates.</p>
+  <p>Convert this point to cartesian, <i>geocentric</i> coordinates, also 
+  known as <i>Earth-Centered, Earth-Fixed</i> (ECEF).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2599,7 +2713,7 @@
     </td>
   </tr></table>
   
-  <p>Convert this point to geocentric coordinates, also known as 
+  <p>Convert this point to <i>geocentric</i> coordinates, also known as 
   <i>Earth-Centered, Earth-Fixed</i> (<a 
   href="https://WikiPedia.org/wiki/ECEF" target="_top">ECEF</a>).</p>
   <dl class="fields">
@@ -2619,6 +2733,82 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.ecef.EcefError-class.html">EcefError</a></strong></code> - A <code>.datum</code> or an ECEF issue.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLocal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLocal</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Xyz</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">ltp</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Xyz_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this <i>geodetic</i> point to <i>local</i> <code>X</code>, 
+  <code>Y</code> and <code>Z</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Xyz</code></strong> - Optional class to return <code>X</code>, <code>Y</code> and 
+          <code>Z</code> (<a href="pygeodesy.ltpTuples.XyzLocal-class.html"
+          class="link">XyzLocal</a>, <a 
+          href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a>, 
+          <a href="pygeodesy.ltpTuples.Ned-class.html" 
+          class="link">Ned</a>) or <code>None</code>.</li>
+        <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i> (LTP) to use, overriding this 
+          point's LTP (<a href="pygeodesy.ltp.Ltp-class.html" 
+          class="link">Ltp</a>).</li>
+        <li><strong class="pname"><code>Xyz_kwds</code></strong> - Optional, additional <b><code>Xyz</code></b> keyword arguments, 
+          ignored if <code><b>Xyz</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <b><code>Xyz</code></b> instance or if 
+          <code><b>Xyz</b>=None</code>, a <a 
+          href="pygeodesy.ltpTuples.Local6Tuple-class.html" 
+          class="link">Local6Tuple</a><code>(x, y, z, ltp, ecef, M)</code> 
+          with <code>M=None</code> always.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLtp"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLtp</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Ecef</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <i>local tangent plane</i> (LTP) for this point.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Ecef</code></strong> - Optional ECEF <i>class</i> (<a 
+          href="pygeodesy.ecef.EcefKarney-class.html" 
+          class="link">EcefKarney</a>, ... <a 
+          href="pygeodesy.ecef.EcefYou-class.html" 
+          class="link">EcefYou</a>), overriding this point's 
+          <code>Ecef</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -3225,7 +3415,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  6 15:00:26 2021
+    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:46 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

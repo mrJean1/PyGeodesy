@@ -24,7 +24,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, \
                             Radians, Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '21.02.21'
+__version__ = '21.04.08'
 
 # __DUNDER gets mangled in class
 _final_   = 'final'
@@ -444,6 +444,25 @@ class UtmUpsLatLon5Tuple(_NamedTuple):  # .ups.py, .utm.py, .utmups.py
             lat = Lat(lat, Error=Error)
             lon = Lon(lon, Error=Error)
         return _NamedTuple.__new__(cls, z, B, h, lat, lon, name=name)
+
+
+class Vector2Tuple(_NamedTuple):
+    '''2-Tuple C{(x, y)} of (geocentric) components, both in
+       C{meter} or C{units}.
+    '''
+    _Names_ = (_x_,    _y_)
+    _Units_ = ( Scalar, Scalar)
+
+    def to3Tuple(self, z):
+        '''Extend this L{Vector2Tuple} to a L{Vector3Tuple}.
+
+           @arg z: The Z component add (C{scalar}).
+
+           @return: A L{Vector3Tuple}C{(x, y, z)}.
+
+           @raise ValueError: Invalid B{C{z}}.
+        '''
+        return self._xtend(Vector3Tuple, z)
 
 
 class Vector3Tuple(_NamedTuple):

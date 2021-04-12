@@ -61,16 +61,20 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Ned</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+    
-           |    
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+
-               |
-              <strong class="uidshort">Ned</strong>
+  object --+            
+           |            
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+        
+               |        
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+    
+                   |    
+       <a href="pygeodesy.ltpTuples.Ned-class.html">ltpTuples.Ned</a> --+
+                       |
+                      <strong class="uidshort">Ned</strong>
 </pre>
 
 <hr />
-<p>North-Eeast-Down (NED), also known as Local Tangent Plane (LTP), is a 
-  vector in the local coordinate frame of a body.</p>
+<p>DEPRECATED, use <a href="pygeodesy.ltpTuples.Ned-class.html" 
+  class="link">pygeodesy.Ned</a>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -91,43 +95,8 @@
         <span class="summary-sig-arg">east</span>,
         <span class="summary-sig-arg">down</span>,
         <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">''</span>)</span><br />
-      New North-East-Down vector.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html#__str__" class="summary-sig-name">__str__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Default <code>str(self)</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html#to3ned" class="summary-sig-name">to3ned</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      DEPRECATED, use property <a 
-      href="pygeodesy.ellipsoidalNvector.Ned-class.html#ned" 
-      class="link">ned</a>.</td>
+      New <a href="pygeodesy.ellipsoidalNvector.Ned-class.html" 
+      class="link">Ned</a> vector.</td>
           <td align="right" valign="top">
             
             
@@ -148,45 +117,8 @@
         <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'[%s]'</span>,
         <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>,
         <span class="summary-sig-arg">**unused</span>)</span><br />
-      Return a string representation of this NED vector as length, bearing 
-      and elevation.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">prec</span>=<span class="summary-sig-default">3</span>,
-        <span class="summary-sig-arg">fmt</span>=<span class="summary-sig-default">'[%s]'</span>,
-        <span class="summary-sig-arg">sep</span>=<span class="summary-sig-default">', '</span>)</span><br />
-      Return a string representation of this NED vector.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalNvector.Ned-class.html#toVector3d" class="summary-sig-name">toVector3d</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return this NED vector as a 3-d vector.</td>
+      DEPRECATED, use <a href="pygeodesy.ltpTuples.Aer-class.html" 
+      class="link">ltpTuples.Aer</a>.</td>
           <td align="right" valign="top">
             
             
@@ -198,9 +130,19 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ltpTuples.Ned-class.html">ltpTuples.Ned</a></code></b>:
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#to3ned">to3ned</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#toVector3d">toVector3d</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#toXyz">toXyz</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#_DOT_">_DOT_</a></code>,
-      <code><a href="pygeodesy.named._Named-class.html#__repr__">__repr__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
@@ -230,67 +172,30 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Properties</span></td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#bearing" class="summary-name">bearing</a><br />
-      Get the bearing of this NED vector (compass <code>degrees360</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#down" class="summary-name">down</a><br />
-      Gets the Down component of this NED vector (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#east" class="summary-name">east</a><br />
-      Gets the East component of this NED vector (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#elevation" class="summary-name">elevation</a><br />
-      Get the elevation, tilt of this NED vector in degrees from 
-      horizontal, i.e.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#length" class="summary-name">length</a><br />
-      Gets the length of this NED vector (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#ned" class="summary-name">ned</a><br />
-      Get the <code>(north, east, down)</code> components of the NED vector
-      (<a href="pygeodesy.ellipsoidalNvector.Ned3Tuple-class.html" 
-      class="link">Ned3Tuple</a>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.ellipsoidalNvector.Ned-class.html#north" class="summary-name">north</a><br />
-      Gets the North component of this NED vector (<code>meter</code>).
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.ltpTuples.Ned-class.html">ltpTuples.Ned</a></code></b>:
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#aer4">aer4</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#azimuth">azimuth</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#bearing">bearing</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#down">down</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#east">east</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#elevation">elevation</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#groundrange">groundrange</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#length">length</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#ltp">ltp</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#ned">ned</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#ned4">ned4</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#north">north</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#slantrange">slantrange</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#up">up</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#x">x</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#xyz">xyz</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#xyz4">xyz4</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#xyzLocal">xyzLocal</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#y">y</a></code>,
+      <code><a href="pygeodesy.ltpTuples.Ned-class.html#z">z</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
@@ -334,82 +239,37 @@
     </td>
   </tr></table>
   
-  <p>New North-East-Down vector.</p>
+  <p>New <a href="pygeodesy.ellipsoidalNvector.Ned-class.html" 
+  class="link">Ned</a> vector.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>north</code></strong> - North component (<code>meter</code>).</li>
-        <li><strong class="pname"><code>east</code></strong> - East component (<code>meter</code>).</li>
-        <li><strong class="pname"><code>down</code></strong> - Down component, normal to the surface of the ellipsoid 
-          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>ned</code></strong> - Scalar north component (<code>meter</code>) or local NED (<a 
+          href="pygeodesy.ellipsoidalNvector.Ned-class.html" 
+          class="link">Ned</a>, <a 
+          href="pygeodesy.ltpTuples.Ned4Tuple-class.html" 
+          class="link">Ned4Tuple</a>).</li>
+        <li><strong class="pname"><code>east</code></strong> - Scalar east component (<code>meter</code>) if scalar 
+          <b><code>ned</code></b>.</li>
+        <li><strong class="pname"><code>down</code></strong> - Scalar down component, normal to <i>inside</i> surface of the 
+          ellipsoid or sphere (<code>meter</code>) if scalar 
+          <b><code>ned</code></b>.</li>
+        <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i>, (geodetic) origin (<a 
+          href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>, <a 
+          href="pygeodesy.ltp.LocalCartesian-class.html" 
+          class="link">LocalCartesian</a>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>north</code></b>, <b><code>east</code></b> or 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.UnitError-class.html">UnitError</a></strong></code> - Invalid <b><code>north</code></b>, <b><code>east</code></b> or 
         <b><code>down</code></b>.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
-    </dt>
-  </dl>
-<div class="fields">      <p><strong>Example:</strong>
-        <pre class="py-doctest">
-<span class="py-prompt">&gt;&gt;&gt; </span><span class="py-keyword">from</span> ellipsiodalNvector <span class="py-keyword">import</span> Ned
-<span class="py-prompt">&gt;&gt;&gt; </span>delta = Ned(110569, 111297, 1936)
-<span class="py-prompt">&gt;&gt;&gt; </span>delta.toStr(prec=0)  <span class="py-comment">#  [N:110569, E:111297, D:1936]</span></pre>
-      </p>
-</div></td></tr></table>
-</div>
-<a name="__str__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__str__</span>&nbsp;(<span class="sig-arg">self</span>)</span>
-    <br /><em class="fname">(Informal representation operator)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Default <code>str(self)</code>.</p>
-  <dl class="fields">
-    <dt>Overrides:
-        object.__str__
         <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="to3ned"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">to3ned</span>&nbsp;(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>DEPRECATED, use property <a 
-  href="pygeodesy.ellipsoidalNvector.Ned-class.html#ned" 
-  class="link">ned</a>.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>An <a href="pygeodesy.ellipsoidalNvector.Ned3Tuple-class.html" 
-          class="link">Ned3Tuple</a><code>(north, east, down)</code>.</dd>
-    <dt>Decorators:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code>@deprecated_method</code></li>
-    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -431,6 +291,8 @@
     </td>
   </tr></table>
   
+  <p>DEPRECATED, use <a href="pygeodesy.ltpTuples.Aer-class.html" 
+  class="link">ltpTuples.Aer</a>.</p>
   <p>Return a string representation of this NED vector as length, bearing 
   and elevation.</p>
   <dl class="fields">
@@ -443,233 +305,13 @@
     <dt>Returns:</dt>
         <dd>This Ned as &quot;[L:f, B:degrees360, E:degrees90]&quot; 
           (<code>str</code>).</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@deprecated_method</code></li>
+    </ul></dd>
     <dt>Overrides:
         <a href="pygeodesy.named._Named-class.html#toRepr">named._Named.toRepr</a>
     </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="toStr"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">prec</span>=<span class="sig-default">3</span>,
-        <span class="sig-arg">fmt</span>=<span class="sig-default">'[%s]'</span>,
-        <span class="sig-arg">sep</span>=<span class="sig-default">', '</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return a string representation of this NED vector.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>prec</code></strong> - Optional number of decimals, unstripped (<code>int</code>).</li>
-        <li><strong class="pname"><code>fmt</code></strong> - Optional enclosing backets format (<code>str</code>).</li>
-        <li><strong class="pname"><code>sep</code></strong> - Optional separator between NEDs (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>This Ned as &quot;[N:f, E:f, D:f]&quot; (<code>str</code>).</dd>
-    <dt>Overrides:
-        <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="toVector3d"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toVector3d</span>&nbsp;(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Return this NED vector as a 3-d vector.</p>
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>The vector(north, east, down) (<a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>).</dd>
-  </dl>
-</td></tr></table>
-</div>
-<br />
-<!-- ==================== PROPERTY DETAILS ==================== -->
-<a name="section-PropertyDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td align="left" colspan="2" class="table-header">
-    <span class="table-header">Property Details</span></td>
-</tr>
-</table>
-<a name="bearing"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">bearing</h3>
-  <p>Get the bearing of this NED vector (compass 
-  <code>degrees360</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="down"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">down</h3>
-  <p>Gets the Down component of this NED vector (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="east"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">east</h3>
-  <p>Gets the East component of this NED vector (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="elevation"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">elevation</h3>
-  <p>Get the elevation, tilt of this NED vector in degrees from horizontal,
-  i.e. tangent to ellipsoid surface (<code>degrees90</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="length"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">length</h3>
-  <p>Gets the length of this NED vector (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="ned"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">ned</h3>
-  <p>Get the <code>(north, east, down)</code> components of the NED vector 
-  (<a href="pygeodesy.ellipsoidalNvector.Ned3Tuple-class.html" 
-  class="link">Ned3Tuple</a>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="north"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">north</h3>
-  <p>Gets the North component of this NED vector (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-    </dd>
   </dl>
 </td></tr></table>
 </div>
@@ -705,7 +347,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr  6 15:00:24 2021
+    Generated by Epydoc 3.0.1 on Sun Apr 11 15:54:43 2021
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

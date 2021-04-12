@@ -5,21 +5,20 @@ u'''Test Ecef conversions.
 '''
 
 __all__ = ('Tests',)
-__version__ = '21.02.11'
+__version__ = '21.04.06'
 
 from base import TestsBase
 
-from pygeodesy import Datums, EcefCartesian, EcefError, EcefKarney, \
-                      EcefMatrix, EcefSudano, EcefVeness, EcefYou, \
-                      Ellipsoids, fstr, latDMS, LatLon_, lonDMS, \
-                      parse3llh, nvectorBase  # deprecated.nvector
+from pygeodesy import Datums, EcefError, EcefFarrell21, EcefFarrell22, EcefKarney, \
+                      EcefMatrix, EcefSudano, EcefVeness, EcefYou, Ellipsoids, \
+                      fstr, latDMS, lonDMS, parse3llh, sphericalNvector  # deprecated.nvector
 
 from math import radians
 
 
-def _known(t, lat, height):
+def _known(t, lat, h, d_h=10.0):
     # if lat is off, so is height
-    return abs(t.lat - lat) < 0.1 and abs(t.height - height) < 10.0
+    return abs(t.lat - lat) < 0.1 and abs(t.height - h) < d_h
 
 
 class Tests(TestsBase):
@@ -28,8 +27,9 @@ class Tests(TestsBase):
 
         self.test(Ecef.__name__, '...', '...', nl=1)
 
-        Karney = Ecef is EcefKarney
-        Sudano = Ecef is EcefSudano
+        Karney    = Ecef is EcefKarney
+        Sudano    = Ecef is EcefSudano
+        Farrell_2 = Ecef is EcefFarrell22
 
         g = Ecef(Datums.WGS84, name='Test')
         self.test('name', g.name, 'Test')
@@ -107,7 +107,7 @@ class Tests(TestsBase):
             i = '-%d' % (i + 1,)
             r = '45.0, 120.0, %.1f' % (h,)  # Zero and First order columns
             t = g.reverse(x, y, z)
-            k = Sudano and _known(t, 45, h)
+            k = Sudano and _known(t, 45, h) or Farrell_2 and _known(t, 45, h, d_h=0.01)
             self.test('reverse' + i, fstr(t[3:6], prec=3), r, known=k)
             f = g.forward(t.lat, t.lon, t.height)
             self.test('forward' + i, fstr(f[0:3], prec=1), fstr((x, y, z), prec=1), known=k)
@@ -137,6 +137,11 @@ class Tests(TestsBase):
         self.test('case', t.C, 2 if Karney else (7 if Sudano else 1))
         self.test('iteration', t.iteration, t.iteration)
 
+        t = g.forward(parse3llh('34 0 0.00174N, 117 20 0.84965W, 251.702'))  # near LA, CA
+        self.test('forward', fstr(t[0:3], prec=6), '-2430601.827685, -4702442.703125, 3546587.358103')
+        t = g.reverse(t)
+        self.test('reverse', fstr(t[3:6], prec=6), '34.0, -117.333569, 251.702', known=not Karney)
+
         # coverage
         self.test(EcefError.__name__, g.reverse(0, 0, 0), '(0.0, 0.0, ...)', known=True)
         try:
@@ -147,48 +152,6 @@ class Tests(TestsBase):
             self.test(Ecef.__name__, Ecef(None), EcefError.__name__)
         except Exception as x:
             self.test(Ecef.__name__, str(x), Ecef.__name__, known=True)
-
-    def testEcefCartesian(self):
-
-        self.test(EcefCartesian.__name__, '...', '...', nl=1)
-
-        # <https://GeographicLib.SourceForge.io/html/CartConvert.1.html>
-        c = EcefCartesian(33, 44, 20, name='Test')
-        self.test('name', c.name, 'Test')
-        t = c.toRepr()
-        self.test('toStr', t, c.classname, known=True)
-
-        self.testCopy(c)
-
-        t = c.forward(33.3, 44.4, 6000)
-        self.test('forward', fstr(t[3:6], prec=1), '33.3, 44.4, 6000.0')
-        self.test('forward', fstr(t[0:3], prec=2), '37288.97, 33374.29, 5783.65')  # 5783.64
-        self.test('name', c.name, 'Test')
-
-        t = c.reverse(37288.97, 33374.29, 5783.65)
-        self.test('reverse', fstr(t[3:6], prec=2), '33.3, 44.4, 6000.0')
-        self.test('name', c.name, 'Test')
-
-        # <https://SourceForge.net/p/geographiclib/code/ci/release/tree/examples/example-LocalCartesian.cpp>
-        c.reset(48 + 50 / 60.0, 2 + 20 / 60.0, name='Paris')
-        self.test('name', c.name, 'Paris')
-        self.test(c.name, fstr((c.lat0, c.lon0, c.height0), prec=3), '48.833, 2.333, 0.0')
-
-        t = c.forward(LatLon_(50.9, 1.8, name='Calais'))
-        self.test('forward', fstr(t[3:6], prec=1), '50.9, 1.8, 0.0')
-        self.test('forward', fstr(t[0:3], prec=2), '-37518.64, 229949.65, -4260.43')
-        self.test('name', t.name, 'Calais')
-
-        t = c.reverse(-37518.64, 229949.65, -4260.43)
-        self.test('reverse', fstr(t[3:6], prec=2), '50.9, 1.8, -0.0', know=True)
-        self.test('name', t.name, 'Paris')
-
-        t = c.reverse(-38e3, 230e3, -4e3)
-        self.test('reverse', fstr(t[0:3], prec=1), '4028834.2, 126130.9, 4926765.2')
-        self.test('reverse', fstr(t[3:6], prec=2), '50.9, 1.79, 264.92')
-
-        t = c.forward(50.9, 1.79, 264.92)
-        self.test('forward', fstr(t[0:3], prec=1), '-38000.0, 230000.0, -4000.0', known=True)
 
     def testEcefMatrix(self):
 
@@ -249,7 +212,8 @@ class Tests(TestsBase):
         self.test('to3Tuple', t.classname, 'LatLon3Tuple')
         self.test('to3Tuple', repr(t), 'Paris(lat=48.833, lon=2.333, height=0.0)')
 
-        v = e.toVector(getattr(module, 'Nvector', nvectorBase.NvectorBase))  # DEPRECATED nvector.Nvector
+        # XXX import NvectorBase from ellipsoidal- or sphericalNvector since nvectorBase is private
+        v = e.toVector(getattr(module, 'Nvector', sphericalNvector.NvectorBase))  # DEPRECATED nvector.Nvector
         self.test('toVector', str(v), '(4202946.79528, 171232.46613, 4778354.17)' if ll.isEllipsoidal
                                  else '(4190278.55277, 170716.34863, 4796058.20898)')
         self.test('name', v.name, 'Paris')
@@ -263,11 +227,12 @@ class Tests(TestsBase):
 if __name__ == '__main__':
 
     from pygeodesy import ellipsoidalKarney, ellipsoidalNvector, ellipsoidalVincenty, \
-                          sphericalNvector, sphericalTrigonometry
+                          sphericalTrigonometry
 
     t = Tests(__file__, __version__)
     t.testEcef(EcefKarney)
-    t.testEcefCartesian()
+    t.testEcef(EcefFarrell21)
+    t.testEcef(EcefFarrell22)
     t.testEcef(EcefVeness)
     t.testEcef(EcefSudano)
     t.testEcef(EcefYou)

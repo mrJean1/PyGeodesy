@@ -20,7 +20,7 @@ from inspect import isclass as _isclass
 from math import copysign as _copysign, isinf, isnan
 
 __all__ = _ALL_LAZY.basics
-__version__ = '21.01.07'
+__version__ = '21.03.28'
 
 try:  # Luciano Ramalho, "Fluent Python", page 395, O'Reilly, 2016
     from numbers import Integral as _Ints  # int objects
@@ -229,16 +229,20 @@ def isstr(obj):
     return isinstance(obj, _Strs)
 
 
-def issubclassof(Sub, Super):
-    '''Check whether a class is a sub-class of a super class.
+def issubclassof(Sub, *Supers):
+    '''Check whether a class is a sub-class of some class(es).
 
        @arg Sub: The sub-class (C{class}).
-       @arg Super: The super class (C{class}).
+       @arg Supers: One or more C(super) classes (C{class}).
 
-       @return: C{True} if B{C{Sub}} is a sub-class of B{C{Super}},
-                C{False} otherwise (C{bool}).
+       @return: C{True} if B{C{Sub}} is a sub-class of any
+                B{C{Supers}}, C{False} otherwise (C{bool}).
     '''
-    return isclass(Sub) and isclass(Super) and issubclass(Sub, Super)
+    if isclass(Sub):
+        for S in Supers:  # any()
+            if isclass(S) and issubclass(Sub, S):
+                return True
+    return False
 
 
 def len2(items):
